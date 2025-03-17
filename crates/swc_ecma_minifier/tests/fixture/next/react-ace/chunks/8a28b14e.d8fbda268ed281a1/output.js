@@ -4,16 +4,22 @@
     ],
     {
         /***/ 3239: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global, define, _require, require, normalizeModule, lookup, root;
-            /* module decorator */ module = __webpack_require__.nmd(module), (global = function() {
+            /* module decorator */ module = __webpack_require__.nmd(module);
+            var root, global = function() {
                 return this;
-            }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
+            }();
+            global || "undefined" == typeof window || (global = window);
+            var define = function(module, deps, payload) {
                 if ("string" != typeof module) {
                     define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
                     return;
                 }
                 2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
-            }).modules = {}, define.payloads = {}, _require = function(parentId, module, callback) {
+            };
+            define.modules = {}, define.payloads = {};
+            /**
+                 * Get at functionality define()ed using the function above
+                 */ var _require = function(parentId, module, callback) {
                 if ("string" == typeof module) {
                     var payload = lookup(parentId, module);
                     if (void 0 != payload) return callback && callback(), payload;
@@ -58,7 +64,8 @@
                     module = define.modules[moduleName] = exports || module;
                 }
                 return module;
-            }, root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
+            };
+            root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
                 "require",
                 "exports",
                 "module"
@@ -368,16 +375,16 @@
                     };
                     for(i in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
                     for(i in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
-                    return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
-                        for(var mods = [
-                            "cmd",
-                            "ctrl",
-                            "alt",
-                            "shift"
-                        ], i = Math.pow(2, mods.length); i--;)ret.KEY_MODS[i] = mods.filter(function(x) {
-                            return i & ret.KEY_MODS[x];
-                        }).join("-") + "-";
-                    }(), ret.KEY_MODS[0] = "", ret.KEY_MODS[-1] = "input-", ret;
+                    oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-";
+                    for(var mods = [
+                        "cmd",
+                        "ctrl",
+                        "alt",
+                        "shift"
+                    ], i1 = Math.pow(2, mods.length); i1--;)ret.KEY_MODS[i1] = mods.filter(function(x) {
+                        return i1 & ret.KEY_MODS[x];
+                    }).join("-") + "-";
+                    return ret.KEY_MODS[0] = "", ret.KEY_MODS[-1] = "input-", ret;
                 }();
                 oop.mixin(exports, Keys), exports.keyCodeToString = function(keyCode) {
                     var keyString = Keys[keyCode];
@@ -393,7 +400,7 @@
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
                 function getListenerOptions() {
-                    return void 0 == activeListenerOptions && function() {
+                    if (void 0 == activeListenerOptions) {
                         activeListenerOptions = !1;
                         try {
                             document.createComment("").addEventListener("test", function() {}, {
@@ -404,7 +411,8 @@
                                 }
                             });
                         } catch (e) {}
-                    }(), activeListenerOptions;
+                    }
+                    return activeListenerOptions;
                 }
                 function EventListener(elem, type, callback) {
                     this.elem = elem, this.type = type, this.callback = callback;
@@ -2435,85 +2443,84 @@
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
                     var chars = text.split(""), logicalFromVisual = Array(chars.length), bidiLevels = Array(chars.length), levels = [];
-                    dir = +!!isRtl, function(chars, levels, len, charTypes) {
-                        var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
-                        if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
-                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
-                            if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
-                                var wType, nType, len, i, cType = types[ix];
-                                switch(cType){
-                                    case 0:
-                                    case 1:
-                                        lastArabic = !1;
-                                    case 4:
-                                    case 3:
-                                        return cType;
-                                    case 2:
-                                        return lastArabic ? 3 : 2;
-                                    case 7:
-                                        return lastArabic = !0, 1;
-                                    case 8:
-                                        return 4;
-                                    case 9:
-                                        if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
-                                        return lastArabic && (nType = 3), nType == wType ? nType : 4;
-                                    case 10:
-                                        if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
-                                        return 4;
-                                    case 11:
-                                        if (ix > 0 && 2 == classes[ix - 1]) return 2;
-                                        if (lastArabic) return 4;
-                                        for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
-                                        if (i < len && 2 == types[i]) return 2;
-                                        return 4;
-                                    case 12:
-                                        for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
-                                        if (i < len) {
-                                            var c = chars[ix];
-                                            if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
-                                        }
-                                        if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
-                                        return classes[ix - 1];
-                                    case 5:
-                                        return lastArabic = !1, hasUBAT_B = !0, dir;
-                                    case 6:
-                                        return hasUBAT_S = !0, 4;
-                                    case 13:
-                                    case 14:
-                                    case 16:
-                                    case 17:
-                                    case 15:
-                                        lastArabic = !1;
-                                    case 18:
-                                        return 4;
-                                }
-                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
-                                if (0x10 == action) {
-                                    for(i = condPos; i < ix; i++)levels[i] = 1;
-                                    condPos = -1;
-                                } else condPos = -1;
+                    dir = +!!isRtl;
+                    var len = chars.length, charTypes = textCharTypes, impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
+                    if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
+                    for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
+                        if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
+                            var wType, nType, len, i, cType = types[ix];
+                            switch(cType){
+                                case 0:
+                                case 1:
+                                    lastArabic = !1;
+                                case 4:
+                                case 3:
+                                    return cType;
+                                case 2:
+                                    return lastArabic ? 3 : 2;
+                                case 7:
+                                    return lastArabic = !0, 1;
+                                case 8:
+                                    return 4;
+                                case 9:
+                                    if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
+                                    return lastArabic && (nType = 3), nType == wType ? nType : 4;
+                                case 10:
+                                    if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
+                                    return 4;
+                                case 11:
+                                    if (ix > 0 && 2 == classes[ix - 1]) return 2;
+                                    if (lastArabic) return 4;
+                                    for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
+                                    if (i < len && 2 == types[i]) return 2;
+                                    return 4;
+                                case 12:
+                                    for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
+                                    if (i < len) {
+                                        var c = chars[ix];
+                                        if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
+                                    }
+                                    if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
+                                    return classes[ix - 1];
+                                case 5:
+                                    return lastArabic = !1, hasUBAT_B = !0, dir;
+                                case 6:
+                                    return hasUBAT_S = !0, 4;
+                                case 13:
+                                case 14:
+                                case 16:
+                                case 17:
+                                case 15:
+                                    lastArabic = !1;
+                                case 18:
+                                    return 4;
                             }
-                            if (impTab[newState][6]) -1 == condPos && (condPos = ix);
-                            else if (condPos > -1) {
-                                for(i = condPos; i < ix; i++)levels[i] = newLevel;
+                        }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
+                            if (0x10 == action) {
+                                for(i = condPos; i < ix; i++)levels[i] = 1;
                                 condPos = -1;
-                            }
-                            5 == charTypes[ix] && (levels[ix] = 0), hiLevel |= newLevel;
+                            } else condPos = -1;
                         }
-                        if (hasUBAT_S) {
-                            for(i = 0; i < len; i++)if (6 == charTypes[i]) {
-                                levels[i] = dir;
-                                for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
-                                else break;
-                            }
+                        if (impTab[newState][6]) -1 == condPos && (condPos = ix);
+                        else if (condPos > -1) {
+                            for(i = condPos; i < ix; i++)levels[i] = newLevel;
+                            condPos = -1;
                         }
-                    }(chars, levels, chars.length, textCharTypes);
-                    for(var i = 0; i < logicalFromVisual.length; logicalFromVisual[i] = i, i++);
+                        5 == charTypes[ix] && (levels[ix] = 0), hiLevel |= newLevel;
+                    }
+                    if (hasUBAT_S) {
+                        for(i = 0; i < len; i++)if (6 == charTypes[i]) {
+                            levels[i] = dir;
+                            for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
+                            else break;
+                        }
+                    }
+                    for(var i1 = 0; i1 < logicalFromVisual.length; logicalFromVisual[i1] = i1, i1++);
                     _invertLevel(2, levels, logicalFromVisual), _invertLevel(1, levels, logicalFromVisual);
-                    for(var i = 0; i < logicalFromVisual.length - 1; i++)//fix levels to reflect character width
-                    3 === textCharTypes[i] ? levels[i] = exports.AN : 1 === levels[i] && (textCharTypes[i] > 7 && textCharTypes[i] < 13 || 4 === textCharTypes[i] || 18 === textCharTypes[i]) ? levels[i] = exports.ON_R : i > 0 && "\u0644" === chars[i - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i]) && (levels[i - 1] = levels[i] = exports.R_H, i++);
+                    for(var i1 = 0; i1 < logicalFromVisual.length - 1; i1++)//fix levels to reflect character width
+                    3 === textCharTypes[i1] ? levels[i1] = exports.AN : 1 === levels[i1] && (textCharTypes[i1] > 7 && textCharTypes[i1] < 13 || 4 === textCharTypes[i1] || 18 === textCharTypes[i1]) ? levels[i1] = exports.ON_R : i1 > 0 && "\u0644" === chars[i1 - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i1]) && (levels[i1 - 1] = levels[i1] = exports.R_H, i1++);
                     chars[chars.length - 1] === exports.DOT && (levels[chars.length - 1] = exports.B), "\u202B" === chars[0] && (levels[0] = exports.RLE);
-                    for(var i = 0; i < logicalFromVisual.length; i++)bidiLevels[i] = levels[logicalFromVisual[i]];
+                    for(var i1 = 0; i1 < logicalFromVisual.length; i1++)bidiLevels[i1] = levels[logicalFromVisual[i1]];
                     return {
                         logicalFromVisual: logicalFromVisual,
                         bidiLevels: bidiLevels

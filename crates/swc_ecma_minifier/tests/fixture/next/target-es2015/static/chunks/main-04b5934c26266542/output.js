@@ -190,21 +190,17 @@
                             "style",
                             "script"
                         ].forEach((type)=>{
-                            (function(type, components) {
-                                const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
-                                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
-                                    var ref;
-                                    (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
-                                }
-                                const newTags = components.map(reactElementToDOM).filter((newTag)=>{
-                                    for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
-                                    return !0;
-                                });
-                                oldTags.forEach((t)=>{
-                                    var ref;
-                                    return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
-                                }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
-                            })(type, tags[type] || []);
+                            var ref, components = tags[type] || [];
+                            const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
+                            for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null)(null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
+                            const newTags = components.map(reactElementToDOM).filter((newTag)=>{
+                                for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
+                                return !0;
+                            });
+                            oldTags.forEach((t)=>{
+                                var ref;
+                                return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
+                            }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
                         });
                     }
                 };
@@ -469,7 +465,7 @@
                 }, []), children);
             }
             function doRender(input) {
-                let resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
+                let callback, resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
                 Component = Component || lastAppProps.Component;
                 const appProps = _extends({}, props = props || lastAppProps.props, {
                     Component,
@@ -488,9 +484,6 @@
                         error.cancelled = !0, reject(error);
                     };
                 });
-                function onRootCommit() {
-                    resolvePromise();
-                }
                 !// This function has a return type to ensure it doesn't start returning a
                 // Promise. It should remain synchronous.
                 function() {
@@ -532,22 +525,21 @@
                 }), /*#__PURE__*/ _react.default.createElement(AppContainer, null, renderApp(App, appProps), /*#__PURE__*/ _react.default.createElement(_portal.Portal, {
                     type: "next-route-announcer"
                 }, /*#__PURE__*/ _react.default.createElement(_routeAnnouncer.RouteAnnouncer, null))));
-                return !// We catch runtime errors using componentDidCatch which will trigger renderError
-                function(domEl, fn) {
-                    // mark start of hydrate/render
-                    _utils.ST && performance.mark("beforeRender");
-                    const reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete);
-                    reactRoot ? (0, _react.default.startTransition)(()=>{
-                        reactRoot.render(reactEl);
-                    }) : (// Unlike with createRoot, you don't need a separate root.render() call here
-                    reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), // TODO: Remove shouldHydrate variable when React 18 is stable as it can depend on `reactRoot` existing
-                    shouldHydrate = !1);
-                }(appElement, (callback)=>/*#__PURE__*/ _react.default.createElement(Root, {
-                        callbacks: [
-                            callback,
-                            onRootCommit
-                        ]
-                    }, /*#__PURE__*/ _react.default.createElement(_react.default.StrictMode, null, elem))), renderPromise;
+                var domEl = appElement;
+                _utils.ST && performance.mark("beforeRender");
+                const reactEl = (callback = shouldHydrate ? markHydrateComplete : markRenderComplete, /*#__PURE__*/ _react.default.createElement(Root, {
+                    callbacks: [
+                        callback,
+                        function() {
+                            resolvePromise();
+                        }
+                    ]
+                }, /*#__PURE__*/ _react.default.createElement(_react.default.StrictMode, null, elem)));
+                return reactRoot ? (0, _react.default.startTransition)(()=>{
+                    reactRoot.render(reactEl);
+                }) : (// Unlike with createRoot, you don't need a separate root.render() call here
+                reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), // TODO: Remove shouldHydrate variable when React 18 is stable as it can depend on `reactRoot` existing
+                shouldHydrate = !1), renderPromise;
             }
             function render(renderingProps) {
                 return _render.apply(this, arguments);
@@ -674,10 +666,9 @@
                 getDataHref(params) {
                     const { asPath, href, locale } = params, { pathname: hrefPathname, query, search } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                     if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                    return ((path)=>{
-                        const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
-                        return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
-                    })(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
+                    var path = params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route;
+                    const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
+                    return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
                 }
                 /**
    * @param {string} route - the route (file-system path)

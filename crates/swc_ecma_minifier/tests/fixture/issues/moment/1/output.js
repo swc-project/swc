@@ -640,7 +640,6 @@ function(global, factory) {
     }
     // returns locale data
     function getLocale(key) {
-        var locale;
         if (key && key._locale && key._locale._abbr && (key = key._locale._abbr), !key) return globalLocale;
         if (!isArray(key)) {
             if (//short-circuit everything else
@@ -649,24 +648,19 @@ function(global, factory) {
                 key
             ];
         }
-        return(// pick the locale from the array
-        // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-        // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
-        function(names) {
-            for(var j, next, locale, split, i = 0; i < names.length;){
-                for(j = (split = normalizeLocale(names[i]).split("-")).length, next = (next = normalizeLocale(names[i + 1])) ? next.split("-") : null; j > 0;){
-                    if (locale = loadLocale(split.slice(0, j).join("-"))) return locale;
-                    if (next && next.length >= j && function(arr1, arr2) {
-                        var i, minl = Math.min(arr1.length, arr2.length);
-                        for(i = 0; i < minl; i += 1)if (arr1[i] !== arr2[i]) return i;
-                        return minl;
-                    }(split, next) >= j - 1) break;
-                    j--;
-                }
-                i++;
+        for(var locale, j, next, locale1, split, names = key, i = 0; i < names.length;){
+            for(j = (split = normalizeLocale(names[i]).split("-")).length, next = (next = normalizeLocale(names[i + 1])) ? next.split("-") : null; j > 0;){
+                if (locale1 = loadLocale(split.slice(0, j).join("-"))) return locale1;
+                if (next && next.length >= j && function(arr1, arr2) {
+                    var i, minl = Math.min(arr1.length, arr2.length);
+                    for(i = 0; i < minl; i += 1)if (arr1[i] !== arr2[i]) return i;
+                    return minl;
+                }(split, next) >= j - 1) break;
+                j--;
             }
-            return globalLocale;
-        }(key));
+            i++;
+        }
+        return globalLocale;
     }
     function checkOverflow(m) {
         var overflow, a = m._a;

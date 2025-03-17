@@ -269,17 +269,18 @@
  */ function util_extend(copied, first, second, deep) {
                 var result = copied && 'object' == typeof copied ? copied : {}, length = arguments.length;
                 deep && (length -= 1);
-                for(var arguments_1 = arguments, i = 1; i < length; i++)!function(i) {
+                for(var arguments_1 = arguments, i = 1; i < length; i++){
+                    var i1 = i;
                     // eslint-disable-next-line
-                    if (arguments_1[i]) {
+                    if (arguments_1[i1]) {
                         // eslint-disable-next-line
-                        var obj1 = arguments_1[i];
+                        var obj1 = arguments_1[i1];
                         Object.keys(obj1).forEach(function(key) {
                             var clone, src = result[key], copy = obj1[key];
                             Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (/* istanbul ignore next */ clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                         });
                     }
-                }(i);
+                }
                 return result;
             }
             /**
@@ -3337,44 +3338,43 @@
                     y: 'MMMM yyyy',
                     Y: 'MMMM yyyy'
                 }
+            }, IntlBase = intl_base_IntlBase || (intl_base_IntlBase = {});
+            // tslint:disable-next-line:max-line-length
+            IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
+            var fractionRegex = /[0-9]/g;
+            IntlBase.defaultCurrency = '$';
+            var patternRegex = /G|M|L|H|c|'| a|yy|y|EEEE|E/g, patternMatch = {
+                G: '',
+                M: 'm',
+                L: 'm',
+                H: 'h',
+                c: 'd',
+                '\'': '"',
+                ' a': ' AM/PM',
+                yy: 'yy',
+                y: 'yyyy',
+                EEEE: 'dddd',
+                E: 'ddd'
             };
-            !function(IntlBase) {
-                // tslint:disable-next-line:max-line-length
-                IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
-                var fractionRegex = /[0-9]/g;
-                IntlBase.defaultCurrency = '$';
-                var patternRegex = /G|M|L|H|c|'| a|yy|y|EEEE|E/g, patternMatch = {
-                    G: '',
-                    M: 'm',
-                    L: 'm',
-                    H: 'h',
-                    c: 'd',
-                    '\'': '"',
-                    ' a': ' AM/PM',
-                    yy: 'yy',
-                    y: 'yyyy',
-                    EEEE: 'dddd',
-                    E: 'ddd'
-                };
-                IntlBase.dateConverterMapper = /dddd|ddd/ig, IntlBase.islamicRegex = /^islamic/;
-                var firstDayMapper = {
-                    sun: 0,
-                    mon: 1,
-                    tue: 2,
-                    wed: 3,
-                    thu: 4,
-                    fri: 5,
-                    sat: 6
-                };
-                IntlBase.formatRegex = /(^[ncpae]{1})([0-1]?[0-9]|20)?$/i, IntlBase.currencyFormatRegex = /(^[ca]{1})([0-1]?[0-9]|20)?$/i, IntlBase.curWithoutNumberRegex = /(c|a)$/ig;
-                var typeMapper = {
-                    $: 'isCurrency',
-                    '%': 'isPercent',
-                    '-': 'isNegative',
-                    0: 'nlead',
-                    1: 'nend'
-                };
-                /**
+            IntlBase.dateConverterMapper = /dddd|ddd/ig, IntlBase.islamicRegex = /^islamic/;
+            var firstDayMapper = {
+                sun: 0,
+                mon: 1,
+                tue: 2,
+                wed: 3,
+                thu: 4,
+                fri: 5,
+                sat: 6
+            };
+            IntlBase.formatRegex = /(^[ncpae]{1})([0-1]?[0-9]|20)?$/i, IntlBase.currencyFormatRegex = /(^[ca]{1})([0-1]?[0-9]|20)?$/i, IntlBase.curWithoutNumberRegex = /(c|a)$/ig;
+            var typeMapper = {
+                $: 'isCurrency',
+                '%': 'isPercent',
+                '-': 'isNegative',
+                0: 'nlead',
+                1: 'nend'
+            };
+            /**
      * Returns the resultant pattern based on the skeleton, dateObject and the type provided
      *
      * @private
@@ -3385,24 +3385,24 @@
      * @param {string} blazorCulture ?
      * @returns {string} ?
      */ function getResultantPattern(skeleton, dateObject, type, isIslamic, blazorCulture) {
-                    var resPattern, iType = type || 'date';
-                    if (blazorCulture) resPattern = compareBlazorDateFormats({
-                        skeleton: skeleton
-                    }, blazorCulture).format || compareBlazorDateFormats({
-                        skeleton: 'd'
-                    }, 'en-US').format;
-                    else {
-                        if (-1 !== IntlBase.basicPatterns.indexOf(skeleton)) {
-                            if (resPattern = util_getValue(iType + 'Formats.' + skeleton, dateObject), 'dateTime' === iType) {
-                                var dPattern = util_getValue('dateFormats.' + skeleton, dateObject), tPattern = util_getValue('timeFormats.' + skeleton, dateObject);
-                                resPattern = resPattern.replace('{1}', dPattern).replace('{0}', tPattern);
-                            }
-                        } else resPattern = util_getValue('dateTimeFormats.availableFormats.' + skeleton, dateObject);
-                        util_isUndefined(resPattern) && 'yMd' === skeleton && (resPattern = 'M/d/y');
-                    }
-                    return resPattern;
+                var resPattern, iType = type || 'date';
+                if (blazorCulture) resPattern = compareBlazorDateFormats({
+                    skeleton: skeleton
+                }, blazorCulture).format || compareBlazorDateFormats({
+                    skeleton: 'd'
+                }, 'en-US').format;
+                else {
+                    if (-1 !== IntlBase.basicPatterns.indexOf(skeleton)) {
+                        if (resPattern = util_getValue(iType + 'Formats.' + skeleton, dateObject), 'dateTime' === iType) {
+                            var dPattern = util_getValue('dateFormats.' + skeleton, dateObject), tPattern = util_getValue('timeFormats.' + skeleton, dateObject);
+                            resPattern = resPattern.replace('{1}', dPattern).replace('{0}', tPattern);
+                        }
+                    } else resPattern = util_getValue('dateTimeFormats.availableFormats.' + skeleton, dateObject);
+                    util_isUndefined(resPattern) && 'yMd' === skeleton && (resPattern = 'M/d/y');
                 }
-                /**
+                return resPattern;
+            }
+            /**
      * Returns the dependable object for provided cldr data and culture
      *
      * @private
@@ -3412,10 +3412,10 @@
      * @param {boolean} isNumber ?
      * @returns {any} ?
      */ function getDependables(cldr, culture, mode, isNumber) {
-                    var ret = {};
-                    return ret.parserObject = ParserBase.getMainObject(cldr, culture) || IntlBase.defaultObject, isNumber ? ret.numericObject = util_getValue('numbers', ret.parserObject) : ret.dateObject = util_getValue('dates.calendars.' + (mode || 'gregorian'), ret.parserObject), ret;
-                }
-                /**
+                var ret = {};
+                return ret.parserObject = ParserBase.getMainObject(cldr, culture) || IntlBase.defaultObject, isNumber ? ret.numericObject = util_getValue('numbers', ret.parserObject) : ret.dateObject = util_getValue('dates.calendars.' + (mode || 'gregorian'), ret.parserObject), ret;
+            }
+            /**
      * Returns the symbol pattern for provided parameters
      *
      * @private
@@ -3425,36 +3425,36 @@
      * @param {boolean} isAccount ?
      * @returns {string} ?
      */ function getSymbolPattern(type, numSystem, obj, isAccount) {
-                    return util_getValue(type + 'Formats-numberSystem-' + numSystem + (isAccount ? '.accounting' : '.standard'), obj) || (isAccount ? util_getValue(type + 'Formats-numberSystem-' + numSystem + '.standard', obj) : '');
-                }
-                /**
+                return util_getValue(type + 'Formats-numberSystem-' + numSystem + (isAccount ? '.accounting' : '.standard'), obj) || (isAccount ? util_getValue(type + 'Formats-numberSystem-' + numSystem + '.standard', obj) : '');
+            }
+            /**
      *
      * @param {string} format ?
      * @returns {string} ?
      */ function ConvertDateToWeekFormat(format) {
-                    return format.match(IntlBase.dateConverterMapper), format;
-                }
-                /**
+                return format.match(IntlBase.dateConverterMapper), format;
+            }
+            /**
      *
      * @param {DateFormatOptions} formatOptions ?
      * @param {string} culture ?
      * @returns {DateFormatOptions} ?
      */ function compareBlazorDateFormats(formatOptions, culture) {
-                    var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
-                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
-                }
-                /**
+                var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
+                return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
+            }
+            /**
      * Returns proper numeric skeleton
      *
      * @private
      * @param {string} skeleton ?
      * @returns {any} ?
      */ function getProperNumericSkeleton(skeleton) {
-                    var matches = skeleton.match(IntlBase.formatRegex), ret = {}, pattern = matches[1].toUpperCase();
-                    return ret.isAccount = 'A' === pattern, // eslint-disable-next-line
-                    ret.type = IntlBase.patternMatcher[pattern], skeleton.length > 1 && (ret.fractionDigits = parseInt(matches[2], 10)), ret;
-                }
-                /**
+                var matches = skeleton.match(IntlBase.formatRegex), ret = {}, pattern = matches[1].toUpperCase();
+                return ret.isAccount = 'A' === pattern, // eslint-disable-next-line
+                ret.type = IntlBase.patternMatcher[pattern], skeleton.length > 1 && (ret.fractionDigits = parseInt(matches[2], 10)), ret;
+            }
+            /**
      * Returns format data for number formatting like minimum fraction, maximum fraction, etc..,
      *
      * @private
@@ -3464,21 +3464,21 @@
      * @param {boolean} fractionOnly ?
      * @returns {any} ?
      */ function getFormatData(pattern, needFraction, cSymbol, fractionOnly) {
-                    var nData = fractionOnly ? {} : {
-                        nlead: '',
-                        nend: ''
-                    }, match = pattern.match(IntlBase.customRegex);
-                    if (match) {
-                        fractionOnly || (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
-                        var fraction = match[7];
-                        if (fraction && needFraction) {
-                            var fmatch = fraction.match(fractionRegex);
-                            util_isNullOrUndefined(fmatch) ? nData.minimumFraction = 0 : nData.minimumFraction = fmatch.length, nData.maximumFraction = fraction.length - 1;
-                        }
+                var nData = fractionOnly ? {} : {
+                    nlead: '',
+                    nend: ''
+                }, match = pattern.match(IntlBase.customRegex);
+                if (match) {
+                    fractionOnly || (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
+                    var fraction = match[7];
+                    if (fraction && needFraction) {
+                        var fmatch = fraction.match(fractionRegex);
+                        util_isNullOrUndefined(fmatch) ? nData.minimumFraction = 0 : nData.minimumFraction = fmatch.length, nData.maximumFraction = fraction.length - 1;
                     }
-                    return nData;
                 }
-                /**
+                return nData;
+            }
+            /**
      * Changes currency symbol
      *
      * @private
@@ -3486,9 +3486,9 @@
      * @param {string} sym ?
      * @returns {string} ?
      */ function changeCurrencySymbol(val, sym) {
-                    return val ? val.replace(IntlBase.defaultCurrency, sym) : '';
-                }
-                /**
+                return val ? val.replace(IntlBase.defaultCurrency, sym) : '';
+            }
+            /**
      * Returns currency symbol based on currency code ?
      *
      * @private
@@ -3497,9 +3497,9 @@
      * @param {string} altSymbol ?
      * @returns {string} ?
      */ function getCurrencySymbol(numericObject, currencyCode, altSymbol) {
-                    return util_getValue('currencies.' + currencyCode + (altSymbol ? '.' + altSymbol : '.symbol'), numericObject) || util_getValue('currencies.' + currencyCode + '.symbol-alt-narrow', numericObject) || '$';
-                }
-                /**
+                return util_getValue('currencies.' + currencyCode + (altSymbol ? '.' + altSymbol : '.symbol'), numericObject) || util_getValue('currencies.' + currencyCode + '.symbol-alt-narrow', numericObject) || '$';
+            }
+            /**
      * Returns custom formatting options
      *
      * @private
@@ -3508,33 +3508,33 @@
      * @param {Object} numObject ?
      * @returns {any} ?
      */ function customNumberFormat(format, dOptions, numObject) {
-                    var cOptions = {
-                        type: 'decimal',
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    }, pattern = format.match(IntlBase.customRegex);
-                    if (util_isNullOrUndefined(pattern) || '' === pattern[5] && 'N/A' !== format) return cOptions.type = void 0, cOptions;
-                    cOptions.nlead = pattern[1], cOptions.nend = pattern[10];
-                    var integerPart = pattern[6], spaceCapture = !!integerPart.match(/\ $/g), spaceGrouping = -1 !== integerPart.replace(/\ $/g, '').indexOf(' ');
-                    cOptions.useGrouping = -1 !== integerPart.indexOf(',') || spaceGrouping, integerPart = integerPart.replace(/,/g, '');
-                    var fractionPart = pattern[7];
-                    if (-1 !== integerPart.indexOf('0') && (cOptions.minimumIntegerDigits = integerPart.length - integerPart.indexOf('0')), !util_isNullOrUndefined(fractionPart) && (cOptions.minimumFractionDigits = fractionPart.lastIndexOf('0'), cOptions.maximumFractionDigits = fractionPart.lastIndexOf('#'), -1 === cOptions.minimumFractionDigits && (cOptions.minimumFractionDigits = 0), (-1 === cOptions.maximumFractionDigits || cOptions.maximumFractionDigits < cOptions.minimumFractionDigits) && (cOptions.maximumFractionDigits = cOptions.minimumFractionDigits)), util_isNullOrUndefined(dOptions) ? util_extend(cOptions, isCurrencyPercent([
-                        cOptions.nlead,
-                        cOptions.nend
-                    ], '%', '%')) : (util_extend(cOptions, isCurrencyPercent([
-                        cOptions.nlead,
-                        cOptions.nend
-                    ], '$', dOptions.currencySymbol)), cOptions.isCurrency || util_extend(cOptions, isCurrencyPercent([
-                        cOptions.nlead,
-                        cOptions.nend
-                    ], '%', dOptions.percentSymbol))), !util_isNullOrUndefined(numObject)) {
-                        var symbolPattern = getSymbolPattern(cOptions.type, dOptions.numberMapper.numberSystem, numObject, !1);
-                        cOptions.useGrouping && (// eslint-disable-next-line
-                        cOptions.groupSeparator = spaceGrouping ? ' ' : dOptions.numberMapper.numberSymbols.group, cOptions.groupData = NumberFormat.getGroupingDetails(symbolPattern.split(';')[0])), cOptions.nlead = cOptions.nlead.replace(/'/g, ''), cOptions.nend = spaceCapture ? ' ' + cOptions.nend.replace(/'/g, '') : cOptions.nend.replace(/'/g, '');
-                    }
-                    return cOptions;
+                var cOptions = {
+                    type: 'decimal',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }, pattern = format.match(IntlBase.customRegex);
+                if (util_isNullOrUndefined(pattern) || '' === pattern[5] && 'N/A' !== format) return cOptions.type = void 0, cOptions;
+                cOptions.nlead = pattern[1], cOptions.nend = pattern[10];
+                var integerPart = pattern[6], spaceCapture = !!integerPart.match(/\ $/g), spaceGrouping = -1 !== integerPart.replace(/\ $/g, '').indexOf(' ');
+                cOptions.useGrouping = -1 !== integerPart.indexOf(',') || spaceGrouping, integerPart = integerPart.replace(/,/g, '');
+                var fractionPart = pattern[7];
+                if (-1 !== integerPart.indexOf('0') && (cOptions.minimumIntegerDigits = integerPart.length - integerPart.indexOf('0')), !util_isNullOrUndefined(fractionPart) && (cOptions.minimumFractionDigits = fractionPart.lastIndexOf('0'), cOptions.maximumFractionDigits = fractionPart.lastIndexOf('#'), -1 === cOptions.minimumFractionDigits && (cOptions.minimumFractionDigits = 0), (-1 === cOptions.maximumFractionDigits || cOptions.maximumFractionDigits < cOptions.minimumFractionDigits) && (cOptions.maximumFractionDigits = cOptions.minimumFractionDigits)), util_isNullOrUndefined(dOptions) ? util_extend(cOptions, isCurrencyPercent([
+                    cOptions.nlead,
+                    cOptions.nend
+                ], '%', '%')) : (util_extend(cOptions, isCurrencyPercent([
+                    cOptions.nlead,
+                    cOptions.nend
+                ], '$', dOptions.currencySymbol)), cOptions.isCurrency || util_extend(cOptions, isCurrencyPercent([
+                    cOptions.nlead,
+                    cOptions.nend
+                ], '%', dOptions.percentSymbol))), !util_isNullOrUndefined(numObject)) {
+                    var symbolPattern = getSymbolPattern(cOptions.type, dOptions.numberMapper.numberSystem, numObject, !1);
+                    cOptions.useGrouping && (// eslint-disable-next-line
+                    cOptions.groupSeparator = spaceGrouping ? ' ' : dOptions.numberMapper.numberSymbols.group, cOptions.groupData = NumberFormat.getGroupingDetails(symbolPattern.split(';')[0])), cOptions.nlead = cOptions.nlead.replace(/'/g, ''), cOptions.nend = spaceCapture ? ' ' + cOptions.nend.replace(/'/g, '') : cOptions.nend.replace(/'/g, '');
                 }
-                /**
+                return cOptions;
+            }
+            /**
      * Returns formatting options for currency or percent type
      *
      * @private
@@ -3543,620 +3543,620 @@
      * @param {string} symbol ?
      * @returns {any} ?
      */ function isCurrencyPercent(parts, actual, symbol) {
-                    for(var options = {
-                        nlead: parts[0],
-                        nend: parts[1]
-                    }, i = 0; i < 2; i++){
-                        var part = parts[i], loc = part.indexOf(actual);
-                        if (-1 !== loc && (loc < part.indexOf('\'') || loc > part.lastIndexOf('\''))) {
-                            // eslint-disable-next-line
-                            options[typeMapper[i]] = part.substr(0, loc) + symbol + part.substr(loc + 1), // eslint-disable-next-line
-                            options[typeMapper[actual]] = !0, options.type = options.isCurrency ? 'currency' : 'percent';
-                            break;
-                        }
+                for(var options = {
+                    nlead: parts[0],
+                    nend: parts[1]
+                }, i = 0; i < 2; i++){
+                    var part = parts[i], loc = part.indexOf(actual);
+                    if (-1 !== loc && (loc < part.indexOf('\'') || loc > part.lastIndexOf('\''))) {
+                        // eslint-disable-next-line
+                        options[typeMapper[i]] = part.substr(0, loc) + symbol + part.substr(loc + 1), // eslint-disable-next-line
+                        options[typeMapper[actual]] = !0, options.type = options.isCurrency ? 'currency' : 'percent';
+                        break;
                     }
-                    return options;
                 }
-                /**
+                return options;
+            }
+            /**
      *
      * @param {string} pattern ?
      * @param {number} minDigits ?
      * @param {number} maxDigits ?
      * @returns {string} ?
      */ function fractionDigitsPattern(pattern, minDigits, maxDigits) {
-                    pattern += '.';
-                    for(var a = 0; a < minDigits; a++)pattern += '0';
-                    if (minDigits < maxDigits) for(var diff = maxDigits - minDigits, b = 0; b < diff; b++)pattern += '#';
-                    return pattern;
-                }
-                /**
+                pattern += '.';
+                for(var a = 0; a < minDigits; a++)pattern += '0';
+                if (minDigits < maxDigits) for(var diff = maxDigits - minDigits, b = 0; b < diff; b++)pattern += '#';
+                return pattern;
+            }
+            /**
      *
      * @param {string} pattern ?
      * @param {number} digits ?
      * @returns {string} ?
      */ function minimumIntegerPattern(pattern, digits) {
-                    for(var temp = pattern.split('.'), integer = '', x = 0; x < digits; x++)integer += '0';
-                    return temp[1] ? integer + '.' + temp[1] : integer;
-                }
-                /**
+                for(var temp = pattern.split('.'), integer = '', x = 0; x < digits; x++)integer += '0';
+                return temp[1] ? integer + '.' + temp[1] : integer;
+            }
+            /**
      *
      * @param {string} pattern ?
      * @returns {string} ?
      */ function groupingPattern(pattern) {
-                    var temp = pattern.split('.'), integer = temp[0], no = 3 - integer.length % 3;
-                    integer = (no && 1 === no ? '#' : 2 === no ? '##' : '') + integer, pattern = '';
-                    for(var x = integer.length - 1; x > 0; x -= 3)pattern = ',' + integer[x - 2] + integer[x - 1] + integer[x] + pattern;
-                    return pattern = pattern.slice(1), temp[1] ? pattern + '.' + temp[1] : pattern;
+                var temp = pattern.split('.'), integer = temp[0], no = 3 - integer.length % 3;
+                integer = (no && 1 === no ? '#' : 2 === no ? '##' : '') + integer, pattern = '';
+                for(var x = integer.length - 1; x > 0; x -= 3)pattern = ',' + integer[x - 2] + integer[x - 1] + integer[x] + pattern;
+                return pattern = pattern.slice(1), temp[1] ? pattern + '.' + temp[1] : pattern;
+            }
+            IntlBase.dateParseRegex = /([a-z])\1*|'([^']|'')+'|''|./gi, IntlBase.basicPatterns = [
+                'short',
+                'medium',
+                'long',
+                'full'
+            ], /* tslint:disable:quotemark */ IntlBase.defaultObject = {
+                dates: {
+                    calendars: {
+                        gregorian: {
+                            months: {
+                                'stand-alone': {
+                                    abbreviated: {
+                                        1: 'Jan',
+                                        2: 'Feb',
+                                        3: 'Mar',
+                                        4: 'Apr',
+                                        5: 'May',
+                                        6: 'Jun',
+                                        7: 'Jul',
+                                        8: 'Aug',
+                                        9: 'Sep',
+                                        10: 'Oct',
+                                        11: 'Nov',
+                                        12: 'Dec'
+                                    },
+                                    narrow: {
+                                        1: 'J',
+                                        2: 'F',
+                                        3: 'M',
+                                        4: 'A',
+                                        5: 'M',
+                                        6: 'J',
+                                        7: 'J',
+                                        8: 'A',
+                                        9: 'S',
+                                        10: 'O',
+                                        11: 'N',
+                                        12: 'D'
+                                    },
+                                    wide: {
+                                        1: 'January',
+                                        2: 'February',
+                                        3: 'March',
+                                        4: 'April',
+                                        5: 'May',
+                                        6: 'June',
+                                        7: 'July',
+                                        8: 'August',
+                                        9: 'September',
+                                        10: 'October',
+                                        11: 'November',
+                                        12: 'December'
+                                    }
+                                }
+                            },
+                            days: {
+                                'stand-alone': {
+                                    abbreviated: {
+                                        sun: 'Sun',
+                                        mon: 'Mon',
+                                        tue: 'Tue',
+                                        wed: 'Wed',
+                                        thu: 'Thu',
+                                        fri: 'Fri',
+                                        sat: 'Sat'
+                                    },
+                                    narrow: {
+                                        sun: 'S',
+                                        mon: 'M',
+                                        tue: 'T',
+                                        wed: 'W',
+                                        thu: 'T',
+                                        fri: 'F',
+                                        sat: 'S'
+                                    },
+                                    short: {
+                                        sun: 'Su',
+                                        mon: 'Mo',
+                                        tue: 'Tu',
+                                        wed: 'We',
+                                        thu: 'Th',
+                                        fri: 'Fr',
+                                        sat: 'Sa'
+                                    },
+                                    wide: {
+                                        sun: 'Sunday',
+                                        mon: 'Monday',
+                                        tue: 'Tuesday',
+                                        wed: 'Wednesday',
+                                        thu: 'Thursday',
+                                        fri: 'Friday',
+                                        sat: 'Saturday'
+                                    }
+                                }
+                            },
+                            dayPeriods: {
+                                format: {
+                                    wide: {
+                                        am: 'AM',
+                                        pm: 'PM'
+                                    }
+                                }
+                            },
+                            eras: {
+                                eraNames: {
+                                    0: 'Before Christ',
+                                    '0-alt-variant': 'Before Common Era',
+                                    1: 'Anno Domini',
+                                    '1-alt-variant': 'Common Era'
+                                },
+                                eraAbbr: {
+                                    0: 'BC',
+                                    '0-alt-variant': 'BCE',
+                                    1: 'AD',
+                                    '1-alt-variant': 'CE'
+                                },
+                                eraNarrow: {
+                                    0: 'B',
+                                    '0-alt-variant': 'BCE',
+                                    1: 'A',
+                                    '1-alt-variant': 'CE'
+                                }
+                            },
+                            dateFormats: {
+                                full: 'EEEE, MMMM d, y',
+                                long: 'MMMM d, y',
+                                medium: 'MMM d, y',
+                                short: 'M/d/yy'
+                            },
+                            timeFormats: {
+                                full: 'h:mm:ss a zzzz',
+                                long: 'h:mm:ss a z',
+                                medium: 'h:mm:ss a',
+                                short: 'h:mm a'
+                            },
+                            dateTimeFormats: {
+                                full: '{1} \'at\' {0}',
+                                long: '{1} \'at\' {0}',
+                                medium: '{1}, {0}',
+                                short: '{1}, {0}',
+                                availableFormats: {
+                                    d: 'd',
+                                    E: 'ccc',
+                                    Ed: 'd E',
+                                    Ehm: 'E h:mm a',
+                                    EHm: 'E HH:mm',
+                                    Ehms: 'E h:mm:ss a',
+                                    EHms: 'E HH:mm:ss',
+                                    Gy: 'y G',
+                                    GyMMM: 'MMM y G',
+                                    GyMMMd: 'MMM d, y G',
+                                    GyMMMEd: 'E, MMM d, y G',
+                                    h: 'h a',
+                                    H: 'HH',
+                                    hm: 'h:mm a',
+                                    Hm: 'HH:mm',
+                                    hms: 'h:mm:ss a',
+                                    Hms: 'HH:mm:ss',
+                                    hmsv: 'h:mm:ss a v',
+                                    Hmsv: 'HH:mm:ss v',
+                                    hmv: 'h:mm a v',
+                                    Hmv: 'HH:mm v',
+                                    M: 'L',
+                                    Md: 'M/d',
+                                    MEd: 'E, M/d',
+                                    MMM: 'LLL',
+                                    MMMd: 'MMM d',
+                                    MMMEd: 'E, MMM d',
+                                    MMMMd: 'MMMM d',
+                                    ms: 'mm:ss',
+                                    y: 'y',
+                                    yM: 'M/y',
+                                    yMd: 'M/d/y',
+                                    yMEd: 'E, M/d/y',
+                                    yMMM: 'MMM y',
+                                    yMMMd: 'MMM d, y',
+                                    yMMMEd: 'E, MMM d, y',
+                                    yMMMM: 'MMMM y'
+                                }
+                            }
+                        },
+                        islamic: {
+                            months: {
+                                'stand-alone': {
+                                    abbreviated: {
+                                        1: 'Muh.',
+                                        2: 'Saf.',
+                                        3: 'Rab. I',
+                                        4: 'Rab. II',
+                                        5: 'Jum. I',
+                                        6: 'Jum. II',
+                                        7: 'Raj.',
+                                        8: 'Sha.',
+                                        9: 'Ram.',
+                                        10: 'Shaw.',
+                                        11: 'Dhuʻl-Q.',
+                                        12: 'Dhuʻl-H.'
+                                    },
+                                    narrow: {
+                                        1: '1',
+                                        2: '2',
+                                        3: '3',
+                                        4: '4',
+                                        5: '5',
+                                        6: '6',
+                                        7: '7',
+                                        8: '8',
+                                        9: '9',
+                                        10: '10',
+                                        11: '11',
+                                        12: '12'
+                                    },
+                                    wide: {
+                                        1: 'Muharram',
+                                        2: 'Safar',
+                                        3: 'Rabiʻ I',
+                                        4: 'Rabiʻ II',
+                                        5: 'Jumada I',
+                                        6: 'Jumada II',
+                                        7: 'Rajab',
+                                        8: 'Shaʻban',
+                                        9: 'Ramadan',
+                                        10: 'Shawwal',
+                                        11: 'Dhuʻl-Qiʻdah',
+                                        12: 'Dhuʻl-Hijjah'
+                                    }
+                                }
+                            },
+                            days: {
+                                'stand-alone': {
+                                    abbreviated: {
+                                        sun: 'Sun',
+                                        mon: 'Mon',
+                                        tue: 'Tue',
+                                        wed: 'Wed',
+                                        thu: 'Thu',
+                                        fri: 'Fri',
+                                        sat: 'Sat'
+                                    },
+                                    narrow: {
+                                        sun: 'S',
+                                        mon: 'M',
+                                        tue: 'T',
+                                        wed: 'W',
+                                        thu: 'T',
+                                        fri: 'F',
+                                        sat: 'S'
+                                    },
+                                    short: {
+                                        sun: 'Su',
+                                        mon: 'Mo',
+                                        tue: 'Tu',
+                                        wed: 'We',
+                                        thu: 'Th',
+                                        fri: 'Fr',
+                                        sat: 'Sa'
+                                    },
+                                    wide: {
+                                        sun: 'Sunday',
+                                        mon: 'Monday',
+                                        tue: 'Tuesday',
+                                        wed: 'Wednesday',
+                                        thu: 'Thursday',
+                                        fri: 'Friday',
+                                        sat: 'Saturday'
+                                    }
+                                }
+                            },
+                            dayPeriods: {
+                                format: {
+                                    wide: {
+                                        am: 'AM',
+                                        pm: 'PM'
+                                    }
+                                }
+                            },
+                            eras: {
+                                eraNames: {
+                                    0: 'AH'
+                                },
+                                eraAbbr: {
+                                    0: 'AH'
+                                },
+                                eraNarrow: {
+                                    0: 'AH'
+                                }
+                            },
+                            dateFormats: {
+                                full: 'EEEE, MMMM d, y G',
+                                long: 'MMMM d, y G',
+                                medium: 'MMM d, y G',
+                                short: 'M/d/y GGGGG'
+                            },
+                            timeFormats: {
+                                full: 'h:mm:ss a zzzz',
+                                long: 'h:mm:ss a z',
+                                medium: 'h:mm:ss a',
+                                short: 'h:mm a'
+                            },
+                            dateTimeFormats: {
+                                full: '{1} \'at\' {0}',
+                                long: '{1} \'at\' {0}',
+                                medium: '{1}, {0}',
+                                short: '{1}, {0}',
+                                availableFormats: {
+                                    d: 'd',
+                                    E: 'ccc',
+                                    Ed: 'd E',
+                                    Ehm: 'E h:mm a',
+                                    EHm: 'E HH:mm',
+                                    Ehms: 'E h:mm:ss a',
+                                    EHms: 'E HH:mm:ss',
+                                    Gy: 'y G',
+                                    GyMMM: 'MMM y G',
+                                    GyMMMd: 'MMM d, y G',
+                                    GyMMMEd: 'E, MMM d, y G',
+                                    h: 'h a',
+                                    H: 'HH',
+                                    hm: 'h:mm a',
+                                    Hm: 'HH:mm',
+                                    hms: 'h:mm:ss a',
+                                    Hms: 'HH:mm:ss',
+                                    M: 'L',
+                                    Md: 'M/d',
+                                    MEd: 'E, M/d',
+                                    MMM: 'LLL',
+                                    MMMd: 'MMM d',
+                                    MMMEd: 'E, MMM d',
+                                    MMMMd: 'MMMM d',
+                                    ms: 'mm:ss',
+                                    y: 'y G',
+                                    yyyy: 'y G',
+                                    yyyyM: 'M/y GGGGG',
+                                    yyyyMd: 'M/d/y GGGGG',
+                                    yyyyMEd: 'E, M/d/y GGGGG',
+                                    yyyyMMM: 'MMM y G',
+                                    yyyyMMMd: 'MMM d, y G',
+                                    yyyyMMMEd: 'E, MMM d, y G',
+                                    yyyyMMMM: 'MMMM y G',
+                                    yyyyQQQ: 'QQQ y G',
+                                    yyyyQQQQ: 'QQQQ y G'
+                                }
+                            }
+                        }
+                    },
+                    timeZoneNames: {
+                        hourFormat: '+HH:mm;-HH:mm',
+                        gmtFormat: 'GMT{0}',
+                        gmtZeroFormat: 'GMT'
+                    }
+                },
+                numbers: {
+                    currencies: {
+                        USD: {
+                            displayName: 'US Dollar',
+                            symbol: '$',
+                            'symbol-alt-narrow': '$'
+                        },
+                        EUR: {
+                            displayName: 'Euro',
+                            symbol: '€',
+                            'symbol-alt-narrow': '€'
+                        },
+                        GBP: {
+                            displayName: 'British Pound',
+                            'symbol-alt-narrow': '£'
+                        }
+                    },
+                    defaultNumberingSystem: 'latn',
+                    minimumGroupingDigits: '1',
+                    'symbols-numberSystem-latn': {
+                        decimal: '.',
+                        group: ',',
+                        list: ';',
+                        percentSign: '%',
+                        plusSign: '+',
+                        minusSign: '-',
+                        exponential: 'E',
+                        superscriptingExponent: '×',
+                        perMille: '‰',
+                        infinity: '∞',
+                        nan: 'NaN',
+                        timeSeparator: ':'
+                    },
+                    'decimalFormats-numberSystem-latn': {
+                        standard: '#,##0.###'
+                    },
+                    'percentFormats-numberSystem-latn': {
+                        standard: '#,##0%'
+                    },
+                    'currencyFormats-numberSystem-latn': {
+                        standard: '¤#,##0.00',
+                        accounting: '¤#,##0.00;(¤#,##0.00)'
+                    },
+                    'scientificFormats-numberSystem-latn': {
+                        standard: '#E0'
+                    }
                 }
-                IntlBase.dateParseRegex = /([a-z])\1*|'([^']|'')+'|''|./gi, IntlBase.basicPatterns = [
-                    'short',
-                    'medium',
-                    'long',
-                    'full'
-                ], /* tslint:disable:quotemark */ IntlBase.defaultObject = {
-                    dates: {
-                        calendars: {
-                            gregorian: {
-                                months: {
-                                    'stand-alone': {
-                                        abbreviated: {
-                                            1: 'Jan',
-                                            2: 'Feb',
-                                            3: 'Mar',
-                                            4: 'Apr',
-                                            5: 'May',
-                                            6: 'Jun',
-                                            7: 'Jul',
-                                            8: 'Aug',
-                                            9: 'Sep',
-                                            10: 'Oct',
-                                            11: 'Nov',
-                                            12: 'Dec'
-                                        },
-                                        narrow: {
-                                            1: 'J',
-                                            2: 'F',
-                                            3: 'M',
-                                            4: 'A',
-                                            5: 'M',
-                                            6: 'J',
-                                            7: 'J',
-                                            8: 'A',
-                                            9: 'S',
-                                            10: 'O',
-                                            11: 'N',
-                                            12: 'D'
-                                        },
-                                        wide: {
-                                            1: 'January',
-                                            2: 'February',
-                                            3: 'March',
-                                            4: 'April',
-                                            5: 'May',
-                                            6: 'June',
-                                            7: 'July',
-                                            8: 'August',
-                                            9: 'September',
-                                            10: 'October',
-                                            11: 'November',
-                                            12: 'December'
-                                        }
-                                    }
-                                },
-                                days: {
-                                    'stand-alone': {
-                                        abbreviated: {
-                                            sun: 'Sun',
-                                            mon: 'Mon',
-                                            tue: 'Tue',
-                                            wed: 'Wed',
-                                            thu: 'Thu',
-                                            fri: 'Fri',
-                                            sat: 'Sat'
-                                        },
-                                        narrow: {
-                                            sun: 'S',
-                                            mon: 'M',
-                                            tue: 'T',
-                                            wed: 'W',
-                                            thu: 'T',
-                                            fri: 'F',
-                                            sat: 'S'
-                                        },
-                                        short: {
-                                            sun: 'Su',
-                                            mon: 'Mo',
-                                            tue: 'Tu',
-                                            wed: 'We',
-                                            thu: 'Th',
-                                            fri: 'Fr',
-                                            sat: 'Sa'
-                                        },
-                                        wide: {
-                                            sun: 'Sunday',
-                                            mon: 'Monday',
-                                            tue: 'Tuesday',
-                                            wed: 'Wednesday',
-                                            thu: 'Thursday',
-                                            fri: 'Friday',
-                                            sat: 'Saturday'
-                                        }
-                                    }
-                                },
-                                dayPeriods: {
-                                    format: {
-                                        wide: {
-                                            am: 'AM',
-                                            pm: 'PM'
-                                        }
-                                    }
-                                },
-                                eras: {
-                                    eraNames: {
-                                        0: 'Before Christ',
-                                        '0-alt-variant': 'Before Common Era',
-                                        1: 'Anno Domini',
-                                        '1-alt-variant': 'Common Era'
-                                    },
-                                    eraAbbr: {
-                                        0: 'BC',
-                                        '0-alt-variant': 'BCE',
-                                        1: 'AD',
-                                        '1-alt-variant': 'CE'
-                                    },
-                                    eraNarrow: {
-                                        0: 'B',
-                                        '0-alt-variant': 'BCE',
-                                        1: 'A',
-                                        '1-alt-variant': 'CE'
-                                    }
-                                },
-                                dateFormats: {
-                                    full: 'EEEE, MMMM d, y',
-                                    long: 'MMMM d, y',
-                                    medium: 'MMM d, y',
-                                    short: 'M/d/yy'
-                                },
-                                timeFormats: {
-                                    full: 'h:mm:ss a zzzz',
-                                    long: 'h:mm:ss a z',
-                                    medium: 'h:mm:ss a',
-                                    short: 'h:mm a'
-                                },
-                                dateTimeFormats: {
-                                    full: '{1} \'at\' {0}',
-                                    long: '{1} \'at\' {0}',
-                                    medium: '{1}, {0}',
-                                    short: '{1}, {0}',
-                                    availableFormats: {
-                                        d: 'd',
-                                        E: 'ccc',
-                                        Ed: 'd E',
-                                        Ehm: 'E h:mm a',
-                                        EHm: 'E HH:mm',
-                                        Ehms: 'E h:mm:ss a',
-                                        EHms: 'E HH:mm:ss',
-                                        Gy: 'y G',
-                                        GyMMM: 'MMM y G',
-                                        GyMMMd: 'MMM d, y G',
-                                        GyMMMEd: 'E, MMM d, y G',
-                                        h: 'h a',
-                                        H: 'HH',
-                                        hm: 'h:mm a',
-                                        Hm: 'HH:mm',
-                                        hms: 'h:mm:ss a',
-                                        Hms: 'HH:mm:ss',
-                                        hmsv: 'h:mm:ss a v',
-                                        Hmsv: 'HH:mm:ss v',
-                                        hmv: 'h:mm a v',
-                                        Hmv: 'HH:mm v',
-                                        M: 'L',
-                                        Md: 'M/d',
-                                        MEd: 'E, M/d',
-                                        MMM: 'LLL',
-                                        MMMd: 'MMM d',
-                                        MMMEd: 'E, MMM d',
-                                        MMMMd: 'MMMM d',
-                                        ms: 'mm:ss',
-                                        y: 'y',
-                                        yM: 'M/y',
-                                        yMd: 'M/d/y',
-                                        yMEd: 'E, M/d/y',
-                                        yMMM: 'MMM y',
-                                        yMMMd: 'MMM d, y',
-                                        yMMMEd: 'E, MMM d, y',
-                                        yMMMM: 'MMMM y'
-                                    }
-                                }
-                            },
-                            islamic: {
-                                months: {
-                                    'stand-alone': {
-                                        abbreviated: {
-                                            1: 'Muh.',
-                                            2: 'Saf.',
-                                            3: 'Rab. I',
-                                            4: 'Rab. II',
-                                            5: 'Jum. I',
-                                            6: 'Jum. II',
-                                            7: 'Raj.',
-                                            8: 'Sha.',
-                                            9: 'Ram.',
-                                            10: 'Shaw.',
-                                            11: 'Dhuʻl-Q.',
-                                            12: 'Dhuʻl-H.'
-                                        },
-                                        narrow: {
-                                            1: '1',
-                                            2: '2',
-                                            3: '3',
-                                            4: '4',
-                                            5: '5',
-                                            6: '6',
-                                            7: '7',
-                                            8: '8',
-                                            9: '9',
-                                            10: '10',
-                                            11: '11',
-                                            12: '12'
-                                        },
-                                        wide: {
-                                            1: 'Muharram',
-                                            2: 'Safar',
-                                            3: 'Rabiʻ I',
-                                            4: 'Rabiʻ II',
-                                            5: 'Jumada I',
-                                            6: 'Jumada II',
-                                            7: 'Rajab',
-                                            8: 'Shaʻban',
-                                            9: 'Ramadan',
-                                            10: 'Shawwal',
-                                            11: 'Dhuʻl-Qiʻdah',
-                                            12: 'Dhuʻl-Hijjah'
-                                        }
-                                    }
-                                },
-                                days: {
-                                    'stand-alone': {
-                                        abbreviated: {
-                                            sun: 'Sun',
-                                            mon: 'Mon',
-                                            tue: 'Tue',
-                                            wed: 'Wed',
-                                            thu: 'Thu',
-                                            fri: 'Fri',
-                                            sat: 'Sat'
-                                        },
-                                        narrow: {
-                                            sun: 'S',
-                                            mon: 'M',
-                                            tue: 'T',
-                                            wed: 'W',
-                                            thu: 'T',
-                                            fri: 'F',
-                                            sat: 'S'
-                                        },
-                                        short: {
-                                            sun: 'Su',
-                                            mon: 'Mo',
-                                            tue: 'Tu',
-                                            wed: 'We',
-                                            thu: 'Th',
-                                            fri: 'Fr',
-                                            sat: 'Sa'
-                                        },
-                                        wide: {
-                                            sun: 'Sunday',
-                                            mon: 'Monday',
-                                            tue: 'Tuesday',
-                                            wed: 'Wednesday',
-                                            thu: 'Thursday',
-                                            fri: 'Friday',
-                                            sat: 'Saturday'
-                                        }
-                                    }
-                                },
-                                dayPeriods: {
-                                    format: {
-                                        wide: {
-                                            am: 'AM',
-                                            pm: 'PM'
-                                        }
-                                    }
-                                },
-                                eras: {
-                                    eraNames: {
-                                        0: 'AH'
-                                    },
-                                    eraAbbr: {
-                                        0: 'AH'
-                                    },
-                                    eraNarrow: {
-                                        0: 'AH'
-                                    }
-                                },
-                                dateFormats: {
-                                    full: 'EEEE, MMMM d, y G',
-                                    long: 'MMMM d, y G',
-                                    medium: 'MMM d, y G',
-                                    short: 'M/d/y GGGGG'
-                                },
-                                timeFormats: {
-                                    full: 'h:mm:ss a zzzz',
-                                    long: 'h:mm:ss a z',
-                                    medium: 'h:mm:ss a',
-                                    short: 'h:mm a'
-                                },
-                                dateTimeFormats: {
-                                    full: '{1} \'at\' {0}',
-                                    long: '{1} \'at\' {0}',
-                                    medium: '{1}, {0}',
-                                    short: '{1}, {0}',
-                                    availableFormats: {
-                                        d: 'd',
-                                        E: 'ccc',
-                                        Ed: 'd E',
-                                        Ehm: 'E h:mm a',
-                                        EHm: 'E HH:mm',
-                                        Ehms: 'E h:mm:ss a',
-                                        EHms: 'E HH:mm:ss',
-                                        Gy: 'y G',
-                                        GyMMM: 'MMM y G',
-                                        GyMMMd: 'MMM d, y G',
-                                        GyMMMEd: 'E, MMM d, y G',
-                                        h: 'h a',
-                                        H: 'HH',
-                                        hm: 'h:mm a',
-                                        Hm: 'HH:mm',
-                                        hms: 'h:mm:ss a',
-                                        Hms: 'HH:mm:ss',
-                                        M: 'L',
-                                        Md: 'M/d',
-                                        MEd: 'E, M/d',
-                                        MMM: 'LLL',
-                                        MMMd: 'MMM d',
-                                        MMMEd: 'E, MMM d',
-                                        MMMMd: 'MMMM d',
-                                        ms: 'mm:ss',
-                                        y: 'y G',
-                                        yyyy: 'y G',
-                                        yyyyM: 'M/y GGGGG',
-                                        yyyyMd: 'M/d/y GGGGG',
-                                        yyyyMEd: 'E, M/d/y GGGGG',
-                                        yyyyMMM: 'MMM y G',
-                                        yyyyMMMd: 'MMM d, y G',
-                                        yyyyMMMEd: 'E, MMM d, y G',
-                                        yyyyMMMM: 'MMMM y G',
-                                        yyyyQQQ: 'QQQ y G',
-                                        yyyyQQQQ: 'QQQQ y G'
-                                    }
-                                }
-                            }
-                        },
-                        timeZoneNames: {
-                            hourFormat: '+HH:mm;-HH:mm',
-                            gmtFormat: 'GMT{0}',
-                            gmtZeroFormat: 'GMT'
-                        }
+            }, IntlBase.blazorDefaultObject = {
+                numbers: {
+                    mapper: {
+                        0: '0',
+                        1: '1',
+                        2: '2',
+                        3: '3',
+                        4: '4',
+                        5: '5',
+                        6: '6',
+                        7: '7',
+                        8: '8',
+                        9: '9'
                     },
-                    numbers: {
-                        currencies: {
-                            USD: {
-                                displayName: 'US Dollar',
-                                symbol: '$',
-                                'symbol-alt-narrow': '$'
-                            },
-                            EUR: {
-                                displayName: 'Euro',
-                                symbol: '€',
-                                'symbol-alt-narrow': '€'
-                            },
-                            GBP: {
-                                displayName: 'British Pound',
-                                'symbol-alt-narrow': '£'
-                            }
-                        },
-                        defaultNumberingSystem: 'latn',
-                        minimumGroupingDigits: '1',
-                        'symbols-numberSystem-latn': {
-                            decimal: '.',
-                            group: ',',
-                            list: ';',
-                            percentSign: '%',
-                            plusSign: '+',
-                            minusSign: '-',
-                            exponential: 'E',
-                            superscriptingExponent: '×',
-                            perMille: '‰',
-                            infinity: '∞',
-                            nan: 'NaN',
-                            timeSeparator: ':'
-                        },
-                        'decimalFormats-numberSystem-latn': {
-                            standard: '#,##0.###'
-                        },
-                        'percentFormats-numberSystem-latn': {
-                            standard: '#,##0%'
-                        },
-                        'currencyFormats-numberSystem-latn': {
-                            standard: '¤#,##0.00',
-                            accounting: '¤#,##0.00;(¤#,##0.00)'
-                        },
-                        'scientificFormats-numberSystem-latn': {
-                            standard: '#E0'
-                        }
-                    }
-                }, IntlBase.blazorDefaultObject = {
-                    numbers: {
-                        mapper: {
-                            0: '0',
-                            1: '1',
-                            2: '2',
-                            3: '3',
-                            4: '4',
-                            5: '5',
-                            6: '6',
-                            7: '7',
-                            8: '8',
-                            9: '9'
-                        },
-                        mapperDigits: '0123456789',
-                        numberSymbols: {
-                            decimal: '.',
-                            group: ',',
-                            plusSign: '+',
-                            minusSign: '-',
-                            percentSign: '%',
-                            nan: 'NaN',
-                            timeSeparator: ':',
-                            infinity: '∞'
-                        },
+                    mapperDigits: '0123456789',
+                    numberSymbols: {
+                        decimal: '.',
+                        group: ',',
+                        plusSign: '+',
+                        minusSign: '-',
+                        percentSign: '%',
+                        nan: 'NaN',
                         timeSeparator: ':',
-                        currencySymbol: '$',
-                        currencypData: {
-                            nlead: '$',
-                            nend: '',
-                            groupSeparator: ',',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        infinity: '∞'
+                    },
+                    timeSeparator: ':',
+                    currencySymbol: '$',
+                    currencypData: {
+                        nlead: '$',
+                        nend: '',
+                        groupSeparator: ',',
+                        groupData: {
+                            primary: 3
                         },
-                        percentpData: {
-                            nlead: '',
-                            nend: '%',
-                            groupSeparator: ',',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    },
+                    percentpData: {
+                        nlead: '',
+                        nend: '%',
+                        groupSeparator: ',',
+                        groupData: {
+                            primary: 3
                         },
-                        percentnData: {
-                            nlead: '-',
-                            nend: '%',
-                            groupSeparator: ',',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    },
+                    percentnData: {
+                        nlead: '-',
+                        nend: '%',
+                        groupSeparator: ',',
+                        groupData: {
+                            primary: 3
                         },
-                        currencynData: {
-                            nlead: '($',
-                            nend: ')',
-                            groupSeparator: ',',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    },
+                    currencynData: {
+                        nlead: '($',
+                        nend: ')',
+                        groupSeparator: ',',
+                        groupData: {
+                            primary: 3
                         },
-                        decimalnData: {
-                            nlead: '-',
-                            nend: '',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    },
+                    decimalnData: {
+                        nlead: '-',
+                        nend: '',
+                        groupData: {
+                            primary: 3
                         },
-                        decimalpData: {
-                            nlead: '',
-                            nend: '',
-                            groupData: {
-                                primary: 3
-                            },
-                            maximumFraction: 2,
-                            minimumFraction: 2
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    },
+                    decimalpData: {
+                        nlead: '',
+                        nend: '',
+                        groupData: {
+                            primary: 3
+                        },
+                        maximumFraction: 2,
+                        minimumFraction: 2
+                    }
+                },
+                dates: {
+                    dayPeriods: {
+                        am: 'AM',
+                        pm: 'PM'
+                    },
+                    dateSeperator: '/',
+                    days: {
+                        abbreviated: {
+                            sun: 'Sun',
+                            mon: 'Mon',
+                            tue: 'Tue',
+                            wed: 'Wed',
+                            thu: 'Thu',
+                            fri: 'Fri',
+                            sat: 'Sat'
+                        },
+                        short: {
+                            sun: 'Su',
+                            mon: 'Mo',
+                            tue: 'Tu',
+                            wed: 'We',
+                            thu: 'Th',
+                            fri: 'Fr',
+                            sat: 'Sa'
+                        },
+                        wide: {
+                            sun: 'Sunday',
+                            mon: 'Monday',
+                            tue: 'Tuesday',
+                            wed: 'Wednesday',
+                            thu: 'Thursday',
+                            fri: 'Friday',
+                            sat: 'Saturday'
                         }
                     },
-                    dates: {
-                        dayPeriods: {
-                            am: 'AM',
-                            pm: 'PM'
+                    months: {
+                        abbreviated: {
+                            1: 'Jan',
+                            2: 'Feb',
+                            3: 'Mar',
+                            4: 'Apr',
+                            5: 'May',
+                            6: 'Jun',
+                            7: 'Jul',
+                            8: 'Aug',
+                            9: 'Sep',
+                            10: 'Oct',
+                            11: 'Nov',
+                            12: 'Dec'
                         },
-                        dateSeperator: '/',
-                        days: {
-                            abbreviated: {
-                                sun: 'Sun',
-                                mon: 'Mon',
-                                tue: 'Tue',
-                                wed: 'Wed',
-                                thu: 'Thu',
-                                fri: 'Fri',
-                                sat: 'Sat'
-                            },
-                            short: {
-                                sun: 'Su',
-                                mon: 'Mo',
-                                tue: 'Tu',
-                                wed: 'We',
-                                thu: 'Th',
-                                fri: 'Fr',
-                                sat: 'Sa'
-                            },
-                            wide: {
-                                sun: 'Sunday',
-                                mon: 'Monday',
-                                tue: 'Tuesday',
-                                wed: 'Wednesday',
-                                thu: 'Thursday',
-                                fri: 'Friday',
-                                sat: 'Saturday'
-                            }
-                        },
-                        months: {
-                            abbreviated: {
-                                1: 'Jan',
-                                2: 'Feb',
-                                3: 'Mar',
-                                4: 'Apr',
-                                5: 'May',
-                                6: 'Jun',
-                                7: 'Jul',
-                                8: 'Aug',
-                                9: 'Sep',
-                                10: 'Oct',
-                                11: 'Nov',
-                                12: 'Dec'
-                            },
-                            wide: {
-                                1: 'January',
-                                2: 'February',
-                                3: 'March',
-                                4: 'April',
-                                5: 'May',
-                                6: 'June',
-                                7: 'July',
-                                8: 'August',
-                                9: 'September',
-                                10: 'October',
-                                11: 'November',
-                                12: 'December'
-                            }
-                        },
-                        eras: {
-                            1: 'AD'
+                        wide: {
+                            1: 'January',
+                            2: 'February',
+                            3: 'March',
+                            4: 'April',
+                            5: 'May',
+                            6: 'June',
+                            7: 'July',
+                            8: 'August',
+                            9: 'September',
+                            10: 'October',
+                            11: 'November',
+                            12: 'December'
                         }
+                    },
+                    eras: {
+                        1: 'AD'
                     }
-                }, /* tslint:enable:quotemark */ IntlBase.monthIndex = {
-                    3: 'abbreviated',
-                    4: 'wide',
-                    5: 'narrow',
-                    1: 'abbreviated'
-                }, /**
+                }
+            }, /* tslint:enable:quotemark */ IntlBase.monthIndex = {
+                3: 'abbreviated',
+                4: 'wide',
+                5: 'narrow',
+                1: 'abbreviated'
+            }, /**
      *
      */ IntlBase.month = 'months', IntlBase.days = 'days', /**
      * Default numerber Object
      */ IntlBase.patternMatcher = {
-                    C: 'currency',
-                    P: 'percent',
-                    N: 'decimal',
-                    A: 'currency',
-                    E: 'scientific'
-                }, IntlBase.getResultantPattern = getResultantPattern, IntlBase.getDependables = getDependables, IntlBase.getSymbolPattern = getSymbolPattern, IntlBase.ConvertDateToWeekFormat = ConvertDateToWeekFormat, IntlBase.compareBlazorDateFormats = compareBlazorDateFormats, IntlBase.getProperNumericSkeleton = getProperNumericSkeleton, IntlBase.getFormatData = getFormatData, IntlBase.changeCurrencySymbol = changeCurrencySymbol, IntlBase.getCurrencySymbol = getCurrencySymbol, IntlBase.customFormat = /**
+                C: 'currency',
+                P: 'percent',
+                N: 'decimal',
+                A: 'currency',
+                E: 'scientific'
+            }, IntlBase.getResultantPattern = getResultantPattern, IntlBase.getDependables = getDependables, IntlBase.getSymbolPattern = getSymbolPattern, IntlBase.ConvertDateToWeekFormat = ConvertDateToWeekFormat, IntlBase.compareBlazorDateFormats = compareBlazorDateFormats, IntlBase.getProperNumericSkeleton = getProperNumericSkeleton, IntlBase.getFormatData = getFormatData, IntlBase.changeCurrencySymbol = changeCurrencySymbol, IntlBase.getCurrencySymbol = getCurrencySymbol, IntlBase.customFormat = /**
      * Returns formatting options for custom number format
      *
      * @private
@@ -4165,23 +4165,23 @@
      * @param {any} obj ?
      * @returns {any} ?
      */ function(format, dOptions, obj) {
-                    for(var options = {}, formatSplit = format.split(';'), data = [
-                        'pData',
-                        'nData',
-                        'zeroData'
-                    ], i = 0; i < formatSplit.length; i++)// eslint-disable-next-line
-                    options[data[i]] = customNumberFormat(formatSplit[i], dOptions, obj);
-                    return util_isNullOrUndefined(options.nData) && (options.nData = util_extend({}, options.pData), options.nData.nlead = util_isNullOrUndefined(dOptions) ? '-' + options.nData.nlead : dOptions.minusSymbol + options.nData.nlead), options;
-                }, IntlBase.customNumberFormat = customNumberFormat, IntlBase.isCurrencyPercent = isCurrencyPercent, IntlBase.getDateSeparator = /**
+                for(var options = {}, formatSplit = format.split(';'), data = [
+                    'pData',
+                    'nData',
+                    'zeroData'
+                ], i = 0; i < formatSplit.length; i++)// eslint-disable-next-line
+                options[data[i]] = customNumberFormat(formatSplit[i], dOptions, obj);
+                return util_isNullOrUndefined(options.nData) && (options.nData = util_extend({}, options.pData), options.nData.nlead = util_isNullOrUndefined(dOptions) ? '-' + options.nData.nlead : dOptions.minusSymbol + options.nData.nlead), options;
+            }, IntlBase.customNumberFormat = customNumberFormat, IntlBase.isCurrencyPercent = isCurrencyPercent, IntlBase.getDateSeparator = /**
      * Returns culture based date separator
      *
      * @private
      * @param {Object} dateObj ?
      * @returns {string} ?
      */ function(dateObj) {
-                    var value = (util_getValue('dateFormats.short', dateObj) || '').match(/[d‏M‏]([^d‏M])[d‏M‏]/i);
-                    return value ? value[1] : '/';
-                }, IntlBase.getActualDateTimeFormat = /**
+                var value = (util_getValue('dateFormats.short', dateObj) || '').match(/[d‏M‏]([^d‏M])[d‏M‏]/i);
+                return value ? value[1] : '/';
+            }, IntlBase.getActualDateTimeFormat = /**
      * Returns Native Date Time pattern
      *
      * @private
@@ -4191,23 +4191,23 @@
      * @param {boolean} isExcelFormat ?
      * @returns {string} ?
      */ function(culture, options, cldr, isExcelFormat) {
-                    var dependable = getDependables(cldr, culture, options.calendar), actualPattern = options.format || getResultantPattern(options.skeleton, dependable.dateObject, options.type);
-                    if (isExcelFormat) {
-                        if (-1 !== (actualPattern = actualPattern.replace(patternRegex, function(pattern) {
-                            // eslint-disable-next-line
-                            return patternMatch[pattern];
-                        })).indexOf('z')) {
-                            var tLength = actualPattern.match(/z/g).length, timeZonePattern = void 0, options_1 = {
-                                timeZone: {}
-                            };
-                            options_1.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr)), options_1.timeZone = util_getValue('dates.timeZoneNames', dependable.parserObject);
-                            var timezone = new Date().getTimezoneOffset(), pattern = tLength < 4 ? '+H;-H' : options_1.timeZone.hourFormat;
-                            pattern = pattern.replace(/:/g, options_1.numMapper.timeSeparator), 0 === timezone ? timeZonePattern = options_1.timeZone.gmtZeroFormat : (timeZonePattern = DateFormat.getTimeZoneValue(timezone, pattern), timeZonePattern = options_1.timeZone.gmtFormat.replace(/\{0\}/, timeZonePattern)), actualPattern = actualPattern.replace(/[z]+/, '"' + timeZonePattern + '"');
-                        }
-                        actualPattern = actualPattern.replace(/ $/, '');
+                var dependable = getDependables(cldr, culture, options.calendar), actualPattern = options.format || getResultantPattern(options.skeleton, dependable.dateObject, options.type);
+                if (isExcelFormat) {
+                    if (-1 !== (actualPattern = actualPattern.replace(patternRegex, function(pattern) {
+                        // eslint-disable-next-line
+                        return patternMatch[pattern];
+                    })).indexOf('z')) {
+                        var tLength = actualPattern.match(/z/g).length, timeZonePattern = void 0, options_1 = {
+                            timeZone: {}
+                        };
+                        options_1.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr)), options_1.timeZone = util_getValue('dates.timeZoneNames', dependable.parserObject);
+                        var timezone = new Date().getTimezoneOffset(), pattern = tLength < 4 ? '+H;-H' : options_1.timeZone.hourFormat;
+                        pattern = pattern.replace(/:/g, options_1.numMapper.timeSeparator), 0 === timezone ? timeZonePattern = options_1.timeZone.gmtZeroFormat : (timeZonePattern = DateFormat.getTimeZoneValue(timezone, pattern), timeZonePattern = options_1.timeZone.gmtFormat.replace(/\{0\}/, timeZonePattern)), actualPattern = actualPattern.replace(/[z]+/, '"' + timeZonePattern + '"');
                     }
-                    return actualPattern;
-                }, IntlBase.getActualNumberFormat = /**
+                    actualPattern = actualPattern.replace(/ $/, '');
+                }
+                return actualPattern;
+            }, IntlBase.getActualNumberFormat = /**
      * Returns Native Number pattern
      *
      * @private
@@ -4217,72 +4217,71 @@
      * @param {boolean} isExcel ?
      * @returns {string} ?
      */ function(culture, options, cldr, isExcel) {
-                    var minFrac, actualPattern, dependable = getDependables(cldr, culture, '', !0), parseOptions = {
-                        custom: !0
-                    }, curObj = (dependable.numericObject, {}), curMatch = (options.format || '').match(IntlBase.currencyFormatRegex), dOptions = (IntlBase.formatRegex.test(options.format) && getProperNumericSkeleton(options.format || 'N'), {});
-                    if (curMatch) {
-                        dOptions.numberMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr), !0);
-                        var curCode = getCurrencySymbol(dependable.numericObject, options.currency || defaultCurrencyCode, options.altSymbol), symbolPattern = getSymbolPattern('currency', dOptions.numberMapper.numberSystem, dependable.numericObject, /a/i.test(options.format)), split = (symbolPattern = symbolPattern.replace(/\u00A4/g, curCode)).split(';');
-                        curObj.hasNegativePattern = split.length > 1, curObj.nData = getFormatData(split[1] || '-' + split[0], !0, curCode), curObj.pData = getFormatData(split[0], !1, curCode), curMatch[2] || options.minimumFractionDigits || options.maximumFractionDigits || (minFrac = getFormatData(symbolPattern.split(';')[0], !0, '', !0).minimumFraction);
+                var minFrac, actualPattern, dependable = getDependables(cldr, culture, '', !0), parseOptions = {
+                    custom: !0
+                }, curObj = (dependable.numericObject, {}), curMatch = (options.format || '').match(IntlBase.currencyFormatRegex), dOptions = (IntlBase.formatRegex.test(options.format) && getProperNumericSkeleton(options.format || 'N'), {});
+                if (curMatch) {
+                    dOptions.numberMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr), !0);
+                    var curCode = getCurrencySymbol(dependable.numericObject, options.currency || defaultCurrencyCode, options.altSymbol), symbolPattern = getSymbolPattern('currency', dOptions.numberMapper.numberSystem, dependable.numericObject, /a/i.test(options.format)), split = (symbolPattern = symbolPattern.replace(/\u00A4/g, curCode)).split(';');
+                    curObj.hasNegativePattern = split.length > 1, curObj.nData = getFormatData(split[1] || '-' + split[0], !0, curCode), curObj.pData = getFormatData(split[0], !1, curCode), curMatch[2] || options.minimumFractionDigits || options.maximumFractionDigits || (minFrac = getFormatData(symbolPattern.split(';')[0], !0, '', !0).minimumFraction);
+                }
+                if (IntlBase.formatRegex.test(options.format) || !options.format) {
+                    if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || (parseOptions.type, 0)) {
+                        var cPattern = actualPattern;
+                        actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, curObj.hasNegativePattern && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
                     }
-                    if (IntlBase.formatRegex.test(options.format) || !options.format) {
-                        if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || (parseOptions.type, 0)) {
-                            var cPattern = actualPattern;
-                            actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, curObj.hasNegativePattern && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
-                        }
-                        'percent' === parseOptions.type && (actualPattern += ' %');
-                    } else actualPattern = options.format.replace(/'/g, '"');
-                    return Object.keys(dOptions).length > 0 && (actualPattern = isExcel ? actualPattern : /**
+                    'percent' === parseOptions.type && (actualPattern += ' %');
+                } else actualPattern = options.format.replace(/'/g, '"');
+                return Object.keys(dOptions).length > 0 && (actualPattern = isExcel ? actualPattern : /**
      *
      * @param {string} actual ?
      * @param {any} option ?
      * @returns {any} ?
      */ // eslint-disable-next-line
-                    function(actual, option) {
-                        if (-1 !== actual.indexOf(',')) {
-                            // eslint-disable-next-line
-                            var split = actual.split(',');
-                            actual = split[0] + util_getValue('numberMapper.numberSymbols.group', option) + split[1].replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
-                        } else actual = actual.replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
-                        return actual;
-                    }(actualPattern, dOptions)), actualPattern;
-                }, IntlBase.fractionDigitsPattern = fractionDigitsPattern, IntlBase.minimumIntegerPattern = minimumIntegerPattern, IntlBase.groupingPattern = groupingPattern, IntlBase.getWeekData = /**
+                function(actual, option) {
+                    if (-1 !== actual.indexOf(',')) {
+                        // eslint-disable-next-line
+                        var split = actual.split(',');
+                        actual = split[0] + util_getValue('numberMapper.numberSymbols.group', option) + split[1].replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
+                    } else actual = actual.replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
+                    return actual;
+                }(actualPattern, dOptions)), actualPattern;
+            }, IntlBase.fractionDigitsPattern = fractionDigitsPattern, IntlBase.minimumIntegerPattern = minimumIntegerPattern, IntlBase.groupingPattern = groupingPattern, IntlBase.getWeekData = /**
      *
      * @param {string} culture ?
      * @param {Object} cldr ?
      * @returns {number} ?
      */ function(culture, cldr) {
-                    var firstDay = 'sun', mapper = util_getValue('supplemental.weekData.firstDay', cldr), iCulture = culture;
-                    return /en-/.test(iCulture) && (iCulture = iCulture.slice(3)), iCulture = iCulture.slice(0, 2).toUpperCase() + iCulture.substr(2), mapper && (firstDay = mapper[iCulture] || mapper[iCulture.slice(0, 2)] || 'sun'), firstDayMapper[firstDay];
-                }, IntlBase.replaceBlazorCurrency = /**
+                var firstDay = 'sun', mapper = util_getValue('supplemental.weekData.firstDay', cldr), iCulture = culture;
+                return /en-/.test(iCulture) && (iCulture = iCulture.slice(3)), iCulture = iCulture.slice(0, 2).toUpperCase() + iCulture.substr(2), mapper && (firstDay = mapper[iCulture] || mapper[iCulture.slice(0, 2)] || 'sun'), firstDayMapper[firstDay];
+            }, IntlBase.replaceBlazorCurrency = /**
      * @private
      * @param {any} pData ?
      * @param {string} aCurrency ?
      * @param {string} rCurrency ?
      * @returns {void} ?
      */ function(pData, aCurrency, rCurrency) {
-                    var iCurrency = util_getValue(rCurrency || '', blazorCurrencyData);
-                    if (aCurrency !== iCurrency) for(var _i = 0; _i < pData.length; _i++){
-                        var data = pData[_i];
-                        data.nend = data.nend.replace(aCurrency, iCurrency), data.nlead = data.nlead.replace(aCurrency, iCurrency);
-                    }
-                }, IntlBase.getWeekOfYear = /**
+                var iCurrency = util_getValue(rCurrency || '', blazorCurrencyData);
+                if (aCurrency !== iCurrency) for(var _i = 0; _i < pData.length; _i++){
+                    var data = pData[_i];
+                    data.nend = data.nend.replace(aCurrency, iCurrency), data.nlead = data.nlead.replace(aCurrency, iCurrency);
+                }
+            }, IntlBase.getWeekOfYear = /**
      * @private
      * @param {Date} date ?
      * @returns {number} ?
      */ function(date) {
-                    var weeknum, newYear = new Date(date.getFullYear(), 0, 1), day = newYear.getDay();
-                    day = day >= 0 ? day : day + 7;
-                    var daynum = Math.floor((date.getTime() - newYear.getTime() - (date.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
-                    if (day < 4) {
-                        if ((weeknum = Math.floor((daynum + day - 1) / 7) + 1) > 52) {
-                            var nday = new Date(date.getFullYear() + 1, 0, 1).getDay();
-                            weeknum = (nday = nday >= 0 ? nday : nday + 7) < 4 ? 1 : 53;
-                        }
-                    } else weeknum = Math.floor((daynum + day - 1) / 7);
-                    return weeknum;
-                };
-            }(intl_base_IntlBase || (intl_base_IntlBase = {}));
+                var weeknum, newYear = new Date(date.getFullYear(), 0, 1), day = newYear.getDay();
+                day = day >= 0 ? day : day + 7;
+                var daynum = Math.floor((date.getTime() - newYear.getTime() - (date.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
+                if (day < 4) {
+                    if ((weeknum = Math.floor((daynum + day - 1) / 7) + 1) > 52) {
+                        var nday = new Date(date.getFullYear() + 1, 0, 1).getDay();
+                        weeknum = (nday = nday >= 0 ? nday : nday + 7) < 4 ? 1 : 53;
+                    }
+                } else weeknum = Math.floor((daynum + day - 1) / 7);
+                return weeknum;
+            };
             var headerRegex = /^(.*?):[ \t]*([^\r\n]*)$/gm, Ajax = /** @class */ function() {
                 /**
      * Constructor for Ajax class
@@ -6573,73 +6572,71 @@
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             };
-            !/** @class */ function(_super) {
-                function Droppable(element, options) {
-                    var _this = _super.call(this, options, element) || this;
-                    return _this.mouseOver = !1, _this.dragData = {}, _this.dragStopCalled = !1, _this.bind(), _this;
+            function Droppable(element, options) {
+                var _this = Base.call(this, options, element) || this;
+                return _this.mouseOver = !1, _this.dragData = {}, _this.dragStopCalled = !1, _this.bind(), _this;
+            }
+            droppable_extends(Droppable, Base), Droppable.prototype.bind = function() {
+                this.wireEvents();
+            }, Droppable.prototype.wireEvents = function() {
+                EventHandler.add(this.element, Browser.touchEndEvent, this.intDrop, this);
+            }, // triggers when property changed
+            // eslint-disable-next-line
+            Droppable.prototype.onPropertyChanged = function(newProp, oldProp) {
+            //No Code to handle
+            }, Droppable.prototype.getModuleName = function() {
+                return 'droppable';
+            }, Droppable.prototype.intOver = function(event, element) {
+                if (!this.mouseOver) {
+                    var drag = this.dragData[this.scope];
+                    this.trigger('over', {
+                        event: event,
+                        target: element,
+                        dragData: drag
+                    }), this.mouseOver = !0;
                 }
-                droppable_extends(Droppable, _super), Droppable.prototype.bind = function() {
-                    this.wireEvents();
-                }, Droppable.prototype.wireEvents = function() {
-                    EventHandler.add(this.element, Browser.touchEndEvent, this.intDrop, this);
-                }, // triggers when property changed
-                // eslint-disable-next-line
-                Droppable.prototype.onPropertyChanged = function(newProp, oldProp) {
-                //No Code to handle
-                }, Droppable.prototype.getModuleName = function() {
-                    return 'droppable';
-                }, Droppable.prototype.intOver = function(event, element) {
-                    if (!this.mouseOver) {
-                        var drag = this.dragData[this.scope];
-                        this.trigger('over', {
-                            event: event,
-                            target: element,
-                            dragData: drag
-                        }), this.mouseOver = !0;
-                    }
-                }, Droppable.prototype.intOut = function(event, element) {
-                    this.mouseOver && (this.trigger('out', {
-                        evt: event,
-                        target: element
-                    }), this.mouseOver = !1);
-                }, Droppable.prototype.intDrop = function(evt, element) {
-                    if (this.dragStopCalled) {
-                        this.dragStopCalled = !1;
-                        var area, accept = !0, drag = this.dragData[this.scope], isDrag = !!drag && drag.helper && isVisible(drag.helper);
-                        isDrag && (area = this.isDropArea(evt, drag.helper, element), this.accept && (accept = matches(drag.helper, this.accept))), isDrag && this.drop && area.canDrop && accept && this.trigger('drop', {
-                            event: evt,
-                            target: area.target,
-                            droppedElement: drag.helper,
-                            dragData: drag
-                        }), this.mouseOver = !1;
-                    }
-                }, Droppable.prototype.isDropArea = function(evt, helper, element) {
-                    var area = {
-                        canDrop: !0,
-                        target: element || evt.target
-                    }, isTouch = 'touchend' === evt.type;
-                    if (isTouch || area.target === helper) {
-                        helper.style.display = 'none';
-                        var coord = isTouch ? evt.changedTouches[0] : evt, ele = document.elementFromPoint(coord.clientX, coord.clientY);
-                        area.canDrop = !1, area.canDrop = compareElementParent(ele, this.element), area.canDrop && (area.target = ele), helper.style.display = '';
-                    }
-                    return area;
-                }, Droppable.prototype.destroy = function() {
-                    EventHandler.remove(this.element, Browser.touchEndEvent, this.intDrop), _super.prototype.destroy.call(this);
-                }, droppable_decorate([
-                    Property()
-                ], Droppable.prototype, "accept", void 0), droppable_decorate([
-                    Property('default')
-                ], Droppable.prototype, "scope", void 0), droppable_decorate([
-                    notify_property_change_Event()
-                ], Droppable.prototype, "drop", void 0), droppable_decorate([
-                    notify_property_change_Event()
-                ], Droppable.prototype, "over", void 0), droppable_decorate([
-                    notify_property_change_Event()
-                ], Droppable.prototype, "out", void 0), Droppable = droppable_decorate([
-                    NotifyPropertyChanges
-                ], Droppable);
-            }(Base);
+            }, Droppable.prototype.intOut = function(event, element) {
+                this.mouseOver && (this.trigger('out', {
+                    evt: event,
+                    target: element
+                }), this.mouseOver = !1);
+            }, Droppable.prototype.intDrop = function(evt, element) {
+                if (this.dragStopCalled) {
+                    this.dragStopCalled = !1;
+                    var area, accept = !0, drag = this.dragData[this.scope], isDrag = !!drag && drag.helper && isVisible(drag.helper);
+                    isDrag && (area = this.isDropArea(evt, drag.helper, element), this.accept && (accept = matches(drag.helper, this.accept))), isDrag && this.drop && area.canDrop && accept && this.trigger('drop', {
+                        event: evt,
+                        target: area.target,
+                        droppedElement: drag.helper,
+                        dragData: drag
+                    }), this.mouseOver = !1;
+                }
+            }, Droppable.prototype.isDropArea = function(evt, helper, element) {
+                var area = {
+                    canDrop: !0,
+                    target: element || evt.target
+                }, isTouch = 'touchend' === evt.type;
+                if (isTouch || area.target === helper) {
+                    helper.style.display = 'none';
+                    var coord = isTouch ? evt.changedTouches[0] : evt, ele = document.elementFromPoint(coord.clientX, coord.clientY);
+                    area.canDrop = !1, area.canDrop = compareElementParent(ele, this.element), area.canDrop && (area.target = ele), helper.style.display = '';
+                }
+                return area;
+            }, Droppable.prototype.destroy = function() {
+                EventHandler.remove(this.element, Browser.touchEndEvent, this.intDrop), Base.prototype.destroy.call(this);
+            }, droppable_decorate([
+                Property()
+            ], Droppable.prototype, "accept", void 0), droppable_decorate([
+                Property('default')
+            ], Droppable.prototype, "scope", void 0), droppable_decorate([
+                notify_property_change_Event()
+            ], Droppable.prototype, "drop", void 0), droppable_decorate([
+                notify_property_change_Event()
+            ], Droppable.prototype, "over", void 0), droppable_decorate([
+                notify_property_change_Event()
+            ], Droppable.prototype, "out", void 0), Droppable = droppable_decorate([
+                NotifyPropertyChanges
+            ], Droppable);
             var keyboard_extends = (extendStatics4 = function(d, b) {
                 return (extendStatics4 = Object.setPrototypeOf || ({
                     __proto__: []
@@ -7645,7 +7642,7 @@
                     return /* binding */ Input;
                 }
             });
-            /* harmony import */ var Input, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1807), CLASSNAMES = {
+            /* harmony import */ var Input, floatType, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1807), CLASSNAMES = {
                 RTL: 'e-rtl',
                 DISABLE: 'e-disabled',
                 INPUT: 'e-input',
@@ -7662,143 +7659,141 @@
                 NOFLOATLABEL: 'e-no-float-label',
                 INPUTCUSTOMTAG: 'e-input-custom-tag',
                 FLOATCUSTOMTAG: 'e-float-custom-tag'
-            };
-            !function(Input) {
-                var floatType, isBindClearAction = !0;
-                function bindInitialEvent(args) {
-                    checkInputValue(args.floatLabelType, args.element), args.element.addEventListener('focus', function() {
-                        var parent = getParentNode(this);
-                        (parent.classList.contains('e-input-group') || parent.classList.contains('e-outline') || parent.classList.contains('e-filled')) && parent.classList.add('e-input-focus');
-                    }), args.element.addEventListener('blur', function() {
-                        var parent = getParentNode(this);
-                        (parent.classList.contains('e-input-group') || parent.classList.contains('e-outline') || parent.classList.contains('e-filled')) && parent.classList.remove('e-input-focus');
-                    }), args.element.addEventListener('input', function() {
-                        checkInputValue(floatType, args.element);
-                    });
-                }
-                function checkInputValue(floatLabelType, inputElement) {
-                    var inputValue = inputElement.value;
-                    '' !== inputValue && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputValue) && inputElement.parentElement ? inputElement.parentElement.classList.add('e-valid-input') : 'Always' !== floatLabelType && inputElement.parentElement && inputElement.parentElement.classList.remove('e-valid-input');
-                }
-                function _focusFn() {
-                    var label = getParentNode(this).getElementsByClassName('e-float-text')[0];
-                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        label
-                    ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                        label
-                    ], CLASSNAMES.LABELBOTTOM));
-                }
-                function _blurFn() {
+            }, Input1 = Input || (Input = {}), isBindClearAction = !0;
+            function bindInitialEvent(args) {
+                checkInputValue(args.floatLabelType, args.element), args.element.addEventListener('focus', function() {
                     var parent = getParentNode(this);
-                    if (parent.getElementsByTagName('textarea')[0] ? '' === parent.getElementsByTagName('textarea')[0].value : '' === parent.getElementsByTagName('input')[0].value) {
-                        var label = parent.getElementsByClassName('e-float-text')[0];
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) || (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                            label
-                        ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                            label
-                        ], CLASSNAMES.LABELBOTTOM));
-                    }
-                }
-                function wireFloatingEvents(element) {
-                    element.addEventListener('focus', _focusFn), element.addEventListener('blur', _blurFn);
-                }
-                function createFloatingInput(args, inputObject, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES.FLOATINPUT, CLASSNAMES.FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) || inputObject.container.classList.add(CLASSNAMES.FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES.FLOATINPUT));
-                    var floatLinelement = makeElement('span', {
-                        className: CLASSNAMES.FLOATLINE
-                    }), floatLabelElement = makeElement('label', {
-                        className: CLASSNAMES.FLOATTEXT
-                    });
-                    if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.id) || '' === args.element.id || (floatLabelElement.id = 'label_' + args.element.id.replace(/ /g, '_'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(args.element, {
-                        'aria-labelledby': floatLabelElement.id
-                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) || '' === args.element.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) || '' === args.properties.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), floatLabelElement.innerText || inputObject.container.classList.add(CLASSNAMES.NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
-                        var inputWrap = inputObject.container.querySelector('.e-input-in-wrap');
-                        inputWrap.appendChild(args.element), inputWrap.appendChild(floatLinelement), inputWrap.appendChild(floatLabelElement);
-                    } else inputObject.container.appendChild(args.element), inputObject.container.appendChild(floatLinelement), inputObject.container.appendChild(floatLabelElement);
-                    updateLabelState(args.element.value, floatLabelElement), 'Always' === args.floatLabelType && (floatLabelElement.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                        floatLabelElement
-                    ], CLASSNAMES.LABELBOTTOM), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        floatLabelElement
-                    ], CLASSNAMES.LABELTOP)), 'Auto' === args.floatLabelType && (// eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    args.element.addEventListener('input', function(event) {
-                        updateLabelState(args.element.value, floatLabelElement, args.element);
-                    }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    args.element.addEventListener('blur', function(event) {
-                        updateLabelState(args.element.value, floatLabelElement);
-                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.getAttribute('id')) || floatLabelElement.setAttribute('for', args.element.getAttribute('id'));
-                }
-                function checkFloatLabelType(type, container) {
-                    'Always' === type && container.classList.contains('e-outline') && container.classList.add('e-valid-input');
-                }
-                function updateIconState(value, button, readonly) {
-                    value && !readonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                        button
-                    ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        button
-                    ], CLASSNAMES.CLEARICONHIDE);
-                }
-                function updateLabelState(value, label, element) {
-                    void 0 === element && (element = null), value ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        label
-                    ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                        label
-                    ], CLASSNAMES.LABELBOTTOM)) : (null == element || element !== document.activeElement) && (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    (parent.classList.contains('e-input-group') || parent.classList.contains('e-outline') || parent.classList.contains('e-filled')) && parent.classList.add('e-input-focus');
+                }), args.element.addEventListener('blur', function() {
+                    var parent = getParentNode(this);
+                    (parent.classList.contains('e-input-group') || parent.classList.contains('e-outline') || parent.classList.contains('e-filled')) && parent.classList.remove('e-input-focus');
+                }), args.element.addEventListener('input', function() {
+                    checkInputValue(floatType, args.element);
+                });
+            }
+            function checkInputValue(floatLabelType, inputElement) {
+                var inputValue = inputElement.value;
+                '' !== inputValue && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputValue) && inputElement.parentElement ? inputElement.parentElement.classList.add('e-valid-input') : 'Always' !== floatLabelType && inputElement.parentElement && inputElement.parentElement.classList.remove('e-valid-input');
+            }
+            function _focusFn() {
+                var label = getParentNode(this).getElementsByClassName('e-float-text')[0];
+                !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    label
+                ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    label
+                ], CLASSNAMES.LABELBOTTOM));
+            }
+            function _blurFn() {
+                var parent = getParentNode(this);
+                if (parent.getElementsByTagName('textarea')[0] ? '' === parent.getElementsByTagName('textarea')[0].value : '' === parent.getElementsByTagName('input')[0].value) {
+                    var label = parent.getElementsByClassName('e-float-text')[0];
+                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) || (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         label
                     ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         label
                     ], CLASSNAMES.LABELBOTTOM));
                 }
-                function getParentNode(element) {
-                    var parentNode = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.parentNode) ? element : element.parentNode;
-                    return parentNode && parentNode.classList.contains('e-input-in-wrap') && (parentNode = parentNode.parentNode), parentNode;
-                }
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                function wireClearBtnEvents(element, button, container) {
-                    (void 0 == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
-                        element.classList.contains(CLASSNAMES.DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+            }
+            function wireFloatingEvents(element) {
+                element.addEventListener('focus', _focusFn), element.addEventListener('blur', _blurFn);
+            }
+            function createFloatingInput(args, inputObject, internalCreateElement) {
+                var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
+                'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES.FLOATINPUT, CLASSNAMES.FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) || inputObject.container.classList.add(CLASSNAMES.FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES.FLOATINPUT));
+                var floatLinelement = makeElement('span', {
+                    className: CLASSNAMES.FLOATLINE
+                }), floatLabelElement = makeElement('label', {
+                    className: CLASSNAMES.FLOATTEXT
+                });
+                if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.id) || '' === args.element.id || (floatLabelElement.id = 'label_' + args.element.id.replace(/ /g, '_'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(args.element, {
+                    'aria-labelledby': floatLabelElement.id
+                })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) || '' === args.element.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) || '' === args.properties.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), floatLabelElement.innerText || inputObject.container.classList.add(CLASSNAMES.NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
+                    var inputWrap = inputObject.container.querySelector('.e-input-in-wrap');
+                    inputWrap.appendChild(args.element), inputWrap.appendChild(floatLinelement), inputWrap.appendChild(floatLabelElement);
+                } else inputObject.container.appendChild(args.element), inputObject.container.appendChild(floatLinelement), inputObject.container.appendChild(floatLabelElement);
+                updateLabelState(args.element.value, floatLabelElement), 'Always' === args.floatLabelType && (floatLabelElement.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    floatLabelElement
+                ], CLASSNAMES.LABELBOTTOM), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    floatLabelElement
+                ], CLASSNAMES.LABELTOP)), 'Auto' === args.floatLabelType && (// eslint-disable-next-line @typescript-eslint/no-unused-vars
+                args.element.addEventListener('input', function(event) {
+                    updateLabelState(args.element.value, floatLabelElement, args.element);
+                }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                args.element.addEventListener('blur', function(event) {
+                    updateLabelState(args.element.value, floatLabelElement);
+                })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.getAttribute('id')) || floatLabelElement.setAttribute('for', args.element.getAttribute('id'));
+            }
+            function checkFloatLabelType(type, container) {
+                'Always' === type && container.classList.contains('e-outline') && container.classList.add('e-valid-input');
+            }
+            function updateIconState(value, button, readonly) {
+                value && !readonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    button
+                ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    button
+                ], CLASSNAMES.CLEARICONHIDE);
+            }
+            function updateLabelState(value, label, element) {
+                void 0 === element && (element = null), value ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    label
+                ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    label
+                ], CLASSNAMES.LABELBOTTOM)) : (null == element || element !== document.activeElement) && (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    label
+                ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    label
+                ], CLASSNAMES.LABELBOTTOM));
+            }
+            function getParentNode(element) {
+                var parentNode = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.parentNode) ? element : element.parentNode;
+                return parentNode && parentNode.classList.contains('e-input-in-wrap') && (parentNode = parentNode.parentNode), parentNode;
+            }
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            function wireClearBtnEvents(element, button, container) {
+                (void 0 == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
+                    element.classList.contains(CLASSNAMES.DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        button
+                    ], CLASSNAMES.CLEARICONHIDE));
+                }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                element.addEventListener('input', function(event) {
+                    updateIconState(element.value, button);
+                }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                element.addEventListener('focus', function(event) {
+                    updateIconState(element.value, button, element.readOnly);
+                }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                element.addEventListener('blur', function(event) {
+                    setTimeout(function() {
+                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             button
-                        ], CLASSNAMES.CLEARICONHIDE));
-                    }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    element.addEventListener('input', function(event) {
-                        updateIconState(element.value, button);
-                    }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    element.addEventListener('focus', function(event) {
-                        updateIconState(element.value, button, element.readOnly);
-                    }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    element.addEventListener('blur', function(event) {
-                        setTimeout(function() {
-                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                                button
-                            ], CLASSNAMES.CLEARICONHIDE);
-                        }, 200);
-                    });
+                        ], CLASSNAMES.CLEARICONHIDE);
+                    }, 200);
+                });
+            }
+            function validateLabel(element, floatLabelType) {
+                if (getParentNode(element).classList.contains(CLASSNAMES.FLOATINPUT) && 'Auto' === floatLabelType) {
+                    var label = getParentNode(element).getElementsByClassName('e-float-text')[0];
+                    updateLabelState(element.value, label, element);
                 }
-                function validateLabel(element, floatLabelType) {
-                    if (getParentNode(element).classList.contains(CLASSNAMES.FLOATINPUT) && 'Auto' === floatLabelType) {
-                        var label = getParentNode(element).getElementsByClassName('e-float-text')[0];
-                        updateLabelState(element.value, label, element);
-                    }
-                }
-                /**
+            }
+            /**
      * To create input box contianer.
      */ function createInputContainer(args, className, tagClass, tag, internalCreateElement) {
-                    var container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) ? container = makeElement(tag, {
-                        className: className
-                    }) : (container = makeElement(args.customTag, {
-                        className: className
-                    })).classList.add(tagClass), container.classList.add('e-control-wrapper'), container;
+                var container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
+                return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) ? container = makeElement(tag, {
+                    className: className
+                }) : (container = makeElement(args.customTag, {
+                    className: className
+                })).classList.add(tagClass), container.classList.add('e-control-wrapper'), container;
+            }
+            function encodePlaceHolder(placeholder) {
+                var result = '';
+                if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) && '' !== placeholder) {
+                    var spanEle = document.createElement('span');
+                    spanEle.innerHTML = '<input  placeholder="' + placeholder + '"/>', result = spanEle.children[0].placeholder;
                 }
-                function encodePlaceHolder(placeholder) {
-                    var result = '';
-                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) && '' !== placeholder) {
-                        var spanEle = document.createElement('span');
-                        spanEle.innerHTML = '<input  placeholder="' + placeholder + '"/>', result = spanEle.children[0].placeholder;
-                    }
-                    return result;
-                }
-                /**
+                return result;
+            }
+            /**
      * Sets the single or multiple cssClass to wrapper of input element.
      * ```
      * E.g : Input.setCssClass('e-custom-class', [element]);
@@ -7809,9 +7804,9 @@
      * @param {string} oldClass
      * - Css class names which are needed to remove. If old classes are need to remove, can give this optional parameter.
      */ function setCssClass(cssClass, elements, oldClass) {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(cssClass) || '' === cssClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, cssClass.split(' '));
-                }
-                /**
+                (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(cssClass) || '' === cssClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, cssClass.split(' '));
+            }
+            /**
      * Set the width to the placeholder when it overflows on the button such as spinbutton, clearbutton, icon etc
      * ```
      * E.g : Input.calculateWidth(element, container);
@@ -7820,9 +7815,9 @@
      * @param {any} element - Input element which is need to add.
      * @param {HTMLElement} container - The parent element which is need to get the label span to calculate width
      */ function calculateWidth(element, container) {
-                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container.getElementsByClassName('e-float-text-content')[0]) && (container.getElementsByClassName('e-float-text-content')[0].classList.contains('e-float-text-overflow') && container.getElementsByClassName('e-float-text-content')[0].classList.remove('e-float-text-overflow'), (element.clientWidth < container.getElementsByClassName('e-float-text-content')[0].clientWidth || element.clientWidth === container.getElementsByClassName('e-float-text-content')[0].clientWidth) && container.getElementsByClassName('e-float-text-content')[0].classList.add('e-float-text-overflow'));
-                }
-                /**
+                !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container.getElementsByClassName('e-float-text-content')[0]) && (container.getElementsByClassName('e-float-text-content')[0].classList.contains('e-float-text-overflow') && container.getElementsByClassName('e-float-text-content')[0].classList.remove('e-float-text-overflow'), (element.clientWidth < container.getElementsByClassName('e-float-text-content')[0].clientWidth || element.clientWidth === container.getElementsByClassName('e-float-text-content')[0].clientWidth) && container.getElementsByClassName('e-float-text-content')[0].classList.add('e-float-text-overflow'));
+            }
+            /**
      * Set the placeholder attribute to the input element.
      * ```
      * E.g : Input.setPlaceholder('Search here', element);
@@ -7831,14 +7826,14 @@
      * @param {string} placeholder - Placeholder value which is need to add.
      * @param {HTMLInputElement | HTMLTextAreaElement} element - The element on which the placeholder is need to add.
      */ function setPlaceholder(placeholder, element) {
-                    placeholder = encodePlaceHolder(placeholder);
-                    var parentElement = getParentNode(element);
-                    parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (parentElement.classList.add(CLASSNAMES.NOFLOATLABEL), parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = '' : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '') : (parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = placeholder : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = placeholder, parentElement.classList.remove(CLASSNAMES.NOFLOATLABEL), element.removeAttribute('placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (element.removeAttribute('placeholder'), element.removeAttribute('aria-placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
-                        placeholder: placeholder,
-                        'aria-placeholder': placeholder
-                    });
-                }
-                /**
+                placeholder = encodePlaceHolder(placeholder);
+                var parentElement = getParentNode(element);
+                parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (parentElement.classList.add(CLASSNAMES.NOFLOATLABEL), parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = '' : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '') : (parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = placeholder : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = placeholder, parentElement.classList.remove(CLASSNAMES.NOFLOATLABEL), element.removeAttribute('placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (element.removeAttribute('placeholder'), element.removeAttribute('aria-placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
+                    placeholder: placeholder,
+                    'aria-placeholder': placeholder
+                });
+            }
+            /**
      * Set the read only attribute to the input element
      * ```
      * E.g : Input.setReadonly(true, element);
@@ -7849,11 +7844,11 @@
      * @param {HTMLInputElement | HTMLTextAreaElement} element
      * - The element which is need to enable read only.
      */ function setReadonly(isReadonly, element, floatLabelType) {
-                    isReadonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
-                        readonly: ''
-                    }) : element.removeAttribute('readonly'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
-                }
-                /**
+                isReadonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
+                    readonly: ''
+                }) : element.removeAttribute('readonly'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
+            }
+            /**
      * Displays the element direction from right to left when its enabled.
      * ```
      * E.g : Input.setEnableRtl(true, [inputObj.container]);
@@ -7864,9 +7859,9 @@
      * @param {Element[] | NodeList} elements
      * - The elements that are needed to enable/disable RTL.
      */ function setEnableRtl(isRtl, elements) {
-                    isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, CLASSNAMES.RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, CLASSNAMES.RTL);
-                }
-                /**
+                isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, CLASSNAMES.RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, CLASSNAMES.RTL);
+            }
+            /**
      * Enables or disables the given input element.
      * ```
      * E.g : Input.setEnabled(false, element);
@@ -7877,27 +7872,27 @@
      * @param {HTMLInputElement | HTMLTextAreaElement} element
      * - Element to be enabled or disabled.
      */ function setEnabled(isEnable, element, floatLabelType, inputContainer) {
-                    var disabledAttrs = {
-                        disabled: 'disabled',
-                        'aria-disabled': 'true'
-                    }, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputContainer);
-                    isEnable ? (element.classList.remove(CLASSNAMES.DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                        inputContainer
-                    ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        inputContainer
-                    ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
-                }
-                function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
-                    var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
-                        className: CLASSNAMES.CLEARICON
-                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        container
-                    ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        button
-                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), inputObject.clearButton = button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
-                }
-                /**
+                var disabledAttrs = {
+                    disabled: 'disabled',
+                    'aria-disabled': 'true'
+                }, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputContainer);
+                isEnable ? (element.classList.remove(CLASSNAMES.DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    inputContainer
+                ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    inputContainer
+                ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
+            }
+            function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
+                var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
+                isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
+                    className: CLASSNAMES.CLEARICON
+                }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    container
+                ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    button
+                ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), inputObject.clearButton = button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
+            }
+            /**
      * Removing the multiple attributes from the given element such as "disabled","id" , etc.
      * ```
      * E.g : Input.removeAttributes({ 'disabled': 'disabled', 'aria-disabled': 'true' }, element);
@@ -7908,12 +7903,12 @@
      * @param {HTMLInputElement | HTMLElement} element
      * - Element on which the attributes are needed to be removed.
      */ function removeAttributes(attrs, element) {
-                    for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
-                        var key = _a[_i], parentElement = getParentNode(element);
-                        'disabled' === key && element.classList.remove(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.remove(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '' : element.removeAttribute(key);
-                    }
+                for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
+                    var key = _a[_i], parentElement = getParentNode(element);
+                    'disabled' === key && element.classList.remove(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.remove(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '' : element.removeAttribute(key);
                 }
-                /**
+            }
+            /**
      * Adding the multiple attributes to the given element such as "disabled","id" , etc.
      * ```
      * E.g : Input.addAttributes({ 'id': 'inputpopup' }, element);
@@ -7924,12 +7919,12 @@
      * @param {HTMLInputElement | HTMLElement} element
      * - Element on which the attributes are needed to be added.
      */ function addAttributes(attrs, element) {
-                    for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
-                        var key = _a[_i], parentElement = getParentNode(element);
-                        'disabled' === key && element.classList.add(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.add(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = attrs[key] : element.setAttribute(key, attrs[key]);
-                    }
+                for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
+                    var key = _a[_i], parentElement = getParentNode(element);
+                    'disabled' === key && element.classList.add(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.add(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = attrs[key] : element.setAttribute(key, attrs[key]);
                 }
-                /**
+            }
+            /**
     * Create the span inside the label and add the label text into the span textcontent
     * ```
     * E.g : Input.createSpanElement(inputObject, makeElement);
@@ -7940,38 +7935,38 @@
     * @param {createElementParams} makeElement
     * - Element which is need to create the span
     */ function createSpanElement(inputObject, makeElement) {
-                    if (inputObject.container.classList.contains('e-outline') && inputObject.container.getElementsByClassName('e-float-text')[0]) {
-                        var labelSpanElement = makeElement('span', {
-                            className: CLASSNAMES.FLOATTEXTCONTENT
-                        });
-                        labelSpanElement.innerHTML = inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML, inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML = '', inputObject.container.getElementsByClassName('e-float-text')[0].appendChild(labelSpanElement);
-                    }
-                }
-                function _internalRipple(isRipple, container, button) {
-                    var argsButton = [];
-                    argsButton.push(button);
-                    var buttons = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) ? container.querySelectorAll('.e-input-group-icon') : argsButton;
-                    if (isRipple && buttons.length > 0) for(var index = 0; index < buttons.length; index++)buttons[index].addEventListener('mousedown', _onMouseDownRipple, !1), buttons[index].addEventListener('mouseup', _onMouseUpRipple, !1);
-                    else if (buttons.length > 0) for(var index = 0; index < buttons.length; index++)buttons[index].removeEventListener('mousedown', _onMouseDownRipple, this), buttons[index].removeEventListener('mouseup', _onMouseUpRipple, this);
-                }
-                function _onMouseDownRipple() {
-                    for(var container, parentEle = this.parentElement; !parentEle.classList.contains('e-input-group');)parentEle = parentEle.parentElement;
-                    (container = parentEle).classList.contains('e-disabled') || container.querySelector('input').readOnly || this.classList.add('e-input-btn-ripple');
-                }
-                function _onMouseUpRipple() {
-                    // eslint-disable-next-line @typescript-eslint/no-this-alias
-                    var ele = this;
-                    setTimeout(function() {
-                        ele.classList.remove('e-input-btn-ripple');
-                    }, 500);
-                }
-                function createIconEle(iconClass, makeElement) {
-                    var button = makeElement('span', {
-                        className: iconClass
+                if (inputObject.container.classList.contains('e-outline') && inputObject.container.getElementsByClassName('e-float-text')[0]) {
+                    var labelSpanElement = makeElement('span', {
+                        className: CLASSNAMES.FLOATTEXTCONTENT
                     });
-                    return button.classList.add('e-input-group-icon'), button;
+                    labelSpanElement.innerHTML = inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML, inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML = '', inputObject.container.getElementsByClassName('e-float-text')[0].appendChild(labelSpanElement);
                 }
-                /**
+            }
+            function _internalRipple(isRipple, container, button) {
+                var argsButton = [];
+                argsButton.push(button);
+                var buttons = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) ? container.querySelectorAll('.e-input-group-icon') : argsButton;
+                if (isRipple && buttons.length > 0) for(var index = 0; index < buttons.length; index++)buttons[index].addEventListener('mousedown', _onMouseDownRipple, !1), buttons[index].addEventListener('mouseup', _onMouseUpRipple, !1);
+                else if (buttons.length > 0) for(var index = 0; index < buttons.length; index++)buttons[index].removeEventListener('mousedown', _onMouseDownRipple, this), buttons[index].removeEventListener('mouseup', _onMouseUpRipple, this);
+            }
+            function _onMouseDownRipple() {
+                for(var container, parentEle = this.parentElement; !parentEle.classList.contains('e-input-group');)parentEle = parentEle.parentElement;
+                (container = parentEle).classList.contains('e-disabled') || container.querySelector('input').readOnly || this.classList.add('e-input-btn-ripple');
+            }
+            function _onMouseUpRipple() {
+                // eslint-disable-next-line @typescript-eslint/no-this-alias
+                var ele = this;
+                setTimeout(function() {
+                    ele.classList.remove('e-input-btn-ripple');
+                }, 500);
+            }
+            function createIconEle(iconClass, makeElement) {
+                var button = makeElement('span', {
+                    className: iconClass
+                });
+                return button.classList.add('e-input-group-icon'), button;
+            }
+            /**
      * Creates a new span element with the given icons added and prepend it in input element.
      * ```
      * E.g : Input.prependSpan('e-icon-spin', inputObj.container, inputElement);
@@ -7982,20 +7977,20 @@
      * @param {HTMLElement} container - The container on which created span element is going to append.
      * @param {HTMLElement} inputElement - The inputElement on which created span element is going to prepend.
      */ /* eslint-disable @typescript-eslint/indent */ function prependSpan(iconClass, container, inputElement, internalCreateElement) {
-                    /* eslint-enable @typescript-eslint/indent */ var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, button = createIconEle(iconClass, makeElement);
-                    container.classList.add('e-float-icon-left');
-                    var innerWrapper = container.querySelector('.e-input-in-wrap');
-                    if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(innerWrapper)) {
-                        innerWrapper = makeElement('span', {
-                            className: 'e-input-in-wrap'
-                        }), inputElement.parentNode.insertBefore(innerWrapper, inputElement);
-                        var result = container.querySelectorAll(inputElement.tagName + ' ~ *');
-                        innerWrapper.appendChild(inputElement);
-                        for(var i = 0; i < result.length; i++)innerWrapper.appendChild(result[i]);
-                    }
-                    return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
+                /* eslint-enable @typescript-eslint/indent */ var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, button = createIconEle(iconClass, makeElement);
+                container.classList.add('e-float-icon-left');
+                var innerWrapper = container.querySelector('.e-input-in-wrap');
+                if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(innerWrapper)) {
+                    innerWrapper = makeElement('span', {
+                        className: 'e-input-in-wrap'
+                    }), inputElement.parentNode.insertBefore(innerWrapper, inputElement);
+                    var result = container.querySelectorAll(inputElement.tagName + ' ~ *');
+                    innerWrapper.appendChild(inputElement);
+                    for(var i = 0; i < result.length; i++)innerWrapper.appendChild(result[i]);
                 }
-                /**
+                return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
+            }
+            /**
      * Creates a new span element with the given icons added and append it in container element.
      * ```
      * E.g : Input.appendSpan('e-icon-spin', inputObj.container);
@@ -8005,55 +8000,55 @@
      * Span element acts as icon or button element for input.
      * @param {HTMLElement} container - The container on which created span element is going to append.
      */ function appendSpan(iconClass, container, internalCreateElement) {
-                    var button = createIconEle(iconClass, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement);
-                    return container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
-                }
-                function validateInputType(containerElement, input) {
-                    'hidden' === input.type ? containerElement.classList.add('e-hidden') : containerElement.classList.contains('e-hidden') && containerElement.classList.remove('e-hidden');
-                }
-                Input.createInput = /**
+                var button = createIconEle(iconClass, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement);
+                return container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
+            }
+            function validateInputType(containerElement, input) {
+                'hidden' === input.type ? containerElement.classList.add('e-hidden') : containerElement.classList.contains('e-hidden') && containerElement.classList.remove('e-hidden');
+            }
+            Input1.createInput = /**
      * Create a wrapper to input element with multiple span elements and set the basic properties to input based components.
      * ```
      * E.g : Input.createInput({ element: element, floatLabelType : "Auto", properties: { placeholder: 'Search' } });
      * ```
      *
      */ function(args, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, inputObject = {
-                        container: null,
-                        buttons: [],
-                        clearButton: null
-                    };
-                    if (floatType = args.floatLabelType, isBindClearAction = args.bindClearAction, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.floatLabelType) || 'Never' === args.floatLabelType ? (inputObject.container = createInputContainer(args, CLASSNAMES.INPUTGROUP, CLASSNAMES.INPUTCUSTOMTAG, 'span', makeElement), args.element.parentNode.insertBefore(inputObject.container, args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        args.element
-                    ], CLASSNAMES.INPUT), inputObject.container.appendChild(args.element)) : createFloatingInput(args, inputObject, makeElement), bindInitialEvent(args), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.showClearButton) && args.properties.showClearButton && 'TEXTAREA' !== args.element.tagName && (setClearButton(args.properties.showClearButton, args.element, inputObject, !0, makeElement), inputObject.clearButton.setAttribute('role', 'button'), inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        inputObject.container
-                    ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
-                    return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                        inputObject.container
-                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
-                        if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++)switch(_a[_i]){
-                            case 'cssClass':
-                                setCssClass(args.properties.cssClass, [
-                                    inputObject.container
-                                ]), checkFloatLabelType(args.floatLabelType, inputObject.container);
-                                break;
-                            case 'enabled':
-                                setEnabled(args.properties.enabled, args.element, args.floatLabelType, inputObject.container);
-                                break;
-                            case 'enableRtl':
-                                setEnableRtl(args.properties.enableRtl, [
-                                    inputObject.container
-                                ]);
-                                break;
-                            case 'placeholder':
-                                setPlaceholder(args.properties.placeholder, args.element);
-                                break;
-                            case 'readonly':
-                                setReadonly(args.properties.readonly, args.element);
-                        }
-                        return inputObject;
-                    }(args, inputObject), makeElement), inputObject;
-                }, Input.bindInitialEvent = bindInitialEvent, Input.wireFloatingEvents = wireFloatingEvents, Input.wireClearBtnEvents = wireClearBtnEvents, Input.setValue = /**
+                var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, inputObject = {
+                    container: null,
+                    buttons: [],
+                    clearButton: null
+                };
+                if (floatType = args.floatLabelType, isBindClearAction = args.bindClearAction, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.floatLabelType) || 'Never' === args.floatLabelType ? (inputObject.container = createInputContainer(args, CLASSNAMES.INPUTGROUP, CLASSNAMES.INPUTCUSTOMTAG, 'span', makeElement), args.element.parentNode.insertBefore(inputObject.container, args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    args.element
+                ], CLASSNAMES.INPUT), inputObject.container.appendChild(args.element)) : createFloatingInput(args, inputObject, makeElement), bindInitialEvent(args), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.showClearButton) && args.properties.showClearButton && 'TEXTAREA' !== args.element.tagName && (setClearButton(args.properties.showClearButton, args.element, inputObject, !0, makeElement), inputObject.clearButton.setAttribute('role', 'button'), inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    inputObject.container
+                ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
+                return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    inputObject.container
+                ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
+                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'cssClass':
+                            setCssClass(args.properties.cssClass, [
+                                inputObject.container
+                            ]), checkFloatLabelType(args.floatLabelType, inputObject.container);
+                            break;
+                        case 'enabled':
+                            setEnabled(args.properties.enabled, args.element, args.floatLabelType, inputObject.container);
+                            break;
+                        case 'enableRtl':
+                            setEnableRtl(args.properties.enableRtl, [
+                                inputObject.container
+                            ]);
+                            break;
+                        case 'placeholder':
+                            setPlaceholder(args.properties.placeholder, args.element);
+                            break;
+                        case 'readonly':
+                            setReadonly(args.properties.readonly, args.element);
+                    }
+                    return inputObject;
+                }(args, inputObject), makeElement), inputObject;
+            }, Input1.bindInitialEvent = bindInitialEvent, Input1.wireFloatingEvents = wireFloatingEvents, Input1.wireClearBtnEvents = wireClearBtnEvents, Input1.setValue = /**
      * Sets the value to the input element.
      * ```
      * E.g : Input.setValue('content', element, "Auto", true );
@@ -8064,19 +8059,19 @@
      * @param {string} floatLabelType - Specify the float label type of the input element.
      * @param {boolean} clearButton - Boolean value to specify whether the clear icon is enabled / disabled on the input.
      */ function(value, element, floatLabelType, clearButton) {
-                    if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(clearButton) && clearButton) {
-                        var parentElement = getParentNode(element);
-                        if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(parentElement)) {
-                            var button = parentElement.getElementsByClassName(CLASSNAMES.CLEARICON)[0];
-                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) || (element.value && parentElement.classList.contains('e-input-focus') ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
-                                button
-                            ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                                button
-                            ], CLASSNAMES.CLEARICONHIDE));
-                        }
+                if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(clearButton) && clearButton) {
+                    var parentElement = getParentNode(element);
+                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(parentElement)) {
+                        var button = parentElement.getElementsByClassName(CLASSNAMES.CLEARICON)[0];
+                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) || (element.value && parentElement.classList.contains('e-input-focus') ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                            button
+                        ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                            button
+                        ], CLASSNAMES.CLEARICONHIDE));
                     }
-                    checkInputValue(floatLabelType, element);
-                }, Input.setCssClass = setCssClass, Input.calculateWidth = calculateWidth, Input.setWidth = /**
+                }
+                checkInputValue(floatLabelType, element);
+            }, Input1.setCssClass = setCssClass, Input1.calculateWidth = calculateWidth, Input1.setWidth = /**
      * Set the width to the wrapper of input element.
      * ```
      * E.g : Input.setWidth('200px', container);
@@ -8085,42 +8080,42 @@
      * @param {number | string} width - Width value which is need to add.
      * @param {HTMLElement} container - The element on which the width is need to add.
      */ function(width, container) {
-                    'number' == typeof width ? container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)), calculateWidth(container.firstChild, container);
-                }, Input.setPlaceholder = setPlaceholder, Input.setReadonly = setReadonly, Input.setEnableRtl = setEnableRtl, Input.setEnabled = setEnabled, Input.setClearButton = setClearButton, Input.removeAttributes = removeAttributes, Input.addAttributes = addAttributes, Input.removeFloating = function(input) {
-                    var container = input.container;
-                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT)) {
-                        var inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES.FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATLINE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATTEXT)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .classList */ .s1)(container, [
-                            CLASSNAMES.INPUTGROUP
-                        ], [
-                            CLASSNAMES.FLOATINPUT
-                        ]), inputEle.removeEventListener('focus', _focusFn), inputEle.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(inputEle, {
+                'number' == typeof width ? container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)), calculateWidth(container.firstChild, container);
+            }, Input1.setPlaceholder = setPlaceholder, Input1.setReadonly = setReadonly, Input1.setEnableRtl = setEnableRtl, Input1.setEnabled = setEnabled, Input1.setClearButton = setClearButton, Input1.removeAttributes = removeAttributes, Input1.addAttributes = addAttributes, Input1.removeFloating = function(input) {
+                var container = input.container;
+                if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT)) {
+                    var inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES.FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
+                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATLINE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATTEXT)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .classList */ .s1)(container, [
+                        CLASSNAMES.INPUTGROUP
+                    ], [
+                        CLASSNAMES.FLOATINPUT
+                    ]), inputEle.removeEventListener('focus', _focusFn), inputEle.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(inputEle, {
+                        placeholder: placeholder
+                    }), inputEle.classList.add(CLASSNAMES.INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
+                }
+            }, Input1.addFloating = function(input, type, placeholder, internalCreateElement) {
+                var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES.INPUTGROUP);
+                if (floatType = type, 'Never' !== type) {
+                    var customTag = container.tagName, args = {
+                        element: input,
+                        floatLabelType: type,
+                        customTag: customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null,
+                        properties: {
                             placeholder: placeholder
-                        }), inputEle.classList.add(CLASSNAMES.INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
-                    }
-                }, Input.addFloating = function(input, type, placeholder, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES.INPUTGROUP);
-                    if (floatType = type, 'Never' !== type) {
-                        var customTag = container.tagName, args = {
-                            element: input,
-                            floatLabelType: type,
-                            customTag: customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null,
-                            properties: {
-                                placeholder: placeholder
-                            }
-                        }, iconEle = container.querySelector('.e-clear-icon'), inputObj = {
-                            container: container
-                        };
-                        input.classList.remove(CLASSNAMES.INPUT), createFloatingInput(args, inputObj, makeElement), createSpanElement(inputObj, makeElement), calculateWidth(args.element, inputObj.container);
-                        var isPrependIcon = container.classList.contains('e-float-icon-left');
-                        if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && (iconEle = isPrependIcon ? container.querySelector('.e-input-in-wrap').querySelector('.e-input-group-icon') : container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle)) isPrependIcon && (iconEle = container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && container.classList.remove(CLASSNAMES.INPUTGROUP);
-                        else {
-                            var floatLine = container.querySelector('.' + CLASSNAMES.FLOATLINE), floatText = container.querySelector('.' + CLASSNAMES.FLOATTEXT), wrapper = isPrependIcon ? container.querySelector('.e-input-in-wrap') : container;
-                            wrapper.insertBefore(input, iconEle), wrapper.insertBefore(floatLine, iconEle), wrapper.insertBefore(floatText, iconEle);
                         }
+                    }, iconEle = container.querySelector('.e-clear-icon'), inputObj = {
+                        container: container
+                    };
+                    input.classList.remove(CLASSNAMES.INPUT), createFloatingInput(args, inputObj, makeElement), createSpanElement(inputObj, makeElement), calculateWidth(args.element, inputObj.container);
+                    var isPrependIcon = container.classList.contains('e-float-icon-left');
+                    if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && (iconEle = isPrependIcon ? container.querySelector('.e-input-in-wrap').querySelector('.e-input-group-icon') : container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle)) isPrependIcon && (iconEle = container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && container.classList.remove(CLASSNAMES.INPUTGROUP);
+                    else {
+                        var floatLine = container.querySelector('.' + CLASSNAMES.FLOATLINE), floatText = container.querySelector('.' + CLASSNAMES.FLOATTEXT), wrapper = isPrependIcon ? container.querySelector('.e-input-in-wrap') : container;
+                        wrapper.insertBefore(input, iconEle), wrapper.insertBefore(floatLine, iconEle), wrapper.insertBefore(floatText, iconEle);
                     }
-                    checkFloatLabelType(type, input.parentElement);
-                }, Input.createSpanElement = createSpanElement, Input.setRipple = /**
+                }
+                checkFloatLabelType(type, input.parentElement);
+            }, Input1.createSpanElement = createSpanElement, Input1.setRipple = /**
      * Enable or Disable the ripple effect on the icons inside the Input. Ripple effect is only applicable for material theme.
      * ```
      * E.g : Input.setRipple(true, [inputObjects]);
@@ -8131,8 +8126,8 @@
      * @param {InputObject[]} inputObj
      * - Specify the collection of input objects.
      */ function(isRipple, inputObj) {
-                    for(var i = 0; i < inputObj.length; i++)_internalRipple(isRipple, inputObj[i].container);
-                }, Input.addIcon = /**
+                for(var i = 0; i < inputObj.length; i++)_internalRipple(isRipple, inputObj[i].container);
+            }, Input1.addIcon = /**
      * Creates a new span element with the given icons added and append it in container element.
      * ```
      * E.g : Input.addIcon('append', 'e-icon-spin', inputObj.container, inputElement);
@@ -8144,18 +8139,17 @@
      * @param {HTMLElement} container - The container on which created span element is going to append.
      * @param {HTMLElement} input - The inputElement on which created span element is going to prepend.
      */ /* eslint-disable @typescript-eslint/indent */ function(position, icons, container, input, internalCreate) {
-                    /* eslint-enable @typescript-eslint/indent */ var result = 'string' == typeof icons ? icons.split(',') : icons;
-                    if ('append' === position.toLowerCase()) for(var _i = 0; _i < result.length; _i++){
-                        var icon = result[_i];
-                        appendSpan(icon, container, internalCreate);
-                    }
-                    else for(var _a = 0; _a < result.length; _a++){
-                        var icon = result[_a];
-                        prependSpan(icon, container, input, internalCreate);
-                    }
-                    container.getElementsByClassName('e-input-group-icon')[0] && container.getElementsByClassName('e-float-text-overflow')[0] && container.getElementsByClassName('e-float-text-overflow')[0].classList.add('e-icon');
-                }, Input.prependSpan = prependSpan, Input.appendSpan = appendSpan, Input.validateInputType = validateInputType;
-            }(Input || (Input = {}));
+                /* eslint-enable @typescript-eslint/indent */ var result = 'string' == typeof icons ? icons.split(',') : icons;
+                if ('append' === position.toLowerCase()) for(var _i = 0; _i < result.length; _i++){
+                    var icon = result[_i];
+                    appendSpan(icon, container, internalCreate);
+                }
+                else for(var _a = 0; _a < result.length; _a++){
+                    var icon = result[_a];
+                    prependSpan(icon, container, input, internalCreate);
+                }
+                container.getElementsByClassName('e-input-group-icon')[0] && container.getElementsByClassName('e-float-text-overflow')[0] && container.getElementsByClassName('e-float-text-overflow')[0].classList.add('e-icon');
+            }, Input1.prependSpan = prependSpan, Input1.appendSpan = appendSpan, Input1.validateInputType = validateInputType;
         /* eslint-enable valid-jsdoc, jsdoc/require-jsdoc, jsdoc/require-returns, jsdoc/require-param */ /***/ },
         /***/ 8801: /***/ function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -10129,15 +10123,13 @@
                     this.constructor = d;
                 }
                 extendStatics1(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
-            });
-            !/** @class */ function(_super) {
-                function ComplexBase() {
-                    return null !== _super && _super.apply(this, arguments) || this;
-                }
-                complex_base_extends(ComplexBase, _super), ComplexBase.prototype.render = function() {
-                    return null;
-                }, ComplexBase.isDirective = !0;
-            }(react.PureComponent);
+            }), _super = react.PureComponent;
+            function ComplexBase() {
+                return null !== _super && _super.apply(this, arguments) || this;
+            }
+            complex_base_extends(ComplexBase, _super), ComplexBase.prototype.render = function() {
+                return null;
+            }, ComplexBase.isDirective = !0;
             var services_extends = (extendStatics2 = function(d, b) {
                 return (extendStatics2 = Object.setPrototypeOf || ({
                     __proto__: []
@@ -12079,34 +12071,8 @@
                                 }
                                 direction += directionValue.toLocaleLowerCase() + ' ';
                             }
-                            this.enableRtl && 'south-east' === direction.trim() ? direction = 'south-west' : this.enableRtl && 'south-west' === direction.trim() && (direction = 'south-east'), this.isModal && this.enableRtl ? this.element.classList.add(DLG_RESTRICT_LEFT_VALUE) : this.isModal && this.target === document.body && this.element.classList.add(DLG_RESTRICT_WIDTH_VALUE), /**
- *
- * @param {ResizeArgs} args - specifies the resize args
- * @returns {void}
- */ function(args) {
-                                resizeStart = args.resizeBegin, resize = args.resizing, resizeEnd = args.resizeComplete, targetElement = getDOMElement(args.element), containerElement = getDOMElement(args.boundary);
-                                for(var directions = args.direction.split(' '), i = 0; i < directions.length; i++)if (dialogBorderResize.indexOf(directions[i]) >= 0 && directions[i]) /**
- *
- * @param {string} direction - specifies the string
- * @returns {void}
- */ (function(direction) {
-                                    calculateValues();
-                                    var borderBottom = (0, ej2_base /* createElement */ .az)('span', {
-                                        attrs: {
-                                            unselectable: 'on',
-                                            contenteditable: 'false'
-                                        }
-                                    });
-                                    borderBottom.setAttribute('class', 'e-dialog-border-resize e-' + direction), 'south' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.bottom = '0px', borderBottom.style.left = '0px'), 'north' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.top = '0px', borderBottom.style.left = '0px'), 'east' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.right = '0px', borderBottom.style.top = '0px'), 'west' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.left = '0px', borderBottom.style.top = '0px'), targetElement.appendChild(borderBottom);
-                                })(directions[i]);
-                                else if ('' !== directions[i].trim()) {
-                                    var resizeHandler = (0, ej2_base /* createElement */ .az)('div', {
-                                        className: 'e-icons ' + RESIZE_HANDLER + " e-" + directions[i]
-                                    });
-                                    targetElement.appendChild(resizeHandler);
-                                }
-                                minHeight = args.minHeight, minWidth = args.minWidth, maxWidth = args.maxWidth, maxHeight = args.maxHeight, args.proxy && args.proxy.element && args.proxy.element.classList.contains('e-dialog') ? wireEvents(args.proxy) : wireEvents();
-                            }({
+                            this.enableRtl && 'south-east' === direction.trim() ? direction = 'south-west' : this.enableRtl && 'south-west' === direction.trim() && (direction = 'south-east'), this.isModal && this.enableRtl ? this.element.classList.add(DLG_RESTRICT_LEFT_VALUE) : this.isModal && this.target === document.body && this.element.classList.add(DLG_RESTRICT_WIDTH_VALUE);
+                            var args = {
                                 element: this.element,
                                 direction: direction,
                                 minHeight: parseInt(computedHeight.slice(0, computedWidth.indexOf('p')), 10),
@@ -12118,7 +12084,29 @@
                                 resizeComplete: this.onResizeComplete.bind(this),
                                 resizing: this.onResizing.bind(this),
                                 proxy: this
-                            }), this.wireWindowResizeEvent();
+                            };
+                            resizeStart = args.resizeBegin, resize = args.resizing, resizeEnd = args.resizeComplete, targetElement = getDOMElement(args.element), containerElement = getDOMElement(args.boundary);
+                            for(var directions = args.direction.split(' '), i1 = 0; i1 < directions.length; i1++)if (dialogBorderResize.indexOf(directions[i1]) >= 0 && directions[i1]) /**
+ *
+ * @param {string} direction - specifies the string
+ * @returns {void}
+ */ (function(direction) {
+                                calculateValues();
+                                var borderBottom = (0, ej2_base /* createElement */ .az)('span', {
+                                    attrs: {
+                                        unselectable: 'on',
+                                        contenteditable: 'false'
+                                    }
+                                });
+                                borderBottom.setAttribute('class', 'e-dialog-border-resize e-' + direction), 'south' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.bottom = '0px', borderBottom.style.left = '0px'), 'north' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.top = '0px', borderBottom.style.left = '0px'), 'east' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.right = '0px', borderBottom.style.top = '0px'), 'west' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.left = '0px', borderBottom.style.top = '0px'), targetElement.appendChild(borderBottom);
+                            })(directions[i1]);
+                            else if ('' !== directions[i1].trim()) {
+                                var resizeHandler = (0, ej2_base /* createElement */ .az)('div', {
+                                    className: 'e-icons ' + RESIZE_HANDLER + " e-" + directions[i1]
+                                });
+                                targetElement.appendChild(resizeHandler);
+                            }
+                            minHeight = args.minHeight, minWidth = args.minWidth, maxWidth = args.maxWidth, maxHeight = args.maxHeight, args.proxy && args.proxy.element && args.proxy.element.classList.contains('e-dialog') ? wireEvents(args.proxy) : wireEvents(), this.wireWindowResizeEvent();
                         }
                     } else removeResize(), this.unWireWindowResizeEvent(), this.isModal ? this.element.classList.remove(DLG_RESTRICT_LEFT_VALUE) : this.element.classList.remove(DLG_RESTRICT_WIDTH_VALUE), this.element.classList.remove(DLG_RESIZABLE);
                 }, Dialog.prototype.getFocusElement = function(target) {
@@ -12814,29 +12802,28 @@
                 ], Dialog.prototype, "destroyed", void 0), Dialog = dialog_decorate([
                     ej2_base /* NotifyPropertyChanges */ .Zl
                 ], Dialog);
-            }(ej2_base /* Component */ .wA);
-            !function(DialogUtility) {
-                // eslint-disable-next-line
-                function createDialog(options, element) {
-                    var dialogObject = new Dialog(options);
-                    return dialogObject.appendTo(element), dialogObject;
-                }
-                // eslint-disable-next-line
-                function formOptions(options, option) {
-                    return options.header = (0, ej2_base /* isNullOrUndefined */ .le)(option.title) ? DLG_UTIL_DEFAULT_TITLE : option.title, options.content = (0, ej2_base /* isNullOrUndefined */ .le)(option.content) ? '' : option.content, options.isModal = !!(0, ej2_base /* isNullOrUndefined */ .le)(option.isModal) || option.isModal, options.showCloseIcon = !(0, ej2_base /* isNullOrUndefined */ .le)(option.showCloseIcon) && option.showCloseIcon, options.allowDragging = !(0, ej2_base /* isNullOrUndefined */ .le)(option.isDraggable) && option.isDraggable, options.closeOnEscape = !(0, ej2_base /* isNullOrUndefined */ .le)(option.closeOnEscape) && option.closeOnEscape, options.position = (0, ej2_base /* isNullOrUndefined */ .le)(option.position) ? {
-                        X: 'center',
-                        Y: 'top'
-                    } : option.position, options.animationSettings = (0, ej2_base /* isNullOrUndefined */ .le)(option.animationSettings) ? {
-                        effect: 'Fade',
-                        duration: 400,
-                        delay: 0
-                    } : option.animationSettings, options.cssClass = (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) ? '' : option.cssClass, options.zIndex = (0, ej2_base /* isNullOrUndefined */ .le)(option.zIndex) ? 1000 : option.zIndex, options.open = (0, ej2_base /* isNullOrUndefined */ .le)(option.open) ? null : option.open, options;
-                }
-                // eslint-disable-next-line
-                function formButtonModel(buttonModel, option, buttonPropModel) {
-                    return (0, ej2_base /* isNullOrUndefined */ .le)(option.text) || (buttonPropModel.buttonModel.content = option.text), (0, ej2_base /* isNullOrUndefined */ .le)(option.icon) || (buttonPropModel.buttonModel.iconCss = option.icon), (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) || (buttonPropModel.buttonModel.cssClass = option.cssClass), (0, ej2_base /* isNullOrUndefined */ .le)(option.click) || (buttonPropModel.click = option.click), buttonPropModel;
-                }
-                DialogUtility.alert = /**
+            }(ej2_base /* Component */ .wA), DialogUtility1 = DialogUtility || (DialogUtility = {});
+            // eslint-disable-next-line
+            function createDialog(options, element) {
+                var dialogObject = new Dialog(options);
+                return dialogObject.appendTo(element), dialogObject;
+            }
+            // eslint-disable-next-line
+            function formOptions(options, option) {
+                return options.header = (0, ej2_base /* isNullOrUndefined */ .le)(option.title) ? DLG_UTIL_DEFAULT_TITLE : option.title, options.content = (0, ej2_base /* isNullOrUndefined */ .le)(option.content) ? '' : option.content, options.isModal = !!(0, ej2_base /* isNullOrUndefined */ .le)(option.isModal) || option.isModal, options.showCloseIcon = !(0, ej2_base /* isNullOrUndefined */ .le)(option.showCloseIcon) && option.showCloseIcon, options.allowDragging = !(0, ej2_base /* isNullOrUndefined */ .le)(option.isDraggable) && option.isDraggable, options.closeOnEscape = !(0, ej2_base /* isNullOrUndefined */ .le)(option.closeOnEscape) && option.closeOnEscape, options.position = (0, ej2_base /* isNullOrUndefined */ .le)(option.position) ? {
+                    X: 'center',
+                    Y: 'top'
+                } : option.position, options.animationSettings = (0, ej2_base /* isNullOrUndefined */ .le)(option.animationSettings) ? {
+                    effect: 'Fade',
+                    duration: 400,
+                    delay: 0
+                } : option.animationSettings, options.cssClass = (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) ? '' : option.cssClass, options.zIndex = (0, ej2_base /* isNullOrUndefined */ .le)(option.zIndex) ? 1000 : option.zIndex, options.open = (0, ej2_base /* isNullOrUndefined */ .le)(option.open) ? null : option.open, options;
+            }
+            // eslint-disable-next-line
+            function formButtonModel(buttonModel, option, buttonPropModel) {
+                return (0, ej2_base /* isNullOrUndefined */ .le)(option.text) || (buttonPropModel.buttonModel.content = option.text), (0, ej2_base /* isNullOrUndefined */ .le)(option.icon) || (buttonPropModel.buttonModel.iconCss = option.icon), (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) || (buttonPropModel.buttonModel.cssClass = option.cssClass), (0, ej2_base /* isNullOrUndefined */ .le)(option.click) || (buttonPropModel.click = option.click), buttonPropModel;
+            }
+            DialogUtility1.alert = /**
      * An alert dialog box is used to display warning like messages to the users.
      * ```
      * Eg : DialogUtility.alert('Alert message');
@@ -12847,29 +12834,18 @@
      * @param {AlertDialogArgs} args - specifies the string
      * @returns {Dialog} - returns the dialog element.
      */ function(args) {
-                    var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base /* createElement */ .az)('div', {
-                        className: DLG_UTIL_ALERT
-                    });
-                    return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
-                        content: args,
-                        position: {
-                            X: 'center',
-                            Y: 'top'
-                        },
-                        isModal: !0,
-                        header: DLG_UTIL_DEFAULT_TITLE,
-                        buttons: [
-                            {
-                                buttonModel: {
-                                    isPrimary: !0,
-                                    content: 'OK'
-                                },
-                                click: function() {
-                                    this.hide();
-                                }
-                            }
-                        ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
+                var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base /* createElement */ .az)('div', {
+                    className: DLG_UTIL_ALERT
+                });
+                return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
+                    content: args,
+                    position: {
+                        X: 'center',
+                        Y: 'top'
+                    },
+                    isModal: !0,
+                    header: DLG_UTIL_DEFAULT_TITLE,
+                    buttons: [
                         {
                             buttonModel: {
                                 isPrimary: !0,
@@ -12879,10 +12855,21 @@
                                 this.hide();
                             }
                         }
-                    ], (0, ej2_base /* isNullOrUndefined */ .le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
-                        args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
-                    }, alertDialogObj;
-                }, DialogUtility.confirm = /**
+                    ]
+                }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
+                    {
+                        buttonModel: {
+                            isPrimary: !0,
+                            content: 'OK'
+                        },
+                        click: function() {
+                            this.hide();
+                        }
+                    }
+                ], (0, ej2_base /* isNullOrUndefined */ .le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
+                    args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
+                }, alertDialogObj;
+            }, DialogUtility1.confirm = /**
      * A confirm dialog displays a specified message along with ‘OK’ and ‘Cancel’ button.
      * ```
      * Eg : DialogUtility.confirm('Confirm dialog message');
@@ -12893,56 +12880,55 @@
      * @param {ConfirmDialogArgs} args - specifies the args
      * @returns {Dialog} - returns te element
      */ function(args) {
-                    var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base /* createElement */ .az)('div', {
-                        className: DLG_UTIL_CONFIRM
-                    });
-                    return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
-                        position: {
-                            X: 'center',
-                            Y: 'top'
-                        },
-                        content: args,
-                        isModal: !0,
-                        header: DLG_UTIL_DEFAULT_TITLE,
-                        buttons: [
-                            {
-                                buttonModel: {
-                                    isPrimary: !0,
-                                    content: 'OK'
-                                },
-                                click: function() {
-                                    this.hide();
-                                }
+                var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base /* createElement */ .az)('div', {
+                    className: DLG_UTIL_CONFIRM
+                });
+                return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
+                    position: {
+                        X: 'center',
+                        Y: 'top'
+                    },
+                    content: args,
+                    isModal: !0,
+                    header: DLG_UTIL_DEFAULT_TITLE,
+                    buttons: [
+                        {
+                            buttonModel: {
+                                isPrimary: !0,
+                                content: 'OK'
                             },
-                            {
-                                buttonModel: {
-                                    content: 'Cancel'
-                                },
-                                click: function() {
-                                    this.hide();
-                                }
+                            click: function() {
+                                this.hide();
                             }
-                        ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
-                        buttonModel: {
-                            isPrimary: !0,
-                            content: 'OK'
                         },
-                        click: function() {
-                            this.hide();
+                        {
+                            buttonModel: {
+                                content: 'Cancel'
+                            },
+                            click: function() {
+                                this.hide();
+                            }
                         }
-                    }, cancelButtonModel = {
-                        buttonModel: {
-                            content: 'Cancel'
-                        },
-                        click: function() {
-                            this.hide();
-                        }
-                    }, (0, ej2_base /* isNullOrUndefined */ .le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base /* isNullOrUndefined */ .le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
-                        args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
-                    }, confirmDialogObj;
-                };
-            }(DialogUtility || (DialogUtility = {}));
+                    ]
+                }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
+                    buttonModel: {
+                        isPrimary: !0,
+                        content: 'OK'
+                    },
+                    click: function() {
+                        this.hide();
+                    }
+                }, cancelButtonModel = {
+                    buttonModel: {
+                        content: 'Cancel'
+                    },
+                    click: function() {
+                        this.hide();
+                    }
+                }, (0, ej2_base /* isNullOrUndefined */ .le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base /* isNullOrUndefined */ .le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
+                }, confirmDialogObj;
+            };
             /**
  * Dialog Renderer
  */ var DialogRenderer = /** @class */ function() {
@@ -24279,12 +24265,9 @@
                             this.keyEventHandler(e);
                     }
                 }, DropDownButton.prototype.upDownKeyHandler = function(e) {
-                    this.target && (38 === e.keyCode || 40 === e.keyCode) || (e.preventDefault(), /** @hidden
- * @param {HTMLElement} ul - Specifies the UL element
- * @param {number} keyCode - Specifies the keycode
- * @returns {void}
- */ function(ul, keyCode) {
-                        var li, defaultIdx = 40 === keyCode ? 0 : ul.childElementCount - 1, liIdx = defaultIdx, selectedLi = ul.querySelector('.e-selected');
+                    if (!this.target || 38 !== e.keyCode && 40 !== e.keyCode) {
+                        e.preventDefault();
+                        var li, ul = this.getULElement(), keyCode = e.keyCode, defaultIdx = 40 === keyCode ? 0 : ul.childElementCount - 1, liIdx = defaultIdx, selectedLi = ul.querySelector('.e-selected');
                         selectedLi && selectedLi.classList.remove('e-selected');
                         for(var i = 0, len = ul.children.length; i < len; i++)ul.children[i].classList.contains('e-focused') && (li = ul.children[i], liIdx = i, li.classList.remove('e-focused'), 40 === keyCode ? liIdx++ : liIdx--, liIdx === (40 === keyCode ? ul.childElementCount : -1) && (liIdx = defaultIdx));
                         li = ul.children[liIdx], -1 !== (liIdx = /**
@@ -24305,7 +24288,7 @@
                         }(ul, li, liIdx, keyCode)) && ((0, ej2_base /* addClass */ .cn)([
                             ul.children[liIdx]
                         ], 'e-focused'), ul.children[liIdx].focus());
-                    }(this.getULElement(), e.keyCode));
+                    }
                 }, DropDownButton.prototype.keyEventHandler = function(e) {
                     !(this.target && (13 === e.keyCode || 9 === e.keyCode) || e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode) && (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e));
                 }, DropDownButton.prototype.getLI = function(elem) {
@@ -27697,51 +27680,49 @@
                         this.changeCssClassProps(newProp.cssClass, oldProp.cssClass), this.changeRtlProps(newProp.enableRtl);
                         return;
                     }
-                    for(var this_1 = this, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)!function(prop) {
-                        switch(prop){
-                            case 'inline':
-                                newProp.inline ? (this_1.getWrapper().appendChild(this_1.container), this_1.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this_1.element.nextElementSibling), this_1.container.children.length || this_1.createWidget()) : (this_1.destroyOtherComp(), this_1.unWireEvents(), this_1.container.innerHTML = '', this_1.createSplitBtn());
-                                break;
-                            case 'cssClass':
-                                this_1.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
-                                var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
-                                props = props.reduce(function(a, b) {
-                                    return 0 > a.indexOf(b) && a.push(b), a;
-                                }, []);
-                                var count_1 = 0;
-                                props.forEach(function(cls) {
-                                    0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
-                                });
-                                break;
-                            case 'enableRtl':
-                                this_1.isPicker() && (this_1.hueSlider.enableRtl = newProp.enableRtl, this_1.enableOpacity && (this_1.opacitySlider.enableRtl = newProp.enableRtl), this_1.setInputEleProps()), this_1.changeRtlProps(newProp.enableRtl);
-                                break;
-                            case 'disabled':
-                                this_1.changeDisabledProp(newProp.disabled);
-                                break;
-                            case 'value':
-                                this_1.value !== oldProp.value && this_1.changeValueProp(newProp.value);
-                                break;
-                            case 'showButtons':
-                                this_1.changeShowBtnProps(newProp.showButtons);
-                                break;
-                            case 'mode':
-                                'Picker' === newProp.mode ? this_1.switchToPicker() : this_1.switchToPalette();
-                                break;
-                            case 'modeSwitcher':
-                                this_1.changeModeSwitcherProp(newProp.modeSwitcher);
-                                break;
-                            case 'columns':
-                            case 'presetColors':
-                                this_1.isPicker() || this_1.changePaletteProps();
-                                break;
-                            case 'noColor':
-                                newProp.noColor ? 'Palette' !== this_1.mode || this_1.modeSwitcher || this_1.setNoColor() : this_1.changePaletteProps();
-                                break;
-                            case 'enableOpacity':
-                                this_1.changeOpacityProps(newProp.enableOpacity);
-                        }
-                    }(_a[_i]);
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'inline':
+                            newProp.inline ? (this.getWrapper().appendChild(this.container), this.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this.element.nextElementSibling), this.container.children.length || this.createWidget()) : (this.destroyOtherComp(), this.unWireEvents(), this.container.innerHTML = '', this.createSplitBtn());
+                            break;
+                        case 'cssClass':
+                            this.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
+                            var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
+                            props = props.reduce(function(a, b) {
+                                return 0 > a.indexOf(b) && a.push(b), a;
+                            }, []);
+                            var count_1 = 0;
+                            props.forEach(function(cls) {
+                                0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
+                            });
+                            break;
+                        case 'enableRtl':
+                            this.isPicker() && (this.hueSlider.enableRtl = newProp.enableRtl, this.enableOpacity && (this.opacitySlider.enableRtl = newProp.enableRtl), this.setInputEleProps()), this.changeRtlProps(newProp.enableRtl);
+                            break;
+                        case 'disabled':
+                            this.changeDisabledProp(newProp.disabled);
+                            break;
+                        case 'value':
+                            this.value !== oldProp.value && this.changeValueProp(newProp.value);
+                            break;
+                        case 'showButtons':
+                            this.changeShowBtnProps(newProp.showButtons);
+                            break;
+                        case 'mode':
+                            'Picker' === newProp.mode ? this.switchToPicker() : this.switchToPalette();
+                            break;
+                        case 'modeSwitcher':
+                            this.changeModeSwitcherProp(newProp.modeSwitcher);
+                            break;
+                        case 'columns':
+                        case 'presetColors':
+                            this.isPicker() || this.changePaletteProps();
+                            break;
+                        case 'noColor':
+                            newProp.noColor ? 'Palette' !== this.mode || this.modeSwitcher || this.setNoColor() : this.changePaletteProps();
+                            break;
+                        case 'enableOpacity':
+                            this.changeOpacityProps(newProp.enableOpacity);
+                    }
                 }, /**
      * Sets the focus to Colorpicker
      * its native method

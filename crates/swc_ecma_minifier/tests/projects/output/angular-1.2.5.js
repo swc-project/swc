@@ -427,20 +427,6 @@
     } : function(value) {
         return isString(value) ? value.replace(/^\s\s*/, "").replace(/\s\s*$/, "") : value;
     };
-    /**
-   * @ngdoc function
-   * @name angular.isElement
-   * @function
-   *
-   * @description
-   * Determines if a reference is a DOM element (or wrapped jQuery element).
-   *
-   * @param {*} value Reference to check.
-   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
-   */ function isElement(node) {
-        return !!(node && (node.nodeName || // we are a direct element
-        node.on && node.find)); // we have an on and find method part of jQuery API
-    }
     function indexOf(array, obj) {
         if (array.indexOf) return array.indexOf(obj);
         for(var i = 0; i < array.length; i++)if (obj === array[i]) return i;
@@ -915,13 +901,7 @@
    * - `minor` – `{number}` – Minor version number, such as "9".
    * - `dot` – `{number}` – Dot version number, such as "18".
    * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
-   */ var version = {
-        full: "1.2.5",
-        major: 1,
-        minor: 2,
-        dot: 5,
-        codeName: "singularity-expansion"
-    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+   */ var jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);
@@ -5043,74 +5023,6 @@
             }
         ];
     }
-    /**
-   * @ngdoc object
-   * @name ng.$locale
-   *
-   * @description
-   * $locale service provides localization rules for various Angular components. As of right now the
-   * only public api is:
-   *
-   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
-   */ function $LocaleProvider() {
-        this.$get = function() {
-            return {
-                id: "en-us",
-                NUMBER_FORMATS: {
-                    DECIMAL_SEP: ".",
-                    GROUP_SEP: ",",
-                    PATTERNS: [
-                        {
-                            // Decimal Pattern
-                            minInt: 1,
-                            minFrac: 0,
-                            maxFrac: 3,
-                            posPre: "",
-                            posSuf: "",
-                            negPre: "-",
-                            negSuf: "",
-                            gSize: 3,
-                            lgSize: 3
-                        },
-                        {
-                            //Currency Pattern
-                            minInt: 1,
-                            minFrac: 2,
-                            maxFrac: 2,
-                            posPre: "\u00A4",
-                            posSuf: "",
-                            negPre: "(\u00A4",
-                            negSuf: ")",
-                            gSize: 3,
-                            lgSize: 3
-                        }
-                    ],
-                    CURRENCY_SYM: "$"
-                },
-                DATETIME_FORMATS: {
-                    MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
-                    SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
-                    DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
-                    SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
-                    AMPMS: [
-                        "AM",
-                        "PM"
-                    ],
-                    medium: "MMM d, y h:mm:ss a",
-                    short: "M/d/yy h:mm a",
-                    fullDate: "EEEE, MMMM d, y",
-                    longDate: "MMMM d, y",
-                    mediumDate: "MMM d, y",
-                    shortDate: "M/d/yy",
-                    mediumTime: "h:mm:ss a",
-                    shortTime: "h:mm a"
-                },
-                pluralCat: function(num) {
-                    return 1 === num ? "one" : "other";
-                }
-            };
-        };
-    }
     var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/, DEFAULT_PORTS = {
         http: 80,
         https: 443,
@@ -6515,163 +6427,149 @@
             "$rootScope",
             "$exceptionHandler",
             function($rootScope, $exceptionHandler) {
-                return(/**
-   * Constructs a promise manager.
-   *
-   * @param {function(function)} nextTick Function for executing functions in the next turn.
-   * @param {function(...*)} exceptionHandler Function into which unexpected exceptions are passed for
-   *     debugging purposes.
-   * @returns {object} Promise manager.
-   */ function(nextTick, exceptionHandler) {
-                    /**
-     * @ngdoc
-     * @name ng.$q#defer
-     * @methodOf ng.$q
-     * @description
-     * Creates a `Deferred` object which represents a task which will finish in the future.
-     *
-     * @returns {Deferred} Returns a new instance of deferred.
-     */ var defer = function() {
-                        var value, deferred, pending = [];
-                        return deferred = {
-                            resolve: function(val) {
-                                if (pending) {
-                                    var callbacks = pending;
-                                    pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
-                                        for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
-                                    });
-                                }
-                            },
-                            reject: function(reason) {
-                                deferred.resolve(reject(reason));
-                            },
-                            notify: function(progress) {
-                                if (pending) {
-                                    var callbacks = pending;
-                                    pending.length && nextTick(function() {
-                                        for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
-                                    });
-                                }
-                            },
-                            promise: {
-                                then: function(callback, errback, progressback) {
-                                    var result = defer(), wrappedCallback = function(value) {
-                                        try {
-                                            result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
-                                        } catch (e) {
-                                            result.reject(e), exceptionHandler(e);
-                                        }
-                                    }, wrappedErrback = function(reason) {
-                                        try {
-                                            result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
-                                        } catch (e) {
-                                            result.reject(e), exceptionHandler(e);
-                                        }
-                                    }, wrappedProgressback = function(progress) {
-                                        try {
-                                            result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
-                                        } catch (e) {
-                                            exceptionHandler(e);
-                                        }
-                                    };
-                                    return pending ? pending.push([
-                                        wrappedCallback,
-                                        wrappedErrback,
-                                        wrappedProgressback
-                                    ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
-                                },
-                                catch: function(callback) {
-                                    return this.then(null, callback);
-                                },
-                                finally: function(callback) {
-                                    function makePromise(value, resolved) {
-                                        var result = defer();
-                                        return resolved ? result.resolve(value) : result.reject(value), result.promise;
-                                    }
-                                    function handleCallback(value, isResolved) {
-                                        var callbackOutput = null;
-                                        try {
-                                            callbackOutput = (callback || defaultCallback)();
-                                        } catch (e) {
-                                            return makePromise(e, !1);
-                                        }
-                                        return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
-                                            return makePromise(value, isResolved);
-                                        }, function(error) {
-                                            return makePromise(error, !1);
-                                        }) : makePromise(value, isResolved);
-                                    }
-                                    return this.then(function(value) {
-                                        return handleCallback(value, !0);
-                                    }, function(error) {
-                                        return handleCallback(error, !1);
-                                    });
-                                }
+                var nextTick = function(callback) {
+                    $rootScope.$evalAsync(callback);
+                }, exceptionHandler = $exceptionHandler, defer = function() {
+                    var value, deferred, pending = [];
+                    return deferred = {
+                        resolve: function(val) {
+                            if (pending) {
+                                var callbacks = pending;
+                                pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
+                                    for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
+                                });
                             }
-                        };
-                    }, ref = function(value) {
-                        return value && isFunction(value.then) ? value : {
-                            then: function(callback) {
-                                var result = defer();
-                                return nextTick(function() {
-                                    result.resolve(callback(value));
-                                }), result.promise;
+                        },
+                        reject: function(reason) {
+                            deferred.resolve(reject(reason));
+                        },
+                        notify: function(progress) {
+                            if (pending) {
+                                var callbacks = pending;
+                                pending.length && nextTick(function() {
+                                    for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
+                                });
                             }
-                        };
-                    }, reject = function(reason) {
-                        return {
-                            then: function(callback, errback) {
-                                var result = defer();
-                                return nextTick(function() {
+                        },
+                        promise: {
+                            then: function(callback, errback, progressback) {
+                                var result = defer(), wrappedCallback = function(value) {
+                                    try {
+                                        result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
+                                    } catch (e) {
+                                        result.reject(e), exceptionHandler(e);
+                                    }
+                                }, wrappedErrback = function(reason) {
                                     try {
                                         result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
                                     } catch (e) {
                                         result.reject(e), exceptionHandler(e);
                                     }
-                                }), result.promise;
+                                }, wrappedProgressback = function(progress) {
+                                    try {
+                                        result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
+                                    } catch (e) {
+                                        exceptionHandler(e);
+                                    }
+                                };
+                                return pending ? pending.push([
+                                    wrappedCallback,
+                                    wrappedErrback,
+                                    wrappedProgressback
+                                ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
+                            },
+                            catch: function(callback) {
+                                return this.then(null, callback);
+                            },
+                            finally: function(callback) {
+                                function makePromise(value, resolved) {
+                                    var result = defer();
+                                    return resolved ? result.resolve(value) : result.reject(value), result.promise;
+                                }
+                                function handleCallback(value, isResolved) {
+                                    var callbackOutput = null;
+                                    try {
+                                        callbackOutput = (callback || defaultCallback)();
+                                    } catch (e) {
+                                        return makePromise(e, !1);
+                                    }
+                                    return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
+                                        return makePromise(value, isResolved);
+                                    }, function(error) {
+                                        return makePromise(error, !1);
+                                    }) : makePromise(value, isResolved);
+                                }
+                                return this.then(function(value) {
+                                    return handleCallback(value, !0);
+                                }, function(error) {
+                                    return handleCallback(error, !1);
+                                });
+                            }
+                        }
+                    };
+                }, ref = function(value) {
+                    return value && isFunction(value.then) ? value : {
+                        then: function(callback) {
+                            var result = defer();
+                            return nextTick(function() {
+                                result.resolve(callback(value));
+                            }), result.promise;
+                        }
+                    };
+                }, reject = function(reason) {
+                    return {
+                        then: function(callback, errback) {
+                            var result = defer();
+                            return nextTick(function() {
+                                try {
+                                    result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
+                                } catch (e) {
+                                    result.reject(e), exceptionHandler(e);
+                                }
+                            }), result.promise;
+                        }
+                    };
+                };
+                function defaultCallback(value) {
+                    return value;
+                }
+                function defaultErrback(reason) {
+                    return reject(reason);
+                }
+                return {
+                    defer: defer,
+                    reject: reject,
+                    when: function(value, callback, errback, progressback) {
+                        var done, result = defer(), wrappedCallback = function(value) {
+                            try {
+                                return (isFunction(callback) ? callback : defaultCallback)(value);
+                            } catch (e) {
+                                return exceptionHandler(e), reject(e);
+                            }
+                        }, wrappedErrback = function(reason) {
+                            try {
+                                return (isFunction(errback) ? errback : defaultErrback)(reason);
+                            } catch (e) {
+                                return exceptionHandler(e), reject(e);
+                            }
+                        }, wrappedProgressback = function(progress) {
+                            try {
+                                return (isFunction(progressback) ? progressback : defaultCallback)(progress);
+                            } catch (e) {
+                                exceptionHandler(e);
                             }
                         };
-                    };
-                    function defaultCallback(value) {
-                        return value;
-                    }
-                    function defaultErrback(reason) {
-                        return reject(reason);
-                    }
-                    return {
-                        defer: defer,
-                        reject: reject,
-                        when: function(value, callback, errback, progressback) {
-                            var done, result = defer(), wrappedCallback = function(value) {
-                                try {
-                                    return (isFunction(callback) ? callback : defaultCallback)(value);
-                                } catch (e) {
-                                    return exceptionHandler(e), reject(e);
-                                }
-                            }, wrappedErrback = function(reason) {
-                                try {
-                                    return (isFunction(errback) ? errback : defaultErrback)(reason);
-                                } catch (e) {
-                                    return exceptionHandler(e), reject(e);
-                                }
-                            }, wrappedProgressback = function(progress) {
-                                try {
-                                    return (isFunction(progressback) ? progressback : defaultCallback)(progress);
-                                } catch (e) {
-                                    exceptionHandler(e);
-                                }
-                            };
-                            return nextTick(function() {
-                                ref(value).then(function(value) {
-                                    done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
-                                }, function(reason) {
-                                    done || (done = !0, result.resolve(wrappedErrback(reason)));
-                                }, function(progress) {
-                                    done || result.notify(wrappedProgressback(progress));
-                                });
-                            }), result.promise;
-                        },
-                        all: /**
+                        return nextTick(function() {
+                            ref(value).then(function(value) {
+                                done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
+                            }, function(reason) {
+                                done || (done = !0, result.resolve(wrappedErrback(reason)));
+                            }, function(progress) {
+                                done || result.notify(wrappedProgressback(progress));
+                            });
+                        }), result.promise;
+                    },
+                    all: /**
      * @ngdoc
      * @name ng.$q#all
      * @methodOf ng.$q
@@ -6685,19 +6583,16 @@
      *   If any of the promises is resolved with a rejection, this resulting promise will be rejected
      *   with the same rejection value.
      */ function(promises) {
-                            var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
-                            return forEach(promises, function(promise, key) {
-                                counter++, ref(promise).then(function(value) {
-                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
-                                }, function(reason) {
-                                    results.hasOwnProperty(key) || deferred.reject(reason);
-                                });
-                            }), 0 === counter && deferred.resolve(results), deferred.promise;
-                        }
-                    };
-                }(function(callback) {
-                    $rootScope.$evalAsync(callback);
-                }, $exceptionHandler));
+                        var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
+                        return forEach(promises, function(promise, key) {
+                            counter++, ref(promise).then(function(value) {
+                                results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                            }, function(reason) {
+                                results.hasOwnProperty(key) || deferred.reject(reason);
+                            });
+                        }), 0 === counter && deferred.resolve(results), deferred.promise;
+                    }
+                };
             }
         ];
     }
@@ -11795,53 +11690,72 @@
         inheritedData: JQLitePrototype.inheritedData
     }), // Method signature:
     //     jqLitePatchJQueryRemove(name, dispatchThis, filterElems, getterIfNoArguments)
-    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite, function(angular1) {
-        extend(angular1, {
-            bootstrap: bootstrap,
-            copy: copy,
-            extend: extend,
-            equals: equals,
-            element: jqLite,
-            forEach: forEach,
-            injector: createInjector,
-            noop: noop,
-            bind: bind,
-            toJson: toJson,
-            fromJson: fromJson,
-            identity: identity,
-            isUndefined: isUndefined,
-            isDefined: isDefined,
-            isString: isString,
-            isFunction: isFunction,
-            isObject: isObject,
-            isNumber: isNumber,
-            isElement: isElement,
-            isArray: isArray,
-            version: version,
-            isDate: isDate,
-            lowercase: lowercase,
-            uppercase: uppercase,
-            callbacks: {
-                counter: 0
-            },
-            $$minErr: minErr,
-            $$csp: csp
-        }), angularModule = /**
+    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite;
+    extend(angular1, {
+        bootstrap: bootstrap,
+        copy: copy,
+        extend: extend,
+        equals: equals,
+        element: jqLite,
+        forEach: forEach,
+        injector: createInjector,
+        noop: noop,
+        bind: bind,
+        toJson: toJson,
+        fromJson: fromJson,
+        identity: identity,
+        isUndefined: isUndefined,
+        isDefined: isDefined,
+        isString: isString,
+        isFunction: isFunction,
+        isObject: isObject,
+        isNumber: isNumber,
+        isElement: /**
+   * @ngdoc function
+   * @name angular.isElement
+   * @function
+   *
+   * @description
+   * Determines if a reference is a DOM element (or wrapped jQuery element).
+   *
+   * @param {*} value Reference to check.
+   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
+   */ function(node) {
+            return !!(node && (node.nodeName || // we are a direct element
+            node.on && node.find)); // we have an on and find method part of jQuery API
+        },
+        isArray: isArray,
+        version: {
+            full: "1.2.5",
+            major: 1,
+            minor: 2,
+            dot: 5,
+            codeName: "singularity-expansion"
+        },
+        isDate: isDate,
+        lowercase: lowercase,
+        uppercase: uppercase,
+        callbacks: {
+            counter: 0
+        },
+        $$minErr: minErr,
+        $$csp: csp
+    }), angularModule = /**
    * @ngdoc interface
    * @name angular.Module
    * @description
    *
    * Interface for configuring angular {@link angular.module modules}.
    */ function(window1) {
-            var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
-            function ensure(obj, name, factory) {
-                return obj[name] || (obj[name] = factory());
-            }
-            var angular1 = ensure(window1, "angular", Object);
-            return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
-            angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
-                /** @type {Object.<string, angular.Module>} */ var modules = {};
-                /**
+        var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
+        function ensure(obj, name, factory) {
+            return obj[name] || (obj[name] = factory());
+        }
+        var angular1 = ensure(window1, "angular", Object);
+        return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
+        angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
+            /** @type {Object.<string, angular.Module>} */ var modules = {};
+            /**
        * @ngdoc function
        * @name angular.module
        * @description
@@ -11891,15 +11805,14 @@
        *        {@link angular.Module#methods_config Module#config()}.
        * @returns {module} new module with the {@link angular.Module} api.
        */ return function(name, requires, configFn) {
-                    return function(name, context) {
-                        if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
-                    }(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
-                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
-                        /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
-                            // Private state
-                            _invokeQueue: invokeQueue,
-                            _runBlocks: runBlocks,
-                            /**
+                if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
+                return requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
+                    if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
+                    /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
+                        // Private state
+                        _invokeQueue: invokeQueue,
+                        _runBlocks: runBlocks,
+                        /**
              * @ngdoc property
              * @name angular.Module#requires
              * @propertyOf angular.Module
@@ -11908,14 +11821,14 @@
              * Holds the list of modules which the injector will load before the current module is
              * loaded.
              */ requires: requires,
-                            /**
+                        /**
              * @ngdoc property
              * @name angular.Module#name
              * @propertyOf angular.Module
              * @returns {string} Name of the module.
              * @description
              */ name: name,
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#provider
              * @methodOf angular.Module
@@ -11925,7 +11838,7 @@
              * @description
              * See {@link AUTO.$provide#provider $provide.provider()}.
              */ provider: invokeLater("$provide", "provider"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#factory
              * @methodOf angular.Module
@@ -11934,7 +11847,7 @@
              * @description
              * See {@link AUTO.$provide#factory $provide.factory()}.
              */ factory: invokeLater("$provide", "factory"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#service
              * @methodOf angular.Module
@@ -11943,7 +11856,7 @@
              * @description
              * See {@link AUTO.$provide#service $provide.service()}.
              */ service: invokeLater("$provide", "service"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#value
              * @methodOf angular.Module
@@ -11952,7 +11865,7 @@
              * @description
              * See {@link AUTO.$provide#value $provide.value()}.
              */ value: invokeLater("$provide", "value"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#constant
              * @methodOf angular.Module
@@ -11962,7 +11875,7 @@
              * Because the constant are fixed, they get applied before other provide methods.
              * See {@link AUTO.$provide#constant $provide.constant()}.
              */ constant: invokeLater("$provide", "constant", "unshift"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#animation
              * @methodOf angular.Module
@@ -11994,7 +11907,7 @@
              * See {@link ngAnimate.$animateProvider#register $animateProvider.register()} and
              * {@link ngAnimate ngAnimate module} for more information.
              */ animation: invokeLater("$animateProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#filter
              * @methodOf angular.Module
@@ -12003,7 +11916,7 @@
              * @description
              * See {@link ng.$filterProvider#register $filterProvider.register()}.
              */ filter: invokeLater("$filterProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#controller
              * @methodOf angular.Module
@@ -12013,7 +11926,7 @@
              * @description
              * See {@link ng.$controllerProvider#register $controllerProvider.register()}.
              */ controller: invokeLater("$controllerProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#directive
              * @methodOf angular.Module
@@ -12024,7 +11937,7 @@
              * @description
              * See {@link ng.$compileProvider#methods_directive $compileProvider.directive()}.
              */ directive: invokeLater("$compileProvider", "directive"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#config
              * @methodOf angular.Module
@@ -12033,7 +11946,7 @@
              * @description
              * Use this method to register work which needs to be performed on module loading.
              */ config: config,
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#run
              * @methodOf angular.Module
@@ -12043,176 +11956,197 @@
              * Use this method to register work which should be performed when the injector is done
              * loading all modules.
              */ run: function(block) {
-                                return runBlocks.push(block), this;
-                            }
-                        };
-                        return configFn && config(configFn), moduleInstance;
-                        /**
+                            return runBlocks.push(block), this;
+                        }
+                    };
+                    return configFn && config(configFn), moduleInstance;
+                    /**
            * @param {string} provider
            * @param {string} method
            * @param {String=} insertMethod
            * @returns {angular.Module}
            */ function invokeLater(provider, method, insertMethod) {
-                            return function() {
-                                return invokeQueue[insertMethod || "push"]([
-                                    provider,
-                                    method,
-                                    arguments
-                                ]), moduleInstance;
-                            };
-                        }
-                    });
+                        return function() {
+                            return invokeQueue[insertMethod || "push"]([
+                                provider,
+                                method,
+                                arguments
+                            ]), moduleInstance;
+                        };
+                    }
+                });
+            };
+        }));
+    }(window1);
+    try {
+        angularModule("ngLocale");
+    } catch (e) {
+        angularModule("ngLocale", []).provider("$locale", /**
+   * @ngdoc object
+   * @name ng.$locale
+   *
+   * @description
+   * $locale service provides localization rules for various Angular components. As of right now the
+   * only public api is:
+   *
+   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
+   */ function() {
+            this.$get = function() {
+                return {
+                    id: "en-us",
+                    NUMBER_FORMATS: {
+                        DECIMAL_SEP: ".",
+                        GROUP_SEP: ",",
+                        PATTERNS: [
+                            {
+                                // Decimal Pattern
+                                minInt: 1,
+                                minFrac: 0,
+                                maxFrac: 3,
+                                posPre: "",
+                                posSuf: "",
+                                negPre: "-",
+                                negSuf: "",
+                                gSize: 3,
+                                lgSize: 3
+                            },
+                            {
+                                //Currency Pattern
+                                minInt: 1,
+                                minFrac: 2,
+                                maxFrac: 2,
+                                posPre: "\u00A4",
+                                posSuf: "",
+                                negPre: "(\u00A4",
+                                negSuf: ")",
+                                gSize: 3,
+                                lgSize: 3
+                            }
+                        ],
+                        CURRENCY_SYM: "$"
+                    },
+                    DATETIME_FORMATS: {
+                        MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
+                        SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
+                        DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
+                        SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
+                        AMPMS: [
+                            "AM",
+                            "PM"
+                        ],
+                        medium: "MMM d, y h:mm:ss a",
+                        short: "M/d/yy h:mm a",
+                        fullDate: "EEEE, MMMM d, y",
+                        longDate: "MMMM d, y",
+                        mediumDate: "MMM d, y",
+                        shortDate: "M/d/yy",
+                        mediumTime: "h:mm:ss a",
+                        shortTime: "h:mm a"
+                    },
+                    pluralCat: function(num) {
+                        return 1 === num ? "one" : "other";
+                    }
                 };
-            }));
-        }(window1);
-        try {
-            angularModule("ngLocale");
-        } catch (e) {
-            angularModule("ngLocale", []).provider("$locale", $LocaleProvider);
+            };
+        });
+    }
+    angularModule("ng", [
+        "ngLocale"
+    ], [
+        "$provide",
+        function($provide) {
+            // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+            $provide.provider({
+                $$sanitizeUri: $$SanitizeUriProvider
+            }), $provide.provider("$compile", $CompileProvider).directive({
+                a: htmlAnchorDirective,
+                input: inputDirective,
+                textarea: inputDirective,
+                form: formDirective,
+                script: scriptDirective,
+                select: selectDirective,
+                style: styleDirective,
+                option: optionDirective,
+                ngBind: ngBindDirective,
+                ngBindHtml: ngBindHtmlDirective,
+                ngBindTemplate: ngBindTemplateDirective,
+                ngClass: ngClassDirective,
+                ngClassEven: ngClassEvenDirective,
+                ngClassOdd: ngClassOddDirective,
+                ngCloak: ngCloakDirective,
+                ngController: ngControllerDirective,
+                ngForm: ngFormDirective,
+                ngHide: ngHideDirective,
+                ngIf: ngIfDirective,
+                ngInclude: ngIncludeDirective,
+                ngInit: ngInitDirective,
+                ngNonBindable: ngNonBindableDirective,
+                ngPluralize: ngPluralizeDirective,
+                ngRepeat: ngRepeatDirective,
+                ngShow: ngShowDirective,
+                ngStyle: ngStyleDirective,
+                ngSwitch: ngSwitchDirective,
+                ngSwitchWhen: ngSwitchWhenDirective,
+                ngSwitchDefault: ngSwitchDefaultDirective,
+                ngOptions: ngOptionsDirective,
+                ngTransclude: ngTranscludeDirective,
+                ngModel: ngModelDirective,
+                ngList: ngListDirective,
+                ngChange: ngChangeDirective,
+                required: requiredDirective,
+                ngRequired: requiredDirective,
+                ngValue: ngValueDirective
+            }).directive({
+                ngInclude: ngIncludeFillContentDirective
+            }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
+                $anchorScroll: $AnchorScrollProvider,
+                $animate: $AnimateProvider,
+                $browser: $BrowserProvider,
+                $cacheFactory: $CacheFactoryProvider,
+                $controller: $ControllerProvider,
+                $document: $DocumentProvider,
+                $exceptionHandler: $ExceptionHandlerProvider,
+                $filter: $FilterProvider,
+                $interpolate: $InterpolateProvider,
+                $interval: $IntervalProvider,
+                $http: $HttpProvider,
+                $httpBackend: $HttpBackendProvider,
+                $location: $LocationProvider,
+                $log: $LogProvider,
+                $parse: $ParseProvider,
+                $rootScope: $RootScopeProvider,
+                $q: $QProvider,
+                $sce: $SceProvider,
+                $sceDelegate: $SceDelegateProvider,
+                $sniffer: $SnifferProvider,
+                $templateCache: $TemplateCacheProvider,
+                $timeout: $TimeoutProvider,
+                $window: $WindowProvider
+            });
         }
-        angularModule("ng", [
-            "ngLocale"
-        ], [
-            "$provide",
-            function($provide) {
-                // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
-                $provide.provider({
-                    $$sanitizeUri: $$SanitizeUriProvider
-                }), $provide.provider("$compile", $CompileProvider).directive({
-                    a: htmlAnchorDirective,
-                    input: inputDirective,
-                    textarea: inputDirective,
-                    form: formDirective,
-                    script: scriptDirective,
-                    select: selectDirective,
-                    style: styleDirective,
-                    option: optionDirective,
-                    ngBind: ngBindDirective,
-                    ngBindHtml: ngBindHtmlDirective,
-                    ngBindTemplate: ngBindTemplateDirective,
-                    ngClass: ngClassDirective,
-                    ngClassEven: ngClassEvenDirective,
-                    ngClassOdd: ngClassOddDirective,
-                    ngCloak: ngCloakDirective,
-                    ngController: ngControllerDirective,
-                    ngForm: ngFormDirective,
-                    ngHide: ngHideDirective,
-                    ngIf: ngIfDirective,
-                    ngInclude: ngIncludeDirective,
-                    ngInit: ngInitDirective,
-                    ngNonBindable: ngNonBindableDirective,
-                    ngPluralize: ngPluralizeDirective,
-                    ngRepeat: ngRepeatDirective,
-                    ngShow: ngShowDirective,
-                    ngStyle: ngStyleDirective,
-                    ngSwitch: ngSwitchDirective,
-                    ngSwitchWhen: ngSwitchWhenDirective,
-                    ngSwitchDefault: ngSwitchDefaultDirective,
-                    ngOptions: ngOptionsDirective,
-                    ngTransclude: ngTranscludeDirective,
-                    ngModel: ngModelDirective,
-                    ngList: ngListDirective,
-                    ngChange: ngChangeDirective,
-                    required: requiredDirective,
-                    ngRequired: requiredDirective,
-                    ngValue: ngValueDirective
-                }).directive({
-                    ngInclude: ngIncludeFillContentDirective
-                }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
-                    $anchorScroll: $AnchorScrollProvider,
-                    $animate: $AnimateProvider,
-                    $browser: $BrowserProvider,
-                    $cacheFactory: $CacheFactoryProvider,
-                    $controller: $ControllerProvider,
-                    $document: $DocumentProvider,
-                    $exceptionHandler: $ExceptionHandlerProvider,
-                    $filter: $FilterProvider,
-                    $interpolate: $InterpolateProvider,
-                    $interval: $IntervalProvider,
-                    $http: $HttpProvider,
-                    $httpBackend: $HttpBackendProvider,
-                    $location: $LocationProvider,
-                    $log: $LogProvider,
-                    $parse: $ParseProvider,
-                    $rootScope: $RootScopeProvider,
-                    $q: $QProvider,
-                    $sce: $SceProvider,
-                    $sceDelegate: $SceDelegateProvider,
-                    $sniffer: $SnifferProvider,
-                    $templateCache: $TemplateCacheProvider,
-                    $timeout: $TimeoutProvider,
-                    $window: $WindowProvider
+    ]), jqLite(document1).ready(function() {
+        var appElement, module, elements = [
+            document1
+        ], names = [
+            "ng:app",
+            "ng-app",
+            "x-ng-app",
+            "data-ng-app"
+        ], NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
+        function append(element) {
+            element && elements.push(element);
+        }
+        forEach(names, function(name) {
+            names[name] = !0, append(document1.getElementById(name)), name = name.replace(":", "\\:"), document1.querySelectorAll && (forEach(document1.querySelectorAll("." + name), append), forEach(document1.querySelectorAll("." + name + "\\:"), append), forEach(document1.querySelectorAll("[" + name + "]"), append));
+        }), forEach(elements, function(element) {
+            if (!appElement) {
+                var className = " " + element.className + " ", match = NG_APP_CLASS_REGEXP.exec(className);
+                match ? (appElement = element, module = (match[2] || "").replace(/\s+/g, ",")) : forEach(element.attributes, function(attr) {
+                    !appElement && names[attr.name] && (appElement = element, module = attr.value);
                 });
             }
-        ]);
-    }(angular1), jqLite(document1).ready(function() {
-        !/**
- * @ngdoc directive
- * @name ng.directive:ngApp
- *
- * @element ANY
- * @param {angular.Module} ngApp an optional application
- *   {@link angular.module module} name to load.
- *
- * @description
- *
- * Use this directive to **auto-bootstrap** an AngularJS application. The `ngApp` directive
- * designates the **root element** of the application and is typically placed near the root element
- * of the page - e.g. on the `<body>` or `<html>` tags.
- *
- * Only one AngularJS application can be auto-bootstrapped per HTML document. The first `ngApp`
- * found in the document will be used to define the root element to auto-bootstrap as an
- * application. To run multiple applications in an HTML document you must manually bootstrap them using
- * {@link angular.bootstrap} instead. AngularJS applications cannot be nested within each other.
- *
- * You can specify an **AngularJS module** to be used as the root module for the application.  This
- * module will be loaded into the {@link AUTO.$injector} when the application is bootstrapped and
- * should contain the application code needed or have dependencies on other modules that will
- * contain the code. See {@link angular.module} for more information.
- *
- * In the example below if the `ngApp` directive were not placed on the `html` element then the
- * document would not be compiled, the `AppController` would not be instantiated and the `{{ a+b }}`
- * would not be resolved to `3`.
- *
- * `ngApp` is the easiest, and most common, way to bootstrap an application.
- *
- <example module="ngAppDemo">
-   <file name="index.html">
-   <div ng-controller="ngAppDemoController">
-     I can add: {{a}} + {{b}} =  {{ a+b }}
-   </file>
-   <file name="script.js">
-   angular.module('ngAppDemo', []).controller('ngAppDemoController', function($scope) {
-     $scope.a = 1;
-     $scope.b = 2;
-   });
-   </file>
- </example>
- *
- */ function(element, bootstrap) {
-            var appElement, module, elements = [
-                element
-            ], names = [
-                "ng:app",
-                "ng-app",
-                "x-ng-app",
-                "data-ng-app"
-            ], NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
-            function append(element) {
-                element && elements.push(element);
-            }
-            forEach(names, function(name) {
-                names[name] = !0, append(document1.getElementById(name)), name = name.replace(":", "\\:"), element.querySelectorAll && (forEach(element.querySelectorAll("." + name), append), forEach(element.querySelectorAll("." + name + "\\:"), append), forEach(element.querySelectorAll("[" + name + "]"), append));
-            }), forEach(elements, function(element) {
-                if (!appElement) {
-                    var className = " " + element.className + " ", match = NG_APP_CLASS_REGEXP.exec(className);
-                    match ? (appElement = element, module = (match[2] || "").replace(/\s+/g, ",")) : forEach(element.attributes, function(attr) {
-                        !appElement && names[attr.name] && (appElement = element, module = attr.value);
-                    });
-                }
-            }), appElement && bootstrap(appElement, module ? [
-                module
-            ] : []);
-        }(document1, bootstrap);
+        }), appElement && bootstrap(appElement, module ? [
+            module
+        ] : []);
     });
 }(window, document), angular.$$csp() || angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-start{border-spacing:1px 1px;-ms-zoom:1.0001;}.ng-animate-active{border-spacing:0px 0px;-ms-zoom:1;}</style>');

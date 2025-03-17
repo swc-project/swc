@@ -3,69 +3,7 @@
         "react"
     ], factory) : 'object' == typeof exports ? exports.Victory = factory(require("react")) : root.Victory = factory(root.React);
 }(window, function(__WEBPACK_EXTERNAL_MODULE_react__) {
-    return /******/ function(modules) {
-        /******/ // The module cache
-        /******/ var installedModules = {};
-        /******/ /******/ // The require function
-        /******/ function __webpack_require__(moduleId) {
-            /******/ /******/ // Check if module is in cache
-            /******/ if (installedModules[moduleId]) /******/ return installedModules[moduleId].exports;
-            /******/ // Create a new module (and put it into the cache)
-            /******/ var module1 = installedModules[moduleId] = {
-                /******/ i: moduleId,
-                /******/ l: !1,
-                /******/ exports: {}
-            };
-            /******/ /******/ // Return the exports of the module
-            /******/ return(/******/ /******/ // Execute the module function
-            /******/ modules[moduleId].call(module1.exports, module1, module1.exports, __webpack_require__), /******/ /******/ // Flag the module as loaded
-            /******/ module1.l = !0, module1.exports);
-        /******/ }
-        /******/ /******/ /******/ // Load entry module and return exports
-        /******/ return(/******/ /******/ /******/ // expose the modules object (__webpack_modules__)
-        /******/ __webpack_require__.m = modules, /******/ /******/ // expose the module cache
-        /******/ __webpack_require__.c = installedModules, /******/ /******/ // define getter function for harmony exports
-        /******/ __webpack_require__.d = function(exports1, name, getter) {
-            /******/ __webpack_require__.o(exports1, name) || /******/ Object.defineProperty(exports1, name, {
-                enumerable: !0,
-                get: getter
-            });
-        /******/ }, /******/ /******/ // define __esModule on exports
-        /******/ __webpack_require__.r = function(exports1) {
-            'undefined' != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
-                value: 'Module'
-            }), /******/ Object.defineProperty(exports1, '__esModule', {
-                value: !0
-            });
-        /******/ }, /******/ /******/ // create a fake namespace object
-        /******/ // mode & 1: value is a module id, require it
-        /******/ // mode & 2: merge all properties of value into the ns
-        /******/ // mode & 4: return value when already ns object
-        /******/ // mode & 8|1: behave like require
-        /******/ __webpack_require__.t = function(value, mode) {
-            /******/ if (1 & mode && (value = __webpack_require__(value)), 8 & mode || 4 & mode && 'object' == typeof value && value && value.__esModule) return value;
-            /******/ var ns = Object.create(null);
-            /******/ if (/******/ __webpack_require__.r(ns), /******/ Object.defineProperty(ns, 'default', {
-                enumerable: !0,
-                value: value
-            }), 2 & mode && 'string' != typeof value) for(var key in value)__webpack_require__.d(ns, key, (function(key) {
-                return value[key];
-            }).bind(null, key));
-            /******/ return ns;
-        /******/ }, /******/ /******/ // getDefaultExport function for compatibility with non-harmony modules
-        /******/ __webpack_require__.n = function(module1) {
-            /******/ var getter = module1 && module1.__esModule ? /******/ function() {
-                return module1.default;
-            } : /******/ function() {
-                return module1;
-            };
-            /******/ return /******/ __webpack_require__.d(getter, 'a', getter), getter;
-        /******/ }, /******/ /******/ // Object.prototype.hasOwnProperty.call
-        /******/ __webpack_require__.o = function(object, property) {
-            return Object.prototype.hasOwnProperty.call(object, property);
-        }, /******/ /******/ // __webpack_public_path__
-        /******/ __webpack_require__.p = "", __webpack_require__(__webpack_require__.s = "./index.js"));
-    /******/ }({
+    var modules = {
         /***/ "../../../node_modules/d3-array/src/array.js": /*!******************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/d3-array/src/array.js ***!
   \******************************************************************************/ /*! exports provided: slice, map */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
@@ -2518,35 +2456,37 @@
                 }
                 return function(a, b) {
                     var a1, b1, a2, b2, s = [], q = []; // number interpolators
-                    return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
-                        if (xa !== xb || ya !== yb) {
-                            var i = s.push("translate(", null, pxComma, null, pxParen);
-                            q.push({
-                                i: i - 4,
-                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
-                            }, {
-                                i: i - 2,
-                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
-                            });
-                        } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    a = parse(a), b = parse(b);
+                    var xa = a.translateX, ya = a.translateY, xb = b.translateX, yb = b.translateY;
+                    if (xa !== xb || ya !== yb) {
+                        var i = s.push("translate(", null, pxComma, null, pxParen);
+                        q.push({
+                            i: i - 4,
+                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
+                        }, {
+                            i: i - 2,
+                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
+                        });
+                    } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                    (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
                     })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                         i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
-                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
-                        if (xa !== xb || ya !== yb) {
-                            var i = s.push(pop(s) + "scale(", null, ",", null, ")");
-                            q.push({
-                                i: i - 4,
-                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
-                            }, {
-                                i: i - 2,
-                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
-                            });
-                        } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
+                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen);
+                    var xa1 = a.scaleX, ya1 = a.scaleY, xb1 = b.scaleX, yb1 = b.scaleY;
+                    if (xa1 !== xb1 || ya1 !== yb1) {
+                        var i1 = s.push(pop(s) + "scale(", null, ",", null, ")");
+                        q.push({
+                            i: i1 - 4,
+                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa1, xb1)
+                        }, {
+                            i: i1 - 2,
+                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya1, yb1)
+                        });
+                    } else (1 !== xb1 || 1 !== yb1) && s.push(pop(s) + "scale(" + xb1 + "," + yb1 + ")");
+                    return a = b = null, function(t) {
                         for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
                         return s.join("");
                     };
@@ -11643,75 +11583,73 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-is/cjs/react-is.development.js ***!
   \*********************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            !function() {
-                // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-                // nor polyfill, then a plain number is used for performance.
-                var hasSymbol = 'function' == typeof Symbol && Symbol.for, REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7, REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca, REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb, REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc, REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2, REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd, REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace, REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf, REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf, REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0, REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1, REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8, REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3, REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4, REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9, REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5, REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6, REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-                function typeOf(object) {
-                    if ('object' == typeof object && null !== object) {
-                        var $$typeof = object.$$typeof;
-                        switch($$typeof){
-                            case REACT_ELEMENT_TYPE:
-                                var type = object.type;
-                                switch(type){
-                                    case REACT_ASYNC_MODE_TYPE:
-                                    case REACT_CONCURRENT_MODE_TYPE:
-                                    case REACT_FRAGMENT_TYPE:
-                                    case REACT_PROFILER_TYPE:
-                                    case REACT_STRICT_MODE_TYPE:
-                                    case REACT_SUSPENSE_TYPE:
-                                        return type;
-                                    default:
-                                        var $$typeofType = type && type.$$typeof;
-                                        switch($$typeofType){
-                                            case REACT_CONTEXT_TYPE:
-                                            case REACT_FORWARD_REF_TYPE:
-                                            case REACT_LAZY_TYPE:
-                                            case REACT_MEMO_TYPE:
-                                            case REACT_PROVIDER_TYPE:
-                                                return $$typeofType;
-                                            default:
-                                                return $$typeof;
-                                        }
-                                }
-                            case REACT_PORTAL_TYPE:
-                                return $$typeof;
-                        }
+            // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+            // nor polyfill, then a plain number is used for performance.
+            var hasSymbol = 'function' == typeof Symbol && Symbol.for, REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7, REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca, REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb, REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc, REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2, REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd, REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace, REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf, REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf, REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0, REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1, REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8, REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3, REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4, REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9, REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5, REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6, REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
+            function typeOf(object) {
+                if ('object' == typeof object && null !== object) {
+                    var $$typeof = object.$$typeof;
+                    switch($$typeof){
+                        case REACT_ELEMENT_TYPE:
+                            var type = object.type;
+                            switch(type){
+                                case REACT_ASYNC_MODE_TYPE:
+                                case REACT_CONCURRENT_MODE_TYPE:
+                                case REACT_FRAGMENT_TYPE:
+                                case REACT_PROFILER_TYPE:
+                                case REACT_STRICT_MODE_TYPE:
+                                case REACT_SUSPENSE_TYPE:
+                                    return type;
+                                default:
+                                    var $$typeofType = type && type.$$typeof;
+                                    switch($$typeofType){
+                                        case REACT_CONTEXT_TYPE:
+                                        case REACT_FORWARD_REF_TYPE:
+                                        case REACT_LAZY_TYPE:
+                                        case REACT_MEMO_TYPE:
+                                        case REACT_PROVIDER_TYPE:
+                                            return $$typeofType;
+                                        default:
+                                            return $$typeof;
+                                    }
+                            }
+                        case REACT_PORTAL_TYPE:
+                            return $$typeof;
                     }
-                } // AsyncMode is deprecated along with isAsyncMode
-                var hasWarnedAboutDeprecatedIsAsyncMode = !1; // AsyncMode should be deprecated
-                function isConcurrentMode(object) {
-                    return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
                 }
-                exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
-                    return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-                }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
-                    return typeOf(object) === REACT_CONTEXT_TYPE;
-                }, exports1.isContextProvider = function(object) {
-                    return typeOf(object) === REACT_PROVIDER_TYPE;
-                }, exports1.isElement = function(object) {
-                    return 'object' == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-                }, exports1.isForwardRef = function(object) {
-                    return typeOf(object) === REACT_FORWARD_REF_TYPE;
-                }, exports1.isFragment = function(object) {
-                    return typeOf(object) === REACT_FRAGMENT_TYPE;
-                }, exports1.isLazy = function(object) {
-                    return typeOf(object) === REACT_LAZY_TYPE;
-                }, exports1.isMemo = function(object) {
-                    return typeOf(object) === REACT_MEMO_TYPE;
-                }, exports1.isPortal = function(object) {
-                    return typeOf(object) === REACT_PORTAL_TYPE;
-                }, exports1.isProfiler = function(object) {
-                    return typeOf(object) === REACT_PROFILER_TYPE;
-                }, exports1.isStrictMode = function(object) {
-                    return typeOf(object) === REACT_STRICT_MODE_TYPE;
-                }, exports1.isSuspense = function(object) {
-                    return typeOf(object) === REACT_SUSPENSE_TYPE;
-                }, exports1.isValidElementType = function(type) {
-                    return 'string' == typeof type || 'function' == typeof type || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-                    type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || 'object' == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-                }, exports1.typeOf = typeOf;
-            }();
+            } // AsyncMode is deprecated along with isAsyncMode
+            var hasWarnedAboutDeprecatedIsAsyncMode = !1; // AsyncMode should be deprecated
+            function isConcurrentMode(object) {
+                return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
+            }
+            exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
+                return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+            }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
+                return typeOf(object) === REACT_CONTEXT_TYPE;
+            }, exports1.isContextProvider = function(object) {
+                return typeOf(object) === REACT_PROVIDER_TYPE;
+            }, exports1.isElement = function(object) {
+                return 'object' == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+            }, exports1.isForwardRef = function(object) {
+                return typeOf(object) === REACT_FORWARD_REF_TYPE;
+            }, exports1.isFragment = function(object) {
+                return typeOf(object) === REACT_FRAGMENT_TYPE;
+            }, exports1.isLazy = function(object) {
+                return typeOf(object) === REACT_LAZY_TYPE;
+            }, exports1.isMemo = function(object) {
+                return typeOf(object) === REACT_MEMO_TYPE;
+            }, exports1.isPortal = function(object) {
+                return typeOf(object) === REACT_PORTAL_TYPE;
+            }, exports1.isProfiler = function(object) {
+                return typeOf(object) === REACT_PROFILER_TYPE;
+            }, exports1.isStrictMode = function(object) {
+                return typeOf(object) === REACT_STRICT_MODE_TYPE;
+            }, exports1.isSuspense = function(object) {
+                return typeOf(object) === REACT_SUSPENSE_TYPE;
+            }, exports1.isValidElementType = function(type) {
+                return 'string' == typeof type || 'function' == typeof type || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+                type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || 'object' == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
+            }, exports1.typeOf = typeOf;
         /***/ },
         /***/ "../../../node_modules/react-is/index.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-is/index.js ***!
@@ -11976,26 +11914,23 @@
                 interpolation: "linear"
             }, VictoryArea = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryArea() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryArea), call = (VictoryArea.__proto__ || Object.getPrototypeOf(VictoryArea)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryArea)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryArea.__proto__ || Object.getPrototypeOf(VictoryArea)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryArea, _React$Component), protoProps = [
+                return VictoryArea.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryArea,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryArea, _React$Component) : VictoryArea.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -12537,26 +12472,23 @@
                 padding: 50
             }, VictoryAxis = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryAxis() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryAxis), call = (VictoryAxis.__proto__ || Object.getPrototypeOf(VictoryAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryAxis)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryAxis.__proto__ || Object.getPrototypeOf(VictoryAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAxis, _React$Component), protoProps = [
+                return VictoryAxis.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryAxis,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryAxis, _React$Component) : VictoryAxis.__proto__ = _React$Component), protoProps = [
                     {
                         key: "renderLine",
                         value: function(props) {
@@ -13527,26 +13459,23 @@
                 padding: 50
             }, VictoryBar = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryBar() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryBar), call = (VictoryBar.__proto__ || Object.getPrototypeOf(VictoryBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryBar)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryBar.__proto__ || Object.getPrototypeOf(VictoryBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBar, _React$Component), protoProps = [
+                return VictoryBar.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryBar,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryBar, _React$Component) : VictoryBar.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -14094,26 +14023,23 @@
                 }
             }, VictoryBoxPlot = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryBoxPlot() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryBoxPlot), call = (VictoryBoxPlot.__proto__ || Object.getPrototypeOf(VictoryBoxPlot)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryBoxPlot)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryBoxPlot.__proto__ || Object.getPrototypeOf(VictoryBoxPlot)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBoxPlot, _React$Component), protoProps = [
+                return VictoryBoxPlot.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryBoxPlot,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryBoxPlot, _React$Component) : VictoryBoxPlot.__proto__ = _React$Component), protoProps = [
                     {
                         key: "renderBoxPlot",
                         value: function(props) {
@@ -14912,26 +14838,23 @@
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
                     var protoProps;
+                    if ("function" != typeof _base && null !== _base) throw TypeError("Super expression must either be null or a function");
                     function VictoryBrushContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictoryBrushContainer), call = (VictoryBrushContainer.__proto__ || Object.getPrototypeOf(VictoryBrushContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictoryBrushContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictoryBrushContainer.__proto__ || Object.getPrototypeOf(VictoryBrushContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryBrushContainer, _base), protoProps = [
+                    return VictoryBrushContainer.prototype = Object.create(_base && _base.prototype, {
+                        constructor: {
+                            value: VictoryBrushContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _base && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryBrushContainer, _base) : VictoryBrushContainer.__proto__ = _base), protoProps = [
                         {
                             key: "getSelectBox",
                             value: function(props, coordinates) {
@@ -15229,26 +15152,23 @@
                 fill: "none"
             }, VictoryBrushLine = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryBrushLine() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryBrushLine), call = (VictoryBrushLine.__proto__ || Object.getPrototypeOf(VictoryBrushLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryBrushLine)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryBrushLine.__proto__ || Object.getPrototypeOf(VictoryBrushLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBrushLine, _React$Component), protoProps = [
+                return VictoryBrushLine.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryBrushLine,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryBrushLine, _React$Component) : VictoryBrushLine.__proto__ = _React$Component), protoProps = [
                     {
                         key: "getRectDimensions",
                         value: function(props, brushWidth, domain) {
@@ -16110,26 +16030,23 @@
                 return !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._x) && !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._y);
             }, VictoryCandlestick = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryCandlestick() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryCandlestick), call = (VictoryCandlestick.__proto__ || Object.getPrototypeOf(VictoryCandlestick)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryCandlestick)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryCandlestick.__proto__ || Object.getPrototypeOf(VictoryCandlestick)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryCandlestick, _React$Component), protoProps = [
+                return VictoryCandlestick.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryCandlestick,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryCandlestick, _React$Component) : VictoryCandlestick.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -16628,27 +16545,24 @@
                 padding: 50
             }, VictoryChart = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryChart(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryChart), (_this = (call = (VictoryChart.__proto__ || Object.getPrototypeOf(VictoryChart)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {}, props.animate && (_this.state = {
+                    if (!(this instanceof VictoryChart)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (VictoryChart.__proto__ || Object.getPrototypeOf(VictoryChart)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {}, props.animate && (_this.state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1,
                         animating: !0
                     }, _this.setAnimationState = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.setAnimationState.bind(_assertThisInitialized(_this))), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryChart, _React$Component), protoProps = [
+                return VictoryChart.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryChart,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryChart, _React$Component) : VictoryChart.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -16985,26 +16899,23 @@
             __webpack_require__.r(__webpack_exports__);
             /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), VictoryAccessibleGroup = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryAccessibleGroup() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryAccessibleGroup), call = (VictoryAccessibleGroup.__proto__ || Object.getPrototypeOf(VictoryAccessibleGroup)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryAccessibleGroup)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryAccessibleGroup.__proto__ || Object.getPrototypeOf(VictoryAccessibleGroup)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAccessibleGroup, _React$Component), protoProps = [
+                return VictoryAccessibleGroup.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryAccessibleGroup,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryAccessibleGroup, _React$Component) : VictoryAccessibleGroup.__proto__ = _React$Component), protoProps = [
                     {
                         key: "render",
                         value: function() {
@@ -17145,11 +17056,11 @@
             }
             /*global setTimeout:false */ var VictoryAnimation = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryAnimation(props, context) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryAnimation), /* defaults */ (_this = (call = (VictoryAnimation.__proto__ || Object.getPrototypeOf(VictoryAnimation)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
+                    if (!(this instanceof VictoryAnimation)) throw TypeError("Cannot call a class as a function");
+                    return(/* defaults */ (_this = (call = (VictoryAnimation.__proto__ || Object.getPrototypeOf(VictoryAnimation)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
                         data: Array.isArray(_this.props.data) ? _this.props.data[0] : _this.props.data,
                         animationInfo: {
                             progress: 0,
@@ -17158,19 +17069,16 @@
                     }, _this.interpolator = null, _this.queue = Array.isArray(_this.props.data) ? _this.props.data.slice(1) : [], /* build easing function */ _this.ease = d3_ease__WEBPACK_IMPORTED_MODULE_2__[_this.toNewName(_this.props.easing)], /*
                 There is no autobinding of this in ES6 classes
                 so we bind functionToBeRunEachFrame to current instance of victory animation class
-              */ _this.functionToBeRunEachFrame = _this.functionToBeRunEachFrame.bind(_assertThisInitialized(_this)), _this.timer = _this.context.animationTimer, _this;
+              */ _this.functionToBeRunEachFrame = _this.functionToBeRunEachFrame.bind(_assertThisInitialized(_this)), _this.timer = _this.context.animationTimer, _this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAnimation, _React$Component), protoProps = [
+                return VictoryAnimation.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryAnimation,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryAnimation, _React$Component) : VictoryAnimation.__proto__ = _React$Component), protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -17372,26 +17280,23 @@
             }
             var VictoryClipContainer = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryClipContainer(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryClipContainer), (_this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryClipContainer)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this)).clipId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.clipId ? props.clipId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_0___default()("victory-clip-"), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryClipContainer, _React$Component), protoProps = [
+                return VictoryClipContainer.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryClipContainer,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryClipContainer, _React$Component) : VictoryClipContainer.__proto__ = _React$Component), protoProps = [
                     {
                         key: "calculateAttributes",
                         value: function(props) {
@@ -17624,11 +17529,11 @@
             }
             var VictoryContainer = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryContainer(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryContainer), (_this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryContainer)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this)).containerId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.containerId ? props.containerId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("victory-container-"), _this.savePortalRef = function(portal) {
@@ -17645,17 +17550,14 @@
                         return e.preventDefault();
                     }), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryContainer, _React$Component), protoProps = [
+                return VictoryContainer.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryContainer,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryContainer, _React$Component) : VictoryContainer.__proto__ = _React$Component), protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -18313,23 +18215,20 @@
             }
             var Portal = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function Portal(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, Portal), (_this = (call = (Portal.__proto__ || Object.getPrototypeOf(Portal)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).map = {}, _this.index = 1, _this.portalUpdate = _this.portalUpdate.bind(_assertThisInitialized(_this)), _this.portalRegister = _this.portalRegister.bind(_assertThisInitialized(_this)), _this.portalDeregister = _this.portalDeregister.bind(_assertThisInitialized(_this)), _this;
+                    if (!(this instanceof Portal)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (Portal.__proto__ || Object.getPrototypeOf(Portal)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).map = {}, _this.index = 1, _this.portalUpdate = _this.portalUpdate.bind(_assertThisInitialized(_this)), _this.portalRegister = _this.portalRegister.bind(_assertThisInitialized(_this)), _this.portalDeregister = _this.portalDeregister.bind(_assertThisInitialized(_this)), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), protoProps = [
+                return Portal.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: Portal,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(Portal, _React$Component) : Portal.__proto__ = _React$Component), protoProps = [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -18400,26 +18299,23 @@
             });
             /* harmony import */ var lodash_defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/defaults */ "../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react"), react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/ __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../victory-util/log */ "../../victory-core/es/victory-util/log.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../victory-util/helpers */ "../../victory-core/es/victory-util/helpers.js"), _portal_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./portal-context */ "../../victory-core/es/victory-portal/portal-context.js"), VictoryPortal = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryPortal() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryPortal), call = (VictoryPortal.__proto__ || Object.getPrototypeOf(VictoryPortal)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryPortal)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryPortal.__proto__ || Object.getPrototypeOf(VictoryPortal)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPortal, _React$Component), protoProps = [
+                return VictoryPortal.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryPortal,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryPortal, _React$Component) : VictoryPortal.__proto__ = _React$Component), protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -19742,27 +19638,24 @@
             }
             var VictoryTransition = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryTransition(props, context) {
-                    !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTransition), (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
+                    if (!(this instanceof VictoryTransition)) throw TypeError("Cannot call a class as a function");
+                    (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
                     var call, _this, child = _this.props.children;
                     return _this.continuous = !child.props.polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTransition, _React$Component), protoProps = [
+                return VictoryTransition.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryTransition,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryTransition, _React$Component) : VictoryTransition.__proto__ = _React$Component), protoProps = [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -19955,240 +19848,234 @@
                 }
             ]; //  used for checking state changes. Expected components can be passed in via options
             /* harmony default export */ __webpack_exports__.default = function(WrappedComponent, options) {
-                return /*#__PURE__*/ function(_WrappedComponent) {
-                    var protoProps;
-                    function addEvents(props) {
-                        !function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, addEvents), _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this);
-                        var call, _this, getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
-                        _this.state = {}, _this.getEvents = function(p, target, eventKey) {
-                            return boundGetEvents(p, target, eventKey, getScopedEvents);
-                        }, _this.getEventState = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEventState.bind(_assertThisInitialized(_this));
-                        var calculatedValues = _this.getCalculatedValues(props);
-                        return _this.cacheValues(calculatedValues), _this.externalMutations = _this.getExternalMutations(props), _this.calculatedState = _this.getStateChanges(props), _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
+                var protoProps;
+                if ("function" != typeof WrappedComponent && null !== WrappedComponent) throw TypeError("Super expression must either be null or a function");
+                function addEvents(props) {
+                    if (!(this instanceof addEvents)) throw TypeError("Cannot call a class as a function");
+                    var call, _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
+                    _this.state = {}, _this.getEvents = function(p, target, eventKey) {
+                        return boundGetEvents(p, target, eventKey, getScopedEvents);
+                    }, _this.getEventState = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEventState.bind(_assertThisInitialized(_this));
+                    var calculatedValues = _this.getCalculatedValues(props);
+                    return _this.cacheValues(calculatedValues), _this.externalMutations = _this.getExternalMutations(props), _this.calculatedState = _this.getStateChanges(props), _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
+                }
+                return addEvents.prototype = Object.create(WrappedComponent && WrappedComponent.prototype, {
+                    constructor: {
+                        value: addEvents,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
                     }
-                    return !function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(addEvents, _WrappedComponent), protoProps = [
-                        {
-                            key: "shouldComponentUpdate",
-                            value: function(nextProps) {
-                                var externalMutations = this.getExternalMutations(nextProps), animating = this.props.animating || this.props.animate, newMutation = !react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(externalMutations, this.externalMutations);
-                                if (animating || newMutation) return this.cacheValues(this.getCalculatedValues(nextProps)), this.externalMutations = externalMutations, this.applyExternalMutations(nextProps, externalMutations), !0;
-                                var calculatedState = this.getStateChanges(nextProps);
-                                return !(react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.calculatedState, calculatedState) && react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps)) && (this.cacheValues(this.getCalculatedValues(nextProps)), !0);
-                            }
-                        },
-                        {
-                            key: "componentDidMount",
-                            value: function() {
-                                var _this2 = this, globalEventKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(this.globalEvents);
-                                globalEventKeys.forEach(function(key) {
-                                    return _this2.addGlobalListener(key);
-                                }), this.prevGlobalEventKeys = globalEventKeys;
-                            }
-                        },
-                        {
-                            key: "componentDidUpdate",
-                            value: function(prevProps) {
-                                var _this3 = this, calculatedState = this.getStateChanges(prevProps);
-                                this.calculatedState = calculatedState;
-                                var globalEventKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(this.globalEvents);
-                                lodash_difference__WEBPACK_IMPORTED_MODULE_0___default()(this.prevGlobalEventKeys, globalEventKeys).forEach(function(key) {
-                                    return _this3.removeGlobalListener(key);
-                                }), lodash_difference__WEBPACK_IMPORTED_MODULE_0___default()(globalEventKeys, this.prevGlobalEventKeys).forEach(function(key) {
-                                    return _this3.addGlobalListener(key);
-                                }), this.prevGlobalEventKeys = globalEventKeys;
-                            }
-                        },
-                        {
-                            key: "componentWillUnmount",
-                            value: function() {
-                                var _this4 = this;
-                                this.prevGlobalEventKeys.forEach(function(key) {
-                                    return _this4.removeGlobalListener(key);
-                                });
-                            }
-                        },
-                        {
-                            key: "addGlobalListener",
-                            value: function(key) {
-                                var _this5 = this, boundListener = function(event) {
-                                    var listener = _this5.globalEvents[key];
-                                    return listener && listener(_events__WEBPACK_IMPORTED_MODULE_10__.default.emulateReactEvent(event));
-                                };
-                                this.boundGlobalEvents[key] = boundListener, window.addEventListener(_events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEventNameFromKey(key), boundListener);
-                            }
-                        },
-                        {
-                            key: "removeGlobalListener",
-                            value: function(key) {
-                                window.removeEventListener(_events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEventNameFromKey(key), this.boundGlobalEvents[key]);
-                            } // compile all state changes from own and parent state. Order doesn't matter, as any state
-                        },
-                        {
-                            key: "getStateChanges",
-                            value: function(props) {
-                                var _this6 = this;
-                                if (!this.hasEvents) return {};
-                                var getState = function(key, type) {
-                                    var result = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, _this6.getEventState(key, type), _this6.getSharedEventState(key, type));
-                                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(result) ? void 0 : result;
-                                };
-                                return ((options = options || {}).components || defaultComponents).map(function(component) {
-                                    if (props.standalone || "parent" !== component.name) return void 0 !== component.index ? getState(component.index, component.name) : _this6.dataKeys.map(function(key) {
-                                        return getState(key, component.name);
-                                    }).filter(Boolean);
+                }), WrappedComponent && (Object.setPrototypeOf ? Object.setPrototypeOf(addEvents, WrappedComponent) : addEvents.__proto__ = WrappedComponent), protoProps = [
+                    {
+                        key: "shouldComponentUpdate",
+                        value: function(nextProps) {
+                            var externalMutations = this.getExternalMutations(nextProps), animating = this.props.animating || this.props.animate, newMutation = !react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(externalMutations, this.externalMutations);
+                            if (animating || newMutation) return this.cacheValues(this.getCalculatedValues(nextProps)), this.externalMutations = externalMutations, this.applyExternalMutations(nextProps, externalMutations), !0;
+                            var calculatedState = this.getStateChanges(nextProps);
+                            return !(react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.calculatedState, calculatedState) && react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps)) && (this.cacheValues(this.getCalculatedValues(nextProps)), !0);
+                        }
+                    },
+                    {
+                        key: "componentDidMount",
+                        value: function() {
+                            var _this2 = this, globalEventKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(this.globalEvents);
+                            globalEventKeys.forEach(function(key) {
+                                return _this2.addGlobalListener(key);
+                            }), this.prevGlobalEventKeys = globalEventKeys;
+                        }
+                    },
+                    {
+                        key: "componentDidUpdate",
+                        value: function(prevProps) {
+                            var _this3 = this, calculatedState = this.getStateChanges(prevProps);
+                            this.calculatedState = calculatedState;
+                            var globalEventKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(this.globalEvents);
+                            lodash_difference__WEBPACK_IMPORTED_MODULE_0___default()(this.prevGlobalEventKeys, globalEventKeys).forEach(function(key) {
+                                return _this3.removeGlobalListener(key);
+                            }), lodash_difference__WEBPACK_IMPORTED_MODULE_0___default()(globalEventKeys, this.prevGlobalEventKeys).forEach(function(key) {
+                                return _this3.addGlobalListener(key);
+                            }), this.prevGlobalEventKeys = globalEventKeys;
+                        }
+                    },
+                    {
+                        key: "componentWillUnmount",
+                        value: function() {
+                            var _this4 = this;
+                            this.prevGlobalEventKeys.forEach(function(key) {
+                                return _this4.removeGlobalListener(key);
+                            });
+                        }
+                    },
+                    {
+                        key: "addGlobalListener",
+                        value: function(key) {
+                            var _this5 = this, boundListener = function(event) {
+                                var listener = _this5.globalEvents[key];
+                                return listener && listener(_events__WEBPACK_IMPORTED_MODULE_10__.default.emulateReactEvent(event));
+                            };
+                            this.boundGlobalEvents[key] = boundListener, window.addEventListener(_events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEventNameFromKey(key), boundListener);
+                        }
+                    },
+                    {
+                        key: "removeGlobalListener",
+                        value: function(key) {
+                            window.removeEventListener(_events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEventNameFromKey(key), this.boundGlobalEvents[key]);
+                        } // compile all state changes from own and parent state. Order doesn't matter, as any state
+                    },
+                    {
+                        key: "getStateChanges",
+                        value: function(props) {
+                            var _this6 = this;
+                            if (!this.hasEvents) return {};
+                            var getState = function(key, type) {
+                                var result = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, _this6.getEventState(key, type), _this6.getSharedEventState(key, type));
+                                return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(result) ? void 0 : result;
+                            };
+                            return ((options = options || {}).components || defaultComponents).map(function(component) {
+                                if (props.standalone || "parent" !== component.name) return void 0 !== component.index ? getState(component.index, component.name) : _this6.dataKeys.map(function(key) {
+                                    return getState(key, component.name);
                                 }).filter(Boolean);
+                            }).filter(Boolean);
+                        }
+                    },
+                    {
+                        key: "applyExternalMutations",
+                        value: function(props, externalMutations) {
+                            if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalMutations)) {
+                                var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
+                                    return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
+                                }, []), compiledCallbacks = callbacks.length ? function() {
+                                    callbacks.forEach(function(c) {
+                                        return c();
+                                    });
+                                } : void 0;
+                                this.setState(externalMutations, compiledCallbacks);
                             }
-                        },
-                        {
-                            key: "applyExternalMutations",
-                            value: function(props, externalMutations) {
-                                if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalMutations)) {
-                                    var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
-                                        return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
-                                    }, []), compiledCallbacks = callbacks.length ? function() {
-                                        callbacks.forEach(function(c) {
-                                            return c();
-                                        });
-                                    } : void 0;
-                                    this.setState(externalMutations, compiledCallbacks);
-                                }
+                        }
+                    },
+                    {
+                        key: "getCalculatedValues",
+                        value: function(props) {
+                            var sharedEvents = props.sharedEvents, components = WrappedComponent.expectedComponents, componentEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getComponentEvents(props, components), getSharedEventState = sharedEvents && lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(sharedEvents.getEventState) ? sharedEvents.getEventState : function() {}, baseProps = this.getBaseProps(props, getSharedEventState), dataKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(baseProps).filter(function(key) {
+                                return "parent" !== key;
+                            }), hasEvents = props.events || props.sharedEvents || componentEvents;
+                            return {
+                                componentEvents: componentEvents,
+                                getSharedEventState: getSharedEventState,
+                                baseProps: baseProps,
+                                dataKeys: dataKeys,
+                                hasEvents: hasEvents,
+                                events: this.getAllEvents(props)
+                            };
+                        }
+                    },
+                    {
+                        key: "getExternalMutations",
+                        value: function(props) {
+                            var sharedEvents = props.sharedEvents, externalEventMutations = props.externalEventMutations;
+                            return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalEventMutations) || sharedEvents ? void 0 : _events__WEBPACK_IMPORTED_MODULE_10__.default.getExternalMutations(externalEventMutations, this.baseProps, this.state);
+                        }
+                    },
+                    {
+                        key: "cacheValues",
+                        value: function(obj) {
+                            var _this7 = this;
+                            lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(obj).forEach(function(key) {
+                                _this7[key] = obj[key];
+                            });
+                        }
+                    },
+                    {
+                        key: "getBaseProps",
+                        value: function(props, getSharedEventState) {
+                            var sharedParentState = (getSharedEventState = getSharedEventState || this.getSharedEventState)("parent", "parent"), parentState = this.getEventState("parent", "parent"), baseParentProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, parentState, sharedParentState), parentPropsList = baseParentProps.parentControlledProps, parentProps = parentPropsList ? lodash_pick__WEBPACK_IMPORTED_MODULE_4___default()(baseParentProps, parentPropsList) : {}, modifiedProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, parentProps, props);
+                            return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(WrappedComponent.getBaseProps) ? WrappedComponent.getBaseProps(modifiedProps) : {};
+                        }
+                    },
+                    {
+                        key: "getAllEvents",
+                        value: function(props) {
+                            if (Array.isArray(this.componentEvents)) {
+                                var _componentEvents;
+                                return Array.isArray(props.events) ? (_componentEvents = this.componentEvents).concat.apply(_componentEvents, _toConsumableArray(props.events)) : this.componentEvents;
                             }
-                        },
-                        {
-                            key: "getCalculatedValues",
-                            value: function(props) {
-                                var sharedEvents = props.sharedEvents, components = WrappedComponent.expectedComponents, componentEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getComponentEvents(props, components), getSharedEventState = sharedEvents && lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(sharedEvents.getEventState) ? sharedEvents.getEventState : function() {}, baseProps = this.getBaseProps(props, getSharedEventState), dataKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(baseProps).filter(function(key) {
-                                    return "parent" !== key;
-                                }), hasEvents = props.events || props.sharedEvents || componentEvents;
-                                return {
-                                    componentEvents: componentEvents,
-                                    getSharedEventState: getSharedEventState,
-                                    baseProps: baseProps,
-                                    dataKeys: dataKeys,
-                                    hasEvents: hasEvents,
-                                    events: this.getAllEvents(props)
-                                };
-                            }
-                        },
-                        {
-                            key: "getExternalMutations",
-                            value: function(props) {
-                                var sharedEvents = props.sharedEvents, externalEventMutations = props.externalEventMutations;
-                                return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalEventMutations) || sharedEvents ? void 0 : _events__WEBPACK_IMPORTED_MODULE_10__.default.getExternalMutations(externalEventMutations, this.baseProps, this.state);
-                            }
-                        },
-                        {
-                            key: "cacheValues",
-                            value: function(obj) {
-                                var _this7 = this;
-                                lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(obj).forEach(function(key) {
-                                    _this7[key] = obj[key];
-                                });
-                            }
-                        },
-                        {
-                            key: "getBaseProps",
-                            value: function(props, getSharedEventState) {
-                                var sharedParentState = (getSharedEventState = getSharedEventState || this.getSharedEventState)("parent", "parent"), parentState = this.getEventState("parent", "parent"), baseParentProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, parentState, sharedParentState), parentPropsList = baseParentProps.parentControlledProps, parentProps = parentPropsList ? lodash_pick__WEBPACK_IMPORTED_MODULE_4___default()(baseParentProps, parentPropsList) : {}, modifiedProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, parentProps, props);
-                                return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(WrappedComponent.getBaseProps) ? WrappedComponent.getBaseProps(modifiedProps) : {};
-                            }
-                        },
-                        {
-                            key: "getAllEvents",
-                            value: function(props) {
-                                if (Array.isArray(this.componentEvents)) {
-                                    var _componentEvents;
-                                    return Array.isArray(props.events) ? (_componentEvents = this.componentEvents).concat.apply(_componentEvents, _toConsumableArray(props.events)) : this.componentEvents;
-                                }
-                                return props.events;
-                            }
-                        },
-                        {
-                            key: "getComponentProps",
-                            value: function(component, type, index) {
-                                var name = this.props.name || WrappedComponent.role, key = this.dataKeys && this.dataKeys[index] || index, id = "".concat(name, "-").concat(type, "-").concat(key), baseProps = this.baseProps[key] && this.baseProps[key][type] || this.baseProps[key];
-                                if (baseProps || this.hasEvents) {
-                                    if (this.hasEvents) {
-                                        var baseEvents = this.getEvents(this.props, type, key), componentProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
-                                            index: index,
-                                            key: id
-                                        }, this.getEventState(key, type), this.getSharedEventState(key, type), component.props, baseProps, {
-                                            id: id
-                                        }), events = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, _events__WEBPACK_IMPORTED_MODULE_10__.default.getPartialEvents(baseEvents, key, componentProps), componentProps.events);
-                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_7___default()({}, componentProps, {
-                                            events: events
-                                        });
-                                    }
-                                    return lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
+                            return props.events;
+                        }
+                    },
+                    {
+                        key: "getComponentProps",
+                        value: function(component, type, index) {
+                            var name = this.props.name || WrappedComponent.role, key = this.dataKeys && this.dataKeys[index] || index, id = "".concat(name, "-").concat(type, "-").concat(key), baseProps = this.baseProps[key] && this.baseProps[key][type] || this.baseProps[key];
+                            if (baseProps || this.hasEvents) {
+                                if (this.hasEvents) {
+                                    var baseEvents = this.getEvents(this.props, type, key), componentProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
                                         index: index,
                                         key: id
-                                    }, component.props, baseProps, {
+                                    }, this.getEventState(key, type), this.getSharedEventState(key, type), component.props, baseProps, {
                                         id: id
+                                    }), events = lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({}, _events__WEBPACK_IMPORTED_MODULE_10__.default.getPartialEvents(baseEvents, key, componentProps), componentProps.events);
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_7___default()({}, componentProps, {
+                                        events: events
                                     });
                                 }
-                            }
-                        },
-                        {
-                            key: "renderContainer",
-                            value: function(component, children) {
-                                var parentProps = component.type && "container" === component.type.role ? this.getComponentProps(component, "parent", "parent") : {};
-                                return parentProps.events && (this.globalEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEvents(parentProps.events), parentProps.events = _events__WEBPACK_IMPORTED_MODULE_10__.default.omitGlobalEvents(parentProps.events)), react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(component, parentProps, children);
-                            }
-                        },
-                        {
-                            key: "animateComponent",
-                            value: function(props, defaultAnimationWhitelist) {
-                                var animationWhitelist = props.animate && props.animate.animationWhitelist ? props.animate.animationWhitelist : defaultAnimationWhitelist;
-                                return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_victory_transition_victory_transition__WEBPACK_IMPORTED_MODULE_12__.default, {
-                                    animate: props.animate,
-                                    animationWhitelist: animationWhitelist
-                                }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(this.constructor, props));
-                            } // Used by `VictoryLine` and `VictoryArea`
-                        },
-                        {
-                            key: "renderContinuousData",
-                            value: function(props) {
-                                var _this8 = this, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, labelComponents = lodash_without__WEBPACK_IMPORTED_MODULE_3___default()(this.dataKeys, "all").reduce(function(memo, key) {
-                                    var labelProps = _this8.getComponentProps(labelComponent, "labels", key);
-                                    return labelProps && void 0 !== labelProps.text && null !== labelProps.text && (memo = memo.concat(react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(labelComponent, labelProps))), memo;
-                                }, []), dataProps = this.getComponentProps(dataComponent, "data", "all"), children = [
-                                    react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(dataComponent, dataProps)
-                                ].concat(_toConsumableArray(labelComponents));
-                                return this.renderContainer(groupComponent, children);
-                            }
-                        },
-                        {
-                            key: "renderData",
-                            value: function(props) {
-                                var _this9 = this, shouldRenderDatum = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : datumHasXandY, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, dataComponents = this.dataKeys.reduce(function(validDataComponents, _dataKey, index) {
-                                    var dataProps = _this9.getComponentProps(dataComponent, "data", index);
-                                    return shouldRenderDatum(dataProps.datum) && validDataComponents.push(react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(dataComponent, dataProps)), validDataComponents;
-                                }, []), labelComponents = this.dataKeys.map(function(_dataKey, index) {
-                                    var labelProps = _this9.getComponentProps(labelComponent, "labels", index);
-                                    if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(labelComponent, labelProps);
-                                }).filter(Boolean), children = _toConsumableArray(dataComponents).concat(_toConsumableArray(labelComponents));
-                                return this.renderContainer(groupComponent, children);
+                                return lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
+                                    index: index,
+                                    key: id
+                                }, component.props, baseProps, {
+                                    id: id
+                                });
                             }
                         }
-                    ], function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    },
+                    {
+                        key: "renderContainer",
+                        value: function(component, children) {
+                            var parentProps = component.type && "container" === component.type.role ? this.getComponentProps(component, "parent", "parent") : {};
+                            return parentProps.events && (this.globalEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getGlobalEvents(parentProps.events), parentProps.events = _events__WEBPACK_IMPORTED_MODULE_10__.default.omitGlobalEvents(parentProps.events)), react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(component, parentProps, children);
                         }
-                    }(addEvents.prototype, protoProps), addEvents;
-                }(WrappedComponent);
+                    },
+                    {
+                        key: "animateComponent",
+                        value: function(props, defaultAnimationWhitelist) {
+                            var animationWhitelist = props.animate && props.animate.animationWhitelist ? props.animate.animationWhitelist : defaultAnimationWhitelist;
+                            return react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(_victory_transition_victory_transition__WEBPACK_IMPORTED_MODULE_12__.default, {
+                                animate: props.animate,
+                                animationWhitelist: animationWhitelist
+                            }, react__WEBPACK_IMPORTED_MODULE_9___default.a.createElement(this.constructor, props));
+                        } // Used by `VictoryLine` and `VictoryArea`
+                    },
+                    {
+                        key: "renderContinuousData",
+                        value: function(props) {
+                            var _this8 = this, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, labelComponents = lodash_without__WEBPACK_IMPORTED_MODULE_3___default()(this.dataKeys, "all").reduce(function(memo, key) {
+                                var labelProps = _this8.getComponentProps(labelComponent, "labels", key);
+                                return labelProps && void 0 !== labelProps.text && null !== labelProps.text && (memo = memo.concat(react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(labelComponent, labelProps))), memo;
+                            }, []), dataProps = this.getComponentProps(dataComponent, "data", "all"), children = [
+                                react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(dataComponent, dataProps)
+                            ].concat(_toConsumableArray(labelComponents));
+                            return this.renderContainer(groupComponent, children);
+                        }
+                    },
+                    {
+                        key: "renderData",
+                        value: function(props) {
+                            var _this9 = this, shouldRenderDatum = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : datumHasXandY, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, dataComponents = this.dataKeys.reduce(function(validDataComponents, _dataKey, index) {
+                                var dataProps = _this9.getComponentProps(dataComponent, "data", index);
+                                return shouldRenderDatum(dataProps.datum) && validDataComponents.push(react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(dataComponent, dataProps)), validDataComponents;
+                            }, []), labelComponents = this.dataKeys.map(function(_dataKey, index) {
+                                var labelProps = _this9.getComponentProps(labelComponent, "labels", index);
+                                if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_9___default.a.cloneElement(labelComponent, labelProps);
+                            }).filter(Boolean), children = _toConsumableArray(dataComponents).concat(_toConsumableArray(labelComponents));
+                            return this.renderContainer(groupComponent, children);
+                        }
+                    }
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(addEvents.prototype, protoProps), addEvents;
             };
         /***/ },
         /***/ "../../victory-core/es/victory-util/axis.js": /*!*****************************************************************************************!*\
@@ -21181,8 +21068,7 @@
          * @param {String} axis: the current axis
          * @returns {Array} a domain in the form of a two element array
          */ function formatDomain(domain, props, axis) {
-                var domain1, props1, axis1, almostZero;
-                return domain1 = function(domain, props, axis) {
+                var almostZero, domain1 = function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
                     var padding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding1 = Array.isArray(padding = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domainPadding) ? props.domainPadding[axis] : props.domainPadding) ? {
                         left: padding[0],
@@ -21224,7 +21110,8 @@
                     };
                     return min instanceof Date || max instanceof Date ? getDomainFromMinMax(new Date(finalDomain.min), new Date(finalDomain.max)) : getDomainFromMinMax(finalDomain.min, finalDomain.max);
                 } // Public Methods
-                (domain, props, axis), props1 = props, axis1 = axis, "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props1, axis1) ? domain1 : (almostZero = domain1[0] < 0 || domain1[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
+                (domain, props, axis);
+                return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain1 : (almostZero = domain1[0] < 0 || domain1[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
                     0 === domain1[0] ? almostZero : domain1[0],
                     0 === domain1[1] ? almostZero : domain1[1]
                 ]);
@@ -25945,9 +25832,8 @@
             /* harmony import */ var d3_timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! d3-timer */ "../../../node_modules/d3-timer/src/index.js"), Timer = /*#__PURE__*/ function() {
                 var protoProps;
                 function Timer() {
-                    !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, Timer), this.shouldAnimate = !0, this.subscribers = [], this.loop = this.loop.bind(this), this.timer = null, this.activeSubscriptions = 0;
+                    if (!(this instanceof Timer)) throw TypeError("Cannot call a class as a function");
+                    this.shouldAnimate = !0, this.subscribers = [], this.loop = this.loop.bind(this), this.timer = null, this.activeSubscriptions = 0;
                 }
                 return protoProps = [
                     {
@@ -26099,6 +25985,109 @@
                         exit: props.animate && props.animate.onExit && props.animate.onExit.duration,
                         load: props.animate && props.animate.onLoad && props.animate.onLoad.duration,
                         move: props.animate && props.animate.duration
+                    }, onLoad = function(child, data, animate) {
+                        if (nodesShouldLoad) {
+                            var animate1 = animate, data1 = data;
+                            if ((animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate1, {
+                                onEnd: function() {
+                                    setState({
+                                        nodesShouldLoad: !1,
+                                        nodesDoneLoad: !0
+                                    });
+                                }
+                            })) && animate1.onLoad && !animate1.onLoad.duration) return {
+                                animate: animate1,
+                                data: data1
+                            };
+                            var after = animate1.onLoad && animate1.onLoad.after ? animate1.onLoad.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onLoad.after function.
+                            return {
+                                animate: animate1,
+                                data: data1 = data1.map(function(datum, idx) {
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data1));
+                                })
+                            };
+                        }
+                        var animate2 = animate, data2 = data;
+                        if ((animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate2, {
+                            onEnd: function() {
+                                setState({
+                                    nodesDoneLoad: !0
+                                });
+                            }
+                        })) && animate2.onLoad && !animate2.onLoad.duration) return {
+                            animate: animate2,
+                            data: data2
+                        };
+                        var before = animate2.onLoad && animate2.onLoad.before ? animate2.onLoad.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onLoad.before function.
+                        return {
+                            animate: animate2,
+                            data: data2 = data2.map(function(datum, idx) {
+                                return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data2));
+                            }),
+                            clipWidth: 0
+                        };
+                    }, onExit = function(nodes, child, data, animate) {
+                        var animate1 = animate, data1 = data, onExit = animate1 && animate1.onExit;
+                        if (animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate1, onExit), nodes) {
+                            // After the exit transition occurs, trigger the animations for
+                            // nodes that are neither exiting or entering.
+                            animate1.onEnd = function() {
+                                setState({
+                                    nodesWillExit: !1
+                                });
+                            };
+                            var before = animate1.onExit && animate1.onExit.before ? animate1.onExit.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onExit.before function.
+                            data1 = data1.map(function(datum, idx) {
+                                return nodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data1)) : datum;
+                            });
+                        }
+                        return {
+                            animate: animate1,
+                            data: data1
+                        };
+                    }, onEnter = function(nodes, child, data, animate) {
+                        if (nodesShouldEnter) {
+                            var animate1 = animate, data1 = data, onEnter = animate1 && animate1.onEnter;
+                            if (animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate1, onEnter), nodes) {
+                                // Old nodes have been transitioned to their new values, and the
+                                // domain should encompass the nodes that will now enter. So perform
+                                // the `onEnter.after` transformation on each node.
+                                animate1.onEnd = function() {
+                                    setState({
+                                        nodesWillEnter: !1
+                                    });
+                                };
+                                var after = animate1.onEnter && animate1.onEnter.after ? animate1.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                                data1 = data1.map(function(datum, idx) {
+                                    return nodes[getDatumKey(datum, idx)] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data1)) : datum;
+                                });
+                            }
+                            return {
+                                animate: animate1,
+                                data: data1
+                            };
+                        }
+                        var animate2 = animate, data2 = data;
+                        if (nodes) {
+                            var before = // Perform a normal animation here, except - when it finishes - trigger
+                            // the transition for entering nodes.
+                            (animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate2, {
+                                onEnd: function() {
+                                    setState({
+                                        nodesShouldEnter: !0
+                                    });
+                                }
+                            })).onEnter && animate2.onEnter.before ? animate2.onEnter.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // We want the entering nodes to be included in the transition target
+                            // domain.  However, we may not want these nodes to be displayed initially,
+                            // so perform the `onEnter.before` transformation on each node.
+                            data2 = data2.map(function(datum, idx) {
+                                return nodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data2)) : datum;
+                            });
+                        }
+                        return {
+                            animate: animate2,
+                            data: data2
+                        };
                     }, getChildTransitionDuration = function(child, type) {
                         var animate = child.props.animate;
                         if (!child.type) return {};
@@ -26114,83 +26103,17 @@
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
                                 var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
-                                return function(animate, child, data, exitingNodes, cb) {
-                                    // Whether or not _this_ child has exiting nodes, we want the exit-
-                                    // transition for all children to have the same duration, delay, etc.
-                                    var onExit = animate && animate.onExit;
-                                    if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
-                                        // After the exit transition occurs, trigger the animations for
-                                        // nodes that are neither exiting or entering.
-                                        animate.onEnd = cb;
-                                        var before = animate.onExit && animate.onExit.before ? animate.onExit.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onExit.before function.
-                                        data = data.map(function(datum, idx) {
-                                            return exitingNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                } // eslint-disable-next-line max-params,max-len
-                                (lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
+                                return onExit(exitingNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
                                     duration: exit
                                 } : {
                                     delay: exit
-                                }), 0, data, exitingNodes, function() {
-                                    setState({
-                                        nodesWillExit: !1
-                                    });
-                                });
+                                }));
                             }
                             if (nodesWillEnter) {
-                                var animate1, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
-                                return animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                var enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
+                                return onEnter(enteringNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
-                                }), nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
-                                    // Whether or not _this_ child has entering nodes, we want the entering-
-                                    // transition for all children to have the same duration, delay, etc.
-                                    var onEnter = animate && animate.onEnter;
-                                    if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onEnter), enteringNodes) {
-                                        // Old nodes have been transitioned to their new values, and the
-                                        // domain should encompass the nodes that will now enter. So perform
-                                        // the `onEnter.after` transformation on each node.
-                                        animate.onEnd = cb;
-                                        var after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                        data = data.map(function(datum, idx) {
-                                            return enteringNodes[getDatumKey(datum, idx)] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                }(animate1, data, enteringNodes, function() {
-                                    setState({
-                                        nodesWillEnter: !1
-                                    });
-                                }) : function(animate, child, data, enteringNodes, cb) {
-                                    if (enteringNodes) {
-                                        var before = // Perform a normal animation here, except - when it finishes - trigger
-                                        // the transition for entering nodes.
-                                        (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                            onEnd: cb
-                                        })).onEnter && animate.onEnter.before ? animate.onEnter.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // We want the entering nodes to be included in the transition target
-                                        // domain.  However, we may not want these nodes to be displayed initially,
-                                        // so perform the `onEnter.before` transformation on each node.
-                                        data = data.map(function(datum, idx) {
-                                            return enteringNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                } // eslint-disable-next-line max-params, max-len
-                                (animate1, 0, data, enteringNodes, function() {
-                                    setState({
-                                        nodesShouldEnter: !0
-                                    });
-                                });
+                                }));
                             }
                             if (!state && animate && animate.onExit) // This is the initial render, and nodes may enter when props change. Because
                             // animation interpolation is determined by old- and next- props, data may need
@@ -26208,50 +26131,10 @@
                             };
                         } else {
                             // should do onLoad animation
-                            var animate2, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
-                            return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                            var load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
+                            return onLoad(child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                 duration: load
-                            }), nodesShouldLoad ? function(animate, data, cb) {
-                                if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                    onEnd: cb
-                                })) && animate.onLoad && !animate.onLoad.duration) return {
-                                    animate: animate,
-                                    data: data
-                                };
-                                var after = animate.onLoad && animate.onLoad.after ? animate.onLoad.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onLoad.after function.
-                                return {
-                                    animate: animate,
-                                    data: data = data.map(function(datum, idx) {
-                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
-                                    })
-                                };
-                            } // eslint-disable-next-line max-params, max-len
-                            (animate2, data, function() {
-                                setState({
-                                    nodesShouldLoad: !1,
-                                    nodesDoneLoad: !0
-                                });
-                            }) : function(animate, child, data, cb) {
-                                if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                    onEnd: cb
-                                })) && animate.onLoad && !animate.onLoad.duration) return {
-                                    animate: animate,
-                                    data: data
-                                };
-                                var before = animate.onLoad && animate.onLoad.before ? animate.onLoad.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a; // If nodes need to exit, transform them with the provided onLoad.before function.
-                                return {
-                                    animate: animate,
-                                    data: data = data.map(function(datum, idx) {
-                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data));
-                                    }),
-                                    clipWidth: 0
-                                };
-                            } // eslint-disable-next-line max-params
-                            (animate2, 0, data, function() {
-                                setState({
-                                    nodesDoneLoad: !0
-                                });
-                            });
+                            }));
                         }
                         return {
                             animate: animate,
@@ -26670,26 +26553,23 @@
                 }).join("");
                 return _temp = _class = /*#__PURE__*/ function(_NaiveCombinedContain) {
                     var protoProps;
+                    if ("function" != typeof _NaiveCombinedContain && null !== _NaiveCombinedContain) throw TypeError("Super expression must either be null or a function");
                     function VictoryCombinedContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictoryCombinedContainer), call = (VictoryCombinedContainer.__proto__ || Object.getPrototypeOf(VictoryCombinedContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictoryCombinedContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictoryCombinedContainer.__proto__ || Object.getPrototypeOf(VictoryCombinedContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
+                    return VictoryCombinedContainer.prototype = Object.create(_NaiveCombinedContain && _NaiveCombinedContain.prototype, {
+                        constructor: {
+                            value: VictoryCombinedContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _NaiveCombinedContain && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryCombinedContainer, _NaiveCombinedContain) : VictoryCombinedContainer.__proto__ = _NaiveCombinedContain), protoProps = [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -26911,26 +26791,23 @@
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
                     var protoProps;
+                    if ("function" != typeof _base && null !== _base) throw TypeError("Super expression must either be null or a function");
                     function VictoryCursorContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictoryCursorContainer), call = (VictoryCursorContainer.__proto__ || Object.getPrototypeOf(VictoryCursorContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictoryCursorContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictoryCursorContainer.__proto__ || Object.getPrototypeOf(VictoryCursorContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCursorContainer, _base), protoProps = [
+                    return VictoryCursorContainer.prototype = Object.create(_base && _base.prototype, {
+                        constructor: {
+                            value: VictoryCursorContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _base && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryCursorContainer, _base) : VictoryCursorContainer.__proto__ = _base), protoProps = [
                         {
                             key: "getCursorPosition",
                             value: function(props) {
@@ -27399,26 +27276,23 @@
                 padding: 50
             }, VictoryErrorBar = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryErrorBar() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryErrorBar), call = (VictoryErrorBar.__proto__ || Object.getPrototypeOf(VictoryErrorBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryErrorBar)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryErrorBar.__proto__ || Object.getPrototypeOf(VictoryErrorBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryErrorBar, _React$Component), protoProps = [
+                return VictoryErrorBar.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryErrorBar,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryErrorBar, _React$Component) : VictoryErrorBar.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -27727,27 +27601,24 @@
                 offset: 0
             }, VictoryGroup = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryGroup(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryGroup), _this = (call = (VictoryGroup.__proto__ || Object.getPrototypeOf(VictoryGroup)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
+                    if (!(this instanceof VictoryGroup)) throw TypeError("Cannot call a class as a function");
+                    return _this = (call = (VictoryGroup.__proto__ || Object.getPrototypeOf(VictoryGroup)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1,
                         animating: !0
                     }, _this.setAnimationState = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.setAnimationState.bind(_assertThisInitialized(_this))), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryGroup, _React$Component), protoProps = [
+                return VictoryGroup.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryGroup,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryGroup, _React$Component) : VictoryGroup.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -28101,26 +27972,23 @@
                 padding: 50
             }, VictoryHistogram = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryHistogram() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryHistogram), call = (VictoryHistogram.__proto__ || Object.getPrototypeOf(VictoryHistogram)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryHistogram)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryHistogram.__proto__ || Object.getPrototypeOf(VictoryHistogram)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryHistogram, _React$Component), protoProps = [
+                return VictoryHistogram.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryHistogram,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryHistogram, _React$Component) : VictoryHistogram.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -29450,26 +29318,23 @@
                 y: 0
             }, VictoryLegend = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryLegend() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryLegend), call = (VictoryLegend.__proto__ || Object.getPrototypeOf(VictoryLegend)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryLegend)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryLegend.__proto__ || Object.getPrototypeOf(VictoryLegend)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLegend, _React$Component), protoProps = [
+                return VictoryLegend.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryLegend,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryLegend, _React$Component) : VictoryLegend.__proto__ = _React$Component), protoProps = [
                     {
                         key: "renderChildren",
                         value: function(props) {
@@ -29890,26 +29755,23 @@
                 interpolation: "linear"
             }, VictoryLine = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryLine() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryLine), call = (VictoryLine.__proto__ || Object.getPrototypeOf(VictoryLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryLine)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryLine.__proto__ || Object.getPrototypeOf(VictoryLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLine, _React$Component), protoProps = [
+                return VictoryLine.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryLine,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryLine, _React$Component) : VictoryLine.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -30348,26 +30210,23 @@
                 labelPosition: "centroid"
             }, VictoryPie = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryPie() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryPie), call = (VictoryPie.__proto__ || Object.getPrototypeOf(VictoryPie)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryPie)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryPie.__proto__ || Object.getPrototypeOf(VictoryPie)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPie, _React$Component), protoProps = [
+                return VictoryPie.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryPie,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryPie, _React$Component) : VictoryPie.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in victory-native
@@ -30947,26 +30806,23 @@
                 padding: 50
             }, VictoryPolarAxis = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryPolarAxis() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryPolarAxis), call = (VictoryPolarAxis.__proto__ || Object.getPrototypeOf(VictoryPolarAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryPolarAxis)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryPolarAxis.__proto__ || Object.getPrototypeOf(VictoryPolarAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPolarAxis, _React$Component), protoProps = [
+                return VictoryPolarAxis.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryPolarAxis,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryPolarAxis, _React$Component) : VictoryPolarAxis.__proto__ = _React$Component), protoProps = [
                     {
                         key: "renderAxisLine",
                         value: function(props) {
@@ -31374,26 +31230,23 @@
                 symbol: "circle"
             }, VictoryScatter = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryScatter() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryScatter), call = (VictoryScatter.__proto__ || Object.getPrototypeOf(VictoryScatter)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryScatter)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryScatter.__proto__ || Object.getPrototypeOf(VictoryScatter)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryScatter, _React$Component), protoProps = [
+                return VictoryScatter.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryScatter,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryScatter, _React$Component) : VictoryScatter.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -31768,26 +31621,23 @@
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
                     var protoProps;
+                    if ("function" != typeof _base && null !== _base) throw TypeError("Super expression must either be null or a function");
                     function VictorySelectionContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictorySelectionContainer), call = (VictorySelectionContainer.__proto__ || Object.getPrototypeOf(VictorySelectionContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictorySelectionContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictorySelectionContainer.__proto__ || Object.getPrototypeOf(VictorySelectionContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictorySelectionContainer, _base), protoProps = [
+                    return VictorySelectionContainer.prototype = Object.create(_base && _base.prototype, {
+                        constructor: {
+                            value: VictorySelectionContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _base && (Object.setPrototypeOf ? Object.setPrototypeOf(VictorySelectionContainer, _base) : VictorySelectionContainer.__proto__ = _base), protoProps = [
                         {
                             key: "getRect",
                             value: function(props) {
@@ -31922,23 +31772,20 @@
             }
             var VictorySharedEvents = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictorySharedEvents(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictorySharedEvents), (_this = (call = (VictorySharedEvents.__proto__ || Object.getPrototypeOf(VictorySharedEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = _this.state || {}, _this.getScopedEvents = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getScopedEvents.bind(_assertThisInitialized(_this)), _this.getEventState = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getEventState.bind(_assertThisInitialized(_this)), _this.baseProps = _this.getBaseProps(props), _this.sharedEventsCache = {}, _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
+                    if (!(this instanceof VictorySharedEvents)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (VictorySharedEvents.__proto__ || Object.getPrototypeOf(VictorySharedEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = _this.state || {}, _this.getScopedEvents = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getScopedEvents.bind(_assertThisInitialized(_this)), _this.getEventState = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getEventState.bind(_assertThisInitialized(_this)), _this.baseProps = _this.getBaseProps(props), _this.sharedEventsCache = {}, _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictorySharedEvents, _React$Component), protoProps = [
+                return VictorySharedEvents.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictorySharedEvents,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictorySharedEvents, _React$Component) : VictorySharedEvents.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -32430,27 +32277,24 @@
                 padding: 50
             }, VictoryStack = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryStack(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryStack), _this = (call = (VictoryStack.__proto__ || Object.getPrototypeOf(VictoryStack)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
+                    if (!(this instanceof VictoryStack)) throw TypeError("Cannot call a class as a function");
+                    return _this = (call = (VictoryStack.__proto__ || Object.getPrototypeOf(VictoryStack)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1,
                         animating: !0
                     }, _this.setAnimationState = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.setAnimationState.bind(_assertThisInitialized(_this))), _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryStack, _React$Component), protoProps = [
+                return VictoryStack.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryStack,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryStack, _React$Component) : VictoryStack.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -32729,26 +32573,23 @@
                 pointerWidth: 10
             }, VictoryTooltip = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryTooltip(props) {
                     var _this, call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTooltip), (_this = (call = (VictoryTooltip.__proto__ || Object.getPrototypeOf(VictoryTooltip)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryTooltip)) throw TypeError("Cannot call a class as a function");
+                    return (_this = (call = (VictoryTooltip.__proto__ || Object.getPrototypeOf(VictoryTooltip)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this)).id = void 0 === props.id ? lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("tooltip-") : props.id, _this;
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryTooltip, _React$Component), protoProps = [
+                return VictoryTooltip.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryTooltip,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryTooltip, _React$Component) : VictoryTooltip.__proto__ = _React$Component), protoProps = [
                     {
                         key: "getDefaultOrientation",
                         value: function(props) {
@@ -33353,26 +33194,23 @@
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
                     var protoProps;
+                    if ("function" != typeof _base && null !== _base) throw TypeError("Super expression must either be null or a function");
                     function VictoryVoronoiContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictoryVoronoiContainer), call = (VictoryVoronoiContainer.__proto__ || Object.getPrototypeOf(VictoryVoronoiContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictoryVoronoiContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictoryVoronoiContainer.__proto__ || Object.getPrototypeOf(VictoryVoronoiContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryVoronoiContainer, _base), protoProps = [
+                    return VictoryVoronoiContainer.prototype = Object.create(_base && _base.prototype, {
+                        constructor: {
+                            value: VictoryVoronoiContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _base && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryVoronoiContainer, _base) : VictoryVoronoiContainer.__proto__ = _base), protoProps = [
                         {
                             key: "getDimension",
                             value: function(props) {
@@ -33896,26 +33734,23 @@
                 padding: 50
             }, VictoryVoronoi = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
+                if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
                 function VictoryVoronoi() {
                     var call;
-                    return !function(instance, Constructor) {
-                        if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryVoronoi), call = (VictoryVoronoi.__proto__ || Object.getPrototypeOf(VictoryVoronoi)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    if (!(this instanceof VictoryVoronoi)) throw TypeError("Cannot call a class as a function");
+                    return call = (VictoryVoronoi.__proto__ || Object.getPrototypeOf(VictoryVoronoi)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
                     }(this);
                 }
-                return !function(subClass, superClass) {
-                    if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                    subClass.prototype = Object.create(superClass && superClass.prototype, {
-                        constructor: {
-                            value: subClass,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
-                        }
-                    }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryVoronoi, _React$Component), protoProps = [
+                return VictoryVoronoi.prototype = Object.create(_React$Component && _React$Component.prototype, {
+                    constructor: {
+                        value: VictoryVoronoi,
+                        enumerable: !1,
+                        writable: !0,
+                        configurable: !0
+                    }
+                }), _React$Component && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryVoronoi, _React$Component) : VictoryVoronoi.__proto__ = _React$Component), protoProps = [
                     {
                         key: "shouldAnimate",
                         // Overridden in native versions
@@ -34195,26 +34030,23 @@
                 var _class, _temp;
                 return _temp = _class = /*#__PURE__*/ function(_base) {
                     var protoProps;
+                    if ("function" != typeof _base && null !== _base) throw TypeError("Super expression must either be null or a function");
                     function VictoryZoomContainer() {
                         var call;
-                        return function(instance, Constructor) {
-                            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, VictoryZoomContainer), call = (VictoryZoomContainer.__proto__ || Object.getPrototypeOf(VictoryZoomContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                        if (!(this instanceof VictoryZoomContainer)) throw TypeError("Cannot call a class as a function");
+                        return call = (VictoryZoomContainer.__proto__ || Object.getPrototypeOf(VictoryZoomContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                             if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return self1;
                         }(this);
                     }
-                    return function(subClass, superClass) {
-                        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-                        subClass.prototype = Object.create(superClass && superClass.prototype, {
-                            constructor: {
-                                value: subClass,
-                                enumerable: !1,
-                                writable: !0,
-                                configurable: !0
-                            }
-                        }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryZoomContainer, _base), protoProps = [
+                    return VictoryZoomContainer.prototype = Object.create(_base && _base.prototype, {
+                        constructor: {
+                            value: VictoryZoomContainer,
+                            enumerable: !1,
+                            writable: !0,
+                            configurable: !0
+                        }
+                    }), _base && (Object.setPrototypeOf ? Object.setPrototypeOf(VictoryZoomContainer, _base) : VictoryZoomContainer.__proto__ = _base), protoProps = [
                         {
                             key: "clipDataComponents",
                             value: function(children, props) {
@@ -34880,5 +34712,64 @@
   \**************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = __WEBPACK_EXTERNAL_MODULE_react__;
         /***/ }
-    });
+    }, installedModules = {};
+    /******/ /******/ // The require function
+    /******/ function __webpack_require__(moduleId) {
+        /******/ /******/ // Check if module is in cache
+        /******/ if (installedModules[moduleId]) /******/ return installedModules[moduleId].exports;
+        /******/ // Create a new module (and put it into the cache)
+        /******/ var module1 = installedModules[moduleId] = {
+            /******/ i: moduleId,
+            /******/ l: !1,
+            /******/ exports: {}
+        };
+        /******/ /******/ // Return the exports of the module
+        /******/ return(/******/ /******/ // Execute the module function
+        /******/ modules[moduleId].call(module1.exports, module1, module1.exports, __webpack_require__), /******/ /******/ // Flag the module as loaded
+        /******/ module1.l = !0, module1.exports);
+    /******/ }
+    /******/ /******/ /******/ // Load entry module and return exports
+    /******/ return(/******/ /******/ /******/ // expose the modules object (__webpack_modules__)
+    /******/ __webpack_require__.m = modules, /******/ /******/ // expose the module cache
+    /******/ __webpack_require__.c = installedModules, /******/ /******/ // define getter function for harmony exports
+    /******/ __webpack_require__.d = function(exports1, name, getter) {
+        /******/ __webpack_require__.o(exports1, name) || /******/ Object.defineProperty(exports1, name, {
+            enumerable: !0,
+            get: getter
+        });
+    /******/ }, /******/ /******/ // define __esModule on exports
+    /******/ __webpack_require__.r = function(exports1) {
+        'undefined' != typeof Symbol && Symbol.toStringTag && /******/ Object.defineProperty(exports1, Symbol.toStringTag, {
+            value: 'Module'
+        }), /******/ Object.defineProperty(exports1, '__esModule', {
+            value: !0
+        });
+    /******/ }, /******/ /******/ // create a fake namespace object
+    /******/ // mode & 1: value is a module id, require it
+    /******/ // mode & 2: merge all properties of value into the ns
+    /******/ // mode & 4: return value when already ns object
+    /******/ // mode & 8|1: behave like require
+    /******/ __webpack_require__.t = function(value, mode) {
+        /******/ if (1 & mode && (value = __webpack_require__(value)), 8 & mode || 4 & mode && 'object' == typeof value && value && value.__esModule) return value;
+        /******/ var ns = Object.create(null);
+        /******/ if (/******/ __webpack_require__.r(ns), /******/ Object.defineProperty(ns, 'default', {
+            enumerable: !0,
+            value: value
+        }), 2 & mode && 'string' != typeof value) for(var key in value)__webpack_require__.d(ns, key, (function(key) {
+            return value[key];
+        }).bind(null, key));
+        /******/ return ns;
+    /******/ }, /******/ /******/ // getDefaultExport function for compatibility with non-harmony modules
+    /******/ __webpack_require__.n = function(module1) {
+        /******/ var getter = module1 && module1.__esModule ? /******/ function() {
+            return module1.default;
+        } : /******/ function() {
+            return module1;
+        };
+        /******/ return /******/ __webpack_require__.d(getter, 'a', getter), getter;
+    /******/ }, /******/ /******/ // Object.prototype.hasOwnProperty.call
+    /******/ __webpack_require__.o = function(object, property) {
+        return Object.prototype.hasOwnProperty.call(object, property);
+    }, /******/ /******/ // __webpack_public_path__
+    /******/ __webpack_require__.p = "", __webpack_require__(__webpack_require__.s = "./index.js"));
 });

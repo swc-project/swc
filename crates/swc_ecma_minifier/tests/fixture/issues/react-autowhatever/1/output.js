@@ -33,27 +33,25 @@ function _setPrototypeOf(o, p) {
 var ItemsList = /*#__PURE__*/ function(Component) {
     "use strict";
     var protoProps;
+    if ("function" != typeof Component && null !== Component) throw TypeError("Super expression must either be null or a function");
     function ItemsList() {
-        var _this, call;
-        return !function(instance, Constructor) {
-            if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call) ? call : function(self) {
+        var _this;
+        if (!(this instanceof ItemsList)) throw TypeError("Cannot call a class as a function");
+        return _this = function(self, call) {
+            if (call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call)) return call;
             if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
-        }(this)).storeHighlightedItemReference = function(highlightedItem) {
+        }(this, _getPrototypeOf(ItemsList).apply(this, arguments)), _this.storeHighlightedItemReference = function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }
-    return !function(subClass, superClass) {
-        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                writable: !0,
-                configurable: !0
-            }
-        }), superClass && _setPrototypeOf(subClass, superClass);
-    }(ItemsList, Component), protoProps = [
+    return ItemsList.prototype = Object.create(Component && Component.prototype, {
+        constructor: {
+            value: ItemsList,
+            writable: !0,
+            configurable: !0
+        }
+    }), Component && _setPrototypeOf(ItemsList, Component), protoProps = [
         {
             key: "shouldComponentUpdate",
             value: function(nextProps) {

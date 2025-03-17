@@ -123,10 +123,9 @@
         return array.length < 2 ? array.slice() : function _ms(a) {
             if (a.length <= 1) return a;
             var m = Math.floor(a.length / 2), left = a.slice(0, m), right = a.slice(m);
-            return function(a, b) {
-                for(var r = [], ai = 0, bi = 0, i = 0; ai < a.length && bi < b.length;)0 >= cmp(a[ai], b[bi]) ? r[i++] = a[ai++] : r[i++] = b[bi++];
-                return ai < a.length && r.push.apply(r, a.slice(ai)), bi < b.length && r.push.apply(r, b.slice(bi)), r;
-            }(left = _ms(left), right = _ms(right));
+            left = _ms(left), right = _ms(right);
+            for(var a1 = left, b = right, r = [], ai = 0, bi = 0, i = 0; ai < a1.length && bi < b.length;)0 >= cmp(a1[ai], b[bi]) ? r[i++] = a1[ai++] : r[i++] = b[bi++];
+            return ai < a1.length && r.push.apply(r, a1.slice(ai)), bi < b.length && r.push.apply(r, b.slice(bi)), r;
         }(array);
     }
     function makePredicate(words) {
@@ -658,9 +657,8 @@
                 function next_token(force_regexp) {
                     if (null != force_regexp) return read_regexp(force_regexp);
                     for(shebang && 0 == S.pos && looking_at("#!") && (start_token(), forward(2), skip_line_comment("comment5"));;){
-                        if (!function() {
-                            for(; WHITESPACE_CHARS.has(peek());)next();
-                        }(), start_token(), html5_comments) {
+                        for(; WHITESPACE_CHARS.has(peek());)next();
+                        if (start_token(), html5_comments) {
                             if (looking_at("<!--")) {
                                 forward(4), skip_line_comment("comment3");
                                 continue;
@@ -1245,14 +1243,15 @@
         }
         function _function_body(block, generator, is_async, name, args) {
             var loop = S.in_loop, labels = S.labels, current_generator = S.in_generator, current_async = S.in_async;
-            if (++S.in_function, generator && (S.in_generator = S.in_function), is_async && (S.in_async = S.in_function), args && function(params) {
+            if (++S.in_function, generator && (S.in_generator = S.in_function), is_async && (S.in_async = S.in_function), args) {
                 var used_parameters = new UsedParametersTracker(!0, S.input.has_directive("use strict"));
                 for(expect("("); !is("punc", ")");){
                     var param = parameter(used_parameters);
-                    if (params.push(param), is("punc", ")") || expect(","), param instanceof AST_Expansion) break;
+                    if (args.push(param), is("punc", ")") || expect(","), param instanceof AST_Expansion) break;
                 }
                 next();
-            }(args), block && (S.in_directives = !0), S.in_loop = 0, S.labels = [], block) {
+            }
+            if (block && (S.in_directives = !0), S.in_loop = 0, S.labels = [], block) {
                 S.input.push_directives_stack();
                 var a = block_();
                 name && _verify_symbol(name), args && args.forEach(_verify_symbol), S.input.pop_directives_stack();
@@ -2031,17 +2030,16 @@
             var ret = cont();
             return --S.in_loop, ret;
         }
-        return options.expression ? expression(!0) : function() {
-            var start = S.token, body = [];
-            for(S.input.push_directives_stack(), options.module && S.input.add_directive("use strict"); !is("eof");)body.push(statement());
-            S.input.pop_directives_stack();
-            var end = prev(), toplevel = options.toplevel;
-            return toplevel ? (toplevel.body = toplevel.body.concat(body), toplevel.end = end) : toplevel = new AST_Toplevel({
-                start: start,
-                body: body,
-                end: end
-            }), TEMPLATE_RAWS = new Map(), toplevel;
-        }();
+        if (options.expression) return expression(!0);
+        var start = S.token, body = [];
+        for(S.input.push_directives_stack(), options.module && S.input.add_directive("use strict"); !is("eof");)body.push(statement());
+        S.input.pop_directives_stack();
+        var end = prev(), toplevel = options.toplevel;
+        return toplevel ? (toplevel.body = toplevel.body.concat(body), toplevel.end = end) : toplevel = new AST_Toplevel({
+            start: start,
+            body: body,
+            end: end
+        }), TEMPLATE_RAWS = new Map(), toplevel;
     }
     /***********************************************************************
     
@@ -3590,17 +3588,6 @@
             return tw.pop(), transformed;
         });
     }
-    // return true if the node at the top of the stack (that means the
-    // innermost node in the current output) is lexically the first in
-    // a statement.
-    function first_in_statement(stack) {
-        let node = stack.parent(-1);
-        for(let i = 0, p; p = stack.parent(i); i++){
-            if (p instanceof AST_Statement && p.body === node) return !0;
-            if ((!(p instanceof AST_Sequence) || p.expressions[0] !== node) && ("Call" !== p.TYPE || p.expression !== node) && (!(p instanceof AST_PrefixedTemplateString) || p.prefix !== node) && (!(p instanceof AST_Dot) || p.expression !== node) && (!(p instanceof AST_Sub) || p.expression !== node) && (!(p instanceof AST_Chain) || p.expression !== node) && (!(p instanceof AST_Conditional) || p.condition !== node) && (!(p instanceof AST_Binary) || p.left !== node) && (!(p instanceof AST_UnaryPostfix) || p.expression !== node)) return !1;
-            node = p;
-        }
-    }
     def_transform(AST_Node, noop), def_transform(AST_LabeledStatement, function(self1, tw) {
         self1.label = self1.label.transform(tw), self1.body = self1.body.transform(tw);
     }), def_transform(AST_SimpleStatement, function(self1, tw) {
@@ -3688,7 +3675,8 @@
         self1.segments = MAP(self1.segments, tw);
     }), def_transform(AST_PrefixedTemplateString, function(self1, tw) {
         self1.prefix = self1.prefix.transform(tw), self1.template_string = self1.template_string.transform(tw);
-    }), /***********************************************************************
+    });
+    /***********************************************************************
     
       A JavaScript tokenizer / parser / beautifier / compressor.
       https://github.com/mishoo/UglifyJS2
@@ -3729,7 +3717,7 @@
         THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
         SUCH DAMAGE.
     
-     ***********************************************************************/ function() {
+     ***********************************************************************/ {
         var normalize_directives = function(body) {
             for(var i = 0; i < body.length; i++)if (body[i] instanceof AST_Statement && body[i].body instanceof AST_String) body[i] = new AST_Directive({
                 start: body[i].start,
@@ -5029,7 +5017,18 @@
                 body: body
             };
         }
-    }();
+    }
+    // return true if the node at the top of the stack (that means the
+    // innermost node in the current output) is lexically the first in
+    // a statement.
+    function first_in_statement(stack) {
+        let node = stack.parent(-1);
+        for(let i = 0, p; p = stack.parent(i); i++){
+            if (p instanceof AST_Statement && p.body === node) return !0;
+            if ((!(p instanceof AST_Sequence) || p.expressions[0] !== node) && ("Call" !== p.TYPE || p.expression !== node) && (!(p instanceof AST_PrefixedTemplateString) || p.prefix !== node) && (!(p instanceof AST_Dot) || p.expression !== node) && (!(p instanceof AST_Sub) || p.expression !== node) && (!(p instanceof AST_Chain) || p.expression !== node) && (!(p instanceof AST_Conditional) || p.condition !== node) && (!(p instanceof AST_Binary) || p.left !== node) && (!(p instanceof AST_UnaryPostfix) || p.expression !== node)) return !1;
+            node = p;
+        }
+    }
     const r_annotation = /[@#]__(PURE|INLINE|NOINLINE)__/;
     function is_some_comments(comment) {
         // multiline comment
@@ -5442,7 +5441,7 @@
             }
         };
     }
-    !/* -----[ code generators ]----- */ function() {
+    /* -----[ code generators ]----- */ {
         /* -----[ utils ]----- */ function DEFPRINT(nodetype, generator) {
             nodetype.DEFMETHOD("_codegen", generator);
         }
@@ -5933,10 +5932,9 @@
             var match, len, digits, str = num.toString(10).replace(/^0\./, ".").replace("e+", "e"), candidates = [
                 str
             ];
-            return Math.floor(num) === num && (num < 0 ? candidates.push("-0x" + (-num).toString(16).toLowerCase()) : candidates.push("0x" + num.toString(16).toLowerCase())), (match = /^\.0+/.exec(str)) ? (len = match[0].length, digits = str.slice(len), candidates.push(digits + "e-" + (digits.length + len - 1))) : (match = /0+$/.exec(str)) ? (len = match[0].length, candidates.push(str.slice(0, -len) + "e" + len)) : (match = /^(\d)\.(\d+)e(-?\d+)$/.exec(str)) && candidates.push(match[1] + match[2] + "e" + (match[3] - match[2].length)), function(a) {
-                for(var best = a[0], len = best.length, i = 1; i < a.length; ++i)a[i].length < len && (len = (best = a[i]).length);
-                return best;
-            }(candidates);
+            Math.floor(num) === num && (num < 0 ? candidates.push("-0x" + (-num).toString(16).toLowerCase()) : candidates.push("0x" + num.toString(16).toLowerCase())), (match = /^\.0+/.exec(str)) ? (len = match[0].length, candidates.push((digits = str.slice(len)) + "e-" + (digits.length + len - 1))) : (match = /0+$/.exec(str)) ? (len = match[0].length, candidates.push(str.slice(0, -len) + "e" + len)) : (match = /^(\d)\.(\d+)e(-?\d+)$/.exec(str)) && candidates.push(match[1] + match[2] + "e" + (match[3] - match[2].length));
+            for(var best = candidates[0], len1 = best.length, i = 1; i < candidates.length; ++i)candidates[i].length < len1 && (len1 = (best = candidates[i]).length);
+            return best;
         }
         function make_block(stmt, output) {
             !stmt || stmt instanceof AST_EmptyStatement ? output.print("{}") : stmt instanceof AST_BlockStatement ? stmt.print(output) : output.with_block(function() {
@@ -6014,7 +6012,7 @@
         ], function(output) {
             output.add_mapping(this.start, this.key);
         });
-    }();
+    }
     const shallow_cmp = (node1, node2)=>null === node1 && null === node2 || node1.TYPE === node2.TYPE && node1.shallow_cmp(node2), equivalent_to = (tree1, tree2)=>{
         if (!shallow_cmp(tree1, tree2)) return !1;
         const walk_1_state = [
@@ -7019,6 +7017,45 @@
             "POSITIVE_INFINITY"
         ]
     }), is_undeclared_ref = (node)=>node instanceof AST_SymbolRef && node.definition().undeclared, bitwise_binop = makePredicate("<<< >> << & | ^ ~"), lazy_op = makePredicate("&& || ??"), unary_side_effects = makePredicate("delete ++ --");
+    // methods to determine whether an expression has a boolean result type
+    {
+        var def_is_boolean = function(node, func) {
+            node.DEFMETHOD("is_boolean", func);
+        };
+        const unary_bool = makePredicate("! delete"), binary_bool = makePredicate("in instanceof == != === !== < <= >= >");
+        def_is_boolean(AST_Node, return_false), def_is_boolean(AST_UnaryPrefix, function() {
+            return unary_bool.has(this.operator);
+        }), def_is_boolean(AST_Binary, function() {
+            return binary_bool.has(this.operator) || lazy_op.has(this.operator) && this.left.is_boolean() && this.right.is_boolean();
+        }), def_is_boolean(AST_Conditional, function() {
+            return this.consequent.is_boolean() && this.alternative.is_boolean();
+        }), def_is_boolean(AST_Assign, function() {
+            return "=" == this.operator && this.right.is_boolean();
+        }), def_is_boolean(AST_Sequence, function() {
+            return this.tail_node().is_boolean();
+        }), def_is_boolean(AST_True, return_true), def_is_boolean(AST_False, return_true);
+    }
+    // methods to determine if an expression has a numeric result type
+    {
+        var def_is_number = function(node, func) {
+            node.DEFMETHOD("is_number", func);
+        };
+        def_is_number(AST_Node, return_false), def_is_number(AST_Number, return_true);
+        const unary = makePredicate("+ - ~ ++ --");
+        def_is_number(AST_Unary, function() {
+            return unary.has(this.operator) && !(this.expression instanceof AST_BigInt);
+        });
+        const numeric_ops = makePredicate("- * / % & | ^ << >> >>>");
+        def_is_number(AST_Binary, function(compressor) {
+            return numeric_ops.has(this.operator) || "+" == this.operator && this.left.is_number(compressor) && this.right.is_number(compressor);
+        }), def_is_number(AST_Assign, function(compressor) {
+            return numeric_ops.has(this.operator.slice(0, -1)) || "=" == this.operator && this.right.is_number(compressor);
+        }), def_is_number(AST_Sequence, function(compressor) {
+            return this.tail_node().is_number(compressor);
+        }), def_is_number(AST_Conditional, function(compressor) {
+            return this.consequent.is_number(compressor) && this.alternative.is_number(compressor);
+        });
+    }
     function is_undefined(node, compressor) {
         return has_flag(node, 0b00001000) || node instanceof AST_Undefined || node instanceof AST_UnaryPrefix && "void" == node.operator && !node.expression.has_side_effects(compressor);
     }
@@ -7037,45 +7074,7 @@
     function is_nullish(node, compressor) {
         return !!is_null_or_undefined(node, compressor) || is_nullish_shortcircuited(node, compressor);
     }
-    function is_lhs(node, parent) {
-        return parent instanceof AST_Unary && unary_side_effects.has(parent.operator) ? parent.expression : parent instanceof AST_Assign && parent.left === node || parent instanceof AST_ForIn && parent.init === node ? node : void 0;
-    }
-    !// methods to determine whether an expression has a boolean result type
-    function(def_is_boolean) {
-        const unary_bool = makePredicate("! delete"), binary_bool = makePredicate("in instanceof == != === !== < <= >= >");
-        def_is_boolean(AST_Node, return_false), def_is_boolean(AST_UnaryPrefix, function() {
-            return unary_bool.has(this.operator);
-        }), def_is_boolean(AST_Binary, function() {
-            return binary_bool.has(this.operator) || lazy_op.has(this.operator) && this.left.is_boolean() && this.right.is_boolean();
-        }), def_is_boolean(AST_Conditional, function() {
-            return this.consequent.is_boolean() && this.alternative.is_boolean();
-        }), def_is_boolean(AST_Assign, function() {
-            return "=" == this.operator && this.right.is_boolean();
-        }), def_is_boolean(AST_Sequence, function() {
-            return this.tail_node().is_boolean();
-        }), def_is_boolean(AST_True, return_true), def_is_boolean(AST_False, return_true);
-    }(function(node, func) {
-        node.DEFMETHOD("is_boolean", func);
-    }), // methods to determine if an expression has a numeric result type
-    function(def_is_number) {
-        def_is_number(AST_Node, return_false), def_is_number(AST_Number, return_true);
-        const unary = makePredicate("+ - ~ ++ --");
-        def_is_number(AST_Unary, function() {
-            return unary.has(this.operator) && !(this.expression instanceof AST_BigInt);
-        });
-        const numeric_ops = makePredicate("- * / % & | ^ << >> >>>");
-        def_is_number(AST_Binary, function(compressor) {
-            return numeric_ops.has(this.operator) || "+" == this.operator && this.left.is_number(compressor) && this.right.is_number(compressor);
-        }), def_is_number(AST_Assign, function(compressor) {
-            return numeric_ops.has(this.operator.slice(0, -1)) || "=" == this.operator && this.right.is_number(compressor);
-        }), def_is_number(AST_Sequence, function(compressor) {
-            return this.tail_node().is_number(compressor);
-        }), def_is_number(AST_Conditional, function(compressor) {
-            return this.consequent.is_number(compressor) && this.alternative.is_number(compressor);
-        });
-    }(function(node, func) {
-        node.DEFMETHOD("is_number", func);
-    }), (def_is_32_bit_integer = function(node, func) {
+    (def_is_32_bit_integer = function(node, func) {
         node.DEFMETHOD("is_32_bit_integer", func);
     })(AST_Node, return_false), def_is_32_bit_integer(AST_Number, function() {
         return this.value === (0 | this.value);
@@ -7095,308 +7094,304 @@
         return this.tail_node().is_string(compressor);
     }), def_is_string(AST_Conditional, function(compressor) {
         return this.consequent.is_string(compressor) && this.alternative.is_string(compressor);
-    }), // Determine if expression might cause side effects
-    // If there's a possibility that a node may change something when it's executed, this returns true
-    function(def_has_side_effects) {
-        function any(list, compressor) {
-            for(var i = list.length; --i >= 0;)if (list[i].has_side_effects(compressor)) return !0;
-            return !1;
-        }
-        def_has_side_effects(AST_Node, return_true), def_has_side_effects(AST_EmptyStatement, return_false), def_has_side_effects(AST_Constant, return_false), def_has_side_effects(AST_This, return_false), def_has_side_effects(AST_Block, function(compressor) {
-            return any(this.body, compressor);
-        }), def_has_side_effects(AST_Call, function(compressor) {
-            return !!(!this.is_callee_pure(compressor) && (!this.expression.is_call_pure(compressor) || this.expression.has_side_effects(compressor))) || any(this.args, compressor);
-        }), def_has_side_effects(AST_Switch, function(compressor) {
-            return this.expression.has_side_effects(compressor) || any(this.body, compressor);
-        }), def_has_side_effects(AST_Case, function(compressor) {
-            return this.expression.has_side_effects(compressor) || any(this.body, compressor);
-        }), def_has_side_effects(AST_Try, function(compressor) {
-            return this.body.has_side_effects(compressor) || this.bcatch && this.bcatch.has_side_effects(compressor) || this.bfinally && this.bfinally.has_side_effects(compressor);
-        }), def_has_side_effects(AST_If, function(compressor) {
-            return this.condition.has_side_effects(compressor) || this.body && this.body.has_side_effects(compressor) || this.alternative && this.alternative.has_side_effects(compressor);
-        }), def_has_side_effects(AST_ImportMeta, return_false), def_has_side_effects(AST_LabeledStatement, function(compressor) {
-            return this.body.has_side_effects(compressor);
-        }), def_has_side_effects(AST_SimpleStatement, function(compressor) {
-            return this.body.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Lambda, return_false), def_has_side_effects(AST_Class, function(compressor) {
-            return !!(this.extends && this.extends.has_side_effects(compressor)) || any(this.properties, compressor);
-        }), def_has_side_effects(AST_ClassStaticBlock, function(compressor) {
-            return any(this.body, compressor);
-        }), def_has_side_effects(AST_Binary, function(compressor) {
-            return this.left.has_side_effects(compressor) || this.right.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Assign, return_true), def_has_side_effects(AST_Conditional, function(compressor) {
-            return this.condition.has_side_effects(compressor) || this.consequent.has_side_effects(compressor) || this.alternative.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Unary, function(compressor) {
-            return unary_side_effects.has(this.operator) || this.expression.has_side_effects(compressor);
-        }), def_has_side_effects(AST_SymbolRef, function(compressor) {
-            return !this.is_declared(compressor) && !pure_prop_access_globals.has(this.name);
-        }), def_has_side_effects(AST_SymbolClassProperty, return_false), def_has_side_effects(AST_SymbolDeclaration, return_false), def_has_side_effects(AST_Object, function(compressor) {
-            return any(this.properties, compressor);
-        }), def_has_side_effects(AST_ObjectProperty, function(compressor) {
-            return this.computed_key() && this.key.has_side_effects(compressor) || this.value && this.value.has_side_effects(compressor);
-        }), def_has_side_effects(AST_ClassProperty, function(compressor) {
-            return this.computed_key() && this.key.has_side_effects(compressor) || this.static && this.value && this.value.has_side_effects(compressor);
-        }), def_has_side_effects(AST_ConciseMethod, function(compressor) {
-            return this.computed_key() && this.key.has_side_effects(compressor);
-        }), def_has_side_effects(AST_ObjectGetter, function(compressor) {
-            return this.computed_key() && this.key.has_side_effects(compressor);
-        }), def_has_side_effects(AST_ObjectSetter, function(compressor) {
-            return this.computed_key() && this.key.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Array, function(compressor) {
-            return any(this.elements, compressor);
-        }), def_has_side_effects(AST_Dot, function(compressor) {
-            return is_nullish(this, compressor) ? this.expression.has_side_effects(compressor) : !!(!this.optional && this.expression.may_throw_on_access(compressor)) || this.expression.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Sub, function(compressor) {
-            if (is_nullish(this, compressor)) return this.expression.has_side_effects(compressor);
-            if (!this.optional && this.expression.may_throw_on_access(compressor)) return !0;
-            var property = this.property.has_side_effects(compressor);
-            return !!property && !!this.optional || property || this.expression.has_side_effects(compressor) // "?." is a condition
-            ;
-        }), def_has_side_effects(AST_Chain, function(compressor) {
-            return this.expression.has_side_effects(compressor);
-        }), def_has_side_effects(AST_Sequence, function(compressor) {
-            return any(this.expressions, compressor);
-        }), def_has_side_effects(AST_Definitions, function(compressor) {
-            return any(this.definitions, compressor);
-        }), def_has_side_effects(AST_VarDef, function() {
-            return this.value;
-        }), def_has_side_effects(AST_TemplateSegment, return_false), def_has_side_effects(AST_TemplateString, function(compressor) {
-            return any(this.segments, compressor);
-        });
-    }(function(node, func) {
+    });
+    var def_has_side_effects = function(node, func) {
         node.DEFMETHOD("has_side_effects", func);
-    }), // determine if expression may throw
-    function(def_may_throw) {
-        function any(list, compressor) {
-            for(var i = list.length; --i >= 0;)if (list[i].may_throw(compressor)) return !0;
-            return !1;
-        }
-        def_may_throw(AST_Node, return_true), def_may_throw(AST_Constant, return_false), def_may_throw(AST_EmptyStatement, return_false), def_may_throw(AST_Lambda, return_false), def_may_throw(AST_SymbolDeclaration, return_false), def_may_throw(AST_This, return_false), def_may_throw(AST_ImportMeta, return_false), def_may_throw(AST_Class, function(compressor) {
-            return !!(this.extends && this.extends.may_throw(compressor)) || any(this.properties, compressor);
-        }), def_may_throw(AST_ClassStaticBlock, function(compressor) {
-            return any(this.body, compressor);
-        }), def_may_throw(AST_Array, function(compressor) {
-            return any(this.elements, compressor);
-        }), def_may_throw(AST_Assign, function(compressor) {
-            return !!this.right.may_throw(compressor) || (!!compressor.has_directive("use strict") || "=" != this.operator || !(this.left instanceof AST_SymbolRef)) && this.left.may_throw(compressor);
-        }), def_may_throw(AST_Binary, function(compressor) {
-            return this.left.may_throw(compressor) || this.right.may_throw(compressor);
-        }), def_may_throw(AST_Block, function(compressor) {
-            return any(this.body, compressor);
-        }), def_may_throw(AST_Call, function(compressor) {
-            return !is_nullish(this, compressor) && (!!any(this.args, compressor) || !this.is_callee_pure(compressor) && (!!this.expression.may_throw(compressor) || !(this.expression instanceof AST_Lambda) || any(this.expression.body, compressor)));
-        }), def_may_throw(AST_Case, function(compressor) {
-            return this.expression.may_throw(compressor) || any(this.body, compressor);
-        }), def_may_throw(AST_Conditional, function(compressor) {
-            return this.condition.may_throw(compressor) || this.consequent.may_throw(compressor) || this.alternative.may_throw(compressor);
-        }), def_may_throw(AST_Definitions, function(compressor) {
-            return any(this.definitions, compressor);
-        }), def_may_throw(AST_If, function(compressor) {
-            return this.condition.may_throw(compressor) || this.body && this.body.may_throw(compressor) || this.alternative && this.alternative.may_throw(compressor);
-        }), def_may_throw(AST_LabeledStatement, function(compressor) {
-            return this.body.may_throw(compressor);
-        }), def_may_throw(AST_Object, function(compressor) {
-            return any(this.properties, compressor);
-        }), def_may_throw(AST_ObjectProperty, function(compressor) {
-            // TODO key may throw too
-            return !!this.value && this.value.may_throw(compressor);
-        }), def_may_throw(AST_ClassProperty, function(compressor) {
-            return this.computed_key() && this.key.may_throw(compressor) || this.static && this.value && this.value.may_throw(compressor);
-        }), def_may_throw(AST_ConciseMethod, function(compressor) {
-            return this.computed_key() && this.key.may_throw(compressor);
-        }), def_may_throw(AST_ObjectGetter, function(compressor) {
-            return this.computed_key() && this.key.may_throw(compressor);
-        }), def_may_throw(AST_ObjectSetter, function(compressor) {
-            return this.computed_key() && this.key.may_throw(compressor);
-        }), def_may_throw(AST_Return, function(compressor) {
-            return this.value && this.value.may_throw(compressor);
-        }), def_may_throw(AST_Sequence, function(compressor) {
-            return any(this.expressions, compressor);
-        }), def_may_throw(AST_SimpleStatement, function(compressor) {
-            return this.body.may_throw(compressor);
-        }), def_may_throw(AST_Dot, function(compressor) {
-            return !is_nullish(this, compressor) && (!this.optional && this.expression.may_throw_on_access(compressor) || this.expression.may_throw(compressor));
-        }), def_may_throw(AST_Sub, function(compressor) {
-            return !is_nullish(this, compressor) && (!this.optional && this.expression.may_throw_on_access(compressor) || this.expression.may_throw(compressor) || this.property.may_throw(compressor));
-        }), def_may_throw(AST_Chain, function(compressor) {
-            return this.expression.may_throw(compressor);
-        }), def_may_throw(AST_Switch, function(compressor) {
-            return this.expression.may_throw(compressor) || any(this.body, compressor);
-        }), def_may_throw(AST_SymbolRef, function(compressor) {
-            return !this.is_declared(compressor) && !pure_prop_access_globals.has(this.name);
-        }), def_may_throw(AST_SymbolClassProperty, return_false), def_may_throw(AST_Try, function(compressor) {
-            return this.bcatch ? this.bcatch.may_throw(compressor) : this.body.may_throw(compressor) || this.bfinally && this.bfinally.may_throw(compressor);
-        }), def_may_throw(AST_Unary, function(compressor) {
-            return ("typeof" != this.operator || !(this.expression instanceof AST_SymbolRef)) && this.expression.may_throw(compressor);
-        }), def_may_throw(AST_VarDef, function(compressor) {
-            return !!this.value && this.value.may_throw(compressor);
-        });
-    }(function(node, func) {
+    };
+    function any(list, compressor) {
+        for(var i = list.length; --i >= 0;)if (list[i].has_side_effects(compressor)) return !0;
+        return !1;
+    }
+    def_has_side_effects(AST_Node, return_true), def_has_side_effects(AST_EmptyStatement, return_false), def_has_side_effects(AST_Constant, return_false), def_has_side_effects(AST_This, return_false), def_has_side_effects(AST_Block, function(compressor) {
+        return any(this.body, compressor);
+    }), def_has_side_effects(AST_Call, function(compressor) {
+        return !!(!this.is_callee_pure(compressor) && (!this.expression.is_call_pure(compressor) || this.expression.has_side_effects(compressor))) || any(this.args, compressor);
+    }), def_has_side_effects(AST_Switch, function(compressor) {
+        return this.expression.has_side_effects(compressor) || any(this.body, compressor);
+    }), def_has_side_effects(AST_Case, function(compressor) {
+        return this.expression.has_side_effects(compressor) || any(this.body, compressor);
+    }), def_has_side_effects(AST_Try, function(compressor) {
+        return this.body.has_side_effects(compressor) || this.bcatch && this.bcatch.has_side_effects(compressor) || this.bfinally && this.bfinally.has_side_effects(compressor);
+    }), def_has_side_effects(AST_If, function(compressor) {
+        return this.condition.has_side_effects(compressor) || this.body && this.body.has_side_effects(compressor) || this.alternative && this.alternative.has_side_effects(compressor);
+    }), def_has_side_effects(AST_ImportMeta, return_false), def_has_side_effects(AST_LabeledStatement, function(compressor) {
+        return this.body.has_side_effects(compressor);
+    }), def_has_side_effects(AST_SimpleStatement, function(compressor) {
+        return this.body.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Lambda, return_false), def_has_side_effects(AST_Class, function(compressor) {
+        return !!(this.extends && this.extends.has_side_effects(compressor)) || any(this.properties, compressor);
+    }), def_has_side_effects(AST_ClassStaticBlock, function(compressor) {
+        return any(this.body, compressor);
+    }), def_has_side_effects(AST_Binary, function(compressor) {
+        return this.left.has_side_effects(compressor) || this.right.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Assign, return_true), def_has_side_effects(AST_Conditional, function(compressor) {
+        return this.condition.has_side_effects(compressor) || this.consequent.has_side_effects(compressor) || this.alternative.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Unary, function(compressor) {
+        return unary_side_effects.has(this.operator) || this.expression.has_side_effects(compressor);
+    }), def_has_side_effects(AST_SymbolRef, function(compressor) {
+        return !this.is_declared(compressor) && !pure_prop_access_globals.has(this.name);
+    }), def_has_side_effects(AST_SymbolClassProperty, return_false), def_has_side_effects(AST_SymbolDeclaration, return_false), def_has_side_effects(AST_Object, function(compressor) {
+        return any(this.properties, compressor);
+    }), def_has_side_effects(AST_ObjectProperty, function(compressor) {
+        return this.computed_key() && this.key.has_side_effects(compressor) || this.value && this.value.has_side_effects(compressor);
+    }), def_has_side_effects(AST_ClassProperty, function(compressor) {
+        return this.computed_key() && this.key.has_side_effects(compressor) || this.static && this.value && this.value.has_side_effects(compressor);
+    }), def_has_side_effects(AST_ConciseMethod, function(compressor) {
+        return this.computed_key() && this.key.has_side_effects(compressor);
+    }), def_has_side_effects(AST_ObjectGetter, function(compressor) {
+        return this.computed_key() && this.key.has_side_effects(compressor);
+    }), def_has_side_effects(AST_ObjectSetter, function(compressor) {
+        return this.computed_key() && this.key.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Array, function(compressor) {
+        return any(this.elements, compressor);
+    }), def_has_side_effects(AST_Dot, function(compressor) {
+        return is_nullish(this, compressor) ? this.expression.has_side_effects(compressor) : !!(!this.optional && this.expression.may_throw_on_access(compressor)) || this.expression.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Sub, function(compressor) {
+        if (is_nullish(this, compressor)) return this.expression.has_side_effects(compressor);
+        if (!this.optional && this.expression.may_throw_on_access(compressor)) return !0;
+        var property = this.property.has_side_effects(compressor);
+        return !!property && !!this.optional || property || this.expression.has_side_effects(compressor) // "?." is a condition
+        ;
+    }), def_has_side_effects(AST_Chain, function(compressor) {
+        return this.expression.has_side_effects(compressor);
+    }), def_has_side_effects(AST_Sequence, function(compressor) {
+        return any(this.expressions, compressor);
+    }), def_has_side_effects(AST_Definitions, function(compressor) {
+        return any(this.definitions, compressor);
+    }), def_has_side_effects(AST_VarDef, function() {
+        return this.value;
+    }), def_has_side_effects(AST_TemplateSegment, return_false), def_has_side_effects(AST_TemplateString, function(compressor) {
+        return any(this.segments, compressor);
+    });
+    var def_may_throw = function(node, func) {
         node.DEFMETHOD("may_throw", func);
-    }), // determine if expression is constant
-    function(def_is_constant_expression) {
-        function all_refs_local(scope) {
-            let result = !0;
-            return walk(this, (node)=>{
-                if (node instanceof AST_SymbolRef) {
-                    if (has_flag(this, 0b00010000)) return result = !1, walk_abort;
-                    var def = node.definition();
-                    if (member(def, this.enclosed) && !this.variables.has(def.name)) {
-                        if (scope) {
-                            var scope_def = scope.find_variable(node);
-                            if (def.undeclared ? !scope_def : scope_def === def) return result = "f", !0;
-                        }
-                        return result = !1, walk_abort;
-                    }
-                    return !0;
-                }
-                if (node instanceof AST_This && this instanceof AST_Arrow) return result = !1, walk_abort;
-            }), result;
-        }
-        def_is_constant_expression(AST_Node, return_false), def_is_constant_expression(AST_Constant, return_true), def_is_constant_expression(AST_Class, function(scope) {
-            if (this.extends && !this.extends.is_constant_expression(scope)) return !1;
-            for (const prop of this.properties)if (prop.computed_key() && !prop.key.is_constant_expression(scope) || prop.static && prop.value && !prop.value.is_constant_expression(scope) || prop instanceof AST_ClassStaticBlock) return !1;
-            return all_refs_local.call(this, scope);
-        }), def_is_constant_expression(AST_Lambda, all_refs_local), def_is_constant_expression(AST_Unary, function() {
-            return this.expression.is_constant_expression();
-        }), def_is_constant_expression(AST_Binary, function() {
-            return this.left.is_constant_expression() && this.right.is_constant_expression();
-        }), def_is_constant_expression(AST_Array, function() {
-            return this.elements.every((l)=>l.is_constant_expression());
-        }), def_is_constant_expression(AST_Object, function() {
-            return this.properties.every((l)=>l.is_constant_expression());
-        }), def_is_constant_expression(AST_ObjectProperty, function() {
-            return !!(!(this.key instanceof AST_Node) && this.value && this.value.is_constant_expression());
-        });
-    }(function(node, func) {
+    };
+    function any1(list, compressor) {
+        for(var i = list.length; --i >= 0;)if (list[i].may_throw(compressor)) return !0;
+        return !1;
+    }
+    def_may_throw(AST_Node, return_true), def_may_throw(AST_Constant, return_false), def_may_throw(AST_EmptyStatement, return_false), def_may_throw(AST_Lambda, return_false), def_may_throw(AST_SymbolDeclaration, return_false), def_may_throw(AST_This, return_false), def_may_throw(AST_ImportMeta, return_false), def_may_throw(AST_Class, function(compressor) {
+        return !!(this.extends && this.extends.may_throw(compressor)) || any1(this.properties, compressor);
+    }), def_may_throw(AST_ClassStaticBlock, function(compressor) {
+        return any1(this.body, compressor);
+    }), def_may_throw(AST_Array, function(compressor) {
+        return any1(this.elements, compressor);
+    }), def_may_throw(AST_Assign, function(compressor) {
+        return !!this.right.may_throw(compressor) || (!!compressor.has_directive("use strict") || "=" != this.operator || !(this.left instanceof AST_SymbolRef)) && this.left.may_throw(compressor);
+    }), def_may_throw(AST_Binary, function(compressor) {
+        return this.left.may_throw(compressor) || this.right.may_throw(compressor);
+    }), def_may_throw(AST_Block, function(compressor) {
+        return any1(this.body, compressor);
+    }), def_may_throw(AST_Call, function(compressor) {
+        return !is_nullish(this, compressor) && (!!any1(this.args, compressor) || !this.is_callee_pure(compressor) && (!!this.expression.may_throw(compressor) || !(this.expression instanceof AST_Lambda) || any1(this.expression.body, compressor)));
+    }), def_may_throw(AST_Case, function(compressor) {
+        return this.expression.may_throw(compressor) || any1(this.body, compressor);
+    }), def_may_throw(AST_Conditional, function(compressor) {
+        return this.condition.may_throw(compressor) || this.consequent.may_throw(compressor) || this.alternative.may_throw(compressor);
+    }), def_may_throw(AST_Definitions, function(compressor) {
+        return any1(this.definitions, compressor);
+    }), def_may_throw(AST_If, function(compressor) {
+        return this.condition.may_throw(compressor) || this.body && this.body.may_throw(compressor) || this.alternative && this.alternative.may_throw(compressor);
+    }), def_may_throw(AST_LabeledStatement, function(compressor) {
+        return this.body.may_throw(compressor);
+    }), def_may_throw(AST_Object, function(compressor) {
+        return any1(this.properties, compressor);
+    }), def_may_throw(AST_ObjectProperty, function(compressor) {
+        // TODO key may throw too
+        return !!this.value && this.value.may_throw(compressor);
+    }), def_may_throw(AST_ClassProperty, function(compressor) {
+        return this.computed_key() && this.key.may_throw(compressor) || this.static && this.value && this.value.may_throw(compressor);
+    }), def_may_throw(AST_ConciseMethod, function(compressor) {
+        return this.computed_key() && this.key.may_throw(compressor);
+    }), def_may_throw(AST_ObjectGetter, function(compressor) {
+        return this.computed_key() && this.key.may_throw(compressor);
+    }), def_may_throw(AST_ObjectSetter, function(compressor) {
+        return this.computed_key() && this.key.may_throw(compressor);
+    }), def_may_throw(AST_Return, function(compressor) {
+        return this.value && this.value.may_throw(compressor);
+    }), def_may_throw(AST_Sequence, function(compressor) {
+        return any1(this.expressions, compressor);
+    }), def_may_throw(AST_SimpleStatement, function(compressor) {
+        return this.body.may_throw(compressor);
+    }), def_may_throw(AST_Dot, function(compressor) {
+        return !is_nullish(this, compressor) && (!this.optional && this.expression.may_throw_on_access(compressor) || this.expression.may_throw(compressor));
+    }), def_may_throw(AST_Sub, function(compressor) {
+        return !is_nullish(this, compressor) && (!this.optional && this.expression.may_throw_on_access(compressor) || this.expression.may_throw(compressor) || this.property.may_throw(compressor));
+    }), def_may_throw(AST_Chain, function(compressor) {
+        return this.expression.may_throw(compressor);
+    }), def_may_throw(AST_Switch, function(compressor) {
+        return this.expression.may_throw(compressor) || any1(this.body, compressor);
+    }), def_may_throw(AST_SymbolRef, function(compressor) {
+        return !this.is_declared(compressor) && !pure_prop_access_globals.has(this.name);
+    }), def_may_throw(AST_SymbolClassProperty, return_false), def_may_throw(AST_Try, function(compressor) {
+        return this.bcatch ? this.bcatch.may_throw(compressor) : this.body.may_throw(compressor) || this.bfinally && this.bfinally.may_throw(compressor);
+    }), def_may_throw(AST_Unary, function(compressor) {
+        return ("typeof" != this.operator || !(this.expression instanceof AST_SymbolRef)) && this.expression.may_throw(compressor);
+    }), def_may_throw(AST_VarDef, function(compressor) {
+        return !!this.value && this.value.may_throw(compressor);
+    });
+    var def_is_constant_expression = function(node, func) {
         node.DEFMETHOD("is_constant_expression", func);
-    }), // may_throw_on_access()
-    // returns true if this node may be null, undefined or contain `AST_Accessor`
-    function(def_may_throw_on_access) {
-        function is_strict(compressor) {
-            return /strict/.test(compressor.option("pure_getters"));
-        }
-        AST_Node.DEFMETHOD("may_throw_on_access", function(compressor) {
-            return !compressor.option("pure_getters") || this._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_Node, is_strict), def_may_throw_on_access(AST_Null, return_true), def_may_throw_on_access(AST_Undefined, return_true), def_may_throw_on_access(AST_Constant, return_false), def_may_throw_on_access(AST_Array, return_false), def_may_throw_on_access(AST_Object, function(compressor) {
-            if (!is_strict(compressor)) return !1;
-            for(var i = this.properties.length; --i >= 0;)if (this.properties[i]._dot_throw(compressor)) return !0;
-            return !1;
-        }), // Do not be as strict with classes as we are with objects.
-        // Hopefully the community is not going to abuse static getters and setters.
-        // https://github.com/terser/terser/issues/724#issuecomment-643655656
-        def_may_throw_on_access(AST_Class, return_false), def_may_throw_on_access(AST_ObjectProperty, return_false), def_may_throw_on_access(AST_ObjectGetter, return_true), def_may_throw_on_access(AST_Expansion, function(compressor) {
-            return this.expression._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_Function, return_false), def_may_throw_on_access(AST_Arrow, return_false), def_may_throw_on_access(AST_UnaryPostfix, return_false), def_may_throw_on_access(AST_UnaryPrefix, function() {
-            return "void" == this.operator;
-        }), def_may_throw_on_access(AST_Binary, function(compressor) {
-            return ("&&" == this.operator || "||" == this.operator || "??" == this.operator) && (this.left._dot_throw(compressor) || this.right._dot_throw(compressor));
-        }), def_may_throw_on_access(AST_Assign, function(compressor) {
-            return !!this.logical || "=" == this.operator && this.right._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_Conditional, function(compressor) {
-            return this.consequent._dot_throw(compressor) || this.alternative._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_Dot, function(compressor) {
-            return !!is_strict(compressor) && ("prototype" != this.property || !(this.expression instanceof AST_Function || this.expression instanceof AST_Class));
-        }), def_may_throw_on_access(AST_Chain, function(compressor) {
-            return this.expression._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_Sequence, function(compressor) {
-            return this.tail_node()._dot_throw(compressor);
-        }), def_may_throw_on_access(AST_SymbolRef, function(compressor) {
-            if ("arguments" === this.name && this.scope instanceof AST_Lambda) return !1;
-            if (has_flag(this, 0b00001000)) return !0;
-            if (!is_strict(compressor) || is_undeclared_ref(this) && this.is_declared(compressor) || this.is_immutable()) return !1;
-            var fixed = this.fixed_value();
-            return !fixed || fixed._dot_throw(compressor);
-        });
-    }(function(node, func) {
+    };
+    function all_refs_local(scope) {
+        let result = !0;
+        return walk(this, (node)=>{
+            if (node instanceof AST_SymbolRef) {
+                if (has_flag(this, 0b00010000)) return result = !1, walk_abort;
+                var def = node.definition();
+                if (member(def, this.enclosed) && !this.variables.has(def.name)) {
+                    if (scope) {
+                        var scope_def = scope.find_variable(node);
+                        if (def.undeclared ? !scope_def : scope_def === def) return result = "f", !0;
+                    }
+                    return result = !1, walk_abort;
+                }
+                return !0;
+            }
+            if (node instanceof AST_This && this instanceof AST_Arrow) return result = !1, walk_abort;
+        }), result;
+    }
+    def_is_constant_expression(AST_Node, return_false), def_is_constant_expression(AST_Constant, return_true), def_is_constant_expression(AST_Class, function(scope) {
+        if (this.extends && !this.extends.is_constant_expression(scope)) return !1;
+        for (const prop of this.properties)if (prop.computed_key() && !prop.key.is_constant_expression(scope) || prop.static && prop.value && !prop.value.is_constant_expression(scope) || prop instanceof AST_ClassStaticBlock) return !1;
+        return all_refs_local.call(this, scope);
+    }), def_is_constant_expression(AST_Lambda, all_refs_local), def_is_constant_expression(AST_Unary, function() {
+        return this.expression.is_constant_expression();
+    }), def_is_constant_expression(AST_Binary, function() {
+        return this.left.is_constant_expression() && this.right.is_constant_expression();
+    }), def_is_constant_expression(AST_Array, function() {
+        return this.elements.every((l)=>l.is_constant_expression());
+    }), def_is_constant_expression(AST_Object, function() {
+        return this.properties.every((l)=>l.is_constant_expression());
+    }), def_is_constant_expression(AST_ObjectProperty, function() {
+        return !!(!(this.key instanceof AST_Node) && this.value && this.value.is_constant_expression());
+    });
+    var def_may_throw_on_access = function(node, func) {
         node.DEFMETHOD("_dot_throw", func);
-    }), // method to negate an expression
-    function(def_negate) {
-        function basic_negation(exp) {
-            return make_node(AST_UnaryPrefix, exp, {
-                operator: "!",
-                expression: exp
-            });
-        }
-        function best(orig, alt, first_in_statement) {
-            var negated = basic_negation(orig);
-            if (first_in_statement) {
-                var stat = make_node(AST_SimpleStatement, alt, {
-                    body: alt
-                });
-                return best_of_expression(negated, stat) === stat ? alt : negated;
-            }
-            return best_of_expression(negated, alt);
-        }
-        def_negate(AST_Node, function() {
-            return basic_negation(this);
-        }), def_negate(AST_Statement, function() {
-            throw Error("Cannot negate a statement");
-        }), def_negate(AST_Function, function() {
-            return basic_negation(this);
-        }), def_negate(AST_Class, function() {
-            return basic_negation(this);
-        }), def_negate(AST_Arrow, function() {
-            return basic_negation(this);
-        }), def_negate(AST_UnaryPrefix, function() {
-            return "!" == this.operator ? this.expression : basic_negation(this);
-        }), def_negate(AST_Sequence, function(compressor) {
-            var expressions = this.expressions.slice();
-            return expressions.push(expressions.pop().negate(compressor)), make_sequence(this, expressions);
-        }), def_negate(AST_Conditional, function(compressor, first_in_statement) {
-            var self1 = this.clone();
-            return self1.consequent = self1.consequent.negate(compressor), self1.alternative = self1.alternative.negate(compressor), best(this, self1, first_in_statement);
-        }), def_negate(AST_Binary, function(compressor, first_in_statement) {
-            var self1 = this.clone(), op = this.operator;
-            if (compressor.option("unsafe_comps")) switch(op){
-                case "<=":
-                    return self1.operator = ">", self1;
-                case "<":
-                    return self1.operator = ">=", self1;
-                case ">=":
-                    return self1.operator = "<", self1;
-                case ">":
-                    return self1.operator = "<=", self1;
-            }
-            switch(op){
-                case "==":
-                    return self1.operator = "!=", self1;
-                case "!=":
-                    return self1.operator = "==", self1;
-                case "===":
-                    return self1.operator = "!==", self1;
-                case "!==":
-                    return self1.operator = "===", self1;
-                case "&&":
-                    return self1.operator = "||", self1.left = self1.left.negate(compressor, first_in_statement), self1.right = self1.right.negate(compressor), best(this, self1, first_in_statement);
-                case "||":
-                    return self1.operator = "&&", self1.left = self1.left.negate(compressor, first_in_statement), self1.right = self1.right.negate(compressor), best(this, self1, first_in_statement);
-            }
-            return basic_negation(this);
-        });
-    }(function(node, func) {
+    };
+    function is_strict(compressor) {
+        return /strict/.test(compressor.option("pure_getters"));
+    }
+    function is_lhs(node, parent) {
+        return parent instanceof AST_Unary && unary_side_effects.has(parent.operator) ? parent.expression : parent instanceof AST_Assign && parent.left === node || parent instanceof AST_ForIn && parent.init === node ? node : void 0;
+    }
+    AST_Node.DEFMETHOD("may_throw_on_access", function(compressor) {
+        return !compressor.option("pure_getters") || this._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_Node, is_strict), def_may_throw_on_access(AST_Null, return_true), def_may_throw_on_access(AST_Undefined, return_true), def_may_throw_on_access(AST_Constant, return_false), def_may_throw_on_access(AST_Array, return_false), def_may_throw_on_access(AST_Object, function(compressor) {
+        if (!is_strict(compressor)) return !1;
+        for(var i = this.properties.length; --i >= 0;)if (this.properties[i]._dot_throw(compressor)) return !0;
+        return !1;
+    }), // Do not be as strict with classes as we are with objects.
+    // Hopefully the community is not going to abuse static getters and setters.
+    // https://github.com/terser/terser/issues/724#issuecomment-643655656
+    def_may_throw_on_access(AST_Class, return_false), def_may_throw_on_access(AST_ObjectProperty, return_false), def_may_throw_on_access(AST_ObjectGetter, return_true), def_may_throw_on_access(AST_Expansion, function(compressor) {
+        return this.expression._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_Function, return_false), def_may_throw_on_access(AST_Arrow, return_false), def_may_throw_on_access(AST_UnaryPostfix, return_false), def_may_throw_on_access(AST_UnaryPrefix, function() {
+        return "void" == this.operator;
+    }), def_may_throw_on_access(AST_Binary, function(compressor) {
+        return ("&&" == this.operator || "||" == this.operator || "??" == this.operator) && (this.left._dot_throw(compressor) || this.right._dot_throw(compressor));
+    }), def_may_throw_on_access(AST_Assign, function(compressor) {
+        return !!this.logical || "=" == this.operator && this.right._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_Conditional, function(compressor) {
+        return this.consequent._dot_throw(compressor) || this.alternative._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_Dot, function(compressor) {
+        return !!is_strict(compressor) && ("prototype" != this.property || !(this.expression instanceof AST_Function || this.expression instanceof AST_Class));
+    }), def_may_throw_on_access(AST_Chain, function(compressor) {
+        return this.expression._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_Sequence, function(compressor) {
+        return this.tail_node()._dot_throw(compressor);
+    }), def_may_throw_on_access(AST_SymbolRef, function(compressor) {
+        if ("arguments" === this.name && this.scope instanceof AST_Lambda) return !1;
+        if (has_flag(this, 0b00001000)) return !0;
+        if (!is_strict(compressor) || is_undeclared_ref(this) && this.is_declared(compressor) || this.is_immutable()) return !1;
+        var fixed = this.fixed_value();
+        return !fixed || fixed._dot_throw(compressor);
+    });
+    var def_negate = function(node, func) {
         node.DEFMETHOD("negate", function(compressor, first_in_statement) {
             return func.call(this, compressor, first_in_statement);
         });
-    }), function(def_bitwise_negate) {
-        function basic_negation(exp) {
-            return make_node(AST_UnaryPrefix, exp, {
-                operator: "~",
-                expression: exp
-            });
-        }
-        def_bitwise_negate(AST_Node, function() {
-            return basic_negation(this);
-        }), def_bitwise_negate(AST_Number, function() {
-            const neg = ~this.value;
-            return neg.toString().length > this.value.toString().length ? basic_negation(this) : make_node(AST_Number, this, {
-                value: neg
-            });
-        }), def_bitwise_negate(AST_UnaryPrefix, function(in_32_bit_context) {
-            return "~" == this.operator && (in_32_bit_context || this.expression.is_32_bit_integer()) ? this.expression : basic_negation(this);
+    };
+    function basic_negation(exp) {
+        return make_node(AST_UnaryPrefix, exp, {
+            operator: "!",
+            expression: exp
         });
-    }(function(node, func) {
+    }
+    function best(orig, alt, first_in_statement) {
+        var negated = basic_negation(orig);
+        if (first_in_statement) {
+            var stat = make_node(AST_SimpleStatement, alt, {
+                body: alt
+            });
+            return best_of_expression(negated, stat) === stat ? alt : negated;
+        }
+        return best_of_expression(negated, alt);
+    }
+    def_negate(AST_Node, function() {
+        return basic_negation(this);
+    }), def_negate(AST_Statement, function() {
+        throw Error("Cannot negate a statement");
+    }), def_negate(AST_Function, function() {
+        return basic_negation(this);
+    }), def_negate(AST_Class, function() {
+        return basic_negation(this);
+    }), def_negate(AST_Arrow, function() {
+        return basic_negation(this);
+    }), def_negate(AST_UnaryPrefix, function() {
+        return "!" == this.operator ? this.expression : basic_negation(this);
+    }), def_negate(AST_Sequence, function(compressor) {
+        var expressions = this.expressions.slice();
+        return expressions.push(expressions.pop().negate(compressor)), make_sequence(this, expressions);
+    }), def_negate(AST_Conditional, function(compressor, first_in_statement) {
+        var self1 = this.clone();
+        return self1.consequent = self1.consequent.negate(compressor), self1.alternative = self1.alternative.negate(compressor), best(this, self1, first_in_statement);
+    }), def_negate(AST_Binary, function(compressor, first_in_statement) {
+        var self1 = this.clone(), op = this.operator;
+        if (compressor.option("unsafe_comps")) switch(op){
+            case "<=":
+                return self1.operator = ">", self1;
+            case "<":
+                return self1.operator = ">=", self1;
+            case ">=":
+                return self1.operator = "<", self1;
+            case ">":
+                return self1.operator = "<=", self1;
+        }
+        switch(op){
+            case "==":
+                return self1.operator = "!=", self1;
+            case "!=":
+                return self1.operator = "==", self1;
+            case "===":
+                return self1.operator = "!==", self1;
+            case "!==":
+                return self1.operator = "===", self1;
+            case "&&":
+                return self1.operator = "||", self1.left = self1.left.negate(compressor, first_in_statement), self1.right = self1.right.negate(compressor), best(this, self1, first_in_statement);
+            case "||":
+                return self1.operator = "&&", self1.left = self1.left.negate(compressor, first_in_statement), self1.right = self1.right.negate(compressor), best(this, self1, first_in_statement);
+        }
+        return basic_negation(this);
+    });
+    var def_bitwise_negate = function(node, func) {
         node.DEFMETHOD("bitwise_negate", func);
+    };
+    function basic_negation1(exp) {
+        return make_node(AST_UnaryPrefix, exp, {
+            operator: "~",
+            expression: exp
+        });
+    }
+    def_bitwise_negate(AST_Node, function() {
+        return basic_negation1(this);
+    }), def_bitwise_negate(AST_Number, function() {
+        const neg = ~this.value;
+        return neg.toString().length > this.value.toString().length ? basic_negation1(this) : make_node(AST_Number, this, {
+            value: neg
+        });
+    }), def_bitwise_negate(AST_UnaryPrefix, function(in_32_bit_context) {
+        return "~" == this.operator && (in_32_bit_context || this.expression.is_32_bit_integer()) ? this.expression : basic_negation1(this);
     });
     // Is the callee of this function pure?
     var global_pure_fns = makePredicate("Boolean decodeURI decodeURIComponent Date encodeURI encodeURIComponent Error escape EvalError isFinite isNaN Number Object parseFloat parseInt RangeError ReferenceError String SyntaxError TypeError unescape URIError");
@@ -7416,6 +7411,13 @@
     });
     // tell me if a statement aborts
     const aborts = (thing)=>thing && thing.aborts();
+    var def_aborts = function(node, func) {
+        node.DEFMETHOD("aborts", func);
+    };
+    function block_aborts() {
+        for(var i = 0; i < this.body.length; i++)if (aborts(this.body[i])) return this.body[i];
+        return null;
+    }
     function is_modified(compressor, tw, node, value, level, immutable) {
         var parent = tw.parent(level), lhs = is_lhs(node, parent);
         if (lhs) return lhs;
@@ -7475,19 +7477,11 @@
     function def_eval(node, func) {
         node.DEFMETHOD("_eval", func);
     }
-    !function(def_aborts) {
-        function block_aborts() {
-            for(var i = 0; i < this.body.length; i++)if (aborts(this.body[i])) return this.body[i];
-            return null;
-        }
-        def_aborts(AST_Statement, return_null), def_aborts(AST_Jump, return_this), def_aborts(AST_Import, return_null), def_aborts(AST_BlockStatement, block_aborts), def_aborts(AST_SwitchBranch, block_aborts), def_aborts(AST_DefClass, function() {
-            for (const prop of this.properties)if (prop instanceof AST_ClassStaticBlock && prop.aborts()) return prop;
-            return null;
-        }), def_aborts(AST_ClassStaticBlock, block_aborts), def_aborts(AST_If, function() {
-            return this.alternative && aborts(this.body) && aborts(this.alternative) && this;
-        });
-    }(function(node, func) {
-        node.DEFMETHOD("aborts", func);
+    def_aborts(AST_Statement, return_null), def_aborts(AST_Jump, return_this), def_aborts(AST_Import, return_null), def_aborts(AST_BlockStatement, block_aborts), def_aborts(AST_SwitchBranch, block_aborts), def_aborts(AST_DefClass, function() {
+        for (const prop of this.properties)if (prop instanceof AST_ClassStaticBlock && prop.aborts()) return prop;
+        return null;
+    }), def_aborts(AST_ClassStaticBlock, block_aborts), def_aborts(AST_If, function() {
+        return this.alternative && aborts(this.body) && aborts(this.alternative) && this;
     }), AST_Node.DEFMETHOD("contains_this", function() {
         return walk(this, (node)=>node instanceof AST_This ? walk_abort : node !== this && node instanceof AST_Scope && !(node instanceof AST_Arrow) || void 0);
     });
@@ -9155,57 +9149,57 @@
         reset_block_variables(compressor, this);
         const saved_loop = tw.in_loop;
         return tw.in_loop = this, push(tw), descend(), pop(tw), tw.in_loop = saved_loop, !0;
-    }), function(def_find_defs) {
-        function to_node(value, orig) {
-            if (value instanceof AST_Node) return value instanceof AST_Constant || // Value may be a function, an array including functions and even a complex assign / block expression,
-            // so it should never be shared in different places.
-            // Otherwise wrong information may be used in the compression phase
-            (value = value.clone(!0)), make_node(value.CTOR, orig, value);
-            if (Array.isArray(value)) return make_node(AST_Array, orig, {
-                elements: value.map(function(value) {
-                    return to_node(value, orig);
-                })
-            });
-            if (value && "object" == typeof value) {
-                var props = [];
-                for(var key in value)HOP(value, key) && props.push(make_node(AST_ObjectKeyVal, orig, {
-                    key: key,
-                    value: to_node(value[key], orig)
-                }));
-                return make_node(AST_Object, orig, {
-                    properties: props
-                });
-            }
-            return make_node_from_constant(value, orig);
-        }
-        AST_Toplevel.DEFMETHOD("resolve_defines", function(compressor) {
-            return compressor.option("global_defs") ? (this.figure_out_scope({
-                ie8: compressor.option("ie8")
-            }), this.transform(new TreeTransformer(function(node) {
-                var def = node._find_defs(compressor, "");
-                if (def) {
-                    for(var parent, level = 0, child = node; (parent = this.parent(level++)) && parent instanceof AST_PropAccess && parent.expression === child;)child = parent;
-                    if (is_lhs(child, parent)) return;
-                    return def;
-                }
-            }))) : this;
-        }), def_find_defs(AST_Node, noop), def_find_defs(AST_Chain, function(compressor, suffix) {
-            return this.expression._find_defs(compressor, suffix);
-        }), def_find_defs(AST_Dot, function(compressor, suffix) {
-            return this.expression._find_defs(compressor, "." + this.property + suffix);
-        }), def_find_defs(AST_SymbolDeclaration, function() {
-            if (!this.global()) return;
-        }), def_find_defs(AST_SymbolRef, function(compressor, suffix) {
-            if (this.global()) {
-                var defines = compressor.option("global_defs"), name = this.name + suffix;
-                if (HOP(defines, name)) return to_node(defines[name], this);
-            }
-        }), def_find_defs(AST_ImportMeta, function(compressor, suffix) {
-            var defines = compressor.option("global_defs"), name = "import.meta" + suffix;
-            if (HOP(defines, name)) return to_node(defines[name], this);
-        });
-    }(function(node, func) {
+    });
+    var def_find_defs = function(node, func) {
         node.DEFMETHOD("_find_defs", func);
+    };
+    function to_node(value, orig) {
+        if (value instanceof AST_Node) return value instanceof AST_Constant || // Value may be a function, an array including functions and even a complex assign / block expression,
+        // so it should never be shared in different places.
+        // Otherwise wrong information may be used in the compression phase
+        (value = value.clone(!0)), make_node(value.CTOR, orig, value);
+        if (Array.isArray(value)) return make_node(AST_Array, orig, {
+            elements: value.map(function(value) {
+                return to_node(value, orig);
+            })
+        });
+        if (value && "object" == typeof value) {
+            var props = [];
+            for(var key in value)HOP(value, key) && props.push(make_node(AST_ObjectKeyVal, orig, {
+                key: key,
+                value: to_node(value[key], orig)
+            }));
+            return make_node(AST_Object, orig, {
+                properties: props
+            });
+        }
+        return make_node_from_constant(value, orig);
+    }
+    AST_Toplevel.DEFMETHOD("resolve_defines", function(compressor) {
+        return compressor.option("global_defs") ? (this.figure_out_scope({
+            ie8: compressor.option("ie8")
+        }), this.transform(new TreeTransformer(function(node) {
+            var def = node._find_defs(compressor, "");
+            if (def) {
+                for(var parent, level = 0, child = node; (parent = this.parent(level++)) && parent instanceof AST_PropAccess && parent.expression === child;)child = parent;
+                if (is_lhs(child, parent)) return;
+                return def;
+            }
+        }))) : this;
+    }), def_find_defs(AST_Node, noop), def_find_defs(AST_Chain, function(compressor, suffix) {
+        return this.expression._find_defs(compressor, suffix);
+    }), def_find_defs(AST_Dot, function(compressor, suffix) {
+        return this.expression._find_defs(compressor, "." + this.property + suffix);
+    }), def_find_defs(AST_SymbolDeclaration, function() {
+        if (!this.global()) return;
+    }), def_find_defs(AST_SymbolRef, function(compressor, suffix) {
+        if (this.global()) {
+            var defines = compressor.option("global_defs"), name = this.name + suffix;
+            if (HOP(defines, name)) return to_node(defines[name], this);
+        }
+    }), def_find_defs(AST_ImportMeta, function(compressor, suffix) {
+        var defines = compressor.option("global_defs"), name = "import.meta" + suffix;
+        if (HOP(defines, name)) return to_node(defines[name], this);
     });
     /***********************************************************************
     
@@ -10325,179 +10319,174 @@
             // Otherwise, it crashes at runtime. Or maybe it's nonstandard syntax.
             }
         }
-        return function(self1, compressor) {
-            if (compressor.in_computed_key()) return self1;
-            var exp = self1.expression, fn = exp, simple_args = self1.args.every((arg)=>!(arg instanceof AST_Expansion));
-            if (compressor.option("reduce_vars") && fn instanceof AST_SymbolRef && !has_annotation(self1, _NOINLINE)) {
-                const fixed = fn.fixed_value();
-                if (retain_top_func(fixed, compressor) || !compressor.toplevel.funcs && exp.definition().global) return self1;
-                fn = fixed;
-            }
-            var is_func = fn instanceof AST_Lambda, stat = is_func && fn.body[0], is_regular_func = is_func && !fn.is_generator && !fn.async, can_inline = is_regular_func && compressor.option("inline") && !self1.is_callee_pure(compressor);
-            if (can_inline && stat instanceof AST_Return) {
-                let returned = stat.value;
-                if (!returned || returned.is_constant_expression()) {
-                    returned = returned ? returned.clone(!0) : make_node(AST_Undefined, self1);
-                    const args = self1.args.concat(returned);
-                    return make_sequence(self1, args).optimize(compressor);
-                }
-                // optimize identity function
-                if (1 === fn.argnames.length && fn.argnames[0] instanceof AST_SymbolFunarg && self1.args.length < 2 && !(self1.args[0] instanceof AST_Expansion) && returned instanceof AST_SymbolRef && returned.name === fn.argnames[0].name) {
-                    let parent;
-                    const replacement = (self1.args[0] || make_node(AST_Undefined)).optimize(compressor);
-                    return replacement instanceof AST_PropAccess && (parent = compressor.parent()) instanceof AST_Call && parent.expression === self1 ? make_sequence(self1, [
-                        make_node(AST_Number, self1, {
-                            value: 0
-                        }),
-                        replacement
-                    ]) : replacement;
-                }
-            }
-            if (can_inline) {
-                let def, returned_value, nearest_scope;
-                var scope, in_loop, level = -1;
-                if (simple_args && !fn.uses_arguments && !(compressor.parent() instanceof AST_Class) && !(fn.name && fn instanceof AST_Function) && (returned_value = function(stat) {
-                    var body = fn.body, len = body.length;
-                    if (3 > compressor.option("inline")) return 1 == len && return_value(stat);
-                    stat = null;
-                    for(var i = 0; i < len; i++){
-                        var line = body[i];
-                        if (line instanceof AST_Var) {
-                            if (stat && !line.definitions.every((var_def)=>!var_def.value)) return !1;
-                        } else {
-                            if (stat) return !1;
-                            line instanceof AST_EmptyStatement || (stat = line);
-                        }
-                    }
-                    return return_value(stat);
-                }(stat)) && (exp === fn || has_annotation(self1, _INLINE) || compressor.option("unused") && 1 == (def = exp.definition()).references.length && !is_recursive_ref(compressor, def) && fn.is_constant_expression(exp.scope)) && !has_annotation(self1, _PURE | _NOINLINE) && !fn.contains_this() && function() {
-                    var block_scoped = new Set();
-                    do if ((scope = compressor.parent(++level)).is_block_scope() && scope.block_scope && // TODO this is sometimes undefined during compression.
-                    // But it should always have a value!
-                    scope.block_scope.variables.forEach(function(variable) {
-                        block_scoped.add(variable.name);
-                    }), scope instanceof AST_Catch) // TODO can we delete? AST_Catch is a block scope.
-                    scope.argname && block_scoped.add(scope.argname.name);
-                    else if (scope instanceof AST_IterationStatement) in_loop = [];
-                    else if (scope instanceof AST_SymbolRef && scope.fixed_value() instanceof AST_Scope) return !1;
-                    while (!(scope instanceof AST_Scope))
-                    var safe_to_inject = !(scope instanceof AST_Toplevel) || compressor.toplevel.vars, inline = compressor.option("inline");
-                    return !!function(block_scoped, safe_to_inject) {
-                        for(var len = fn.body.length, i = 0; i < len; i++){
-                            var stat = fn.body[i];
-                            if (stat instanceof AST_Var) {
-                                if (!safe_to_inject) return !1;
-                                for(var j = stat.definitions.length; --j >= 0;){
-                                    var name = stat.definitions[j].name;
-                                    if (name instanceof AST_Destructuring || block_scoped.has(name.name) || identifier_atom.has(name.name) || scope.conflicting_def(name.name)) return !1;
-                                    in_loop && in_loop.push(name.definition());
-                                }
-                            }
-                        }
-                        return !0;
-                    }(block_scoped, inline >= 3 && safe_to_inject) && !!function(block_scoped, safe_to_inject) {
-                        for(var i = 0, len = fn.argnames.length; i < len; i++){
-                            var arg = fn.argnames[i];
-                            if (arg instanceof AST_DefaultAssign) {
-                                if (has_flag(arg.left, 0b00000001)) continue;
-                                return !1;
-                            }
-                            if (arg instanceof AST_Destructuring) return !1;
-                            if (arg instanceof AST_Expansion) {
-                                if (has_flag(arg.expression, 0b00000001)) continue;
-                                return !1;
-                            }
-                            if (!has_flag(arg, 0b00000001)) {
-                                if (!safe_to_inject || block_scoped.has(arg.name) || identifier_atom.has(arg.name) || scope.conflicting_def(arg.name)) return !1;
-                                in_loop && in_loop.push(arg.definition());
-                            }
-                        }
-                        return !0;
-                    }(block_scoped, inline >= 2 && safe_to_inject) && (!in_loop || 0 == in_loop.length || !is_reachable(fn, in_loop));
-                }() && (nearest_scope = compressor.find_scope()) && !scope_encloses_variables_in_this_scope(nearest_scope, fn) && !function() {
-                    // Due to the fact function parameters have their own scope
-                    // which can't use `var something` in the function body within,
-                    // we simply don't inline into DefaultAssign.
-                    let p, i = 0;
-                    for(; p = compressor.parent(i++);){
-                        if (p instanceof AST_DefaultAssign) return !0;
-                        if (p instanceof AST_Block) break;
-                    }
-                    return !1;
-                }() && !(scope instanceof AST_Class)) return set_flag(fn, 0b0000000100000000), nearest_scope.add_child_scope(fn), make_sequence(self1, function(returned_value) {
-                    var decls = [], expressions = [];
-                    if (function(decls, expressions) {
-                        for(var len = fn.argnames.length, i = self1.args.length; --i >= len;)expressions.push(self1.args[i]);
-                        for(i = len; --i >= 0;){
-                            var name = fn.argnames[i], value = self1.args[i];
-                            if (has_flag(name, 0b00000001) || !name.name || scope.conflicting_def(name.name)) value && expressions.push(value);
-                            else {
-                                var symbol = make_node(AST_SymbolVar, name, name);
-                                name.definition().orig.push(symbol), !value && in_loop && (value = make_node(AST_Undefined, self1)), append_var(decls, expressions, symbol, value);
-                            }
-                        }
-                        decls.reverse(), expressions.reverse();
-                    }(decls, expressions), function(decls, expressions) {
-                        for(var pos = expressions.length, i = 0, lines = fn.body.length; i < lines; i++){
-                            var stat = fn.body[i];
-                            if (stat instanceof AST_Var) for(var j = 0, defs = stat.definitions.length; j < defs; j++){
-                                var var_def = stat.definitions[j], name = var_def.name;
-                                if (append_var(decls, expressions, name, var_def.value), in_loop && fn.argnames.every((argname)=>argname.name != name.name)) {
-                                    var def = fn.variables.get(name.name), sym = make_node(AST_SymbolRef, name, name);
-                                    def.references.push(sym), expressions.splice(pos++, 0, make_node(AST_Assign, var_def, {
-                                        operator: "=",
-                                        logical: !1,
-                                        left: sym,
-                                        right: make_node(AST_Undefined, name)
-                                    }));
-                                }
-                            }
-                        }
-                    }(decls, expressions), expressions.push(returned_value), decls.length) {
-                        const i = scope.body.indexOf(compressor.parent(level - 1)) + 1;
-                        scope.body.splice(i, 0, make_node(AST_Var, fn, {
-                            definitions: decls
-                        }));
-                    }
-                    return expressions.map((exp)=>exp.clone(!0));
-                }(returned_value)).optimize(compressor);
-            }
-            if (can_inline && has_annotation(self1, _INLINE)) return set_flag(fn, 0b0000000100000000), (fn = (fn = make_node(fn.CTOR === AST_Defun ? AST_Function : fn.CTOR, fn, fn)).clone(!0)).figure_out_scope({}, {
-                parent_scope: compressor.find_scope(),
-                toplevel: compressor.get_toplevel()
-            }), make_node(AST_Call, self1, {
-                expression: fn,
-                args: self1.args
-            }).optimize(compressor);
-            if (is_regular_func && compressor.option("side_effects") && fn.body.every(is_empty)) {
-                var args = self1.args.concat(make_node(AST_Undefined, self1));
+        if (compressor.in_computed_key()) return self1;
+        var exp1 = self1.expression, fn1 = exp1, simple_args1 = self1.args.every((arg)=>!(arg instanceof AST_Expansion));
+        if (compressor.option("reduce_vars") && fn1 instanceof AST_SymbolRef && !has_annotation(self1, _NOINLINE)) {
+            const fixed = fn1.fixed_value();
+            if (retain_top_func(fixed, compressor) || !compressor.toplevel.funcs && exp1.definition().global) return self1;
+            fn1 = fixed;
+        }
+        var is_func1 = fn1 instanceof AST_Lambda, stat = is_func1 && fn1.body[0], is_regular_func = is_func1 && !fn1.is_generator && !fn1.async, can_inline = is_regular_func && compressor.option("inline") && !self1.is_callee_pure(compressor);
+        if (can_inline && stat instanceof AST_Return) {
+            let returned = stat.value;
+            if (!returned || returned.is_constant_expression()) {
+                returned = returned ? returned.clone(!0) : make_node(AST_Undefined, self1);
+                const args = self1.args.concat(returned);
                 return make_sequence(self1, args).optimize(compressor);
             }
-            if (compressor.option("negate_iife") && compressor.parent() instanceof AST_SimpleStatement && is_iife_call(self1)) return self1.negate(compressor, !0);
-            var ev = self1.evaluate(compressor);
-            if (ev !== self1) return ev = make_node_from_constant(ev, self1).optimize(compressor), best_of(compressor, ev, self1);
-            return self1;
-            function return_value(stat) {
-                return stat ? stat instanceof AST_Return ? stat.value ? stat.value.clone(!0) : make_node(AST_Undefined, self1) : stat instanceof AST_SimpleStatement ? make_node(AST_UnaryPrefix, stat, {
-                    operator: "void",
-                    expression: stat.body.clone(!0)
-                }) : void 0 : make_node(AST_Undefined, self1);
+            // optimize identity function
+            if (1 === fn1.argnames.length && fn1.argnames[0] instanceof AST_SymbolFunarg && self1.args.length < 2 && !(self1.args[0] instanceof AST_Expansion) && returned instanceof AST_SymbolRef && returned.name === fn1.argnames[0].name) {
+                let parent;
+                const replacement = (self1.args[0] || make_node(AST_Undefined)).optimize(compressor);
+                return replacement instanceof AST_PropAccess && (parent = compressor.parent()) instanceof AST_Call && parent.expression === self1 ? make_sequence(self1, [
+                    make_node(AST_Number, self1, {
+                        value: 0
+                    }),
+                    replacement
+                ]) : replacement;
             }
-            function append_var(decls, expressions, name, value) {
-                var def = name.definition();
-                scope.variables.has(name.name) || (scope.variables.set(name.name, def), scope.enclosed.push(def), decls.push(make_node(AST_VarDef, name, {
-                    name: name,
-                    value: null
-                })));
-                var sym = make_node(AST_SymbolRef, name, name);
-                def.references.push(sym), value && expressions.push(make_node(AST_Assign, self1, {
-                    operator: "=",
-                    logical: !1,
-                    left: sym,
-                    right: value.clone()
-                }));
-            }
-        }(self1, compressor);
+        }
+        if (can_inline) {
+            let def, returned_value, nearest_scope;
+            var scope, in_loop, level = -1;
+            if (simple_args1 && !fn1.uses_arguments && !(compressor.parent() instanceof AST_Class) && !(fn1.name && fn1 instanceof AST_Function) && (returned_value = function(stat) {
+                var body = fn1.body, len = body.length;
+                if (3 > compressor.option("inline")) return 1 == len && return_value(stat);
+                stat = null;
+                for(var i = 0; i < len; i++){
+                    var line = body[i];
+                    if (line instanceof AST_Var) {
+                        if (stat && !line.definitions.every((var_def)=>!var_def.value)) return !1;
+                    } else {
+                        if (stat) return !1;
+                        line instanceof AST_EmptyStatement || (stat = line);
+                    }
+                }
+                return return_value(stat);
+            }(stat)) && (exp1 === fn1 || has_annotation(self1, _INLINE) || compressor.option("unused") && 1 == (def = exp1.definition()).references.length && !is_recursive_ref(compressor, def) && fn1.is_constant_expression(exp1.scope)) && !has_annotation(self1, _PURE | _NOINLINE) && !fn1.contains_this() && function() {
+                var block_scoped = new Set();
+                do if ((scope = compressor.parent(++level)).is_block_scope() && scope.block_scope && // TODO this is sometimes undefined during compression.
+                // But it should always have a value!
+                scope.block_scope.variables.forEach(function(variable) {
+                    block_scoped.add(variable.name);
+                }), scope instanceof AST_Catch) // TODO can we delete? AST_Catch is a block scope.
+                scope.argname && block_scoped.add(scope.argname.name);
+                else if (scope instanceof AST_IterationStatement) in_loop = [];
+                else if (scope instanceof AST_SymbolRef && scope.fixed_value() instanceof AST_Scope) return !1;
+                while (!(scope instanceof AST_Scope))
+                var safe_to_inject = !(scope instanceof AST_Toplevel) || compressor.toplevel.vars, inline = compressor.option("inline");
+                return !!function(block_scoped, safe_to_inject) {
+                    for(var len = fn1.body.length, i = 0; i < len; i++){
+                        var stat = fn1.body[i];
+                        if (stat instanceof AST_Var) {
+                            if (!safe_to_inject) return !1;
+                            for(var j = stat.definitions.length; --j >= 0;){
+                                var name = stat.definitions[j].name;
+                                if (name instanceof AST_Destructuring || block_scoped.has(name.name) || identifier_atom.has(name.name) || scope.conflicting_def(name.name)) return !1;
+                                in_loop && in_loop.push(name.definition());
+                            }
+                        }
+                    }
+                    return !0;
+                }(block_scoped, inline >= 3 && safe_to_inject) && !!function(block_scoped, safe_to_inject) {
+                    for(var i = 0, len = fn1.argnames.length; i < len; i++){
+                        var arg = fn1.argnames[i];
+                        if (arg instanceof AST_DefaultAssign) {
+                            if (has_flag(arg.left, 0b00000001)) continue;
+                            return !1;
+                        }
+                        if (arg instanceof AST_Destructuring) return !1;
+                        if (arg instanceof AST_Expansion) {
+                            if (has_flag(arg.expression, 0b00000001)) continue;
+                            return !1;
+                        }
+                        if (!has_flag(arg, 0b00000001)) {
+                            if (!safe_to_inject || block_scoped.has(arg.name) || identifier_atom.has(arg.name) || scope.conflicting_def(arg.name)) return !1;
+                            in_loop && in_loop.push(arg.definition());
+                        }
+                    }
+                    return !0;
+                }(block_scoped, inline >= 2 && safe_to_inject) && (!in_loop || 0 == in_loop.length || !is_reachable(fn1, in_loop));
+            }() && (nearest_scope = compressor.find_scope()) && !scope_encloses_variables_in_this_scope(nearest_scope, fn1) && !function() {
+                // Due to the fact function parameters have their own scope
+                // which can't use `var something` in the function body within,
+                // we simply don't inline into DefaultAssign.
+                let p, i = 0;
+                for(; p = compressor.parent(i++);){
+                    if (p instanceof AST_DefaultAssign) return !0;
+                    if (p instanceof AST_Block) break;
+                }
+                return !1;
+            }() && !(scope instanceof AST_Class)) return set_flag(fn1, 0b0000000100000000), nearest_scope.add_child_scope(fn1), make_sequence(self1, function(returned_value) {
+                for(var decls = [], expressions = [], len = fn1.argnames.length, i = self1.args.length; --i >= len;)expressions.push(self1.args[i]);
+                for(i = len; --i >= 0;){
+                    var name = fn1.argnames[i], value = self1.args[i];
+                    if (has_flag(name, 0b00000001) || !name.name || scope.conflicting_def(name.name)) value && expressions.push(value);
+                    else {
+                        var symbol = make_node(AST_SymbolVar, name, name);
+                        name.definition().orig.push(symbol), !value && in_loop && (value = make_node(AST_Undefined, self1)), append_var(decls, expressions, symbol, value);
+                    }
+                }
+                decls.reverse(), expressions.reverse();
+                for(var pos = expressions.length, i1 = 0, lines = fn1.body.length; i1 < lines; i1++){
+                    var stat = fn1.body[i1];
+                    if (stat instanceof AST_Var) for(var j = 0, defs = stat.definitions.length; j < defs; j++){
+                        var var_def = stat.definitions[j], name1 = var_def.name;
+                        if (append_var(decls, expressions, name1, var_def.value), in_loop && fn1.argnames.every((argname)=>argname.name != name1.name)) {
+                            var def = fn1.variables.get(name1.name), sym = make_node(AST_SymbolRef, name1, name1);
+                            def.references.push(sym), expressions.splice(pos++, 0, make_node(AST_Assign, var_def, {
+                                operator: "=",
+                                logical: !1,
+                                left: sym,
+                                right: make_node(AST_Undefined, name1)
+                            }));
+                        }
+                    }
+                }
+                if (expressions.push(returned_value), decls.length) {
+                    const i = scope.body.indexOf(compressor.parent(level - 1)) + 1;
+                    scope.body.splice(i, 0, make_node(AST_Var, fn1, {
+                        definitions: decls
+                    }));
+                }
+                return expressions.map((exp)=>exp.clone(!0));
+            }(returned_value)).optimize(compressor);
+        }
+        if (can_inline && has_annotation(self1, _INLINE)) return set_flag(fn1, 0b0000000100000000), (fn1 = (fn1 = make_node(fn1.CTOR === AST_Defun ? AST_Function : fn1.CTOR, fn1, fn1)).clone(!0)).figure_out_scope({}, {
+            parent_scope: compressor.find_scope(),
+            toplevel: compressor.get_toplevel()
+        }), make_node(AST_Call, self1, {
+            expression: fn1,
+            args: self1.args
+        }).optimize(compressor);
+        if (is_regular_func && compressor.option("side_effects") && fn1.body.every(is_empty)) {
+            var args1 = self1.args.concat(make_node(AST_Undefined, self1));
+            return make_sequence(self1, args1).optimize(compressor);
+        }
+        if (compressor.option("negate_iife") && compressor.parent() instanceof AST_SimpleStatement && is_iife_call(self1)) return self1.negate(compressor, !0);
+        var ev = self1.evaluate(compressor);
+        if (ev !== self1) return ev = make_node_from_constant(ev, self1).optimize(compressor), best_of(compressor, ev, self1);
+        return self1;
+        function return_value(stat) {
+            return stat ? stat instanceof AST_Return ? stat.value ? stat.value.clone(!0) : make_node(AST_Undefined, self1) : stat instanceof AST_SimpleStatement ? make_node(AST_UnaryPrefix, stat, {
+                operator: "void",
+                expression: stat.body.clone(!0)
+            }) : void 0 : make_node(AST_Undefined, self1);
+        }
+        function append_var(decls, expressions, name, value) {
+            var def = name.definition();
+            scope.variables.has(name.name) || (scope.variables.set(name.name, def), scope.enclosed.push(def), decls.push(make_node(AST_VarDef, name, {
+                name: name,
+                value: null
+            })));
+            var sym = make_node(AST_SymbolRef, name, name);
+            def.references.push(sym), value && expressions.push(make_node(AST_Assign, self1, {
+                operator: "=",
+                logical: !1,
+                left: sym,
+                right: value.clone()
+            }));
+        }
     }), /** Does this node contain optional property access or optional call? */ AST_Node.DEFMETHOD("contains_optional", function() {
         return (this instanceof AST_PropAccess || this instanceof AST_Call || this instanceof AST_Chain) && (!!this.optional || this.expression.contains_optional());
     }), def_optimize(AST_New, function(self1, compressor) {
@@ -10988,7 +10977,8 @@
             case "Infinity":
                 return make_node(AST_Infinity, self1).optimize(compressor);
         }
-        return compressor.option("reduce_vars") && !compressor.is_lhs() ? function(self1, compressor) {
+        if (!compressor.option("reduce_vars") || compressor.is_lhs()) return self1;
+        {
             if (compressor.in_computed_key()) return self1;
             const parent = compressor.parent(), def = self1.definition(), nearest_scope = compressor.find_scope();
             let fixed = self1.fixed_value();
@@ -11081,7 +11071,7 @@
                 }
             }
             return self1;
-        }(self1, compressor) : self1;
+        }
     }), def_optimize(AST_Undefined, function(self1, compressor) {
         if (compressor.option("unsafe_undefined")) {
             var undef = find_variable(compressor, "undefined");
@@ -11542,20 +11532,20 @@
         return optimized !== self1 ? optimized : (inline_array_like_spread(self1.elements), self1);
     }), def_optimize(AST_Object, function(self1, compressor) {
         var optimized = literals_in_boolean_context(self1, compressor);
-        return optimized !== self1 ? optimized : (function(props, compressor) {
-            for(var i = 0; i < props.length; i++){
-                var prop = props[i];
-                if (prop instanceof AST_Expansion) {
-                    const expr = prop.expression;
-                    expr instanceof AST_Object && expr.properties.every((prop)=>prop instanceof AST_ObjectKeyVal) ? (props.splice(i, 1, ...expr.properties), // Step back one, as the property at i is now new.
-                    i--) : expr instanceof AST_Constant && !(expr instanceof AST_String) ? (// Unlike array-like spread, in object spread, spreading a
-                    // non-iterable value silently does nothing; it is thus safe
-                    // to remove. AST_String is the only iterable AST_Constant.
-                    props.splice(i, 1), i--) : is_nullish(expr, compressor) && (// Likewise, null and undefined can be silently removed.
-                    props.splice(i, 1), i--);
-                }
+        if (optimized !== self1) return optimized;
+        for(var props = self1.properties, i = 0; i < props.length; i++){
+            var prop = props[i];
+            if (prop instanceof AST_Expansion) {
+                const expr = prop.expression;
+                expr instanceof AST_Object && expr.properties.every((prop)=>prop instanceof AST_ObjectKeyVal) ? (props.splice(i, 1, ...expr.properties), // Step back one, as the property at i is now new.
+                i--) : expr instanceof AST_Constant && !(expr instanceof AST_String) ? (// Unlike array-like spread, in object spread, spreading a
+                // non-iterable value silently does nothing; it is thus safe
+                // to remove. AST_String is the only iterable AST_Constant.
+                props.splice(i, 1), i--) : is_nullish(expr, compressor) && (// Likewise, null and undefined can be silently removed.
+                props.splice(i, 1), i--);
             }
-        }(self1.properties, compressor), self1);
+        }
+        return self1;
     }), def_optimize(AST_RegExp, literals_in_boolean_context), def_optimize(AST_Return, function(self1, compressor) {
         return self1.value && is_undefined(self1.value, compressor) && (self1.value = null), self1;
     }), def_optimize(AST_Arrow, opt_AST_Lambda), def_optimize(AST_Function, function(self1, compressor) {
@@ -19868,7 +19858,7 @@
                 reserved_option
             ]);
             var reserved = new Set(reserved_option);
-            options.builtins || /***********************************************************************
+            if (!options.builtins) /***********************************************************************
     
       A JavaScript tokenizer / parser / beautifier / compressor.
       https://github.com/mishoo/UglifyJS2
@@ -19909,7 +19899,7 @@
         THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
         SUCH DAMAGE.
     
-     ***********************************************************************/ function(reserved) {
+     ***********************************************************************/ {
                 domprops.forEach(add);
                 var objects = {}, global_ref = "object" == typeof global ? global : self;
                 function add(name) {
@@ -19983,7 +19973,7 @@
                 ].forEach(function(ctor) {
                     Object.getOwnPropertyNames(ctor).map(add), ctor.prototype && Object.getOwnPropertyNames(ctor.prototype).map(add);
                 });
-            }(reserved);
+            }
             var cname = -1;
             cache = options.cache ? options.cache.props : new Map();
             var only_annotated = options.only_annotated, regex = options.regex && new RegExp(options.regex), debug = !1 !== options.debug;
@@ -19997,17 +19987,17 @@
             return(// step 1: find candidates to mangle
             ast.walk(new TreeWalker(function(node) {
                 if (node instanceof AST_ClassPrivateProperty || node instanceof AST_PrivateMethod || node instanceof AST_PrivateGetter || node instanceof AST_PrivateSetter || node instanceof AST_DotHash) ;
-                else if (node instanceof AST_ObjectKeyVal) "string" != typeof node.key || keep_quoted && node.quote || add(node.key);
+                else if (node instanceof AST_ObjectKeyVal) "string" != typeof node.key || keep_quoted && node.quote || add1(node.key);
                 else if (node instanceof AST_ObjectProperty) // setter or getter, since KeyVal is handled above
-                keep_quoted && node.quote || add(node.key.name);
+                keep_quoted && node.quote || add1(node.key.name);
                 else if (node instanceof AST_Dot) {
                     var declared = !!options.undeclared;
                     if (!declared) {
                         for(var root = node; root.expression;)root = root.expression;
                         declared = !(root.thedef && root.thedef.undeclared);
                     }
-                    !declared || keep_quoted && node.quote || add(node.property);
-                } else node instanceof AST_Sub ? keep_quoted || addStrings(node.property, add) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? addStrings(node.args[1], add) : node instanceof AST_Binary && "in" === node.operator ? addStrings(node.left, add) : node instanceof AST_String && has_annotation(node, _KEY) && add(node.value);
+                    !declared || keep_quoted && node.quote || add1(node.property);
+                } else node instanceof AST_Sub ? keep_quoted || addStrings(node.property, add1) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? addStrings(node.args[1], add1) : node instanceof AST_Binary && "in" === node.operator ? addStrings(node.left, add1) : node instanceof AST_String && has_annotation(node, _KEY) && add1(node.value);
             })), ast.transform(new TreeTransformer(function(node) {
                 node instanceof AST_ClassPrivateProperty || node instanceof AST_PrivateMethod || node instanceof AST_PrivateGetter || node instanceof AST_PrivateSetter || node instanceof AST_DotHash || (node instanceof AST_ObjectKeyVal ? "string" != typeof node.key || keep_quoted && node.quote || (node.key = mangle(node.key)) : node instanceof AST_ObjectProperty ? keep_quoted && node.quote || (node.key.name = mangle(node.key.name)) : node instanceof AST_Dot ? keep_quoted && node.quote || (node.property = mangle(node.property)) : !keep_quoted && node instanceof AST_Sub ? node.property = mangleStrings(node.property) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? node.args[1] = mangleStrings(node.args[1]) : node instanceof AST_Binary && "in" === node.operator ? node.left = mangleStrings(node.left) : node instanceof AST_String && has_annotation(node, _KEY) && (// Clear _KEY annotation to prevent double mangling
                 clear_annotation(node, _KEY), node.value = mangle(node.value)));
@@ -20019,7 +20009,7 @@
             function should_mangle(name) {
                 return (!only_annotated || !!annotated_props.has(name)) && (regex && !regex.test(name) ? annotated_props.has(name) : !reserved.has(name) && (cache.has(name) || names_to_mangle.has(name)));
             }
-            function add(name) {
+            function add1(name) {
                 can_mangle(name) && names_to_mangle.add(name), should_mangle(name) || unmangleable.add(name);
             }
             function mangle(name) {

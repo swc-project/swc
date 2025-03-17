@@ -946,11 +946,7 @@
                     return btoa(this.binaryString);
                 }
                 toUint8Array() {
-                    return function(t) {
-                        const e = new Uint8Array(t.length);
-                        for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
-                        return e;
-                    }(/**
+                    var t = /**
                              * @license
                              * Copyright 2020 Google LLC
                              *
@@ -966,7 +962,10 @@
                              * See the License for the specific language governing permissions and
                              * limitations under the License.
                              */ // A RegExp matching ISO 8601 UTC timestamps with optional fraction.
-                    this.binaryString);
+                    this.binaryString;
+                    const e = new Uint8Array(t.length);
+                    for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
+                    return e;
                 }
                 approximateByteSize() {
                     return 2 * this.binaryString.length;
@@ -1165,12 +1164,10 @@
                     case 4 /* ServerTimestampValue */ :
                         return It(t).isEqual(It(e));
                     case 3 /* TimestampValue */ :
-                        return function(t, e) {
-                            if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
-                            return t.timestampValue === e.timestampValue;
-                            const n = gt(t.timestampValue), s = gt(e.timestampValue);
-                            return n.seconds === s.seconds && n.nanos === s.nanos;
-                        }(t, e);
+                        if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
+                        return t.timestampValue === e.timestampValue;
+                        const n1 = gt(t.timestampValue), s = gt(e.timestampValue);
+                        return n1.seconds === s.seconds && n1.nanos === s.nanos;
                     case 5 /* StringValue */ :
                         return t.stringValue === e.stringValue;
                     case 6 /* BlobValue */ :
@@ -1180,23 +1177,19 @@
                     case 8 /* GeoPointValue */ :
                         return yt(t.geoPointValue.latitude) === yt(e.geoPointValue.latitude) && yt(t.geoPointValue.longitude) === yt(e.geoPointValue.longitude);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
-                            if ("doubleValue" in t && "doubleValue" in e) {
-                                const n = yt(t.doubleValue), s = yt(e.doubleValue);
-                                return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
-                            }
-                            return !1;
-                        }(t, e);
+                        if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
+                        if ("doubleValue" in t && "doubleValue" in e) {
+                            const n = yt(t.doubleValue), s = yt(e.doubleValue);
+                            return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
+                        }
+                        return !1;
                     case 9 /* ArrayValue */ :
                         return nt(t.arrayValue.values || [], e.arrayValue.values || [], Vt);
                     case 10 /* ObjectValue */ :
-                        return function(t, e) {
-                            const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
-                            if (ot(n) !== ot(s)) return !1;
-                            for(const t in n)if (n.hasOwnProperty(t) && (void 0 === s[t] || !Vt(n[t], s[t]))) return !1;
-                            return !0;
-                        }(/** Returns true if the ArrayValue contains the specified element. */ t, e);
+                        const n2 = /** Returns true if the ArrayValue contains the specified element. */ t.mapValue.fields || {}, s1 = e.mapValue.fields || {};
+                        if (ot(n2) !== ot(s1)) return !1;
+                        for(const t in n2)if (n2.hasOwnProperty(t) && (void 0 === s1[t] || !Vt(n2[t], s1[t]))) return !1;
+                        return !0;
                     default:
                         return L();
                 }
@@ -1213,10 +1206,8 @@
                     case 1 /* BooleanValue */ :
                         return et(t.booleanValue, e.booleanValue);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            const n = yt(t.integerValue || t.doubleValue), s = yt(e.integerValue || e.doubleValue);
-                            return n < s ? -1 : n > s ? 1 : n === s ? 0 : isNaN(n) ? isNaN(s) ? 0 : -1 : 1;
-                        }(t, e);
+                        const n1 = yt(t.integerValue || t.doubleValue), s1 = yt(e.integerValue || e.doubleValue);
+                        return n1 < s1 ? -1 : n1 > s1 ? 1 : n1 === s1 ? 0 : isNaN(n1) ? isNaN(s1) ? 0 : -1 : 1;
                     case 3 /* TimestampValue */ :
                         return Ct(t.timestampValue, e.timestampValue);
                     case 4 /* ServerTimestampValue */ :
@@ -1224,52 +1215,47 @@
                     case 5 /* StringValue */ :
                         return et(t.stringValue, e.stringValue);
                     case 6 /* BlobValue */ :
-                        return function(t, e) {
-                            const n = pt(t), s = pt(e);
-                            return n.compareTo(s);
-                        }(t.bytesValue, e.bytesValue);
+                        var t1 = t.bytesValue, e1 = e.bytesValue;
+                        const n2 = pt(t1), s2 = pt(e1);
+                        return n2.compareTo(s2);
                     case 7 /* RefValue */ :
-                        return function(t, e) {
-                            const n = t.split("/"), s = e.split("/");
-                            for(let t = 0; t < n.length && t < s.length; t++){
-                                const e = et(n[t], s[t]);
-                                if (0 !== e) return e;
-                            }
-                            return et(n.length, s.length);
-                        }(t.referenceValue, e.referenceValue);
+                        var t2 = t.referenceValue, e2 = e.referenceValue;
+                        const n3 = t2.split("/"), s3 = e2.split("/");
+                        for(let t = 0; t < n3.length && t < s3.length; t++){
+                            const e = et(n3[t], s3[t]);
+                            if (0 !== e) return e;
+                        }
+                        return et(n3.length, s3.length);
                     case 8 /* GeoPointValue */ :
-                        return function(t, e) {
-                            const n = et(yt(t.latitude), yt(e.latitude));
-                            return 0 !== n ? n : et(yt(t.longitude), yt(e.longitude));
-                        }(t.geoPointValue, e.geoPointValue);
+                        var t3 = t.geoPointValue, e3 = e.geoPointValue;
+                        const n4 = et(yt(t3.latitude), yt(e3.latitude));
+                        return 0 !== n4 ? n4 : et(yt(t3.longitude), yt(e3.longitude));
                     case 9 /* ArrayValue */ :
-                        return function(t, e) {
-                            const n = t.values || [], s = e.values || [];
-                            for(let t = 0; t < n.length && t < s.length; ++t){
-                                const e = Dt(n[t], s[t]);
-                                if (e) return e;
-                            }
-                            return et(n.length, s.length);
-                        }(t.arrayValue, e.arrayValue);
+                        var t4 = t.arrayValue, e4 = e.arrayValue;
+                        const n5 = t4.values || [], s4 = e4.values || [];
+                        for(let t = 0; t < n5.length && t < s4.length; ++t){
+                            const e = Dt(n5[t], s4[t]);
+                            if (e) return e;
+                        }
+                        return et(n5.length, s4.length);
                     case 10 /* ObjectValue */ :
-                        return function(t, e) {
-                            const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
-                            // Even though MapValues are likely sorted correctly based on their insertion
-                            // order (e.g. when received from the backend), local modifications can bring
-                            // elements out of order. We need to re-sort the elements to ensure that
-                            // canonical IDs are independent of insertion order.
-                            s.sort(), r.sort();
-                            for(let t = 0; t < s.length && t < r.length; ++t){
-                                const e = et(s[t], r[t]);
-                                if (0 !== e) return e;
-                                const o = Dt(n[s[t]], i[r[t]]);
-                                if (0 !== o) return o;
-                            }
-                            return et(s.length, r.length);
-                        }(/**
+                        var t5 = /**
                                  * Generates the canonical ID for the provided field value (as used in Target
                                  * serialization).
-                                 */ t.mapValue, e.mapValue);
+                                 */ t.mapValue, e5 = e.mapValue;
+                        const n6 = t5.fields || {}, s5 = Object.keys(n6), i = e5.fields || {}, r = Object.keys(i);
+                        // Even though MapValues are likely sorted correctly based on their insertion
+                        // order (e.g. when received from the backend), local modifications can bring
+                        // elements out of order. We need to re-sort the elements to ensure that
+                        // canonical IDs are independent of insertion order.
+                        s5.sort(), r.sort();
+                        for(let t = 0; t < s5.length && t < r.length; ++t){
+                            const e = et(s5[t], r[t]);
+                            if (0 !== e) return e;
+                            const o = Dt(n6[s5[t]], i[r[t]]);
+                            if (0 !== o) return o;
+                        }
+                        return et(s5.length, r.length);
                     default:
                         throw L();
                 }
@@ -4225,10 +4211,9 @@
                     });
                 }
                 isEmpty() {
-                    return function(t) {
-                        for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
-                        return !0;
-                    }(this.inner);
+                    var t = this.inner;
+                    for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                    return !0;
                 }
             }
             /**
@@ -7741,11 +7726,8 @@
                     return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0 /* RemoteStore */ ), Qr.bt() ? new Qr() : new jr());
                 /** Re-enables the network. Idempotent. */ }
                 createSyncEngine(t, e) {
-                    return function(t, e, n, // PORTING NOTE: Manages state synchronization in multi-tab environments.
-                    s, i, r, o) {
-                        const c = new ec(t, e, n, s, i, r);
-                        return o && (c.Qo = !0), c;
-                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions, e);
+                    const c = new ec(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions);
+                    return e && (c.Qo = !0), c;
                 }
                 terminate() {
                     return async function(t) {

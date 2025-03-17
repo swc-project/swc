@@ -2065,18 +2065,18 @@
         }
     });
     var rcheckableType = /^(?:checkbox|radio)$/i, rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i, rscriptType = /^$|^module$|\/(?:java|ecma)script/i;
-    div = document.createDocumentFragment().appendChild(document.createElement("div")), // Support: Android 4.0 - 4.3 only
+    div1 = document.createDocumentFragment().appendChild(document.createElement("div")), // Support: Android 4.0 - 4.3 only
     // Check state lost if the name is set (#11217)
     // Support: Windows Web Apps (WWA)
     // `name` and `type` must use .setAttribute for WWA (#14901)
-    (input = document.createElement("input")).setAttribute("type", "radio"), input.setAttribute("checked", "checked"), input.setAttribute("name", "t"), div.appendChild(input), // Support: Android <=4.1 only
+    (input = document.createElement("input")).setAttribute("type", "radio"), input.setAttribute("checked", "checked"), input.setAttribute("name", "t"), div1.appendChild(input), // Support: Android <=4.1 only
     // Older WebKit doesn't clone checked state correctly in fragments
-    support.checkClone = div.cloneNode(!0).cloneNode(!0).lastChild.checked, // Support: IE <=11 only
+    support.checkClone = div1.cloneNode(!0).cloneNode(!0).lastChild.checked, // Support: IE <=11 only
     // Make sure textarea (and checkbox) defaultValue is properly cloned
-    div.innerHTML = "<textarea>x</textarea>", support.noCloneChecked = !!div.cloneNode(!0).lastChild.defaultValue, // Support: IE <=9 only
+    div1.innerHTML = "<textarea>x</textarea>", support.noCloneChecked = !!div1.cloneNode(!0).lastChild.defaultValue, // Support: IE <=9 only
     // IE <=9 replaces <option> tags with their contents when inserted outside of
     // the select element.
-    div.innerHTML = "<option></option>", support.option = !!div.lastChild;
+    div1.innerHTML = "<option></option>", support.option = !!div1.lastChild;
     // We have to close these tags to support XHTML (#13200)
     var wrapMap = {
         // XHTML parsers do not magically insert elements in the
@@ -2755,62 +2755,60 @@
             }
         };
     }
-    !function() {
-        // Executing both pixelPosition & boxSizingReliable tests require only one layout
-        // so they're executed at the same time to save the second computation.
-        function computeStyleTests() {
-            // This is a singleton, we need to execute it only once
-            if (div) {
-                container.style.cssText = "position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0", div.style.cssText = "position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%", documentElement.appendChild(container).appendChild(div);
-                var divStyle = window1.getComputedStyle(div);
-                pixelPositionVal = "1%" !== divStyle.top, // Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
-                reliableMarginLeftVal = 12 === roundPixelMeasures(divStyle.marginLeft), // Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
-                // Some styles come back with percentage values, even though they shouldn't
-                div.style.right = "60%", pixelBoxStylesVal = 36 === roundPixelMeasures(divStyle.right), // Support: IE 9 - 11 only
-                // Detect misreporting of content dimensions for box-sizing:border-box elements
-                boxSizingReliableVal = 36 === roundPixelMeasures(divStyle.width), // Support: IE 9 only
-                // Detect overflow:scroll screwiness (gh-3699)
-                // Support: Chrome <=64
-                // Don't get tricked when zoom affects offsetWidth (gh-4029)
-                div.style.position = "absolute", scrollboxSizeVal = 12 === roundPixelMeasures(div.offsetWidth / 3), documentElement.removeChild(container), // Nullify the div so it wouldn't be stored in the memory and
-                // it will also be a sign that checks already performed
-                div = null;
-            }
+    // Executing both pixelPosition & boxSizingReliable tests require only one layout
+    // so they're executed at the same time to save the second computation.
+    function computeStyleTests() {
+        // This is a singleton, we need to execute it only once
+        if (div) {
+            container.style.cssText = "position:absolute;left:-11111px;width:60px;margin-top:1px;padding:0;border:0", div.style.cssText = "position:relative;display:block;box-sizing:border-box;overflow:scroll;margin:auto;border:1px;padding:1px;width:60%;top:1%", documentElement.appendChild(container).appendChild(div);
+            var divStyle = window1.getComputedStyle(div);
+            pixelPositionVal = "1%" !== divStyle.top, // Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
+            reliableMarginLeftVal = 12 === roundPixelMeasures(divStyle.marginLeft), // Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
+            // Some styles come back with percentage values, even though they shouldn't
+            div.style.right = "60%", pixelBoxStylesVal = 36 === roundPixelMeasures(divStyle.right), // Support: IE 9 - 11 only
+            // Detect misreporting of content dimensions for box-sizing:border-box elements
+            boxSizingReliableVal = 36 === roundPixelMeasures(divStyle.width), // Support: IE 9 only
+            // Detect overflow:scroll screwiness (gh-3699)
+            // Support: Chrome <=64
+            // Don't get tricked when zoom affects offsetWidth (gh-4029)
+            div.style.position = "absolute", scrollboxSizeVal = 12 === roundPixelMeasures(div.offsetWidth / 3), documentElement.removeChild(container), // Nullify the div so it wouldn't be stored in the memory and
+            // it will also be a sign that checks already performed
+            div = null;
         }
-        function roundPixelMeasures(measure) {
-            return Math.round(parseFloat(measure));
+    }
+    function roundPixelMeasures(measure) {
+        return Math.round(parseFloat(measure));
+    }
+    var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal, reliableTrDimensionsVal, reliableMarginLeftVal, container = document.createElement("div"), div = document.createElement("div");
+    // Finish early in limited (non-browser) environments
+    div.style && (// Support: IE <=9 - 11 only
+    // Style of cloned element affects source element cloned (#8908)
+    div.style.backgroundClip = "content-box", div.cloneNode(!0).style.backgroundClip = "", support.clearCloneStyle = "content-box" === div.style.backgroundClip, jQuery.extend(support, {
+        boxSizingReliable: function() {
+            return computeStyleTests(), boxSizingReliableVal;
+        },
+        pixelBoxStyles: function() {
+            return computeStyleTests(), pixelBoxStylesVal;
+        },
+        pixelPosition: function() {
+            return computeStyleTests(), pixelPositionVal;
+        },
+        reliableMarginLeft: function() {
+            return computeStyleTests(), reliableMarginLeftVal;
+        },
+        scrollboxSize: function() {
+            return computeStyleTests(), scrollboxSizeVal;
+        },
+        // Support: IE 9 - 11+, Edge 15 - 18+
+        // IE/Edge misreport `getComputedStyle` of table rows with width/height
+        // set in CSS while `offset*` properties report correct values.
+        // Behavior in IE 9 is more subtle than in newer versions & it passes
+        // some versions of this test; make sure not to make it pass there!
+        reliableTrDimensions: function() {
+            var table, tr, trChild;
+            return null == reliableTrDimensionsVal && (table = document.createElement("table"), tr = document.createElement("tr"), trChild = document.createElement("div"), table.style.cssText = "position:absolute;left:-11111px", tr.style.height = "1px", trChild.style.height = "9px", documentElement.appendChild(table).appendChild(tr).appendChild(trChild), reliableTrDimensionsVal = parseInt(window1.getComputedStyle(tr).height) > 3, documentElement.removeChild(table)), reliableTrDimensionsVal;
         }
-        var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal, reliableTrDimensionsVal, reliableMarginLeftVal, container = document.createElement("div"), div = document.createElement("div");
-        // Finish early in limited (non-browser) environments
-        div.style && (// Support: IE <=9 - 11 only
-        // Style of cloned element affects source element cloned (#8908)
-        div.style.backgroundClip = "content-box", div.cloneNode(!0).style.backgroundClip = "", support.clearCloneStyle = "content-box" === div.style.backgroundClip, jQuery.extend(support, {
-            boxSizingReliable: function() {
-                return computeStyleTests(), boxSizingReliableVal;
-            },
-            pixelBoxStyles: function() {
-                return computeStyleTests(), pixelBoxStylesVal;
-            },
-            pixelPosition: function() {
-                return computeStyleTests(), pixelPositionVal;
-            },
-            reliableMarginLeft: function() {
-                return computeStyleTests(), reliableMarginLeftVal;
-            },
-            scrollboxSize: function() {
-                return computeStyleTests(), scrollboxSizeVal;
-            },
-            // Support: IE 9 - 11+, Edge 15 - 18+
-            // IE/Edge misreport `getComputedStyle` of table rows with width/height
-            // set in CSS while `offset*` properties report correct values.
-            // Behavior in IE 9 is more subtle than in newer versions & it passes
-            // some versions of this test; make sure not to make it pass there!
-            reliableTrDimensions: function() {
-                var table, tr, trChild;
-                return null == reliableTrDimensionsVal && (table = document.createElement("table"), tr = document.createElement("tr"), trChild = document.createElement("div"), table.style.cssText = "position:absolute;left:-11111px", tr.style.height = "1px", trChild.style.height = "9px", documentElement.appendChild(table).appendChild(tr).appendChild(trChild), reliableTrDimensionsVal = parseInt(window1.getComputedStyle(tr).height) > 3, documentElement.removeChild(table)), reliableTrDimensionsVal;
-            }
-        }));
-    }();
+    }));
     var cssPrefixes = [
         "Webkit",
         "Moz",
@@ -3047,7 +3045,7 @@
         _default: "swing"
     }, jQuery.fx = Tween.prototype.init, // Back compat <1.8 extension point
     jQuery.fx.step = {};
-    var div, input, fxNow, inProgress, rfxtypes = /^(?:toggle|show|hide)$/, rrun = /queueHooks$/;
+    var div1, input, fxNow, inProgress, rfxtypes = /^(?:toggle|show|hide)$/, rrun = /queueHooks$/;
     // Animations created synchronously will run synchronously
     function createFxNow() {
         return window1.setTimeout(function() {
@@ -3069,7 +3067,7 @@
         return tween;
     }
     function Animation(elem, properties, options) {
-        var result, stopped, index = 0, length = Animation.prefilters.length, deferred = jQuery.Deferred().always(function() {
+        var index, name, easing, value, hooks, result, stopped, index1 = 0, length = Animation.prefilters.length, deferred = jQuery.Deferred().always(function() {
             // Don't match elem in the :animated selector
             delete tick.elem;
         }), tick = function() {
@@ -3122,15 +3120,13 @@
                     gotoEnd
                 ]), this;
             }
-        }), props = animation.props;
-        for(!function(props, specialEasing) {
-            var index, name, easing, value, hooks;
-            // camelCase, specialEasing and expand cssHook pass
-            for(index in props)if (easing = specialEasing[name = camelCase(index)], Array.isArray(value = props[index]) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && "expand" in hooks) // Not quite $.extend, this won't overwrite existing keys.
-            // Reusing 'index' because we have the correct "name"
-            for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
-            else specialEasing[name] = easing;
-        }(props, animation.opts.specialEasing); index < length; index++)if (result = Animation.prefilters[index].call(animation, elem, props, animation.opts)) return isFunction(result.stop) && (jQuery._queueHooks(animation.elem, animation.opts.queue).stop = result.stop.bind(result)), result;
+        }), props = animation.props, specialEasing = animation.opts.specialEasing;
+        // camelCase, specialEasing and expand cssHook pass
+        for(index in props)if (easing = specialEasing[name = camelCase(index)], Array.isArray(value = props[index]) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && "expand" in hooks) // Not quite $.extend, this won't overwrite existing keys.
+        // Reusing 'index' because we have the correct "name"
+        for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
+        else specialEasing[name] = easing;
+        for(; index1 < length; index1++)if (result = Animation.prefilters[index1].call(animation, elem, props, animation.opts)) return isFunction(result.stop) && (jQuery._queueHooks(animation.elem, animation.opts.queue).stop = result.stop.bind(result)), result;
         return jQuery.map(props, createTween, animation), isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), // Attach callbacks from options
         animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,

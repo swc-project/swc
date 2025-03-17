@@ -1003,18 +1003,17 @@
                         var parent = void 0;
                         prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
-                    !function(dom, prev, cur) {
-                        for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);
-                        for(var name$1 in cur)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && cur[name$1] != prev[name$1] && dom.setAttribute(name$1, cur[name$1]);
-                        if (prev.class != cur.class) {
-                            for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)-1 == curList.indexOf(prevList[i]) && dom.classList.remove(prevList[i]);
-                            for(var i$1 = 0; i$1 < curList.length; i$1++)-1 == prevList.indexOf(curList[i$1]) && dom.classList.add(curList[i$1]);
-                        }
-                        if (prev.style != cur.style) {
-                            if (prev.style) for(var m, prop = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g; m = prop.exec(prev.style);)dom.style.removeProperty(m[1]);
-                            cur.style && (dom.style.cssText += cur.style);
-                        }
-                    }(curDOM, prev || noDeco[0], deco);
+                    var dom = curDOM, prev1 = prev || noDeco[0];
+                    for(var name in prev1)"class" == name || "style" == name || "nodeName" == name || name in deco || dom.removeAttribute(name);
+                    for(var name$1 in deco)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && deco[name$1] != prev1[name$1] && dom.setAttribute(name$1, deco[name$1]);
+                    if (prev1.class != deco.class) {
+                        for(var prevList = prev1.class ? prev1.class.split(" ").filter(Boolean) : nothing, curList = deco.class ? deco.class.split(" ").filter(Boolean) : nothing, i1 = 0; i1 < prevList.length; i1++)-1 == curList.indexOf(prevList[i1]) && dom.classList.remove(prevList[i1]);
+                        for(var i$1 = 0; i$1 < curList.length; i$1++)-1 == prevList.indexOf(curList[i$1]) && dom.classList.add(curList[i$1]);
+                    }
+                    if (prev1.style != deco.style) {
+                        if (prev1.style) for(var m, prop = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g; m = prop.exec(prev1.style);)dom.style.removeProperty(m[1]);
+                        deco.style && (dom.style.cssText += deco.style);
+                    }
                 }
                 return curDOM;
             }
@@ -2628,226 +2627,225 @@
                 // When editor content is being dragged, this object contains
                 // information about the dragged slice and whether it is being
                 // copied or moved. At any other time, it is null.
-                this.dragging = null, function(view) {
-                    for(var event in view.shiftKey = !1, view.mouseDown = null, view.lastKeyCode = null, view.lastKeyCodeTime = 0, view.lastClick = {
-                        time: 0,
-                        x: 0,
-                        y: 0,
-                        type: ""
-                    }, view.lastSelectionOrigin = null, view.lastSelectionTime = 0, view.lastIOSEnter = 0, view.lastIOSEnterFallbackTimeout = null, view.lastAndroidDelete = 0, view.composing = !1, view.composingTimeout = null, view.compositionNodes = [], view.compositionEndedAt = -200000000, view.domObserver = new DOMObserver(view, function(from, to, typeOver, added) {
-                        return function(view, from, to, typeOver, addedNodes) {
-                            if (from < 0) {
-                                var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view.lastSelectionTime > Date.now() - 50 ? view.lastSelectionOrigin : null, newSel = selectionFromDOM(view, origin);
-                                if (newSel && !view.state.selection.eq(newSel)) {
-                                    var tr$1 = view.state.tr.setSelection(newSel);
-                                    "pointer" == origin ? tr$1.setMeta("pointer", !0) : "key" == origin && tr$1.scrollIntoView(), view.dispatch(tr$1);
-                                }
-                                return;
+                this.dragging = null;
+                var view = this;
+                for(var event in view.shiftKey = !1, view.mouseDown = null, view.lastKeyCode = null, view.lastKeyCodeTime = 0, view.lastClick = {
+                    time: 0,
+                    x: 0,
+                    y: 0,
+                    type: ""
+                }, view.lastSelectionOrigin = null, view.lastSelectionTime = 0, view.lastIOSEnter = 0, view.lastIOSEnterFallbackTimeout = null, view.lastAndroidDelete = 0, view.composing = !1, view.composingTimeout = null, view.compositionNodes = [], view.compositionEndedAt = -200000000, view.domObserver = new DOMObserver(view, function(from, to, typeOver, added) {
+                    var view1 = view, from1 = from, to1 = to, typeOver1 = typeOver, addedNodes = added;
+                    if (from1 < 0) {
+                        var preferredPos, preferredSide, nextSel, tr, storedMarks, markChange, $from1, origin = view1.lastSelectionTime > Date.now() - 50 ? view1.lastSelectionOrigin : null, newSel = selectionFromDOM(view1, origin);
+                        if (newSel && !view1.state.selection.eq(newSel)) {
+                            var tr$1 = view1.state.tr.setSelection(newSel);
+                            "pointer" == origin ? tr$1.setMeta("pointer", !0) : "key" == origin && tr$1.scrollIntoView(), view1.dispatch(tr$1);
+                        }
+                        return;
+                    }
+                    var $before = view1.state.doc.resolve(from1), shared = $before.sharedDepth(to1);
+                    from1 = $before.before(shared + 1), to1 = view1.state.doc.resolve(to1).after(shared + 1);
+                    var sel = view1.state.selection, parse = // Note that all referencing and parsing is done with the
+                    // start-of-operation selection and document, since that's the one
+                    // that the DOM represents. If any changes came in in the meantime,
+                    // the modification is mapped over those before it is applied, in
+                    // readDOMChange.
+                    function(view, from_, to_) {
+                        var ref = view.docView.parseRange(from_, to_), parent = ref.node, fromOffset = ref.fromOffset, toOffset = ref.toOffset, from = ref.from, to = ref.to, domSel = view.root.getSelection(), find = null, anchor = domSel.anchorNode;
+                        // Work around issue in Chrome where backspacing sometimes replaces
+                        // the deleted content with a random BR node (issues #799, #831)
+                        if (anchor && view.dom.contains(1 == anchor.nodeType ? anchor : anchor.parentNode) && (find = [
+                            {
+                                node: anchor,
+                                offset: domSel.anchorOffset
                             }
-                            var $before = view.state.doc.resolve(from), shared = $before.sharedDepth(to);
-                            from = $before.before(shared + 1), to = view.state.doc.resolve(to).after(shared + 1);
-                            var sel = view.state.selection, parse = // Note that all referencing and parsing is done with the
-                            // start-of-operation selection and document, since that's the one
-                            // that the DOM represents. If any changes came in in the meantime,
-                            // the modification is mapped over those before it is applied, in
-                            // readDOMChange.
-                            function(view, from_, to_) {
-                                var ref = view.docView.parseRange(from_, to_), parent = ref.node, fromOffset = ref.fromOffset, toOffset = ref.toOffset, from = ref.from, to = ref.to, domSel = view.root.getSelection(), find = null, anchor = domSel.anchorNode;
-                                // Work around issue in Chrome where backspacing sometimes replaces
-                                // the deleted content with a random BR node (issues #799, #831)
-                                if (anchor && view.dom.contains(1 == anchor.nodeType ? anchor : anchor.parentNode) && (find = [
-                                    {
-                                        node: anchor,
-                                        offset: domSel.anchorOffset
-                                    }
-                                ], selectionCollapsed(domSel) || find.push({
-                                    node: domSel.focusNode,
-                                    offset: domSel.focusOffset
-                                })), result.chrome && 8 === view.lastKeyCode) for(var off = toOffset; off > fromOffset; off--){
-                                    var node = parent.childNodes[off - 1], desc = node.pmViewDesc;
-                                    if ("BR" == node.nodeName && !desc) {
-                                        toOffset = off;
-                                        break;
-                                    }
-                                    if (!desc || desc.size) break;
-                                }
-                                var startDoc = view.state.doc, parser = view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema), $from = startDoc.resolve(from), sel = null, doc = parser.parse(parent, {
-                                    topNode: $from.parent,
-                                    topMatch: $from.parent.contentMatchAt($from.index()),
-                                    topOpen: !0,
-                                    from: fromOffset,
-                                    to: toOffset,
-                                    preserveWhitespace: !$from.parent.type.spec.code || "full",
-                                    editableContent: !0,
-                                    findPositions: find,
-                                    ruleFromNode: ruleFromNode,
-                                    context: $from
-                                });
-                                if (find && null != find[0].pos) {
-                                    var anchor$1 = find[0].pos, head = find[1] && find[1].pos;
-                                    null == head && (head = anchor$1), sel = {
-                                        anchor: anchor$1 + from,
-                                        head: head + from
-                                    };
-                                }
-                                return {
-                                    doc: doc,
-                                    sel: sel,
-                                    from: from,
-                                    to: to
-                                };
-                            }(view, from, to);
-                            // Chrome sometimes leaves the cursor before the inserted text when
-                            // composing after a cursor wrapper. This moves it forward.
-                            if (result.chrome && view.cursorWrapper && parse.sel && parse.sel.anchor == view.cursorWrapper.deco.from) {
-                                var text = view.cursorWrapper.deco.type.toDOM.nextSibling, size = text && text.nodeValue ? text.nodeValue.length : 1;
-                                parse.sel = {
-                                    anchor: parse.sel.anchor + size,
-                                    head: parse.sel.anchor + size
-                                };
+                        ], selectionCollapsed(domSel) || find.push({
+                            node: domSel.focusNode,
+                            offset: domSel.focusOffset
+                        })), result.chrome && 8 === view.lastKeyCode) for(var off = toOffset; off > fromOffset; off--){
+                            var node = parent.childNodes[off - 1], desc = node.pmViewDesc;
+                            if ("BR" == node.nodeName && !desc) {
+                                toOffset = off;
+                                break;
                             }
-                            var doc = view.state.doc, compare = doc.slice(parse.from, parse.to);
-                            8 === view.lastKeyCode && Date.now() - 100 < view.lastKeyCodeTime ? (preferredPos = view.state.selection.to, preferredSide = "end") : (preferredPos = view.state.selection.from, preferredSide = "start"), view.lastKeyCode = null;
-                            var change = function(a, b, pos, preferredPos, preferredSide) {
-                                var start = a.findDiffStart(b, pos);
-                                if (null == start) return null;
-                                var ref = a.findDiffEnd(b, pos + a.size, pos + b.size), endA = ref.a, endB = ref.b;
-                                if ("end" == preferredSide) {
-                                    var adjust = Math.max(0, start - Math.min(endA, endB));
-                                    preferredPos -= endA + adjust - start;
-                                }
-                                if (endA < start && a.size < b.size) {
-                                    var move = preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0;
-                                    start -= move, endB = start + (endB - endA), endA = start;
-                                } else if (endB < start) {
-                                    var move$1 = preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0;
-                                    start -= move$1, endA = start + (endA - endB), endB = start;
-                                }
-                                return {
-                                    start: start,
-                                    endA: endA,
-                                    endB: endB
-                                };
-                            }(compare.content, parse.doc.content, parse.from, preferredPos, preferredSide);
-                            if (!change) {
-                                if (typeOver && sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty && sel.$head.sameParent(sel.$anchor) && !view.composing && !(parse.sel && parse.sel.anchor != parse.sel.head)) change = {
-                                    start: sel.from,
-                                    endA: sel.to,
-                                    endB: sel.to
-                                };
-                                else if ((result.ios && view.lastIOSEnter > Date.now() - 225 || result.android) && addedNodes.some(function(n) {
-                                    return "DIV" == n.nodeName || "P" == n.nodeName;
-                                }) && view.someProp("handleKeyDown", function(f) {
-                                    return f(view, keyEvent(13, "Enter"));
-                                })) {
-                                    view.lastIOSEnter = 0;
-                                    return;
-                                } else {
-                                    if (parse.sel) {
-                                        var sel$1 = resolveSelection(view, view.state.doc, parse.sel);
-                                        sel$1 && !sel$1.eq(view.state.selection) && view.dispatch(view.state.tr.setSelection(sel$1));
-                                    }
-                                    return;
-                                }
-                            }
-                            view.domChangeCount++, view.state.selection.from < view.state.selection.to && change.start == change.endB && view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view.state.selection.from && change.start <= view.state.selection.from + 2 ? change.start = view.state.selection.from : change.endA < view.state.selection.to && change.endA >= view.state.selection.to - 2 && (change.endB += view.state.selection.to - change.endA, change.endA = view.state.selection.to)), result.ie && result.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \u00a0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
-                            var $from = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from.sameParent($to) && $from.parent.inlineContent;
-                            // If this looks like the effect of pressing Enter (or was recorded
-                            // as being an iOS enter press), just dispatch an Enter key instead.
-                            if ((result.ios && view.lastIOSEnter > Date.now() - 225 && (!inlineChange || addedNodes.some(function(n) {
-                                return "DIV" == n.nodeName || "P" == n.nodeName;
-                            })) || !inlineChange && $from.pos < parse.doc.content.size && (nextSel = prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(parse.doc.resolve($from.pos + 1), 1, !0)) && nextSel.head == $to.pos) && view.someProp("handleKeyDown", function(f) {
-                                return f(view, keyEvent(13, "Enter"));
-                            })) {
-                                view.lastIOSEnter = 0;
-                                return;
-                            }
-                            // Same for backspace
-                            if (view.state.selection.anchor > change.start && function(old, start, end, $newStart, $newEnd) {
-                                if (!$newStart.parent.isTextblock || // The content must have shrunk
-                                end - start <= $newEnd.pos - $newStart.pos || // newEnd must point directly at or after the end of the block that newStart points into
-                                skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
-                                var $start = old.resolve(start);
-                                // Start must be at the end of a block
-                                if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
-                                var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
-                                return(// The next textblock must start before end and end near it
-                                !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content));
-                            }(doc, change.start, change.endA, $from, $to) && view.someProp("handleKeyDown", function(f) {
-                                return f(view, keyEvent(8, "Backspace"));
-                            })) {
-                                result.android && result.chrome && view.domObserver.suppressSelectionUpdates(); // #820
-                                return;
-                            }
-                            result.chrome && result.android && change.toB == change.from && (view.lastAndroidDelete = Date.now()), result.android && !inlineChange && $from.start() != $to.start() && 0 == $to.parentOffset && $from.depth == $to.depth && parse.sel && parse.sel.anchor == parse.sel.head && parse.sel.head == change.endA && (change.endB -= 2, $to = parse.doc.resolveNoCache(change.endB - parse.from), setTimeout(function() {
-                                view.someProp("handleKeyDown", function(f) {
-                                    return f(view, keyEvent(13, "Enter"));
-                                });
-                            }, 20));
-                            var chFrom = change.start, chTo = change.endA;
-                            if (inlineChange) {
-                                if ($from.pos == $to.pos) result.ie && result.ie_version <= 11 && 0 == $from.parentOffset && (view.domObserver.suppressSelectionUpdates(), setTimeout(function() {
-                                    return selectionToDOM(view);
-                                }, 20)), tr = view.state.tr.delete(chFrom, chTo), storedMarks = doc.resolve(change.start).marksAcross(doc.resolve(change.endA));
-                                else if (// Adding or removing a mark
-                                change.endA == change.endB && ($from1 = doc.resolve(change.start)) && (markChange = // : (Fragment, Fragment) → ?{mark: Mark, type: string}
-                                // Given two same-length, non-empty fragments of inline content,
-                                // determine whether the first could be created from the second by
-                                // removing or adding a single mark type.
-                                function(cur, prev) {
-                                    for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
-                                    for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
-                                    if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
-                                        return node.mark(mark.addToSet(node.marks));
-                                    };
-                                    else {
-                                        if (0 != added.length || 1 != removed.length) return null;
-                                        mark = removed[0], type = "remove", update = function(node) {
-                                            return node.mark(mark.removeFromSet(node.marks));
-                                        };
-                                    }
-                                    for(var updated = [], i$2 = 0; i$2 < prev.childCount; i$2++)updated.push(update(prev.child(i$2)));
-                                    if (prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(updated).eq(cur)) return {
-                                        mark: mark,
-                                        type: type
-                                    };
-                                }($from.parent.content.cut($from.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
-                                else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - +!$to.textOffset) {
-                                    // Both positions in the same text node -- simply insert text
-                                    var text$1 = $from.parent.textBetween($from.parentOffset, $to.parentOffset);
-                                    if (view.someProp("handleTextInput", function(f) {
-                                        return f(view, chFrom, chTo, text$1);
-                                    })) return;
-                                    tr = view.state.tr.insertText(text$1, chFrom, chTo);
-                                }
-                            }
-                            if (tr || (tr = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from))), parse.sel) {
-                                var sel$2 = resolveSelection(view, tr.doc, parse.sel);
-                                // Chrome Android will sometimes, during composition, report the
-                                // selection in the wrong place. If it looks like that is
-                                // happening, don't update the selection.
-                                // Edge just doesn't move the cursor forward when you start typing
-                                // in an empty block or between br nodes.
-                                sel$2 && !(result.chrome && result.android && view.composing && sel$2.empty && (change.start != change.endB || view.lastAndroidDelete < Date.now() - 100) && (sel$2.head == chFrom || sel$2.head == tr.mapping.map(chTo) - 1) || result.ie && sel$2.empty && sel$2.head == chFrom) && tr.setSelection(sel$2);
-                            }
-                            storedMarks && tr.ensureMarks(storedMarks), view.dispatch(tr.scrollIntoView());
-                        }(view, from, to, typeOver, added);
-                    }), view.domObserver.start(), // Used by hacks like the beforeinput handler to check whether anything happened in the DOM
-                    view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
-                        var handler = handlers[event];
-                        view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
-                            !function(view, event) {
-                                if (!event.bubbles) return !0;
-                                if (event.defaultPrevented) return !1;
-                                for(var node = event.target; node != view.dom; node = node.parentNode)if (!node || 11 == node.nodeType || node.pmViewDesc && node.pmViewDesc.stopEvent(event)) return !1;
-                                return !0;
-                            }(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
+                            if (!desc || desc.size) break;
+                        }
+                        var startDoc = view.state.doc, parser = view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema), $from = startDoc.resolve(from), sel = null, doc = parser.parse(parent, {
+                            topNode: $from.parent,
+                            topMatch: $from.parent.contentMatchAt($from.index()),
+                            topOpen: !0,
+                            from: fromOffset,
+                            to: toOffset,
+                            preserveWhitespace: !$from.parent.type.spec.code || "full",
+                            editableContent: !0,
+                            findPositions: find,
+                            ruleFromNode: ruleFromNode,
+                            context: $from
                         });
-                    }(event);
-                    result.safari && view.dom.addEventListener("input", function() {
-                        return null;
-                    }), ensureListeners(view);
-                }(this), this.prevDirectPlugins = [], this.pluginViews = [], this.updatePluginViews();
+                        if (find && null != find[0].pos) {
+                            var anchor$1 = find[0].pos, head = find[1] && find[1].pos;
+                            null == head && (head = anchor$1), sel = {
+                                anchor: anchor$1 + from,
+                                head: head + from
+                            };
+                        }
+                        return {
+                            doc: doc,
+                            sel: sel,
+                            from: from,
+                            to: to
+                        };
+                    }(view1, from1, to1);
+                    // Chrome sometimes leaves the cursor before the inserted text when
+                    // composing after a cursor wrapper. This moves it forward.
+                    if (result.chrome && view1.cursorWrapper && parse.sel && parse.sel.anchor == view1.cursorWrapper.deco.from) {
+                        var text = view1.cursorWrapper.deco.type.toDOM.nextSibling, size = text && text.nodeValue ? text.nodeValue.length : 1;
+                        parse.sel = {
+                            anchor: parse.sel.anchor + size,
+                            head: parse.sel.anchor + size
+                        };
+                    }
+                    var doc = view1.state.doc, compare = doc.slice(parse.from, parse.to);
+                    8 === view1.lastKeyCode && Date.now() - 100 < view1.lastKeyCodeTime ? (preferredPos = view1.state.selection.to, preferredSide = "end") : (preferredPos = view1.state.selection.from, preferredSide = "start"), view1.lastKeyCode = null;
+                    var change = function(a, b, pos, preferredPos, preferredSide) {
+                        var start = a.findDiffStart(b, pos);
+                        if (null == start) return null;
+                        var ref = a.findDiffEnd(b, pos + a.size, pos + b.size), endA = ref.a, endB = ref.b;
+                        if ("end" == preferredSide) {
+                            var adjust = Math.max(0, start - Math.min(endA, endB));
+                            preferredPos -= endA + adjust - start;
+                        }
+                        if (endA < start && a.size < b.size) {
+                            var move = preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0;
+                            start -= move, endB = start + (endB - endA), endA = start;
+                        } else if (endB < start) {
+                            var move$1 = preferredPos <= start && preferredPos >= endB ? start - preferredPos : 0;
+                            start -= move$1, endA = start + (endA - endB), endB = start;
+                        }
+                        return {
+                            start: start,
+                            endA: endA,
+                            endB: endB
+                        };
+                    }(compare.content, parse.doc.content, parse.from, preferredPos, preferredSide);
+                    if (!change) {
+                        if (typeOver1 && sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !sel.empty && sel.$head.sameParent(sel.$anchor) && !view1.composing && !(parse.sel && parse.sel.anchor != parse.sel.head)) change = {
+                            start: sel.from,
+                            endA: sel.to,
+                            endB: sel.to
+                        };
+                        else if ((result.ios && view1.lastIOSEnter > Date.now() - 225 || result.android) && addedNodes.some(function(n) {
+                            return "DIV" == n.nodeName || "P" == n.nodeName;
+                        }) && view1.someProp("handleKeyDown", function(f) {
+                            return f(view1, keyEvent(13, "Enter"));
+                        })) {
+                            view1.lastIOSEnter = 0;
+                            return;
+                        } else {
+                            if (parse.sel) {
+                                var sel$1 = resolveSelection(view1, view1.state.doc, parse.sel);
+                                sel$1 && !sel$1.eq(view1.state.selection) && view1.dispatch(view1.state.tr.setSelection(sel$1));
+                            }
+                            return;
+                        }
+                    }
+                    view1.domChangeCount++, view1.state.selection.from < view1.state.selection.to && change.start == change.endB && view1.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && (change.start > view1.state.selection.from && change.start <= view1.state.selection.from + 2 ? change.start = view1.state.selection.from : change.endA < view1.state.selection.to && change.endA >= view1.state.selection.to - 2 && (change.endB += view1.state.selection.to - change.endA, change.endA = view1.state.selection.to)), result.ie && result.ie_version <= 11 && change.endB == change.start + 1 && change.endA == change.start && change.start > parse.from && " \u00a0" == parse.doc.textBetween(change.start - parse.from - 1, change.start - parse.from + 1) && (change.start--, change.endA--, change.endB--);
+                    var $from = parse.doc.resolveNoCache(change.start - parse.from), $to = parse.doc.resolveNoCache(change.endB - parse.from), inlineChange = $from.sameParent($to) && $from.parent.inlineContent;
+                    // If this looks like the effect of pressing Enter (or was recorded
+                    // as being an iOS enter press), just dispatch an Enter key instead.
+                    if ((result.ios && view1.lastIOSEnter > Date.now() - 225 && (!inlineChange || addedNodes.some(function(n) {
+                        return "DIV" == n.nodeName || "P" == n.nodeName;
+                    })) || !inlineChange && $from.pos < parse.doc.content.size && (nextSel = prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom(parse.doc.resolve($from.pos + 1), 1, !0)) && nextSel.head == $to.pos) && view1.someProp("handleKeyDown", function(f) {
+                        return f(view1, keyEvent(13, "Enter"));
+                    })) {
+                        view1.lastIOSEnter = 0;
+                        return;
+                    }
+                    // Same for backspace
+                    if (view1.state.selection.anchor > change.start && function(old, start, end, $newStart, $newEnd) {
+                        if (!$newStart.parent.isTextblock || // The content must have shrunk
+                        end - start <= $newEnd.pos - $newStart.pos || // newEnd must point directly at or after the end of the block that newStart points into
+                        skipClosingAndOpening($newStart, !0, !1) < $newEnd.pos) return !1;
+                        var $start = old.resolve(start);
+                        // Start must be at the end of a block
+                        if ($start.parentOffset < $start.parent.content.size || !$start.parent.isTextblock) return !1;
+                        var $next = old.resolve(skipClosingAndOpening($start, !0, !0));
+                        return(// The next textblock must start before end and end near it
+                        !(!$next.parent.isTextblock || $next.pos > end || skipClosingAndOpening($next, !0, !1) < end) && $newStart.parent.content.cut($newStart.parentOffset).eq($next.parent.content));
+                    }(doc, change.start, change.endA, $from, $to) && view1.someProp("handleKeyDown", function(f) {
+                        return f(view1, keyEvent(8, "Backspace"));
+                    })) {
+                        result.android && result.chrome && view1.domObserver.suppressSelectionUpdates(); // #820
+                        return;
+                    }
+                    result.chrome && result.android && change.toB == change.from && (view1.lastAndroidDelete = Date.now()), result.android && !inlineChange && $from.start() != $to.start() && 0 == $to.parentOffset && $from.depth == $to.depth && parse.sel && parse.sel.anchor == parse.sel.head && parse.sel.head == change.endA && (change.endB -= 2, $to = parse.doc.resolveNoCache(change.endB - parse.from), setTimeout(function() {
+                        view1.someProp("handleKeyDown", function(f) {
+                            return f(view1, keyEvent(13, "Enter"));
+                        });
+                    }, 20));
+                    var chFrom = change.start, chTo = change.endA;
+                    if (inlineChange) {
+                        if ($from.pos == $to.pos) result.ie && result.ie_version <= 11 && 0 == $from.parentOffset && (view1.domObserver.suppressSelectionUpdates(), setTimeout(function() {
+                            return selectionToDOM(view1);
+                        }, 20)), tr = view1.state.tr.delete(chFrom, chTo), storedMarks = doc.resolve(change.start).marksAcross(doc.resolve(change.endA));
+                        else if (// Adding or removing a mark
+                        change.endA == change.endB && ($from1 = doc.resolve(change.start)) && (markChange = // : (Fragment, Fragment) → ?{mark: Mark, type: string}
+                        // Given two same-length, non-empty fragments of inline content,
+                        // determine whether the first could be created from the second by
+                        // removing or adding a single mark type.
+                        function(cur, prev) {
+                            for(var type, mark, update, curMarks = cur.firstChild.marks, prevMarks = prev.firstChild.marks, added = curMarks, removed = prevMarks, i = 0; i < prevMarks.length; i++)added = prevMarks[i].removeFromSet(added);
+                            for(var i$1 = 0; i$1 < curMarks.length; i$1++)removed = curMarks[i$1].removeFromSet(removed);
+                            if (1 == added.length && 0 == removed.length) mark = added[0], type = "add", update = function(node) {
+                                return node.mark(mark.addToSet(node.marks));
+                            };
+                            else {
+                                if (0 != added.length || 1 != removed.length) return null;
+                                mark = removed[0], type = "remove", update = function(node) {
+                                    return node.mark(mark.removeFromSet(node.marks));
+                                };
+                            }
+                            for(var updated = [], i$2 = 0; i$2 < prev.childCount; i$2++)updated.push(update(prev.child(i$2)));
+                            if (prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(updated).eq(cur)) return {
+                                mark: mark,
+                                type: type
+                            };
+                        }($from.parent.content.cut($from.parentOffset, $to.parentOffset), $from1.parent.content.cut($from1.parentOffset, change.endA - $from1.start())))) tr = view1.state.tr, "add" == markChange.type ? tr.addMark(chFrom, chTo, markChange.mark) : tr.removeMark(chFrom, chTo, markChange.mark);
+                        else if ($from.parent.child($from.index()).isText && $from.index() == $to.index() - +!$to.textOffset) {
+                            // Both positions in the same text node -- simply insert text
+                            var text$1 = $from.parent.textBetween($from.parentOffset, $to.parentOffset);
+                            if (view1.someProp("handleTextInput", function(f) {
+                                return f(view1, chFrom, chTo, text$1);
+                            })) return;
+                            tr = view1.state.tr.insertText(text$1, chFrom, chTo);
+                        }
+                    }
+                    if (tr || (tr = view1.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from))), parse.sel) {
+                        var sel$2 = resolveSelection(view1, tr.doc, parse.sel);
+                        // Chrome Android will sometimes, during composition, report the
+                        // selection in the wrong place. If it looks like that is
+                        // happening, don't update the selection.
+                        // Edge just doesn't move the cursor forward when you start typing
+                        // in an empty block or between br nodes.
+                        sel$2 && !(result.chrome && result.android && view1.composing && sel$2.empty && (change.start != change.endB || view1.lastAndroidDelete < Date.now() - 100) && (sel$2.head == chFrom || sel$2.head == tr.mapping.map(chTo) - 1) || result.ie && sel$2.empty && sel$2.head == chFrom) && tr.setSelection(sel$2);
+                    }
+                    storedMarks && tr.ensureMarks(storedMarks), view1.dispatch(tr.scrollIntoView());
+                }), view.domObserver.start(), // Used by hacks like the beforeinput handler to check whether anything happened in the DOM
+                view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
+                    var handler = handlers[event];
+                    view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
+                        !function(view, event) {
+                            if (!event.bubbles) return !0;
+                            if (event.defaultPrevented) return !1;
+                            for(var node = event.target; node != view.dom; node = node.parentNode)if (!node || 11 == node.nodeType || node.pmViewDesc && node.pmViewDesc.stopEvent(event)) return !1;
+                            return !0;
+                        }(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
+                    });
+                }(event);
+                result.safari && view.dom.addEventListener("input", function() {
+                    return null;
+                }), ensureListeners(view), this.prevDirectPlugins = [], this.pluginViews = [], this.updatePluginViews();
             }, prototypeAccessors$2 = {
                 props: {
                     configurable: !0
@@ -3067,115 +3065,112 @@
             // inner node that the position falls inside of, or -1 if it is at
             // the top level, not in any node.
             EditorView.prototype.posAtCoords = function(coords) {
-                return(// Given an x,y position on the editor, get the position in the document.
-                function(view, coords) {
-                    var node, offset, doc = view.dom.ownerDocument;
-                    if (doc.caretPositionFromPoint) try {
-                        // Firefox throws for this call in hard-to-predict circumstances (#994)
-                        var pos$1 = doc.caretPositionFromPoint(coords.left, coords.top);
-                        pos$1 && (node = pos$1.offsetNode, offset = pos$1.offset);
-                    } catch (_) {}
-                    if (!node && doc.caretRangeFromPoint) {
-                        var range = doc.caretRangeFromPoint(coords.left, coords.top);
-                        range && (node = range.startContainer, offset = range.startOffset);
-                    }
-                    var pos, elt = (view.root.elementFromPoint ? view.root : doc).elementFromPoint(coords.left, coords.top + 1);
-                    if (!elt || !view.dom.contains(1 != elt.nodeType ? elt.parentNode : elt)) {
-                        var box = view.dom.getBoundingClientRect();
-                        if (!inRect(coords, box) || !(elt = function elementFromPoint(element, coords, box) {
-                            var len = element.childNodes.length;
-                            if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
-                                var child = element.childNodes[i];
-                                if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
-                                    var rect = rects[j];
-                                    if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
-                                }
-                                if ((i = (i + 1) % len) == startI) break;
+                var node, offset, doc = this.dom.ownerDocument;
+                if (doc.caretPositionFromPoint) try {
+                    // Firefox throws for this call in hard-to-predict circumstances (#994)
+                    var pos$1 = doc.caretPositionFromPoint(coords.left, coords.top);
+                    pos$1 && (node = pos$1.offsetNode, offset = pos$1.offset);
+                } catch (_) {}
+                if (!node && doc.caretRangeFromPoint) {
+                    var range = doc.caretRangeFromPoint(coords.left, coords.top);
+                    range && (node = range.startContainer, offset = range.startOffset);
+                }
+                var pos, elt = (this.root.elementFromPoint ? this.root : doc).elementFromPoint(coords.left, coords.top + 1);
+                if (!elt || !this.dom.contains(1 != elt.nodeType ? elt.parentNode : elt)) {
+                    var box = this.dom.getBoundingClientRect();
+                    if (!inRect(coords, box) || !(elt = function elementFromPoint(element, coords, box) {
+                        var len = element.childNodes.length;
+                        if (len && box.top < box.bottom) for(var startI = Math.max(0, Math.min(len - 1, Math.floor(len * (coords.top - box.top) / (box.bottom - box.top)) - 2)), i = startI;;){
+                            var child = element.childNodes[i];
+                            if (1 == child.nodeType) for(var rects = child.getClientRects(), j = 0; j < rects.length; j++){
+                                var rect = rects[j];
+                                if (inRect(coords, rect)) return elementFromPoint(child, coords, rect);
                             }
-                            return element;
-                        }(view.dom, coords, box))) return null;
-                    }
-                    // Safari's caretRangeFromPoint returns nonsense when on a draggable element
-                    if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
-                    if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
-                        if (result.gecko && 1 == node.nodeType && // Firefox will sometimes return offsets into <input> nodes, which
-                        // have no actual children, from caretPositionFromPoint (#953)
-                        (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
-                            var dom, parent, box$1, next = node.childNodes[offset];
-                            "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;
+                            if ((i = (i + 1) % len) == startI) break;
                         }
-                        // Suspiciously specific kludge to work around caret*FromPoint
-                        // never returning a position at the end of the document
-                        node == view.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = view.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {
-                            for(var outside = -1, cur = node; cur != view.dom;){
-                                var desc = view.docView.nearestDesc(cur, !0);
-                                if (!desc) return null;
-                                if (desc.node.isBlock && desc.parent) {
-                                    var rect = desc.dom.getBoundingClientRect();
-                                    if (rect.left > coords.left || rect.top > coords.top) outside = desc.posBefore;
-                                    else if (rect.right < coords.left || rect.bottom < coords.top) outside = desc.posAfter;
-                                    else break;
-                                }
-                                cur = desc.dom.parentNode;
-                            }
-                            return outside > -1 ? outside : view.docView.posFromDOM(node, offset);
-                        }(view, node, offset, coords));
+                        return element;
+                    }(this.dom, coords, box))) return null;
+                }
+                // Safari's caretRangeFromPoint returns nonsense when on a draggable element
+                if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
+                if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
+                    if (result.gecko && 1 == node.nodeType && // Firefox will sometimes return offsets into <input> nodes, which
+                    // have no actual children, from caretPositionFromPoint (#953)
+                    (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
+                        var dom, parent, box$1, next = node.childNodes[offset];
+                        "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;
                     }
-                    null == pos && (pos = function(view, elt, coords) {
-                        var ref = function findOffsetInNode(node, coords) {
-                            for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
-                                var rects = void 0;
-                                if (1 == child.nodeType) rects = child.getClientRects();
-                                else {
-                                    if (3 != child.nodeType) continue;
-                                    rects = textRange(child).getClientRects();
-                                }
-                                for(var i = 0; i < rects.length; i++){
-                                    var rect = rects[i];
-                                    if (rect.top <= rowBot && rect.bottom >= rowTop) {
-                                        rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
-                                        var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
-                                        if (dx < dxClosest) {
-                                            closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
-                                                left: rect.right < coords.left ? rect.right : rect.left,
-                                                top: coords.top
-                                            } : coords, 1 == child.nodeType && dx && (offset = childIndex + +(coords.left >= (rect.left + rect.right) / 2));
-                                            continue;
-                                        }
+                    // Suspiciously specific kludge to work around caret*FromPoint
+                    // never returning a position at the end of the document
+                    node == this.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = this.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {
+                        for(var outside = -1, cur = node; cur != view.dom;){
+                            var desc = view.docView.nearestDesc(cur, !0);
+                            if (!desc) return null;
+                            if (desc.node.isBlock && desc.parent) {
+                                var rect = desc.dom.getBoundingClientRect();
+                                if (rect.left > coords.left || rect.top > coords.top) outside = desc.posBefore;
+                                else if (rect.right < coords.left || rect.bottom < coords.top) outside = desc.posAfter;
+                                else break;
+                            }
+                            cur = desc.dom.parentNode;
+                        }
+                        return outside > -1 ? outside : view.docView.posFromDOM(node, offset);
+                    }(this, node, offset, coords));
+                }
+                null == pos && (pos = function(view, elt, coords) {
+                    var ref = function findOffsetInNode(node, coords) {
+                        for(var closest, coordsClosest, dxClosest = 2e8, offset = 0, rowBot = coords.top, rowTop = coords.top, child = node.firstChild, childIndex = 0; child; child = child.nextSibling, childIndex++){
+                            var rects = void 0;
+                            if (1 == child.nodeType) rects = child.getClientRects();
+                            else {
+                                if (3 != child.nodeType) continue;
+                                rects = textRange(child).getClientRects();
+                            }
+                            for(var i = 0; i < rects.length; i++){
+                                var rect = rects[i];
+                                if (rect.top <= rowBot && rect.bottom >= rowTop) {
+                                    rowBot = Math.max(rect.bottom, rowBot), rowTop = Math.min(rect.top, rowTop);
+                                    var dx = rect.left > coords.left ? rect.left - coords.left : rect.right < coords.left ? coords.left - rect.right : 0;
+                                    if (dx < dxClosest) {
+                                        closest = child, dxClosest = dx, coordsClosest = dx && 3 == closest.nodeType ? {
+                                            left: rect.right < coords.left ? rect.right : rect.left,
+                                            top: coords.top
+                                        } : coords, 1 == child.nodeType && dx && (offset = childIndex + +(coords.left >= (rect.left + rect.right) / 2));
+                                        continue;
                                     }
-                                    !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
                                 }
+                                !closest && (coords.left >= rect.right && coords.top >= rect.top || coords.left >= rect.left && coords.top >= rect.bottom) && (offset = childIndex + 1);
                             }
-                            return closest && 3 == closest.nodeType ? function(node, coords) {
-                                for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
-                                    range.setEnd(node, i + 1), range.setStart(node, i);
-                                    var rect = singleRect(range, 1);
-                                    if (rect.top != rect.bottom && inRect(coords, rect)) return {
-                                        node: node,
-                                        offset: i + +(coords.left >= (rect.left + rect.right) / 2)
-                                    };
-                                }
-                                return {
-                                    node: node,
-                                    offset: 0
-                                };
-                            }(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
-                                node: node,
-                                offset: offset
-                            } : findOffsetInNode(closest, coordsClosest);
-                        }(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
-                        if (1 == node.nodeType && !node.firstChild) {
-                            var rect = node.getBoundingClientRect();
-                            bias = rect.left != rect.right && coords.left > (rect.left + rect.right) / 2 ? 1 : -1;
                         }
-                        return view.docView.posFromDOM(node, offset, bias);
-                    }(view, elt, coords));
-                    var desc = view.docView.nearestDesc(elt, !0);
-                    return {
-                        pos: pos,
-                        inside: desc ? desc.posAtStart - desc.border : -1
-                    };
-                }(this, coords));
+                        return closest && 3 == closest.nodeType ? function(node, coords) {
+                            for(var len = node.nodeValue.length, range = document.createRange(), i = 0; i < len; i++){
+                                range.setEnd(node, i + 1), range.setStart(node, i);
+                                var rect = singleRect(range, 1);
+                                if (rect.top != rect.bottom && inRect(coords, rect)) return {
+                                    node: node,
+                                    offset: i + +(coords.left >= (rect.left + rect.right) / 2)
+                                };
+                            }
+                            return {
+                                node: node,
+                                offset: 0
+                            };
+                        }(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
+                            node: node,
+                            offset: offset
+                        } : findOffsetInNode(closest, coordsClosest);
+                    }(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
+                    if (1 == node.nodeType && !node.firstChild) {
+                        var rect = node.getBoundingClientRect();
+                        bias = rect.left != rect.right && coords.left > (rect.left + rect.right) / 2 ? 1 : -1;
+                    }
+                    return view.docView.posFromDOM(node, offset, bias);
+                }(this, elt, coords));
+                var desc = this.docView.nearestDesc(elt, !0);
+                return {
+                    pos: pos,
+                    inside: desc ? desc.posAtStart - desc.border : -1
+                };
             }, // :: (number, number) → {left: number, right: number, top: number, bottom: number}
             // Returns the viewport rectangle at a given document position.
             // `left` and `right` will be the same number, as this returns a
@@ -3230,8 +3225,8 @@
             // to the view's current state by default, but it is possible to
             // pass a different state.
             EditorView.prototype.endOfTextblock = function(dir, state) {
-                var view, state1, sel, $pos;
-                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                var view, sel, $pos, state1 = state || this.state;
+                return cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (view = this, sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
@@ -3272,15 +3267,15 @@
                         return(// Restore the previous selection
                         sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result);
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd);
-                }(view, state1, dir));
+                }(this, state1, dir));
             }, // :: ()
             // Removes the editor from the DOM and destroys all [node
             // views](#view.NodeView).
             EditorView.prototype.destroy = function() {
-                this.docView && (function(view) {
-                    for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
-                    clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
-                }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
+                if (this.docView) {
+                    for(var type in this.domObserver.stop(), this.eventHandlers)this.dom.removeEventListener(type, this.eventHandlers[type]);
+                    clearTimeout(this.composingTimeout), clearTimeout(this.lastIOSEnterFallbackTimeout), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null;
+                }
             }, // Used for testing.
             EditorView.prototype.dispatchEvent = function(event) {
                 runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);

@@ -1666,35 +1666,37 @@ function(global, factory) {
         }
         return function(a, b) {
             var a1, b1, a2, b2, s = [], q = []; // number interpolators
-            return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
-                if (xa !== xb || ya !== yb) {
-                    var i = s.push("translate(", null, pxComma, null, pxParen);
-                    q.push({
-                        i: i - 4,
-                        x: interpolateNumber(xa, xb)
-                    }, {
-                        i: i - 2,
-                        x: interpolateNumber(ya, yb)
-                    });
-                } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+            a = parse(a), b = parse(b);
+            var xa = a.translateX, ya = a.translateY, xb = b.translateX, yb = b.translateY;
+            if (xa !== xb || ya !== yb) {
+                var i = s.push("translate(", null, pxComma, null, pxParen);
+                q.push({
+                    i: i - 4,
+                    x: interpolateNumber(xa, xb)
+                }, {
+                    i: i - 2,
+                    x: interpolateNumber(ya, yb)
+                });
+            } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+            (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
             })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                 i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
-            }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
-                if (xa !== xb || ya !== yb) {
-                    var i = s.push(pop(s) + "scale(", null, ",", null, ")");
-                    q.push({
-                        i: i - 4,
-                        x: interpolateNumber(xa, xb)
-                    }, {
-                        i: i - 2,
-                        x: interpolateNumber(ya, yb)
-                    });
-                } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-            }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
+            }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen);
+            var xa1 = a.scaleX, ya1 = a.scaleY, xb1 = b.scaleX, yb1 = b.scaleY;
+            if (xa1 !== xb1 || ya1 !== yb1) {
+                var i1 = s.push(pop(s) + "scale(", null, ",", null, ")");
+                q.push({
+                    i: i1 - 4,
+                    x: interpolateNumber(xa1, xb1)
+                }, {
+                    i: i1 - 2,
+                    x: interpolateNumber(ya1, yb1)
+                });
+            } else (1 !== xb1 || 1 !== yb1) && s.push(pop(s) + "scale(" + xb1 + "," + yb1 + ")");
+            return a = b = null, function(t) {
                 for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
                 return s.join("");
             };
@@ -1839,49 +1841,7 @@ function(global, factory) {
         if (schedules) {
             if (id in schedules) return;
         } else node.__transition = {};
-        !function(node, id, self1) {
-            var tween, schedules = node.__transition;
-            function start(elapsed) {
-                var i, j, n, o;
-                // If the state is not SCHEDULED, then we previously errored on start.
-                if (1 !== self1.state) return stop();
-                for(i in schedules)if ((o = schedules[i]).name === self1.name) {
-                    // While this element already has a starting transition during this frame,
-                    // defer starting an interrupting transition until that transition has a
-                    // chance to tick (and possibly end); see d3/d3-transition#54!
-                    if (3 === o.state) return timeout$1(start);
-                    // Interrupt the active transition, if any.
-                    4 === o.state ? (o.state = 6, o.timer.stop(), o.on.call("interrupt", node, node.__data__, o.index, o.group), delete schedules[i]) : +i < id && (o.state = 6, o.timer.stop(), o.on.call("cancel", node, node.__data__, o.index, o.group), delete schedules[i]);
-                }
-                if (// Defer the first tick to end of the current frame; see d3/d3#1576.
-                // Note the transition may be canceled after start and before the first tick!
-                // Note this must be scheduled before the start event; see d3/d3-transition#16!
-                // Assuming this is successful, subsequent callbacks go straight to tick.
-                timeout$1(function() {
-                    3 === self1.state && (self1.state = 4, self1.timer.restart(tick, self1.delay, self1.time), tick(elapsed));
-                }), // Dispatch the start event.
-                // Note this must be done before the tween are initialized.
-                self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
-                    for(i = 0, self1.state = 3, // Initialize the tween, deleting null tween.
-                    tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
-                    tween.length = j + 1;
-                } // interrupted
-            }
-            function tick(elapsed) {
-                for(var t = elapsed < self1.duration ? self1.ease.call(null, elapsed / self1.duration) : (self1.timer.restart(stop), self1.state = 5, 1), i = -1, n = tween.length; ++i < n;)tween[i].call(node, t);
-                // Dispatch the end event.
-                5 === self1.state && (self1.on.call("end", node, node.__data__, self1.index, self1.group), stop());
-            }
-            function stop() {
-                for(var i in self1.state = 6, self1.timer.stop(), delete schedules[id], schedules)return; // eslint-disable-line no-unused-vars
-                delete node.__transition;
-            }
-            // Initialize the self timer when the transition is created.
-            // Note the actual delay is not known until the first callback!
-            schedules[id] = self1, self1.timer = timer(function(elapsed) {
-                self1.state = 1, self1.timer.restart(start, self1.delay, self1.time), self1.delay <= elapsed && start(elapsed - self1.delay);
-            }, 0, self1.time);
-        }(node, id, {
+        var tween, self1 = {
             name: name,
             index: index,
             group: group,
@@ -1893,7 +1853,47 @@ function(global, factory) {
             ease: timing.ease,
             timer: null,
             state: 0
-        });
+        }, schedules1 = node.__transition;
+        function start(elapsed) {
+            var i, j, n, o;
+            // If the state is not SCHEDULED, then we previously errored on start.
+            if (1 !== self1.state) return stop();
+            for(i in schedules1)if ((o = schedules1[i]).name === self1.name) {
+                // While this element already has a starting transition during this frame,
+                // defer starting an interrupting transition until that transition has a
+                // chance to tick (and possibly end); see d3/d3-transition#54!
+                if (3 === o.state) return timeout$1(start);
+                // Interrupt the active transition, if any.
+                4 === o.state ? (o.state = 6, o.timer.stop(), o.on.call("interrupt", node, node.__data__, o.index, o.group), delete schedules1[i]) : +i < id && (o.state = 6, o.timer.stop(), o.on.call("cancel", node, node.__data__, o.index, o.group), delete schedules1[i]);
+            }
+            if (// Defer the first tick to end of the current frame; see d3/d3#1576.
+            // Note the transition may be canceled after start and before the first tick!
+            // Note this must be scheduled before the start event; see d3/d3-transition#16!
+            // Assuming this is successful, subsequent callbacks go straight to tick.
+            timeout$1(function() {
+                3 === self1.state && (self1.state = 4, self1.timer.restart(tick, self1.delay, self1.time), tick(elapsed));
+            }), // Dispatch the start event.
+            // Note this must be done before the tween are initialized.
+            self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
+                for(i = 0, self1.state = 3, // Initialize the tween, deleting null tween.
+                tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
+                tween.length = j + 1;
+            } // interrupted
+        }
+        function tick(elapsed) {
+            for(var t = elapsed < self1.duration ? self1.ease.call(null, elapsed / self1.duration) : (self1.timer.restart(stop), self1.state = 5, 1), i = -1, n = tween.length; ++i < n;)tween[i].call(node, t);
+            // Dispatch the end event.
+            5 === self1.state && (self1.on.call("end", node, node.__data__, self1.index, self1.group), stop());
+        }
+        function stop() {
+            for(var i in self1.state = 6, self1.timer.stop(), delete schedules1[id], schedules1)return; // eslint-disable-line no-unused-vars
+            delete node.__transition;
+        }
+        // Initialize the self timer when the transition is created.
+        // Note the actual delay is not known until the first callback!
+        schedules1[id] = self1, self1.timer = timer(function(elapsed) {
+            self1.state = 1, self1.timer.restart(start, self1.delay, self1.time), self1.delay <= elapsed && start(elapsed - self1.delay);
+        }, 0, self1.time);
     }
     function init(node, id) {
         var schedule = get$1(node, id);
@@ -5829,7 +5829,7 @@ function(global, factory) {
         }
     });
     function scaleTranslateRotate(k, dx, dy, sx, sy, alpha) {
-        if (!alpha) return function(k, dx, dy, sx, sy) {
+        if (!alpha) {
             function transform(x, y) {
                 return [
                     dx + k * (x *= sx),
@@ -5842,20 +5842,20 @@ function(global, factory) {
                     (dy - y) / k * sy
                 ];
             }, transform;
-        }(k, dx, dy, sx, sy);
+        }
         var cosAlpha = cos$1(alpha), sinAlpha = sin$1(alpha), a = cosAlpha * k, b = sinAlpha * k, ai = cosAlpha / k, bi = sinAlpha / k, ci = (sinAlpha * dy - cosAlpha * dx) / k, fi = (sinAlpha * dx + cosAlpha * dy) / k;
-        function transform(x, y) {
+        function transform1(x, y) {
             return [
                 a * (x *= sx) - b * (y *= sy) + dx,
                 dy - b * x - a * y
             ];
         }
-        return transform.invert = function(x, y) {
+        return transform1.invert = function(x, y) {
             return [
                 sx * (ai * x - bi * y + ci),
                 sy * (fi - bi * x - ai * y)
             ];
-        }, transform;
+        }, transform1;
     }
     function projection(project) {
         return projectionMutator(function() {
@@ -5955,8 +5955,8 @@ function(global, factory) {
     function conicEqualAreaRaw(y0, y1) {
         var sy0 = sin$1(y0), n = (sy0 + sin$1(y1)) / 2;
         // Are the parallels symmetrical around the Equator?
-        if (1e-6 > abs$2(n)) return function(phi0) {
-            var cosPhi0 = cos$1(phi0);
+        if (1e-6 > abs$2(n)) {
+            var cosPhi0 = cos$1(y0);
             function forward(lambda, phi) {
                 return [
                     lambda * cosPhi0,
@@ -5969,7 +5969,7 @@ function(global, factory) {
                     asin(y * cosPhi0)
                 ];
             }, forward;
-        }(y0);
+        }
         var c = 1 + sy0 * (2 * n - sy0), r0 = sqrt(c) / n;
         function project(x, y) {
             var r = sqrt(c - 2 * n * sin$1(y)) / n;
@@ -10935,12 +10935,7 @@ function(global, factory) {
         function firstWalk(v) {
             var children = v.children, siblings = v.parent.children, w = v.i ? siblings[v.i - 1] : null;
             if (children) {
-                !// All other shifts, applied to the smaller subtrees between w- and w+, are
-                // performed by this function. To prepare the shifts, we have to adjust
-                // change(w+), shift(w+), and change(w-).
-                function(v) {
-                    for(var w, shift = 0, change = 0, children = v.children, i = children.length; --i >= 0;)w = children[i], w.z += shift, w.m += shift, shift += w.s + (change += w.c);
-                }(v);
+                for(var w1, shift = 0, change = 0, children1 = v.children, i = children1.length; --i >= 0;)w1 = children1[i], w1.z += shift, w1.m += shift, shift += w1.s + (change += w1.c);
                 var midpoint = (children[0].z + children[children.length - 1].z) / 2;
                 w ? (v.z = w.z + separation(v._, w._), v.m = v.z - midpoint) : v.z = midpoint;
             } else w && (v.z = w.z + separation(v._, w._));

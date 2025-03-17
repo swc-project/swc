@@ -3223,19 +3223,19 @@
                     sourceClone = {};
                     for(var i = 0; i < keyLen; i++){
                         var innerKey = animatableKeys[i];
-                        sourceClone[innerKey] = cloneValue(source[innerKey]), function(target, source, key) {
-                            if (isArrayLike(source[key])) {
-                                if (isArrayLike(target[key]) || (target[key] = []), isTypedArray(source[key])) {
-                                    var len = source[key].length;
-                                    target[key].length !== len && (target[key] = new source[key].constructor(len), copyArrShallow(target[key], source[key], len));
-                                } else {
-                                    var sourceArr = source[key], targetArr = target[key], len0 = sourceArr.length;
-                                    if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i = 0; i < len0; i++)targetArr[i] ? copyArrShallow(targetArr[i], sourceArr[i], len1) : targetArr[i] = Array.prototype.slice.call(sourceArr[i]);
-                                    else copyArrShallow(targetArr, sourceArr, len0);
-                                    targetArr.length = sourceArr.length;
-                                }
-                            } else target[key] = source[key];
-                        }(source, target, innerKey);
+                        sourceClone[innerKey] = cloneValue(source[innerKey]);
+                        var key = innerKey;
+                        if (isArrayLike(target[key])) {
+                            if (isArrayLike(source[key]) || (source[key] = []), isTypedArray(target[key])) {
+                                var len = target[key].length;
+                                source[key].length !== len && (source[key] = new target[key].constructor(len), copyArrShallow(source[key], target[key], len));
+                            } else {
+                                var sourceArr = target[key], targetArr = source[key], len0 = sourceArr.length;
+                                if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i1 = 0; i1 < len0; i1++)targetArr[i1] ? copyArrShallow(targetArr[i1], sourceArr[i1], len1) : targetArr[i1] = Array.prototype.slice.call(sourceArr[i1]);
+                                else copyArrShallow(targetArr, sourceArr, len0);
+                                targetArr.length = sourceArr.length;
+                            }
+                        } else source[key] = target[key];
                     }
                 }
                 var animator = new Animator(source, !1, additive ? existsAnimatorsOnSameTarget : null);
@@ -3264,12 +3264,11 @@
         if (runHi === hi) return 1;
         if (0 > compare(array[runHi++], array[lo])) {
             for(; runHi < hi && 0 > compare(array[runHi], array[runHi - 1]);)runHi++;
-            !function(array, lo, hi) {
-                for(hi--; lo < hi;){
-                    var t = array[lo];
-                    array[lo++] = array[hi], array[hi--] = t;
-                }
-            }(array, lo, runHi);
+            var lo1 = lo, hi1 = runHi;
+            for(hi1--; lo1 < hi1;){
+                var t = array[lo1];
+                array[lo1++] = array[hi1], array[hi1--] = t;
+            }
         } else for(; runHi < hi && compare(array[runHi], array[runHi - 1]) >= 0;)runHi++;
         return runHi - lo;
     }
@@ -6365,25 +6364,25 @@
         }
     }
     function elementStateProxy(stateName, targetStates) {
-        var state, hasBlur, currentOpacity, fromState, blurStyle, state1 = this.states[stateName];
+        var state = this.states[stateName];
         if (this.style) {
-            if ('emphasis' === stateName) return function(el, stateName, targetStates, state) {
-                var hasSelect = targetStates && indexOf(targetStates, 'select') >= 0, cloned = !1;
-                if (el instanceof Path) {
-                    var store = getSavedStates(el), fromFill = hasSelect && store.selectFill || store.normalFill, fromStroke = hasSelect && store.selectStroke || store.normalStroke;
+            if ('emphasis' === stateName) {
+                var state1, hasBlur, currentOpacity, fromState, blurStyle, state2 = state, hasSelect = targetStates && indexOf(targetStates, 'select') >= 0, cloned = !1;
+                if (this instanceof Path) {
+                    var store = getSavedStates(this), fromFill = hasSelect && store.selectFill || store.normalFill, fromStroke = hasSelect && store.selectStroke || store.normalStroke;
                     if (hasFillOrStroke(fromFill) || hasFillOrStroke(fromStroke)) {
-                        var emphasisStyle = (state = state || {}).style || {};
-                        !hasFillOrStroke(emphasisStyle.fill) && hasFillOrStroke(fromFill) ? (cloned = !0, state = extend({}, state), (emphasisStyle = extend({}, emphasisStyle)).fill = liftColor(fromFill)) : !hasFillOrStroke(emphasisStyle.stroke) && hasFillOrStroke(fromStroke) && (cloned || (state = extend({}, state), emphasisStyle = extend({}, emphasisStyle)), emphasisStyle.stroke = liftColor(fromStroke)), state.style = emphasisStyle;
+                        var emphasisStyle = (state2 = state2 || {}).style || {};
+                        !hasFillOrStroke(emphasisStyle.fill) && hasFillOrStroke(fromFill) ? (cloned = !0, state2 = extend({}, state2), (emphasisStyle = extend({}, emphasisStyle)).fill = liftColor(fromFill)) : !hasFillOrStroke(emphasisStyle.stroke) && hasFillOrStroke(fromStroke) && (cloned || (state2 = extend({}, state2), emphasisStyle = extend({}, emphasisStyle)), emphasisStyle.stroke = liftColor(fromStroke)), state2.style = emphasisStyle;
                     }
                 }
-                if (state && null == state.z2) {
-                    cloned || (state = extend({}, state));
-                    var z2EmphasisLift = el.z2EmphasisLift;
-                    state.z2 = el.z2 + (null != z2EmphasisLift ? z2EmphasisLift : 10);
+                if (state2 && null == state2.z2) {
+                    cloned || (state2 = extend({}, state2));
+                    var z2EmphasisLift = this.z2EmphasisLift;
+                    state2.z2 = this.z2 + (null != z2EmphasisLift ? z2EmphasisLift : 10);
                 }
-                return state;
-            }(this, 0, targetStates, state1);
-            if ('blur' === stateName) return state = state1, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
+                return state2;
+            }
+            if ('blur' === stateName) return state1 = state, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
                 for(var style = el.style, fromState = {}, i = 0; i < props.length; i++){
                     var propName = props[i], val = style[propName];
                     fromState[propName] = null == val ? defaultValue && defaultValue[propName] : val;
@@ -6398,22 +6397,23 @@
                 'opacity'
             ], stateName, {
                 opacity: 1
-            }), null == (blurStyle = (state = state || {}).style || {}).opacity && (// clone state
-            state = extend({}, state), blurStyle = extend({
+            }), null == (blurStyle = (state1 = state1 || {}).style || {}).opacity && (// clone state
+            state1 = extend({}, state1), blurStyle = extend({
                 // Already being applied 'emphasis'. DON'T mul opacity multiple times.
                 opacity: hasBlur ? currentOpacity : 0.1 * fromState.opacity
-            }, blurStyle), state.style = blurStyle), state;
-            if ('select' === stateName) return function(el, stateName, state) {
+            }, blurStyle), state1.style = blurStyle), state1;
+            if ('select' === stateName) {
+                var state3 = state;
                 // const hasSelect = indexOf(el.currentStates, stateName) >= 0;
-                if (state && null == state.z2) {
-                    state = extend({}, state);
-                    var z2SelectLift = el.z2SelectLift;
-                    state.z2 = el.z2 + (null != z2SelectLift ? z2SelectLift : 9);
+                if (state3 && null == state3.z2) {
+                    state3 = extend({}, state3);
+                    var z2SelectLift = this.z2SelectLift;
+                    state3.z2 = this.z2 + (null != z2SelectLift ? z2SelectLift : 9);
                 }
-                return state;
-            }(this, 0, state1);
+                return state3;
+            }
         }
-        return state1;
+        return state;
     }
     /**FI
      * Set hover style (namely "emphasis style") of element.
@@ -6795,57 +6795,55 @@
         return __extends(Sector, _super), Sector.prototype.getDefaultShape = function() {
             return new SectorShape();
         }, Sector.prototype.buildPath = function(ctx, shape) {
-            !function(ctx, shape) {
-                var arc, radius = mathMax$3(shape.r, 0), innerRadius = mathMax$3(shape.r0 || 0, 0), hasRadius = radius > 0, hasInnerRadius = innerRadius > 0;
-                if (hasRadius || hasInnerRadius) {
-                    if (hasRadius || (radius = innerRadius, innerRadius = 0), innerRadius > radius) {
-                        var tmp = radius;
-                        radius = innerRadius, innerRadius = tmp;
-                    }
-                    var clockwise = !!shape.clockwise, startAngle = shape.startAngle, endAngle = shape.endAngle;
-                    if (startAngle === endAngle) arc = 0;
-                    else {
-                        var tmpAngles = [
-                            startAngle,
-                            endAngle
-                        ];
-                        normalizeArcAngles(tmpAngles, !clockwise), arc = mathAbs$1(tmpAngles[0] - tmpAngles[1]);
-                    }
-                    var x = shape.cx, y = shape.cy, cornerRadius = shape.cornerRadius || 0, innerCornerRadius = shape.innerCornerRadius || 0;
-                    if (radius > 1e-4) {
-                        if (arc > PI2$5 - 1e-4) ctx.moveTo(x + radius * mathCos$3(startAngle), y + radius * mathSin$3(startAngle)), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise), innerRadius > 1e-4 && (ctx.moveTo(x + innerRadius * mathCos$3(endAngle), y + innerRadius * mathSin$3(endAngle)), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise));
-                        else {
-                            var halfRd = mathAbs$1(radius - innerRadius) / 2, cr = mathMin$3(halfRd, cornerRadius), icr = mathMin$3(halfRd, innerCornerRadius), cr0 = icr, cr1 = cr, xrs = radius * mathCos$3(startAngle), yrs = radius * mathSin$3(startAngle), xire = innerRadius * mathCos$3(endAngle), yire = innerRadius * mathSin$3(endAngle), xre = void 0, yre = void 0, xirs = void 0, yirs = void 0;
-                            if ((cr > 1e-4 || icr > 1e-4) && (xre = radius * mathCos$3(endAngle), yre = radius * mathSin$3(endAngle), xirs = innerRadius * mathCos$3(startAngle), yirs = innerRadius * mathSin$3(startAngle), arc < PI$2)) {
-                                var it_1 = function(x0, y0, x1, y1, x2, y2, x3, y3) {
-                                    var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
-                                    if (!(t * t < 1e-4)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
-                                        x0 + t * x10,
-                                        y0 + t * y10
-                                    ];
-                                }(xrs, yrs, xirs, yirs, xre, yre, xire, yire);
-                                if (it_1) {
-                                    var x0 = xrs - it_1[0], y0 = yrs - it_1[1], x1 = xre - it_1[0], y1 = yre - it_1[1], a = 1 / mathSin$3(mathACos((x0 * x1 + y0 * y1) / (mathSqrt$4(x0 * x0 + y0 * y0) * mathSqrt$4(x1 * x1 + y1 * y1))) / 2), b = mathSqrt$4(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
-                                    cr0 = mathMin$3(icr, (innerRadius - b) / (a - 1)), cr1 = mathMin$3(cr, (radius - b) / (a + 1));
-                                }
-                            }
-                            if (arc > 1e-4) {
-                                if (cr1 > 1e-4) {
-                                    var ct0 = computeCornerTangents(xirs, yirs, xrs, yrs, radius, cr1, clockwise), ct1 = computeCornerTangents(xre, yre, xire, yire, radius, cr1, clockwise);
-                                    ctx.moveTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr1 < cr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, radius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), !clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr1, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
-                                } else ctx.moveTo(x + xrs, y + yrs), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise);
-                            } else ctx.moveTo(x + xrs, y + yrs);
-                            if (innerRadius > 1e-4 && arc > 1e-4) {
-                                if (cr0 > 1e-4) {
-                                    var ct0 = computeCornerTangents(xire, yire, xre, yre, innerRadius, -cr0, clockwise), ct1 = computeCornerTangents(xrs, yrs, xirs, yirs, innerRadius, -cr0, clockwise);
-                                    ctx.lineTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr0 < icr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, innerRadius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr0, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
-                                } else ctx.lineTo(x + xire, y + yire), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise);
-                            } else ctx.lineTo(x + xire, y + yire);
-                        }
-                    } else ctx.moveTo(x, y);
-                    ctx.closePath();
+            var arc, radius = mathMax$3(shape.r, 0), innerRadius = mathMax$3(shape.r0 || 0, 0), hasRadius = radius > 0, hasInnerRadius = innerRadius > 0;
+            if (hasRadius || hasInnerRadius) {
+                if (hasRadius || (radius = innerRadius, innerRadius = 0), innerRadius > radius) {
+                    var tmp = radius;
+                    radius = innerRadius, innerRadius = tmp;
                 }
-            }(ctx, shape);
+                var clockwise = !!shape.clockwise, startAngle = shape.startAngle, endAngle = shape.endAngle;
+                if (startAngle === endAngle) arc = 0;
+                else {
+                    var tmpAngles = [
+                        startAngle,
+                        endAngle
+                    ];
+                    normalizeArcAngles(tmpAngles, !clockwise), arc = mathAbs$1(tmpAngles[0] - tmpAngles[1]);
+                }
+                var x = shape.cx, y = shape.cy, cornerRadius = shape.cornerRadius || 0, innerCornerRadius = shape.innerCornerRadius || 0;
+                if (radius > 1e-4) {
+                    if (arc > PI2$5 - 1e-4) ctx.moveTo(x + radius * mathCos$3(startAngle), y + radius * mathSin$3(startAngle)), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise), innerRadius > 1e-4 && (ctx.moveTo(x + innerRadius * mathCos$3(endAngle), y + innerRadius * mathSin$3(endAngle)), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise));
+                    else {
+                        var halfRd = mathAbs$1(radius - innerRadius) / 2, cr = mathMin$3(halfRd, cornerRadius), icr = mathMin$3(halfRd, innerCornerRadius), cr0 = icr, cr1 = cr, xrs = radius * mathCos$3(startAngle), yrs = radius * mathSin$3(startAngle), xire = innerRadius * mathCos$3(endAngle), yire = innerRadius * mathSin$3(endAngle), xre = void 0, yre = void 0, xirs = void 0, yirs = void 0;
+                        if ((cr > 1e-4 || icr > 1e-4) && (xre = radius * mathCos$3(endAngle), yre = radius * mathSin$3(endAngle), xirs = innerRadius * mathCos$3(startAngle), yirs = innerRadius * mathSin$3(startAngle), arc < PI$2)) {
+                            var it_1 = function(x0, y0, x1, y1, x2, y2, x3, y3) {
+                                var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
+                                if (!(t * t < 1e-4)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
+                                    x0 + t * x10,
+                                    y0 + t * y10
+                                ];
+                            }(xrs, yrs, xirs, yirs, xre, yre, xire, yire);
+                            if (it_1) {
+                                var x0 = xrs - it_1[0], y0 = yrs - it_1[1], x1 = xre - it_1[0], y1 = yre - it_1[1], a = 1 / mathSin$3(mathACos((x0 * x1 + y0 * y1) / (mathSqrt$4(x0 * x0 + y0 * y0) * mathSqrt$4(x1 * x1 + y1 * y1))) / 2), b = mathSqrt$4(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
+                                cr0 = mathMin$3(icr, (innerRadius - b) / (a - 1)), cr1 = mathMin$3(cr, (radius - b) / (a + 1));
+                            }
+                        }
+                        if (arc > 1e-4) {
+                            if (cr1 > 1e-4) {
+                                var ct0 = computeCornerTangents(xirs, yirs, xrs, yrs, radius, cr1, clockwise), ct1 = computeCornerTangents(xre, yre, xire, yire, radius, cr1, clockwise);
+                                ctx.moveTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr1 < cr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, radius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), !clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr1, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
+                            } else ctx.moveTo(x + xrs, y + yrs), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise);
+                        } else ctx.moveTo(x + xrs, y + yrs);
+                        if (innerRadius > 1e-4 && arc > 1e-4) {
+                            if (cr0 > 1e-4) {
+                                var ct0 = computeCornerTangents(xire, yire, xre, yre, innerRadius, -cr0, clockwise), ct1 = computeCornerTangents(xrs, yrs, xirs, yirs, innerRadius, -cr0, clockwise);
+                                ctx.lineTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr0 < icr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, innerRadius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr0, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
+                            } else ctx.lineTo(x + xire, y + yire), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise);
+                        } else ctx.lineTo(x + xire, y + yire);
+                    }
+                } else ctx.moveTo(x, y);
+                ctx.closePath();
+            }
         }, Sector.prototype.isZeroArea = function() {
             return this.shape.startAngle === this.shape.endAngle || this.shape.r === this.shape.r0;
         }, Sector;
@@ -7191,13 +7189,11 @@
     }
     var extendPathFromString = function(str, defaultOpts) {
         var innerOpts = createPathOptions(str, defaultOpts);
-        return function(_super) {
-            function Sub(opts) {
-                var _this = _super.call(this, opts) || this;
-                return _this.applyTransform = innerOpts.applyTransform, _this.buildPath = innerOpts.buildPath, _this;
-            }
-            return __extends(Sub, _super), Sub;
-        }(SVGPath);
+        function Sub(opts) {
+            var _this = SVGPath.call(this, opts) || this;
+            return _this.applyTransform = innerOpts.applyTransform, _this.buildPath = innerOpts.buildPath, _this;
+        }
+        return __extends(Sub, SVGPath), Sub;
     };
     /**
      * Extend path
@@ -9026,71 +9022,64 @@
             ComponentModel.hasSubTypes(componentType) && subTypeDefaulters[componentTypeMain] && (type = subTypeDefaulters[componentTypeMain](option));
         }
         return type;
-    }, /**
-     * Implements `TopologicalTravelable<any>` for `entity`.
-     *
-     * Topological travel on Activity Network (Activity On Vertices).
-     * Dependencies is defined in Model.prototype.dependencies, like ['xAxis', 'yAxis'].
-     * If 'xAxis' or 'yAxis' is absent in componentTypeList, just ignore it in topology.
-     * If there is circular dependencey, Error will be thrown.
-     */ function(entity, dependencyGetter) {
-        /**
-         * @param targetNameList Target Component type list.
-         *                       Can be ['aa', 'bb', 'aa.xx']
-         * @param fullNameList By which we can build dependency graph.
-         * @param callback Params: componentType, dependencies.
-         * @param context Scope of callback.
-         */ entity.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
-            if (targetNameList.length) {
-                var graph, noEntryList, result = (graph = {}, noEntryList = [], each(fullNameList, function(name) {
-                    var originalDeps, availableDeps, thisItem = createDependencyGraphItem(graph, name), availableDeps1 = (originalDeps = thisItem.originalDeps = dependencyGetter(name), availableDeps = [], each(originalDeps, function(dep) {
-                        indexOf(fullNameList, dep) >= 0 && availableDeps.push(dep);
-                    }), availableDeps);
-                    thisItem.entryCount = availableDeps1.length, 0 === thisItem.entryCount && noEntryList.push(name), each(availableDeps1, function(dependentName) {
-                        0 > indexOf(thisItem.predecessor, dependentName) && thisItem.predecessor.push(dependentName);
-                        var thatItem = createDependencyGraphItem(graph, dependentName);
-                        0 > indexOf(thatItem.successor, dependentName) && thatItem.successor.push(name);
-                    });
-                }), {
-                    graph: graph,
-                    noEntryList: noEntryList
-                }), graph1 = result.graph, noEntryList1 = result.noEntryList, targetNameSet = {};
-                for(each(targetNameList, function(name) {
-                    targetNameSet[name] = !0;
-                }); noEntryList1.length;){
-                    var currComponentType = noEntryList1.pop(), currVertex = graph1[currComponentType], isInTargetNameSet = !!targetNameSet[currComponentType];
-                    isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
-                }
-                each(targetNameSet, function() {
-                    throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
-                });
-            }
-            function removeEdge(succComponentType) {
-                graph1[succComponentType].entryCount--, 0 === graph1[succComponentType].entryCount && noEntryList1.push(succComponentType);
-            } // Consider this case: legend depends on series, and we call
-            // chart.setOption({series: [...]}), where only series is in option.
-            // If we do not have 'removeEdgeAndAdd', legendModel.mergeOption will
-            // not be called, but only sereis.mergeOption is called. Thus legend
-            // have no chance to update its local record about series (like which
-            // name of series is available in legend).
-            function removeEdgeAndAdd(succComponentType) {
-                targetNameSet[succComponentType] = !0, removeEdge(succComponentType);
-            }
-        };
-        function createDependencyGraphItem(graph, name) {
-            return graph[name] || (graph[name] = {
-                predecessor: [],
-                successor: []
-            }), graph[name];
-        }
-    }(ComponentModel, function(componentType) {
+    };
+    var dependencyGetter = function(componentType) {
         var deps = [];
         return each(ComponentModel.getClassesByMainType(componentType), function(clz) {
             deps = deps.concat(clz.dependencies || clz.prototype.dependencies || []);
         }), deps = map(deps, function(type) {
             return parseClassType(type).main;
         }), 'dataset' !== componentType && 0 >= indexOf(deps, 'dataset') && deps.unshift('dataset'), deps;
-    });
+    };
+    function createDependencyGraphItem(graph, name) {
+        return graph[name] || (graph[name] = {
+            predecessor: [],
+            successor: []
+        }), graph[name];
+    }
+    /**
+         * @param targetNameList Target Component type list.
+         *                       Can be ['aa', 'bb', 'aa.xx']
+         * @param fullNameList By which we can build dependency graph.
+         * @param callback Params: componentType, dependencies.
+         * @param context Scope of callback.
+         */ ComponentModel.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
+        if (targetNameList.length) {
+            var graph, noEntryList, result = (graph = {}, noEntryList = [], each(fullNameList, function(name) {
+                var originalDeps, availableDeps, thisItem = createDependencyGraphItem(graph, name), availableDeps1 = (originalDeps = thisItem.originalDeps = dependencyGetter(name), availableDeps = [], each(originalDeps, function(dep) {
+                    indexOf(fullNameList, dep) >= 0 && availableDeps.push(dep);
+                }), availableDeps);
+                thisItem.entryCount = availableDeps1.length, 0 === thisItem.entryCount && noEntryList.push(name), each(availableDeps1, function(dependentName) {
+                    0 > indexOf(thisItem.predecessor, dependentName) && thisItem.predecessor.push(dependentName);
+                    var thatItem = createDependencyGraphItem(graph, dependentName);
+                    0 > indexOf(thatItem.successor, dependentName) && thatItem.successor.push(name);
+                });
+            }), {
+                graph: graph,
+                noEntryList: noEntryList
+            }), graph1 = result.graph, noEntryList1 = result.noEntryList, targetNameSet = {};
+            for(each(targetNameList, function(name) {
+                targetNameSet[name] = !0;
+            }); noEntryList1.length;){
+                var currComponentType = noEntryList1.pop(), currVertex = graph1[currComponentType], isInTargetNameSet = !!targetNameSet[currComponentType];
+                isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
+            }
+            each(targetNameSet, function() {
+                throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
+            });
+        }
+        function removeEdge(succComponentType) {
+            graph1[succComponentType].entryCount--, 0 === graph1[succComponentType].entryCount && noEntryList1.push(succComponentType);
+        } // Consider this case: legend depends on series, and we call
+        // chart.setOption({series: [...]}), where only series is in option.
+        // If we do not have 'removeEdgeAndAdd', legendModel.mergeOption will
+        // not be called, but only sereis.mergeOption is called. Thus legend
+        // have no chance to update its local record about series (like which
+        // name of series is available in legend).
+        function removeEdgeAndAdd(succComponentType) {
+            targetNameSet[succComponentType] = !0, removeEdge(succComponentType);
+        }
+    };
     /*
     * Licensed to the Apache Software Foundation (ASF) under one
     * or more contributor license agreements.  See the NOTICE file
@@ -11161,46 +11150,44 @@
                     var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
                     externalTransform || throwError('Can not find transform on type "' + transType + '".');
                     var extUpSourceList = map(upSourceList, function(upSource) {
-                        return function(internalSource, externalTransform) {
-                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex;
-                            internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
-                            // Create a new dimensions structure for exposing.
-                            // Do not expose all dimension info to users directly.
-                            // Becuase the dimension is probably auto detected from data and not might reliable.
-                            // Should not lead the transformers to think that is relialbe and return it.
-                            // See [DIMENSION_INHERIT_RULE] in `sourceManager.ts`.
-                            var dimensions = [], dimsByName = {}, dimsDef = internalSource.dimensionsDefine;
-                            if (dimsDef) each(dimsDef, function(dimDef, idx) {
-                                var name = dimDef.name, dimDefExt = {
-                                    index: idx,
-                                    name: name,
-                                    displayName: dimDef.displayName
-                                };
-                                // do not generate dimension name.
-                                dimensions.push(dimDefExt), null != name && (hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt);
-                            });
-                            else for(var i = 0; i < internalSource.dimensionsDetectedCount; i++)// Do not generete name or anything others. The consequence process in
-                            // `transform` or `series` probably have there own name generation strategry.
-                            dimensions.push({
-                                index: i
-                            });
-                             // Implement public methods:
-                            var rawItemGetter = getRawSourceItemGetter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
-                            externalTransform.__isBuiltIn && (extSource.getRawDataItem = function(dataIndex) {
-                                return rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
-                            }, extSource.getRawData = bind(getRawData, null, internalSource)), extSource.cloneRawData = bind(cloneRawData, null, internalSource), extSource.count = bind(getRawSourceDataCounter(sourceFormat, SERIES_LAYOUT_BY_COLUMN), null, data, sourceHeaderCount, dimensions);
-                            var rawValueGetter = getRawSourceValueGetter(sourceFormat);
-                            extSource.retrieveValue = function(dataIndex, dimIndex) {
-                                return retrieveValueFromItem(rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex), dimIndex);
+                        var extSource = new ExternalSource(), data = upSource.data, sourceFormat = extSource.sourceFormat = upSource.sourceFormat, sourceHeaderCount = upSource.startIndex;
+                        upSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
+                        // Create a new dimensions structure for exposing.
+                        // Do not expose all dimension info to users directly.
+                        // Becuase the dimension is probably auto detected from data and not might reliable.
+                        // Should not lead the transformers to think that is relialbe and return it.
+                        // See [DIMENSION_INHERIT_RULE] in `sourceManager.ts`.
+                        var dimensions = [], dimsByName = {}, dimsDef = upSource.dimensionsDefine;
+                        if (dimsDef) each(dimsDef, function(dimDef, idx) {
+                            var name = dimDef.name, dimDefExt = {
+                                index: idx,
+                                name: name,
+                                displayName: dimDef.displayName
                             };
-                            var retrieveValueFromItem = extSource.retrieveValueFromItem = function(dataItem, dimIndex) {
-                                if (null != dataItem) {
-                                    var dimDef = dimensions[dimIndex]; // When `dimIndex` is `null`, `rawValueGetter` return the whole item.
-                                    if (dimDef) return rawValueGetter(dataItem, dimIndex, dimDef.name);
-                                }
-                            };
-                            return extSource.getDimensionInfo = bind(getDimensionInfo, null, dimensions, dimsByName), extSource.cloneAllDimensionInfo = bind(cloneAllDimensionInfo, null, dimensions), extSource;
-                        }(upSource, externalTransform);
+                            // do not generate dimension name.
+                            dimensions.push(dimDefExt), null != name && (hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt);
+                        });
+                        else for(var i = 0; i < upSource.dimensionsDetectedCount; i++)// Do not generete name or anything others. The consequence process in
+                        // `transform` or `series` probably have there own name generation strategry.
+                        dimensions.push({
+                            index: i
+                        });
+                         // Implement public methods:
+                        var rawItemGetter = getRawSourceItemGetter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
+                        externalTransform.__isBuiltIn && (extSource.getRawDataItem = function(dataIndex) {
+                            return rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
+                        }, extSource.getRawData = bind(getRawData, null, upSource)), extSource.cloneRawData = bind(cloneRawData, null, upSource), extSource.count = bind(getRawSourceDataCounter(sourceFormat, SERIES_LAYOUT_BY_COLUMN), null, data, sourceHeaderCount, dimensions);
+                        var rawValueGetter = getRawSourceValueGetter(sourceFormat);
+                        extSource.retrieveValue = function(dataIndex, dimIndex) {
+                            return retrieveValueFromItem(rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex), dimIndex);
+                        };
+                        var retrieveValueFromItem = extSource.retrieveValueFromItem = function(dataItem, dimIndex) {
+                            if (null != dataItem) {
+                                var dimDef = dimensions[dimIndex]; // When `dimIndex` is `null`, `rawValueGetter` return the whole item.
+                                if (dimDef) return rawValueGetter(dataItem, dimIndex, dimDef.name);
+                            }
+                        };
+                        return extSource.getDimensionInfo = bind(getDimensionInfo, null, dimensions, dimsByName), extSource.cloneAllDimensionInfo = bind(cloneAllDimensionInfo, null, dimensions), extSource;
                     }), resultList = normalizeToArray(externalTransform.transform({
                         upstream: extUpSourceList[0],
                         upstreamList: extUpSourceList,
@@ -13589,13 +13576,18 @@
             return;
         }
         var clipPaths = el.__clipPaths, prevElClipPaths = scope.prevElClipPaths, forceSetTransform = !1, forceSetStyle = !1;
-        if ((!prevElClipPaths || isClipPathChanged(clipPaths, prevElClipPaths)) && (prevElClipPaths && prevElClipPaths.length && (flushPathDrawn(ctx, scope), ctx.restore(), forceSetStyle = forceSetTransform = !0, scope.prevElClipPaths = null, scope.allClipped = !1, scope.prevEl = null), clipPaths && clipPaths.length && (flushPathDrawn(ctx, scope), ctx.save(), function(clipPaths, ctx, scope) {
-            for(var allClipped = !1, i = 0; i < clipPaths.length; i++){
-                var clipPath = clipPaths[i];
-                allClipped = allClipped || clipPath.isZeroArea(), setContextTransform(ctx, clipPath), ctx.beginPath(), clipPath.buildPath(ctx, clipPath.shape), ctx.clip();
+        if (!prevElClipPaths || isClipPathChanged(clipPaths, prevElClipPaths)) {
+            if (prevElClipPaths && prevElClipPaths.length && (flushPathDrawn(ctx, scope), ctx.restore(), forceSetStyle = forceSetTransform = !0, scope.prevElClipPaths = null, scope.allClipped = !1, scope.prevEl = null), clipPaths && clipPaths.length) {
+                flushPathDrawn(ctx, scope), ctx.save();
+                for(var allClipped = !1, i = 0; i < clipPaths.length; i++){
+                    var clipPath = clipPaths[i];
+                    allClipped = allClipped || clipPath.isZeroArea(), setContextTransform(ctx, clipPath), ctx.beginPath(), clipPath.buildPath(ctx, clipPath.shape), ctx.clip();
+                }
+                scope.allClipped = allClipped, forceSetTransform = !0;
             }
-            scope.allClipped = allClipped;
-        }(clipPaths, ctx, scope), forceSetTransform = !0), scope.prevElClipPaths = clipPaths), scope.allClipped) {
+            scope.prevElClipPaths = clipPaths;
+        }
+        if (scope.allClipped) {
             el.__isRendered = !1;
             return;
         }
@@ -13605,40 +13597,42 @@
         var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
         !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : m || m1 ? 0 : 1) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
-        el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
-            var hasStroke = styleHasStroke(style), hasFill = styleHasFill(style), strokePercent = style.strokePercent, strokePart = strokePercent < 1, firstDraw = !el.path;
+        if (el instanceof Path) {
+            1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath();
+            var hasStroke1 = styleHasStroke(style1), hasFill1 = styleHasFill(style1), strokePercent = style1.strokePercent, strokePart = strokePercent < 1, firstDraw = !el.path;
             (!el.silent || strokePart) && firstDraw && el.createPathProxy();
             var path = el.path || pathProxyForDraw;
-            if (!inBatch) {
-                var fill = style.fill, stroke = style.stroke, hasFillGradient = hasFill && !!fill.colorStops, hasStrokeGradient = hasStroke && !!stroke.colorStops, hasFillPattern = hasFill && !!fill.image, hasStrokePattern = hasStroke && !!stroke.image, fillGradient = void 0, strokeGradient = void 0, fillPattern = void 0, strokePattern = void 0, rect = void 0;
-                (hasFillGradient || hasStrokeGradient) && (rect = el.getBoundingRect()), hasFillGradient && (fillGradient = el.__dirty ? getCanvasGradient(ctx, fill, rect) : el.__canvasFillGradient, el.__canvasFillGradient = fillGradient), hasStrokeGradient && (strokeGradient = el.__dirty ? getCanvasGradient(ctx, stroke, rect) : el.__canvasStrokeGradient, el.__canvasStrokeGradient = strokeGradient), hasFillPattern && (fillPattern = el.__dirty || !el.__canvasFillPattern ? createCanvasPattern(ctx, fill, el) : el.__canvasFillPattern, el.__canvasFillPattern = fillPattern), hasStrokePattern && (strokePattern = el.__dirty || !el.__canvasStrokePattern ? createCanvasPattern(ctx, stroke, el) : el.__canvasStrokePattern, el.__canvasStrokePattern = fillPattern), hasFillGradient ? ctx.fillStyle = fillGradient : hasFillPattern && (fillPattern ? ctx.fillStyle = fillPattern : hasFill = !1), hasStrokeGradient ? ctx.strokeStyle = strokeGradient : hasStrokePattern && (strokePattern ? ctx.strokeStyle = strokePattern : hasStroke = !1);
+            if (!canBatchPath) {
+                var fill = style1.fill, stroke = style1.stroke, hasFillGradient = hasFill1 && !!fill.colorStops, hasStrokeGradient = hasStroke1 && !!stroke.colorStops, hasFillPattern = hasFill1 && !!fill.image, hasStrokePattern = hasStroke1 && !!stroke.image, fillGradient = void 0, strokeGradient = void 0, fillPattern = void 0, strokePattern = void 0, rect = void 0;
+                (hasFillGradient || hasStrokeGradient) && (rect = el.getBoundingRect()), hasFillGradient && (fillGradient = el.__dirty ? getCanvasGradient(ctx, fill, rect) : el.__canvasFillGradient, el.__canvasFillGradient = fillGradient), hasStrokeGradient && (strokeGradient = el.__dirty ? getCanvasGradient(ctx, stroke, rect) : el.__canvasStrokeGradient, el.__canvasStrokeGradient = strokeGradient), hasFillPattern && (fillPattern = el.__dirty || !el.__canvasFillPattern ? createCanvasPattern(ctx, fill, el) : el.__canvasFillPattern, el.__canvasFillPattern = fillPattern), hasStrokePattern && (strokePattern = el.__dirty || !el.__canvasStrokePattern ? createCanvasPattern(ctx, stroke, el) : el.__canvasStrokePattern, el.__canvasStrokePattern = fillPattern), hasFillGradient ? ctx.fillStyle = fillGradient : hasFillPattern && (fillPattern ? ctx.fillStyle = fillPattern : hasFill1 = !1), hasStrokeGradient ? ctx.strokeStyle = strokeGradient : hasStrokePattern && (strokePattern ? ctx.strokeStyle = strokePattern : hasStroke1 = !1);
             }
-            var lineDash = style.lineDash && style.lineWidth > 0 && normalizeLineDash(style.lineDash, style.lineWidth), lineDashOffset = style.lineDashOffset, ctxLineDash = !!ctx.setLineDash, scale = el.getGlobalScale();
+            var lineDash = style1.lineDash && style1.lineWidth > 0 && normalizeLineDash(style1.lineDash, style1.lineWidth), lineDashOffset = style1.lineDashOffset, ctxLineDash = !!ctx.setLineDash, scale = el.getGlobalScale();
             if (path.setScale(scale[0], scale[1], el.segmentIgnoreThreshold), lineDash) {
-                var lineScale_1 = style.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
+                var lineScale_1 = style1.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
                 lineScale_1 && 1 !== lineScale_1 && (lineDash = map(lineDash, function(rawVal) {
                     return rawVal / lineScale_1;
                 }), lineDashOffset /= lineScale_1);
             }
             var needsRebuild = !0;
-            (firstDraw || el.__dirty & Path.SHAPE_CHANGED_BIT || lineDash && !ctxLineDash && hasStroke) && (path.setDPR(ctx.dpr), strokePart ? path.setContext(null) : (path.setContext(ctx), needsRebuild = !1), path.reset(), lineDash && !ctxLineDash && (path.setLineDash(lineDash), path.setLineDashOffset(lineDashOffset)), el.buildPath(path, el.shape, inBatch), path.toStatic(), el.pathUpdated()), needsRebuild && path.rebuildPath(ctx, strokePart ? strokePercent : 1), lineDash && ctxLineDash && (ctx.setLineDash(lineDash), ctx.lineDashOffset = lineDashOffset), !inBatch && (style.strokeFirst ? (hasStroke && doStrokePath(ctx, style), hasFill && doFillPath(ctx, style)) : (hasFill && doFillPath(ctx, style), hasStroke && doStrokePath(ctx, style))), lineDash && ctxLineDash && ctx.setLineDash([]);
-        }(ctx, el, style1, canBatchPath), canBatchPath && (scope.batchFill = style1.fill || '', scope.batchStroke = style1.stroke || '')) : el instanceof TSpan ? (3 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 3), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), function(ctx, el, style) {
-            var text = style.text;
+            (firstDraw || el.__dirty & Path.SHAPE_CHANGED_BIT || lineDash && !ctxLineDash && hasStroke1) && (path.setDPR(ctx.dpr), strokePart ? path.setContext(null) : (path.setContext(ctx), needsRebuild = !1), path.reset(), lineDash && !ctxLineDash && (path.setLineDash(lineDash), path.setLineDashOffset(lineDashOffset)), el.buildPath(path, el.shape, canBatchPath), path.toStatic(), el.pathUpdated()), needsRebuild && path.rebuildPath(ctx, strokePart ? strokePercent : 1), lineDash && ctxLineDash && (ctx.setLineDash(lineDash), ctx.lineDashOffset = lineDashOffset), !canBatchPath && (style1.strokeFirst ? (hasStroke1 && doStrokePath(ctx, style1), hasFill1 && doFillPath(ctx, style1)) : (hasFill1 && doFillPath(ctx, style1), hasStroke1 && doStrokePath(ctx, style1))), lineDash && ctxLineDash && ctx.setLineDash([]), canBatchPath && (scope.batchFill = style1.fill || '', scope.batchStroke = style1.stroke || '');
+        } else if (el instanceof TSpan) {
+            3 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 3), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope);
+            var text = style1.text;
             if (null != text && (text += ''), text) {
-                ctx.font = style.font || DEFAULT_FONT, ctx.textAlign = style.textAlign, ctx.textBaseline = style.textBaseline;
+                ctx.font = style1.font || DEFAULT_FONT, ctx.textAlign = style1.textAlign, ctx.textBaseline = style1.textBaseline;
                 var hasLineDash = void 0;
                 if (ctx.setLineDash) {
-                    var lineDash = style.lineDash && style.lineWidth > 0 && normalizeLineDash(style.lineDash, style.lineWidth), lineDashOffset = style.lineDashOffset;
-                    if (lineDash) {
-                        var lineScale_2 = style.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
-                        lineScale_2 && 1 !== lineScale_2 && (lineDash = map(lineDash, function(rawVal) {
+                    var lineDash1 = style1.lineDash && style1.lineWidth > 0 && normalizeLineDash(style1.lineDash, style1.lineWidth), lineDashOffset1 = style1.lineDashOffset;
+                    if (lineDash1) {
+                        var lineScale_2 = style1.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
+                        lineScale_2 && 1 !== lineScale_2 && (lineDash1 = map(lineDash1, function(rawVal) {
                             return rawVal / lineScale_2;
-                        }), lineDashOffset /= lineScale_2), ctx.setLineDash(lineDash), ctx.lineDashOffset = lineDashOffset, hasLineDash = !0;
+                        }), lineDashOffset1 /= lineScale_2), ctx.setLineDash(lineDash1), ctx.lineDashOffset = lineDashOffset1, hasLineDash = !0;
                     }
                 }
-                style.strokeFirst ? (styleHasStroke(style) && ctx.strokeText(text, style.x, style.y), styleHasFill(style) && ctx.fillText(text, style.x, style.y)) : (styleHasFill(style) && ctx.fillText(text, style.x, style.y), styleHasStroke(style) && ctx.strokeText(text, style.x, style.y)), hasLineDash && ctx.setLineDash([]);
+                style1.strokeFirst ? (styleHasStroke(style1) && ctx.strokeText(text, style1.x, style1.y), styleHasFill(style1) && ctx.fillText(text, style1.x, style1.y)) : (styleHasFill(style1) && ctx.fillText(text, style1.x, style1.y), styleHasStroke(style1) && ctx.strokeText(text, style1.x, style1.y)), hasLineDash && ctx.setLineDash([]);
             }
-        }(ctx, el, style1)) : el instanceof ZRImage ? (2 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 2), forceSetAll = forceSetStyle, bindCommonProps(ctx, getStyle(el, scope.inHover), prevEl && getStyle(prevEl, scope.inHover), forceSetAll, scope), function(ctx, el, style) {
+        } else el instanceof ZRImage ? (2 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 2), forceSetAll = forceSetStyle, bindCommonProps(ctx, getStyle(el, scope.inHover), prevEl && getStyle(prevEl, scope.inHover), forceSetAll, scope), function(ctx, el, style) {
             var image = el.__image = createOrUpdateImage(style.image, el.__image, el, el.onload);
             if (image && isImageReady(image)) {
                 var x = style.x || 0, y = style.y || 0, width = el.getWidth(), height = el.getHeight(), aspect = image.width / image.height;
@@ -13670,7 +13664,8 @@
                 displayable.beforeBrush && displayable.beforeBrush(), displayable.innerBeforeBrush(), brush(ctx, displayable, innerScope, i_1 === len_1 - 1), displayable.innerAfterBrush(), displayable.afterBrush && displayable.afterBrush(), innerScope.prevEl = displayable;
             }
             el.clearTemporalDisplayables(), el.notClear = !0, ctx.restore();
-        }(ctx, el, scope)), canBatchPath && isLast && flushPathDrawn(ctx, scope), el.innerAfterBrush(), el.afterBrush && el.afterBrush(), scope.prevEl = el, el.__dirty = 0, el.__isRendered = !0;
+        }(ctx, el, scope));
+        canBatchPath && isLast && flushPathDrawn(ctx, scope), el.innerAfterBrush(), el.afterBrush && el.afterBrush(), scope.prevEl = el, el.__dirty = 0, el.__isRendered = !0;
     }
     var decalMap = new WeakMap(), decalCache = new LRU(100), decalKeys = [
         'symbol',
@@ -14985,29 +14980,27 @@
                 };
             }), geoCoord)), each(rawRegions, function(region) {
                 var regionName = region.name;
-                (function(mapType, region) {
-                    if ('china' === mapType) {
-                        var coordFix = coordsOffsetMap[region.name];
-                        if (coordFix) {
-                            var cp = region.getCenter();
-                            cp[0] += coordFix[0] / 10.5, cp[1] += -coordFix[1] / 14, region.setCenter(cp);
-                        }
+                if ('china' === mapName) {
+                    var coordFix = coordsOffsetMap[region.name];
+                    if (coordFix) {
+                        var cp = region.getCenter();
+                        cp[0] += coordFix[0] / 10.5, cp[1] += -coordFix[1] / 14, region.setCenter(cp);
                     }
-                })(mapName, region), function(mapType, region) {
-                    if ('world' === mapType) {
-                        var geoCoord = geoCoordMap[region.name];
-                        if (geoCoord) {
-                            var cp = [
-                                geoCoord[0],
-                                geoCoord[1]
-                            ];
-                            region.setCenter(cp);
-                        }
+                }
+                if ('world' === mapName) {
+                    var geoCoord = geoCoordMap[region.name];
+                    if (geoCoord) {
+                        var cp1 = [
+                            geoCoord[0],
+                            geoCoord[1]
+                        ];
+                        region.setCenter(cp1);
                     }
-                }(mapName, region), 'china' === mapName && '台湾' === region.name && region.geometries.push({
+                }
+                'china' === mapName && '台湾' === region.name && region.geometries.push({
                     type: 'polygon',
                     exterior: points$2[0]
-                });
+                }); // Some area like Alaska in USA map needs to be tansformed
                 // to look better
                 var specialArea = this._specialAreas && this._specialAreas[regionName];
                 specialArea && region.transformTo(specialArea.left, specialArea.top, specialArea.width, specialArea.height);
@@ -15617,28 +15610,29 @@
                 })), isHighDownPayload(payload) && allLeaveBlur(ecIns._api), ecModel && ecModel.eachComponent(condition, function(model) {
                     if (!excludeSeriesIdMap || null == excludeSeriesIdMap.get(model.id)) {
                         if (isHighDownPayload(payload)) {
-                            if (model instanceof SeriesModel) payload.type !== HIGHLIGHT_ACTION_TYPE || payload.notBlur || function(seriesModel, payload, api) {
-                                var seriesIndex = seriesModel.seriesIndex, data = seriesModel.getData(payload.dataType), dataIndex = queryDataIndex(data, payload);
-                                dataIndex = (isArray(dataIndex) ? dataIndex[0] : dataIndex) || 0;
-                                var el = data.getItemGraphicEl(dataIndex);
-                                if (!el) for(var count = data.count(), current = 0; !el && current < count;)el = data.getItemGraphicEl(current++);
-                                if (el) {
-                                    var ecData = getECData(el);
-                                    blurSeries(seriesIndex, ecData.focus, ecData.blurScope, api);
-                                } else {
-                                    // If there is no element put on the data. Try getting it from raw option
-                                    // TODO Should put it on seriesModel?
-                                    var focus_1 = seriesModel.get([
-                                        'emphasis',
-                                        'focus'
-                                    ]), blurScope = seriesModel.get([
-                                        'emphasis',
-                                        'blurScope'
-                                    ]);
-                                    null != focus_1 && blurSeries(seriesIndex, focus_1, blurScope, api);
+                            if (model instanceof SeriesModel) {
+                                if (payload.type === HIGHLIGHT_ACTION_TYPE && !payload.notBlur) {
+                                    var api = ecIns._api, seriesIndex = model.seriesIndex, data = model.getData(payload.dataType), dataIndex = queryDataIndex(data, payload);
+                                    dataIndex = (isArray(dataIndex) ? dataIndex[0] : dataIndex) || 0;
+                                    var el = data.getItemGraphicEl(dataIndex);
+                                    if (!el) for(var count = data.count(), current = 0; !el && current < count;)el = data.getItemGraphicEl(current++);
+                                    if (el) {
+                                        var ecData = getECData(el);
+                                        blurSeries(seriesIndex, ecData.focus, ecData.blurScope, api);
+                                    } else {
+                                        // If there is no element put on the data. Try getting it from raw option
+                                        // TODO Should put it on seriesModel?
+                                        var focus_1 = model.get([
+                                            'emphasis',
+                                            'focus'
+                                        ]), blurScope = model.get([
+                                            'emphasis',
+                                            'blurScope'
+                                        ]);
+                                        null != focus_1 && blurSeries(seriesIndex, focus_1, blurScope, api);
+                                    }
                                 }
-                            }(model, payload, ecIns._api);
-                            else {
+                            } else {
                                 var _a = findComponentHighDownDispatchers(model.mainType, model.componentIndex, payload.name, ecIns._api), focusSelf = _a.focusSelf, dispatchers = _a.dispatchers;
                                 payload.type === HIGHLIGHT_ACTION_TYPE && focusSelf && !payload.notBlur && blurComponent(model.mainType, model.componentIndex, ecIns._api), dispatchers && each(dispatchers, function(dispatcher) {
                                     payload.type === HIGHLIGHT_ACTION_TYPE ? enterEmphasis(dispatcher) : leaveEmphasis(dispatcher);
@@ -17476,115 +17470,7 @@
      * @param opt.encodeDefine By default `source.encodeDefine` Overwrite source define.
      * @param opt.encodeDefaulter Make default encode if user not specified.
      */ function createDimensions(source, opt) {
-        return(/**
-     * @see {module:echarts/test/ut/spec/data/completeDimensions}
-     *
-     * This method builds the relationship between:
-     * + "what the coord sys or series requires (see `sysDims`)",
-     * + "what the user defines (in `encode` and `dimensions`, see `opt.dimsDef` and `opt.encodeDef`)"
-     * + "what the data source provids (see `source`)".
-     *
-     * Some guess strategy will be adapted if user does not define something.
-     * If no 'value' dimension specified, the first no-named dimension will be
-     * named as 'value'.
-     *
-     * @param {Array.<string>} sysDims Necessary dimensions, like ['x', 'y'], which
-     *      provides not only dim template, but also default order.
-     *      properties: 'name', 'type', 'displayName'.
-     *      `name` of each item provides default coord name.
-     *      [{dimsDef: [string|Object, ...]}, ...] dimsDef of sysDim item provides default dim name, and
-     *                                    provide dims count that the sysDim required.
-     *      [{ordinalMeta}] can be specified.
-     * @param {module:echarts/data/Source|Array|Object} source or data (for compatibal with pervious)
-     * @param {Object} [opt]
-     * @param {Array.<Object|string>} [opt.dimsDef] option.series.dimensions User defined dimensions
-     *      For example: ['asdf', {name, type}, ...].
-     * @param {Object|HashMap} [opt.encodeDef] option.series.encode {x: 2, y: [3, 1], tooltip: [1, 2], label: 3}
-     * @param {Function} [opt.encodeDefaulter] Called if no `opt.encodeDef` exists.
-     *      If not specified, auto find the next available data dim.
-     *      param source {module:data/Source}
-     *      param dimCount {number}
-     *      return {Object} encode Never be `null/undefined`.
-     * @param {string} [opt.generateCoord] Generate coord dim with the given name.
-     *      If not specified, extra dim names will be:
-     *      'value', 'value0', 'value1', ...
-     * @param {number} [opt.generateCoordCount] By default, the generated dim name is `generateCoord`.
-     *      If `generateCoordCount` specified, the generated dim names will be:
-     *      `generateCoord` + 0, `generateCoord` + 1, ...
-     *      can be Infinity, indicate that use all of the remain columns.
-     * @param {number} [opt.dimCount] If not specified, guess by the first data item.
-     * @return {Array.<module:data/DataDimensionInfo>}
-     */ function(sysDims, source, opt) {
-            isSourceInstance(source) || (source = createSourceFromSeriesDataOption(source)), opt = opt || {}, sysDims = (sysDims || []).slice();
-            for(var dimsDef = (opt.dimsDef || []).slice(), dataDimNameMap = createHashMap(), coordDimNameMap = createHashMap(), result = [], dimCount = (source1 = source, sysDims1 = sysDims, optDimCount = opt.dimCount, dimCount1 = Math.max(source1.dimensionsDetectedCount || 1, sysDims1.length, dimsDef.length, optDimCount || 0), each(sysDims1, function(sysDimItem) {
-                var sysDimItemDimsDef;
-                isObject(sysDimItem) && (sysDimItemDimsDef = sysDimItem.dimsDef) && (dimCount1 = Math.max(dimCount1, sysDimItemDimsDef.length));
-            }), dimCount1), i = 0; i < dimCount; i++){
-                var dimDefItemRaw = dimsDef[i], dimDefItem = dimsDef[i] = extend({}, isObject(dimDefItemRaw) ? dimDefItemRaw : {
-                    name: dimDefItemRaw
-                }), userDimName = dimDefItem.name, resultItem = result[i] = new DataDimensionInfo();
-                null != userDimName && null == dataDimNameMap.get(userDimName) && (// Only if `series.dimensions` is defined in option
-                // displayName, will be set, and dimension will be diplayed vertically in
-                // tooltip by default.
-                resultItem.name = resultItem.displayName = userDimName, dataDimNameMap.set(userDimName, i)), null != dimDefItem.type && (resultItem.type = dimDefItem.type), null != dimDefItem.displayName && (resultItem.displayName = dimDefItem.displayName);
-            }
-            var encodeDef = opt.encodeDef;
-            !encodeDef && opt.encodeDefaulter && (encodeDef = opt.encodeDefaulter(source, dimCount));
-            var encodeDefMap = createHashMap(encodeDef); // Set `coordDim` and `coordDimIndex` by `encodeDefMap` and normalize `encodeDefMap`.
-            encodeDefMap.each(function(dataDimsRaw, coordDim) {
-                var dataDims = normalizeToArray(dataDimsRaw).slice(); // Note: It is allowed that `dataDims.length` is `0`, e.g., options is
-                // `{encode: {x: -1, y: 1}}`. Should not filter anything in
-                // this case.
-                if (1 === dataDims.length && !isString(dataDims[0]) && dataDims[0] < 0) {
-                    encodeDefMap.set(coordDim, !1);
-                    return;
-                }
-                var validDataDims = encodeDefMap.set(coordDim, []);
-                each(dataDims, function(resultDimIdxOrName, idx) {
-                    // The input resultDimIdx can be dim name or index.
-                    var resultDimIdx = isString(resultDimIdxOrName) ? dataDimNameMap.get(resultDimIdxOrName) : resultDimIdxOrName;
-                    null != resultDimIdx && resultDimIdx < dimCount && (validDataDims[idx] = resultDimIdx, applyDim(result[resultDimIdx], coordDim, idx));
-                });
-            });
-            var availDimIdx = 0;
-            function applyDim(resultItem, coordDim, coordDimIndex) {
-                null != VISUAL_DIMENSIONS.get(coordDim) ? resultItem.otherDims[coordDim] = coordDimIndex : (resultItem.coordDim = coordDim, resultItem.coordDimIndex = coordDimIndex, coordDimNameMap.set(coordDim, !0));
-            } // Make sure the first extra dim is 'value'.
-            each(sysDims, function(sysDimItemRaw) {
-                if (isString(sysDimItemRaw)) coordDim = sysDimItemRaw, sysDimItem = {};
-                else {
-                    var sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, coordDim = (sysDimItem = sysDimItemRaw).name, ordinalMeta = sysDimItem.ordinalMeta;
-                    sysDimItem.ordinalMeta = null, (sysDimItem = clone(sysDimItem)).ordinalMeta = ordinalMeta, sysDimItemDimsDef = sysDimItem.dimsDef, sysDimItemOtherDims = sysDimItem.otherDims, sysDimItem.name = sysDimItem.coordDim = sysDimItem.coordDimIndex = sysDimItem.dimsDef = sysDimItem.otherDims = null;
-                }
-                var dataDims = encodeDefMap.get(coordDim); // negative resultDimIdx means no need to mapping.
-                if (!1 !== dataDims) {
-                    if (!(dataDims = normalizeToArray(dataDims)).length) for(var i = 0; i < (sysDimItemDimsDef && sysDimItemDimsDef.length || 1); i++){
-                        for(; availDimIdx < result.length && null != result[availDimIdx].coordDim;)availDimIdx++;
-                        availDimIdx < result.length && dataDims.push(availDimIdx++);
-                    }
-                     // Apply templates.
-                    each(dataDims, function(resultDimIdx, coordDimIndex) {
-                        var resultItem = result[resultDimIdx];
-                        if (applyDim(defaults(resultItem, sysDimItem), coordDim, coordDimIndex), null == resultItem.name && sysDimItemDimsDef) {
-                            var sysDimItemDimsDefItem = sysDimItemDimsDef[coordDimIndex];
-                            isObject(sysDimItemDimsDefItem) || (sysDimItemDimsDefItem = {
-                                name: sysDimItemDimsDefItem
-                            }), resultItem.name = resultItem.displayName = sysDimItemDimsDefItem.name, resultItem.defaultTooltip = sysDimItemDimsDefItem.defaultTooltip;
-                        } // FIXME refactor, currently only used in case: {otherDims: {tooltip: false}}
-                        sysDimItemOtherDims && defaults(resultItem.otherDims, sysDimItemOtherDims);
-                    });
-                }
-            });
-            var generateCoord = opt.generateCoord, generateCoordCount = opt.generateCoordCount, fromZero = null != generateCoordCount;
-            generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
-            for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++){
-                var source1, sysDims1, optDimCount, dimCount1, source2, dimIndex, resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
-                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) === BE_ORDINAL.Must // Consider the case:
-                 || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
-            }
-            return result;
-        } // ??? TODO
-        ((opt = opt || {}).coordDimensions || [], source, {
+        var sysDims = (opt = opt || {}).coordDimensions || [], source1 = source, opt1 = {
             // FIXME:TS detect whether source then call `.dimensionsDefine` and `.encodeDefine`?
             dimsDef: opt.dimensionsDefine || source.dimensionsDefine,
             encodeDef: opt.encodeDefine || source.encodeDefine,
@@ -17592,7 +17478,75 @@
             encodeDefaulter: opt.encodeDefaulter,
             generateCoord: opt.generateCoord,
             generateCoordCount: opt.generateCoordCount
-        }));
+        };
+        isSourceInstance(source1) || (source1 = createSourceFromSeriesDataOption(source1)), opt1 = opt1 || {}, sysDims = (sysDims || []).slice();
+        for(var dimsDef = (opt1.dimsDef || []).slice(), dataDimNameMap = createHashMap(), coordDimNameMap = createHashMap(), result = [], dimCount = (source2 = source1, sysDims1 = sysDims, optDimCount = opt1.dimCount, dimCount1 = Math.max(source2.dimensionsDetectedCount || 1, sysDims1.length, dimsDef.length, optDimCount || 0), each(sysDims1, function(sysDimItem) {
+            var sysDimItemDimsDef;
+            isObject(sysDimItem) && (sysDimItemDimsDef = sysDimItem.dimsDef) && (dimCount1 = Math.max(dimCount1, sysDimItemDimsDef.length));
+        }), dimCount1), i = 0; i < dimCount; i++){
+            var dimDefItemRaw = dimsDef[i], dimDefItem = dimsDef[i] = extend({}, isObject(dimDefItemRaw) ? dimDefItemRaw : {
+                name: dimDefItemRaw
+            }), userDimName = dimDefItem.name, resultItem = result[i] = new DataDimensionInfo();
+            null != userDimName && null == dataDimNameMap.get(userDimName) && (// Only if `series.dimensions` is defined in option
+            // displayName, will be set, and dimension will be diplayed vertically in
+            // tooltip by default.
+            resultItem.name = resultItem.displayName = userDimName, dataDimNameMap.set(userDimName, i)), null != dimDefItem.type && (resultItem.type = dimDefItem.type), null != dimDefItem.displayName && (resultItem.displayName = dimDefItem.displayName);
+        }
+        var encodeDef = opt1.encodeDef;
+        !encodeDef && opt1.encodeDefaulter && (encodeDef = opt1.encodeDefaulter(source1, dimCount));
+        var encodeDefMap = createHashMap(encodeDef); // Set `coordDim` and `coordDimIndex` by `encodeDefMap` and normalize `encodeDefMap`.
+        encodeDefMap.each(function(dataDimsRaw, coordDim) {
+            var dataDims = normalizeToArray(dataDimsRaw).slice(); // Note: It is allowed that `dataDims.length` is `0`, e.g., options is
+            // `{encode: {x: -1, y: 1}}`. Should not filter anything in
+            // this case.
+            if (1 === dataDims.length && !isString(dataDims[0]) && dataDims[0] < 0) {
+                encodeDefMap.set(coordDim, !1);
+                return;
+            }
+            var validDataDims = encodeDefMap.set(coordDim, []);
+            each(dataDims, function(resultDimIdxOrName, idx) {
+                // The input resultDimIdx can be dim name or index.
+                var resultDimIdx = isString(resultDimIdxOrName) ? dataDimNameMap.get(resultDimIdxOrName) : resultDimIdxOrName;
+                null != resultDimIdx && resultDimIdx < dimCount && (validDataDims[idx] = resultDimIdx, applyDim(result[resultDimIdx], coordDim, idx));
+            });
+        });
+        var availDimIdx = 0;
+        function applyDim(resultItem, coordDim, coordDimIndex) {
+            null != VISUAL_DIMENSIONS.get(coordDim) ? resultItem.otherDims[coordDim] = coordDimIndex : (resultItem.coordDim = coordDim, resultItem.coordDimIndex = coordDimIndex, coordDimNameMap.set(coordDim, !0));
+        } // Make sure the first extra dim is 'value'.
+        each(sysDims, function(sysDimItemRaw) {
+            if (isString(sysDimItemRaw)) coordDim = sysDimItemRaw, sysDimItem = {};
+            else {
+                var sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, coordDim = (sysDimItem = sysDimItemRaw).name, ordinalMeta = sysDimItem.ordinalMeta;
+                sysDimItem.ordinalMeta = null, (sysDimItem = clone(sysDimItem)).ordinalMeta = ordinalMeta, sysDimItemDimsDef = sysDimItem.dimsDef, sysDimItemOtherDims = sysDimItem.otherDims, sysDimItem.name = sysDimItem.coordDim = sysDimItem.coordDimIndex = sysDimItem.dimsDef = sysDimItem.otherDims = null;
+            }
+            var dataDims = encodeDefMap.get(coordDim); // negative resultDimIdx means no need to mapping.
+            if (!1 !== dataDims) {
+                if (!(dataDims = normalizeToArray(dataDims)).length) for(var i = 0; i < (sysDimItemDimsDef && sysDimItemDimsDef.length || 1); i++){
+                    for(; availDimIdx < result.length && null != result[availDimIdx].coordDim;)availDimIdx++;
+                    availDimIdx < result.length && dataDims.push(availDimIdx++);
+                }
+                 // Apply templates.
+                each(dataDims, function(resultDimIdx, coordDimIndex) {
+                    var resultItem = result[resultDimIdx];
+                    if (applyDim(defaults(resultItem, sysDimItem), coordDim, coordDimIndex), null == resultItem.name && sysDimItemDimsDef) {
+                        var sysDimItemDimsDefItem = sysDimItemDimsDef[coordDimIndex];
+                        isObject(sysDimItemDimsDefItem) || (sysDimItemDimsDefItem = {
+                            name: sysDimItemDimsDefItem
+                        }), resultItem.name = resultItem.displayName = sysDimItemDimsDefItem.name, resultItem.defaultTooltip = sysDimItemDimsDefItem.defaultTooltip;
+                    } // FIXME refactor, currently only used in case: {otherDims: {tooltip: false}}
+                    sysDimItemOtherDims && defaults(resultItem.otherDims, sysDimItemOtherDims);
+                });
+            }
+        });
+        var generateCoord = opt1.generateCoord, generateCoordCount = opt1.generateCoordCount, fromZero = null != generateCoordCount;
+        generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
+        for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++){
+            var source2, sysDims1, optDimCount, dimCount1, source3, dimIndex, resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
+            null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source3 = source1, dimIndex = resultDimIdx, doGuessOrdinal(source3.data, source3.sourceFormat, source3.seriesLayoutBy, source3.dimensionsDefine, source3.startIndex, dimIndex) === BE_ORDINAL.Must // Consider the case:
+             || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
+        }
+        return result;
     }
     /**
      * @class
@@ -18321,35 +18275,31 @@
                 }
             }(getPrimaryTimeUnit(this._minLevelUnit))] || fullLeveledFormatter.second, useUTC, this.getSetting('locale'));
         }, TimeScale.prototype.getFormattedLabel = function(tick, idx, labelFormatter) {
-            var isUTC = this.getSetting('useUTC');
-            return function(tick, idx, formatter, lang, isUTC) {
-                var template = null;
-                if ('string' == typeof formatter) // Single formatter for all units at all levels
-                template = formatter;
-                else if ('function' == typeof formatter) // Callback formatter
-                template = formatter(tick.value, idx, {
-                    level: tick.level
-                });
-                else {
-                    var defaults$1 = extend({}, defaultLeveledFormatter);
-                    if (tick.level > 0) for(var i = 0; i < primaryTimeUnits.length; ++i)defaults$1[primaryTimeUnits[i]] = "{primary|" + defaults$1[primaryTimeUnits[i]] + "}";
-                    var mergedFormatter = formatter ? !1 === formatter.inherit ? formatter // Use formatter with bigger units
-                     : defaults(formatter, defaults$1) : defaults$1, unit = getUnitFromValue(tick.value, isUTC);
-                    if (mergedFormatter[unit]) template = mergedFormatter[unit];
-                    else if (mergedFormatter.inherit) {
-                        for(var targetId = timeUnits.indexOf(unit), i = targetId - 1; i >= 0; --i)if (mergedFormatter[unit]) {
-                            template = mergedFormatter[unit];
-                            break;
-                        }
-                        template = template || defaults$1.none;
+            var isUTC = this.getSetting('useUTC'), lang = this.getSetting('locale'), template = null;
+            if ('string' == typeof labelFormatter) // Single formatter for all units at all levels
+            template = labelFormatter;
+            else if ('function' == typeof labelFormatter) // Callback formatter
+            template = labelFormatter(tick.value, idx, {
+                level: tick.level
+            });
+            else {
+                var defaults$1 = extend({}, defaultLeveledFormatter);
+                if (tick.level > 0) for(var i = 0; i < primaryTimeUnits.length; ++i)defaults$1[primaryTimeUnits[i]] = "{primary|" + defaults$1[primaryTimeUnits[i]] + "}";
+                var mergedFormatter = labelFormatter ? !1 === labelFormatter.inherit ? labelFormatter : defaults(labelFormatter, defaults$1) : defaults$1, unit = getUnitFromValue(tick.value, isUTC);
+                if (mergedFormatter[unit]) template = mergedFormatter[unit];
+                else if (mergedFormatter.inherit) {
+                    for(var targetId = timeUnits.indexOf(unit), i = targetId - 1; i >= 0; --i)if (mergedFormatter[unit]) {
+                        template = mergedFormatter[unit];
+                        break;
                     }
-                    if (isArray(template)) {
-                        var levelId = null == tick.level ? 0 : tick.level >= 0 ? tick.level : template.length + tick.level;
-                        levelId = Math.min(levelId, template.length - 1), template = template[levelId];
-                    }
+                    template = template || defaults$1.none;
                 }
-                return format(new Date(tick.value), template, isUTC, lang);
-            }(tick, idx, labelFormatter, this.getSetting('locale'), isUTC);
+                if (isArray(template)) {
+                    var levelId = null == tick.level ? 0 : tick.level >= 0 ? tick.level : template.length + tick.level;
+                    levelId = Math.min(levelId, template.length - 1), template = template[levelId];
+                }
+            }
+            return format(new Date(tick.value), template, isUTC, lang);
         }, /**
              * @override
              * @param expandToNicedExtent Whether expand the ticks to niced extent.
@@ -19343,33 +19293,27 @@
              * Can be overrided, consider other axes like in 3D.
              * @return Auto interval for cateogry axis tick and label
              */ Axis.prototype.calculateCategoryInterval = function() {
-            return(/**
-     * Calculate interval for category axis ticks and labels.
-     * To get precise result, at least one of `getRotate` and `isHorizontal`
-     * should be implemented in axis.
-     */ function(axis) {
-                var labelModel, params = (labelModel = axis.getLabelModel(), {
-                    axisRotate: axis.getRotate ? axis.getRotate() : axis.isHorizontal && !axis.isHorizontal() ? 90 : 0,
-                    labelRotate: labelModel.get('rotate') || 0,
-                    font: labelModel.getFont()
-                }), labelFormatter = makeLabelFormatter(axis), rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI, ordinalScale = axis.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
-                if (ordinalExtent[1] - ordinalExtent[0] < 1) return 0;
-                var step = 1; // Simple optimization. Empirical value: tick count should less than 40.
-                tickCount > 40 && (step = Math.max(1, Math.floor(tickCount / 40)));
-                // Consider dataZoom, we should make appropriate step to avoid O(n) loop.
-                for(var tickValue = ordinalExtent[0], unitSpan = axis.dataToCoord(tickValue + 1) - axis.dataToCoord(tickValue), unitW = Math.abs(unitSpan * Math.cos(rotation)), unitH = Math.abs(unitSpan * Math.sin(rotation)), maxW = 0, maxH = 0; tickValue <= ordinalExtent[1]; tickValue += step){
-                    var width = 0, height = 0, rect = getBoundingRect(labelFormatter({
-                        value: tickValue
-                    }), params.font, 'center', 'top');
-                    width = 1.3 * rect.width, height = 1.3 * rect.height, maxW = Math.max(maxW, width, 7), maxH = Math.max(maxH, height, 7);
-                }
-                var dw = maxW / unitW, dh = maxH / unitH;
-                isNaN(dw) && (dw = 1 / 0), isNaN(dh) && (dh = 1 / 0);
-                var interval = Math.max(0, Math.floor(Math.min(dw, dh))), cache = inner$4(axis.model), axisExtent = axis.getExtent(), lastAutoInterval = cache.lastAutoInterval, lastTickCount = cache.lastTickCount;
-                return null != lastAutoInterval && null != lastTickCount && 1 >= Math.abs(lastAutoInterval - interval) && 1 // Always choose the bigger one, otherwise the critical
-                 >= Math.abs(lastTickCount - tickCount) && lastAutoInterval > interval // If the axis change is caused by chart resize, the cache should not
-                 && cache.axisExtent0 === axisExtent[0] && cache.axisExtent1 === axisExtent[1] ? interval = lastAutoInterval : (cache.lastTickCount = tickCount, cache.lastAutoInterval = interval, cache.axisExtent0 = axisExtent[0], cache.axisExtent1 = axisExtent[1]), interval;
-            }(this));
+            var labelModel, params = (labelModel = this.getLabelModel(), {
+                axisRotate: this.getRotate ? this.getRotate() : this.isHorizontal && !this.isHorizontal() ? 90 : 0,
+                labelRotate: labelModel.get('rotate') || 0,
+                font: labelModel.getFont()
+            }), labelFormatter = makeLabelFormatter(this), rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI, ordinalScale = this.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
+            if (ordinalExtent[1] - ordinalExtent[0] < 1) return 0;
+            var step = 1; // Simple optimization. Empirical value: tick count should less than 40.
+            tickCount > 40 && (step = Math.max(1, Math.floor(tickCount / 40)));
+            // Consider dataZoom, we should make appropriate step to avoid O(n) loop.
+            for(var tickValue = ordinalExtent[0], unitSpan = this.dataToCoord(tickValue + 1) - this.dataToCoord(tickValue), unitW = Math.abs(unitSpan * Math.cos(rotation)), unitH = Math.abs(unitSpan * Math.sin(rotation)), maxW = 0, maxH = 0; tickValue <= ordinalExtent[1]; tickValue += step){
+                var width = 0, height = 0, rect = getBoundingRect(labelFormatter({
+                    value: tickValue
+                }), params.font, 'center', 'top');
+                width = 1.3 * rect.width, height = 1.3 * rect.height, maxW = Math.max(maxW, width, 7), maxH = Math.max(maxH, height, 7);
+            }
+            var dw = maxW / unitW, dh = maxH / unitH;
+            isNaN(dw) && (dw = 1 / 0), isNaN(dh) && (dh = 1 / 0);
+            var interval = Math.max(0, Math.floor(Math.min(dw, dh))), cache = inner$4(this.model), axisExtent = this.getExtent(), lastAutoInterval = cache.lastAutoInterval, lastTickCount = cache.lastTickCount;
+            return null != lastAutoInterval && null != lastTickCount && 1 >= Math.abs(lastAutoInterval - interval) && 1 // Always choose the bigger one, otherwise the critical
+             >= Math.abs(lastTickCount - tickCount) && lastAutoInterval > interval // If the axis change is caused by chart resize, the cache should not
+             && cache.axisExtent0 === axisExtent[0] && cache.axisExtent1 === axisExtent[1] ? interval = lastAutoInterval : (cache.lastTickCount = tickCount, cache.lastAutoInterval = interval, cache.axisExtent0 = axisExtent[0], cache.axisExtent1 = axisExtent[1]), interval;
         }, Axis);
     }();
     function fixExtentWithBands(extent, nTick) {
@@ -19897,22 +19841,23 @@
                 var displayable = list[i], svgProxy = getSvgProxy(displayable), svgElement = getSvgElement(displayable);
                 !displayable.invisible && ((displayable.__dirty || !svgElement) && (svgProxy && svgProxy.brush(displayable), (svgElement = getSvgElement(displayable)) && displayable.style && (gradientManager.update(displayable.style.fill), gradientManager.update(displayable.style.stroke), patternManager.update(displayable.style.fill), patternManager.update(displayable.style.stroke), shadowManager.update(svgElement, displayable)), displayable.__dirty = 0), svgElement && newVisibleList.push(displayable));
             }
-            for(var diff = function(oldArr, newArr, equals) {
+            for(var diff = function(oldArr, newArr, equal) {
+                var oldArr1 = oldArr, newArr1 = newArr, equals = void 0;
                 equals || (equals = function(a, b) {
                     return a === b;
-                }), oldArr = oldArr.slice();
-                var newLen = (newArr = newArr.slice()).length, oldLen = oldArr.length, editLength = 1, maxEditLength = newLen + oldLen, bestPath = [
+                }), oldArr1 = oldArr1.slice();
+                var newLen = (newArr1 = newArr1.slice()).length, oldLen = oldArr1.length, editLength = 1, maxEditLength = newLen + oldLen, bestPath = [
                     {
                         newPos: -1,
                         components: []
                     }
-                ], oldPos = extractCommon(bestPath[0], newArr, oldArr, 0, equals);
+                ], oldPos = extractCommon(bestPath[0], newArr1, oldArr1, 0, equals);
                 if (bestPath[0].newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
-                    for(var indices = [], i = 0; i < newArr.length; i++)indices.push(i);
+                    for(var indices = [], i = 0; i < newArr1.length; i++)indices.push(i);
                     return [
                         {
                             indices: indices,
-                            count: newArr.length,
+                            count: newArr1.length,
                             added: !1,
                             removed: !1
                         }
@@ -19931,26 +19876,26 @@
                             if (!canAdd || canRemove && addPath.newPos < removePath.newPos ? pushComponent((basePath = {
                                 newPos: removePath.newPos,
                                 components: removePath.components.slice(0)
-                            }).components, !1, !0) : (basePath = addPath, basePath.newPos++, pushComponent(basePath.components, !0, !1)), oldPos = extractCommon(basePath, newArr, oldArr, diagonalPath, equals), basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) return function(components) {
-                                for(var componentPos = 0, componentLen = components.length, newPos = 0, oldPos = 0; componentPos < componentLen; componentPos++){
+                            }).components, !1, !0) : (basePath = addPath, basePath.newPos++, pushComponent(basePath.components, !0, !1)), oldPos = extractCommon(basePath, newArr1, oldArr1, diagonalPath, equals), basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) {
+                                for(var components = basePath.components, componentPos = 0, componentLen = components.length, newPos = 0, oldPos1 = 0; componentPos < componentLen; componentPos++){
                                     var component = components[componentPos];
                                     if (component.removed) {
-                                        for(var i = oldPos; i < oldPos + component.count; i++)component.indices.push(i);
-                                        oldPos += component.count;
+                                        for(var i = oldPos1; i < oldPos1 + component.count; i++)component.indices.push(i);
+                                        oldPos1 += component.count;
                                     } else {
                                         for(var indices = [], i = newPos; i < newPos + component.count; i++)indices.push(i);
-                                        component.indices = indices, newPos += component.count, component.added || (oldPos += component.count);
+                                        component.indices = indices, newPos += component.count, component.added || (oldPos1 += component.count);
                                     }
                                 }
                                 return components;
-                            }(basePath.components);
+                            }
                             bestPath[diagonalPath] = basePath;
                         }
                         editLength++;
                     }();
                     if (ret) return ret;
                 }
-            }(visibleList, newVisibleList, void 0), i = 0; i < diff.length; i++){
+            }(visibleList, newVisibleList), i = 0; i < diff.length; i++){
                 var item = diff[i];
                 if (item.removed) for(var k = 0; k < item.count; k++){
                     var child, child1, displayable = visibleList[item.indices[k]], svgElement = getSvgElement(displayable);
@@ -22341,23 +22286,23 @@
                 var dx = list[i].label.x - farthestX;
                 list[i].linePoints[1][0] += dx, list[i].label.x = farthestX;
             }
-            shiftLayoutOnY(list, viewTop, viewTop + viewHeight) && function(items) {
+            if (shiftLayoutOnY(list, viewTop, viewTop + viewHeight)) {
                 for(var topSemi = {
                     list: [],
                     maxY: 0
                 }, bottomSemi = {
                     list: [],
                     maxY: 0
-                }, i = 0; i < items.length; i++)if ('none' === items[i].labelAlignTo) {
-                    var item = items[i], semi = item.label.y > cy ? bottomSemi : topSemi, dy = Math.abs(item.label.y - cy);
+                }, i1 = 0; i1 < list.length; i1++)if ('none' === list[i1].labelAlignTo) {
+                    var item = list[i1], semi = item.label.y > cy ? bottomSemi : topSemi, dy = Math.abs(item.label.y - cy);
                     if (dy > semi.maxY) {
-                        var dx = item.label.x - cx - item.len2 * dir, rA = r + item.len; // horizontal r is always same with original r because x is not changed.
-                        semi.rB = Math.abs(dx) < rA ? Math.sqrt(dy * dy / (1 - dx * dx / rA / rA)) : rA, semi.maxY = dy;
+                        var dx1 = item.label.x - cx - item.len2 * dir, rA = r + item.len; // horizontal r is always same with original r because x is not changed.
+                        semi.rB = Math.abs(dx1) < rA ? Math.sqrt(dy * dy / (1 - dx1 * dx1 / rA / rA)) : rA, semi.maxY = dy;
                     }
                     semi.list.push(item);
                 }
                 recalculateXOnSemiToAlignOnEllipseCurve(topSemi), recalculateXOnSemiToAlignOnEllipseCurve(bottomSemi);
-            }(list);
+            }
         }
         function recalculateXOnSemiToAlignOnEllipseCurve(semi) {
             for(var rB = semi.rB, rB2 = rB * rB, i = 0; i < semi.list.length; i++){
@@ -22496,154 +22441,154 @@
                 piePiece.updateData(data, newIdx, startAngle), piePiece.off('click'), group.add(piePiece), data.setItemGraphicEl(newIdx, piePiece);
             }).remove(function(idx) {
                 removeElementWithFadeOut(oldData.getItemGraphicEl(idx), seriesModel, idx);
-            }).execute(), function(seriesModel) {
-                var cx, cy, data = seriesModel.getData(), labelLayoutList = [], hasLabelRotate = !1, minShowLabelRadian = (seriesModel.get('minShowLabelAngle') || 0) * RADIAN$1, viewRect = data.getLayout('viewRect'), r = data.getLayout('r'), viewWidth = viewRect.width, viewLeft = viewRect.x, viewTop = viewRect.y, viewHeight = viewRect.height;
-                function setNotShow(el) {
-                    el.ignore = !0;
+            }).execute();
+            var cx, cy, data1 = seriesModel.getData(), labelLayoutList = [], hasLabelRotate = !1, minShowLabelRadian = (seriesModel.get('minShowLabelAngle') || 0) * RADIAN$1, viewRect = data1.getLayout('viewRect'), r = data1.getLayout('r'), viewWidth = viewRect.width, viewLeft = viewRect.x, viewTop = viewRect.y, viewHeight = viewRect.height;
+            function setNotShow(el) {
+                el.ignore = !0;
+            }
+            if (data1.each(function(idx) {
+                var textX, textY, linePoints, textAlign, labelRotate, sector = data1.getItemGraphicEl(idx), sectorShape = sector.shape, label = sector.getTextContent(), labelLine = sector.getTextGuideLine(), itemModel = data1.getItemModel(idx), labelModel = itemModel.getModel('label'), labelPosition = labelModel.get('position') || itemModel.get([
+                    'emphasis',
+                    'label',
+                    'position'
+                ]), labelDistance = labelModel.get('distanceToLabelLine'), labelAlignTo = labelModel.get('alignTo'), edgeDistance = parsePercent$1(labelModel.get('edgeDistance'), viewWidth), bleedMargin = labelModel.get('bleedMargin'), labelLineModel = itemModel.getModel('labelLine'), labelLineLen = labelLineModel.get('length');
+                labelLineLen = parsePercent$1(labelLineLen, viewWidth);
+                var labelLineLen2 = labelLineModel.get('length2');
+                if (labelLineLen2 = parsePercent$1(labelLineLen2, viewWidth), Math.abs(sectorShape.endAngle - sectorShape.startAngle) < minShowLabelRadian) {
+                    each(label.states, setNotShow), label.ignore = !0;
+                    return;
                 }
-                data.each(function(idx) {
-                    var textX, textY, linePoints, textAlign, labelRotate, sector = data.getItemGraphicEl(idx), sectorShape = sector.shape, label = sector.getTextContent(), labelLine = sector.getTextGuideLine(), itemModel = data.getItemModel(idx), labelModel = itemModel.getModel('label'), labelPosition = labelModel.get('position') || itemModel.get([
-                        'emphasis',
-                        'label',
-                        'position'
-                    ]), labelDistance = labelModel.get('distanceToLabelLine'), labelAlignTo = labelModel.get('alignTo'), edgeDistance = parsePercent$1(labelModel.get('edgeDistance'), viewWidth), bleedMargin = labelModel.get('bleedMargin'), labelLineModel = itemModel.getModel('labelLine'), labelLineLen = labelLineModel.get('length');
-                    labelLineLen = parsePercent$1(labelLineLen, viewWidth);
-                    var labelLineLen2 = labelLineModel.get('length2');
-                    if (labelLineLen2 = parsePercent$1(labelLineLen2, viewWidth), Math.abs(sectorShape.endAngle - sectorShape.startAngle) < minShowLabelRadian) {
-                        each(label.states, setNotShow), label.ignore = !0;
-                        return;
-                    }
-                    if (function(label) {
-                        if (!label.ignore) return !0;
-                        for(var key in label.states)if (!1 === label.states[key].ignore) return !0;
-                        return !1;
-                    }(label)) {
-                        var midAngle = (sectorShape.startAngle + sectorShape.endAngle) / 2, nx = Math.cos(midAngle), ny = Math.sin(midAngle);
-                        cx = sectorShape.cx, cy = sectorShape.cy;
-                        var isLabelInside = 'inside' === labelPosition || 'inner' === labelPosition;
-                        if ('center' === labelPosition) textX = sectorShape.cx, textY = sectorShape.cy, textAlign = 'center';
-                        else {
-                            var x1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * nx : sectorShape.r * nx) + cx, y1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * ny : sectorShape.r * ny) + cy;
-                            if (textX = x1 + 3 * nx, textY = y1 + 3 * ny, !isLabelInside) {
-                                // For roseType
-                                var x2 = x1 + nx * (labelLineLen + r - sectorShape.r), y2 = y1 + ny * (labelLineLen + r - sectorShape.r), x3 = x2 + (nx < 0 ? -1 : 1) * labelLineLen2;
-                                // Adjust textX because text align of edge is opposite
-                                textX = 'edge' === labelAlignTo ? nx < 0 ? viewLeft + edgeDistance : viewLeft + viewWidth - edgeDistance : x3 + (nx < 0 ? -labelDistance : labelDistance), textY = y2, linePoints = [
-                                    [
-                                        x1,
-                                        y1
-                                    ],
-                                    [
-                                        x2,
-                                        y2
-                                    ],
-                                    [
-                                        x3,
-                                        y2
-                                    ]
-                                ];
-                            }
-                            textAlign = isLabelInside ? 'center' : 'edge' === labelAlignTo ? nx > 0 ? 'right' : 'left' : nx > 0 ? 'left' : 'right';
+                if (function(label) {
+                    if (!label.ignore) return !0;
+                    for(var key in label.states)if (!1 === label.states[key].ignore) return !0;
+                    return !1;
+                }(label)) {
+                    var midAngle = (sectorShape.startAngle + sectorShape.endAngle) / 2, nx = Math.cos(midAngle), ny = Math.sin(midAngle);
+                    cx = sectorShape.cx, cy = sectorShape.cy;
+                    var isLabelInside = 'inside' === labelPosition || 'inner' === labelPosition;
+                    if ('center' === labelPosition) textX = sectorShape.cx, textY = sectorShape.cy, textAlign = 'center';
+                    else {
+                        var x1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * nx : sectorShape.r * nx) + cx, y1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * ny : sectorShape.r * ny) + cy;
+                        if (textX = x1 + 3 * nx, textY = y1 + 3 * ny, !isLabelInside) {
+                            // For roseType
+                            var x2 = x1 + nx * (labelLineLen + r - sectorShape.r), y2 = y1 + ny * (labelLineLen + r - sectorShape.r), x3 = x2 + (nx < 0 ? -1 : 1) * labelLineLen2;
+                            // Adjust textX because text align of edge is opposite
+                            textX = 'edge' === labelAlignTo ? nx < 0 ? viewLeft + edgeDistance : viewLeft + viewWidth - edgeDistance : x3 + (nx < 0 ? -labelDistance : labelDistance), textY = y2, linePoints = [
+                                [
+                                    x1,
+                                    y1
+                                ],
+                                [
+                                    x2,
+                                    y2
+                                ],
+                                [
+                                    x3,
+                                    y2
+                                ]
+                            ];
                         }
-                        var rotate = labelModel.get('rotate');
-                        if (hasLabelRotate = !!(labelRotate = 'number' == typeof rotate ? Math.PI / 180 * rotate : rotate ? nx < 0 ? -midAngle + Math.PI : -midAngle : 0), label.x = textX, label.y = textY, label.rotation = labelRotate, label.setStyle({
-                            verticalAlign: 'middle'
-                        }), isLabelInside) {
-                            label.setStyle({
-                                align: textAlign
-                            });
-                            var selectState = label.states.select;
-                            selectState && (selectState.x += label.x, selectState.y += label.y);
-                        } else {
-                            var textRect = label.getBoundingRect().clone();
-                            textRect.applyTransform(label.getComputedTransform());
-                            var margin = (label.style.margin || 0) + 2.1;
-                            textRect.y -= margin / 2, textRect.height += margin, labelLayoutList.push({
-                                label: label,
-                                labelLine: labelLine,
-                                position: labelPosition,
-                                len: labelLineLen,
-                                len2: labelLineLen2,
-                                minTurnAngle: labelLineModel.get('minTurnAngle'),
-                                maxSurfaceAngle: labelLineModel.get('maxSurfaceAngle'),
-                                surfaceNormal: new Point(nx, ny),
-                                linePoints: linePoints,
-                                textAlign: textAlign,
-                                labelDistance: labelDistance,
-                                labelAlignTo: labelAlignTo,
-                                edgeDistance: edgeDistance,
-                                bleedMargin: bleedMargin,
-                                rect: textRect
-                            });
-                        }
-                        sector.setTextConfig({
-                            inside: isLabelInside
-                        });
+                        textAlign = isLabelInside ? 'center' : 'edge' === labelAlignTo ? nx > 0 ? 'right' : 'left' : nx > 0 ? 'left' : 'right';
                     }
-                }), !hasLabelRotate && seriesModel.get('avoidLabelOverlap') && function(labelLayoutList, cx, cy, r, viewWidth, viewHeight, viewLeft, viewTop) {
-                    for(var leftList = [], rightList = [], leftmostX = Number.MAX_VALUE, rightmostX = -Number.MAX_VALUE, i = 0; i < labelLayoutList.length; i++){
-                        var label = labelLayoutList[i].label;
-                        isPositionCenter(labelLayoutList[i]) || (label.x < cx ? (leftmostX = Math.min(leftmostX, label.x), leftList.push(labelLayoutList[i])) : (rightmostX = Math.max(rightmostX, label.x), rightList.push(labelLayoutList[i])));
-                    }
-                    adjustSingleSide(rightList, cx, cy, r, 1, viewWidth, viewHeight, viewLeft, viewTop, rightmostX), adjustSingleSide(leftList, cx, cy, r, -1, viewWidth, viewHeight, viewLeft, viewTop, leftmostX);
-                    for(var i = 0; i < labelLayoutList.length; i++){
-                        var layout = labelLayoutList[i], label = layout.label;
-                        if (!isPositionCenter(layout)) {
-                            var linePoints = layout.linePoints;
-                            if (linePoints) {
-                                var isAlignToEdge = 'edge' === layout.labelAlignTo, realTextWidth = layout.rect.width, targetTextWidth = void 0;
-                                (targetTextWidth = isAlignToEdge ? label.x < cx ? linePoints[2][0] - layout.labelDistance - viewLeft - layout.edgeDistance : viewLeft + viewWidth - layout.edgeDistance - linePoints[2][0] - layout.labelDistance : label.x < cx ? label.x - viewLeft - layout.bleedMargin : viewLeft + viewWidth - label.x - layout.bleedMargin) < layout.rect.width && (// TODOTODO
-                                // layout.text = textContain.truncateText(layout.text, targetTextWidth, layout.font);
-                                layout.label.style.width = targetTextWidth, 'edge' === layout.labelAlignTo && (realTextWidth = targetTextWidth));
-                                var dist = linePoints[1][0] - linePoints[2][0];
-                                isAlignToEdge ? label.x < cx ? linePoints[2][0] = viewLeft + layout.edgeDistance + realTextWidth + layout.labelDistance : linePoints[2][0] = viewLeft + viewWidth - layout.edgeDistance - realTextWidth - layout.labelDistance : (label.x < cx ? linePoints[2][0] = label.x + layout.labelDistance : linePoints[2][0] = label.x - layout.labelDistance, linePoints[1][0] = linePoints[2][0] + dist), linePoints[1][1] = linePoints[2][1] = label.y;
-                            }
-                        }
-                    }
-                }(labelLayoutList, cx, cy, r, viewWidth, viewHeight, viewLeft, viewTop);
-                for(var i = 0; i < labelLayoutList.length; i++){
-                    var layout = labelLayoutList[i], label = layout.label, labelLine = layout.labelLine, notShowLabel = isNaN(label.x) || isNaN(label.y);
-                    if (label) {
+                    var rotate = labelModel.get('rotate');
+                    if (hasLabelRotate = !!(labelRotate = 'number' == typeof rotate ? Math.PI / 180 * rotate : rotate ? nx < 0 ? -midAngle + Math.PI : -midAngle : 0), label.x = textX, label.y = textY, label.rotation = labelRotate, label.setStyle({
+                        verticalAlign: 'middle'
+                    }), isLabelInside) {
                         label.setStyle({
-                            align: layout.textAlign
-                        }), notShowLabel && (each(label.states, setNotShow), label.ignore = !0);
+                            align: textAlign
+                        });
                         var selectState = label.states.select;
                         selectState && (selectState.x += label.x, selectState.y += label.y);
+                    } else {
+                        var textRect = label.getBoundingRect().clone();
+                        textRect.applyTransform(label.getComputedTransform());
+                        var margin = (label.style.margin || 0) + 2.1;
+                        textRect.y -= margin / 2, textRect.height += margin, labelLayoutList.push({
+                            label: label,
+                            labelLine: labelLine,
+                            position: labelPosition,
+                            len: labelLineLen,
+                            len2: labelLineLen2,
+                            minTurnAngle: labelLineModel.get('minTurnAngle'),
+                            maxSurfaceAngle: labelLineModel.get('maxSurfaceAngle'),
+                            surfaceNormal: new Point(nx, ny),
+                            linePoints: linePoints,
+                            textAlign: textAlign,
+                            labelDistance: labelDistance,
+                            labelAlignTo: labelAlignTo,
+                            edgeDistance: edgeDistance,
+                            bleedMargin: bleedMargin,
+                            rect: textRect
+                        });
                     }
-                    if (labelLine) {
+                    sector.setTextConfig({
+                        inside: isLabelInside
+                    });
+                }
+            }), !hasLabelRotate && seriesModel.get('avoidLabelOverlap')) {
+                for(var cx1 = cx, cy1 = cy, leftList = [], rightList = [], leftmostX = Number.MAX_VALUE, rightmostX = -Number.MAX_VALUE, i = 0; i < labelLayoutList.length; i++){
+                    var label = labelLayoutList[i].label;
+                    isPositionCenter(labelLayoutList[i]) || (label.x < cx1 ? (leftmostX = Math.min(leftmostX, label.x), leftList.push(labelLayoutList[i])) : (rightmostX = Math.max(rightmostX, label.x), rightList.push(labelLayoutList[i])));
+                }
+                adjustSingleSide(rightList, cx1, cy1, r, 1, viewWidth, viewHeight, viewLeft, viewTop, rightmostX), adjustSingleSide(leftList, cx1, cy1, r, -1, viewWidth, viewHeight, viewLeft, viewTop, leftmostX);
+                for(var i = 0; i < labelLayoutList.length; i++){
+                    var layout = labelLayoutList[i], label = layout.label;
+                    if (!isPositionCenter(layout)) {
                         var linePoints = layout.linePoints;
-                        notShowLabel || !linePoints ? (each(labelLine.states, setNotShow), labelLine.ignore = !0) : (limitTurnAngle(linePoints, layout.minTurnAngle), /**
+                        if (linePoints) {
+                            var isAlignToEdge = 'edge' === layout.labelAlignTo, realTextWidth = layout.rect.width, targetTextWidth = void 0;
+                            (targetTextWidth = isAlignToEdge ? label.x < cx1 ? linePoints[2][0] - layout.labelDistance - viewLeft - layout.edgeDistance : viewLeft + viewWidth - layout.edgeDistance - linePoints[2][0] - layout.labelDistance : label.x < cx1 ? label.x - viewLeft - layout.bleedMargin : viewLeft + viewWidth - label.x - layout.bleedMargin) < layout.rect.width && (// TODOTODO
+                            // layout.text = textContain.truncateText(layout.text, targetTextWidth, layout.font);
+                            layout.label.style.width = targetTextWidth, 'edge' === layout.labelAlignTo && (realTextWidth = targetTextWidth));
+                            var dist = linePoints[1][0] - linePoints[2][0];
+                            isAlignToEdge ? label.x < cx1 ? linePoints[2][0] = viewLeft + layout.edgeDistance + realTextWidth + layout.labelDistance : linePoints[2][0] = viewLeft + viewWidth - layout.edgeDistance - realTextWidth - layout.labelDistance : (label.x < cx1 ? linePoints[2][0] = label.x + layout.labelDistance : linePoints[2][0] = label.x - layout.labelDistance, linePoints[1][0] = linePoints[2][0] + dist), linePoints[1][1] = linePoints[2][1] = label.y;
+                        }
+                    }
+                }
+            }
+            for(var i1 = 0; i1 < labelLayoutList.length; i1++){
+                var layout1 = labelLayoutList[i1], label1 = layout1.label, labelLine = layout1.labelLine, notShowLabel = isNaN(label1.x) || isNaN(label1.y);
+                if (label1) {
+                    label1.setStyle({
+                        align: layout1.textAlign
+                    }), notShowLabel && (each(label1.states, setNotShow), label1.ignore = !0);
+                    var selectState = label1.states.select;
+                    selectState && (selectState.x += label1.x, selectState.y += label1.y);
+                }
+                if (labelLine) {
+                    var linePoints1 = layout1.linePoints;
+                    notShowLabel || !linePoints1 ? (each(labelLine.states, setNotShow), labelLine.ignore = !0) : (limitTurnAngle(linePoints1, layout1.minTurnAngle), /**
      * Limit the angle of line and the surface
      * @param maxSurfaceAngle Radian of minimum turn angle. 0 - 180. 0 is same direction to normal. 180 is opposite
      */ function(linePoints, surfaceNormal, maxSurfaceAngle) {
-                            if (maxSurfaceAngle <= 180 && maxSurfaceAngle > 0) {
-                                maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI, pt0.fromArray(linePoints[0]), pt1.fromArray(linePoints[1]), pt2.fromArray(linePoints[2]), Point.sub(dir, pt1, pt0), Point.sub(dir2, pt2, pt1);
-                                var len1 = dir.len(), len2 = dir2.len();
-                                if (!(len1 < 1e-3) && !(len2 < 1e-3) && (dir.scale(1 / len1), dir2.scale(1 / len2), dir.dot(surfaceNormal) < Math.cos(maxSurfaceAngle))) {
-                                    // Calculate project point of pt0 on pt1-pt2
-                                    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, !1);
-                                    tmpProjPoint.fromArray(tmpArr);
-                                    var HALF_PI = Math.PI / 2, newAngle = HALF_PI + Math.acos(dir2.dot(surfaceNormal)) - maxSurfaceAngle;
-                                    if (newAngle >= HALF_PI) // parallel
-                                    Point.copy(tmpProjPoint, pt2);
-                                    else {
-                                        // Calculate new projected length with limited minTurnAngle and get the new connect point
-                                        tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle)); // Limit the new calculated connect point between pt1 and pt2.
-                                        var t = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
-                                        if (isNaN(t)) return;
-                                        t < 0 ? Point.copy(tmpProjPoint, pt1) : t > 1 && Point.copy(tmpProjPoint, pt2);
-                                    }
-                                    tmpProjPoint.toArray(linePoints[1]);
+                        if (maxSurfaceAngle <= 180 && maxSurfaceAngle > 0) {
+                            maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI, pt0.fromArray(linePoints[0]), pt1.fromArray(linePoints[1]), pt2.fromArray(linePoints[2]), Point.sub(dir, pt1, pt0), Point.sub(dir2, pt2, pt1);
+                            var len1 = dir.len(), len2 = dir2.len();
+                            if (!(len1 < 1e-3) && !(len2 < 1e-3) && (dir.scale(1 / len1), dir2.scale(1 / len2), dir.dot(surfaceNormal) < Math.cos(maxSurfaceAngle))) {
+                                // Calculate project point of pt0 on pt1-pt2
+                                var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, !1);
+                                tmpProjPoint.fromArray(tmpArr);
+                                var HALF_PI = Math.PI / 2, newAngle = HALF_PI + Math.acos(dir2.dot(surfaceNormal)) - maxSurfaceAngle;
+                                if (newAngle >= HALF_PI) // parallel
+                                Point.copy(tmpProjPoint, pt2);
+                                else {
+                                    // Calculate new projected length with limited minTurnAngle and get the new connect point
+                                    tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle)); // Limit the new calculated connect point between pt1 and pt2.
+                                    var t = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
+                                    if (isNaN(t)) return;
+                                    t < 0 ? Point.copy(tmpProjPoint, pt1) : t > 1 && Point.copy(tmpProjPoint, pt2);
                                 }
+                                tmpProjPoint.toArray(linePoints[1]);
                             }
-                        }(linePoints, layout.surfaceNormal, layout.maxSurfaceAngle), labelLine.setShape({
-                            points: linePoints
-                        }), label.__hostTarget.textGuideLineConfig = {
-                            anchor: new Point(linePoints[0][0], linePoints[0][1])
-                        });
-                    }
+                        }
+                    }(linePoints1, layout1.surfaceNormal, layout1.maxSurfaceAngle), labelLine.setShape({
+                        points: linePoints1
+                    }), label1.__hostTarget.textGuideLineConfig = {
+                        anchor: new Point(linePoints1[0][0], linePoints1[0][1])
+                    });
                 }
-            }(seriesModel), 'expansion' !== seriesModel.get('animationTypeUpdate') && (this._data = data);
+            }
+            'expansion' !== seriesModel.get('animationTypeUpdate') && (this._data = data);
         }, PieView.prototype.dispose = function() {}, PieView.prototype.containPoint = function(point, seriesModel) {
             var itemLayout = seriesModel.getData().getItemLayout(0);
             if (itemLayout) {
@@ -26162,72 +26107,6 @@
      * with some modifications made for this program.
      * See the license statement at the head of this file.
      *
-     * Computes a preliminary x coordinate for node. Before that, this function is
-     * applied recursively to the children of node, as well as the function
-     * apportion(). After spacing out the children by calling executeShifts(), the
-     * node is placed to the midpoint of its outermost children.
-     */ function firstWalk(node, separation) {
-        var children = node.isExpand ? node.children : [], siblings = node.parentNode.children, subtreeW = node.hierNode.i ? siblings[node.hierNode.i - 1] : null;
-        if (children.length) {
-            !/**
-     * All other shifts, applied to the smaller subtrees between w- and w+, are
-     * performed by this function.
-     *
-     * The implementation of this function was originally copied from "d3.js"
-     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
-     * with some modifications made for this program.
-     * See the license statement at the head of this file.
-     */ function(node) {
-                for(var children = node.children, n = children.length, shift = 0, change = 0; --n >= 0;){
-                    var child = children[n];
-                    child.hierNode.prelim += shift, child.hierNode.modifier += shift, change += child.hierNode.change, shift += child.hierNode.shift + change;
-                }
-            }(node);
-            var midPoint = (children[0].hierNode.prelim + children[children.length - 1].hierNode.prelim) / 2;
-            subtreeW ? (node.hierNode.prelim = subtreeW.hierNode.prelim + separation(node, subtreeW), node.hierNode.modifier = node.hierNode.prelim - midPoint) : node.hierNode.prelim = midPoint;
-        } else subtreeW && (node.hierNode.prelim = subtreeW.hierNode.prelim + separation(node, subtreeW));
-        node.parentNode.hierNode.defaultAncestor = /**
-     * The implementation of this function was originally copied from "d3.js"
-     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
-     * with some modifications made for this program.
-     * See the license statement at the head of this file.
-     *
-     * The core of the algorithm. Here, a new subtree is combined with the
-     * previous subtrees. Threads are used to traverse the inside and outside
-     * contours of the left and right subtree up to the highest common level.
-     * Whenever two nodes of the inside contours conflict, we compute the left
-     * one of the greatest uncommon ancestors using the function nextAncestor()
-     * and call moveSubtree() to shift the subtree and prepare the shifts of
-     * smaller subtrees. Finally, we add a new thread (if necessary).
-     */ function(subtreeV, subtreeW, ancestor, separation) {
-            if (subtreeW) {
-                for(var nodeOutRight = subtreeV, nodeInRight = subtreeV, nodeOutLeft = nodeInRight.parentNode.children[0], nodeInLeft = subtreeW, sumOutRight = nodeOutRight.hierNode.modifier, sumInRight = nodeInRight.hierNode.modifier, sumOutLeft = nodeOutLeft.hierNode.modifier, sumInLeft = nodeInLeft.hierNode.modifier; nodeInLeft = nextRight(nodeInLeft), nodeInRight = nextLeft(nodeInRight), nodeInLeft && nodeInRight;){
-                    nodeOutRight = nextRight(nodeOutRight), nodeOutLeft = nextLeft(nodeOutLeft), nodeOutRight.hierNode.ancestor = subtreeV;
-                    var nodeInLeft1, ancestor1, shift = nodeInLeft.hierNode.prelim + sumInLeft - nodeInRight.hierNode.prelim - sumInRight + separation(nodeInLeft, nodeInRight);
-                    shift > 0 && (/**
-     * The implementation of this function was originally copied from "d3.js"
-     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
-     * with some modifications made for this program.
-     * See the license statement at the head of this file.
-     *
-     * Shifts the current subtree rooted at wr.
-     * This is done by increasing prelim(w+) and modifier(w+) by shift.
-     */ function(wl, wr, shift) {
-                        var change = shift / (wr.hierNode.i - wl.hierNode.i);
-                        wr.hierNode.change -= change, wr.hierNode.shift += shift, wr.hierNode.modifier += shift, wr.hierNode.prelim += shift, wl.hierNode.change += change;
-                    }((nodeInLeft1 = nodeInLeft, ancestor1 = ancestor, nodeInLeft1.hierNode.ancestor.parentNode === subtreeV.parentNode ? nodeInLeft1.hierNode.ancestor : ancestor1), subtreeV, shift), sumInRight += shift, sumOutRight += shift), sumInLeft += nodeInLeft.hierNode.modifier, sumInRight += nodeInRight.hierNode.modifier, sumOutRight += nodeOutRight.hierNode.modifier, sumOutLeft += nodeOutLeft.hierNode.modifier;
-                }
-                nodeInLeft && !nextRight(nodeOutRight) && (nodeOutRight.hierNode.thread = nodeInLeft, nodeOutRight.hierNode.modifier += sumInLeft - sumOutRight), nodeInRight && !nextLeft(nodeOutLeft) && (nodeOutLeft.hierNode.thread = nodeInRight, nodeOutLeft.hierNode.modifier += sumInRight - sumOutLeft, ancestor = subtreeV);
-            }
-            return ancestor;
-        }(node, subtreeW, node.parentNode.hierNode.defaultAncestor || siblings[0], separation);
-    }
-    /**
-     * The implementation of this function was originally copied from "d3.js"
-     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
-     * with some modifications made for this program.
-     * See the license statement at the head of this file.
-     *
      * Computes all real x-coordinates by summing up the modifiers recursively.
      */ function secondWalk(node) {
         var nodeX = node.hierNode.prelim + node.parentNode.hierNode.modifier;
@@ -26910,128 +26789,139 @@
     }
     function treeLayout(ecModel, api) {
         ecModel.eachSeriesByType('tree', function(seriesModel) {
-            !function(seriesModel, api) {
-                var layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
-                    width: api.getWidth(),
-                    height: api.getHeight()
-                });
-                seriesModel.layoutInfo = layoutInfo;
-                var layout = seriesModel.get('layout'), width = 0, height = 0, separation$1 = null;
-                'radial' === layout ? (width = 2 * Math.PI, height = Math.min(layoutInfo.height, layoutInfo.width) / 2, separation$1 = separation(function(node1, node2) {
-                    return (node1.parentNode === node2.parentNode ? 1 : 2) / node1.depth;
-                })) : (width = layoutInfo.width, height = layoutInfo.height, separation$1 = separation());
-                var virtualRoot = seriesModel.getData().tree.root, realRoot = virtualRoot.children[0];
-                if (realRoot) {
-                    !/**
-     * Initialize all computational message for following algorithm.
-     */ function(inRoot) {
-                        inRoot.hierNode = {
-                            defaultAncestor: null,
-                            ancestor: inRoot,
-                            prelim: 0,
-                            modifier: 0,
-                            change: 0,
-                            shift: 0,
-                            i: 0,
-                            thread: null
-                        };
-                        for(var node, children, nodes = [
-                            inRoot
-                        ]; node = nodes.pop();)if (// jshint ignore:line
-                        children = node.children, node.isExpand && children.length) for(var n = children.length, i = n - 1; i >= 0; i--){
-                            var child = children[i];
-                            child.hierNode = {
-                                defaultAncestor: null,
-                                ancestor: child,
-                                prelim: 0,
-                                modifier: 0,
-                                change: 0,
-                                shift: 0,
-                                i: i,
-                                thread: null
-                            }, nodes.push(child);
-                        }
-                    }(virtualRoot), /*
-    * Licensed to the Apache Software Foundation (ASF) under one
-    * or more contributor license agreements.  See the NOTICE file
-    * distributed with this work for additional information
-    * regarding copyright ownership.  The ASF licenses this file
-    * to you under the Apache License, Version 2.0 (the
-    * "License"); you may not use this file except in compliance
-    * with the License.  You may obtain a copy of the License at
-    *
-    *   http://www.apache.org/licenses/LICENSE-2.0
-    *
-    * Unless required by applicable law or agreed to in writing,
-    * software distributed under the License is distributed on an
-    * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    * KIND, either express or implied.  See the License for the
-    * specific language governing permissions and limitations
-    * under the License.
-    */ /**
-     * AUTO-GENERATED FILE. DO NOT MODIFY.
-     */ /*
-    * Licensed to the Apache Software Foundation (ASF) under one
-    * or more contributor license agreements.  See the NOTICE file
-    * distributed with this work for additional information
-    * regarding copyright ownership.  The ASF licenses this file
-    * to you under the Apache License, Version 2.0 (the
-    * "License"); you may not use this file except in compliance
-    * with the License.  You may obtain a copy of the License at
-    *
-    *   http://www.apache.org/licenses/LICENSE-2.0
-    *
-    * Unless required by applicable law or agreed to in writing,
-    * software distributed under the License is distributed on an
-    * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    * KIND, either express or implied.  See the License for the
-    * specific language governing permissions and limitations
-    * under the License.
-    */ /**
-     * Traverse the tree from bottom to top and do something
-     */ function(root, callback, separation) {
-                        for(var node, nodes = [
-                            root
-                        ], next = []; node = nodes.pop();)if (// jshint ignore:line
-                        next.push(node), node.isExpand) {
-                            var children = node.children;
-                            if (children.length) for(var i = 0; i < children.length; i++)nodes.push(children[i]);
-                        }
-                        for(; node = next.pop();)// jshint ignore:line
-                        callback(node, separation);
-                    }(realRoot, firstWalk, separation$1), virtualRoot.hierNode.modifier = -realRoot.hierNode.prelim, eachBefore(realRoot, secondWalk);
-                    var left_1 = realRoot, right_1 = realRoot, bottom_1 = realRoot;
-                    eachBefore(realRoot, function(node) {
-                        var x = node.getLayout().x;
-                        x < left_1.getLayout().x && (left_1 = node), x > right_1.getLayout().x && (right_1 = node), node.depth > bottom_1.depth && (bottom_1 = node);
-                    });
-                    var delta = left_1 === right_1 ? 1 : separation$1(left_1, right_1) / 2, tx_1 = delta - left_1.getLayout().x, kx_1 = 0, ky_1 = 0, coorX_1 = 0, coorY_1 = 0;
-                    if ('radial' === layout) kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
-                        coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1;
-                        var finalCoor = radialCoordinate(coorX_1, coorY_1);
-                        node.setLayout({
-                            x: finalCoor.x,
-                            y: finalCoor.y,
-                            rawX: coorX_1,
-                            rawY: coorY_1
-                        }, !0);
-                    });
-                    else {
-                        var orient_1 = seriesModel.getOrient();
-                        'RL' === orient_1 || 'LR' === orient_1 ? (ky_1 = height / (right_1.getLayout().x + delta + tx_1), kx_1 = width / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
-                            coorY_1 = (node.getLayout().x + tx_1) * ky_1, coorX_1 = 'LR' === orient_1 ? (node.depth - 1) * kx_1 : width - (node.depth - 1) * kx_1, node.setLayout({
-                                x: coorX_1,
-                                y: coorY_1
-                            }, !0);
-                        })) : ('TB' === orient_1 || 'BT' === orient_1) && (kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
-                            coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = 'TB' === orient_1 ? (node.depth - 1) * ky_1 : height - (node.depth - 1) * ky_1, node.setLayout({
-                                x: coorX_1,
-                                y: coorY_1
-                            }, !0);
-                        }));
-                    }
+            var layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
+                width: api.getWidth(),
+                height: api.getHeight()
+            });
+            seriesModel.layoutInfo = layoutInfo;
+            var layout = seriesModel.get('layout'), width = 0, height = 0, separation$1 = null;
+            'radial' === layout ? (width = 2 * Math.PI, height = Math.min(layoutInfo.height, layoutInfo.width) / 2, separation$1 = separation(function(node1, node2) {
+                return (node1.parentNode === node2.parentNode ? 1 : 2) / node1.depth;
+            })) : (width = layoutInfo.width, height = layoutInfo.height, separation$1 = separation());
+            var virtualRoot = seriesModel.getData().tree.root, realRoot = virtualRoot.children[0];
+            if (realRoot) {
+                virtualRoot.hierNode = {
+                    defaultAncestor: null,
+                    ancestor: virtualRoot,
+                    prelim: 0,
+                    modifier: 0,
+                    change: 0,
+                    shift: 0,
+                    i: 0,
+                    thread: null
+                };
+                for(var nodes = [
+                    virtualRoot
+                ]; node = nodes.pop();)if (// jshint ignore:line
+                children = node.children, node.isExpand && children.length) for(var n = children.length, i = n - 1; i >= 0; i--){
+                    var child = children[i];
+                    child.hierNode = {
+                        defaultAncestor: null,
+                        ancestor: child,
+                        prelim: 0,
+                        modifier: 0,
+                        change: 0,
+                        shift: 0,
+                        i: i,
+                        thread: null
+                    }, nodes.push(child);
                 }
-            }(seriesModel, api);
+                for(var node, children, node1, separation1 = separation$1, nodes1 = [
+                    realRoot
+                ], next = []; node1 = nodes1.pop();)if (// jshint ignore:line
+                next.push(node1), node1.isExpand) {
+                    var children1 = node1.children;
+                    if (children1.length) for(var i1 = 0; i1 < children1.length; i1++)nodes1.push(children1[i1]);
+                }
+                for(; node1 = next.pop();)// jshint ignore:line
+                !/**
+     * The implementation of this function was originally copied from "d3.js"
+     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
+     * with some modifications made for this program.
+     * See the license statement at the head of this file.
+     *
+     * Computes a preliminary x coordinate for node. Before that, this function is
+     * applied recursively to the children of node, as well as the function
+     * apportion(). After spacing out the children by calling executeShifts(), the
+     * node is placed to the midpoint of its outermost children.
+     */ function(node, separation) {
+                    var children = node.isExpand ? node.children : [], siblings = node.parentNode.children, subtreeW = node.hierNode.i ? siblings[node.hierNode.i - 1] : null;
+                    if (children.length) {
+                        for(var children1 = node.children, n = children1.length, shift = 0, change = 0; --n >= 0;){
+                            var child = children1[n];
+                            child.hierNode.prelim += shift, child.hierNode.modifier += shift, change += child.hierNode.change, shift += child.hierNode.shift + change;
+                        }
+                        var midPoint = (children[0].hierNode.prelim + children[children.length - 1].hierNode.prelim) / 2;
+                        subtreeW ? (node.hierNode.prelim = subtreeW.hierNode.prelim + separation(node, subtreeW), node.hierNode.modifier = node.hierNode.prelim - midPoint) : node.hierNode.prelim = midPoint;
+                    } else subtreeW && (node.hierNode.prelim = subtreeW.hierNode.prelim + separation(node, subtreeW));
+                    node.parentNode.hierNode.defaultAncestor = /**
+     * The implementation of this function was originally copied from "d3.js"
+     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
+     * with some modifications made for this program.
+     * See the license statement at the head of this file.
+     *
+     * The core of the algorithm. Here, a new subtree is combined with the
+     * previous subtrees. Threads are used to traverse the inside and outside
+     * contours of the left and right subtree up to the highest common level.
+     * Whenever two nodes of the inside contours conflict, we compute the left
+     * one of the greatest uncommon ancestors using the function nextAncestor()
+     * and call moveSubtree() to shift the subtree and prepare the shifts of
+     * smaller subtrees. Finally, we add a new thread (if necessary).
+     */ function(subtreeV, subtreeW, ancestor, separation) {
+                        if (subtreeW) {
+                            for(var nodeOutRight = subtreeV, nodeInRight = subtreeV, nodeOutLeft = nodeInRight.parentNode.children[0], nodeInLeft = subtreeW, sumOutRight = nodeOutRight.hierNode.modifier, sumInRight = nodeInRight.hierNode.modifier, sumOutLeft = nodeOutLeft.hierNode.modifier, sumInLeft = nodeInLeft.hierNode.modifier; nodeInLeft = nextRight(nodeInLeft), nodeInRight = nextLeft(nodeInRight), nodeInLeft && nodeInRight;){
+                                nodeOutRight = nextRight(nodeOutRight), nodeOutLeft = nextLeft(nodeOutLeft), nodeOutRight.hierNode.ancestor = subtreeV;
+                                var nodeInLeft1, ancestor1, shift = nodeInLeft.hierNode.prelim + sumInLeft - nodeInRight.hierNode.prelim - sumInRight + separation(nodeInLeft, nodeInRight);
+                                shift > 0 && (/**
+     * The implementation of this function was originally copied from "d3.js"
+     * <https://github.com/d3/d3-hierarchy/blob/4c1f038f2725d6eae2e49b61d01456400694bac4/src/tree.js>
+     * with some modifications made for this program.
+     * See the license statement at the head of this file.
+     *
+     * Shifts the current subtree rooted at wr.
+     * This is done by increasing prelim(w+) and modifier(w+) by shift.
+     */ function(wl, wr, shift) {
+                                    var change = shift / (wr.hierNode.i - wl.hierNode.i);
+                                    wr.hierNode.change -= change, wr.hierNode.shift += shift, wr.hierNode.modifier += shift, wr.hierNode.prelim += shift, wl.hierNode.change += change;
+                                }((nodeInLeft1 = nodeInLeft, ancestor1 = ancestor, nodeInLeft1.hierNode.ancestor.parentNode === subtreeV.parentNode ? nodeInLeft1.hierNode.ancestor : ancestor1), subtreeV, shift), sumInRight += shift, sumOutRight += shift), sumInLeft += nodeInLeft.hierNode.modifier, sumInRight += nodeInRight.hierNode.modifier, sumOutRight += nodeOutRight.hierNode.modifier, sumOutLeft += nodeOutLeft.hierNode.modifier;
+                            }
+                            nodeInLeft && !nextRight(nodeOutRight) && (nodeOutRight.hierNode.thread = nodeInLeft, nodeOutRight.hierNode.modifier += sumInLeft - sumOutRight), nodeInRight && !nextLeft(nodeOutLeft) && (nodeOutLeft.hierNode.thread = nodeInRight, nodeOutLeft.hierNode.modifier += sumInRight - sumOutLeft, ancestor = subtreeV);
+                        }
+                        return ancestor;
+                    }(node, subtreeW, node.parentNode.hierNode.defaultAncestor || siblings[0], separation);
+                }(node1, separation1);
+                virtualRoot.hierNode.modifier = -realRoot.hierNode.prelim, eachBefore(realRoot, secondWalk);
+                var left_1 = realRoot, right_1 = realRoot, bottom_1 = realRoot;
+                eachBefore(realRoot, function(node) {
+                    var x = node.getLayout().x;
+                    x < left_1.getLayout().x && (left_1 = node), x > right_1.getLayout().x && (right_1 = node), node.depth > bottom_1.depth && (bottom_1 = node);
+                });
+                var delta = left_1 === right_1 ? 1 : separation$1(left_1, right_1) / 2, tx_1 = delta - left_1.getLayout().x, kx_1 = 0, ky_1 = 0, coorX_1 = 0, coorY_1 = 0;
+                if ('radial' === layout) kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
+                    coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1;
+                    var finalCoor = radialCoordinate(coorX_1, coorY_1);
+                    node.setLayout({
+                        x: finalCoor.x,
+                        y: finalCoor.y,
+                        rawX: coorX_1,
+                        rawY: coorY_1
+                    }, !0);
+                });
+                else {
+                    var orient_1 = seriesModel.getOrient();
+                    'RL' === orient_1 || 'LR' === orient_1 ? (ky_1 = height / (right_1.getLayout().x + delta + tx_1), kx_1 = width / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
+                        coorY_1 = (node.getLayout().x + tx_1) * ky_1, coorX_1 = 'LR' === orient_1 ? (node.depth - 1) * kx_1 : width - (node.depth - 1) * kx_1, node.setLayout({
+                            x: coorX_1,
+                            y: coorY_1
+                        }, !0);
+                    })) : ('TB' === orient_1 || 'BT' === orient_1) && (kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
+                        coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = 'TB' === orient_1 ? (node.depth - 1) * ky_1 : height - (node.depth - 1) * ky_1, node.setLayout({
+                            x: coorX_1,
+                            y: coorY_1
+                        }, !0);
+                    }));
+                }
+            }
         });
     }
     function treeVisual(ecModel) {
@@ -29908,18 +29798,11 @@
                     });
                 });
                 return each(graph.edges, function(edge) {
-                    !/**
-     * set edgeMap with key
-     * @param {number|string|module:echarts/data/Graph.Node} n1
-     * @param {number|string|module:echarts/data/Graph.Node} n2
-     * @param {module:echarts/model/SeriesModel} seriesModel
-     * @param {number} index
-     */ function(n1, n2, seriesModel, index) {
-                        if (getAutoCurvenessParams(seriesModel)) {
-                            var key = getKeyOfEdges(n1, n2, seriesModel), edgeMap = seriesModel.__edgeMap, oppositeEdges = edgeMap[getOppositeKey(key)];
-                            edgeMap[key] && !oppositeEdges ? edgeMap[key].isForward = !0 : oppositeEdges && edgeMap[key] && (oppositeEdges.isForward = !0, edgeMap[key].isForward = !1), edgeMap[key] = edgeMap[key] || [], edgeMap[key].push(index);
-                        }
-                    }(edge.node1, edge.node2, this, edge.dataIndex);
+                    var n1 = edge.node1, n2 = edge.node2, index = edge.dataIndex;
+                    if (getAutoCurvenessParams(this)) {
+                        var key = getKeyOfEdges(n1, n2, this), edgeMap = this.__edgeMap, oppositeEdges = edgeMap[getOppositeKey(key)];
+                        edgeMap[key] && !oppositeEdges ? edgeMap[key].isForward = !0 : oppositeEdges && edgeMap[key] && (oppositeEdges.isForward = !0, edgeMap[key].isForward = !1), edgeMap[key] = edgeMap[key] || [], edgeMap[key].push(index);
+                    }
                 }, this), graph.data;
             }
         }, GraphSeriesModel.prototype.getGraph = function() {
@@ -33052,36 +32935,32 @@
                     boxOffsetList.push(base), base += boxGap + boxWidth, boxWidthList.push(Math.min(Math.max(boxWidth, boundList[idx][0]), boundList[idx][1]));
                 });
             }(groupItem), each(seriesModels, function(seriesModel, idx) {
-                /**
-     * Calculate points location for each series.
-     */ (function(seriesModel, offset, boxWidth) {
-                    var coordSys = seriesModel.coordinateSystem, data = seriesModel.getData(), halfWidth = boxWidth / 2, cDimIdx = +('horizontal' !== seriesModel.get('layout')), vDimIdx = 1 - cDimIdx, coordDims = [
-                        'x',
-                        'y'
-                    ], cDim = data.mapDimension(coordDims[cDimIdx]), vDims = data.mapDimensionsAll(coordDims[vDimIdx]);
-                    if (null != cDim && !(vDims.length < 5)) for(var dataIndex = 0; dataIndex < data.count(); dataIndex++){
-                        var axisDimVal = data.get(cDim, dataIndex), median = getPoint(axisDimVal, vDims[2], dataIndex), end1 = getPoint(axisDimVal, vDims[0], dataIndex), end2 = getPoint(axisDimVal, vDims[1], dataIndex), end4 = getPoint(axisDimVal, vDims[3], dataIndex), end5 = getPoint(axisDimVal, vDims[4], dataIndex), ends = [];
-                        addBodyEnd(ends, end2, !1), addBodyEnd(ends, end4, !0), ends.push(end1, end2, end5, end4), layEndLine(ends, end1), layEndLine(ends, end5), layEndLine(ends, median), data.setItemLayout(dataIndex, {
-                            initBaseline: median[vDimIdx],
-                            ends: ends
-                        });
-                    }
-                    function getPoint(axisDimVal, dim, dataIndex) {
-                        var point, val = data.get(dim, dataIndex), p = [];
-                        return p[cDimIdx] = axisDimVal, p[vDimIdx] = val, isNaN(axisDimVal) || isNaN(val) ? point = [
-                            NaN,
-                            NaN
-                        ] : (point = coordSys.dataToPoint(p), point[cDimIdx] += offset), point;
-                    }
-                    function addBodyEnd(ends, point, start) {
-                        var point1 = point.slice(), point2 = point.slice();
-                        point1[cDimIdx] += halfWidth, point2[cDimIdx] -= halfWidth, start ? ends.push(point1, point2) : ends.push(point2, point1);
-                    }
-                    function layEndLine(ends, endCenter) {
-                        var from = endCenter.slice(), to = endCenter.slice();
-                        from[cDimIdx] -= halfWidth, to[cDimIdx] += halfWidth, ends.push(from, to);
-                    }
-                })(seriesModel, groupItem.boxOffsetList[idx], groupItem.boxWidthList[idx]);
+                var offset = groupItem.boxOffsetList[idx], boxWidth = groupItem.boxWidthList[idx], coordSys = seriesModel.coordinateSystem, data = seriesModel.getData(), halfWidth = boxWidth / 2, cDimIdx = +('horizontal' !== seriesModel.get('layout')), vDimIdx = 1 - cDimIdx, coordDims = [
+                    'x',
+                    'y'
+                ], cDim = data.mapDimension(coordDims[cDimIdx]), vDims = data.mapDimensionsAll(coordDims[vDimIdx]);
+                if (null != cDim && !(vDims.length < 5)) for(var dataIndex = 0; dataIndex < data.count(); dataIndex++){
+                    var axisDimVal = data.get(cDim, dataIndex), median = getPoint(axisDimVal, vDims[2], dataIndex), end1 = getPoint(axisDimVal, vDims[0], dataIndex), end2 = getPoint(axisDimVal, vDims[1], dataIndex), end4 = getPoint(axisDimVal, vDims[3], dataIndex), end5 = getPoint(axisDimVal, vDims[4], dataIndex), ends = [];
+                    addBodyEnd(ends, end2, !1), addBodyEnd(ends, end4, !0), ends.push(end1, end2, end5, end4), layEndLine(ends, end1), layEndLine(ends, end5), layEndLine(ends, median), data.setItemLayout(dataIndex, {
+                        initBaseline: median[vDimIdx],
+                        ends: ends
+                    });
+                }
+                function getPoint(axisDimVal, dim, dataIndex) {
+                    var point, val = data.get(dim, dataIndex), p = [];
+                    return p[cDimIdx] = axisDimVal, p[vDimIdx] = val, isNaN(axisDimVal) || isNaN(val) ? point = [
+                        NaN,
+                        NaN
+                    ] : (point = coordSys.dataToPoint(p), point[cDimIdx] += offset), point;
+                }
+                function addBodyEnd(ends, point, start) {
+                    var point1 = point.slice(), point2 = point.slice();
+                    point1[cDimIdx] += halfWidth, point2[cDimIdx] -= halfWidth, start ? ends.push(point1, point2) : ends.push(point2, point1);
+                }
+                function layEndLine(ends, endCenter) {
+                    var from = endCenter.slice(), to = endCenter.slice();
+                    from[cDimIdx] -= halfWidth, to[cDimIdx] += halfWidth, ends.push(from, to);
+                }
             }));
         });
     }
@@ -35157,18 +35036,17 @@
                     return node.getId();
                 }
                 function processNode(newIdx, oldIdx) {
-                    (function(newNode, oldNode) {
-                        if (renderLabelForZeroData || !newNode || newNode.getValue() || // Not render data with value 0
-                        (newNode = null), newNode !== virtualRoot && oldNode !== virtualRoot) {
-                            if (oldNode && oldNode.piece) newNode ? (// Update
-                            oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
-                            else if (newNode) {
-                                // Add
-                                var piece = new SunburstPiece(newNode, seriesModel, ecModel, api);
-                                group.add(piece), data.setItemGraphicEl(newNode.dataIndex, piece);
-                            }
+                    var newNode = null == newIdx ? null : newChildren[newIdx], oldNode = null == oldIdx ? null : oldChildren[oldIdx];
+                    if (renderLabelForZeroData || !newNode || newNode.getValue() || // Not render data with value 0
+                    (newNode = null), newNode !== virtualRoot && oldNode !== virtualRoot) {
+                        if (oldNode && oldNode.piece) newNode ? (// Update
+                        oldNode.piece.updateData(!1, newNode, seriesModel, ecModel, api), data.setItemGraphicEl(newNode.dataIndex, oldNode.piece)) : oldNode && oldNode.piece && (group.remove(oldNode.piece), oldNode.piece = null);
+                        else if (newNode) {
+                            // Add
+                            var piece = new SunburstPiece(newNode, seriesModel, ecModel, api);
+                            group.add(piece), data.setItemGraphicEl(newNode.dataIndex, piece);
                         }
-                    })(null == newIdx ? null : newChildren[newIdx], null == oldIdx ? null : oldChildren[oldIdx]);
+                    }
                 }
                 (0 !== newChildren.length || 0 !== oldChildren.length) && new DataDiffer(oldChildren, newChildren, getKey, getKey).add(processNode).update(processNode).remove(curry(processNode, null)).execute();
             }(newChildren, this._oldChildren || []), newRoot.depth > 0 ? (self1.virtualPiece ? // Update
@@ -36650,25 +36528,23 @@
          * @public
          * @return If not support, return undefined.
          */ function(opt) {
-                if ('cartesian2d' === coordSys.type) return(/**
-     * @return {Object} {width, offset, offsetCenter} If axis.type is not 'category', return undefined.
-     */ function(opt) {
-                    var params = [], baseAxis = opt.axis, axisKey = 'axis0';
+                if ('cartesian2d' === coordSys.type) {
+                    var opt1 = defaults({
+                        axis: coordSys.getBaseAxis()
+                    }, opt), params = [], baseAxis = opt1.axis, axisKey = 'axis0';
                     if ('category' === baseAxis.type) {
-                        for(var bandWidth = baseAxis.getBandWidth(), i = 0; i < opt.count; i++)params.push(defaults({
+                        for(var bandWidth = baseAxis.getBandWidth(), i = 0; i < opt1.count; i++)params.push(defaults({
                             bandWidth: bandWidth,
                             axisKey: axisKey,
                             stackId: STACK_PREFIX + i
-                        }, opt));
-                        for(var widthAndOffsets = doCalBarWidthAndOffset(params), result = [], i = 0; i < opt.count; i++){
+                        }, opt1));
+                        for(var widthAndOffsets = doCalBarWidthAndOffset(params), result = [], i = 0; i < opt1.count; i++){
                             var item = widthAndOffsets[axisKey][STACK_PREFIX + i];
                             item.offsetCenter = item.offset + item.width / 2, result.push(item);
                         }
                         return result;
                     }
-                }(defaults({
-                    axis: coordSys.getBaseAxis()
-                }, opt)));
+                }
             },
             currentSeriesIndices: /**
          * @public
@@ -43811,7 +43687,7 @@
         isArray(timelineOpt) || (timelineOpt = timelineOpt ? [
             timelineOpt
         ] : []), each(timelineOpt, function(opt) {
-            opt && function(opt) {
+            if (opt) {
                 var type = opt.type, ec2Types = {
                     number: 'value',
                     time: 'time'
@@ -43824,7 +43700,7 @@
                     isObject(dataItem) && !isArray(dataItem) && (!has(dataItem, 'value') && has(dataItem, 'name') && // In ec2, using name as value.
                     (dataItem.value = dataItem.name), transferItem(dataItem));
                 });
-            }(opt);
+            }
         });
     }
     function transferItem(opt) {
@@ -45495,15 +45371,14 @@
         }, InsideZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, InsideZoomView.prototype._clear = function() {
-            (function(api, dataZoomModel) {
-                for(var coordSysRecordMap = inner$k(api).coordSysRecordMap, coordSysKeyArr = coordSysRecordMap.keys(), i = 0; i < coordSysKeyArr.length; i++){
-                    var coordSysKey = coordSysKeyArr[i], coordSysRecord = coordSysRecordMap.get(coordSysKey), dataZoomInfoMap = coordSysRecord.dataZoomInfoMap;
-                    if (dataZoomInfoMap) {
-                        var dzUid = dataZoomModel.uid;
-                        dataZoomInfoMap.get(dzUid) && (dataZoomInfoMap.removeKey(dzUid), dataZoomInfoMap.keys().length || disposeCoordSysRecord(coordSysRecordMap, coordSysRecord));
-                    }
+            for(var api = this.api, dataZoomModel = this.dataZoomModel, coordSysRecordMap = inner$k(api).coordSysRecordMap, coordSysKeyArr = coordSysRecordMap.keys(), i = 0; i < coordSysKeyArr.length; i++){
+                var coordSysKey = coordSysKeyArr[i], coordSysRecord = coordSysRecordMap.get(coordSysKey), dataZoomInfoMap = coordSysRecord.dataZoomInfoMap;
+                if (dataZoomInfoMap) {
+                    var dzUid = dataZoomModel.uid;
+                    dataZoomInfoMap.get(dzUid) && (dataZoomInfoMap.removeKey(dzUid), dataZoomInfoMap.keys().length || disposeCoordSysRecord(coordSysRecordMap, coordSysRecord));
                 }
-            })(this.api, this.dataZoomModel), this.range = null;
+            }
+            this.range = null;
         }, InsideZoomView.type = 'dataZoom.inside', InsideZoomView;
     }(DataZoomView), getRangeHandlers = {
         zoom: function(coordSysInfo, coordSysMainType, controller, e) {
@@ -48099,18 +47974,16 @@
         if (exprOption.not) {
             return subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObject(val = subOption) && !isArrayLike(val) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond;
         }
-        return function(exprOption, getters) {
-            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
-                var keyRaw = exprKeys[i];
-                if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
-                    var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
-                    evaluator || throwError(makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption)), subCondList.push(evaluator);
-                }
+        for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
+            var keyRaw = exprKeys[i];
+            if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
+                var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
+                evaluator || throwError(makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption)), subCondList.push(evaluator);
             }
-            subCondList.length || throwError(makePrintable('Relational condition must have at least one operator.', 'Illegal condition:', exprOption));
-            var cond = new RelationalConditionInternal();
-            return cond.valueGetterParam = valueGetterParam, cond.valueParser = valueParser, cond.getValue = getters.getValue, cond.subCondList = subCondList, cond;
-        }(exprOption, getters);
+        }
+        subCondList.length || throwError(makePrintable('Relational condition must have at least one operator.', 'Illegal condition:', exprOption));
+        var cond2 = new RelationalConditionInternal();
+        return cond2.valueGetterParam = valueGetterParam, cond2.valueParser = valueParser, cond2.getValue = getters.getValue, cond2.subCondList = subCondList, cond2;
     }
     function parseAndOrOption(op, exprOption, getters) {
         var subOptionArr = exprOption[op], errMsg = '';

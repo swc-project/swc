@@ -1,12 +1,8 @@
 //// [usingDeclarationsTopLevelOfModule.1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var target = exports, all = {
     default: function() {
         return _default;
     },
@@ -19,6 +15,10 @@ Object.defineProperty(exports, "__esModule", {
     y: function() {
         return y;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
 const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), env = {
     stack: [],
