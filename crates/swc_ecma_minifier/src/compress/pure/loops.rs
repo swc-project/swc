@@ -2,9 +2,26 @@ use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value};
 
-use super::Pure;
+use super::{DropOpts, Pure};
 
 impl Pure<'_> {
+    pub(super) fn optimize_for_init(&mut self, init: &mut Option<VarDeclOrExpr>) {
+        if !self.options.loops {
+            return;
+        }
+
+        if let Some(VarDeclOrExpr::Expr(init)) = init {
+            self.ignore_return_value(
+                init,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+        }
+    }
+
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);
