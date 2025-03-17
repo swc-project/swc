@@ -2212,6 +2212,7 @@ impl Generator {
             self.block_stack = Some(Default::default());
         }
 
+        #[cfg(debug_assertions)]
         let index = self.block_actions.as_ref().unwrap().len();
 
         #[cfg(debug_assertions)]
@@ -2236,6 +2237,7 @@ impl Generator {
     fn end_block(&mut self) -> Ptr<CodeBlock> {
         let block = self.peek_block().expect("beginBlock was never called.");
 
+        #[cfg(debug_assertions)]
         let index = self.block_actions.as_ref().unwrap().len();
 
         #[cfg(debug_assertions)]
