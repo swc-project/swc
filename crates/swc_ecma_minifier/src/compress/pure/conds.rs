@@ -2,7 +2,7 @@ use std::mem::{swap, take};
 
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, StmtExt, Type, Value};
+use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
 use super::Pure;
 #[cfg(feature = "debug")]
@@ -294,6 +294,20 @@ impl Pure<'_> {
                 ],
                 ..Default::default()
             });
+        }
+    }
+
+    pub(super) fn optimize_meaningless_try(&mut self, s: &mut Stmt) {
+        let Stmt::Try(ts) = s else {
+            return;
+        };
+
+        // If catch block is not specified and finally block is empty, fold it to simple
+        // block.
+        if ts.handler.is_none() && ts.finalizer.is_empty() {
+            report_change!("conditionals: Optimizing meaningless try block");
+            self.changed = true;
+            *s = take(&mut ts.block).into();
         }
     }
 }
