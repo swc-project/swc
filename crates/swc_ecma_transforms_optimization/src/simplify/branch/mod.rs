@@ -1118,6 +1118,23 @@ fn stmt_depth(s: &Stmt) -> u32 {
             depth += 1;
             depth += stmt_depth(body);
         }
+        Stmt::Try(t) => {
+            depth += 1;
+
+            for s in &t.block.stmts {
+                depth += stmt_depth(s);
+            }
+            if let Some(handler) = &t.handler {
+                for s in &handler.body.stmts {
+                    depth += stmt_depth(s);
+                }
+            }
+            if let Some(finalizer) = &t.finalizer {
+                for s in &finalizer.stmts {
+                    depth += stmt_depth(s);
+                }
+            }
+        }
         // All other statements increase the depth by 1
         _ => depth += 1,
     }
@@ -1151,8 +1168,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
         Stmt::For(ForStmt { body, .. })
         | Stmt::ForIn(ForInStmt { body, .. })
         | Stmt::ForOf(ForOfStmt { body, .. })
-        | Stmt::While(WhileStmt { body, .. })
-        | Stmt::DoWhile(DoWhileStmt { body, .. }) => {
+        | Stmt::While(WhileStmt { body, .. }) => {
             *body = Box::new(optimize_loop_body(take(&mut **body)));
         }
         _ => {}
