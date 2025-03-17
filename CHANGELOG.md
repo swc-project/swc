@@ -13,6 +13,12 @@
 
 - **(es/minifier)** Allow TypeScript nodes to fix `styled-jsx` ([#10221](https://github.com/swc-project/swc/issues/10221)) ([9d87d4d](https://github.com/swc-project/swc/commit/9d87d4d8e4d14fd1d58a8bc04a61823367435605))
 
+### Features
+
+
+
+- **(es/minifier)** Default to the smallest size ([#10218](https://github.com/swc-project/swc/issues/10218)) ([800f51a](https://github.com/swc-project/swc/commit/800f51aae55be0025f8ae494b1ced7579f6f17de))
+
 ### Miscellaneous Tasks
 
 
