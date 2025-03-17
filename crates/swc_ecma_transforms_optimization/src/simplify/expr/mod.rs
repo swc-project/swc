@@ -1461,6 +1461,7 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
     None
 }
 
+/// This is NOT a public API,
 pub fn optimize_bin_expr(expr: &mut Expr, expr_ctx: ExprCtx, changed: &mut bool) {
     let BinExpr {
         left,
