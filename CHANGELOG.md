@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Do not drop numbers incorrectly ([#10211](https://github.com/swc-project/swc/issues/10211)) ([80ccd86](https://github.com/swc-project/swc/commit/80ccd861a280c133f48e6fe01e80814da8f03cc4))
 
+
+- **(es/minifier)** Allow TypeScript nodes to fix `styled-jsx` ([#10221](https://github.com/swc-project/swc/issues/10221)) ([9d87d4d](https://github.com/swc-project/swc/commit/9d87d4d8e4d14fd1d58a8bc04a61823367435605))
+
 ### Miscellaneous Tasks
 
 
