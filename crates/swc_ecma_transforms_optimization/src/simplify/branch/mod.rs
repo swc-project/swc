@@ -980,6 +980,10 @@ fn optimize_loop_body(stmt: Stmt) -> Stmt {
         }
     });
 
+    if stmts.is_empty() {
+        return EmptyStmt { span }.into();
+    }
+
     if stmts.len() == 1 {
         return stmts.remove(0);
     }
