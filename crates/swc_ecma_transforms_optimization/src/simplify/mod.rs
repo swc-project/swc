@@ -10,7 +10,7 @@ pub use self::{
     expr::{expr_simplifier, Config as ExprSimplifierConfig},
 };
 
-mod branch;
+pub mod branch;
 pub mod const_propagation;
 pub mod dce;
 mod expr;
