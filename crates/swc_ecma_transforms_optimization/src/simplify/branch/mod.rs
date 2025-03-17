@@ -1868,7 +1868,7 @@ pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
             }
 
             Stmt::DoWhile(s) => {
-                if has_conditional_stopper(&[s.clone().into()]) {
+                if has_conditional_stopper(&[*s.body.clone()]) {
                     return s.into();
                 }
 
