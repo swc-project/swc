@@ -315,8 +315,13 @@ impl Expr {
         }
     }
 
-    /// Returns true for `eval` and member expressions.
+    #[deprecated(note = "Use `directness_matters` instead")]
     pub fn directness_maters(&self) -> bool {
+        self.directness_matters()
+    }
+
+    /// Returns true for `eval` and member expressions.
+    pub fn directness_matters(&self) -> bool {
         self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
 

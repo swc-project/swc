@@ -545,7 +545,7 @@ impl SimplifyExpr {
                     if !left.may_have_side_effects(self.expr_ctx) {
                         self.changed = true;
 
-                        if node.directness_maters() {
+                        if node.directness_matters() {
                             *expr = SeqExpr {
                                 span: node.span(),
                                 exprs: vec![0.into(), node.take()],
@@ -1250,7 +1250,7 @@ impl VisitMut for SimplifyExpr {
                             .exprs
                             .last()
                             .map(|v| &**v)
-                            .map_or(false, Expr::directness_maters)
+                            .map_or(false, Expr::directness_matters)
                         {
                             match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
@@ -1371,7 +1371,7 @@ impl VisitMut for SimplifyExpr {
 
                     let expr_value = if val { cons } else { alt };
                     *expr = if p.is_pure() {
-                        if expr_value.directness_maters() {
+                        if expr_value.directness_matters() {
                             SeqExpr {
                                 span: *span,
                                 exprs: vec![0.into(), expr_value.take()],
@@ -1730,7 +1730,7 @@ fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
-    e.directness_maters() || e.is_seq()
+    e.directness_matters() || e.is_seq()
 }
 
 /// Gets the value of the given key from the given object properties, if the key

@@ -2491,7 +2491,7 @@ impl VisitMut for Optimizer<'_> {
             .exprs
             .last()
             .map(|v| &**v)
-            .map_or(false, Expr::directness_maters);
+            .map_or(false, Expr::directness_matters);
 
         let ctx = Ctx {
             dont_use_negated_iife: true,

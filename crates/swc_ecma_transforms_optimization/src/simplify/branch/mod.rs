@@ -354,7 +354,7 @@ impl VisitMut for Remover {
 
         let last = e.exprs.pop().unwrap();
 
-        let should_preserved_this = last.directness_maters();
+        let should_preserved_this = last.directness_matters();
 
         let mut exprs = if should_preserved_this {
             e.exprs
