@@ -33,6 +33,7 @@ mod numbers;
 mod properties;
 mod sequences;
 mod strings;
+mod switches;
 mod unsafes;
 mod vars;
 
@@ -880,6 +881,14 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(s);
 
+        self.optimize_const_switches(s);
+
+        debug_assert_valid(s);
+
+        self.optimize_switches(s);
+
+        debug_assert_valid(s);
+
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
@@ -924,6 +933,12 @@ impl VisitMut for Pure<'_> {
                 e.prop = SuperProp::Ident(ident)
             };
         }
+    }
+
+    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_switch_cases(n);
     }
 
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {

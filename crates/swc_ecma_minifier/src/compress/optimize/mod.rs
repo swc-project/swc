@@ -51,7 +51,6 @@ mod ops;
 mod props;
 mod sequences;
 mod strings;
-mod switches;
 mod unused;
 mod util;
 
@@ -2754,22 +2753,6 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
-
-        self.optimize_const_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        self.optimize_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2821,13 +2804,6 @@ impl VisitMut for Optimizer<'_> {
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        n.visit_mut_children_with(self);
-
-        self.optimize_switch_cases(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
