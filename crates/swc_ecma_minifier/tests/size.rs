@@ -1,6 +1,7 @@
 use std::{fmt::Write, path::PathBuf};
 
 use flate2::{write::GzEncoder, Compression};
+use humansize::format_size;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_minifier::{
@@ -28,8 +29,19 @@ fn bench_libs() {
         let src = std::fs::read_to_string(&path).unwrap();
         let file_size = run(&src);
 
-        writeln!(output, "- {} {}", file_name, file_size.size).unwrap();
-        writeln!(output, "  - gzip: {}", file_size.gzipped_size).unwrap();
+        writeln!(
+            output,
+            "- {} {}",
+            file_name,
+            format_size(file_size.size, humansize::BINARY)
+        )
+        .unwrap();
+        writeln!(
+            output,
+            "  - gzip: {}",
+            format_size(file_size.gzipped_size, humansize::BINARY)
+        )
+        .unwrap();
     }
 
     NormalizedOutput::from(output)
