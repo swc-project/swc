@@ -2,7 +2,7 @@
 
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{
     parallel::{cpu_count, Parallel, ParallelExt},
@@ -292,16 +292,6 @@ impl VisitMut for Pure<'_> {
 
         if e.is_seq() {
             debug_assert_valid(e);
-        }
-
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_expr(e, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_expr: Changed");
-                self.changed = true;
-            }
         }
 
         if self.options.unused {
@@ -601,16 +591,6 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_for_stmt(s, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_for_stmt: Changed");
-                self.changed = true;
-            }
-        }
-
         self.optimize_for_if_break(s);
 
         self.merge_for_if_break(s);
@@ -667,16 +647,6 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(items);
 
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_stmt_likes(items, false, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_stmt_likes: Changed");
-                self.changed = true;
-            }
-        }
-
         self.handle_stmt_likes(items);
     }
 
@@ -694,16 +664,6 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
         p.visit_mut_children_with(self);
-
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_object_pat(p, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_object_pat: Changed");
-                self.changed = true;
-            }
-        }
     }
 
     fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
@@ -892,16 +852,6 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_stmt(s, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_stmt: Changed");
-                self.changed = true;
-            }
-        }
-
         self.loop_to_for_stmt(s);
 
         debug_assert_valid(s);
@@ -950,16 +900,6 @@ impl VisitMut for Pure<'_> {
 
         self.visit_par(items);
 
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_stmt_likes(items, false, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_stmt_likes: Changed");
-                self.changed = true;
-            }
-        }
-
         self.handle_stmt_likes(items);
 
         #[cfg(debug_assertions)]
@@ -985,16 +925,6 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.visit_mut_children_with(self);
-
-        if self.options.conditionals || self.options.dead_code {
-            let mut changed = false;
-            simplify::branch::optimize_switch_stmt(s, self.expr_ctx, &mut changed);
-
-            if changed {
-                report_change!("optimize_switch_stmt: Changed");
-                self.changed = true;
-            }
-        }
     }
 
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
