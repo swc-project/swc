@@ -4546,6 +4546,8 @@ dependencies = [
  "criterion",
  "dashmap 5.5.3",
  "either",
+ "flate2",
+ "humansize",
  "indexmap 2.7.1",
  "jsonc-parser",
  "lru",

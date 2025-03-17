@@ -35,8 +35,6 @@ trace-ast   = []
 [dependencies]
 arrayvec          = { workspace = true }
 backtrace         = { workspace = true, optional = true }
-flate2            = { workspace = true }
-humansize         = { workspace = true }
 indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
@@ -77,6 +75,8 @@ swc_timer = { version = "1.0.0", path = "../swc_timer" }
 ansi_term         = { workspace = true }
 anyhow            = { workspace = true }
 criterion         = { workspace = true }
+flate2            = { workspace = true }
+humansize         = { workspace = true }
 pretty_assertions = { workspace = true }
 walkdir           = { workspace = true }
 

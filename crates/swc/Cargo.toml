@@ -130,8 +130,11 @@ swc_visit = { version = "2.0.0", path = "../swc_visit" }
 [dev-dependencies]
 ansi_term = { workspace = true }
 criterion = { workspace = true }
+flate2    = { workspace = true }
+humansize = { workspace = true }
 rayon     = { workspace = true }
 walkdir   = { workspace = true }
+
 
 codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "8.0.0", path = "../swc_ecma_ast", features = [
