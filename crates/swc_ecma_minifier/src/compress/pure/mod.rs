@@ -822,19 +822,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        #[cfg(feature = "debug")]
-        let _tracing = if self.config.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
-            } else {
-                None
-            }
-        } else {
-            None
-        };
-
         {
             let ctx = Ctx {
                 is_update_arg: false,
