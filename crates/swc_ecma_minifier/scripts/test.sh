@@ -8,6 +8,7 @@ export SWC_RUN=0
 
 touch tests/compress.rs
 
-cargo test -p swc_ecma_minifier -p swc --no-fail-fast --test size --test projects --test tsc --test compress --test mangle --features concurrent $@
+UPDATE=1 cargo test -p swc_ecma_minifier --test size --release
+cargo test -p swc_ecma_minifier -p swc --no-fail-fast --test projects --test tsc --test compress --test mangle --features concurrent $@
 
 # find ../swc/tests/ -type f -empty -delete
