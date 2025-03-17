@@ -38,6 +38,20 @@ fn bench_libs() {
         .unwrap();
 }
 
+#[test]
+fn test_projects() {
+    let dir = PathBuf::from("tests/projects/files");
+
+    let files = expand_dirs(&dir);
+
+    let result = calc_size_par(&files);
+    let output = format_result(result);
+
+    NormalizedOutput::from(output)
+        .compare_to_file("tests/projects-size.snapshot.md")
+        .unwrap();
+}
+
 fn format_result(mut result: IndexMap<String, FileSize, FxBuildHasher>) -> String {
     let mut output = String::new();
 
