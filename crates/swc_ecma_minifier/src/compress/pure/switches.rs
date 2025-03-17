@@ -4,7 +4,10 @@ use swc_ecma_utils::{extract_var_ids, prepend_stmt, ExprExt, ExprFactory, StmtEx
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{compress::util::is_primitive, util::idents_used_by};
+use crate::{
+    compress::{pure::DropOpts, util::is_primitive},
+    util::idents_used_by,
+};
 
 /// Methods related to option `switches`.
 impl Pure<'_> {
@@ -148,12 +151,36 @@ impl Pure<'_> {
                 )
             }
 
-            stmts.push(discriminant.take().into_stmt());
+            self.ignore_return_value(
+                discriminant,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            if !discriminant.is_invalid() {
+                stmts.push(discriminant.take().into_stmt());
+            }
+
             let mut last = cases.pop().unwrap();
             remove_last_break(&mut last.cons);
 
-            if let Some(test) = last.test {
-                stmts.push(test.into_stmt());
+            if let Some(mut test) = last.test {
+                // We are creating ExprStmt, so we can ignore return value
+                self.ignore_return_value(
+                    &mut test,
+                    DropOpts {
+                        drop_number: true,
+                        drop_str_lit: true,
+                        ..Default::default()
+                    },
+                );
+
+                if !test.is_invalid() {
+                    stmts.push(test.into_stmt());
+                }
             }
 
             stmts.extend(last.cons);
