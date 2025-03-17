@@ -290,14 +290,11 @@ fn test_fold_useless_do_2() {
 
 #[test]
 fn test_fold_useless_do_3() {
-    test(
-        "do { try { foo() } catch (e) { break; } } while (0);",
-        "try { foo(); } catch (e) { break; }",
-    );
+    test_same("do { try { foo() } catch (e) { break; } } while (0);");
     test("do { foo(); break; } while(0)", "foo();");
     test(
         "do { for (;;) {foo(); continue;} } while(0)",
-        "for (;;) {foo(); continue;}",
+        "for (;;) foo();",
     );
     test(
         "l1: do { for (;;) { foo() } } while(0)",
@@ -815,7 +812,7 @@ fn test_optimize_switch_with_continue() {
             "  }",
             "}",
         ),
-        "function f() { for (;;) continue; }",
+        "function f() { for (;;) ; }",
     );
 }
 
