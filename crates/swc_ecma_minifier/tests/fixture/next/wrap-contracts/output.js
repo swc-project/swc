@@ -449,7 +449,7 @@
                     for(var k = 1; k < len; k++){
                         for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
                             var i = k - j | 0;
-                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                            a = 0 | self1.words[i], ncarry += (r = a * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
                         }
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
@@ -8849,7 +8849,7 @@
                         // Initialise the result array with zeros.
                         for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, (xcL = xc.length) < (ycL = yc.length) && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
                         for(base = BASE, sqrtBase = SQRT_BASE, i = ycL; --i >= 0;){
-                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, j = i + (k = xcL); j > i;)m = yhi * (xlo = xc[--k] % sqrtBase) + (xhi = xc[k] / sqrtBase | 0) * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
+                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, j = i + (k = xcL); j > i;)xlo = xc[--k] % sqrtBase, m = yhi * xlo + (xhi = xc[k] / sqrtBase | 0) * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
                             zc[j] = c;
                         }
                         return c ? ++e : zc.splice(0, 1), normalise(y, zc, e);
@@ -9438,7 +9438,7 @@
                     for(var k = 1; k < len; k++){
                         for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
                             var i = k - j | 0;
-                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                            a = 0 | self1.words[i], ncarry += (r = a * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
                         }
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
@@ -15972,7 +15972,9 @@
                 var W = this.W, ah = this.h[0], al = this.h[1], bh = this.h[2], bl = this.h[3], ch = this.h[4], cl = this.h[5], dh = this.h[6], dl = this.h[7], eh = this.h[8], el = this.h[9], fh = this.h[10], fl = this.h[11], gh = this.h[12], gl = this.h[13], hh = this.h[14], hl = this.h[15];
                 assert(this.k.length === W.length);
                 for(var i = 0; i < W.length; i += 2){
-                    var c0_hi = hh, c0_lo = hl, c1_hi = s1_512_hi(eh, el), c1_lo = s1_512_lo(eh, el), c2_hi = ch64_hi(eh, el, fh, fl, gh, gl), c2_lo = ch64_lo(eh, el, fh, fl, gh, gl), c3_hi = this.k[i], c3_lo = this.k[i + 1], c4_hi = W[i], c4_lo = W[i + 1], T1_hi = sum64_5_hi(c0_hi, c0_lo, c1_hi, c1_lo, c2_hi, c2_lo, c3_hi, c3_lo, c4_hi, c4_lo), T1_lo = sum64_5_lo(c0_hi, c0_lo, c1_hi, c1_lo, c2_hi, c2_lo, c3_hi, c3_lo, c4_hi, c4_lo), T2_hi = sum64_hi(c0_hi = s0_512_hi(ah, al), c0_lo = s0_512_lo(ah, al), c1_hi = maj64_hi(ah, al, bh, bl, ch, cl), c1_lo = maj64_lo(ah, al, bh, bl, ch, cl)), T2_lo = sum64_lo(c0_hi, c0_lo, c1_hi, c1_lo);
+                    var c0_hi = hh, c0_lo = hl, c1_hi = s1_512_hi(eh, el), c1_lo = s1_512_lo(eh, el), c2_hi = ch64_hi(eh, el, fh, fl, gh, gl), c2_lo = ch64_lo(eh, el, fh, fl, gh, gl), c3_hi = this.k[i], c3_lo = this.k[i + 1], c4_hi = W[i], c4_lo = W[i + 1], T1_hi = sum64_5_hi(c0_hi, c0_lo, c1_hi, c1_lo, c2_hi, c2_lo, c3_hi, c3_lo, c4_hi, c4_lo), T1_lo = sum64_5_lo(c0_hi, c0_lo, c1_hi, c1_lo, c2_hi, c2_lo, c3_hi, c3_lo, c4_hi, c4_lo);
+                    c0_hi = s0_512_hi(ah, al), c0_lo = s0_512_lo(ah, al), c1_hi = maj64_hi(ah, al, bh, bl, ch, cl);
+                    var T2_hi = sum64_hi(c0_hi, c0_lo, c1_hi, c1_lo = maj64_lo(ah, al, bh, bl, ch, cl)), T2_lo = sum64_lo(c0_hi, c0_lo, c1_hi, c1_lo);
                     hh = gh, hl = gl, gh = fh, gl = fl, fh = eh, fl = el, eh = sum64_hi(dh, dl, T1_hi, T1_lo), el = sum64_lo(dl, dl, T1_hi, T1_lo), dh = ch, dl = cl, ch = bh, cl = bl, bh = ah, bl = al, ah = sum64_hi(T1_hi, T1_lo, T2_hi, T2_lo), al = sum64_lo(T1_hi, T1_lo, T2_hi, T2_lo);
                 }
                 sum64(this.h, 0, ah, al), sum64(this.h, 2, bh, bl), sum64(this.h, 4, ch, cl), sum64(this.h, 6, dh, dl), sum64(this.h, 8, eh, el), sum64(this.h, 10, fh, fl), sum64(this.h, 12, gh, gl), sum64(this.h, 14, hh, hl);
