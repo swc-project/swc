@@ -319,7 +319,12 @@ impl VisitMut for Pure<'_> {
         }) = e
         {
         } else {
-            simplify::expr::optimize_bin_expr(e, self.expr_ctx, &mut self.changed);
+            let mut changed = false;
+            simplify::expr::optimize_bin_expr(e, self.expr_ctx, &mut changed);
+            self.changed |= changed;
+            if changed {
+                report_change!("optimize_bin_expr optimized");
+            }
         }
 
         if self.options.unused {
