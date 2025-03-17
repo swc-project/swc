@@ -179,8 +179,7 @@
         } catch (e) {
             /* istanbul ignore next */ return !1;
         }
-        else if (!isObjectA && !isObjectB) return String(a) === String(b);
-        else return !1;
+        return !isObjectA && !isObjectB && String(a) === String(b);
     }
     /**
    * Return the first index at which a loosely equal value can be
@@ -1402,6 +1401,7 @@
                     for(var vnodes = normalizeChildren(vnode) || [], res = Array(vnodes.length), i = 0; i < vnodes.length; i++)res[i] = cloneAndMarkFunctionalResult(vnodes[i], data3, renderContext.parent, options1, renderContext);
                     return res;
                 }
+                return;
             }
             // extract listeners, since these needs to be treated as
             // child component listeners instead of DOM listeners

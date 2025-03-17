@@ -1392,4 +1392,10 @@ impl Visit for DeclVisitor {
     fn visit_decl(&mut self, _: &Decl) {
         self.found = true;
     }
+
+    fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
+        if let VarDeclOrExpr::VarDecl(_) = node {
+            self.found = true
+        }
+    }
 }

@@ -843,10 +843,7 @@
         // (Rendering will throw with a helpful message and as soon as the type is
         // fixed, the key warnings will appear.)
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
-        if (type === exports.Fragment) /**
- * Given a fragment, validate that it can only be provided with fragment props
- * @param {ReactElement} fragment
- */ {
+        if (type === exports.Fragment) {
             for(var keys = Object.keys(element.props), i1 = 0; i1 < keys.length; i1++){
                 var key = keys[i1];
                 if ('children' !== key && 'key' !== key) {

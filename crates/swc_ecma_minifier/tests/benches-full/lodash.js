@@ -2225,7 +2225,7 @@
             ];
             var index = -1;
             iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
-            var result = baseMap(collection, function(value, key, collection) {
+            var array = baseMap(collection, function(value, key, collection) {
                 return {
                     criteria: arrayMap(iteratees, function(iteratee) {
                         return iteratee(value);
@@ -2233,8 +2233,8 @@
                     index: ++index,
                     value: value
                 };
-            }), length = result.length;
-            for(result.sort(function(object, other) {
+            }), length = array.length;
+            for(array.sort(function(object, other) {
                 for(var index = -1, objCriteria = object.criteria, othCriteria = other.criteria, length = objCriteria.length, ordersLength = orders.length; ++index < length;){
                     var result = compareAscending(objCriteria[index], othCriteria[index]);
                     if (result) {
@@ -2250,8 +2250,8 @@
                 // This also ensures a stable sort in V8 and other engines.
                 // See https://bugs.chromium.org/p/v8/issues/detail?id=90 for more details.
                 return object.index - other.index;
-            }); length--;)result[length] = result[length].value;
-            return result;
+            }); length--;)array[length] = array[length].value;
+            return array;
         }
         /**
      * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -5394,13 +5394,7 @@
      */ function toArray(value) {
             if (!value) return [];
             if (isArrayLike(value)) return isString(value) ? stringToArray(value) : copyArray(value);
-            if (symIterator && value[symIterator]) /**
-   * Converts `iterator` to an array.
-   *
-   * @private
-   * @param {Object} iterator The iterator to convert.
-   * @returns {Array} Returns the converted array.
-   */ {
+            if (symIterator && value[symIterator]) {
                 for(var data, iterator = value[symIterator](), result = []; !(data = iterator.next()).done;)result.push(data.value);
                 return result;
             }
@@ -5767,15 +5761,7 @@
      * @param {Object} object The object to query.
      * @returns {Array} Returns the array of property names.
      */ function(object) {
-                if (!isObject(object)) /**
-     * This function is like
-     * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
-     * except that it includes inherited enumerable properties.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     */ {
+                if (!isObject(object)) {
                     var result = [];
                     if (null != object) for(var key in Object1(object))result.push(key);
                     return result;

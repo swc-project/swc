@@ -122,7 +122,7 @@
     }, jQuery.find = function(selector, context, ret, extra) {
         return selector.indexOf(":jqmData") > -1 && (selector = selector.replace(jqmDataRE, "[data-" + (jQuery.mobile.ns || "") + "$1]")), oldFind.call(this, selector, context, ret, extra);
     }, jQuery.extend(jQuery.find, oldFind);
-    var undefined1, rDividerListItem, origDefaultFilterCallback, undefined2, nsNormalizeDict, oldFind, rbrace, jqmDataRE, orig, removeData, undefined3, uuid = 0, runiqueId = /^ui-id-\d+$/;
+    var undefined1, rDividerListItem, origDefaultFilterCallback, undefined2, nsNormalizeDict, oldFind, rbrace, jqmDataRE, undefined3, uuid = 0, runiqueId = /^ui-id-\d+$/;
     // selectors
     function focusable(element, isTabIndexNotNaN) {
         var map, mapName, img, nodeName = element.nodeName.toLowerCase();
@@ -691,7 +691,7 @@
             }
         });
     }(jQuery, this);
-    var window1, compensateToolbars, undefined4, uuid1, slice, _cleanData, rcapitals, replaceFunction, undefined5, fake_onhashchange, window2 = this, str_hashchange = "hashchange", special = jQuery.event.special, // Does the browser support window.onhashchange? Note that IE8 running in
+    var orig, removeData, window1, compensateToolbars, undefined4, uuid1, slice, _cleanData, rcapitals, replaceFunction, undefined5, fake_onhashchange, window2 = this, str_hashchange = "hashchange", special = jQuery.event.special, // Does the browser support window.onhashchange? Note that IE8 running in
     // IE7 compatibility mode reports true for 'onhashchange' in window, even
     // though the event isn't supported, so also test document.documentMode.
     doc_mode = document1.documentMode, supports_onhashchange = "on" + str_hashchange in window2 && (void 0 === doc_mode || doc_mode > 7);
@@ -911,8 +911,7 @@
             orientation: "orientation" in window && "onorientationchange" in window
         });
     }(jQuery);
-    var bool, docElem, refNode, fakeBody, div, support, ua, platform, // Rendering engine is Webkit, and capture major version
-    wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, undefined6, nokiaLTE7_3, fakeBody1 = jQuery("<body>").prependTo("html"), fbCSS = fakeBody1[0].style, vendors = [
+    var bool, docElem, refNode, fakeBody, div, support, undefined6, nokiaLTE7_3, fakeBody1 = jQuery("<body>").prependTo("html"), fbCSS = fakeBody1[0].style, vendors = [
         "Webkit",
         "Moz",
         "O"
@@ -948,7 +947,8 @@
             return !!ret && "none" !== ret;
         }(),
         boxShadow: !!propExists("boxShadow") && !bb,
-        fixedPosition: (ua = navigator.userAgent, platform = navigator.platform, wkversion = !!(wkmatch = ua.match(/AppleWebKit\/([0-9]+)/)) && wkmatch[1], ffversion = !!(ffmatch = ua.match(/Fennec\/([0-9]+)/)) && ffmatch[1], omversion = !!(operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/)) && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || // Opera Mini
+        fixedPosition: (ua = navigator.userAgent, platform = navigator.platform, wkversion = !!(// Rendering engine is Webkit, and capture major version
+        wkmatch = ua.match(/AppleWebKit\/([0-9]+)/)) && wkmatch[1], ffversion = !!(ffmatch = ua.match(/Fennec\/([0-9]+)/)) && ffmatch[1], omversion = !!(operammobilematch = ua.match(/Opera Mobi\/([0-9]+)/)) && operammobilematch[1], !((platform.indexOf("iPhone") > -1 || platform.indexOf("iPad") > -1 || platform.indexOf("iPod") > -1) && wkversion && wkversion < 534 || // Opera Mini
         window.operamini && "[object OperaMini]" === ({}).toString.call(window.operamini) || operammobilematch && omversion < 7458 || //Android lte 2.1: Platform is Android and Webkit version is less than 533 (Android 2.2)
         ua.indexOf("Android") > -1 && wkversion && wkversion < 533 || // Firefox Mobile before 6.0 -
         ffversion && ffversion < 6 || // WebOS less than 3
@@ -1539,7 +1539,7 @@
         setTimeout(jQuery.proxy(callback, this), 0), jQuery(this)));
     }, // Allow default callback to be configured on mobileInit
     jQuery.fn.animationComplete.defaultDuration = 1000;
-    var self, $win, dummyFnToInitNavigate, undefined7, path, $base, dialogHashKey, undefined8, path1, initialHref, undefined9, props, testElement, vendorPrefixes, threshold, i, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = jQuery.event.mouseHooks ? jQuery.event.mouseHooks.props : [], mouseEventProps = jQuery.event.props.concat(mouseHookProps), activeDocHandlers = {}, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document1, $document = jQuery(document1), nextTouchID = 1, lastTouchID = 0;
+    var ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, self, $win, dummyFnToInitNavigate, undefined7, path, $base, dialogHashKey, undefined8, path1, initialHref, undefined9, props, testElement, vendorPrefixes, threshold, i, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = jQuery.event.mouseHooks ? jQuery.event.mouseHooks.props : [], mouseEventProps = jQuery.event.props.concat(mouseHookProps), activeDocHandlers = {}, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document1, $document = jQuery(document1), nextTouchID = 1, lastTouchID = 0;
     function getNativeEvent(event1) {
         for(; event1 && void 0 !== event1.originalEvent;)event1 = event1.originalEvent;
         return event1;
@@ -1551,11 +1551,6 @@
         }
         return flags;
     }
-    jQuery.vmouse = {
-        moveDistanceThreshold: 10,
-        clickDistanceThreshold: 10,
-        resetTimerDuration: 1500
-    };
     function startResetTimer() {
         clearResetTimer(), resetTimerID = setTimeout(function() {
             resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, blockTouchTriggers = !0;
@@ -1625,7 +1620,11 @@
     }
     function dummyMouseHandler() {}
     // Expose our custom events to the jQuery bind/unbind mechanism.
-    for(i = 0; i < virtualEventNames.length; i++)jQuery.event.special[virtualEventNames[i]] = function(eventType) {
+    for(i = 0, jQuery.vmouse = {
+        moveDistanceThreshold: 10,
+        clickDistanceThreshold: 10,
+        resetTimerDuration: 1500
+    }; i < virtualEventNames.length; i++)jQuery.event.special[virtualEventNames[i]] = function(eventType) {
         var realType = eventType.substr(1);
         return {
             setup: function() {
@@ -4681,7 +4680,7 @@
     }, // TODO move inside _create
     jQuery.mobile.document.on("pagebeforechange", function(theEvent, data) {
         "popup" === data.options.role && (jQuery.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
-    }), !/*
+    }), /*
    * custom "selectmenu" plugin
    */ function($, undefined) {
         var unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')", goToAdjacentItem = function(item, target, direction) {
@@ -4995,7 +4994,7 @@
         mini: !1
     }, jQuery.extend(jQuery.fn.buttonMarkup, {
         initSelector: "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button"
-    }), !function($, undefined) {
+    }), function($, undefined) {
         $.widget("mobile.controlgroup", $.extend({
             options: {
                 enhanced: !1,

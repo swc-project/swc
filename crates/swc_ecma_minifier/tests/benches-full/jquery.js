@@ -2780,7 +2780,6 @@
         return Math.round(parseFloat(measure));
     }
     var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal, reliableTrDimensionsVal, reliableMarginLeftVal, container = document.createElement("div"), div = document.createElement("div");
-    // Finish early in limited (non-browser) environments
     div.style && (// Support: IE <=9 - 11 only
     // Style of cloned element affects source element cloned (#8908)
     div.style.backgroundClip = "content-box", div.cloneNode(!0).style.backgroundClip = "", support.clearCloneStyle = "content-box" === div.style.backgroundClip, jQuery.extend(support, {
