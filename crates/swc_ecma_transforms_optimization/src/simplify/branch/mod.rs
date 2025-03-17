@@ -1987,3 +1987,1138 @@ fn stmt_depth(s: &Stmt) -> u32 {
 
     depth
 }
+
+fn reoptimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
+    match stmt {
+        Stmt::Block(BlockStmt { stmts, .. }) => {
+            for stmt in stmts.iter_mut() {
+                optimize_stmt(stmt, expr_ctx, changed);
+            }
+
+            optimize_stmt_likes(stmts, true, expr_ctx, changed);
+
+            if stmts.len() == 1 {
+                *stmt = stmts.remove(0);
+            }
+        }
+
+        _ => {
+            optimize_stmt(stmt, expr_ctx, changed);
+        }
+    }
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE IT.
+pub fn optimize_stmt(stmt: &mut Stmt, expr_ctx: ExprCtx, changed: &mut bool) {
+    match stmt {
+        Stmt::For(ForStmt { body, .. })
+        | Stmt::ForIn(ForInStmt { body, .. })
+        | Stmt::ForOf(ForOfStmt { body, .. })
+        | Stmt::While(WhileStmt { body, .. })
+        | Stmt::DoWhile(DoWhileStmt { body, .. }) => {
+            *body = Box::new(optimize_loop_body(take(&mut **body)));
+        }
+        _ => {}
+    }
+
+    stmt.map_with_mut(|stmt| {
+        match stmt {
+            Stmt::If(IfStmt {
+                span,
+                test,
+                cons,
+                alt,
+            }) => {
+                if let Stmt::If(IfStmt { alt: Some(..), .. }) = *cons {
+                    return IfStmt {
+                        test,
+                        cons: Box::new(
+                            BlockStmt {
+                                stmts: vec![*cons],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
+                        alt,
+                        span,
+                    }
+                    .into();
+                }
+
+                let mut stmts = Vec::new();
+                if let (p, Known(v)) = test.cast_to_bool(expr_ctx) {
+                    if cfg!(feature = "debug") {
+                        trace!("The condition for if statement is always {}", v);
+                    }
+
+                    // Preserve effect of the test
+                    if !p.is_pure() {
+                        if let Some(expr) = ignore_result(test, true, expr_ctx) {
+                            stmts.push(ExprStmt { span, expr }.into())
+                        }
+                    }
+
+                    if v {
+                        // Preserve variables
+                        if let Some(var) = alt.and_then(|alt| alt.extract_var_ids_as_var()) {
+                            stmts.push(var.into())
+                        }
+                        stmts.push(*cons);
+                    } else {
+                        if let Some(var) = cons.extract_var_ids_as_var() {
+                            stmts.push(var.into())
+                        }
+
+                        if let Some(alt) = alt {
+                            stmts.push(*alt)
+                        }
+                    }
+
+                    if stmts.is_empty() {
+                        return EmptyStmt { span }.into();
+                    }
+
+                    if cfg!(feature = "debug") {
+                        debug!("Optimized an if statement with known condition");
+                    }
+
+                    *changed = true;
+
+                    let mut block: Stmt = BlockStmt {
+                        span,
+                        stmts,
+                        ..Default::default()
+                    }
+                    .into();
+                    reoptimize_stmt(&mut block, expr_ctx, changed);
+                    return block;
+                }
+
+                let alt = match &alt {
+                    Some(stmt) if stmt.is_empty() => None,
+                    _ => alt,
+                };
+                if alt.is_none() {
+                    if let Stmt::Empty(..) = *cons {
+                        *changed = true;
+
+                        return if let Some(expr) = ignore_result(test, true, expr_ctx) {
+                            ExprStmt { span, expr }.into()
+                        } else {
+                            EmptyStmt { span }.into()
+                        };
+                    }
+                }
+
+                IfStmt {
+                    span,
+                    test,
+                    cons,
+                    alt,
+                }
+                .into()
+            }
+
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
+                if cfg!(feature = "debug") {
+                    debug!("Dropping an empty var declaration");
+                }
+                EmptyStmt { span: v.span }.into()
+            }
+
+            Stmt::Labeled(LabeledStmt {
+                label, span, body, ..
+            }) if body.is_empty() => {
+                debug!("Dropping an empty label statement: `{}`", label);
+                EmptyStmt { span }.into()
+            }
+
+            Stmt::Labeled(LabeledStmt {
+                span,
+                body,
+                ref label,
+                ..
+            }) if match &*body {
+                Stmt::Break(BreakStmt { label: Some(b), .. }) => label.sym == b.sym,
+                _ => false,
+            } =>
+            {
+                debug!("Dropping a label statement with instant break: `{}`", label);
+                EmptyStmt { span }.into()
+            }
+
+            // `1;` -> `;`
+            Stmt::Expr(ExprStmt { span, expr, .. }) => {
+                // Directives
+                if let Expr::Lit(Lit::Str(..)) = &*expr {
+                    return ExprStmt { span, expr }.into();
+                }
+
+                match ignore_result(expr, false, expr_ctx) {
+                    Some(e) => ExprStmt { span, expr: e }.into(),
+                    None => EmptyStmt { span: DUMMY_SP }.into(),
+                }
+            }
+
+            Stmt::Block(BlockStmt { span, stmts, ctxt }) => {
+                if stmts.is_empty() {
+                    if cfg!(feature = "debug") {
+                        debug!("Drooping an empty block statement");
+                    }
+
+                    EmptyStmt { span }.into()
+                } else if stmts.len() == 1
+                    && !is_block_scoped_stuff(&stmts[0])
+                    && stmt_depth(&stmts[0]) <= 1
+                {
+                    if cfg!(feature = "debug") {
+                        debug!("Optimizing a block statement with a single statement");
+                    }
+
+                    let mut v = stmts.into_iter().next().unwrap();
+                    reoptimize_stmt(&mut v, expr_ctx, changed);
+                    v
+                } else {
+                    BlockStmt { span, stmts, ctxt }.into()
+                }
+            }
+            Stmt::Try(s) => {
+                let TryStmt {
+                    span,
+                    block,
+                    handler,
+                    finalizer,
+                } = *s;
+
+                // Only leave the finally block if try block is empty
+                if block.is_empty() {
+                    let var = handler.and_then(|h| Stmt::from(h.body).extract_var_ids_as_var());
+
+                    return if let Some(mut finalizer) = finalizer {
+                        if let Some(var) = var.map(Box::new).map(Decl::from).map(Stmt::from) {
+                            prepend_stmt(&mut finalizer.stmts, var);
+                        }
+                        finalizer.into()
+                    } else {
+                        var.map(Box::new)
+                            .map(Decl::from)
+                            .map(Stmt::from)
+                            .unwrap_or_else(|| EmptyStmt { span }.into())
+                    };
+                }
+
+                // If catch block is not specified and finally block is empty, fold it to simple
+                // block.
+                if handler.is_none() && finalizer.is_empty() {
+                    if cfg!(feature = "debug") {
+                        debug!("Converting a try statement to a block statement");
+                    }
+
+                    return block.into();
+                }
+
+                TryStmt {
+                    span,
+                    block,
+                    handler,
+                    finalizer,
+                }
+                .into()
+            }
+
+            Stmt::Switch(mut s) => {
+                if s.cases
+                    .iter()
+                    .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+                {
+                    return s.into();
+                }
+                if let Expr::Update(..) = &*s.discriminant {
+                    if s.cases.len() != 1 {
+                        return s.into();
+                    }
+                }
+
+                let is_matching_literal = match *s.discriminant {
+                    Expr::Lit(Lit::Str(..))
+                    | Expr::Lit(Lit::Null(..))
+                    | Expr::Lit(Lit::Num(..)) => true,
+                    ref e if e.is_nan() || e.is_global_ref_to(expr_ctx, "undefined") => true,
+                    _ => false,
+                };
+
+                // Remove empty switch
+                if s.cases.is_empty() {
+                    if cfg!(feature = "debug") {
+                        debug!("Removing an empty switch statement");
+                    }
+                    return match ignore_result(s.discriminant, true, expr_ctx) {
+                        Some(expr) => ExprStmt { span: s.span, expr }.into(),
+                        None => EmptyStmt { span: s.span }.into(),
+                    };
+                }
+
+                // Handle a switch statement with only default.
+                if s.cases.len() == 1
+                    && s.cases[0].test.is_none()
+                    && !has_conditional_stopper(&s.cases[0].cons)
+                {
+                    if cfg!(feature = "debug") {
+                        debug!("Switch -> Block as default is the only case");
+                    }
+
+                    let mut stmts = remove_break(s.cases.remove(0).cons);
+                    if let Some(expr) = ignore_result(s.discriminant, true, expr_ctx) {
+                        prepend_stmt(&mut stmts, expr.into_stmt());
+                    }
+
+                    let mut block: Stmt = BlockStmt {
+                        span: s.span,
+                        stmts,
+                        ..Default::default()
+                    }
+                    .into();
+                    reoptimize_stmt(&mut block, expr_ctx, changed);
+                    return block;
+                }
+
+                let mut non_constant_case_idx = None;
+                let selected = {
+                    let mut i = 0;
+                    s.cases.iter().position(|case| {
+                        if non_constant_case_idx.is_some() {
+                            i += 1;
+                            return false;
+                        }
+
+                        if let Some(ref test) = case.test {
+                            let v = match (&**test, &*s.discriminant) {
+                                (
+                                    &Expr::Lit(Lit::Str(Str {
+                                        value: ref test, ..
+                                    })),
+                                    &Expr::Lit(Lit::Str(Str { value: ref d, .. })),
+                                ) => *test == *d,
+                                (
+                                    &Expr::Lit(Lit::Num(Number { value: test, .. })),
+                                    &Expr::Lit(Lit::Num(Number { value: d, .. })),
+                                ) => (test - d).abs() < 1e-10,
+                                (
+                                    &Expr::Lit(Lit::Bool(Bool { value: test, .. })),
+                                    &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
+                                ) => test == d,
+                                (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
+
+                                _ => {
+                                    if !test.is_nan()
+                                        && !test.is_global_ref_to(expr_ctx, "undefined")
+                                    {
+                                        non_constant_case_idx = Some(i);
+                                    }
+
+                                    false
+                                }
+                            };
+
+                            i += 1;
+                            return v;
+                        }
+
+                        i += 1;
+                        false
+                    })
+                };
+
+                let are_all_tests_known = s
+                    .cases
+                    .iter()
+                    .map(|case| case.test.as_deref())
+                    .all(|s| matches!(s, Some(Expr::Lit(..)) | None));
+
+                let mut var_ids = Vec::new();
+                if let Some(i) = selected {
+                    if !has_conditional_stopper(&s.cases[i].cons) {
+                        let mut exprs = Vec::new();
+                        exprs.extend(ignore_result(s.discriminant, true, expr_ctx));
+
+                        let mut stmts = s.cases[i].cons.take();
+                        let mut decls = s.cases[0..i]
+                            .iter()
+                            .flat_map(|case| case.cons.iter())
+                            .flat_map(|s| s.extract_var_ids())
+                            .map(|i| VarDeclarator {
+                                span: DUMMY_SP,
+                                name: i.into(),
+                                init: None,
+                                definite: false,
+                            })
+                            .collect::<Vec<_>>();
+                        let mut cases = s.cases.drain((i + 1)..);
+
+                        for case in cases.by_ref() {
+                            let should_stop = has_unconditional_stopper(&case.cons);
+                            stmts.extend(case.cons);
+                            //
+                            if should_stop {
+                                break;
+                            }
+                        }
+
+                        let mut stmts = remove_break(stmts);
+
+                        decls.extend(
+                            cases
+                                .flat_map(|case| {
+                                    exprs.extend(
+                                        case.test.and_then(|e| ignore_result(e, true, expr_ctx)),
+                                    );
+                                    case.cons
+                                })
+                                .flat_map(|stmt| stmt.extract_var_ids())
+                                .map(|i| VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: i.into(),
+                                    init: None,
+                                    definite: false,
+                                }),
+                        );
+
+                        if !exprs.is_empty() {
+                            prepend_stmt(
+                                &mut stmts,
+                                ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: if exprs.len() == 1 {
+                                        exprs.remove(0)
+                                    } else {
+                                        SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs,
+                                        }
+                                        .into()
+                                    },
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if !decls.is_empty() {
+                            prepend_stmt(
+                                &mut stmts,
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls,
+                                    declare: false,
+                                    ..Default::default()
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if cfg!(feature = "debug") {
+                            debug!("Switch -> Block as we know discriminant");
+                        }
+                        let mut block: Stmt = BlockStmt {
+                            span: s.span,
+                            stmts,
+                            ..Default::default()
+                        }
+                        .into();
+                        reoptimize_stmt(&mut block, expr_ctx, changed);
+                        return block;
+                    }
+                } else if are_all_tests_known {
+                    let mut vars = Vec::new();
+
+                    if let Expr::Lit(..) = *s.discriminant {
+                        let idx = s.cases.iter().position(|v| v.test.is_none());
+
+                        if let Some(i) = idx {
+                            for case in &s.cases[..i] {
+                                for cons in &case.cons {
+                                    vars.extend(cons.extract_var_ids().into_iter().map(|name| {
+                                        VarDeclarator {
+                                            span: DUMMY_SP,
+                                            name: name.into(),
+                                            init: None,
+                                            definite: Default::default(),
+                                        }
+                                    }));
+                                }
+                            }
+
+                            if !has_conditional_stopper(&s.cases[i].cons) {
+                                let stmts = s.cases.remove(i).cons;
+                                let mut stmts = remove_break(stmts);
+
+                                if !vars.is_empty() {
+                                    prepend_stmt(
+                                        &mut stmts,
+                                        VarDecl {
+                                            span: DUMMY_SP,
+                                            kind: VarDeclKind::Var,
+                                            declare: Default::default(),
+                                            decls: take(&mut vars),
+                                            ..Default::default()
+                                        }
+                                        .into(),
+                                    )
+                                }
+
+                                let mut block: Stmt = BlockStmt {
+                                    span: s.span,
+                                    stmts,
+                                    ..Default::default()
+                                }
+                                .into();
+
+                                reoptimize_stmt(&mut block, expr_ctx, changed);
+
+                                if cfg!(feature = "debug") {
+                                    debug!("Switch -> Block as the discriminant is a literal");
+                                }
+                                return block;
+                            }
+                        }
+                    }
+                }
+
+                if is_matching_literal {
+                    let mut idx = 0usize;
+                    let mut breaked = false;
+                    // Remove unmatchable cases.
+                    s.cases = s.cases.move_flat_map(|case| {
+                        if non_constant_case_idx.is_some() && idx >= non_constant_case_idx.unwrap()
+                        {
+                            idx += 1;
+                            return Some(case);
+                        }
+
+                        // Detect unconditional break;
+                        if selected.is_some() && selected <= Some(idx) {
+                            // Done.
+                            if breaked {
+                                idx += 1;
+                                if cfg!(feature = "debug") {
+                                    debug!("Dropping case because it is unreachable");
+                                }
+                                return None;
+                            }
+
+                            if !breaked {
+                                // has unconditional break
+                                breaked |= has_unconditional_stopper(&case.cons);
+                            }
+
+                            idx += 1;
+                            return Some(case);
+                        }
+
+                        let res = match case.test {
+                            Some(e)
+                                if matches!(
+                                    &*e,
+                                    Expr::Lit(Lit::Num(..))
+                                        | Expr::Lit(Lit::Str(..))
+                                        | Expr::Lit(Lit::Null(..))
+                                ) =>
+                            {
+                                case.cons
+                                    .into_iter()
+                                    .for_each(|stmt| var_ids.extend(stmt.extract_var_ids()));
+
+                                if cfg!(feature = "debug") {
+                                    debug!(
+                                        "Dropping case because it is unreachable (literal test)"
+                                    );
+                                }
+                                None
+                            }
+                            _ => Some(case),
+                        };
+                        idx += 1;
+                        res
+                    });
+                }
+
+                let is_default_last = matches!(s.cases.last(), Some(SwitchCase { test: None, .. }));
+
+                {
+                    // True if all cases except default is empty.
+                    let is_all_case_empty = s
+                        .cases
+                        .iter()
+                        .all(|case| case.test.is_none() || case.cons.is_empty());
+
+                    let is_all_case_side_effect_free = s.cases.iter().all(|case| {
+                        case.test
+                            .as_ref()
+                            .map(|e| e.is_ident() || !e.may_have_side_effects(expr_ctx))
+                            .unwrap_or(true)
+                    });
+
+                    if is_default_last
+                        && is_all_case_empty
+                        && is_all_case_side_effect_free
+                        && !has_conditional_stopper(&s.cases.last().unwrap().cons)
+                    {
+                        let mut exprs = Vec::new();
+                        exprs.extend(ignore_result(s.discriminant, true, expr_ctx));
+
+                        exprs.extend(
+                            s.cases
+                                .iter_mut()
+                                .filter_map(|case| case.test.take())
+                                .filter_map(|e| ignore_result(e, true, expr_ctx)),
+                        );
+
+                        let stmts = s.cases.pop().unwrap().cons;
+                        let mut stmts = remove_break(stmts);
+
+                        if !exprs.is_empty() {
+                            prepend_stmt(
+                                &mut stmts,
+                                ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: if exprs.len() == 1 {
+                                        exprs.remove(0)
+                                    } else {
+                                        SeqExpr {
+                                            span: DUMMY_SP,
+                                            exprs,
+                                        }
+                                        .into()
+                                    },
+                                }
+                                .into(),
+                            );
+                        }
+
+                        if cfg!(feature = "debug") {
+                            debug!("Stmt -> Block as all cases are empty");
+                        }
+                        let mut block: Stmt = BlockStmt {
+                            span: s.span,
+                            stmts,
+                            ..Default::default()
+                        }
+                        .into();
+                        reoptimize_stmt(&mut block, expr_ctx, changed);
+                        return block;
+                    }
+                }
+
+                if is_matching_literal
+                    && s.cases.iter().all(|case| match &case.test {
+                        Some(e)
+                            if matches!(
+                                &**e,
+                                Expr::Lit(Lit::Str(..))
+                                    | Expr::Lit(Lit::Null(..))
+                                    | Expr::Lit(Lit::Num(..))
+                            ) =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    })
+                {
+                    // No case can be matched.
+                    if s.cases
+                        .iter()
+                        .all(|case| !has_conditional_stopper(&case.cons))
+                    {
+                        if cfg!(feature = "debug") {
+                            debug!("Removing swtich because all cases are unreachable");
+                        }
+
+                        // Preserve variables
+                        let decls: Vec<_> = s
+                            .cases
+                            .into_iter()
+                            .flat_map(|case| extract_var_ids(&case.cons))
+                            .chain(var_ids)
+                            .map(|i| VarDeclarator {
+                                span: i.span,
+                                name: i.into(),
+                                init: None,
+                                definite: false,
+                            })
+                            .collect();
+                        if !decls.is_empty() {
+                            return VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls,
+                                declare: false,
+                                ..Default::default()
+                            }
+                            .into();
+                        }
+                        return EmptyStmt { span: s.span }.into();
+                    }
+                }
+
+                s.into()
+            }
+
+            Stmt::For(s)
+                if match &s.test {
+                    Some(test) => {
+                        matches!(&**test, Expr::Lit(Lit::Bool(Bool { value: false, .. })))
+                    }
+                    _ => false,
+                } =>
+            {
+                if cfg!(feature = "debug") {
+                    debug!("Optimizing a for statement with a false test");
+                }
+
+                let decl = s.body.extract_var_ids_as_var();
+                let body = if let Some(var) = decl {
+                    var.into()
+                } else {
+                    EmptyStmt { span: s.span }.into()
+                };
+
+                if s.init.is_some() {
+                    ForStmt {
+                        body: Box::new(body),
+                        update: None,
+                        ..s
+                    }
+                    .into()
+                } else {
+                    body
+                }
+            }
+
+            Stmt::While(s) => {
+                if let (purity, Known(v)) = s.test.cast_to_bool(expr_ctx) {
+                    if v {
+                        if purity.is_pure() {
+                            WhileStmt {
+                                test: Lit::Bool(Bool {
+                                    span: s.test.span(),
+                                    value: true,
+                                })
+                                .into(),
+                                ..s
+                            }
+                            .into()
+                        } else {
+                            s.into()
+                        }
+                    } else {
+                        let body = s.body.extract_var_ids_as_var();
+                        let body = body.map(Box::new).map(Decl::Var).map(Stmt::Decl);
+                        let body = body.unwrap_or(EmptyStmt { span: s.span }.into());
+
+                        if purity.is_pure() {
+                            body
+                        } else {
+                            WhileStmt {
+                                body: Box::new(body),
+                                ..s
+                            }
+                            .into()
+                        }
+                    }
+                } else {
+                    s.into()
+                }
+            }
+
+            Stmt::DoWhile(s) => {
+                if has_conditional_stopper(&[s.clone().into()]) {
+                    return s.into();
+                }
+
+                if let Known(v) = s.test.as_pure_bool(expr_ctx) {
+                    if v {
+                        // `for(;;);` is shorter than `do ; while(true);`
+                        ForStmt {
+                            span: s.span,
+                            init: None,
+                            test: None,
+                            update: None,
+                            body: s.body,
+                        }
+                        .into()
+                    } else {
+                        let mut body = prepare_loop_body_for_inlining(*s.body);
+                        reoptimize_stmt(&mut body, expr_ctx, changed);
+
+                        if let Some(test) = ignore_result(s.test, true, expr_ctx) {
+                            BlockStmt {
+                                span: s.span,
+                                stmts: vec![body, test.into_stmt()],
+                                ..Default::default()
+                            }
+                            .into()
+                        } else {
+                            body
+                        }
+                    }
+                } else {
+                    s.into()
+                }
+            }
+
+            Stmt::Decl(Decl::Var(v)) => {
+                let decls = v.decls.move_flat_map(|v| {
+                    if !is_literal(&v.init) {
+                        return Some(v);
+                    }
+
+                    //
+                    match &v.name {
+                        Pat::Object(o) if o.props.is_empty() => {
+                            if cfg!(feature = "debug") {
+                                debug!("Dropping an object pattern in a var declaration");
+                            }
+
+                            None
+                        }
+                        Pat::Array(a) if a.elems.is_empty() => {
+                            if cfg!(feature = "debug") {
+                                debug!("Dropping an array pattern in a var declaration");
+                            }
+
+                            None
+                        }
+
+                        _ => Some(v),
+                    }
+                });
+
+                if decls.is_empty() {
+                    if cfg!(feature = "debug") {
+                        debug!("Dropping a useless variable declaration");
+                    }
+
+                    return EmptyStmt { span: v.span }.into();
+                }
+
+                VarDecl { decls, ..*v }.into()
+            }
+
+            _ => stmt,
+        }
+    })
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE IT.
+pub fn optimize_for_stmt(s: &mut ForStmt, expr_ctx: ExprCtx, _changed: &mut bool) {
+    s.init = s.init.take().and_then(|e| match e {
+        VarDeclOrExpr::Expr(e) => ignore_result(e, true, expr_ctx).map(VarDeclOrExpr::from),
+        _ => Some(e),
+    });
+
+    s.update = s
+        .update
+        .take()
+        .and_then(|e| ignore_result(e, true, expr_ctx));
+
+    s.test = s.test.take().and_then(|e| {
+        if let Known(value) = e.as_pure_bool(expr_ctx) {
+            return if value {
+                None
+            } else {
+                let span = e.span();
+                Some(Lit::Bool(Bool { span, value: false }).into())
+            };
+        }
+
+        Some(e)
+    });
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE IT.
+pub fn optimize_switch_stmt(s: &mut SwitchStmt, expr_ctx: ExprCtx, changed: &mut bool) {
+    if s.cases
+        .iter()
+        .any(|case| matches!(case.test.as_deref(), Some(Expr::Update(..))))
+    {
+        return;
+    }
+
+    if s.cases.iter().all(|case| {
+        if let Some(test) = case.test.as_deref() {
+            if test.may_have_side_effects(expr_ctx) {
+                return false;
+            }
+        }
+
+        if case.cons.is_empty() {
+            return true;
+        }
+
+        matches!(case.cons[0], Stmt::Break(BreakStmt { label: None, .. }))
+    }) {
+        if cfg!(feature = "debug") {
+            debug!("Dropping a switch statement because all cases are unreachable");
+        }
+
+        *changed = true;
+        s.cases.clear();
+    }
+}
+
+/// **NOTE**: This is **NOT** a public API. DO NOT USE IT.
+pub fn optimize_stmt_likes<T>(
+    stmts: &mut Vec<T>,
+    drop_expr_stmt: bool,
+    expr_ctx: ExprCtx,
+    changed: &mut bool,
+) where
+    T: StmtLike,
+{
+    let orig_len = stmts.len();
+
+    let mut new_stmts = Vec::with_capacity(stmts.len());
+
+    let mut iter = take(stmts).into_iter();
+    while let Some(stmt_like) = iter.next() {
+        let stmt_like = match stmt_like.try_into_stmt() {
+            Ok(stmt) => {
+                let stmt = match stmt {
+                    // Remove empty statements.
+                    Stmt::Empty(..) => continue,
+
+                    Stmt::Expr(ExprStmt { ref expr, .. })
+                        if drop_expr_stmt
+                            && match &**expr {
+                                Expr::Lit(Lit::Str(..)) => false,
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            } =>
+                    {
+                        continue
+                    }
+
+                    // Control flow
+                    Stmt::Throw(..)
+                    | Stmt::Return { .. }
+                    | Stmt::Continue { .. }
+                    | Stmt::Break { .. } => {
+                        // Hoist function and `var` declarations above return.
+                        let mut decls = Vec::new();
+                        let mut hoisted_fns = Vec::new();
+                        for t in iter {
+                            match t.try_into_stmt() {
+                                Ok(Stmt::Decl(Decl::Fn(f))) => {
+                                    hoisted_fns.push(T::from(f.into()));
+                                }
+                                Ok(t) => {
+                                    let ids =
+                                        extract_var_ids(&t).into_iter().map(|i| VarDeclarator {
+                                            span: i.span,
+                                            name: i.into(),
+                                            init: None,
+                                            definite: false,
+                                        });
+                                    decls.extend(ids);
+                                }
+                                Err(item) => new_stmts.push(item),
+                            }
+                        }
+
+                        if !decls.is_empty() {
+                            new_stmts.push(T::from(
+                                VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    decls,
+                                    declare: false,
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ));
+                        }
+
+                        let stmt_like = T::from(stmt);
+                        new_stmts.push(stmt_like);
+                        new_stmts.extend(hoisted_fns);
+
+                        *stmts = new_stmts;
+                        if stmts.len() != orig_len {
+                            *changed = true;
+
+                            if cfg!(feature = "debug") {
+                                debug!("Dropping statements after a control keyword");
+                            }
+                        }
+
+                        return;
+                    }
+
+                    Stmt::Block(BlockStmt {
+                        span, stmts, ctxt, ..
+                    }) => {
+                        if stmts.is_empty() {
+                            continue;
+                        }
+
+                        if !is_ok_to_inline_block(&stmts) {
+                            BlockStmt { span, stmts, ctxt }.into()
+                        } else {
+                            new_stmts.extend(
+                                stmts
+                                    .into_iter()
+                                    .filter(|s| !matches!(s, Stmt::Empty(..)))
+                                    .map(T::from),
+                            );
+                            continue;
+                        }
+                    }
+
+                    // Optimize if statement.
+                    Stmt::If(IfStmt {
+                        test,
+                        cons,
+                        alt,
+                        span,
+                    }) => {
+                        // check if
+                        match test.cast_to_bool(expr_ctx) {
+                            (purity, Known(val)) => {
+                                *changed = true;
+                                if !purity.is_pure() {
+                                    let expr = ignore_result(test, true, expr_ctx);
+
+                                    if let Some(expr) = expr {
+                                        new_stmts.push(T::from(
+                                            ExprStmt {
+                                                span: DUMMY_SP,
+                                                expr,
+                                            }
+                                            .into(),
+                                        ));
+                                    }
+                                }
+
+                                if val {
+                                    // Hoist vars from alt
+                                    if let Some(var) =
+                                        alt.and_then(|alt| alt.extract_var_ids_as_var())
+                                    {
+                                        new_stmts.push(T::from(var.into()))
+                                    }
+                                    *cons
+                                } else {
+                                    // Hoist vars from cons
+                                    if let Some(var) = cons.extract_var_ids_as_var() {
+                                        new_stmts.push(T::from(var.into()))
+                                    }
+                                    match alt {
+                                        Some(alt) => *alt,
+                                        None => continue,
+                                    }
+                                }
+                            }
+                            _ => IfStmt {
+                                test,
+                                cons,
+                                alt,
+                                span,
+                            }
+                            .into(),
+                        }
+                    }
+
+                    _ => stmt,
+                };
+
+                T::from(stmt)
+            }
+            Err(stmt_like) => stmt_like,
+        };
+
+        new_stmts.push(stmt_like);
+    }
+
+    *stmts = new_stmts
+}
+
+fn remove_break(stmts: Vec<Stmt>) -> Vec<Stmt> {
+    fn remove_break_inner(stmts: Vec<Stmt>, done: &mut bool) -> Vec<Stmt> {
+        stmts.move_flat_map(|s| {
+            if *done {
+                match s {
+                    Stmt::Decl(Decl::Var(var))
+                        if matches!(
+                            &*var,
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            }
+                        ) =>
+                    {
+                        return Some(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: var
+                                    .decls
+                                    .move_map(|decl| VarDeclarator { init: None, ..decl }),
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
+                    }
+                    _ => (),
+                }
+
+                return None;
+            }
+            match s {
+                Stmt::Break(BreakStmt { label: None, .. }) => {
+                    *done = true;
+                    None
+                }
+                Stmt::Return(..) | Stmt::Throw(..) => {
+                    *done = true;
+                    Some(s)
+                }
+
+                Stmt::Block(block) => {
+                    let stmts = remove_break_inner(block.stmts, done);
+
+                    if stmts.is_empty() {
+                        return None;
+                    }
+
+                    Some(Stmt::Block(BlockStmt { stmts, ..block }))
+                }
+
+                Stmt::Labeled(l) => {
+                    let mut body = remove_break_inner(vec![*l.body], done);
+
+                    if body.is_empty() {
+                        return None;
+                    }
+
+                    let body = if body.len() == 1 {
+                        Box::new(body.remove(0))
+                    } else {
+                        Box::new(Stmt::Block(BlockStmt {
+                            stmts: body,
+                            ..Default::default()
+                        }))
+                    };
+
+                    Some(Stmt::Labeled(LabeledStmt { body, ..l }))
+                }
+
+                _ => Some(s),
+            }
+        })
+    }
+
+    debug_assert!(!has_conditional_stopper(&stmts) || has_unconditional_stopper(&stmts));
+
+    let mut done = false;
+    remove_break_inner(stmts, &mut done)
+}
