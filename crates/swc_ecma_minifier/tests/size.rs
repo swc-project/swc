@@ -25,6 +25,11 @@ fn bench_libs() {
     let dir = PathBuf::from("benches/full");
 
     let mut output = String::new();
+    // Create a markdown table
+
+    writeln!(output, "| File | Size | Gzipped Size |").unwrap();
+    writeln!(output, "| --- | --- | --- |").unwrap();
+
     for entry in dir.read_dir().unwrap() {
         let entry = entry.unwrap();
         let path = entry.path();
@@ -34,14 +39,9 @@ fn bench_libs() {
 
         writeln!(
             output,
-            "- {} {}",
+            "| {} | {} | {} |",
             file_name,
-            format_size(file_size.size, humansize::BINARY)
-        )
-        .unwrap();
-        writeln!(
-            output,
-            "  - gzip: {}",
+            format_size(file_size.size, humansize::BINARY),
             format_size(file_size.gzipped_size, humansize::BINARY)
         )
         .unwrap();
