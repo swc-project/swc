@@ -20,7 +20,8 @@ use testing::NormalizedOutput;
 use walkdir::WalkDir;
 
 struct FileSize {
-    size: usize,
+    original_size: usize,
+    compressed_size: usize,
     gzipped_size: usize,
 }
 
@@ -58,15 +59,20 @@ fn format_result(mut result: IndexMap<String, FileSize, FxBuildHasher>) -> Strin
     // Sort by file name
     result.sort_by_cached_key(|file_name, _| file_name.clone());
 
-    writeln!(output, "| File | Size | Gzipped Size |").unwrap();
-    writeln!(output, "| --- | --- | --- |").unwrap();
+    writeln!(
+        output,
+        "| File | Original Size | Compressed Size | Gzipped Size |"
+    )
+    .unwrap();
+    writeln!(output, "| --- | --- | --- | --- |").unwrap();
 
     for (file_name, file_size) in result {
         writeln!(
             output,
-            "| {} | {} | {} |",
+            "| {} | {} | {} | {} |",
             file_name,
-            format_size(file_size.size, humansize::BINARY),
+            format_size(file_size.original_size, humansize::BINARY),
+            format_size(file_size.compressed_size, humansize::BINARY),
             format_size(file_size.gzipped_size, humansize::BINARY)
         )
         .unwrap();
@@ -179,7 +185,8 @@ fn run(src: &str) -> FileSize {
         let gzipped_size = gzip_size(code.as_bytes());
 
         Ok(FileSize {
-            size: code.len(),
+            original_size: src.len(),
+            compressed_size: code.len(),
             gzipped_size,
         })
     })
