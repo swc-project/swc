@@ -206,8 +206,6 @@ pub fn optimize(
             PureOptimizerConfig {
                 force_str_for_tpl: Minification.force_str_for_tpl(),
                 enable_join_vars: true,
-                #[cfg(feature = "debug")]
-                debug_infinite_loop: false,
             },
         ));
     }

@@ -275,17 +275,18 @@
                     function bidirectionalIndexOf(e, r, t, f, n) {
                         var e1;
                         if (0 === e.length) return -1;
-                        if ("string" == typeof t ? (f = t, t = 0) : t > 2147483647 ? t = 2147483647 : t < -2147483648 && (t = -2147483648), (e1 = t *= 1) != e1 && (t = n ? 0 : e.length - 1), t < 0 && (t = e.length + t), t >= e.length) {
-                            if (n) return -1;
-                            t = e.length - 1;
-                        } else if (t < 0) {
-                            if (!n) return -1;
-                            t = 0;
-                        }
+                        if ("string" == typeof t ? (f = t, t = 0) : t > 2147483647 ? t = 2147483647 : t < -2147483648 && (t = -2147483648), (e1 = t *= 1) != e1 && (t = n ? 0 : e.length - 1), t < 0 && (t = e.length + t), t >= e.length) if (n) return -1;
+                        else t = e.length - 1;
+                        else if (t < 0) if (!n) return -1;
+                        else t = 0;
                         if ("string" == typeof r && (r = Buffer.from(r, f)), Buffer.isBuffer(r)) return 0 === r.length ? -1 : arrayIndexOf(e, r, t, f, n);
-                        if ("number" == typeof r) return (r &= 255, "function" == typeof Uint8Array.prototype.indexOf) ? n ? Uint8Array.prototype.indexOf.call(e, r, t) : Uint8Array.prototype.lastIndexOf.call(e, r, t) : arrayIndexOf(e, [
-                            r
-                        ], t, f, n);
+                        if ("number" == typeof r) {
+                            if (r &= 255, "function" == typeof Uint8Array.prototype.indexOf) if (n) return Uint8Array.prototype.indexOf.call(e, r, t);
+                            else return Uint8Array.prototype.lastIndexOf.call(e, r, t);
+                            return arrayIndexOf(e, [
+                                r
+                            ], t, f, n);
+                        }
                         throw TypeError("val must be string, number or Buffer");
                     }
                     function arrayIndexOf(e, r, t, f, n) {
@@ -1974,10 +1975,13 @@
                             "{",
                             "}"
                         ];
-                        return (isArray(e) && (u = !0, s = [
+                        if (isArray(e) && (u = !0, s = [
                             "[",
                             "]"
-                        ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 !== a.length || u && 0 != e.length) ? o < 0 ? isRegExp(e) ? r.stylize(RegExp.prototype.toString.call(e), "regexp") : r.stylize("[Object]", "special") : (r.seen.push(e), l = u ? function(r, t, e, o, n) {
+                        ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 === a.length && (!u || 0 == e.length)) return s[0] + f + s[1];
+                        if (o < 0) if (isRegExp(e)) return r.stylize(RegExp.prototype.toString.call(e), "regexp");
+                        else return r.stylize("[Object]", "special");
+                        return r.seen.push(e), l = u ? function(r, t, e, o, n) {
                             for(var i = [], a = 0, y = t.length; a < y; ++a)hasOwnProperty(t, String(a)) ? i.push(formatProperty(r, t, e, o, String(a), !0)) : i.push("");
                             return n.forEach(function(n) {
                                 n.match(/^\d+$/) || i.push(formatProperty(r, t, e, o, n, !0));
@@ -1986,7 +1990,7 @@
                             return formatProperty(r, e, o, y, t, u);
                         }), r.seen.pop(), t1 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
                             return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
+                        }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1];
                     }
                     function formatError(r) {
                         return "[" + Error.prototype.toString.call(r) + "]";
@@ -2045,15 +2049,13 @@
                         return r < 10 ? "0" + r.toString(10) : r.toString(10);
                     }
                     t.debuglog = function(r) {
-                        if (!i[r = r.toUpperCase()]) {
-                            if (a.test(r)) {
-                                var e = process.pid;
-                                i[r] = function() {
-                                    var o = t.format.apply(t, arguments);
-                                    console.error("%s %d: %s", r, e, o);
-                                };
-                            } else i[r] = function() {};
-                        }
+                        if (!i[r = r.toUpperCase()]) if (a.test(r)) {
+                            var e = process.pid;
+                            i[r] = function() {
+                                var o = t.format.apply(t, arguments);
+                                console.error("%s %d: %s", r, e, o);
+                            };
+                        } else i[r] = function() {};
                         return i[r];
                     }, t.inspect = inspect, inspect.colors = {
                         bold: [

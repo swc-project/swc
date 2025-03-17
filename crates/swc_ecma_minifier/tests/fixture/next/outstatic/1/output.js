@@ -22,6 +22,7 @@
                 const s = 0, a = async (t)=>{
                     let e = t.target.name;
                     const n = 0;
+                    0;
                 };
             }
             e.useForm = function(t = {}) {

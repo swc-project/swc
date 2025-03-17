@@ -2720,10 +2720,9 @@
      * @returns {boolean} ?
      */ NumberFormat.checkValueRange = function(val1, val2, checkbothExist, isFraction) {
                     var decide = isFraction ? 'f' : 's', dint = 0, str1 = errorText['l' + decide], str2 = errorText['m' + decide];
-                    if (!util_isUndefined(val1) && (this.checkRange(val1, str1, isFraction), dint++), !util_isUndefined(val2) && (this.checkRange(val2, str2, isFraction), dint++), 2 === dint) {
-                        if (!(val1 < val2)) return !0;
-                        throwError(str2 + 'specified must be less than the' + str1);
-                    } else checkbothExist && 1 === dint && throwError('Both' + str2 + 'and' + str2 + 'must be present');
+                    if (!util_isUndefined(val1) && (this.checkRange(val1, str1, isFraction), dint++), !util_isUndefined(val2) && (this.checkRange(val2, str2, isFraction), dint++), 2 === dint) if (!(val1 < val2)) return !0;
+                    else throwError(str2 + 'specified must be less than the' + str1);
+                    else checkbothExist && 1 === dint && throwError('Both' + str2 + 'and' + str2 + 'must be present');
                     return !1;
                 }, /**
      * Check if the provided fraction range is valid
@@ -2750,7 +2749,7 @@
      * @returns {string} ?
      */ NumberFormat.intNumberFormatter = function(value, fOptions, dOptions) {
                     if (!util_isUndefined(fOptions.nData.type)) {
-                        value < 0 ? (value *= -1, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
+                        value < 0 ? (value = -+value, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
                         var curData, fValue = '';
                         return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = (fValue = value.toExponential(curData.maximumFractionDigits)).replace('e', dOptions.numberMapper.numberSymbols.exponential)), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols.decimal), curData.useGrouping && /* eslint-disable  @typescript-eslint/no-explicit-any */ (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols.decimal || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
                     }
@@ -2941,22 +2940,20 @@
                         'day'
                     ]; _i < tKeys_1.length; _i++){
                         var key = tKeys_1[_i], tValue = options[key];
-                        if (util_isUndefined(tValue) && 'day' === key && res.setDate(1), !util_isUndefined(tValue)) {
-                            if ('month' === key) {
-                                if ((tValue -= 1) < 0 || tValue > 11) return new Date('invalid');
-                                var pDate = res.getDate();
-                                res.setDate(1), // eslint-disable-next-line
-                                res[date_parser_timeSetter[key]](tValue);
-                                var lDate = new Date(res.getFullYear(), tValue + 1, 0).getDate();
-                                res.setDate(pDate < lDate ? pDate : lDate);
-                            } else {
-                                if ('day' === key) {
-                                    var lastDay = new Date(res.getFullYear(), res.getMonth() + 1, 0).getDate();
-                                    if (tValue < 1 || tValue > lastDay) return null;
-                                }
-                                // eslint-disable-next-line
-                                res[date_parser_timeSetter[key]](tValue);
+                        if (util_isUndefined(tValue) && 'day' === key && res.setDate(1), !util_isUndefined(tValue)) if ('month' === key) {
+                            if ((tValue -= 1) < 0 || tValue > 11) return new Date('invalid');
+                            var pDate = res.getDate();
+                            res.setDate(1), // eslint-disable-next-line
+                            res[date_parser_timeSetter[key]](tValue);
+                            var lDate = new Date(res.getFullYear(), tValue + 1, 0).getDate();
+                            res.setDate(pDate < lDate ? pDate : lDate);
+                        } else {
+                            if ('day' === key) {
+                                var lastDay = new Date(res.getFullYear(), res.getMonth() + 1, 0).getDate();
+                                if (tValue < 1 || tValue > lastDay) return null;
                             }
+                            // eslint-disable-next-line
+                            res[date_parser_timeSetter[key]](tValue);
                         }
                     }
                     if (!util_isUndefined(desig)) {
@@ -4328,13 +4325,11 @@
                     return this.onFailure && this.onFailure(this.httpRequest), reason;
                 }, Ajax.prototype.stateChange = function(resolve, reject) {
                     var data = this.httpRequest.responseText;
-                    if (this.dataType && 'json' === this.dataType.toLowerCase()) {
-                        if ('' === data) data = void 0;
-                        else try {
-                            data = JSON.parse(data);
-                        } catch (error) {
-                        // no exception handle
-                        }
+                    if (this.dataType && 'json' === this.dataType.toLowerCase()) if ('' === data) data = void 0;
+                    else try {
+                        data = JSON.parse(data);
+                    } catch (error) {
+                    // no exception handle
                     }
                     4 === this.httpRequest.readyState && (this.httpRequest.status >= 200 && this.httpRequest.status <= 299 || 304 === this.httpRequest.status ? resolve(this.successHandler(data)) : this.emitError ? reject(Error(this.failureHandler(this.httpRequest.statusText))) : resolve());
                 }, /**
@@ -5025,16 +5020,15 @@
                         var data = this.modelObserver.notify(eventName, eventProp, successHandler, errorHandler);
                         if (isColEName.test(eventName)) {
                             var handler = util_getValue(eventName, this);
-                            if (handler) {
-                                if (window.Blazor) {
-                                    var promise = handler.call(this, eventProp);
-                                    promise && 'function' == typeof promise.then ? successHandler ? promise.then(function(data) {
-                                        successHandler && (data = 'string' == typeof data && _this.modelObserver.isJson(data) ? JSON.parse(data) : data, successHandler.call(_this, data));
-                                    }).catch(function(data) {
-                                        errorHandler && (data = 'string' == typeof data && _this.modelObserver.isJson(data) ? JSON.parse(data) : data, errorHandler.call(_this, data));
-                                    }) : data = promise : successHandler && successHandler.call(this, eventProp);
-                                } else handler.call(this, eventProp), successHandler && successHandler.call(this, eventProp);
-                            } else successHandler && successHandler.call(this, eventProp);
+                            if (handler) if (window.Blazor) {
+                                var promise = handler.call(this, eventProp);
+                                promise && 'function' == typeof promise.then ? successHandler ? promise.then(function(data) {
+                                    successHandler && (data = 'string' == typeof data && _this.modelObserver.isJson(data) ? JSON.parse(data) : data, successHandler.call(_this, data));
+                                }).catch(function(data) {
+                                    errorHandler && (data = 'string' == typeof data && _this.modelObserver.isJson(data) ? JSON.parse(data) : data, errorHandler.call(_this, data));
+                                }) : data = promise : successHandler && successHandler.call(this, eventProp);
+                            } else handler.call(this, eventProp), successHandler && successHandler.call(this, eventProp);
+                            else successHandler && successHandler.call(this, eventProp);
                         }
                         return this.isProtectedOnChange = prevDetection, data;
                     }
@@ -6370,12 +6364,10 @@
                         this.dragProcessStarted && (util_isNullOrUndefined(top1) && (top1 = this.prevTop), util_isNullOrUndefined(left) && (left = this.prevLeft)), this.dragArea ? (this.dragLimit.top = this.clone ? this.dragLimit.top : 0, draEleTop = top1 - iTop < 0 ? this.dragLimit.top : top1 - iTop, draEleLeft = left - iLeft < 0 ? this.dragElePosition.left : left - iLeft) : (draEleTop = top1 - iTop, draEleLeft = left - iLeft);
                         var marginTop = parseFloat(getComputedStyle(this.element).marginTop);
                         // when drag-element has margin-top
-                        /* istanbul ignore next */ if (marginTop > 0 && (this.clone && (draEleTop += marginTop, dTop < 0 && (marginTop + dTop >= 0 ? draEleTop = marginTop + dTop : draEleTop -= marginTop), draEleTop = this.dragLimit.bottom < draEleTop ? this.dragLimit.bottom : draEleTop), top1 - iTop < 0)) {
-                            if (dTop + marginTop + (helperElement.offsetHeight - iTop) >= 0) {
-                                var tempDraEleTop = this.dragLimit.top + dTop - iTop;
-                                tempDraEleTop + marginTop + iTop < 0 ? draEleTop -= marginTop + iTop : draEleTop = tempDraEleTop;
-                            } else draEleTop -= marginTop + iTop;
-                        }
+                        /* istanbul ignore next */ if (marginTop > 0 && (this.clone && (draEleTop += marginTop, dTop < 0 && (marginTop + dTop >= 0 ? draEleTop = marginTop + dTop : draEleTop -= marginTop), draEleTop = this.dragLimit.bottom < draEleTop ? this.dragLimit.bottom : draEleTop), top1 - iTop < 0)) if (dTop + marginTop + (helperElement.offsetHeight - iTop) >= 0) {
+                            var tempDraEleTop = this.dragLimit.top + dTop - iTop;
+                            tempDraEleTop + marginTop + iTop < 0 ? draEleTop -= marginTop + iTop : draEleTop = tempDraEleTop;
+                        } else draEleTop -= marginTop + iTop;
                         this.enableScrollHandler && !this.clone && (draEleTop -= this.parentScrollY, draEleLeft -= this.parentScrollX);
                         var dragValue = this.getProcessedPositionValue({
                             top: draEleTop + 'px',
@@ -8379,17 +8371,15 @@
                 }, NumericTextBox.prototype.updateHTMLAttrToWrapper = function() {
                     if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.htmlAttributes)) for(var _i = 0, _a = Object.keys(this.htmlAttributes); _i < _a.length; _i++){
                         var pro = _a[_i];
-                        if (wrapperAttributes.indexOf(pro) > -1) {
-                            if ('class' === pro) {
-                                var updatedClassValue = this.getNumericValidClassList(this.htmlAttributes[pro]);
-                                '' !== updatedClassValue && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
-                                    this.container
-                                ], updatedClassValue.split(' '));
-                            } else if ('style' === pro) {
-                                var numericStyle = this.container.getAttribute(pro);
-                                numericStyle = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericStyle) ? this.htmlAttributes[pro] : numericStyle + this.htmlAttributes[pro], this.container.setAttribute(pro, numericStyle);
-                            } else this.container.setAttribute(pro, this.htmlAttributes[pro]);
-                        }
+                        if (wrapperAttributes.indexOf(pro) > -1) if ('class' === pro) {
+                            var updatedClassValue = this.getNumericValidClassList(this.htmlAttributes[pro]);
+                            '' !== updatedClassValue && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                                this.container
+                            ], updatedClassValue.split(' '));
+                        } else if ('style' === pro) {
+                            var numericStyle = this.container.getAttribute(pro);
+                            numericStyle = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericStyle) ? this.htmlAttributes[pro] : numericStyle + this.htmlAttributes[pro], this.container.setAttribute(pro, numericStyle);
+                        } else this.container.setAttribute(pro, this.htmlAttributes[pro]);
                     }
                 }, NumericTextBox.prototype.setElementWidth = function(width) {
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(width) || ('number' == typeof width ? this.container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (this.container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)));
@@ -9492,7 +9482,8 @@
      * @returns {boolean} - retruns the boolean
      */ // eslint-disable-next-line
                 Popup.prototype.isElementOnViewport = function(relateToElement, scrollElement) {
-                    for(var scrollParents = this.getScrollableParent(relateToElement), parent_3 = 0; parent_3 < scrollParents.length; parent_3++)if (!this.isElementVisible(relateToElement, scrollParents[parent_3])) return !1;
+                    for(var scrollParents = this.getScrollableParent(relateToElement), parent_3 = 0; parent_3 < scrollParents.length; parent_3++)if (this.isElementVisible(relateToElement, scrollParents[parent_3])) continue;
+                    else return !1;
                     return !0;
                 }, Popup.prototype.isElementVisible = function(relateToElement, scrollElement) {
                     var rect = this.checkGetBoundingClientRect(relateToElement);
@@ -9529,12 +9520,10 @@
                     this.reposition(), // eslint-disable-next-line
                     this.enableRtl ? this.element.classList.add(CLASSNAMES.RTL) : this.element.classList.remove(CLASSNAMES.RTL);
                 }, Popup.prototype.setContent = function() {
-                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.content)) {
-                        if (this.element.innerHTML = '', 'string' == typeof this.content) this.element.textContent = this.content;
-                        else {
-                            var relateToElem = this.getRelateToElement(), props = this.content.props;
-                            (!relateToElem.classList.contains('e-dropdown-btn') || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(props)) && this.element.appendChild(this.content);
-                        }
+                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.content)) if (this.element.innerHTML = '', 'string' == typeof this.content) this.element.textContent = this.content;
+                    else {
+                        var relateToElem = this.getRelateToElement(), props = this.content.props;
+                        (!relateToElem.classList.contains('e-dropdown-btn') || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(props)) && this.element.appendChild(this.content);
                     }
                 }, Popup.prototype.orientationOnChange = function() {
                     var _this = this;
@@ -9609,15 +9598,13 @@
                     var relateToElement = this.getRelateToElement();
                     (0, _common_collision__WEBPACK_IMPORTED_MODULE_2__ /* .flip */ .RR)(this.element, relateToElement, this.offsetX, this.offsetY, this.position.X, this.position.Y, this.viewPortElement, param, this.fixedParent);
                 }, Popup.prototype.callFit = function(param) {
-                    if (0 !== (0, _common_collision__WEBPACK_IMPORTED_MODULE_2__ /* .isCollide */ .vF)(this.element, this.viewPortElement).length) {
-                        if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.viewPortElement)) {
-                            var data = (0, _common_collision__WEBPACK_IMPORTED_MODULE_2__ /* .fit */ .Tj)(this.element, this.viewPortElement, param);
-                            param.X && (this.element.style.left = data.left + 'px'), param.Y && (this.element.style.top = data.top + 'px');
-                        } else {
-                            var elementRect = this.checkGetBoundingClientRect(this.element), viewPortRect = this.checkGetBoundingClientRect(this.viewPortElement);
-                            if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(elementRect) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(viewPortRect)) return null;
-                            param && !0 === param.Y && (viewPortRect.top > elementRect.top ? this.element.style.top = '0px' : viewPortRect.bottom < elementRect.bottom && (this.element.style.top = parseInt(this.element.style.top, 10) - (elementRect.bottom - viewPortRect.bottom) + 'px')), param && !0 === param.X && (viewPortRect.right < elementRect.right ? this.element.style.left = parseInt(this.element.style.left, 10) - (elementRect.right - viewPortRect.right) + 'px' : viewPortRect.left > elementRect.left && (this.element.style.left = parseInt(this.element.style.left, 10) + (viewPortRect.left - elementRect.left) + 'px'));
-                        }
+                    if (0 !== (0, _common_collision__WEBPACK_IMPORTED_MODULE_2__ /* .isCollide */ .vF)(this.element, this.viewPortElement).length) if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.viewPortElement)) {
+                        var data = (0, _common_collision__WEBPACK_IMPORTED_MODULE_2__ /* .fit */ .Tj)(this.element, this.viewPortElement, param);
+                        param.X && (this.element.style.left = data.left + 'px'), param.Y && (this.element.style.top = data.top + 'px');
+                    } else {
+                        var elementRect = this.checkGetBoundingClientRect(this.element), viewPortRect = this.checkGetBoundingClientRect(this.viewPortElement);
+                        if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(elementRect) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(viewPortRect)) return null;
+                        param && !0 === param.Y && (viewPortRect.top > elementRect.top ? this.element.style.top = '0px' : viewPortRect.bottom < elementRect.bottom && (this.element.style.top = parseInt(this.element.style.top, 10) - (elementRect.bottom - viewPortRect.bottom) + 'px')), param && !0 === param.X && (viewPortRect.right < elementRect.right ? this.element.style.left = parseInt(this.element.style.left, 10) - (elementRect.right - viewPortRect.right) + 'px' : viewPortRect.left > elementRect.left && (this.element.style.left = parseInt(this.element.style.left, 10) + (viewPortRect.left - elementRect.left) + 'px'));
                     }
                 }, Popup.prototype.checkCollision = function() {
                     var horz = this.collision.X, vert = this.collision.Y;
@@ -9868,16 +9855,13 @@
      */ ComponentBase.prototype.updateProperties = function(nextProps, silent) {
                     for(var _this = this, dProps = (0, ej2_base /* extend */ .l7)({}, nextProps), keys = Object.keys(nextProps), _i = 0; _i < keys.length; _i++){
                         var propkey = keys[_i], isClassName = 'className' === propkey;
-                        if ('children' !== propkey) {
-                            if (isClassName || (0, ej2_base /* isNullOrUndefined */ .le)(this.htmlattributes[propkey]) || this.htmlattributes[propkey] === dProps[propkey] || (this.htmlattributes[propkey] = dProps[propkey]), this.compareValues(this.props[propkey], nextProps[propkey])) delete dProps[propkey];
-                            else if (-1 !== this.attrKeys.indexOf(propkey)) {
-                                if (isClassName) {
-                                    this.clsName = !0;
-                                    for(var propsClsName = this.props[propkey].split(' '), i = 0; i < propsClsName.length; i++)this.element.classList.remove(propsClsName[i]);
-                                    for(var dpropsClsName = dProps[propkey].split(' '), j = 0; j < dpropsClsName.length; j++)this.element.classList.add(dpropsClsName[j]);
-                                } else 'disabled' !== propkey && delete dProps[propkey];
-                            } else 'value' === propkey && nextProps[propkey] === this[propkey] ? delete dProps[propkey] : ('valueTemplate' === propkey || 'itemTemplate' === propkey || 'headerTemplate' === propkey) && nextProps[propkey].toString() === this[propkey].toString() ? delete dProps[propkey] : 'content' === propkey && 'function' == typeof dProps[propkey] && delete dProps[propkey];
-                        }
+                        if ('children' !== propkey) if (isClassName || (0, ej2_base /* isNullOrUndefined */ .le)(this.htmlattributes[propkey]) || this.htmlattributes[propkey] === dProps[propkey] || (this.htmlattributes[propkey] = dProps[propkey]), this.compareValues(this.props[propkey], nextProps[propkey])) delete dProps[propkey];
+                        else if (-1 !== this.attrKeys.indexOf(propkey)) if (isClassName) {
+                            this.clsName = !0;
+                            for(var propsClsName = this.props[propkey].split(' '), i = 0; i < propsClsName.length; i++)this.element.classList.remove(propsClsName[i]);
+                            for(var dpropsClsName = dProps[propkey].split(' '), j = 0; j < dpropsClsName.length; j++)this.element.classList.add(dpropsClsName[j]);
+                        } else 'disabled' !== propkey && delete dProps[propkey];
+                        else 'value' === propkey && nextProps[propkey] === this[propkey] ? delete dProps[propkey] : ('valueTemplate' === propkey || 'itemTemplate' === propkey || 'headerTemplate' === propkey) && nextProps[propkey].toString() === this[propkey].toString() ? delete dProps[propkey] : 'content' === propkey && 'function' == typeof dProps[propkey] && delete dProps[propkey];
                     }
                     dProps.children && delete dProps.children, this.initRenderCalled && (this.canDelayUpdate || this.props.delayUpdate) ? setTimeout(function() {
                         _this.refreshProperties(dProps, nextProps, silent);
@@ -10026,16 +10010,15 @@
                                 }
                             }
                             else this.prevProperties = (0, ej2_base /* extend */ .l7)({}, directiveValue, {}, !0);
-                            if (changedProps.length) {
-                                if ('grid' === this.getModuleName() && 'columns' === key) for(var _c1 = 0, allColumns = this.columns; _c1 < allColumns.length; _c1++)if ((0, ej2_base /* getValue */ .NA)('field', allColumns[_c1]) === (0, ej2_base /* getValue */ .NA)(_c1 + '.value.field', changedProps)) {
-                                    var propInstance = (0, ej2_base /* getValue */ .NA)(changedProps[_c1].key + '.' + changedProps[_c1].index, this);
-                                    propInstance && propInstance.setProperties ? propInstance.setProperties(changedProps[_c1].value) : (0, ej2_base /* extend */ .l7)(propInstance, changedProps[_c1].value);
-                                } else this.setProperties(directiveValue, silent);
-                                else for(var _c = 0, changedProps_1 = changedProps; _c < changedProps_1.length; _c++){
-                                    var changes = changedProps_1[_c], propInstance_1 = (0, ej2_base /* getValue */ .NA)(changes.key + '.' + changes.index, this);
-                                    propInstance_1 && propInstance_1.setProperties ? propInstance_1.setProperties(changes.value) : (0, ej2_base /* extend */ .l7)(propInstance_1, changes.value);
-                                }
+                            if (changedProps.length) if ('grid' === this.getModuleName() && 'columns' === key) for(var _c1 = 0, allColumns = this.columns; _c1 < allColumns.length; _c1++)if ((0, ej2_base /* getValue */ .NA)('field', allColumns[_c1]) === (0, ej2_base /* getValue */ .NA)(_c1 + '.value.field', changedProps)) {
+                                var propInstance = (0, ej2_base /* getValue */ .NA)(changedProps[_c1].key + '.' + changedProps[_c1].index, this);
+                                propInstance && propInstance.setProperties ? propInstance.setProperties(changedProps[_c1].value) : (0, ej2_base /* extend */ .l7)(propInstance, changedProps[_c1].value);
                             } else this.setProperties(directiveValue, silent);
+                            else for(var _c = 0, changedProps_1 = changedProps; _c < changedProps_1.length; _c++){
+                                var changes = changedProps_1[_c], propInstance_1 = (0, ej2_base /* getValue */ .NA)(changes.key + '.' + changes.index, this);
+                                propInstance_1 && propInstance_1.setProperties ? propInstance_1.setProperties(changes.value) : (0, ej2_base /* extend */ .l7)(propInstance_1, changes.value);
+                            }
+                            else this.setProperties(directiveValue, silent);
                         }
                     }
                 }, ComponentBase.prototype.componentWillUnmount = function() {
@@ -10081,17 +10064,15 @@
                         var child = subChild[_i], accessProp = !1, key = void 0;
                         'string' == typeof matcher ? (accessProp = !0, key = matcher) : key = Object.keys(matcher)[0];
                         var prop = child.props;
-                        if (this.getChildType(child) === key) {
-                            if (accessProp || !prop.children) {
-                                // tslint:disable
-                                var cacheVal = (0, ej2_base /* extend */ .l7)({}, prop, {}, !0);
-                                // tslint:disable
-                                this.processComplexTemplate(cacheVal, child.type), ret.push(cacheVal);
-                            } else {
-                                var cachedValue = this.validateChildren((0, ej2_base /* extend */ .l7)({}, prop), matcher[key], prop) || prop;
-                                cachedValue.children && delete cachedValue.children, // tslint:disable
-                                this.processComplexTemplate(cachedValue, child.type), ret.push(cachedValue);
-                            }
+                        if (this.getChildType(child) === key) if (accessProp || !prop.children) {
+                            // tslint:disable
+                            var cacheVal = (0, ej2_base /* extend */ .l7)({}, prop, {}, !0);
+                            // tslint:disable
+                            this.processComplexTemplate(cacheVal, child.type), ret.push(cacheVal);
+                        } else {
+                            var cachedValue = this.validateChildren((0, ej2_base /* extend */ .l7)({}, prop), matcher[key], prop) || prop;
+                            cachedValue.children && delete cachedValue.children, // tslint:disable
+                            this.processComplexTemplate(cachedValue, child.type), ret.push(cachedValue);
                         }
                     }
                     return ret;
@@ -11654,15 +11635,14 @@
                                             finalFocusElem.innerHTML = '<br>', isImageNode || (0, ej2_base /* detach */ .og)(nearBlockNode);
                                         }
                                         _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem.nextElementSibling, 0);
-                                    } else if (0 === nearBlockNode.textContent.length && ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) || 'IMG' !== nearBlockNode.childNodes[0].nodeName)) {
-                                        if ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.children[0]) || 'BR' === nearBlockNode.children[0].tagName) {
-                                            var insertElem = _this.createInsertElement(shiftKey_1);
-                                            insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
-                                        } else {
-                                            var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !1).cloneNode(!0);
-                                            _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, newElem.textContent.length >= 0 ? 0 : 1);
-                                        }
+                                    } else if (0 === nearBlockNode.textContent.length && ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) || 'IMG' !== nearBlockNode.childNodes[0].nodeName)) if ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.children[0]) || 'BR' === nearBlockNode.children[0].tagName) {
+                                        var insertElem = _this.createInsertElement(shiftKey_1);
+                                        insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
                                     } else {
+                                        var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !1).cloneNode(!0);
+                                        _this.parent.formatter.editorManager.domNode.insertAfter(newElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), newElem, newElem.textContent.length >= 0 ? 0 : 1);
+                                    }
+                                    else {
                                         var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !0);
                                         if ((0, ej2_base /* isNullOrUndefined */ .le)(newElem.childNodes[0]) || '#text' !== newElem.childNodes[0].nodeName || 0 !== newElem.childNodes[0].textContent.length || (0, ej2_base /* detach */ .og)(newElem.childNodes[0]), 0 === newElem.textContent.trim().length) {
                                             var brElm = _this.parent.createElement('br');
@@ -12052,11 +12032,10 @@
                     if (this.enableResize) {
                         if (!this.isBlazorServerRender() || (0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.e-icons.e-resize-handle'))) {
                             this.element.classList.add(DLG_RESIZABLE);
-                            for(var computedHeight = getComputedStyle(this.element).minHeight, computedWidth = getComputedStyle(this.element).minWidth, direction = '', i = 0; i < this.resizeHandles.length; i++){
-                                if ('All' === this.resizeHandles[i]) {
-                                    direction = 'south north east west north-east north-west south-east south-west';
-                                    break;
-                                }
+                            for(var computedHeight = getComputedStyle(this.element).minHeight, computedWidth = getComputedStyle(this.element).minWidth, direction = '', i = 0; i < this.resizeHandles.length; i++)if ('All' === this.resizeHandles[i]) {
+                                direction = 'south north east west north-east north-west south-east south-west';
+                                break;
+                            } else {
                                 var directionValue = '';
                                 switch(this.resizeHandles[i].toString()){
                                     case 'SouthEast':
@@ -13230,12 +13209,10 @@
                     var tool = executeGroup[commandName];
                     if (option && option.undo && option.undo && 0 === this.formatter.getUndoRedoStack().length && this.formatter.saveData(), -1 !== this.maxLength && !(0, ej2_base /* isNullOrUndefined */ .le)(tool.command)) {
                         var currentInsertContentLength = 0;
-                        if ('Links' === tool.command && (currentInsertContentLength = 0 === value.text.length ? value.url.length : value.text.length), ('Images' === tool.command || 'Table' === tool.command || 'Files' === tool.command) && (currentInsertContentLength = 1), 'InsertHTML' === tool.command) {
-                            if ((0, ej2_base /* isNullOrUndefined */ .le)(value)) (0, ej2_base /* isNullOrUndefined */ .le)(tool.value) || '<hr/>' !== tool.value && '<br/>' !== tool.value || (currentInsertContentLength = 1);
-                            else {
-                                var tempElem = this.createElement('div');
-                                tempElem.innerHTML = value, currentInsertContentLength = tempElem.textContent.length;
-                            }
+                        if ('Links' === tool.command && (currentInsertContentLength = 0 === value.text.length ? value.url.length : value.text.length), ('Images' === tool.command || 'Table' === tool.command || 'Files' === tool.command) && (currentInsertContentLength = 1), 'InsertHTML' === tool.command) if ((0, ej2_base /* isNullOrUndefined */ .le)(value)) (0, ej2_base /* isNullOrUndefined */ .le)(tool.value) || '<hr/>' !== tool.value && '<br/>' !== tool.value || (currentInsertContentLength = 1);
+                        else {
+                            var tempElem = this.createElement('div');
+                            tempElem.innerHTML = value, currentInsertContentLength = tempElem.textContent.length;
                         }
                         'InsertText' === tool.command && (currentInsertContentLength = value.length);
                         var totalLength = this.getText().trim().length - this.getSelection().length + currentInsertContentLength;
@@ -13482,27 +13459,26 @@
                             }, 0), -1 === _this.maxLength || totalLength <= _this.maxLength || e.preventDefault();
                             return;
                         }
-                        if (!pasteArgs.cancel && 'true' === _this.inputElement.contentEditable && (-1 === _this.maxLength || totalLength <= _this.maxLength)) {
-                            if ((0, ej2_base /* isNullOrUndefined */ .le)(_this.pasteCleanupModule)) {
-                                var args_2 = {
-                                    requestType: 'Paste',
-                                    editorMode: _this.editorMode,
-                                    event: e
-                                }, value = null, htmlValue = !1;
-                                e && !(0, ej2_base /* isNullOrUndefined */ .le)(e.clipboardData) && (value = e.clipboardData.getData('text/plain'), htmlValue = e.clipboardData.getData('text/html').indexOf('MsoNormal') > 0);
-                                var file = e && e.clipboardData && e.clipboardData.items.length > 0 ? e.clipboardData.items[0].getAsFile() : null;
-                                null !== value && _this.notify(constant /* paste */ .RE, {
-                                    file: file,
-                                    args: e,
-                                    text: value,
-                                    isWordPaste: htmlValue
-                                }), setTimeout(function() {
-                                    _this.formatter.onSuccess(_this, args_2);
-                                }, 0);
-                            } else _this.notify(constant /* pasteClean */ .dI, {
-                                args: e
-                            });
-                        } else e.preventDefault();
+                        if (!pasteArgs.cancel && 'true' === _this.inputElement.contentEditable && (-1 === _this.maxLength || totalLength <= _this.maxLength)) if ((0, ej2_base /* isNullOrUndefined */ .le)(_this.pasteCleanupModule)) {
+                            var args_2 = {
+                                requestType: 'Paste',
+                                editorMode: _this.editorMode,
+                                event: e
+                            }, value = null, htmlValue = !1;
+                            e && !(0, ej2_base /* isNullOrUndefined */ .le)(e.clipboardData) && (value = e.clipboardData.getData('text/plain'), htmlValue = e.clipboardData.getData('text/html').indexOf('MsoNormal') > 0);
+                            var file = e && e.clipboardData && e.clipboardData.items.length > 0 ? e.clipboardData.items[0].getAsFile() : null;
+                            null !== value && _this.notify(constant /* paste */ .RE, {
+                                file: file,
+                                args: e,
+                                text: value,
+                                isWordPaste: htmlValue
+                            }), setTimeout(function() {
+                                _this.formatter.onSuccess(_this, args_2);
+                            }, 0);
+                        } else _this.notify(constant /* pasteClean */ .dI, {
+                            args: e
+                        });
+                        else e.preventDefault();
                     });
                 }, /**
      * @param {string} action - specifies the string value.
@@ -13895,22 +13871,21 @@
                     });
                     return styleEle.rel = 'stylesheet', styleEle;
                 }, RichTextEditor.prototype.setValue = function() {
-                    if (this.valueTemplate) {
-                        if (new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i).test(this.valueTemplate)) this.setProperties({
-                            value: this.valueTemplate
-                        });
-                        else {
-                            for(var compiledTemplate = (0, ej2_base /* compile */ .MY)(this.valueTemplate)('', this, 'valueTemplate'), i = 0; i < compiledTemplate.length; i++){
-                                var item = compiledTemplate[i];
-                                (0, ej2_base /* append */ .R3)([
-                                    item
-                                ], this.element);
-                            }
-                            this.setProperties({
-                                value: this.element.innerHTML.trim()
-                            });
+                    if (this.valueTemplate) if (new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i).test(this.valueTemplate)) this.setProperties({
+                        value: this.valueTemplate
+                    });
+                    else {
+                        for(var compiledTemplate = (0, ej2_base /* compile */ .MY)(this.valueTemplate)('', this, 'valueTemplate'), i = 0; i < compiledTemplate.length; i++){
+                            var item = compiledTemplate[i];
+                            (0, ej2_base /* append */ .R3)([
+                                item
+                            ], this.element);
                         }
-                    } else {
+                        this.setProperties({
+                            value: this.element.innerHTML.trim()
+                        });
+                    }
+                    else {
                         // eslint-disable-next-line
                         var innerHtml = !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.innerHTML) && this.element.innerHTML.replace(/<(\/?|\!?)(!--!--)>/g, '').trim();
                         '' !== innerHtml && ('TEXTAREA' === this.element.tagName ? this.setProperties({
@@ -14234,7 +14209,7 @@
                                 65
                             ], arrayKey = void 0, i = 0; i <= array.length - 1; i++)if (e.which === array[i]) {
                                 if (e.ctrlKey && 65 === e.which) return;
-                                if (65 !== e.which) {
+                                else if (65 !== e.which) {
                                     arrayKey = array[i];
                                     return;
                                 }
@@ -15309,14 +15284,12 @@
                             var parNode = document.createElement('p');
                             start.parentElement.insertBefore(parNode, start), parNode.appendChild(start), start = parNode.children[0];
                         }
-                        if ('TABLE' === start.tagName) {
-                            if (isTable = !0, '' === start.textContent) {
-                                var tdNode = start.querySelectorAll('td');
-                                start = tdNode[tdNode.length - 1], start = (0, ej2_base /* isNullOrUndefined */ .le)(start.childNodes[0]) ? start : start.childNodes[0];
-                            } else {
-                                for(var lastNode = start.lastChild; 3 !== lastNode.nodeType && '#text' !== lastNode.nodeName && 'BR' !== lastNode.nodeName;)lastNode = lastNode.lastChild;
-                                start = lastNode;
-                            }
+                        if ('TABLE' === start.tagName) if (isTable = !0, '' === start.textContent) {
+                            var tdNode = start.querySelectorAll('td');
+                            start = tdNode[tdNode.length - 1], start = (0, ej2_base /* isNullOrUndefined */ .le)(start.childNodes[0]) ? start : start.childNodes[0];
+                        } else {
+                            for(var lastNode = start.lastChild; 3 !== lastNode.nodeType && '#text' !== lastNode.nodeName && 'BR' !== lastNode.nodeName;)lastNode = lastNode.lastChild;
+                            start = lastNode;
                         }
                         for(var i = 0; i < config /* selfClosingTags.length */ .i7.length; i++)start = start.tagName !== config /* selfClosingTags */ .i7[i] || isTable ? start : start.parentNode;
                         if (3 === start.nodeType && '#text' === start.nodeName) this.replaceWith(start, this.marker(className, this.encode(start.textContent)));
@@ -15364,12 +15337,10 @@
                     var collectionNodes = [], selection = this.getSelection();
                     if (this.isEditorArea() && selection.rangeCount) for(var ranges = this.getRangePoint(), j = 0; j < ranges.length; j++){
                         var parentNode = void 0, range = ranges[j], startNode = this.getSelectedNode(range.startContainer, range.startOffset), endNode = this.getSelectedNode(range.endContainer, range.endOffset);
-                        if (this.isBlockNode(startNode) && 0 > collectionNodes.indexOf(startNode) && collectionNodes.push(startNode), (parentNode = this.blockParentNode(startNode)) && 0 > collectionNodes.indexOf(parentNode)) {
-                            if (IGNORE_BLOCK_TAGS.indexOf(parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === startNode.tagName || startNode.nodeType === Node.TEXT_NODE || startNode.classList.contains(markerClassName.startSelection) || startNode.classList.contains(markerClassName.endSelection))) {
-                                var tempNode = startNode.previousSibling && startNode.previousSibling.nodeType === Node.TEXT_NODE ? startNode.previousSibling : startNode;
-                                startNode.nextSibling || startNode.previousSibling || 'BR' !== startNode.tagName ? collectionNodes.push(this.createTempNode(tempNode)) : collectionNodes.push(tempNode);
-                            } else collectionNodes.push(parentNode);
-                        }
+                        if (this.isBlockNode(startNode) && 0 > collectionNodes.indexOf(startNode) && collectionNodes.push(startNode), (parentNode = this.blockParentNode(startNode)) && 0 > collectionNodes.indexOf(parentNode)) if (IGNORE_BLOCK_TAGS.indexOf(parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === startNode.tagName || startNode.nodeType === Node.TEXT_NODE || startNode.classList.contains(markerClassName.startSelection) || startNode.classList.contains(markerClassName.endSelection))) {
+                            var tempNode = startNode.previousSibling && startNode.previousSibling.nodeType === Node.TEXT_NODE ? startNode.previousSibling : startNode;
+                            startNode.nextSibling || startNode.previousSibling || 'BR' !== startNode.tagName ? collectionNodes.push(this.createTempNode(tempNode)) : collectionNodes.push(tempNode);
+                        } else collectionNodes.push(parentNode);
                         for(var nodes = [], node = startNode; node !== endNode && node !== this.parent;)0 > nodes.indexOf(node) && node.childNodes && node.childNodes.length ? (nodes.push(node), node = node.childNodes[0]) : node && 8 !== node.nodeType && ('BR' === node.tagName || node.nodeType === Node.TEXT_NODE && '' !== node.textContent.trim() || node.nodeType !== Node.TEXT_NODE && (node.classList.contains(markerClassName.startSelection) || node.classList.contains(markerClassName.endSelection))) && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node) : node.nextSibling && 8 !== node.nextSibling.nodeType && ('BR' === node.nextSibling.tagName || node.nextSibling.nodeType === Node.TEXT_NODE || node.nextSibling.classList.contains(markerClassName.startSelection) || node.nextSibling.classList.contains(markerClassName.endSelection)) && IGNORE_BLOCK_TAGS.indexOf(node.nextSibling.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node.nextSibling) : node.nextSibling ? node = node.nextSibling : node.parentNode && (node = node.parentNode, nodes.push(node)), 0 > collectionNodes.indexOf(node) && node.nodeType === Node.ELEMENT_NODE && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 && (node.classList.contains(markerClassName.startSelection) || node.classList.contains(markerClassName.endSelection)) && collectionNodes.push(this.createTempNode(node)), this.isBlockNode(node) && this.ignoreTableTag(node) && 0 > nodes.indexOf(node) && 0 > collectionNodes.indexOf(node) && (node !== endNode || range.endOffset > 0) && collectionNodes.push(node), 'IMG' === node.nodeName && 'true' === node.parentElement.contentEditable && collectionNodes.push(node);
                         (parentNode = this.blockParentNode(endNode)) && this.ignoreTableTag(parentNode) && 0 > collectionNodes.indexOf(parentNode) && !(0, ej2_base /* isNullOrUndefined */ .le)(parentNode.previousElementSibling) && 'IMG' !== parentNode.previousElementSibling.tagName && collectionNodes.push(parentNode);
                     }
@@ -15453,12 +15424,10 @@
                         if ('LI' === startNode.parentElement.tagName && 'LI' === endNode.parentElement.tagName) (0, ej2_base /* detach */ .og)(startNode);
                         else if (startNode.closest('ul') || startNode.closest('ol')) {
                             var parentList = (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ol') : startNode.closest('ul');
-                            if (parentList.firstElementChild === startNode && !(0, ej2_base /* isNullOrUndefined */ .le)(parentList.children[1]) && ('OL' === parentList.children[1].tagName || 'UL' === parentList.children[1].tagName)) {
-                                if (parentList.tagName === parentList.children[1].tagName) {
-                                    for(; parentList.children[1].lastChild;)this.parent.domNode.insertAfter(parentList.children[1].lastChild, parentList.children[1]);
-                                    (0, ej2_base /* detach */ .og)(parentList.children[1]);
-                                } else parentList.parentElement.insertBefore(parentList.children[1], parentList);
-                            }
+                            if (parentList.firstElementChild === startNode && !(0, ej2_base /* isNullOrUndefined */ .le)(parentList.children[1]) && ('OL' === parentList.children[1].tagName || 'UL' === parentList.children[1].tagName)) if (parentList.tagName === parentList.children[1].tagName) {
+                                for(; parentList.children[1].lastChild;)this.parent.domNode.insertAfter(parentList.children[1].lastChild, parentList.children[1]);
+                                (0, ej2_base /* detach */ .og)(parentList.children[1]);
+                            } else parentList.parentElement.insertBefore(parentList.children[1], parentList);
                         }
                     } else if (!(0, ej2_base /* isNullOrUndefined */ .le)(startNode.firstChild) && 'BR' === startNode.firstChild.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.childNodes[1]) && ('UL' === startNode.childNodes[1].nodeName || 'OL' === startNode.childNodes[1].nodeName)) {
                         var parentList = (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ol') : startNode.closest('ul');
@@ -15871,24 +15840,20 @@
                     if (isCollapsed) {
                         if (node = parent_1.childNodes[index], (fragment = this.spliceEmptyNode(fragment, !1)) && fragment.childNodes.length > 0) {
                             var isEmpty = !!(1 === fragment.childNodes.length && 'IMG' !== fragment.childNodes[0].nodeName && this.isImgElm(fragment)) && '' === fragment.textContent;
-                            if (!isEmpty) {
-                                if (node) InsertMethods.AppendBefore(fragment, node);
-                                else {
-                                    parent_1.appendChild(fragment);
-                                    var divNode = document.createElement('div');
-                                    divNode.innerHTML = '&#65279;&#65279;', node = divNode.firstChild, parent_1.appendChild(node);
-                                }
+                            if (!isEmpty) if (node) InsertMethods.AppendBefore(fragment, node);
+                            else {
+                                parent_1.appendChild(fragment);
+                                var divNode = document.createElement('div');
+                                divNode.innerHTML = '&#65279;&#65279;', node = divNode.firstChild, parent_1.appendChild(node);
                             }
                         }
                     } else if (node = parent_1.childNodes.length > 1 ? parent_1.childNodes[index] : parent_1.childNodes[0], (fragment = this.spliceEmptyNode(fragment, !0)) && fragment.childNodes.length > 0) {
                         var isEmpty = !!(1 === fragment.childNodes.length && 'IMG' !== fragment.childNodes[0].nodeName && this.isImgElm(fragment)) && '' === fragment.textContent;
-                        if (!isEmpty) {
-                            if (node) InsertMethods.AppendBefore(fragment, node, !0);
-                            else {
-                                parent_1.appendChild(fragment);
-                                var divNode = document.createElement('div');
-                                divNode.innerHTML = '&#65279;&#65279;', parent_1.insertBefore(divNode.firstChild, parent_1.firstChild), node = parent_1.firstChild;
-                            }
+                        if (!isEmpty) if (node) InsertMethods.AppendBefore(fragment, node, !0);
+                        else {
+                            parent_1.appendChild(fragment);
+                            var divNode = document.createElement('div');
+                            divNode.innerHTML = '&#65279;&#65279;', parent_1.insertBefore(divNode.firstChild, parent_1.firstChild), node = parent_1.firstChild;
                         }
                     }
                     return node;
@@ -15972,7 +15937,7 @@
                 }, Formats.prototype.onKeyDown = function(e) {
                     if (13 === e.event.which) {
                         var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), startCon = 0 === range.startContainer.textContent.length || 'PRE' === range.startContainer.nodeName ? range.startContainer : range.startContainer.parentElement, endCon = 0 === range.endContainer.textContent.length || 'PRE' === range.endContainer.nodeName ? range.endContainer : range.endContainer.parentElement, preElem = (0, ej2_base /* closest */ .oq)(startCon, 'pre'), endPreElem = (0, ej2_base /* closest */ .oq)(endCon, 'pre');
-                        if (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) || (0, ej2_base /* isNullOrUndefined */ .le)(preElem.parentElement) || 'LI' !== preElem.parentElement.tagName) && (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem) || !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && (0, ej2_base /* isNullOrUndefined */ .le)(endPreElem)) && (e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range), range = this.parent.nodeSelection.getRange(this.parent.currentDocument), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, endCon, 0)), 13 === e.event.which && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem))) {
+                        if (!(!(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem.parentElement) && 'LI' === preElem.parentElement.tagName) && (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem) || !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && (0, ej2_base /* isNullOrUndefined */ .le)(endPreElem)) && (e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range), range = this.parent.nodeSelection.getRange(this.parent.currentDocument), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, endCon, 0)), 13 === e.event.which && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem))) {
                             e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range);
                             var lastEmpty = (range = this.parent.nodeSelection.getRange(this.parent.currentDocument)).startContainer.childNodes[range.endOffset], lastBeforeBr = range.startContainer.childNodes[range.endOffset - 1], startParent = range.startContainer;
                             if (!(0, ej2_base /* isNullOrUndefined */ .le)(lastEmpty) && !(0, ej2_base /* isNullOrUndefined */ .le)(lastBeforeBr) && (0, ej2_base /* isNullOrUndefined */ .le)(lastEmpty.nextSibling) && 'BR' === lastEmpty.nodeName && 'BR' === lastBeforeBr.nodeName) this.paraFocus(range.startContainer, e.enterAction);
@@ -16014,14 +15979,13 @@
                 }, Formats.prototype.setCursorPosition = function(isEnd, preElem) {
                     var isEmpty = !1, markerElem = this.parent.editableElement.querySelector('.tempSpan'), mrkParentElem = markerElem.parentElement;
                     if (// eslint-disable-next-line
-                    '' === markerElem.parentNode.textContent ? isEmpty = !0 : this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), isEnd) {
-                        if (isEmpty) //Enter press when pre element is empty
-                        mrkParentElem === preElem ? (this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), (0, ej2_base /* detach */ .og)(markerElem)) : this.focusSelectionParent(markerElem, mrkParentElem);
-                        else {
-                            var brElm = (0, ej2_base /* createElement */ .az)('br');
-                            this.parent.domNode.insertAfter(brElm, markerElem), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), (0, ej2_base /* detach */ .og)(markerElem);
-                        }
-                    } else // eslint-disable-next-line
+                    '' === markerElem.parentNode.textContent ? isEmpty = !0 : this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), isEnd) if (isEmpty) //Enter press when pre element is empty
+                    mrkParentElem === preElem ? (this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), (0, ej2_base /* detach */ .og)(markerElem)) : this.focusSelectionParent(markerElem, mrkParentElem);
+                    else {
+                        var brElm = (0, ej2_base /* createElement */ .az)('br');
+                        this.parent.domNode.insertAfter(brElm, markerElem), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, markerElem, 0), (0, ej2_base /* detach */ .og)(markerElem);
+                    }
+                    else // eslint-disable-next-line
                     isEmpty ? this.focusSelectionParent(markerElem, mrkParentElem) : (0, ej2_base /* detach */ .og)(markerElem);
                 }, Formats.prototype.focusSelectionParent = function(markerElem, tempSpanPElem) {
                     (0, ej2_base /* detach */ .og)(markerElem), tempSpanPElem.innerHTML = '\u200B', this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, tempSpanPElem, 0);
@@ -16199,31 +16163,27 @@
                     var nodes = [];
                     return range.startOffset === range.endOffset && range.startContainer === range.endContainer && 'BR' != range.startContainer.nodeName && range.startContainer.childNodes.length > 0 && ('TD' === range.startContainer.nodeName || 3 !== range.startContainer.nodeType && node.classList && node.classList.contains('pasteContent')) ? nodes.push(range.startContainer.childNodes[range.endOffset]) : nodes = nodeSelection.getInsertNodeCollection(range), nodes;
                 }, InsertHtml.insertTempNode = function(range, node, nodes, nodeCutter, editNode) {
-                    if (range.startContainer !== editNode || (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset - 1]) || 'TABLE' !== range.startContainer.childNodes[range.endOffset - 1].nodeName) {
-                        if (range.startContainer !== editNode || (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset]) || 'TABLE' !== range.startContainer.childNodes[range.endOffset].nodeName) {
-                            if (range.startContainer === range.endContainer && 3 !== range.startContainer.nodeType && 'HR' === node.firstChild.nodeName) range.startContainer.classList.contains('e-content') || 'BODY' === range.startContainer.nodeName ? range.startContainer.appendChild(node) : range.startContainer.parentNode.insertBefore(node, range.startContainer);
-                            else {
-                                var blockNode = this.getImmediateBlockNode(nodes[nodes.length - 1], editNode);
-                                if (((0, ej2_base /* isNullOrUndefined */ .le)(blockNode) || (0, ej2_base /* isNullOrUndefined */ .le)(blockNode.parentElement)) && 3 !== range.endContainer.nodeType && (blockNode = range.endContainer, range.setEnd(blockNode, range.endContainer.textContent.length)), 'BODY' === blockNode.nodeName && range.startContainer === range.endContainer && 1 === range.startContainer.nodeType && (blockNode = range.startContainer), blockNode.closest('LI') && node && node.firstElementChild && ('OL' === node.firstElementChild.tagName || 'UL' === node.firstElementChild.tagName)) for(var liNode = void 0; node.firstElementChild.lastElementChild && 'LI' === node.firstElementChild.lastElementChild.tagName;)(liNode = node.firstElementChild.lastElementChild).style.removeProperty('margin-left'), liNode.style.removeProperty('margin-top'), liNode.style.removeProperty('margin-bottom'), node.firstElementChild.insertAdjacentElement('afterend', liNode);
-                                if ('TD' === blockNode.nodeName || 'TH' === blockNode.nodeName || 'TR' === blockNode.nodeName) {
-                                    var tempSpan = (0, ej2_base /* createElement */ .az)('span', {
-                                        className: 'tempSpan'
-                                    });
-                                    range.insertNode(tempSpan), tempSpan.parentNode.replaceChild(node, tempSpan);
-                                } else {
-                                    var nodeSelection = new selection /* NodeSelection */ .q(), currentNode = this.getNodeCollection(range, nodeSelection, node)[this.getNodeCollection(range, nodeSelection, node).length - 1], splitedElm = void 0;
-                                    if ('BR' !== currentNode.nodeName && 'HR' !== currentNode.nodeName && ('#text' !== currentNode.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 'LI' !== currentNode.parentElement.nodeName) || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 0 !== currentNode.parentElement.textContent.trim().length) {
-                                        if ('#text' === currentNode.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) && 'LI' === currentNode.parentElement.nodeName && currentNode.parentElement.textContent.trim().length > 0) {
-                                            splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling), range.collapsed || range.deleteContents(), range.insertNode(node), this.contentsDeleted = !0;
-                                            return;
-                                        }
-                                        splitedElm = nodeCutter.GetSpliceNode(range, blockNode);
-                                    } else splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling);
-                                    splitedElm.parentNode.replaceChild(node, splitedElm);
-                                }
-                            }
-                        } else range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset]);
-                    } else (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset - 1].nextSibling) ? range.startContainer.appendChild(node) : range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset - 1].nextSibling);
+                    if (range.startContainer !== editNode || (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset - 1]) || 'TABLE' !== range.startContainer.childNodes[range.endOffset - 1].nodeName) if (range.startContainer !== editNode || (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset]) || 'TABLE' !== range.startContainer.childNodes[range.endOffset].nodeName) if (range.startContainer === range.endContainer && 3 !== range.startContainer.nodeType && 'HR' === node.firstChild.nodeName) range.startContainer.classList.contains('e-content') || 'BODY' === range.startContainer.nodeName ? range.startContainer.appendChild(node) : range.startContainer.parentNode.insertBefore(node, range.startContainer);
+                    else {
+                        var blockNode = this.getImmediateBlockNode(nodes[nodes.length - 1], editNode);
+                        if (((0, ej2_base /* isNullOrUndefined */ .le)(blockNode) || (0, ej2_base /* isNullOrUndefined */ .le)(blockNode.parentElement)) && 3 !== range.endContainer.nodeType && (blockNode = range.endContainer, range.setEnd(blockNode, range.endContainer.textContent.length)), 'BODY' === blockNode.nodeName && range.startContainer === range.endContainer && 1 === range.startContainer.nodeType && (blockNode = range.startContainer), blockNode.closest('LI') && node && node.firstElementChild && ('OL' === node.firstElementChild.tagName || 'UL' === node.firstElementChild.tagName)) for(var liNode = void 0; node.firstElementChild.lastElementChild && 'LI' === node.firstElementChild.lastElementChild.tagName;)(liNode = node.firstElementChild.lastElementChild).style.removeProperty('margin-left'), liNode.style.removeProperty('margin-top'), liNode.style.removeProperty('margin-bottom'), node.firstElementChild.insertAdjacentElement('afterend', liNode);
+                        if ('TD' === blockNode.nodeName || 'TH' === blockNode.nodeName || 'TR' === blockNode.nodeName) {
+                            var tempSpan = (0, ej2_base /* createElement */ .az)('span', {
+                                className: 'tempSpan'
+                            });
+                            range.insertNode(tempSpan), tempSpan.parentNode.replaceChild(node, tempSpan);
+                        } else {
+                            var nodeSelection = new selection /* NodeSelection */ .q(), currentNode = this.getNodeCollection(range, nodeSelection, node)[this.getNodeCollection(range, nodeSelection, node).length - 1], splitedElm = void 0;
+                            if ('BR' !== currentNode.nodeName && 'HR' !== currentNode.nodeName && ('#text' !== currentNode.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 'LI' !== currentNode.parentElement.nodeName) || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 0 !== currentNode.parentElement.textContent.trim().length) if ('#text' === currentNode.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) && 'LI' === currentNode.parentElement.nodeName && currentNode.parentElement.textContent.trim().length > 0) {
+                                splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling), range.collapsed || range.deleteContents(), range.insertNode(node), this.contentsDeleted = !0;
+                                return;
+                            } else splitedElm = nodeCutter.GetSpliceNode(range, blockNode);
+                            else splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling);
+                            splitedElm.parentNode.replaceChild(node, splitedElm);
+                        }
+                    }
+                    else range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset]);
+                    else (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset - 1].nextSibling) ? range.startContainer.appendChild(node) : range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset - 1].nextSibling);
                 }, InsertHtml.cursorPos = function(lastSelectionNode, node, nodeSelection, docElement, editNode) {
                     lastSelectionNode.classList.add('lastNode'), editNode.innerHTML = (0, common_util /* updateTextNode */ .Hl)(editNode.innerHTML), lastSelectionNode = editNode.querySelector('.lastNode'), (0, ej2_base /* isNullOrUndefined */ .le)(lastSelectionNode) || (this.placeCursorEnd(lastSelectionNode, node, nodeSelection, docElement, editNode), lastSelectionNode.classList.remove('lastNode'), 0 === lastSelectionNode.classList.length && lastSelectionNode.removeAttribute('class'));
                 }, InsertHtml.imageFocus = function(node, nodeSelection, docElement) {
@@ -16380,18 +16340,14 @@
                             this.isBlockNode(currentNode.parentNode) || 0 === txtArray.length || 0 === i || i === txtArray.length - 1 || 3 === range.startContainer.nodeType ? (inlineNodes[i] = currentNode, check = !1) : currentNode = currentNode.parentNode;
                         }
                     }
-                    for(var i = 0, j_1 = 0; i < inlineNodes.length; i++)if (0 === i && (finalinlineNodes[j_1] = inlineNodes[i]), inlineNodes.length > 1 && i < inlineNodes.length - 1) {
-                        if (inlineNodes[i].parentElement === inlineNodes[i + 1].parentElement && inlineNodes[i] === inlineNodes[i + 1]) continue;
-                        finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
-                    }
+                    for(var i = 0, j_1 = 0; i < inlineNodes.length; i++)if (0 === i && (finalinlineNodes[j_1] = inlineNodes[i]), inlineNodes.length > 1 && i < inlineNodes.length - 1) if (inlineNodes[i].parentElement === inlineNodes[i + 1].parentElement && inlineNodes[i] === inlineNodes[i + 1]) continue;
+                    else finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
                     var j = 0;
                     anchorNodes[0] = this.createAchorNode(e);
-                    for(var i = 0; i < finalinlineNodes.length; i++)if (0 === i && (cloneNode = finalinlineNodes[i].cloneNode(!0), anchorNodes[i].appendChild(cloneNode)), i < finalinlineNodes.length - 1) {
-                        if (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode) {
-                            var cln = finalinlineNodes[i + 1].cloneNode(!0);
-                            anchorNodes[j].appendChild(cln);
-                        } else anchorNodes[j += 1] = this.createAchorNode(e), cloneNode = finalinlineNodes[i + 1].cloneNode(!0), anchorNodes[j].appendChild(cloneNode);
-                    }
+                    for(var i = 0; i < finalinlineNodes.length; i++)if (0 === i && (cloneNode = finalinlineNodes[i].cloneNode(!0), anchorNodes[i].appendChild(cloneNode)), i < finalinlineNodes.length - 1) if (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode) {
+                        var cln = finalinlineNodes[i + 1].cloneNode(!0);
+                        anchorNodes[j].appendChild(cln);
+                    } else anchorNodes[j += 1] = this.createAchorNode(e), cloneNode = finalinlineNodes[i + 1].cloneNode(!0), anchorNodes[j].appendChild(cloneNode);
                     this.parent.nodeSelection.setRange(document, save.range);
                     for(var i = 0, j_2 = 0, k = 0; i <= finalinlineNodes.length; i++)0 === i && (finalinlineNodes[i].parentNode.insertBefore(anchorNodes[j_2], finalinlineNodes[i].nextSibling), 1 === this.parent.domNode.blockNodes().length && this.parent.nodeSelection.setSelectionNode(this.parent.currentDocument, anchorNodes[j_2]), removeNodes[k] = finalinlineNodes[i], k++), i < finalinlineNodes.length - 1 && (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode || (j_2 += 1, finalinlineNodes[i + 1].parentNode.insertBefore(anchorNodes[j_2], finalinlineNodes[i + 1])), removeNodes[k] = finalinlineNodes[i + 1], k++);
                     for(var i = 0; i < removeNodes.length; i++)removeNodes[i].parentNode && removeNodes[i].parentNode.removeChild(removeNodes[i]);
@@ -17382,14 +17338,12 @@
                             var regEx = RegExp(String.fromCharCode(8203), 'g'), emptySpaceNode = void 0;
                             cursorFormat.firstChild === cursorNode ? (cursorNode.textContent = cursorFormat.parentElement && (domNode.isBlockNode(cursorFormat.parentElement) && cursorFormat.parentElement.textContent.length <= 1 ? cursorFormat.parentElement.childElementCount > 1 : 0 === cursorFormat.childElementCount) && (cursorFormat.parentElement.textContent.length > 1 || cursorFormat.parentElement.firstChild && 1 === cursorFormat.parentElement.firstChild.nodeType) ? cursorNode.textContent : cursorNode.textContent.replace(regEx, ''), emptySpaceNode = cursorNode) : (cursorFormat.firstChild.textContent = cursorFormat.firstChild.textContent.replace(regEx, ''), emptySpaceNode = cursorFormat.firstChild);
                             var pointer = void 0;
-                            if (0 === emptySpaceNode.textContent.length) {
-                                if ((0, ej2_base /* isNullOrUndefined */ .le)(emptySpaceNode.previousSibling)) {
-                                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(emptySpaceNode.parentElement) && 0 === emptySpaceNode.parentElement.textContent.length) {
-                                        var brElem = document.createElement('BR');
-                                        emptySpaceNode.parentElement.appendChild(brElem), (0, ej2_base /* detach */ .og)(emptySpaceNode), cursorNode = brElem, domSelection.setCursorPoint(docElement, cursorNode.parentElement, 0);
-                                    }
-                                } else cursorNode = emptySpaceNode.previousSibling, pointer = emptySpaceNode.textContent.length - 1, domSelection.setCursorPoint(docElement, emptySpaceNode, pointer);
-                            }
+                            if (0 === emptySpaceNode.textContent.length) if ((0, ej2_base /* isNullOrUndefined */ .le)(emptySpaceNode.previousSibling)) {
+                                if (!(0, ej2_base /* isNullOrUndefined */ .le)(emptySpaceNode.parentElement) && 0 === emptySpaceNode.parentElement.textContent.length) {
+                                    var brElem = document.createElement('BR');
+                                    emptySpaceNode.parentElement.appendChild(brElem), (0, ej2_base /* detach */ .og)(emptySpaceNode), cursorNode = brElem, domSelection.setCursorPoint(docElement, cursorNode.parentElement, 0);
+                                }
+                            } else cursorNode = emptySpaceNode.previousSibling, pointer = emptySpaceNode.textContent.length - 1, domSelection.setCursorPoint(docElement, emptySpaceNode, pointer);
                         }
                         [
                             'fontcolor',
@@ -17413,12 +17367,10 @@
                             lastNode.innerHTML = '&#8203;', nodes[index] = lastNode.firstChild;
                         } else {
                             for(; cloneNode && cloneNode.childNodes.length > 0 && nodeIndex.length - 1 >= 0 && cloneNode.childNodes.length > nodeIndex[nodeIndex.length - 1];)cloneNode = cloneNode.childNodes[nodeIndex[nodeIndex.length - 1]], nodeIndex.pop();
-                            if ('BR' !== nodes[index].nodeName) {
-                                if (3 !== cloneNode.nodeType || isCursor && '' === cloneNode.nodeValue) {
-                                    var divNode = document.createElement('div');
-                                    divNode.innerHTML = '&#8203;', 3 !== cloneNode.nodeType ? (cloneNode.insertBefore(divNode.firstChild, cloneNode.firstChild), nodes[index] = cloneNode.firstChild) : (cloneNode.parentNode.insertBefore(divNode.firstChild, cloneNode), nodes[index] = cloneNode.previousSibling, cloneNode.parentNode.removeChild(cloneNode));
-                                } else nodes[index] = cloneNode;
-                            }
+                            if ('BR' !== nodes[index].nodeName) if (3 !== cloneNode.nodeType || isCursor && '' === cloneNode.nodeValue) {
+                                var divNode = document.createElement('div');
+                                divNode.innerHTML = '&#8203;', 3 !== cloneNode.nodeType ? (cloneNode.insertBefore(divNode.firstChild, cloneNode.firstChild), nodes[index] = cloneNode.firstChild) : (cloneNode.parentNode.insertBefore(divNode.firstChild, cloneNode), nodes[index] = cloneNode.previousSibling, cloneNode.parentNode.removeChild(cloneNode));
+                            } else nodes[index] = cloneNode;
                         }
                     }
                     if ('backgroundcolor' === format && (fontStyle = formatNode.style.fontSize), 'fontsize' === format) {
@@ -17426,7 +17378,7 @@
                         (0, ej2_base /* isNullOrUndefined */ .le)(bg) || (bgStyle = bg.style.backgroundColor);
                     }
                     var formatNodeStyles = formatNode.getAttribute('style'), formatNodeTagName = formatNode.tagName, child = InsertMethods.unwrap(formatNode);
-                    if (child[0] && !isFontStyle) for(var nodeTraverse = child[index] ? child[index] : child[0], textNode = nodeTraverse; nodeTraverse && nodeTraverse.parentElement && nodeTraverse.parentElement !== endNode; nodeTraverse){
+                    if (child[0] && !isFontStyle) for(var nodeTraverse = child[index] ? child[index] : child[0], textNode = nodeTraverse; nodeTraverse && nodeTraverse.parentElement && nodeTraverse.parentElement !== endNode;){
                         var nodeTraverseCondition = void 0;
                         if (nodeTraverseCondition = 'SPAN' === formatNode.nodeName ? nodeTraverse.parentElement.tagName.toLocaleLowerCase() === formatNode.tagName.toLocaleLowerCase() && nodeTraverse.parentElement.getAttribute('style') === formatNodeStyles : nodeTraverse.parentElement.tagName.toLocaleLowerCase() === formatNode.tagName.toLocaleLowerCase(), nodeTraverse.parentElement && nodeTraverseCondition && (nodeTraverse.parentElement.childElementCount > 1 || range.startOffset > 1)) {
                             if (textNode.parentElement && textNode.parentElement.tagName.toLocaleLowerCase() === formatNode.tagName.toLocaleLowerCase() && range.startOffset === range.endOffset && 1 !== textNode.nodeType && !(0, ej2_base /* isNullOrUndefined */ .le)(textNode.textContent) && textNode.parentElement.childElementCount > 1 && (range.setStart(textNode, 0), range.setEnd(textNode, textNode.textContent.length), nodeCutter.SplitNode(range, textNode.parentElement, !1)), 'span' === nodeTraverse.parentElement.tagName.toLocaleLowerCase() && 'underline' === formatNode.style.textDecoration && 'underline' !== nodeTraverse.parentElement.style.textDecoration) {
@@ -17450,12 +17402,11 @@
                     }
                     return nodes[index];
                 }, SelectionCommands.insertFormat = function(docElement, nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value) {
-                    if (isCursor) {
-                        if ('uppercase' !== format && 'lowercase' !== format) {
-                            var element = this.getInsertNode(docElement, range, format, value);
-                            nodes[index] = element.firstChild, nodeCutter.position = 1;
-                        } else nodeCutter.position = range.startOffset;
-                    } else if (null === formatNode && isFormat || isFontStyle) {
+                    if (isCursor) if ('uppercase' !== format && 'lowercase' !== format) {
+                        var element = this.getInsertNode(docElement, range, format, value);
+                        nodes[index] = element.firstChild, nodeCutter.position = 1;
+                    } else nodeCutter.position = range.startOffset;
+                    else if (null === formatNode && isFormat || isFontStyle) {
                         if ('BR' !== nodes[index].nodeName && (nodes[index] = nodeCutter.GetSpliceNode(range, nodes[index]), nodes[index].textContent = nodeCutter.TrimLineBreak(nodes[index].textContent)), 'uppercase' === format || 'lowercase' === format) nodes[index].textContent = 'uppercase' === format ? nodes[index].textContent.toLocaleUpperCase() : nodes[index].textContent.toLocaleLowerCase();
                         else if (!0 !== isFontStyle || '' !== value) {
                             var element = this.GetFormatNode(format, value);
@@ -18205,21 +18156,19 @@
                         var pElement = (0, ej2_base /* createElement */ .az)('p');
                         if (pElement.innerHTML = collection[index].content.join(' '), 1 === collection[index].nestedLevel && 0 === listCount && collection[index].content) root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
                         else if (collection[index].nestedLevel === pLevel) prevList.parentElement.tagName.toLowerCase() === collection[index].listType ? (prevList.parentElement.appendChild(prevList = (0, ej2_base /* createElement */ .az)('li')), prevList.appendChild(pElement)) : ((temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)).style.listStyleType = collection[index].listStyleTypeName, prevList.parentElement.parentElement.appendChild(temp), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()));
-                        else if (collection[index].nestedLevel > pLevel) {
-                            if ((0, ej2_base /* isNullOrUndefined */ .le)(prevList)) root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
-                            else {
-                                for(var j = 0; j < collection[index].nestedLevel - pLevel; j++)prevList.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), prevList = (0, ej2_base /* createElement */ .az)('li'), j != collection[index].nestedLevel - pLevel - 1 && collection[index].nestedLevel - pLevel > 1 && (prevList.style.listStyleType = "none"), temp.appendChild(prevList);
-                                prevList.appendChild(pElement), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
-                            }
-                        } else if (1 === collection[index].nestedLevel) root.lastChild.tagName.toLowerCase() === collection[index].listType ? temp = root.lastChild : (root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), temp.style.listStyleType = collection[index].listStyleTypeName), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString());
-                        else for(elem = prevList; elem.parentElement;)if ((elem = elem.parentElement).attributes.getNamedItem('level')) {
-                            // eslint-disable-next-line
+                        else if (collection[index].nestedLevel > pLevel) if ((0, ej2_base /* isNullOrUndefined */ .le)(prevList)) root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
+                        else {
+                            for(var j = 0; j < collection[index].nestedLevel - pLevel; j++)prevList.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), prevList = (0, ej2_base /* createElement */ .az)('li'), j != collection[index].nestedLevel - pLevel - 1 && collection[index].nestedLevel - pLevel > 1 && (prevList.style.listStyleType = "none"), temp.appendChild(prevList);
+                            prevList.appendChild(pElement), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
+                        }
+                        else if (1 === collection[index].nestedLevel) root.lastChild.tagName.toLowerCase() === collection[index].listType ? temp = root.lastChild : (root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), temp.style.listStyleType = collection[index].listStyleTypeName), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString());
+                        else for(elem = prevList; elem.parentElement;)if ((elem = elem.parentElement).attributes.getNamedItem('level')) // eslint-disable-next-line
+                        {
                             if (parseInt(elem.attributes.getNamedItem('level').textContent, null) === collection[index].nestedLevel) {
                                 (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), elem.appendChild(prevList);
                                 break;
                             // eslint-disable-next-line
-                            }
-                            if (collection[index].nestedLevel > parseInt(elem.attributes.getNamedItem('level').textContent, null)) {
+                            } else if (collection[index].nestedLevel > parseInt(elem.attributes.getNamedItem('level').textContent, null)) {
                                 elem.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
                                 break;
                             }
@@ -19089,14 +19038,12 @@
                     var currentRange, _this = this, args = e.args;
                     if ('chrome' === ej2_base /* Browser.info.name */ .AR.info.name && (currentRange = this.parent.getRange(), this.backSpaceCleanup(e, currentRange), this.deleteCleanup(e, currentRange)), 9 === args.keyCode && this.parent.enableTabKey && !(0, ej2_base /* isNullOrUndefined */ .le)(args.target) && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(args.target, '.e-rte-toolbar'))) {
                         var range = this.nodeSelectionObj.getRange(this.contentRenderer.getDocument()), parentNode = this.nodeSelectionObj.getParentNodeCollection(range);
-                        if (!(('LI' === parentNode[0].nodeName || (0, ej2_base /* closest */ .oq)(parentNode[0], 'li') || (0, ej2_base /* closest */ .oq)(parentNode[0], 'table')) && 0 === range.startOffset)) {
-                            if (args.preventDefault(), args.shiftKey) {
-                                if (this.rangeCollection.length > 0 && 4 === this.rangeCollection[this.rangeCollection.length - 1].startContainer.textContent.length) {
-                                    var textCont = this.rangeCollection[this.rangeCollection.length - 1].startContainer;
-                                    this.nodeSelectionObj.setSelectionText(this.contentRenderer.getDocument(), textCont, textCont, 0, textCont.textContent.length), InsertHtml.Insert(this.contentRenderer.getDocument(), document.createTextNode('')), this.rangeCollection.pop();
-                                }
-                            } else InsertHtml.Insert(this.contentRenderer.getDocument(), '&nbsp;&nbsp;&nbsp;&nbsp;'), this.rangeCollection.push(this.nodeSelectionObj.getRange(this.contentRenderer.getDocument()));
-                        }
+                        if (!(('LI' === parentNode[0].nodeName || (0, ej2_base /* closest */ .oq)(parentNode[0], 'li') || (0, ej2_base /* closest */ .oq)(parentNode[0], 'table')) && 0 === range.startOffset)) if (args.preventDefault(), args.shiftKey) {
+                            if (this.rangeCollection.length > 0 && 4 === this.rangeCollection[this.rangeCollection.length - 1].startContainer.textContent.length) {
+                                var textCont = this.rangeCollection[this.rangeCollection.length - 1].startContainer;
+                                this.nodeSelectionObj.setSelectionText(this.contentRenderer.getDocument(), textCont, textCont, 0, textCont.textContent.length), InsertHtml.Insert(this.contentRenderer.getDocument(), document.createTextNode('')), this.rangeCollection.pop();
+                            }
+                        } else InsertHtml.Insert(this.contentRenderer.getDocument(), '&nbsp;&nbsp;&nbsp;&nbsp;'), this.rangeCollection.push(this.nodeSelectionObj.getRange(this.contentRenderer.getDocument()));
                     }
                     if (('space' === e.args.action || 'enter' === e.args.action || 13 === e.args.keyCode) && (this.spaceLink(e.args), 'HTML' === this.parent.editorMode && !this.parent.readonly)) {
                         var currentLength = this.parent.getText().trim().length, selectionLength = this.parent.getSelection().length;
@@ -19202,7 +19149,8 @@
                     return element.lastElementChild ? 'BR' === element.lastElementChild.tagName ? element.lastElementChild.previousElementSibling ? element.lastElementChild.previousElementSibling : element : element.lastElementChild : element;
                 }, HtmlEditor.prototype.getRootBlockNode = function(rangeBlockNode) {
                     // eslint-disable-next-line
-                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode && rangeBlockNode.parentElement !== this.parent.inputElement; rangeBlockNode)rangeBlockNode = rangeBlockNode.parentElement;
+                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode;)if (rangeBlockNode.parentElement === this.parent.inputElement) break;
+                    else rangeBlockNode = rangeBlockNode.parentElement;
                     return rangeBlockNode;
                 }, HtmlEditor.prototype.getRangeLiNode = function(rangeLiNode) {
                     for(var node = rangeLiNode.parentElement; node !== this.parent.inputElement && (1 !== node.nodeType || 'LI' !== node.tagName);)node = node.parentElement;
@@ -19839,7 +19787,7 @@
                         var container3, template = (0, ej2_base /* isNullOrUndefined */ .le)(args.template) ? null : args.template;
                         container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base /* isNullOrUndefined */ .le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
-                    container.wrap.classList.add(CLS_HIDESPIN);
+                    container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
             }
             /**
@@ -20423,17 +20371,15 @@
                 }, Uploader.prototype.updateHTMLAttrToWrapper = function() {
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.htmlAttributes)) for(var _i = 0, _a = Object.keys(this.htmlAttributes); _i < _a.length; _i++){
                         var pro = _a[_i];
-                        if (wrapperAttr.indexOf(pro) > -1) {
-                            if ('class' === pro) {
-                                var updatedClassValues = this.htmlAttributes[pro].replace(/\s+/g, ' ').trim();
-                                '' !== updatedClassValues && (0, ej2_base /* addClass */ .cn)([
-                                    this.uploadWrapper
-                                ], updatedClassValues.split(' '));
-                            } else if ('style' === pro) {
-                                var uploadStyle = this.uploadWrapper.getAttribute(pro);
-                                uploadStyle = (0, ej2_base /* isNullOrUndefined */ .le)(uploadStyle) ? this.htmlAttributes[pro] : uploadStyle + this.htmlAttributes[pro], this.uploadWrapper.setAttribute(pro, uploadStyle);
-                            } else this.uploadWrapper.setAttribute(pro, this.htmlAttributes[pro]);
-                        }
+                        if (wrapperAttr.indexOf(pro) > -1) if ('class' === pro) {
+                            var updatedClassValues = this.htmlAttributes[pro].replace(/\s+/g, ' ').trim();
+                            '' !== updatedClassValues && (0, ej2_base /* addClass */ .cn)([
+                                this.uploadWrapper
+                            ], updatedClassValues.split(' '));
+                        } else if ('style' === pro) {
+                            var uploadStyle = this.uploadWrapper.getAttribute(pro);
+                            uploadStyle = (0, ej2_base /* isNullOrUndefined */ .le)(uploadStyle) ? this.htmlAttributes[pro] : uploadStyle + this.htmlAttributes[pro], this.uploadWrapper.setAttribute(pro, uploadStyle);
+                        } else this.uploadWrapper.setAttribute(pro, this.htmlAttributes[pro]);
                     }
                 }, Uploader.prototype.setMultipleSelection = function() {
                     if (this.multiple && !this.element.hasAttribute('multiple')) {
@@ -20667,15 +20613,14 @@
                     }, this_2 = this, i = 0; i < this.filesEntries.length; i++)_loop_4(i);
                 }, Uploader.prototype.onSelectFiles = function(args) {
                     if (this.enabled) {
-                        /* istanbul ignore next */ if ('drop' === args.type) {
-                            if (this.directoryUpload) this.getFilesFromFolder(args);
-                            else {
-                                var targetFiles, files = this.sortFilesList = args.dataTransfer.files;
-                                'msie' !== this.browserName && 'edge' !== this.browserName && 'safari' !== this.browserName && (this.element.files = files), files.length > 0 && (targetFiles = this.multiple ? this.sortFileList(files) : [
-                                    files[0]
-                                ], this.renderSelectedFiles(args, targetFiles));
-                            }
-                        } else targetFiles = [].slice.call(args.target.files), this.renderSelectedFiles(args, targetFiles);
+                        /* istanbul ignore next */ if ('drop' === args.type) if (this.directoryUpload) this.getFilesFromFolder(args);
+                        else {
+                            var targetFiles, files = this.sortFilesList = args.dataTransfer.files;
+                            'msie' !== this.browserName && 'edge' !== this.browserName && 'safari' !== this.browserName && (this.element.files = files), files.length > 0 && (targetFiles = this.multiple ? this.sortFileList(files) : [
+                                files[0]
+                            ], this.renderSelectedFiles(args, targetFiles));
+                        }
+                        else targetFiles = [].slice.call(args.target.files), this.renderSelectedFiles(args, targetFiles);
                         this.isAngular && args.stopPropagation();
                     }
                 }, /* istanbul ignore next */ Uploader.prototype.getBase64 = function(file) {
@@ -20953,64 +20898,63 @@
      * @param { FileInfo[] } fileData - Specifies the files data for file list creation.
      * @returns {void}
      */ Uploader.prototype.createFileList = function(fileData, isSelectedFile) {
-                    if (/* eslint-enable valid-jsdoc, jsdoc/require-param */ this.createParentUL(), '' === this.template || (0, ej2_base /* isNullOrUndefined */ .le)(this.template)) {
-                        if (this.isFormUpload()) this.uploadWrapper.classList.add(FORM_UPLOAD), this.formFileList(fileData, this.element.files);
-                        else for(var _i = 0; _i < fileData.length; _i++){
-                            var listItem = fileData[_i], liElement = this.createElement('li', {
-                                className: FILE,
-                                attrs: {
-                                    'data-file-name': listItem.name,
-                                    'data-files-count': '1'
-                                }
-                            }), textContainer = this.createElement('span', {
-                                className: TEXT_CONTAINER
-                            }), textElement = this.createElement('span', {
-                                className: FILE_NAME,
-                                attrs: {
-                                    title: listItem.name
-                                }
+                    if (/* eslint-enable valid-jsdoc, jsdoc/require-param */ this.createParentUL(), '' === this.template || (0, ej2_base /* isNullOrUndefined */ .le)(this.template)) if (this.isFormUpload()) this.uploadWrapper.classList.add(FORM_UPLOAD), this.formFileList(fileData, this.element.files);
+                    else for(var _i = 0; _i < fileData.length; _i++){
+                        var listItem = fileData[_i], liElement = this.createElement('li', {
+                            className: FILE,
+                            attrs: {
+                                'data-file-name': listItem.name,
+                                'data-files-count': '1'
+                            }
+                        }), textContainer = this.createElement('span', {
+                            className: TEXT_CONTAINER
+                        }), textElement = this.createElement('span', {
+                            className: FILE_NAME,
+                            attrs: {
+                                title: listItem.name
+                            }
+                        });
+                        textElement.innerHTML = this.getFileNameOnly(listItem.name);
+                        var fileExtension = this.createElement('span', {
+                            className: FILE_TYPE
+                        }), fileType = this.getFileType(listItem.name);
+                        if (fileExtension.innerHTML = '.' + fileType, fileType || fileExtension.classList.add('e-hidden'), this.enableRtl) {
+                            var rtlContainer = this.createElement('span', {
+                                className: RTL_CONTAINER
                             });
-                            textElement.innerHTML = this.getFileNameOnly(listItem.name);
-                            var fileExtension = this.createElement('span', {
-                                className: FILE_TYPE
-                            }), fileType = this.getFileType(listItem.name);
-                            if (fileExtension.innerHTML = '.' + fileType, fileType || fileExtension.classList.add('e-hidden'), this.enableRtl) {
-                                var rtlContainer = this.createElement('span', {
-                                    className: RTL_CONTAINER
-                                });
-                                rtlContainer.appendChild(fileExtension), rtlContainer.appendChild(textElement), textContainer.appendChild(rtlContainer);
-                            } else textContainer.appendChild(textElement), textContainer.appendChild(fileExtension);
-                            var fileSize = this.createElement('span', {
-                                className: FILE_SIZE
-                            });
-                            fileSize.innerHTML = this.bytesToSize(listItem.size), textContainer.appendChild(fileSize);
-                            var statusElement = this.createElement('span', {
-                                className: STATUS
-                            });
-                            textContainer.appendChild(statusElement), statusElement.innerHTML = listItem.status, liElement.appendChild(textContainer);
-                            var iconElement = this.createElement('span', {
-                                className: ' e-icons',
-                                attrs: {
-                                    tabindex: this.btnTabIndex
-                                }
-                            });
-                            'msie' === this.browserName && iconElement.classList.add('e-msie'), iconElement.setAttribute('title', this.localizedTexts('remove')), liElement.appendChild(iconElement), ej2_base /* EventHandler.add */ .bi.add(iconElement, 'click', this.removeFiles, this), '2' === listItem.statusCode ? (statusElement.classList.add(UPLOAD_SUCCESS), iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', this.localizedTexts('delete'))) : '1' !== listItem.statusCode && (statusElement.classList.remove(UPLOAD_SUCCESS), statusElement.classList.add(VALIDATION_FAILS)), this.autoUpload && '1' === listItem.statusCode && '' !== this.asyncSettings.saveUrl && (statusElement.innerHTML = ''), iconElement.classList.contains(DELETE_ICON) || iconElement.classList.add(REMOVE_ICON);
-                            var index = fileData.indexOf(listItem), eventArgs = {
-                                element: liElement,
-                                fileInfo: listItem,
-                                index: index,
-                                isPreload: this.isPreLoadFile(listItem)
-                            }, eventsArgs = {
-                                element: liElement,
-                                fileInfo: listItem,
-                                index: index,
-                                isPreload: this.isPreLoadFile(listItem)
-                            };
-                            this.trigger('rendering', eventArgs), this.trigger('fileListRendering', eventsArgs), this.listParent.appendChild(liElement), this.fileList.push(liElement), this.truncateName(textElement);
-                            var preventActionComplete = this.flag;
-                            this.isPreLoadFile(listItem) && (this.flag = !1, this.checkActionComplete(!0), this.flag = preventActionComplete);
-                        }
-                    } else this.isFormUpload() ? (this.uploadWrapper.classList.add(FORM_UPLOAD), this.formCustomFileList(fileData, this.element.files)) : this.createCustomfileList(fileData);
+                            rtlContainer.appendChild(fileExtension), rtlContainer.appendChild(textElement), textContainer.appendChild(rtlContainer);
+                        } else textContainer.appendChild(textElement), textContainer.appendChild(fileExtension);
+                        var fileSize = this.createElement('span', {
+                            className: FILE_SIZE
+                        });
+                        fileSize.innerHTML = this.bytesToSize(listItem.size), textContainer.appendChild(fileSize);
+                        var statusElement = this.createElement('span', {
+                            className: STATUS
+                        });
+                        textContainer.appendChild(statusElement), statusElement.innerHTML = listItem.status, liElement.appendChild(textContainer);
+                        var iconElement = this.createElement('span', {
+                            className: ' e-icons',
+                            attrs: {
+                                tabindex: this.btnTabIndex
+                            }
+                        });
+                        'msie' === this.browserName && iconElement.classList.add('e-msie'), iconElement.setAttribute('title', this.localizedTexts('remove')), liElement.appendChild(iconElement), ej2_base /* EventHandler.add */ .bi.add(iconElement, 'click', this.removeFiles, this), '2' === listItem.statusCode ? (statusElement.classList.add(UPLOAD_SUCCESS), iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', this.localizedTexts('delete'))) : '1' !== listItem.statusCode && (statusElement.classList.remove(UPLOAD_SUCCESS), statusElement.classList.add(VALIDATION_FAILS)), this.autoUpload && '1' === listItem.statusCode && '' !== this.asyncSettings.saveUrl && (statusElement.innerHTML = ''), iconElement.classList.contains(DELETE_ICON) || iconElement.classList.add(REMOVE_ICON);
+                        var index = fileData.indexOf(listItem), eventArgs = {
+                            element: liElement,
+                            fileInfo: listItem,
+                            index: index,
+                            isPreload: this.isPreLoadFile(listItem)
+                        }, eventsArgs = {
+                            element: liElement,
+                            fileInfo: listItem,
+                            index: index,
+                            isPreload: this.isPreLoadFile(listItem)
+                        };
+                        this.trigger('rendering', eventArgs), this.trigger('fileListRendering', eventsArgs), this.listParent.appendChild(liElement), this.fileList.push(liElement), this.truncateName(textElement);
+                        var preventActionComplete = this.flag;
+                        this.isPreLoadFile(listItem) && (this.flag = !1, this.checkActionComplete(!0), this.flag = preventActionComplete);
+                    }
+                    else this.isFormUpload() ? (this.uploadWrapper.classList.add(FORM_UPLOAD), this.formCustomFileList(fileData, this.element.files)) : this.createCustomfileList(fileData);
                 }, Uploader.prototype.getSlicedName = function(nameElement) {
                     var text = nameElement.textContent;
                     nameElement.dataset.tail = text.slice(text.length - 10);
@@ -21059,12 +21003,10 @@
                     });
                     progressbarText.textContent = '0%', progressbarInnerWrapper.appendChild(progressBar), progressbarWrapper.appendChild(progressbarInnerWrapper), progressbarWrapper.appendChild(progressbarText), liElement.querySelector('.' + TEXT_CONTAINER).appendChild(progressbarWrapper);
                 }, /* istanbul ignore next */ Uploader.prototype.updateProgressbar = function(e, li) {
-                    if (!isNaN(Math.round(e.loaded / e.total * 100)) && !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + PROGRESSBAR))) {
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(this.progressInterval) || '' === this.progressInterval) this.changeProgressValue(li, Math.round(e.loaded / e.total * 100).toString() + '%');
-                        else {
-                            var value = Math.round(e.loaded / e.total * 100) % parseInt(this.progressInterval, 10);
-                            (0 === value || 100 === value) && this.changeProgressValue(li, Math.round(e.loaded / e.total * 100).toString() + '%');
-                        }
+                    if (!isNaN(Math.round(e.loaded / e.total * 100)) && !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + PROGRESSBAR))) if ((0, ej2_base /* isNullOrUndefined */ .le)(this.progressInterval) || '' === this.progressInterval) this.changeProgressValue(li, Math.round(e.loaded / e.total * 100).toString() + '%');
+                    else {
+                        var value = Math.round(e.loaded / e.total * 100) % parseInt(this.progressInterval, 10);
+                        (0 === value || 100 === value) && this.changeProgressValue(li, Math.round(e.loaded / e.total * 100).toString() + '%');
                     }
                 }, Uploader.prototype.changeProgressValue = function(li, progressValue) {
                     li.querySelector('.' + PROGRESSBAR).setAttribute('style', 'width:' + progressValue), li.querySelector('.' + PROGRESSBAR_TEXT).textContent = progressValue;
@@ -21444,29 +21386,27 @@
                     };
                     this.trigger('chunkFailure', eventArgs, function(eventArgs) {
                         // To prevent triggering of failure event
-                        if (!eventArgs.cancel) {
-                            if (metaData.retryCount < _this.asyncSettings.retryCount) setTimeout(function() {
-                                _this.retryRequest(liElement, metaData, custom);
-                            }, _this.asyncSettings.retryAfterDelay);
-                            else {
-                                if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
-                                    var pauseButton = liElement.querySelector('.' + PAUSE_UPLOAD) ? liElement.querySelector('.' + PAUSE_UPLOAD) : liElement.querySelector('.' + RESUME_UPLOAD);
-                                    (0, ej2_base /* isNullOrUndefined */ .le)(pauseButton) || (pauseButton.classList.add(RETRY_ICON), pauseButton.classList.remove(PAUSE_UPLOAD, RESUME_UPLOAD)), _this.updateProgressBarClasses(liElement, UPLOAD_FAILED), _this.removeProgressbar(liElement, 'failure'), liElement.querySelector('.e-icons').classList.remove(UPLOAD_INPROGRESS);
-                                    var iconElement = liElement.querySelector('.' + ABORT_ICON) ? liElement.querySelector('.' + ABORT_ICON) : liElement.querySelector('.' + REMOVE_ICON);
-                                    iconElement.classList.remove(ABORT_ICON), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + PAUSE_UPLOAD)) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + PAUSE_UPLOAD)), metaData.start > 0 ? (iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', _this.localizedTexts('delete'))) : (iconElement.classList.add(REMOVE_ICON), iconElement.setAttribute('title', _this.localizedTexts('remove')));
-                                }
-                                metaData.retryCount = 0;
-                                var file_1 = metaData.file, failureMessage = _this.localizedTexts('uploadFailedMessage'), args = {
-                                    e: e,
-                                    response: requestResponse,
-                                    operation: 'upload',
-                                    file: _this.updateStatus(file_1, failureMessage, '0', !1),
-                                    statusText: failureMessage
-                                };
-                                _this.trigger('failure', args, function(args) {
-                                    _this.updateStatus(file_1, args.statusText, '0'), _this.uploadSequential(), _this.checkActionComplete(!0);
-                                });
+                        if (!eventArgs.cancel) if (metaData.retryCount < _this.asyncSettings.retryCount) setTimeout(function() {
+                            _this.retryRequest(liElement, metaData, custom);
+                        }, _this.asyncSettings.retryAfterDelay);
+                        else {
+                            if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
+                                var pauseButton = liElement.querySelector('.' + PAUSE_UPLOAD) ? liElement.querySelector('.' + PAUSE_UPLOAD) : liElement.querySelector('.' + RESUME_UPLOAD);
+                                (0, ej2_base /* isNullOrUndefined */ .le)(pauseButton) || (pauseButton.classList.add(RETRY_ICON), pauseButton.classList.remove(PAUSE_UPLOAD, RESUME_UPLOAD)), _this.updateProgressBarClasses(liElement, UPLOAD_FAILED), _this.removeProgressbar(liElement, 'failure'), liElement.querySelector('.e-icons').classList.remove(UPLOAD_INPROGRESS);
+                                var iconElement = liElement.querySelector('.' + ABORT_ICON) ? liElement.querySelector('.' + ABORT_ICON) : liElement.querySelector('.' + REMOVE_ICON);
+                                iconElement.classList.remove(ABORT_ICON), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + PAUSE_UPLOAD)) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + PAUSE_UPLOAD)), metaData.start > 0 ? (iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', _this.localizedTexts('delete'))) : (iconElement.classList.add(REMOVE_ICON), iconElement.setAttribute('title', _this.localizedTexts('remove')));
                             }
+                            metaData.retryCount = 0;
+                            var file_1 = metaData.file, failureMessage = _this.localizedTexts('uploadFailedMessage'), args = {
+                                e: e,
+                                response: requestResponse,
+                                operation: 'upload',
+                                file: _this.updateStatus(file_1, failureMessage, '0', !1),
+                                statusText: failureMessage
+                            };
+                            _this.trigger('failure', args, function(args) {
+                                _this.updateStatus(file_1, args.statusText, '0'), _this.uploadSequential(), _this.checkActionComplete(!0);
+                            });
                         }
                     });
                 }, Uploader.prototype.retryRequest = function(liElement, metaData, custom) {
@@ -21608,13 +21548,12 @@
                 }, Uploader.prototype.uploadFiles = function(files, custom) {
                     var selectedFiles = [];
                     if (!('' === this.asyncSettings.saveUrl || (0, ej2_base /* isNullOrUndefined */ .le)(this.asyncSettings.saveUrl))) {
-                        if (!custom || (0, ej2_base /* isNullOrUndefined */ .le)(custom)) {
-                            if (this.multiple) selectedFiles = this.filterfileList(files);
-                            else {
-                                var file = [];
-                                file.push(files[0]), selectedFiles = this.filterfileList(file);
-                            }
-                        } else selectedFiles = files;
+                        if (!custom || (0, ej2_base /* isNullOrUndefined */ .le)(custom)) if (this.multiple) selectedFiles = this.filterfileList(files);
+                        else {
+                            var file = [];
+                            file.push(files[0]), selectedFiles = this.filterfileList(file);
+                        }
+                        else selectedFiles = files;
                         for(var i = 0; i < selectedFiles.length; i++)this.uploadFilesRequest(selectedFiles, i, custom);
                     }
                 }, Uploader.prototype.uploadFilesRequest = function(selectedFiles, i, custom) {
@@ -21668,29 +21607,27 @@
                         customFormData: [],
                         currentRequest: null
                     }, function(beforeEventArgs) {
-                        if (!beforeEventArgs.cancel) {
-                            if (_this.isFormUpload()) eventArgs.filesData = fileData, _this.trigger('removing', eventArgs, function(eventArgs) {
-                                if (!eventArgs.cancel) for(var removingFiles = _this.getFilesInArray(fileData), isLiRemoved = !1, liIndex = void 0, _i = 0; _i < removingFiles.length; _i++){
-                                    var data = removingFiles[_i];
-                                    if (isLiRemoved || (liIndex = _this.fileList.indexOf(data.list)), liIndex > -1) {
-                                        var inputElement = (0, ej2_base /* isNullOrUndefined */ .le)(data.input) ? null : data.input;
-                                        inputElement && (0, ej2_base /* detach */ .og)(inputElement), _this.spliceFiles(liIndex), (0, ej2_base /* detach */ .og)(_this.fileList[liIndex]), _this.fileList.splice(liIndex, 1), isLiRemoved = !0, liIndex = -1;
-                                    }
+                        if (!beforeEventArgs.cancel) if (_this.isFormUpload()) eventArgs.filesData = fileData, _this.trigger('removing', eventArgs, function(eventArgs) {
+                            if (!eventArgs.cancel) for(var removingFiles = _this.getFilesInArray(fileData), isLiRemoved = !1, liIndex = void 0, _i = 0; _i < removingFiles.length; _i++){
+                                var data = removingFiles[_i];
+                                if (isLiRemoved || (liIndex = _this.fileList.indexOf(data.list)), liIndex > -1) {
+                                    var inputElement = (0, ej2_base /* isNullOrUndefined */ .le)(data.input) ? null : data.input;
+                                    inputElement && (0, ej2_base /* detach */ .og)(inputElement), _this.spliceFiles(liIndex), (0, ej2_base /* detach */ .og)(_this.fileList[liIndex]), _this.fileList.splice(liIndex, 1), isLiRemoved = !0, liIndex = -1;
                                 }
-                            });
-                            else if (_this.isForm && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.asyncSettings.removeUrl) || '' === _this.asyncSettings.removeUrl)) eventArgs.filesData = _this.getFilesData(), _this.trigger('removing', eventArgs, function(eventArgs) {
-                                eventArgs.cancel || _this.clearAll();
-                            });
-                            else {
-                                var removeFiles = [];
-                                (fileData = (0, ej2_base /* isNullOrUndefined */ .le)(fileData) ? _this.filesData : fileData) instanceof Array ? removeFiles = fileData : removeFiles.push(fileData), eventArgs.filesData = removeFiles;
-                                for(var removeUrl = _this.asyncSettings.removeUrl, validUrl = !('' === removeUrl || (0, ej2_base /* isNullOrUndefined */ .le)(removeUrl)), _loop_5 = function(files) {
-                                    var fileUploadedIndex = _this.uploadedFilesData.indexOf(files);
-                                    ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
-                                        eventArgs.cancel || _this.removeFilesData(files, customTemplate);
-                                    }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
-                                }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
                             }
+                        });
+                        else if (_this.isForm && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.asyncSettings.removeUrl) || '' === _this.asyncSettings.removeUrl)) eventArgs.filesData = _this.getFilesData(), _this.trigger('removing', eventArgs, function(eventArgs) {
+                            eventArgs.cancel || _this.clearAll();
+                        });
+                        else {
+                            var removeFiles = [];
+                            (fileData = (0, ej2_base /* isNullOrUndefined */ .le)(fileData) ? _this.filesData : fileData) instanceof Array ? removeFiles = fileData : removeFiles.push(fileData), eventArgs.filesData = removeFiles;
+                            for(var removeUrl = _this.asyncSettings.removeUrl, validUrl = !('' === removeUrl || (0, ej2_base /* isNullOrUndefined */ .le)(removeUrl)), _loop_5 = function(files) {
+                                var fileUploadedIndex = _this.uploadedFilesData.indexOf(files);
+                                ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
+                                    eventArgs.cancel || _this.removeFilesData(files, customTemplate);
+                                }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
+                            }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
                         }
                     });
                 }, /* eslint-enable valid-jsdoc, jsdoc/require-param */ /**
@@ -21756,12 +21693,10 @@
                     var fileDataFiles = this.getFilesInArray(fileData);
                     this.sequentialUpload && this.isFirstFileOnSelection && (this.isFirstFileOnSelection = !1), this.retryFailedFiles(fileDataFiles, fromcanceledStage, custom);
                 }, Uploader.prototype.retryFailedFiles = function(fileData, fromcanceledStage, custom) {
-                    for(var files = this.getFiles(fileData), i = 0; i < files.length; i++)if ('5' === files[i].statusCode || '0' === files[i].statusCode) {
-                        if (this.asyncSettings.chunkSize > 0) this.retryUpload(this.getCurrentMetaData(files[i], null), fromcanceledStage);
-                        else {
-                            var liElement = void 0;
-                            custom || (liElement = this.fileList[this.filesData.indexOf(files[i])]), this.reloadcanceledFile(null, files[i], liElement, custom);
-                        }
+                    for(var files = this.getFiles(fileData), i = 0; i < files.length; i++)if ('5' === files[i].statusCode || '0' === files[i].statusCode) if (this.asyncSettings.chunkSize > 0) this.retryUpload(this.getCurrentMetaData(files[i], null), fromcanceledStage);
+                    else {
+                        var liElement = void 0;
+                        custom || (liElement = this.fileList[this.filesData.indexOf(files[i])]), this.reloadcanceledFile(null, files[i], liElement, custom);
                     }
                 }, /**
      * Stops the in-progress chunked upload based on the file data.
@@ -23148,14 +23083,12 @@
                         this.elementFocus(sib);
                     } else if (this.tbarAlign) {
                         var elem = Object(closest.parentElement)[pos + 'ElementSibling'];
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(elem) || 0 !== elem.children.length || (elem = Object(elem)[pos + 'ElementSibling']), !(0, ej2_base /* isNullOrUndefined */ .le)(elem) && elem.children.length > 0) {
-                            if ('next' === pos) {
-                                var el = elem.querySelector('.' + CLS_ITEM);
-                                this.eleContains(el) ? this.eleFocus(el, pos) : (el.firstElementChild.focus(), this.activeEleSwitch(el));
-                            } else {
-                                var el = elem.lastElementChild;
-                                this.eleContains(el) ? this.eleFocus(el, pos) : this.elementFocus(el);
-                            }
+                        if ((0, ej2_base /* isNullOrUndefined */ .le)(elem) || 0 !== elem.children.length || (elem = Object(elem)[pos + 'ElementSibling']), !(0, ej2_base /* isNullOrUndefined */ .le)(elem) && elem.children.length > 0) if ('next' === pos) {
+                            var el = elem.querySelector('.' + CLS_ITEM);
+                            this.eleContains(el) ? this.eleFocus(el, pos) : (el.firstElementChild.focus(), this.activeEleSwitch(el));
+                        } else {
+                            var el = elem.lastElementChild;
+                            this.eleContains(el) ? this.eleFocus(el, pos) : this.elementFocus(el);
                         }
                     }
                 }, Toolbar.prototype.clickHandler = function(e) {
@@ -23733,13 +23666,12 @@
                         var templateFn = void 0, val = templateProp, regEx = new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i);
                         val = 'string' == typeof templateProp ? templateProp.trim() : templateProp;
                         try {
-                            if ('object' != typeof templateProp || (0, ej2_base /* isNullOrUndefined */ .le)(templateProp.tagName)) {
-                                if ('string' == typeof templateProp && regEx.test(val)) innerEle.innerHTML = val;
-                                else if (document.querySelectorAll(val).length) {
-                                    var ele = document.querySelector(val), tempStr = ele.outerHTML.trim();
-                                    innerEle.appendChild(ele), ele.style.display = '', (0, ej2_base /* isNullOrUndefined */ .le)(tempStr) || this.tempId.push(val);
-                                } else templateFn = (0, ej2_base /* compile */ .MY)(val);
-                            } else innerEle.appendChild(templateProp);
+                            if ('object' != typeof templateProp || (0, ej2_base /* isNullOrUndefined */ .le)(templateProp.tagName)) if ('string' == typeof templateProp && regEx.test(val)) innerEle.innerHTML = val;
+                            else if (document.querySelectorAll(val).length) {
+                                var ele = document.querySelector(val), tempStr = ele.outerHTML.trim();
+                                innerEle.appendChild(ele), ele.style.display = '', (0, ej2_base /* isNullOrUndefined */ .le)(tempStr) || this.tempId.push(val);
+                            } else templateFn = (0, ej2_base /* compile */ .MY)(val);
+                            else innerEle.appendChild(templateProp);
                         } catch (e) {
                             templateFn = (0, ej2_base /* compile */ .MY)(val);
                         }
@@ -24304,7 +24236,7 @@
                         ], 'e-focused'), ul.children[liIdx].focus());
                     }(this.getULElement(), e.keyCode));
                 }, DropDownButton.prototype.keyEventHandler = function(e) {
-                    !(this.target && (13 === e.keyCode || 9 === e.keyCode) || e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode) && (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e));
+                    (!this.target || 13 !== e.keyCode && 9 !== e.keyCode) && (e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode || (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e)));
                 }, DropDownButton.prototype.getLI = function(elem) {
                     return 'LI' === elem.tagName ? elem : (0, ej2_base /* closest */ .oq)(elem, 'li');
                 }, DropDownButton.prototype.mousedownHandler = function(e) {
@@ -24326,16 +24258,15 @@
                     var _this = this;
                     void 0 === e && (e = null);
                     var popupElem = this.getPopUpElement();
-                    if (this.target) {
-                        if (this.activeElem.length > 1) {
-                            var splitButton = (0, ej2_base /* getComponent */ .Xr)(this.activeElem[0], 'split-btn');
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            splitButton.isReact && popupElem.childNodes.length < 1 && (// eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            splitButton.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
-                        } else // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        this.isReact && popupElem.childNodes.length < 1 && (// eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        this.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
-                    } else this.createItems(!0);
+                    if (this.target) if (this.activeElem.length > 1) {
+                        var splitButton = (0, ej2_base /* getComponent */ .Xr)(this.activeElem[0], 'split-btn');
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        splitButton.isReact && popupElem.childNodes.length < 1 && (// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        splitButton.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
+                    } else // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    this.isReact && popupElem.childNodes.length < 1 && (// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    this.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
+                    else this.createItems(!0);
                     var ul = this.getULElement();
                     this.popupWireEvents();
                     var beforeOpenArgs = {
@@ -24944,10 +24875,8 @@
                             content: ej2_base /* SanitizeHtmlHelper.sanitize */ .pJ.sanitize(this.content)
                         }, !0);
                         var tempArr = (0, ej2_base /* compile */ .MY)(this.content)({}, this, 'content', this.element.id + 'content', void 0, void 0, tooltipContent);
-                        if (tempArr) {
-                            if (this.enableHtmlParse) for(var nodeList = tempArr.length, i = 0; i < nodeList; i++)tooltipContent[(0, ej2_base /* append */ .R3)(tempArr, tooltipContent), 'innerHTML'] = this.content;
-                            else tooltipContent.textContent = this.content;
-                        }
+                        if (tempArr) if (this.enableHtmlParse) for(var nodeList = tempArr.length, i = 0; i < nodeList; i++)tooltipContent[(0, ej2_base /* append */ .R3)(tempArr, tooltipContent), 'innerHTML'] = this.content;
+                        else tooltipContent.textContent = this.content;
                     } else {
                         var tempArr = (0, ej2_base /* compile */ .MY)(this.content)({}, this, 'content', this.element.id + 'content', void 0, void 0, tooltipContent);
                         tempArr && (0, ej2_base /* append */ .R3)(tempArr, tooltipContent), this.renderReactTemplates();
@@ -24979,7 +24908,7 @@
                     }, 1500));
                 }, Tooltip.prototype.targetClick = function(e) {
                     var target;
-                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
+                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, (0, ej2_base /* isNullOrUndefined */ .le)(target) || (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
                 }, Tooltip.prototype.targetHover = function(e) {
                     if (target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') || 0 !== this.closeDelay)) {
                         for(var target, targetList = [].slice.call((0, ej2_base /* selectAll */ .td)('[data-tooltip-id= "' + this.ctrlId + '_content"]', document)), _i = 0; _i < targetList.length; _i++){
@@ -26460,13 +26389,11 @@
                     }
                     this.closeTooltip(), this.changeEvent('changed', event);
                 }, Slider.prototype.hover = function(event) {
-                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(event)) {
-                        if ('mouseover' === event.type || 'touchmove' === event.type || 'mousemove' === event.type || 'pointermove' === event.type || 'touchstart' === event.type) this.sliderContainer.classList.add(slider_classNames.sliderHover);
-                        else {
-                            this.sliderContainer.classList.remove(slider_classNames.sliderHover);
-                            var curTarget = event.currentTarget;
-                            this.tooltip.isVisible && 'Always' !== this.tooltip.showOn && this.tooltipObj && this.isMaterialTooltip && !curTarget.classList.contains(slider_classNames.sliderHandleFocused) && !curTarget.classList.contains(slider_classNames.sliderTabHandle) && this.closeMaterialTooltip();
-                        }
+                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(event)) if ('mouseover' === event.type || 'touchmove' === event.type || 'mousemove' === event.type || 'pointermove' === event.type || 'touchstart' === event.type) this.sliderContainer.classList.add(slider_classNames.sliderHover);
+                    else {
+                        this.sliderContainer.classList.remove(slider_classNames.sliderHover);
+                        var curTarget = event.currentTarget;
+                        this.tooltip.isVisible && 'Always' !== this.tooltip.showOn && this.tooltipObj && this.isMaterialTooltip && !curTarget.classList.contains(slider_classNames.sliderHandleFocused) && !curTarget.classList.contains(slider_classNames.sliderTabHandle) && this.closeMaterialTooltip();
                     }
                 }, Slider.prototype.sliderFocusOut = function(event) {
                     event.relatedTarget !== this.secondHandle && event.relatedTarget !== this.firstHandle && event.relatedTarget !== this.element && event.relatedTarget !== this.firstBtn && event.relatedTarget !== this.secondBtn && (this.closeMaterialTooltip(), this.closeTooltip(), this.element.querySelector('.' + slider_classNames.sliderTabHandle) && this.element.querySelector('.' + slider_classNames.sliderTabHandle).classList.remove(slider_classNames.sliderTabHandle), this.element.querySelector('.' + slider_classNames.sliderTabTrack) && (this.element.querySelector('.' + slider_classNames.sliderTabTrack).classList.remove(slider_classNames.sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && this.element.querySelector('.' + slider_classNames.sliderTabRange) && this.element.querySelector('.' + slider_classNames.sliderTabRange).classList.remove(slider_classNames.sliderTabRange)), this.hiddenInput.focus(), this.hiddenInput.blur(), this.isElementFocused = !1);
@@ -29044,9 +28971,9 @@
                 }, Toolbar.prototype.unWireEvents = function() {
                     ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'focusin', this.tbFocusHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'keydown', this.tbKeydownHandler);
                 }, Toolbar.prototype.addEventListener = function() {
-                    !this.parent.isDestroyed && (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
+                    this.parent.isDestroyed || (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
                 }, Toolbar.prototype.removeEventListener = function() {
-                    !this.parent.isDestroyed && (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
+                    this.parent.isDestroyed || (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
                 }, Toolbar.prototype.setCssClass = function(e) {
                     this.toolbarObj && e.cssClass && ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass + ' ' + e.cssClass).trim()
@@ -29793,7 +29720,13 @@
  * @returns {string} - returns the string value
  * @hidden
  */ function getDropDownValue(items, value, type, returnType) {
-                for(var data, result, k = 0; k < items.length; k++)if ('value' === type && items[k].value.toLocaleLowerCase() === value.toLocaleLowerCase() || 'text' === type && items[k].text.toLocaleLowerCase() === value.toLocaleLowerCase() || 'subCommand' === type && items[k].subCommand.toLocaleLowerCase() === value.toLocaleLowerCase()) {
+                for(var data, result, k = 0; k < items.length; k++)if ('value' === type && items[k].value.toLocaleLowerCase() === value.toLocaleLowerCase()) {
+                    data = items[k];
+                    break;
+                } else if ('text' === type && items[k].text.toLocaleLowerCase() === value.toLocaleLowerCase()) {
+                    data = items[k];
+                    break;
+                } else if ('subCommand' === type && items[k].subCommand.toLocaleLowerCase() === value.toLocaleLowerCase()) {
                     data = items[k];
                     break;
                 }
@@ -29895,19 +29828,25 @@
  * @returns {number} - returns the number
  * @hidden
  */ function getTBarItemsIndex(items, toolbarItems) {
-                for(var itemsIndex = [], i = 0; i < items.length; i++)for(var j = 0; j < toolbarItems.length; j++)if ('Separator' !== toolbarItems[j].type) {
-                    if ('OrderedList' === items[i] && 'OL' === toolbarItems[j].subCommand || 'UnorderedList' === items[i] && 'UL' === toolbarItems[j].subCommand || 'InsertCode' === items[i] && 'Pre' === toolbarItems[j].subCommand || 'FileManager' === items[i] && 'File' === toolbarItems[j].subCommand) {
-                        itemsIndex.push(j);
-                        break;
-                    }
-                    if ('object' == typeof items[i] && 'Custom' === items[i].command) {
-                        itemsIndex.push(i);
-                        break;
-                    }
-                    if (items[i] === toolbarItems[j].subCommand) {
-                        itemsIndex.push(j);
-                        break;
-                    }
+                for(var itemsIndex = [], i = 0; i < items.length; i++)for(var j = 0; j < toolbarItems.length; j++)if ('Separator' === toolbarItems[j].type) continue;
+                else if ('OrderedList' === items[i] && 'OL' === toolbarItems[j].subCommand) {
+                    itemsIndex.push(j);
+                    break;
+                } else if ('UnorderedList' === items[i] && 'UL' === toolbarItems[j].subCommand) {
+                    itemsIndex.push(j);
+                    break;
+                } else if ('InsertCode' === items[i] && 'Pre' === toolbarItems[j].subCommand) {
+                    itemsIndex.push(j);
+                    break;
+                } else if ('FileManager' === items[i] && 'File' === toolbarItems[j].subCommand) {
+                    itemsIndex.push(j);
+                    break;
+                } else if ('object' == typeof items[i] && 'Custom' === items[i].command) {
+                    itemsIndex.push(i);
+                    break;
+                } else if (items[i] === toolbarItems[j].subCommand) {
+                    itemsIndex.push(j);
+                    break;
                 }
                 return itemsIndex;
             }
@@ -31805,15 +31744,13 @@
                 }, CheckBox.prototype.updateVueArrayModel = function(init) {
                     if (this.isVue && 'object' == typeof this.value) {
                         var value = this.element.value;
-                        if (value && this.value) {
-                            if (init) for(var i = 0; i < this.value.length; i++)value === this.value[i] && (this.changeState('check'), this.setProperties({
-                                checked: !0
-                            }, !0));
-                            else {
-                                var index = this.value.indexOf(value);
-                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                return this.checked ? index < 0 && this.value.push(value) : index > -1 && this.value.splice(index, 1), this.value;
-                            }
+                        if (value && this.value) if (init) for(var i = 0; i < this.value.length; i++)value === this.value[i] && (this.changeState('check'), this.setProperties({
+                            checked: !0
+                        }, !0));
+                        else {
+                            var index = this.value.indexOf(value);
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            return this.checked ? index < 0 && this.value.push(value) : index > -1 && this.value.splice(index, 1), this.value;
                         }
                     }
                     return this.validCheck ? this.element.checked : !this.element.checked;
@@ -32345,21 +32282,19 @@
                     return nodes.length > 1 || nodes.length && 0 === range.startOffset && 0 === range.endOffset ? (this.ensureInsideTableList = !0, !0) : (this.ensureInsideTableList = !1, !1);
                 }, Table.prototype.tabSelection = function(event, selection, ele) {
                     var insideList = this.insideList(selection.range);
-                    if ((37 !== event.keyCode && 39 !== event.keyCode || 3 !== selection.range.startContainer.nodeType) && !insideList) {
-                        if (event.preventDefault(), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), event.shiftKey || 37 === event.keyCode) {
-                            var prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes[(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes.length - 1] : ele.previousSibling;
-                            if (ele === prevElement && 0 === ele.cellIndex && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead) {
-                                var clsTble = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table');
-                                prevElement = clsTble.rows[0].cells[clsTble.rows[0].cells.length - 1];
-                            }
-                            37 === event.keyCode && ele === prevElement && (prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling), prevElement && (// eslint-disable-next-line
-                            '' !== prevElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(prevElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), prevElement) : selection.setSelectionText(this.contentModule.getDocument(), prevElement, prevElement, 0, 0));
-                        } else {
-                            var nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling.childNodes[0] : ele.nextSibling;
-                            ele === nextElement && 'TH' === ele.nodeName && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').rows[1].cells[0]), 39 === event.keyCode && ele === nextElement && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling), nextElement && (// eslint-disable-next-line
-                            '' !== nextElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0)), ele === nextElement && 39 !== event.keyCode && nextElement && (ele.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), this.addRow(selection, event, !0), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), // eslint-disable-next-line
-                            '' !== (nextElement = nextElement.parentElement.nextSibling ? nextElement.parentElement.nextSibling.firstChild : nextElement.parentElement.firstChild).textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0));
+                    if ((37 !== event.keyCode && 39 !== event.keyCode || 3 !== selection.range.startContainer.nodeType) && !insideList) if (event.preventDefault(), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), event.shiftKey || 37 === event.keyCode) {
+                        var prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes[(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes.length - 1] : ele.previousSibling;
+                        if (ele === prevElement && 0 === ele.cellIndex && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead) {
+                            var clsTble = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table');
+                            prevElement = clsTble.rows[0].cells[clsTble.rows[0].cells.length - 1];
                         }
+                        37 === event.keyCode && ele === prevElement && (prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling), prevElement && (// eslint-disable-next-line
+                        '' !== prevElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(prevElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), prevElement) : selection.setSelectionText(this.contentModule.getDocument(), prevElement, prevElement, 0, 0));
+                    } else {
+                        var nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling.childNodes[0] : ele.nextSibling;
+                        ele === nextElement && 'TH' === ele.nodeName && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').rows[1].cells[0]), 39 === event.keyCode && ele === nextElement && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling), nextElement && (// eslint-disable-next-line
+                        '' !== nextElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0)), ele === nextElement && 39 !== event.keyCode && nextElement && (ele.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), this.addRow(selection, event, !0), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), // eslint-disable-next-line
+                        '' !== (nextElement = nextElement.parentElement.nextSibling ? nextElement.parentElement.nextSibling.firstChild : nextElement.parentElement.firstChild).textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0));
                     }
                 }, Table.prototype.tableArrowNavigation = function(event, selection, ele) {
                     var selText = selection.range.startContainer;

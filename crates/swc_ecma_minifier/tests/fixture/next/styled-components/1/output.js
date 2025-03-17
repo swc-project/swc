@@ -3492,8 +3492,9 @@
                 return sourceIsArray !== Array.isArray(target) ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
-                    (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
-                    Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
+                    propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
+                    !(Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
+                    Object.propertyIsEnumerable.call(target, key)) || (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
                         if (!options.customMerge) return deepmerge;
                         var customMerge = options.customMerge(key);
                         return "function" == typeof customMerge ? customMerge : deepmerge;
@@ -3604,22 +3605,24 @@
                      *   via the keyboard (e.g. a text box)
                      * @param {Event} e
                      */ function(e) {
-                        var el, type, tagName;
                         // Prevent IE from focusing the document or HTML element.
-                        isValidFocusTarget(e.target) && (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
+                        if (isValidFocusTarget(e.target)) {
+                            var el, type, tagName;
+                            (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
+                        }
                     }, !0), scope.addEventListener("blur", /**
                      * On `blur`, remove the `focus-visible` class from the target.
                      * @param {Event} e
                      */ function(e) {
-                        if (isValidFocusTarget(e.target)) {
+                        if (isValidFocusTarget(e.target) && (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added"))) {
                             var el;
-                            (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added")) && (// To detect a tab/window switch, we look for a blur event followed
+                            // To detect a tab/window switch, we look for a blur event followed
                             // rapidly by a visibility change.
                             // If we don't see a visibility change within 100ms, it's probably a
                             // regular focus change.
                             hadFocusVisibleRecently = !0, window.clearTimeout(hadFocusVisibleRecentlyTimeout), hadFocusVisibleRecentlyTimeout = window.setTimeout(function() {
                                 hadFocusVisibleRecently = !1;
-                            }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added")));
+                            }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added"));
                         }
                     }, !0), scope.nodeType === Node.DOCUMENT_FRAGMENT_NODE && scope.host ? // Since a ShadowRoot is a special kind of DocumentFragment, it does not
                     // have a root element to add a class to. So, we add this attribute to the
@@ -4743,17 +4746,16 @@
                 }
                 return e.prototype.generateAndInjectStyles = function(e, t, n) {
                     var r = this.componentId, o = [];
-                    if (this.baseStyle && o.push(this.baseStyle.generateAndInjectStyles(e, t, n)), this.isStatic && !n.hash) {
-                        if (this.staticRulesId && t.hasNameForId(r, this.staticRulesId)) o.push(this.staticRulesId);
-                        else {
-                            var s = Ne(this.rules, e, t, n).join(""), i = ee(te(this.baseHash, s) >>> 0);
-                            if (!t.hasNameForId(r, i)) {
-                                var a = n(s, "." + i, void 0, r);
-                                t.insertRules(r, i, a);
-                            }
-                            o.push(i), this.staticRulesId = i;
+                    if (this.baseStyle && o.push(this.baseStyle.generateAndInjectStyles(e, t, n)), this.isStatic && !n.hash) if (this.staticRulesId && t.hasNameForId(r, this.staticRulesId)) o.push(this.staticRulesId);
+                    else {
+                        var s = Ne(this.rules, e, t, n).join(""), i = ee(te(this.baseHash, s) >>> 0);
+                        if (!t.hasNameForId(r, i)) {
+                            var a = n(s, "." + i, void 0, r);
+                            t.insertRules(r, i, a);
                         }
-                    } else {
+                        o.push(i), this.staticRulesId = i;
+                    }
+                    else {
                         for(var c = this.rules.length, u = te(this.baseHash, n.hash), l = "", d = 0; d < c; d++){
                             var h = this.rules[d];
                             if ("string" == typeof h) l += h;
@@ -5897,7 +5899,7 @@
             }, positiveOrNegative = function(scale, value) {
                 if ("number" != typeof value || value >= 0) return index_esm_get(scale, value, value);
                 var absolute = Math.abs(value), n = index_esm_get(scale, absolute, absolute);
-                return "string" == typeof n ? "-" + n : -1 * n;
+                return "string" == typeof n ? "-" + n : -+n;
             }, transforms = [
                 "margin",
                 "marginTop",
@@ -6013,12 +6015,12 @@
                         function handleChange(event) {
                             setSystemColorMode(event.matches ? "night" : "day");
                         } // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        if (media) {
-                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        if (media) // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        {
                             if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
                                 media.removeEventListener("change", handleChange);
                             };
-                            if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
+                            else if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
                                 media.removeListener(handleChange);
                             };
                         }

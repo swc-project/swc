@@ -15,7 +15,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
-use tracing::{debug, span, Level};
+use tracing::{span, Level};
 use Value::Known;
 
 use self::{
@@ -51,7 +51,6 @@ mod ops;
 mod props;
 mod sequences;
 mod strings;
-mod switches;
 mod unused;
 mod util;
 
@@ -2707,15 +2706,6 @@ impl VisitMut for Optimizer<'_> {
         let prepend_len = self.prepend_stmts.len();
         let append_len = self.append_stmts.len();
 
-        #[cfg(feature = "debug")]
-        if self.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_children_with: {}", text);
-            }
-        }
-
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
 
@@ -2788,31 +2778,6 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
-
-        self.optimize_const_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        self.optimize_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        #[cfg(feature = "debug")]
-        if self.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_stmt: {}", text);
-            }
-        }
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2864,13 +2829,6 @@ impl VisitMut for Optimizer<'_> {
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        n.visit_mut_children_with(self);
-
-        self.optimize_switch_cases(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2960,10 +2918,13 @@ impl VisitMut for Optimizer<'_> {
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
-                    report_change!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
-                    n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
+                    n.arg = Box::new(arg.unwrap_or_else(|| {
+                        report_change!("Ignoring arg of `void`");
+
+                        make_number(DUMMY_SP, 0.0)
+                    }));
                 }
             }
         }

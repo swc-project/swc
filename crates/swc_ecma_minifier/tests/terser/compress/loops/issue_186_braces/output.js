@@ -3,8 +3,6 @@ if (foo()) {
     do {
         do {
             alert(x);
-        } while (--x);
-    } while (x);
-} else {
-    bar();
-}
+        }while (--x)
+    }while (x)
+} else bar();

@@ -253,26 +253,22 @@
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
-                        // handler instead of the img's onLoad attribute.
-                        function(img, src, layout, placeholder, onLoadingComplete) {
-                            if (img) {
-                                var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && // Pass back read-only primitive values but not the
-                                        // underlying DOM element because it could be misused.
-                                        onLoadingComplete({
-                                            naturalWidth: img.naturalWidth,
-                                            naturalHeight: img.naturalHeight
-                                        });
+                        if (setRef(img), img) {
+                            var handleLoad = function() {
+                                img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
+                                    "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(srcString), onLoadingComplete && // Pass back read-only primitive values but not the
+                                    // underlying DOM element because it could be misused.
+                                    onLoadingComplete({
+                                        naturalWidth: img.naturalWidth,
+                                        naturalHeight: img.naturalHeight
                                     });
-                                };
-                                img.complete ? // If the real image fails to load, this will still remove the placeholder.
-                                // This is the desired behavior for now, and will be revisited when error
-                                // handling is worked on for the image component itself.
-                                handleLoad() : img.onload = handleLoad;
-                            }
-                        }(img, srcString, 0, placeholder, onLoadingComplete);
+                                });
+                            };
+                            img.complete ? // If the real image fails to load, this will still remove the placeholder.
+                            // This is the desired behavior for now, and will be revisited when error
+                            // handling is worked on for the image component itself.
+                            handleLoad() : img.onload = handleLoad;
+                        }
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
                 })), /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
@@ -409,7 +405,7 @@
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
                         for(// Find all the "vw" percent sizes used in the sizes prop
-                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -737,7 +733,7 @@
                 }), start = useEventCallback(function() {
                     var run = function() {
                         return getCountUp(!0).start(function() {
-                            null == onEnd || onEnd({
+                            null != onEnd && onEnd({
                                 pauseResume: pauseResume,
                                 reset: reset,
                                 start: restart,
@@ -745,25 +741,25 @@
                             });
                         });
                     };
-                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1000 * delay) : run(), null == onStart || onStart({
+                    delay && delay > 0 ? timerRef.current = setTimeout(run, 1000 * delay) : run(), null != onStart && onStart({
                         pauseResume: pauseResume,
                         reset: reset,
                         update: update
                     });
                 }), pauseResume = useEventCallback(function() {
-                    getCountUp().pauseResume(), null == onPauseResume || onPauseResume({
+                    getCountUp().pauseResume(), null != onPauseResume && onPauseResume({
                         reset: reset,
                         start: restart,
                         update: update
                     });
                 }), reset = useEventCallback(function() {
-                    timerRef.current && clearTimeout(timerRef.current), getCountUp().reset(), null == onReset || onReset({
+                    timerRef.current && clearTimeout(timerRef.current), getCountUp().reset(), null != onReset && onReset({
                         pauseResume: pauseResume,
                         start: restart,
                         update: update
                     });
                 }), update = useEventCallback(function(newEnd) {
-                    getCountUp().update(newEnd), null == onUpdate || onUpdate({
+                    getCountUp().update(newEnd), null != onUpdate && onUpdate({
                         pauseResume: pauseResume,
                         reset: reset,
                         start: restart

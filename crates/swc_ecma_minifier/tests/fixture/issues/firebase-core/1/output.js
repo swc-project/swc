@@ -710,18 +710,17 @@
                     String(d)
                 ]), mc(c.h, "t", d), a.C = 0, c = a.l.H, a.h = new fc(), a.g = nc(a.l, c ? b : null, !a.s), 0 < a.O && (a.L = new Ib(q(a.Ia, a, a.g), a.O)), Kb(a.V, a.g, "readystatechange", a.gb), b = a.H ? ya(a.H) : {}, a.s ? (a.u || (a.u = "POST"), b["Content-Type"] = "application/x-www-form-urlencoded", a.g.ea(a.A, a.u, a.s, b)) : (a.u = "GET", a.g.ea(a.A, a.u, null, b)), I(1), function(a, b, c, d, e, f) {
                     a.info(function() {
-                        if (a.g) {
-                            if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
-                                var m = n[u].split("=");
-                                if (1 < m.length) {
-                                    var r = m[0];
-                                    m = m[1];
-                                    var G = r.split("_");
-                                    h = 2 <= G.length && "type" == G[1] ? h + (r + "=") + m + "&" : h + (r + "=redacted&");
-                                }
+                        if (a.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
+                            var m = n[u].split("=");
+                            if (1 < m.length) {
+                                var r = m[0];
+                                m = m[1];
+                                var G = r.split("_");
+                                h = 2 <= G.length && "type" == G[1] ? h + (r + "=") + m + "&" : h + (r + "=redacted&");
                             }
-                            else h = null;
-                        } else h = f;
+                        }
+                        else h = null;
+                        else h = f;
                         return "XMLHTTP REQ (" + d + ") [attempt " + e + "]: " + b + "\n" + c + "\n" + h;
                     });
                 }(a.j, a.u, a.A, a.m, a.X, a.s);
@@ -775,10 +774,8 @@
                                 var e = d;
                                 if (0 == e[0]) {
                                     a: if (!c.u) {
-                                        if (c.g) {
-                                            if (c.g.F + 3e3 < a.F) zc(c), Ac(c);
-                                            else break a;
-                                        }
+                                        if (c.g) if (c.g.F + 3e3 < a.F) zc(c), Ac(c);
+                                        else break a;
                                         Bc(c), J(18);
                                     }
                                 } else c.ta = e[1], 0 < c.ta - c.U && 37500 > e[2] && c.N && 0 == c.A && !c.v && (c.v = K(q(c.ab, c), 6e3));
@@ -791,35 +788,34 @@
                             } else Q(c, 11);
                         } else if ((a.J || c.g == a) && zc(c), !sa(b)) for(e = c.Ca.g.parse(b), b = 0; b < e.length; b++){
                             let m = e[b];
-                            if (c.U = m[0], m = m[1], 2 == c.G) {
-                                if ("c" == m[0]) {
-                                    c.J = m[1], c.la = m[2];
-                                    const r = m[3];
-                                    null != r && (c.ma = r, c.h.info("VER=" + c.ma));
-                                    const G = m[4];
-                                    null != G && (c.za = G, c.h.info("SVER=" + c.za));
-                                    const Da = m[5];
-                                    null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
-                                    const ca = a.g;
-                                    if (ca) {
-                                        const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
-                                        if (Ea) {
-                                            var f = d.i;
-                                            !f.g && (w(Ea, "spdy") || w(Ea, "quic") || w(Ea, "h2")) && (f.j = f.l, f.g = new Set(), f.h && (Dc(f, f.h), f.h = null));
-                                        }
-                                        if (d.D) {
-                                            const xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
-                                            xb && (d.sa = xb, R(d.F, d.D, xb));
-                                        }
+                            if (c.U = m[0], m = m[1], 2 == c.G) if ("c" == m[0]) {
+                                c.J = m[1], c.la = m[2];
+                                const r = m[3];
+                                null != r && (c.ma = r, c.h.info("VER=" + c.ma));
+                                const G = m[4];
+                                null != G && (c.za = G, c.h.info("SVER=" + c.za));
+                                const Da = m[5];
+                                null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
+                                const ca = a.g;
+                                if (ca) {
+                                    const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
+                                    if (Ea) {
+                                        var f = d.i;
+                                        !f.g && (w(Ea, "spdy") || w(Ea, "quic") || w(Ea, "h2")) && (f.j = f.l, f.g = new Set(), f.h && (Dc(f, f.h), f.h = null));
                                     }
-                                    if (c.G = 3, c.j && c.j.xa(), c.$ && (c.O = Date.now() - a.F, c.h.info("Handshake RTT: " + c.O + "ms")), (d = c).oa = Ec(d, d.H ? d.la : null, d.W), a.J) {
-                                        Fc(d.i, a);
-                                        var u = d.K;
-                                        u && a.setTimeout(u), a.B && (pc(a), lc(a)), d.g = a;
-                                    } else Gc(d);
-                                    0 < c.l.length && Hc(c);
-                                } else "stop" != m[0] && "close" != m[0] || Q(c, 7);
-                            } else 3 == c.G && ("stop" == m[0] || "close" == m[0] ? "stop" == m[0] ? Q(c, 7) : Ic(c) : "noop" != m[0] && c.j && c.j.wa(m), c.A = 0);
+                                    if (d.D) {
+                                        const xb = ca.g ? ca.g.getResponseHeader("X-HTTP-Session-Id") : null;
+                                        xb && (d.sa = xb, R(d.F, d.D, xb));
+                                    }
+                                }
+                                if (c.G = 3, c.j && c.j.xa(), c.$ && (c.O = Date.now() - a.F, c.h.info("Handshake RTT: " + c.O + "ms")), (d = c).oa = Ec(d, d.H ? d.la : null, d.W), a.J) {
+                                    Fc(d.i, a);
+                                    var u = d.K;
+                                    u && a.setTimeout(u), a.B && (pc(a), lc(a)), d.g = a;
+                                } else Gc(d);
+                                0 < c.l.length && Hc(c);
+                            } else "stop" != m[0] && "close" != m[0] || Q(c, 7);
+                            else 3 == c.G && ("stop" == m[0] || "close" == m[0] ? "stop" == m[0] ? Q(c, 7) : Ic(c) : "noop" != m[0] && c.j && c.j.wa(m), c.A = 0);
                         }
                     }
                     I(4);
@@ -854,10 +850,8 @@
                 if (1 < c) {
                     if (c % 2) throw Error("Uneven number of arguments");
                     for(var d = 0; d < c; d += 2)this.set(arguments[d], arguments[d + 1]);
-                } else if (a) {
-                    if (a instanceof S) for(c = a.T(), d = 0; d < c.length; d++)this.set(c[d], a.get(c[d]));
-                    else for(d in a)this.set(d, a[d]);
-                }
+                } else if (a) if (a instanceof S) for(c = a.T(), d = 0; d < c.length; d++)this.set(c[d], a.get(c[d]));
+                else for(d in a)this.set(d, a[d]);
             }
             function Lc(a) {
                 if (a.i != a.g.length) {
@@ -1182,16 +1176,14 @@
             }, k.abort = function() {
                 this.response = this.responseText = "", this.v = new Headers(), this.status = 0, this.j && this.j.cancel("Request was aborted."), 1 <= this.readyState && this.g && 4 != this.readyState && (this.g = !1, td(this)), this.readyState = rd;
             }, k.Va = function(a) {
-                if (this.g && (this.l = a, this.h || (this.status = this.l.status, this.statusText = this.l.statusText, this.h = a.headers, this.readyState = 2, sd(this)), this.g && (this.readyState = 3, sd(this), this.g))) {
-                    if ("arraybuffer" === this.responseType) a.arrayBuffer().then(this.Ta.bind(this), this.ha.bind(this));
-                    else if (void 0 !== l.ReadableStream && "body" in a) {
-                        if (this.j = a.body.getReader(), this.u) {
-                            if (this.responseType) throw Error('responseType must be empty for "streamBinaryChunks" mode responses.');
-                            this.response = [];
-                        } else this.response = this.responseText = "", this.A = new TextDecoder();
-                        ud(this);
-                    } else a.text().then(this.Ua.bind(this), this.ha.bind(this));
-                }
+                if (this.g && (this.l = a, this.h || (this.status = this.l.status, this.statusText = this.l.statusText, this.h = a.headers, this.readyState = 2, sd(this)), this.g && (this.readyState = 3, sd(this), this.g))) if ("arraybuffer" === this.responseType) a.arrayBuffer().then(this.Ta.bind(this), this.ha.bind(this));
+                else if (void 0 !== l.ReadableStream && "body" in a) {
+                    if (this.j = a.body.getReader(), this.u) {
+                        if (this.responseType) throw Error('responseType must be empty for "streamBinaryChunks" mode responses.');
+                        this.response = [];
+                    } else this.response = this.responseText = "", this.A = new TextDecoder();
+                    ud(this);
+                } else a.text().then(this.Ua.bind(this), this.ha.bind(this));
             }, k.Sa = function(a) {
                 if (this.g) {
                     if (this.u && a.value) this.response.push(a.value);
@@ -1432,7 +1424,7 @@
                 null != a.v && (l.clearTimeout(a.v), a.v = null);
             }
             function uc(a, b) {
-                var c = null;
+                var b1, c = null;
                 if (a.g == b) {
                     zc(a), wc(a), a.g = null;
                     var d = 2;
@@ -1441,13 +1433,12 @@
                     c = b.D, Fc(a.i, b), d = 1;
                 }
                 if (a.I = b.N, 0 != a.G) {
-                    if (b.i) {
-                        if (1 == d) {
-                            c = b.s ? b.s.length : 0, b = Date.now() - b.F;
-                            var b1, e = a.C;
-                            D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
-                        } else Gc(a);
-                    } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - +!!a.m) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
+                    if (b.i) if (1 == d) {
+                        c = b.s ? b.s.length : 0, b = Date.now() - b.F;
+                        var e = a.C;
+                        D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
+                    } else Gc(a);
+                    else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - +!!a.m) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && ((b = a.i).i = b.i.concat(c)), e){
                         case 1:
                             Q(a, 5);
                             break;
@@ -1627,39 +1618,37 @@
                     this.h.info("Origin Trials invoked: " + a);
                 } catch (b) {}
             }, k.Ha = function(a) {
-                if (this.m) {
-                    if (this.m = null, 1 == this.G) {
-                        if (!a) {
-                            this.V = Math.floor(1e5 * Math.random()), a = this.V++;
-                            const e = new M(this, this.h, a, void 0);
-                            let f = this.s;
-                            if (this.P && (f ? Aa(f = ya(f), this.P) : f = this.P), null === this.o && (e.H = f), this.ja) a: {
-                                for(var b = 0, c = 0; c < this.l.length; c++){
-                                    b: {
-                                        var d = this.l[c];
-                                        if ("__data__" in d.g && "string" == typeof (d = d.g.__data__)) {
-                                            d = d.length;
-                                            break b;
-                                        }
-                                        d = void 0;
+                if (this.m) if (this.m = null, 1 == this.G) {
+                    if (!a) {
+                        this.V = Math.floor(1e5 * Math.random()), a = this.V++;
+                        const e = new M(this, this.h, a, void 0);
+                        let f = this.s;
+                        if (this.P && (f ? Aa(f = ya(f), this.P) : f = this.P), null === this.o && (e.H = f), this.ja) a: {
+                            for(var b = 0, c = 0; c < this.l.length; c++){
+                                b: {
+                                    var d = this.l[c];
+                                    if ("__data__" in d.g && "string" == typeof (d = d.g.__data__)) {
+                                        d = d.length;
+                                        break b;
                                     }
-                                    if (void 0 === d) break;
-                                    if (4096 < (b += d)) {
-                                        b = c;
-                                        break a;
-                                    }
-                                    if (4096 === b || c === this.l.length - 1) {
-                                        b = c + 1;
-                                        break a;
-                                    }
+                                    d = void 0;
                                 }
-                                b = 1e3;
+                                if (void 0 === d) break;
+                                if (4096 < (b += d)) {
+                                    b = c;
+                                    break a;
+                                }
+                                if (4096 === b || c === this.l.length - 1) {
+                                    b = c + 1;
+                                    break a;
+                                }
                             }
-                            else b = 1e3;
-                            b = Pd(this, e, b), R(c = N(this.F), "RID", a), R(c, "CVER", 22), this.D && R(c, "X-HTTP-Session-Id", this.D), Kd(this, c), this.o && f && Gd(c, this.o, f), Dc(this.i, e), this.Ra && R(c, "TYPE", "init"), this.ja ? (R(c, "$req", b), R(c, "SID", "null"), e.$ = !0, ic(e, c, null)) : ic(e, c, b), this.G = 2;
+                            b = 1e3;
                         }
-                    } else 3 == this.G && (a ? Qd(this, a) : 0 == this.l.length || id(this.i) || Qd(this));
-                }
+                        else b = 1e3;
+                        b = Pd(this, e, b), R(c = N(this.F), "RID", a), R(c, "CVER", 22), this.D && R(c, "X-HTTP-Session-Id", this.D), Kd(this, c), this.o && f && Gd(c, this.o, f), Dc(this.i, e), this.Ra && R(c, "TYPE", "init"), this.ja ? (R(c, "$req", b), R(c, "SID", "null"), e.$ = !0, ic(e, c, null)) : ic(e, c, b), this.G = 2;
+                    }
+                } else 3 == this.G && (a ? Qd(this, a) : 0 == this.l.length || id(this.i) || Qd(this));
             }, k.Ga = function() {
                 if (this.u = null, Rd(this), this.$ && !(this.L || null == this.g || 0 >= this.O)) {
                     var a = 2 * this.O;
@@ -1911,26 +1900,22 @@
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
-                        // handler instead of the img's onLoad attribute.
-                        function(img, src, layout, placeholder, onLoadingComplete) {
-                            if (img) {
-                                var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && // Pass back read-only primitive values but not the
-                                        // underlying DOM element because it could be misused.
-                                        onLoadingComplete({
-                                            naturalWidth: img.naturalWidth,
-                                            naturalHeight: img.naturalHeight
-                                        });
+                        if (setRef(img), img) {
+                            var handleLoad = function() {
+                                img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
+                                    "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(srcString), onLoadingComplete && // Pass back read-only primitive values but not the
+                                    // underlying DOM element because it could be misused.
+                                    onLoadingComplete({
+                                        naturalWidth: img.naturalWidth,
+                                        naturalHeight: img.naturalHeight
                                     });
-                                };
-                                img.complete ? // If the real image fails to load, this will still remove the placeholder.
-                                // This is the desired behavior for now, and will be revisited when error
-                                // handling is worked on for the image component itself.
-                                handleLoad() : img.onload = handleLoad;
-                            }
-                        }(img, srcString, 0, placeholder, onLoadingComplete);
+                                });
+                            };
+                            img.complete ? // If the real image fails to load, this will still remove the placeholder.
+                            // This is the desired behavior for now, and will be revisited when error
+                            // handling is worked on for the image component itself.
+                            handleLoad() : img.onload = handleLoad;
+                        }
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
                 })), /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
@@ -2067,7 +2052,7 @@
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
                         for(// Find all the "vw" percent sizes used in the sizes prop
-                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {

@@ -886,17 +886,15 @@
                     } // if the HTTP status code is 4xx or 5xx, the request also failed
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
-                        if (decodeResponseBody) {
-                            if (window1.TextDecoder) {
-                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
-                                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
-                                    return "charset" === type.trim() ? value.trim() : charset;
-                                }, "utf-8"));
-                                try {
-                                    cause = new TextDecoder(charset).decode(responseBody);
-                                } catch (e) {}
-                            } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
-                        }
+                        if (decodeResponseBody) if (window1.TextDecoder) {
+                            var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                                var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
+                                return "charset" === type.trim() ? value.trim() : charset;
+                            }, "utf-8"));
+                            try {
+                                cause = new TextDecoder(charset).decode(responseBody);
+                            } catch (e) {}
+                        } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
                         callback({
                             cause: cause
                         });
@@ -2517,9 +2515,9 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : // String.prototype.fromCharCode does not supports
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? // String.prototype.fromCharCode does not supports
                             // > 2 bytes unicode chars directly
-                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
+                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             //has some bugs
@@ -2624,11 +2622,10 @@
                                                     case "'":
                                                     case '"':
                                                         if (3 === s || 1 === s //|| s == S_ATTR_SPACE
-                                                        ) {
-                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                                            else //fatalError: no end quot match
-                                                            throw Error("attribute value no end '" + c + "' match");
-                                                        } else if (4 == s) //console.log(attrName,value,start,p)
+                                                        ) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                                        else //fatalError: no end quot match
+                                                        throw Error("attribute value no end '" + c + "' match");
+                                                        else if (4 == s) //console.log(attrName,value,start,p)
                                                         addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), //console.dir(el)
                                                         errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                                                         else //fatalError: no equal before
@@ -2980,13 +2977,12 @@
                  * @param {string} type the event name
                  */ _proto.trigger = function(type) {
                     var callbacks = this.listeners[type];
-                    if (callbacks) {
-                        // can add a significant amount of overhead. Avoid the
-                        // intermediate object creation for the common case of a
-                        // single callback argument
-                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
-                    } // Slicing the arguments on every invocation of this method
+                    if (callbacks) // can add a significant amount of overhead. Avoid the
+                    // intermediate object creation for the common case of a
+                    // single callback argument
+                    if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                    else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                     // Slicing the arguments on every invocation of this method
                 }, /**
                  * Destroys the stream and cleans up.
                  */ _proto.dispose = function() {
@@ -4767,18 +4763,16 @@
                     if (!relativeParts.netLoc && (// 3) If the embedded URL's <net_loc> is non-empty, we skip to
                     // Step 7.  Otherwise, the embedded URL inherits the <net_loc>
                     // (if any) of the base URL.
-                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) {
-                        if (relativeParts.path) {
-                            // 6) The last segment of the base URL's path (anything
-                            // following the rightmost slash "/", or the entire path if no
-                            // slash is present) is removed and the embedded URL's path is
-                            // appended in its place.
-                            var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
-                            builtParts.path = URLToolkit.normalizePath(newPath);
-                        } else // 5) If the embedded URL path is empty (and not preceded by a
-                        // slash), then the embedded URL inherits the base URL path
-                        builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
-                    }
+                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) if (relativeParts.path) {
+                        // 6) The last segment of the base URL's path (anything
+                        // following the rightmost slash "/", or the entire path if no
+                        // slash is present) is removed and the embedded URL's path is
+                        // appended in its place.
+                        var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
+                        builtParts.path = URLToolkit.normalizePath(newPath);
+                    } else // 5) If the embedded URL path is empty (and not preceded by a
+                    // slash), then the embedded URL inherits the base URL path
+                    builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -5667,7 +5661,7 @@
                     return;
                 }
                 for(var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
-                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
+                    font: Math.round(0.05 * containerBox.height * 100) / 100 + "px sans-serif"
                 }, i1 = 0; i1 < cues.length; i1++)// Compute the intial position and styles of the cue div.
                 styleBox = new CueStyleBox(window1, cue = cues[i1], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
                 // Move a StyleBox to its specified, or next best, position. The containerBox
@@ -5678,7 +5672,7 @@
                         if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                         if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                         for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                        return -1 * ++count;
+                        return -+ ++count;
                     }(cue), axis = [];
                     // If we have a line number to align the cue to.
                     if (cue.snapToLines) {
@@ -6517,19 +6511,20 @@
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
                 if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
-                    if (dir) return -1;
-                    byteOffset = buffer.length - 1;
-                } else if (byteOffset < 0) {
-                    if (!dir) return -1;
-                    byteOffset = 0;
-                }
+                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) if (dir) return -1;
+                else byteOffset = buffer.length - 1;
+                else if (byteOffset < 0) if (!dir) return -1;
+                else byteOffset = 0;
                 // Finally, search either indexOf (if dir is true) or lastIndexOf
                 if ("string" == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return(// Special case: looking for empty string/buffer always fails
                 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir));
-                if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
-                    val
-                ], byteOffset, encoding, dir);
+                if ("number" == typeof val) {
+                    if (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+                    else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+                    return arrayIndexOf(buffer, [
+                        val
+                    ], byteOffset, encoding, dir);
+                }
                 throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {

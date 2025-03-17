@@ -1,13 +1,11 @@
 function f(condition1, condition2, condition3) {
-    if (condition1) {
-        if (condition2) return aValue;
+    if (condition1) if (condition2) return aValue;
+    else {
+        const variable1 = "something";
+        if (!condition3) return;
         {
-            const variable1 = "something";
-            if (!condition3) return;
-            {
-                const variable2 = "else";
-                return anotherValue;
-            }
+            const variable2 = "else";
+            return anotherValue;
         }
     }
 }

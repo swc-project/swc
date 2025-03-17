@@ -4,61 +4,102 @@
     ],
     {
         /***/ 3239: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
-            var global, define, _require, require, normalizeModule, lookup, root;
-            /* module decorator */ module = __webpack_require__.nmd(module), (global = function() {
-                return this;
-            }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
-                if ("string" != typeof module) {
-                    define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
-                    return;
+            /* module decorator */ module = __webpack_require__.nmd(module), /* ***** BEGIN LICENSE BLOCK *****
+             * Distributed under the BSD license:
+             *
+             * Copyright (c) 2010, Ajax.org B.V.
+             * All rights reserved.
+             *
+             * Redistribution and use in source and binary forms, with or without
+             * modification, are permitted provided that the following conditions are met:
+             *     * Redistributions of source code must retain the above copyright
+             *       notice, this list of conditions and the following disclaimer.
+             *     * Redistributions in binary form must reproduce the above copyright
+             *       notice, this list of conditions and the following disclaimer in the
+             *       documentation and/or other materials provided with the distribution.
+             *     * Neither the name of Ajax.org B.V. nor the
+             *       names of its contributors may be used to endorse or promote products
+             *       derived from this software without specific prior written permission.
+             *
+             * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+             * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+             * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+             * DISCLAIMED. IN NO EVENT SHALL AJAX.ORG B.V. BE LIABLE FOR ANY
+             * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+             * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+             * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+             * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+             * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+             * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+             *
+             * ***** END LICENSE BLOCK ***** */ /**
+             * Define a module along with a payload
+             * @param module a name for the payload
+             * @param payload a function to call with (require, exports, module) params
+             */ function() {
+                var global = function() {
+                    return this;
+                }();
+                if (global || "undefined" == typeof window || (global = window), "undefined" == typeof requirejs) {
+                    var root, define = function(module, deps, payload) {
+                        if ("string" != typeof module) {
+                            define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
+                            return;
+                        }
+                        2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
+                    };
+                    define.modules = {}, define.payloads = {};
+                    /**
+                 * Get at functionality define()ed using the function above
+                 */ var _require = function(parentId, module, callback) {
+                        if ("string" == typeof module) {
+                            var payload = lookup(parentId, module);
+                            if (void 0 != payload) return callback && callback(), payload;
+                        } else if ("[object Array]" === Object.prototype.toString.call(module)) {
+                            for(var params = [], i = 0, l = module.length; i < l; ++i){
+                                var dep = lookup(parentId, module[i]);
+                                if (void 0 == dep && require.original) return;
+                                params.push(dep);
+                            }
+                            return callback && callback.apply(null, params) || !0;
+                        }
+                    }, require = function(module, callback) {
+                        var packagedModule = _require("", module, callback);
+                        return void 0 == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
+                    }, normalizeModule = function(parentId, moduleName) {
+                        // normalize plugin requires
+                        if (-1 !== moduleName.indexOf("!")) {
+                            var chunks = moduleName.split("!");
+                            return normalizeModule(parentId, chunks[0]) + "!" + normalizeModule(parentId, chunks[1]);
+                        }
+                        // normalize relative requires
+                        if ("." == moduleName.charAt(0)) for(moduleName = parentId.split("/").slice(0, -1).join("/") + "/" + moduleName; -1 !== moduleName.indexOf(".") && previous != moduleName;){
+                            var previous = moduleName;
+                            moduleName = moduleName.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
+                        }
+                        return moduleName;
+                    }, lookup = function(parentId, moduleName) {
+                        moduleName = normalizeModule(parentId, moduleName);
+                        var module = define.modules[moduleName];
+                        if (!module) {
+                            if ("function" == typeof (module = define.payloads[moduleName])) {
+                                var exports = {}, mod = {
+                                    id: moduleName,
+                                    uri: "",
+                                    exports: exports,
+                                    packaged: !0
+                                };
+                                exports = module(function(module, callback) {
+                                    return _require(moduleName, module, callback);
+                                }, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
+                            }
+                            module = define.modules[moduleName] = exports || module;
+                        }
+                        return module;
+                    };
+                    root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0);
                 }
-                2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
-            }).modules = {}, define.payloads = {}, _require = function(parentId, module, callback) {
-                if ("string" == typeof module) {
-                    var payload = lookup(parentId, module);
-                    if (void 0 != payload) return callback && callback(), payload;
-                } else if ("[object Array]" === Object.prototype.toString.call(module)) {
-                    for(var params = [], i = 0, l = module.length; i < l; ++i){
-                        var dep = lookup(parentId, module[i]);
-                        if (void 0 == dep && require.original) return;
-                        params.push(dep);
-                    }
-                    return callback && callback.apply(null, params) || !0;
-                }
-            }, require = function(module, callback) {
-                var packagedModule = _require("", module, callback);
-                return void 0 == packagedModule && require.original ? require.original.apply(this, arguments) : packagedModule;
-            }, normalizeModule = function(parentId, moduleName) {
-                // normalize plugin requires
-                if (-1 !== moduleName.indexOf("!")) {
-                    var chunks = moduleName.split("!");
-                    return normalizeModule(parentId, chunks[0]) + "!" + normalizeModule(parentId, chunks[1]);
-                }
-                // normalize relative requires
-                if ("." == moduleName.charAt(0)) for(moduleName = parentId.split("/").slice(0, -1).join("/") + "/" + moduleName; -1 !== moduleName.indexOf(".") && previous != moduleName;){
-                    var previous = moduleName;
-                    moduleName = moduleName.replace(/\/\.\//, "/").replace(/[^\/]+\/\.\.\//, "");
-                }
-                return moduleName;
-            }, lookup = function(parentId, moduleName) {
-                moduleName = normalizeModule(parentId, moduleName);
-                var module = define.modules[moduleName];
-                if (!module) {
-                    if ("function" == typeof (module = define.payloads[moduleName])) {
-                        var exports = {}, mod = {
-                            id: moduleName,
-                            uri: "",
-                            exports: exports,
-                            packaged: !0
-                        };
-                        exports = module(function(module, callback) {
-                            return _require(moduleName, module, callback);
-                        }, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
-                    }
-                    module = define.modules[moduleName] = exports || module;
-                }
-                return module;
-            }, root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
+            }(), ace.define("ace/lib/fixoldbrowsers", [
                 "require",
                 "exports",
                 "module"
@@ -476,10 +517,8 @@
                 function normalizeCommandKeys(callback, e, keyCode) {
                     var hashId = getModifierHash(e);
                     if (!useragent.isMac && pressedKeys) {
-                        if (e.getModifierState && (e.getModifierState("OS") || e.getModifierState("Win")) && (hashId |= 8), pressedKeys.altGr) {
-                            if ((3 & hashId) == 3) return;
-                            pressedKeys.altGr = 0;
-                        }
+                        if (e.getModifierState && (e.getModifierState("OS") || e.getModifierState("Win")) && (hashId |= 8), pressedKeys.altGr) if ((3 & hashId) == 3) return;
+                        else pressedKeys.altGr = 0;
                         if (18 === keyCode || 17 === keyCode) {
                             var location = "location" in e ? e.location : e.keyLocation;
                             17 === keyCode && 1 === location ? 1 == pressedKeys[keyCode] && (ts = e.timeStamp) : 18 === keyCode && 3 === hashId && 2 === location && e.timeStamp - ts < 50 && (pressedKeys.altGr = !0);
@@ -1185,12 +1224,10 @@
                                     var screenRow = editor.renderer.pixelToScreenCoordinates(0, mouseEvent.y).row, pos = mouseEvent.$pos;
                                     if (screenRow > editor.session.documentToScreenRow(pos.row, pos.column)) return hideTooltip();
                                 }
-                                if (tooltipAnnotation != annotation) {
-                                    if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
-                                    else {
-                                        var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
-                                        style.left = rect.right + "px", style.top = rect.bottom + "px";
-                                    }
+                                if (tooltipAnnotation != annotation) if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
+                                else {
+                                    var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
+                                    style.left = rect.right + "px", style.top = rect.bottom + "px";
                                 }
                             }() : hideTooltip();
                         }, 50));
@@ -1561,10 +1598,8 @@
                         var touches = e.touches;
                         if (!(touches.length > 1) && "zoom" != mode) {
                             var touchObj = touches[0], wheelX = startX - touchObj.clientX, wheelY = startY - touchObj.clientY;
-                            if ("wait" == mode) {
-                                if (!(wheelX * wheelX + wheelY * wheelY > 4)) return e.preventDefault();
-                                mode = "cursor";
-                            }
+                            if ("wait" == mode) if (!(wheelX * wheelX + wheelY * wheelY > 4)) return e.preventDefault();
+                            else mode = "cursor";
                             startX = touchObj.clientX, startY = touchObj.clientY, e.clientX = touchObj.clientX, e.clientY = touchObj.clientY;
                             var t = e.timeStamp, dt = t - lastT;
                             if (lastT = t, "scroll" == mode) {
@@ -2431,7 +2466,14 @@
                 }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
-                    return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? +!!/[\u0591-\u05f4]/.test(ch) : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
+                    if (0 == hi) return uc > 0x00bf ? 0 : UnicodeTBL00[uc];
+                    if (5 == hi) return +!!/[\u0591-\u05f4]/.test(ch);
+                    if (6 == hi) if (/[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch)) return 12;
+                    else if (/[\u0660-\u0669\u066b-\u066c]/.test(ch)) return 3;
+                    else if (0x066a == uc) return 11;
+                    else if (/[\u06f0-\u06f9]/.test(ch)) return 2;
+                    else return 7;
+                    return 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
@@ -2488,12 +2530,10 @@
                                     case 18:
                                         return 4;
                                 }
-                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
-                                if (0x10 == action) {
-                                    for(i = condPos; i < ix; i++)levels[i] = 1;
-                                    condPos = -1;
-                                } else condPos = -1;
-                            }
+                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) if (0x10 == action) {
+                                for(i = condPos; i < ix; i++)levels[i] = 1;
+                                condPos = -1;
+                            } else condPos = -1;
                             if (impTab[newState][6]) -1 == condPos && (condPos = ix);
                             else if (condPos > -1) {
                                 for(i = condPos; i < ix; i++)levels[i] = newLevel;
@@ -2795,11 +2835,10 @@
                         else {
                             for(; (ch = rightOfCursor[index]) && whitespaceRe.test(ch);)index++;
                             if (index < 1) {
-                                for(tokenRe.lastIndex = 0; (ch = rightOfCursor[index]) && !tokenRe.test(ch);)if (tokenRe.lastIndex = 0, index++, whitespaceRe.test(ch)) {
-                                    if (index > 2) {
-                                        index--;
-                                        break;
-                                    }
+                                for(tokenRe.lastIndex = 0; (ch = rightOfCursor[index]) && !tokenRe.test(ch);)if (tokenRe.lastIndex = 0, index++, whitespaceRe.test(ch)) if (index > 2) {
+                                    index--;
+                                    break;
+                                } else {
                                     for(; (ch = rightOfCursor[index]) && whitespaceRe.test(ch);)index++;
                                     if (index > 2) break;
                                 }
@@ -2879,17 +2918,14 @@
                         }
                         return data;
                     }, this.fromJSON = function(data) {
-                        if (void 0 == data.start) {
-                            if (this.rangeList && data.length > 1) {
-                                this.toSingleRange(data[0]);
-                                for(var i = data.length; i--;){
-                                    var r = Range.fromPoints(data[i].start, data[i].end);
-                                    data[i].isBackwards && (r.cursor = r.start), this.addRange(r, !0);
-                                }
-                                return;
+                        if (void 0 == data.start) if (this.rangeList && data.length > 1) {
+                            this.toSingleRange(data[0]);
+                            for(var i = data.length; i--;){
+                                var r = Range.fromPoints(data[i].start, data[i].end);
+                                data[i].isBackwards && (r.cursor = r.start), this.addRange(r, !0);
                             }
-                            data = data[0];
-                        }
+                            return;
+                        } else data = data[0];
                         this.rangeList && this.toSingleRange(data), this.setSelectionRange(data, data.isBackwards);
                     }, this.isEqual = function(data) {
                         if ((data.length || this.rangeCount) && data.length != this.rangeCount) return !1;
@@ -3256,19 +3292,20 @@
                             initContext(editor);
                             var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
                             if ("" !== selected && "{" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, "{", "}");
-                            if (CstyleBehaviour.isSaneInsertion(editor, session)) return /[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options && options.braces ? (CstyleBehaviour.recordAutoInsert(editor, session, "}"), {
+                            if (CstyleBehaviour.isSaneInsertion(editor, session)) if (/[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options && options.braces) return CstyleBehaviour.recordAutoInsert(editor, session, "}"), {
                                 text: "{}",
                                 selection: [
                                     1,
                                     1
                                 ]
-                            }) : (CstyleBehaviour.recordMaybeInsert(editor, session, "{"), {
+                            };
+                            else return CstyleBehaviour.recordMaybeInsert(editor, session, "{"), {
                                 text: "{",
                                 selection: [
                                     1,
                                     1
                                 ]
-                            });
+                            };
                         } else if ("}" == text) {
                             initContext(editor);
                             var rightChar = line.substring(cursor.column, cursor.column + 1);
@@ -5119,10 +5156,8 @@
                             anchor = this.start, consumePoint(fold.start, anchor), consumePoint(fold.end, anchor);
                             for(var anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
                             var afterStart = this.subFolds[i], firstConsumed = 0;
-                            if (0 == cmp) {
-                                if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
-                                firstConsumed = 1;
-                            }
+                            if (0 == cmp) if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
+                            else firstConsumed = 1;
                             for(var row = fold.range.end.row, column = fold.range.end.column, j = i, cmp = -1; j < this.subFolds.length && 1 == (cmp = this.subFolds[j].range.compare(row, column)); j++);
                             0 == cmp && j++;
                             for(var consumedFolds = this.subFolds.splice(i, j - i, fold), last = 0 == cmp ? consumedFolds.length - 1 : consumedFolds.length, k = firstConsumed; k < last; k++)fold.addSubFold(consumedFolds[k]);
@@ -6026,38 +6061,37 @@
                         };
                     }, this.$updateInternalDataOnChange = function(delta) {
                         var useWrapMode = this.$useWrapMode, action = delta.action, start = delta.start, end = delta.end, firstRow = start.row, lastRow = end.row, len = lastRow - firstRow, removedFolds = null;
-                        if (this.$updating = !0, 0 != len) {
-                            if ("remove" === action) {
-                                this[useWrapMode ? "$wrapData" : "$rowLengthCache"].splice(firstRow, len);
-                                var foldLines = this.$foldData;
-                                removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds);
-                                var foldLine = this.getFoldLine(end.row), idx = 0;
-                                if (foldLine) {
-                                    foldLine.addRemoveChars(end.row, end.column, start.column - end.column), foldLine.shiftRow(-len);
-                                    var foldLineBefore = this.getFoldLine(firstRow);
-                                    foldLineBefore && foldLineBefore !== foldLine && (foldLineBefore.merge(foldLine), foldLine = foldLineBefore), idx = foldLines.indexOf(foldLine) + 1;
-                                }
-                                for(; idx < foldLines.length; idx++){
-                                    var foldLine = foldLines[idx];
-                                    foldLine.start.row >= end.row && foldLine.shiftRow(-len);
-                                }
-                                lastRow = firstRow;
-                            } else {
-                                var args = Array(len);
-                                args.unshift(firstRow, 0);
-                                var arr = useWrapMode ? this.$wrapData : this.$rowLengthCache;
-                                arr.splice.apply(arr, args);
-                                var foldLines = this.$foldData, foldLine = this.getFoldLine(firstRow), idx = 0;
-                                if (foldLine) {
-                                    var cmp = foldLine.range.compareInside(start.row, start.column);
-                                    0 == cmp ? (foldLine = foldLine.split(start.row, start.column)) && (foldLine.shiftRow(len), foldLine.addRemoveChars(lastRow, 0, end.column - start.column)) : -1 == cmp && (foldLine.addRemoveChars(firstRow, 0, end.column - start.column), foldLine.shiftRow(len)), idx = foldLines.indexOf(foldLine) + 1;
-                                }
-                                for(; idx < foldLines.length; idx++){
-                                    var foldLine = foldLines[idx];
-                                    foldLine.start.row >= firstRow && foldLine.shiftRow(len);
-                                }
+                        if (this.$updating = !0, 0 != len) if ("remove" === action) {
+                            this[useWrapMode ? "$wrapData" : "$rowLengthCache"].splice(firstRow, len);
+                            var foldLines = this.$foldData;
+                            removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds);
+                            var foldLine = this.getFoldLine(end.row), idx = 0;
+                            if (foldLine) {
+                                foldLine.addRemoveChars(end.row, end.column, start.column - end.column), foldLine.shiftRow(-len);
+                                var foldLineBefore = this.getFoldLine(firstRow);
+                                foldLineBefore && foldLineBefore !== foldLine && (foldLineBefore.merge(foldLine), foldLine = foldLineBefore), idx = foldLines.indexOf(foldLine) + 1;
                             }
+                            for(; idx < foldLines.length; idx++){
+                                var foldLine = foldLines[idx];
+                                foldLine.start.row >= end.row && foldLine.shiftRow(-len);
+                            }
+                            lastRow = firstRow;
                         } else {
+                            var args = Array(len);
+                            args.unshift(firstRow, 0);
+                            var arr = useWrapMode ? this.$wrapData : this.$rowLengthCache;
+                            arr.splice.apply(arr, args);
+                            var foldLines = this.$foldData, foldLine = this.getFoldLine(firstRow), idx = 0;
+                            if (foldLine) {
+                                var cmp = foldLine.range.compareInside(start.row, start.column);
+                                0 == cmp ? (foldLine = foldLine.split(start.row, start.column)) && (foldLine.shiftRow(len), foldLine.addRemoveChars(lastRow, 0, end.column - start.column)) : -1 == cmp && (foldLine.addRemoveChars(firstRow, 0, end.column - start.column), foldLine.shiftRow(len)), idx = foldLines.indexOf(foldLine) + 1;
+                            }
+                            for(; idx < foldLines.length; idx++){
+                                var foldLine = foldLines[idx];
+                                foldLine.start.row >= firstRow && foldLine.shiftRow(len);
+                            }
+                        }
+                        else {
                             len = Math.abs(delta.start.column - delta.end.column), "remove" === action && (removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds), len = -len);
                             var foldLine = this.getFoldLine(firstRow);
                             foldLine && foldLine.addRemoveChars(firstRow, start.column, len);
@@ -6268,12 +6302,10 @@
                 }).call(EditSession.prototype), require("./edit_session/folding").Folding.call(EditSession.prototype), require("./edit_session/bracket_match").BracketMatch.call(EditSession.prototype), config.defineOptions(EditSession.prototype, "session", {
                     wrap: {
                         set: function(value) {
-                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10) || !1) : value = !1, this.$wrap != value) {
-                                if (this.$wrap = value, value) {
-                                    var col = "number" == typeof value ? value : null;
-                                    this.setWrapLimitRange(col, col), this.setUseWrapMode(!0);
-                                } else this.setUseWrapMode(!1);
-                            }
+                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10) || !1) : value = !1, this.$wrap != value) if (this.$wrap = value, value) {
+                                var col = "number" == typeof value ? value : null;
+                                this.setWrapLimitRange(col, col), this.setUseWrapMode(!0);
+                            } else this.setUseWrapMode(!1);
                         },
                         get: function() {
                             return this.getUseWrapMode() ? -1 == this.$wrap ? "printMargin" : this.getWrapLimitRange().min ? this.$wrap : "free" : "off";
@@ -6556,17 +6588,16 @@
                         }
                     }, this._addCommandToBinding = function(keyId, command, position) {
                         var i, ckb = this.commandKeyBinding;
-                        if (command) {
-                            if (!ckb[keyId] || this.$singleCommand) ckb[keyId] = command;
-                            else {
-                                Array.isArray(ckb[keyId]) ? -1 != (i = ckb[keyId].indexOf(command)) && ckb[keyId].splice(i, 1) : ckb[keyId] = [
-                                    ckb[keyId]
-                                ], "number" != typeof position && (position = getPosition(command));
-                                var commands = ckb[keyId];
-                                for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
-                                commands.splice(i, 0, command);
-                            }
-                        } else delete ckb[keyId];
+                        if (command) if (!ckb[keyId] || this.$singleCommand) ckb[keyId] = command;
+                        else {
+                            Array.isArray(ckb[keyId]) ? -1 != (i = ckb[keyId].indexOf(command)) && ckb[keyId].splice(i, 1) : ckb[keyId] = [
+                                ckb[keyId]
+                            ], "number" != typeof position && (position = getPosition(command));
+                            var commands = ckb[keyId];
+                            for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
+                            commands.splice(i, 0, command);
+                        }
+                        else delete ckb[keyId];
                     }, this.addCommands = function(commands) {
                         commands && Object.keys(commands).forEach(function(name) {
                             var command = commands[name];
@@ -8985,16 +9016,14 @@
                                                 if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
                                                 else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
                                                 else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
-                                                else if (!i1 && !i2) {
-                                                    if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
-                                                    else {
-                                                        if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
-                                                            c1,
-                                                            before,
-                                                            after
-                                                        ].filter(Boolean);
-                                                        shift(d1, c1, -1);
-                                                    }
+                                                else if (!i1 && !i2) if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
+                                                else {
+                                                    if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
+                                                        c1,
+                                                        before,
+                                                        after
+                                                    ].filter(Boolean);
+                                                    shift(d1, c1, -1);
                                                 }
                                                 return [
                                                     c1,
@@ -9046,30 +9075,25 @@
                 }
                 function swap(d1, d2) {
                     var i1 = "insert" == d1.action, i2 = "insert" == d2.action;
-                    if (i1 && i2) {
-                        if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
-                        else {
-                            if (!(0 >= cmp(d2.start, d1.start))) return null;
-                            shift(d1, d2, 1);
-                        }
-                    } else if (i1 && !i2) {
-                        if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
-                        else {
-                            if (!(0 >= cmp(d2.end, d1.start))) return null;
-                            shift(d1, d2, -1);
-                        }
-                    } else if (!i1 && i2) {
-                        if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
-                        else {
-                            if (!(0 >= cmp(d2.start, d1.start))) return null;
-                            shift(d1, d2, 1);
-                        }
-                    } else if (!i1 && !i2) {
-                        if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
-                        else {
-                            if (!(0 >= cmp(d2.end, d1.start))) return null;
-                            shift(d1, d2, -1);
-                        }
+                    if (i1 && i2) if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
+                    else {
+                        if (!(0 >= cmp(d2.start, d1.start))) return null;
+                        shift(d1, d2, 1);
+                    }
+                    else if (i1 && !i2) if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
+                    else {
+                        if (!(0 >= cmp(d2.end, d1.start))) return null;
+                        shift(d1, d2, -1);
+                    }
+                    else if (!i1 && i2) if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
+                    else {
+                        if (!(0 >= cmp(d2.start, d1.start))) return null;
+                        shift(d1, d2, 1);
+                    }
+                    else if (!i1 && !i2) if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
+                    else {
+                        if (!(0 >= cmp(d2.end, d1.start))) return null;
+                        shift(d1, d2, -1);
                     }
                     return [
                         d2,
@@ -9331,12 +9355,10 @@
                                     continue;
                                 }
                                 var range = marker.range.clipRows(config.firstRow, config.lastRow);
-                                if (!range.isEmpty()) {
-                                    if (range = range.toScreenRange(this.session), marker.renderer) {
-                                        var top = this.$getTop(range.start.row, config), left = this.$padding + range.start.column * config.characterWidth;
-                                        marker.renderer(html, range, left, top, config);
-                                    } else "fullLine" == marker.type ? this.drawFullLineMarker(html, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(html, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(html, range, marker.clazz, config) : this.drawMultiLineMarker(html, range, marker.clazz, config) : this.drawSingleLineMarker(html, range, marker.clazz + " ace_start ace_br15", config);
-                                }
+                                if (!range.isEmpty()) if (range = range.toScreenRange(this.session), marker.renderer) {
+                                    var top = this.$getTop(range.start.row, config), left = this.$padding + range.start.column * config.characterWidth;
+                                    marker.renderer(html, range, left, top, config);
+                                } else "fullLine" == marker.type ? this.drawFullLineMarker(html, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(html, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(html, range, marker.clazz, config) : this.drawMultiLineMarker(html, range, marker.clazz, config) : this.drawSingleLineMarker(html, range, marker.clazz + " ace_start ace_br15", config);
                             }
                             if (-1 != this.i) for(; this.i < this.element.childElementCount;)this.element.removeChild(this.element.lastChild);
                         }
@@ -9439,13 +9461,10 @@
                         this.config = config;
                         for(var first = Math.max(firstRow, config.firstRow), last = Math.min(lastRow, config.lastRow), lineElements = this.element.childNodes, lineElementsIdx = 0, row = config.firstRow; row < first; row++){
                             var foldLine = this.session.getFoldLine(row);
-                            if (foldLine) {
-                                if (foldLine.containsRow(first)) {
-                                    first = foldLine.start.row;
-                                    break;
-                                }
-                                row = foldLine.end.row;
-                            }
+                            if (foldLine) if (foldLine.containsRow(first)) {
+                                first = foldLine.start.row;
+                                break;
+                            } else row = foldLine.end.row;
                             lineElementsIdx++;
                         }
                         for(var heightChanged = !1, row = first, foldLine = this.session.getNextFoldLine(row), foldStart = foldLine ? foldLine.start.row : 1 / 0; row > foldStart && (row = foldLine.end.row + 1, foldStart = (foldLine = this.session.getNextFoldLine(row, foldLine)) ? foldLine.start.row : 1 / 0), !(row > last);){
@@ -9492,12 +9511,11 @@
                                 if (i = m.index + m[0].length, before && valueFragment.appendChild(this.dom.createTextNode(before, this.element)), tab) {
                                     var tabSize = this.session.getScreenTabSize(screenColumn + m.index);
                                     valueFragment.appendChild(this.$tabStrings[tabSize].cloneNode(!0)), screenColumn += tabSize - 1;
-                                } else if (simpleSpace) {
-                                    if (this.showSpaces) {
-                                        var span = this.dom.createElement("span");
-                                        span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(this.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
-                                    } else valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
-                                } else if (controlCharacter) {
+                                } else if (simpleSpace) if (this.showSpaces) {
+                                    var span = this.dom.createElement("span");
+                                    span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(this.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
+                                } else valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
+                                else if (controlCharacter) {
                                     var span = this.dom.createElement("span");
                                     span.className = "ace_invisible ace_invisible_space ace_invalid", span.textContent = lang.stringRepeat(this.SPACE_CHAR, controlCharacter.length), valueFragment.appendChild(span);
                                 } else if (cjkSpace) {
@@ -10476,10 +10494,8 @@ margin: 0 10px;\
                         if (void 0 === lastRow && (lastRow = 1 / 0), this.$changedLines ? (this.$changedLines.firstRow > firstRow && (this.$changedLines.firstRow = firstRow), this.$changedLines.lastRow < lastRow && (this.$changedLines.lastRow = lastRow)) : this.$changedLines = {
                             firstRow: firstRow,
                             lastRow: lastRow
-                        }, this.$changedLines.lastRow < this.layerConfig.firstRow) {
-                            if (!force) return;
-                            this.$changedLines.lastRow = this.layerConfig.lastRow;
-                        }
+                        }, this.$changedLines.lastRow < this.layerConfig.firstRow) if (!force) return;
+                        else this.$changedLines.lastRow = this.layerConfig.lastRow;
                         this.$changedLines.firstRow > this.layerConfig.lastRow || this.$loop.schedule(this.CHANGE_LINES);
                     }, this.onChangeNewLineMode = function() {
                         this.$loop.schedule(this.CHANGE_TEXT), this.$textLayer.$updateEolChar(), this.session.$bidiHandler.setEolChar(this.$textLayer.EOL_CHAR);
@@ -10587,12 +10603,11 @@ margin: 0 10px;\
                                     return;
                                 }
                                 var w = 1, maxTop = this.$size.height - h;
-                                if (composition) {
-                                    if (composition.useTextareaForIME) {
-                                        var val = this.textarea.value;
-                                        w = this.characterWidth * this.session.$getStringScreenWidth(val)[0];
-                                    } else posTop += this.lineHeight + 2;
-                                } else posTop += this.lineHeight;
+                                if (composition) if (composition.useTextareaForIME) {
+                                    var val = this.textarea.value;
+                                    w = this.characterWidth * this.session.$getStringScreenWidth(val)[0];
+                                } else posTop += this.lineHeight + 2;
+                                else posTop += this.lineHeight;
                                 (posLeft -= this.scrollLeft) > this.$size.scrollerWidth - w && (posLeft = this.$size.scrollerWidth - w), posLeft += this.gutterWidth + this.margin.left, dom.setStyle(style, "height", h + "px"), dom.setStyle(style, "width", w + "px"), dom.translate(this.textarea, Math.min(posLeft, this.$size.scrollerWidth - w), Math.min(posTop, maxTop));
                             }
                         }

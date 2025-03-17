@@ -334,7 +334,7 @@
                     var deviceSizes = param.deviceSizes, allSizes = param.allSizes;
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
                         for(// Find all the "vw" percent sizes used in the sizes prop
-                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -537,7 +537,7 @@
                                     index > -1 && idList.splice(index, 1);
                                 }
                             }), function() {
-                                null == unobserve.current || unobserve.current(), unobserve.current = void 0;
+                                null != unobserve.current && unobserve.current(), unobserve.current = void 0;
                             };
                         }
                     } else if (!visible) {
