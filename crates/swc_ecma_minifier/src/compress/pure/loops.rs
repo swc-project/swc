@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value};
@@ -253,6 +255,38 @@ impl Pure<'_> {
                 // Remove body
                 s.body.take();
             }
+        }
+    }
+
+    pub(super) fn optimize_loops_with_constant_condition(&mut self, s: &mut Stmt) {
+        if !self.options.loops {
+            return;
+        }
+
+        match s {
+            Stmt::DoWhile(stmt) => {
+                let val = stmt.test.as_pure_bool(self.expr_ctx);
+                if let Value::Known(false) = val {
+                    *s = take(&mut *stmt.body);
+                    report_change!(
+                        "loops: Removing a do while loop with a constant false condition (single \
+                         run)"
+                    );
+                    self.changed = true;
+                }
+            }
+
+            Stmt::While(stmt) => {
+                let val = stmt.test.as_pure_bool(self.expr_ctx);
+                if let Value::Known(false) = val {
+                    *s = Stmt::dummy();
+                    report_change!(
+                        "loops: Removing a while loop with a constant false condition (no run)"
+                    );
+                    self.changed = true;
+                }
+            }
+            _ => {}
         }
     }
 }

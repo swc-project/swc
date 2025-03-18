@@ -895,6 +895,10 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(s);
 
+        self.optimize_loops_with_constant_condition(s);
+
+        debug_assert_valid(s);
+
         self.loop_to_for_stmt(s);
 
         debug_assert_valid(s);
