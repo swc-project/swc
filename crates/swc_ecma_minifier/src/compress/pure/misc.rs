@@ -1224,7 +1224,7 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.unused || self.options.side_effects {
+        if self.options.unused || self.options.side_effects || self.options.dead_code {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
                     if n.value == 0.0 && opts.drop_number {
