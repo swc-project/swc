@@ -5321,6 +5321,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_malloc",
  "testing",
+ "unicode-id-start",
  "walkdir",
  "wide",
 ]

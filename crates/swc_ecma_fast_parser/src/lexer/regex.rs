@@ -83,7 +83,7 @@ impl Lexer<'_> {
         // Read the flags
         let mut flags = String::new();
         while let Some(ch) = self.cursor.peek() {
-            if Self::is_identifier_continue(ch) {
+            if Self::is_ascii_id_continue(ch) {
                 flags.push(ch as char);
                 self.cursor.advance();
             } else {

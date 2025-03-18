@@ -1296,6 +1296,27 @@ fn test_lexer_number_edge_cases() {
 }
 
 #[test]
+fn test_lexer_identifier_with_unicode() {
+    // Test identifier with Unicode characters
+    verify_tokens(
+        "a你好",
+        vec![(
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("a你好"))),
+        )],
+    );
+
+    // Test identifier with Unicode escape sequence (code point)
+    verify_tokens(
+        "e\\u{0061}स्ते\\u{0062}",
+        vec![(
+            TokenType::Ident,
+            Some(TokenValue::Word(Atom::from("eaस्तेb"))),
+        )],
+    );
+}
+
+#[test]
 #[should_panic]
 fn test_lexer_invalid_binary_number() {
     verify_tokens(

@@ -3,11 +3,13 @@
 //! This module handles the parsing of ECMAScript/TypeScript identifiers.
 
 use swc_atoms::Atom;
+use unicode_id_start::{is_id_continue_unicode, is_id_start_unicode};
 
 use super::Lexer;
 use crate::{
     error::Result,
     token::{keyword_to_token_type, Token, TokenType, TokenValue},
+    util::likely,
 };
 
 /// Fast mapping from ASCII to check if a character is valid for identifier
@@ -65,15 +67,27 @@ impl Lexer<'_> {
         self.cursor.advance();
 
         // Read as many identifier continue chars as possible
-        self.cursor.advance_while(Self::is_identifier_continue);
+        self.cursor.advance_while(Self::is_ascii_id_continue);
 
         // Extract the identifier text
-        let span = self.span();
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
         let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
-        let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
+        let non_unicode_ident_str = unsafe { std::str::from_utf8_unchecked(&ident_bytes) };
+
+        let ident_str = if let Some(ch) = self.cursor.peek() {
+            if ch == b'\\' {
+                &self.read_identifier_with_unicode_escape(non_unicode_ident_str)?
+            } else if !ch.is_ascii() {
+                &self.read_identifier_with_utf8_charater(non_unicode_ident_str)?
+            } else {
+                non_unicode_ident_str
+            }
+        } else {
+            non_unicode_ident_str
+        };
         let had_line_break_bool: bool = self.had_line_break.into();
+        let span = self.span();
 
         // For non-keyword identifiers, we can directly return without checking keyword
         // maps
@@ -94,25 +108,37 @@ impl Lexer<'_> {
         self.cursor.advance();
 
         // Read as many identifier continue chars as possible
-        self.cursor.advance_while(Self::is_identifier_continue);
+        self.cursor.advance_while(Self::is_ascii_id_continue);
 
         // Extract the identifier text
-        let span = self.span();
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
-        let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
-        // SAFETY: We've verified the bytes are valid UTF-8
-        let ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
         let had_line_break_bool: bool = self.had_line_break.into();
+        let non_unicode_ident_str = unsafe {
+            std::str::from_utf8_unchecked(&self.cursor.slice_unchecked(ident_start, ident_end))
+        };
 
+        let ident_str = if let Some(ch) = self.cursor.peek() {
+            if ch == b'\\' {
+                &self.read_identifier_with_unicode_escape(non_unicode_ident_str)?
+            } else if !ch.is_ascii() {
+                &self.read_identifier_with_utf8_charater(non_unicode_ident_str)?
+            } else {
+                non_unicode_ident_str
+            }
+        } else {
+            non_unicode_ident_str
+        };
         // Ultra-fast path for common 2-6 letter keywords using direct table lookup
-        let len = ident_bytes.len();
+        let ident_bytes = ident_str.as_bytes();
+        let len = ident_str.len();
 
+        let span = self.span();
         // Only process if first byte is an ASCII lowercase letter (all keywords start
         // with a-z)
         if len > 0 && ident_bytes[0] >= b'a' && ident_bytes[0] <= b'z' {
             // Only runs for potential keywords not in our direct lookup tables
-            if let Some(token_type) = keyword_to_token_type(ident_str) {
+            if let Some(token_type) = keyword_to_token_type(&ident_str) {
                 return Ok(Token::new(
                     token_type,
                     span,
@@ -131,6 +157,48 @@ impl Lexer<'_> {
         ))
     }
 
+    fn read_identifier_with_unicode_escape(&mut self, non_unicode: &str) -> Result<String> {
+        let mut buffer = String::from(non_unicode);
+        self.identifier_with_unicode_escape_part(&mut buffer)?;
+
+        Ok(buffer)
+    }
+
+    fn identifier_with_unicode_escape_part(&mut self, buffer: &mut String) -> Result<()> {
+        while let Some(ch) = self.cursor.peek_char() {
+            if ch == '\\' && self.cursor.peek_at(1) == Some(b'u') {
+                // Skip the "\\u"
+                self.cursor.advance_n(2);
+                let unicode_escape = self.read_unicode_escape()?;
+                buffer.push(unicode_escape);
+            } else {
+                if likely(Self::is_identifier_continue(ch)) {
+                    buffer.push(ch);
+                    self.cursor.advance_char();
+                } else {
+                    break;
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn read_identifier_with_utf8_charater(&mut self, non_unicode: &str) -> Result<String> {
+        let mut buffer = String::from(non_unicode);
+        while let Some(ch) = self.cursor.peek_char() {
+            if likely(Self::is_identifier_continue(ch)) {
+                buffer.push(ch);
+                self.cursor.advance_char();
+            } else if ch == '\\' {
+                self.identifier_with_unicode_escape_part(&mut buffer)?;
+            } else {
+                break;
+            }
+        }
+
+        Ok(buffer)
+    }
+
     /// Super fast check for ASCII identifier start character
     #[inline(always)]
     pub(crate) fn is_ascii_id_start(ch: u8) -> bool {
@@ -141,5 +209,27 @@ impl Lexer<'_> {
     #[inline(always)]
     pub(crate) fn is_ascii_id_continue(ch: u8) -> bool {
         ch < 128 && unsafe { (IDENT_CHAR.get_unchecked(ch as usize) & 2) != 0 }
+    }
+
+    /// Check if a byte is a valid identifier start character
+    #[inline(always)]
+    pub(crate) fn is_identifier_start(ch: char) -> bool {
+        // ASCII fast path using optimized identifier functions
+        if likely(ch.is_ascii()) {
+            Self::is_ascii_id_start(ch as u8)
+        } else {
+            is_id_start_unicode(ch)
+        }
+    }
+
+    /// Check if a byte is a valid identifier continue character
+    #[inline(always)]
+    pub(crate) fn is_identifier_continue(ch: char) -> bool {
+        // ASCII fast path using optimized identifier functions
+        if likely(ch.is_ascii()) {
+            Self::is_ascii_id_continue(ch as u8)
+        } else {
+            is_id_continue_unicode(ch)
+        }
     }
 }

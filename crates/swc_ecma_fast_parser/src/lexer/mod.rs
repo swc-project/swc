@@ -393,7 +393,7 @@ impl<'a> Lexer<'a> {
             }
         } else {
             // Non-ASCII character path (less common)
-            if Self::is_identifier_start(ch) {
+            if Self::is_identifier_start(ch as char) {
                 self.read_non_keyword_identifier()
             } else {
                 self.cursor.advance();
@@ -715,30 +715,6 @@ impl<'a> Lexer<'a> {
         // If we reach here, the comment was not closed
         if had_line_break {
             self.had_line_break = LineBreak::Present;
-        }
-    }
-
-    /// Check if a byte is a valid identifier start character
-    #[inline(always)]
-    fn is_identifier_start(byte: u8) -> bool {
-        // ASCII fast path using optimized identifier functions
-        if likely(byte < 128) {
-            Self::is_ascii_id_start(byte)
-        } else {
-            // Non-ASCII, needs further checking in read_identifier
-            true
-        }
-    }
-
-    /// Check if a byte is a valid identifier continue character
-    #[inline(always)]
-    fn is_identifier_continue(byte: u8) -> bool {
-        // ASCII fast path using optimized identifier functions
-        if likely(byte < 128) {
-            Self::is_ascii_id_continue(byte)
-        } else {
-            // Non-ASCII, needs further checking in read_identifier
-            true
         }
     }
 }
