@@ -1111,7 +1111,7 @@ impl Pure<'_> {
             _ => (),
         }
 
-        if self.options.unused && opts.drop_number {
+        if opts.drop_number && (self.options.unused || self.options.dead_code) {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
