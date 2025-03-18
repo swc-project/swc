@@ -1835,20 +1835,18 @@
             /**
                  * Converts this `Query` instance to it's corresponding `Target` representation.
                  */ function Ee(t) {
-                if (!t.S) {
-                    if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
-                    else {
-                        // Flip the orderBy directions since we want the last results
-                        const t1 = [];
-                        for (const n of Te(t)){
-                            const e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
-                            t1.push(new ae(n.field, e));
-                        }
-                        // We need to swap the cursors to match the now-flipped query ordering.
-                        const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
-                        // Now return as a LimitType.First query.
-                        t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
+                if (!t.S) if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
+                else {
+                    // Flip the orderBy directions since we want the last results
+                    const t1 = [];
+                    for (const n of Te(t)){
+                        const e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
+                        t1.push(new ae(n.field, e));
                     }
+                    // We need to swap the cursors to match the now-flipped query ordering.
+                    const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
+                    // Now return as a LimitType.First query.
+                    t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
                 }
                 return t.S;
             }
@@ -3029,18 +3027,17 @@
                     const e = t.targetId, n = t.O.count, s = this.dt(e);
                     if (s) {
                         const t = s.target;
-                        if (Ht(t)) {
-                            if (0 === n) {
-                                // The existence filter told us the document does not exist. We deduce
-                                // that this document does not exist and apply a deleted document to
-                                // our updates. Without applying this deleted document there might be
-                                // another query that will raise this document as part of a snapshot
-                                // until it is resolved, essentially exposing inconsistency between
-                                // queries.
-                                const n = new Pt(t.path);
-                                this.ct(e, n, Kt.newNoDocument(n, rt.min()));
-                            } else 1 === n || L();
-                        } else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
+                        if (Ht(t)) if (0 === n) {
+                            // The existence filter told us the document does not exist. We deduce
+                            // that this document does not exist and apply a deleted document to
+                            // our updates. Without applying this deleted document there might be
+                            // another query that will raise this document as part of a snapshot
+                            // until it is resolved, essentially exposing inconsistency between
+                            // queries.
+                            const n = new Pt(t.path);
+                            this.ct(e, n, Kt.newNoDocument(n, rt.min()));
+                        } else 1 === n || L();
+                        else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
                         // snapshot with `isFromCache:true`.
                         (this.lt(e), this.it = this.it.add(e));
                     }
