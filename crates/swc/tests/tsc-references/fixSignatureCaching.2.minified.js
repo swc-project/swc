@@ -302,25 +302,26 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     function convertPropsToRegExp(object) {
         for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], 'i'));
     }
-    impl.FALLBACK_PHONE = 'UnknownPhone', impl.FALLBACK_TABLET = 'UnknownTablet', impl.FALLBACK_MOBILE = 'UnknownMobile', isArray = 'isArray' in Array ? Array.isArray : function(value) {
-        return '[object Array]' === Object.prototype.toString.call(value);
-    }, isArray = 'isArray' in Array ? function(value) {
-        return '[object Array]' === Object.prototype.toString.call(value);
-    } : Array.isArray;
-    var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
-    for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
-        for(isArray(values = mobileDetectRules.props[key]) || (values = [
-            values
-        ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf('[VER]')) >= 0 && (value = value.substring(0, verPos) + '([\\w._\\+]+)' + value.substring(verPos + 5)), values[i] = RegExp(value, 'i');
-        mobileDetectRules.props[key] = values;
-    }
     function MobileDetect(userAgent, maxPhoneWidth) {
         this.ua = userAgent || '', this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
     }
-    return convertPropsToRegExp(mobileDetectRules.oss), convertPropsToRegExp(mobileDetectRules.phones), convertPropsToRegExp(mobileDetectRules.tablets), convertPropsToRegExp(mobileDetectRules.uas), convertPropsToRegExp(mobileDetectRules.utils), mobileDetectRules.oss0 = {
-        WindowsPhoneOS: mobileDetectRules.oss.WindowsPhoneOS,
-        WindowsMobileOS: mobileDetectRules.oss.WindowsMobileOS
-    }, impl.findMatch = function(rules, userAgent) {
+    return impl.FALLBACK_PHONE = 'UnknownPhone', impl.FALLBACK_TABLET = 'UnknownTablet', impl.FALLBACK_MOBILE = 'UnknownMobile', isArray = 'isArray' in Array ? Array.isArray : function(value) {
+        return '[object Array]' === Object.prototype.toString.call(value);
+    }, isArray = 'isArray' in Array ? function(value) {
+        return '[object Array]' === Object.prototype.toString.call(value);
+    } : Array.isArray, !function() {
+        var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
+        for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
+            for(values = mobileDetectRules.props[key], isArray(values) || (values = [
+                values
+            ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf('[VER]')) >= 0 && (value = value.substring(0, verPos) + '([\\w._\\+]+)' + value.substring(verPos + 5)), values[i] = RegExp(value, 'i');
+            mobileDetectRules.props[key] = values;
+        }
+        convertPropsToRegExp(mobileDetectRules.oss), convertPropsToRegExp(mobileDetectRules.phones), convertPropsToRegExp(mobileDetectRules.tablets), convertPropsToRegExp(mobileDetectRules.uas), convertPropsToRegExp(mobileDetectRules.utils), mobileDetectRules.oss0 = {
+            WindowsPhoneOS: mobileDetectRules.oss.WindowsPhoneOS,
+            WindowsMobileOS: mobileDetectRules.oss.WindowsMobileOS
+        };
+    }(), impl.findMatch = function(rules, userAgent) {
         for(var key in rules)if (hasOwnProp.call(rules, key) && rules[key].test(userAgent)) return key;
         return null;
     }, impl.findMatches = function(rules, userAgent) {

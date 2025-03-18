@@ -36,22 +36,23 @@
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
                             try {
-                                var b = window, r = document, a = "script", n = "branch", c = function(b, r) {
+                                // load Branch
+                                (function(b, r, a, n, c, h, _, s, d, k) {
+                                    if (!b[n] || !b[n]._q) {
+                                        for(; s < _.length;)c(h, _[s++]);
+                                        (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
+                                    }
+                                })(window, document, "script", "branch", function(b, r) {
                                     b[r] = function() {
                                         b._q.push([
                                             r,
                                             arguments
                                         ]);
                                     };
-                                }, h = {
+                                }, {
                                     _q: [],
                                     _v: 1
-                                }, _ = "addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent logEvent disableTracking".split(" "), s = 0, d = void 0, k = void 0;
-                                if (!b[n] || !b[n]._q) {
-                                    for(; s < _.length;)c(h, _[s++]);
-                                    (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
-                                }
-                                window.branch.initAsync = util__WEBPACK_IMPORTED_MODULE_3___default().promisify(window.branch.init);
+                                }, "addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent logEvent disableTracking".split(" "), 0), window.branch.initAsync = util__WEBPACK_IMPORTED_MODULE_3___default().promisify(window.branch.init);
                             // const branchData = await window.branch.initAsync('key_live_YOUR_KEY_GOES_HERE');
                             // return branchData;
                             } catch (error) {
@@ -258,8 +259,10 @@
                             case "ucs-2":
                             case "utf16le":
                             case "utf-16le":
-                                for(var r2 = r, t2 = t, f2 = this.slice(r2, t2), n = "", i = 0; i < f2.length; i += 2)n += String.fromCharCode(f2[i] + 256 * f2[i + 1]);
-                                return n;
+                                return function(e, r, t) {
+                                    for(var f = e.slice(r, t), n = "", i = 0; i < f.length; i += 2)n += String.fromCharCode(f[i] + 256 * f[i + 1]);
+                                    return n;
+                                }(this, r, t);
                             default:
                                 if (f1) throw TypeError("Unknown encoding: " + e);
                                 e = (e + "").toLowerCase(), f1 = !0;

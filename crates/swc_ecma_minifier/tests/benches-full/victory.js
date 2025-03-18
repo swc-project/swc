@@ -2456,37 +2456,35 @@
                 }
                 return function(a, b) {
                     var a1, b1, a2, b2, s = [], q = []; // number interpolators
-                    a = parse(a), b = parse(b);
-                    var xa = a.translateX, ya = a.translateY, xb = b.translateX, yb = b.translateY;
-                    if (xa !== xb || ya !== yb) {
-                        var i = s.push("translate(", null, pxComma, null, pxParen);
-                        q.push({
-                            i: i - 4,
-                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
-                        }, {
-                            i: i - 2,
-                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
-                        });
-                    } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
+                        if (xa !== xb || ya !== yb) {
+                            var i = s.push("translate(", null, pxComma, null, pxParen);
+                            q.push({
+                                i: i - 4,
+                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
+                            }, {
+                                i: i - 2,
+                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
+                            });
+                        } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
                     })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                         i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
-                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen);
-                    var xa1 = a.scaleX, ya1 = a.scaleY, xb1 = b.scaleX, yb1 = b.scaleY;
-                    if (xa1 !== xb1 || ya1 !== yb1) {
-                        var i1 = s.push(pop(s) + "scale(", null, ",", null, ")");
-                        q.push({
-                            i: i1 - 4,
-                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa1, xb1)
-                        }, {
-                            i: i1 - 2,
-                            x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya1, yb1)
-                        });
-                    } else (1 !== xb1 || 1 !== yb1) && s.push(pop(s) + "scale(" + xb1 + "," + yb1 + ")");
-                    return a = b = null, function(t) {
+                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
+                        if (xa !== xb || ya !== yb) {
+                            var i = s.push(pop(s) + "scale(", null, ",", null, ")");
+                            q.push({
+                                i: i - 4,
+                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(xa, xb)
+                            }, {
+                                i: i - 2,
+                                x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
+                            });
+                        } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
+                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
                         for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
                         return s.join("");
                     };
@@ -11583,73 +11581,75 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-is/cjs/react-is.development.js ***!
   \*********************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
-            // nor polyfill, then a plain number is used for performance.
-            var hasSymbol = 'function' == typeof Symbol && Symbol.for, REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7, REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca, REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb, REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc, REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2, REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd, REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace, REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf, REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf, REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0, REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1, REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8, REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3, REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4, REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9, REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5, REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6, REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
-            function typeOf(object) {
-                if ('object' == typeof object && null !== object) {
-                    var $$typeof = object.$$typeof;
-                    switch($$typeof){
-                        case REACT_ELEMENT_TYPE:
-                            var type = object.type;
-                            switch(type){
-                                case REACT_ASYNC_MODE_TYPE:
-                                case REACT_CONCURRENT_MODE_TYPE:
-                                case REACT_FRAGMENT_TYPE:
-                                case REACT_PROFILER_TYPE:
-                                case REACT_STRICT_MODE_TYPE:
-                                case REACT_SUSPENSE_TYPE:
-                                    return type;
-                                default:
-                                    var $$typeofType = type && type.$$typeof;
-                                    switch($$typeofType){
-                                        case REACT_CONTEXT_TYPE:
-                                        case REACT_FORWARD_REF_TYPE:
-                                        case REACT_LAZY_TYPE:
-                                        case REACT_MEMO_TYPE:
-                                        case REACT_PROVIDER_TYPE:
-                                            return $$typeofType;
-                                        default:
-                                            return $$typeof;
-                                    }
-                            }
-                        case REACT_PORTAL_TYPE:
-                            return $$typeof;
+            !function() {
+                // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+                // nor polyfill, then a plain number is used for performance.
+                var hasSymbol = 'function' == typeof Symbol && Symbol.for, REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7, REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca, REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb, REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc, REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2, REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd, REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace, REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf, REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf, REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0, REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1, REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8, REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3, REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4, REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9, REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5, REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6, REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
+                function typeOf(object) {
+                    if ('object' == typeof object && null !== object) {
+                        var $$typeof = object.$$typeof;
+                        switch($$typeof){
+                            case REACT_ELEMENT_TYPE:
+                                var type = object.type;
+                                switch(type){
+                                    case REACT_ASYNC_MODE_TYPE:
+                                    case REACT_CONCURRENT_MODE_TYPE:
+                                    case REACT_FRAGMENT_TYPE:
+                                    case REACT_PROFILER_TYPE:
+                                    case REACT_STRICT_MODE_TYPE:
+                                    case REACT_SUSPENSE_TYPE:
+                                        return type;
+                                    default:
+                                        var $$typeofType = type && type.$$typeof;
+                                        switch($$typeofType){
+                                            case REACT_CONTEXT_TYPE:
+                                            case REACT_FORWARD_REF_TYPE:
+                                            case REACT_LAZY_TYPE:
+                                            case REACT_MEMO_TYPE:
+                                            case REACT_PROVIDER_TYPE:
+                                                return $$typeofType;
+                                            default:
+                                                return $$typeof;
+                                        }
+                                }
+                            case REACT_PORTAL_TYPE:
+                                return $$typeof;
+                        }
                     }
+                } // AsyncMode is deprecated along with isAsyncMode
+                var hasWarnedAboutDeprecatedIsAsyncMode = !1; // AsyncMode should be deprecated
+                function isConcurrentMode(object) {
+                    return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
                 }
-            } // AsyncMode is deprecated along with isAsyncMode
-            var hasWarnedAboutDeprecatedIsAsyncMode = !1; // AsyncMode should be deprecated
-            function isConcurrentMode(object) {
-                return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
-            }
-            exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
-                return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
-            }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
-                return typeOf(object) === REACT_CONTEXT_TYPE;
-            }, exports1.isContextProvider = function(object) {
-                return typeOf(object) === REACT_PROVIDER_TYPE;
-            }, exports1.isElement = function(object) {
-                return 'object' == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-            }, exports1.isForwardRef = function(object) {
-                return typeOf(object) === REACT_FORWARD_REF_TYPE;
-            }, exports1.isFragment = function(object) {
-                return typeOf(object) === REACT_FRAGMENT_TYPE;
-            }, exports1.isLazy = function(object) {
-                return typeOf(object) === REACT_LAZY_TYPE;
-            }, exports1.isMemo = function(object) {
-                return typeOf(object) === REACT_MEMO_TYPE;
-            }, exports1.isPortal = function(object) {
-                return typeOf(object) === REACT_PORTAL_TYPE;
-            }, exports1.isProfiler = function(object) {
-                return typeOf(object) === REACT_PROFILER_TYPE;
-            }, exports1.isStrictMode = function(object) {
-                return typeOf(object) === REACT_STRICT_MODE_TYPE;
-            }, exports1.isSuspense = function(object) {
-                return typeOf(object) === REACT_SUSPENSE_TYPE;
-            }, exports1.isValidElementType = function(type) {
-                return 'string' == typeof type || 'function' == typeof type || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-                type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || 'object' == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
-            }, exports1.typeOf = typeOf;
+                exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
+                    return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+                }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
+                    return typeOf(object) === REACT_CONTEXT_TYPE;
+                }, exports1.isContextProvider = function(object) {
+                    return typeOf(object) === REACT_PROVIDER_TYPE;
+                }, exports1.isElement = function(object) {
+                    return 'object' == typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+                }, exports1.isForwardRef = function(object) {
+                    return typeOf(object) === REACT_FORWARD_REF_TYPE;
+                }, exports1.isFragment = function(object) {
+                    return typeOf(object) === REACT_FRAGMENT_TYPE;
+                }, exports1.isLazy = function(object) {
+                    return typeOf(object) === REACT_LAZY_TYPE;
+                }, exports1.isMemo = function(object) {
+                    return typeOf(object) === REACT_MEMO_TYPE;
+                }, exports1.isPortal = function(object) {
+                    return typeOf(object) === REACT_PORTAL_TYPE;
+                }, exports1.isProfiler = function(object) {
+                    return typeOf(object) === REACT_PROFILER_TYPE;
+                }, exports1.isStrictMode = function(object) {
+                    return typeOf(object) === REACT_STRICT_MODE_TYPE;
+                }, exports1.isSuspense = function(object) {
+                    return typeOf(object) === REACT_SUSPENSE_TYPE;
+                }, exports1.isValidElementType = function(type) {
+                    return 'string' == typeof type || 'function' == typeof type || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+                    type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || 'object' == typeof type && null !== type && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
+                }, exports1.typeOf = typeOf;
+            }();
         /***/ },
         /***/ "../../../node_modules/react-is/index.js": /*!**************************************************************************!*\
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-is/index.js ***!
@@ -19848,8 +19848,8 @@
                 }
             ]; //  used for checking state changes. Expected components can be passed in via options
             /* harmony default export */ __webpack_exports__.default = function(WrappedComponent, options) {
-                var protoProps;
-                if ("function" != typeof WrappedComponent && null !== WrappedComponent) throw TypeError("Super expression must either be null or a function");
+                var protoProps, _WrappedComponent = WrappedComponent;
+                if ("function" != typeof _WrappedComponent && null !== _WrappedComponent) throw TypeError("Super expression must either be null or a function");
                 function addEvents(props) {
                     if (!(this instanceof addEvents)) throw TypeError("Cannot call a class as a function");
                     var call, _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
@@ -19859,14 +19859,14 @@
                     var calculatedValues = _this.getCalculatedValues(props);
                     return _this.cacheValues(calculatedValues), _this.externalMutations = _this.getExternalMutations(props), _this.calculatedState = _this.getStateChanges(props), _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
                 }
-                return addEvents.prototype = Object.create(WrappedComponent && WrappedComponent.prototype, {
+                return addEvents.prototype = Object.create(_WrappedComponent && _WrappedComponent.prototype, {
                     constructor: {
                         value: addEvents,
                         enumerable: !1,
                         writable: !0,
                         configurable: !0
                     }
-                }), WrappedComponent && (Object.setPrototypeOf ? Object.setPrototypeOf(addEvents, WrappedComponent) : addEvents.__proto__ = WrappedComponent), protoProps = [
+                }), _WrappedComponent && (Object.setPrototypeOf ? Object.setPrototypeOf(addEvents, _WrappedComponent) : addEvents.__proto__ = _WrappedComponent), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {

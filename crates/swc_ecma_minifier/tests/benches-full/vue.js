@@ -1277,34 +1277,36 @@
             }, isDef(inlineTemplate = vnode.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), vnode.componentInstance = new vnode.componentOptions.Ctor(options)).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
-            var options = vnode.componentOptions, vm = vnode.componentInstance = oldVnode.componentInstance, propsData = options.propsData, listeners = options.listeners, renderChildren = options.children // new children
-            ;
-            isUpdatingChildComponent = !0;
-            // determine whether component has slot children
-            // we need to do this before overwriting $options._renderChildren.
-            // check if there are dynamic scopedSlots (hand-written or compiled but with
-            // dynamic slot names). Static scoped slots compiled from template has the
-            // "$stable" marker.
-            var newScopedSlots = vnode.data.scopedSlots, oldScopedSlots = vm.$scopedSlots, hasDynamicScopedSlot = !!(newScopedSlots && !newScopedSlots.$stable || oldScopedSlots !== emptyObject && !oldScopedSlots.$stable || newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key), needsForceUpdate = !!(renderChildren || // has new static slots
-            vm.$options._renderChildren || // has old static slots
-            hasDynamicScopedSlot);
-            // update props
-            if (vm.$options._parentVnode = vnode, vm.$vnode = vnode, vm._vnode && (vm._vnode.parent = vnode), vm.$options._renderChildren = renderChildren, // update $attrs and $listeners hash
-            // these are also reactive so they may trigger child update if the child
-            // used them during render
-            vm.$attrs = vnode.data.attrs || emptyObject, vm.$listeners = listeners || emptyObject, propsData && vm.$options.props) {
-                shouldObserve = !1;
-                for(var props = vm._props, propKeys = vm.$options._propKeys || [], i = 0; i < propKeys.length; i++){
-                    var key = propKeys[i], propOptions = vm.$options.props;
-                    props[key] = validateProp(key, propOptions, propsData, vm);
+            var options = vnode.componentOptions;
+            !function(vm, propsData, listeners, parentVnode, renderChildren) {
+                isUpdatingChildComponent = !0;
+                // determine whether component has slot children
+                // we need to do this before overwriting $options._renderChildren.
+                // check if there are dynamic scopedSlots (hand-written or compiled but with
+                // dynamic slot names). Static scoped slots compiled from template has the
+                // "$stable" marker.
+                var newScopedSlots = parentVnode.data.scopedSlots, oldScopedSlots = vm.$scopedSlots, hasDynamicScopedSlot = !!(newScopedSlots && !newScopedSlots.$stable || oldScopedSlots !== emptyObject && !oldScopedSlots.$stable || newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key), needsForceUpdate = !!(renderChildren || // has new static slots
+                vm.$options._renderChildren || // has old static slots
+                hasDynamicScopedSlot);
+                // update props
+                if (vm.$options._parentVnode = parentVnode, vm.$vnode = parentVnode, vm._vnode && (vm._vnode.parent = parentVnode), vm.$options._renderChildren = renderChildren, // update $attrs and $listeners hash
+                // these are also reactive so they may trigger child update if the child
+                // used them during render
+                vm.$attrs = parentVnode.data.attrs || emptyObject, vm.$listeners = listeners || emptyObject, propsData && vm.$options.props) {
+                    shouldObserve = !1;
+                    for(var props = vm._props, propKeys = vm.$options._propKeys || [], i = 0; i < propKeys.length; i++){
+                        var key = propKeys[i], propOptions = vm.$options.props;
+                        props[key] = validateProp(key, propOptions, propsData, vm);
+                    }
+                    shouldObserve = !0, // keep a copy of raw propsData
+                    vm.$options.propsData = propsData;
                 }
-                shouldObserve = !0, // keep a copy of raw propsData
-                vm.$options.propsData = propsData;
-            }
-            // update listeners
-            listeners = listeners || emptyObject;
-            var oldListeners = vm.$options._parentListeners;
-            vm.$options._parentListeners = listeners, updateComponentListeners(vm, listeners, oldListeners), needsForceUpdate && (vm.$slots = resolveSlots(renderChildren, vnode.context), vm.$forceUpdate()), isUpdatingChildComponent = !1;
+                // update listeners
+                listeners = listeners || emptyObject;
+                var oldListeners = vm.$options._parentListeners;
+                vm.$options._parentListeners = listeners, updateComponentListeners(vm, listeners, oldListeners), needsForceUpdate && (vm.$slots = resolveSlots(renderChildren, parentVnode.context), vm.$forceUpdate()), isUpdatingChildComponent = !1;
+            }(vnode.componentInstance = oldVnode.componentInstance, options.propsData, options.listeners, vnode, options.children // new children
+            );
         },
         insert: function(vnode) {
             var context = vnode.context, componentInstance = vnode.componentInstance;
@@ -1391,18 +1393,17 @@
                 }
             }(data, Ctor, tag);
             // functional component
-            if (isTrue(Ctor.options.functional)) {
-                var Ctor1 = Ctor, data3 = data, options1 = Ctor1.options, props = {}, propOptions = options1.props;
+            if (isTrue(Ctor.options.functional)) return function(Ctor, propsData, data, contextVm, children) {
+                var options = Ctor.options, props = {}, propOptions = options.props;
                 if (isDef(propOptions)) for(var key in propOptions)props[key] = validateProp(key, propOptions, propsData || emptyObject);
-                else isDef(data3.attrs) && mergeProps(props, data3.attrs), isDef(data3.props) && mergeProps(props, data3.props);
-                var renderContext = new FunctionalRenderContext(data3, props, children, context, Ctor1), vnode = options1.render.call(null, renderContext._c, renderContext);
-                if (vnode instanceof VNode) return cloneAndMarkFunctionalResult(vnode, data3, renderContext.parent, options1, renderContext);
+                else isDef(data.attrs) && mergeProps(props, data.attrs), isDef(data.props) && mergeProps(props, data.props);
+                var renderContext = new FunctionalRenderContext(data, props, children, contextVm, Ctor), vnode = options.render.call(null, renderContext._c, renderContext);
+                if (vnode instanceof VNode) return cloneAndMarkFunctionalResult(vnode, data, renderContext.parent, options, renderContext);
                 if (Array.isArray(vnode)) {
-                    for(var vnodes = normalizeChildren(vnode) || [], res = Array(vnodes.length), i = 0; i < vnodes.length; i++)res[i] = cloneAndMarkFunctionalResult(vnodes[i], data3, renderContext.parent, options1, renderContext);
+                    for(var vnodes = normalizeChildren(vnode) || [], res = Array(vnodes.length), i = 0; i < vnodes.length; i++)res[i] = cloneAndMarkFunctionalResult(vnodes[i], data, renderContext.parent, options, renderContext);
                     return res;
                 }
-                return;
-            }
+            }(Ctor, propsData, data, context, children);
             // extract listeners, since these needs to be treated as
             // child component listeners instead of DOM listeners
             var listeners = data.on;
@@ -1415,16 +1416,20 @@
                 var slot = data.slot;
                 data = {}, slot && (data.slot = slot);
             }
-            for(var data4 = data, hooks = data4.hook || (data4.hook = {}), i1 = 0; i1 < hooksToMerge.length; i1++){
-                var key1 = hooksToMerge[i1], existing1 = hooks[key1], toMerge = componentVNodeHooks[key1];
-                existing1 === toMerge || existing1 && existing1._merged || (hooks[key1] = existing1 ? function(f1, f2) {
-                    var merged = function(a, b) {
-                        // flow complains about extra args which is why we use any
-                        f1(a, b), f2(a, b);
-                    };
-                    return merged._merged = !0, merged;
-                }(toMerge, existing1) : toMerge);
-            }
+            !// install component management hooks onto the placeholder node
+            function(data) {
+                for(var hooks = data.hook || (data.hook = {}), i = 0; i < hooksToMerge.length; i++){
+                    var key = hooksToMerge[i], existing = hooks[key], toMerge = componentVNodeHooks[key];
+                    existing === toMerge || existing && existing._merged || (hooks[key] = existing ? function(f1, f2) {
+                        var merged = function(a, b) {
+                            // flow complains about extra args which is why we use any
+                            f1(a, b), f2(a, b);
+                        };
+                        return merged._merged = !0, merged;
+                    }(toMerge, existing) : toMerge);
+                }
+            }(data);
+            // return a placeholder vnode
             var name = Ctor.options.name || tag;
             return new VNode("vue-component-" + Ctor.cid + (name ? "-" + name : ''), data, void 0, void 0, void 0, context, {
                 Ctor: Ctor,
@@ -3027,26 +3032,21 @@
                             for(i = 0; i < cbs.update.length; ++i)cbs.update[i](oldVnode, vnode);
                             isDef(i = data.hook) && isDef(i = i.update) && i(oldVnode, vnode);
                         }
-                        if (isUndef(vnode.text)) {
-                            if (isDef(oldCh) && isDef(ch)) {
-                                if (oldCh !== ch) {
-                                    var oldKeyToIdx, idxInOld, vnodeToMove, oldStartIdx = 0, newStartIdx = 0, oldEndIdx = oldCh.length - 1, oldStartVnode = oldCh[0], oldEndVnode = oldCh[oldEndIdx], newEndIdx = ch.length - 1, newStartVnode = ch[0], newEndVnode = ch[newEndIdx], canMove = !removeOnly;
-                                    for(checkDuplicateKeys(ch); oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx;)isUndef(oldStartVnode) ? oldStartVnode = oldCh[++oldStartIdx] : isUndef(oldEndVnode) ? oldEndVnode = oldCh[--oldEndIdx] : sameVnode(oldStartVnode, newStartVnode) ? (patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue, ch, newStartIdx), oldStartVnode = oldCh[++oldStartIdx], newStartVnode = ch[++newStartIdx]) : sameVnode(oldEndVnode, newEndVnode) ? (patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, ch, newEndIdx), oldEndVnode = oldCh[--oldEndIdx], newEndVnode = ch[--newEndIdx]) : sameVnode(oldStartVnode, newEndVnode) ? (patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue, ch, newEndIdx), canMove && nodeOps.insertBefore(elm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm)), oldStartVnode = oldCh[++oldStartIdx], newEndVnode = ch[--newEndIdx]) : (sameVnode(oldEndVnode, newStartVnode) ? (patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue, ch, newStartIdx), canMove && nodeOps.insertBefore(elm, oldEndVnode.elm, oldStartVnode.elm), oldEndVnode = oldCh[--oldEndIdx]) : (isUndef(oldKeyToIdx) && (oldKeyToIdx = function(children, beginIdx, endIdx) {
-                                        var i, key, map = {};
-                                        for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
-                                        return map;
-                                    }(oldCh, oldStartIdx, oldEndIdx)), isUndef(idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : function(node, oldCh, start, end) {
-                                        for(var i = start; i < end; i++){
-                                            var c = oldCh[i];
-                                            if (isDef(c) && sameVnode(node, c)) return i;
-                                        }
-                                    }(newStartVnode, oldCh, oldStartIdx, oldEndIdx)) ? createElm(newStartVnode, insertedVnodeQueue, elm, oldStartVnode.elm, !1, ch, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, ch, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(elm, vnodeToMove.elm, oldStartVnode.elm)) : // same key but different element. treat as new element
-                                    createElm(newStartVnode, insertedVnodeQueue, elm, oldStartVnode.elm, !1, ch, newStartIdx)), newStartVnode = ch[++newStartIdx]);
-                                    oldStartIdx > oldEndIdx ? addVnodes(elm, isUndef(ch[newEndIdx + 1]) ? null : ch[newEndIdx + 1].elm, ch, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
+                        isUndef(vnode.text) ? isDef(oldCh) && isDef(ch) ? oldCh !== ch && function(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
+                            var oldKeyToIdx, idxInOld, vnodeToMove, oldStartIdx = 0, newStartIdx = 0, oldEndIdx = oldCh.length - 1, oldStartVnode = oldCh[0], oldEndVnode = oldCh[oldEndIdx], newEndIdx = newCh.length - 1, newStartVnode = newCh[0], newEndVnode = newCh[newEndIdx], canMove = !removeOnly;
+                            for(checkDuplicateKeys(newCh); oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx;)isUndef(oldStartVnode) ? oldStartVnode = oldCh[++oldStartIdx] : isUndef(oldEndVnode) ? oldEndVnode = oldCh[--oldEndIdx] : sameVnode(oldStartVnode, newStartVnode) ? (patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldStartVnode = oldCh[++oldStartIdx], newStartVnode = newCh[++newStartIdx]) : sameVnode(oldEndVnode, newEndVnode) ? (patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), oldEndVnode = oldCh[--oldEndIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldStartVnode, newEndVnode) ? (patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), canMove && nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm)), oldStartVnode = oldCh[++oldStartIdx], newEndVnode = newCh[--newEndIdx]) : (sameVnode(oldEndVnode, newStartVnode) ? (patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm), oldEndVnode = oldCh[--oldEndIdx]) : (isUndef(oldKeyToIdx) && (oldKeyToIdx = function(children, beginIdx, endIdx) {
+                                var i, key, map = {};
+                                for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
+                                return map;
+                            }(oldCh, oldStartIdx, oldEndIdx)), isUndef(idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : function(node, oldCh, start, end) {
+                                for(var i = start; i < end; i++){
+                                    var c = oldCh[i];
+                                    if (isDef(c) && sameVnode(node, c)) return i;
                                 }
-                            } else isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '');
-                        } else oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text);
-                        isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx)) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : // same key but different element. treat as new element
+                            createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx)), newStartVnode = newCh[++newStartIdx]);
+                            oldStartIdx > oldEndIdx ? addVnodes(parentElm, isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
+                        }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }
                 }(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
                 else {
@@ -3654,17 +3654,18 @@
                 if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
-                else if ('input' === tag || 'textarea' === tag) {
-                    var type1 = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
+                else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
+                    var type = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
                     if (value$1 && !typeBinding) {
                         var binding = el.attrsMap['v-bind:value'] ? 'v-bind:value' : ':value';
                         warn$1(binding + "=\"" + value$1 + '" conflicts with v-model on the same element because the latter already expands to a value binding internally', el.rawAttrsMap[binding]);
                     }
-                    var ref = modifiers || {}, lazy = ref.lazy, number2 = ref.number, trim = ref.trim, valueExpression = '$event.target.value';
-                    trim && (valueExpression = "$event.target.value.trim()"), number2 && (valueExpression = "_n(" + valueExpression + ")");
-                    var code1 = genAssignmentCode(value, valueExpression);
-                    lazy || 'range' === type1 || (code1 = "if($event.target.composing)return;" + code1), addProp(el, 'value', "(" + value + ")"), addHandler(el, lazy ? 'change' : 'range' === type1 ? '__r' : 'input', code1, null, !0), (trim || number2) && addHandler(el, 'blur', '$forceUpdate()');
-                } else {
+                    var ref = modifiers || {}, lazy = ref.lazy, number = ref.number, trim = ref.trim, valueExpression = '$event.target.value';
+                    trim && (valueExpression = "$event.target.value.trim()"), number && (valueExpression = "_n(" + valueExpression + ")");
+                    var code = genAssignmentCode(value, valueExpression);
+                    lazy || 'range' === type || (code = "if($event.target.composing)return;" + code), addProp(el, 'value', "(" + value + ")"), addHandler(el, lazy ? 'change' : 'range' === type ? '__r' : 'input', code, null, !0), (trim || number) && addHandler(el, 'blur', '$forceUpdate()');
+                }(el, value, modifiers);
+                else {
                     if (!config.isReservedTag(tag)) // component v-model doesn't need extra runtime
                     return genComponentModel(el, value, modifiers), !1;
                     warn$1("<" + el.tag + " v-model=\"" + value + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
@@ -4104,7 +4105,121 @@
                     start: el.start
                 }), el.attrsMap.hasOwnProperty('v-for') && warnOnce("Cannot use v-for on stateful component root element because it renders multiple elements.", el.rawAttrsMap['v-for']);
             }
-            for(var last, lastTag, html = template, options1 = {
+            return function(html, options) {
+                for(var last, lastTag, stack = [], expectHTML = options.expectHTML, isUnaryTag$$1 = options.isUnaryTag || no, canBeLeftOpenTag$$1 = options.canBeLeftOpenTag || no, index = 0; html;){
+                    // Make sure we're not in a plaintext content element like script/style
+                    if (last = html, lastTag && isPlainTextElement(lastTag)) {
+                        var endTagLength = 0, stackedTag = lastTag.toLowerCase(), reStackedTag = reCache[stackedTag] || (reCache[stackedTag] = RegExp('([\\s\\S]*?)(</' + stackedTag + '[^>]*>)', 'i')), rest$1 = html.replace(reStackedTag, function(all, text, endTag) {
+                            return endTagLength = endTag.length, isPlainTextElement(stackedTag) || 'noscript' === stackedTag || (text = text.replace(/<!\--([\s\S]*?)-->/g, '$1') // #7298
+                            .replace(/<!\[CDATA\[([\s\S]*?)]]>/g, '$1')), shouldIgnoreFirstNewline(stackedTag, text) && (text = text.slice(1)), options.chars && options.chars(text), '';
+                        });
+                        index += html.length - rest$1.length, html = rest$1, parseEndTag(stackedTag, index - endTagLength, index);
+                    } else {
+                        var textEnd = html.indexOf('<');
+                        if (0 === textEnd) {
+                            // Comment:
+                            if (comment.test(html)) {
+                                var commentEnd = html.indexOf('-->');
+                                if (commentEnd >= 0) {
+                                    options.shouldKeepComment && options.comment(html.substring(4, commentEnd), index, index + commentEnd + 3), advance(commentEnd + 3);
+                                    continue;
+                                }
+                            }
+                            // http://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
+                            if (conditionalComment.test(html)) {
+                                var conditionalEnd = html.indexOf(']>');
+                                if (conditionalEnd >= 0) {
+                                    advance(conditionalEnd + 2);
+                                    continue;
+                                }
+                            }
+                            // Doctype:
+                            var doctypeMatch = html.match(doctype);
+                            if (doctypeMatch) {
+                                advance(doctypeMatch[0].length);
+                                continue;
+                            }
+                            // End tag:
+                            var endTagMatch = html.match(endTag);
+                            if (endTagMatch) {
+                                var curIndex = index;
+                                advance(endTagMatch[0].length), parseEndTag(endTagMatch[1], curIndex, index);
+                                continue;
+                            }
+                            // Start tag:
+                            var startTagMatch = function() {
+                                var start = html.match(startTagOpen);
+                                if (start) {
+                                    var end, attr, match = {
+                                        tagName: start[1],
+                                        attrs: [],
+                                        start: index
+                                    };
+                                    for(advance(start[0].length); !(end = html.match(startTagClose)) && (attr = html.match(dynamicArgAttribute) || html.match(attribute));)attr.start = index, advance(attr[0].length), attr.end = index, match.attrs.push(attr);
+                                    if (end) return match.unarySlash = end[1], advance(end[0].length), match.end = index, match;
+                                }
+                            }();
+                            if (startTagMatch) {
+                                (function(match) {
+                                    var tagName = match.tagName, unarySlash = match.unarySlash;
+                                    expectHTML && ('p' === lastTag && isNonPhrasingTag(tagName) && parseEndTag(lastTag), canBeLeftOpenTag$$1(tagName) && lastTag === tagName && parseEndTag(tagName));
+                                    for(var unary = isUnaryTag$$1(tagName) || !!unarySlash, l = match.attrs.length, attrs = Array(l), i = 0; i < l; i++){
+                                        var args = match.attrs[i], value = args[3] || args[4] || args[5] || '', shouldDecodeNewlines = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
+                                        attrs[i] = {
+                                            name: args[1],
+                                            value: value.replace(shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr, function(match) {
+                                                return decodingMap[match];
+                                            })
+                                        }, options.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
+                                    }
+                                    unary || (stack.push({
+                                        tag: tagName,
+                                        lowerCasedTag: tagName.toLowerCase(),
+                                        attrs: attrs,
+                                        start: match.start,
+                                        end: match.end
+                                    }), lastTag = tagName), options.start && options.start(tagName, attrs, unary, match.start, match.end);
+                                })(startTagMatch), shouldIgnoreFirstNewline(startTagMatch.tagName, html) && advance(1);
+                                continue;
+                            }
+                        }
+                        var text = void 0, rest = void 0, next = void 0;
+                        if (textEnd >= 0) {
+                            for(rest = html.slice(textEnd); !endTag.test(rest) && !startTagOpen.test(rest) && !comment.test(rest) && !conditionalComment.test(rest) && !(// < in plain text, be forgiving and treat it as text
+                            (next = rest.indexOf('<', 1)) < 0);)textEnd += next, rest = html.slice(textEnd);
+                            text = html.substring(0, textEnd);
+                        }
+                        textEnd < 0 && (text = html), text && advance(text.length), options.chars && text && options.chars(text, index - text.length, index);
+                    }
+                    if (html === last) {
+                        options.chars && options.chars(html), !stack.length && options.warn && options.warn("Mal-formatted tag at end of template: \"" + html + "\"", {
+                            start: index + html.length
+                        });
+                        break;
+                    }
+                }
+                function advance(n) {
+                    index += n, html = html.substring(n);
+                }
+                function parseEndTag(tagName, start, end) {
+                    var pos, lowerCasedTagName;
+                    // Find the closest opened tag of the same type
+                    if (null == start && (start = index), null == end && (end = index), tagName) for(lowerCasedTagName = tagName.toLowerCase(), pos = stack.length - 1; pos >= 0 && stack[pos].lowerCasedTag !== lowerCasedTagName; pos--);
+                    else // If no tag name is provided, clean shop
+                    pos = 0;
+                    if (pos >= 0) {
+                        // Close all the open elements, up the stack
+                        for(var i = stack.length - 1; i >= pos; i--)(i > pos || !tagName && options.warn) && options.warn("tag <" + stack[i].tag + "> has no matching end tag.", {
+                            start: stack[i].start,
+                            end: stack[i].end
+                        }), options.end && options.end(stack[i].tag, start, end);
+                        // Remove the open elements from the stack
+                        stack.length = pos, lastTag = pos && stack[pos - 1].tag;
+                    } else 'br' === lowerCasedTagName ? options.start && options.start(tagName, [], !0, start, end) : 'p' === lowerCasedTagName && (options.start && options.start(tagName, [], !1, start, end), options.end && options.end(tagName, start, end));
+                }
+                // Clean up any remaining tags
+                parseEndTag();
+            }(template, {
                 warn: warn$2,
                 expectHTML: options.expectHTML,
                 isUnaryTag: options.isUnaryTag,
@@ -4200,119 +4315,7 @@
                         options.outputSourceRange && (child.start = start, child.end = end), currentParent.children.push(child);
                     }
                 }
-            }, stack1 = [], expectHTML = options1.expectHTML, isUnaryTag$$1 = options1.isUnaryTag || no, canBeLeftOpenTag$$1 = options1.canBeLeftOpenTag || no, index = 0; html;){
-                // Make sure we're not in a plaintext content element like script/style
-                if (last = html, lastTag && isPlainTextElement(lastTag)) {
-                    var endTagLength = 0, stackedTag = lastTag.toLowerCase(), reStackedTag = reCache[stackedTag] || (reCache[stackedTag] = RegExp('([\\s\\S]*?)(</' + stackedTag + '[^>]*>)', 'i')), rest$1 = html.replace(reStackedTag, function(all, text, endTag) {
-                        return endTagLength = endTag.length, isPlainTextElement(stackedTag) || 'noscript' === stackedTag || (text = text.replace(/<!\--([\s\S]*?)-->/g, '$1') // #7298
-                        .replace(/<!\[CDATA\[([\s\S]*?)]]>/g, '$1')), shouldIgnoreFirstNewline(stackedTag, text) && (text = text.slice(1)), options1.chars && options1.chars(text), '';
-                    });
-                    index += html.length - rest$1.length, html = rest$1, parseEndTag(stackedTag, index - endTagLength, index);
-                } else {
-                    var textEnd = html.indexOf('<');
-                    if (0 === textEnd) {
-                        // Comment:
-                        if (comment.test(html)) {
-                            var commentEnd = html.indexOf('-->');
-                            if (commentEnd >= 0) {
-                                options1.shouldKeepComment && options1.comment(html.substring(4, commentEnd), index, index + commentEnd + 3), advance(commentEnd + 3);
-                                continue;
-                            }
-                        }
-                        // http://en.wikipedia.org/wiki/Conditional_comment#Downlevel-revealed_conditional_comment
-                        if (conditionalComment.test(html)) {
-                            var conditionalEnd = html.indexOf(']>');
-                            if (conditionalEnd >= 0) {
-                                advance(conditionalEnd + 2);
-                                continue;
-                            }
-                        }
-                        // Doctype:
-                        var doctypeMatch = html.match(doctype);
-                        if (doctypeMatch) {
-                            advance(doctypeMatch[0].length);
-                            continue;
-                        }
-                        // End tag:
-                        var endTagMatch = html.match(endTag);
-                        if (endTagMatch) {
-                            var curIndex = index;
-                            advance(endTagMatch[0].length), parseEndTag(endTagMatch[1], curIndex, index);
-                            continue;
-                        }
-                        // Start tag:
-                        var startTagMatch = function() {
-                            var start = html.match(startTagOpen);
-                            if (start) {
-                                var end, attr, match = {
-                                    tagName: start[1],
-                                    attrs: [],
-                                    start: index
-                                };
-                                for(advance(start[0].length); !(end = html.match(startTagClose)) && (attr = html.match(dynamicArgAttribute) || html.match(attribute));)attr.start = index, advance(attr[0].length), attr.end = index, match.attrs.push(attr);
-                                if (end) return match.unarySlash = end[1], advance(end[0].length), match.end = index, match;
-                            }
-                        }();
-                        if (startTagMatch) {
-                            (function(match) {
-                                var tagName = match.tagName, unarySlash = match.unarySlash;
-                                expectHTML && ('p' === lastTag && isNonPhrasingTag(tagName) && parseEndTag(lastTag), canBeLeftOpenTag$$1(tagName) && lastTag === tagName && parseEndTag(tagName));
-                                for(var unary = isUnaryTag$$1(tagName) || !!unarySlash, l = match.attrs.length, attrs = Array(l), i = 0; i < l; i++){
-                                    var args = match.attrs[i], value = args[3] || args[4] || args[5] || '', shouldDecodeNewlines = 'a' === tagName && 'href' === args[1] ? options1.shouldDecodeNewlinesForHref : options1.shouldDecodeNewlines;
-                                    attrs[i] = {
-                                        name: args[1],
-                                        value: value.replace(shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr, function(match) {
-                                            return decodingMap[match];
-                                        })
-                                    }, options1.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
-                                }
-                                unary || (stack1.push({
-                                    tag: tagName,
-                                    lowerCasedTag: tagName.toLowerCase(),
-                                    attrs: attrs,
-                                    start: match.start,
-                                    end: match.end
-                                }), lastTag = tagName), options1.start && options1.start(tagName, attrs, unary, match.start, match.end);
-                            })(startTagMatch), shouldIgnoreFirstNewline(startTagMatch.tagName, html) && advance(1);
-                            continue;
-                        }
-                    }
-                    var text = void 0, rest = void 0, next = void 0;
-                    if (textEnd >= 0) {
-                        for(rest = html.slice(textEnd); !endTag.test(rest) && !startTagOpen.test(rest) && !comment.test(rest) && !conditionalComment.test(rest) && !(// < in plain text, be forgiving and treat it as text
-                        (next = rest.indexOf('<', 1)) < 0);)textEnd += next, rest = html.slice(textEnd);
-                        text = html.substring(0, textEnd);
-                    }
-                    textEnd < 0 && (text = html), text && advance(text.length), options1.chars && text && options1.chars(text, index - text.length, index);
-                }
-                if (html === last) {
-                    options1.chars && options1.chars(html), !stack1.length && options1.warn && options1.warn("Mal-formatted tag at end of template: \"" + html + "\"", {
-                        start: index + html.length
-                    });
-                    break;
-                }
-            }
-            function advance(n) {
-                index += n, html = html.substring(n);
-            }
-            function parseEndTag(tagName, start, end) {
-                var pos, lowerCasedTagName;
-                // Find the closest opened tag of the same type
-                if (null == start && (start = index), null == end && (end = index), tagName) for(lowerCasedTagName = tagName.toLowerCase(), pos = stack1.length - 1; pos >= 0 && stack1[pos].lowerCasedTag !== lowerCasedTagName; pos--);
-                else // If no tag name is provided, clean shop
-                pos = 0;
-                if (pos >= 0) {
-                    // Close all the open elements, up the stack
-                    for(var i = stack1.length - 1; i >= pos; i--)(i > pos || !tagName && options1.warn) && options1.warn("tag <" + stack1[i].tag + "> has no matching end tag.", {
-                        start: stack1[i].start,
-                        end: stack1[i].end
-                    }), options1.end && options1.end(stack1[i].tag, start, end);
-                    // Remove the open elements from the stack
-                    stack1.length = pos, lastTag = pos && stack1[pos - 1].tag;
-                } else 'br' === lowerCasedTagName ? options1.start && options1.start(tagName, [], !0, start, end) : 'p' === lowerCasedTagName && (options1.start && options1.start(tagName, [], !1, start, end), options1.end && options1.end(tagName, start, end));
-            }
-            return(// Clean up any remaining tags
-            parseEndTag(), root);
+            }), root;
         }(template.trim(), options);
         !1 === options.optimize || ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, // first pass: mark all non-static nodes.
         function markStatic$1(node) {

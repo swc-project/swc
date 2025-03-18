@@ -792,11 +792,8 @@ impl Optimizer<'_> {
 
         if !self.may_add_ident() {
             let has_decl = if for_stmt {
-                let mut has_decl = DeclVisitor { found: false };
-
-                body.visit_with(&mut has_decl);
-
-                has_decl.found
+                // we check it later
+                false
             } else {
                 body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)))
             };
@@ -1146,6 +1143,26 @@ impl Optimizer<'_> {
             return None;
         }
 
+        let mut decl = DeclVisitor { count: 0 };
+
+        body.visit_with(&mut decl);
+
+        if !self.may_add_ident() && decl.count > 0 {
+            return None;
+        }
+
+        if decl.count
+            + (params.len()
+                - args
+                    .iter()
+                    .filter(|a| a.expr.is_ident() || a.expr.is_lit())
+                    .count())
+                * 2
+            > 4
+        {
+            return None;
+        }
+
         let mut has_return = ReturnVisitor { found: false };
 
         if !is_return {
@@ -1352,7 +1369,7 @@ impl Visit for ReturnVisitor {
 }
 
 pub struct DeclVisitor {
-    found: bool,
+    count: usize,
 }
 
 impl Visit for DeclVisitor {
@@ -1389,13 +1406,18 @@ impl Visit for DeclVisitor {
 
     fn visit_expr(&mut self, _: &Expr) {}
 
-    fn visit_decl(&mut self, _: &Decl) {
-        self.found = true;
+    fn visit_decl(&mut self, d: &Decl) {
+        self.count += match d {
+            Decl::Class(_) | Decl::Fn(_) => 1,
+            Decl::Var(var_decl) => var_decl.decls.len(),
+            Decl::Using(using_decl) => using_decl.decls.len(),
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
+        };
     }
 
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
-        if let VarDeclOrExpr::VarDecl(_) = node {
-            self.found = true
+        if let VarDeclOrExpr::VarDecl(v) = node {
+            self.count += v.decls.len()
         }
     }
 }

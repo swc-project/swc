@@ -1429,76 +1429,74 @@ function(global, factory) {
     function measureCharPrepared(cm, prepared, ch, bias, varHeight) {
         prepared.before && (ch = -1);
         var found, key = ch + (bias || "");
-        if (prepared.cache.hasOwnProperty(key)) found = prepared.cache[key];
-        else {
-            if (prepared.rect || (prepared.rect = prepared.view.text.getBoundingClientRect()), !prepared.hasHeights) {
-                var lineView = prepared.view, rect = prepared.rect, wrapping = cm.options.lineWrapping, curWidth = wrapping && displayWidth(cm);
-                if (!lineView.measure.heights || wrapping && lineView.measure.width != curWidth) {
-                    var heights = lineView.measure.heights = [];
-                    if (wrapping) {
-                        lineView.measure.width = curWidth;
-                        for(var rects = lineView.text.firstChild.getClientRects(), i = 0; i < rects.length - 1; i++){
-                            var cur = rects[i], next = rects[i + 1];
-                            Math.abs(cur.bottom - next.bottom) > 2 && heights.push((cur.bottom + next.top) / 2 - rect.top);
-                        }
+        return prepared.cache.hasOwnProperty(key) ? found = prepared.cache[key] : (prepared.rect || (prepared.rect = prepared.view.text.getBoundingClientRect()), prepared.hasHeights || (// Ensure the lineView.wrapping.heights array is populated. This is
+        // an array of bottom offsets for the lines that make up a drawn
+        // line. When lineWrapping is on, there might be more than one
+        // height.
+        function(cm, lineView, rect) {
+            var wrapping = cm.options.lineWrapping, curWidth = wrapping && displayWidth(cm);
+            if (!lineView.measure.heights || wrapping && lineView.measure.width != curWidth) {
+                var heights = lineView.measure.heights = [];
+                if (wrapping) {
+                    lineView.measure.width = curWidth;
+                    for(var rects = lineView.text.firstChild.getClientRects(), i = 0; i < rects.length - 1; i++){
+                        var cur = rects[i], next = rects[i + 1];
+                        Math.abs(cur.bottom - next.bottom) > 2 && heights.push((cur.bottom + next.top) / 2 - rect.top);
                     }
-                    heights.push(rect.bottom - rect.top);
                 }
-                prepared.hasHeights = !0;
+                heights.push(rect.bottom - rect.top);
             }
-            (found = function(cm, prepared, ch, bias) {
-                var rect, rects, place = nodeAndOffsetInLineMap(prepared.map, ch, bias), node = place.node, start = place.start, end = place.end, collapse = place.collapse;
-                if (3 == node.nodeType) {
-                    // If it is a text node, use a range to retrieve the coordinates.
-                    for(var i$1 = 0; i$1 < 4; i$1++){
-                        // Retry a maximum of 4 times when nonsense rectangles are returned
-                        for(; start && isExtendingChar(prepared.line.text.charAt(place.coverStart + start));)--start;
-                        for(; place.coverStart + end < place.coverEnd && isExtendingChar(prepared.line.text.charAt(place.coverStart + end));)++end;
-                        if ((rect = ie && ie_version < 9 && 0 == start && end == place.coverEnd - place.coverStart ? node.parentNode.getBoundingClientRect() : function(rects, bias) {
-                            var rect = nullRect;
-                            if ("left" == bias) for(var i = 0; i < rects.length && (rect = rects[i]).left == rect.right; i++);
-                            else for(var i$1 = rects.length - 1; i$1 >= 0 && (rect = rects[i$1]).left == rect.right; i$1--);
-                            return rect;
-                        }(range(node, start, end).getClientRects(), bias)).left || rect.right || 0 == start) break;
-                        end = start, start -= 1, collapse = "right";
-                    }
-                    ie && ie_version < 11 && (rect = // Work around problem with bounding client rects on ranges being
-                    // returned incorrectly when zoomed on IE10 and below.
-                    function(measure, rect) {
-                        if (!window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI || !function(measure) {
-                            if (null != badZoomedRects) return badZoomedRects;
-                            var node = removeChildrenAndAdd(measure, elt("span", "x")), normal = node.getBoundingClientRect(), fromRange = range(node, 0, 1).getBoundingClientRect();
-                            return badZoomedRects = Math.abs(normal.left - fromRange.left) > 1;
-                        }(measure)) return rect;
-                        var scaleX = screen.logicalXDPI / screen.deviceXDPI, scaleY = screen.logicalYDPI / screen.deviceYDPI;
-                        return {
-                            left: rect.left * scaleX,
-                            right: rect.right * scaleX,
-                            top: rect.top * scaleY,
-                            bottom: rect.bottom * scaleY
-                        };
-                    }(cm.display.measure, rect));
-                } else start > 0 && (collapse = bias = "right"), rect = cm.options.lineWrapping && (rects = node.getClientRects()).length > 1 ? rects["right" == bias ? rects.length - 1 : 0] : node.getBoundingClientRect();
-                if (ie && ie_version < 9 && !start && (!rect || !rect.left && !rect.right)) {
-                    var rSpan = node.parentNode.getClientRects()[0];
-                    rect = rSpan ? {
-                        left: rSpan.left,
-                        right: rSpan.left + charWidth(cm.display),
-                        top: rSpan.top,
-                        bottom: rSpan.bottom
-                    } : nullRect;
+        }(cm, prepared.view, prepared.rect), prepared.hasHeights = !0), (found = function(cm, prepared, ch, bias) {
+            var rect, rects, place = nodeAndOffsetInLineMap(prepared.map, ch, bias), node = place.node, start = place.start, end = place.end, collapse = place.collapse;
+            if (3 == node.nodeType) {
+                // If it is a text node, use a range to retrieve the coordinates.
+                for(var i$1 = 0; i$1 < 4; i$1++){
+                    // Retry a maximum of 4 times when nonsense rectangles are returned
+                    for(; start && isExtendingChar(prepared.line.text.charAt(place.coverStart + start));)--start;
+                    for(; place.coverStart + end < place.coverEnd && isExtendingChar(prepared.line.text.charAt(place.coverStart + end));)++end;
+                    if ((rect = ie && ie_version < 9 && 0 == start && end == place.coverEnd - place.coverStart ? node.parentNode.getBoundingClientRect() : function(rects, bias) {
+                        var rect = nullRect;
+                        if ("left" == bias) for(var i = 0; i < rects.length && (rect = rects[i]).left == rect.right; i++);
+                        else for(var i$1 = rects.length - 1; i$1 >= 0 && (rect = rects[i$1]).left == rect.right; i$1--);
+                        return rect;
+                    }(range(node, start, end).getClientRects(), bias)).left || rect.right || 0 == start) break;
+                    end = start, start -= 1, collapse = "right";
                 }
-                for(var rtop = rect.top - prepared.rect.top, rbot = rect.bottom - prepared.rect.top, mid = (rtop + rbot) / 2, heights = prepared.view.measure.heights, i = 0; i < heights.length - 1 && !(mid < heights[i]); i++);
-                var top = i ? heights[i - 1] : 0, bot = heights[i], result = {
-                    left: ("right" == collapse ? rect.right : rect.left) - prepared.rect.left,
-                    right: ("left" == collapse ? rect.left : rect.right) - prepared.rect.left,
-                    top: top,
-                    bottom: bot
-                };
-                return rect.left || rect.right || (result.bogus = !0), cm.options.singleCursorHeightPerLine || (result.rtop = rtop, result.rbottom = rbot), result;
-            }(cm, prepared, ch, bias)).bogus || (prepared.cache[key] = found);
-        }
-        return {
+                ie && ie_version < 11 && (rect = // Work around problem with bounding client rects on ranges being
+                // returned incorrectly when zoomed on IE10 and below.
+                function(measure, rect) {
+                    if (!window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI || !function(measure) {
+                        if (null != badZoomedRects) return badZoomedRects;
+                        var node = removeChildrenAndAdd(measure, elt("span", "x")), normal = node.getBoundingClientRect(), fromRange = range(node, 0, 1).getBoundingClientRect();
+                        return badZoomedRects = Math.abs(normal.left - fromRange.left) > 1;
+                    }(measure)) return rect;
+                    var scaleX = screen.logicalXDPI / screen.deviceXDPI, scaleY = screen.logicalYDPI / screen.deviceYDPI;
+                    return {
+                        left: rect.left * scaleX,
+                        right: rect.right * scaleX,
+                        top: rect.top * scaleY,
+                        bottom: rect.bottom * scaleY
+                    };
+                }(cm.display.measure, rect));
+            } else start > 0 && (collapse = bias = "right"), rect = cm.options.lineWrapping && (rects = node.getClientRects()).length > 1 ? rects["right" == bias ? rects.length - 1 : 0] : node.getBoundingClientRect();
+            if (ie && ie_version < 9 && !start && (!rect || !rect.left && !rect.right)) {
+                var rSpan = node.parentNode.getClientRects()[0];
+                rect = rSpan ? {
+                    left: rSpan.left,
+                    right: rSpan.left + charWidth(cm.display),
+                    top: rSpan.top,
+                    bottom: rSpan.bottom
+                } : nullRect;
+            }
+            for(var rtop = rect.top - prepared.rect.top, rbot = rect.bottom - prepared.rect.top, mid = (rtop + rbot) / 2, heights = prepared.view.measure.heights, i = 0; i < heights.length - 1 && !(mid < heights[i]); i++);
+            var top = i ? heights[i - 1] : 0, bot = heights[i], result = {
+                left: ("right" == collapse ? rect.right : rect.left) - prepared.rect.left,
+                right: ("left" == collapse ? rect.left : rect.right) - prepared.rect.left,
+                top: top,
+                bottom: bot
+            };
+            return rect.left || rect.right || (result.bogus = !0), cm.options.singleCursorHeightPerLine || (result.rtop = rtop, result.rbottom = rbot), result;
+        }(cm, prepared, ch, bias)).bogus || (prepared.cache[key] = found)), {
             left: found.left,
             right: found.right,
             top: varHeight ? found.rtop : found.top,
@@ -2330,71 +2328,75 @@ function(global, factory) {
                 operationGroup = null, endCb(group);
             }
         }(op, function(group) {
-            for(var op, i = 0; i < group.ops.length; i++)group.ops[i].cm.curOp = null;
-            for(var ops = group.ops, i1 = 0; i1 < ops.length; i1++ // Read DOM
-            )!function(op) {
-                var cm = op.cm, display = cm.display;
-                (function(cm) {
-                    var display = cm.display;
-                    !display.scrollbarsClipped && display.scroller.offsetWidth && (display.nativeBarWidth = display.scroller.offsetWidth - display.scroller.clientWidth, display.heightForcer.style.height = scrollGap(cm) + "px", display.sizer.style.marginBottom = -display.nativeBarWidth + "px", display.sizer.style.borderRightWidth = scrollGap(cm) + "px", display.scrollbarsClipped = !0);
-                })(cm), op.updateMaxLine && findMaxLine(cm), op.mustUpdate = op.viewChanged || op.forceUpdate || null != op.scrollTop || op.scrollToPos && (op.scrollToPos.from.line < display.viewFrom || op.scrollToPos.to.line >= display.viewTo) || display.maxLineChanged && cm.options.lineWrapping, op.update = op.mustUpdate && new DisplayUpdate(cm, op.mustUpdate && {
-                    top: op.scrollTop,
-                    ensure: op.scrollToPos
-                }, op.forceUpdate);
-            }(ops[i1]);
-            for(var i$1 = 0; i$1 < ops.length; i$1++ // Write DOM (maybe)
-            )(op = ops[i$1]).updatedDisplay = op.mustUpdate && updateDisplayIfNeeded(op.cm, op.update);
-            for(var i$2 = 0; i$2 < ops.length; i$2++ // Read DOM
-            )!function(op) {
-                var line, ch, cm = op.cm, display = cm.display;
-                op.updatedDisplay && updateHeightsInViewport(cm), op.barMeasure = measureForScrollbars(cm), display.maxLineChanged && !cm.options.lineWrapping && (op.adjustWidthTo = (line = display.maxLine, ch = display.maxLine.text.length, measureCharPrepared(cm, prepareMeasureForLine(cm, line), ch, void 0)).left + 3, cm.display.sizerWidth = op.adjustWidthTo, op.barMeasure.scrollWidth = Math.max(display.scroller.clientWidth, display.sizer.offsetLeft + op.adjustWidthTo + scrollGap(cm) + cm.display.barWidth), op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo - displayWidth(cm))), (op.updatedDisplay || op.selectionChanged) && (op.preparedSelection = display.input.prepareSelection());
-            }(ops[i$2]);
-            for(var i$3 = 0; i$3 < ops.length; i$3++ // Write DOM (maybe)
-            )!function(op) {
-                var cm = op.cm;
-                null != op.adjustWidthTo && (cm.display.sizer.style.minWidth = op.adjustWidthTo + "px", op.maxScrollLeft < cm.doc.scrollLeft && setScrollLeft(cm, Math.min(cm.display.scroller.scrollLeft, op.maxScrollLeft), !0), cm.display.maxLineChanged = !1);
-                var takeFocus = op.focus && op.focus == activeElt();
-                op.preparedSelection && cm.display.input.showSelection(op.preparedSelection, takeFocus), (op.updatedDisplay || op.startHeight != cm.doc.height) && updateScrollbars(cm, op.barMeasure), op.updatedDisplay && setDocumentHeight(cm, op.barMeasure), op.selectionChanged && restartBlink(cm), cm.state.focused && op.updateInput && cm.display.input.reset(op.typing), takeFocus && ensureFocus(op.cm);
-            }(ops[i$3]);
-            for(var i$4 = 0; i$4 < ops.length; i$4++ // Read DOM
-            )!function(op) {
-                var cm = op.cm, display = cm.display, doc = cm.doc;
-                // If we need to scroll a specific position into view, do so.
-                if (op.updatedDisplay && postUpdateDisplay(cm, op.update), null != display.wheelStartX && (null != op.scrollTop || null != op.scrollLeft || op.scrollToPos) && (display.wheelStartX = display.wheelStartY = null), null != op.scrollTop && setScrollTop(cm, op.scrollTop, op.forceScroll), null != op.scrollLeft && setScrollLeft(cm, op.scrollLeft, !0, !0), op.scrollToPos) {
-                    var rect = // Scroll a given position into view (immediately), verifying that
-                    // it actually became visible (as line heights are accurately
-                    // measured, the position of something may 'drift' during drawing).
-                    function(cm, pos, end, margin) {
-                        null == margin && (margin = 0), cm.options.lineWrapping || pos != end || (// Set pos and end to the cursor positions around the character pos sticks to
-                        // If pos.sticky == "before", that is around pos.ch - 1, otherwise around pos.ch
-                        // If pos == Pos(_, 0, "before"), pos and end are unchanged
-                        end = "before" == pos.sticky ? Pos(pos.line, pos.ch + 1, "before") : pos, pos = pos.ch ? Pos(pos.line, "before" == pos.sticky ? pos.ch - 1 : pos.ch, "after") : pos);
-                        for(var rect, limit = 0; limit < 5; limit++){
-                            var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords, scrollPos = calculateScrollPos(cm, rect = {
-                                left: Math.min(coords.left, endCoords.left),
-                                top: Math.min(coords.top, endCoords.top) - margin,
-                                right: Math.max(coords.left, endCoords.left),
-                                bottom: Math.max(coords.bottom, endCoords.bottom) + margin
-                            }), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
-                            if (null != scrollPos.scrollTop && (updateScrollTop(cm, scrollPos.scrollTop), Math.abs(cm.doc.scrollTop - startTop) > 1 && (changed = !0)), null != scrollPos.scrollLeft && (setScrollLeft(cm, scrollPos.scrollLeft), Math.abs(cm.doc.scrollLeft - startLeft) > 1 && (changed = !0)), !changed) break;
-                        }
-                        return rect;
-                    }(cm, clipPos(doc, op.scrollToPos.from), clipPos(doc, op.scrollToPos.to), op.scrollToPos.margin);
-                    if (!signalDOMEvent(cm, "scrollCursorIntoView")) {
-                        var display1 = cm.display, box = display1.sizer.getBoundingClientRect(), doScroll = null;
-                        if (rect.top + box.top < 0 ? doScroll = !0 : rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight) && (doScroll = !1), null != doScroll && !phantom) {
-                            var scrollNode = elt("div", "\u200b", null, "position: absolute;\n                         top: " + (rect.top - display1.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display1.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
-                            cm.display.lineSpace.appendChild(scrollNode), scrollNode.scrollIntoView(doScroll), cm.display.lineSpace.removeChild(scrollNode);
+            for(var i = 0; i < group.ops.length; i++)group.ops[i].cm.curOp = null;
+            !// The DOM updates done when an operation finishes are batched so
+            // that the minimum number of relayouts are required.
+            function(group) {
+                for(var op, ops = group.ops, i = 0; i < ops.length; i++ // Read DOM
+                )!function(op) {
+                    var cm = op.cm, display = cm.display;
+                    (function(cm) {
+                        var display = cm.display;
+                        !display.scrollbarsClipped && display.scroller.offsetWidth && (display.nativeBarWidth = display.scroller.offsetWidth - display.scroller.clientWidth, display.heightForcer.style.height = scrollGap(cm) + "px", display.sizer.style.marginBottom = -display.nativeBarWidth + "px", display.sizer.style.borderRightWidth = scrollGap(cm) + "px", display.scrollbarsClipped = !0);
+                    })(cm), op.updateMaxLine && findMaxLine(cm), op.mustUpdate = op.viewChanged || op.forceUpdate || null != op.scrollTop || op.scrollToPos && (op.scrollToPos.from.line < display.viewFrom || op.scrollToPos.to.line >= display.viewTo) || display.maxLineChanged && cm.options.lineWrapping, op.update = op.mustUpdate && new DisplayUpdate(cm, op.mustUpdate && {
+                        top: op.scrollTop,
+                        ensure: op.scrollToPos
+                    }, op.forceUpdate);
+                }(ops[i]);
+                for(var i$1 = 0; i$1 < ops.length; i$1++ // Write DOM (maybe)
+                )(op = ops[i$1]).updatedDisplay = op.mustUpdate && updateDisplayIfNeeded(op.cm, op.update);
+                for(var i$2 = 0; i$2 < ops.length; i$2++ // Read DOM
+                )!function(op) {
+                    var line, ch, cm = op.cm, display = cm.display;
+                    op.updatedDisplay && updateHeightsInViewport(cm), op.barMeasure = measureForScrollbars(cm), display.maxLineChanged && !cm.options.lineWrapping && (op.adjustWidthTo = (line = display.maxLine, ch = display.maxLine.text.length, measureCharPrepared(cm, prepareMeasureForLine(cm, line), ch, void 0)).left + 3, cm.display.sizerWidth = op.adjustWidthTo, op.barMeasure.scrollWidth = Math.max(display.scroller.clientWidth, display.sizer.offsetLeft + op.adjustWidthTo + scrollGap(cm) + cm.display.barWidth), op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo - displayWidth(cm))), (op.updatedDisplay || op.selectionChanged) && (op.preparedSelection = display.input.prepareSelection());
+                }(ops[i$2]);
+                for(var i$3 = 0; i$3 < ops.length; i$3++ // Write DOM (maybe)
+                )!function(op) {
+                    var cm = op.cm;
+                    null != op.adjustWidthTo && (cm.display.sizer.style.minWidth = op.adjustWidthTo + "px", op.maxScrollLeft < cm.doc.scrollLeft && setScrollLeft(cm, Math.min(cm.display.scroller.scrollLeft, op.maxScrollLeft), !0), cm.display.maxLineChanged = !1);
+                    var takeFocus = op.focus && op.focus == activeElt();
+                    op.preparedSelection && cm.display.input.showSelection(op.preparedSelection, takeFocus), (op.updatedDisplay || op.startHeight != cm.doc.height) && updateScrollbars(cm, op.barMeasure), op.updatedDisplay && setDocumentHeight(cm, op.barMeasure), op.selectionChanged && restartBlink(cm), cm.state.focused && op.updateInput && cm.display.input.reset(op.typing), takeFocus && ensureFocus(op.cm);
+                }(ops[i$3]);
+                for(var i$4 = 0; i$4 < ops.length; i$4++ // Read DOM
+                )!function(op) {
+                    var cm = op.cm, display = cm.display, doc = cm.doc;
+                    // If we need to scroll a specific position into view, do so.
+                    if (op.updatedDisplay && postUpdateDisplay(cm, op.update), null != display.wheelStartX && (null != op.scrollTop || null != op.scrollLeft || op.scrollToPos) && (display.wheelStartX = display.wheelStartY = null), null != op.scrollTop && setScrollTop(cm, op.scrollTop, op.forceScroll), null != op.scrollLeft && setScrollLeft(cm, op.scrollLeft, !0, !0), op.scrollToPos) {
+                        var rect = // Scroll a given position into view (immediately), verifying that
+                        // it actually became visible (as line heights are accurately
+                        // measured, the position of something may 'drift' during drawing).
+                        function(cm, pos, end, margin) {
+                            null == margin && (margin = 0), cm.options.lineWrapping || pos != end || (// Set pos and end to the cursor positions around the character pos sticks to
+                            // If pos.sticky == "before", that is around pos.ch - 1, otherwise around pos.ch
+                            // If pos == Pos(_, 0, "before"), pos and end are unchanged
+                            end = "before" == pos.sticky ? Pos(pos.line, pos.ch + 1, "before") : pos, pos = pos.ch ? Pos(pos.line, "before" == pos.sticky ? pos.ch - 1 : pos.ch, "after") : pos);
+                            for(var rect, limit = 0; limit < 5; limit++){
+                                var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords, scrollPos = calculateScrollPos(cm, rect = {
+                                    left: Math.min(coords.left, endCoords.left),
+                                    top: Math.min(coords.top, endCoords.top) - margin,
+                                    right: Math.max(coords.left, endCoords.left),
+                                    bottom: Math.max(coords.bottom, endCoords.bottom) + margin
+                                }), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
+                                if (null != scrollPos.scrollTop && (updateScrollTop(cm, scrollPos.scrollTop), Math.abs(cm.doc.scrollTop - startTop) > 1 && (changed = !0)), null != scrollPos.scrollLeft && (setScrollLeft(cm, scrollPos.scrollLeft), Math.abs(cm.doc.scrollLeft - startLeft) > 1 && (changed = !0)), !changed) break;
+                            }
+                            return rect;
+                        }(cm, clipPos(doc, op.scrollToPos.from), clipPos(doc, op.scrollToPos.to), op.scrollToPos.margin);
+                        if (!signalDOMEvent(cm, "scrollCursorIntoView")) {
+                            var display1 = cm.display, box = display1.sizer.getBoundingClientRect(), doScroll = null;
+                            if (rect.top + box.top < 0 ? doScroll = !0 : rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight) && (doScroll = !1), null != doScroll && !phantom) {
+                                var scrollNode = elt("div", "\u200b", null, "position: absolute;\n                         top: " + (rect.top - display1.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display1.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
+                                cm.display.lineSpace.appendChild(scrollNode), scrollNode.scrollIntoView(doScroll), cm.display.lineSpace.removeChild(scrollNode);
+                            }
                         }
                     }
-                }
-                // Fire events for markers that are hidden/unidden by editing or
-                // undoing
-                var hidden = op.maybeHiddenMarkers, unhidden = op.maybeUnhiddenMarkers;
-                if (hidden) for(var i = 0; i < hidden.length; ++i)hidden[i].lines.length || signal(hidden[i], "hide");
-                if (unhidden) for(var i$1 = 0; i$1 < unhidden.length; ++i$1)unhidden[i$1].lines.length && signal(unhidden[i$1], "unhide");
-                display.wrapper.offsetHeight && (doc.scrollTop = cm.display.scroller.scrollTop), op.changeObjs && signal(cm, "changes", cm, op.changeObjs), op.update && op.update.finish();
-            }(ops[i$4]);
+                    // Fire events for markers that are hidden/unidden by editing or
+                    // undoing
+                    var hidden = op.maybeHiddenMarkers, unhidden = op.maybeUnhiddenMarkers;
+                    if (hidden) for(var i = 0; i < hidden.length; ++i)hidden[i].lines.length || signal(hidden[i], "hide");
+                    if (unhidden) for(var i$1 = 0; i$1 < unhidden.length; ++i$1)unhidden[i$1].lines.length && signal(unhidden[i$1], "unhide");
+                    display.wrapper.offsetHeight && (doc.scrollTop = cm.display.scroller.scrollTop), op.changeObjs && signal(cm, "changes", cm, op.changeObjs), op.update && op.update.finish();
+                }(ops[i$4]);
+            }(group);
         });
     }
     // Run the given function in an operation
@@ -3073,9 +3075,8 @@ function(global, factory) {
     }
     // Set a new selection.
     function setSelection(doc, sel, options) {
-        setSelectionNoUndo(doc, sel, options);
-        var prev, ch, sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin;
-        opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
+        var sel1, opId, prev, ch, hist, origin;
+        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
         if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
@@ -4064,7 +4065,7 @@ function(global, factory) {
             var from = this.first, to = this.first + this.size;
             null != options.from && options.from > from && (from = options.from), null != options.to && options.to < to && (to = options.to);
             var copy = new Doc(getLines(this, from, to), options.mode || this.modeOption, from, this.lineSep, this.direction);
-            options.sharedHist && (copy.history = this.history), (this.linked || (this.linked = [])).push({
+            return options.sharedHist && (copy.history = this.history), (this.linked || (this.linked = [])).push({
                 doc: copy,
                 sharedHist: options.sharedHist
             }), copy.linked = [
@@ -4073,15 +4074,15 @@ function(global, factory) {
                     isParent: !0,
                     sharedHist: options.sharedHist
                 }
-            ];
-            for(var markers = findSharedMarkers(this), i = 0; i < markers.length; i++){
-                var marker = markers[i], pos = marker.find(), mFrom = copy.clipPos(pos.from), mTo = copy.clipPos(pos.to);
-                if (cmp(mFrom, mTo)) {
-                    var subMark = markText(copy, mFrom, mTo, marker.primary, marker.primary.type);
-                    marker.markers.push(subMark), subMark.parent = marker;
+            ], function(doc, markers) {
+                for(var i = 0; i < markers.length; i++){
+                    var marker = markers[i], pos = marker.find(), mFrom = doc.clipPos(pos.from), mTo = doc.clipPos(pos.to);
+                    if (cmp(mFrom, mTo)) {
+                        var subMark = markText(doc, mFrom, mTo, marker.primary, marker.primary.type);
+                        marker.markers.push(subMark), subMark.parent = marker;
+                    }
                 }
-            }
-            return copy;
+            }(copy, findSharedMarkers(this)), copy;
         },
         unlinkDoc: function(other) {
             if (other instanceof CodeMirror && (other = other.doc), this.linked) {

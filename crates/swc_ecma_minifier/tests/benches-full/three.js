@@ -6783,39 +6783,42 @@ function(global, factory) {
         function setTextureCube(texture, slot) {
             var textureProperties = properties.get(texture);
             if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                if (6 === texture.image.length) {
-                    initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
-                    for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
-                    var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
-                    if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
-                        for(var _i3 = 0; _i3 < 6; _i3++){
-                            mipmaps = cubeImage[_i3].mipmaps;
-                            for(var j = 0; j < mipmaps.length; j++){
-                                var mipmap = mipmaps[j];
-                                1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
+                !function(textureProperties, texture, slot) {
+                    if (6 === texture.image.length) {
+                        initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
+                        for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
+                        var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
+                        if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
+                            for(var _i3 = 0; _i3 < 6; _i3++){
+                                mipmaps = cubeImage[_i3].mipmaps;
+                                for(var j = 0; j < mipmaps.length; j++){
+                                    var mipmap = mipmaps[j];
+                                    1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
+                                }
                             }
-                        }
-                        textureProperties.__maxMipLevel = mipmaps.length - 1;
-                    } else {
-                        mipmaps = texture.mipmaps;
-                        for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
-                            state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
-                            for(var _j = 0; _j < mipmaps.length; _j++){
-                                var mipmapImage = mipmaps[_j].image[_i4].image;
-                                state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
-                            }
+                            textureProperties.__maxMipLevel = mipmaps.length - 1;
                         } else {
-                            state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
-                            for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
-                                var _mipmap2 = mipmaps[_j2];
-                                state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
+                            mipmaps = texture.mipmaps;
+                            for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
+                                state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
+                                for(var _j = 0; _j < mipmaps.length; _j++){
+                                    var mipmapImage = mipmaps[_j].image[_i4].image;
+                                    state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
+                                }
+                            } else {
+                                state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
+                                for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
+                                    var _mipmap2 = mipmaps[_j2];
+                                    state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
+                                }
                             }
+                            textureProperties.__maxMipLevel = mipmaps.length;
                         }
-                        textureProperties.__maxMipLevel = mipmaps.length;
+                        textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
+                        generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
                     }
-                    textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
-                    generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
-                }
+                } // Render targets
+                (textureProperties, texture, slot);
                 return;
             }
             state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture);
@@ -6940,11 +6943,11 @@ function(global, factory) {
                 textureNeedsGenerateMipmaps(renderTarget.texture, supportsMips) && generateMipmap(34067, renderTarget.texture, renderTarget.width, renderTarget.height), state.bindTexture(34067, null);
             } else state.bindTexture(3553, textureProperties.__webglTexture), setTextureParameters(3553, renderTarget.texture, supportsMips), setupFrameBufferTexture(renderTargetProperties.__webglFramebuffer, renderTarget, 36064, 3553), textureNeedsGenerateMipmaps(renderTarget.texture, supportsMips) && generateMipmap(3553, renderTarget.texture, renderTarget.width, renderTarget.height), state.bindTexture(3553, null);
              // Setup depth and stencil buffers
-            if (renderTarget.depthBuffer) {
-                var renderTargetProperties1 = properties.get(renderTarget), isCube1 = !0 === renderTarget.isWebGLCubeRenderTarget;
+            renderTarget.depthBuffer && function(renderTarget) {
+                var renderTargetProperties = properties.get(renderTarget), isCube = !0 === renderTarget.isWebGLCubeRenderTarget;
                 if (renderTarget.depthTexture) {
-                    if (isCube1) throw Error('target.depthTexture not supported in Cube render targets');
-                    var framebuffer = renderTargetProperties1.__webglFramebuffer;
+                    if (isCube) throw Error('target.depthTexture not supported in Cube render targets');
+                    var framebuffer = renderTargetProperties.__webglFramebuffer;
                     if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
                     if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
                      // upload an empty depth texture with framebuffer size
@@ -6953,12 +6956,13 @@ function(global, factory) {
                     if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
                     else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
                     else throw Error('Unknown depthTexture format');
-                } else if (isCube1) {
-                    renderTargetProperties1.__webglDepthbuffer = [];
-                    for(var i1 = 0; i1 < 6; i1++)_gl.bindFramebuffer(36160, renderTargetProperties1.__webglFramebuffer[i1]), renderTargetProperties1.__webglDepthbuffer[i1] = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties1.__webglDepthbuffer[i1], renderTarget, !1);
-                } else _gl.bindFramebuffer(36160, renderTargetProperties1.__webglFramebuffer), renderTargetProperties1.__webglDepthbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties1.__webglDepthbuffer, renderTarget, !1);
+                } else if (isCube) {
+                    renderTargetProperties.__webglDepthbuffer = [];
+                    for(var i = 0; i < 6; i++)_gl.bindFramebuffer(36160, renderTargetProperties.__webglFramebuffer[i]), renderTargetProperties.__webglDepthbuffer[i] = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthbuffer[i], renderTarget, !1);
+                } else _gl.bindFramebuffer(36160, renderTargetProperties.__webglFramebuffer), renderTargetProperties.__webglDepthbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthbuffer, renderTarget, !1);
                 _gl.bindFramebuffer(36160, null);
-            }
+            } // Set up GL resources for the render target
+            (renderTarget);
         }, this.updateRenderTargetMipmap = function(renderTarget) {
             var texture = renderTarget.texture;
             if (textureNeedsGenerateMipmaps(texture, isPowerOfTwo(renderTarget) || isWebGL2)) {
@@ -9635,13 +9639,15 @@ function(global, factory) {
             return _this.setAttribute('position', new Float32BufferAttribute(verticesArray, 3)), _this.setAttribute('uv', new Float32BufferAttribute(uvArray, 2)), _this.computeVertexNormals(), _this;
         }
         return _inheritsLoose(ExtrudeBufferGeometry, _BufferGeometry), ExtrudeBufferGeometry.prototype.toJSON = function() {
-            var data = BufferGeometry.prototype.toJSON.call(this), shapes = this.parameters.shapes, options = this.parameters.options;
-            if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
-                var shape = shapes[i];
-                data.shapes.push(shape.uuid);
-            }
-            else data.shapes.push(shapes.uuid);
-            return void 0 !== options.extrudePath && (data.options.extrudePath = options.extrudePath.toJSON()), data;
+            var data = BufferGeometry.prototype.toJSON.call(this);
+            return function(shapes, options, data) {
+                if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
+                    var shape = shapes[i];
+                    data.shapes.push(shape.uuid);
+                }
+                else data.shapes.push(shapes.uuid);
+                return void 0 !== options.extrudePath && (data.options.extrudePath = options.extrudePath.toJSON()), data;
+            }(this.parameters.shapes, this.parameters.options, data);
         }, ExtrudeBufferGeometry;
     }(BufferGeometry), WorldUVGenerator = {
         generateTopUV: function(geometry, vertices, indexA, indexB, indexC) {
@@ -9675,13 +9681,15 @@ function(global, factory) {
             }, _this.fromBufferGeometry(new ExtrudeBufferGeometry(shapes, options)), _this.mergeVertices(), _this;
         }
         return _inheritsLoose(ExtrudeGeometry, _Geometry), ExtrudeGeometry.prototype.toJSON = function() {
-            var data = _Geometry.prototype.toJSON.call(this), shapes = this.parameters.shapes, options = this.parameters.options;
-            if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
-                var shape = shapes[i];
-                data.shapes.push(shape.uuid);
-            }
-            else data.shapes.push(shapes.uuid);
-            return void 0 !== options.extrudePath && (data.options.extrudePath = options.extrudePath.toJSON()), data;
+            var data = _Geometry.prototype.toJSON.call(this);
+            return function(shapes, options, data) {
+                if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
+                    var shape = shapes[i];
+                    data.shapes.push(shape.uuid);
+                }
+                else data.shapes.push(shapes.uuid);
+                return void 0 !== options.extrudePath && (data.options.extrudePath = options.extrudePath.toJSON()), data;
+            }(this.parameters.shapes, this.parameters.options, data);
         }, ExtrudeGeometry;
     }(Geometry), IcosahedronBufferGeometry = /*#__PURE__*/ function(_PolyhedronBufferGeom) {
         function IcosahedronBufferGeometry(radius, detail) {
@@ -10024,13 +10032,15 @@ function(global, factory) {
             return _this.setIndex(indices), _this.setAttribute('position', new Float32BufferAttribute(vertices, 3)), _this.setAttribute('normal', new Float32BufferAttribute(normals, 3)), _this.setAttribute('uv', new Float32BufferAttribute(uvs, 2)), _this;
         }
         return _inheritsLoose(ShapeBufferGeometry, _BufferGeometry), ShapeBufferGeometry.prototype.toJSON = function() {
-            var data = BufferGeometry.prototype.toJSON.call(this), shapes = this.parameters.shapes;
-            if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
-                var shape = shapes[i];
-                data.shapes.push(shape.uuid);
-            }
-            else data.shapes.push(shapes.uuid);
-            return data;
+            var data = BufferGeometry.prototype.toJSON.call(this);
+            return function(shapes, data) {
+                if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
+                    var shape = shapes[i];
+                    data.shapes.push(shape.uuid);
+                }
+                else data.shapes.push(shapes.uuid);
+                return data;
+            }(this.parameters.shapes, data);
         }, ShapeBufferGeometry;
     }(BufferGeometry), ShapeGeometry = /*#__PURE__*/ function(_Geometry) {
         function ShapeGeometry(shapes, curveSegments) {
@@ -10041,13 +10051,15 @@ function(global, factory) {
             }, _this.fromBufferGeometry(new ShapeBufferGeometry(shapes, curveSegments)), _this.mergeVertices(), _this;
         }
         return _inheritsLoose(ShapeGeometry, _Geometry), ShapeGeometry.prototype.toJSON = function() {
-            var data = Geometry.prototype.toJSON.call(this), shapes = this.parameters.shapes;
-            if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
-                var shape = shapes[i];
-                data.shapes.push(shape.uuid);
-            }
-            else data.shapes.push(shapes.uuid);
-            return data;
+            var data = Geometry.prototype.toJSON.call(this);
+            return function(shapes, data) {
+                if (data.shapes = [], Array.isArray(shapes)) for(var i = 0, l = shapes.length; i < l; i++){
+                    var shape = shapes[i];
+                    data.shapes.push(shape.uuid);
+                }
+                else data.shapes.push(shapes.uuid);
+                return data;
+            }(this.parameters.shapes, data);
         }, ShapeGeometry;
     }(Geometry), SphereBufferGeometry = /*#__PURE__*/ function(_BufferGeometry) {
         function SphereBufferGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {

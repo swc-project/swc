@@ -1215,47 +1215,52 @@
                     case 5 /* StringValue */ :
                         return et(t.stringValue, e.stringValue);
                     case 6 /* BlobValue */ :
-                        var t1 = t.bytesValue, e1 = e.bytesValue;
-                        const n2 = pt(t1), s2 = pt(e1);
-                        return n2.compareTo(s2);
+                        return function(t, e) {
+                            const n = pt(t), s = pt(e);
+                            return n.compareTo(s);
+                        }(t.bytesValue, e.bytesValue);
                     case 7 /* RefValue */ :
-                        var t2 = t.referenceValue, e2 = e.referenceValue;
-                        const n3 = t2.split("/"), s3 = e2.split("/");
-                        for(let t = 0; t < n3.length && t < s3.length; t++){
-                            const e = et(n3[t], s3[t]);
-                            if (0 !== e) return e;
-                        }
-                        return et(n3.length, s3.length);
+                        return function(t, e) {
+                            const n = t.split("/"), s = e.split("/");
+                            for(let t = 0; t < n.length && t < s.length; t++){
+                                const e = et(n[t], s[t]);
+                                if (0 !== e) return e;
+                            }
+                            return et(n.length, s.length);
+                        }(t.referenceValue, e.referenceValue);
                     case 8 /* GeoPointValue */ :
-                        var t3 = t.geoPointValue, e3 = e.geoPointValue;
-                        const n4 = et(yt(t3.latitude), yt(e3.latitude));
-                        return 0 !== n4 ? n4 : et(yt(t3.longitude), yt(e3.longitude));
+                        return function(t, e) {
+                            const n = et(yt(t.latitude), yt(e.latitude));
+                            return 0 !== n ? n : et(yt(t.longitude), yt(e.longitude));
+                        }(t.geoPointValue, e.geoPointValue);
                     case 9 /* ArrayValue */ :
-                        var t4 = t.arrayValue, e4 = e.arrayValue;
-                        const n5 = t4.values || [], s4 = e4.values || [];
-                        for(let t = 0; t < n5.length && t < s4.length; ++t){
-                            const e = Dt(n5[t], s4[t]);
-                            if (e) return e;
-                        }
-                        return et(n5.length, s4.length);
+                        return function(t, e) {
+                            const n = t.values || [], s = e.values || [];
+                            for(let t = 0; t < n.length && t < s.length; ++t){
+                                const e = Dt(n[t], s[t]);
+                                if (e) return e;
+                            }
+                            return et(n.length, s.length);
+                        }(t.arrayValue, e.arrayValue);
                     case 10 /* ObjectValue */ :
-                        var t5 = /**
+                        return function(t, e) {
+                            const n = t.fields || {}, s = Object.keys(n), i = e.fields || {}, r = Object.keys(i);
+                            // Even though MapValues are likely sorted correctly based on their insertion
+                            // order (e.g. when received from the backend), local modifications can bring
+                            // elements out of order. We need to re-sort the elements to ensure that
+                            // canonical IDs are independent of insertion order.
+                            s.sort(), r.sort();
+                            for(let t = 0; t < s.length && t < r.length; ++t){
+                                const e = et(s[t], r[t]);
+                                if (0 !== e) return e;
+                                const o = Dt(n[s[t]], i[r[t]]);
+                                if (0 !== o) return o;
+                            }
+                            return et(s.length, r.length);
+                        }(/**
                                  * Generates the canonical ID for the provided field value (as used in Target
                                  * serialization).
-                                 */ t.mapValue, e5 = e.mapValue;
-                        const n6 = t5.fields || {}, s5 = Object.keys(n6), i = e5.fields || {}, r = Object.keys(i);
-                        // Even though MapValues are likely sorted correctly based on their insertion
-                        // order (e.g. when received from the backend), local modifications can bring
-                        // elements out of order. We need to re-sort the elements to ensure that
-                        // canonical IDs are independent of insertion order.
-                        s5.sort(), r.sort();
-                        for(let t = 0; t < s5.length && t < r.length; ++t){
-                            const e = et(s5[t], r[t]);
-                            if (0 !== e) return e;
-                            const o = Dt(n6[s5[t]], i[r[t]]);
-                            if (0 !== o) return o;
-                        }
-                        return et(s5.length, r.length);
+                                 */ t.mapValue, e.mapValue);
                     default:
                         throw L();
                 }
@@ -7726,8 +7731,11 @@
                     return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0 /* RemoteStore */ ), Qr.bt() ? new Qr() : new jr());
                 /** Re-enables the network. Idempotent. */ }
                 createSyncEngine(t, e) {
-                    const c = new ec(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions);
-                    return e && (c.Qo = !0), c;
+                    return function(t, e, n, // PORTING NOTE: Manages state synchronization in multi-tab environments.
+                    s, i, r, o) {
+                        const c = new ec(t, e, n, s, i, r);
+                        return o && (c.Qo = !0), c;
+                    }(this.localStore, this.remoteStore, this.eventManager, this.sharedClientState, t.initialUser, t.maxConcurrentLimboResolutions, e);
                 }
                 terminate() {
                     return async function(t) {

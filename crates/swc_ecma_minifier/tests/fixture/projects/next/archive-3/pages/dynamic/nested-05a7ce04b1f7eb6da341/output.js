@@ -181,118 +181,120 @@
                 ]), LoadableSubscription;
             }();
             function Loadable(opts1) {
-                var opts = Object.assign({
-                    loader: null,
-                    loading: null,
-                    delay: 200,
-                    timeout: null,
-                    webpack: null,
-                    modules: null
-                }, opts1), subscription = null;
-                function init() {
-                    if (!subscription) {
-                        var sub = new LoadableSubscription(load, opts);
-                        subscription = {
-                            getCurrentValue: sub.getCurrentValue.bind(sub),
-                            subscribe: sub.subscribe.bind(sub),
-                            retry: sub.retry.bind(sub),
-                            promise: sub.promise.bind(sub)
-                        };
-                    }
-                    return subscription.promise();
-                } // Server only
-                if (!initialized && "function" == typeof opts.webpack) {
-                    var moduleIds = opts.webpack();
-                    READY_INITIALIZERS.push(function(ids) {
-                        var _step, _iterator = function(o, allowArrayLike) {
-                            if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
-                                if (Array.isArray(o) || (it = function(o, minLen) {
-                                    if (o) {
-                                        if ("string" == typeof o) return _arrayLikeToArray(o, void 0);
-                                        var n = Object.prototype.toString.call(o).slice(8, -1);
-                                        if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
-                                        if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, void 0);
-                                    }
-                                }(o))) {
-                                    it && (o = it);
-                                    var i = 0, F = function() {};
-                                    return {
-                                        s: F,
-                                        n: function() {
-                                            return i >= o.length ? {
-                                                done: !0
-                                            } : {
-                                                done: !1,
-                                                value: o[i++]
-                                            };
-                                        },
-                                        e: function(_e) {
-                                            throw _e;
-                                        },
-                                        f: F
-                                    };
-                                }
-                                throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-                            }
-                            var it, err, normalCompletion = !0, didErr = !1;
-                            return {
-                                s: function() {
-                                    it = o[Symbol.iterator]();
-                                },
-                                n: function() {
-                                    var step = it.next();
-                                    return normalCompletion = step.done, step;
-                                },
-                                e: function(_e2) {
-                                    didErr = !0, err = _e2;
-                                },
-                                f: function() {
-                                    try {
-                                        normalCompletion || null == it.return || it.return();
-                                    } finally{
-                                        if (didErr) throw err;
-                                    }
-                                }
+                return function(loadFn, options) {
+                    var opts = Object.assign({
+                        loader: null,
+                        loading: null,
+                        delay: 200,
+                        timeout: null,
+                        webpack: null,
+                        modules: null
+                    }, options), subscription = null;
+                    function init() {
+                        if (!subscription) {
+                            var sub = new LoadableSubscription(loadFn, opts);
+                            subscription = {
+                                getCurrentValue: sub.getCurrentValue.bind(sub),
+                                subscribe: sub.subscribe.bind(sub),
+                                retry: sub.retry.bind(sub),
+                                promise: sub.promise.bind(sub)
                             };
-                        }(moduleIds);
-                        try {
-                            for(_iterator.s(); !(_step = _iterator.n()).done;){
-                                var moduleId = _step.value;
-                                if (-1 !== ids.indexOf(moduleId)) return init();
-                            }
-                        } catch (err) {
-                            _iterator.e(err);
-                        } finally{
-                            _iterator.f();
                         }
-                    });
-                }
-                var LoadableComponent = function(props, ref) {
-                    init();
-                    var context = _react.default.useContext(_loadableContext.LoadableContext), state = _useSubscription.useSubscription(subscription);
-                    return _react.default.useImperativeHandle(ref, function() {
-                        return {
-                            retry: subscription.retry
-                        };
-                    }, []), context && Array.isArray(opts.modules) && opts.modules.forEach(function(moduleName) {
-                        context(moduleName);
-                    }), _react.default.useMemo(function() {
-                        var obj;
-                        return state.loading || state.error ? _react.default.createElement(opts.loading, {
-                            isLoading: state.loading,
-                            pastDelay: state.pastDelay,
-                            timedOut: state.timedOut,
-                            error: state.error,
-                            retry: subscription.retry
-                        }) : state.loaded ? _react.default.createElement((obj = state.loaded) && obj.__esModule ? obj.default : obj, props) : null;
-                    }, [
-                        props,
-                        state
-                    ]);
-                };
-                return LoadableComponent.preload = function() {
-                    return init();
-                }, LoadableComponent.displayName = "LoadableComponent", _react.default.forwardRef(LoadableComponent);
+                        return subscription.promise();
+                    } // Server only
+                    if (!initialized && "function" == typeof opts.webpack) {
+                        var moduleIds = opts.webpack();
+                        READY_INITIALIZERS.push(function(ids) {
+                            var _step, _iterator = function(o, allowArrayLike) {
+                                if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
+                                    if (Array.isArray(o) || (it = function(o, minLen) {
+                                        if (o) {
+                                            if ("string" == typeof o) return _arrayLikeToArray(o, void 0);
+                                            var n = Object.prototype.toString.call(o).slice(8, -1);
+                                            if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
+                                            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, void 0);
+                                        }
+                                    }(o))) {
+                                        it && (o = it);
+                                        var i = 0, F = function() {};
+                                        return {
+                                            s: F,
+                                            n: function() {
+                                                return i >= o.length ? {
+                                                    done: !0
+                                                } : {
+                                                    done: !1,
+                                                    value: o[i++]
+                                                };
+                                            },
+                                            e: function(_e) {
+                                                throw _e;
+                                            },
+                                            f: F
+                                        };
+                                    }
+                                    throw TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+                                }
+                                var it, err, normalCompletion = !0, didErr = !1;
+                                return {
+                                    s: function() {
+                                        it = o[Symbol.iterator]();
+                                    },
+                                    n: function() {
+                                        var step = it.next();
+                                        return normalCompletion = step.done, step;
+                                    },
+                                    e: function(_e2) {
+                                        didErr = !0, err = _e2;
+                                    },
+                                    f: function() {
+                                        try {
+                                            normalCompletion || null == it.return || it.return();
+                                        } finally{
+                                            if (didErr) throw err;
+                                        }
+                                    }
+                                };
+                            }(moduleIds);
+                            try {
+                                for(_iterator.s(); !(_step = _iterator.n()).done;){
+                                    var moduleId = _step.value;
+                                    if (-1 !== ids.indexOf(moduleId)) return init();
+                                }
+                            } catch (err) {
+                                _iterator.e(err);
+                            } finally{
+                                _iterator.f();
+                            }
+                        });
+                    }
+                    var LoadableComponent = function(props, ref) {
+                        init();
+                        var context = _react.default.useContext(_loadableContext.LoadableContext), state = _useSubscription.useSubscription(subscription);
+                        return _react.default.useImperativeHandle(ref, function() {
+                            return {
+                                retry: subscription.retry
+                            };
+                        }, []), context && Array.isArray(opts.modules) && opts.modules.forEach(function(moduleName) {
+                            context(moduleName);
+                        }), _react.default.useMemo(function() {
+                            var obj;
+                            return state.loading || state.error ? _react.default.createElement(opts.loading, {
+                                isLoading: state.loading,
+                                pastDelay: state.pastDelay,
+                                timedOut: state.timedOut,
+                                error: state.error,
+                                retry: subscription.retry
+                            }) : state.loaded ? _react.default.createElement((obj = state.loaded) && obj.__esModule ? obj.default : obj, props) : null;
+                        }, [
+                            props,
+                            state
+                        ]);
+                    };
+                    return LoadableComponent.preload = function() {
+                        return init();
+                    }, LoadableComponent.displayName = "LoadableComponent", _react.default.forwardRef(LoadableComponent);
+                }(load, opts1);
             }
             function flushInitializers(initializers, ids) {
                 for(var promises = []; initializers.length;){

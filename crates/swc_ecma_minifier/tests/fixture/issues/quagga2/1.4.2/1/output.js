@@ -833,18 +833,20 @@
                             return _trace(current, color, label, edgelabel);
                         },
                         contourTracing: function(sy, sx, label, color, edgelabel) {
-                            var Cv, P, ldir, Fv = null, current = {
-                                cx: sx,
-                                cy: sy,
-                                dir: 0
-                            };
-                            if (_trace(current, color, label, edgelabel)) {
-                                Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P;
-                                do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
-                                while (current.cx !== sx || current.cy !== sy)
-                                Fv.prev = Cv.prev, Cv.prev.next = Fv;
-                            }
-                            return Fv;
+                            return function(sy, sx, label, color, edgelabel) {
+                                var Cv, P, ldir, Fv = null, current = {
+                                    cx: sx,
+                                    cy: sy,
+                                    dir: 0
+                                };
+                                if (_trace(current, color, label, edgelabel)) {
+                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P;
+                                    do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
+                                    while (current.cx !== sx || current.cy !== sy)
+                                    Fv.prev = Cv.prev, Cv.prev.next = Fv;
+                                }
+                                return Fv;
+                            }(sy, sx, label, color, edgelabel);
                         }
                     };
                 }

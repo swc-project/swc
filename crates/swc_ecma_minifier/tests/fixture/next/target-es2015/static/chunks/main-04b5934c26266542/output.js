@@ -190,17 +190,21 @@
                             "style",
                             "script"
                         ].forEach((type)=>{
-                            var ref, components = tags[type] || [];
-                            const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
-                            for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null)(null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
-                            const newTags = components.map(reactElementToDOM).filter((newTag)=>{
-                                for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
-                                return !0;
-                            });
-                            oldTags.forEach((t)=>{
-                                var ref;
-                                return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
-                            }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
+                            (function(type, components) {
+                                const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
+                                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
+                                    var ref;
+                                    (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
+                                }
+                                const newTags = components.map(reactElementToDOM).filter((newTag)=>{
+                                    for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
+                                    return !0;
+                                });
+                                oldTags.forEach((t)=>{
+                                    var ref;
+                                    return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
+                                }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
+                            })(type, tags[type] || []);
                         });
                     }
                 };

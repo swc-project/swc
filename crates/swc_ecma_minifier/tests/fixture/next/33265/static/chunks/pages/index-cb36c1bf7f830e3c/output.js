@@ -2051,15 +2051,17 @@
                 },
                 //four real opeartion method
                 appendChild: function(newChild) {
-                    if (newChild.nodeType === DOCUMENT_FRAGMENT_NODE) return this.insertBefore(newChild, null);
-                    var cp = newChild.parentNode;
-                    if (cp) {
-                        var pre = this.lastChild;
-                        cp.removeChild(newChild); //remove and update
-                        var pre = this.lastChild;
-                    }
-                    var pre = this.lastChild;
-                    return newChild.parentNode = this, newChild.previousSibling = pre, newChild.nextSibling = null, pre ? pre.nextSibling = newChild : this.firstChild = newChild, this.lastChild = newChild, _onUpdateChild(this.ownerDocument, this, newChild), newChild;
+                    return newChild.nodeType === DOCUMENT_FRAGMENT_NODE ? this.insertBefore(newChild, null) : function(parentNode, newChild) {
+                        var cp = newChild.parentNode;
+                        if (cp) {
+                            var pre = parentNode.lastChild;
+                            cp.removeChild(newChild); //remove and update
+                            var pre = parentNode.lastChild;
+                        }
+                        var pre = parentNode.lastChild;
+                        return newChild.parentNode = parentNode, newChild.previousSibling = pre, newChild.nextSibling = null, pre ? pre.nextSibling = newChild : parentNode.firstChild = newChild, parentNode.lastChild = newChild, _onUpdateChild(parentNode.ownerDocument, parentNode, newChild), newChild;
+                    //console.log("__aa",parentNode.lastChild.nextSibling == null)
+                    }(this, newChild);
                 },
                 setAttributeNode: function(newAttr) {
                     return this.attributes.setNamedItem(newAttr);
@@ -6488,8 +6490,10 @@
                     case "ucs-2":
                     case "utf16le":
                     case "utf-16le":
-                        for(var start2 = start, end2 = end, bytes = this.slice(start2, end2), res = "", i = 0; i < bytes.length; i += 2)res += String.fromCharCode(bytes[i] + 256 * bytes[i + 1]);
-                        return res;
+                        return function(buf, start, end) {
+                            for(var bytes = buf.slice(start, end), res = "", i = 0; i < bytes.length; i += 2)res += String.fromCharCode(bytes[i] + 256 * bytes[i + 1]);
+                            return res;
+                        }(this, start, end);
                     default:
                         if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = (encoding + "").toLowerCase(), loweredCase = !0;

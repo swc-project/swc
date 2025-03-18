@@ -6427,149 +6427,163 @@
             "$rootScope",
             "$exceptionHandler",
             function($rootScope, $exceptionHandler) {
-                var nextTick = function(callback) {
-                    $rootScope.$evalAsync(callback);
-                }, exceptionHandler = $exceptionHandler, defer = function() {
-                    var value, deferred, pending = [];
-                    return deferred = {
-                        resolve: function(val) {
-                            if (pending) {
-                                var callbacks = pending;
-                                pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
-                                    for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
-                                });
-                            }
-                        },
-                        reject: function(reason) {
-                            deferred.resolve(reject(reason));
-                        },
-                        notify: function(progress) {
-                            if (pending) {
-                                var callbacks = pending;
-                                pending.length && nextTick(function() {
-                                    for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
-                                });
-                            }
-                        },
-                        promise: {
-                            then: function(callback, errback, progressback) {
-                                var result = defer(), wrappedCallback = function(value) {
-                                    try {
-                                        result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
-                                    } catch (e) {
-                                        result.reject(e), exceptionHandler(e);
+                return(/**
+   * Constructs a promise manager.
+   *
+   * @param {function(function)} nextTick Function for executing functions in the next turn.
+   * @param {function(...*)} exceptionHandler Function into which unexpected exceptions are passed for
+   *     debugging purposes.
+   * @returns {object} Promise manager.
+   */ function(nextTick, exceptionHandler) {
+                    /**
+     * @ngdoc
+     * @name ng.$q#defer
+     * @methodOf ng.$q
+     * @description
+     * Creates a `Deferred` object which represents a task which will finish in the future.
+     *
+     * @returns {Deferred} Returns a new instance of deferred.
+     */ var defer = function() {
+                        var value, deferred, pending = [];
+                        return deferred = {
+                            resolve: function(val) {
+                                if (pending) {
+                                    var callbacks = pending;
+                                    pending = undefined, value = ref(val), callbacks.length && nextTick(function() {
+                                        for(var callback, i = 0, ii = callbacks.length; i < ii; i++)callback = callbacks[i], value.then(callback[0], callback[1], callback[2]);
+                                    });
+                                }
+                            },
+                            reject: function(reason) {
+                                deferred.resolve(reject(reason));
+                            },
+                            notify: function(progress) {
+                                if (pending) {
+                                    var callbacks = pending;
+                                    pending.length && nextTick(function() {
+                                        for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
+                                    });
+                                }
+                            },
+                            promise: {
+                                then: function(callback, errback, progressback) {
+                                    var result = defer(), wrappedCallback = function(value) {
+                                        try {
+                                            result.resolve((isFunction(callback) ? callback : defaultCallback)(value));
+                                        } catch (e) {
+                                            result.reject(e), exceptionHandler(e);
+                                        }
+                                    }, wrappedErrback = function(reason) {
+                                        try {
+                                            result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
+                                        } catch (e) {
+                                            result.reject(e), exceptionHandler(e);
+                                        }
+                                    }, wrappedProgressback = function(progress) {
+                                        try {
+                                            result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
+                                        } catch (e) {
+                                            exceptionHandler(e);
+                                        }
+                                    };
+                                    return pending ? pending.push([
+                                        wrappedCallback,
+                                        wrappedErrback,
+                                        wrappedProgressback
+                                    ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
+                                },
+                                catch: function(callback) {
+                                    return this.then(null, callback);
+                                },
+                                finally: function(callback) {
+                                    function makePromise(value, resolved) {
+                                        var result = defer();
+                                        return resolved ? result.resolve(value) : result.reject(value), result.promise;
                                     }
-                                }, wrappedErrback = function(reason) {
+                                    function handleCallback(value, isResolved) {
+                                        var callbackOutput = null;
+                                        try {
+                                            callbackOutput = (callback || defaultCallback)();
+                                        } catch (e) {
+                                            return makePromise(e, !1);
+                                        }
+                                        return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
+                                            return makePromise(value, isResolved);
+                                        }, function(error) {
+                                            return makePromise(error, !1);
+                                        }) : makePromise(value, isResolved);
+                                    }
+                                    return this.then(function(value) {
+                                        return handleCallback(value, !0);
+                                    }, function(error) {
+                                        return handleCallback(error, !1);
+                                    });
+                                }
+                            }
+                        };
+                    }, ref = function(value) {
+                        return value && isFunction(value.then) ? value : {
+                            then: function(callback) {
+                                var result = defer();
+                                return nextTick(function() {
+                                    result.resolve(callback(value));
+                                }), result.promise;
+                            }
+                        };
+                    }, reject = function(reason) {
+                        return {
+                            then: function(callback, errback) {
+                                var result = defer();
+                                return nextTick(function() {
                                     try {
                                         result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
                                     } catch (e) {
                                         result.reject(e), exceptionHandler(e);
                                     }
-                                }, wrappedProgressback = function(progress) {
-                                    try {
-                                        result.notify((isFunction(progressback) ? progressback : defaultCallback)(progress));
-                                    } catch (e) {
-                                        exceptionHandler(e);
-                                    }
-                                };
-                                return pending ? pending.push([
-                                    wrappedCallback,
-                                    wrappedErrback,
-                                    wrappedProgressback
-                                ]) : value.then(wrappedCallback, wrappedErrback, wrappedProgressback), result.promise;
-                            },
-                            catch: function(callback) {
-                                return this.then(null, callback);
-                            },
-                            finally: function(callback) {
-                                function makePromise(value, resolved) {
-                                    var result = defer();
-                                    return resolved ? result.resolve(value) : result.reject(value), result.promise;
-                                }
-                                function handleCallback(value, isResolved) {
-                                    var callbackOutput = null;
-                                    try {
-                                        callbackOutput = (callback || defaultCallback)();
-                                    } catch (e) {
-                                        return makePromise(e, !1);
-                                    }
-                                    return callbackOutput && isFunction(callbackOutput.then) ? callbackOutput.then(function() {
-                                        return makePromise(value, isResolved);
-                                    }, function(error) {
-                                        return makePromise(error, !1);
-                                    }) : makePromise(value, isResolved);
-                                }
-                                return this.then(function(value) {
-                                    return handleCallback(value, !0);
-                                }, function(error) {
-                                    return handleCallback(error, !1);
-                                });
-                            }
-                        }
-                    };
-                }, ref = function(value) {
-                    return value && isFunction(value.then) ? value : {
-                        then: function(callback) {
-                            var result = defer();
-                            return nextTick(function() {
-                                result.resolve(callback(value));
-                            }), result.promise;
-                        }
-                    };
-                }, reject = function(reason) {
-                    return {
-                        then: function(callback, errback) {
-                            var result = defer();
-                            return nextTick(function() {
-                                try {
-                                    result.resolve((isFunction(errback) ? errback : defaultErrback)(reason));
-                                } catch (e) {
-                                    result.reject(e), exceptionHandler(e);
-                                }
-                            }), result.promise;
-                        }
-                    };
-                };
-                function defaultCallback(value) {
-                    return value;
-                }
-                function defaultErrback(reason) {
-                    return reject(reason);
-                }
-                return {
-                    defer: defer,
-                    reject: reject,
-                    when: function(value, callback, errback, progressback) {
-                        var done, result = defer(), wrappedCallback = function(value) {
-                            try {
-                                return (isFunction(callback) ? callback : defaultCallback)(value);
-                            } catch (e) {
-                                return exceptionHandler(e), reject(e);
-                            }
-                        }, wrappedErrback = function(reason) {
-                            try {
-                                return (isFunction(errback) ? errback : defaultErrback)(reason);
-                            } catch (e) {
-                                return exceptionHandler(e), reject(e);
-                            }
-                        }, wrappedProgressback = function(progress) {
-                            try {
-                                return (isFunction(progressback) ? progressback : defaultCallback)(progress);
-                            } catch (e) {
-                                exceptionHandler(e);
+                                }), result.promise;
                             }
                         };
-                        return nextTick(function() {
-                            ref(value).then(function(value) {
-                                done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
-                            }, function(reason) {
-                                done || (done = !0, result.resolve(wrappedErrback(reason)));
-                            }, function(progress) {
-                                done || result.notify(wrappedProgressback(progress));
-                            });
-                        }), result.promise;
-                    },
-                    all: /**
+                    };
+                    function defaultCallback(value) {
+                        return value;
+                    }
+                    function defaultErrback(reason) {
+                        return reject(reason);
+                    }
+                    return {
+                        defer: defer,
+                        reject: reject,
+                        when: function(value, callback, errback, progressback) {
+                            var done, result = defer(), wrappedCallback = function(value) {
+                                try {
+                                    return (isFunction(callback) ? callback : defaultCallback)(value);
+                                } catch (e) {
+                                    return exceptionHandler(e), reject(e);
+                                }
+                            }, wrappedErrback = function(reason) {
+                                try {
+                                    return (isFunction(errback) ? errback : defaultErrback)(reason);
+                                } catch (e) {
+                                    return exceptionHandler(e), reject(e);
+                                }
+                            }, wrappedProgressback = function(progress) {
+                                try {
+                                    return (isFunction(progressback) ? progressback : defaultCallback)(progress);
+                                } catch (e) {
+                                    exceptionHandler(e);
+                                }
+                            };
+                            return nextTick(function() {
+                                ref(value).then(function(value) {
+                                    done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
+                                }, function(reason) {
+                                    done || (done = !0, result.resolve(wrappedErrback(reason)));
+                                }, function(progress) {
+                                    done || result.notify(wrappedProgressback(progress));
+                                });
+                            }), result.promise;
+                        },
+                        all: /**
      * @ngdoc
      * @name ng.$q#all
      * @methodOf ng.$q
@@ -6583,16 +6597,19 @@
      *   If any of the promises is resolved with a rejection, this resulting promise will be rejected
      *   with the same rejection value.
      */ function(promises) {
-                        var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
-                        return forEach(promises, function(promise, key) {
-                            counter++, ref(promise).then(function(value) {
-                                results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
-                            }, function(reason) {
-                                results.hasOwnProperty(key) || deferred.reject(reason);
-                            });
-                        }), 0 === counter && deferred.resolve(results), deferred.promise;
-                    }
-                };
+                            var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
+                            return forEach(promises, function(promise, key) {
+                                counter++, ref(promise).then(function(value) {
+                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                                }, function(reason) {
+                                    results.hasOwnProperty(key) || deferred.reject(reason);
+                                });
+                            }), 0 === counter && deferred.resolve(results), deferred.promise;
+                        }
+                    };
+                }(function(callback) {
+                    $rootScope.$evalAsync(callback);
+                }, $exceptionHandler));
             }
         ];
     }
@@ -12125,28 +12142,73 @@
             });
         }
     ]), jqLite(document1).ready(function() {
-        var appElement, module, elements = [
-            document1
-        ], names = [
-            "ng:app",
-            "ng-app",
-            "x-ng-app",
-            "data-ng-app"
-        ], NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
-        function append(element) {
-            element && elements.push(element);
-        }
-        forEach(names, function(name) {
-            names[name] = !0, append(document1.getElementById(name)), name = name.replace(":", "\\:"), document1.querySelectorAll && (forEach(document1.querySelectorAll("." + name), append), forEach(document1.querySelectorAll("." + name + "\\:"), append), forEach(document1.querySelectorAll("[" + name + "]"), append));
-        }), forEach(elements, function(element) {
-            if (!appElement) {
-                var className = " " + element.className + " ", match = NG_APP_CLASS_REGEXP.exec(className);
-                match ? (appElement = element, module = (match[2] || "").replace(/\s+/g, ",")) : forEach(element.attributes, function(attr) {
-                    !appElement && names[attr.name] && (appElement = element, module = attr.value);
-                });
+        !/**
+ * @ngdoc directive
+ * @name ng.directive:ngApp
+ *
+ * @element ANY
+ * @param {angular.Module} ngApp an optional application
+ *   {@link angular.module module} name to load.
+ *
+ * @description
+ *
+ * Use this directive to **auto-bootstrap** an AngularJS application. The `ngApp` directive
+ * designates the **root element** of the application and is typically placed near the root element
+ * of the page - e.g. on the `<body>` or `<html>` tags.
+ *
+ * Only one AngularJS application can be auto-bootstrapped per HTML document. The first `ngApp`
+ * found in the document will be used to define the root element to auto-bootstrap as an
+ * application. To run multiple applications in an HTML document you must manually bootstrap them using
+ * {@link angular.bootstrap} instead. AngularJS applications cannot be nested within each other.
+ *
+ * You can specify an **AngularJS module** to be used as the root module for the application.  This
+ * module will be loaded into the {@link AUTO.$injector} when the application is bootstrapped and
+ * should contain the application code needed or have dependencies on other modules that will
+ * contain the code. See {@link angular.module} for more information.
+ *
+ * In the example below if the `ngApp` directive were not placed on the `html` element then the
+ * document would not be compiled, the `AppController` would not be instantiated and the `{{ a+b }}`
+ * would not be resolved to `3`.
+ *
+ * `ngApp` is the easiest, and most common, way to bootstrap an application.
+ *
+ <example module="ngAppDemo">
+   <file name="index.html">
+   <div ng-controller="ngAppDemoController">
+     I can add: {{a}} + {{b}} =  {{ a+b }}
+   </file>
+   <file name="script.js">
+   angular.module('ngAppDemo', []).controller('ngAppDemoController', function($scope) {
+     $scope.a = 1;
+     $scope.b = 2;
+   });
+   </file>
+ </example>
+ *
+ */ function(element, bootstrap) {
+            var appElement, module, elements = [
+                element
+            ], names = [
+                "ng:app",
+                "ng-app",
+                "x-ng-app",
+                "data-ng-app"
+            ], NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
+            function append(element) {
+                element && elements.push(element);
             }
-        }), appElement && bootstrap(appElement, module ? [
-            module
-        ] : []);
+            forEach(names, function(name) {
+                names[name] = !0, append(document1.getElementById(name)), name = name.replace(":", "\\:"), element.querySelectorAll && (forEach(element.querySelectorAll("." + name), append), forEach(element.querySelectorAll("." + name + "\\:"), append), forEach(element.querySelectorAll("[" + name + "]"), append));
+            }), forEach(elements, function(element) {
+                if (!appElement) {
+                    var className = " " + element.className + " ", match = NG_APP_CLASS_REGEXP.exec(className);
+                    match ? (appElement = element, module = (match[2] || "").replace(/\s+/g, ",")) : forEach(element.attributes, function(attr) {
+                        !appElement && names[attr.name] && (appElement = element, module = attr.value);
+                    });
+                }
+            }), appElement && bootstrap(appElement, module ? [
+                module
+            ] : []);
+        }(document1, bootstrap);
     });
 }(window, document), angular.$$csp() || angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\\:form{display:block;}.ng-animate-start{border-spacing:1px 1px;-ms-zoom:1.0001;}.ng-animate-active{border-spacing:0px 0px;-ms-zoom:1;}</style>');
