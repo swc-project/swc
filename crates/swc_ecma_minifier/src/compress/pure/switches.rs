@@ -421,7 +421,7 @@ impl Pure<'_> {
                     }
                     self.changed = true;
                     report_change!("switches: Turn one case switch into if");
-                    remove_last_break(&mut case.cons);
+                    drop_break_and_postfix(&mut case.cons);
 
                     let case = case.take();
                     let discriminant = sw.discriminant.take();
@@ -540,6 +540,20 @@ impl Pure<'_> {
                 }
                 _ => (),
             }
+        }
+    }
+}
+
+fn drop_break_and_postfix(cons: &mut Vec<Stmt>) {
+    let terminates_rpos = cons.iter().rposition(|s| s.terminates());
+
+    if let Some(terminates_rpos) = terminates_rpos {
+        cons.truncate(terminates_rpos + 1);
+    }
+
+    if let Some(last) = cons.last_mut() {
+        if let Stmt::Break(BreakStmt { label: None, .. }) = last {
+            *last = Stmt::dummy();
         }
     }
 }
