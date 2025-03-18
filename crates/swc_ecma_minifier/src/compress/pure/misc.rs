@@ -1138,10 +1138,9 @@ impl Pure<'_> {
                 }
 
                 if cons.is_invalid() {
-                    self.negate(test, true, false);
                     *e = Expr::Bin(BinExpr {
                         span: *span,
-                        op: op!("&&"),
+                        op: op!("||"),
                         left: test.take(),
                         right: alt.take(),
                     });
