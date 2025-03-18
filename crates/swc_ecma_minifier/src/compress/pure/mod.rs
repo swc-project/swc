@@ -633,7 +633,17 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
-        s.visit_mut_children_with(self);
+        s.test.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                preserve_block: true,
+                ..self.ctx
+            };
+            s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        s.alt.visit_mut_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
