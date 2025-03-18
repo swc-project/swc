@@ -161,7 +161,7 @@ impl Compressor<'_> {
                 self.options,
                 self.marks,
                 PureOptimizerConfig {
-                    enable_join_vars: false,
+                    enable_join_vars: self.pass > 1,
                     force_str_for_tpl: self.mode.force_str_for_tpl(),
                 },
             );
