@@ -68,7 +68,7 @@ impl Pure<'_> {
 
     ///
     ///  - Removes `L1: break L1`
-    pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
+    pub(super) fn handle_instant_break(&mut self, s: &mut Stmt) {
         if let Stmt::Labeled(ls) = s {
             match &*ls.body {
                 Stmt::Break(BreakStmt {

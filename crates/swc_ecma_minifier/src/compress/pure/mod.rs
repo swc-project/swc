@@ -884,7 +884,7 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(s);
 
-        self.drop_instant_break(s);
+        self.handle_instant_break(s);
 
         debug_assert_valid(s);
 
