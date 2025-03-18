@@ -22,7 +22,7 @@ pub(super) struct Ctx {
     /// [swc_ecma_ast::IfStmt], and more like that.
     pub in_first_expr: bool,
 
-    pub is_do_while_body: bool,
+    pub preserve_block: bool,
 }
 
 impl<'b> Pure<'b> {
