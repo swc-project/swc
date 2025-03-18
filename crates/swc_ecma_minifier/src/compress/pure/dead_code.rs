@@ -84,7 +84,7 @@ impl Pure<'_> {
                 Stmt::Break(BreakStmt { label: None, .. }) => {
                     self.changed = true;
                     report_change!("Dropping instant break without label");
-                    *s = Stmt::dummy();
+                    *s = *ls.body.take();
                 }
 
                 _ => (),
