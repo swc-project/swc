@@ -70,15 +70,24 @@ impl Pure<'_> {
     ///  - Removes `L1: break L1`
     pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
         if let Stmt::Labeled(ls) = s {
-            if let Stmt::Break(BreakStmt {
-                label: Some(label), ..
-            }) = &*ls.body
-            {
-                if label.sym == ls.label.sym {
-                    self.changed = true;
-                    report_change!("Dropping instant break `{}`", label);
-                    s.take();
+            match &*ls.body {
+                Stmt::Break(BreakStmt {
+                    label: Some(label), ..
+                }) => {
+                    if label.sym == ls.label.sym {
+                        self.changed = true;
+                        report_change!("Dropping instant break `{}`", label);
+                        *s = Stmt::dummy();
+                    }
                 }
+
+                Stmt::Break(BreakStmt { label: None, .. }) => {
+                    self.changed = true;
+                    report_change!("Dropping instant break without label");
+                    *s = Stmt::dummy();
+                }
+
+                _ => (),
             }
         }
     }
