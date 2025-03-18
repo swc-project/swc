@@ -1112,23 +1112,40 @@ impl Pure<'_> {
         }
 
         if self.options.conditionals {
-            if let Expr::Cond(CondExpr { cons, alt, .. }) = e {
+            if let Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+                ..
+            }) = e
+            {
                 self.ignore_return_value(cons, opts);
                 self.ignore_return_value(alt, opts);
 
                 if cons.is_invalid() && alt.is_invalid() {
                     report_change!("Dropping a conditional expression");
-                    *e = Expr::dummy();
+                    *e = *test.take();
                     return;
                 }
 
                 if cons.is_invalid() {
-                    *e = *alt.take();
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("||"),
+                        left: test.take(),
+                        right: alt.take(),
+                    });
                     return;
                 }
 
                 if alt.is_invalid() {
-                    *e = *cons.take();
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("||"),
+                        left: cons.take(),
+                        right: alt.take(),
+                    });
                     return;
                 }
             }
