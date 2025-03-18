@@ -11,9 +11,15 @@ use crate::{
 
 /// Methods related to option `switches`.
 impl Pure<'_> {
+    pub(super) fn optimize_switch_stmt(&mut self, s: &mut Stmt) {
+        self.optimize_const_switches(s);
+
+        self.optimize_switches(s);
+    }
+
     /// Handle switches in the case where we can know which branch will be
     /// taken.
-    pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
+    fn optimize_const_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || !self.options.dead_code {
             return;
         }
@@ -393,7 +399,7 @@ impl Pure<'_> {
     }
 
     /// Try turn switch into if and remove empty switch
-    pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
+    fn optimize_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || !self.options.dead_code {
             return;
         }
