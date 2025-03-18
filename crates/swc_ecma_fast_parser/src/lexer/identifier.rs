@@ -73,7 +73,7 @@ impl Lexer<'_> {
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
         let ident_bytes = unsafe { self.cursor.slice_unchecked(ident_start, ident_end) };
-        let non_unicode_ident_str = unsafe { std::str::from_utf8_unchecked(&ident_bytes) };
+        let non_unicode_ident_str = unsafe { std::str::from_utf8_unchecked(ident_bytes) };
 
         let ident_str = if let Some(ch) = self.cursor.peek() {
             if ch == b'\\' {
@@ -115,7 +115,7 @@ impl Lexer<'_> {
         let ident_end = self.cursor.position();
         let had_line_break_bool: bool = self.had_line_break.into();
         let non_unicode_ident_str = unsafe {
-            std::str::from_utf8_unchecked(&self.cursor.slice_unchecked(ident_start, ident_end))
+            std::str::from_utf8_unchecked(self.cursor.slice_unchecked(ident_start, ident_end))
         };
 
         let ident_str = if let Some(ch) = self.cursor.peek() {
@@ -138,7 +138,7 @@ impl Lexer<'_> {
         // with a-z)
         if len > 0 && ident_bytes[0] >= b'a' && ident_bytes[0] <= b'z' {
             // Only runs for potential keywords not in our direct lookup tables
-            if let Some(token_type) = keyword_to_token_type(&ident_str) {
+            if let Some(token_type) = keyword_to_token_type(ident_str) {
                 return Ok(Token::new(
                     token_type,
                     span,
@@ -171,13 +171,11 @@ impl Lexer<'_> {
                 self.cursor.advance_n(2);
                 let unicode_escape = self.read_unicode_escape()?;
                 buffer.push(unicode_escape);
+            } else if Self::is_identifier_continue(ch) {
+                buffer.push(ch);
+                self.cursor.advance_char();
             } else {
-                if likely(Self::is_identifier_continue(ch)) {
-                    buffer.push(ch);
-                    self.cursor.advance_char();
-                } else {
-                    break;
-                }
+                break;
             }
         }
         Ok(())
