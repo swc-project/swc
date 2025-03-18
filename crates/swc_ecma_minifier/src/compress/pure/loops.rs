@@ -47,6 +47,22 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn optimize_body_of_loop_stmt(&mut self, s: &mut Stmt) {
+        if !self.options.loops {
+            return;
+        }
+
+        match s {
+            Stmt::For(ForStmt { body, .. })
+            | Stmt::ForIn(ForInStmt { body, .. })
+            | Stmt::ForOf(ForOfStmt { body, .. })
+            | Stmt::While(WhileStmt { body, .. }) => {
+                optimize_loop_body(body);
+            }
+            _ => (),
+        }
+    }
+
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);
@@ -238,5 +254,15 @@ impl Pure<'_> {
                 s.body.take();
             }
         }
+    }
+}
+
+fn optimize_loop_body(loop_body: &mut Stmt) {
+    if loop_body.is_empty() {
+        return;
+    }
+
+    if let Stmt::Continue(ContinueStmt { label: None, .. }) = loop_body {
+        *loop_body = Stmt::dummy();
     }
 }
