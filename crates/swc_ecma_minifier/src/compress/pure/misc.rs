@@ -1126,6 +1126,7 @@ impl Pure<'_> {
                 if cons.is_invalid() && alt.is_invalid() {
                     report_change!("Dropping a conditional expression");
                     *e = *test.take();
+                    self.changed = true;
                     return;
                 }
 
@@ -1136,6 +1137,8 @@ impl Pure<'_> {
                         left: test.take(),
                         right: alt.take(),
                     });
+                    report_change!("Dropping the `then` branch of a conditional expression");
+                    self.changed = true;
                     return;
                 }
 
@@ -1146,6 +1149,8 @@ impl Pure<'_> {
                         left: cons.take(),
                         right: alt.take(),
                     });
+                    report_change!("Dropping the `else` branch of a conditional expression");
+                    self.changed = true;
                     return;
                 }
             }
