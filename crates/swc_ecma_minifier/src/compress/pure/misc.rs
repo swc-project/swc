@@ -1378,6 +1378,60 @@ impl Pure<'_> {
                     }
                 }
 
+                Expr::Object(obj) => {
+                    let mut has_spread = false;
+                    for prop in obj.props.iter_mut() {
+                        match prop {
+                            PropOrSpread::Spread(..) => {
+                                has_spread = true;
+                                break;
+                            }
+                            PropOrSpread::Prop(p) => match &mut **p {
+                                Prop::KeyValue(kv) => {
+                                    if !kv.key.is_computed()
+                                        && !kv.value.may_have_side_effects(self.expr_ctx)
+                                    {
+                                        **p = Prop::Shorthand(Ident::dummy());
+                                        self.changed = true;
+                                        report_change!(
+                                            "Dropping a key-value pair in an object literal"
+                                        );
+                                    }
+                                }
+
+                                Prop::Shorthand(i) => {
+                                    if i.ctxt.outer() != self.marks.unresolved_mark {
+                                        *i = Ident::dummy();
+                                        self.changed = true;
+                                        report_change!(
+                                            "Dropping a shorthand property in an object literal"
+                                        );
+                                    }
+                                }
+
+                                _ => {}
+                            },
+                        }
+                    }
+
+                    obj.props.retain(|p| match p {
+                        PropOrSpread::Prop(prop) => match &**prop {
+                            Prop::Shorthand(i) => !i.is_dummy(),
+                            _ => true,
+                        },
+                        _ => true,
+                    });
+
+                    if !has_spread {
+                        if obj.props.is_empty() {
+                            *e = Expr::dummy();
+                            report_change!("Dropping an empty object literal");
+                            self.changed = true;
+                            return;
+                        }
+                    }
+                }
+
                 _ => {}
             }
         }
