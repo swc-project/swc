@@ -359,7 +359,9 @@ function(global, factory) {
     }
     function signal(emitter, type /*, values...*/ ) {
         var handlers = getHandlers(emitter, type);
-        if (handlers.length) for(var args = Array.prototype.slice.call(arguments, 2), i = 0; i < handlers.length; ++i)handlers[i].apply(null, args);
+        if (handlers.length) {
+            for(var args = Array.prototype.slice.call(arguments, 2), i = 0; i < handlers.length; ++i)handlers[i].apply(null, args);
+        }
     }
     // The DOM events that CodeMirror handles can be overridden by
     // registering a (non-DOM) handler on the editor for the event name,
@@ -374,7 +376,9 @@ function(global, factory) {
     }
     function signalCursorActivity(cm) {
         var arr = cm._handlers && cm._handlers.cursorActivity;
-        if (arr) for(var set = cm.curOp.cursorActivityHandlers || (cm.curOp.cursorActivityHandlers = []), i = 0; i < arr.length; ++i)-1 == indexOf(set, arr[i]) && set.push(arr[i]);
+        if (arr) {
+            for(var set = cm.curOp.cursorActivityHandlers || (cm.curOp.cursorActivityHandlers = []), i = 0; i < arr.length; ++i)-1 == indexOf(set, arr[i]) && set.push(arr[i]);
+        }
     }
     function hasHandler(emitter, type) {
         return getHandlers(emitter, type).length > 0;
@@ -694,12 +698,10 @@ function(global, factory) {
                     var i_end = st[i];
                     i_end > end && st.splice(i, 1, end, st[i + 1], i_end), i += 2, at = Math.min(end, i_end);
                 }
-                if (style) {
-                    if (overlay.opaque) st.splice(start, i - start, end, "overlay " + style), i = start + 2;
-                    else for(; start < i; start += 2){
-                        var cur = st[start + 1];
-                        st[start + 1] = (cur ? cur + " " : "") + "overlay " + style;
-                    }
+                if (style) if (overlay.opaque) st.splice(start, i - start, end, "overlay " + style), i = start + 2;
+                else for(; start < i; start += 2){
+                    var cur = st[start + 1];
+                    st[start + 1] = (cur ? cur + " " : "") + "overlay " + style;
                 }
             }, lineClasses), context.state = state, context.baseTokens = null, context.baseTokenPos = 1;
         }(o);
@@ -787,7 +789,7 @@ function(global, factory) {
     function takeToken(cm, pos, precise, asArray) {
         var style, doc = cm.doc, mode = doc.mode;
         pos = clipPos(doc, pos);
-        var tokens, line = getLine(doc, pos.line), context = getContextBefore(cm, pos.line, precise), stream = new StringStream(line.text, cm.options.tabSize, context);
+        var line = getLine(doc, pos.line), context = getContextBefore(cm, pos.line, precise), tokens, stream = new StringStream(line.text, cm.options.tabSize, context);
         for(asArray && (tokens = []); (asArray || stream.pos < pos.ch) && !stream.eol();)stream.start = stream.pos, style = readToken(mode, stream, context.state), asArray && tokens.push(new Token(stream, style, copyState(doc.mode, context.state)));
         return asArray ? tokens : new Token(stream, style, context.state);
     }
@@ -805,7 +807,7 @@ function(global, factory) {
     function runMode(cm, text, mode, context, f, lineClasses, forceToEnd) {
         var flattenSpans = mode.flattenSpans;
         null == flattenSpans && (flattenSpans = cm.options.flattenSpans);
-        var style, curStart = 0, curStyle = null, stream = new StringStream(text, cm.options.tabSize, context), inner = cm.options.addModeClass && [
+        var curStart = 0, curStyle = null, style, stream = new StringStream(text, cm.options.tabSize, context), inner = cm.options.addModeClass && [
             null
         ];
         for("" == text && extractLineClasses(callBlankLine(mode, context.state), lineClasses); !stream.eol();){
@@ -1106,7 +1108,7 @@ function(global, factory) {
                     for(var i$1 = 1; i$1 < styles.length; i$1 += 2)builder.addToken(builder, allText.slice(at, at = styles[i$1]), interpretTokenStyle(styles[i$1 + 1], builder.cm.options));
                     return;
                 }
-                for(var style, css, spanStyle, spanEndStyle, spanStartStyle, collapsed, attributes, len = allText.length, pos = 0, i = 1, text = "", nextChange = 0;;){
+                for(var style, css, len = allText.length, pos = 0, i = 1, text = "", spanStyle, spanEndStyle, spanStartStyle, collapsed, attributes, nextChange = 0;;){
                     if (nextChange == pos) {
                         // Update current marker set
                         spanStyle = spanEndStyle = spanStartStyle = css = "", attributes = null, collapsed = null, nextChange = 1 / 0;
@@ -1330,18 +1332,20 @@ function(global, factory) {
         if (insertLineWidgetsFor(cm, lineView.line, lineView, dims, !0), lineView.rest) for(var i = 0; i < lineView.rest.length; i++)insertLineWidgetsFor(cm, lineView.rest[i], lineView, dims, !1);
     }
     function insertLineWidgetsFor(cm, line, lineView, dims, allowAbove) {
-        if (line.widgets) for(var wrap = ensureLineWrapped(lineView), i = 0, ws = line.widgets; i < ws.length; ++i){
-            var widget = ws[i], node = elt("div", [
-                widget.node
-            ], "CodeMirror-linewidget" + (widget.className ? " " + widget.className : ""));
-            widget.handleMouseEvents || node.setAttribute("cm-ignore-events", "true"), function(widget, node, lineView, dims) {
-                if (widget.noHScroll) {
-                    (lineView.alignable || (lineView.alignable = [])).push(node);
-                    var width = dims.wrapperWidth;
-                    node.style.left = dims.fixedPos + "px", widget.coverGutter || (width -= dims.gutterTotalWidth, node.style.paddingLeft = dims.gutterTotalWidth + "px"), node.style.width = width + "px";
-                }
-                widget.coverGutter && (node.style.zIndex = 5, node.style.position = "relative", widget.noHScroll || (node.style.marginLeft = -dims.gutterTotalWidth + "px"));
-            }(widget, node, lineView, dims), cm.display.input.setUneditable(node), allowAbove && widget.above ? wrap.insertBefore(node, lineView.gutter || lineView.text) : wrap.appendChild(node), signalLater(widget, "redraw");
+        if (line.widgets) {
+            for(var wrap = ensureLineWrapped(lineView), i = 0, ws = line.widgets; i < ws.length; ++i){
+                var widget = ws[i], node = elt("div", [
+                    widget.node
+                ], "CodeMirror-linewidget" + (widget.className ? " " + widget.className : ""));
+                widget.handleMouseEvents || node.setAttribute("cm-ignore-events", "true"), function(widget, node, lineView, dims) {
+                    if (widget.noHScroll) {
+                        (lineView.alignable || (lineView.alignable = [])).push(node);
+                        var width = dims.wrapperWidth;
+                        node.style.left = dims.fixedPos + "px", widget.coverGutter || (width -= dims.gutterTotalWidth, node.style.paddingLeft = dims.gutterTotalWidth + "px"), node.style.width = width + "px";
+                    }
+                    widget.coverGutter && (node.style.zIndex = 5, node.style.position = "relative", widget.noHScroll || (node.style.marginLeft = -dims.gutterTotalWidth + "px"));
+                }(widget, node, lineView, dims), cm.display.input.setUneditable(node), allowAbove && widget.above ? wrap.insertBefore(node, lineView.gutter || lineView.text) : wrap.appendChild(node), signalLater(widget, "redraw");
+            }
         }
     }
     function widgetHeight(widget) {
@@ -1718,10 +1722,10 @@ function(global, factory) {
                 // A binary search to find the first character whose bounding box
                 // starts after the coordinates. If we run across any whose box wrap
                 // the coordinates, store that.
-                var baseX, sticky, chAround = null, boxAround = null, ch = findFirst(function(ch) {
+                var chAround = null, boxAround = null, ch = findFirst(function(ch) {
                     var box = measureCharPrepared(cm, preparedMeasure, ch);
                     return box.top += widgetHeight, box.bottom += widgetHeight, !!boxIsAfter(box, x, y, !1) && (box.top <= y && box.left <= x && (chAround = ch, boxAround = box), !0);
-                }, begin, end), outside = !1;
+                }, begin, end), baseX, sticky, outside = !1;
                 // If a box around the coordinates was found, use that
                 if (boxAround) {
                     // Distinguish coordinates nearer to the left or right side of the box
@@ -2899,13 +2903,12 @@ function(global, factory) {
             // sure line objects move the way they are supposed to.
             var added = linesFor(0, text.length - 1);
             update(lastLine, lastLine.text, lastSpans), nlines && doc.remove(from.line, nlines), added.length && doc.insert(from.line, added);
-        } else if (firstLine == lastLine) {
-            if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + lastText + firstLine.text.slice(to.ch), lastSpans);
-            else {
-                var added$1 = linesFor(1, text.length - 1);
-                added$1.push(new Line(lastText + firstLine.text.slice(to.ch), lastSpans, estimateHeight)), update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), doc.insert(from.line + 1, added$1);
-            }
-        } else if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + text[0] + lastLine.text.slice(to.ch), spansFor(0)), doc.remove(from.line + 1, nlines);
+        } else if (firstLine == lastLine) if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + lastText + firstLine.text.slice(to.ch), lastSpans);
+        else {
+            var added$1 = linesFor(1, text.length - 1);
+            added$1.push(new Line(lastText + firstLine.text.slice(to.ch), lastSpans, estimateHeight)), update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), doc.insert(from.line + 1, added$1);
+        }
+        else if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + text[0] + lastLine.text.slice(to.ch), spansFor(0)), doc.remove(from.line + 1, nlines);
         else {
             update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), update(lastLine, lastText + lastLine.text.slice(to.ch), lastSpans);
             var added$2 = linesFor(1, text.length - 1);
@@ -3204,20 +3207,22 @@ function(global, factory) {
                         from: from,
                         to: to
                     }
-                ], i = 0; i < markers.length; ++i)for(var mk = markers[i], m = mk.find(0), j = 0; j < parts.length; ++j){
-                    var p = parts[j];
-                    if (!(0 > cmp(p.to, m.from) || cmp(p.from, m.to) > 0)) {
-                        var newParts = [
-                            j,
-                            1
-                        ], dfrom = cmp(p.from, m.from), dto = cmp(p.to, m.to);
-                        !(dfrom < 0) && (mk.inclusiveLeft || dfrom) || newParts.push({
-                            from: p.from,
-                            to: m.from
-                        }), !(dto > 0) && (mk.inclusiveRight || dto) || newParts.push({
-                            from: m.to,
-                            to: p.to
-                        }), parts.splice.apply(parts, newParts), j += newParts.length - 3;
+                ], i = 0; i < markers.length; ++i){
+                    for(var mk = markers[i], m = mk.find(0), j = 0; j < parts.length; ++j){
+                        var p = parts[j];
+                        if (!(0 > cmp(p.to, m.from) || cmp(p.from, m.to) > 0)) {
+                            var newParts = [
+                                j,
+                                1
+                            ], dfrom = cmp(p.from, m.from), dto = cmp(p.to, m.to);
+                            !(dfrom < 0) && (mk.inclusiveLeft || dfrom) || newParts.push({
+                                from: p.from,
+                                to: m.from
+                            }), !(dto > 0) && (mk.inclusiveRight || dto) || newParts.push({
+                                from: m.to,
+                                to: p.to
+                            }), parts.splice.apply(parts, newParts), j += newParts.length - 3;
+                        }
                     }
                 }
                 return parts;
@@ -3977,10 +3982,9 @@ function(global, factory) {
         addLineClass: docMethodOp(function(handle, where, cls) {
             return changeLine(this, handle, "gutter" == where ? "gutter" : "class", function(line) {
                 var prop = "text" == where ? "textClass" : "background" == where ? "bgClass" : "gutter" == where ? "gutterClass" : "wrapClass";
-                if (line[prop]) {
-                    if (classTest(cls).test(line[prop])) return !1;
-                    line[prop] += " " + cls;
-                } else line[prop] = cls;
+                if (line[prop]) if (classTest(cls).test(line[prop])) return !1;
+                else line[prop] += " " + cls;
+                else line[prop] = cls;
                 return !0;
             });
         }),
@@ -4163,10 +4167,10 @@ function(global, factory) {
         if (clearDragCursor(cm), !(signalDOMEvent(cm, e) || eventInWidget(cm.display, e))) {
             e_preventDefault(e), ie && (lastDrop = +new Date());
             var pos = posFromMouse(cm, e, !0), files = e.dataTransfer.files;
-            if (!(!pos || cm.isReadOnly())) {
-                // Might be a file drop, in which case we simply extract the text
-                // and insert it.
-                if (files && files.length && window.FileReader && window.File) for(var n = files.length, text = Array(n), read = 0, markAsReadAndPasteIfAllFilesAreRead = function() {
+            if (!(!pos || cm.isReadOnly())) // Might be a file drop, in which case we simply extract the text
+            // and insert it.
+            if (files && files.length && window.FileReader && window.File) {
+                for(var n = files.length, text = Array(n), read = 0, markAsReadAndPasteIfAllFilesAreRead = function() {
                     ++read == n && operation(cm, function() {
                         var change = {
                             from: pos = clipPos(cm.doc, pos),
@@ -4195,24 +4199,23 @@ function(global, factory) {
                         text[i] = content, markAsReadAndPasteIfAllFilesAreRead();
                     }, reader.readAsText(file);
                 }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
-                else {
-                    // Normal drop
-                    // Don't do a replace if the drop happened inside of the selected text.
-                    if (cm.state.draggingText && cm.doc.sel.contains(pos) > -1) {
-                        cm.state.draggingText(e), // Ensure the editor is re-focused
-                        setTimeout(function() {
-                            return cm.display.input.focus();
-                        }, 20);
-                        return;
-                    }
-                    try {
-                        var selected, text$1 = e.dataTransfer.getData("Text");
-                        if (text$1) {
-                            if (cm.state.draggingText && !cm.state.draggingText.copy && (selected = cm.listSelections()), setSelectionNoUndo(cm.doc, simpleSelection(pos, pos)), selected) for(var i$1 = 0; i$1 < selected.length; ++i$1)replaceRange(cm.doc, "", selected[i$1].anchor, selected[i$1].head, "drag");
-                            cm.replaceSelection(text$1, "around", "paste"), cm.display.input.focus();
-                        }
-                    } catch (e$1) {}
+            } else {
+                // Normal drop
+                // Don't do a replace if the drop happened inside of the selected text.
+                if (cm.state.draggingText && cm.doc.sel.contains(pos) > -1) {
+                    cm.state.draggingText(e), // Ensure the editor is re-focused
+                    setTimeout(function() {
+                        return cm.display.input.focus();
+                    }, 20);
+                    return;
                 }
+                try {
+                    var selected, text$1 = e.dataTransfer.getData("Text");
+                    if (text$1) {
+                        if (cm.state.draggingText && !cm.state.draggingText.copy && (selected = cm.listSelections()), setSelectionNoUndo(cm.doc, simpleSelection(pos, pos)), selected) for(var i$1 = 0; i$1 < selected.length; ++i$1)replaceRange(cm.doc, "", selected[i$1].anchor, selected[i$1].head, "drag");
+                        cm.replaceSelection(text$1, "around", "paste"), cm.display.input.focus();
+                    }
+                } catch (e$1) {}
             }
         }
     }
@@ -4918,55 +4921,51 @@ function(global, factory) {
                     var move = operation(cm, function(e) {
                         0 !== e.buttons && e_button(e) ? function extend(e) {
                             var curCount = ++counter, cur = posFromMouse(cm, e, !0, "rectangle" == behavior.unit);
-                            if (cur) {
-                                if (0 != cmp(cur, lastPos)) {
-                                    cm.curOp.focus = activeElt(), function(pos) {
-                                        if (0 != cmp(lastPos, pos)) {
-                                            if (lastPos = pos, "rectangle" == behavior.unit) {
-                                                for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
-                                                    var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
-                                                    left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
-                                                }
-                                                ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
-                                                    origin: "*mouse",
-                                                    scroll: !1
-                                                }), cm.scrollIntoView(pos);
-                                            } else {
-                                                var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
-                                                cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
-                                                var ranges$1 = startSel.ranges.slice(0);
-                                                ranges$1[ourIndex] = // Used when mouse-selecting to adjust the anchor to the proper side
-                                                // of a bidi jump depending on the visual position of the head.
-                                                function(cm, range) {
-                                                    var leftSide, anchor = range.anchor, head = range.head, anchorLine = getLine(cm.doc, anchor.line);
-                                                    if (0 == cmp(anchor, head) && anchor.sticky == head.sticky) return range;
-                                                    var order = getOrder(anchorLine);
-                                                    if (!order) return range;
-                                                    var index = getBidiPartAt(order, anchor.ch, anchor.sticky), part = order[index];
-                                                    if (part.from != anchor.ch && part.to != anchor.ch) return range;
-                                                    var boundary = index + +(part.from == anchor.ch != (1 != part.level));
-                                                    if (0 == boundary || boundary == order.length) return range;
-                                                    if (head.line != anchor.line) leftSide = (head.line - anchor.line) * ("ltr" == cm.doc.direction ? 1 : -1) > 0;
-                                                    else {
-                                                        var headIndex = getBidiPartAt(order, head.ch, head.sticky), dir = headIndex - index || (head.ch - anchor.ch) * (1 == part.level ? -1 : 1);
-                                                        leftSide = headIndex == boundary - 1 || headIndex == boundary ? dir < 0 : dir > 0;
-                                                    }
-                                                    var usePart = order[boundary + (leftSide ? -1 : 0)], from = leftSide == (1 == usePart.level), ch = from ? usePart.from : usePart.to, sticky = from ? "after" : "before";
-                                                    return anchor.ch == ch && anchor.sticky == sticky ? range : new Range(new Pos(anchor.line, ch, sticky), head);
-                                                }(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
-                                            }
+                            if (cur) if (0 != cmp(cur, lastPos)) {
+                                cm.curOp.focus = activeElt(), function(pos) {
+                                    if (0 != cmp(lastPos, pos)) if (lastPos = pos, "rectangle" == behavior.unit) {
+                                        for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
+                                            var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
+                                            left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
                                         }
-                                    }(cur);
-                                    var visible = visibleLines(display, doc);
-                                    (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
-                                        counter == curCount && extend(e);
-                                    }), 150);
-                                } else {
-                                    var outside = e.clientY < editorSize.top ? -20 : 20 * (e.clientY > editorSize.bottom);
-                                    outside && setTimeout(operation(cm, function() {
-                                        counter == curCount && (display.scroller.scrollTop += outside, extend(e));
-                                    }), 50);
-                                }
+                                        ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
+                                            origin: "*mouse",
+                                            scroll: !1
+                                        }), cm.scrollIntoView(pos);
+                                    } else {
+                                        var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
+                                        cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
+                                        var ranges$1 = startSel.ranges.slice(0);
+                                        ranges$1[ourIndex] = // Used when mouse-selecting to adjust the anchor to the proper side
+                                        // of a bidi jump depending on the visual position of the head.
+                                        function(cm, range) {
+                                            var leftSide, anchor = range.anchor, head = range.head, anchorLine = getLine(cm.doc, anchor.line);
+                                            if (0 == cmp(anchor, head) && anchor.sticky == head.sticky) return range;
+                                            var order = getOrder(anchorLine);
+                                            if (!order) return range;
+                                            var index = getBidiPartAt(order, anchor.ch, anchor.sticky), part = order[index];
+                                            if (part.from != anchor.ch && part.to != anchor.ch) return range;
+                                            var boundary = index + +(part.from == anchor.ch != (1 != part.level));
+                                            if (0 == boundary || boundary == order.length) return range;
+                                            if (head.line != anchor.line) leftSide = (head.line - anchor.line) * ("ltr" == cm.doc.direction ? 1 : -1) > 0;
+                                            else {
+                                                var headIndex = getBidiPartAt(order, head.ch, head.sticky), dir = headIndex - index || (head.ch - anchor.ch) * (1 == part.level ? -1 : 1);
+                                                leftSide = headIndex == boundary - 1 || headIndex == boundary ? dir < 0 : dir > 0;
+                                            }
+                                            var usePart = order[boundary + (leftSide ? -1 : 0)], from = leftSide == (1 == usePart.level), ch = from ? usePart.from : usePart.to, sticky = from ? "after" : "before";
+                                            return anchor.ch == ch && anchor.sticky == sticky ? range : new Range(new Pos(anchor.line, ch, sticky), head);
+                                        }(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
+                                    }
+                                }(cur);
+                                var visible = visibleLines(display, doc);
+                                (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
+                                    counter == curCount && extend(e);
+                                }), 150);
+                            } else {
+                                var outside = e.clientY < editorSize.top ? -20 : 20 * (e.clientY > editorSize.bottom);
+                                outside && setTimeout(operation(cm, function() {
+                                    counter == curCount && (display.scroller.scrollTop += outside, extend(e));
+                                }), 50);
                             }
                         }(e) : done(e);
                     }), up = operation(cm, done);
@@ -5244,18 +5243,16 @@ function(global, factory) {
         cm.display.shift = !1, sel || (sel = doc.sel);
         var recent = +new Date() - 200, paste = "paste" == origin || cm.state.pasteIncoming > recent, textLines = splitLinesAuto(inserted), multiPaste = null;
         // When pasting N lines into N selections, insert one line per selection
-        if (paste && sel.ranges.length > 1) {
-            if (lastCopied && lastCopied.text.join("\n") == inserted) {
-                if (sel.ranges.length % lastCopied.text.length == 0) {
-                    multiPaste = [];
-                    for(var i = 0; i < lastCopied.text.length; i++)multiPaste.push(doc.splitLines(lastCopied.text[i]));
-                }
-            } else textLines.length == sel.ranges.length && cm.options.pasteLinesPerSelection && (multiPaste = map(textLines, function(l) {
-                return [
-                    l
-                ];
-            }));
-        }
+        if (paste && sel.ranges.length > 1) if (lastCopied && lastCopied.text.join("\n") == inserted) {
+            if (sel.ranges.length % lastCopied.text.length == 0) {
+                multiPaste = [];
+                for(var i = 0; i < lastCopied.text.length; i++)multiPaste.push(doc.splitLines(lastCopied.text[i]));
+            }
+        } else textLines.length == sel.ranges.length && cm.options.pasteLinesPerSelection && (multiPaste = map(textLines, function(l) {
+            return [
+                l
+            ];
+        }));
         // Normal behavior is to insert the new text into every selection
         for(var updateInput = cm.curOp.updateInput, i$1 = sel.ranges.length - 1; i$1 >= 0; i$1--){
             var range = sel.ranges[i$1], from = range.from(), to = range.to();
@@ -5280,17 +5277,19 @@ function(global, factory) {
     }
     function triggerElectric(cm, inserted) {
         // When an 'electric' character is inserted, immediately trigger a reindent
-        if (cm.options.electricChars && cm.options.smartIndent) for(var sel = cm.doc.sel, i = sel.ranges.length - 1; i >= 0; i--){
-            var range = sel.ranges[i];
-            if (!(range.head.ch > 100) && (!i || sel.ranges[i - 1].head.line != range.head.line)) {
-                var mode = cm.getModeAt(range.head), indented = !1;
-                if (mode.electricChars) {
-                    for(var j = 0; j < mode.electricChars.length; j++)if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
-                        indented = indentLine(cm, range.head.line, "smart");
-                        break;
-                    }
-                } else mode.electricInput && mode.electricInput.test(getLine(cm.doc, range.head.line).text.slice(0, range.head.ch)) && (indented = indentLine(cm, range.head.line, "smart"));
-                indented && signalLater(cm, "electricInput", cm, range.head.line);
+        if (cm.options.electricChars && cm.options.smartIndent) {
+            for(var sel = cm.doc.sel, i = sel.ranges.length - 1; i >= 0; i--){
+                var range = sel.ranges[i];
+                if (!(range.head.ch > 100) && (!i || sel.ranges[i - 1].head.line != range.head.line)) {
+                    var mode = cm.getModeAt(range.head), indented = !1;
+                    if (mode.electricChars) {
+                        for(var j = 0; j < mode.electricChars.length; j++)if (inserted.indexOf(mode.electricChars.charAt(j)) > -1) {
+                            indented = indentLine(cm, range.head.line, "smart");
+                            break;
+                        }
+                    } else mode.electricInput && mode.electricInput.test(getLine(cm.doc, range.head.line).text.slice(0, range.head.ch)) && (indented = indentLine(cm, range.head.line, "smart"));
+                    indented && signalLater(cm, "electricInput", cm, range.head.line);
+                }
             }
         }
     }
@@ -5376,13 +5375,15 @@ function(global, factory) {
         }
         if ("char" == unit || "codepoint" == unit) moveOnce();
         else if ("column" == unit) moveOnce(!0);
-        else if ("word" == unit || "group" == unit) for(var sawType = null, group = "group" == unit, helper = doc.cm && doc.cm.getHelper(pos, "wordChars"), first = !0; !(dir < 0) || moveOnce(!first); first = !1){
-            var cur = lineObj.text.charAt(pos.ch) || "\n", type = isWordChar(cur, helper) ? "w" : group && "\n" == cur ? "n" : !group || /\s/.test(cur) ? null : "p";
-            if (!group || first || type || (type = "s"), sawType && sawType != type) {
-                dir < 0 && (dir = 1, moveOnce(), pos.sticky = "after");
-                break;
+        else if ("word" == unit || "group" == unit) {
+            for(var sawType = null, group = "group" == unit, helper = doc.cm && doc.cm.getHelper(pos, "wordChars"), first = !0; !(dir < 0) || moveOnce(!first); first = !1){
+                var cur = lineObj.text.charAt(pos.ch) || "\n", type = isWordChar(cur, helper) ? "w" : group && "\n" == cur ? "n" : !group || /\s/.test(cur) ? null : "p";
+                if (!group || first || type || (type = "s"), sawType && sawType != type) {
+                    dir < 0 && (dir = 1, moveOnce(), pos.sticky = "after");
+                    break;
+                }
+                if (type && (sawType = type), dir > 0 && !moveOnce(!first)) break;
             }
-            if (type && (sawType = type), dir > 0 && !moveOnce(!first)) break;
         }
         var result = skipAtomic(doc, pos, oldPos, origDir, !0);
         return equalCursorPos(oldPos, result) && (result.hitSide = !0), result;
@@ -5442,11 +5443,13 @@ function(global, factory) {
                 for(!textNode && 1 == node.childNodes.length && 3 == node.firstChild.nodeType && (textNode = node.firstChild, offset && (offset = textNode.nodeValue.length)); topNode.parentNode != wrapper;)topNode = topNode.parentNode;
                 var measure = lineView.measure, maps = measure.maps;
                 function find(textNode, topNode, offset) {
-                    for(var i = -1; i < (maps ? maps.length : 0); i++)for(var map = i < 0 ? measure.map : maps[i], j = 0; j < map.length; j += 3){
-                        var curNode = map[j + 2];
-                        if (curNode == textNode || curNode == topNode) {
-                            var line = lineNo(i < 0 ? lineView.line : lineView.rest[i]), ch = map[j] + offset;
-                            return (offset < 0 || curNode != textNode) && (ch = map[j + +!!offset]), Pos(line, ch);
+                    for(var i = -1; i < (maps ? maps.length : 0); i++){
+                        for(var map = i < 0 ? measure.map : maps[i], j = 0; j < map.length; j += 3){
+                            var curNode = map[j + 2];
+                            if (curNode == textNode || curNode == topNode) {
+                                var line = lineNo(i < 0 ? lineView.line : lineView.rest[i]), ch = map[j] + offset;
+                                return (offset < 0 || curNode != textNode) && (ch = map[j + +!!offset]), Pos(line, ch);
+                            }
                         }
                     }
                 }
