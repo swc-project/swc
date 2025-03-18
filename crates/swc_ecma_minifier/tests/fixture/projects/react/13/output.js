@@ -8,7 +8,9 @@ function validateChildKeys(node, parentType) {
         node._store && (node._store.validated = !0);
         else if (node) {
             var iteratorFn = getIteratorFn(node);
-            if ("function" == typeof iteratorFn && iteratorFn !== node.entries) for(var step, iterator = iteratorFn.call(node); !(step = iterator.next()).done;)isValidElement(step.value) && validateExplicitKey(step.value, parentType);
+            if ("function" == typeof iteratorFn && iteratorFn !== node.entries) {
+                for(var step, iterator = iteratorFn.call(node); !(step = iterator.next()).done;)isValidElement(step.value) && validateExplicitKey(step.value, parentType);
+            }
         }
     }
 }
