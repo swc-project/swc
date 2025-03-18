@@ -267,6 +267,18 @@ impl VisitMut for Pure<'_> {
         self.negate_cond_expr(e);
     }
 
+    fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
+        s.test.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                is_do_while_body: true,
+                ..self.ctx
+            };
+            s.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         {
             let ctx = Ctx {
@@ -823,6 +835,7 @@ impl VisitMut for Pure<'_> {
                 is_callee: false,
                 in_delete: false,
                 in_first_expr: true,
+                is_do_while_body: false,
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -868,9 +881,11 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        self.drop_needless_block(s);
+        if !self.ctx.is_do_while_body {
+            self.drop_needless_block(s);
 
-        debug_assert_valid(s);
+            debug_assert_valid(s);
+        }
 
         self.optimize_empty_try_stmt(s);
 
