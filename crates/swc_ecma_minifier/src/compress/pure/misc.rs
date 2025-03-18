@@ -1111,6 +1111,29 @@ impl Pure<'_> {
             _ => (),
         }
 
+        if self.options.conditionals {
+            if let Expr::Cond(CondExpr { cons, alt, .. }) = e {
+                self.ignore_return_value(cons, opts);
+                self.ignore_return_value(alt, opts);
+
+                if cons.is_invalid() && alt.is_invalid() {
+                    report_change!("Dropping a conditional expression");
+                    *e = Expr::dummy();
+                    return;
+                }
+
+                if cons.is_invalid() {
+                    *e = *alt.take();
+                    return;
+                }
+
+                if alt.is_invalid() {
+                    *e = *cons.take();
+                    return;
+                }
+            }
+        }
+
         if opts.drop_number && (self.options.unused || self.options.dead_code) {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
