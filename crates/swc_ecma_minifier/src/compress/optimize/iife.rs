@@ -1152,12 +1152,11 @@ impl Optimizer<'_> {
         }
 
         if decl.count
-            + (params.len()
-                - args
-                    .iter()
+            + (params.len().saturating_sub(
+                args.iter()
                     .filter(|a| a.expr.is_ident() || a.expr.is_lit())
-                    .count())
-                * 2
+                    .count(),
+            )) * 2
             > 4
         {
             return None;

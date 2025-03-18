@@ -10078,13 +10078,28 @@
                  */ _proto.setValues = function(values) {
                     var _this4 = this;
                     each(selectConfigs, function(config, key) {
-                        var el = _this4.$(config.selector), value = values[key], parser = config.parser;
-                        if (value) {
-                            for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
-                                el.selectedIndex = i;
-                                break;
+                        !/**
+             * Sets the selected <option> element within a <select> element based on a
+             * given value.
+             *
+             * @param {Element} el
+             *        The element to look in.
+             *
+             * @param {string} value
+             *        the property to look on.
+             *
+             * @param {Function} [parser]
+             *        Optional function to adjust the value before comparing.
+             *
+             * @private
+             */ function(el, value, parser) {
+                            if (value) {
+                                for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
+                                    el.selectedIndex = i;
+                                    break;
+                                }
                             }
-                        }
+                        }(_this4.$(config.selector), values[key], config.parser);
                     });
                 }, /**
                  * Sets all `<select>` elements to their default values.
