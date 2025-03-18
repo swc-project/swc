@@ -843,6 +843,11 @@ impl VisitMut for Pure<'_> {
 
         match s {
             Stmt::Expr(ExprStmt { expr, .. }) => {
+                if expr.is_invalid() {
+                    *s = Stmt::dummy();
+                    return;
+                }
+
                 self.ignore_return_value(
                     expr,
                     DropOpts {
