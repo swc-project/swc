@@ -55,6 +55,19 @@ impl<'a> Cursor<'a> {
         }
     }
 
+    /// Peek at the current character without advancing
+    #[inline(always)]
+    pub fn peek_char(&self) -> Option<char> {
+        self.peek().and_then(|b| {
+            if b.is_ascii() {
+                Some(b as char)
+            } else {
+                let rest_str = unsafe { std::str::from_utf8_unchecked(self.rest()) };
+                rest_str.chars().next()
+            }
+        })
+    }
+
     /// Peek at a byte at a specific offset from the current position
     #[inline(always)]
     pub fn peek_at(&self, offset: u32) -> Option<u8> {
@@ -80,6 +93,20 @@ impl<'a> Cursor<'a> {
     pub fn advance(&mut self) {
         assume!(unsafe: !self.is_eof());
         self.pos += 1;
+    }
+
+    /// Advance the cursor by one character
+    #[inline(always)]
+    pub fn advance_char(&mut self) {
+        assume!(unsafe: !self.is_eof());
+        let byte = self.peek().unwrap();
+        if byte.is_ascii() {
+            self.advance();
+        } else {
+            let rest_str = unsafe { std::str::from_utf8_unchecked(self.rest()) };
+            let ch = rest_str.chars().next().unwrap();
+            self.advance_n(ch.len_utf8() as u32);
+        }
     }
 
     /// Advance the cursor by n bytes
