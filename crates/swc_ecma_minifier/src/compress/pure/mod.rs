@@ -961,10 +961,6 @@ impl VisitMut for Pure<'_> {
         self.optimize_switch_cases(n);
     }
 
-    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
-        s.visit_mut_children_with(self);
-    }
-
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.tag.visit_mut_with(self);
 
