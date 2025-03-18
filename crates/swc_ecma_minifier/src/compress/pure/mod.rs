@@ -10,12 +10,10 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
-use tracing::{span, Level};
+use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
 use super::util::is_pure_undefined_or_null;
-#[cfg(feature = "debug")]
-use crate::debug::dump;
 use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
 
 mod arrows;
@@ -43,9 +41,6 @@ pub(crate) struct PureOptimizerConfig {
     pub enable_join_vars: bool,
 
     pub force_str_for_tpl: bool,
-
-    #[cfg(feature = "debug")]
-    pub debug_infinite_loop: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]
