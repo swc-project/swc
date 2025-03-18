@@ -247,6 +247,10 @@ impl Pure<'_> {
     }
 
     pub(super) fn optimize_empty_try_stmt(&mut self, s: &mut Stmt) {
+        if !self.options.dead_code {
+            return;
+        }
+
         let Stmt::Try(ts) = s else {
             return;
         };
