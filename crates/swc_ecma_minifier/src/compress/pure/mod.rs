@@ -830,6 +830,10 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
+        if !can_drop_zero && e.exprs.len() == 1 {
+            e.exprs.insert(0, 0.into());
+        }
+
         #[cfg(debug_assertions)]
         {
             e.exprs.visit_with(&mut AssertValid);
