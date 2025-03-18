@@ -1165,7 +1165,7 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.side_effects {
+        if self.options.side_effects || self.options.dead_code {
             match e {
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~"),
