@@ -1145,9 +1145,9 @@ impl Pure<'_> {
                 if alt.is_invalid() {
                     *e = Expr::Bin(BinExpr {
                         span: *span,
-                        op: op!("||"),
-                        left: cons.take(),
-                        right: alt.take(),
+                        op: op!("&&"),
+                        left: test.take(),
+                        right: cons.take(),
                     });
                     report_change!("Dropping the `else` branch of a conditional expression");
                     self.changed = true;
