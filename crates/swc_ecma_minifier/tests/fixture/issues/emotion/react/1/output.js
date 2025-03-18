@@ -802,20 +802,18 @@
                                         characters1 += ";";
                                     // { rule/at-rule
                                     default:
-                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) {
-                                            if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
-                                            else switch(atrule){
-                                                // d m s
-                                                case 100:
-                                                case 109:
-                                                case 115:
-                                                    parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
-                                                    break;
-                                                default:
-                                                    parse(characters1, reference, reference, reference, [
-                                                        ""
-                                                    ], children, length, points, children);
-                                            }
+                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
+                                        else switch(atrule){
+                                            // d m s
+                                            case 100:
+                                            case 109:
+                                            case 115:
+                                                parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
+                                                break;
+                                            default:
+                                                parse(characters1, reference, reference, reference, [
+                                                    ""
+                                                ], children, length, points, children);
                                         }
                                 }
                                 index = offset = property = 0, variable = ampersand = 1, type = characters1 = "", length = pseudo;
@@ -1080,7 +1078,7 @@
                     ref: setRef,
                     onClick: function(e) {
                         var scroll1, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
                         router[replace ? "replace" : "push"](href, as, {
                             shallow: shallow,
                             locale: locale,
