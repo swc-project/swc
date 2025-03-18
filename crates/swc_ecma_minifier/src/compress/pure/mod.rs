@@ -873,6 +873,10 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        self.drop_needless_block(s);
+
+        debug_assert_valid(s);
+
         self.optimize_empty_try_stmt(s);
 
         debug_assert_valid(s);

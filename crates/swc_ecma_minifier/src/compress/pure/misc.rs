@@ -1730,6 +1730,40 @@ impl Pure<'_> {
             *expr = *cond.test.take();
         }
     }
+
+    pub(super) fn drop_needless_block(&mut self, s: &mut Stmt) {
+        fn is_simple_stmt(s: &Stmt) -> bool {
+            !matches!(
+                s,
+                Stmt::Switch(..)
+                    | Stmt::For(..)
+                    | Stmt::With(..)
+                    | Stmt::ForIn(..)
+                    | Stmt::ForOf(..)
+                    | Stmt::While(..)
+                    | Stmt::DoWhile(..)
+                    | Stmt::Try(..)
+            )
+        }
+
+        if let Stmt::Block(bs) = s {
+            if bs.stmts.is_empty() {
+                self.changed = true;
+                report_change!("Dropping an empty block");
+                *s = Stmt::dummy();
+                return;
+            }
+
+            if bs.stmts.len() == 1
+                && !is_block_scoped_stmt(&bs.stmts[0])
+                && is_simple_stmt(&bs.stmts[0])
+            {
+                *s = bs.stmts.remove(0);
+                self.changed = true;
+                report_change!("Dropping a needless block");
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -1793,4 +1827,14 @@ fn is_pure_member_access(obj: &Ident, prop: &MemberProp) -> bool {
     );
 
     false
+}
+
+fn is_block_scoped_stmt(s: &Stmt) -> bool {
+    match s {
+        Stmt::Decl(Decl::Var(v)) if v.kind == VarDeclKind::Const || v.kind == VarDeclKind::Let => {
+            true
+        }
+        Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
+        _ => false,
+    }
 }
