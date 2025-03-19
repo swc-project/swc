@@ -537,7 +537,7 @@
                                     index > -1 && idList.splice(index, 1);
                                 }
                             }), function() {
-                                null != unobserve.current && unobserve.current(), unobserve.current = void 0;
+                                null == unobserve.current || unobserve.current(), unobserve.current = void 0;
                             };
                         }
                     } else if (!visible) {

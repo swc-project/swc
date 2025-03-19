@@ -652,27 +652,30 @@
                 else warn('Invalid value for option "props": expected an Array or an Object, but got ' + toRawType(props) + ".", vm);
                 options.props = res;
             }
-        }(child, vm);
-        var options1 = child, inject = options1.inject;
-        if (inject) {
-            var normalized = options1.inject = {};
-            if (Array.isArray(inject)) for(var i = 0; i < inject.length; i++)normalized[inject[i]] = {
-                from: inject[i]
-            };
-            else if (isPlainObject(inject)) for(var key1 in inject){
-                var val = inject[key1];
-                normalized[key1] = isPlainObject(val) ? extend({
-                    from: key1
-                }, val) : {
-                    from: val
+        }(child, vm), /**
+   * Normalize all injections into Object-based format
+   */ function(options, vm) {
+            var inject = options.inject;
+            if (inject) {
+                var normalized = options.inject = {};
+                if (Array.isArray(inject)) for(var i = 0; i < inject.length; i++)normalized[inject[i]] = {
+                    from: inject[i]
                 };
+                else if (isPlainObject(inject)) for(var key in inject){
+                    var val = inject[key];
+                    normalized[key] = isPlainObject(val) ? extend({
+                        from: key
+                    }, val) : {
+                        from: val
+                    };
+                }
+                else warn('Invalid value for option "inject": expected an Array or an Object, but got ' + toRawType(inject) + ".", vm);
             }
-            else warn('Invalid value for option "inject": expected an Array or an Object, but got ' + toRawType(inject) + ".", vm);
-        }
+        }(child, vm);
         var dirs = child.directives;
-        if (dirs) for(var key2 in dirs){
-            var def$$1 = dirs[key2];
-            'function' == typeof def$$1 && (dirs[key2] = {
+        if (dirs) for(var key1 in dirs){
+            var def$$1 = dirs[key1];
+            'function' == typeof def$$1 && (dirs[key1] = {
                 bind: def$$1,
                 update: def$$1
             });
@@ -681,15 +684,15 @@
         // but only if it is a raw options object that isn't
         // the result of another mergeOptions call.
         // Only merged options has the _base property.
-        if (!child._base && (child.extends && (parent = mergeOptions(parent, child.extends, vm)), child.mixins)) for(var key3, i1 = 0, l = child.mixins.length; i1 < l; i1++)parent = mergeOptions(parent, child.mixins[i1], vm);
-        var options2 = {};
-        for(key3 in parent)mergeField(key3);
-        for(key3 in child)hasOwn(parent, key3) || mergeField(key3);
+        if (!child._base && (child.extends && (parent = mergeOptions(parent, child.extends, vm)), child.mixins)) for(var key2, i = 0, l = child.mixins.length; i < l; i++)parent = mergeOptions(parent, child.mixins[i], vm);
+        var options1 = {};
+        for(key2 in parent)mergeField(key2);
+        for(key2 in child)hasOwn(parent, key2) || mergeField(key2);
         function mergeField(key) {
             var strat = strats[key] || defaultStrat;
-            options2[key] = strat(parent[key], child[key], vm, key);
+            options1[key] = strat(parent[key], child[key], vm, key);
         }
-        return options2;
+        return options1;
     }
     /**
    * Resolve an asset.
@@ -1004,7 +1007,7 @@
     function checkProp(res, hash, key, altKey, preserve) {
         if (isDef(hash)) {
             if (hasOwn(hash, key)) return res[key] = hash[key], preserve || delete hash[key], !0;
-            else if (hasOwn(hash, altKey)) return res[key] = hash[altKey], preserve || delete hash[altKey], !0;
+            if (hasOwn(hash, altKey)) return res[key] = hash[altKey], preserve || delete hash[altKey], !0;
         }
         return !1;
     }
@@ -1073,28 +1076,27 @@
     }
     /*  */ function normalizeScopedSlots(slots, normalSlots, prevSlots) {
         var res, hasNormalSlots = Object.keys(normalSlots).length > 0, isStable = slots ? !!slots.$stable : !hasNormalSlots, key = slots && slots.$key;
-        if (slots) {
-            if (slots._normalized) // fast path 1: child component re-render only, parent did not change
-            return slots._normalized;
-            if (isStable && prevSlots && prevSlots !== emptyObject && key === prevSlots.$key && !hasNormalSlots && !prevSlots.$hasNormal) // fast path 2: stable scoped slots w/ no normal slots to proxy,
-            // only need to normalize once
-            return prevSlots;
-            for(var key$1 in res = {}, slots)slots[key$1] && '$' !== key$1[0] && (res[key$1] = function(normalSlots, key, fn) {
-                var normalized = function() {
-                    var res = arguments.length ? fn.apply(null, arguments) : fn({});
-                    return (res = res && 'object' == typeof res && !Array.isArray(res) ? [
-                        res
-                    ] // single vnode
-                     : normalizeChildren(res)) && (0 === res.length || 1 === res.length && res[0].isComment // #9658
-                    ) ? void 0 : res;
-                };
-                return fn.proxy && Object.defineProperty(normalSlots, key, {
-                    get: normalized,
-                    enumerable: !0,
-                    configurable: !0
-                }), normalized;
-            }(normalSlots, key$1, slots[key$1]));
-        } else res = {};
+        if (slots) if (slots._normalized) // fast path 1: child component re-render only, parent did not change
+        return slots._normalized;
+        else if (isStable && prevSlots && prevSlots !== emptyObject && key === prevSlots.$key && !hasNormalSlots && !prevSlots.$hasNormal) // fast path 2: stable scoped slots w/ no normal slots to proxy,
+        // only need to normalize once
+        return prevSlots;
+        else for(var key$1 in res = {}, slots)slots[key$1] && '$' !== key$1[0] && (res[key$1] = function(normalSlots, key, fn) {
+            var normalized = function() {
+                var res = arguments.length ? fn.apply(null, arguments) : fn({});
+                return (res = res && 'object' == typeof res && !Array.isArray(res) ? [
+                    res
+                ] // single vnode
+                 : normalizeChildren(res)) && (0 === res.length || 1 === res.length && res[0].isComment // #9658
+                ) ? void 0 : res;
+            };
+            return fn.proxy && Object.defineProperty(normalSlots, key, {
+                get: normalized,
+                enumerable: !0,
+                configurable: !0
+            }), normalized;
+        }(normalSlots, key$1, slots[key$1]));
+        else res = {};
         // expose normal slots on scopedSlots
         for(var key$2 in normalSlots)key$2 in res || (res[key$2] = function(slots, key) {
             return function() {
@@ -2247,7 +2249,7 @@
     ];
     /*  */ function updateAttrs(oldVnode, vnode) {
         var key, cur, opts = vnode.componentOptions;
-        if ((!isDef(opts) || !1 !== opts.Ctor.options.inheritAttrs) && !(isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs))) {
+        if (!(isDef(opts) && !1 === opts.Ctor.options.inheritAttrs || isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs))) {
             var elm = vnode.elm, oldAttrs = oldVnode.data.attrs || {}, attrs = vnode.data.attrs || {};
             for(key in isDef(attrs.__ob__) && (attrs = vnode.data.attrs = extend({}, attrs)), attrs)cur = attrs[key], oldAttrs[key] !== cur && setAttr(elm, key, cur);
             for(key in (isIE || isEdge) && attrs.value !== oldAttrs.value && setAttr(elm, 'value', attrs.value), oldAttrs)isUndef(attrs[key]) && (isXlink(key) ? elm.removeAttributeNS(xlinkNS, getXlinkProp(key)) : isEnumeratedAttr(key) || elm.removeAttribute(key));
@@ -2684,11 +2686,12 @@
         }
     }
     /*  */ function resolveTransition(def$$1) {
-        if (def$$1) /* istanbul ignore else */ {
-            if ('object' == typeof def$$1) {
+        if (def$$1) {
+            /* istanbul ignore else */ if ('object' == typeof def$$1) {
                 var res = {};
                 return !1 !== def$$1.css && extend(res, autoCssTransition(def$$1.name || 'v')), extend(res, def$$1), res;
-            } else if ('string' == typeof def$$1) return autoCssTransition(def$$1);
+            }
+            if ('string' == typeof def$$1) return autoCssTransition(def$$1);
         }
     }
     var autoCssTransition = cached(function(name) {
@@ -2757,10 +2760,9 @@
     }
     /*  */ function enter(vnode, toggleDisplay) {
         var el = vnode.elm;
-        // call leave callback now
         isDef(el._leaveCb) && (el._leaveCb.cancelled = !0, el._leaveCb());
         var data = resolveTransition(vnode.data.transition);
-        if (!(isUndef(data) || isDef(el._enterCb) || 1 !== el.nodeType)) {
+        if (!(isUndef(data) || isDef(el._enterCb)) && 1 === el.nodeType) {
             for(var css = data.css, type = data.type, enterClass = data.enterClass, enterToClass = data.enterToClass, enterActiveClass = data.enterActiveClass, appearClass = data.appearClass, appearToClass = data.appearToClass, appearActiveClass = data.appearActiveClass, beforeEnter = data.beforeEnter, enter = data.enter, afterEnter = data.afterEnter, enterCancelled = data.enterCancelled, beforeAppear = data.beforeAppear, appear = data.appear, afterAppear = data.afterAppear, appearCancelled = data.appearCancelled, duration = data.duration, context = activeInstance, transitionNode = activeInstance.$vnode; transitionNode && transitionNode.parent;)context = transitionNode.context, transitionNode = transitionNode.parent;
             var isAppear = !context._isMounted || !vnode.isRootInsert;
             if (!isAppear || appear || '' === appear) {
@@ -2782,7 +2784,6 @@
     }
     function leave(vnode, rm) {
         var el = vnode.elm;
-        // call enter callback now
         isDef(el._enterCb) && (el._enterCb.cancelled = !0, el._enterCb());
         var data = resolveTransition(vnode.data.transition);
         if (isUndef(data) || 1 !== el.nodeType) return rm();
@@ -2796,7 +2797,7 @@
         }
         function performLeave() {
             // the delayed leave may have already been cancelled
-            cb.cancelled || (!vnode.data.show && el.parentNode && ((el.parentNode._pending || (el.parentNode._pending = {}))[vnode.key] = vnode), beforeLeave && beforeLeave(el), expectsCSS && (addTransitionClass(el, leaveClass), addTransitionClass(el, leaveActiveClass), nextFrame(function() {
+            !cb.cancelled && (!vnode.data.show && el.parentNode && ((el.parentNode._pending || (el.parentNode._pending = {}))[vnode.key] = vnode), beforeLeave && beforeLeave(el), expectsCSS && (addTransitionClass(el, leaveClass), addTransitionClass(el, leaveActiveClass), nextFrame(function() {
                 removeTransitionClass(el, leaveClass), cb.cancelled || (addTransitionClass(el, leaveToClass), userWantsControl || (isValidDuration(explicitLeaveDuration) ? setTimeout(cb, explicitLeaveDuration) : whenTransitionEnds(el, type, cb)));
             })), leave && leave(el, cb), expectsCSS || userWantsControl || cb());
         }
@@ -3034,8 +3035,10 @@
                 }(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
                 else {
                     if (isRealElement) {
-                        if (1 === oldVnode.nodeType && oldVnode.hasAttribute(SSR_ATTR) && (oldVnode.removeAttribute(SSR_ATTR), hydrating = !0), isTrue(hydrating)) if (hydrate(oldVnode, vnode, insertedVnodeQueue)) return invokeInsertHook(vnode, insertedVnodeQueue, !0), oldVnode;
-                        else warn("The client-side rendered virtual DOM tree is not matching server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.");
+                        if (1 === oldVnode.nodeType && oldVnode.hasAttribute(SSR_ATTR) && (oldVnode.removeAttribute(SSR_ATTR), hydrating = !0), isTrue(hydrating)) {
+                            if (hydrate(oldVnode, vnode, insertedVnodeQueue)) return invokeInsertHook(vnode, insertedVnodeQueue, !0), oldVnode;
+                            warn("The client-side rendered virtual DOM tree is not matching server-rendered content. This is likely caused by incorrect HTML markup, for example nesting block-level elements inside <p>, or missing <tbody>. Bailing hydration and performing full client-side render.");
+                        }
                         elm = oldVnode, // either not server-rendered, or hydration failed.
                         // create an empty node and replace it
                         oldVnode = new VNode(nodeOps.tagName(elm).toLowerCase(), {}, [], void 0, elm);
@@ -3820,7 +3823,7 @@
         if (el.component) componentName = el.component, children1 = el.inlineTemplate ? null : genChildren(el, state, !0), code = "_c(" + componentName + "," + genData$2(el, state) + (children1 ? "," + children1 : '') + ")";
         else {
             (!el.plain || el.pre && state.maybeComponent(el)) && (data = genData$2(el, state));
-            var children, res, attrs, bind$$1, componentName, children1, code, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
+            var children, res, attrs, bind$$1, code, componentName, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
             code = "_c('" + el.tag + "'" + (data ? "," + data : '') + (children2 ? "," + children2 : '') + ")";
         }
         // module transforms
@@ -4291,7 +4294,7 @@
                 }
             }), root;
         }(template.trim(), options);
-        !1 !== options.optimize && ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, // first pass: mark all non-static nodes.
+        !1 === options.optimize || ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, // first pass: mark all non-static nodes.
         function markStatic$1(node) {
             if (node.static = 2 !== node.type && (3 === node.type || !!(node.pre || !node.hasBindings && // no dynamic bindings
             !node.if && !node.for && // not v-if or v-for or v-else

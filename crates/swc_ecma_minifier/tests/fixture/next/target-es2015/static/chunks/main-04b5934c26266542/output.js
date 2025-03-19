@@ -170,8 +170,10 @@
                     updateHead: (head)=>{
                         const tags = {};
                         head.forEach((h)=>{
-                            if ("link" === h.type && h.props["data-optimized-fonts"]) if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
-                            else h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
+                            if ("link" === h.type && h.props["data-optimized-fonts"]) {
+                                if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
+                                h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
+                            }
                             const components = tags[h.type] || [];
                             components.push(h), tags[h.type] = components;
                         });
@@ -716,6 +718,7 @@
                 userReportHandler && userReportHandler(metric);
             }
             exports.default = (onPerfEntry)=>{
+                // Only register listeners once:
                 // Update function if it changes:
                 userReportHandler = onPerfEntry, isRegistered || (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
@@ -2016,11 +2019,13 @@
                                 }
                             }
                             // If the routeInfo brings a redirect we simply apply it.
-                            if ("type" in routeInfo) if ("redirect-internal" === routeInfo.type) return _this.change(method, routeInfo.newUrl, routeInfo.newAs, options);
-                            else return handleHardNavigation({
-                                url: routeInfo.destination,
-                                router: _this
-                            }), new Promise(()=>{});
+                            if ("type" in routeInfo) {
+                                if ("redirect-internal" === routeInfo.type) return _this.change(method, routeInfo.newUrl, routeInfo.newAs, options);
+                                return handleHardNavigation({
+                                    url: routeInfo.destination,
+                                    router: _this
+                                }), new Promise(()=>{});
+                            }
                             let { error, props, __N_SSG, __N_SSP } = routeInfo;
                             const component = routeInfo.Component;
                             // handle redirect on client-transition
@@ -3079,13 +3084,13 @@
                 }
                 if (isServer) {
                     var ref;
-                    null != headManager && null != (ref = headManager.mountedInstances) && ref.add(props.children), emitChange();
+                    null == headManager || null == (ref = headManager.mountedInstances) || ref.add(props.children), emitChange();
                 }
                 return useClientOnlyLayoutEffect(()=>{
                     var ref1;
-                    return null != headManager && null != (ref1 = headManager.mountedInstances) && ref1.add(props.children), ()=>{
+                    return null == headManager || null == (ref1 = headManager.mountedInstances) || ref1.add(props.children), ()=>{
                         var ref;
-                        null != headManager && null != (ref = headManager.mountedInstances) && ref.delete(props.children);
+                        null == headManager || null == (ref = headManager.mountedInstances) || ref.delete(props.children);
                     };
                 }), // We need to call `updateHead` method whenever the `SideEffect` is trigger in all
                 // life-cycles: mount, update, unmount. However, if there are multiple `SideEffect`s

@@ -2267,8 +2267,8 @@
                         if (!a.isNil(r) && i) {
                             var o, u, l, s, c, f, d = !a.isNil(t), p = "set" + a.upperFirst(e), h = p + "Auto", y = p + "Percent", g = a.matchPercent(r);
                             if (g && !i[y]) throw Error("You can't pass percentage values to " + e + " property");
-                            g ? d ? null !== (o = i[y]) && void 0 !== o && o.call(i, t, g.value) : null !== (u = i[y]) && void 0 !== u && u.call(i, g.value) : "auto" === r ? d ? null !== (l = i[h]) && void 0 !== l && l.call(i, t) : "flexBasis" === e ? // YogaNode.setFlexBasisAuto is missing (#766)
-                            i.setFlexBasis(q.default.UNIT_AUTO) : null !== (s = i[h]) && void 0 !== s && s.call(i) : d ? null !== (c = i[p]) && void 0 !== c && c.call(i, t, r) : null !== (f = i[p]) && void 0 !== f && f.call(i, r);
+                            g ? d ? null === (o = i[y]) || void 0 === o || o.call(i, t, g.value) : null === (u = i[y]) || void 0 === u || u.call(i, g.value) : "auto" === r ? d ? null === (l = i[h]) || void 0 === l || l.call(i, t) : "flexBasis" === e ? // YogaNode.setFlexBasisAuto is missing (#766)
+                            i.setFlexBasis(q.default.UNIT_AUTO) : null === (s = i[h]) || void 0 === s || s.call(i) : d ? null === (c = i[p]) || void 0 === c || c.call(i, t, r) : null === (f = i[p]) || void 0 === f || f.call(i, r);
                         }
                         return n;
                     };
@@ -16432,12 +16432,12 @@
                         }), r > 2) ? "one of ".concat(t, " ").concat(e.slice(0, r - 1).join(", "), ", or ") + e[r - 1] : 2 === r ? "one of ".concat(t, " ").concat(e[0], " or ").concat(e[1]) : "of ".concat(t, " ").concat(e[0]);
                     }
                     s("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), s("ERR_INVALID_ARG_TYPE", function(e, t, i) {
-                        if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(u < 0 ? 0 : +u, o.length) === o)) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be", l = " argument", (void 0 === s || s > e.length) && (s = e.length), e.substring(s - l.length, s) === l) p = "The ".concat(e, " ").concat(d, " ").concat(c(t, "type"));
+                        if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(0, o.length) === o)) ? (f = "must not be", t = t.replace(/^not /, "")) : f = "must be", u = " argument", (void 0 === l || l > e.length) && (l = e.length), e.substring(l - u.length, l) === u) d = "The ".concat(e, " ").concat(f, " ").concat(c(t, "type"));
                         else {
-                            var o, u, l, s, f, d, p, h = ("number" != typeof f && (f = 0), f + 1 > e.length || -1 === e.indexOf(".", f)) ? "argument" : "property";
-                            p = 'The "'.concat(e, '" ').concat(h, " ").concat(d, " ").concat(c(t, "type"));
+                            var o, u, l, s, f, d, p = ("number" != typeof s && (s = 0), s + 1 > e.length || -1 === e.indexOf(".", s)) ? "argument" : "property";
+                            d = 'The "'.concat(e, '" ').concat(p, " ").concat(f, " ").concat(c(t, "type"));
                         }
-                        return p + ". Received type ".concat(n(i));
+                        return d + ". Received type ".concat(n(i));
                     }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
                         var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                         void 0 === u && (u = r(650));
@@ -18039,13 +18039,10 @@
                             "{",
                             "}"
                         ];
-                        if (y(r) && (T = !0, C = [
+                        return (y(r) && (T = !0, C = [
                             "[",
                             "]"
-                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 === f.length && (!T || 0 == r.length)) return C[0] + k + C[1];
-                        if (n < 0) if (w(r)) return e.stylize(RegExp.prototype.toString.call(r), "regexp");
-                        else return e.stylize("[Object]", "special");
-                        return e.seen.push(r), l = T ? function(e, t, r, n, i) {
+                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 !== f.length || T && 0 != r.length) ? n < 0 ? w(r) ? e.stylize(RegExp.prototype.toString.call(r), "regexp") : e.stylize("[Object]", "special") : (e.seen.push(r), l = T ? function(e, t, r, n, i) {
                             for(var o = [], a = 0, u = t.length; a < u; ++a)O(t, String(a)) ? o.push(h(e, t, r, n, String(a), !0)) : o.push("");
                             return i.forEach(function(i) {
                                 i.match(/^\d+$/) || o.push(h(e, t, r, n, i, !0));
@@ -18054,7 +18051,7 @@
                             return h(e, r, n, E, t, T);
                         }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
                             return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1];
+                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
                     }
                     function p(e) {
                         return "[" + Error.prototype.toString.call(e) + "]";
@@ -20520,18 +20517,17 @@
                     function g(e, t, r, n, i) {
                         var o;
                         if (0 === e.length) return -1;
-                        if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r *= 1) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) if (i) return -1;
-                        else r = e.length - 1;
-                        else if (r < 0) if (!i) return -1;
-                        else r = 0;
-                        if ("string" == typeof t && (t = u.from(t, n)), u.isBuffer(t)) return 0 === t.length ? -1 : v(e, t, r, n, i);
-                        if ("number" == typeof t) {
-                            if (t &= 255, "function" == typeof Uint8Array.prototype.indexOf) if (i) return Uint8Array.prototype.indexOf.call(e, t, r);
-                            else return Uint8Array.prototype.lastIndexOf.call(e, t, r);
-                            return v(e, [
-                                t
-                            ], r, n, i);
+                        if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r *= 1) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) {
+                            if (i) return -1;
+                            r = e.length - 1;
+                        } else if (r < 0) {
+                            if (!i) return -1;
+                            r = 0;
                         }
+                        if ("string" == typeof t && (t = u.from(t, n)), u.isBuffer(t)) return 0 === t.length ? -1 : v(e, t, r, n, i);
+                        if ("number" == typeof t) return (t &= 255, "function" == typeof Uint8Array.prototype.indexOf) ? i ? Uint8Array.prototype.indexOf.call(e, t, r) : Uint8Array.prototype.lastIndexOf.call(e, t, r) : v(e, [
+                            t
+                        ], r, n, i);
                         throw TypeError("val must be string, number or Buffer");
                     }
                     function v(e, t, r, n, i) {
@@ -21386,14 +21382,14 @@
                     r("ERR_INVALID_OPT_VALUE", function(e, t) {
                         return 'The value "' + t + '" is invalid for option "' + e + '"';
                     }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                        var i, o, a, u, l;
-                        let s, c;
-                        if ("string" == typeof t && (i = "not ", t.substr(o < 0 ? 0 : +o, i.length) === i) ? (s = "must not be", t = t.replace(/^not /, "")) : s = "must be", a = " argument", (void 0 === u || u > e.length) && (u = e.length), e.substring(u - a.length, u) === a) c = `The ${e} ${s} ${n(t, "type")}`;
+                        var i, o, a, u;
+                        let l, s;
+                        if ("string" == typeof t && (i = "not ", t.substr(0, i.length) === i) ? (l = "must not be", t = t.replace(/^not /, "")) : l = "must be", o = " argument", (void 0 === a || a > e.length) && (a = e.length), e.substring(a - o.length, a) === o) s = `The ${e} ${l} ${n(t, "type")}`;
                         else {
-                            const r = ("number" != typeof l && (l = 0), l + 1 > e.length || -1 === e.indexOf(".", l)) ? "argument" : "property";
-                            c = `The "${e}" ${r} ${s} ${n(t, "type")}`;
+                            const r = ("number" != typeof u && (u = 0), u + 1 > e.length || -1 === e.indexOf(".", u)) ? "argument" : "property";
+                            s = `The "${e}" ${r} ${l} ${n(t, "type")}`;
                         }
-                        return c + `. Received type ${typeof r}`;
+                        return s + `. Received type ${typeof r}`;
                     }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
                         return "The " + e + " method is not implemented";
                     }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(e) {
@@ -21519,8 +21515,7 @@
                     function O(e, t) {
                         if (e <= 0 || 0 === t.length && t.ended) return 0;
                         if (t.objectMode) return 1;
-                        if (e != e) if (t.flowing && t.length) return t.buffer.head.data.length;
-                        else return t.length;
+                        if (e != e) return t.flowing && t.length ? t.buffer.head.data.length : t.length;
                         if (e > t.highWaterMark) {
                             var r;
                             (r = e) >= 1073741824 ? r = 1073741824 : (r--, r |= r >>> 1, r |= r >>> 2, r |= r >>> 4, r |= r >>> 8, r |= r >>> 16, r++), t.highWaterMark = r;
@@ -23729,13 +23724,10 @@
                             "{",
                             "}"
                         ];
-                        if (y(r) && (T = !0, C = [
+                        return (y(r) && (T = !0, C = [
                             "[",
                             "]"
-                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 === f.length && (!T || 0 == r.length)) return C[0] + k + C[1];
-                        if (n < 0) if (w(r)) return e.stylize(RegExp.prototype.toString.call(r), "regexp");
-                        else return e.stylize("[Object]", "special");
-                        return e.seen.push(r), l = T ? function(e, t, r, n, i) {
+                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 !== f.length || T && 0 != r.length) ? n < 0 ? w(r) ? e.stylize(RegExp.prototype.toString.call(r), "regexp") : e.stylize("[Object]", "special") : (e.seen.push(r), l = T ? function(e, t, r, n, i) {
                             for(var o = [], a = 0, u = t.length; a < u; ++a)O(t, String(a)) ? o.push(h(e, t, r, n, String(a), !0)) : o.push("");
                             return i.forEach(function(i) {
                                 i.match(/^\d+$/) || o.push(h(e, t, r, n, i, !0));
@@ -23744,7 +23736,7 @@
                             return h(e, r, n, E, t, T);
                         }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
                             return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1];
+                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
                     }
                     function p(e) {
                         return "[" + Error.prototype.toString.call(e) + "]";
@@ -28697,9 +28689,7 @@
                     }
                     if (0 !== a) throw Error("Data error");
                 }while (!n)
-                if (u.destLen < u.dest.length) if ("function" == typeof u.dest.slice) return u.dest.slice(0, u.destLen);
-                else return u.dest.subarray(0, u.destLen);
-                return u.dest;
+                return u.destLen < u.dest.length ? "function" == typeof u.dest.slice ? u.dest.slice(0, u.destLen) : u.dest.subarray(0, u.destLen) : u.dest;
             };
         /***/ },
         /***/ 7055: /***/ function(e, t, r) {

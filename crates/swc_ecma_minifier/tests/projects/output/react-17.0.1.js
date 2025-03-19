@@ -83,7 +83,7 @@
     var didWarnStateUpdateForUnmountedComponent = {};
     function warnNoop(publicInstance, callerName) {
         var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || "ReactClass", warningKey = componentName + "." + callerName;
-        didWarnStateUpdateForUnmountedComponent[warningKey] || (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
+        !didWarnStateUpdateForUnmountedComponent[warningKey] && (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
     }
     /**
      * This is the abstract API for an update queue.
@@ -424,9 +424,9 @@
      */ function getElementKey(element, index) {
         // Do some typechecking here since we call this blindly. We want to ensure
         // that we don't block potential future ES APIs.
-        if ("object" == typeof element && null !== element && null != element.key) // Explicit key
-        {
+        if ("object" == typeof element && null !== element && null != element.key) {
             var key, escaperLookup;
+            // Explicit key
             return key = "" + element.key, escaperLookup = {
                 "=": "=0",
                 ":": "=2"

@@ -3492,9 +3492,8 @@
                 return sourceIsArray !== Array.isArray(target) ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
-                    propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
-                    !(Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
-                    Object.propertyIsEnumerable.call(target, key)) || (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
+                    (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
+                    Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
                         if (!options.customMerge) return deepmerge;
                         var customMerge = options.customMerge(key);
                         return "function" == typeof customMerge ? customMerge : deepmerge;
@@ -3605,24 +3604,22 @@
                      *   via the keyboard (e.g. a text box)
                      * @param {Event} e
                      */ function(e) {
+                        var el, type, tagName;
                         // Prevent IE from focusing the document or HTML element.
-                        if (isValidFocusTarget(e.target)) {
-                            var el, type, tagName;
-                            (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
-                        }
+                        isValidFocusTarget(e.target) && (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
                     }, !0), scope.addEventListener("blur", /**
                      * On `blur`, remove the `focus-visible` class from the target.
                      * @param {Event} e
                      */ function(e) {
-                        if (isValidFocusTarget(e.target) && (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added"))) {
+                        if (isValidFocusTarget(e.target)) {
                             var el;
-                            // To detect a tab/window switch, we look for a blur event followed
+                            (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added")) && (// To detect a tab/window switch, we look for a blur event followed
                             // rapidly by a visibility change.
                             // If we don't see a visibility change within 100ms, it's probably a
                             // regular focus change.
                             hadFocusVisibleRecently = !0, window.clearTimeout(hadFocusVisibleRecentlyTimeout), hadFocusVisibleRecentlyTimeout = window.setTimeout(function() {
                                 hadFocusVisibleRecently = !1;
-                            }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added"));
+                            }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added")));
                         }
                     }, !0), scope.nodeType === Node.DOCUMENT_FRAGMENT_NODE && scope.host ? // Since a ShadowRoot is a special kind of DocumentFragment, it does not
                     // have a root element to add a class to. So, we add this attribute to the
@@ -6015,12 +6012,12 @@
                         function handleChange(event) {
                             setSystemColorMode(event.matches ? "night" : "day");
                         } // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        if (media) // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        {
+                        if (media) {
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                             if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
                                 media.removeEventListener("change", handleChange);
                             };
-                            else if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
+                            if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
                                 media.removeListener(handleChange);
                             };
                         }
