@@ -6442,7 +6442,8 @@
                     t !== this.state && (this.state = t, this.onlineStateHandler(t));
                 }
                 Ur(t) {
-                    const e = `Could not reach Cloud Firestore backend. ${t}\nThis typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
+                    const e = `Could not reach Cloud Firestore backend. ${t}
+This typically indicates that your device does not have a healthy Internet connection at the moment. The client will operate in offline mode until it is able to successfully connect to the backend.`;
                     this.Mr ? (O(e), this.Mr = !1) : $("OnlineStateTracker", e);
                 }
                 Kr() {

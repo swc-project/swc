@@ -3259,7 +3259,8 @@
                     await hash(right),
                     await hash(offsetBuffer)
                 ]);
-                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
+                return debug(remainder, `${output}
+${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = /**
  * Builds an arweave merkle tree and gets the root hash for the given input.
@@ -4854,7 +4855,8 @@
                     await hash(right),
                     await hash(offsetBuffer)
                 ]);
-                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
+                return debug(remainder, `${output}
+${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = /**
  * Builds an arweave merkle tree and gets the root hash for the given input.
@@ -22333,7 +22335,9 @@
                                 if (Array.isArray(value)) {
                                     if (0 === value.length) return '[]';
                                     if (maximumDepth < stack.length + 1) return '"[Array]"';
-                                    stack.push(value), '' !== spacer && (indentation += spacer, res += `\n${indentation}`, join = `,\n${indentation}`);
+                                    stack.push(value), '' !== spacer && (indentation += spacer, res += `
+${indentation}`, join = `,
+${indentation}`);
                                     const maximumValuesToStringify = Math.min(value.length, maximumBreadth);
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
@@ -22345,14 +22349,16 @@
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
-                                    return '' !== spacer && (res += `\n${originalIndentation}`), stack.pop(), `[${res}]`;
+                                    return '' !== spacer && (res += `
+${originalIndentation}`), stack.pop(), `[${res}]`;
                                 }
                                 let keys = Object.keys(value);
                                 const keyLength = keys.length;
                                 if (0 === keyLength) return '{}';
                                 if (maximumDepth < stack.length + 1) return '"[Object]"';
                                 let whitespace = '', separator = '';
-                                '' !== spacer && (indentation += spacer, join = `,\n${indentation}`, whitespace = ' ');
+                                '' !== spacer && (indentation += spacer, join = `,
+${indentation}`, whitespace = ' ');
                                 let maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
                                 isTypedArrayWithEntries(value) && (res += stringifyTypedArray(value, join, maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = join), deterministic && (keys = insertSort(keys)), stack.push(value);
                                 for(let i = 0; i < maximumPropertiesToStringify; i++){
@@ -22363,7 +22369,9 @@
                                     const removedKeys = keyLength - maximumBreadth;
                                     res += `${separator}"...":${whitespace}"${getItemCount(removedKeys)} not stringified"`, separator = join;
                                 }
-                                return '' !== spacer && separator.length > 1 && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
+                                return '' !== spacer && separator.length > 1 && (res = `
+${indentation}${res}
+${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
                         case 'number':
                             return isFinite(value) ? String(value) : 'null';
@@ -22386,7 +22394,9 @@
                                 if (Array.isArray(value)) {
                                     if (0 === value.length) return '[]';
                                     if (maximumDepth < stack.length + 1) return '"[Array]"';
-                                    stack.push(value), '' !== spacer && (indentation += spacer, res += `\n${indentation}`, join = `,\n${indentation}`);
+                                    stack.push(value), '' !== spacer && (indentation += spacer, res += `
+${indentation}`, join = `,
+${indentation}`);
                                     const maximumValuesToStringify = Math.min(value.length, maximumBreadth);
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
@@ -22398,18 +22408,22 @@
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
-                                    return '' !== spacer && (res += `\n${originalIndentation}`), stack.pop(), `[${res}]`;
+                                    return '' !== spacer && (res += `
+${originalIndentation}`), stack.pop(), `[${res}]`;
                                 }
                                 if (0 === replacer.size) return '{}';
                                 stack.push(value);
                                 let whitespace = '';
-                                '' !== spacer && (indentation += spacer, join = `,\n${indentation}`, whitespace = ' ');
+                                '' !== spacer && (indentation += spacer, join = `,
+${indentation}`, whitespace = ' ');
                                 let separator = '';
                                 for (const key of replacer){
                                     const tmp = stringifyArrayReplacer(key, value[key], stack, replacer, spacer, indentation);
                                     void 0 !== tmp && (res += `${separator}"${strEscape(key)}":${whitespace}${tmp}`, separator = join);
                                 }
-                                return '' !== spacer && separator.length > 1 && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
+                                return '' !== spacer && separator.length > 1 && (res = `
+${indentation}${res}
+${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
                         case 'number':
                             return isFinite(value) ? String(value) : 'null';
@@ -22437,8 +22451,10 @@
                                     if (0 === value.length) return '[]';
                                     if (maximumDepth < stack.length + 1) return '"[Array]"';
                                     stack.push(value), indentation += spacer;
-                                    let res = `\n${indentation}`;
-                                    const join = `,\n${indentation}`, maximumValuesToStringify = Math.min(value.length, maximumBreadth);
+                                    let res = `
+${indentation}`;
+                                    const join = `,
+${indentation}`, maximumValuesToStringify = Math.min(value.length, maximumBreadth);
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
@@ -22449,14 +22465,16 @@
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
-                                    return res += `\n${originalIndentation}`, stack.pop(), `[${res}]`;
+                                    return res += `
+${originalIndentation}`, stack.pop(), `[${res}]`;
                                 }
                                 let keys = Object.keys(value);
                                 const keyLength = keys.length;
                                 if (0 === keyLength) return '{}';
                                 if (maximumDepth < stack.length + 1) return '"[Object]"';
                                 indentation += spacer;
-                                const join = `,\n${indentation}`;
+                                const join = `,
+${indentation}`;
                                 let res = '', separator = '', maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
                                 isTypedArrayWithEntries(value) && (res += stringifyTypedArray(value, join, maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = join), deterministic && (keys = insertSort(keys)), stack.push(value);
                                 for(let i = 0; i < maximumPropertiesToStringify; i++){
@@ -22467,7 +22485,9 @@
                                     const removedKeys = keyLength - maximumBreadth;
                                     res += `${separator}"...": "${getItemCount(removedKeys)} not stringified"`, separator = join;
                                 }
-                                return '' !== separator && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
+                                return '' !== separator && (res = `
+${indentation}${res}
+${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
                         case 'number':
                             return isFinite(value) ? String(value) : 'null';
@@ -25910,7 +25930,8 @@ class Zip {
                                 valid: validity[missingInteraction.id],
                                 errorMessage: errorMessage,
                                 gasUsed: result.gasUsed
-                            }), 'exception' === result.type && !0 !== ignoreExceptions) throw Error(`Exception while processing ${JSON.stringify(interaction)}:\n${result.errorMessage}`);
+                            }), 'exception' === result.type && !0 !== ignoreExceptions) throw Error(`Exception while processing ${JSON.stringify(interaction)}:
+${result.errorMessage}`);
                             validity[missingInteraction.id] = 'ok' === result.type, currentState = result.state;
                             const toCache = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
                             (0, StateCache_1.canBeCached)(missingInteraction) && (lastConfirmedTxState = {
@@ -27386,7 +27407,8 @@ class Zip {
                         return 'Object';
                     }
                     return(// errors
-                    val instanceof Error ? `${val.name}: ${val.message}\n${val.stack}` : className);
+                    val instanceof Error ? `${val.name}: ${val.message}
+${val.stack}` : className);
                 }
                 function makeMutClosure(arg0, arg1, dtor, f) {
                     const state = {

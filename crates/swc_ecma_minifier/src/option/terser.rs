@@ -240,6 +240,9 @@ pub struct TerserCompressorOptions {
     pub const_to_let: Option<bool>,
 
     #[serde(default)]
+    pub reduce_escaped_newline: Option<bool>,
+
+    #[serde(default)]
     pub pristine_globals: Option<bool>,
 }
 
@@ -377,6 +380,7 @@ impl TerserCompressorOptions {
             unsafe_undefined: self.unsafe_undefined,
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
+            reduce_escaped_newline: self.reduce_escaped_newline.unwrap_or(self.defaults),
             pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
             pure_funcs: self
                 .pure_funcs
