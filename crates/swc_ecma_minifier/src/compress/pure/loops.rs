@@ -326,7 +326,7 @@ fn should_not_inline_loop_body(s: &Stmt, allow_break_continue: bool) -> bool {
         Stmt::Switch(s) => s
             .cases
             .iter()
-            .all(|c| c.cons.iter().any(|s| should_not_inline_loop_body(s, false))),
+            .any(|c| c.cons.iter().any(|s| should_not_inline_loop_body(s, false))),
 
         Stmt::Continue(ContinueStmt {
             label: Some(..), ..
