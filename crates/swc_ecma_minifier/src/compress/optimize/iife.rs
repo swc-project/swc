@@ -890,7 +890,7 @@ impl Optimizer<'_> {
                         param_ids.iter().all(|param| !used.contains(&param.to_id()))
                     }
 
-                    _ => true,
+                    _ => !stmt.is_use_strict(),
                 },
 
                 Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {

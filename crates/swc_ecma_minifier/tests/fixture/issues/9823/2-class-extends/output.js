@@ -1,1 +1,4 @@
-console.log('Done 2');
+(()=>{
+    "use strict";
+    console.log('Done 2');
+})();

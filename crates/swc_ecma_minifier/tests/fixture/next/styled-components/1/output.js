@@ -3508,44 +3508,45 @@
             }, module.exports = deepmerge;
         /***/ },
         /***/ 5202: /***/ function() {
-            "use strict";
-            /**
+            !function() {
+                "use strict";
+                /**
                  * Applies the :focus-visible polyfill at the given scope.
                  * A scope in this case is either the top-level Document or a Shadow Root.
                  *
                  * @param {(Document|ShadowRoot)} scope
                  * @see https://github.com/WICG/focus-visible
                  */ function applyFocusVisiblePolyfill(scope) {
-                var hadKeyboardEvent = !0, hadFocusVisibleRecently = !1, hadFocusVisibleRecentlyTimeout = null, inputTypesAllowlist = {
-                    text: !0,
-                    search: !0,
-                    url: !0,
-                    tel: !0,
-                    email: !0,
-                    password: !0,
-                    number: !0,
-                    date: !0,
-                    month: !0,
-                    week: !0,
-                    time: !0,
-                    datetime: !0,
-                    "datetime-local": !0
-                };
-                /**
+                    var hadKeyboardEvent = !0, hadFocusVisibleRecently = !1, hadFocusVisibleRecentlyTimeout = null, inputTypesAllowlist = {
+                        text: !0,
+                        search: !0,
+                        url: !0,
+                        tel: !0,
+                        email: !0,
+                        password: !0,
+                        number: !0,
+                        date: !0,
+                        month: !0,
+                        week: !0,
+                        time: !0,
+                        datetime: !0,
+                        "datetime-local": !0
+                    };
+                    /**
                      * Helper function for legacy browsers and iframes which sometimes focus
                      * elements like document, body, and non-interactive SVG.
                      * @param {Element} el
                      */ function isValidFocusTarget(el) {
-                    return !!el && el !== document && "HTML" !== el.nodeName && "BODY" !== el.nodeName && "classList" in el && "contains" in el.classList;
-                }
-                /**
+                        return !!el && el !== document && "HTML" !== el.nodeName && "BODY" !== el.nodeName && "classList" in el && "contains" in el.classList;
+                    }
+                    /**
                      * Add the `focus-visible` class to the given element if it was not added by
                      * the author.
                      * @param {Element} el
                      */ function addFocusVisibleClass(el) {
-                    el.classList.contains("focus-visible") || (el.classList.add("focus-visible"), el.setAttribute("data-focus-visible-added", ""));
-                }
-                /**
+                        el.classList.contains("focus-visible") || (el.classList.add("focus-visible"), el.setAttribute("data-focus-visible-added", ""));
+                    }
+                    /**
                      * If at any point a user clicks with a pointing device, ensure that we change
                      * the modality away from keyboard.
                      * This avoids the situation where a user presses a key on an already focused
@@ -3553,31 +3554,31 @@
                      * pointing device, while we still think we're in keyboard modality.
                      * @param {Event} e
                      */ function onPointerDown(e) {
-                    hadKeyboardEvent = !1;
-                }
-                /**
+                        hadKeyboardEvent = !1;
+                    }
+                    /**
                      * Add a group of listeners to detect usage of any pointing devices.
                      * These listeners will be added when the polyfill first loads, and anytime
                      * the window is blurred, so that they are active when the window regains
                      * focus.
                      */ function addInitialPointerMoveListeners() {
-                    document.addEventListener("mousemove", onInitialPointerMove), document.addEventListener("mousedown", onInitialPointerMove), document.addEventListener("mouseup", onInitialPointerMove), document.addEventListener("pointermove", onInitialPointerMove), document.addEventListener("pointerdown", onInitialPointerMove), document.addEventListener("pointerup", onInitialPointerMove), document.addEventListener("touchmove", onInitialPointerMove), document.addEventListener("touchstart", onInitialPointerMove), document.addEventListener("touchend", onInitialPointerMove);
-                }
-                /**
+                        document.addEventListener("mousemove", onInitialPointerMove), document.addEventListener("mousedown", onInitialPointerMove), document.addEventListener("mouseup", onInitialPointerMove), document.addEventListener("pointermove", onInitialPointerMove), document.addEventListener("pointerdown", onInitialPointerMove), document.addEventListener("pointerup", onInitialPointerMove), document.addEventListener("touchmove", onInitialPointerMove), document.addEventListener("touchstart", onInitialPointerMove), document.addEventListener("touchend", onInitialPointerMove);
+                    }
+                    /**
                      * When the polfyill first loads, assume the user is in keyboard modality.
                      * If any event is received from a pointing device (e.g. mouse, pointer,
                      * touch), turn off keyboard modality.
                      * This accounts for situations where focus enters the page from the URL bar.
                      * @param {Event} e
                      */ function onInitialPointerMove(e) {
-                    // Work around a Safari quirk that fires a mousemove on <html> whenever the
-                    // window blurs, even if you're tabbing out of the page. ¯\_(ツ)_/¯
-                    e.target.nodeName && "html" === e.target.nodeName.toLowerCase() || (hadKeyboardEvent = !1, document.removeEventListener("mousemove", onInitialPointerMove), document.removeEventListener("mousedown", onInitialPointerMove), document.removeEventListener("mouseup", onInitialPointerMove), document.removeEventListener("pointermove", onInitialPointerMove), document.removeEventListener("pointerdown", onInitialPointerMove), document.removeEventListener("pointerup", onInitialPointerMove), document.removeEventListener("touchmove", onInitialPointerMove), document.removeEventListener("touchstart", onInitialPointerMove), document.removeEventListener("touchend", onInitialPointerMove));
-                }
-                // For some kinds of state, we are interested in changes at the global scope
-                // only. For example, global pointer input, global key presses and global
-                // visibility change should affect the state at every scope:
-                document.addEventListener("keydown", /**
+                        // Work around a Safari quirk that fires a mousemove on <html> whenever the
+                        // window blurs, even if you're tabbing out of the page. ¯\_(ツ)_/¯
+                        e.target.nodeName && "html" === e.target.nodeName.toLowerCase() || (hadKeyboardEvent = !1, document.removeEventListener("mousemove", onInitialPointerMove), document.removeEventListener("mousedown", onInitialPointerMove), document.removeEventListener("mouseup", onInitialPointerMove), document.removeEventListener("pointermove", onInitialPointerMove), document.removeEventListener("pointerdown", onInitialPointerMove), document.removeEventListener("pointerup", onInitialPointerMove), document.removeEventListener("touchmove", onInitialPointerMove), document.removeEventListener("touchstart", onInitialPointerMove), document.removeEventListener("touchend", onInitialPointerMove));
+                    }
+                    // For some kinds of state, we are interested in changes at the global scope
+                    // only. For example, global pointer input, global key presses and global
+                    // visibility change should affect the state at every scope:
+                    document.addEventListener("keydown", /**
                      * If the most recent user interaction was via the keyboard;
                      * and the key press did not include a meta, alt/option, or control key;
                      * then the modality is keyboard. Otherwise, the modality is not keyboard.
@@ -3585,66 +3586,67 @@
                      * of our keyboard modality state with `hadKeyboardEvent`.
                      * @param {KeyboardEvent} e
                      */ function(e) {
-                    e.metaKey || e.altKey || e.ctrlKey || (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
-                }, !0), document.addEventListener("mousedown", onPointerDown, !0), document.addEventListener("pointerdown", onPointerDown, !0), document.addEventListener("touchstart", onPointerDown, !0), document.addEventListener("visibilitychange", /**
+                        e.metaKey || e.altKey || e.ctrlKey || (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
+                    }, !0), document.addEventListener("mousedown", onPointerDown, !0), document.addEventListener("pointerdown", onPointerDown, !0), document.addEventListener("touchstart", onPointerDown, !0), document.addEventListener("visibilitychange", /**
                      * If the user changes tabs, keep track of whether or not the previously
                      * focused element had .focus-visible.
                      * @param {Event} e
                      */ function(e) {
-                    "hidden" === document.visibilityState && (hadFocusVisibleRecently && (hadKeyboardEvent = !0), addInitialPointerMoveListeners());
-                }, !0), addInitialPointerMoveListeners(), // For focus and blur, we specifically care about state changes in the local
-                // scope. This is because focus / blur events that originate from within a
-                // shadow root are not re-dispatched from the host element if it was already
-                // the active element in its own scope:
-                scope.addEventListener("focus", /**
+                        "hidden" === document.visibilityState && (hadFocusVisibleRecently && (hadKeyboardEvent = !0), addInitialPointerMoveListeners());
+                    }, !0), addInitialPointerMoveListeners(), // For focus and blur, we specifically care about state changes in the local
+                    // scope. This is because focus / blur events that originate from within a
+                    // shadow root are not re-dispatched from the host element if it was already
+                    // the active element in its own scope:
+                    scope.addEventListener("focus", /**
                      * On `focus`, add the `focus-visible` class to the target if:
                      * - the target received focus as a result of keyboard navigation, or
                      * - the event target is an element that will likely require interaction
                      *   via the keyboard (e.g. a text box)
                      * @param {Event} e
                      */ function(e) {
-                    var el, type, tagName;
-                    // Prevent IE from focusing the document or HTML element.
-                    isValidFocusTarget(e.target) && (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
-                }, !0), scope.addEventListener("blur", /**
+                        var el, type, tagName;
+                        // Prevent IE from focusing the document or HTML element.
+                        isValidFocusTarget(e.target) && (hadKeyboardEvent || (type = (el = e.target).type, "INPUT" === (tagName = el.tagName) && inputTypesAllowlist[type] && !el.readOnly || "TEXTAREA" === tagName && !el.readOnly || el.isContentEditable)) && addFocusVisibleClass(e.target);
+                    }, !0), scope.addEventListener("blur", /**
                      * On `blur`, remove the `focus-visible` class from the target.
                      * @param {Event} e
                      */ function(e) {
-                    if (isValidFocusTarget(e.target)) {
-                        var el;
-                        (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added")) && (// To detect a tab/window switch, we look for a blur event followed
-                        // rapidly by a visibility change.
-                        // If we don't see a visibility change within 100ms, it's probably a
-                        // regular focus change.
-                        hadFocusVisibleRecently = !0, window.clearTimeout(hadFocusVisibleRecentlyTimeout), hadFocusVisibleRecentlyTimeout = window.setTimeout(function() {
-                            hadFocusVisibleRecently = !1;
-                        }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added")));
-                    }
-                }, !0), scope.nodeType === Node.DOCUMENT_FRAGMENT_NODE && scope.host ? // Since a ShadowRoot is a special kind of DocumentFragment, it does not
-                // have a root element to add a class to. So, we add this attribute to the
-                // host element instead:
-                scope.host.setAttribute("data-js-focus-visible", "") : scope.nodeType === Node.DOCUMENT_NODE && (document.documentElement.classList.add("js-focus-visible"), document.documentElement.setAttribute("data-js-focus-visible", ""));
-            }
-            // It is important to wrap all references to global window and document in
-            // these checks to support server-side rendering use cases
-            // @see https://github.com/WICG/focus-visible/issues/199
-            if ("undefined" != typeof window && "undefined" != typeof document) {
-                var event;
-                // Make the polyfill helper globally available. This can be used as a signal
-                // to interested libraries that wish to coordinate with the polyfill for e.g.,
-                // applying the polyfill to a shadow root:
-                window.applyFocusVisiblePolyfill = applyFocusVisiblePolyfill;
-                try {
-                    event = new CustomEvent("focus-visible-polyfill-ready");
-                } catch (error) {
-                    // IE11 does not support using CustomEvent as a constructor directly:
-                    (event = document.createEvent("CustomEvent")).initCustomEvent("focus-visible-polyfill-ready", !1, !1, {});
+                        if (isValidFocusTarget(e.target)) {
+                            var el;
+                            (e.target.classList.contains("focus-visible") || e.target.hasAttribute("data-focus-visible-added")) && (// To detect a tab/window switch, we look for a blur event followed
+                            // rapidly by a visibility change.
+                            // If we don't see a visibility change within 100ms, it's probably a
+                            // regular focus change.
+                            hadFocusVisibleRecently = !0, window.clearTimeout(hadFocusVisibleRecentlyTimeout), hadFocusVisibleRecentlyTimeout = window.setTimeout(function() {
+                                hadFocusVisibleRecently = !1;
+                            }, 100), (el = e.target).hasAttribute("data-focus-visible-added") && (el.classList.remove("focus-visible"), el.removeAttribute("data-focus-visible-added")));
+                        }
+                    }, !0), scope.nodeType === Node.DOCUMENT_FRAGMENT_NODE && scope.host ? // Since a ShadowRoot is a special kind of DocumentFragment, it does not
+                    // have a root element to add a class to. So, we add this attribute to the
+                    // host element instead:
+                    scope.host.setAttribute("data-js-focus-visible", "") : scope.nodeType === Node.DOCUMENT_NODE && (document.documentElement.classList.add("js-focus-visible"), document.documentElement.setAttribute("data-js-focus-visible", ""));
                 }
-                window.dispatchEvent(event);
-            }
-            "undefined" != typeof document && // Apply the polyfill to the global document, so that no JavaScript
-            // coordination is required to use the polyfill in the top-level document:
-            applyFocusVisiblePolyfill(document);
+                // It is important to wrap all references to global window and document in
+                // these checks to support server-side rendering use cases
+                // @see https://github.com/WICG/focus-visible/issues/199
+                if ("undefined" != typeof window && "undefined" != typeof document) {
+                    var event;
+                    // Make the polyfill helper globally available. This can be used as a signal
+                    // to interested libraries that wish to coordinate with the polyfill for e.g.,
+                    // applying the polyfill to a shadow root:
+                    window.applyFocusVisiblePolyfill = applyFocusVisiblePolyfill;
+                    try {
+                        event = new CustomEvent("focus-visible-polyfill-ready");
+                    } catch (error) {
+                        // IE11 does not support using CustomEvent as a constructor directly:
+                        (event = document.createEvent("CustomEvent")).initCustomEvent("focus-visible-polyfill-ready", !1, !1, {});
+                    }
+                    window.dispatchEvent(event);
+                }
+                "undefined" != typeof document && // Apply the polyfill to the global document, so that no JavaScript
+                // coordination is required to use the polyfill in the top-level document:
+                applyFocusVisiblePolyfill(document);
+            }();
         /***/ },
         /***/ 8679: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

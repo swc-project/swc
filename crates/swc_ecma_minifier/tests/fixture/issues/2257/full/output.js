@@ -19218,8 +19218,11 @@
     }), /******/ Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-/******/ }, __webpack_require__(55787), __webpack_require__(10405), __webpack_require__(8000).runApp({
-    app: {
-        rootId: "ice-container"
-    }
-});
+/******/ }, function() {
+    "use strict";
+    __webpack_require__(55787), __webpack_require__(10405), __webpack_require__(8000).runApp({
+        app: {
+            rootId: "ice-container"
+        }
+    });
+}();
