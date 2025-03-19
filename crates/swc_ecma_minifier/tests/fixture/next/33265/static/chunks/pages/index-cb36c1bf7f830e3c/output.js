@@ -5654,7 +5654,7 @@
                 if (!window1 || !cues || !overlay) return null;
                 // Remove all previous children.
                 for(; overlay.firstChild;)overlay.removeChild(overlay.firstChild);
-                var paddedOverlay = window1.document.createElement("div");
+                var styleBox, cue, paddedOverlay = window1.document.createElement("div");
                 // We don't need to recompute the cues' display states. Just reuse them.
                 if (paddedOverlay.style.position = "absolute", paddedOverlay.style.left = "0", paddedOverlay.style.right = "0", paddedOverlay.style.top = "0", paddedOverlay.style.bottom = "0", paddedOverlay.style.margin = "1.5%", overlay.appendChild(paddedOverlay), !// Determine if we need to compute the display states of the cues. This could
                 // be the case if a cue's state has been changed since the last computation or
@@ -5666,105 +5666,102 @@
                     for(var i = 0; i < cues.length; i++)paddedOverlay.appendChild(cues[i].displayState);
                     return;
                 }
-                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
+                for(var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
                     font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
-                };
-                !function() {
-                    for(var styleBox, cue, i = 0; i < cues.length; i++)// Compute the intial position and styles of the cue div.
-                    styleBox = new CueStyleBox(window1, cue = cues[i], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
-                    // Move a StyleBox to its specified, or next best, position. The containerBox
-                    // is the box that contains the StyleBox, such as a div. boxPositions are
-                    // a list of other boxes that the styleBox can't overlap with.
-                    function(window1, styleBox, containerBox, boxPositions) {
-                        var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
-                            if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
-                            if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
-                            for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                            return -1 * ++count;
-                        }(cue), axis = [];
-                        // If we have a line number to align the cue to.
-                        if (cue.snapToLines) {
-                            switch(cue.vertical){
-                                case "":
-                                    axis = [
-                                        "+y",
-                                        "-y"
-                                    ], size = "height";
-                                    break;
-                                case "rl":
-                                    axis = [
-                                        "+x",
-                                        "-x"
-                                    ], size = "width";
-                                    break;
-                                case "lr":
-                                    axis = [
-                                        "-x",
-                                        "+x"
-                                    ], size = "width";
-                            }
-                            var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                            Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), // Move the box to the specified position. This may not be its best
-                            // position.
-                            boxPosition.move(initialAxis, position);
-                        } else {
-                            // If we have a percentage line value for the cue.
-                            var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
-                            switch(cue.lineAlign){
-                                case "center":
-                                    linePos -= calculatedPercentage / 2;
-                                    break;
-                                case "end":
-                                    linePos -= calculatedPercentage;
-                            }
-                            // Apply initial line position to the cue box.
-                            switch(cue.vertical){
-                                case "":
-                                    styleBox.applyStyles({
-                                        top: styleBox.formatStyle(linePos, "%")
-                                    });
-                                    break;
-                                case "rl":
-                                    styleBox.applyStyles({
-                                        left: styleBox.formatStyle(linePos, "%")
-                                    });
-                                    break;
-                                case "lr":
-                                    styleBox.applyStyles({
-                                        right: styleBox.formatStyle(linePos, "%")
-                                    });
-                            }
-                            axis = [
-                                "+y",
-                                "-x",
-                                "+x",
-                                "-y"
-                            ], // Get the box position again after we've applied the specified positioning
-                            // to it.
-                            boxPosition = new BoxPosition(styleBox);
+                }, i1 = 0; i1 < cues.length; i1++)// Compute the intial position and styles of the cue div.
+                styleBox = new CueStyleBox(window1, cue = cues[i1], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
+                // Move a StyleBox to its specified, or next best, position. The containerBox
+                // is the box that contains the StyleBox, such as a div. boxPositions are
+                // a list of other boxes that the styleBox can't overlap with.
+                function(window1, styleBox, containerBox, boxPositions) {
+                    var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
+                        if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
+                        if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
+                        for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
+                        return -1 * ++count;
+                    }(cue), axis = [];
+                    // If we have a line number to align the cue to.
+                    if (cue.snapToLines) {
+                        switch(cue.vertical){
+                            case "":
+                                axis = [
+                                    "+y",
+                                    "-y"
+                                ], size = "height";
+                                break;
+                            case "rl":
+                                axis = [
+                                    "+x",
+                                    "-x"
+                                ], size = "width";
+                                break;
+                            case "lr":
+                                axis = [
+                                    "-x",
+                                    "+x"
+                                ], size = "width";
                         }
-                        var bestPosition = // Find the best position for a cue box, b, on the video. The axis parameter
-                        // is a list of axis, the order of which, it will move the box along. For example:
-                        // Passing ["+x", "-x"] will move the box first along the x axis in the positive
-                        // direction. If it doesn't find a good position for it there it will then move
-                        // it along the x axis in the negative direction.
-                        function(b, axis) {
-                            for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
-                                for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
-                                // We found a spot where we aren't overlapping anything. This is our
-                                // best position.
-                                if (b.within(containerBox)) return b;
-                                var p = b.intersectPercentage(containerBox);
-                                percentage > p && (bestPosition = new BoxPosition(b), percentage = p), // Reset the box position to the specified position.
-                                b = new BoxPosition(specifiedPosition);
-                            }
-                            return bestPosition || specifiedPosition;
-                        }(boxPosition, axis);
-                        styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-                    }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
-                    // if we don't have too.
-                    cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
-                }();
+                        var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
+                        Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), // Move the box to the specified position. This may not be its best
+                        // position.
+                        boxPosition.move(initialAxis, position);
+                    } else {
+                        // If we have a percentage line value for the cue.
+                        var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
+                        switch(cue.lineAlign){
+                            case "center":
+                                linePos -= calculatedPercentage / 2;
+                                break;
+                            case "end":
+                                linePos -= calculatedPercentage;
+                        }
+                        // Apply initial line position to the cue box.
+                        switch(cue.vertical){
+                            case "":
+                                styleBox.applyStyles({
+                                    top: styleBox.formatStyle(linePos, "%")
+                                });
+                                break;
+                            case "rl":
+                                styleBox.applyStyles({
+                                    left: styleBox.formatStyle(linePos, "%")
+                                });
+                                break;
+                            case "lr":
+                                styleBox.applyStyles({
+                                    right: styleBox.formatStyle(linePos, "%")
+                                });
+                        }
+                        axis = [
+                            "+y",
+                            "-x",
+                            "+x",
+                            "-y"
+                        ], // Get the box position again after we've applied the specified positioning
+                        // to it.
+                        boxPosition = new BoxPosition(styleBox);
+                    }
+                    var bestPosition = // Find the best position for a cue box, b, on the video. The axis parameter
+                    // is a list of axis, the order of which, it will move the box along. For example:
+                    // Passing ["+x", "-x"] will move the box first along the x axis in the positive
+                    // direction. If it doesn't find a good position for it there it will then move
+                    // it along the x axis in the negative direction.
+                    function(b, axis) {
+                        for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
+                            for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
+                            // We found a spot where we aren't overlapping anything. This is our
+                            // best position.
+                            if (b.within(containerBox)) return b;
+                            var p = b.intersectPercentage(containerBox);
+                            percentage > p && (bestPosition = new BoxPosition(b), percentage = p), // Reset the box position to the specified position.
+                            b = new BoxPosition(specifiedPosition);
+                        }
+                        return bestPosition || specifiedPosition;
+                    }(boxPosition, axis);
+                    styleBox.move(bestPosition.toCSSCompatValues(containerBox));
+                }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
+                // if we don't have too.
+                cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
                 decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
             }, WebVTT1.Parser.prototype = {
@@ -5816,13 +5813,11 @@
                                         });
                                     }
                                 }, /=/) : parseOptions(input, function(k, v) {
-                                    "Region" === k && // 3.3 WebVTT region metadata header syntax
-                                    // 3.4 WebVTT region and WebVTT region settings syntax
-                                    function(input) {
+                                    if ("Region" === k) {
                                         var settings = new Settings();
                                         // Create the region, using default values for any values that were not
                                         // specified.
-                                        if (parseOptions(input, function(k, v) {
+                                        if (parseOptions(v, function(k, v) {
                                             switch(k){
                                                 case "id":
                                                     settings.set(k, v);
@@ -5858,7 +5853,7 @@
                                                 region: region
                                             });
                                         }
-                                    }(v);
+                                    }
                                 }, /:/) : line || // An empty line terminates the header and starts the body (cues).
                                 (self1.state = "ID");
                                 continue;
@@ -5907,86 +5902,84 @@
                                         skipWhitespace(), cue.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input.substr(0, 3)) // (3) next characters must match "-->"
                                         throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
                                         input = input.substr(3), skipWhitespace(), cue.endTime = consumeTimeStamp(), // 4.1 WebVTT cue settings list.
-                                        skipWhitespace(), // 4.4.2 WebVTT cue settings
-                                        function(input, cue) {
-                                            var settings = new Settings();
-                                            parseOptions(input, function(k, v) {
-                                                switch(k){
-                                                    case "region":
-                                                        // Find the last region we parsed with the same region id.
-                                                        for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
-                                                            settings.set(k, regionList[i].region);
-                                                            break;
-                                                        }
+                                        skipWhitespace();
+                                        var input1 = input, settings = new Settings();
+                                        parseOptions(input1, function(k, v) {
+                                            switch(k){
+                                                case "region":
+                                                    // Find the last region we parsed with the same region id.
+                                                    for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
+                                                        settings.set(k, regionList[i].region);
                                                         break;
-                                                    case "vertical":
-                                                        settings.alt(k, v, [
-                                                            "rl",
-                                                            "lr"
-                                                        ]);
-                                                        break;
-                                                    case "line":
-                                                        var vals = v.split(","), vals0 = vals[0];
-                                                        settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
-                                                            "auto"
-                                                        ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
-                                                            "start",
-                                                            "center",
-                                                            "end"
-                                                        ]);
-                                                        break;
-                                                    case "position":
-                                                        vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
-                                                            "start",
-                                                            "center",
-                                                            "end"
-                                                        ]);
-                                                        break;
-                                                    case "size":
-                                                        settings.percent(k, v);
-                                                        break;
-                                                    case "align":
-                                                        settings.alt(k, v, [
-                                                            "start",
-                                                            "center",
-                                                            "end",
-                                                            "left",
-                                                            "right"
-                                                        ]);
-                                                }
-                                            }, /:/, /\s/), // Apply default values for any missing fields.
-                                            cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
-                                            try {
-                                                cue.line = settings.get("line", "auto");
-                                            } catch (e) {}
-                                            cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
-                                            // Safari still uses the old middle value and won't accept center
-                                            try {
-                                                cue.align = settings.get("align", "center");
-                                            } catch (e) {
-                                                cue.align = settings.get("align", "middle");
+                                                    }
+                                                    break;
+                                                case "vertical":
+                                                    settings.alt(k, v, [
+                                                        "rl",
+                                                        "lr"
+                                                    ]);
+                                                    break;
+                                                case "line":
+                                                    var vals = v.split(","), vals0 = vals[0];
+                                                    settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
+                                                        "auto"
+                                                    ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
+                                                        "start",
+                                                        "center",
+                                                        "end"
+                                                    ]);
+                                                    break;
+                                                case "position":
+                                                    vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
+                                                        "start",
+                                                        "center",
+                                                        "end"
+                                                    ]);
+                                                    break;
+                                                case "size":
+                                                    settings.percent(k, v);
+                                                    break;
+                                                case "align":
+                                                    settings.alt(k, v, [
+                                                        "start",
+                                                        "center",
+                                                        "end",
+                                                        "left",
+                                                        "right"
+                                                    ]);
                                             }
-                                            try {
-                                                cue.position = settings.get("position", "auto");
-                                            } catch (e) {
-                                                cue.position = settings.get("position", {
-                                                    start: 0,
-                                                    left: 0,
-                                                    center: 50,
-                                                    middle: 50,
-                                                    end: 100,
-                                                    right: 100
-                                                }, cue.align);
-                                            }
-                                            cue.positionAlign = settings.get("positionAlign", {
-                                                start: "start",
-                                                left: "start",
-                                                center: "center",
-                                                middle: "center",
-                                                end: "end",
-                                                right: "end"
+                                        }, /:/, /\s/), // Apply default values for any missing fields.
+                                        cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
+                                        try {
+                                            cue.line = settings.get("line", "auto");
+                                        } catch (e) {}
+                                        cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
+                                        // Safari still uses the old middle value and won't accept center
+                                        try {
+                                            cue.align = settings.get("align", "center");
+                                        } catch (e) {
+                                            cue.align = settings.get("align", "middle");
+                                        }
+                                        try {
+                                            cue.position = settings.get("position", "auto");
+                                        } catch (e) {
+                                            cue.position = settings.get("position", {
+                                                start: 0,
+                                                left: 0,
+                                                center: 50,
+                                                middle: 50,
+                                                end: 100,
+                                                right: 100
                                             }, cue.align);
-                                        }(input, cue);
+                                        }
+                                        cue.positionAlign = settings.get("positionAlign", {
+                                            start: "start",
+                                            left: "start",
+                                            center: "center",
+                                            middle: "center",
+                                            end: "end",
+                                            right: "end"
+                                        }, cue.align);
                                     }(line, self1.cue, self1.regionList);
                                 } catch (e) {
                                     self1.reportOrThrowError(e), // In case of an error ignore rest of the cue.
@@ -6382,23 +6375,23 @@
                 return from(arg, encodingOrOffset, length);
             }
             function from(value, encodingOrOffset, length) {
-                if ("string" == typeof value) return function(string, encoding) {
+                if ("string" == typeof value) {
+                    var buf, encoding = encodingOrOffset;
                     if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
-                    var length = 0 | byteLength(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
-                    return actual !== length && // Writing a hex string, for example, that contains invalid characters will
+                    var length1 = 0 | byteLength(value, encoding), buf1 = createBuffer(length1), actual = buf1.write(value, encoding);
+                    return actual !== length1 && // Writing a hex string, for example, that contains invalid characters will
                     // cause everything after the first invalid character to be ignored. (e.g.
                     // 'abxxcd' will be treated as 'ab')
-                    (buf = buf.slice(0, actual)), buf;
-                }(value, encodingOrOffset);
+                    (buf1 = buf1.slice(0, actual)), buf1;
+                }
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return function(array, byteOffset, length) {
-                    var buf;
-                    if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
-                    if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+                    if (encodingOrOffset < 0 || value.byteLength < encodingOrOffset) throw RangeError('"offset" is outside of buffer bounds');
+                    if (value.byteLength < encodingOrOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                     return(// Return an augmented `Uint8Array` instance
-                    Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf);
-                }(value, encodingOrOffset, length);
+                    Object.setPrototypeOf(buf = void 0 === encodingOrOffset && void 0 === length ? new Uint8Array(value) : void 0 === length ? new Uint8Array(value, encodingOrOffset) : new Uint8Array(value, encodingOrOffset, length), Buffer.prototype), buf);
+                }
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
@@ -6584,13 +6577,11 @@
                     codePoint = 0xfffd, bytesPerSequence = 1) : codePoint > 0xffff && (// encode to utf16 (surrogate pair dance)
                     codePoint -= 0x10000, res.push(codePoint >>> 10 & 0x3ff | 0xd800), codePoint = 0xdc00 | 0x3ff & codePoint), res.push(codePoint), i += bytesPerSequence;
                 }
-                return function(codePoints) {
-                    var len = codePoints.length;
-                    if (len <= 0x1000) return String.fromCharCode.apply(String, codePoints); // avoid extra slice()
-                    for(// Decode in chunks to avoid "call stack size exceeded".
-                    var res = "", i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
-                    return res;
-                }(res);
+                var len = res.length;
+                if (len <= 0x1000) return String.fromCharCode.apply(String, res); // avoid extra slice()
+                for(// Decode in chunks to avoid "call stack size exceeded".
+                var res1 = "", i1 = 0; i1 < len;)res1 += String.fromCharCode.apply(String, res.slice(i1, i1 += 0x1000));
+                return res1;
             }
             /*
              * Need to make sure that buffer isn't trying to write out of bounds.

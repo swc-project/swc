@@ -1,13 +1,8 @@
 //// [test.ts]
-var _ref;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var _ref, target = exports, all = {
     cl1: function() {
         return cl1;
     },
@@ -23,6 +18,10 @@ Object.defineProperty(exports, "__esModule", {
     obj: function() {
         return obj;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
 const _async_to_generator = require("@swc/helpers/_/_async_to_generator"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 function fn() {

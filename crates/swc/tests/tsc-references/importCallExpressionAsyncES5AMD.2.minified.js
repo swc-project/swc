@@ -7,6 +7,30 @@ define([
     "@swc/helpers/_/_interop_require_wildcard",
     "@swc/helpers/_/_ts_generator"
 ], function(require, exports, _async_to_generator, _class_call_check, _interop_require_wildcard, _ts_generator) {
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    });
+    var _ref, all = {
+        cl1: function() {
+            return cl1;
+        },
+        cl2: function() {
+            return cl2;
+        },
+        fn: function() {
+            return fn;
+        },
+        l: function() {
+            return l;
+        },
+        obj: function() {
+            return obj;
+        }
+    };
+    for(var name in all)Object.defineProperty(exports, name, {
+        enumerable: !0,
+        get: all[name]
+    });
     function fn() {
         return _fn.apply(this, arguments);
     }
@@ -33,31 +57,7 @@ define([
             });
         })).apply(this, arguments);
     }
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), function(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            enumerable: !0,
-            get: all[name]
-        });
-    }(exports, {
-        cl1: function() {
-            return cl1;
-        },
-        cl2: function() {
-            return cl2;
-        },
-        fn: function() {
-            return fn;
-        },
-        l: function() {
-            return l;
-        },
-        obj: function() {
-            return obj;
-        }
-    });
-    var _ref, cl1 = /*#__PURE__*/ function() {
+    var cl1 = /*#__PURE__*/ function() {
         function cl1() {
             _class_call_check._(this, cl1);
         }

@@ -343,13 +343,16 @@
      * See https://reactjs.org/docs/react-api.html#createelement
      */ function createElement(type, config, children) {
         var propName, props = {}, key = null, ref = null, self = null, source = null;
-        if (null != config) for(propName in hasValidRef(config) && (ref = config.ref, function(config) {
-            if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
-                var componentName = getComponentName(ReactCurrentOwner.current.type);
-                didWarnAboutStringRefs[componentName] || (error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+        if (null != config) {
+            if (hasValidRef(config)) {
+                ref = config.ref;
+                if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
+                    var componentName = getComponentName(ReactCurrentOwner.current.type);
+                    didWarnAboutStringRefs[componentName] || (error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+                }
             }
-        }(config)), hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
-         // Children can be more than one argument, and those are transferred onto
+            for(propName in hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
+        } // Children can be more than one argument, and those are transferred onto
         // the newly allocated props object.
         var childrenLength = arguments.length - 2;
         if (1 === childrenLength) props.children = children;
@@ -549,28 +552,26 @@
         if (void 0 !== frame) return frame;
         reentry = !0;
         var previousPrepareStackTrace = Error.prepareStackTrace; // $FlowFixMe It does accept undefined.
-        Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, // for warnings.
-        ReactCurrentDispatcher$1.current = null, function() {
-            if (0 === disabledDepth) {
-                /* eslint-disable react-internal/no-production-logging */ prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
-                var props = {
-                    configurable: !0,
-                    enumerable: !0,
-                    value: disabledLog,
-                    writable: !0
-                }; // $FlowFixMe Flow thinks console is immutable.
-                Object.defineProperties(console, {
-                    info: props,
-                    log: props,
-                    warn: props,
-                    error: props,
-                    group: props,
-                    groupCollapsed: props,
-                    groupEnd: props
-                });
-            /* eslint-enable react-internal/no-production-logging */ }
-            disabledDepth++;
-        }();
+        if (Error.prepareStackTrace = void 0, previousDispatcher = ReactCurrentDispatcher$1.current, // for warnings.
+        ReactCurrentDispatcher$1.current = null, 0 === disabledDepth) {
+            /* eslint-disable react-internal/no-production-logging */ prevLog = console.log, prevInfo = console.info, prevWarn = console.warn, prevError = console.error, prevGroup = console.group, prevGroupCollapsed = console.groupCollapsed, prevGroupEnd = console.groupEnd;
+            var props = {
+                configurable: !0,
+                enumerable: !0,
+                value: disabledLog,
+                writable: !0
+            }; // $FlowFixMe Flow thinks console is immutable.
+            Object.defineProperties(console, {
+                info: props,
+                log: props,
+                warn: props,
+                error: props,
+                group: props,
+                groupCollapsed: props,
+                groupEnd: props
+            });
+        /* eslint-enable react-internal/no-production-logging */ }
+        disabledDepth++;
         try {
             // This should throw.
             if (construct) {
@@ -640,39 +641,37 @@
                 }
             }
         } finally{
-            reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, function() {
-                if (0 == --disabledDepth) {
-                    /* eslint-disable react-internal/no-production-logging */ var props = {
-                        configurable: !0,
-                        enumerable: !0,
-                        writable: !0
-                    }; // $FlowFixMe Flow thinks console is immutable.
-                    Object.defineProperties(console, {
-                        log: _assign({}, props, {
-                            value: prevLog
-                        }),
-                        info: _assign({}, props, {
-                            value: prevInfo
-                        }),
-                        warn: _assign({}, props, {
-                            value: prevWarn
-                        }),
-                        error: _assign({}, props, {
-                            value: prevError
-                        }),
-                        group: _assign({}, props, {
-                            value: prevGroup
-                        }),
-                        groupCollapsed: _assign({}, props, {
-                            value: prevGroupCollapsed
-                        }),
-                        groupEnd: _assign({}, props, {
-                            value: prevGroupEnd
-                        })
-                    });
-                /* eslint-enable react-internal/no-production-logging */ }
-                disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue.");
-            }(), Error.prepareStackTrace = previousPrepareStackTrace;
+            if (reentry = !1, ReactCurrentDispatcher$1.current = previousDispatcher, 0 == --disabledDepth) {
+                /* eslint-disable react-internal/no-production-logging */ var props1 = {
+                    configurable: !0,
+                    enumerable: !0,
+                    writable: !0
+                }; // $FlowFixMe Flow thinks console is immutable.
+                Object.defineProperties(console, {
+                    log: _assign({}, props1, {
+                        value: prevLog
+                    }),
+                    info: _assign({}, props1, {
+                        value: prevInfo
+                    }),
+                    warn: _assign({}, props1, {
+                        value: prevWarn
+                    }),
+                    error: _assign({}, props1, {
+                        value: prevError
+                    }),
+                    group: _assign({}, props1, {
+                        value: prevGroup
+                    }),
+                    groupCollapsed: _assign({}, props1, {
+                        value: prevGroupCollapsed
+                    }),
+                    groupEnd: _assign({}, props1, {
+                        value: prevGroupEnd
+                    })
+                });
+            /* eslint-enable react-internal/no-production-logging */ }
+            disabledDepth < 0 && error("disabledDepth fell below zero. This is a bug in React. Please file an issue."), Error.prepareStackTrace = previousPrepareStackTrace;
         } // Fallback to just using the name if we couldn't make it throw.
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
@@ -853,19 +852,17 @@
         // (Rendering will throw with a helpful message and as soon as the type is
         // fixed, the key warnings will appear.)
         if (validType) for(var i = 2; i < arguments.length; i++)validateChildKeys(arguments[i], type);
-        return type === exports.Fragment ? /**
-     * Given a fragment, validate that it can only be provided with fragment props
-     * @param {ReactElement} fragment
-     */ function(fragment) {
-            for(var keys = Object.keys(fragment.props), i = 0; i < keys.length; i++){
-                var key = keys[i];
+        if (type === exports.Fragment) {
+            for(var keys = Object.keys(element.props), i1 = 0; i1 < keys.length; i1++){
+                var key = keys[i1];
                 if ("children" !== key && "key" !== key) {
-                    setCurrentlyValidatingElement$1(fragment), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
+                    setCurrentlyValidatingElement$1(element), error("Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.", key), setCurrentlyValidatingElement$1(null);
                     break;
                 }
             }
-            null !== fragment.ref && (setCurrentlyValidatingElement$1(fragment), error("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
-        }(element) : validatePropTypes(element), element;
+            null !== element.ref && (setCurrentlyValidatingElement$1(element), error("Invalid attribute `ref` supplied to `React.Fragment`."), setCurrentlyValidatingElement$1(null));
+        } else validatePropTypes(element);
+        return element;
     }
     var didWarnAboutDeprecatedCreateFactory = !1;
     try {

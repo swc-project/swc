@@ -368,16 +368,16 @@
                     };
                     for(i in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
                     for(i in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
-                    return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
-                        for(var mods = [
-                            "cmd",
-                            "ctrl",
-                            "alt",
-                            "shift"
-                        ], i = Math.pow(2, mods.length); i--;)ret.KEY_MODS[i] = mods.filter(function(x) {
-                            return i & ret.KEY_MODS[x];
-                        }).join("-") + "-";
-                    }(), ret.KEY_MODS[0] = "", ret.KEY_MODS[-1] = "input-", ret;
+                    oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-";
+                    for(var mods = [
+                        "cmd",
+                        "ctrl",
+                        "alt",
+                        "shift"
+                    ], i1 = Math.pow(2, mods.length); i1--;)ret.KEY_MODS[i1] = mods.filter(function(x) {
+                        return i1 & ret.KEY_MODS[x];
+                    }).join("-") + "-";
+                    return ret.KEY_MODS[0] = "", ret.KEY_MODS[-1] = "input-", ret;
                 }();
                 oop.mixin(exports, Keys), exports.keyCodeToString = function(keyCode) {
                     var keyString = Keys[keyCode];
@@ -393,7 +393,7 @@
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
                 function getListenerOptions() {
-                    return void 0 == activeListenerOptions && function() {
+                    if (void 0 == activeListenerOptions) {
                         activeListenerOptions = !1;
                         try {
                             document.createComment("").addEventListener("test", function() {}, {
@@ -404,7 +404,8 @@
                                 }
                             });
                         } catch (e) {}
-                    }(), activeListenerOptions;
+                    }
+                    return activeListenerOptions;
                 }
                 function EventListener(elem, type, callback) {
                     this.elem = elem, this.type = type, this.callback = callback;

@@ -1471,15 +1471,15 @@
                     var c = null;
                     a.j && (c = null);
                     var d = q(a.jb, a);
-                    c || (c = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c, "https"), jc(c)), function(a, b) {
-                        const c = new Mb();
-                        if (l.Image) {
-                            const d = new Image();
-                            d.onload = ja(od, c, d, "TestLoadImage: loaded", !0, b), d.onerror = ja(od, c, d, "TestLoadImage: error", !1, b), d.onabort = ja(od, c, d, "TestLoadImage: abort", !1, b), d.ontimeout = ja(od, c, d, "TestLoadImage: timeout", !1, b), l.setTimeout(function() {
-                                d.ontimeout && d.ontimeout();
-                            }, 1e4), d.src = a;
-                        } else b(!1);
-                    }(c.toString(), d);
+                    c || (c = new U("//www.google.com/images/cleardot.gif"), l.location && "http" == l.location.protocol || Oc(c, "https"), jc(c));
+                    var a1 = c.toString();
+                    const c1 = new Mb();
+                    if (l.Image) {
+                        const d1 = new Image();
+                        d1.onload = ja(od, c1, d1, "TestLoadImage: loaded", !0, d), d1.onerror = ja(od, c1, d1, "TestLoadImage: error", !1, d), d1.onabort = ja(od, c1, d1, "TestLoadImage: abort", !1, d), d1.ontimeout = ja(od, c1, d1, "TestLoadImage: timeout", !1, d), l.setTimeout(function() {
+                            d1.ontimeout && d1.ontimeout();
+                        }, 1e4), d1.src = a1;
+                    } else d(!1);
                 } else J(2);
                 a.G = 0, a.j && a.j.va(b), Ld(a), Jd(a);
             }
@@ -2366,17 +2366,11 @@
                 const componentName = component.name;
                 if (_components.has(componentName)) return logger.debug(`There were multiple attempts to register component ${componentName}.`), !1;
                 // add the component to existing app instances
-                for (const app of (_components.set(componentName, component), _apps.values()))!/**
-             * @param component - the component being added to this app's container
-             *
-             * @internal
-             */ function(app, component) {
-                    try {
-                        app.container.addComponent(component);
-                    } catch (e) {
-                        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
-                    }
-                }(app, component);
+                for (const app of (_components.set(componentName, component), _apps.values()))try {
+                    app.container.addComponent(component);
+                } catch (e) {
+                    logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
+                }
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__ /* .ErrorFactory */ .LL("app", "Firebase", {
