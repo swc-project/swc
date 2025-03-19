@@ -1154,7 +1154,9 @@ impl Optimizer<'_> {
         if decl.count
             + (params.len().saturating_sub(
                 args.iter()
-                    .filter(|a| a.expr.is_ident() || a.expr.is_lit())
+                    .filter(|a| {
+                        a.expr.is_ident() || a.expr.as_lit().map(|l| !l.is_regex()).unwrap_or(false)
+                    })
                     .count(),
             )) * 2
             > 4
