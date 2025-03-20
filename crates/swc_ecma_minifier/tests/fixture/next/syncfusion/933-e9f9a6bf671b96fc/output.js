@@ -460,7 +460,7 @@
                     for(var propKeys = keys || Object.keys(prop), res = {}, _i = 0; _i < propKeys.length; _i++){
                         var key = propKeys[_i];
                         // eslint-disable-next-line
-                        res.hasOwnProperty(prop[key]) || // eslint-disable-next-line
+                        !res.hasOwnProperty(prop[key]) && // eslint-disable-next-line
                         (res[prop[key]] = key);
                     }
                     return res;
@@ -2682,14 +2682,14 @@
                     var symbols = dOptions.numberMapper.numberSymbols;
                     if (option.format && !intl_base_IntlBase.formatRegex.test(option.format)) cOptions = intl_base_IntlBase.customFormat(option.format, dOptions, dependable.numericObject);
                     else {
-                        util_extend(fOptions, intl_base_IntlBase.getProperNumericSkeleton(option.format || 'N')), fOptions.isCurrency = 'currency' === fOptions.type, fOptions.isPercent = 'percent' === fOptions.type, symbolPattern = intl_base_IntlBase.getSymbolPattern(fOptions.type, dOptions.numberMapper.numberSystem, dependable.numericObject, fOptions.isAccount), fOptions.groupOne = this.checkValueRange(fOptions.maximumSignificantDigits, fOptions.minimumSignificantDigits, !0), this.checkValueRange(fOptions.maximumFractionDigits, fOptions.minimumFractionDigits, !1, !0), util_isUndefined(fOptions.fractionDigits) || (fOptions.minimumFractionDigits = fOptions.maximumFractionDigits = fOptions.fractionDigits), util_isUndefined(fOptions.useGrouping) && (fOptions.useGrouping = !0), fOptions.isCurrency && (symbolPattern = symbolPattern.replace(/\u00A4/g, intl_base_IntlBase.defaultCurrency));
+                        util_extend(fOptions, intl_base_IntlBase.getProperNumericSkeleton(option.format || 'N')), fOptions.isCurrency = 'currency' === fOptions.type, fOptions.isPercent = 'percent' === fOptions.type, symbolPattern = intl_base_IntlBase.getSymbolPattern(fOptions.type, dOptions.numberMapper.numberSystem, dependable.numericObject, fOptions.isAccount), fOptions.groupOne = this.checkValueRange(fOptions.maximumSignificantDigits, fOptions.minimumSignificantDigits, !0), this.checkValueRange(fOptions.maximumFractionDigits, fOptions.minimumFractionDigits, !1, !0), !util_isUndefined(fOptions.fractionDigits) && (fOptions.minimumFractionDigits = fOptions.maximumFractionDigits = fOptions.fractionDigits), util_isUndefined(fOptions.useGrouping) && (fOptions.useGrouping = !0), fOptions.isCurrency && (symbolPattern = symbolPattern.replace(/\u00A4/g, intl_base_IntlBase.defaultCurrency));
                         var split = symbolPattern.split(';');
                         if (cOptions.nData = intl_base_IntlBase.getFormatData(split[1] || '-' + split[0], !0, dOptions.currencySymbol), cOptions.pData = intl_base_IntlBase.getFormatData(split[0], !1, dOptions.currencySymbol), fOptions.useGrouping && (fOptions.groupSeparator = symbols.group, fOptions.groupData = this.getGroupingDetails(split[0])), util_isUndefined(fOptions.minimumFractionDigits) && (fOptions.minimumFractionDigits = cOptions.nData.minimumFraction), util_isUndefined(fOptions.maximumFractionDigits)) {
                             var mval = cOptions.nData.maximumFraction;
                             fOptions.maximumFractionDigits = util_isUndefined(mval) && fOptions.isPercent ? 0 : mval;
                         }
                         var mfrac = fOptions.minimumFractionDigits, lfrac = fOptions.maximumFractionDigits;
-                        util_isUndefined(mfrac) || util_isUndefined(lfrac) || !(mfrac > lfrac) || (fOptions.maximumFractionDigits = mfrac);
+                        !util_isUndefined(mfrac) && !util_isUndefined(lfrac) && mfrac > lfrac && (fOptions.maximumFractionDigits = mfrac);
                     }
                     return util_extend(cOptions.nData, fOptions), util_extend(cOptions.pData, fOptions), function(value) {
                         return isNaN(value) ? symbols.nan : isFinite(value) ? _this.intNumberFormatter(value, cOptions, dOptions) : symbols.infinity;
@@ -2905,7 +2905,7 @@
                                 isNumber: isNumber,
                                 pos: i + 1 + gmtCorrection,
                                 hourOnly: hourOnly
-                            }), i !== length_1 - 1 || util_isNullOrUndefined(regexString) || (parseOptions.parserRegex = RegExp('^' + regexString + '$', 'i'));
+                            }), i === length_1 - 1 && !util_isNullOrUndefined(regexString) && (parseOptions.parserRegex = RegExp('^' + regexString + '$', 'i'));
                         }
                     }
                     return function(value) {
@@ -2913,7 +2913,7 @@
                         if (util_isNullOrUndefined(parsedDateParts) || !Object.keys(parsedDateParts).length) return null;
                         if (parseOptions.isIslamic) {
                             var dobj = {}, tYear = parsedDateParts.year, tDate = parsedDateParts.day, tMonth = parsedDateParts.month, ystrig = tYear ? tYear + '' : '', is2DigitYear = 2 === ystrig.length;
-                            tYear && tMonth && tDate && !is2DigitYear || (dobj = HijriParser1.getHijriDate(new Date())), is2DigitYear && (tYear = parseInt((dobj.year + '').slice(0, 2) + ystrig, 10));
+                            (!tYear || !tMonth || !tDate || is2DigitYear) && (dobj = HijriParser1.getHijriDate(new Date())), is2DigitYear && (tYear = parseInt((dobj.year + '').slice(0, 2) + ystrig, 10));
                             // tslint:disable-next-line
                             var dateObject = HijriParser1.toGregorian(tYear || dobj.year, tMonth || dobj.month, tDate || dobj.date);
                             parsedDateParts.year = dateObject.getFullYear(), parsedDateParts.month = dateObject.getMonth() + 1, parsedDateParts.day = dateObject.getDate();
@@ -2930,7 +2930,7 @@
                     var res = value || new Date();
                     res.setMilliseconds(0);
                     var y = options.year, desig = options.designator, tzone = options.timeZone;
-                    util_isUndefined(y) || ((y + '').length <= 2 && (y += 100 * Math.floor(res.getFullYear() / 100)), res.setFullYear(y));
+                    !util_isUndefined(y) && ((y + '').length <= 2 && (y += 100 * Math.floor(res.getFullYear() / 100)), res.setFullYear(y));
                     for(var _i = 0, tKeys_1 = [
                         'hour',
                         'minute',
@@ -2984,11 +2984,11 @@
                         if (curObject.isNumber) // eslint-disable-next-line
                         retOptions[prop] = this.internalNumberParser(matchString, num);
                         else if ('timeZone' !== prop || util_isUndefined(matchString)) // eslint-disable-next-line
-                        matchString = 'month' !== prop || parseOptions.isIslamic || 'en' !== parseOptions.culture && 'en-GB' !== parseOptions.culture && 'en-US' !== parseOptions.culture ? matchString : matchString[0].toUpperCase() + matchString.substring(1).toLowerCase(), // eslint-disable-next-line
+                        matchString = 'month' === prop && !parseOptions.isIslamic && ('en' === parseOptions.culture || 'en-GB' === parseOptions.culture || 'en-US' === parseOptions.culture) ? matchString[0].toUpperCase() + matchString.substring(1).toLowerCase() : matchString, // eslint-disable-next-line
                         retOptions[prop] = parseOptions[prop][matchString];
                         else {
                             var pos = curObject.pos, val = void 0, tmatch = matches[pos + 1], flag = !util_isUndefined(tmatch);
-                            util_isNullOrUndefined(val = curObject.hourOnly ? 60 * this.getZoneValue(flag, tmatch, matches[pos + 4], num) : 60 * this.getZoneValue(flag, tmatch, matches[pos + 7], num) + this.getZoneValue(flag, matches[pos + 4], matches[pos + 10], num)) || (retOptions[prop] = val);
+                            !util_isNullOrUndefined(val = curObject.hourOnly ? 60 * this.getZoneValue(flag, tmatch, matches[pos + 4], num) : 60 * this.getZoneValue(flag, tmatch, matches[pos + 7], num) + this.getZoneValue(flag, matches[pos + 4], matches[pos + 10], num)) && (retOptions[prop] = val);
                         }
                     }
                     return parseOptions.hour12 && (retOptions.hour12 = !0), retOptions;
@@ -3069,7 +3069,7 @@
                 }, NumberParser);
             }(), Observer = /** @class */ function() {
                 function Observer(context) {
-                    this.ranArray = [], this.boundedEvents = {}, util_isNullOrUndefined(context) || (this.context = context);
+                    this.ranArray = [], this.boundedEvents = {}, !util_isNullOrUndefined(context) && (this.context = context);
                 }
                 return(/**
      * To attach handler for given property in current context.
@@ -3091,7 +3091,7 @@
                             ];
                             return;
                         }
-                        util_isNullOrUndefined(id) ? this.isHandlerPresent(this.boundedEvents[property], handler) || this.boundedEvents[property].push({
+                        util_isNullOrUndefined(id) ? !this.isHandlerPresent(this.boundedEvents[property], handler) && this.boundedEvents[property].push({
                             handler: handler,
                             context: cntxt
                         }) : -1 === this.ranArray.indexOf(id) && (this.ranArray.push(id), this.boundedEvents[property].push({
@@ -3439,7 +3439,7 @@
      * @returns {DateFormatOptions} ?
      */ function compareBlazorDateFormats(formatOptions, culture) {
                     var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
-                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
+                    return !curFormatMapper && (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
                 }
                 /**
      * Returns proper numeric skeleton
@@ -3467,7 +3467,7 @@
                         nend: ''
                     }, match = pattern.match(IntlBase.customRegex);
                     if (match) {
-                        fractionOnly || (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
+                        !fractionOnly && (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
                         var fraction = match[7];
                         if (fraction && needFraction) {
                             var fmatch = fraction.match(fractionRegex);
@@ -3522,7 +3522,7 @@
                     ], '%', '%')) : (util_extend(cOptions, isCurrencyPercent([
                         cOptions.nlead,
                         cOptions.nend
-                    ], '$', dOptions.currencySymbol)), cOptions.isCurrency || util_extend(cOptions, isCurrencyPercent([
+                    ], '$', dOptions.currencySymbol)), !cOptions.isCurrency && util_extend(cOptions, isCurrencyPercent([
                         cOptions.nlead,
                         cOptions.nend
                     ], '%', dOptions.percentSymbol))), !util_isNullOrUndefined(numObject)) {
@@ -4221,7 +4221,7 @@
                     if (curMatch) {
                         dOptions.numberMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr), !0);
                         var curCode = getCurrencySymbol(dependable.numericObject, options.currency || defaultCurrencyCode, options.altSymbol), symbolPattern = getSymbolPattern('currency', dOptions.numberMapper.numberSystem, dependable.numericObject, /a/i.test(options.format)), split = (symbolPattern = symbolPattern.replace(/\u00A4/g, curCode)).split(';');
-                        curObj.hasNegativePattern = split.length > 1, curObj.nData = getFormatData(split[1] || '-' + split[0], !0, curCode), curObj.pData = getFormatData(split[0], !1, curCode), curMatch[2] || options.minimumFractionDigits || options.maximumFractionDigits || (minFrac = getFormatData(symbolPattern.split(';')[0], !0, '', !0).minimumFraction);
+                        curObj.hasNegativePattern = split.length > 1, curObj.nData = getFormatData(split[1] || '-' + split[0], !0, curCode), curObj.pData = getFormatData(split[0], !1, curCode), !curMatch[2] && !options.minimumFractionDigits && !options.maximumFractionDigits && (minFrac = getFormatData(symbolPattern.split(';')[0], !0, '', !0).minimumFraction);
                     }
                     if (IntlBase.formatRegex.test(options.format) || !options.format) {
                         if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || (parseOptions.type, 0)) {
@@ -4230,7 +4230,7 @@
                         }
                         'percent' === parseOptions.type && (actualPattern += ' %');
                     } else actualPattern = options.format.replace(/'/g, '"');
-                    return Object.keys(dOptions).length > 0 && (actualPattern = isExcel ? actualPattern : /**
+                    return Object.keys(dOptions).length > 0 && (actualPattern = !isExcel ? /**
      *
      * @param {string} actual ?
      * @param {any} option ?
@@ -4243,7 +4243,7 @@
                             actual = split[0] + util_getValue('numberMapper.numberSymbols.group', option) + split[1].replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
                         } else actual = actual.replace('.', util_getValue('numberMapper.numberSymbols.decimal', option));
                         return actual;
-                    }(actualPattern, dOptions)), actualPattern;
+                    }(actualPattern, dOptions) : actualPattern), actualPattern;
                 }, IntlBase.fractionDigitsPattern = fractionDigitsPattern, IntlBase.minimumIntegerPattern = minimumIntegerPattern, IntlBase.groupingPattern = groupingPattern, IntlBase.getWeekData = /**
      *
      * @param {string} culture ?
@@ -4317,7 +4317,7 @@
                     return new Promise(function(resolve, reject) {
                         _this.httpRequest = new XMLHttpRequest(), _this.httpRequest.onreadystatechange = function() {
                             _this.stateChange(resolve, reject);
-                        }, util_isNullOrUndefined(_this.onLoad) || (_this.httpRequest.onload = _this.onLoad), util_isNullOrUndefined(_this.onProgress) || (_this.httpRequest.onprogress = _this.onProgress), util_isNullOrUndefined(_this.onAbort) || (_this.httpRequest.onabort = _this.onAbort), util_isNullOrUndefined(_this.onError) || (_this.httpRequest.onerror = _this.onError), util_isNullOrUndefined(_this.onUploadProgress) || (_this.httpRequest.upload.onprogress = _this.onUploadProgress), _this.httpRequest.open(_this.type, _this.url, _this.mode), util_isNullOrUndefined(_this.data) || null === _this.contentType || _this.httpRequest.setRequestHeader('Content-Type', _this.contentType || 'application/json; charset=utf-8'), _this.beforeSend && (eventArgs.httpRequest = _this.httpRequest, _this.beforeSend(eventArgs)), eventArgs.cancel || _this.httpRequest.send(util_isNullOrUndefined(_this.data) ? null : _this.data);
+                        }, !util_isNullOrUndefined(_this.onLoad) && (_this.httpRequest.onload = _this.onLoad), !util_isNullOrUndefined(_this.onProgress) && (_this.httpRequest.onprogress = _this.onProgress), !util_isNullOrUndefined(_this.onAbort) && (_this.httpRequest.onabort = _this.onAbort), !util_isNullOrUndefined(_this.onError) && (_this.httpRequest.onerror = _this.onError), !util_isNullOrUndefined(_this.onUploadProgress) && (_this.httpRequest.upload.onprogress = _this.onUploadProgress), _this.httpRequest.open(_this.type, _this.url, _this.mode), !util_isNullOrUndefined(_this.data) && null !== _this.contentType && _this.httpRequest.setRequestHeader('Content-Type', _this.contentType || 'application/json; charset=utf-8'), _this.beforeSend && (eventArgs.httpRequest = _this.httpRequest, _this.beforeSend(eventArgs)), !eventArgs.cancel && _this.httpRequest.send(!util_isNullOrUndefined(_this.data) ? _this.data : null);
                     });
                 }, Ajax.prototype.successHandler = function(data) {
                     return this.onSuccess && this.onSuccess(data, this), data;
@@ -4405,7 +4405,7 @@
                             isDevice: 'mouseleave'
                         }
                     };
-                    return Browser.isPointer ? events[event].isPointer : Browser.isTouch ? events[event].isTouch + (Browser.isDevice ? '' : ' ' + events[event].isDevice) : events[event].isDevice;
+                    return Browser.isPointer ? events[event].isPointer : Browser.isTouch ? events[event].isTouch + (!Browser.isDevice ? ' ' + events[event].isDevice : '') : events[event].isDevice;
                 }, /**
      * To get the Touch start event from browser
      *
@@ -4698,8 +4698,8 @@
                     var className = classList[_b];
                     if (util_isObject(ele)) {
                         var curClass = util_getValue('attributes.className', ele);
-                        util_isNullOrUndefined(curClass) ? setValue('attributes.className', className, ele) : RegExp('\\b' + className + '\\b', 'i').test(curClass) || setValue('attributes.className', curClass + ' ' + className, ele);
-                    } else ele.classList.contains(className) || ele.classList.add(className);
+                        util_isNullOrUndefined(curClass) ? setValue('attributes.className', className, ele) : !RegExp('\\b' + className + '\\b', 'i').test(curClass) && setValue('attributes.className', curClass + ' ' + className, ele);
+                    } else !ele.classList.contains(className) && ele.classList.add(className);
                 }
                 return elements;
             }
@@ -4933,7 +4933,7 @@
      * @param {string} element ?
      */ function Base(options, element) {
                     this.isRendered = !1, this.isComplexArraySetter = !1, this.isServerRendered = !1, this.allowServerDataBinding = !0, this.isProtectedOnChange = !0, this.properties = {}, this.changedProperties = {}, this.oldProperties = {}, this.bulkChanges = {}, this.refreshing = !1, this.ignoreCollectionWatch = !1, // eslint-disable-next-line
-                    this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), util_isUndefined(element) || ('string' == typeof element ? this.element = document.querySelector(element) : this.element = element, util_isNullOrUndefined(this.element) || (this.isProtectedOnChange = !1, this.addInstance())), util_isUndefined(options) || this.setProperties(options, !0), this.isDestroyed = !1;
+                    this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), !util_isUndefined(element) && ('string' == typeof element ? this.element = document.querySelector(element) : this.element = element, !util_isNullOrUndefined(this.element) && (this.isProtectedOnChange = !1, this.addInstance())), !util_isUndefined(options) && this.setProperties(options, !0), this.isDestroyed = !1;
                 }
                 return(/** Property base section */ /**
      * Function used to set bunch of property at a time.
@@ -4974,7 +4974,7 @@
                     }
                 }, /* tslint:disable:no-any */ Base.prototype.serverDataBind = function(newChanges) {}, /* tslint:enable:no-any */ Base.prototype.saveChanges = function(key, newValue, oldValue) {
                     var handler, unbind, num, secret, messageHandler;
-                    this.isProtectedOnChange || (this.oldProperties[key] = oldValue, this.changedProperties[key] = newValue, this.finalUpdate(), this.finalUpdate = (handler = this.dataBind.bind(this), num = new Uint16Array(5), (window.msCrypto || window.crypto).getRandomValues(num), secret = 'ej2' + /**
+                    !this.isProtectedOnChange && (this.oldProperties[key] = oldValue, this.changedProperties[key] = newValue, this.finalUpdate(), this.finalUpdate = (handler = this.dataBind.bind(this), num = new Uint16Array(5), (window.msCrypto || window.crypto).getRandomValues(num), secret = 'ej2' + /**
  *
  * @param {Int16Array} num ?
  * @returns {string} ?
@@ -5092,7 +5092,7 @@
  * @returns {ClassObject} ?
  */ // eslint-disable-next-line
             function getObject(instance, curKey, defaultValue, type) {
-                return instance.properties.hasOwnProperty(curKey) && instance.properties[curKey] instanceof type || (instance.properties[curKey] = createInstance(type, [
+                return (!instance.properties.hasOwnProperty(curKey) || !(instance.properties[curKey] instanceof type)) && (instance.properties[curKey] = createInstance(type, [
                     instance,
                     curKey,
                     defaultValue
@@ -5137,7 +5137,7 @@
  * @returns {void} ?
  */ function propertyGetter(defaultValue, curKey) {
                 return function() {
-                    return this.properties.hasOwnProperty(curKey) || (this.properties[curKey] = defaultValue), this.properties[curKey];
+                    return !this.properties.hasOwnProperty(curKey) && (this.properties[curKey] = defaultValue), this.properties[curKey];
                 };
             }
             /**
@@ -5234,7 +5234,7 @@
                                 this.properties[key] = defCollection;
                             }
                             var ignore = void 0 !== this.controlParent && this.controlParent.ignoreCollectionWatch || this.ignoreCollectionWatch;
-                            return this.properties[key].hasOwnProperty('push') || ignore || [
+                            return !this.properties[key].hasOwnProperty('push') && !ignore && [
                                 'push',
                                 'pop'
                             ].forEach(function(extendFunc) {
@@ -5265,7 +5265,7 @@
                                     configurable: !0
                                 };
                                 Object.defineProperty(_this.properties[key], extendFunc, descriptor);
-                            }), this.properties[key].hasOwnProperty('isComplexArray') || Object.defineProperty(this.properties[key], 'isComplexArray', {
+                            }), !this.properties[key].hasOwnProperty('isComplexArray') && Object.defineProperty(this.properties[key], 'isComplexArray', {
                                 value: !0
                             }), this.properties[key];
                         },
@@ -5409,7 +5409,7 @@
      * @param {AnimationModel} options - Overriding default animation settings.
      * @returns {void} ?
      */ Animation.prototype.animate = function(element, options) {
-                    options = options || {};
+                    options = !options ? {} : options;
                     var model = this.getModel(options);
                     if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++)model.element = elements[_i], Animation_1.delayAnimation(model);
                     else model.element = element, Animation_1.delayAnimation(model);
@@ -5607,7 +5607,7 @@
                 if (element && (!element || -1 !== element.className.indexOf('e-ripple'))) {
                     var rippleElements = selectAll('.e-ripple-element', element), rippleElement = rippleElements[rippleElements.length - 1];
                     rippleElement && (rippleElement.style.opacity = '0.5'), eventArgs.parent !== element && EventHandler.remove(element, 'mouseleave', rippleLeaveHandler), /* tslint:disable:align */ setTimeout(function() {
-                        rippleElement && rippleElement.parentNode && rippleElement.parentNode.removeChild(rippleElement), element.getElementsByClassName('e-ripple-element').length || element.classList.remove('e-ripple'), eventArgs.done && eventArgs.done(e);
+                        rippleElement && rippleElement.parentNode && rippleElement.parentNode.removeChild(rippleElement), !element.getElementsByClassName('e-ripple-element').length && element.classList.remove('e-ripple'), eventArgs.done && eventArgs.done(e);
                     }, duration);
                 }
             }
@@ -5642,7 +5642,7 @@
      */ ModuleLoader.prototype.clean = function() {
                     for(var _i = 0, _a = this.loadedModules; _i < _a.length; _i++){
                         var modules = _a[_i];
-                        modules.isProperty || util_getValue(modules.member, this.parent).destroy();
+                        !modules.isProperty && util_getValue(modules.member, this.parent).destroy();
                     }
                     this.loadedModules = [];
                 }, /**
@@ -5657,7 +5657,7 @@
                         return -1 === usedModules.indexOf(module.member);
                     }), _i = 0; _i < removableModule.length; _i++){
                         var mod = removableModule[_i];
-                        mod.isProperty || util_getValue(mod.member, this.parent).destroy(), this.loadedModules.splice(this.loadedModules.indexOf(mod), 1), deleteObject(this.parent, mod.member);
+                        !mod.isProperty && util_getValue(mod.member, this.parent).destroy(), this.loadedModules.splice(this.loadedModules.indexOf(mod), 1), deleteObject(this.parent, mod.member);
                     }
                 }, /**
      * To get the name of the member.
@@ -5733,7 +5733,7 @@
      * @param {boolean} restrictServerDataBind ?
      * @returns {void} ?
      */ ChildProperty.prototype.saveChanges = function(key, newValue, oldValue, restrictServerDataBind) {
-                    this.controlParent.isProtectedOnChange || (restrictServerDataBind || this.serverDataBind(key, newValue, !0), this.oldProperties[key] = oldValue, this.changedProperties[key] = newValue, this.updateChange(!0, this.propName), this.finalUpdate(), this.updateTimeOut());
+                    !this.controlParent.isProtectedOnChange && (!restrictServerDataBind && this.serverDataBind(key, newValue, !0), this.oldProperties[key] = oldValue, this.changedProperties[key] = newValue, this.updateChange(!0, this.propName), this.finalUpdate(), this.updateTimeOut());
                 }, ChildProperty.prototype.serverDataBind = function(key, value, isSaveChanges, action) {}, ChildProperty.prototype.getParentKey = function(isSaveChanges) {
                     // eslint-disable-next-line
                     var index = '', propName = this.propName;
@@ -5944,7 +5944,7 @@
                     }, !0), util_isNullOrUndefined(_this.locale) && _this.setProperties({
                         locale: defaultCulture
                     }, !0), _this.moduleLoader = new ModuleLoader(_this), _this.localObserver = new Observer(_this), // tslint:disable-next-line:no-function-constructor-with-string-args
-                    onIntlChange.on('notifyExternalChange', _this.detectFunction, _this, _this.randomId), validateLicense(), util_isUndefined(selector) || _this.appendTo(), _this;
+                    onIntlChange.on('notifyExternalChange', _this.detectFunction, _this, _this.randomId), validateLicense(), !util_isUndefined(selector) && _this.appendTo(), _this;
                 }
                 return component_extends(Component, _super), Component.prototype.requiredModules = function() {
                     return [];
@@ -5953,7 +5953,7 @@
      *
      * @returns {void} ?
      */ Component.prototype.destroy = function() {
-                    !this.isDestroyed && (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
+                    !this.isDestroyed && (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), !this.refreshing && (removeClass([
                         this.element
                     ], [
                         'e-control'
@@ -5988,7 +5988,7 @@
      * @param {string | HTMLElement} selector - Target element where control needs to be appended
      * @returns {void} ?
      */ Component.prototype.appendTo = function(selector) {
-                    if (util_isNullOrUndefined(selector) || 'string' != typeof selector ? util_isNullOrUndefined(selector) || (this.element = selector) : this.element = dom_select(selector, document), !util_isNullOrUndefined(this.element)) {
+                    if (util_isNullOrUndefined(selector) || 'string' != typeof selector ? !util_isNullOrUndefined(selector) && (this.element = selector) : this.element = dom_select(selector, document), !util_isNullOrUndefined(this.element)) {
                         var moduleClass = 'e-' + this.getModuleName().toLowerCase();
                         addClass([
                             this.element
@@ -5997,7 +5997,7 @@
                             moduleClass
                         ]), this.isProtectedOnChange = !1, this.needsID && !this.element.id && (this.element.id = this.getUniqueID(this.getModuleName())), this.enablePersistence && (this.mergePersistData(), window.addEventListener('unload', this.setPersistData.bind(this)));
                         var inst = util_getValue('ej2_instances', this.element);
-                        inst && -1 !== inst.indexOf(this) || _super.prototype.addInstance.call(this), this.preRender(), this.injectModules(), this.render(), this.mount ? this.accessMount() : this.trigger('created');
+                        (!inst || -1 === inst.indexOf(this)) && _super.prototype.addInstance.call(this), this.preRender(), this.injectModules(), this.render(), this.mount ? this.accessMount() : this.trigger('created');
                     }
                 }, /**
      * It is used to process the post rendering functionalities to a component.
@@ -6063,7 +6063,7 @@
      * @returns {void} ?
      */ Component.Inject = function() {
                     for(var moduleList = [], _i = 0; _i < arguments.length; _i++)moduleList[_i] = arguments[_i];
-                    this.prototype.injectedModules || (this.prototype.injectedModules = []);
+                    !this.prototype.injectedModules && (this.prototype.injectedModules = []);
                     for(var i = 0; i < moduleList.length; i++)-1 === this.prototype.injectedModules.indexOf(moduleList[i]) && this.prototype.injectedModules.push(moduleList[i]);
                 }, /**
      * This is a instance method to create an element.
@@ -6097,9 +6097,9 @@
                     prop.length && (this[prop[0]] = args[prop[0]]);
                 }, Component.prototype.mergePersistData = function() {
                     var data;
-                    util_isNullOrUndefined(data = window.localStorage.getItem(this.getModuleName() + this.element.id)) || '' === data || this.setProperties(JSON.parse(data), !0);
+                    !(util_isNullOrUndefined(data = window.localStorage.getItem(this.getModuleName() + this.element.id)) || '' === data) && this.setProperties(JSON.parse(data), !0);
                 }, Component.prototype.setPersistData = function() {
-                    this.isDestroyed || window.localStorage.setItem(this.getModuleName() + this.element.id, this.getPersistData());
+                    !this.isDestroyed && window.localStorage.setItem(this.getModuleName() + this.element.id, this.getPersistData());
                 }, //tslint:disable-next-line
                 Component.prototype.renderReactTemplates = function() {
                 //No Code
@@ -6118,8 +6118,8 @@
                 }, Component.prototype.addOnPersist = function(options) {
                     for(var _this = this, persistObj = {}, _i = 0; _i < options.length; _i++){
                         var key = options[_i], objValue = void 0;
-                        util_isUndefined(// eslint-disable-next-line
-                        objValue = util_getValue(key, this)) || setValue(key, this.getActualProperties(objValue), persistObj);
+                        !util_isUndefined(// eslint-disable-next-line
+                        objValue = util_getValue(key, this)) && setValue(key, this.getActualProperties(objValue), persistObj);
                     }
                     return JSON.stringify(persistObj, function(key, value) {
                         return _this.getActualProperties(value);
@@ -6205,7 +6205,7 @@
                 }, Draggable.getDefaultPosition = function() {
                     return util_extend({}, defaultPosition);
                 }, Draggable.prototype.toggleEvents = function(isUnWire) {
-                    util_isUndefined(this.handle) || (ele = dom_select(this.handle, this.element));
+                    !util_isUndefined(this.handle) && (ele = dom_select(this.handle, this.element));
                     var ele, handler = this.enableTapHold && Browser.isDevice && Browser.isTouch ? this.mobileInitialize : this.initialize;
                     isUnWire ? EventHandler.remove(ele || this.element, Browser.touchStartEvent, handler) : EventHandler.add(ele || this.element, Browser.touchStartEvent, handler, this);
                 }, /* istanbul ignore next */ Draggable.prototype.mobileInitialize = function(evt) {
@@ -6262,7 +6262,7 @@
                         var element = this.element;
                         if (this.clone && this.dragTarget) {
                             var intClosest = closest(evt.target, this.dragTarget);
-                            util_isNullOrUndefined(intClosest) || (element = intClosest);
+                            !util_isNullOrUndefined(intClosest) && (element = intClosest);
                         }
                         this.isReplaceDragEle && (element = this.currentStateCheck(evt.target, element)), this.offset = this.calculateParentPosition(element), this.position = this.getMousePosition(evt, this.isDragScroll);
                         var x = this.initialPosition.x - intCordinate.pageX, y = this.initialPosition.y - intCordinate.pageY;
@@ -6295,7 +6295,7 @@
                             }, this.clone && !this.enableTailMode && (this.diffX = this.position.left - this.offset.left, this.diffY = this.position.top - this.offset.top), this.getScrollableValues();
                             // when drag element has margin-top
                             var styles = getComputedStyle(element), marginTop = parseFloat(styles.marginTop);
-                            this.clone && 0 !== marginTop && (pos.top += marginTop), this.eleTop = isNaN(parseFloat(styles.top)) ? 0 : parseFloat(styles.top) - this.offset.top, this.enableScrollHandler && !this.clone && (pos.top -= this.parentScrollY, pos.left -= this.parentScrollX);
+                            this.clone && 0 !== marginTop && (pos.top += marginTop), this.eleTop = !isNaN(parseFloat(styles.top)) ? parseFloat(styles.top) - this.offset.top : 0, this.enableScrollHandler && !this.clone && (pos.top -= this.parentScrollY, pos.left -= this.parentScrollX);
                             var posValue = this.getProcessedPositionValue({
                                 top: pos.top - this.diffY + 'px',
                                 left: pos.left - this.diffX + 'px'
@@ -6373,12 +6373,12 @@
                             top: draEleTop + 'px',
                             left: draEleLeft + 'px'
                         });
-                        setStyleAttribute(helperElement, this.getDragPosition(dragValue)), this.elementInViewport(helperElement) || !this.enableAutoScroll || this.helperElement.classList.contains('e-treeview') || this.helperElement.scrollIntoView();
+                        setStyleAttribute(helperElement, this.getDragPosition(dragValue)), !this.elementInViewport(helperElement) && this.enableAutoScroll && !this.helperElement.classList.contains('e-treeview') && this.helperElement.scrollIntoView();
                         var elements = document.querySelectorAll(':hover');
                         if (this.enableAutoScroll && this.helperElement.classList.contains('e-treeview')) {
                             0 === elements.length && (elements = this.getPathElements(evt));
                             /* tslint:disable no-any */ var scrollParent = this.getScrollParent(elements, !1);
-                            this.elementInViewport(this.helperElement) ? this.getScrollPosition(scrollParent, draEleTop) : this.elementInViewport(this.helperElement) || (0 === (elements = [].slice.call(document.querySelectorAll(':hover'))).length && (elements = this.getPathElements(evt)), scrollParent = this.getScrollParent(elements, !0), this.getScrollPosition(scrollParent, draEleTop));
+                            this.elementInViewport(this.helperElement) ? this.getScrollPosition(scrollParent, draEleTop) : !this.elementInViewport(this.helperElement) && (0 === (elements = [].slice.call(document.querySelectorAll(':hover'))).length && (elements = this.getPathElements(evt)), scrollParent = this.getScrollParent(elements, !0), this.getScrollPosition(scrollParent, draEleTop));
                         }
                         this.dragProcessStarted = !0, this.prevLeft = left, this.prevTop = top1, this.position.left = left, this.position.top = top1, this.pageX = pagex, this.pageY = pagey;
                     }
@@ -6895,7 +6895,7 @@
          * @param {MouseEventArgs | TouchEventArgs} evt ?
          * @returns {void} ?
          */ _this.endEvent = function(evt) {
-                        _this.swipeFn(evt), _this.isTouchMoved || 'function' != typeof _this.tap || (_this.trigger('tap', {
+                        _this.swipeFn(evt), !_this.isTouchMoved && 'function' == typeof _this.tap && (_this.trigger('tap', {
                             originalEvent: evt,
                             tapCount: ++_this.tapCount
                         }), _this.timeOutTap = setTimeout(function() {
@@ -7146,7 +7146,7 @@
                                     var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
-                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && // tslint:disable-next-line
+                                    0 !== matches[1].length && !/data/.test(ftArray[0]) && !/window./.test(ftArray[0]) && (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && // tslint:disable-next-line
                                     (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
                                         return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
                                     })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
@@ -7427,7 +7427,7 @@
                     ];
                     this.cssClass && (classList = classList.concat(this.cssClass.split(' '))), _super.prototype.destroy.call(this), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
-                    ], classList), this.element.getAttribute('class') || this.element.removeAttribute('class'), this.disabled && this.element.removeAttribute('disabled'), this.content && (this.element.innerHTML = this.element.innerHTML.replace(this.content, ''));
+                    ], classList), !this.element.getAttribute('class') && this.element.removeAttribute('class'), this.disabled && this.element.removeAttribute('disabled'), this.content && (this.element.innerHTML = this.element.innerHTML.replace(this.content, ''));
                     var span = this.element.querySelector('span.e-btn-icon');
                     span && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(span), this.unWireEvents(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isRippleEnabled */ .re && this.removeRippleEffect();
                 }, /**
@@ -7488,7 +7488,7 @@
                             newProp.enableRtl ? this.element.classList.add(cssClassName.RTL) : this.element.classList.remove(cssClassName.RTL);
                             break;
                         case 'content':
-                            (0, _common_common__WEBPACK_IMPORTED_MODULE_1__ /* .getTextNode */ .UC)(this.element) || this.element.classList.remove(cssClassName.ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.sanitize */ .pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
+                            !(0, _common_common__WEBPACK_IMPORTED_MODULE_1__ /* .getTextNode */ .UC)(this.element) && this.element.classList.remove(cssClassName.ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.sanitize */ .pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
                             break;
                         case 'isToggle':
                             newProp.isToggle ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'click', this.btnClickHandler, this) : (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.element, 'click', this.btnClickHandler), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
@@ -7683,7 +7683,7 @@
                     var parent = getParentNode(this);
                     if (parent.getElementsByTagName('textarea')[0] ? '' === parent.getElementsByTagName('textarea')[0].value : '' === parent.getElementsByTagName('input')[0].value) {
                         var label = parent.getElementsByClassName('e-float-text')[0];
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) || (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                        !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) && (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             label
                         ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             label
@@ -7694,16 +7694,16 @@
                     element.addEventListener('focus', _focusFn), element.addEventListener('blur', _blurFn);
                 }
                 function createFloatingInput(args, inputObject, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES.FLOATINPUT, CLASSNAMES.FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) || inputObject.container.classList.add(CLASSNAMES.FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES.FLOATINPUT));
+                    var makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az;
+                    'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES.FLOATINPUT, CLASSNAMES.FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) && inputObject.container.classList.add(CLASSNAMES.FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES.FLOATINPUT));
                     var floatLinelement = makeElement('span', {
                         className: CLASSNAMES.FLOATLINE
                     }), floatLabelElement = makeElement('label', {
                         className: CLASSNAMES.FLOATTEXT
                     });
-                    if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.id) || '' === args.element.id || (floatLabelElement.id = 'label_' + args.element.id.replace(/ /g, '_'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(args.element, {
+                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.id) && '' !== args.element.id && (floatLabelElement.id = 'label_' + args.element.id.replace(/ /g, '_'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(args.element, {
                         'aria-labelledby': floatLabelElement.id
-                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) || '' === args.element.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) || '' === args.properties.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), floatLabelElement.innerText || inputObject.container.classList.add(CLASSNAMES.NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
+                    })), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) && '' !== args.element.placeholder && (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) && '' !== args.properties.placeholder && (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), !floatLabelElement.innerText && inputObject.container.classList.add(CLASSNAMES.NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
                         var inputWrap = inputObject.container.querySelector('.e-input-in-wrap');
                         inputWrap.appendChild(args.element), inputWrap.appendChild(floatLinelement), inputWrap.appendChild(floatLabelElement);
                     } else inputObject.container.appendChild(args.element), inputObject.container.appendChild(floatLinelement), inputObject.container.appendChild(floatLabelElement);
@@ -7717,7 +7717,7 @@
                     }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     args.element.addEventListener('blur', function(event) {
                         updateLabelState(args.element.value, floatLabelElement);
-                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.getAttribute('id')) || floatLabelElement.setAttribute('for', args.element.getAttribute('id'));
+                    })), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.getAttribute('id')) && floatLabelElement.setAttribute('for', args.element.getAttribute('id'));
                 }
                 function checkFloatLabelType(type, container) {
                     'Always' === type && container.classList.contains('e-outline') && container.classList.add('e-valid-input');
@@ -7747,7 +7747,7 @@
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 function wireClearBtnEvents(element, button, container) {
                     (void 0 == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
-                        element.classList.contains(CLASSNAMES.DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        !(element.classList.contains(CLASSNAMES.DISABLE) || element.readOnly) && (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             button
                         ], CLASSNAMES.CLEARICONHIDE));
                     }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -7774,7 +7774,7 @@
                 /**
      * To create input box contianer.
      */ function createInputContainer(args, className, tagClass, tag, internalCreateElement) {
-                    var container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
+                    var container, makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az;
                     return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) ? container = makeElement(tag, {
                         className: className
                     }) : (container = makeElement(args.customTag, {
@@ -7800,7 +7800,7 @@
      * @param {string} oldClass
      * - Css class names which are needed to remove. If old classes are need to remove, can give this optional parameter.
      */ function setCssClass(cssClass, elements, oldClass) {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(cssClass) || '' === cssClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, cssClass.split(' '));
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(oldClass) && '' !== oldClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, oldClass.split(' ')), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(cssClass) && '' !== cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, cssClass.split(' '));
                 }
                 /**
      * Set the width to the placeholder when it overflows on the button such as spinbutton, clearbutton, icon etc
@@ -7842,7 +7842,7 @@
      */ function setReadonly(isReadonly, element, floatLabelType) {
                     isReadonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
                         readonly: ''
-                    }) : element.removeAttribute('readonly'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
+                    }) : element.removeAttribute('readonly'), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) && validateLabel(element, floatLabelType);
                 }
                 /**
      * Displays the element direction from right to left when its enabled.
@@ -7876,11 +7876,11 @@
                         inputContainer
                     ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputContainer
-                    ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
+                    ], CLASSNAMES.DISABLE)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) && validateLabel(element, floatLabelType);
                 }
                 function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
-                    var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
+                    var button, container, makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az;
+                    isClear ? (button = (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? makeElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az)('span', {
                         className: CLASSNAMES.CLEARICON
                     }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         container
@@ -7947,7 +7947,7 @@
                 }
                 function _onMouseDownRipple() {
                     for(var container, parentEle = this.parentElement; !parentEle.classList.contains('e-input-group');)parentEle = parentEle.parentElement;
-                    (container = parentEle).classList.contains('e-disabled') || container.querySelector('input').readOnly || this.classList.add('e-input-btn-ripple');
+                    !(container = parentEle).classList.contains('e-disabled') && !container.querySelector('input').readOnly && this.classList.add('e-input-btn-ripple');
                 }
                 function _onMouseUpRipple() {
                     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -7973,7 +7973,7 @@
      * @param {HTMLElement} container - The container on which created span element is going to append.
      * @param {HTMLElement} inputElement - The inputElement on which created span element is going to prepend.
      */ /* eslint-disable @typescript-eslint/indent */ function prependSpan(iconClass, container, inputElement, internalCreateElement) {
-                    /* eslint-enable @typescript-eslint/indent */ var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, button = createIconEle(iconClass, makeElement);
+                    /* eslint-enable @typescript-eslint/indent */ var makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az, button = createIconEle(iconClass, makeElement);
                     container.classList.add('e-float-icon-left');
                     var innerWrapper = container.querySelector('.e-input-in-wrap');
                     if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(innerWrapper)) {
@@ -7984,7 +7984,7 @@
                         innerWrapper.appendChild(inputElement);
                         for(var i = 0; i < result.length; i++)innerWrapper.appendChild(result[i]);
                     }
-                    return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
+                    return innerWrapper.parentNode.insertBefore(button, innerWrapper), !container.classList.contains(CLASSNAMES.INPUTGROUP) && container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
                 }
                 /**
      * Creates a new span element with the given icons added and append it in container element.
@@ -7996,8 +7996,8 @@
      * Span element acts as icon or button element for input.
      * @param {HTMLElement} container - The container on which created span element is going to append.
      */ function appendSpan(iconClass, container, internalCreateElement) {
-                    var button = createIconEle(iconClass, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement);
-                    return container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
+                    var button = createIconEle(iconClass, !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az);
+                    return !container.classList.contains(CLASSNAMES.INPUTGROUP) && container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
                 }
                 function validateInputType(containerElement, input) {
                     'hidden' === input.type ? containerElement.classList.add('e-hidden') : containerElement.classList.contains('e-hidden') && containerElement.classList.remove('e-hidden');
@@ -8009,7 +8009,7 @@
      * ```
      *
      */ function(args, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, inputObject = {
+                    var makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az, inputObject = {
                         container: null,
                         buttons: [],
                         clearButton: null
@@ -8019,7 +8019,7 @@
                     ], CLASSNAMES.INPUT), inputObject.container.appendChild(args.element)) : createFloatingInput(args, inputObject, makeElement), bindInitialEvent(args), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.showClearButton) && args.properties.showClearButton && 'TEXTAREA' !== args.element.tagName && (setClearButton(args.properties.showClearButton, args.element, inputObject, !0, makeElement), inputObject.clearButton.setAttribute('role', 'button'), inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputObject.container
                     ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
-                    return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    return !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element) && 'TEXTAREA' === args.element.tagName && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputObject.container
                     ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++)switch(_a[_i]){
@@ -8055,11 +8055,11 @@
      * @param {string} floatLabelType - Specify the float label type of the input element.
      * @param {boolean} clearButton - Boolean value to specify whether the clear icon is enabled / disabled on the input.
      */ function(value, element, floatLabelType, clearButton) {
-                    if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(clearButton) && clearButton) {
+                    if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) && 'Auto' === floatLabelType && validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(clearButton) && clearButton) {
                         var parentElement = getParentNode(element);
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(parentElement)) {
                             var button = parentElement.getElementsByClassName(CLASSNAMES.CLEARICON)[0];
-                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) || (element.value && parentElement.classList.contains('e-input-focus') ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                            !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) && (element.value && parentElement.classList.contains('e-input-focus') ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                                 button
                             ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                                 button
@@ -8087,10 +8087,10 @@
                             CLASSNAMES.FLOATINPUT
                         ]), inputEle.removeEventListener('focus', _focusFn), inputEle.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(inputEle, {
                             placeholder: placeholder
-                        }), inputEle.classList.add(CLASSNAMES.INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
+                        }), inputEle.classList.add(CLASSNAMES.INPUT), !clearButton && 'INPUT' === inputEle.tagName && inputEle.removeAttribute('required');
                     }
                 }, Input.addFloating = function(input, type, placeholder, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES.INPUTGROUP);
+                    var makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES.INPUTGROUP);
                     if (floatType = type, 'Never' !== type) {
                         var customTag = container.tagName, args = {
                             element: input,
@@ -8220,14 +8220,14 @@
                     };
                     this.l10n = new _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .L10n */ .E7('numerictextbox', localeText, this.locale), '' !== this.l10n.getConstant('placeholder') && this.setProperties({
                         placeholder: this.placeholder || this.l10n.getConstant('placeholder')
-                    }, !0), this.element.hasAttribute('id') || this.element.setAttribute('id', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .getUniqueID */ .QI)('numerictextbox')), this.isValidState = !0, this.inputStyle = null, this.inputName = null, this.cultureInfo = {}, this.initCultureInfo(), this.initCultureFunc(), this.prevValue = this.value, this.updateHTMLAttrToElement(), this.checkAttributes(!1), this.formEle && (this.inputEleValue = this.value), this.validateMinMax(), this.validateStep(), null === this.placeholder && this.updatePlaceholder();
+                    }, !0), !this.element.hasAttribute('id') && this.element.setAttribute('id', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .getUniqueID */ .QI)('numerictextbox')), this.isValidState = !0, this.inputStyle = null, this.inputName = null, this.cultureInfo = {}, this.initCultureInfo(), this.initCultureFunc(), this.prevValue = this.value, this.updateHTMLAttrToElement(), this.checkAttributes(!1), this.formEle && (this.inputEleValue = this.value), this.validateMinMax(), this.validateStep(), null === this.placeholder && this.updatePlaceholder();
                 }, /**
      * To Initialize the control rendering
      *
      * @returns {void}
      * @private
      */ NumericTextBox.prototype.render = function() {
-                    'input' === this.element.tagName.toLowerCase() && (this.createWrapper(), this.showSpinButton && this.spinBtnCreation(), this.setElementWidth(this.width), this.container.classList.contains('e-input-group') || this.container.classList.add('e-input-group'), this.changeValue(null === this.value || isNaN(this.value) ? null : this.strictMode ? this.trimValue(this.value) : this.value), this.wireEvents(), null !== this.value && !isNaN(this.value) && this.decimals && this.setProperties({
+                    'input' === this.element.tagName.toLowerCase() && (this.createWrapper(), this.showSpinButton && this.spinBtnCreation(), this.setElementWidth(this.width), !this.container.classList.contains('e-input-group') && this.container.classList.add('e-input-group'), this.changeValue(null === this.value || isNaN(this.value) ? null : this.strictMode ? this.trimValue(this.value) : this.value), this.wireEvents(), null !== this.value && !isNaN(this.value) && this.decimals && this.setProperties({
                         value: this.roundNumber(this.value, this.decimals)
                     }, !0), (this.element.getAttribute('value') || this.value) && (this.element.setAttribute('value', this.element.value), this.hiddenInput.setAttribute('value', this.hiddenInput.value)), this.elementPrevValue = this.element.value, this.element.hasAttribute('data-val') && this.element.setAttribute('data-val', 'false'), this.renderComplete());
                 }, NumericTextBox.prototype.checkAttributes = function(isDynamic) {
@@ -8278,7 +8278,7 @@
                                     var minValue = this.instance.getNumberParser({
                                         format: 'n'
                                     })(this.element.getAttribute(prop));
-                                    null === minValue || isNaN(minValue) || this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, minValue, {}), !isDynamic);
+                                    null !== minValue && !isNaN(minValue) && this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, minValue, {}), !isDynamic);
                                 }
                                 break;
                             case 'max':
@@ -8286,7 +8286,7 @@
                                     var maxValue = this.instance.getNumberParser({
                                         format: 'n'
                                     })(this.element.getAttribute(prop));
-                                    null === maxValue || isNaN(maxValue) || this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, maxValue, {}), !isDynamic);
+                                    null !== maxValue && !isNaN(maxValue) && this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, maxValue, {}), !isDynamic);
                                 }
                                 break;
                             case 'step':
@@ -8294,7 +8294,7 @@
                                     var stepValue = this.instance.getNumberParser({
                                         format: 'n'
                                     })(this.element.getAttribute(prop));
-                                    null === stepValue || isNaN(stepValue) || this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, stepValue, {}), !isDynamic);
+                                    null !== stepValue && !isNaN(stepValue) && this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, stepValue, {}), !isDynamic);
                                 }
                                 break;
                             case 'style':
@@ -8307,7 +8307,7 @@
                                 var value = this.instance.getNumberParser({
                                     format: 'n'
                                 })(this.element.getAttribute(prop));
-                                (null === value || isNaN(value)) && 'value' !== prop || this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, value, {}), !0);
+                                (null !== value && !isNaN(value) || 'value' === prop) && this.setProperties((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, value, {}), !0);
                         }
                     }
                 }, NumericTextBox.prototype.updatePlaceholder = function() {
@@ -8322,7 +8322,7 @@
                     }, !0));
                 }, /* Wrapper creation */ NumericTextBox.prototype.createWrapper = function() {
                     var updatedCssClassValue = this.cssClass;
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.cssClass) || '' === this.cssClass || (updatedCssClassValue = this.getNumericValidClassList(this.cssClass));
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.cssClass) && '' !== this.cssClass && (updatedCssClassValue = this.getNumericValidClassList(this.cssClass));
                     var inputObj = _input_input__WEBPACK_IMPORTED_MODULE_1__ /* .Input.createInput */ .I.createInput({
                         element: this.element,
                         floatLabelType: this.floatLabelType,
@@ -8367,7 +8367,7 @@
                     ], this.getNumericValidClassList(oldClass));
                 }, NumericTextBox.prototype.getNumericValidClassList = function(numericClassName) {
                     var result = numericClassName;
-                    return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericClassName) || '' === numericClassName || (result = numericClassName.replace(/\s+/g, ' ').trim()), result;
+                    return !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericClassName) && '' !== numericClassName && (result = numericClassName.replace(/\s+/g, ' ').trim()), result;
                 }, NumericTextBox.prototype.updateHTMLAttrToWrapper = function() {
                     if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.htmlAttributes)) for(var _i = 0, _a = Object.keys(this.htmlAttributes); _i < _a.length; _i++){
                         var pro = _a[_i];
@@ -8378,11 +8378,11 @@
                             ], updatedClassValue.split(' '));
                         } else if ('style' === pro) {
                             var numericStyle = this.container.getAttribute(pro);
-                            numericStyle = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericStyle) ? this.htmlAttributes[pro] : numericStyle + this.htmlAttributes[pro], this.container.setAttribute(pro, numericStyle);
+                            numericStyle = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(numericStyle) ? numericStyle + this.htmlAttributes[pro] : this.htmlAttributes[pro], this.container.setAttribute(pro, numericStyle);
                         } else this.container.setAttribute(pro, this.htmlAttributes[pro]);
                     }
                 }, NumericTextBox.prototype.setElementWidth = function(width) {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(width) || ('number' == typeof width ? this.container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (this.container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)));
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(width) && ('number' == typeof width ? this.container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (this.container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)));
                 }, /* Spinner creation */ NumericTextBox.prototype.spinBtnCreation = function() {
                     this.spinDown = _input_input__WEBPACK_IMPORTED_MODULE_1__ /* .Input.appendSpan */ .I.appendSpan(SPINICON + " e-spin-down", this.container, this.createElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(this.spinDown, {
                         title: this.l10n.getConstant('decrementTitle'),
@@ -8392,9 +8392,9 @@
                         'aria-label': this.l10n.getConstant('incrementTitle')
                     }), this.wireSpinBtnEvents();
                 }, NumericTextBox.prototype.validateMinMax = function() {
-                    ('number' != typeof this.min || isNaN(this.min)) && this.setProperties({
+                    !('number' == typeof this.min && !isNaN(this.min)) && this.setProperties({
                         min: -Number.MAX_VALUE
-                    }, !0), ('number' != typeof this.max || isNaN(this.max)) && this.setProperties({
+                    }, !0), !('number' == typeof this.max && !isNaN(this.max)) && this.setProperties({
                         max: Number.MAX_VALUE
                     }, !0), null !== this.decimals && (this.min !== -Number.MAX_VALUE && this.setProperties({
                         min: this.instance.getNumberParser({
@@ -8451,10 +8451,10 @@
                 }, NumericTextBox.prototype.resetFormHandler = function() {
                     'EJS-NUMERICTEXTBOX' === this.element.tagName ? this.updateValue(null) : this.updateValue(this.inputEleValue);
                 }, NumericTextBox.prototype.setSpinButton = function() {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.spinDown) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(this.spinDown, {
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.spinDown) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(this.spinDown, {
                         title: this.l10n.getConstant('decrementTitle'),
                         'aria-label': this.l10n.getConstant('decrementTitle')
-                    }), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.spinUp) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(this.spinUp, {
+                    }), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.spinUp) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(this.spinUp, {
                         title: this.l10n.getConstant('incrementTitle'),
                         'aria-label': this.l10n.getConstant('incrementTitle')
                     });
@@ -8467,7 +8467,7 @@
                 }, NumericTextBox.prototype.unwireSpinBtnEvents = function() {
                     /* unbind spin button events */ _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinUp, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchStartEvent */ .AR.touchStartEvent, this.mouseDownOnSpinner), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinDown, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchStartEvent */ .AR.touchStartEvent, this.mouseDownOnSpinner), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinUp, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchEndEvent */ .AR.touchEndEvent, this.mouseUpOnSpinner), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinDown, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchEndEvent */ .AR.touchEndEvent, this.mouseUpOnSpinner), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinUp, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchMoveEvent */ .AR.touchMoveEvent, this.touchMoveOnSpinner), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.spinDown, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchMoveEvent */ .AR.touchMoveEvent, this.touchMoveOnSpinner);
                 }, NumericTextBox.prototype.changeHandler = function(event) {
-                    event.stopPropagation(), this.element.value.length || this.setProperties({
+                    event.stopPropagation(), !this.element.value.length && this.setProperties({
                         value: null
                     }, !0);
                     var parsedInput = this.instance.getNumberParser({
@@ -8490,7 +8490,7 @@
                     if (this.enabled && !this.readonly) {
                         var beforeUpdate = this.element.value;
                         setTimeout(function() {
-                            _this.numericRegex().test(_this.element.value) || _this.setElementValue(beforeUpdate);
+                            !_this.numericRegex().test(_this.element.value) && _this.setElementValue(beforeUpdate);
                         });
                     }
                 }, NumericTextBox.prototype.preventHandler = function() {
@@ -8562,7 +8562,7 @@
                     var divide = Math.pow(10, precision = precision || 0);
                     return result *= divide, result = Math.round(result) / divide;
                 }, NumericTextBox.prototype.updateValue = function(value, event) {
-                    event && (this.isInteract = !0), null !== value && !isNaN(value) && this.decimals && (value = this.roundNumber(value, this.decimals)), this.changeValue(null === value || isNaN(value) ? null : this.strictMode ? this.trimValue(value) : value), this.isDynamicChange || this.raiseChangeEvent(event);
+                    event && (this.isInteract = !0), null !== value && !isNaN(value) && this.decimals && (value = this.roundNumber(value, this.decimals)), this.changeValue(null === value || isNaN(value) ? null : this.strictMode ? this.trimValue(value) : value), !this.isDynamicChange && this.raiseChangeEvent(event);
                 }, NumericTextBox.prototype.updateCurrency = function(prop, propVal) {
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setValue */ .sO)(prop, propVal, this.cultureInfo), this.updateValue(this.value);
                 }, NumericTextBox.prototype.changeValue = function(value) {
@@ -8574,7 +8574,7 @@
                     } else value = null, this.setProperties({
                         value: value
                     }, !0);
-                    this.modifyText(), this.strictMode || this.validateState();
+                    this.modifyText(), !this.strictMode && this.validateState();
                 }, NumericTextBox.prototype.modifyText = function() {
                     if (this.value || 0 === this.value) {
                         var value = this.formatNumber(), elementValue = this.isFocused ? value : this.instance.getNumberFormat(this.cultureInfo)(this.value);
@@ -8591,10 +8591,10 @@
                     var numberOfDecimals, EXPREGEXP = RegExp('[eE][\-+]?([0-9]+)'), valueString = value.toString();
                     if (EXPREGEXP.test(valueString)) {
                         var result = EXPREGEXP.exec(valueString);
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(result) || (valueString = value.toFixed(Math.min(parseInt(result[1], 10), 20)));
+                        !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(result) && (valueString = value.toFixed(Math.min(parseInt(result[1], 10), 20)));
                     }
                     var decimalPart = valueString.split('.')[1];
-                    return numberOfDecimals = decimalPart && decimalPart.length ? decimalPart.length : 0, null !== this.decimals && (numberOfDecimals = numberOfDecimals < this.decimals ? numberOfDecimals : this.decimals), numberOfDecimals;
+                    return numberOfDecimals = !decimalPart || !decimalPart.length ? 0 : decimalPart.length, null !== this.decimals && (numberOfDecimals = numberOfDecimals < this.decimals ? numberOfDecimals : this.decimals), numberOfDecimals;
                 }, NumericTextBox.prototype.formatNumber = function() {
                     var numberOfDecimals = this.getNumberOfDecimals(this.value);
                     return this.instance.getNumberFormat({
@@ -8646,11 +8646,11 @@
                             this.container
                         ], ERROR), this.prevValue = this.value, this.value || 0 === this.value) {
                             var formatValue_1 = this.formatNumber();
-                            this.setElementValue(formatValue_1), this.isPrevFocused || (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.version */ .AR.info.version ? setTimeout(function() {
+                            this.setElementValue(formatValue_1), !this.isPrevFocused && (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.version */ .AR.info.version ? setTimeout(function() {
                                 _this.element.setSelectionRange(0, formatValue_1.length);
                             }, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIos */ .AR.isIos ? 600 : 0) : this.element.setSelectionRange(0, formatValue_1.length));
                         }
-                        _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
+                        !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
                     }
                 }, NumericTextBox.prototype.focusOutHandler = function(event) {
                     var _this = this;
@@ -8669,13 +8669,13 @@
                                 }, 200);
                             }
                         } else {
-                            this.isFocused = !1, this.element.value.length || this.setProperties({
+                            this.isFocused = !1, !this.element.value.length && this.setProperties({
                                 value: null
                             }, !0);
                             var parsedInput = this.instance.getNumberParser({
                                 format: 'n'
                             })(this.element.value);
-                            this.updateValue(parsedInput), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel);
+                            this.updateValue(parsedInput), !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel);
                         }
                         if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(this.element, 'form')) {
                             var element = this.element.nextElementSibling, focusEvent = document.createEvent('FocusEvent');
@@ -8697,11 +8697,11 @@
                         var touchEvent = event.touches;
                         target = touchEvent.length && document.elementFromPoint(touchEvent[0].pageX, touchEvent[0].pageY);
                     } else target = document.elementFromPoint(event.clientX, event.clientY);
-                    target.classList.contains(SPINICON) || clearInterval(this.timeOut);
+                    !target.classList.contains(SPINICON) && clearInterval(this.timeOut);
                 }, NumericTextBox.prototype.mouseUpOnSpinner = function(event) {
-                    if (this.prevValue = this.value, this.isPrevFocused && (this.element.focus(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || (this.isPrevFocused = !1)), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || event.preventDefault(), this.getElementData(event)) {
+                    if (this.prevValue = this.value, this.isPrevFocused && (this.element.focus(), !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && (this.isPrevFocused = !1)), !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && event.preventDefault(), this.getElementData(event)) {
                         var target = event.currentTarget, action = target.classList.contains(SPINUP) ? INCREMENT : DECREMENT;
-                        if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(target, 'mouseleave', this.mouseUpClick), this.isCalled || this.action(action, event), this.isCalled = !1, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(document, 'mouseup', this.mouseUpClick), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(this.element, 'form')) {
+                        if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(target, 'mouseleave', this.mouseUpClick), !this.isCalled && this.action(action, event), this.isCalled = !1, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(document, 'mouseup', this.mouseUpClick), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(this.element, 'form')) {
                             var element = this.element.nextElementSibling, keyupEvent = document.createEvent('KeyboardEvent');
                             keyupEvent.initEvent('keyup', !1, !0), element.dispatchEvent(keyupEvent);
                         }
@@ -8966,7 +8966,7 @@
                     top: 0
                 };
                 var elemData = element.getBoundingClientRect();
-                if (targetContainer = viewPortElement, parentDocument = element.ownerDocument, position || (position = (0, _position__WEBPACK_IMPORTED_MODULE_1__ /* .calculatePosition */ .k)(element, 'left', 'top')), axis.X) {
+                if (targetContainer = viewPortElement, parentDocument = element.ownerDocument, !position && (position = (0, _position__WEBPACK_IMPORTED_MODULE_1__ /* .calculatePosition */ .k)(element, 'left', 'top')), axis.X) {
                     var containerWidth = targetContainer ? getTargetContainerWidth() : getViewPortWidth(), containerLeft = ContainerLeft(), containerRight = ContainerRight(), overLeft = containerLeft - position.left, overRight = position.left + elemData.width - containerRight;
                     elemData.width > containerWidth ? overLeft > 0 && overRight <= 0 ? position.left = containerRight - elemData.width : overRight > 0 && overLeft <= 0 ? position.left = containerLeft : position.left = overLeft > overRight ? containerRight - elemData.width : containerLeft : overLeft > 0 ? position.left += overLeft : overRight > 0 && (position.left -= overRight);
                 }
@@ -9221,7 +9221,7 @@
  * @returns {OffsetPosition} - returns the position
  */ function calculatePosition(currentElement, positionX, positionY, parentElement, targetValues) {
                 return (//eslint-disable-next-line
-                popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (positionX || (positionX = 'left'), positionY || (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, /**
+                popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (!positionX && (positionX = 'left'), !positionY && (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, /**
  *
  * @param {string} posX - specifies the position
  * @param {string} posY - specifies the position
@@ -9468,7 +9468,7 @@
                         relateTo: relateToElement
                     }, !0), 'string' == typeof this.relateTo ? document.querySelector(this.relateTo) : this.relateTo;
                 }, Popup.prototype.scrollRefresh = function(e) {
-                    if ('reposition' === this.actionOnScroll ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.element) || this.element.offsetParent === e.target || this.element.offsetParent && 'BODY' === this.element.offsetParent.tagName && null == e.target.parentElement || this.refreshPosition() : 'hide' === this.actionOnScroll && this.hide(), 'none' !== this.actionOnScroll && this.getRelateToElement()) {
+                    if ('reposition' === this.actionOnScroll ? !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.element) && !(this.element.offsetParent === e.target || this.element.offsetParent && 'BODY' === this.element.offsetParent.tagName && null == e.target.parentElement) && this.refreshPosition() : 'hide' === this.actionOnScroll && this.hide(), 'none' !== this.actionOnScroll && this.getRelateToElement()) {
                         var targetVisible = this.isElementOnViewport(this.getRelateToElement(), e.target);
                         targetVisible || this.targetInvisibleStatus ? targetVisible && (this.targetInvisibleStatus = !1) : (this.trigger('targetExitViewport'), this.targetInvisibleStatus = !0);
                     }
@@ -9536,7 +9536,7 @@
      *
      * @returns {void}
      */ Popup.prototype.refreshPosition = function(target, collision) {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(target) || this.checkFixedParent(target), this.reposition(), collision || this.checkCollision();
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(target) && this.checkFixedParent(target), this.reposition(), !collision && this.checkCollision();
                 }, Popup.prototype.reposition = function() {
                     var pos, position, relateToElement = this.getRelateToElement();
                     if ('number' == typeof this.position.X && 'number' == typeof this.position.Y) pos = {
@@ -9559,7 +9559,7 @@
                         left: 0,
                         top: 0
                     };
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(pos) || (this.element.style.left = pos.left + 'px', this.element.style.top = pos.top + 'px');
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(pos) && (this.element.style.left = pos.left + 'px', this.element.style.top = pos.top + 'px');
                 }, Popup.prototype.checkGetBoundingClientRect = function(ele) {
                     try {
                         return ele.getBoundingClientRect();
@@ -9641,7 +9641,7 @@
                             zIndex: this.zIndex
                         });
                     }
-                    animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    animationOptions = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) && 'object' == typeof animationOptions ? animationOptions : this.showAnimation, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
                     ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
@@ -9654,13 +9654,13 @@
                     ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
                     ], CLASSNAMES.OPEN), this.trigger('open')) : (animationOptions.begin = function() {
-                        _this.isDestroyed || ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                        !_this.isDestroyed && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             _this.element
                         ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             _this.element
                         ], CLASSNAMES.OPEN));
                     }, animationOptions.end = function() {
-                        _this.isDestroyed || _this.trigger('open');
+                        !_this.isDestroyed && _this.trigger('open');
                     }, new _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Animation */ .fw(animationOptions).animate(this.element));
                 }, /**
      * Hides the popup element from screen.
@@ -9669,12 +9669,12 @@
      * @returns {void}
      */ Popup.prototype.hide = function(animationOptions) {
                     var _this = this;
-                    animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) || 'object' != typeof animationOptions ? this.hideAnimation : animationOptions, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    animationOptions = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) && 'object' == typeof animationOptions ? animationOptions : this.hideAnimation, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
                     ], CLASSNAMES.OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
                     ], CLASSNAMES.CLOSE), this.trigger('close')) : (animationOptions.end = function() {
-                        _this.isDestroyed || ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                        !_this.isDestroyed && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             _this.element
                         ], CLASSNAMES.OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             _this.element
@@ -9747,7 +9747,7 @@
                     var parentStyle = getComputedStyle(parent);
                     ('absolute' !== eleStyle.position || 'static' !== parentStyle.position) && overflowRegex.test(parentStyle.overflow + parentStyle.overflowY + parentStyle.overflowX) && scrollParents.push(parent), parent = parent.parentElement;
                 }
-                return fixedParent || scrollParents.push(document), scrollParents;
+                return !fixedParent && scrollParents.push(document), scrollParents;
             }
             /**
  * Gets the maximum z-index of the given element.
@@ -9839,7 +9839,7 @@
                     // tslint:disable-next-line:no-any
                     this.renderReactComponent(), this.portals && this.portals.length && (this.mountingState = !0, this.renderReactTemplates(), this.mountingState = !1);
                 }, ComponentBase.prototype.componentDidUpdate = function(prev) {
-                    this.isshouldComponentUpdateCalled || !this.initRenderCalled || this.isReactForeceUpdate || (this.isshouldComponentUpdateCalled = !0, prev !== this.props && this.refreshProperties(this.props, !0));
+                    !this.isshouldComponentUpdateCalled && this.initRenderCalled && !this.isReactForeceUpdate && (this.isshouldComponentUpdateCalled = !0, prev !== this.props && this.refreshProperties(this.props, !0));
                 }, ComponentBase.prototype.renderReactComponent = function() {
                     var ele = this.reactElement;
                     ele && !this.isAppendCalled && (this.isAppendCalled = !0, this.appendTo(ele));
@@ -9849,13 +9849,13 @@
                 /**
      * @private
      */ ComponentBase.prototype.shouldComponentUpdate = function(nextProps) {
-                    return (this.isshouldComponentUpdateCalled = !0, this.initRenderCalled) ? (this.isAppendCalled || (clearTimeout(this.cachedTimeOut), this.isAppendCalled = !0, this.appendTo(this.reactElement)), this.updateProperties(nextProps)) : this.updateProperties(nextProps, !0), !0;
+                    return (this.isshouldComponentUpdateCalled = !0, this.initRenderCalled) ? (!this.isAppendCalled && (clearTimeout(this.cachedTimeOut), this.isAppendCalled = !0, this.appendTo(this.reactElement)), this.updateProperties(nextProps)) : this.updateProperties(nextProps, !0), !0;
                 }, /**
      * @private
      */ ComponentBase.prototype.updateProperties = function(nextProps, silent) {
                     for(var _this = this, dProps = (0, ej2_base /* extend */ .l7)({}, nextProps), keys = Object.keys(nextProps), _i = 0; _i < keys.length; _i++){
                         var propkey = keys[_i], isClassName = 'className' === propkey;
-                        if ('children' !== propkey) if (isClassName || (0, ej2_base /* isNullOrUndefined */ .le)(this.htmlattributes[propkey]) || this.htmlattributes[propkey] === dProps[propkey] || (this.htmlattributes[propkey] = dProps[propkey]), this.compareValues(this.props[propkey], nextProps[propkey])) delete dProps[propkey];
+                        if ('children' !== propkey) if (!isClassName && !(0, ej2_base /* isNullOrUndefined */ .le)(this.htmlattributes[propkey]) && this.htmlattributes[propkey] !== dProps[propkey] && (this.htmlattributes[propkey] = dProps[propkey]), this.compareValues(this.props[propkey], nextProps[propkey])) delete dProps[propkey];
                         else if (-1 !== this.attrKeys.indexOf(propkey)) if (isClassName) {
                             this.clsName = !0;
                             for(var propsClsName = this.props[propkey].split(' '), i = 0; i < propsClsName.length; i++)this.element.classList.remove(propsClsName[i]);
@@ -9867,7 +9867,7 @@
                         _this.refreshProperties(dProps, nextProps, silent);
                     }) : this.refreshProperties(dProps, nextProps, silent);
                 }, ComponentBase.prototype.refreshProperties = function(dProps, nextProps, silent) {
-                    Object.keys(dProps).length && (silent || // tslint:disable-next-line:no-any
+                    Object.keys(dProps).length && (!silent && // tslint:disable-next-line:no-any
                     this.processComplexTemplate(dProps, this), this.setProperties(dProps, silent)), this.refreshChild(silent, nextProps);
                 }, ComponentBase.prototype.processComplexTemplate = function(curObject, context) {
                     var compTemplate = context.complexTemplate;
@@ -9879,7 +9879,7 @@
                     var _this = this;
                     this.isReact = !0;
                     var propKeys = Object.keys(this.props);
-                    this.htmlattributes || (this.htmlattributes = {}), this.attrKeys = defaulthtmlkeys.concat(this.controlAttributes || []);
+                    !this.htmlattributes && (this.htmlattributes = {}), this.attrKeys = defaulthtmlkeys.concat(this.controlAttributes || []);
                     for(var _i = 0; _i < propKeys.length; _i++){
                         var prop = propKeys[_i];
                         (-1 !== prop.indexOf('data-') || -1 !== prop.indexOf('aria-') || -1 !== this.attrKeys.indexOf(prop)) && this.htmlattributes[prop] !== this.props[prop] && (this.htmlattributes[prop] = this.props[prop]);
@@ -9928,7 +9928,7 @@
                         });
                         var prevDetection = this.isProtectedOnChange;
                         this.isProtectedOnChange = !1, 'created' === eventName ? setTimeout(function() {
-                            _this.isCreated = !0, _this.isDestroyed || _this.modelObserver.notify(eventName, eventProp, successHandler);
+                            _this.isCreated = !0, !_this.isDestroyed && _this.modelObserver.notify(eventName, eventProp, successHandler);
                         }) : this.modelObserver.notify(eventName, eventProp, successHandler), this.isProtectedOnChange = prevDetection;
                     }
                 }, ComponentBase.prototype.compareValues = function(value1, value2) {
@@ -10200,9 +10200,9 @@
                 }, Render.prototype.moduleDestroy = function() {
                     this.parent = null;
                 }, Render.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.on(constant /* modelChanged */ .CC, this.refresh, this), this.parent.on(constant /* keyUp */ .yR, this.keyUp, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this));
+                    !this.parent.isDestroyed && (this.parent.on(constant /* modelChanged */ .CC, this.refresh, this), this.parent.on(constant /* keyUp */ .yR, this.keyUp, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this));
                 }, Render.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* modelChanged */ .CC, this.refresh), this.parent.off(constant /* keyUp */ .yR, this.keyUp), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* modelChanged */ .CC, this.refresh), this.parent.off(constant /* keyUp */ .yR, this.keyUp), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
                 }, Render.prototype.keyUp = function(e) {
                     if ('HTML' === this.parent.editorMode) switch(e.args.which){
                         case 46:
@@ -10449,7 +10449,7 @@
                         classes /* CLS_EXPAND_OPEN */ .Yi
                     ]), (0, ej2_base /* removeClass */ .IV)(tbItems, [
                         classes /* CLS_ACTIVE */ .XS
-                    ]), this.parent.setContentHeight('sourceCode', !0), this.wireEvent(this.previewElement), this.unWireBaseKeyDown(), this.previewElement.focus(), this.parent.updateValue(), (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.placeholder) || this.parent.iframeSettings.enable || (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'none'), this.parent.trigger(constant /* actionComplete */ .i8, {
+                    ]), this.parent.setContentHeight('sourceCode', !0), this.wireEvent(this.previewElement), this.unWireBaseKeyDown(), this.previewElement.focus(), this.parent.updateValue(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.placeholder) && !this.parent.iframeSettings.enable && (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'none'), this.parent.trigger(constant /* actionComplete */ .i8, {
                         requestType: 'SourceCode',
                         targetItem: 'SourceCode',
                         args: args
@@ -10478,7 +10478,7 @@
                         this.parent.getToolbar()
                     ], [
                         classes /* CLS_EXPAND_OPEN */ .Yi
-                    ]), this.parent.setContentHeight('preview', !0), this.unWireEvent(), this.wireBaseKeyDown(), this.contentModule.getEditPanel().focus(), this.parent.updateValue(), (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.placeholder) || 0 !== this.contentModule.getEditPanel().innerText.length || (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'block'), this.parent.trigger(constant /* actionComplete */ .i8, {
+                    ]), this.parent.setContentHeight('preview', !0), this.unWireEvent(), this.wireBaseKeyDown(), this.contentModule.getEditPanel().focus(), this.parent.updateValue(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.placeholder) && 0 === this.contentModule.getEditPanel().innerText.length && (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'block'), this.parent.trigger(constant /* actionComplete */ .i8, {
                         requestType: 'Preview',
                         targetItem: 'Preview',
                         args: args
@@ -11465,7 +11465,7 @@
 
      */ FullScreen.prototype.showFullScreen = function(event) {
                     var _this = this;
-                    !0 !== this.parent.toolbarSettings.enable || 'Markdown' === this.parent.editorMode || (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.quickToolbarModule) || this.parent.quickToolbarModule.hideQuickToolbars(), this.scrollableParent = (0, popup /* getScrollableParent */ .Mm)(this.parent.element), this.parent.element.classList.contains(classes /* CLS_FULL_SCREEN */ .GY) || this.parent.trigger(constant /* actionBegin */ .m2, {
+                    !0 === this.parent.toolbarSettings.enable && 'Markdown' !== this.parent.editorMode && !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.quickToolbarModule) && this.parent.quickToolbarModule.hideQuickToolbars(), this.scrollableParent = (0, popup /* getScrollableParent */ .Mm)(this.parent.element), !this.parent.element.classList.contains(classes /* CLS_FULL_SCREEN */ .GY) && this.parent.trigger(constant /* actionBegin */ .m2, {
                         cancel: !1,
                         requestType: 'Maximize',
                         targetItem: 'Maximize',
@@ -11474,7 +11474,7 @@
                         if (!beginEventArgs.cancel) {
                             _this.parent.toolbarSettings.enableFloating && !_this.parent.inlineMode.enable && _this.parent.toolbarSettings.enable && (_this.parent.getToolbarElement().style.width = '100%', _this.parent.getToolbarElement().style.top = '0px'), _this.parent.element.classList.add(classes /* CLS_FULL_SCREEN */ .GY), _this.toggleParentOverflow(!0);
                             var isExpand = _this.parent.element.querySelectorAll('.e-toolbar-extended.e-popup-open').length > 0;
-                            _this.parent.setContentHeight(null, isExpand), _this.parent.toolbarModule && (_this.parent.getBaseToolbarObject().toolbarObj.items[0].properties || _this.parent.getBaseToolbarObject().toolbarObj.removeItems(0), ej2_base /* Browser.isDevice */ .AR.isDevice && _this.parent.toolbarModule.removeFixedTBarClass(), _this.parent.toolbarModule.updateItem({
+                            _this.parent.setContentHeight(null, isExpand), _this.parent.toolbarModule && (!_this.parent.getBaseToolbarObject().toolbarObj.items[0].properties && _this.parent.getBaseToolbarObject().toolbarObj.removeItems(0), ej2_base /* Browser.isDevice */ .AR.isDevice && _this.parent.toolbarModule.removeFixedTBarClass(), _this.parent.toolbarModule.updateItem({
                                 targetItem: 'Maximize',
                                 updateItem: 'Minimize',
                                 baseToolbar: _this.parent.getBaseToolbarObject()
@@ -11494,7 +11494,7 @@
 
      */ FullScreen.prototype.hideFullScreen = function(event) {
                     var _this = this;
-                    !0 !== this.parent.toolbarSettings.enable || 'Markdown' === this.parent.editorMode || (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.quickToolbarModule) || this.parent.quickToolbarModule.hideQuickToolbars(), this.parent.element.classList.contains(classes /* CLS_FULL_SCREEN */ .GY) && this.parent.trigger(constant /* actionBegin */ .m2, {
+                    !0 === this.parent.toolbarSettings.enable && 'Markdown' !== this.parent.editorMode && !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.quickToolbarModule) && this.parent.quickToolbarModule.hideQuickToolbars(), this.parent.element.classList.contains(classes /* CLS_FULL_SCREEN */ .GY) && this.parent.trigger(constant /* actionBegin */ .m2, {
                         cancel: !1,
                         requestType: 'Minimize',
                         targetItem: 'Minimize',
@@ -11508,7 +11508,7 @@
                                 'e-rte-overflow'
                             ]);
                             var isExpand = _this.parent.element.querySelectorAll('.e-toolbar-extended.e-popup-open').length > 0;
-                            _this.parent.setContentHeight(null, isExpand), _this.parent.toolbarModule && (_this.parent.getBaseToolbarObject().toolbarObj.items[0].properties || _this.parent.getBaseToolbarObject().toolbarObj.removeItems(0), _this.parent.toolbarModule.updateItem({
+                            _this.parent.setContentHeight(null, isExpand), _this.parent.toolbarModule && (!_this.parent.getBaseToolbarObject().toolbarObj.items[0].properties && _this.parent.getBaseToolbarObject().toolbarObj.removeItems(0), _this.parent.toolbarModule.updateItem({
                                 targetItem: 'Minimize',
                                 updateItem: 'Maximize',
                                 baseToolbar: _this.parent.getBaseToolbarObject()
@@ -11632,7 +11632,7 @@
                                         for(var insertElem = _this.createInsertElement(shiftKey_1); newElem.firstChild;)insertElem.appendChild(newElem.firstChild);
                                         if (nearBlockNode.parentElement.insertBefore(insertElem, nearBlockNode), !isNearBlockLengthZero) {
                                             for(var currentFocusElem = insertElem, finalFocusElem = void 0; !(0, ej2_base /* isNullOrUndefined */ .le)(currentFocusElem) && '#text' !== currentFocusElem.nodeName;)finalFocusElem = currentFocusElem, currentFocusElem = currentFocusElem.lastChild;
-                                            finalFocusElem.innerHTML = '<br>', isImageNode || (0, ej2_base /* detach */ .og)(nearBlockNode);
+                                            finalFocusElem.innerHTML = '<br>', !isImageNode && (0, ej2_base /* detach */ .og)(nearBlockNode);
                                         }
                                         _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem.nextElementSibling, 0);
                                     } else if (0 === nearBlockNode.textContent.length && ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) || 'IMG' !== nearBlockNode.childNodes[0].nodeName)) if ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.children[0]) || 'BR' === nearBlockNode.children[0].tagName) {
@@ -11644,7 +11644,7 @@
                                     }
                                     else {
                                         var newElem = _this.parent.formatter.editorManager.nodeCutter.SplitNode(_this.range, nearBlockNode, !0);
-                                        if ((0, ej2_base /* isNullOrUndefined */ .le)(newElem.childNodes[0]) || '#text' !== newElem.childNodes[0].nodeName || 0 !== newElem.childNodes[0].textContent.length || (0, ej2_base /* detach */ .og)(newElem.childNodes[0]), 0 === newElem.textContent.trim().length) {
+                                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(newElem.childNodes[0]) && '#text' === newElem.childNodes[0].nodeName && 0 === newElem.childNodes[0].textContent.length && (0, ej2_base /* detach */ .og)(newElem.childNodes[0]), 0 === newElem.textContent.trim().length) {
                                             var brElm = _this.parent.createElement('br');
                                             if ('A' === _this.startNode.nodeName) {
                                                 var startParentElem = _this.startNode.parentElement;
@@ -11705,7 +11705,7 @@
                     -1 != ej2_base /* Browser.userAgent.indexOf */ .AR.userAgent.indexOf('Firefox') && this.range.endOffset === currentElement.textContent.length && (0 !== currentElement.textContent.length || currentElement.querySelectorAll('BR').length > 1) && !(0, ej2_base /* isNullOrUndefined */ .le)(currentElement.lastChild) && 'BR' === currentElement.lastChild.nodeName && (0, ej2_base /* detach */ .og)(currentElement.lastChild);
                 }, EnterKeyAction.prototype.insertBRElement = function() {
                     var isEmptyBrInserted = !1, brElm = this.parent.createElement('br');
-                    if ('BR' === this.startNode.nodeName && 'BR' === this.endNode.nodeName && 0 === this.range.startOffset && this.range.startOffset === this.range.endOffset ? (this.parent.formatter.editorManager.domNode.insertAfter(brElm, this.startNode), isEmptyBrInserted = !0) : (this.startNode !== this.parent.inputElement || (0, ej2_base /* isNullOrUndefined */ .le)(this.range.startContainer.previousSibling) || 'BR' !== this.range.startContainer.previousSibling.nodeName || 0 !== this.range.startContainer.textContent.length || (isEmptyBrInserted = !0), this.range.insertNode(brElm)), isEmptyBrInserted || !(0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextElementSibling) && 'BR' === brElm.nextElementSibling.tagName || !(0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextSibling) && brElm.nextSibling.textContent.length > 0) this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), (0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextSibling) ? brElm : brElm.nextSibling, 0), isEmptyBrInserted = !1;
+                    if ('BR' === this.startNode.nodeName && 'BR' === this.endNode.nodeName && 0 === this.range.startOffset && this.range.startOffset === this.range.endOffset ? (this.parent.formatter.editorManager.domNode.insertAfter(brElm, this.startNode), isEmptyBrInserted = !0) : (this.startNode === this.parent.inputElement && !(0, ej2_base /* isNullOrUndefined */ .le)(this.range.startContainer.previousSibling) && 'BR' === this.range.startContainer.previousSibling.nodeName && 0 === this.range.startContainer.textContent.length && (isEmptyBrInserted = !0), this.range.insertNode(brElm)), isEmptyBrInserted || !(0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextElementSibling) && 'BR' === brElm.nextElementSibling.tagName || !(0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextSibling) && brElm.nextSibling.textContent.length > 0) this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), !(0, ej2_base /* isNullOrUndefined */ .le)(brElm.nextSibling) ? brElm.nextSibling : brElm, 0), isEmptyBrInserted = !1;
                     else {
                         var brElm2 = this.parent.createElement('br');
                         this.range.insertNode(brElm2), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), brElm, 0);
@@ -11739,7 +11739,7 @@
  * @returns {HTMLElement} - returns the element
  */ function getDOMElement(element) {
                 var domElement;
-                return (0, ej2_base /* isNullOrUndefined */ .le)(element) || (domElement = 'string' == typeof element ? document.querySelector(element) : element), domElement;
+                return !(0, ej2_base /* isNullOrUndefined */ .le)(element) && (domElement = 'string' == typeof element ? document.querySelector(element) : element), domElement;
             }
             // eslint-disable-next-line
             function wireEvents(args) {
@@ -11781,7 +11781,7 @@
  * @returns {void}
  */ function onMouseUp(e) {
                 var touchMoveEvent = 'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? 'pointermove' : 'touchmove', touchEndEvent = 'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? 'pointerup' : 'touchend', target = (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? document : containerElement, eventName = 'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? 'pointerdown' : 'touchstart';
-                ej2_base /* EventHandler.remove */ .bi.remove(target, 'mousemove', onMouseMove), ej2_base /* EventHandler.remove */ .bi.remove(target, touchMoveEvent, onMouseMove), ej2_base /* EventHandler.remove */ .bi.remove(target, eventName, onMouseMove), (0, ej2_base /* isNullOrUndefined */ .le)(document.body.querySelector('.' + FOCUSED_HANDLER)) || document.body.querySelector('.' + FOCUSED_HANDLER).classList.remove(FOCUSED_HANDLER), (0, ej2_base /* isNullOrUndefined */ .le)(resizeEnd) || (proxy = this, resizeEnd(e, proxy)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup', onMouseUp), ej2_base /* EventHandler.remove */ .bi.remove(document, touchEndEvent, onMouseUp);
+                ej2_base /* EventHandler.remove */ .bi.remove(target, 'mousemove', onMouseMove), ej2_base /* EventHandler.remove */ .bi.remove(target, touchMoveEvent, onMouseMove), ej2_base /* EventHandler.remove */ .bi.remove(target, eventName, onMouseMove), !(0, ej2_base /* isNullOrUndefined */ .le)(document.body.querySelector('.' + FOCUSED_HANDLER)) && document.body.querySelector('.' + FOCUSED_HANDLER).classList.remove(FOCUSED_HANDLER), !(0, ej2_base /* isNullOrUndefined */ .le)(resizeEnd) && (proxy = this, resizeEnd(e, proxy)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup', onMouseUp), ej2_base /* EventHandler.remove */ .bi.remove(document, touchEndEvent, onMouseUp);
             }
             /* istanbul ignore next */ /**
  * @returns {void}
@@ -11805,9 +11805,9 @@
  * @param {MouseEvent} e - specifies the event
  * @returns {void}
  */ function onMouseMove(e) {
-                if (e.target.classList.contains(RESIZE_HANDLER) && e.target.classList.contains(FOCUSED_HANDLER) ? selectedHandler = e.target : (0, ej2_base /* isNullOrUndefined */ .le)(document.body.querySelector('.' + FOCUSED_HANDLER)) || (selectedHandler = document.body.querySelector('.' + FOCUSED_HANDLER)), !(0, ej2_base /* isNullOrUndefined */ .le)(selectedHandler)) {
+                if (e.target.classList.contains(RESIZE_HANDLER) && e.target.classList.contains(FOCUSED_HANDLER) ? selectedHandler = e.target : !(0, ej2_base /* isNullOrUndefined */ .le)(document.body.querySelector('.' + FOCUSED_HANDLER)) && (selectedHandler = document.body.querySelector('.' + FOCUSED_HANDLER)), !(0, ej2_base /* isNullOrUndefined */ .le)(selectedHandler)) {
                     for(var resizeTowards = '', i = 0; i < elementClass.length; i++)selectedHandler.classList.contains('e-' + elementClass[i]) && (resizeTowards = elementClass[i]);
-                    switch((0, ej2_base /* isNullOrUndefined */ .le)(resize) || (proxy = this, resize(e, proxy)), resizeTowards){
+                    switch(!(0, ej2_base /* isNullOrUndefined */ .le)(resize) && (proxy = this, resize(e, proxy)), resizeTowards){
                         case 'south':
                             resizeSouth(e);
                             break;
@@ -11844,11 +11844,11 @@
             /* istanbul ignore next */ // eslint-disable-next-line
             function resizeSouth(e) {
                 var containerRectValues, documentHeight = document.documentElement.clientHeight, calculateValue = !1, currentpageY = (e.touches ? e.changedTouches[0] : e).pageY, targetRectValues = getClientRectValues(targetElement);
-                (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerRectValues = getClientRectValues(containerElement)), (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (documentHeight - currentpageY >= 0 || targetRectValues.top < 0) && (calculateValue = !0) : calculateValue = !0;
+                !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerRectValues = getClientRectValues(containerElement)), (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (documentHeight - currentpageY >= 0 || targetRectValues.top < 0) && (calculateValue = !0) : calculateValue = !0;
                 var calculatedHeight = originalHeight + (currentpageY - originalMouseY);
                 calculatedHeight = calculatedHeight > minHeight ? calculatedHeight : minHeight;
                 var containerTop = 0;
-                (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerTop = containerRectValues.top);
+                !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerTop = containerRectValues.top);
                 var borderValue = (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? 0 : containerElement.offsetHeight - containerElement.clientHeight, topWithoutborder = targetRectValues.top - containerTop - borderValue / 2;
                 if (topWithoutborder = topWithoutborder < 0 ? 0 : topWithoutborder, targetRectValues.top > 0 && topWithoutborder + calculatedHeight > maxHeight) {
                     if (calculateValue = !1, targetElement.classList.contains(RESIZE_WITHIN_VIEWPORT)) return;
@@ -11865,11 +11865,11 @@
             /* istanbul ignore next */ // eslint-disable-next-line
             function resizeNorth(e) {
                 var boundaryRectValues, calculateValue = !1, pageY = 'mouse' === getEventType(e.type) ? e.pageY : e.touches[0].pageY, targetRectValues = getClientRectValues(targetElement);
-                (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (boundaryRectValues = getClientRectValues(containerElement)), !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && targetRectValues.top - boundaryRectValues.top > 0 ? calculateValue = !0 : (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && pageY > 0 && (calculateValue = !0);
+                !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (boundaryRectValues = getClientRectValues(containerElement)), !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && targetRectValues.top - boundaryRectValues.top > 0 ? calculateValue = !0 : (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && pageY > 0 && (calculateValue = !0);
                 var currentHeight = originalHeight - (pageY - originalMouseY);
                 if (calculateValue && currentHeight >= minHeight && currentHeight <= maxHeight) {
                     var containerTop = 0;
-                    (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerTop = boundaryRectValues.top);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerTop = boundaryRectValues.top);
                     var top_1 = originalY - containerTop + (pageY - originalMouseY);
                     top_1 = top_1 > 0 ? top_1 : 1, targetElement.style.height = currentHeight + 'px', targetElement.style.top = top_1 + 'px';
                 }
@@ -11877,13 +11877,13 @@
             /* istanbul ignore next */ // eslint-disable-next-line
             function resizeWest(e) {
                 var rectValues, documentWidth = document.documentElement.clientWidth, calculateValue = !1;
-                (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (rectValues = getClientRectValues(containerElement));
+                !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (rectValues = getClientRectValues(containerElement));
                 var pageX = 'mouse' === getEventType(e.type) ? e.pageX : e.touches[0].pageX, targetRectValues = getClientRectValues(targetElement), borderValue = (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? 0 : containerElement.offsetWidth - containerElement.clientWidth, left = (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? 0 : rectValues.left, containerWidth = (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? 0 : rectValues.width;
                 (0, ej2_base /* isNullOrUndefined */ .le)(resizeWestWidth) && ((0, ej2_base /* isNullOrUndefined */ .le)(containerElement) ? resizeWestWidth = documentWidth : (resizeWestWidth = targetRectValues.left - left - borderValue / 2 + targetRectValues.width, resizeWestWidth += containerWidth - borderValue - resizeWestWidth)), !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && Math.floor(targetRectValues.left - rectValues.left + targetRectValues.width + (rectValues.right - targetRectValues.right)) - borderValue <= maxWidth ? calculateValue = !0 : (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && pageX >= 0 && (calculateValue = !0);
                 var calculatedWidth = originalWidth - (pageX - originalMouseX);
                 if (setLeft && (calculatedWidth = calculatedWidth > resizeWestWidth ? resizeWestWidth : calculatedWidth), calculateValue && calculatedWidth >= minWidth && calculatedWidth <= maxWidth) {
                     var containerLeft = 0;
-                    (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerLeft = rectValues.left);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerLeft = rectValues.left);
                     var left_1 = originalX - containerLeft + (pageX - originalMouseX);
                     left_1 = left_1 > 0 ? left_1 : 1, calculatedWidth !== previousWidth && setWidth && (targetElement.style.width = calculatedWidth + 'px'), setLeft && (targetElement.style.left = left_1 + 'px', setWidth = 1 !== left_1);
                 }
@@ -11892,11 +11892,11 @@
             /* istanbul ignore next */ // eslint-disable-next-line
             function resizeEast(e) {
                 var containerRectValues, documentWidth = document.documentElement.clientWidth, calculateValue = !1;
-                (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerRectValues = getClientRectValues(containerElement));
+                !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerRectValues = getClientRectValues(containerElement));
                 var pageX = (e.touches ? e.changedTouches[0] : e).pageX, targetRectValues = getClientRectValues(targetElement);
                 !(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (targetRectValues.left - containerRectValues.left + targetRectValues.width <= maxWidth || targetRectValues.right - containerRectValues.left >= targetRectValues.width) ? calculateValue = !0 : (0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && documentWidth - pageX > 0 && (calculateValue = !0);
                 var calculatedWidth = originalWidth + (pageX - originalMouseX), containerLeft = 0;
-                if ((0, ej2_base /* isNullOrUndefined */ .le)(containerElement) || (containerLeft = containerRectValues.left), targetRectValues.left - containerLeft + calculatedWidth > maxWidth) {
+                if (!(0, ej2_base /* isNullOrUndefined */ .le)(containerElement) && (containerLeft = containerRectValues.left), targetRectValues.left - containerLeft + calculatedWidth > maxWidth) {
                     if (calculateValue = !1, targetElement.classList.contains(RESIZE_WITHIN_VIEWPORT)) return;
                     targetElement.style.width = maxWidth - (targetRectValues.left - containerLeft) + 'px';
                 }
@@ -11982,7 +11982,7 @@
                     }, // eslint-disable-next-line
                     this.dlgOverlayClickEventHandler = function(event) {
                         _this.dlgClosedBy = 'overlayClick', event.preventFocus = !1, _this.trigger('overlayClick', event, function(overlayClickEventArgs) {
-                            overlayClickEventArgs.preventFocus || _this.focusContent(), _this.dlgClosedBy = DLG_USER_ACTION_CLOSED;
+                            !overlayClickEventArgs.preventFocus && _this.focusContent(), _this.dlgClosedBy = DLG_USER_ACTION_CLOSED;
                         });
                     }, this.l10n = new ej2_base /* L10n */ .E7('dialog', {
                         close: 'Close'
@@ -12017,9 +12017,9 @@
                     return element;
                 }, /* istanbul ignore next */ Dialog.prototype.getMinHeight = function() {
                     var computedHeaderHeight = '0px', computedFooterHeight = '0px';
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.' + DLG_HEADER_CONTENT)) || (computedHeaderHeight = getComputedStyle(this.headerContent).height);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.' + DLG_HEADER_CONTENT)) && (computedHeaderHeight = getComputedStyle(this.headerContent).height);
                     var footerEle = this.getEle(this.element.children, DLG_FOOTER_CONTENT);
-                    (0, ej2_base /* isNullOrUndefined */ .le)(footerEle) || (computedFooterHeight = getComputedStyle(footerEle).height);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(footerEle) && (computedFooterHeight = getComputedStyle(footerEle).height);
                     var headerHeight = parseInt(computedHeaderHeight.slice(0, computedHeaderHeight.indexOf('p')), 10), footerHeight = parseInt(computedFooterHeight.slice(0, computedFooterHeight.indexOf('p')), 10);
                     return minHeight = headerHeight + 30 + (isNaN(footerHeight) ? 0 : footerHeight), headerHeight + 30 + footerHeight;
                 }, Dialog.prototype.onResizeStart = function(args, dialogObj) {
@@ -12106,13 +12106,13 @@
                     var buttonIndex_1, _this = this;
                     if (9 === event.keyCode && this.isModal) {
                         var buttonObj = void 0;
-                        (0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) || (buttonObj = this.btnObj[this.btnObj.length - 1]), (0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && (buttonObj = this.getFocusElement(this.ftrTemplateContent)), (0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) && (0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (buttonObj = this.getFocusElement(this.contentEle)), (0, ej2_base /* isNullOrUndefined */ .le)(buttonObj) || document.activeElement !== buttonObj.element || event.shiftKey || (event.preventDefault(), this.focusableElements(this.element).focus()), document.activeElement === this.focusableElements(this.element) && event.shiftKey && (event.preventDefault(), (0, ej2_base /* isNullOrUndefined */ .le)(buttonObj) || buttonObj.element.focus());
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) && (buttonObj = this.btnObj[this.btnObj.length - 1]), (0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && (buttonObj = this.getFocusElement(this.ftrTemplateContent)), (0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj) && (0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (buttonObj = this.getFocusElement(this.contentEle)), !(0, ej2_base /* isNullOrUndefined */ .le)(buttonObj) && document.activeElement === buttonObj.element && !event.shiftKey && (event.preventDefault(), this.focusableElements(this.element).focus()), document.activeElement === this.focusableElements(this.element) && event.shiftKey && (event.preventDefault(), !(0, ej2_base /* isNullOrUndefined */ .le)(buttonObj) && buttonObj.element.focus());
                     }
                     var element = document.activeElement, isTagName = [
                         'input',
                         'textarea'
                     ].indexOf(element.tagName.toLowerCase()) > -1, isContentEdit = !1;
-                    isTagName || (isContentEdit = element.hasAttribute('contenteditable') && 'true' === element.getAttribute('contenteditable')), 27 === event.keyCode && this.closeOnEscape && (this.dlgClosedBy = 'escape', document.querySelector('.e-popup-open:not(.e-dialog)') || this.hide(event)), (13 === event.keyCode && !event.ctrlKey && 'textarea' !== element.tagName.toLowerCase() && isTagName && !(0, ej2_base /* isNullOrUndefined */ .le)(this.primaryButtonEle) || 13 === event.keyCode && event.ctrlKey && ('textarea' === element.tagName.toLowerCase() || isContentEdit) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.primaryButtonEle)) && this.buttons.some(function(data, index) {
+                    !isTagName && (isContentEdit = element.hasAttribute('contenteditable') && 'true' === element.getAttribute('contenteditable')), 27 === event.keyCode && this.closeOnEscape && (this.dlgClosedBy = 'escape', !document.querySelector('.e-popup-open:not(.e-dialog)') && this.hide(event)), (13 === event.keyCode && !event.ctrlKey && 'textarea' !== element.tagName.toLowerCase() && isTagName && !(0, ej2_base /* isNullOrUndefined */ .le)(this.primaryButtonEle) || 13 === event.keyCode && event.ctrlKey && ('textarea' === element.tagName.toLowerCase() || isContentEdit) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.primaryButtonEle)) && this.buttons.some(function(data, index) {
                         buttonIndex_1 = index;
                         // eslint-disable-next-line
                         var buttonModel = data.buttonModel;
@@ -12126,11 +12126,11 @@
      * @returns {void}
      * @private
      */ Dialog.prototype.initialize = function() {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.target) || (this.targetEle = 'string' == typeof this.target ? document.querySelector(this.target) : this.target), this.isBlazorServerRender() || (0, ej2_base /* addClass */ .cn)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.target) && (this.targetEle = 'string' == typeof this.target ? document.querySelector(this.target) : this.target), !this.isBlazorServerRender() && (0, ej2_base /* addClass */ .cn)([
                         this.element
                     ], ROOT), ej2_base /* Browser.isDevice */ .AR.isDevice && (0, ej2_base /* addClass */ .cn)([
                         this.element
-                    ], DEVICE), this.isBlazorServerRender() || this.setCSSClass(), this.setMaxHeight();
+                    ], DEVICE), !this.isBlazorServerRender() && this.setCSSClass(), this.setMaxHeight();
                 }, /**
      * Initialize the rendering
      *
@@ -12138,9 +12138,9 @@
      * @private
      */ Dialog.prototype.initRender = function() {
                     var _this = this;
-                    if (this.initialRender = !0, this.isBlazorServerRender() || (0, ej2_base /* attributes */ .Y4)(this.element, {
+                    if (this.initialRender = !0, !this.isBlazorServerRender() && (0, ej2_base /* attributes */ .Y4)(this.element, {
                         role: 'dialog'
-                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), this.isBlazorServerRender() || (this.setTargetContent(), '' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header) || this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) && '' === this.footerTemplate && this.setButton(), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
+                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), !this.isBlazorServerRender() && (this.setTargetContent(), '' !== this.header && !(0, ej2_base /* isNullOrUndefined */ .le)(this.header) && this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) && this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) && '' === this.footerTemplate && this.setButton(), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
                         'aria-modal': this.isModal ? 'true' : 'false'
                     }), this.isModal && this.setIsModal()), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.dlgContainer)) {
                         this.dlgContainer = this.element.parentElement;
@@ -12152,7 +12152,7 @@
                             className: 'e-dlg-ref-element'
                         }), parentEle.insertBefore(this.refElement, this.isModal ? this.dlgContainer : this.element);
                     }
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) || // eslint-disable-next-line
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) && // eslint-disable-next-line
                     (this.isModal ? this.targetEle.appendChild(this.dlgContainer) : this.targetEle.appendChild(this.element)), this.popupObj = new popup /* Popup */ .GI(this.element, {
                         height: this.height,
                         width: this.width,
@@ -12171,7 +12171,7 @@
                             };
                             _this.enableResize && _this.resetResizeIcon(), // eslint-disable-next-line
                             _this.trigger('open', eventArgs, function(openEventArgs) {
-                                openEventArgs.preventFocus || _this.focusContent();
+                                !openEventArgs.preventFocus && _this.focusContent();
                             });
                         },
                         // eslint-disable-next-line
@@ -12180,7 +12180,7 @@
                                 _this.dlgOverlay
                             ], 'e-fade'), _this.unBindEvent(_this.element), _this.isModal && (_this.dlgContainer.style.display = 'none'), _this.trigger('close', _this.closeArgs);
                             var activeEle = document.activeElement;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(activeEle) || (0, ej2_base /* isNullOrUndefined */ .le)(activeEle.blur) || activeEle.blur(), (0, ej2_base /* isNullOrUndefined */ .le)(_this.storeActiveElement) || (0, ej2_base /* isNullOrUndefined */ .le)(_this.storeActiveElement.focus) || _this.storeActiveElement.focus();
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(activeEle) && !(0, ej2_base /* isNullOrUndefined */ .le)(activeEle.blur) && activeEle.blur(), !(0, ej2_base /* isNullOrUndefined */ .le)(_this.storeActiveElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(_this.storeActiveElement.focus) && _this.storeActiveElement.focus();
                         }
                     }), this.positionChange(), this.setEnableRTL(), !this.isBlazorServerRender() && ((0, ej2_base /* addClass */ .cn)([
                         this.element
@@ -12189,7 +12189,7 @@
                     var dialogConHeight = this.getMinHeight();
                     if (this.targetEle.offsetHeight < dialogConHeight) {
                         var className = this.enableRtl ? 'e-south-west' : 'e-south-east', resizeIcon = this.element.querySelector('.' + className);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(resizeIcon) || (resizeIcon.style.bottom = '-' + dialogConHeight.toString() + 'px');
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(resizeIcon) && (resizeIcon.style.bottom = '-' + dialogConHeight.toString() + 'px');
                     }
                 }, Dialog.prototype.setOverlayZindex = function(zIndexValue) {
                     var zIndex;
@@ -12205,7 +12205,7 @@
                     });
                 }, Dialog.prototype.setAllowDragging = function() {
                     var _this = this, handleContent = '.' + DLG_HEADER_CONTENT;
-                    this.element.classList.contains('e-draggable') || (this.dragObj = new ej2_base /* Draggable */ ._l(this.element, {
+                    !this.element.classList.contains('e-draggable') && (this.dragObj = new ej2_base /* Draggable */ ._l(this.element, {
                         clone: !1,
                         isDragScroll: !0,
                         abort: '.e-dlg-closeicon-btn',
@@ -12219,19 +12219,19 @@
                         },
                         // eslint-disable-next-line
                         dragStop: function(event) {
-                            _this.isModal && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.position) || _this.dlgContainer.classList.remove('e-dlg-' + _this.position.X + '-' + _this.position.Y), // Reset the dialog position after drag completion.
+                            _this.isModal && (!(0, ej2_base /* isNullOrUndefined */ .le)(_this.position) && _this.dlgContainer.classList.remove('e-dlg-' + _this.position.X + '-' + _this.position.Y), // Reset the dialog position after drag completion.
                             _this.element.style.position = 'relative'), _this.trigger('dragStop', event), _this.element.classList.remove(DLG_RESTRICT_LEFT_VALUE);
                         },
                         // eslint-disable-next-line
                         drag: function(event) {
                             _this.trigger('drag', event);
                         }
-                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) || (this.dragObj.dragArea = this.targetEle));
+                    }), !(0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) && (this.dragObj.dragArea = this.targetEle));
                 }, Dialog.prototype.setButton = function() {
                     if (!this.isBlazorServerRender()) {
                         this.buttonContent = [], this.btnObj = [];
                         for(var footerBtn, i = 0; i < this.buttons.length; i++){
-                            var buttonType = (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[i].type) ? 'button' : this.buttons[i].type.toLowerCase(), btn = this.createElement('button', {
+                            var buttonType = !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[i].type) ? this.buttons[i].type.toLowerCase() : 'button', btn = this.createElement('button', {
                                 attrs: {
                                     type: buttonType
                                 }
@@ -12241,7 +12241,7 @@
                         this.setFooterTemplate();
                     }
                     for(var i = 0, childNodes = this.element.children; i < childNodes.length; i++)childNodes[i].classList.contains(DLG_FOOTER_CONTENT) && (footerBtn = childNodes[i].querySelectorAll('button'));
-                    for(var i = 0; i < this.buttons.length; i++)this.isBlazorServerRender() || (this.btnObj[i] = new button_button /* Button */ .z(this.buttons[i].buttonModel)), this.isBlazorServerRender() && (this.ftrTemplateContent = this.element.querySelector('.' + DLG_FOOTER_CONTENT)), !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && footerBtn.length > 0 && ('function' == typeof this.buttons[i].click && ej2_base /* EventHandler.add */ .bi.add(footerBtn[i], 'click', this.buttons[i].click, this), 'object' == typeof this.buttons[i].click && ej2_base /* EventHandler.add */ .bi.add(footerBtn[i], 'click', this.buttonClickHandler.bind(this, i), this)), this.isBlazorServerRender() || (0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) || (this.btnObj[i].appendTo(this.ftrTemplateContent.children[i]), this.buttons[i].isFlat && this.btnObj[i].element.classList.add('e-flat'), this.primaryButtonEle = this.element.getElementsByClassName('e-primary')[0]);
+                    for(var i = 0; i < this.buttons.length; i++)!this.isBlazorServerRender() && (this.btnObj[i] = new button_button /* Button */ .z(this.buttons[i].buttonModel)), this.isBlazorServerRender() && (this.ftrTemplateContent = this.element.querySelector('.' + DLG_FOOTER_CONTENT)), !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && footerBtn.length > 0 && ('function' == typeof this.buttons[i].click && ej2_base /* EventHandler.add */ .bi.add(footerBtn[i], 'click', this.buttons[i].click, this), 'object' == typeof this.buttons[i].click && ej2_base /* EventHandler.add */ .bi.add(footerBtn[i], 'click', this.buttonClickHandler.bind(this, i), this)), !this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && (this.btnObj[i].appendTo(this.ftrTemplateContent.children[i]), this.buttons[i].isFlat && this.btnObj[i].element.classList.add('e-flat'), this.primaryButtonEle = this.element.getElementsByClassName('e-primary')[0]);
                 }, Dialog.prototype.buttonClickHandler = function(index) {
                     this.trigger('buttons[' + index + '].click', {});
                 }, Dialog.prototype.setContent = function() {
@@ -12250,7 +12250,7 @@
                     }), this.contentEle = this.createElement('div', {
                         className: 'e-dlg-content',
                         id: this.element.id + '_dialog-content'
-                    }), this.innerContentElement ? this.contentEle.appendChild(this.innerContentElement) : ((0, ej2_base /* isNullOrUndefined */ .le)(this.content) || '' === this.content) && this.initialRender || (Object.keys(window), ('string' != typeof this.content || (0, ej2_base /* isBlazor */ .xr)()) && this.content instanceof HTMLElement ? this.contentEle.appendChild(this.content) : this.setTemplate(this.content, this.contentEle, 'content')), (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) ? this.element.insertBefore(this.contentEle, this.element.children[0]) : this.element.insertBefore(this.contentEle, this.element.children[1]), 'auto' === this.height && (this.isBlazorServerRender() || !ej2_base /* Browser.isIE */ .AR.isIE || '' !== this.element.style.width || (0, ej2_base /* isNullOrUndefined */ .le)(this.width) || (this.element.style.width = (0, ej2_base /* formatUnit */ .Ac)(this.width)), this.setMaxHeight());
+                    }), this.innerContentElement ? this.contentEle.appendChild(this.innerContentElement) : (!(0, ej2_base /* isNullOrUndefined */ .le)(this.content) && '' !== this.content || !this.initialRender) && (Object.keys(window), ('string' != typeof this.content || (0, ej2_base /* isBlazor */ .xr)()) && this.content instanceof HTMLElement ? this.contentEle.appendChild(this.content) : this.setTemplate(this.content, this.contentEle, 'content')), (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) ? this.element.insertBefore(this.contentEle, this.element.children[0]) : this.element.insertBefore(this.contentEle, this.element.children[1]), 'auto' === this.height && (!this.isBlazorServerRender() && ej2_base /* Browser.isIE */ .AR.isIE && '' === this.element.style.width && !(0, ej2_base /* isNullOrUndefined */ .le)(this.width) && (this.element.style.width = (0, ej2_base /* formatUnit */ .Ac)(this.width)), this.setMaxHeight());
                 }, Dialog.prototype.setTemplate = function(template, toElement, prop) {
                     Object.keys(window), templateProps = toElement.classList.contains(DLG_HEADER) ? this.element.id + 'header' : toElement.classList.contains(DLG_FOOTER_CONTENT) ? this.element.id + 'footerTemplate' : this.element.id + 'content', (0, ej2_base /* isNullOrUndefined */ .le)(template.outerHTML) ? ('string' == typeof template || 'string' != typeof template || (0, ej2_base /* isBlazor */ .xr)() && !this.isStringTemplate) && ('string' == typeof template && (template = this.sanitizeHelper(template)), this.isVue || 'string' != typeof template ? (templateFn = (0, ej2_base /* compile */ .MY)(template), templateValue = template) : toElement.innerHTML = template) : toElement.appendChild(template);
                     var templateFn, templateProps, templateValue, fromElements = [];
@@ -12271,7 +12271,7 @@
                         (0, ej2_base /* extend */ .l7)(dialogItem, dialogItem, {
                             cancel: !1,
                             helper: null
-                        }), this.trigger('beforeSanitizeHtml', dialogItem), dialogItem.cancel && !(0, ej2_base /* isNullOrUndefined */ .le)(dialogItem.helper) ? value = dialogItem.helper(value) : dialogItem.cancel || (value = ej2_base /* SanitizeHtmlHelper.serializeValue */ .pJ.serializeValue(dialogItem, value));
+                        }), this.trigger('beforeSanitizeHtml', dialogItem), dialogItem.cancel && !(0, ej2_base /* isNullOrUndefined */ .le)(dialogItem.helper) ? value = dialogItem.helper(value) : !dialogItem.cancel && (value = ej2_base /* SanitizeHtmlHelper.serializeValue */ .pJ.serializeValue(dialogItem, value));
                     }
                     return value;
                 }, Dialog.prototype.setMaxHeight = function() {
@@ -12280,12 +12280,12 @@
                         this.element.style.display = 'none', this.element.style.maxHeight = !(0, ej2_base /* isNullOrUndefined */ .le)(this.target) && this.targetEle.offsetHeight < window.innerHeight ? this.targetEle.offsetHeight - 20 + 'px' : window.innerHeight - 20 + 'px', this.element.style.display = display, ej2_base /* Browser.isIE */ .AR.isIE && 'auto' === this.height && !(0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && this.element.offsetHeight < this.contentEle.offsetHeight && (this.element.style.height = 'inherit');
                     }
                 }, Dialog.prototype.setEnableRTL = function() {
-                    this.isBlazorServerRender() || // eslint-disable-next-line
+                    !this.isBlazorServerRender() && // eslint-disable-next-line
                     (this.enableRtl ? (0, ej2_base /* addClass */ .cn)([
                         this.element
                     ], RTL) : (0, ej2_base /* removeClass */ .IV)([
                         this.element
-                    ], RTL)), (0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.e-resize-handle')) || (removeResize(), this.setResize());
+                    ], RTL)), !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.e-resize-handle')) && (removeResize(), this.setResize());
                 }, Dialog.prototype.setTargetContent = function() {
                     var _this = this;
                     if ((0, ej2_base /* isNullOrUndefined */ .le)(this.content) || '' === this.content) {
@@ -12366,14 +12366,14 @@
                     }
                     return null;
                 }, Dialog.prototype.focusContent = function() {
-                    var element = this.getAutoFocusNode(this.element), node = (0, ej2_base /* isNullOrUndefined */ .le)(element) ? this.element : element, userAgent = ej2_base /* Browser.userAgent */ .AR.userAgent;
+                    var element = this.getAutoFocusNode(this.element), node = !(0, ej2_base /* isNullOrUndefined */ .le)(element) ? element : this.element, userAgent = ej2_base /* Browser.userAgent */ .AR.userAgent;
                     (userAgent.indexOf('MSIE ') > 0 || userAgent.indexOf('Trident/') > 0) && this.element.focus(), node.focus(), this.bindEvent(this.element);
                 }, Dialog.prototype.bindEvent = function(element) {
                     ej2_base /* EventHandler.add */ .bi.add(element, 'keydown', this.keyDown, this);
                 }, Dialog.prototype.unBindEvent = function(element) {
                     ej2_base /* EventHandler.remove */ .bi.remove(element, 'keydown', this.keyDown);
                 }, Dialog.prototype.updateSanitizeContent = function() {
-                    this.isBlazorServerRender() || (this.contentEle.innerHTML = this.sanitizeHelper(this.content));
+                    !this.isBlazorServerRender() && (this.contentEle.innerHTML = this.sanitizeHelper(this.content));
                 }, Dialog.prototype.isBlazorServerRender = function() {
                     return (0, ej2_base /* isBlazor */ .xr)() && this.isServerRendered;
                 }, /**
@@ -12393,7 +12393,7 @@
      */ Dialog.prototype.onPropertyChanged = function(newProp, oldProp) {
                     if (this.element.classList.contains(ROOT)) for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
                         case 'content':
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.content) || '' === this.content ? (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) || ((0, ej2_base /* detach */ .og)(this.contentEle), this.contentEle = null) : (this.isBlazorServerRender() && (this.contentEle = this.element.querySelector('.e-dlg-content')), (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) || 'dialog' === this.contentEle.getAttribute('role') ? (!this.isBlazorServerRender() || (0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.e-dlg-content'))) && this.setContent() : (this.isBlazorServerRender() || (this.contentEle.innerHTML = ''), 'function' == typeof this.content ? (this.clearTemplate([
+                            (0, ej2_base /* isNullOrUndefined */ .le)(this.content) || '' === this.content ? !(0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && ((0, ej2_base /* detach */ .og)(this.contentEle), this.contentEle = null) : (this.isBlazorServerRender() && (this.contentEle = this.element.querySelector('.e-dlg-content')), (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) || 'dialog' === this.contentEle.getAttribute('role') ? (!this.isBlazorServerRender() || (0, ej2_base /* isNullOrUndefined */ .le)(this.element.querySelector('.e-dlg-content'))) && this.setContent() : (!this.isBlazorServerRender() && (this.contentEle.innerHTML = ''), 'function' == typeof this.content ? (this.clearTemplate([
                                 'content'
                             ]), (0, ej2_base /* detach */ .og)(this.contentEle), this.contentEle = null, this.setContent()) : 'string' == typeof this.content ? this.isBlazorServerRender() && '' === this.contentEle.innerText ? this.contentEle.insertAdjacentHTML('beforeend', this.sanitizeHelper(this.content)) : this.updateSanitizeContent() : this.contentEle.appendChild(this.content), this.setMaxHeight()));
                             break;
@@ -12411,7 +12411,7 @@
                             ];
                             break;
                         case 'showCloseIcon':
-                            this.element.getElementsByClassName(DLG_CLOSE_ICON).length > 0 ? !this.showCloseIcon && ('' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header)) ? ((0, ej2_base /* detach */ .og)(this.headerContent), this.headerContent = null) : this.showCloseIcon ? this.isBlazorServerRender() && this.wireEvents() : (0, ej2_base /* detach */ .og)(this.closeIcon) : (this.isBlazorServerRender() || this.renderCloseIcon(), this.wireEvents());
+                            this.element.getElementsByClassName(DLG_CLOSE_ICON).length > 0 ? !this.showCloseIcon && ('' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header)) ? ((0, ej2_base /* detach */ .og)(this.headerContent), this.headerContent = null) : this.showCloseIcon ? this.isBlazorServerRender() && this.wireEvents() : (0, ej2_base /* detach */ .og)(this.closeIcon) : (!this.isBlazorServerRender() && this.renderCloseIcon(), this.wireEvents());
                             break;
                         case 'locale':
                             this.showCloseIcon && this.closeIconTitle();
@@ -12441,8 +12441,8 @@
                             break;
                         case 'buttons':
                             var buttonCount = this.buttons.length;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) || this.isBlazorServerRender() || ((0, ej2_base /* detach */ .og)(this.ftrTemplateContent), this.ftrTemplateContent = null);
-                            for(var i = 0; i < buttonCount; i++)(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[i].buttonModel) || (this.footerTemplate = '', this.setButton());
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.ftrTemplateContent) && !this.isBlazorServerRender() && ((0, ej2_base /* detach */ .og)(this.ftrTemplateContent), this.ftrTemplateContent = null);
+                            for(var i = 0; i < buttonCount; i++)!(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[i].buttonModel) && (this.footerTemplate = '', this.setButton());
                             break;
                         case 'allowDragging':
                             this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) ? this.setAllowDragging() : this.dragObj.destroy();
@@ -12469,7 +12469,7 @@
                 }, Dialog.prototype.setTarget = function(target) {
                     this.popupObj.relateTo = target, this.target = target, this.targetEle = 'string' == typeof this.target ? document.querySelector(this.target) : this.target, this.dragObj && (this.dragObj.dragArea = this.targetEle), this.setMaxHeight(), this.isModal && this.updateIsModal(), this.enableResize && this.setResize();
                 }, Dialog.prototype.updateIsModal = function() {
-                    if (this.element.setAttribute('aria-modal', this.isModal ? 'true' : 'false'), this.isModal) (0, ej2_base /* isNullOrUndefined */ .le)(this.dlgOverlay) && (this.setIsModal(), this.element.style.top = '0px', this.element.style.left = '0px', (0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) || this.targetEle.appendChild(this.dlgContainer));
+                    if (this.element.setAttribute('aria-modal', this.isModal ? 'true' : 'false'), this.isModal) (0, ej2_base /* isNullOrUndefined */ .le)(this.dlgOverlay) && (this.setIsModal(), this.element.style.top = '0px', this.element.style.left = '0px', !(0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) && this.targetEle.appendChild(this.dlgContainer));
                     else {
                         for((0, ej2_base /* removeClass */ .IV)([
                             this.element
@@ -12527,13 +12527,13 @@
                             DLG_TARGET,
                             SCROLL_DISABLED
                         ]), this.isModal && (0, ej2_base /* removeClass */ .IV)([
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) ? document.body : this.targetEle
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) ? this.targetEle : document.body
                         ], SCROLL_DISABLED), this.unWireEvents(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj)) for(var i = 0; i < this.btnObj.length; i++)this.btnObj[i].destroy();
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(this.dragObj) || this.dragObj.destroy(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.popupObj.element) && this.popupObj.element.classList.contains('e-popup') && this.popupObj.destroy(), (0, ej2_base /* removeClass */ .IV)([
+                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.dragObj) && this.dragObj.destroy(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.popupObj.element) && this.popupObj.element.classList.contains('e-popup') && this.popupObj.destroy(), (0, ej2_base /* removeClass */ .IV)([
                             this.element
-                        ], classArray), (0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) || '' === this.cssClass || (0, ej2_base /* removeClass */ .IV)([
+                        ], classArray), !(0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) && '' !== this.cssClass && (0, ej2_base /* removeClass */ .IV)([
                             this.element
-                        ], this.cssClass.split(' ')), (0, ej2_base /* isNullOrUndefined */ .le)(this.refElement) || (0, ej2_base /* isNullOrUndefined */ .le)(this.refElement.parentElement) || (this.refElement.parentElement.insertBefore(this.isModal ? this.dlgContainer : this.element, this.refElement), (0, ej2_base /* detach */ .og)(this.refElement), this.refElement = void 0), this.isModal && !this.isBlazorServerRender() && ((0, ej2_base /* detach */ .og)(this.dlgOverlay), this.dlgContainer.parentNode.insertBefore(this.element, this.dlgContainer), (0, ej2_base /* detach */ .og)(this.dlgContainer)), this.isBlazorServerRender() || (this.element.innerHTML = this.clonedEle.innerHTML), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.children)) for(var i = 0; i <= this.element.children.length; i++)i -= i, (0, ej2_base /* detach */ .og)(this.element.children[i]);
+                        ], this.cssClass.split(' ')), !(0, ej2_base /* isNullOrUndefined */ .le)(this.refElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.refElement.parentElement) && (this.refElement.parentElement.insertBefore(this.isModal ? this.dlgContainer : this.element, this.refElement), (0, ej2_base /* detach */ .og)(this.refElement), this.refElement = void 0), this.isModal && !this.isBlazorServerRender() && ((0, ej2_base /* detach */ .og)(this.dlgOverlay), this.dlgContainer.parentNode.insertBefore(this.element, this.dlgContainer), (0, ej2_base /* detach */ .og)(this.dlgContainer)), !this.isBlazorServerRender() && (this.element.innerHTML = this.clonedEle.innerHTML), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.children)) for(var i = 0; i <= this.element.children.length; i++)i -= i, (0, ej2_base /* detach */ .og)(this.element.children[i]);
                         for(var i = 0; i < attrs.length; i++)this.element.removeAttribute(attrs[i]);
                         this.isBlazorServerRender() ? this.isDestroyed = !0 : _super.prototype.destroy.call(this), this.isReact && this.clearTemplate();
                     }
@@ -12581,7 +12581,7 @@
                     var _this = this;
                     if (this.element.classList.contains(ROOT)) {
                         if (!this.element.classList.contains(DLG_SHOW) || !(0, ej2_base /* isNullOrUndefined */ .le)(isFullScreen)) {
-                            (0, ej2_base /* isNullOrUndefined */ .le)(isFullScreen) || this.fullScreen(isFullScreen);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(isFullScreen) && this.fullScreen(isFullScreen);
                             var eventArgs_1 = (0, ej2_base /* isBlazor */ .xr)() ? {
                                 cancel: !1,
                                 element: this.element,
@@ -12689,7 +12689,7 @@
                             this.element
                         ], FULLSCREEN);
                         var display = this.element.style.display;
-                        this.element.style.display = 'none', this.element.style.maxHeight = (0, ej2_base /* isNullOrUndefined */ .le)(this.target) ? window.innerHeight + 'px' : this.targetEle.offsetHeight + 'px', this.element.style.display = display, (0, ej2_base /* addClass */ .cn)([
+                        this.element.style.display = 'none', this.element.style.maxHeight = !(0, ej2_base /* isNullOrUndefined */ .le)(this.target) ? this.targetEle.offsetHeight + 'px' : window.innerHeight + 'px', this.element.style.display = display, (0, ej2_base /* addClass */ .cn)([
                             document.body
                         ], [
                             DLG_TARGET,
@@ -12799,18 +12799,18 @@
                 }
                 // eslint-disable-next-line
                 function formOptions(options, option) {
-                    return options.header = (0, ej2_base /* isNullOrUndefined */ .le)(option.title) ? DLG_UTIL_DEFAULT_TITLE : option.title, options.content = (0, ej2_base /* isNullOrUndefined */ .le)(option.content) ? '' : option.content, options.isModal = !!(0, ej2_base /* isNullOrUndefined */ .le)(option.isModal) || option.isModal, options.showCloseIcon = !(0, ej2_base /* isNullOrUndefined */ .le)(option.showCloseIcon) && option.showCloseIcon, options.allowDragging = !(0, ej2_base /* isNullOrUndefined */ .le)(option.isDraggable) && option.isDraggable, options.closeOnEscape = !(0, ej2_base /* isNullOrUndefined */ .le)(option.closeOnEscape) && option.closeOnEscape, options.position = (0, ej2_base /* isNullOrUndefined */ .le)(option.position) ? {
+                    return options.header = !(0, ej2_base /* isNullOrUndefined */ .le)(option.title) ? option.title : DLG_UTIL_DEFAULT_TITLE, options.content = !(0, ej2_base /* isNullOrUndefined */ .le)(option.content) ? option.content : '', options.isModal = !!(0, ej2_base /* isNullOrUndefined */ .le)(option.isModal) || option.isModal, options.showCloseIcon = !(0, ej2_base /* isNullOrUndefined */ .le)(option.showCloseIcon) && option.showCloseIcon, options.allowDragging = !(0, ej2_base /* isNullOrUndefined */ .le)(option.isDraggable) && option.isDraggable, options.closeOnEscape = !(0, ej2_base /* isNullOrUndefined */ .le)(option.closeOnEscape) && option.closeOnEscape, options.position = !(0, ej2_base /* isNullOrUndefined */ .le)(option.position) ? option.position : {
                         X: 'center',
                         Y: 'top'
-                    } : option.position, options.animationSettings = (0, ej2_base /* isNullOrUndefined */ .le)(option.animationSettings) ? {
+                    }, options.animationSettings = !(0, ej2_base /* isNullOrUndefined */ .le)(option.animationSettings) ? option.animationSettings : {
                         effect: 'Fade',
                         duration: 400,
                         delay: 0
-                    } : option.animationSettings, options.cssClass = (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) ? '' : option.cssClass, options.zIndex = (0, ej2_base /* isNullOrUndefined */ .le)(option.zIndex) ? 1000 : option.zIndex, options.open = (0, ej2_base /* isNullOrUndefined */ .le)(option.open) ? null : option.open, options;
+                    }, options.cssClass = !(0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) ? option.cssClass : '', options.zIndex = !(0, ej2_base /* isNullOrUndefined */ .le)(option.zIndex) ? option.zIndex : 1000, options.open = !(0, ej2_base /* isNullOrUndefined */ .le)(option.open) ? option.open : null, options;
                 }
                 // eslint-disable-next-line
                 function formButtonModel(buttonModel, option, buttonPropModel) {
-                    return (0, ej2_base /* isNullOrUndefined */ .le)(option.text) || (buttonPropModel.buttonModel.content = option.text), (0, ej2_base /* isNullOrUndefined */ .le)(option.icon) || (buttonPropModel.buttonModel.iconCss = option.icon), (0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) || (buttonPropModel.buttonModel.cssClass = option.cssClass), (0, ej2_base /* isNullOrUndefined */ .le)(option.click) || (buttonPropModel.click = option.click), buttonPropModel;
+                    return !(0, ej2_base /* isNullOrUndefined */ .le)(option.text) && (buttonPropModel.buttonModel.content = option.text), !(0, ej2_base /* isNullOrUndefined */ .le)(option.icon) && (buttonPropModel.buttonModel.iconCss = option.icon), !(0, ej2_base /* isNullOrUndefined */ .le)(option.cssClass) && (buttonPropModel.buttonModel.cssClass = option.cssClass), !(0, ej2_base /* isNullOrUndefined */ .le)(option.click) && (buttonPropModel.click = option.click), buttonPropModel;
                 }
                 DialogUtility.alert = /**
      * An alert dialog box is used to display warning like messages to the users.
@@ -12926,9 +12926,9 @@
                     this.parent = parent, this.addEventListener();
                 }
                 return DialogRenderer.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.on(constant /* destroy */ .ob, this.removeEventListener, this));
+                    !this.parent.isDestroyed && (this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.on(constant /* destroy */ .ob, this.removeEventListener, this));
                 }, DialogRenderer.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* destroy */ .ob, this.removeEventListener), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* destroy */ .ob, this.removeEventListener), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
                 }, /**
      * dialog render method
      *
@@ -13105,7 +13105,7 @@
                     if (this.enablePersistence && 'TEXTAREA' === this.originalElement.tagName) {
                         this.element.id = this.originalElement.id + '_wrapper';
                         var data = window.localStorage.getItem(this.getModuleName() + this.element.id);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(data) || '' === data || this.setProperties(JSON.parse(data), !0);
+                        !((0, ej2_base /* isNullOrUndefined */ .le)(data) || '' === data) && this.setProperties(JSON.parse(data), !0);
                     }
                 }, RichTextEditor.prototype.setContainer = function() {
                     this.originalElement = this.element.cloneNode(!0), (null === this.value || null !== this.valueTemplate) && this.setValue(), this.element.hasAttribute('tabindex') && (this.htmlAttributes = {
@@ -13116,10 +13116,10 @@
                         'style',
                         'id',
                         'ejs-for'
-                    ], htmlAttr = {}, a = 0; a < this.element.attributes.length; a++)-1 !== invalidAttr.indexOf(this.element.attributes[a].name) || /^data-val/.test(this.element.attributes[a].name) || (htmlAttr[this.element.attributes[a].name] = this.element.getAttribute(this.element.attributes[a].name));
+                    ], htmlAttr = {}, a = 0; a < this.element.attributes.length; a++)-1 === invalidAttr.indexOf(this.element.attributes[a].name) && !/^data-val/.test(this.element.attributes[a].name) && (htmlAttr[this.element.attributes[a].name] = this.element.getAttribute(this.element.attributes[a].name));
                     if ((0, ej2_base /* extend */ .l7)(htmlAttr, this.htmlAttributes, htmlAttr), this.setProperties({
                         htmlAttributes: htmlAttr
-                    }, !0), (0, ej2_base /* isNullOrUndefined */ .le)(this.htmlAttributes.id) || (this.element.id = this.htmlAttributes.id), 'TEXTAREA' === this.element.tagName) {
+                    }, !0), !(0, ej2_base /* isNullOrUndefined */ .le)(this.htmlAttributes.id) && (this.element.id = this.htmlAttributes.id), 'TEXTAREA' === this.element.tagName) {
                         var rteOuterWrapper = this.createElement('div', {
                             className: this.element.getAttribute('class')
                         });
@@ -13209,7 +13209,7 @@
                     var tool = executeGroup[commandName];
                     if (option && option.undo && option.undo && 0 === this.formatter.getUndoRedoStack().length && this.formatter.saveData(), -1 !== this.maxLength && !(0, ej2_base /* isNullOrUndefined */ .le)(tool.command)) {
                         var currentInsertContentLength = 0;
-                        if ('Links' === tool.command && (currentInsertContentLength = 0 === value.text.length ? value.url.length : value.text.length), ('Images' === tool.command || 'Table' === tool.command || 'Files' === tool.command) && (currentInsertContentLength = 1), 'InsertHTML' === tool.command) if ((0, ej2_base /* isNullOrUndefined */ .le)(value)) (0, ej2_base /* isNullOrUndefined */ .le)(tool.value) || '<hr/>' !== tool.value && '<br/>' !== tool.value || (currentInsertContentLength = 1);
+                        if ('Links' === tool.command && (currentInsertContentLength = 0 === value.text.length ? value.url.length : value.text.length), ('Images' === tool.command || 'Table' === tool.command || 'Files' === tool.command) && (currentInsertContentLength = 1), 'InsertHTML' === tool.command) if ((0, ej2_base /* isNullOrUndefined */ .le)(value)) !(0, ej2_base /* isNullOrUndefined */ .le)(tool.value) && ('<hr/>' === tool.value || '<br/>' === tool.value) && (currentInsertContentLength = 1);
                         else {
                             var tempElem = this.createElement('div');
                             tempElem.innerHTML = value, currentInsertContentLength = tempElem.textContent.length;
@@ -13241,7 +13241,7 @@
                             var url = '' !== imageValue && this.createElement('div', {
                                 innerHTML: imageValue
                             }).firstElementChild.getAttribute('src') || null;
-                            url = (0, ej2_base /* isNullOrUndefined */ .le)(url) ? '' : url, value.url = url, (0, ej2_base /* isNullOrUndefined */ .le)(value.width) && (value.width = {
+                            url = !(0, ej2_base /* isNullOrUndefined */ .le)(url) ? url : '', value.url = url, (0, ej2_base /* isNullOrUndefined */ .le)(value.width) && (value.width = {
                                 minWidth: this.insertImageSettings.minWidth,
                                 maxWidth: this.insertImageSettings.maxWidth,
                                 width: this.insertImageSettings.width
@@ -13261,7 +13261,7 @@
                             var href = '' !== linkValue && this.createElement('div', {
                                 innerHTML: linkValue
                             }).firstElementChild.getAttribute('href') || null;
-                            href = (0, ej2_base /* isNullOrUndefined */ .le)(href) ? '' : href, value.url = href;
+                            href = !(0, ej2_base /* isNullOrUndefined */ .le)(href) ? href : '', value.url = href;
                     }
                     return value;
                 }, RichTextEditor.prototype.encode = function(value) {
@@ -13300,6 +13300,7 @@
                         for(var i = 0; i < closestLI.childNodes.length; i++)"#text" === closestLI.childNodes[i].nodeName && 0 === closestLI.childNodes[i].textContent.trim().length && ((0, ej2_base /* detach */ .og)(closestLI.childNodes[i]), i--);
                         for(var currentLastElem = closestLI; null !== currentLastElem.lastChild && '#text' !== currentLastElem.nodeName;)currentLastElem = currentLastElem.lastChild;
                         this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer || 'BR' !== currentLastElem.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
+                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer ? currentStartContainer : 'BR' === currentLastElem.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentLastElem.previousSibling : currentStartContainer, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
                     }
                 }, /**
      * For internal use only - keydown the event handler;
@@ -13334,7 +13335,7 @@
                         case 'escape':
                             this.contentModule.getEditPanel().focus();
                     }
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || ((0, ej2_base /* isNullOrUndefined */ .le)(this.placeHolderWrapper) || 1 === this.inputElement.textContent.length ? this.setPlaceHolder() : this.placeHolderWrapper.style.display = 'none'), this.autoResize();
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) && ((0, ej2_base /* isNullOrUndefined */ .le)(this.placeHolderWrapper) || 1 === this.inputElement.textContent.length ? this.setPlaceHolder() : this.placeHolderWrapper.style.display = 'none'), this.autoResize();
                 }, RichTextEditor.prototype.keyUp = function(e) {
                     if ("HTML" === this.editorMode) {
                         var range = this.getRange();
@@ -13350,14 +13351,14 @@
                     var allowedKeys = 32 === e.which || 13 === e.which || 8 === e.which || 46 === e.which;
                     ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys || 'Markdown' === this.editorMode && ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys) && !this.inlineMode.enable) && this.formatter.onKeyHandler(this, e), (this.inputElement && 0 !== this.inputElement.textContent.length || this.element.querySelectorAll('.e-toolbar-item.e-active').length > 0) && this.notify(constant /* toolbarRefresh */ .l0, {
                         args: e
-                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || 'Enter' === e.key && 13 === e.keyCode || '<p><br></p>' !== this.inputElement.innerHTML && '<div><br></div>' !== this.inputElement.innerHTML && '<br>' !== this.inputElement.innerHTML || this.setPlaceHolder();
+                    }), !(0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) && ('Enter' !== e.key || 13 !== e.keyCode) && ('<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML) && this.setPlaceHolder();
                 }, /**
      * @param {string} value - specifies the value.
      * @returns {void}
      * @hidden
 
      */ RichTextEditor.prototype.serializeValue = function(value) {
-                    return 'HTML' !== this.editorMode || (0, ej2_base /* isNullOrUndefined */ .le)(value) || (this.enableHtmlEncode ? (value = this.htmlEditorModule.sanitizeHelper((0, util /* decode */ .Jx)(value)), value = this.encode(value)) : value = this.htmlEditorModule.sanitizeHelper(value)), value;
+                    return 'HTML' === this.editorMode && !(0, ej2_base /* isNullOrUndefined */ .le)(value) && (this.enableHtmlEncode ? (value = this.htmlEditorModule.sanitizeHelper((0, util /* decode */ .Jx)(value)), value = this.encode(value)) : value = this.htmlEditorModule.sanitizeHelper(value)), value;
                 }, /**
      * This method will clean up the HTML against cross-site scripting attack and return the HTML as string.
      * It's only applicable to editorMode as `HTML`.
@@ -13456,7 +13457,7 @@
                             };
                             setTimeout(function() {
                                 _this.formatter.onSuccess(_this, args_1);
-                            }, 0), -1 === _this.maxLength || totalLength <= _this.maxLength || e.preventDefault();
+                            }, 0), !(-1 === _this.maxLength || totalLength <= _this.maxLength) && e.preventDefault();
                             return;
                         }
                         if (!pasteArgs.cancel && 'true' === _this.inputElement.contentEditable && (-1 === _this.maxLength || totalLength <= _this.maxLength)) if ((0, ej2_base /* isNullOrUndefined */ .le)(_this.pasteCleanupModule)) {
@@ -13512,12 +13513,12 @@
      */ RichTextEditor.prototype.destroy = function() {
                     if (!this.isDestroyed && this.isRendered) {
                         if (null === this.element.offsetParent) {
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarModule) || this.toolbarModule.destroy(), this.notify(constant /* moduleDestroy */ .P0, {});
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarModule) && this.toolbarModule.destroy(), this.notify(constant /* moduleDestroy */ .P0, {});
                             return;
                         }
-                        if (this.notify(constant /* destroy */ .ob, {}), this.destroyDependentModules(), (0, ej2_base /* isNullOrUndefined */ .le)(this.timeInterval) || (clearInterval(this.timeInterval), this.timeInterval = null), this.unWireEvents(), 'TEXTAREA' === this.originalElement.tagName) {
+                        if (this.notify(constant /* destroy */ .ob, {}), this.destroyDependentModules(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.timeInterval) && (clearInterval(this.timeInterval), this.timeInterval = null), this.unWireEvents(), 'TEXTAREA' === this.originalElement.tagName) {
                             this.element.parentElement.insertBefore(this.valueContainer, this.element), this.valueContainer.id = this.getID(), this.valueContainer.removeAttribute('name'), (0, ej2_base /* detach */ .og)(this.element), '' !== this.originalElement.innerHTML.trim() ? (this.valueContainer.value = this.originalElement.innerHTML.trim(), this.setProperties({
-                                value: (0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? null : this.initialValue
+                                value: !(0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? this.initialValue : null
                             }, !0)) : this.valueContainer.value = this.valueContainer.defaultValue, this.element = this.valueContainer;
                             for(var i = 0; i < this.originalElement.classList.length; i++)(0, ej2_base /* addClass */ .cn)([
                                 this.element
@@ -13529,7 +13530,7 @@
                                 this.element
                             ], classes /* CLS_RTE_HIDDEN */ .je);
                         } else '' !== this.originalElement.innerHTML.trim() ? (this.element.innerHTML = this.originalElement.innerHTML.trim(), this.setProperties({
-                            value: (0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? null : this.initialValue
+                            value: !(0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? this.initialValue : null
                         }, !0)) : this.element.innerHTML = '';
                         if (this.placeholder && this.placeHolderWrapper && (this.placeHolderWrapper = null), !(0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass)) for(var allClassName = this.cssClass.split(' '), i = 0; i < allClassName.length; i++)'' !== allClassName[i].trim() && (0, ej2_base /* removeClass */ .IV)([
                             this.element
@@ -13539,7 +13540,7 @@
                 }, RichTextEditor.prototype.removeHtmlAttributes = function() {
                     if (this.htmlAttributes) for(var keys = Object.keys(this.htmlAttributes), i = 0; i < keys.length && this.element.hasAttribute(keys[i]); i++)this.element.removeAttribute(keys[i]);
                 }, RichTextEditor.prototype.removeAttributes = function() {
-                    this.enabled || (0, ej2_base /* removeClass */ .IV)([
+                    !this.enabled && (0, ej2_base /* removeClass */ .IV)([
                         this.element
                     ], classes /* CLS_DISABLED */ .xu), this.enableRtl && (0, ej2_base /* removeClass */ .IV)([
                         this.element
@@ -13611,7 +13612,7 @@
                                 var nVal = void 0;
                                 nVal = 'enterKey' === prop ? null === this.value || '<div><br></div>' === this.value || '<p><br></p>' === this.value || '<br>' === this.value ? null : this.value : newProp[prop];
                                 var val = 'HTML' === this.editorMode ? (0, util /* getEditValue */ .v7)(nVal, this) : nVal;
-                                ((0, ej2_base /* isNullOrUndefined */ .le)(nVal) || '' === nVal) && 'enterKey' !== prop || (this.value = this.serializeValue(this.enableHtmlEncode ? this.encode((0, util /* decode */ .Jx)(val)) : val)), this.updatePanelValue(), this.inputElement && this.notify(constant /* tableclass */ .LF, {}), this.setPlaceHolder(), this.notify(constant /* xhtmlValidation */ .F, {
+                                (!(0, ej2_base /* isNullOrUndefined */ .le)(nVal) && '' !== nVal || 'enterKey' === prop) && (this.value = this.serializeValue(this.enableHtmlEncode ? this.encode((0, util /* decode */ .Jx)(val)) : val)), this.updatePanelValue(), this.inputElement && this.notify(constant /* tableclass */ .LF, {}), this.setPlaceHolder(), this.notify(constant /* xhtmlValidation */ .F, {
                                     module: 'XhtmlValidation',
                                     newProp: newProp,
                                     oldProp: oldProp
@@ -13738,7 +13739,7 @@
      * @hidden
 
      */ RichTextEditor.prototype.setPlaceHolder = function() {
-                    this.inputElement && this.placeholder && !0 !== this.iframeSettings.enable && ('Markdown' !== this.editorMode ? (this.placeHolderWrapper || (this.placeHolderWrapper = this.createElement('span', {
+                    this.inputElement && this.placeholder && !0 !== this.iframeSettings.enable && ('Markdown' !== this.editorMode ? (!this.placeHolderWrapper && (this.placeHolderWrapper = this.createElement('span', {
                         className: "rte-placeholder e-rte-placeholder " + this.cssClass
                     }), this.inputElement && this.inputElement.parentElement.insertBefore(this.placeHolderWrapper, this.inputElement), (0, ej2_base /* attributes */ .Y4)(this.placeHolderWrapper, {
                         style: 'font-size: 14px; margin-left: 0px; margin-right: 0px;'
@@ -13778,7 +13779,7 @@
                         cancel: !1
                     };
                     this.trigger(constant /* actionBegin */ .m2, printArgs, function(printingArgs) {
-                        printWind = window.open('', 'print', 'height=' + window.outerHeight + ',width=' + window.outerWidth), 'msie' === ej2_base /* Browser.info.name */ .AR.info.name && printWind.resizeTo(screen.availWidth, screen.availHeight), printWind = (0, ej2_base /* print */ .S0)(_this.inputElement, printWind), printingArgs.cancel || _this.trigger(constant /* actionComplete */ .i8, {
+                        printWind = window.open('', 'print', 'height=' + window.outerHeight + ',width=' + window.outerWidth), 'msie' === ej2_base /* Browser.info.name */ .AR.info.name && printWind.resizeTo(screen.availWidth, screen.availHeight), printWind = (0, ej2_base /* print */ .S0)(_this.inputElement, printWind), !printingArgs.cancel && _this.trigger(constant /* actionComplete */ .i8, {
                             requestType: 'print'
                         });
                     });
@@ -13916,8 +13917,8 @@
      */ RichTextEditor.prototype.setContentHeight = function(target, isExpand) {
                     var heightValue, rteHeightPercent, topValue = 0, heightPercent = 'string' == typeof this.height && this.height.indexOf('%') > -1, cntEle = this.sourceCodeModule.getPanel() && 'block' === this.sourceCodeModule.getPanel().parentElement.style.display ? this.sourceCodeModule.getPanel().parentElement : this.contentModule.getPanel(), rteHeight = this.element.offsetHeight;
                     0 === rteHeight && 'auto' !== this.height && !this.getToolbar() && (rteHeight = parseInt(this.height, 10), heightPercent && (rteHeightPercent = this.height));
-                    var tbHeight = this.getToolbar() ? this.toolbarModule.getToolbarHeight() : 0, rzHandle = this.element.querySelector('.' + classes /* CLS_RTE_RES_HANDLE */ .Wk), rzHeight = this.enableResize ? (0, ej2_base /* isNullOrUndefined */ .le)(rzHandle) ? 0 : rzHandle.offsetHeight + 8 : 0, expandPopHeight = this.getToolbar() ? this.toolbarModule.getExpandTBarPopHeight() : 0;
-                    if (this.toolbarSettings.type === base_enum /* ToolbarType.Expand */ .Bv.Expand && isExpand && 'preview' !== target ? (heightValue = 'auto' === this.height && 0 === rzHeight ? 'auto' : rteHeight - (tbHeight + expandPopHeight + rzHeight) + 'px', topValue = this.toolbarSettings.enableFloating ? 0 : expandPopHeight) : heightValue = 'auto' !== this.height || this.element.classList.contains('e-rte-full-screen') || this.isResizeInitialized ? heightPercent && rteHeightPercent ? rteHeightPercent : rteHeight - (tbHeight + rzHeight) + 'px' : 'auto', 'windowResize' !== target && (this.iframeSettings.enable ? 'auto' !== heightValue && (0, ej2_base /* setStyleAttribute */ .V7)(cntEle, {
+                    var tbHeight = this.getToolbar() ? this.toolbarModule.getToolbarHeight() : 0, rzHandle = this.element.querySelector('.' + classes /* CLS_RTE_RES_HANDLE */ .Wk), rzHeight = this.enableResize && !(0, ej2_base /* isNullOrUndefined */ .le)(rzHandle) ? rzHandle.offsetHeight + 8 : 0, expandPopHeight = this.getToolbar() ? this.toolbarModule.getExpandTBarPopHeight() : 0;
+                    if (this.toolbarSettings.type === base_enum /* ToolbarType.Expand */ .Bv.Expand && isExpand && 'preview' !== target ? (heightValue = 'auto' === this.height && 0 === rzHeight ? 'auto' : rteHeight - (tbHeight + expandPopHeight + rzHeight) + 'px', topValue = !this.toolbarSettings.enableFloating ? expandPopHeight : 0) : heightValue = 'auto' !== this.height || this.element.classList.contains('e-rte-full-screen') || this.isResizeInitialized ? heightPercent && rteHeightPercent ? rteHeightPercent : rteHeight - (tbHeight + rzHeight) + 'px' : 'auto', 'windowResize' !== target && (this.iframeSettings.enable ? 'auto' !== heightValue && (0, ej2_base /* setStyleAttribute */ .V7)(cntEle, {
                         height: heightValue,
                         marginTop: topValue + 'px'
                     }) : (0, ej2_base /* setStyleAttribute */ .V7)(cntEle, {
@@ -13954,7 +13955,7 @@
      * @returns {void}
      * @public
      */ RichTextEditor.prototype.showSourceCode = function() {
-                    this.readonly || this.notify(constant /* sourceCode */ .sv, {});
+                    !this.readonly && this.notify(constant /* sourceCode */ .sv, {});
                 }, /**
      * Returns the maximum number of characters in the Rich Text Editor.
      *
@@ -14062,11 +14063,11 @@
                         this.preventDefaultResize(e), this.trigger('focus', {
                             event: e,
                             isInteracted: 0 !== Object.keys(e).length
-                        }), (0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) || !(this.saveInterval > 0) || this.autoSaveOnIdle || (this.timeInterval = setInterval(this.updateValueOnIdle.bind(this), this.saveInterval)), ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown', this.onDocumentClick, this);
+                        }), !(0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) && this.saveInterval > 0 && !this.autoSaveOnIdle && (this.timeInterval = setInterval(this.updateValueOnIdle.bind(this), this.saveInterval)), ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown', this.onDocumentClick, this);
                     }
-                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.getToolbarElement())) for(var toolbarItem = this.getToolbarElement().querySelectorAll('input,select,button,a,[tabindex]'), i = 0; i < toolbarItem.length; i++)toolbarItem[i].classList.contains('e-rte-dropdown-btn') || toolbarItem[i].classList.contains('e-insert-table-btn') || toolbarItem[i].hasAttribute('tabindex') && '-1' === toolbarItem[i].getAttribute('tabindex') || toolbarItem[i].setAttribute('tabindex', '-1');
+                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.getToolbarElement())) for(var toolbarItem = this.getToolbarElement().querySelectorAll('input,select,button,a,[tabindex]'), i = 0; i < toolbarItem.length; i++)!toolbarItem[i].classList.contains('e-rte-dropdown-btn') && !toolbarItem[i].classList.contains('e-insert-table-btn') && (!toolbarItem[i].hasAttribute('tabindex') || '-1' !== toolbarItem[i].getAttribute('tabindex')) && toolbarItem[i].setAttribute('tabindex', '-1');
                 }, RichTextEditor.prototype.getUpdatedValue = function() {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.tableModule) || this.tableModule.removeResizeElement();
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.tableModule) && this.tableModule.removeResizeElement();
                     var value, getTextArea = this.element.querySelector('.e-rte-srctextarea');
                     return 'HTML' === this.editorMode ? (value = '<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML ? null : this.enableHtmlEncode ? this.encode((0, util /* decode */ .Jx)(this.inputElement.innerHTML)) : this.inputElement.innerHTML, getTextArea && 'block' === getTextArea.style.display && (value = getTextArea.value)) : value = '' === this.inputElement.value ? null : this.inputElement.value, value;
                 }, RichTextEditor.prototype.updateValueOnIdle = function() {
@@ -14087,7 +14088,7 @@
                     }
                 }, RichTextEditor.prototype.onDocumentClick = function(e) {
                     var target = e.target, rteElement = (0, ej2_base /* closest */ .oq)(target, '.' + classes /* CLS_RTE */ .$E);
-                    this.element.contains(e.target) || document === e.target || rteElement === this.element || (0, ej2_base /* closest */ .oq)(target, '[aria-owns="' + this.getID() + '"]') || (this.isBlur = !0, this.isRTE = !1), this.notify(constant /* docClick */ .v4, {
+                    !this.element.contains(e.target) && document !== e.target && rteElement !== this.element && !(0, ej2_base /* closest */ .oq)(target, '[aria-owns="' + this.getID() + '"]') && (this.isBlur = !0, this.isRTE = !1), this.notify(constant /* docClick */ .v4, {
                         args: e
                     }), 'msie' !== ej2_base /* Browser.info.name */ .AR.info.name && e.detail > 3 && e.preventDefault();
                 }, RichTextEditor.prototype.blurHandler = function(e) {
@@ -14111,7 +14112,7 @@
                         }), this.isValueChangeBlurhandler = !0, this.invokeChangeEvent(), this.isFocusOut = !0, this.isBlur = !1, (0, util /* dispatchEvent */ .Nu)(this.valueContainer, 'focusout'), this.defaultResize(e), this.trigger('blur', {
                             event: e,
                             isInteracted: 0 !== Object.keys(e).length
-                        }), (0, ej2_base /* isNullOrUndefined */ .le)(this.timeInterval) || (clearInterval(this.timeInterval), this.timeInterval = null), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousedown', this.onDocumentClick);
+                        }), !(0, ej2_base /* isNullOrUndefined */ .le)(this.timeInterval) && (clearInterval(this.timeInterval), this.timeInterval = null), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousedown', this.onDocumentClick);
                     } else this.isRTE = !0;
                 }, /**
      * invokeChangeEvent method
@@ -14143,7 +14144,7 @@
                         var element = _a[_i];
                         ej2_base /* EventHandler.add */ .bi.add(element, 'scroll', this.scrollHandler, this);
                     }
-                    this.iframeSettings.enable || ej2_base /* EventHandler.add */ .bi.add(this.contentModule.getPanel(), 'scroll', this.contentScrollHandler, this);
+                    !this.iframeSettings.enable && ej2_base /* EventHandler.add */ .bi.add(this.contentModule.getPanel(), 'scroll', this.contentScrollHandler, this);
                 }, RichTextEditor.prototype.wireContextEvent = function() {
                     this.quickToolbarSettings.showOnRightClick && (ej2_base /* EventHandler.add */ .bi.add(this.inputElement, 'contextmenu', this.contextHandler, this), ej2_base /* Browser.isDevice */ .AR.isDevice && (this.touchModule = new ej2_base /* Touch */ .Xh(this.inputElement, {
                         tapHold: this.touchHandler.bind(this),
@@ -14161,7 +14162,7 @@
                         var element = _a[_i];
                         ej2_base /* EventHandler.remove */ .bi.remove(element, 'scroll', this.scrollHandler);
                     }
-                    this.iframeSettings.enable || ej2_base /* EventHandler.remove */ .bi.remove(this.contentModule.getPanel(), 'scroll', this.contentScrollHandler);
+                    !this.iframeSettings.enable && ej2_base /* EventHandler.remove */ .bi.remove(this.contentModule.getPanel(), 'scroll', this.contentScrollHandler);
                 }, RichTextEditor.prototype.touchHandler = function(e) {
                     this.notifyMouseUp(e.originalEvent), this.triggerEditArea(e.originalEvent);
                 }, RichTextEditor.prototype.contextHandler = function(e) {
@@ -14190,9 +14191,9 @@
                         }
                     } else this.inputElement.style.overflow = null;
                 }, RichTextEditor.prototype.setAutoHeight = function(element) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(element) || (element.style.height = '', element.style.height = this.inputElement.scrollHeight + 'px', element.style.overflow = 'hidden');
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(element) && (element.style.height = '', element.style.height = this.inputElement.scrollHeight + 'px', element.style.overflow = 'hidden');
                 }, RichTextEditor.prototype.wireEvents = function() {
-                    this.element.addEventListener('focusin', this.onFocusHandler, !0), this.element.addEventListener('focusout', this.onBlurHandler, !0), this.on(constant /* contentChanged */ .Ak, this.contentChanged, this), this.on(constant /* resizeInitialized */ .zB, this.updateResizeFlag, this), this.on(constant /* updateTbItemsStatus */ .Wp, this.updateStatus, this), this.readonly && this.enabled || this.bindEvents();
+                    this.element.addEventListener('focusin', this.onFocusHandler, !0), this.element.addEventListener('focusout', this.onBlurHandler, !0), this.on(constant /* contentChanged */ .Ak, this.contentChanged, this), this.on(constant /* resizeInitialized */ .zB, this.updateResizeFlag, this), this.on(constant /* updateTbItemsStatus */ .Wp, this.updateStatus, this), (!this.readonly || !this.enabled) && this.bindEvents();
                 }, RichTextEditor.prototype.restrict = function(e) {
                     if (this.maxLength >= 0) {
                         var element = 'Markdown' === this.editorMode ? this.contentModule.getText() : e && e.currentTarget.textContent;
@@ -14244,7 +14245,7 @@
                         event: e.event
                     });
                 }, RichTextEditor.prototype.unWireEvents = function() {
-                    this.element.removeEventListener('focusin', this.onFocusHandler, !0), this.element.removeEventListener('focusout', this.onBlurHandler, !0), this.off(constant /* contentChanged */ .Ak, this.contentChanged), this.off(constant /* resizeInitialized */ .zB, this.updateResizeFlag), this.off(constant /* updateTbItemsStatus */ .Wp, this.updateStatus), this.readonly && this.enabled || this.unbindEvents();
+                    this.element.removeEventListener('focusin', this.onFocusHandler, !0), this.element.removeEventListener('focusout', this.onBlurHandler, !0), this.off(constant /* contentChanged */ .Ak, this.contentChanged), this.off(constant /* resizeInitialized */ .zB, this.updateResizeFlag), this.off(constant /* updateTbItemsStatus */ .Wp, this.updateStatus), (!this.readonly || !this.enabled) && this.unbindEvents();
                 }, RichTextEditor.prototype.unbindEvents = function() {
                     this.keyboardModule && this.keyboardModule.destroy();
                     var formElement = (0, ej2_base /* closest */ .oq)(this.valueContainer, 'form');
@@ -14647,7 +14648,7 @@
  */ function setEditFrameFocus(editableElement, selector) {
                 if ('BODY' === editableElement.nodeName && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(selector)) {
                     var iframe = top.window.document.querySelector(selector);
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iframe) || iframe.contentWindow.focus();
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iframe) && iframe.contentWindow.focus();
                 }
             }
             /**
@@ -14663,9 +14664,9 @@
                     for(var tableElm = resultElm.querySelectorAll('table'), i = 0; i < tableElm.length; i++){
                         '0' === tableElm[i].getAttribute('border') && tableElm[i].removeAttribute('border');
                         for(var tdElm = tableElm[i].querySelectorAll('td'), j = 0; j < tdElm.length; j++)'none' === tdElm[j].style.borderLeft && tdElm[j].style.removeProperty('border-left'), 'none' === tdElm[j].style.borderRight && tdElm[j].style.removeProperty('border-right'), 'none' === tdElm[j].style.borderBottom && tdElm[j].style.removeProperty('border-bottom'), 'none' === tdElm[j].style.borderTop && tdElm[j].style.removeProperty('border-top'), 'none' === tdElm[j].style.border && tdElm[j].style.removeProperty('border');
-                        tableElm[i].classList.contains('e-rte-table') || tableElm[i].classList.add('e-rte-table');
+                        !tableElm[i].classList.contains('e-rte-table') && tableElm[i].classList.add('e-rte-table');
                     }
-                    for(var imageElm = resultElm.querySelectorAll('img'), i = 0; i < imageElm.length; i++)imageElm[i].classList.contains('e-rte-image') || imageElm[i].classList.add('e-rte-image'), imageElm[i].classList.contains('e-imginline') || imageElm[i].classList.contains('e-imgbreak') || imageElm[i].classList.add('e-imginline');
+                    for(var imageElm = resultElm.querySelectorAll('img'), i = 0; i < imageElm.length; i++)!imageElm[i].classList.contains('e-rte-image') && imageElm[i].classList.add('e-rte-image'), !(imageElm[i].classList.contains('e-imginline') || imageElm[i].classList.contains('e-imgbreak')) && imageElm[i].classList.add('e-imginline');
                 }
                 return resultElm.innerHTML;
             }
@@ -15286,12 +15287,12 @@
                         }
                         if ('TABLE' === start.tagName) if (isTable = !0, '' === start.textContent) {
                             var tdNode = start.querySelectorAll('td');
-                            start = tdNode[tdNode.length - 1], start = (0, ej2_base /* isNullOrUndefined */ .le)(start.childNodes[0]) ? start : start.childNodes[0];
+                            start = tdNode[tdNode.length - 1], start = !(0, ej2_base /* isNullOrUndefined */ .le)(start.childNodes[0]) ? start.childNodes[0] : start;
                         } else {
                             for(var lastNode = start.lastChild; 3 !== lastNode.nodeType && '#text' !== lastNode.nodeName && 'BR' !== lastNode.nodeName;)lastNode = lastNode.lastChild;
                             start = lastNode;
                         }
-                        for(var i = 0; i < config /* selfClosingTags.length */ .i7.length; i++)start = start.tagName !== config /* selfClosingTags */ .i7[i] || isTable ? start : start.parentNode;
+                        for(var i = 0; i < config /* selfClosingTags.length */ .i7.length; i++)start = start.tagName === config /* selfClosingTags */ .i7[i] && !isTable ? start.parentNode : start;
                         if (3 === start.nodeType && '#text' === start.nodeName) this.replaceWith(start, this.marker(className, this.encode(start.textContent)));
                         else if ('BR' === start.nodeName) this.replaceWith(start, this.marker(markerClassName.endSelection, this.encode(start.textContent))), range.endContainer.querySelector('.' + markerClassName.endSelection).appendChild(start);
                         else {
@@ -15373,7 +15374,7 @@
                         /^[\d]+[.]+$/,
                         /^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})[.]$/gi,
                         /^[a-zA-Z][.]+$/
-                    ], elementStart = (0, ej2_base /* isNullOrUndefined */ .le)(elem) ? null : elem.innerText.trim().split('.')[0] + '.';
+                    ], elementStart = !(0, ej2_base /* isNullOrUndefined */ .le)(elem) ? elem.innerText.trim().split('.')[0] + '.' : null;
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(elementStart)) {
                         for(var i = 0; i < olListRegex.length; i++)if (olListRegex[i].test(elementStart)) return !0;
                     }
@@ -15394,8 +15395,8 @@
                     var startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset);
                     // eslint-disable-next-line
                     this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
-                    var preElement = startNode.previousElementSibling, nextElement = startNode.nextElementSibling, preElemULStart = (0, ej2_base /* isNullOrUndefined */ .le)(preElement) ? null : preElement.innerText.trim().substring(0, 1), nextElemULStart = (0, ej2_base /* isNullOrUndefined */ .le)(nextElement) ? null : nextElement.innerText.trim().substring(0, 1), startElementOLTest = this.testCurrentList(range), preElementOLTest = this.testList(preElement), nextElementOLTest = this.testList(nextElement);
-                    preElementOLTest || nextElementOLTest || '*' === preElemULStart || '*' === nextElemULStart || (startElementOLTest ? (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
+                    var preElement = startNode.previousElementSibling, nextElement = startNode.nextElementSibling, preElemULStart = !(0, ej2_base /* isNullOrUndefined */ .le)(preElement) ? preElement.innerText.trim().substring(0, 1) : null, nextElemULStart = !(0, ej2_base /* isNullOrUndefined */ .le)(nextElement) ? nextElement.innerText.trim().substring(0, 1) : null, startElementOLTest = this.testCurrentList(range), preElementOLTest = this.testList(preElement), nextElementOLTest = this.testList(nextElement);
+                    !preElementOLTest && !nextElementOLTest && '*' !== preElemULStart && '*' !== nextElemULStart && (startElementOLTest ? (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
                         subCommand: 'OL',
                         callBack: e.callBack
                     }), e.event.preventDefault()) : ('*' === range.startContainer.textContent.replace(/\u200B/g, '').slice(0, range.startOffset).trim() || '-' === range.startContainer.textContent.replace(/\u200B/g, '').slice(0, range.startOffset).trim()) && (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
@@ -15420,17 +15421,17 @@
                 }, // eslint-disable-next-line
                 Lists.prototype.backspaceList = function(e) {
                     var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset), endNode = this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
-                    if ((startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode) !== (endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode) || (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'li')) || ('' !== startNode.textContent.trim() || 65279 !== startNode.textContent.charCodeAt(0)) && (1 !== startNode.textContent.length || 8203 !== startNode.textContent.charCodeAt(0)) || (startNode.textContent = ''), startNode === endNode && 'LI' === startNode.tagName && 0 === startNode.textContent.length && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousElementSibling) && startNode.removeAttribute('style'), startNode === endNode && '' === startNode.textContent) {
+                    if ((startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode) === (endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode) && !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'li')) && ('' === startNode.textContent.trim() && 65279 === startNode.textContent.charCodeAt(0) || 1 === startNode.textContent.length && 8203 === startNode.textContent.charCodeAt(0)) && (startNode.textContent = ''), startNode === endNode && 'LI' === startNode.tagName && 0 === startNode.textContent.length && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousElementSibling) && startNode.removeAttribute('style'), startNode === endNode && '' === startNode.textContent) {
                         if ('LI' === startNode.parentElement.tagName && 'LI' === endNode.parentElement.tagName) (0, ej2_base /* detach */ .og)(startNode);
                         else if (startNode.closest('ul') || startNode.closest('ol')) {
-                            var parentList = (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ol') : startNode.closest('ul');
+                            var parentList = !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ul') : startNode.closest('ol');
                             if (parentList.firstElementChild === startNode && !(0, ej2_base /* isNullOrUndefined */ .le)(parentList.children[1]) && ('OL' === parentList.children[1].tagName || 'UL' === parentList.children[1].tagName)) if (parentList.tagName === parentList.children[1].tagName) {
                                 for(; parentList.children[1].lastChild;)this.parent.domNode.insertAfter(parentList.children[1].lastChild, parentList.children[1]);
                                 (0, ej2_base /* detach */ .og)(parentList.children[1]);
                             } else parentList.parentElement.insertBefore(parentList.children[1], parentList);
                         }
                     } else if (!(0, ej2_base /* isNullOrUndefined */ .le)(startNode.firstChild) && 'BR' === startNode.firstChild.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.childNodes[1]) && ('UL' === startNode.childNodes[1].nodeName || 'OL' === startNode.childNodes[1].nodeName)) {
-                        var parentList = (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ol') : startNode.closest('ul');
+                        var parentList = !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('ul')) ? startNode.closest('ul') : startNode.closest('ol');
                         if (parentList.tagName === startNode.childNodes[1].nodeName) {
                             for(; startNode.childNodes[1].lastChild;)this.parent.domNode.insertAfter(startNode.children[1].lastChild, startNode);
                             (0, ej2_base /* detach */ .og)(startNode.childNodes[1]);
@@ -15439,7 +15440,7 @@
                     this.removeList(range, e), this.firstListBackSpace(range, e);
                 }, Lists.prototype.removeList = function(range, e) {
                     var startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset), endNode = this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
-                    startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode, endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode, startNode = 'LI' === startNode.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('LI')) ? startNode : startNode.closest('LI'), endNode = 'LI' === endNode.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(endNode.closest('LI')) ? endNode : endNode.closest('LI'), (('OL' === range.commonAncestorContainer.nodeName || 'UL' === range.commonAncestorContainer.nodeName || 'LI' === range.commonAncestorContainer.nodeName) && (0, ej2_base /* isNullOrUndefined */ .le)(endNode.nextElementSibling) && endNode.textContent.length === range.endOffset && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousElementSibling) && 0 === range.startOffset || -1 != ej2_base /* Browser.userAgent.indexOf */ .AR.userAgent.indexOf('Firefox') && range.startContainer === range.endContainer && range.startContainer === this.parent.editableElement && 0 === range.startOffset && 1 === range.endOffset) && (-1 != ej2_base /* Browser.userAgent.indexOf */ .AR.userAgent.indexOf('Firefox') ? (0, ej2_base /* detach */ .og)(range.commonAncestorContainer.childNodes[0]) : 'LI' === range.commonAncestorContainer.nodeName ? (0, ej2_base /* detach */ .og)(range.commonAncestorContainer.parentElement) : (0, ej2_base /* detach */ .og)(range.commonAncestorContainer), e.event.preventDefault());
+                    startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode, endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode, startNode = 'LI' !== startNode.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('LI')) ? startNode.closest('LI') : startNode, endNode = 'LI' !== endNode.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(endNode.closest('LI')) ? endNode.closest('LI') : endNode, (('OL' === range.commonAncestorContainer.nodeName || 'UL' === range.commonAncestorContainer.nodeName || 'LI' === range.commonAncestorContainer.nodeName) && (0, ej2_base /* isNullOrUndefined */ .le)(endNode.nextElementSibling) && endNode.textContent.length === range.endOffset && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousElementSibling) && 0 === range.startOffset || -1 != ej2_base /* Browser.userAgent.indexOf */ .AR.userAgent.indexOf('Firefox') && range.startContainer === range.endContainer && range.startContainer === this.parent.editableElement && 0 === range.startOffset && 1 === range.endOffset) && (-1 != ej2_base /* Browser.userAgent.indexOf */ .AR.userAgent.indexOf('Firefox') ? (0, ej2_base /* detach */ .og)(range.commonAncestorContainer.childNodes[0]) : 'LI' === range.commonAncestorContainer.nodeName ? (0, ej2_base /* detach */ .og)(range.commonAncestorContainer.parentElement) : (0, ej2_base /* detach */ .og)(range.commonAncestorContainer), e.event.preventDefault());
                 }, Lists.prototype.onKeyUp = function() {
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.querySelector('.removeList'))) {
                         for(var currentLIElem = this.commonLIParent.querySelector('.removeList'); !(0, ej2_base /* isNullOrUndefined */ .le)(currentLIElem.firstChild);)this.parent.domNode.insertAfter(currentLIElem.firstChild, currentLIElem);
@@ -15447,21 +15448,21 @@
                     }
                 }, Lists.prototype.firstListBackSpace = function(range, e) {
                     var startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset);
-                    if ((0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('OL')) ? (0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('UL')) || (this.commonLIParent = startNode.closest('UL')) : this.commonLIParent = startNode.closest('OL'), 'LI' === startNode.nodeName && 0 === range.startOffset && 0 === range.endOffset && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousSibling) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.previousSibling) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('OL')) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('UL')) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('LI'))) {
+                    if ((0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('OL')) ? !(0, ej2_base /* isNullOrUndefined */ .le)(startNode.closest('UL')) && (this.commonLIParent = startNode.closest('UL')) : this.commonLIParent = startNode.closest('OL'), 'LI' === startNode.nodeName && 0 === range.startOffset && 0 === range.endOffset && (0, ej2_base /* isNullOrUndefined */ .le)(startNode.previousSibling) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.previousSibling) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('OL')) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('UL')) && (0, ej2_base /* isNullOrUndefined */ .le)(this.commonLIParent.parentElement.closest('LI'))) {
                         var currentElem = (0, ej2_base /* createElement */ .az)('P');
                         currentElem.innerHTML = '&#8203;', startNode.classList.add('removeList'), this.commonLIParent.parentElement.insertBefore(currentElem, this.commonLIParent);
                     }
                 }, Lists.prototype.keyDownHandler = function(e) {
                     if (13 === e.event.which && this.enterList(e), 32 === e.event.which && this.spaceList(e), 8 === e.event.which && this.backspaceList(e), 46 === e.event.which && 'delete' === e.event.action) {
                         var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), commonAncestor = range.commonAncestorContainer, startEle = range.startContainer, endEle = range.endContainer, startNode = 3 === startEle.nodeType ? startEle.parentElement : startEle, endNode = 3 === endEle.nodeType ? endEle.parentElement : endEle;
-                        'UL' !== commonAncestor.nodeName && 'OL' !== commonAncestor.nodeName || startNode === endNode || (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'ul')) && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'ol')) || (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(endNode, 'ul')) && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(endNode, 'ol')) || commonAncestor.lastElementChild !== (0, ej2_base /* closest */ .oq)(endNode, 'li') || range.collapsed || (0, ej2_base /* detach */ .og)(commonAncestor), this.removeList(range, e);
+                        ('UL' === commonAncestor.nodeName || 'OL' === commonAncestor.nodeName) && startNode !== endNode && (!(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'ul')) || !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(startNode, 'ol'))) && (!(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(endNode, 'ul')) || !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(endNode, 'ol'))) && commonAncestor.lastElementChild === (0, ej2_base /* closest */ .oq)(endNode, 'li') && !range.collapsed && (0, ej2_base /* detach */ .og)(commonAncestor), this.removeList(range, e);
                     }
                     if (9 === e.event.which) {
                         var range = this.parent.nodeSelection.getRange(this.parent.currentDocument);
-                        e.event.action && 'indent' === e.event.action || (this.saveSelection = this.parent.nodeSelection.save(range, this.parent.currentDocument));
+                        !(e.event.action && 'indent' === e.event.action) && (this.saveSelection = this.parent.nodeSelection.save(range, this.parent.currentDocument));
                         var blockNodes = void 0, startOffset = range.startOffset, endOffset = range.endOffset, startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset), endNode = this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
                         if (startNode === endNode && ('BR' === startNode.nodeName || '#text' === startNode.nodeName) && IGNORE_BLOCK_TAGS.indexOf(startNode.parentNode.tagName.toLocaleLowerCase()) >= 0) return;
-                        e.event.action && 'indent' === e.event.action || this.domNode.setMarker(this.saveSelection), blockNodes = this.domNode.blockNodes();
+                        !(e.event.action && 'indent' === e.event.action) && this.domNode.setMarker(this.saveSelection), blockNodes = this.domNode.blockNodes();
                         for(var nodes = [], isNested = !0, i = 0; i < blockNodes.length; i++)'LI' === blockNodes[i].parentNode.tagName ? nodes.push(blockNodes[i].parentNode) : 'LI' === blockNodes[i].tagName && 'P' !== blockNodes[i].childNodes[0].tagName && 'OL' !== blockNodes[i].childNodes[0].tagName && 'UL' !== blockNodes[i].childNodes[0].tagName && nodes.push(blockNodes[i]);
                         nodes.length > 1 || nodes.length && (0 === startOffset && 0 === endOffset || e.ignoreDefault) ? (e.event.preventDefault(), e.event.stopPropagation(), this.currentAction = this.getAction(nodes[0]), e.event.shiftKey ? (this.revertList(nodes, e), this.revertClean()) : isNested = this.nestedList(nodes), isNested && (this.cleanNode(), this.parent.editableElement.focus()), !(e.event.action && 'indent' === e.event.action) && (this.saveSelection = this.domNode.saveMarker(this.saveSelection), this.saveSelection.restore(), e.callBack && e.callBack({
                             requestType: this.currentAction,
@@ -15469,7 +15470,7 @@
                             range: this.parent.nodeSelection.getRange(this.parent.currentDocument),
                             elements: this.parent.domNode.blockNodes(),
                             event: e.event
-                        }))) : e.event.action && 'indent' === e.event.action || (e.event && e.event.shiftKey && 'Tab' === e.event.key && (e.event.action = 'tab'), this.saveSelection = this.domNode.saveMarker(this.saveSelection, e.event.action), this.saveSelection.restore());
+                        }))) : !(e.event.action && 'indent' === e.event.action) && (e.event && e.event.shiftKey && 'Tab' === e.event.key && (e.event.action = 'tab'), this.saveSelection = this.domNode.saveMarker(this.saveSelection, e.event.action), this.saveSelection.restore());
                     } else switch(e.event.action){
                         case 'ordered-list':
                             this.applyListsHandler({
@@ -15616,13 +15617,13 @@
                             var tempElem = void 0;
                             this.parent.domNode.isBlockNode(previousNode.parentElement) && previousNode.parentElement === this.parent.editableElement ? (tempElem = (0, ej2_base /* createElement */ .az)('p'), previousNode.parentElement.insertBefore(tempElem, previousNode), tempElem.appendChild(previousNode)) : tempElem = previousNode;
                             for(var preNode = tempElem.previousSibling; !(0, ej2_base /* isNullOrUndefined */ .le)(preNode) && 'BR' !== preNode.nodeName && !this.parent.domNode.isBlockNode(preNode);)tempElem.firstChild.parentElement.insertBefore(preNode, tempElem.firstChild), preNode = tempElem.previousSibling;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(preNode) || 'BR' !== preNode.nodeName || (0, ej2_base /* detach */ .og)(preNode);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(preNode) && 'BR' === preNode.nodeName && (0, ej2_base /* detach */ .og)(preNode);
                             for(var postNode = tempElem.nextSibling; !(0, ej2_base /* isNullOrUndefined */ .le)(postNode) && 'BR' !== postNode.nodeName && !this.parent.domNode.isBlockNode(postNode);)tempElem.appendChild(postNode), postNode = tempElem.nextSibling;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(postNode) || 'BR' !== postNode.nodeName || (0, ej2_base /* detach */ .og)(postNode);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(postNode) && 'BR' === postNode.nodeName && (0, ej2_base /* detach */ .og)(postNode);
                         }
                         this.setSelectionBRConfig(), listsNodes = this.parent.domNode.blockNodes();
                     }
-                    for(var i = 0; i < listsNodes.length; i++)'TABLE' !== listsNodes[i].tagName || range.collapsed || listsNodes.splice(i, 1), listsNodes.length > 0 && 'LI' !== listsNodes[i].tagName && 'LI' === listsNodes[i].parentNode.tagName && (listsNodes[i] = listsNodes[i].parentNode);
+                    for(var i = 0; i < listsNodes.length; i++)'TABLE' === listsNodes[i].tagName && !range.collapsed && listsNodes.splice(i, 1), listsNodes.length > 0 && 'LI' !== listsNodes[i].tagName && 'LI' === listsNodes[i].parentNode.tagName && (listsNodes[i] = listsNodes[i].parentNode);
                     this.applyLists(listsNodes, this.currentAction, e.selector, e.item, e), e.callBack && e.callBack({
                         requestType: this.currentAction,
                         event: e.event,
@@ -15637,7 +15638,7 @@
                     if (this.isRevert(elements, type, item) && (0, ej2_base /* isNullOrUndefined */ .le)(item)) this.revertList(elements, e), this.removeEmptyListElements();
                     else {
                         this.checkLists(elements, type, item);
-                        for(var i = 0; i < elements.length; i++)if ((0, ej2_base /* isNullOrUndefined */ .le)(item) || (0, ej2_base /* isNullOrUndefined */ .le)(item.listStyle) || ('listImage' === item.listStyle ? (0, ej2_base /* setStyleAttribute */ .V7)(elements[i], {
+                        for(var i = 0; i < elements.length; i++)if (!(0, ej2_base /* isNullOrUndefined */ .le)(item) && !(0, ej2_base /* isNullOrUndefined */ .le)(item.listStyle) && ('listImage' === item.listStyle ? (0, ej2_base /* setStyleAttribute */ .V7)(elements[i], {
                             'list-style-image': item.listImage
                         }) : ((0, ej2_base /* setStyleAttribute */ .V7)(elements[i], {
                             'list-style-image': 'none'
@@ -15666,7 +15667,7 @@
                 }, Lists.prototype.checkLists = function(nodes, tagName, item) {
                     for(var nodesTemp = [], i = 0; i < nodes.length; i++){
                         var node = nodes[i].parentNode;
-                        (0, ej2_base /* isNullOrUndefined */ .le)(item) || 'LI' !== nodes[i].tagName || (0, ej2_base /* isNullOrUndefined */ .le)(item.listStyle) || ('listImage' === item.listStyle ? (0, ej2_base /* setStyleAttribute */ .V7)(node, {
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(item) && 'LI' === nodes[i].tagName && !(0, ej2_base /* isNullOrUndefined */ .le)(item.listStyle) && ('listImage' === item.listStyle ? (0, ej2_base /* setStyleAttribute */ .V7)(node, {
                             'list-style-image': item.listImage
                         }) : ((0, ej2_base /* setStyleAttribute */ .V7)(node, {
                             'list-style-image': 'none'
@@ -15695,7 +15696,7 @@
                             if (childLI.length > 0) for(var y = 0; y < childLI.length; y++)childElements.push(childLI[y]);
                         }
                         for(var i = 0; i < childElements.length; i++){
-                            for(var count = 0, j = 0; j < temp.length; j++)childElements[i].contains(temp[j]) || (count += 1);
+                            for(var count = 0, j = 0; j < temp.length; j++)!childElements[i].contains(temp[j]) && (count += 1);
                             count === temp.length && indentElements.push(childElements[i]);
                         }
                         if (indentElements.length > 0) for(var x = 0; x < indentElements.length; x++)'OL' !== this.domNode.contents(indentElements[x])[0].nodeName && 'UL' !== this.domNode.contents(indentElements[x])[0].nodeName && rightIndent.push(indentElements[x]);
@@ -15996,7 +15997,7 @@
                     'PRE' === range.startContainer.nodeName ? preElem.childNodes[range.endOffset].parentElement.insertBefore(tempSpan, preElem.childNodes[range.endOffset]) : range.startContainer.parentElement.insertBefore(tempSpan, range.startContainer);
                 }, Formats.prototype.applyFormats = function(e) {
                     var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), isSelectAll = !1;
-                    this.parent.editableElement !== range.endContainer || (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.editableElement.children[range.endOffset - 1]) || 'TABLE' !== this.parent.editableElement.children[range.endOffset - 1].tagName || range.collapsed || (isSelectAll = !0);
+                    this.parent.editableElement === range.endContainer && !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.editableElement.children[range.endOffset - 1]) && 'TABLE' === this.parent.editableElement.children[range.endOffset - 1].tagName && !range.collapsed && (isSelectAll = !0);
                     var save = this.parent.nodeSelection.save(range, this.parent.currentDocument);
                     this.parent.domNode.setMarker(save);
                     var formatsNodes = this.parent.domNode.blockNodes();
@@ -16013,9 +16014,9 @@
                             var tempElem = void 0;
                             this.parent.domNode.isBlockNode(previousNode.parentElement) && previousNode.parentElement === this.parent.editableElement ? (tempElem = (0, ej2_base /* createElement */ .az)('div'), previousNode.parentElement.insertBefore(tempElem, previousNode), tempElem.appendChild(previousNode)) : tempElem = previousNode;
                             for(var preNode = tempElem.previousSibling; !(0, ej2_base /* isNullOrUndefined */ .le)(preNode) && 'BR' !== preNode.nodeName && !this.parent.domNode.isBlockNode(preNode);)tempElem.firstChild.parentElement.insertBefore(preNode, tempElem.firstChild), preNode = tempElem.previousSibling;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(preNode) || 'BR' !== preNode.nodeName || (0, ej2_base /* detach */ .og)(preNode);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(preNode) && 'BR' === preNode.nodeName && (0, ej2_base /* detach */ .og)(preNode);
                             for(var postNode = tempElem.nextSibling; !(0, ej2_base /* isNullOrUndefined */ .le)(postNode) && 'BR' !== postNode.nodeName && !this.parent.domNode.isBlockNode(postNode);)tempElem.appendChild(postNode), postNode = tempElem.nextSibling;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(postNode) || 'BR' !== postNode.nodeName || (0, ej2_base /* detach */ .og)(postNode);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(postNode) && 'BR' === postNode.nodeName && (0, ej2_base /* detach */ .og)(postNode);
                         }
                         this.setSelectionBRConfig(), formatsNodes = this.parent.domNode.blockNodes();
                     }
@@ -16029,7 +16030,7 @@
                     }
                     this.preFormatMerge();
                     var startNode = this.parent.editableElement.querySelector('.' + markerClassName.startSelection), endNode = this.parent.editableElement.querySelector('.' + markerClassName.endSelection);
-                    (0, ej2_base /* isNullOrUndefined */ .le)(startNode) || (0, ej2_base /* isNullOrUndefined */ .le)(endNode) || (startNode = startNode.lastChild, endNode = endNode.lastChild), save = this.parent.domNode.saveMarker(save, null), (0, common_util /* isIDevice */ .FA)() && (0, common_util /* setEditFrameFocus */ .ze)(this.parent.editableElement, e.selector), isSelectAll ? this.parent.nodeSelection.setSelectionText(this.parent.currentDocument, startNode, endNode, 0, endNode.textContent.length) : save.restore(), e.callBack && e.callBack({
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(startNode) && !(0, ej2_base /* isNullOrUndefined */ .le)(endNode) && (startNode = startNode.lastChild, endNode = endNode.lastChild), save = this.parent.domNode.saveMarker(save, null), (0, common_util /* isIDevice */ .FA)() && (0, common_util /* setEditFrameFocus */ .ze)(this.parent.editableElement, e.selector), isSelectAll ? this.parent.nodeSelection.setSelectionText(this.parent.currentDocument, startNode, endNode, 0, endNode.textContent.length) : save.restore(), e.callBack && e.callBack({
                         requestType: e.subCommand,
                         editorMode: 'HTML',
                         event: e.event,
@@ -16043,7 +16044,7 @@
                     var preNodes = this.parent.editableElement.querySelectorAll('PRE');
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(preNodes)) for(var i = 0; i < preNodes.length; i++){
                         var previousSib = preNodes[i].previousElementSibling;
-                        (0, ej2_base /* isNullOrUndefined */ .le)(previousSib) || 'PRE' !== previousSib.tagName || (previousSib.insertAdjacentHTML('beforeend', '<br>' + preNodes[i].innerHTML), (0, ej2_base /* detach */ .og)(preNodes[i]));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(previousSib) && 'PRE' === previousSib.tagName && (previousSib.insertAdjacentHTML('beforeend', '<br>' + preNodes[i].innerHTML), (0, ej2_base /* detach */ .og)(preNodes[i]));
                     }
                 }, Formats.prototype.cleanFormats = function(element, tagName) {
                     var ignoreAttr = [
@@ -16126,7 +16127,7 @@
                     if (containsBlockNode) {
                         this.insertTempNode(range, node, nodes, nodeCutter, editNode);
                         var isFirstTextNode = !0, isPreviousInlineElem = void 0, paraElm = void 0, previousParent = void 0;
-                        for(this.contentsDeleted || range.deleteContents(); node.firstChild;){
+                        for(!this.contentsDeleted && range.deleteContents(); node.firstChild;){
                             if ('#text' === node.firstChild.nodeName && '' === node.firstChild.textContent.trim()) {
                                 (0, ej2_base /* detach */ .og)(node.firstChild);
                                 continue;
@@ -16175,17 +16176,17 @@
                         } else {
                             var nodeSelection = new selection /* NodeSelection */ .q(), currentNode = this.getNodeCollection(range, nodeSelection, node)[this.getNodeCollection(range, nodeSelection, node).length - 1], splitedElm = void 0;
                             if ('BR' !== currentNode.nodeName && 'HR' !== currentNode.nodeName && ('#text' !== currentNode.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 'LI' !== currentNode.parentElement.nodeName) || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) || 0 !== currentNode.parentElement.textContent.trim().length) if ('#text' === currentNode.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentNode.parentElement) && 'LI' === currentNode.parentElement.nodeName && currentNode.parentElement.textContent.trim().length > 0) {
-                                splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling), range.collapsed || range.deleteContents(), range.insertNode(node), this.contentsDeleted = !0;
+                                splitedElm = currentNode, 'LI' === currentNode.parentElement.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) && 'BR' === currentNode.nextSibling.nodeName && (0, ej2_base /* detach */ .og)(currentNode.nextSibling), !range.collapsed && range.deleteContents(), range.insertNode(node), this.contentsDeleted = !0;
                                 return;
                             } else splitedElm = nodeCutter.GetSpliceNode(range, blockNode);
-                            else splitedElm = currentNode, 'LI' !== currentNode.parentElement.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) || 'BR' !== currentNode.nextSibling.nodeName || (0, ej2_base /* detach */ .og)(currentNode.nextSibling);
+                            else splitedElm = currentNode, 'LI' === currentNode.parentElement.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentNode.nextSibling) && 'BR' === currentNode.nextSibling.nodeName && (0, ej2_base /* detach */ .og)(currentNode.nextSibling);
                             splitedElm.parentNode.replaceChild(node, splitedElm);
                         }
                     }
                     else range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset]);
                     else (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.childNodes[range.endOffset - 1].nextSibling) ? range.startContainer.appendChild(node) : range.startContainer.insertBefore(node, range.startContainer.childNodes[range.endOffset - 1].nextSibling);
                 }, InsertHtml.cursorPos = function(lastSelectionNode, node, nodeSelection, docElement, editNode) {
-                    lastSelectionNode.classList.add('lastNode'), editNode.innerHTML = (0, common_util /* updateTextNode */ .Hl)(editNode.innerHTML), lastSelectionNode = editNode.querySelector('.lastNode'), (0, ej2_base /* isNullOrUndefined */ .le)(lastSelectionNode) || (this.placeCursorEnd(lastSelectionNode, node, nodeSelection, docElement, editNode), lastSelectionNode.classList.remove('lastNode'), 0 === lastSelectionNode.classList.length && lastSelectionNode.removeAttribute('class'));
+                    lastSelectionNode.classList.add('lastNode'), editNode.innerHTML = (0, common_util /* updateTextNode */ .Hl)(editNode.innerHTML), lastSelectionNode = editNode.querySelector('.lastNode'), !(0, ej2_base /* isNullOrUndefined */ .le)(lastSelectionNode) && (this.placeCursorEnd(lastSelectionNode, node, nodeSelection, docElement, editNode), lastSelectionNode.classList.remove('lastNode'), 0 === lastSelectionNode.classList.length && lastSelectionNode.removeAttribute('class'));
                 }, InsertHtml.imageFocus = function(node, nodeSelection, docElement) {
                     var focusNode = document.createTextNode(' ');
                     node.parentNode.insertBefore(focusNode, node.nextSibling), nodeSelection.setSelectionText(docElement, node.nextSibling, node.nextSibling, 0, 0);
@@ -16202,7 +16203,7 @@
                 }, InsertHtml.removeEmptyElements = function(element) {
                     for(var emptyElements = element.querySelectorAll(':empty'), i = 0; i < emptyElements.length; i++)if (0 > SELF_CLOSING_TAGS.indexOf(emptyElements[i].tagName.toLowerCase())) {
                         var detachableElement = this.findDetachEmptyElem(emptyElements[i]);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) || (0, ej2_base /* detach */ .og)(detachableElement);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) && (0, ej2_base /* detach */ .og)(detachableElement);
                     }
                 }, InsertHtml.closestEle = function(element, editNode) {
                     for(var el = element; el && 1 === el.nodeType;){
@@ -16299,7 +16300,7 @@
                     }
                 }, LinkCommand.prototype.createLink = function(e) {
                     var closestAnchor = !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.selectParent) && e.item.selectParent.length > 0 && (0, ej2_base /* closest */ .oq)(e.item.selectParent[0], 'a');
-                    if (closestAnchor = (0, ej2_base /* isNullOrUndefined */ .le)(closestAnchor) ? !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.selectParent) && e.item.selectParent.length > 0 ? e.item.selectParent[0] : null : closestAnchor, (0, ej2_base /* isNullOrUndefined */ .le)(closestAnchor) || 'A' !== closestAnchor.tagName) {
+                    if (closestAnchor = !(0, ej2_base /* isNullOrUndefined */ .le)(closestAnchor) ? closestAnchor : !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.selectParent) && e.item.selectParent.length > 0 ? e.item.selectParent[0] : null, (0, ej2_base /* isNullOrUndefined */ .le)(closestAnchor) || 'A' !== closestAnchor.tagName) {
                         var domSelection = new selection /* NodeSelection */ .q(), range = domSelection.getRange(this.parent.currentDocument);
                         '#text' === range.endContainer.nodeName && range.startContainer.textContent.length === range.endOffset + 1 && ' ' === range.endContainer.textContent.charAt(range.endOffset) && 'A' === range.endContainer.nextSibling.nodeName && (domSelection.setSelectionText(this.parent.currentDocument, range.startContainer, range.endContainer, range.startOffset, range.endOffset + 1), range = domSelection.getRange(this.parent.currentDocument));
                         var text = !!(0, ej2_base /* isNullOrUndefined */ .le)(e.item.text) || 0 > e.item.text.replace(/ /g, '').localeCompare(range.toString().replace(/\n/g, ' ').replace(/ /g, ''));
@@ -16315,7 +16316,7 @@
                         } else this.createLinkNode(e);
                     } else {
                         var anchorEle = closestAnchor, linkText = '';
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(e.item.url) || anchorEle.setAttribute('href', e.item.url), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.title) || anchorEle.setAttribute('title', e.item.title), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.text) || '' === e.item.text || (linkText = anchorEle.innerText, anchorEle.innerText = e.item.text), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) ? anchorEle.removeAttribute('target') : anchorEle.setAttribute('target', e.item.target), linkText === e.item.text) e.item.selection.setSelectionText(this.parent.currentDocument, anchorEle, anchorEle, 1, 1), e.item.selection.restore();
+                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(e.item.url) && anchorEle.setAttribute('href', e.item.url), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.title) && anchorEle.setAttribute('title', e.item.title), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.text) && '' !== e.item.text && (linkText = anchorEle.innerText, anchorEle.innerText = e.item.text), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) ? anchorEle.removeAttribute('target') : anchorEle.setAttribute('target', e.item.target), linkText === e.item.text) e.item.selection.setSelectionText(this.parent.currentDocument, anchorEle, anchorEle, 1, 1), e.item.selection.restore();
                         else {
                             var startIndex = 'Paste' === e.item.action ? anchorEle.childNodes[0].textContent.length : 0;
                             e.item.selection.setSelectionText(this.parent.currentDocument, anchorEle.childNodes[0], anchorEle.childNodes[0], startIndex, anchorEle.childNodes[0].textContent.length);
@@ -16359,7 +16360,7 @@
                             title: (0, ej2_base /* isNullOrUndefined */ .le)(e.item.title) || '' === e.item.title ? e.item.url : e.item.title
                         }
                     });
-                    return (0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) || anchorEle.setAttribute('target', e.item.target), anchorEle;
+                    return !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) && anchorEle.setAttribute('target', e.item.target), anchorEle;
                 }, LinkCommand.prototype.getSelectionNodes = function(nodeCollection) {
                     nodeCollection = nodeCollection.reverse();
                     for(var index = 0; index < nodeCollection.length; index++)(3 !== nodeCollection[index].nodeType || '' === nodeCollection[index].textContent.trim()) && 'IMG' !== nodeCollection[index].nodeName && (nodeCollection.splice(index, 1), index--);
@@ -16592,7 +16593,7 @@
                     var _this = this, isReplaced = !1;
                     if (e.item.url = (0, ej2_base /* isNullOrUndefined */ .le)(e.item.url) || 'undefined' === e.item.url ? e.item.src : e.item.url, (0, ej2_base /* isNullOrUndefined */ .le)(e.item.selectParent) || 'IMG' !== e.item.selectParent[0].tagName) {
                         var imgElement = (0, ej2_base /* createElement */ .az)('img');
-                        this.setStyle(imgElement, e), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.selection) || e.item.selection.restore(), (0, ej2_base /* isNullOrUndefined */ .le)(e.selector) || 'pasteCleanupModule' !== e.selector ? InsertHtml.Insert(this.parent.currentDocument, imgElement, this.parent.editableElement) : e.callBack({
+                        this.setStyle(imgElement, e), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.selection) && e.item.selection.restore(), (0, ej2_base /* isNullOrUndefined */ .le)(e.selector) || 'pasteCleanupModule' !== e.selector ? InsertHtml.Insert(this.parent.currentDocument, imgElement, this.parent.editableElement) : e.callBack({
                             requestType: 'Images',
                             editorMode: 'HTML',
                             event: e.event,
@@ -16608,7 +16609,7 @@
                     if (e.callBack && ((0, ej2_base /* isNullOrUndefined */ .le)(e.selector) || !(0, ej2_base /* isNullOrUndefined */ .le)(e.selector) && 'pasteCleanupModule' !== e.selector)) {
                         var selectedNode = this.parent.nodeSelection.getSelectedNodes(this.parent.currentDocument)[0], imgElm_1 = 'Replace' === e.value || isReplaced ? e.item.selectParent[0] : ej2_base /* Browser.isIE */ .AR.isIE ? selectedNode.previousSibling : selectedNode.previousElementSibling;
                         imgElm_1.addEventListener('load', function() {
-                            'Replace' === e.value && isReplaced || e.callBack({
+                            ('Replace' !== e.value || !isReplaced) && e.callBack({
                                 requestType: 'Images',
                                 editorMode: 'HTML',
                                 event: e.event,
@@ -16620,7 +16621,7 @@
                         });
                     }
                 }, ImageCommand.prototype.setStyle = function(imgElement, e) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(e.item.url) || imgElement.setAttribute('src', e.item.url), imgElement.setAttribute('class', 'e-rte-image' + ((0, ej2_base /* isNullOrUndefined */ .le)(e.item.cssClass) ? '' : ' ' + e.item.cssClass)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.altText) || imgElement.setAttribute('alt', e.item.altText), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.width) || imgElement.setAttribute('width', this.calculateStyleValue(e.item.width.width)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.height) || imgElement.setAttribute('height', this.calculateStyleValue(e.item.height.height)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.minWidth) || (imgElement.style.minWidth = this.calculateStyleValue(e.item.width.minWidth)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.maxWidth) || (imgElement.style.maxWidth = this.calculateStyleValue(e.item.width.maxWidth)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.minHeight) || (imgElement.style.minHeight = this.calculateStyleValue(e.item.height.minHeight)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) || (0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.maxHeight) || (imgElement.style.maxHeight = this.calculateStyleValue(e.item.height.maxHeight));
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.url) && imgElement.setAttribute('src', e.item.url), imgElement.setAttribute('class', 'e-rte-image' + ((0, ej2_base /* isNullOrUndefined */ .le)(e.item.cssClass) ? '' : ' ' + e.item.cssClass)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.altText) && imgElement.setAttribute('alt', e.item.altText), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.width) && imgElement.setAttribute('width', this.calculateStyleValue(e.item.width.width)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.height) && imgElement.setAttribute('height', this.calculateStyleValue(e.item.height.height)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.minWidth) && (imgElement.style.minWidth = this.calculateStyleValue(e.item.width.minWidth)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.maxWidth) && (imgElement.style.maxWidth = this.calculateStyleValue(e.item.width.maxWidth)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.minHeight) && (imgElement.style.minHeight = this.calculateStyleValue(e.item.height.minHeight)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height) && !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.height.maxHeight) && (imgElement.style.maxHeight = this.calculateStyleValue(e.item.height.maxHeight));
                 }, ImageCommand.prototype.calculateStyleValue = function(value) {
                     return 'string' == typeof value && (value.indexOf('px') || value.indexOf('%') || value.indexOf('auto')) ? value : value + 'px';
                 }, ImageCommand.prototype.insertImageLink = function(e) {
@@ -16629,7 +16630,7 @@
                             href: e.item.url
                         }
                     });
-                    e.item.selectNode[0].parentElement.classList.contains('e-img-wrap') && (e.item.selection.restore(), anchor.setAttribute('contenteditable', 'true')), anchor.appendChild(e.item.selectNode[0]), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) || anchor.setAttribute('target', e.item.target), InsertHtml.Insert(this.parent.currentDocument, anchor, this.parent.editableElement), this.callBack(e);
+                    e.item.selectNode[0].parentElement.classList.contains('e-img-wrap') && (e.item.selection.restore(), anchor.setAttribute('contenteditable', 'true')), anchor.appendChild(e.item.selectNode[0]), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.target) && anchor.setAttribute('target', e.item.target), InsertHtml.Insert(this.parent.currentDocument, anchor, this.parent.editableElement), this.callBack(e);
                 }, ImageCommand.prototype.openImageLink = function(e) {
                     document.defaultView.open(e.item.url, e.item.target), this.callBack(e);
                 }, ImageCommand.prototype.removeImageLink = function(e) {
@@ -16652,9 +16653,9 @@
                     InsertHtml.Insert(this.parent.currentDocument, e.item.insertElement, this.parent.editableElement), this.callBack(e);
                 }, ImageCommand.prototype.imageJustifyLeft = function(e) {
                     var selectNode = e.item.selectNode[0];
-                    (0, ej2_base /* isNullOrUndefined */ .le)(selectNode) || (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(selectNode) && (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
                         selectNode
-                    ], 'e-rte-image'), (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) || ((0, ej2_base /* removeClass */ .IV)([
+                    ], 'e-rte-image'), !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) && ((0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
                     ], CLASS_IMAGE_RIGHT), (0, ej2_base /* addClass */ .cn)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
@@ -16667,9 +16668,9 @@
                     ], CLASS_IMAGE_LEFT), this.callBack(e));
                 }, ImageCommand.prototype.imageJustifyCenter = function(e) {
                     var selectNode = e.item.selectNode[0];
-                    (0, ej2_base /* isNullOrUndefined */ .le)(selectNode) || (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(selectNode) && (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
                         selectNode
-                    ], 'e-rte-image'), (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) || ((0, ej2_base /* removeClass */ .IV)([
+                    ], 'e-rte-image'), !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) && ((0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
                     ], CLASS_IMAGE_LEFT), (0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
@@ -16686,9 +16687,9 @@
                     ], CLASS_IMAGE_CENTER), this.callBack(e));
                 }, ImageCommand.prototype.imageJustifyRight = function(e) {
                     var selectNode = e.item.selectNode[0];
-                    (0, ej2_base /* isNullOrUndefined */ .le)(selectNode) || (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(selectNode) && (selectNode.removeAttribute('class'), (0, ej2_base /* addClass */ .cn)([
                         selectNode
-                    ], 'e-rte-image'), (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) || ((0, ej2_base /* removeClass */ .IV)([
+                    ], 'e-rte-image'), !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) && ((0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
                     ], CLASS_IMAGE_LEFT), (0, ej2_base /* addClass */ .cn)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
@@ -16705,7 +16706,7 @@
                         selectNode
                     ], 'e-rte-image'), (0, ej2_base /* addClass */ .cn)([
                         selectNode
-                    ], 'e-imginline'), (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) || ((0, ej2_base /* removeClass */ .IV)([
+                    ], 'e-imginline'), !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) && ((0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
                     ], CLASS_IMAGE_BREAK), (0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
@@ -16722,7 +16723,7 @@
                         selectNode
                     ], CLASS_IMAGE_BREAK), (0, ej2_base /* addClass */ .cn)([
                         selectNode
-                    ], 'e-rte-image'), (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) || ((0, ej2_base /* removeClass */ .IV)([
+                    ], 'e-rte-image'), !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)) && ((0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
                     ], CLASS_CAPTION_INLINE), (0, ej2_base /* removeClass */ .IV)([
                         (0, ej2_base /* closest */ .oq)(selectNode, '.' + CLASS_CAPTION)
@@ -16758,7 +16759,7 @@
                     var table = (0, ej2_base /* createElement */ .az)('table', {
                         className: 'e-rte-table'
                     }), tblBody = (0, ej2_base /* createElement */ .az)('tbody');
-                    (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.width) || (table.style.width = this.calculateStyleValue(e.item.width.width)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.minWidth) || (table.style.minWidth = this.calculateStyleValue(e.item.width.minWidth)), (0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.maxWidth) || (table.style.maxWidth = this.calculateStyleValue(e.item.width.maxWidth));
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.width) && (table.style.width = this.calculateStyleValue(e.item.width.width)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.minWidth) && (table.style.minWidth = this.calculateStyleValue(e.item.width.minWidth)), !(0, ej2_base /* isNullOrUndefined */ .le)(e.item.width.maxWidth) && (table.style.maxWidth = this.calculateStyleValue(e.item.width.maxWidth));
                     for(var tdWid = parseInt(e.item.width.width, 10) > 100 ? 100 / e.item.columns : parseInt(e.item.width.width, 10) / e.item.columns, i = 0; i < e.item.rows; i++){
                         for(var row = (0, ej2_base /* createElement */ .az)('tr'), j = 0; j < e.item.columns; j++){
                             var cell = (0, ej2_base /* createElement */ .az)('td');
@@ -16891,7 +16892,7 @@
                         }
                         var deleteIndex = currentRow.rowIndex;
                         this.curTable.deleteRow(deleteIndex);
-                        var focusTrEle = (0, ej2_base /* isNullOrUndefined */ .le)(this.curTable.rows[deleteIndex]) ? this.curTable.querySelectorAll('tbody tr')[deleteIndex - 1] : this.curTable.querySelectorAll('tbody tr')[deleteIndex], nextFocusCell = focusTrEle && focusTrEle.querySelectorAll('td')[colIndex];
+                        var focusTrEle = !(0, ej2_base /* isNullOrUndefined */ .le)(this.curTable.rows[deleteIndex]) ? this.curTable.querySelectorAll('tbody tr')[deleteIndex] : this.curTable.querySelectorAll('tbody tr')[deleteIndex - 1], nextFocusCell = focusTrEle && focusTrEle.querySelectorAll('td')[colIndex];
                         nextFocusCell ? (e.item.selection.setSelectionText(this.parent.currentDocument, nextFocusCell, nextFocusCell, 0, 0), nextFocusCell.classList.add('e-cell-select')) : (e.item.selection.setSelectionText(this.parent.currentDocument, this.curTable.querySelector('td'), this.curTable.querySelector('td'), 0, 0), this.curTable.querySelector('td, th').classList.add('e-cell-select'));
                     }
                     e.callBack && e.callBack({
@@ -17314,7 +17315,7 @@
                             'backgroundcolor'
                         ].indexOf(format) > -1;
                         if (range.collapsed) {
-                            var currentFormatNode = isFormatted.getFormattedNode(range.startContainer, format, endNode), currentSelector = (0, ej2_base /* isNullOrUndefined */ .le)(currentFormatNode) ? null : null === currentFormatNode.getAttribute('style') ? currentFormatNode.nodeName : currentFormatNode.nodeName + "[style='" + currentFormatNode.getAttribute('style') + "']";
+                            var currentFormatNode = isFormatted.getFormattedNode(range.startContainer, format, endNode), currentSelector = !(0, ej2_base /* isNullOrUndefined */ .le)(currentFormatNode) ? null === currentFormatNode.getAttribute('style') ? currentFormatNode.nodeName : currentFormatNode.nodeName + "[style='" + currentFormatNode.getAttribute('style') + "']" : null;
                             if (nodes.length > 0) isCollapsed = !0, range = nodeCutter.GetCursorRange(docElement, range, nodes[0]);
                             else if (3 === range.startContainer.nodeType && (range.startContainer.parentElement.childElementCount > 0 && range.startOffset > 0 && 'br' !== range.startContainer.parentElement.firstElementChild.tagName.toLowerCase() || !(0, ej2_base /* isNullOrUndefined */ .le)(currentFormatNode) && currentFormatNode === range.startContainer.parentElement.closest(currentSelector) && 0 != range.startContainer.parentElement.closest(currentSelector).textContent.replace(RegExp(String.fromCharCode(8203), 'g'), '').trim().length)) isCollapsed = !0, range = nodeCutter.GetCursorRange(docElement, range, range.startContainer), nodes.push(range.startContainer);
                             else {
@@ -17329,7 +17330,7 @@
                             var formatNode = isFormatted.getFormattedNode(nodes[index], format, endNode);
                             null === formatNode && ('subscript' === format ? isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'superscript', endNode)) : 'superscript' === format && (isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'subscript', endNode)))), 0 === index && null === formatNode && (isFormat = !0), null !== formatNode && (!isFormat || isFontStyle) ? nodes[index] = this.removeFormat(nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value, domSelection, endNode, domNode) : nodes[index] = this.insertFormat(docElement, nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value), domSelection = this.applySelection(nodes, domSelection, nodeCutter, index, isCollapsed);
                         }
-                        (0, common_util /* isIDevice */ .FA)() && (0, common_util /* setEditFrameFocus */ .ze)(endNode, selector), preventRestore || save.restore(), isSubSup && this.applyFormat(docElement, format, endNode, enterAction);
+                        (0, common_util /* isIDevice */ .FA)() && (0, common_util /* setEditFrameFocus */ .ze)(endNode, selector), !preventRestore && save.restore(), isSubSup && this.applyFormat(docElement, format, endNode, enterAction);
                     }
                 }, SelectionCommands.insertCursorNode = function(docElement, domSelection, range, isFormatted, nodeCutter, format, value, endNode) {
                     var cursorNodes = domSelection.getNodeCollection(range), domNode = new DOMNode(endNode, docElement), cursorFormat = cursorNodes.length > 0 ? cursorNodes.length > 1 && range.startContainer === range.endContainer ? this.getCursorFormat(isFormatted, cursorNodes, format, endNode) : isFormatted.getFormattedNode(cursorNodes[0], format, endNode) : null, cursorNode = null;
@@ -17375,7 +17376,7 @@
                     }
                     if ('backgroundcolor' === format && (fontStyle = formatNode.style.fontSize), 'fontsize' === format) {
                         var bg = (0, ej2_base /* closest */ .oq)(nodes[index].parentElement, "span[style*=background-color]");
-                        (0, ej2_base /* isNullOrUndefined */ .le)(bg) || (bgStyle = bg.style.backgroundColor);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(bg) && (bgStyle = bg.style.backgroundColor);
                     }
                     var formatNodeStyles = formatNode.getAttribute('style'), formatNodeTagName = formatNode.tagName, child = InsertMethods.unwrap(formatNode);
                     if (child[0] && !isFontStyle) for(var nodeTraverse = child[index] ? child[index] : child[0], textNode = nodeTraverse; nodeTraverse && nodeTraverse.parentElement && nodeTraverse.parentElement !== endNode;){
@@ -17385,19 +17386,19 @@
                                 nodeTraverse = nodeTraverse.parentElement;
                                 continue;
                             }
-                            InsertMethods.unwrap(nodeTraverse.parentElement), nodeTraverse = (0, ej2_base /* isNullOrUndefined */ .le)(nodeTraverse.parentElement) || domNode.isBlockNode(nodeTraverse.parentElement) ? nodeTraverse.parentElement : textNode;
+                            InsertMethods.unwrap(nodeTraverse.parentElement), nodeTraverse = !(0, ej2_base /* isNullOrUndefined */ .le)(nodeTraverse.parentElement) && !domNode.isBlockNode(nodeTraverse.parentElement) ? textNode : nodeTraverse.parentElement;
                         } else nodeTraverse = nodeTraverse.parentElement;
                     }
                     if (child.length > 0 && isFontStyle) {
                         for(var num = 0; num < child.length; num++)(3 !== child[num].nodeType || child[num].textContent && child[num].textContent.trim().length > 0) && (child[num] = InsertMethods.Wrap(child[num], this.GetFormatNode(format, value, formatNodeTagName, formatNodeStyles)), child[num].textContent === startText && (0 === num ? range.setStartBefore(child[num]) : num === child.length - 1 && range.setEndAfter(child[num])));
                         var currentNodeElem = nodes[index].parentElement;
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(fontStyle) || '' === fontStyle || (currentNodeElem.style.fontSize = fontStyle), (0, ej2_base /* isNullOrUndefined */ .le)(bgStyle) || '' === bgStyle || (currentNodeElem.style.backgroundColor = bgStyle), 'backgroundcolor' === format && !(0, ej2_base /* isNullOrUndefined */ .le)(fontStyle) && '' !== fontStyle && currentNodeElem.parentElement.innerHTML === currentNodeElem.outerHTML) {
+                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(fontStyle) && '' !== fontStyle && (currentNodeElem.style.fontSize = fontStyle), !(0, ej2_base /* isNullOrUndefined */ .le)(bgStyle) && '' !== bgStyle && (currentNodeElem.style.backgroundColor = bgStyle), 'backgroundcolor' === format && !(0, ej2_base /* isNullOrUndefined */ .le)(fontStyle) && '' !== fontStyle && currentNodeElem.parentElement.innerHTML === currentNodeElem.outerHTML) {
                             var curParentElem = currentNodeElem.parentElement;
                             curParentElem.parentElement.insertBefore(currentNodeElem, curParentElem), (0, ej2_base /* detach */ .og)(curParentElem);
                         }
                         if ('fontsize' === format || 'fontcolor' === format) {
                             for(var liElement = nodes[index].parentElement, parentElement = nodes[index].parentElement; !(0, ej2_base /* isNullOrUndefined */ .le)(parentElement) && 'li' !== parentElement.tagName.toLowerCase();)liElement = parentElement = parentElement.parentElement;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || 'li' !== liElement.tagName.toLowerCase() || liElement.textContent.trim() !== nodes[index].textContent.trim() || ('fontsize' === format ? liElement.style.fontSize = value : (liElement.style.color = value, liElement.style.textDecoration = 'inherit'));
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && 'li' === liElement.tagName.toLowerCase() && liElement.textContent.trim() === nodes[index].textContent.trim() && ('fontsize' === format ? liElement.style.fontSize = value : (liElement.style.color = value, liElement.style.textDecoration = 'inherit'));
                         }
                     }
                     return nodes[index];
@@ -17412,9 +17413,9 @@
                             var element = this.GetFormatNode(format, value);
                             if ('fontsize' === format || 'fontcolor' === format) {
                                 for(var liElement = nodes[index].parentElement, parentElement = nodes[index].parentElement; !(0, ej2_base /* isNullOrUndefined */ .le)(parentElement) && 'li' !== parentElement.tagName.toLowerCase();)liElement = parentElement = parentElement.parentElement;
-                                if ((0, ej2_base /* isNullOrUndefined */ .le)(liElement) || 'li' !== liElement.tagName.toLowerCase() || liElement.textContent.trim() !== nodes[index].textContent.trim() || ('fontsize' === format ? liElement.style.fontSize = value : (liElement.style.color = value, liElement.style.textDecoration = 'inherit')), nodes[index] = this.applyStyles(nodes, index, element), 'fontsize' === format) {
+                                if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && 'li' === liElement.tagName.toLowerCase() && liElement.textContent.trim() === nodes[index].textContent.trim() && ('fontsize' === format ? liElement.style.fontSize = value : (liElement.style.color = value, liElement.style.textDecoration = 'inherit')), nodes[index] = this.applyStyles(nodes, index, element), 'fontsize' === format) {
                                     var bg = (0, ej2_base /* closest */ .oq)(nodes[index].parentElement, "span[style*=background-color]");
-                                    (0, ej2_base /* isNullOrUndefined */ .le)(bg) || (nodes[index].parentElement.style.backgroundColor = bg.style.backgroundColor);
+                                    !(0, ej2_base /* isNullOrUndefined */ .le)(bg) && (nodes[index].parentElement.style.backgroundColor = bg.style.backgroundColor);
                                 }
                             } else nodes[index] = this.applyStyles(nodes, index, element);
                         }
@@ -17689,7 +17690,7 @@
                 }, ClearFormatExec;
             }(), UndoRedoManager = /** @class */ function() {
                 function UndoRedoManager(parent, options) {
-                    this.undoRedoStack = [], this.parent = parent, this.undoRedoSteps = (0, ej2_base /* isNullOrUndefined */ .le)(options) ? 30 : options.undoRedoSteps, this.undoRedoTimer = (0, ej2_base /* isNullOrUndefined */ .le)(options) ? 300 : options.undoRedoTimer, this.addEventListener();
+                    this.undoRedoStack = [], this.parent = parent, this.undoRedoSteps = !(0, ej2_base /* isNullOrUndefined */ .le)(options) ? options.undoRedoSteps : 30, this.undoRedoTimer = !(0, ej2_base /* isNullOrUndefined */ .le)(options) ? options.undoRedoTimer : 300, this.addEventListener();
                 }
                 return UndoRedoManager.prototype.addEventListener = function() {
                     var debounceListener = (0, ej2_base /* debounce */ .Ds)(this.keyUp, this.undoRedoTimer);
@@ -17732,7 +17733,7 @@
                             event.preventDefault(), this.redo(e);
                     }
                 }, UndoRedoManager.prototype.keyUp = function(e) {
-                    17 === e.event.keyCode || e.event.ctrlKey || this.saveData(e);
+                    17 !== e.event.keyCode && !e.event.ctrlKey && this.saveData(e);
                 }, /**
      * RTE collection stored html format.
      *
@@ -17939,10 +17940,10 @@
                 return MsWordPaste.prototype.addEventListener = function() {
                     this.parent.observer.on(common_constant /* MS_WORD_CLEANUP_PLUGIN */ .M, this.wordCleanup, this);
                 }, MsWordPaste.prototype.wordCleanup = function(e) {
-                    var wordPasteStyleConfig = (0, ej2_base /* isNullOrUndefined */ .le)(e.allowedStylePropertiesArray) ? [] : e.allowedStylePropertiesArray, listNodes = [], tempHTMLContent = e.args.clipboardData.getData('text/HTML'), rtfData = e.args.clipboardData.getData('text/rtf'), elm = (0, ej2_base /* createElement */ .az)('p');
+                    var wordPasteStyleConfig = !(0, ej2_base /* isNullOrUndefined */ .le)(e.allowedStylePropertiesArray) ? e.allowedStylePropertiesArray : [], listNodes = [], tempHTMLContent = e.args.clipboardData.getData('text/HTML'), rtfData = e.args.clipboardData.getData('text/rtf'), elm = (0, ej2_base /* createElement */ .az)('p');
                     elm.setAttribute('id', 'MSWord-Content'), elm.innerHTML = tempHTMLContent;
                     var pattern4 = /style='mso-width-source:/i;
-                    (/class='?Mso|style='[^ ]*\bmso-/i.test(tempHTMLContent) || /class="?Mso|style="[^ ]*\bmso-/i.test(tempHTMLContent) || /(class="?Mso|class='?Mso|class="?Xl|class='?Xl|class=Xl|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument)/gi.test(tempHTMLContent) || pattern4.test(tempHTMLContent)) && (this.imageConversion(elm, rtfData), tempHTMLContent = tempHTMLContent.replace(/<img[^>]+>/i, ''), this.addListClass(elm), listNodes = this.cleanUp(elm, listNodes), (0, ej2_base /* isNullOrUndefined */ .le)(listNodes[0]) || 'UL' === listNodes[0].parentElement.tagName || 'OL' === listNodes[0].parentElement.tagName || this.listConverter(listNodes), this.styleCorrection(elm, wordPasteStyleConfig), this.removingComments(elm), this.removeUnwantedElements(elm), this.removeEmptyElements(elm), this.breakLineAddition(elm), this.removeClassName(elm), pattern4.test(tempHTMLContent) && this.addTableBorderClass(elm)), e.callBack(elm.innerHTML);
+                    (/class='?Mso|style='[^ ]*\bmso-/i.test(tempHTMLContent) || /class="?Mso|style="[^ ]*\bmso-/i.test(tempHTMLContent) || /(class="?Mso|class='?Mso|class="?Xl|class='?Xl|class=Xl|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument)/gi.test(tempHTMLContent) || pattern4.test(tempHTMLContent)) && (this.imageConversion(elm, rtfData), tempHTMLContent = tempHTMLContent.replace(/<img[^>]+>/i, ''), this.addListClass(elm), listNodes = this.cleanUp(elm, listNodes), !(0, ej2_base /* isNullOrUndefined */ .le)(listNodes[0]) && 'UL' !== listNodes[0].parentElement.tagName && 'OL' !== listNodes[0].parentElement.tagName && this.listConverter(listNodes), this.styleCorrection(elm, wordPasteStyleConfig), this.removingComments(elm), this.removeUnwantedElements(elm), this.removeEmptyElements(elm), this.breakLineAddition(elm), this.removeClassName(elm), pattern4.test(tempHTMLContent) && this.addTableBorderClass(elm)), e.callBack(elm.innerHTML);
                 }, MsWordPaste.prototype.addListClass = function(elm) {
                     for(var allNodes = elm.querySelectorAll('*'), index = 0; index < allNodes.length; index++)!(0, ej2_base /* isNullOrUndefined */ .le)(allNodes[index].getAttribute('style')) && allNodes[index].getAttribute('style').replace(/ /g, '').replace('\n', '').indexOf('mso-list:l') >= 0 && -1 === allNodes[index].className.toLowerCase().indexOf('msolistparagraph') && 'H' !== allNodes[index].tagName.charAt(0) && allNodes[index].classList.add('msolistparagraph');
                 }, MsWordPaste.prototype.addTableBorderClass = function(elm) {
@@ -18010,7 +18011,7 @@
                 }, MsWordPaste.prototype.breakLineAddition = function(elm) {
                     for(var allElements = elm.querySelectorAll('*'), i = 0; i < allElements.length; i++)if (0 === allElements[i].children.length && '&nbsp;' === allElements[i].innerHTML && '&nbsp;' === allElements[i].innerHTML && !allElements[i].closest('li') && !allElements[i].closest('td')) {
                         var detachableElement = this.findDetachElem(allElements[i]), brElement = (0, ej2_base /* createElement */ .az)('br');
-                        (0, ej2_base /* isNullOrUndefined */ .le)(detachableElement.parentElement) || (detachableElement.parentElement.insertBefore(brElement, detachableElement), (0, ej2_base /* detach */ .og)(detachableElement));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(detachableElement.parentElement) && (detachableElement.parentElement.insertBefore(brElement, detachableElement), (0, ej2_base /* detach */ .og)(detachableElement));
                     }
                 }, MsWordPaste.prototype.findDetachElem = function(element) {
                     return !(0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement) && '' === element.parentElement.textContent.trim() && 'TD' !== element.parentElement.tagName && (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement.querySelector('img')) ? this.findDetachElem(element.parentElement) : element;
@@ -18023,14 +18024,14 @@
                 }, MsWordPaste.prototype.findDetachEmptyElem = function(element) {
                     return (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'MSWord-Content' !== element.parentElement.getAttribute('id') && (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement.querySelector('img')) ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, MsWordPaste.prototype.removeEmptyElements = function(element) {
-                    for(var emptyElements = element.querySelectorAll(':empty'), i = 0; i < emptyElements.length; i++)if ((0, ej2_base /* isNullOrUndefined */ .le)(emptyElements[i].closest('td')) || (0, ej2_base /* isNullOrUndefined */ .le)(emptyElements[i].closest('td').querySelector('.MsoNormal')) || (emptyElements[i].innerHTML = '-'), 'IMG' !== emptyElements[i].tagName && 'BR' !== emptyElements[i].tagName && 'IFRAME' !== emptyElements[i].tagName && 'TD' !== emptyElements[i].tagName && 'HR' !== emptyElements[i].tagName) {
+                    for(var emptyElements = element.querySelectorAll(':empty'), i = 0; i < emptyElements.length; i++)if (!(0, ej2_base /* isNullOrUndefined */ .le)(emptyElements[i].closest('td')) && !(0, ej2_base /* isNullOrUndefined */ .le)(emptyElements[i].closest('td').querySelector('.MsoNormal')) && (emptyElements[i].innerHTML = '-'), 'IMG' !== emptyElements[i].tagName && 'BR' !== emptyElements[i].tagName && 'IFRAME' !== emptyElements[i].tagName && 'TD' !== emptyElements[i].tagName && 'HR' !== emptyElements[i].tagName) {
                         var detachableElement = this.findDetachEmptyElem(emptyElements[i]);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) || (0, ej2_base /* detach */ .og)(detachableElement);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) && (0, ej2_base /* detach */ .og)(detachableElement);
                     }
                 }, MsWordPaste.prototype.styleCorrection = function(elm, wordPasteStyleConfig) {
                     var styleElement = elm.querySelectorAll('style');
                     if (styleElement.length > 0) {
-                        var styles = styleElement[0].innerHTML.match(/[\S ]+\s+{[\s\S]+?}/gi), styleClassObject_1 = (0, ej2_base /* isNullOrUndefined */ .le)(styles) ? null : this.findStyleObject(styles), keys = Object.keys(styleClassObject_1), values = keys.map(function(key) {
+                        var styles = styleElement[0].innerHTML.match(/[\S ]+\s+{[\s\S]+?}/gi), styleClassObject_1 = !(0, ej2_base /* isNullOrUndefined */ .le)(styles) ? this.findStyleObject(styles) : null, keys = Object.keys(styleClassObject_1), values = keys.map(function(key) {
                             return styleClassObject_1[key];
                         });
                         values = this.removeUnwantedStyle(values, wordPasteStyleConfig), this.filterStyles(elm, wordPasteStyleConfig);
@@ -18101,7 +18102,7 @@
                             type = this.listContents[0].trim().length > 1 ? 'ol' : 'ul', listStyleType = this.getlistStyleType(this.listContents[0], type);
                             for(var tempNode = [], j = 1; j < this.listContents.length; j++)tempNode.push(this.listContents[j]);
                             var currentClassName = void 0;
-                            (0, ej2_base /* isNullOrUndefined */ .le)(listNodes[i].className) || (currentClassName = listNodes[i].className), (0, ej2_base /* isNullOrUndefined */ .le)(listNodes[i].getAttribute('style')) || (listNodes[i].setAttribute('style', listNodes[i].getAttribute('style').replace('text-align:start;', '')), '' !== listNodes[i].style.textAlign && (listNodes[i].setAttribute('style', 'text-align:' + listNodes[i].style.textAlign), currentListStyle = listNodes[i].getAttribute('style'))), collection.push({
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(listNodes[i].className) && (currentClassName = listNodes[i].className), !(0, ej2_base /* isNullOrUndefined */ .le)(listNodes[i].getAttribute('style')) && (listNodes[i].setAttribute('style', listNodes[i].getAttribute('style').replace('text-align:start;', '')), '' !== listNodes[i].style.textAlign && (listNodes[i].setAttribute('style', 'text-align:' + listNodes[i].style.textAlign), currentListStyle = listNodes[i].getAttribute('style'))), collection.push({
                                 listType: type,
                                 content: tempNode,
                                 nestedLevel: level,
@@ -18117,7 +18118,7 @@
                             for(var index = 0; index < elemColl.length; index++)stNode.parentElement.insertBefore(elemColl[index], stNode);
                             break;
                         }
-                        stNode.remove(), (stNode = listNodes.shift()) || (stNode = listNodes.shift());
+                        stNode.remove(), !(stNode = listNodes.shift()) && (stNode = listNodes.shift());
                     }
                 }, MsWordPaste.prototype.getlistStyleType = function(listContent, type) {
                     var currentListClass;
@@ -18175,7 +18176,7 @@
                         }
                         prevList.setAttribute('class', collection[index].class);
                         var currentStyle = prevList.getAttribute('style');
-                        prevList.setAttribute('style', (0, ej2_base /* isNullOrUndefined */ .le)(currentStyle) ? '' : currentStyle), pLevel = collection[index].nestedLevel, listCount++;
+                        prevList.setAttribute('style', !(0, ej2_base /* isNullOrUndefined */ .le)(currentStyle) ? currentStyle : ''), pLevel = collection[index].nestedLevel, listCount++;
                     }
                     return root;
                 }, MsWordPaste.prototype.getListContent = function(elem) {
@@ -18516,7 +18517,7 @@
                     while (node && node !== targetNode)
                     return formatCollection;
                 }, ToolbarStatus.isFormattedNode = function(docElement, formatCollection, node, formatNode, fontSize, fontName) {
-                    return formatCollection.bold || (formatCollection.bold = IsFormatted.isBold(node)), formatCollection.italic || (formatCollection.italic = IsFormatted.isItalic(node)), formatCollection.underline || (formatCollection.underline = IsFormatted.isUnderline(node)), formatCollection.strikethrough || (formatCollection.strikethrough = IsFormatted.isStrikethrough(node)), formatCollection.superscript || (formatCollection.superscript = IsFormatted.isSuperscript(node)), formatCollection.subscript || (formatCollection.subscript = IsFormatted.isSubscript(node)), formatCollection.fontcolor || (formatCollection.fontcolor = this.isFontColor(docElement, node)), formatCollection.fontname || (formatCollection.fontname = this.isFontName(docElement, node, fontName)), formatCollection.fontsize || (formatCollection.fontsize = this.isFontSize(node, fontSize)), formatCollection.backgroundcolor || (formatCollection.backgroundcolor = this.isBackgroundColor(node)), formatCollection.orderedlist || (formatCollection.orderedlist = this.isOrderedList(node)), formatCollection.unorderedlist || (formatCollection.unorderedlist = this.isUnorderedList(node)), formatCollection.alignments || (formatCollection.alignments = this.isAlignment(node)), formatCollection.formats || (formatCollection.formats = this.isFormats(node, formatNode), 'pre' !== formatCollection.formats || (formatCollection.insertcode = !0)), formatCollection.createlink || (formatCollection.createlink = this.isLink(node)), formatCollection.numberFormatList || (formatCollection.numberFormatList = this.isNumberFormatList(node)), formatCollection.bulletFormatList || (formatCollection.bulletFormatList = this.isBulletFormatList(node)), formatCollection;
+                    return !formatCollection.bold && (formatCollection.bold = IsFormatted.isBold(node)), !formatCollection.italic && (formatCollection.italic = IsFormatted.isItalic(node)), !formatCollection.underline && (formatCollection.underline = IsFormatted.isUnderline(node)), !formatCollection.strikethrough && (formatCollection.strikethrough = IsFormatted.isStrikethrough(node)), !formatCollection.superscript && (formatCollection.superscript = IsFormatted.isSuperscript(node)), !formatCollection.subscript && (formatCollection.subscript = IsFormatted.isSubscript(node)), !formatCollection.fontcolor && (formatCollection.fontcolor = this.isFontColor(docElement, node)), !formatCollection.fontname && (formatCollection.fontname = this.isFontName(docElement, node, fontName)), !formatCollection.fontsize && (formatCollection.fontsize = this.isFontSize(node, fontSize)), !formatCollection.backgroundcolor && (formatCollection.backgroundcolor = this.isBackgroundColor(node)), !formatCollection.orderedlist && (formatCollection.orderedlist = this.isOrderedList(node)), !formatCollection.unorderedlist && (formatCollection.unorderedlist = this.isUnorderedList(node)), !formatCollection.alignments && (formatCollection.alignments = this.isAlignment(node)), !formatCollection.formats && (formatCollection.formats = this.isFormats(node, formatNode), 'pre' === formatCollection.formats && (formatCollection.insertcode = !0)), !formatCollection.createlink && (formatCollection.createlink = this.isLink(node)), !formatCollection.numberFormatList && (formatCollection.numberFormatList = this.isNumberFormatList(node)), !formatCollection.bulletFormatList && (formatCollection.bulletFormatList = this.isBulletFormatList(node)), formatCollection;
                 }, ToolbarStatus.isFontColor = function(docElement, node) {
                     var color = node.style && node.style.color;
                     return ((null == color || '' === color) && 3 !== node.nodeType && (color = this.getComputedStyle(docElement, node, 'color')), null !== color && '' !== color && void 0 !== color) ? color : null;
@@ -18908,7 +18909,7 @@
                     }
                     return this.currentElement.innerHTML;
                 }, XhtmlValidation.prototype.ImageTags = function() {
-                    for(var imgNodes = this.currentElement.querySelectorAll('IMG'), i = imgNodes.length - 1; i >= 0; i--)imgNodes[i].hasAttribute('alt') || imgNodes[i].setAttribute('alt', '');
+                    for(var imgNodes = this.currentElement.querySelectorAll('IMG'), i = imgNodes.length - 1; i >= 0; i--)!imgNodes[i].hasAttribute('alt') && imgNodes[i].setAttribute('alt', '');
                 }, XhtmlValidation.prototype.removeTags = function() {
                     for(var removeAttribute = [
                         [
@@ -18984,7 +18985,7 @@
      */ HtmlEditor.prototype.sanitizeHelper = function(value) {
                     return value = (0, util /* sanitizeHelper */ .cC)(value, this.parent);
                 }, HtmlEditor.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.nodeSelectionObj = new selection /* NodeSelection */ .q(), this.colorPickerModule = new ColorPickerInput(this.parent, this.locator), this.parent.on(constant /* initialLoad */ .T5, this.instantiateRenderer, this), this.parent.on(constant /* htmlToolbarClick */ .s0, this.onToolbarClick, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* keyUp */ .yR, this.onKeyUp, this), this.parent.on(constant /* renderColorPicker */ .jm, this.renderColorPicker, this), this.parent.on(constant /* initialEnd */ .Xr, this.render, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* selectAll */ .td, this.selectAll, this), this.parent.on(constant /* selectRange */ .jh, this.selectRange, this), this.parent.on(constant /* getSelectedHtml */ .Db, this.getSelectedHtml, this), this.parent.on(constant /* selectionSave */ .gA, this.onSelectionSave, this), this.parent.on(constant /* selectionRestore */ .Wz, this.onSelectionRestore, this), this.parent.on(constant /* readOnlyMode */ .Ed, this.updateReadOnly, this), this.parent.on(constant /* paste */ .RE, this.onPaste, this), this.parent.on(constant /* tableclass */ .LF, this.isTableClassAdded, this));
+                    !this.parent.isDestroyed && (this.nodeSelectionObj = new selection /* NodeSelection */ .q(), this.colorPickerModule = new ColorPickerInput(this.parent, this.locator), this.parent.on(constant /* initialLoad */ .T5, this.instantiateRenderer, this), this.parent.on(constant /* htmlToolbarClick */ .s0, this.onToolbarClick, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* keyUp */ .yR, this.onKeyUp, this), this.parent.on(constant /* renderColorPicker */ .jm, this.renderColorPicker, this), this.parent.on(constant /* initialEnd */ .Xr, this.render, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* selectAll */ .td, this.selectAll, this), this.parent.on(constant /* selectRange */ .jh, this.selectRange, this), this.parent.on(constant /* getSelectedHtml */ .Db, this.getSelectedHtml, this), this.parent.on(constant /* selectionSave */ .gA, this.onSelectionSave, this), this.parent.on(constant /* selectionRestore */ .Wz, this.onSelectionRestore, this), this.parent.on(constant /* readOnlyMode */ .Ed, this.updateReadOnly, this), this.parent.on(constant /* paste */ .RE, this.onPaste, this), this.parent.on(constant /* tableclass */ .LF, this.isTableClassAdded, this));
                 }, HtmlEditor.prototype.updateReadOnly = function() {
                     this.parent.readonly ? ((0, ej2_base /* attributes */ .Y4)(this.parent.contentModule.getEditPanel(), {
                         contenteditable: 'false'
@@ -18996,7 +18997,7 @@
                         this.parent.element
                     ], classes /* CLS_RTE_READONLY */ .PW));
                 }, HtmlEditor.prototype.isTableClassAdded = function() {
-                    for(var tableElement = this.parent.inputElement.querySelectorAll('table'), i = 0; i < tableElement.length; i++)tableElement[i].classList.contains('e-rte-table') || tableElement[i].classList.add('e-rte-table');
+                    for(var tableElement = this.parent.inputElement.querySelectorAll('table'), i = 0; i < tableElement.length; i++)!tableElement[i].classList.contains('e-rte-table') && tableElement[i].classList.add('e-rte-table');
                 }, HtmlEditor.prototype.onSelectionSave = function() {
                     var currentDocument = this.contentRenderer.getDocument(), range = this.nodeSelectionObj.getRange(currentDocument);
                     this.saveSelection = this.nodeSelectionObj.save(range, currentDocument);
@@ -19004,7 +19005,7 @@
                     this.parent.isBlur = !1, this.contentRenderer.getEditPanel().focus(), ((0, ej2_base /* isNullOrUndefined */ .le)(e.items) || e.items) && this.saveSelection.restore();
                 }, HtmlEditor.prototype.onKeyUp = function(e) {
                     var pointer, args = e.args, range = this.parent.getRange(), regEx = RegExp(String.fromCharCode(8203), 'g');
-                    !(0 > [
+                    0 > [
                         8,
                         9,
                         13,
@@ -19033,7 +19034,7 @@
                         121,
                         122,
                         123
-                    ].indexOf(args.keyCode)) || args.shiftKey || args.ctrlKey || args.altKey || (8203 === range.startContainer.textContent.charCodeAt(0) && (pointer = range.startOffset - 1, range.startContainer.textContent = range.startContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)), (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.previousSibling) || (0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.previousSibling.parentElement) || range.startContainer.parentElement !== range.startContainer.previousSibling.parentElement || 8203 !== range.startContainer.previousSibling.textContent.charCodeAt(0) || !(range.startContainer.previousSibling.textContent.length <= 1) || (range.startContainer.previousSibling.textContent = range.startContainer.previousSibling.textContent.replace(regEx, '')), 8203 === range.endContainer.textContent.charCodeAt(range.endOffset) && (pointer = range.startOffset, range.endContainer.textContent = range.endContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)));
+                    ].indexOf(args.keyCode) && !args.shiftKey && !args.ctrlKey && !args.altKey && (8203 === range.startContainer.textContent.charCodeAt(0) && (pointer = range.startOffset - 1, range.startContainer.textContent = range.startContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)), !(0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.previousSibling) && !(0, ej2_base /* isNullOrUndefined */ .le)(range.startContainer.previousSibling.parentElement) && range.startContainer.parentElement === range.startContainer.previousSibling.parentElement && 8203 === range.startContainer.previousSibling.textContent.charCodeAt(0) && range.startContainer.previousSibling.textContent.length <= 1 && (range.startContainer.previousSibling.textContent = range.startContainer.previousSibling.textContent.replace(regEx, '')), 8203 === range.endContainer.textContent.charCodeAt(range.endOffset) && (pointer = range.startOffset, range.endContainer.textContent = range.endContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)));
                 }, HtmlEditor.prototype.onKeyDown = function(e) {
                     var currentRange, _this = this, args = e.args;
                     if ('chrome' === ej2_base /* Browser.info.name */ .AR.info.name && (currentRange = this.parent.getRange(), this.backSpaceCleanup(e, currentRange), this.deleteCleanup(e, currentRange)), 9 === args.keyCode && this.parent.enableTabKey && !(0, ej2_base /* isNullOrUndefined */ .le)(args.target) && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(args.target, '.e-rte-toolbar'))) {
@@ -19073,7 +19074,7 @@
                                 requestType: orderedList_1 ? 'OL' : 'UL'
                             };
                             this.parent.trigger(constant /* actionBegin */ .m2, actionBeginArgs, function(actionBeginArgs) {
-                                actionBeginArgs.cancel || (_this.parent.formatter.editorManager.observer.notify(common_constant /* ON_BEGIN */ .O6, eventArgs_1), _this.parent.trigger(constant /* actionComplete */ .i8, {
+                                !actionBeginArgs.cancel && (_this.parent.formatter.editorManager.observer.notify(common_constant /* ON_BEGIN */ .O6, eventArgs_1), _this.parent.trigger(constant /* actionComplete */ .i8, {
                                     editorMode: _this.parent.editorMode,
                                     elements: _this.parent.formatter.editorManager.domNode.blockNodes(),
                                     event: e.args,
@@ -19084,7 +19085,7 @@
                             });
                         }
                     }
-                    'chrome' !== ej2_base /* Browser.info.name */ .AR.info.name || ((0, ej2_base /* isNullOrUndefined */ .le)(this.rangeElement) || (0, ej2_base /* isNullOrUndefined */ .le)(this.oldRangeElement)) && ((0, ej2_base /* isNullOrUndefined */ .le)(this.deleteRangeElement) || (0, ej2_base /* isNullOrUndefined */ .le)(this.deleteOldRangeElement)) || 'TD' === currentRange.startContainer.parentElement.tagName || 'TH' === currentRange.startContainer.parentElement.tagName || (this.rangeElement = null, this.oldRangeElement = null, this.deleteRangeElement = null, this.deleteOldRangeElement = null, this.isImageDelete || args.preventDefault(), args.preventDefault());
+                    'chrome' === ej2_base /* Browser.info.name */ .AR.info.name && (!(0, ej2_base /* isNullOrUndefined */ .le)(this.rangeElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.oldRangeElement) || !(0, ej2_base /* isNullOrUndefined */ .le)(this.deleteRangeElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.deleteOldRangeElement)) && 'TD' !== currentRange.startContainer.parentElement.tagName && 'TH' !== currentRange.startContainer.parentElement.tagName && (this.rangeElement = null, this.oldRangeElement = null, this.deleteRangeElement = null, this.deleteOldRangeElement = null, !this.isImageDelete && args.preventDefault(), args.preventDefault());
                 }, HtmlEditor.prototype.isOrderedList = function(editorValue) {
                     editorValue = editorValue.replace(/\u200B/g, '');
                     var olListStartRegex = [
@@ -19312,7 +19313,7 @@
                 }, HtmlEditor.prototype.instantiateRenderer = function() {
                     this.parent.iframeSettings.enable ? this.renderFactory.addRenderer(base_enum /* RenderType.Content */ .y2.Content, new IframeContentRender(this.parent, this.locator)) : this.renderFactory.addRenderer(base_enum /* RenderType.Content */ .y2.Content, new ContentRender(this.parent, this.locator));
                 }, HtmlEditor.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* initialEnd */ .Xr, this.render), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* htmlToolbarClick */ .s0, this.onToolbarClick), this.parent.off(constant /* renderColorPicker */ .jm, this.renderColorPicker), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* keyDown */ .QG, this.onKeyDown), this.parent.off(constant /* initialLoad */ .T5, this.instantiateRenderer), this.parent.off(constant /* selectAll */ .td, this.selectAll), this.parent.off(constant /* selectRange */ .jh, this.selectRange), this.parent.off(constant /* getSelectedHtml */ .Db, this.getSelectedHtml), this.parent.off(constant /* selectionSave */ .gA, this.onSelectionSave), this.parent.off(constant /* selectionRestore */ .Wz, this.onSelectionRestore), this.parent.off(constant /* readOnlyMode */ .Ed, this.updateReadOnly), this.parent.off(constant /* paste */ .RE, this.onPaste), this.parent.off(constant /* tableclass */ .LF, this.isTableClassAdded));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* initialEnd */ .Xr, this.render), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* htmlToolbarClick */ .s0, this.onToolbarClick), this.parent.off(constant /* renderColorPicker */ .jm, this.renderColorPicker), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* keyDown */ .QG, this.onKeyDown), this.parent.off(constant /* initialLoad */ .T5, this.instantiateRenderer), this.parent.off(constant /* selectAll */ .td, this.selectAll), this.parent.off(constant /* selectRange */ .jh, this.selectRange), this.parent.off(constant /* getSelectedHtml */ .Db, this.getSelectedHtml), this.parent.off(constant /* selectionSave */ .gA, this.onSelectionSave), this.parent.off(constant /* selectionRestore */ .Wz, this.onSelectionRestore), this.parent.off(constant /* readOnlyMode */ .Ed, this.updateReadOnly), this.parent.off(constant /* paste */ .RE, this.onPaste), this.parent.off(constant /* tableclass */ .LF, this.isTableClassAdded));
                 }, HtmlEditor.prototype.render = function() {
                     this.contentRenderer = this.renderFactory.getRenderer(base_enum /* RenderType.Content */ .y2.Content);
                     var editElement = this.contentRenderer.getEditPanel(), option = {
@@ -19329,7 +19330,7 @@
                             formatter: formatterClass
                         }, !0);
                     } else this.parent.formatter.updateFormatter(editElement, this.contentRenderer.getDocument(), option);
-                    this.parent.enableXhtml && this.parent.notify(constant /* xhtmlValidation */ .F, {}), this.parent.toolbarSettings.enable && (this.toolbarUpdate = new HtmlToolbarStatus(this.parent)), this.parent.inlineMode.enable && ((0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontFamily.default) || (editElement.style.fontFamily = this.parent.fontFamily.default), (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontSize.default) || (editElement.style.fontSize = this.parent.fontSize.default)), this.parent.notify(constant /* bindOnEnd */ .$d, {});
+                    this.parent.enableXhtml && this.parent.notify(constant /* xhtmlValidation */ .F, {}), this.parent.toolbarSettings.enable && (this.toolbarUpdate = new HtmlToolbarStatus(this.parent)), this.parent.inlineMode.enable && (!(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontFamily.default) && (editElement.style.fontFamily = this.parent.fontFamily.default), !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontSize.default) && (editElement.style.fontSize = this.parent.fontSize.default)), this.parent.notify(constant /* bindOnEnd */ .$d, {});
                 }, /**
      * Called internally if any of the property value changed.
      *
@@ -19444,7 +19445,7 @@
      * @returns {void}
      */ RadioButton.prototype.destroy = function() {
                     var _this = this, radioWrap = this.wrapper;
-                    _super.prototype.destroy.call(this), radioWrap && (this.disabled || this.unWireEvents(), 'INPUT' === this.tagName ? (radioWrap.parentNode && radioWrap.parentNode.insertBefore(this.element, radioWrap), (0, ej2_base /* detach */ .og)(radioWrap), this.element.checked = !1, [
+                    _super.prototype.destroy.call(this), radioWrap && (!this.disabled && this.unWireEvents(), 'INPUT' === this.tagName ? (radioWrap.parentNode && radioWrap.parentNode.insertBefore(this.element, radioWrap), (0, ej2_base /* detach */ .og)(radioWrap), this.element.checked = !1, [
                         'name',
                         'value',
                         'disabled'
@@ -19493,7 +19494,7 @@
                     this.isVue && value && value === this.value && (this.checked = !0), (this.isVue ? this.value && !value : this.value) && this.element.setAttribute('value', this.value), this.checked && (this.element.checked = !0), this.disabled && this.setDisabled();
                 }, RadioButton.prototype.initWrapper = function() {
                     var rippleSpan, wrapper = this.element.parentElement;
-                    wrapper.classList.contains(WRAPPER) || (wrapper = this.createElement('div', {
+                    !wrapper.classList.contains(WRAPPER) && (wrapper = this.createElement('div', {
                         className: WRAPPER
                     }), this.element.parentNode.insertBefore(wrapper, this.element));
                     var label = this.createElement('label', {
@@ -19566,7 +19567,7 @@
      * @returns {void}
      */ RadioButton.prototype.preRender = function() {
                     var element = this.element;
-                    if (this.formElement = (0, ej2_base /* closest */ .oq)(this.element, 'form'), this.tagName = this.element.tagName, element = (0, common /* wrapperInitialize */ .Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), this.element = element, 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), this.element.id || (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
+                    if (this.formElement = (0, ej2_base /* closest */ .oq)(this.element, 'form'), this.tagName = this.element.tagName, element = (0, common /* wrapperInitialize */ .Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), this.element = element, 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), !this.element.id && (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
                         var formControlName = this.element.getAttribute('formcontrolname');
                         formControlName && (this.setProperties({
                             name: formControlName
@@ -19578,7 +19579,7 @@
      * @private
      * @returns {void}
      */ RadioButton.prototype.render = function() {
-                    this.initialize(), this.disabled || this.wireEvents(), this.renderComplete(), this.wrapper = this.getWrapper();
+                    this.initialize(), !this.disabled && this.wireEvents(), this.renderComplete(), this.wrapper = this.getWrapper();
                 }, RadioButton.prototype.setDisabled = function() {
                     this.element.disabled = !0;
                 }, RadioButton.prototype.setText = function(text) {
@@ -19661,12 +19662,12 @@
  * @private
  */ function createSpinner(args, internalCreateElement) {
                 if (args.target) {
-                    var target, spinnerContainer, spinnerInnerContainer, radius, makeElement = (0, ej2_base /* isNullOrUndefined */ .le)(internalCreateElement) ? ej2_base /* createElement */ .az : internalCreateElement, container = (target = args.target, spinnerContainer = makeElement('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
+                    var target, spinnerContainer, spinnerInnerContainer, radius, makeElement = !(0, ej2_base /* isNullOrUndefined */ .le)(internalCreateElement) ? internalCreateElement : ej2_base /* createElement */ .az, container = (target = args.target, spinnerContainer = makeElement('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
                         wrap: spinnerContainer,
                         inner_wrap: spinnerInnerContainer
                     });
-                    if ((0, ej2_base /* isNullOrUndefined */ .le)(args.cssClass) || container.wrap.classList.add(args.cssClass), (0, ej2_base /* isNullOrUndefined */ .le)(args.template) && (0, ej2_base /* isNullOrUndefined */ .le)(null)) {
-                        var container1, container2, label, labelEle, theme = (0, ej2_base /* isNullOrUndefined */ .le)(args.type) ? (container1 = container.wrap, window.getComputedStyle(container1, ':after').getPropertyValue('content').replace(/['"]+/g, '')) : args.type;
+                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(args.cssClass) && container.wrap.classList.add(args.cssClass), (0, ej2_base /* isNullOrUndefined */ .le)(args.template) && (0, ej2_base /* isNullOrUndefined */ .le)(null)) {
+                        var container1, container2, label, labelEle, theme = !(0, ej2_base /* isNullOrUndefined */ .le)(args.type) ? args.type : (container1 = container.wrap, window.getComputedStyle(container1, ':after').getPropertyValue('content').replace(/['"]+/g, ''));
                         radius = /**
  *
  * @param {string} width - specifies the width
@@ -19688,7 +19689,7 @@
                                     defaultSize = 36;
                             }
                             return width = width ? parseFloat(width + '') : defaultSize, 'Bootstrap' === theme ? width : width / 2;
-                        }((0, ej2_base /* isNullOrUndefined */ .le)(args.width) ? void 0 : args.width, theme), /**
+                        }(!(0, ej2_base /* isNullOrUndefined */ .le)(args.width) ? args.width : void 0, theme), /**
  *
  * @param {string} theme - specifies the theme
  * @param {HTMLElement} container - specifies the element
@@ -19697,7 +19698,7 @@
  * @returns {void}
  */ function(theme, container, radius, makeElement) {
                             var uniqueID, uniqueID1, uniqueID2, uniqueID3, uniqueID4, uniqueID5, uniqueID6, uniqueID7, innerContainer = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer.querySelector('svg');
-                            switch((0, ej2_base /* isNullOrUndefined */ .le)(svg) || innerContainer.removeChild(svg), theme){
+                            switch(!(0, ej2_base /* isNullOrUndefined */ .le)(svg) && innerContainer.removeChild(svg), theme){
                                 case 'Material':
                                     globalTimeOut[uniqueID1 = random_generator()] = {
                                         timeOut: 0,
@@ -19782,10 +19783,10 @@
                                         radius: radius
                                     }, create_fabric_element(innerContainer, uniqueID7, CLS_TAILWINDSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_TAILWINDSPIN);
                             }
-                        }(theme, container.wrap, radius, makeElement), (0, ej2_base /* isNullOrUndefined */ .le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
+                        }(theme, container.wrap, radius, makeElement), !(0, ej2_base /* isNullOrUndefined */ .le)(args.label) && (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
                     } else {
-                        var container3, template = (0, ej2_base /* isNullOrUndefined */ .le)(args.template) ? null : args.template;
-                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base /* isNullOrUndefined */ .le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
+                        var container3, template = !(0, ej2_base /* isNullOrUndefined */ .le)(args.template) ? args.template : null;
+                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, !(0, ej2_base /* isNullOrUndefined */ .le)(null) && container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
                     container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
@@ -20191,7 +20192,7 @@
                     }
                     return keyValue;
                 }, Uploader.prototype.updateFileList = function() {
-                    /* istanbul ignore next */ if (this.fileList.length > 0 && !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadWrapper.querySelector('.' + LIST_PARENT))) for(var i = 0; i < this.fileList.length; i++)this.fileList[i].querySelector('.e-file-status').innerHTML = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.filesData[i].status = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.fileList[i].classList.contains(UPLOAD_SUCCESS) && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('delete')), this.fileList[i].querySelector('.e-file-play-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('resume')), this.fileList[i].querySelector('.e-file-remove-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('remove')), this.fileList[i].querySelector('.e-file-reload-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('retry')), this.autoUpload || (this.uploadButton.innerText = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.localizedTexts('Upload')), this.clearButton.innerText = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.localizedTexts('Clear')));
+                    /* istanbul ignore next */ if (this.fileList.length > 0 && !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadWrapper.querySelector('.' + LIST_PARENT))) for(var i = 0; i < this.fileList.length; i++)this.fileList[i].querySelector('.e-file-status').innerHTML = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.filesData[i].status = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.fileList[i].classList.contains(UPLOAD_SUCCESS) && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('delete')), this.fileList[i].querySelector('.e-file-play-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('resume')), this.fileList[i].querySelector('.e-file-remove-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('remove')), this.fileList[i].querySelector('.e-file-reload-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('retry')), !this.autoUpload && (this.uploadButton.innerText = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.localizedTexts('Upload')), this.clearButton.innerText = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.localizedTexts('Clear')));
                 }, Uploader.prototype.reRenderFileList = function() {
                     this.listParent && ((0, ej2_base /* detach */ .og)(this.listParent), this.listParent = null, this.fileList = [], this.createFileList(this.filesData), this.actionButtons && (this.removeActionButtons(), this.renderActionButtons(), this.checkActionButtonStatus()));
                 }, Uploader.prototype.preRender = function() {
@@ -20229,9 +20230,9 @@
                                 type: 'file'
                             }
                         }), index = 0; index < this.element.attributes.length; index++)inputElement.setAttribute(this.element.attributes[index].nodeName, this.element.attributes[index].nodeValue), inputElement.innerHTML = this.element.innerHTML;
-                        inputElement.hasAttribute('name') || inputElement.setAttribute('name', 'UploadFiles'), this.element.appendChild(inputElement), this.element = inputElement, (0, ej2_base /* setValue */ .sO)('ej2_instances', ejInstance, this.element);
+                        !inputElement.hasAttribute('name') && inputElement.setAttribute('name', 'UploadFiles'), this.element.appendChild(inputElement), this.element = inputElement, (0, ej2_base /* setValue */ .sO)('ej2_instances', ejInstance, this.element);
                     }
-                    ejInstance[0].isPureReactComponent && ((0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.name) ? !(0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.id) && (0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.name) ? this.element.setAttribute('name', ejInstance[0].props.id) : this.element.setAttribute('name', 'UploadFiles') : this.element.setAttribute('name', ejInstance[0].props.name)), (0, ej2_base /* isNullOrUndefined */ .le)(this.element.getAttribute('name')) && this.element.setAttribute('name', this.element.getAttribute('id')), this.element.hasAttribute('type') || this.element.setAttribute('type', 'file'), this.updateDirectoryAttributes(), this.keyConfigs = {
+                    ejInstance[0].isPureReactComponent && ((0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.name) ? !(0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.id) && (0, ej2_base /* isNullOrUndefined */ .le)(ejInstance[0].props.name) ? this.element.setAttribute('name', ejInstance[0].props.id) : this.element.setAttribute('name', 'UploadFiles') : this.element.setAttribute('name', ejInstance[0].props.name)), (0, ej2_base /* isNullOrUndefined */ .le)(this.element.getAttribute('name')) && this.element.setAttribute('name', this.element.getAttribute('id')), !this.element.hasAttribute('type') && this.element.setAttribute('type', 'file'), this.updateDirectoryAttributes(), this.keyConfigs = {
                         enter: 'enter'
                     }, this.element.hasAttribute('tabindex') && (this.tabIndex = this.element.getAttribute('tabindex')), this.browserName = ej2_base /* Browser.info.name */ .AR.info.name, this.uploaderName = this.element.getAttribute('name');
                 }, Uploader.prototype.formRendered = function() {
@@ -20278,7 +20279,7 @@
                             type: 'button',
                             tabindex: this.btnTabIndex
                         }
-                    }), this.actionButtons.appendChild(this.clearButton), this.actionButtons.appendChild(this.uploadButton), this.renderButtonTemplates(), this.uploadWrapper.appendChild(this.actionButtons), this.browseButton.blur(), this.isPreloadFiles || this.uploadButton.focus(), this.wireActionButtonEvents();
+                    }), this.actionButtons.appendChild(this.clearButton), this.actionButtons.appendChild(this.uploadButton), this.renderButtonTemplates(), this.uploadWrapper.appendChild(this.actionButtons), this.browseButton.blur(), !this.isPreloadFiles && this.uploadButton.focus(), this.wireActionButtonEvents();
                 }, /* istanbul ignore next */ Uploader.prototype.serverActionButtonsEventBind = function(element) {
                     element && !this.isForm && (this.browseButton.blur(), this.actionButtons = element, this.uploadButton = this.actionButtons.querySelector('.e-file-upload-btn'), this.clearButton = this.actionButtons.querySelector('.e-file-clear-btn'), this.uploadButton.focus(), this.unwireActionButtonEvents(), this.wireActionButtonEvents(), this.checkActionButtonStatus());
                 }, Uploader.prototype.wireActionButtonEvents = function() {
@@ -20315,7 +20316,7 @@
                         if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.files[0].size)) {
                             this.isPreloadFiles = !0;
                             var files = [].slice.call(this.files), filesData = [];
-                            this.multiple || (this.clearData(), files = [
+                            !this.multiple && (this.clearData(), files = [
                                 files[0]
                             ]);
                             for(var _i = 0, files_1 = files; _i < files_1.length; _i++){
@@ -20347,7 +20348,7 @@
                         this.dropZoneElement = 'string' != typeof this.dropArea ? this.dropArea : (0, ej2_base /* select */ .Ys)(this.dropArea, document);
                         for(var element = this.element, enableDropText = !1; element.parentNode;)(element = element.parentNode) === this.dropZoneElement && (enableDropText = !0, dropTextArea ? dropTextArea.innerHTML = this.localizedTexts('dropFilesHint') : this.createDropTextHint());
                         !enableDropText && dropTextArea && (0, ej2_base /* remove */ .Od)(dropTextArea);
-                    } else (0, ej2_base /* isNullOrUndefined */ .le)(this.uploaderOptions) || void 0 !== this.uploaderOptions.dropArea || (this.createDropTextHint(), this.dropZoneElement = this.uploadWrapper, this.setProperties({
+                    } else !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploaderOptions) && void 0 === this.uploaderOptions.dropArea && (this.createDropTextHint(), this.dropZoneElement = this.uploadWrapper, this.setProperties({
                         dropArea: this.uploadWrapper
                     }, !0));
                     this.bindDropEvents();
@@ -20378,16 +20379,16 @@
                             ], updatedClassValues.split(' '));
                         } else if ('style' === pro) {
                             var uploadStyle = this.uploadWrapper.getAttribute(pro);
-                            uploadStyle = (0, ej2_base /* isNullOrUndefined */ .le)(uploadStyle) ? this.htmlAttributes[pro] : uploadStyle + this.htmlAttributes[pro], this.uploadWrapper.setAttribute(pro, uploadStyle);
+                            uploadStyle = !(0, ej2_base /* isNullOrUndefined */ .le)(uploadStyle) ? uploadStyle + this.htmlAttributes[pro] : this.htmlAttributes[pro], this.uploadWrapper.setAttribute(pro, uploadStyle);
                         } else this.uploadWrapper.setAttribute(pro, this.htmlAttributes[pro]);
                     }
                 }, Uploader.prototype.setMultipleSelection = function() {
                     if (this.multiple && !this.element.hasAttribute('multiple')) {
                         var newAttr = document.createAttribute('multiple');
                         newAttr.value = 'multiple', this.element.setAttributeNode(newAttr);
-                    } else this.multiple || this.element.removeAttribute('multiple');
+                    } else !this.multiple && this.element.removeAttribute('multiple');
                 }, Uploader.prototype.checkAutoUpload = function(fileData) {
-                    this.autoUpload ? (this.sequentialUpload ? /* istanbul ignore next */ this.sequenceUpload(fileData) : this.upload(fileData), this.removeActionButtons()) : this.actionButtons || this.renderActionButtons(), this.checkActionButtonStatus();
+                    this.autoUpload ? (this.sequentialUpload ? /* istanbul ignore next */ this.sequenceUpload(fileData) : this.upload(fileData), this.removeActionButtons()) : !this.actionButtons && this.renderActionButtons(), this.checkActionButtonStatus();
                 }, Uploader.prototype.sequenceUpload = function(fileData) {
                     if (this.filesData.length - fileData.length == 0 || '1' !== this.filesData[this.filesData.length - fileData.length - 1].statusCode) {
                         ++this.count;
@@ -20396,11 +20397,11 @@
                     }
                 }, Uploader.prototype.setCSSClass = function(oldCSSClass) {
                     var updatedCssClassValue = this.cssClass;
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) || '' === this.cssClass || (updatedCssClassValue = this.cssClass.replace(/\s+/g, ' ').trim()), (0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) || '' === updatedCssClassValue || (0, ej2_base /* addClass */ .cn)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) && '' !== this.cssClass && (updatedCssClassValue = this.cssClass.replace(/\s+/g, ' ').trim()), !(0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass) && '' !== updatedCssClassValue && (0, ej2_base /* addClass */ .cn)([
                         this.uploadWrapper
                     ], updatedCssClassValue.split(updatedCssClassValue.indexOf(',') > -1 ? ',' : ' '));
                     var updatedOldCssClass = oldCSSClass;
-                    (0, ej2_base /* isNullOrUndefined */ .le)(oldCSSClass) || (updatedOldCssClass = oldCSSClass.replace(/\s+/g, ' ').trim()), (0, ej2_base /* isNullOrUndefined */ .le)(oldCSSClass) || '' === updatedOldCssClass || (0, ej2_base /* removeClass */ .IV)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(oldCSSClass) && (updatedOldCssClass = oldCSSClass.replace(/\s+/g, ' ').trim()), !(0, ej2_base /* isNullOrUndefined */ .le)(oldCSSClass) && '' !== updatedOldCssClass && (0, ej2_base /* removeClass */ .IV)([
                         this.uploadWrapper
                     ], updatedOldCssClass.split(' '));
                 }, Uploader.prototype.wireEvents = function() {
@@ -20429,7 +20430,7 @@
                                 var target = e.target.parentElement, fileData = this.filesData[this.fileList.indexOf(target)];
                                 this.retry(fileData);
                             } else metaData.file.statusCode = '1', metaData.file.status = this.localizedTexts('readyToUploadMessage'), this.chunkUpload(metaData.file);
-                        } else this.removeFiles(e), targetElement.classList.contains(ABORT_ICON) || this.browseButton.focus();
+                        } else this.removeFiles(e), !targetElement.classList.contains(ABORT_ICON) && this.browseButton.focus();
                         e.preventDefault(), e.stopPropagation();
                     }
                 }, Uploader.prototype.getCurrentMetaData = function(fileInfo, e) {
@@ -20454,7 +20455,7 @@
                 }, Uploader.prototype.onDragEnter = function(e) {
                     this.enabled && (this.dropZoneElement.classList.add(DRAG_HOVER), this.dragCounter = this.dragCounter + 1, e.preventDefault(), e.stopPropagation());
                 }, Uploader.prototype.onDragLeave = function() {
-                    this.enabled && (this.dragCounter = this.dragCounter - 1, this.dragCounter || this.dropZoneElement.classList.remove(DRAG_HOVER));
+                    this.enabled && (this.dragCounter = this.dragCounter - 1, !this.dragCounter && this.dropZoneElement.classList.remove(DRAG_HOVER));
                 }, Uploader.prototype.dragHover = function(e) {
                     this.enabled && ('Default' !== this.dropEffect && (e.dataTransfer.dropEffect = this.dropEffect.toLowerCase()), e.preventDefault(), e.stopPropagation());
                 }, /* istanbul ignore next */ Uploader.prototype.dropElement = function(e) {
@@ -20483,18 +20484,18 @@
                                         width: '20px'
                                     }), showSpinner(spinnerTarget);
                                 }
-                                this.sequentialUpload && /* istanbul ignore next */ this.uploadSequential(), liElement.classList.contains(RESTRICT_RETRY) || this.checkActionComplete(!0);
-                            } else (0, ej2_base /* closest */ .oq)(args.target, '.' + SPINNER_PANE) || this.remove(fileData, !1, !1, !0, args);
+                                this.sequentialUpload && /* istanbul ignore next */ this.uploadSequential(), !liElement.classList.contains(RESTRICT_RETRY) && this.checkActionComplete(!0);
+                            } else !(0, ej2_base /* closest */ .oq)(args.target, '.' + SPINNER_PANE) && this.remove(fileData, !1, !1, !0, args);
                             this.element.value = '', this.checkActionButtonStatus();
                         }
                     }
                 }, Uploader.prototype.removeFilesData = function(file, customTemplate) {
                     if (customTemplate) {
-                        this.showFileList || (index = this.filesData.indexOf(file), this.filesData.splice(index, 1));
+                        !this.showFileList && (index = this.filesData.indexOf(file), this.filesData.splice(index, 1));
                         return;
                     }
                     var index, selectedElement = this.getLiElement(file);
-                    !(0, ej2_base /* isNullOrUndefined */ .le)(selectedElement) && ((0, ej2_base /* detach */ .og)(selectedElement), index = this.fileList.indexOf(selectedElement), this.fileList.splice(index, 1), this.filesData.splice(index, 1), 0 !== this.fileList.length || (0, ej2_base /* isNullOrUndefined */ .le)(this.listParent) || ((0, ej2_base /* detach */ .og)(this.listParent), this.listParent = null, this.removeActionButtons()), this.sequentialUpload && index <= this.count && --this.count);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(selectedElement) && ((0, ej2_base /* detach */ .og)(selectedElement), index = this.fileList.indexOf(selectedElement), this.fileList.splice(index, 1), this.filesData.splice(index, 1), 0 === this.fileList.length && !(0, ej2_base /* isNullOrUndefined */ .le)(this.listParent) && ((0, ej2_base /* detach */ .og)(this.listParent), this.listParent = null, this.removeActionButtons()), this.sequentialUpload && index <= this.count && --this.count);
                 }, Uploader.prototype.removeUploadedFile = function(file, eventArgs, removeDirectly, custom) {
                     var _this = this, ajax = new ej2_base /* Ajax */ .tk(this.asyncSettings.removeUrl, 'POST', !0, null);
                     ajax.emitError = !1;
@@ -20565,7 +20566,7 @@
                     }
                     this.trigger('failure', args);
                     var liElement = this.getLiElement(files);
-                    /* istanbul ignore next */ (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + DELETE_ICON)) || (hideSpinner(liElement.querySelector('.' + DELETE_ICON)), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
+                    /* istanbul ignore next */ !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + DELETE_ICON)) && (hideSpinner(liElement.querySelector('.' + DELETE_ICON)), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
                 }, /* istanbul ignore next */ Uploader.prototype.getFilesFromFolder = function(event) {
                     this.filesEntries = [];
                     var items = this.multiple ? event.dataTransfer.items : [
@@ -20652,14 +20653,14 @@
                     }
                     this.flag = !0;
                     var fileData = [];
-                    this.multiple || (this.clearData(!0), targetFiles = [
+                    !this.multiple && (this.clearData(!0), targetFiles = [
                         targetFiles[0]
                     ]);
                     for(var i = 0; i < targetFiles.length; i++){
                         var file = directory ? targetFiles[i].file : targetFiles[i];
                         this.updateInitialFileDetails(args, targetFiles, file, i, fileData, directory, paste);
                     }
-                    eventArgs.filesData = fileData, this.allowedExtensions.indexOf('*') > -1 && (this.allTypes = !0), this.allTypes || (fileData = this.checkExtension(fileData)), this.trigger('selected', eventArgs, function(eventArgs) {
+                    eventArgs.filesData = fileData, this.allowedExtensions.indexOf('*') > -1 && (this.allTypes = !0), !this.allTypes && (fileData = this.checkExtension(fileData)), this.trigger('selected', eventArgs, function(eventArgs) {
                         _this._internalRenderSelect(eventArgs, fileData);
                     });
                 }, Uploader.prototype.updateInitialFileDetails = function(args, // eslint-disable-next-line @typescript-eslint/indent
@@ -20683,7 +20684,7 @@
                                 var dataFiles = this.allTypes ? eventArgs.modifiedFilesData : this.checkExtension(eventArgs.modifiedFilesData);
                                 this.updateSortedFileList(dataFiles), this.filesData = dataFiles, (!this.isForm || this.allowUpload()) && this.checkAutoUpload(dataFiles);
                             } else this.createFileList(fileData, !0), this.filesData = this.filesData.concat(fileData), (!this.isForm || this.allowUpload()) && this.checkAutoUpload(fileData);
-                            (0, ej2_base /* isNullOrUndefined */ .le)(eventArgs.progressInterval) || '' === eventArgs.progressInterval || (this.progressInterval = eventArgs.progressInterval);
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(eventArgs.progressInterval) && '' !== eventArgs.progressInterval && (this.progressInterval = eventArgs.progressInterval);
                         } else this.filesData = this.filesData.concat(fileData), this.autoUpload && this.upload(this.filesData, !0);
                         this.raiseActionComplete(), this.isFirstFileOnSelection = !0;
                     }
@@ -20694,7 +20695,7 @@
                     var isFormUpload = !1;
                     return this.isForm && ((0, ej2_base /* isNullOrUndefined */ .le)(this.asyncSettings.saveUrl) || '' === this.asyncSettings.saveUrl) && ((0, ej2_base /* isNullOrUndefined */ .le)(this.asyncSettings.removeUrl) || '' === this.asyncSettings.removeUrl) && (isFormUpload = !0), isFormUpload;
                 }, Uploader.prototype.clearData = function(singleUpload) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.listParent) || ((0, ej2_base /* detach */ .og)(this.listParent), this.listParent = null), 'msie' === this.browserName || singleUpload || (this.element.value = ''), this.fileList = [], this.filesData = [], this.removeActionButtons();
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.listParent) && ((0, ej2_base /* detach */ .og)(this.listParent), this.listParent = null), 'msie' !== this.browserName && !singleUpload && (this.element.value = ''), this.fileList = [], this.filesData = [], this.removeActionButtons();
                 }, Uploader.prototype.updateSortedFileList = function(filesData) {
                     var removedList, previousListClone = this.createElement('div', {
                         id: 'clonewrapper'
@@ -20788,7 +20789,7 @@
                         var fileTypeEle = this.createElement('span', {
                             className: FILE_TYPE
                         }), fileType = this.getFileType(listItem.name);
-                        if (fileTypeEle.innerHTML = '.' + fileType, fileType || fileTypeEle.classList.add('e-hidden'), this.enableRtl) {
+                        if (fileTypeEle.innerHTML = '.' + fileType, !fileType && fileTypeEle.classList.add('e-hidden'), this.enableRtl) {
                             var rtlContainer = this.createElement('span', {
                                 className: RTL_CONTAINER
                             });
@@ -20879,7 +20880,7 @@
                         (0, ej2_base /* append */ .R3)(fromElements, fileList);
                     }
                     var index = this.listParent.querySelectorAll('li').length;
-                    fileList.classList.contains(INVALID_FILE) || this.createFormInput(fileData);
+                    !fileList.classList.contains(INVALID_FILE) && this.createFormInput(fileData);
                     var eventArgs = {
                         element: fileList,
                         fileInfo: result,
@@ -20918,7 +20919,7 @@
                         var fileExtension = this.createElement('span', {
                             className: FILE_TYPE
                         }), fileType = this.getFileType(listItem.name);
-                        if (fileExtension.innerHTML = '.' + fileType, fileType || fileExtension.classList.add('e-hidden'), this.enableRtl) {
+                        if (fileExtension.innerHTML = '.' + fileType, !fileType && fileExtension.classList.add('e-hidden'), this.enableRtl) {
                             var rtlContainer = this.createElement('span', {
                                 className: RTL_CONTAINER
                             });
@@ -20938,7 +20939,7 @@
                                 tabindex: this.btnTabIndex
                             }
                         });
-                        'msie' === this.browserName && iconElement.classList.add('e-msie'), iconElement.setAttribute('title', this.localizedTexts('remove')), liElement.appendChild(iconElement), ej2_base /* EventHandler.add */ .bi.add(iconElement, 'click', this.removeFiles, this), '2' === listItem.statusCode ? (statusElement.classList.add(UPLOAD_SUCCESS), iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', this.localizedTexts('delete'))) : '1' !== listItem.statusCode && (statusElement.classList.remove(UPLOAD_SUCCESS), statusElement.classList.add(VALIDATION_FAILS)), this.autoUpload && '1' === listItem.statusCode && '' !== this.asyncSettings.saveUrl && (statusElement.innerHTML = ''), iconElement.classList.contains(DELETE_ICON) || iconElement.classList.add(REMOVE_ICON);
+                        'msie' === this.browserName && iconElement.classList.add('e-msie'), iconElement.setAttribute('title', this.localizedTexts('remove')), liElement.appendChild(iconElement), ej2_base /* EventHandler.add */ .bi.add(iconElement, 'click', this.removeFiles, this), '2' === listItem.statusCode ? (statusElement.classList.add(UPLOAD_SUCCESS), iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', this.localizedTexts('delete'))) : '1' !== listItem.statusCode && (statusElement.classList.remove(UPLOAD_SUCCESS), statusElement.classList.add(VALIDATION_FAILS)), this.autoUpload && '1' === listItem.statusCode && '' !== this.asyncSettings.saveUrl && (statusElement.innerHTML = ''), !iconElement.classList.contains(DELETE_ICON) && iconElement.classList.add(REMOVE_ICON);
                         var index = fileData.indexOf(listItem), eventArgs = {
                             element: liElement,
                             fileInfo: listItem,
@@ -20974,16 +20975,16 @@
                         this.element.setAttributeNode(newAttr);
                     }
                 }, Uploader.prototype.filterfileList = function(files) {
-                    for(var filterFiles = [], i = 0; i < files.length; i++)this.getLiElement(files[i]).classList.contains(UPLOAD_SUCCESS) || filterFiles.push(files[i]);
+                    for(var filterFiles = [], i = 0; i < files.length; i++)!this.getLiElement(files[i]).classList.contains(UPLOAD_SUCCESS) && filterFiles.push(files[i]);
                     return filterFiles;
                 }, Uploader.prototype.updateStatus = function(files, status, statusCode, updateLiStatus) {
-                    if (void 0 === updateLiStatus && (updateLiStatus = !0), '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || '' === statusCode || (0, ej2_base /* isNullOrUndefined */ .le)(statusCode) || (files.status = status, files.statusCode = statusCode), updateLiStatus) {
+                    if (void 0 === updateLiStatus && (updateLiStatus = !0), !('' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status)) && !('' === statusCode || (0, ej2_base /* isNullOrUndefined */ .le)(statusCode)) && (files.status = status, files.statusCode = statusCode), updateLiStatus) {
                         var li = this.getLiElement(files);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(li) || (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || (li.querySelector('.' + STATUS).textContent = status);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(li) && !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) && !('' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status)) && (li.querySelector('.' + STATUS).textContent = status);
                     }
                     return files;
                 }, Uploader.prototype.getLiElement = function(files) {
-                    for(var index, i = 0; i < this.filesData.length; i++)(0, ej2_base /* isNullOrUndefined */ .le)(files) || ((0, ej2_base /* isNullOrUndefined */ .le)(this.filesData[i].id) || (0, ej2_base /* isNullOrUndefined */ .le)(files.id) ? this.filesData[i].name !== files.name : this.filesData[i].name !== files.name || this.filesData[i].id !== files.id) || (index = i);
+                    for(var index, i = 0; i < this.filesData.length; i++)!(0, ej2_base /* isNullOrUndefined */ .le)(files) && ((0, ej2_base /* isNullOrUndefined */ .le)(this.filesData[i].id) || (0, ej2_base /* isNullOrUndefined */ .le)(files.id) ? this.filesData[i].name === files.name : this.filesData[i].name === files.name && this.filesData[i].id === files.id) && (index = i);
                     return this.fileList[index];
                 }, Uploader.prototype.createProgressBar = function(liElement) {
                     var progressbarWrapper = this.createElement('span', {
@@ -21017,7 +21018,7 @@
                         else {
                             '5' === files.statusCode && this.cancelUploadingFile(files, e, request, li), !(li.querySelectorAll('.' + PROGRESS_WRAPPER).length > 0) && li.querySelector('.' + STATUS) && (li.querySelector('.' + STATUS).classList.add(UPLOAD_INPROGRESS), this.createProgressBar(li), this.updateProgressBarClasses(li, UPLOAD_INPROGRESS), li.querySelector('.' + STATUS).classList.remove(UPLOAD_FAILED)), this.updateProgressbar(e, li);
                             var iconEle = li.querySelector('.' + REMOVE_ICON);
-                            (0, ej2_base /* isNullOrUndefined */ .le)(iconEle) || (iconEle.classList.add(ABORT_ICON, UPLOAD_INPROGRESS), iconEle.setAttribute('title', this.localizedTexts('abort')), iconEle.classList.remove(REMOVE_ICON));
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(iconEle) && (iconEle.classList.add(ABORT_ICON, UPLOAD_INPROGRESS), iconEle.setAttribute('title', this.localizedTexts('abort')), iconEle.classList.remove(REMOVE_ICON));
                         }
                         var args = {
                             e: e,
@@ -21037,7 +21038,7 @@
                         if (eventArgs.cancel) {
                             if (files.statusCode = '3', !(0, ej2_base /* isNullOrUndefined */ .le)(li)) {
                                 var spinnerTarget = li.querySelector('.' + ABORT_ICON);
-                                (0, ej2_base /* isNullOrUndefined */ .le)(spinnerTarget) || (hideSpinner(spinnerTarget), (0, ej2_base /* detach */ .og)(li.querySelector('.e-spinner-pane')));
+                                !(0, ej2_base /* isNullOrUndefined */ .le)(spinnerTarget) && (hideSpinner(spinnerTarget), (0, ej2_base /* detach */ .og)(li.querySelector('.e-spinner-pane')));
                             }
                         } else {
                             request.emitError = !1, request.httpRequest.abort();
@@ -21057,7 +21058,7 @@
                     if (!((0, ej2_base /* isNullOrUndefined */ .le)(liElement) || liElement.querySelector('.' + RETRY_ICON) || (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + ABORT_ICON)))) {
                         this.updateStatus(file, this.localizedTexts('fileUploadCancel'), '5'), this.renderFailureState(e, file, liElement);
                         var spinnerTarget = liElement.querySelector('.' + REMOVE_ICON);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (hideSpinner(spinnerTarget), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && (hideSpinner(spinnerTarget), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) && (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
                         var requestResponse = e && e.currentTarget ? this.getResponse(e) : null;
                         this.trigger('success', {
                             event: e,
@@ -21068,9 +21069,9 @@
                     }
                 }, Uploader.prototype.renderFailureState = function(e, file, liElement) {
                     var _this = this;
-                    this.updateProgressBarClasses(liElement, UPLOAD_FAILED), this.removeProgressbar(liElement, 'failure'), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-file-status')) || liElement.querySelector('.e-file-status').classList.add(UPLOAD_FAILED);
+                    this.updateProgressBarClasses(liElement, UPLOAD_FAILED), this.removeProgressbar(liElement, 'failure'), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-file-status')) && liElement.querySelector('.e-file-status').classList.add(UPLOAD_FAILED);
                     var deleteIcon = liElement.querySelector('.' + ABORT_ICON);
-                    (0, ej2_base /* isNullOrUndefined */ .le)(deleteIcon) || (deleteIcon.classList.remove(ABORT_ICON, UPLOAD_INPROGRESS), deleteIcon.classList.add(REMOVE_ICON), deleteIcon.setAttribute('title', this.localizedTexts('remove')), this.pauseButton = this.createElement('span', {
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(deleteIcon) && (deleteIcon.classList.remove(ABORT_ICON, UPLOAD_INPROGRESS), deleteIcon.classList.add(REMOVE_ICON), deleteIcon.setAttribute('title', this.localizedTexts('remove')), this.pauseButton = this.createElement('span', {
                         className: 'e-icons e-file-reload-btn',
                         attrs: {
                             tabindex: this.btnTabIndex
@@ -21079,7 +21080,7 @@
                         _this.reloadcanceledFile(e, file, liElement, !1);
                     }, !1));
                 }, Uploader.prototype.reloadcanceledFile = function(e, file, liElement, custom) {
-                    file.statusCode = '1', file.status = this.localizedTexts('readyToUploadMessage'), custom || ((0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + STATUS)) || liElement.querySelector('.' + STATUS).classList.remove(UPLOAD_FAILED), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + RETRY_ICON)) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + RETRY_ICON)), this.pauseButton = null), /* istanbul ignore next */ liElement.classList.add(RESTRICT_RETRY), this.upload([
+                    file.statusCode = '1', file.status = this.localizedTexts('readyToUploadMessage'), !custom && (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + STATUS)) && liElement.querySelector('.' + STATUS).classList.remove(UPLOAD_FAILED), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + RETRY_ICON)) && (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + RETRY_ICON)), this.pauseButton = null), /* istanbul ignore next */ liElement.classList.add(RESTRICT_RETRY), this.upload([
                         file
                     ]);
                 }, /* istanbul ignore next */ Uploader.prototype.uploadComplete = function(e, file, customUI) {
@@ -21090,7 +21091,7 @@
                         if (!(0, ej2_base /* isNullOrUndefined */ .le)(li)) {
                             this.updateProgressBarClasses(li, UPLOAD_SUCCESS), this.removeProgressbar(li, 'success');
                             var iconEle = li.querySelector('.' + ABORT_ICON);
-                            (0, ej2_base /* isNullOrUndefined */ .le)(iconEle) || (iconEle.classList.add(DELETE_ICON), iconEle.setAttribute('title', this.localizedTexts('delete')), iconEle.classList.remove(ABORT_ICON), iconEle.classList.remove(UPLOAD_INPROGRESS));
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(iconEle) && (iconEle.classList.add(DELETE_ICON), iconEle.setAttribute('title', this.localizedTexts('delete')), iconEle.classList.remove(ABORT_ICON), iconEle.classList.remove(UPLOAD_INPROGRESS));
                         }
                         this.raiseSuccessEvent(e, file);
                     } else this.uploadFailed(e, file);
@@ -21113,7 +21114,7 @@
                     }, liElement = this.getLiElement(file);
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
                         var spinnerEle = liElement.querySelector('.' + SPINNER_PANE);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(spinnerEle) || (hideSpinner(liElement), (0, ej2_base /* detach */ .og)(spinnerEle));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(spinnerEle) && (hideSpinner(liElement), (0, ej2_base /* detach */ .og)(spinnerEle));
                     }
                     this.trigger('success', args, function(args) {
                         _this.updateStatus(file, args.statusText, '2'), _this.uploadedFilesData.push(file), _this.trigger('change', {
@@ -21128,7 +21129,7 @@
                         file: this.updateStatus(file, statusMessage, '0', !1),
                         statusText: statusMessage
                     };
-                    (0, ej2_base /* isNullOrUndefined */ .le)(li) || this.renderFailureState(e, file, li), this.trigger('failure', args, function(args) {
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(li) && this.renderFailureState(e, file, li), this.trigger('failure', args, function(args) {
                         _this.updateStatus(file, args.statusText, '0'), _this.checkActionButtonStatus(), _this.uploadSequential(), _this.checkActionComplete(!0);
                     });
                 }, Uploader.prototype.uploadSequential = function() {
@@ -21148,10 +21149,10 @@
                     return matchFiles;
                 }, Uploader.prototype.updateProgressBarClasses = function(li, className) {
                     var progressBar = li.querySelector('.' + PROGRESSBAR);
-                    (0, ej2_base /* isNullOrUndefined */ .le)(progressBar) || progressBar.classList.add(className);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(progressBar) && progressBar.classList.add(className);
                 }, Uploader.prototype.removeProgressbar = function(li, callType) {
                     var _this = this;
-                    (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + PROGRESS_WRAPPER)) || (this.progressAnimation = new ej2_base /* Animation */ .fw({
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + PROGRESS_WRAPPER)) && (this.progressAnimation = new ej2_base /* Animation */ .fw({
                         duration: 1250
                     }), this.progressAnimation.animate(li.querySelector('.' + PROGRESS_WRAPPER), {
                         name: 'FadeOut'
@@ -21161,9 +21162,9 @@
                         _this.animateProgressBar(li, callType);
                     }, 750));
                 }, /* istanbul ignore next */ Uploader.prototype.animateProgressBar = function(li, callType) {
-                    'success' === callType ? (li.classList.add(UPLOAD_SUCCESS), (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || (li.querySelector('.' + STATUS).classList.remove(UPLOAD_INPROGRESS), this.progressAnimation.animate(li.querySelector('.' + STATUS), {
+                    'success' === callType ? (li.classList.add(UPLOAD_SUCCESS), !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) && (li.querySelector('.' + STATUS).classList.remove(UPLOAD_INPROGRESS), this.progressAnimation.animate(li.querySelector('.' + STATUS), {
                         name: 'FadeIn'
-                    }), li.querySelector('.' + STATUS).classList.add(UPLOAD_SUCCESS))) : (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || (li.querySelector('.' + STATUS).classList.remove(UPLOAD_INPROGRESS), this.progressAnimation.animate(li.querySelector('.' + STATUS), {
+                    }), li.querySelector('.' + STATUS).classList.add(UPLOAD_SUCCESS))) : !(0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) && (li.querySelector('.' + STATUS).classList.remove(UPLOAD_INPROGRESS), this.progressAnimation.animate(li.querySelector('.' + STATUS), {
                         name: 'FadeIn'
                     }), li.querySelector('.' + STATUS).classList.add(UPLOAD_FAILED)), li.querySelector('.' + PROGRESS_WRAPPER) && (0, ej2_base /* detach */ .og)(li.querySelector('.' + PROGRESS_WRAPPER));
                 }, Uploader.prototype.setExtensions = function(extensions) {
@@ -21184,7 +21185,7 @@
                 }, Uploader.prototype.localizedTexts = function(localeText) {
                     return this.l10n.setLocale(this.locale), this.l10n.getConstant(localeText);
                 }, Uploader.prototype.setControlStatus = function() {
-                    this.enabled ? (this.uploadWrapper.classList.contains(DISABLED) && this.uploadWrapper.classList.remove(DISABLED), !(0, ej2_base /* isNullOrUndefined */ .le)(this.browseButton) && this.element.hasAttribute('disabled') && (this.element.removeAttribute('disabled'), this.browseButton.removeAttribute('disabled')), !(0, ej2_base /* isNullOrUndefined */ .le)(this.clearButton) && this.clearButton.hasAttribute('disabled') && this.clearButton.removeAttribute('disabled'), !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadButton) && this.uploadButton.hasAttribute('disabled') && this.uploadButton.hasAttribute('disabled')) : (this.uploadWrapper.classList.add(DISABLED), this.element.setAttribute('disabled', 'disabled'), this.browseButton.setAttribute('disabled', 'disabled'), (0, ej2_base /* isNullOrUndefined */ .le)(this.clearButton) || this.clearButton.setAttribute('disabled', 'disabled'), (0, ej2_base /* isNullOrUndefined */ .le)(this.uploadButton) || this.uploadButton.setAttribute('disabled', 'disabled'));
+                    this.enabled ? (this.uploadWrapper.classList.contains(DISABLED) && this.uploadWrapper.classList.remove(DISABLED), !(0, ej2_base /* isNullOrUndefined */ .le)(this.browseButton) && this.element.hasAttribute('disabled') && (this.element.removeAttribute('disabled'), this.browseButton.removeAttribute('disabled')), !(0, ej2_base /* isNullOrUndefined */ .le)(this.clearButton) && this.clearButton.hasAttribute('disabled') && this.clearButton.removeAttribute('disabled'), !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadButton) && this.uploadButton.hasAttribute('disabled') && this.uploadButton.hasAttribute('disabled')) : (this.uploadWrapper.classList.add(DISABLED), this.element.setAttribute('disabled', 'disabled'), this.browseButton.setAttribute('disabled', 'disabled'), !(0, ej2_base /* isNullOrUndefined */ .le)(this.clearButton) && this.clearButton.setAttribute('disabled', 'disabled'), !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadButton) && this.uploadButton.setAttribute('disabled', 'disabled'));
                 }, Uploader.prototype.checkHTMLAttributes = function(isDynamic) {
                     for(var attributes = isDynamic ? (0, ej2_base /* isNullOrUndefined */ .le)(this.htmlAttributes) ? [] : Object.keys(this.htmlAttributes) : [
                         'accept',
@@ -21267,7 +21268,7 @@
                         eventArgs.fileData.statusCode = '5', eventArgs.fileData.status = this.localizedTexts('fileUploadCancel');
                         var liElement = this.getLiElement(eventArgs.fileData);
                         if (liElement) {
-                            (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + STATUS)) || (liElement.querySelector('.' + STATUS).innerHTML = this.localizedTexts('fileUploadCancel'), liElement.querySelector('.' + STATUS).classList.add(UPLOAD_FAILED)), this.pauseButton = this.createElement('span', {
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + STATUS)) && (liElement.querySelector('.' + STATUS).innerHTML = this.localizedTexts('fileUploadCancel'), liElement.querySelector('.' + STATUS).classList.add(UPLOAD_FAILED)), this.pauseButton = this.createElement('span', {
                                 className: 'e-icons e-file-reload-btn',
                                 attrs: {
                                     tabindex: this.btnTabIndex
@@ -21303,7 +21304,7 @@
                                 /* istanbul ignore next */ if (eventArgs.cancel) {
                                     metaData.file.statusCode = '3';
                                     var spinnerTarget = liElement.querySelector('.' + ABORT_ICON);
-                                    (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (0, ej2_base /* isNullOrUndefined */ .le)(spinnerTarget) || (hideSpinner(spinnerTarget), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane'))), _this.sendNextRequest(metaData);
+                                    !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(spinnerTarget) && (hideSpinner(spinnerTarget), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane'))), _this.sendNextRequest(metaData);
                                 } else {
                                     metaData.request.emitError = !1, response.abort();
                                     var formData = new FormData(), name_2 = _this.element.getAttribute('name');
@@ -21330,7 +21331,7 @@
                         var liElement = this.getLiElement(metaData.file), deleteIcon = liElement.querySelector('.' + ABORT_ICON);
                         this.updateStatus(metaData.file, this.localizedTexts('fileUploadCancel'), '5'), this.updateProgressBarClasses(liElement, UPLOAD_FAILED), this.removeProgressbar(liElement, 'failure'), deleteIcon && deleteIcon.classList.remove(ABORT_ICON), deleteIcon && deleteIcon.classList.add(REMOVE_ICON), deleteIcon && deleteIcon.setAttribute('title', this.localizedTexts('remove'));
                         var pauseIcon = liElement.querySelector('.' + PAUSE_UPLOAD);
-                        pauseIcon && pauseIcon.classList.add(RETRY_ICON), pauseIcon && pauseIcon.classList.remove(PAUSE_UPLOAD), pauseIcon && pauseIcon.setAttribute('title', this.localizedTexts('retry')), (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (0, ej2_base /* isNullOrUndefined */ .le)(deleteIcon) || (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) || (hideSpinner(deleteIcon), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
+                        pauseIcon && pauseIcon.classList.add(RETRY_ICON), pauseIcon && pauseIcon.classList.remove(PAUSE_UPLOAD), pauseIcon && pauseIcon.setAttribute('title', this.localizedTexts('retry')), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && !(0, ej2_base /* isNullOrUndefined */ .le)(deleteIcon) && !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) && (hideSpinner(deleteIcon), (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
                     }
                 }, Uploader.prototype.pauseUpload = function(metaData, e, custom) {
                     metaData.file.statusCode = '4', metaData.file.status = this.localizedTexts('pause'), this.updateMetaData(metaData);
@@ -21353,7 +21354,7 @@
                     this.pausedData.push(metaData), this.trigger('pausing', eventArgs);
                 }, Uploader.prototype.resumeUpload = function(metaData, e, custom) {
                     var targetElement, liElement = this.getLiElement(metaData.file);
-                    (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (targetElement = liElement.querySelector('.' + RESUME_UPLOAD)), !(0, ej2_base /* isNullOrUndefined */ .le)(targetElement) && ((0, ej2_base /* isNullOrUndefined */ .le)(custom) || !custom) && (targetElement.classList.remove(RESUME_UPLOAD), targetElement.classList.add(PAUSE_UPLOAD), targetElement.setAttribute('title', this.localizedTexts('pause')), targetElement.nextElementSibling.classList.remove(REMOVE_ICON), targetElement.nextElementSibling.classList.add(ABORT_ICON), targetElement.nextElementSibling.setAttribute('title', this.localizedTexts('abort'))), metaData.file.status = this.localizedTexts('inProgress'), metaData.file.statusCode = '3', this.updateMetaData(metaData);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && (targetElement = liElement.querySelector('.' + RESUME_UPLOAD)), !(0, ej2_base /* isNullOrUndefined */ .le)(targetElement) && ((0, ej2_base /* isNullOrUndefined */ .le)(custom) || !custom) && (targetElement.classList.remove(RESUME_UPLOAD), targetElement.classList.add(PAUSE_UPLOAD), targetElement.setAttribute('title', this.localizedTexts('pause')), targetElement.nextElementSibling.classList.remove(REMOVE_ICON), targetElement.nextElementSibling.classList.add(ABORT_ICON), targetElement.nextElementSibling.setAttribute('title', this.localizedTexts('abort'))), metaData.file.status = this.localizedTexts('inProgress'), metaData.file.statusCode = '3', this.updateMetaData(metaData);
                     var eventArgs = {
                         event: e || null,
                         file: metaData.file,
@@ -21370,7 +21371,7 @@
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
                         this.updateProgressBarClasses(liElement, UPLOAD_SUCCESS), this.removeProgressbar(liElement, 'success');
                         var cancelButton = liElement.querySelector('.' + ABORT_ICON);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(cancelButton) || (cancelButton.classList.add(DELETE_ICON), cancelButton.setAttribute('title', this.localizedTexts('delete')), cancelButton.classList.remove(ABORT_ICON, UPLOAD_INPROGRESS));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(cancelButton) && (cancelButton.classList.add(DELETE_ICON), cancelButton.setAttribute('title', this.localizedTexts('delete')), cancelButton.classList.remove(ABORT_ICON, UPLOAD_INPROGRESS));
                     }
                 }, Uploader.prototype.chunkUploadFailed = function(e, metaData, custom) {
                     var liElement, _this = this, chunkCount = Math.max(Math.ceil(metaData.file.size / this.asyncSettings.chunkSize), 1);
@@ -21392,9 +21393,9 @@
                         else {
                             if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
                                 var pauseButton = liElement.querySelector('.' + PAUSE_UPLOAD) ? liElement.querySelector('.' + PAUSE_UPLOAD) : liElement.querySelector('.' + RESUME_UPLOAD);
-                                (0, ej2_base /* isNullOrUndefined */ .le)(pauseButton) || (pauseButton.classList.add(RETRY_ICON), pauseButton.classList.remove(PAUSE_UPLOAD, RESUME_UPLOAD)), _this.updateProgressBarClasses(liElement, UPLOAD_FAILED), _this.removeProgressbar(liElement, 'failure'), liElement.querySelector('.e-icons').classList.remove(UPLOAD_INPROGRESS);
+                                !(0, ej2_base /* isNullOrUndefined */ .le)(pauseButton) && (pauseButton.classList.add(RETRY_ICON), pauseButton.classList.remove(PAUSE_UPLOAD, RESUME_UPLOAD)), _this.updateProgressBarClasses(liElement, UPLOAD_FAILED), _this.removeProgressbar(liElement, 'failure'), liElement.querySelector('.e-icons').classList.remove(UPLOAD_INPROGRESS);
                                 var iconElement = liElement.querySelector('.' + ABORT_ICON) ? liElement.querySelector('.' + ABORT_ICON) : liElement.querySelector('.' + REMOVE_ICON);
-                                iconElement.classList.remove(ABORT_ICON), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + PAUSE_UPLOAD)) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + PAUSE_UPLOAD)), metaData.start > 0 ? (iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', _this.localizedTexts('delete'))) : (iconElement.classList.add(REMOVE_ICON), iconElement.setAttribute('title', _this.localizedTexts('remove')));
+                                iconElement.classList.remove(ABORT_ICON), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + PAUSE_UPLOAD)) && (0, ej2_base /* detach */ .og)(liElement.querySelector('.' + PAUSE_UPLOAD)), metaData.start > 0 ? (iconElement.classList.add(DELETE_ICON), iconElement.setAttribute('title', _this.localizedTexts('delete'))) : (iconElement.classList.add(REMOVE_ICON), iconElement.setAttribute('title', _this.localizedTexts('remove')));
                             }
                             metaData.retryCount = 0;
                             var file_1 = metaData.file, failureMessage = _this.localizedTexts('uploadFailedMessage'), args = {
@@ -21424,12 +21425,12 @@
                         var liElement = this.getLiElement(metaData.file);
                         if (!(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
                             var retryElement = liElement.querySelector('.' + RETRY_ICON);
-                            if ((0, ej2_base /* isNullOrUndefined */ .le)(retryElement) || (retryElement.classList.add(PAUSE_UPLOAD), retryElement.setAttribute('title', this.localizedTexts('pause')), retryElement.classList.remove(RETRY_ICON)), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
+                            if (!(0, ej2_base /* isNullOrUndefined */ .le)(retryElement) && (retryElement.classList.add(PAUSE_UPLOAD), retryElement.setAttribute('title', this.localizedTexts('pause')), retryElement.classList.remove(RETRY_ICON)), !(0, ej2_base /* isNullOrUndefined */ .le)(liElement)) {
                                 if (!(liElement.querySelectorAll('.' + PROGRESS_WRAPPER).length > 0)) {
                                     var statusElement = liElement.querySelector('.' + STATUS);
                                     (0, ej2_base /* isNullOrUndefined */ .le)(this.template) && (statusElement.classList.add(UPLOAD_INPROGRESS), statusElement.classList.remove(UPLOAD_FAILED), this.createProgressBar(liElement), this.updateProgressBarClasses(liElement, UPLOAD_INPROGRESS));
                                     var clearIcon = liElement.querySelector('.' + REMOVE_ICON) ? liElement.querySelector('.' + REMOVE_ICON) : liElement.querySelector('.' + DELETE_ICON);
-                                    (0, ej2_base /* isNullOrUndefined */ .le)(clearIcon) || (clearIcon.classList.add(ABORT_ICON), clearIcon.setAttribute('title', this.localizedTexts('abort')), clearIcon.classList.remove(REMOVE_ICON));
+                                    !(0, ej2_base /* isNullOrUndefined */ .le)(clearIcon) && (clearIcon.classList.add(ABORT_ICON), clearIcon.setAttribute('title', this.localizedTexts('abort')), clearIcon.classList.remove(REMOVE_ICON));
                                 }
                                 if (!isNaN(Math.round(e.loaded / e.total * 100)) && (0, ej2_base /* isNullOrUndefined */ .le)(this.template) && '4' !== metaData.file.statusCode) {
                                     var progressVal = void 0, totalChunks = Math.ceil(metaData.file.size / this.asyncSettings.chunkSize) - 1;
@@ -21481,7 +21482,7 @@
      * @method destroy
      * @returns {void}
      */ Uploader.prototype.destroy = function() {
-                    this.element.value = null, this.clearTemplate(), this.clearAll(), this.unWireEvents(), this.unBindDropEvents(), this.multiple && this.element.removeAttribute('multiple'), this.enabled || this.element.removeAttribute('disabled'), this.element.removeAttribute('accept'), this.setInitialAttributes();
+                    this.element.value = null, this.clearTemplate(), this.clearAll(), this.unWireEvents(), this.unBindDropEvents(), this.multiple && this.element.removeAttribute('multiple'), !this.enabled && this.element.removeAttribute('disabled'), this.element.removeAttribute('accept'), this.setInitialAttributes();
                     for(var _i = 0, attributes_2 = [
                         'aria-label',
                         'directory',
@@ -21491,7 +21492,7 @@
                         var key = attributes_2[_i];
                         this.element.removeAttribute(key);
                     }
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.uploadWrapper) || (this.uploadWrapper.parentElement.appendChild(this.element), (0, ej2_base /* detach */ .og)(this.uploadWrapper)), this.uploadWrapper = null, _super.prototype.destroy.call(this);
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.uploadWrapper) && (this.uploadWrapper.parentElement.appendChild(this.element), (0, ej2_base /* detach */ .og)(this.uploadWrapper)), this.uploadWrapper = null, _super.prototype.destroy.call(this);
                 }, /**
      * Allows you to call the upload process manually by calling save URL action.
      * To process the selected files (added in upload queue), pass an empty argument otherwise
@@ -21510,7 +21511,7 @@
                             currentRequest: null,
                             cancel: !1
                         }, function(eventArgs) {
-                            eventArgs.cancel || _this.uploadFiles(uploadFiles_1, custom);
+                            !eventArgs.cancel && _this.uploadFiles(uploadFiles_1, custom);
                         });
                     }
                 }, Uploader.prototype.getFilesInArray = function(files) {
@@ -21610,22 +21611,22 @@
                         if (!beforeEventArgs.cancel) if (_this.isFormUpload()) eventArgs.filesData = fileData, _this.trigger('removing', eventArgs, function(eventArgs) {
                             if (!eventArgs.cancel) for(var removingFiles = _this.getFilesInArray(fileData), isLiRemoved = !1, liIndex = void 0, _i = 0; _i < removingFiles.length; _i++){
                                 var data = removingFiles[_i];
-                                if (isLiRemoved || (liIndex = _this.fileList.indexOf(data.list)), liIndex > -1) {
-                                    var inputElement = (0, ej2_base /* isNullOrUndefined */ .le)(data.input) ? null : data.input;
+                                if (!isLiRemoved && (liIndex = _this.fileList.indexOf(data.list)), liIndex > -1) {
+                                    var inputElement = !(0, ej2_base /* isNullOrUndefined */ .le)(data.input) ? data.input : null;
                                     inputElement && (0, ej2_base /* detach */ .og)(inputElement), _this.spliceFiles(liIndex), (0, ej2_base /* detach */ .og)(_this.fileList[liIndex]), _this.fileList.splice(liIndex, 1), isLiRemoved = !0, liIndex = -1;
                                 }
                             }
                         });
                         else if (_this.isForm && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.asyncSettings.removeUrl) || '' === _this.asyncSettings.removeUrl)) eventArgs.filesData = _this.getFilesData(), _this.trigger('removing', eventArgs, function(eventArgs) {
-                            eventArgs.cancel || _this.clearAll();
+                            !eventArgs.cancel && _this.clearAll();
                         });
                         else {
                             var removeFiles = [];
-                            (fileData = (0, ej2_base /* isNullOrUndefined */ .le)(fileData) ? _this.filesData : fileData) instanceof Array ? removeFiles = fileData : removeFiles.push(fileData), eventArgs.filesData = removeFiles;
+                            (fileData = !(0, ej2_base /* isNullOrUndefined */ .le)(fileData) ? fileData : _this.filesData) instanceof Array ? removeFiles = fileData : removeFiles.push(fileData), eventArgs.filesData = removeFiles;
                             for(var removeUrl = _this.asyncSettings.removeUrl, validUrl = !('' === removeUrl || (0, ej2_base /* isNullOrUndefined */ .le)(removeUrl)), _loop_5 = function(files) {
                                 var fileUploadedIndex = _this.uploadedFilesData.indexOf(files);
                                 ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
-                                    eventArgs.cancel || _this.removeFilesData(files, customTemplate);
+                                    !eventArgs.cancel && _this.removeFilesData(files, customTemplate);
                                 }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
                             }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
                         }
@@ -21645,7 +21646,7 @@
                         filesData: this.filesData
                     };
                     this.trigger('clearing', eventArgs, function(eventArgs) {
-                        eventArgs.cancel || (_this.clearData(), _this.actionCompleteCount = 0, _this.count = -1);
+                        !eventArgs.cancel && (_this.clearData(), _this.actionCompleteCount = 0, _this.count = -1);
                     });
                 }, /* eslint-disable valid-jsdoc, jsdoc/require-returns-description */ /**
      * Get the data of files which are shown in file list.
@@ -21696,7 +21697,7 @@
                     for(var files = this.getFiles(fileData), i = 0; i < files.length; i++)if ('5' === files[i].statusCode || '0' === files[i].statusCode) if (this.asyncSettings.chunkSize > 0) this.retryUpload(this.getCurrentMetaData(files[i], null), fromcanceledStage);
                     else {
                         var liElement = void 0;
-                        custom || (liElement = this.fileList[this.filesData.indexOf(files[i])]), this.reloadcanceledFile(null, files[i], liElement, custom);
+                        !custom && (liElement = this.fileList[this.filesData.indexOf(files[i])]), this.reloadcanceledFile(null, files[i], liElement, custom);
                     }
                 }, /**
      * Stops the in-progress chunked upload based on the file data.
@@ -21915,11 +21916,11 @@
                     ], this.isNotFromHtml = !1, this.containsHtml = !1, this.parent = parent, this.locator = serviceLocator, this.renderFactory = this.locator.getService('rendererFactory'), this.i10n = serviceLocator.getService('rteLocale'), this.dialogRenderObj = serviceLocator.getService('dialogRenderObject'), this.addEventListener();
                 }
                 return PasteCleanup.prototype.addEventListener = function() {
-                    this.nodeSelectionObj = new selection /* NodeSelection */ .q(), this.parent.isDestroyed || (this.parent.on(constant /* pasteClean */ .dI, this.pasteClean, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this));
+                    this.nodeSelectionObj = new selection /* NodeSelection */ .q(), !this.parent.isDestroyed && (this.parent.on(constant /* pasteClean */ .dI, this.pasteClean, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this));
                 }, PasteCleanup.prototype.destroy = function() {
                     this.removeEventListener();
                 }, PasteCleanup.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* pasteClean */ .dI, this.pasteClean), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* destroy */ .ob, this.destroy));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* pasteClean */ .dI, this.pasteClean), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* destroy */ .ob, this.destroy));
                 }, PasteCleanup.prototype.pasteClean = function(e) {
                     var _this = this, args = {
                         requestType: 'Paste',
@@ -21932,7 +21933,7 @@
                         if (0 === value.length) {
                             var htmlRegex = new RegExp(/<\/[a-z][\s\S]*>/i);
                             value = e.args.clipboardData.getData('text/plain'), this.isNotFromHtml = '' !== value, value = (value = value.replace(/</g, '&lt;')).replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
-                            var file = e && e.args.clipboardData && e.args.clipboardData.items.length > 0 ? null === e.args.clipboardData.items[0].getAsFile() ? (0, ej2_base /* isNullOrUndefined */ .le)(e.args.clipboardData.items[1]) ? null : e.args.clipboardData.items[1].getAsFile() : e.args.clipboardData.items[0].getAsFile() : null;
+                            var file = e && e.args.clipboardData && e.args.clipboardData.items.length > 0 ? null === e.args.clipboardData.items[0].getAsFile() ? !(0, ej2_base /* isNullOrUndefined */ .le)(e.args.clipboardData.items[1]) ? e.args.clipboardData.items[1].getAsFile() : null : e.args.clipboardData.items[0].getAsFile() : null;
                             if (this.parent.notify(constant /* paste */ .RE, {
                                 file: file,
                                 args: e.args,
@@ -21961,7 +21962,7 @@
                         }), this.parent.pasteCleanupSettings.prompt) {
                             e.args.preventDefault();
                             var tempDivElem = this.parent.createElement('div');
-                            tempDivElem.innerHTML = value, '' === tempDivElem.textContent && (0, ej2_base /* isNullOrUndefined */ .le)(tempDivElem.querySelector('img')) && (0, ej2_base /* isNullOrUndefined */ .le)(tempDivElem.querySelector('table')) || this.pasteDialog(value, args);
+                            tempDivElem.innerHTML = value, ('' !== tempDivElem.textContent || !(0, ej2_base /* isNullOrUndefined */ .le)(tempDivElem.querySelector('img')) || !(0, ej2_base /* isNullOrUndefined */ .le)(tempDivElem.querySelector('table'))) && this.pasteDialog(value, args);
                         } else this.parent.pasteCleanupSettings.plainText ? (e.args.preventDefault(), this.plainFormatting(value, args)) : this.parent.pasteCleanupSettings.keepFormat ? (e.args.preventDefault(), this.formatting(value, !1, args)) : (e.args.preventDefault(), this.formatting(value, !0, args));
                     }
                 }, PasteCleanup.prototype.splitBreakLine = function(value) {
@@ -21985,7 +21986,7 @@
                         allImgElm[i].setAttribute('src', blopUrl);
                     }
                 }, PasteCleanup.prototype.toolbarEnableDisable = function(state) {
-                    this.parent.inlineMode.enable || this.parent.toolbarModule.baseToolbar.toolbarObj.disable(state);
+                    !this.parent.inlineMode.enable && this.parent.toolbarModule.baseToolbar.toolbarObj.disable(state);
                 }, PasteCleanup.prototype.uploadMethod = function(fileList, imgElem) {
                     var rawFile, beforeUploadArgs, _this = this, uploadEle = document.createElement('div');
                     document.body.appendChild(uploadEle), uploadEle.setAttribute('display', 'none'), imgElem.style.opacity = '0.5';
@@ -22020,7 +22021,7 @@
                     ], [
                         classes /* CLS_POPUP_OPEN */ ._R,
                         classes /* CLS_RTE_UPLOAD_POPUP */ .MO
-                    ]), (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.cssClass) || (0, ej2_base /* addClass */ .cn)([
+                    ]), !(0, ej2_base /* isNullOrUndefined */ .le)(this.parent.cssClass) && (0, ej2_base /* addClass */ .cn)([
                         this.popupObj.element
                     ], this.parent.cssClass), setTimeout(function() {
                         _this.refreshPopup(imgElem, _this.popupObj);
@@ -22038,13 +22039,13 @@
                             }, 900);
                         },
                         uploading: function(e) {
-                            _this.parent.isServerRendered || _this.parent.trigger(constant /* imageUploading */ .Go, e, function(imageUploadingArgs) {
-                                imageUploadingArgs.cancel ? ((0, ej2_base /* isNullOrUndefined */ .le)(imgElem) || (0, ej2_base /* detach */ .og)(imgElem), (0, ej2_base /* isNullOrUndefined */ .le)(_this.popupObj.element) || (0, ej2_base /* detach */ .og)(_this.popupObj.element)) : _this.parent.inputElement.contentEditable = 'false';
+                            !_this.parent.isServerRendered && _this.parent.trigger(constant /* imageUploading */ .Go, e, function(imageUploadingArgs) {
+                                imageUploadingArgs.cancel ? (!(0, ej2_base /* isNullOrUndefined */ .le)(imgElem) && (0, ej2_base /* detach */ .og)(imgElem), !(0, ej2_base /* isNullOrUndefined */ .le)(_this.popupObj.element) && (0, ej2_base /* detach */ .og)(_this.popupObj.element)) : _this.parent.inputElement.contentEditable = 'false';
                             });
                         },
                         beforeUpload: function(args) {
                             _this.parent.isServerRendered ? ((beforeUploadArgs = JSON.parse(JSON.stringify(args))).filesData = rawFile, args.cancel = !0, _this.parent.trigger(constant /* imageUploading */ .Go, beforeUploadArgs, function(beforeUploadArgs) {
-                                beforeUploadArgs.cancel || (_this.toolbarEnableDisable(!0), /* eslint-disable */ _this.uploadObj.currentRequestHeader = beforeUploadArgs.currentRequest ? beforeUploadArgs.currentRequest : _this.uploadObj.currentRequestHeader, _this.uploadObj.customFormDatas = beforeUploadArgs.customFormData && beforeUploadArgs.customFormData.length > 0 ? beforeUploadArgs.customFormData : _this.uploadObj.customFormDatas, _this.uploadObj.uploadFiles(rawFile, null));
+                                !beforeUploadArgs.cancel && (_this.toolbarEnableDisable(!0), /* eslint-disable */ _this.uploadObj.currentRequestHeader = beforeUploadArgs.currentRequest ? beforeUploadArgs.currentRequest : _this.uploadObj.currentRequestHeader, _this.uploadObj.customFormDatas = beforeUploadArgs.customFormData && beforeUploadArgs.customFormData.length > 0 ? beforeUploadArgs.customFormData : _this.uploadObj.customFormDatas, _this.uploadObj.uploadFiles(rawFile, null));
                             /* eslint-enable */ })) : (_this.parent.trigger(constant /* beforeImageUpload */ .cA, args), _this.toolbarEnableDisable(!0));
                         },
                         // eslint-disable-next-line
@@ -22082,7 +22083,7 @@
                 }, PasteCleanup.prototype.popupClose = function(popupObj, uploadObj, imgElem, e) {
                     var _this = this;
                     this.parent.inputElement.contentEditable = 'true', e.element = imgElem, this.parent.trigger(constant /* imageUploadSuccess */ .AL, e, function(e) {
-                        (0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.insertImageSettings.path) || (imgElem.src = _this.parent.insertImageSettings.path + e.file.name, imgElem.setAttribute('alt', e.file.name));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.insertImageSettings.path) && (imgElem.src = _this.parent.insertImageSettings.path + e.file.name, imgElem.setAttribute('alt', e.file.name));
                     }), popupObj.close(), imgElem.style.opacity = '1', uploadObj.destroy(), this.toolbarEnableDisable(!1);
                 }, PasteCleanup.prototype.refreshPopup = function(imageElement, popupObj) {
                     (this.parent.iframeSettings.enable ? this.parent.element.offsetTop + imageElement.offsetTop : imageElement.offsetTop) > this.parent.element.offsetTop + this.parent.element.offsetHeight ? (popupObj.relateTo = this.parent.inputElement, popupObj.offsetY = this.parent.iframeSettings.enable ? -30 : -65, popupObj.element.style.display = 'block') : popupObj && (popupObj.refreshPosition(imageElement), popupObj.element.style.display = 'block');
@@ -22090,7 +22091,7 @@
                     for(var baseStr = base64.split(','), extension = baseStr[0].match(/:(.*?);/)[1].split('/')[1], decodeStr = atob(baseStr[1]), strLen = decodeStr.length, decodeArr = new Uint8Array(strLen); strLen--;)decodeArr[strLen] = decodeStr.charCodeAt(strLen);
                     if (!(ej2_base /* Browser.isIE */ .AR.isIE || navigator.appVersion.indexOf('Edge') > -1)) return new File([
                         decodeArr
-                    ], filename + '.' + ((0, ej2_base /* isNullOrUndefined */ .le)(extension) ? '' : extension), {
+                    ], filename + '.' + (!(0, ej2_base /* isNullOrUndefined */ .le)(extension) ? extension : ''), {
                         type: extension
                     });
                     var blob = new Blob([
@@ -22099,7 +22100,7 @@
                         type: extension
                     });
                     return (0, ej2_base /* extend */ .l7)(blob, {
-                        name: filename + '.' + ((0, ej2_base /* isNullOrUndefined */ .le)(extension) ? '' : extension)
+                        name: filename + '.' + (!(0, ej2_base /* isNullOrUndefined */ .le)(extension) ? extension : '')
                     }), blob;
                 }, /**
      * Method for image formatting when pasting
@@ -22210,7 +22211,7 @@
                     });
                     this.isNotFromHtml && this.containsHtml && (value = this.splitBreakLine(value)), clipBoardElem.innerHTML = value, clipBoardElem = this.cleanAppleClass(clipBoardElem), null !== this.parent.pasteCleanupSettings.deniedTags && (clipBoardElem = this.deniedTags(clipBoardElem)), clean ? clipBoardElem = this.deniedAttributes(clipBoardElem, clean) : null !== this.parent.pasteCleanupSettings.deniedAttrs && (clipBoardElem = this.deniedAttributes(clipBoardElem, clean)), null !== this.parent.pasteCleanupSettings.allowedStyleProps && (clipBoardElem = this.allowedStyle(clipBoardElem)), this.saveSelection.restore(), clipBoardElem.innerHTML = this.sanitizeHelper(clipBoardElem.innerHTML);
                     for(var allImg = clipBoardElem.querySelectorAll('img'), i = 0; i < allImg.length; i++)allImg[i].classList.add('pasteContent_Img'), 'auto' !== this.parent.insertImageSettings.width && allImg[i].setAttribute('width', this.parent.insertImageSettings.width), '0' !== this.parent.insertImageSettings.minWidth && 0 !== this.parent.insertImageSettings.minWidth && (allImg[i].style.minWidth = this.parent.insertImageSettings.minWidth.toString()), null !== this.parent.insertImageSettings.maxWidth && (allImg[i].style.maxWidth = this.parent.getInsertImgMaxWidth().toString()), 'auto' !== this.parent.insertImageSettings.height && allImg[i].setAttribute('height', this.parent.insertImageSettings.height), '0' !== this.parent.insertImageSettings.minHeight && 0 !== this.parent.insertImageSettings.minHeight && (allImg[i].style.minHeight = this.parent.insertImageSettings.minHeight.toString()), null !== this.parent.insertImageSettings.maxHeight && (allImg[i].style.maxHeight = this.parent.insertImageSettings.maxHeight.toString());
-                    this.addTempClass(clipBoardElem), '' === clipBoardElem.textContent && (0, ej2_base /* isNullOrUndefined */ .le)(clipBoardElem.querySelector('img')) && (0, ej2_base /* isNullOrUndefined */ .le)(clipBoardElem.querySelector('table')) || (this.parent.formatter.editorManager.execCommand('inserthtml', 'pasteCleanup', args, function(returnArgs) {
+                    this.addTempClass(clipBoardElem), ('' !== clipBoardElem.textContent || !(0, ej2_base /* isNullOrUndefined */ .le)(clipBoardElem.querySelector('img')) || !(0, ej2_base /* isNullOrUndefined */ .le)(clipBoardElem.querySelector('table'))) && (this.parent.formatter.editorManager.execCommand('inserthtml', 'pasteCleanup', args, function(returnArgs) {
                         (0, ej2_base /* extend */ .l7)(args, {
                             elements: returnArgs.elements,
                             imageElements: returnArgs.imgElem
@@ -22237,7 +22238,7 @@
                                     for(var k = 0; k < firstElm.childNodes[i].childNodes.length; k++)spanElm.appendChild(firstElm.childNodes[i].childNodes[k]), clipBoardElem.insertBefore(spanElm, clipBoardElem.firstElementChild), k--;
                                     i--;
                                 } else break;
-                                firstElm.hasChildNodes() || (0, ej2_base /* detach */ .og)(firstElm);
+                                !firstElm.hasChildNodes() && (0, ej2_base /* detach */ .og)(firstElm);
                             }
                         }
                         this.removeEmptyElements(clipBoardElem), this.saveSelection.restore(), clipBoardElem.innerHTML = this.sanitizeHelper(clipBoardElem.innerHTML), this.addTempClass(clipBoardElem), this.parent.formatter.editorManager.execCommand('inserthtml', 'pasteCleanup', args, function(returnArgs) {
@@ -22262,20 +22263,20 @@
                             }
                             k--, preNode = 'text';
                         }
-                        (0, ej2_base /* isNullOrUndefined */ .le)(parElem) || (0, ej2_base /* detach */ .og)(parElem);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(parElem) && (0, ej2_base /* detach */ .og)(parElem);
                     }
                     for(var allElems = clipBoardElem.querySelectorAll('*'), i = 0; i < allElems.length; i++)for(var allAtr = allElems[i].attributes, j = 0; j < allAtr.length; j++)allElems[i].removeAttribute(allAtr[j].name), j--;
                 }, PasteCleanup.prototype.detachInlineElements = function(clipBoardElem) {
                     for(var i = 0; i < this.inlineNode.length; i++)for(var inElem = clipBoardElem.querySelectorAll(this.inlineNode[i]), j = 0; j < inElem.length; j++){
                         for(var parElem = void 0, k = 0; k < inElem[j].childNodes.length; k++)parElem = inElem[j].childNodes[k].parentElement, inElem[j].childNodes[k].parentElement.parentElement.insertBefore(inElem[j].childNodes[k], inElem[j].childNodes[k].parentElement), k--;
-                        (0, ej2_base /* isNullOrUndefined */ .le)(parElem) || (0, ej2_base /* detach */ .og)(parElem);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(parElem) && (0, ej2_base /* detach */ .og)(parElem);
                     }
                 }, PasteCleanup.prototype.findDetachEmptyElem = function(element) {
                     return (0, ej2_base /* isNullOrUndefined */ .le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'pasteContent' !== element.parentElement.getAttribute('class') ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, PasteCleanup.prototype.removeEmptyElements = function(element) {
                     for(var emptyElements = element.querySelectorAll(':empty'), i = 0; i < emptyElements.length; i++)if ('BR' !== emptyElements[i].tagName) {
                         var detachableElement = this.findDetachEmptyElem(emptyElements[i]);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) || (0, ej2_base /* detach */ .og)(detachableElement);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(detachableElement) && (0, ej2_base /* detach */ .og)(detachableElement);
                     }
                 }, //GroupingTags
                 PasteCleanup.prototype.tagGrouping = function(deniedTags) {
@@ -22424,7 +22425,7 @@
                         var elem = _a[_i];
                         ele.appendChild(elem);
                     }
-                    this.uniqueId && this.element.removeAttribute('id'), (0, ej2_base /* detach */ .og)(this.scrollEle), nav.length > 0 && ((0, ej2_base /* detach */ .og)(nav[0]), (0, ej2_base /* isNullOrUndefined */ .le)(nav[1]) || (0, ej2_base /* detach */ .og)(nav[1])), ej2_base /* EventHandler.remove */ .bi.remove(this.scrollEle, 'scroll', this.scrollHandler), this.touchModule.destroy(), this.touchModule = null, _super.prototype.destroy.call(this);
+                    this.uniqueId && this.element.removeAttribute('id'), (0, ej2_base /* detach */ .og)(this.scrollEle), nav.length > 0 && ((0, ej2_base /* detach */ .og)(nav[0]), !(0, ej2_base /* isNullOrUndefined */ .le)(nav[1]) && (0, ej2_base /* detach */ .og)(nav[1])), ej2_base /* EventHandler.remove */ .bi.remove(this.scrollEle, 'scroll', this.scrollHandler), this.touchModule.destroy(), this.touchModule = null, _super.prototype.destroy.call(this);
                 }, /**
      * Specifies the value to disable/enable the HScroll component.
      * When set to `true` , the component will be disabled.
@@ -22434,7 +22435,7 @@
      */ HScroll.prototype.disable = function(value) {
                     var navEles = (0, ej2_base /* selectAll */ .td)('.e-scroll-nav:not(.' + CLS_DISABLE + ')', this.element);
                     value ? this.element.classList.add(CLS_DISABLE) : this.element.classList.remove(CLS_DISABLE), [].slice.call(navEles).forEach(function(el) {
-                        el.setAttribute('tabindex', value ? '-1' : '0');
+                        el.setAttribute('tabindex', !value ? '0' : '-1');
                     });
                 }, HScroll.prototype.createOverlay = function(element) {
                     var id = element.id.concat('_nav'), rightOverlayEle = this.createElement('div', {
@@ -22536,7 +22537,7 @@
                         this.scrollUpdating(scrollVal, action);
                         return;
                     }
-                    this.customStep || [].slice.call((0, ej2_base /* selectAll */ .td)('.' + CLS_OVERLAY, this.element)).forEach(function(el) {
+                    !this.customStep && [].slice.call((0, ej2_base /* selectAll */ .td)('.' + CLS_OVERLAY, this.element)).forEach(function(el) {
                         scrollVal -= el.offsetWidth;
                     });
                     var animate = function() {
@@ -22682,7 +22683,7 @@
                         var elem = _a[_i];
                         el.appendChild(elem);
                     }
-                    this.uniqueId && this.element.removeAttribute('id'), (0, ej2_base /* detach */ .og)(this.scrollEle), navs.length > 0 && ((0, ej2_base /* detach */ .og)(navs[0]), (0, ej2_base /* isNullOrUndefined */ .le)(navs[1]) || (0, ej2_base /* detach */ .og)(navs[1])), ej2_base /* EventHandler.remove */ .bi.remove(this.scrollEle, 'scroll', this.scrollEventHandler), this.touchModule.destroy(), this.touchModule = null, _super.prototype.destroy.call(this);
+                    this.uniqueId && this.element.removeAttribute('id'), (0, ej2_base /* detach */ .og)(this.scrollEle), navs.length > 0 && ((0, ej2_base /* detach */ .og)(navs[0]), !(0, ej2_base /* isNullOrUndefined */ .le)(navs[1]) && (0, ej2_base /* detach */ .og)(navs[1])), ej2_base /* EventHandler.remove */ .bi.remove(this.scrollEle, 'scroll', this.scrollEventHandler), this.touchModule.destroy(), this.touchModule = null, _super.prototype.destroy.call(this);
                 }, /**
      * Specifies the value to disable/enable the VScroll component.
      * When set to `true` , the component will be disabled.
@@ -22692,7 +22693,7 @@
      */ VScroll.prototype.disable = function(value) {
                     var navEle = (0, ej2_base /* selectAll */ .td)('.e-scroll-nav:not(.' + v_scroll_CLS_DISABLE + ')', this.element);
                     value ? this.element.classList.add(v_scroll_CLS_DISABLE) : this.element.classList.remove(v_scroll_CLS_DISABLE), [].slice.call(navEle).forEach(function(el) {
-                        el.setAttribute('tabindex', value ? '-1' : '0');
+                        el.setAttribute('tabindex', !value ? '0' : '-1');
                     });
                 }, VScroll.prototype.createOverlayElement = function(element) {
                     var id = element.id.concat('_nav'), downOverlayEle = (0, ej2_base /* createElement */ .az)('div', {
@@ -22788,7 +22789,7 @@
                         this.scrollUpdating(scrollValue, action);
                         return;
                     }
-                    this.customStep || [].slice.call((0, ej2_base /* selectAll */ .td)('.' + v_scroll_CLS_OVERLAY, this.element)).forEach(function(el) {
+                    !this.customStep && [].slice.call((0, ej2_base /* selectAll */ .td)('.' + v_scroll_CLS_OVERLAY, this.element)).forEach(function(el) {
                         scrollValue -= el.offsetHeight;
                     });
                     var animate = function() {
@@ -22928,9 +22929,9 @@
                     (this.isReact || this.isAngular) && this.clearTemplate();
                     var btnItems = this.element.querySelectorAll('.e-control.e-btn');
                     for([].slice.call(btnItems).forEach(function(el) {
-                        (0, ej2_base /* isNullOrUndefined */ .le)(el) || (0, ej2_base /* isNullOrUndefined */ .le)(el.ej2_instances) || (0, ej2_base /* isNullOrUndefined */ .le)(el.ej2_instances[0]) || el.ej2_instances[0].isDestroyed || el.ej2_instances[0].destroy();
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(el) && !(0, ej2_base /* isNullOrUndefined */ .le)(el.ej2_instances) && !(0, ej2_base /* isNullOrUndefined */ .le)(el.ej2_instances[0]) && !el.ej2_instances[0].isDestroyed && el.ej2_instances[0].destroy();
                     }), this.unwireEvents(), this.tempId.forEach(function(ele) {
-                        (0, ej2_base /* isNullOrUndefined */ .le)(_this.element.querySelector(ele)) || (document.body.appendChild(_this.element.querySelector(ele)).style.display = 'none');
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(_this.element.querySelector(ele)) && (document.body.appendChild(_this.element.querySelector(ele)).style.display = 'none');
                     }), this.destroyItems(); this.element.lastElementChild;)this.element.removeChild(this.element.lastElementChild);
                     this.trgtEle && (this.element.appendChild(this.ctrlTem), this.trgtEle = null, this.ctrlTem = null), this.popObj && (this.popObj.destroy(), (0, ej2_base /* detach */ .og)(this.popObj.element)), this.activeEle && (this.activeEle = null), this.popObj = null, this.tbarAlign = null, this.tbarItemsCol = [], this.remove(this.element, 'e-toolpop'), this.cssClass && (0, ej2_base /* removeClass */ .IV)([
                         this.element
@@ -23017,11 +23018,11 @@
                     switch(e.action){
                         case 'moveRight':
                             if (this.isVertical) return;
-                            rootEle === trgt ? this.elementFocus(clst) : navChk || this.eleFocus(clst, 'next');
+                            rootEle === trgt ? this.elementFocus(clst) : !navChk && this.eleFocus(clst, 'next');
                             break;
                         case 'moveLeft':
                             if (this.isVertical) return;
-                            navChk || this.eleFocus(clst, 'previous');
+                            !navChk && this.eleFocus(clst, 'previous');
                             break;
                         case 'home':
                         case 'end':
@@ -23070,7 +23071,7 @@
      * @returns {void}.
      */ Toolbar.prototype.disable = function(value) {
                     var rootEle = this.element;
-                    value ? rootEle.classList.add(toolbar_CLS_DISABLE) : rootEle.classList.remove(toolbar_CLS_DISABLE), rootEle.setAttribute('tabindex', value ? '-1' : '0'), this.activeEle && this.activeEle.setAttribute('tabindex', value ? '-1' : '0'), this.scrollModule && this.scrollModule.disable(value), this.popObj && ((0, ej2_base /* isVisible */ .pn)(this.popObj.element) && 'Extended' !== this.overflowMode && this.popObj.hide(), rootEle.querySelector('#' + rootEle.id + '_nav').setAttribute('tabindex', value ? '-1' : '0'));
+                    value ? rootEle.classList.add(toolbar_CLS_DISABLE) : rootEle.classList.remove(toolbar_CLS_DISABLE), rootEle.setAttribute('tabindex', !value ? '0' : '-1'), this.activeEle && this.activeEle.setAttribute('tabindex', !value ? '0' : '-1'), this.scrollModule && this.scrollModule.disable(value), this.popObj && ((0, ej2_base /* isVisible */ .pn)(this.popObj.element) && 'Extended' !== this.overflowMode && this.popObj.hide(), rootEle.querySelector('#' + rootEle.id + '_nav').setAttribute('tabindex', !value ? '0' : '-1'));
                 }, Toolbar.prototype.eleContains = function(el) {
                     return el.classList.contains(CLS_SEPARATOR) || el.classList.contains(toolbar_CLS_DISABLE) || el.getAttribute('disabled') || el.classList.contains(CLS_HIDDEN) || !(0, ej2_base /* isVisible */ .pn)(el);
                 }, Toolbar.prototype.eleFocus = function(closest, pos) {
@@ -23083,7 +23084,7 @@
                         this.elementFocus(sib);
                     } else if (this.tbarAlign) {
                         var elem = Object(closest.parentElement)[pos + 'ElementSibling'];
-                        if ((0, ej2_base /* isNullOrUndefined */ .le)(elem) || 0 !== elem.children.length || (elem = Object(elem)[pos + 'ElementSibling']), !(0, ej2_base /* isNullOrUndefined */ .le)(elem) && elem.children.length > 0) if ('next' === pos) {
+                        if (!(0, ej2_base /* isNullOrUndefined */ .le)(elem) && 0 === elem.children.length && (elem = Object(elem)[pos + 'ElementSibling']), !(0, ej2_base /* isNullOrUndefined */ .le)(elem) && elem.children.length > 0) if ('next' === pos) {
                             var el = elem.querySelector('.' + CLS_ITEM);
                             this.eleContains(el) ? this.eleFocus(el, pos) : (el.firstElementChild.focus(), this.activeEleSwitch(el));
                         } else {
@@ -23093,7 +23094,7 @@
                     }
                 }, Toolbar.prototype.clickHandler = function(e) {
                     var itemObj, _this = this, trgt = e.target, ele = this.element, isPopupElement = !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(trgt, '.' + CLS_POPUPCLASS)), clsList = trgt.classList, popupNav = (0, ej2_base /* closest */ .oq)(trgt, '.' + CLS_TBARNAV);
-                    popupNav || (popupNav = trgt), !ele.children[0].classList.contains('e-hscroll') && !ele.children[0].classList.contains('e-vscroll') && clsList.contains(CLS_TBARNAV) && (clsList = trgt.querySelector('.e-icons').classList), (clsList.contains(CLS_POPUPICON) || clsList.contains(CLS_POPUPDOWN)) && this.popupClickHandler(ele, popupNav, toolbar_CLS_RTL);
+                    !popupNav && (popupNav = trgt), !ele.children[0].classList.contains('e-hscroll') && !ele.children[0].classList.contains('e-vscroll') && clsList.contains(CLS_TBARNAV) && (clsList = trgt.querySelector('.e-icons').classList), (clsList.contains(CLS_POPUPICON) || clsList.contains(CLS_POPUPDOWN)) && this.popupClickHandler(ele, popupNav, toolbar_CLS_RTL);
                     var clst = (0, ej2_base /* closest */ .oq)(e.target, '.' + CLS_ITEM);
                     if (!((0, ej2_base /* isNullOrUndefined */ .le)(clst) || clst.classList.contains(toolbar_CLS_DISABLE)) || popupNav.classList.contains(CLS_TBARNAV)) {
                         clst && (itemObj = this.items[this.tbarEle.indexOf(clst)]);
@@ -23101,7 +23102,7 @@
                             originalEvent: e,
                             item: itemObj
                         };
-                        itemObj && !(0, ej2_base /* isNullOrUndefined */ .le)(itemObj.click) && this.trigger('items[' + this.tbarEle.indexOf(clst) + '].click', eventArgs), eventArgs.cancel || this.trigger('clicked', eventArgs, function(clickedArgs) {
+                        itemObj && !(0, ej2_base /* isNullOrUndefined */ .le)(itemObj.click) && this.trigger('items[' + this.tbarEle.indexOf(clst) + '].click', eventArgs), !eventArgs.cancel && this.trigger('clicked', eventArgs, function(clickedArgs) {
                             !(0, ej2_base /* isNullOrUndefined */ .le)(_this.popObj) && isPopupElement && !clickedArgs.cancel && 'Popup' === _this.overflowMode && clickedArgs.item && 'Input' !== clickedArgs.item.type && _this.popObj.hide({
                                 name: 'FadeOut',
                                 duration: 100
@@ -23116,7 +23117,7 @@
                     })) : (ele.classList.contains(CLS_RTL) && (popObj.enableRtl = !0, popObj.position = {
                         X: 'left',
                         Y: 'top'
-                    }), 0 !== popObj.offsetX || ele.classList.contains(CLS_RTL) || (popObj.enableRtl = !1, popObj.position = {
+                    }), 0 === popObj.offsetX && !ele.classList.contains(CLS_RTL) && (popObj.enableRtl = !1, popObj.position = {
                         X: 'right',
                         Y: 'top'
                     }), popObj.dataBind(), popObj.refreshPosition(), popObj.element.style.top = this.getElementOffsetY() + 'px', 'Extended' === this.overflowMode && (popObj.element.style.minHeight = '0px'), popupNav.classList.add(CLS_TBARNAVACT), popObj.show({
@@ -23141,7 +23142,7 @@
                         role: 'toolbar',
                         'aria-disabled': 'false',
                         'aria-haspopup': 'false',
-                        'aria-orientation': this.isVertical ? 'vertical' : 'horizontal'
+                        'aria-orientation': !this.isVertical ? 'horizontal' : 'vertical'
                     };
                     (0, ej2_base /* attributes */ .Y4)(this.element, ariaAttr), this.cssClass && (0, ej2_base /* addClass */ .cn)([
                         this.element
@@ -23156,8 +23157,8 @@
                 }, Toolbar.prototype.renderLayout = function() {
                     this.renderOverflowMode(), this.tbarAlign && this.itemPositioning(), this.popObj && this.popObj.element.childElementCount > 1 && this.checkPopupRefresh(this.element, this.popObj.element) && this.popupRefresh(this.popObj.element, !1), this.separator();
                 }, Toolbar.prototype.itemsAlign = function(items, itemEleDom) {
-                    this.tbarEle || (this.tbarEle = []);
-                    for(var innerItem, innerPos, i = 0; i < items.length; i++)innerItem = this.renderSubComponent(items[i], i), -1 === this.tbarEle.indexOf(innerItem) && this.tbarEle.push(innerItem), this.tbarAlign || this.tbarItemAlign(items[i], itemEleDom, i), (innerPos = itemEleDom.querySelector('.e-toolbar-' + items[i].align.toLowerCase())) ? (items[i].showAlwaysInPopup && 'Show' !== items[i].overflow || this.tbarAlgEle[(items[i].align + 's').toLowerCase()].push(innerItem), innerPos.appendChild(innerItem)) : itemEleDom.appendChild(innerItem);
+                    !this.tbarEle && (this.tbarEle = []);
+                    for(var innerItem, innerPos, i = 0; i < items.length; i++)innerItem = this.renderSubComponent(items[i], i), -1 === this.tbarEle.indexOf(innerItem) && this.tbarEle.push(innerItem), !this.tbarAlign && this.tbarItemAlign(items[i], itemEleDom, i), (innerPos = itemEleDom.querySelector('.e-toolbar-' + items[i].align.toLowerCase())) ? (!(items[i].showAlwaysInPopup && 'Show' !== items[i].overflow) && this.tbarAlgEle[(items[i].align + 's').toLowerCase()].push(innerItem), innerPos.appendChild(innerItem)) : itemEleDom.appendChild(innerItem);
                     this.isReact && (this.notify('render-react-toolbar-template', this.portals), this.renderReactTemplates());
                 }, /**
      * @hidden
@@ -23227,7 +23228,7 @@
                     for(var i = 0; i <= eleItem.length - 1; i++)eleItem[i].offsetLeft < 30 && 0 !== eleItem[i].offsetLeft && ('MultiRow' === this.overflowMode ? eleItem[i].classList.add(CLS_MULTIROW_SEPARATOR) : 'Extended' === this.overflowMode && eleItem[i].classList.add(CLS_EXTENDABLE_SEPARATOR));
                 }, Toolbar.prototype.createPopupEle = function(ele, innerEle) {
                     var innerNav = ele.querySelector('.' + CLS_TBARNAV), vertical = this.isVertical;
-                    innerNav || this.createPopupIcon(ele), innerNav = ele.querySelector('.' + CLS_TBARNAV);
+                    !innerNav && this.createPopupIcon(ele), innerNav = ele.querySelector('.' + CLS_TBARNAV);
                     var innerNavDom = vertical ? innerNav.offsetHeight : innerNav.offsetWidth, eleWidth = (vertical ? ele.offsetHeight : ele.offsetWidth) - innerNavDom;
                     this.element.classList.remove('e-rtl'), (0, ej2_base /* setStyleAttribute */ .V7)(this.element, {
                         direction: 'initial'
@@ -23318,7 +23319,7 @@
                 }, // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 Toolbar.prototype.popupOpen = function(e) {
                     var popObj = this.popObj;
-                    this.isVertical || (popObj.offsetY = this.getElementOffsetY(), popObj.dataBind());
+                    !this.isVertical && (popObj.offsetY = this.getElementOffsetY(), popObj.dataBind());
                     var popupEle = this.popObj.element, toolEle = this.popObj.element.parentElement, popupNav = toolEle.querySelector('.' + CLS_TBARNAV);
                     (0, ej2_base /* setStyleAttribute */ .V7)(popObj.element, {
                         height: 'auto',
@@ -23447,7 +23448,7 @@
                         if (!(0, ej2_base /* isNullOrUndefined */ .le)(eleSep) && checkClass(eleSep, CLS_SEPARATOR) && !(0, ej2_base /* isVisible */ .pn)(eleSep) || ignoreCheck) {
                             eleSep.style.display = 'inherit';
                             var eleSepWidth = eleSep.offsetWidth + 2 * parseFloat(window.getComputedStyle(eleSep).marginRight), prevSep = eleSep.previousElementSibling;
-                            elWid + eleSepWidth < wid || des ? (inEle.insertBefore(el, inEle.children[indx + ig - (indx - sepPri)]), (0, ej2_base /* isNullOrUndefined */ .le)(prevSep) || (prevSep.style.display = '')) : prevSep.classList.contains(CLS_SEPARATOR) && (prevSep.style.display = 'none'), eleSep.style.display = '';
+                            elWid + eleSepWidth < wid || des ? (inEle.insertBefore(el, inEle.children[indx + ig - (indx - sepPri)]), !(0, ej2_base /* isNullOrUndefined */ .le)(prevSep) && (prevSep.style.display = '')) : prevSep.classList.contains(CLS_SEPARATOR) && (prevSep.style.display = 'none'), eleSep.style.display = '';
                         } else inEle.insertBefore(el, inEle.children[indx + ig - (indx - sepPri)]);
                     } else inEle.insertBefore(el, inEle.children[indx + ig - priEleCnt]);
                 }, Toolbar.prototype.popupRefresh = function(popupEle, destroy) {
@@ -23479,7 +23480,7 @@
                     var elWidth = this.isVertical ? el.offsetHeight : el.offsetWidth, btnText = el.querySelector(".e-tbar-btn-text");
                     if (el.classList.contains('e-tbtn-align') || el.classList.contains(CLS_TBARTEXT)) {
                         var btn = el.children[0];
-                        !(0, ej2_base /* isNullOrUndefined */ .le)(btnText) && el.classList.contains(CLS_TBARTEXT) ? btnText.style.display = 'none' : !(0, ej2_base /* isNullOrUndefined */ .le)(btnText) && el.classList.contains(CLS_POPUPTEXT) && (btnText.style.display = 'block'), btn.style.minWidth = '0%', elWidth = parseFloat(this.isVertical ? el.style.minHeight : el.style.minWidth), btn.style.minWidth = '', btn.style.minHeight = '', (0, ej2_base /* isNullOrUndefined */ .le)(btnText) || (btnText.style.display = '');
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(btnText) && el.classList.contains(CLS_TBARTEXT) ? btnText.style.display = 'none' : !(0, ej2_base /* isNullOrUndefined */ .le)(btnText) && el.classList.contains(CLS_POPUPTEXT) && (btnText.style.display = 'block'), btn.style.minWidth = '0%', elWidth = parseFloat(!this.isVertical ? el.style.minWidth : el.style.minHeight), btn.style.minWidth = '', btn.style.minHeight = '', !(0, ej2_base /* isNullOrUndefined */ .le)(btnText) && (btnText.style.display = '');
                     }
                     return elWidth;
                 }, Toolbar.prototype.popupEleRefresh = function(width, popupEle, destroy) {
@@ -23491,7 +23492,7 @@
                             minWidth: '',
                             height: '',
                             minHeight: ''
-                        }), el.classList.contains(CLS_POPOVERFLOW) || el.classList.remove(CLS_POPUP), index = this_1.tbarEle.indexOf(el), this_1.tbarAlign) {
+                        }), !el.classList.contains(CLS_POPOVERFLOW) && el.classList.remove(CLS_POPUP), index = this_1.tbarEle.indexOf(el), this_1.tbarAlign) {
                             var pos = this_1.items[index].align;
                             index = this_1.tbarAlgEle[(pos + 's').toLowerCase()].indexOf(el), eleSplice = this_1.tbarAlgEle[(pos + 's').toLowerCase()], innerEle = this_1.element.querySelector('.' + CLS_ITEMS + " .e-toolbar-" + pos.toLowerCase());
                         }
@@ -23527,9 +23528,9 @@
                             innerItem[2].removeAttribute('style'), this.isVertical ? this.enableRtl ? innerItem[2].style.top = popWid : innerItem[2].style.bottom = popWid : this.enableRtl ? innerItem[2].style.left = popWid : innerItem[2].style.right = popWid;
                         }
                         if (!(tbarWid <= margin)) {
-                            var value = (tbarWid - margin - (this.isVertical ? innerItem[1].offsetHeight : innerItem[1].offsetWidth)) / 2;
+                            var value = (tbarWid - margin - (!this.isVertical ? innerItem[1].offsetWidth : innerItem[1].offsetHeight)) / 2;
                             innerItem[1].removeAttribute('style');
-                            var mrgn = (this.isVertical ? innerItem[0].offsetHeight : innerItem[0].offsetWidth) + value + 'px';
+                            var mrgn = (!this.isVertical ? innerItem[0].offsetWidth : innerItem[0].offsetHeight) + value + 'px';
                             this.isVertical ? this.enableRtl ? innerItem[1].style.marginBottom = mrgn : innerItem[1].style.marginTop = mrgn : this.enableRtl ? innerItem[1].style.marginRight = mrgn : innerItem[1].style.marginLeft = mrgn;
                         }
                     }
@@ -23563,7 +23564,7 @@
                     if (null != this.trgtEle) this.ctrlTemplate();
                     else if (ele && items.length > 0) {
                         var itemEleDom = void 0;
-                        ele && ele.children.length > 0 && (itemEleDom = ele.querySelector('.' + CLS_ITEMS)), itemEleDom || (itemEleDom = this.createElement('div', {
+                        ele && ele.children.length > 0 && (itemEleDom = ele.querySelector('.' + CLS_ITEMS)), !itemEleDom && (itemEleDom = this.createElement('div', {
                             className: CLS_ITEMS
                         })), this.itemsAlign(items, itemEleDom), ele.appendChild(itemEleDom);
                     }
@@ -23615,7 +23616,7 @@
                     }
                     var itemAgn = 'Left';
                     (0, ej2_base /* isNullOrUndefined */ .le)(index) && (index = 0), items.forEach(function(e) {
-                        (0, ej2_base /* isNullOrUndefined */ .le)(e.align) || 'Left' === e.align || 'Left' !== itemAgn || (itemAgn = e.align);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(e.align) && 'Left' !== e.align && 'Left' === itemAgn && (itemAgn = e.align);
                     });
                     for(var _i = 0; _i < items.length; _i++){
                         var item = items[_i];
@@ -23653,7 +23654,7 @@
                         }
                         this.isReact && this.clearTemplate();
                         var btnItem = innerItems[index].querySelector('.e-control.e-btn');
-                        (0, ej2_base /* isNullOrUndefined */ .le)(btnItem) || (0, ej2_base /* isNullOrUndefined */ .le)(btnItem.ej2_instances[0]) || btnItem.ej2_instances[0].isDestroyed || btnItem.ej2_instances[0].destroy(), (0, ej2_base /* detach */ .og)(innerItems[index]), this.items.splice(eleIdx, 1), this.tbarEle.splice(eleIdx, 1);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(btnItem) && !(0, ej2_base /* isNullOrUndefined */ .le)(btnItem.ej2_instances[0]) && !btnItem.ej2_instances[0].isDestroyed && btnItem.ej2_instances[0].destroy(), (0, ej2_base /* detach */ .og)(innerItems[index]), this.items.splice(eleIdx, 1), this.tbarEle.splice(eleIdx, 1);
                     }
                 }, Toolbar.prototype.templateRender = function(templateProp, innerEle, item, index) {
                     var isComponent, itemType = item.type;
@@ -23669,15 +23670,15 @@
                             if ('object' != typeof templateProp || (0, ej2_base /* isNullOrUndefined */ .le)(templateProp.tagName)) if ('string' == typeof templateProp && regEx.test(val)) innerEle.innerHTML = val;
                             else if (document.querySelectorAll(val).length) {
                                 var ele = document.querySelector(val), tempStr = ele.outerHTML.trim();
-                                innerEle.appendChild(ele), ele.style.display = '', (0, ej2_base /* isNullOrUndefined */ .le)(tempStr) || this.tempId.push(val);
+                                innerEle.appendChild(ele), ele.style.display = '', !(0, ej2_base /* isNullOrUndefined */ .le)(tempStr) && this.tempId.push(val);
                             } else templateFn = (0, ej2_base /* compile */ .MY)(val);
                             else innerEle.appendChild(templateProp);
                         } catch (e) {
                             templateFn = (0, ej2_base /* compile */ .MY)(val);
                         }
                         var tempArray = void 0;
-                        (0, ej2_base /* isNullOrUndefined */ .le)(templateFn) || (tempArray = templateFn({}, this, 'template', this.element.id + index + '_template', this.isStringTemplate)), !(0, ej2_base /* isNullOrUndefined */ .le)(tempArray) && tempArray.length > 0 && [].slice.call(tempArray).forEach(function(ele) {
-                            (0, ej2_base /* isNullOrUndefined */ .le)(ele.tagName) || (ele.style.display = ''), innerEle.appendChild(ele);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(templateFn) && (tempArray = templateFn({}, this, 'template', this.element.id + index + '_template', this.isStringTemplate)), !(0, ej2_base /* isNullOrUndefined */ .le)(tempArray) && tempArray.length > 0 && [].slice.call(tempArray).forEach(function(ele) {
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(ele.tagName) && (ele.style.display = ''), innerEle.appendChild(ele);
                         });
                     }
                     this.add(innerEle, CLS_TEMPLATE), this.tbarEle.push(innerEle);
@@ -23707,7 +23708,7 @@
                     var tempDom = this.createElement('div', {
                         innerHTML: this.enableHtmlSanitizer ? ej2_base /* SanitizeHtmlHelper.sanitize */ .pJ.sanitize(item.tooltipText) : item.tooltipText
                     });
-                    if (this.tbarEle || (this.tbarEle = []), item.htmlAttributes && this.setAttr(item.htmlAttributes, innerEle), item.tooltipText && innerEle.setAttribute('title', tempDom.textContent), item.cssClass && (innerEle.className = innerEle.className + ' ' + item.cssClass), item.template) this.templateRender(item.template, innerEle, item, index);
+                    if (!this.tbarEle && (this.tbarEle = []), item.htmlAttributes && this.setAttr(item.htmlAttributes, innerEle), item.tooltipText && innerEle.setAttribute('title', tempDom.textContent), item.cssClass && (innerEle.className = innerEle.className + ' ' + item.cssClass), item.template) this.templateRender(item.template, innerEle, item, index);
                     else switch(item.type){
                         case 'Button':
                             (dom = this.buttonRendering(item, innerEle)).setAttribute('tabindex', '-1'), dom.setAttribute('aria-label', item.text || item.tooltipText), innerEle.appendChild(dom), innerEle.addEventListener('click', this.itemClick.bind(this));
@@ -23721,7 +23722,7 @@
                     }
                     if (item.overflow) {
                         var overflow = item.overflow;
-                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' !== overflow || innerEle.classList.contains(CLS_SEPARATOR) || this.add(innerEle, CLS_POPOVERFLOW);
+                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' === overflow && !innerEle.classList.contains(CLS_SEPARATOR) && this.add(innerEle, CLS_POPOVERFLOW);
                     }
                     return 'Show' !== item.overflow && item.showAlwaysInPopup && !innerEle.classList.contains(CLS_SEPARATOR) && (this.add(innerEle, CLS_POPPRI), this.popupPriCount++), item.disabled && this.add(innerEle, toolbar_CLS_DISABLE), !1 === item.visible && this.add(innerEle, CLS_HIDDEN), innerEle;
                 }, Toolbar.prototype.itemClick = function(e) {
@@ -23729,7 +23730,7 @@
                 }, Toolbar.prototype.activeEleSwitch = function(ele) {
                     this.activeEleRemove(ele.firstElementChild), this.activeEle.focus();
                 }, Toolbar.prototype.activeEleRemove = function(curEle) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.activeEle) || this.activeEle.setAttribute('tabindex', '-1'), this.activeEle = curEle, (0, ej2_base /* isNullOrUndefined */ .le)(this.trgtEle) && !curEle.parentElement.classList.contains(CLS_TEMPLATE) ? curEle.removeAttribute('tabindex') : this.activeEle.setAttribute('tabindex', '0');
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.activeEle) && this.activeEle.setAttribute('tabindex', '-1'), this.activeEle = curEle, (0, ej2_base /* isNullOrUndefined */ .le)(this.trgtEle) && !curEle.parentElement.classList.contains(CLS_TEMPLATE) ? curEle.removeAttribute('tabindex') : this.activeEle.setAttribute('tabindex', '0');
                 }, Toolbar.prototype.getPersistData = function() {
                     return this.addOnPersist([]);
                 }, /**
@@ -23806,7 +23807,7 @@
                             this.destroyMode(), this.renderOverflowMode(), this.enableRtl && this.add(tEle, toolbar_CLS_RTL), this.refreshOverflow();
                             break;
                         case 'enableRtl':
-                            newProp.enableRtl ? this.add(tEle, toolbar_CLS_RTL) : this.remove(tEle, toolbar_CLS_RTL), (0, ej2_base /* isNullOrUndefined */ .le)(this.scrollModule) || (newProp.enableRtl ? this.add(this.scrollModule.element, toolbar_CLS_RTL) : this.remove(this.scrollModule.element, toolbar_CLS_RTL)), (0, ej2_base /* isNullOrUndefined */ .le)(this.popObj) || (newProp.enableRtl ? this.add(this.popObj.element, toolbar_CLS_RTL) : this.remove(this.popObj.element, toolbar_CLS_RTL)), this.tbarAlign && this.itemPositioning();
+                            newProp.enableRtl ? this.add(tEle, toolbar_CLS_RTL) : this.remove(tEle, toolbar_CLS_RTL), !(0, ej2_base /* isNullOrUndefined */ .le)(this.scrollModule) && (newProp.enableRtl ? this.add(this.scrollModule.element, toolbar_CLS_RTL) : this.remove(this.scrollModule.element, toolbar_CLS_RTL)), !(0, ej2_base /* isNullOrUndefined */ .le)(this.popObj) && (newProp.enableRtl ? this.add(this.popObj.element, toolbar_CLS_RTL) : this.remove(this.popObj.element, toolbar_CLS_RTL)), this.tbarAlign && this.itemPositioning();
                             break;
                         case 'scrollStep':
                             this.scrollModule && (this.scrollModule.scrollStep = this.scrollStep);
@@ -23854,7 +23855,7 @@
                         else {
                             if (setFlag && removeFlag) break;
                             var skipEle = this.eleContains(initELe);
-                            skipEle || (initELe.firstElementChild.removeAttribute('tabindex'), removeFlag = !0), initELe = innerItems[++initIndex];
+                            !skipEle && (initELe.firstElementChild.removeAttribute('tabindex'), removeFlag = !0), initELe = innerItems[++initIndex];
                         }
                         this.refreshOverflow();
                     }
@@ -23990,7 +23991,7 @@
      * @returns {void}
      * @private
      */ DropDownButton.prototype.render = function() {
-                    this.initialize(), this.disabled || this.wireEvents(), this.renderComplete();
+                    this.initialize(), !this.disabled && this.wireEvents(), this.renderComplete();
                 }, /**
      * Adds a new item to the menu. By default, new item appends to the list as the last item,
      * but you can insert based on the text parameter.
@@ -24005,7 +24006,7 @@
                     }
                     for(var i = items.length - 1; i >= 0; i--)// eslint-disable-next-line @typescript-eslint/no-explicit-any
                     newItem = new common_Item(this, 'items', items[i], !0), this.items.splice(idx, 0, newItem);
-                    this.canOpen() || this.createItems();
+                    !this.canOpen() && this.createItems();
                 }, /**
      * Removes the items from the menu.
      *
@@ -24112,7 +24113,7 @@
                         disabled: this.disabled,
                         enableRtl: this.enableRtl,
                         enablePersistence: this.enablePersistence
-                    }), this.button.createElement = this.createElement, this.button.appendTo(this.element), this.element.id || (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName())), this.appendArrowSpan(), this.setActiveElem([
+                    }), this.button.createElement = this.createElement, this.button.appendTo(this.element), !this.element.id && (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName())), this.appendArrowSpan(), this.setActiveElem([
                         this.element
                     ]), (!this.target || this.isColorPicker()) && this.createPopupOnClick ? this.isPopupCreated = !1 : this.createPopup();
                 }, DropDownButton.prototype.isColorPicker = function() {
@@ -24158,7 +24159,7 @@
                         'class'
                     ]).forEach(function(key) {
                         _this.element.removeAttribute(key);
-                    }), this.popupUnWireEvents(), this.destroyPopup(), this.isPopupCreated = !1, this.disabled || this.unWireEvents());
+                    }), this.popupUnWireEvents(), this.destroyPopup(), this.isPopupCreated = !1, !this.disabled && this.unWireEvents());
                 }, DropDownButton.prototype.destroyPopup = function() {
                     if (this.isPopupCreated) {
                         if (this.dropDown.destroy(), this.getPopUpElement()) {
@@ -24180,7 +24181,7 @@
                     var val = null;
                     return this.getPopUpElement() && (val = this.getPopUpElement().children[0]), val;
                 }, DropDownButton.prototype.wireEvents = function() {
-                    this.delegateMousedownHandler = this.mousedownHandler.bind(this), this.createPopupOnClick || ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown touchstart', this.delegateMousedownHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.element, 'click', this.clickHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.element, 'keydown', this.keyBoardHandler, this);
+                    this.delegateMousedownHandler = this.mousedownHandler.bind(this), !this.createPopupOnClick && ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown touchstart', this.delegateMousedownHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.element, 'click', this.clickHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.element, 'keydown', this.keyBoardHandler, this);
                 }, DropDownButton.prototype.popupWireEvents = function() {
                     var popupElement = this.getPopUpElement();
                     this.createPopupOnClick && ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown touchstart', this.delegateMousedownHandler, this), popupElement && (ej2_base /* EventHandler.add */ .bi.add(popupElement, 'click', this.clickHandler, this), ej2_base /* EventHandler.add */ .bi.add(popupElement, 'keydown', this.keyBoardHandler, this), this.closeActionEvents && ej2_base /* EventHandler.add */ .bi.add(popupElement, this.closeActionEvents, this.focusoutHandler, this)), this.rippleFn = (0, ej2_base /* rippleEffect */ .qx)(popupElement, {
@@ -24208,7 +24209,7 @@
                             this.keyEventHandler(e);
                     }
                 }, DropDownButton.prototype.upDownKeyHandler = function(e) {
-                    this.target && (38 === e.keyCode || 40 === e.keyCode) || (e.preventDefault(), /** @hidden
+                    (!this.target || 38 !== e.keyCode && 40 !== e.keyCode) && (e.preventDefault(), /** @hidden
  * @param {HTMLElement} ul - Specifies the UL element
  * @param {number} keyCode - Specifies the keycode
  * @returns {void}
@@ -24236,12 +24237,12 @@
                         ], 'e-focused'), ul.children[liIdx].focus());
                     }(this.getULElement(), e.keyCode));
                 }, DropDownButton.prototype.keyEventHandler = function(e) {
-                    (!this.target || 13 !== e.keyCode && 9 !== e.keyCode) && (e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode || (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e)));
+                    (!this.target || 13 !== e.keyCode && 9 !== e.keyCode) && (!(e.target && e.target.className.indexOf('e-edit-template') > -1) || 32 !== e.keyCode) && (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? !this.canOpen() && this.closePopup(e, this.element) : this.clickHandler(e));
                 }, DropDownButton.prototype.getLI = function(elem) {
                     return 'LI' === elem.tagName ? elem : (0, ej2_base /* closest */ .oq)(elem, 'li');
                 }, DropDownButton.prototype.mousedownHandler = function(e) {
                     var trgt = e.target;
-                    !this.dropDown || this.canOpen() || (0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.getPopUpElement().id + '"]') || (0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.element.id + '"]') || this.closePopup(e);
+                    this.dropDown && !this.canOpen() && !((0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.getPopUpElement().id + '"]') || (0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.element.id + '"]')) && this.closePopup(e);
                 }, DropDownButton.prototype.focusoutHandler = function(e) {
                     this.isPopupCreated && !this.canOpen() && this.closePopup(e);
                 }, DropDownButton.prototype.clickHandler = function(e) {
@@ -24310,7 +24311,7 @@
                         }
                     });
                 }, DropDownButton.prototype.unWireEvents = function() {
-                    this.createPopupOnClick || ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousedown touchstart', this.delegateMousedownHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.element, 'click', this.clickHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.element, 'keydown', this.keyBoardHandler), this.isPopupCreated && (ej2_base /* EventHandler.remove */ .bi.remove(this.getPopUpElement(), 'click', this.clickHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.getPopUpElement(), 'keydown', this.keyBoardHandler));
+                    !this.createPopupOnClick && ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousedown touchstart', this.delegateMousedownHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.element, 'click', this.clickHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.element, 'keydown', this.keyBoardHandler), this.isPopupCreated && (ej2_base /* EventHandler.remove */ .bi.remove(this.getPopUpElement(), 'click', this.clickHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.getPopUpElement(), 'keydown', this.keyBoardHandler));
                 }, /**
      * Called internally if any of the property value changed.
      *
@@ -24332,7 +24333,7 @@
                     ])));
                     for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
                         case 'content':
-                            this.element.querySelector('span.e-caret') || this.appendArrowSpan();
+                            !this.element.querySelector('span.e-caret') && this.appendArrowSpan();
                             break;
                         case 'disabled':
                             newProp.disabled ? (this.unWireEvents(), this.isPopupCreated && !this.canOpen() && this.closePopup()) : this.wireEvents();
@@ -24451,7 +24452,7 @@
                         }), idx = 0, len = ele.attributes.length; idx < len; idx++)btn.setAttribute(ele.attributes[idx].nodeName, ele.attributes[idx].nodeValue);
                         ele.parentNode.insertBefore(wrapper, ele), (0, ej2_base /* detach */ .og)(ele), ele = btn, wrapper.appendChild(ele), (0, ej2_base /* setValue */ .sO)('ej2_instances', ejInstance, ele), this.wrapper = wrapper, this.element = ele;
                     }
-                    this.element.id || (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName()));
+                    !this.element.id && (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName()));
                 }, /**
      * Initialize the Component rendering.
      *
@@ -24482,7 +24483,7 @@
      */ SplitButton.prototype.removeItems = function(items, isUniqueId) {
                     _super.prototype.removeItems.call(this, items, isUniqueId), this.secondaryBtnObj.items = this.items;
                 }, SplitButton.prototype.initWrapper = function() {
-                    this.wrapper || (this.wrapper = this.createElement('div', {
+                    !this.wrapper && (this.wrapper = this.createElement('div', {
                         className: 'e-' + this.getModuleName() + '-wrapper'
                     }), this.element.parentNode.insertBefore(this.wrapper, this.element)), this.element.classList.remove('e-' + this.getModuleName()), this.enableRtl && this.wrapper.classList.add(RTL), this.cssClass && (0, ej2_base /* addClass */ .cn)([
                         this.wrapper
@@ -24532,7 +24533,7 @@
                         return _this.trigger('beforeClose', args, function(observedArgs) {
                             callBackPromise.resolve(observedArgs);
                         }), callBackPromise;
-                    }, this.secondaryBtnObj = new DropDownButton(dropDownBtnModel), this.secondaryBtnObj.createElement = this.createElement, this.secondaryBtnObj.appendTo(btnElem), this.createPopupOnClick || (this.secondaryBtnObj.dropDown.relateTo = this.wrapper, this.dropDown = this.secondaryBtnObj.dropDown), this.secondaryBtnObj.activeElem = [
+                    }, this.secondaryBtnObj = new DropDownButton(dropDownBtnModel), this.secondaryBtnObj.createElement = this.createElement, this.secondaryBtnObj.appendTo(btnElem), !this.createPopupOnClick && (this.secondaryBtnObj.dropDown.relateTo = this.wrapper, this.dropDown = this.secondaryBtnObj.dropDown), this.secondaryBtnObj.activeElem = [
                         this.element,
                         this.secondaryBtnObj.element
                     ], this.secondaryBtnObj.element.querySelector('.e-btn-icon').classList.remove('e-icon-right');
@@ -24581,7 +24582,7 @@
                             _this.element.removeAttribute(key);
                         }), this.wrapper.parentNode.insertBefore(this.element, this.wrapper), (0, ej2_base /* remove */ .Od)(this.wrapper)), this.unWireEvents());
                     }
-                    this.primaryBtnObj.destroy(), this.secondaryBtnObj.destroy(), _super.prototype.destroy.call(this), this.element.getAttribute('class') || this.element.removeAttribute('class');
+                    this.primaryBtnObj.destroy(), this.secondaryBtnObj.destroy(), _super.prototype.destroy.call(this), !this.element.getAttribute('class') && this.element.removeAttribute('class');
                 }, SplitButton.prototype.wireEvents = function() {
                     ej2_base /* EventHandler.add */ .bi.add(this.element, 'click', this.primaryBtnClickHandler, this), new ej2_base /* KeyboardEvents */ .nv(this.element, {
                         keyAction: this.btnKeyBoardHandler.bind(this),
@@ -24903,12 +24904,12 @@
                     clearTimeout(this.autoCloseTimer), this.targetHover(evt.originalEvent);
                 }, Tooltip.prototype.touchEndHandler = function(e) {
                     var _this = this;
-                    this.isSticky || (this.autoCloseTimer = setTimeout(function() {
+                    !this.isSticky && (this.autoCloseTimer = setTimeout(function() {
                         _this.close();
                     }, 1500));
                 }, Tooltip.prototype.targetClick = function(e) {
                     var target;
-                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, (0, ej2_base /* isNullOrUndefined */ .le)(target) || (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
+                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : !this.isSticky && this.hideTooltip(this.animation.close, e, target));
                 }, Tooltip.prototype.targetHover = function(e) {
                     if (target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') || 0 !== this.closeDelay)) {
                         for(var target, targetList = [].slice.call((0, ej2_base /* selectAll */ .td)('[data-tooltip-id= "' + this.ctrlId + '_content"]', document)), _i = 0; _i < targetList.length; _i++){
@@ -24944,7 +24945,7 @@
                         styles: 'width:' + (0, ej2_base /* formatUnit */ .Ac)(this.width) + ';height:' + (0, ej2_base /* formatUnit */ .Ac)(this.height) + ';position:absolute;'
                     }), this.tooltipBeforeRender(target, this), this.tooltipAfterRender(target, e, showAnimation, this)) : target && (this.adjustArrow(target, this.position, this.tooltipPositionX, this.tooltipPositionY), this.addDescribedBy(target, this.ctrlId + '_content'), this.renderContent(target), ej2_base /* Animation.stop */ .fw.stop(this.tooltipEle), this.reposition(target), this.tooltipAfterRender(target, e, showAnimation, this)));
                 }, Tooltip.prototype.appendContainer = function(ctrlObj) {
-                    'string' == typeof this.container ? 'body' === this.container ? this.containerElement = document.body : (this.isBodyContainer = !1, this.containerElement = (0, ej2_base /* select */ .Ys)(this.container, document)) : this.container instanceof HTMLElement && (this.containerElement = this.container, this.isBodyContainer = 'BODY' === this.containerElement.tagName), this.isBodyContainer || (0, ej2_base /* addClass */ .cn)([
+                    'string' == typeof this.container ? 'body' === this.container ? this.containerElement = document.body : (this.isBodyContainer = !1, this.containerElement = (0, ej2_base /* select */ .Ys)(this.container, document)) : this.container instanceof HTMLElement && (this.containerElement = this.container, this.isBodyContainer = 'BODY' === this.containerElement.tagName), !this.isBodyContainer && (0, ej2_base /* addClass */ .cn)([
                         this.containerElement
                     ], POPUP_CONTAINER), this.containerElement.appendChild(ctrlObj.tooltipEle);
                 }, Tooltip.prototype.tooltipBeforeRender = function(target, ctrlObj) {
@@ -25042,7 +25043,7 @@
                 }, Tooltip.prototype.hideTooltip = function(hideAnimation, e, targetElement) {
                     var _this = this;
                     this.closeDelay > 0 ? (clearTimeout(this.hideTimer), clearTimeout(this.showTimer), this.hideTimer = setTimeout(function() {
-                        _this.closeDelay && _this.tooltipEle && _this.isTooltipOpen || _this.tooltipHide(hideAnimation, e, targetElement);
+                        (!_this.closeDelay || !_this.tooltipEle || !_this.isTooltipOpen) && _this.tooltipHide(hideAnimation, e, targetElement);
                     }, this.closeDelay)) : this.tooltipHide(hideAnimation, e, targetElement);
                 }, Tooltip.prototype.tooltipHide = function(hideAnimation, e, targetElement) {
                     var target, _this = this;
@@ -25069,7 +25070,7 @@
                     };
                     'None' === hideAnimation.effect && (closeAnimation = void 0), this.popupObj && this.popupObj.hide(closeAnimation);
                 }, Tooltip.prototype.restoreElement = function(target) {
-                    this.unwireMouseEvents(target), (0, ej2_base /* isNullOrUndefined */ .le)(target.getAttribute('data-content')) || (target.setAttribute('title', target.getAttribute('data-content')), target.removeAttribute('data-content')), this.removeDescribedBy(target);
+                    this.unwireMouseEvents(target), !(0, ej2_base /* isNullOrUndefined */ .le)(target.getAttribute('data-content')) && (target.setAttribute('title', target.getAttribute('data-content')), target.removeAttribute('data-content')), this.removeDescribedBy(target);
                 }, Tooltip.prototype.clear = function() {
                     this.tooltipEle && ((0, ej2_base /* removeClass */ .IV)([
                         this.tooltipEle
@@ -25178,7 +25179,7 @@
                     if (!this.isSticky) {
                         for(var triggerList = this.getTriggerList(this.opensOn), _i = 0; _i < triggerList.length; _i++){
                             var opensOn = triggerList[_i];
-                            'Focus' === opensOn && ej2_base /* EventHandler.remove */ .bi.remove(target, 'blur', this.onMouseOut), 'Hover' !== opensOn || ej2_base /* Browser.isDevice */ .AR.isDevice || ej2_base /* EventHandler.remove */ .bi.remove(target, 'mouseleave', this.onMouseOut);
+                            'Focus' === opensOn && ej2_base /* EventHandler.remove */ .bi.remove(target, 'blur', this.onMouseOut), 'Hover' === opensOn && !ej2_base /* Browser.isDevice */ .AR.isDevice && ej2_base /* EventHandler.remove */ .bi.remove(target, 'mouseleave', this.onMouseOut);
                         }
                         this.closeDelay && (ej2_base /* EventHandler.remove */ .bi.remove(target, 'mouseenter', this.tooltipHover), ej2_base /* EventHandler.remove */ .bi.remove(target, 'mouseleave', this.tooltipMouseOut));
                     }
@@ -25260,7 +25261,7 @@
                             ], tooltip_RTL));
                             break;
                         case 'container':
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.containerElement) || (0, ej2_base /* removeClass */ .IV)([
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.containerElement) && (0, ej2_base /* removeClass */ .IV)([
                                 this.containerElement
                             ], POPUP_CONTAINER), this.container = newProp.container, this.tooltipEle && targetElement && (this.appendContainer(this), this.reposition(targetElement));
                     }
@@ -25278,7 +25279,7 @@
      * @param {TooltipAnimationSettings} animation - Sets the specific animation when hiding Tooltip from the screen. (It is an optional parameter)
      * @returns {void}
      */ Tooltip.prototype.close = function(animation) {
-                    animation || (animation = this.animation.close), this.hideTooltip(animation);
+                    !animation && (animation = this.animation.close), this.hideTooltip(animation);
                 }, /**
      * It is used to refresh the Tooltip content and its position.
      *
@@ -25507,7 +25508,7 @@
                     }, this.locale), this.isElementFocused = !1, this.tickElementCollection = [], this.tooltipFormatInfo = {}, this.ticksFormatInfo = {}, this.initCultureInfo(), this.initCultureFunc(), this.formChecker();
                 }, Slider.prototype.formChecker = function() {
                     var formElement = (0, ej2_base /* closest */ .oq)(this.element, 'form');
-                    formElement ? (this.isForm = !0, (0, ej2_base /* isNullOrUndefined */ .le)(this.formResetValue) || this.setProperties({
+                    formElement ? (this.isForm = !0, !(0, ej2_base /* isNullOrUndefined */ .le)(this.formResetValue) && this.setProperties({
                         value: this.formResetValue
                     }, !0), this.formResetValue = this.value, 'Range' === this.type && ((0, ej2_base /* isNullOrUndefined */ .le)(this.formResetValue) || 'object' != typeof this.formResetValue) ? this.formResetValue = [
                         parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.min)),
@@ -25516,7 +25517,7 @@
                 }, Slider.prototype.initCultureFunc = function() {
                     this.internationalization = new ej2_base /* Internationalization */ .eC(this.locale);
                 }, Slider.prototype.initCultureInfo = function() {
-                    this.tooltipFormatInfo.format = (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? null : this.tooltip.format, this.ticksFormatInfo.format = (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format) ? null : this.ticks.format;
+                    this.tooltipFormatInfo.format = !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? this.tooltip.format : null, this.ticksFormatInfo.format = !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format) ? this.ticks.format : null;
                 }, Slider.prototype.formatString = function(value, formatInfo) {
                     var formatValue = null, formatString = null;
                     if (value || 0 === value) {
@@ -25557,7 +25558,7 @@
                         this.element
                     ], slider_classNames.root), this.setCSSClass();
                 }, Slider.prototype.setElementWidth = function(width) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(width) || ('number' == typeof width ? this.sliderContainer.style.width = (0, ej2_base /* formatUnit */ .Ac)(width) : 'string' == typeof width && (this.sliderContainer.style.width = width.match(/px|%|em/) ? width : (0, ej2_base /* formatUnit */ .Ac)(width)));
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(width) && ('number' == typeof width ? this.sliderContainer.style.width = (0, ej2_base /* formatUnit */ .Ac)(width) : 'string' == typeof width && (this.sliderContainer.style.width = width.match(/px|%|em/) ? width : (0, ej2_base /* formatUnit */ .Ac)(width)));
                 }, Slider.prototype.setCSSClass = function(oldCSSClass) {
                     oldCSSClass && (0, ej2_base /* removeClass */ .IV)([
                         this.element
@@ -25594,7 +25595,7 @@
                     }), this.hiddenInput.tabIndex = -1, this.sliderContainer.appendChild(this.hiddenInput), this.showButtons && this.setButtons(), this.setEnableRTL(), 'Range' === this.type ? this.rangeValueUpdate() : this.value = (0, ej2_base /* isNullOrUndefined */ .le)(this.value) ? parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.min.toString())) : this.value, this.previousVal = 'Range' !== this.type ? this.checkHandleValue(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.value.toString()))) : [
                         this.checkHandleValue(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.value[0].toString()))),
                         this.checkHandleValue(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.value[1].toString())))
-                    ], this.previousChanged = this.previousVal, (0, ej2_base /* isNullOrUndefined */ .le)(this.element.hasAttribute('name')) || this.element.removeAttribute('name'), this.setValue(), this.limits.enabled && this.setLimitBar(), 'None' !== this.ticks.placement && this.renderScale(), this.tooltip.isVisible && this.renderTooltip(), this.enabled ? (0, ej2_base /* removeClass */ .IV)([
+                    ], this.previousChanged = this.previousVal, !(0, ej2_base /* isNullOrUndefined */ .le)(this.element.hasAttribute('name')) && this.element.removeAttribute('name'), this.setValue(), this.limits.enabled && this.setLimitBar(), 'None' !== this.ticks.placement && this.renderScale(), this.tooltip.isVisible && this.renderTooltip(), this.enabled ? (0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
                     ], [
                         slider_classNames.sliderDisabled
@@ -25689,7 +25690,7 @@
                 }, Slider.prototype.handleStart = function() {
                     'Range' !== this.type && (this.firstHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderHandleStart), this.isMaterialTooltip && (this.materialHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderHandleStart), this.tooltipElement && this.tooltipElement.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderTooltipStart)));
                 }, Slider.prototype.transitionEnd = function(e) {
-                    'transform' !== e.propertyName && (this.handleStart(), this.enableAnimation || (this.getHandle().style.transition = 'none'), 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.isMaterial && this.tooltip.isVisible && 'Default' === this.type && (this.tooltipElement.style.transition = this.transition.handle), this.tooltipToggle(this.getHandle()), this.closeTooltip());
+                    'transform' !== e.propertyName && (this.handleStart(), !this.enableAnimation && (this.getHandle().style.transition = 'none'), 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.isMaterial && this.tooltip.isVisible && 'Default' === this.type && (this.tooltipElement.style.transition = this.transition.handle), this.tooltipToggle(this.getHandle()), this.closeTooltip());
                 }, Slider.prototype.handleFocusOut = function() {
                     this.firstHandle.classList.contains(slider_classNames.sliderHandleFocused) && this.firstHandle.classList.remove(slider_classNames.sliderHandleFocused), 'Range' === this.type && this.secondHandle.classList.contains(slider_classNames.sliderHandleFocused) && this.secondHandle.classList.remove(slider_classNames.sliderHandleFocused);
                 }, Slider.prototype.handleFocus = function(e) {
@@ -25697,7 +25698,7 @@
                 }, Slider.prototype.handleOver = function(e) {
                     this.tooltip.isVisible && 'Hover' === this.tooltip.showOn && this.tooltipToggle(e.currentTarget), 'Default' === this.type && this.tooltipToggle(this.getHandle());
                 }, Slider.prototype.handleLeave = function(e) {
-                    !this.tooltip.isVisible || 'Hover' !== this.tooltip.showOn || e.currentTarget.classList.contains(slider_classNames.sliderHandleFocused) || e.currentTarget.classList.contains(slider_classNames.sliderTabHandle) || this.closeTooltip();
+                    this.tooltip.isVisible && 'Hover' === this.tooltip.showOn && !e.currentTarget.classList.contains(slider_classNames.sliderHandleFocused) && !e.currentTarget.classList.contains(slider_classNames.sliderTabHandle) && this.closeTooltip();
                 }, Slider.prototype.setHandler = function() {
                     this.min > this.max && (this.min = this.max), this.createFirstHandle(), 'Range' === this.type && this.createSecondHandle();
                 }, Slider.prototype.setEnableRTL = function() {
@@ -25727,7 +25728,7 @@
                     content = this.formatContent(this.tooltipFormatInfo, !1), this.tooltipObj.content = content;
                 }, Slider.prototype.formatContent = function(formatInfo, ariaContent) {
                     var content = '', handle1 = this.handleVal1, handle2 = this.handleVal2;
-                    return (!(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 && (handle1 = this.customValues[this.handleVal1], handle2 = this.customValues[this.handleVal2]), ariaContent) ? 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) || (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).elementVal + ' - ' + this.formatString(handle1, formatInfo).elementVal : (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) || (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).elementVal + ' - ' + this.formatString(handle2, formatInfo).elementVal : (0, ej2_base /* isNullOrUndefined */ .le)(handle1) || (content = (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) || (0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? handle1.toString() : this.formatString(handle1, formatInfo).elementVal) : 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).formatString + ' - ' + this.formatString(handle1, formatInfo).formatString : (0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).formatString + ' - ' + this.formatString(handle2, formatInfo).formatString : (0, ej2_base /* isNullOrUndefined */ .le)(handle1) || (content = (0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? handle1.toString() : this.formatString(handle1, formatInfo).formatString), content;
+                    return (!(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 && (handle1 = this.customValues[this.handleVal1], handle2 = this.customValues[this.handleVal2]), ariaContent) ? 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? this.formatString(handle2, formatInfo).elementVal + ' - ' + this.formatString(handle1, formatInfo).elementVal : handle2.toString() + ' - ' + handle1.toString() : !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? this.formatString(handle1, formatInfo).elementVal + ' - ' + this.formatString(handle2, formatInfo).elementVal : handle1.toString() + ' - ' + handle2.toString() : !(0, ej2_base /* isNullOrUndefined */ .le)(handle1) && (content = !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltip.format) ? this.formatString(handle1, formatInfo).elementVal : handle1.toString()) : 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? !(0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? this.formatString(handle2, formatInfo).formatString + ' - ' + this.formatString(handle1, formatInfo).formatString : handle2.toString() + ' - ' + handle1.toString() : !(0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? this.formatString(handle1, formatInfo).formatString + ' - ' + this.formatString(handle2, formatInfo).formatString : handle1.toString() + ' - ' + handle2.toString() : !(0, ej2_base /* isNullOrUndefined */ .le)(handle1) && (content = !(0, ej2_base /* isNullOrUndefined */ .le)(formatInfo.format) ? this.formatString(handle1, formatInfo).formatString : handle1.toString()), content;
                 }, Slider.prototype.addTooltipClass = function(content) {
                     if (this.isMaterialTooltip) {
                         var count = content.toString().length;
@@ -25739,7 +25740,7 @@
                                 oldCss: slider_classNames.sliderMaterialRange,
                                 newCss: slider_classNames.sliderMaterialDefault
                             };
-                            this.tooltipElement.classList.remove(cssClass.oldCss), this.tooltipElement.classList.contains(cssClass.newCss) || (this.tooltipElement.classList.add(cssClass.newCss), this.tooltipElement.style.transform = count > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate);
+                            this.tooltipElement.classList.remove(cssClass.oldCss), !this.tooltipElement.classList.contains(cssClass.newCss) && (this.tooltipElement.classList.add(cssClass.newCss), this.tooltipElement.style.transform = count > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate);
                         } else {
                             var cssClass = count > 4 ? slider_classNames.sliderMaterialRange : slider_classNames.sliderMaterialDefault;
                             this.tooltipObj.cssClass = slider_classNames.sliderTooltip + ' ' + cssClass;
@@ -25838,7 +25839,7 @@
                     }
                 }, Slider.prototype.checkTooltipPosition = function(args) {
                     var tooltipClass = this.tooltipPositionCalculation(args.collidedPosition);
-                    void 0 !== this.tooltipCollidedPosition && this.tooltipCollidedPosition === args.collidedPosition && args.element.classList.contains(tooltipClass) || (this.isMaterialTooltip && (void 0 !== tooltipClass && (args.element.classList.remove(this.previousTooltipClass), args.element.classList.add(tooltipClass), this.previousTooltipClass = tooltipClass), args.element.style.transform && args.element.classList.contains(slider_classNames.materialTooltipOpen) && args.element.firstElementChild.innerText.length <= 4 && (args.element.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate)), this.tooltipCollidedPosition = args.collidedPosition), this.isMaterialTooltip && this.tooltipElement && -1 !== this.tooltipElement.style.transform.indexOf('translate') && this.setTooltipTransform();
+                    (void 0 === this.tooltipCollidedPosition || this.tooltipCollidedPosition !== args.collidedPosition || !args.element.classList.contains(tooltipClass)) && (this.isMaterialTooltip && (void 0 !== tooltipClass && (args.element.classList.remove(this.previousTooltipClass), args.element.classList.add(tooltipClass), this.previousTooltipClass = tooltipClass), args.element.style.transform && args.element.classList.contains(slider_classNames.materialTooltipOpen) && args.element.firstElementChild.innerText.length <= 4 && (args.element.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate)), this.tooltipCollidedPosition = args.collidedPosition), this.isMaterialTooltip && this.tooltipElement && -1 !== this.tooltipElement.style.transform.indexOf('translate') && this.setTooltipTransform();
                 }, Slider.prototype.setTooltipTransform = function() {
                     var transformProperties = this.getTooltipTransformProperties(this.previousTooltipClass);
                     this.tooltipElement.firstElementChild.innerText.length > 4 ? this.tooltipElement.style.transform = transformProperties.translate + " scale(0.01)" : this.tooltipElement.style.transform = transformProperties.translate + " " + transformProperties.rotate + " scale(0.01)";
@@ -25873,7 +25874,7 @@
                         this.rangeBar,
                         this.secondHandle
                     ].forEach(function(handle) {
-                        (0, ej2_base /* isNullOrUndefined */ .le)(handle) || (handle.style.transition = 'none');
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(handle) && (handle.style.transition = 'none');
                     }), this.isMaterialTooltip && (this.sliderContainer.classList.add(slider_classNames.materialSlider), this.tooltipValue(), this.tooltipObj.animation.close.effect = 'None', this.tooltipObj.open(this.firstHandle));
                 }, Slider.prototype.tooltipBeforeClose = function() {
                     this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0;
@@ -25906,9 +25907,9 @@
                 }, Slider.prototype.repeatHandlerMouse = function(args) {
                     args.preventDefault(), ('mousedown' === args.type || 'touchstart' === args.type) && (this.buttonClick(args), this.repeatInterval = setInterval(this.repeatButton.bind(this), 180, args));
                 }, Slider.prototype.materialChange = function() {
-                    this.getHandle().classList.contains('e-large-thumb-size') || this.getHandle().classList.add('e-large-thumb-size');
+                    !this.getHandle().classList.contains('e-large-thumb-size') && this.getHandle().classList.add('e-large-thumb-size');
                 }, Slider.prototype.focusHandle = function() {
-                    this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.getHandle().classList.add(slider_classNames.sliderTabHandle);
+                    !this.getHandle().classList.contains(slider_classNames.sliderTabHandle) && this.getHandle().classList.add(slider_classNames.sliderTabHandle);
                 }, Slider.prototype.repeatHandlerUp = function(e) {
                     this.changeEvent('changed', e), this.closeTooltip(), clearInterval(this.repeatInterval), this.getHandle().focus();
                 }, Slider.prototype.customTickCounter = function(bigNum) {
@@ -25974,7 +25975,7 @@
                     });
                     li.appendChild(span), (0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) ? this.formatTicksValue(li, start, span, tickWidth) : this.enableHtmlSanitizer ? span.innerHTML = ej2_base /* SanitizeHtmlHelper.sanitize */ .pJ.sanitize(start.toString()) : span.innerHTML = start.toString();
                 }, Slider.prototype.formatTicksValue = function(li, start, spanElement, tickWidth) {
-                    var _this = this, tickText = this.formatNumber(start), text = (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) || (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format) ? tickText : this.formatString(start, this.ticksFormatInfo).formatString;
+                    var _this = this, tickText = this.formatNumber(start), text = !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format) ? this.formatString(start, this.ticksFormatInfo).formatString : tickText;
                     this.trigger('renderingTicks', {
                         value: start,
                         text: text,
@@ -26000,8 +26001,8 @@
                     });
                     this.enableRtl && this.lastChild.children.length && 0 !== count && (this.lastChild.children[0].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px', 'Both' === this.ticks.placement && (this.lastChild.children[1].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px')), 0 === count && ('Horizontal' === this.orientation && (this.enableRtl ? (this.firstChild.classList.remove(slider_classNames.sliderLastTick), this.firstChild.style.right = this.firstHandle.style.right, this.firstChild.children[0].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px', 'Both' === this.ticks.placement && (this.firstChild.children[1].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px')) : (this.firstChild.classList.remove(slider_classNames.sliderLastTick), this.firstChild.style.left = this.firstHandle.style.left)), 'Vertical' === this.orientation && this.firstChild.classList.remove(slider_classNames.sliderLastTick));
                 }, Slider.prototype.setAriaAttrValue = function(element) {
-                    var ariaValueText, isTickFormatted = !((0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) || (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format)), text = isTickFormatted ? this.formatContent(this.tooltipFormatInfo, !1) : this.formatContent(this.ticksFormatInfo, !1), valuenow = isTickFormatted ? this.formatContent(this.ticksFormatInfo, !0) : this.formatContent(this.tooltipFormatInfo, !0);
-                    ariaValueText = 2 === (text = this.customAriaText ? this.customAriaText : text).split(' - ').length ? text.split(' - ') : [
+                    var ariaValueText, isTickFormatted = !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format), text = !isTickFormatted ? this.formatContent(this.ticksFormatInfo, !1) : this.formatContent(this.tooltipFormatInfo, !1), valuenow = isTickFormatted ? this.formatContent(this.ticksFormatInfo, !0) : this.formatContent(this.tooltipFormatInfo, !0);
+                    ariaValueText = 2 === (text = !this.customAriaText ? text : this.customAriaText).split(' - ').length ? text.split(' - ') : [
                         text,
                         text
                     ], this.setAriaAttributes(element), 'Range' !== this.type ? (0, ej2_base /* attributes */ .Y4)(element, {
@@ -26025,7 +26026,7 @@
                 }, Slider.prototype.getLimitCorrectedValues = function(value) {
                     return value = 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
                 }, Slider.prototype.focusSliderElement = function() {
-                    this.isElementFocused || (this.element.focus(), this.isElementFocused = !0);
+                    !this.isElementFocused && (this.element.focus(), this.isElementFocused = !0);
                 }, Slider.prototype.buttonClick = function(args) {
                     this.focusSliderElement();
                     var value, enabledRTL = this.enableRtl && 'Vertical' !== this.orientation, hVal = this.handleValueUpdate();
@@ -26033,7 +26034,7 @@
                     enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !0) : this.add(hVal, parseFloat(this.step.toString()), !1) : 38 === args.keyCode || 39 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.secondButton) ? value = // eslint-disable-next-line
                     enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !1) : this.add(hVal, parseFloat(this.step.toString()), !0) : 33 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.firstButton) ? value = // eslint-disable-next-line
                     enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : 34 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.secondButton) ? value = // eslint-disable-next-line
-                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : 36 === args.keyCode ? value = parseFloat(this.min.toString()) : 35 === args.keyCode && (value = parseFloat(this.max.toString())), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), this.changeHandleValue(value), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), this.getHandle().focus(), this.focusHandle(), args.currentTarget.classList.contains(slider_classNames.firstButton) && ej2_base /* EventHandler.add */ .bi.add(this.firstBtn, 'mouseup touchend', this.buttonUp, this), args.currentTarget.classList.contains(slider_classNames.secondButton) && ej2_base /* EventHandler.add */ .bi.add(this.secondBtn, 'mouseup touchend', this.buttonUp, this);
+                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : 36 === args.keyCode ? value = parseFloat(this.min.toString()) : 35 === args.keyCode && (value = parseFloat(this.max.toString())), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), this.changeHandleValue(value), this.isMaterial && !this.tooltip.isVisible && !this.getHandle().classList.contains(slider_classNames.sliderTabHandle) && this.materialChange(), this.tooltipToggle(this.getHandle()), this.getHandle().focus(), this.focusHandle(), args.currentTarget.classList.contains(slider_classNames.firstButton) && ej2_base /* EventHandler.add */ .bi.add(this.firstBtn, 'mouseup touchend', this.buttonUp, this), args.currentTarget.classList.contains(slider_classNames.secondButton) && ej2_base /* EventHandler.add */ .bi.add(this.secondBtn, 'mouseup touchend', this.buttonUp, this);
                 }, Slider.prototype.tooltipToggle = function(target) {
                     this.isMaterialTooltip ? // eslint-disable-next-line
                     this.tooltipElement.classList.contains(slider_classNames.materialTooltipOpen) ? this.refreshTooltip(this.firstHandle) : this.openMaterialTooltip() : // eslint-disable-next-line
@@ -26116,7 +26117,7 @@
                     var previous = 'change' === eventName ? this.previousVal : this.previousChanged;
                     if ('Range' !== this.type) this.setProperties({
                         value: this.handleVal1
-                    }, !0), previous === this.value || this.isMaterialTooltip && this.initialTooltip || (this.trigger(eventName, this.changeEventArgs(eventName, e)), this.initialTooltip = !0, this.setPreviousVal(eventName, this.value)), this.setAriaAttrValue(this.firstHandle);
+                    }, !0), previous !== this.value && (!this.isMaterialTooltip || !this.initialTooltip) && (this.trigger(eventName, this.changeEventArgs(eventName, e)), this.initialTooltip = !0, this.setPreviousVal(eventName, this.value)), this.setAriaAttrValue(this.firstHandle);
                     else {
                         var value = this.value = [
                             this.handleVal1,
@@ -26182,12 +26183,12 @@
                         height: (0, ej2_base /* isNullOrUndefined */ .le)(this.handlePos1) ? 0 : this.handlePos1 + 'px'
                     })) : 'Range' === this.type && (this.secondHandle.style.bottom = this.handlePos2 + "px", this.rangeBar.style.bottom = this.handlePos1 + 'px', (0, ej2_base /* setStyleAttribute */ .V7)(this.rangeBar, {
                         height: this.handlePos2 - this.handlePos1 + 'px'
-                    }))), this.limits.enabled && this.setLimitBar(), 'None' !== this.ticks.placement && this.ul && (this.removeElement(this.ul), this.ul = void 0, this.renderScale()), this.handleStart(), this.tooltip.isVisible || setTimeout(function() {
+                    }))), this.limits.enabled && this.setLimitBar(), 'None' !== this.ticks.placement && this.ul && (this.removeElement(this.ul), this.ul = void 0, this.renderScale()), this.handleStart(), !this.tooltip.isVisible && setTimeout(function() {
                         _this.firstHandle.style.transition = _this.scaleTransform, 'Range' === _this.type && (_this.secondHandle.style.transition = _this.scaleTransform);
                     }), this.refreshTooltip(this.tooltipTarget), this.setBarColor();
                 }, Slider.prototype.changeHandleValue = function(value) {
                     var position = null;
-                    1 === this.activeHandle ? this.limits.enabled && this.limits.startHandleFixed || (this.handleVal1 = this.checkHandleValue(value), this.handlePos1 = this.checkHandlePosition(this.handleVal1), 'Range' === this.type && this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.handlePos1 === this.preHandlePos1 || (position = this.preHandlePos1 = this.handlePos1)) : this.limits.enabled && this.limits.endHandleFixed || (this.handleVal2 = this.checkHandleValue(value), this.handlePos2 = this.checkHandlePosition(this.handleVal2), 'Range' === this.type && this.handlePos2 < this.handlePos1 && (this.handlePos2 = this.handlePos1, this.handleVal2 = this.handleVal1), this.handlePos2 === this.preHandlePos2 || (position = this.preHandlePos2 = this.handlePos2)), this.modifyZindex(), null !== position && ('Default' !== this.type && this.setRangeBar(), this.setHandlePosition(null));
+                    1 === this.activeHandle ? !(this.limits.enabled && this.limits.startHandleFixed) && (this.handleVal1 = this.checkHandleValue(value), this.handlePos1 = this.checkHandlePosition(this.handleVal1), 'Range' === this.type && this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.handlePos1 !== this.preHandlePos1 && (position = this.preHandlePos1 = this.handlePos1)) : !(this.limits.enabled && this.limits.endHandleFixed) && (this.handleVal2 = this.checkHandleValue(value), this.handlePos2 = this.checkHandlePosition(this.handleVal2), 'Range' === this.type && this.handlePos2 < this.handlePos1 && (this.handlePos2 = this.handlePos1, this.handleVal2 = this.handleVal1), this.handlePos2 !== this.preHandlePos2 && (position = this.preHandlePos2 = this.handlePos2)), this.modifyZindex(), null !== position && ('Default' !== this.type && this.setRangeBar(), this.setHandlePosition(null));
                 }, // eslint-disable-next-line
                 Slider.prototype.tempStartEnd = function() {
                     return this.min > this.max ? {
@@ -26251,7 +26252,7 @@
                     focusedElement && this.getHandle() !== focusedElement && focusedElement.classList.remove(slider_classNames.sliderTabHandle);
                     var handle = 1 === this.activeHandle ? this.firstHandle : this.secondHandle;
                     if (evt.target === handle) {
-                        !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.sliderBarUp(evt), this.tooltipToggle(this.getHandle());
+                        this.isMaterial && !this.tooltip.isVisible && !this.getHandle().classList.contains(slider_classNames.sliderTabHandle) && this.materialChange(), this.sliderBarUp(evt), this.tooltipToggle(this.getHandle());
                         return;
                     }
                     if (this.checkRepeatedValue(handleVal)) {
@@ -26325,7 +26326,7 @@
                             this.handlePos2 = this.preHandlePos2 = handlepos, this.handleVal2 = handleVal, this.activeHandle = 2;
                         }
                     }
-                    this.checkRepeatedValue(handleVal) && (this.getHandle().style.transition = this.scaleTransform, 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.setHandlePosition(evt), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), 'Default' !== this.type && this.setRangeBar());
+                    this.checkRepeatedValue(handleVal) && (this.getHandle().style.transition = this.scaleTransform, 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.setHandlePosition(evt), this.isMaterial && !this.tooltip.isVisible && !this.getHandle().classList.contains(slider_classNames.sliderTabHandle) && this.materialChange(), this.tooltipToggle(this.getHandle()), 'Default' !== this.type && this.setRangeBar());
                 }, Slider.prototype.dragRangeBarUp = function(event) {
                     this.rangeBarDragged ? this.isDragComplete = !0 : (this.focusSliderElement(), this.sliderBarClick(event)), this.changeEvent('changed', event), this.closeTooltip(), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.dragRangeBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.dragRangeBarUp), this.rangeBarDragged = !1;
                 }, Slider.prototype.checkRepeatedValue = function(currentValue) {
@@ -26400,9 +26401,9 @@
                 }, Slider.prototype.removeElement = function(element) {
                     element.parentNode && element.parentNode.removeChild(element);
                 }, Slider.prototype.changeSliderType = function(type, args) {
-                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames.materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), !this.limits.enabled || ('MinRange' === type || 'Default' === type ? (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
+                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames.materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), this.limits.enabled && ('MinRange' === type || 'Default' === type ? !(0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : !(0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) && (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
                 }, Slider.prototype.changeRtl = function() {
-                    if (this.enableRtl || 'Range' !== this.type || (this.value = [
+                    if (!this.enableRtl && 'Range' === this.type && (this.value = [
                         this.handleVal2,
                         this.handleVal1
                     ]), this.updateConfig(), this.tooltip.isVisible && this.tooltipObj.refresh(this.firstHandle), this.showButtons) {
@@ -26420,7 +26421,7 @@
                 }, Slider.prototype.updateConfig = function() {
                     this.setEnableRTL(), this.setValue(), this.tooltip.isVisible && this.refreshTooltip(this.tooltipTarget), 'None' !== this.ticks.placement && this.ul && (this.removeElement(this.ul), this.ul = void 0, this.renderScale()), this.limitsPropertyChange();
                 }, Slider.prototype.limitsPropertyChange = function() {
-                    this.limits.enabled ? ((0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && 'Range' !== this.type && this.createLimitBar(), (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) && 'Range' === this.type && this.createLimitBar(), this.setLimitBar(), this.setValue()) : ((0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (0, ej2_base /* detach */ .og)(this.limitBarFirst), (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (0, ej2_base /* detach */ .og)(this.limitBarSecond));
+                    this.limits.enabled ? ((0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && 'Range' !== this.type && this.createLimitBar(), (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) && 'Range' === this.type && this.createLimitBar(), this.setLimitBar(), this.setValue()) : (!(0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) && (0, ej2_base /* detach */ .og)(this.limitBarFirst), !(0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) && (0, ej2_base /* detach */ .og)(this.limitBarSecond));
                 }, /**
      * Get the properties to be maintained in the persisted state.
      * @private
@@ -26458,7 +26459,7 @@
                                     ] : this.min : newProp.value;
                                     this.setProperties({
                                         value: value
-                                    }, !0), (0, ej2_base /* isNullOrUndefined */ .le)(oldProp.value) || oldProp.value.toString() === value.toString() || (this.setValue(), this.refreshTooltip(this.tooltipTarget), 'Range' === this.type && ((0, ej2_base /* isNullOrUndefined */ .le)(newProp.value) || oldProp.value[1] === value[1] ? this.activeHandle = 1 : this.activeHandle = 2));
+                                    }, !0), !(0, ej2_base /* isNullOrUndefined */ .le)(oldProp.value) && oldProp.value.toString() !== value.toString() && (this.setValue(), this.refreshTooltip(this.tooltipTarget), 'Range' === this.type && ((0, ej2_base /* isNullOrUndefined */ .le)(newProp.value) || oldProp.value[1] === value[1] ? this.activeHandle = 1 : this.activeHandle = 2));
                                 }
                                 break;
                             case 'min':
@@ -26467,10 +26468,10 @@
                                 this.setMinMaxValue();
                                 break;
                             case 'tooltip':
-                                (0, ej2_base /* isNullOrUndefined */ .le)(newProp.tooltip) || (0, ej2_base /* isNullOrUndefined */ .le)(oldProp.tooltip) || this.setTooltip(prop);
+                                !(0, ej2_base /* isNullOrUndefined */ .le)(newProp.tooltip) && !(0, ej2_base /* isNullOrUndefined */ .le)(oldProp.tooltip) && this.setTooltip(prop);
                                 break;
                             case 'type':
-                                (0, ej2_base /* isNullOrUndefined */ .le)(oldProp) || !Object.keys(oldProp).length || (0, ej2_base /* isNullOrUndefined */ .le)(oldProp.type) || (this.changeSliderType(oldProp.type, prop), this.setZindex());
+                                !(0, ej2_base /* isNullOrUndefined */ .le)(oldProp) && Object.keys(oldProp).length && !(0, ej2_base /* isNullOrUndefined */ .le)(oldProp.type) && (this.changeSliderType(oldProp.type, prop), this.setZindex());
                                 break;
                             case 'enableRtl':
                                 oldProp.enableRtl !== newProp.enableRtl && 'Vertical' !== this.orientation && (this.rtl = oldProp.enableRtl, this.changeRtl());
@@ -26482,7 +26483,7 @@
                                 this.changeOrientation();
                                 break;
                             case 'ticks':
-                                (0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames.scale)) || ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
+                                !(0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames.scale)) && ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
                                     className.match(/e-scale-/) && _this.sliderContainer.classList.remove(className);
                                 })), 'None' !== this.ticks.placement && (this.renderScale(), this.setZindex());
                                 break;
@@ -26516,7 +26517,7 @@
                         className.match(/e-scale-/) && _this.sliderContainer.classList.remove(className);
                     })), 'None' !== this.ticks.placement && (this.renderScale(), this.setZindex());
                 }, Slider.prototype.setZindex = function() {
-                    this.zIndex = 6, (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) || 'None' === this.ticks.placement || (this.ul.style.zIndex = this.zIndex + -7 + '', this.element.style.zIndex = this.zIndex + 2 + ''), this.isMaterial || (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) || 'Both' !== this.ticks.placement || (this.element.style.zIndex = this.zIndex + 2 + ''), this.firstHandle.style.zIndex = this.zIndex + 3 + '', 'Range' === this.type && (this.secondHandle.style.zIndex = this.zIndex + 4 + '');
+                    this.zIndex = 6, !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) && 'None' !== this.ticks.placement && (this.ul.style.zIndex = this.zIndex + -7 + '', this.element.style.zIndex = this.zIndex + 2 + ''), !this.isMaterial && !(0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) && 'Both' === this.ticks.placement && (this.element.style.zIndex = this.zIndex + 2 + ''), this.firstHandle.style.zIndex = this.zIndex + 3 + '', 'Range' === this.type && (this.secondHandle.style.zIndex = this.zIndex + 4 + '');
                 }, Slider.prototype.setTooltip = function(args) {
                     this.changeSliderType(this.type, args);
                 }, Slider.prototype.setBarColor = function() {
@@ -26722,7 +26723,7 @@
      * @private
      * @returns {void}
      */ ColorPicker.prototype.render = function() {
-                    this.initWrapper(), this.inline ? this.createWidget() : this.createSplitBtn(), this.enableOpacity || (0, ej2_base /* addClass */ .cn)([
+                    this.initWrapper(), this.inline ? this.createWidget() : this.createSplitBtn(), !this.enableOpacity && (0, ej2_base /* addClass */ .cn)([
                         this.container.parentElement
                     ], HIDEOPACITY), this.renderComplete();
                 }, ColorPicker.prototype.initWrapper = function() {
@@ -26752,7 +26753,7 @@
                 }, ColorPicker.prototype.getWrapper = function() {
                     return this.element.parentElement;
                 }, ColorPicker.prototype.createWidget = function() {
-                    'Palette' === this.mode ? (this.createPalette(), this.inline || this.firstPaletteFocus()) : (this.createPicker(), this.inline || this.getDragHandler().focus()), this.isRgb = !0, this.createInput(), this.createCtrlBtn(), this.disabled || this.wireEvents(), this.inline && this.disabled && this.toggleDisabled(!0), ej2_base /* Browser.isDevice */ .AR.isDevice && this.refreshPopupPos();
+                    'Palette' === this.mode ? (this.createPalette(), !this.inline && this.firstPaletteFocus()) : (this.createPicker(), !this.inline && this.getDragHandler().focus()), this.isRgb = !0, this.createInput(), this.createCtrlBtn(), !this.disabled && this.wireEvents(), this.inline && this.disabled && this.toggleDisabled(!0), ej2_base /* Browser.isDevice */ .AR.isDevice && this.refreshPopupPos();
                 }, ColorPicker.prototype.createSplitBtn = function() {
                     var _this = this, splitButton = this.createElement('button', {
                         className: 'e-split-colorpicker'
@@ -26825,7 +26826,7 @@
                                 cancel: !1
                             };
                             _this.trigger('beforeClose', beforeCloseArgs, function(observedCloseArgs) {
-                                ej2_base /* Browser.isDevice */ .AR.isDevice && args.event.target === _this.modal && (observedCloseArgs.cancel = !0), observedCloseArgs.cancel || _this.onPopupClose(), args.cancel = observedCloseArgs.cancel, callBackPromise.resolve(observedCloseArgs);
+                                ej2_base /* Browser.isDevice */ .AR.isDevice && args.event.target === _this.modal && (observedCloseArgs.cancel = !0), !observedCloseArgs.cancel && _this.onPopupClose(), args.cancel = observedCloseArgs.cancel, callBackPromise.resolve(observedCloseArgs);
                             });
                         }
                         return callBackPromise;
@@ -26860,7 +26861,7 @@
                     var width = parseInt(getComputedStyle(this.container).borderBottomWidth, 10);
                     this.container.style.width = (0, ej2_base /* formatUnit */ .Ac)(this.container.children[0].offsetWidth + width + width), this.rgb = this.hexToRgb(this.roundValue(this.value)), this.hsv = this.rgbToHsv.apply(this, this.rgb);
                 }, ColorPicker.prototype.firstPaletteFocus = function() {
-                    (0, ej2_base /* select */ .Ys)('.' + SELECT, this.container.children[0]) || (0, ej2_base /* selectAll */ .td)('.' + PALETTES, this.container)[0].focus();
+                    !(0, ej2_base /* select */ .Ys)('.' + SELECT, this.container.children[0]) && (0, ej2_base /* selectAll */ .td)('.' + PALETTES, this.container)[0].focus();
                 }, ColorPicker.prototype.appendPalette = function(colors, key, refEle) {
                     var row, tile, roundedColor, palette = this.createElement('div', {
                         className: PALETTES,
@@ -26889,7 +26890,7 @@
                     }), row.appendChild(tile), this.value === roundedColor && (this.addTileSelection(tile), palette.focus()), tile.style.backgroundColor = this.convertToRgbString(this.hexToRgb(roundedColor));
                 }, ColorPicker.prototype.setNoColor = function() {
                     var noColorEle = this.container.querySelector('.e-row').children[0];
-                    noColorEle.classList.add(NOCOLOR), this.value || (noColorEle.classList.add(SELECT), (0, ej2_base /* closest */ .oq)(noColorEle, '.' + PALETTES).focus()), [
+                    noColorEle.classList.add(NOCOLOR), !this.value && (noColorEle.classList.add(SELECT), (0, ej2_base /* closest */ .oq)(noColorEle, '.' + PALETTES).focus()), [
                         'aria-selected',
                         'aria-label'
                     ].forEach(function(attr) {
@@ -27023,7 +27024,7 @@
                         var container = this.createElement('div', {
                             className: 'e-input-container'
                         });
-                        if (inputWrap.appendChild(container), wrapper.classList.contains(HIDEVALUESWITCH) || this.appendValueSwitchBtn(inputWrap), !wrapper.classList.contains(HIDEHEX)) {
+                        if (inputWrap.appendChild(container), !wrapper.classList.contains(HIDEVALUESWITCH) && this.appendValueSwitchBtn(inputWrap), !wrapper.classList.contains(HIDEHEX)) {
                             var hexInput = this.createElement('input', {
                                 className: HEX,
                                 attrs: {
@@ -27146,7 +27147,7 @@
                     this.updatePreview(rgba), this.updateInput(cValue), this.triggerEvent(cValue, pValue, rgba, isKey);
                 }, ColorPicker.prototype.updateInput = function(value) {
                     var wrapper = this.getWrapper();
-                    wrapper.classList.contains(HIDEVALUE) || (wrapper.classList.contains(HIDEHEX) || input /* Input.setValue */ .I.setValue(value.substr(0, 7), (0, ej2_base /* select */ .Ys)('.' + HEX, this.container)), wrapper.classList.contains(HIDERGBA) || (this.isRgb ? this.updateValue(this.rgb, !1) : this.updateValue(this.hsv, !1)));
+                    !wrapper.classList.contains(HIDEVALUE) && (!wrapper.classList.contains(HIDEHEX) && input /* Input.setValue */ .I.setValue(value.substr(0, 7), (0, ej2_base /* select */ .Ys)('.' + HEX, this.container)), !wrapper.classList.contains(HIDERGBA) && (this.isRgb ? this.updateValue(this.rgb, !1) : this.updateValue(this.hsv, !1)));
                 }, ColorPicker.prototype.updatePreview = function(value) {
                     this.enableOpacity && this.updateOpacitySliderBg(), (0, ej2_base /* select */ .Ys)('.e-tip-transparent', this.tooltipEle).style.backgroundColor = value, (0, ej2_base /* select */ .Ys)('.' + PREVIEW + ' .' + CURRENT, this.container).style.backgroundColor = value, (0, ej2_base /* select */ .Ys)('.' + PREVIEW + ' .' + PREVIOUS, this.container).style.backgroundColor = this.convertToRgbString(this.hexToRgb(this.value));
                 }, ColorPicker.prototype.getDragHandler = function() {
@@ -27167,7 +27168,7 @@
      * @method getValue
      * @returns {string} - Color value
      */ ColorPicker.prototype.getValue = function(value, type) {
-                    if (value || (value = this.value), type = type ? type.toLowerCase() : 'hex', 'r' === value[0]) {
+                    if (!value && (value = this.value), type = !type ? 'hex' : type.toLowerCase(), 'r' === value[0]) {
                         var cValue = this.convertRgbToNumberArray(value);
                         if ('hex' === type || 'hexa' === type) {
                             var hex = this.rgbToHex(cValue);
@@ -27241,7 +27242,7 @@
                             this.enterKeyHandler(cValue, e);
                     }
                 }, ColorPicker.prototype.enterKeyHandler = function(value, e) {
-                    this.triggerChangeEvent(value), this.inline || (this.closePopup(e), this.splitBtn.element.focus());
+                    this.triggerChangeEvent(value), !this.inline && (this.closePopup(e), this.splitBtn.element.focus());
                 }, ColorPicker.prototype.closePopup = function(e) {
                     var _this = this, beforeCloseArgs = {
                         element: this.container,
@@ -27249,7 +27250,7 @@
                         cancel: !1
                     };
                     this.trigger('beforeClose', beforeCloseArgs, function(observedcloseArgs) {
-                        observedcloseArgs.cancel || (_this.splitBtn.toggle(), _this.onPopupClose());
+                        !observedcloseArgs.cancel && (_this.splitBtn.toggle(), _this.onPopupClose());
                     });
                 }, ColorPicker.prototype.triggerChangeEvent = function(value) {
                     var hex = value.slice(0, 7);
@@ -27275,14 +27276,14 @@
                 }, ColorPicker.prototype.handlerMove = function(e) {
                     'touchmove' !== e.type && e.preventDefault(), 'mousemove' === e.type ? (x = Math.abs(e.pageX - pageXOffset), y = Math.abs(e.pageY - pageYOffset)) : (x = Math.abs(e.changedTouches[0].pageX - pageXOffset), y = Math.abs(e.changedTouches[0].pageY - pageYOffset)), this.setHsv(x, y);
                     var x, y, dragHandler = this.getDragHandler();
-                    this.updateHsv(), this.convertToOtherFormat(), this.getTooltipInst().refresh(dragHandler), !this.tooltipEle.style.transform && (Math.abs(this.clientX - x) > 8 || Math.abs(this.clientY - y) > 8) && ((0, ej2_base /* select */ .Ys)('.' + HSVAREA, this.container).style.cursor = 'pointer', dragHandler.style.transition = 'none', this.inline || (this.tooltipEle.style.zIndex = (parseInt(this.getPopupEle().style.zIndex, 10) + 1).toString()), this.tooltipEle.style.transform = 'rotate(45deg)', dragHandler.classList.add('e-hide-handler'));
+                    this.updateHsv(), this.convertToOtherFormat(), this.getTooltipInst().refresh(dragHandler), !this.tooltipEle.style.transform && (Math.abs(this.clientX - x) > 8 || Math.abs(this.clientY - y) > 8) && ((0, ej2_base /* select */ .Ys)('.' + HSVAREA, this.container).style.cursor = 'pointer', dragHandler.style.transition = 'none', !this.inline && (this.tooltipEle.style.zIndex = (parseInt(this.getPopupEle().style.zIndex, 10) + 1).toString()), this.tooltipEle.style.transform = 'rotate(45deg)', dragHandler.classList.add('e-hide-handler'));
                 }, ColorPicker.prototype.setHsv = function(clientX, clientY) {
                     var ele = (0, ej2_base /* select */ .Ys)('.' + HSVAREA, this.container), position = ele.getBoundingClientRect();
                     clientX = this.enableRtl ? clientX > position.right ? 0 : Math.abs(clientX - position.right) : clientX > position.left ? Math.abs(clientX - position.left) : 0, clientY = clientY > position.top ? Math.abs(clientY - position.top) : 0, this.hsv[2] = Math.round(10 * Number(100 * (ele.offsetHeight - Math.max(0, Math.min(ele.offsetHeight, clientY - ele.offsetTop))) / ele.offsetHeight)) / 10, this.hsv[1] = Math.round(10 * Number(100 * Math.max(0, Math.min(ele.offsetWidth, clientX - ele.offsetLeft)) / ele.offsetWidth)) / 10;
                 }, ColorPicker.prototype.handlerEnd = function(e) {
                     'touchend' !== e.type && e.preventDefault(), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.handlerMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.handlerEnd);
                     var dragHandler = this.getDragHandler();
-                    (0, ej2_base /* select */ .Ys)('.' + HSVAREA, this.container).style.cursor = '', this.tooltipEle.style.transform && (this.tooltipEle.style.transform = '', dragHandler.classList.remove('e-hide-handler')), this.inline || this.showButtons || this.closePopup(e);
+                    (0, ej2_base /* select */ .Ys)('.' + HSVAREA, this.container).style.cursor = '', this.tooltipEle.style.transform && (this.tooltipEle.style.transform = '', dragHandler.classList.remove('e-hide-handler')), !this.inline && !this.showButtons && this.closePopup(e);
                 }, ColorPicker.prototype.btnClickHandler = function(e) {
                     var target = e.target;
                     (0, ej2_base /* closest */ .oq)(target, '.' + MODESWITCH) ? (e.stopPropagation(), this.switchToPalette()) : (target.classList.contains(APPLY) || target.classList.contains(CANCEL)) && this.ctrlBtnClick(target, e);
@@ -27290,7 +27291,7 @@
                     this.trigger('beforeModeSwitch', {
                         element: this.container,
                         mode: 'Palette'
-                    }), this.unWireEvents(), this.destroyOtherComp(), (0, ej2_base /* detach */ .og)((0, ej2_base /* select */ .Ys)('.e-slider-preview', this.container)), this.getWrapper().classList.contains(HIDEVALUE) || (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, this.container)), (0, ej2_base /* detach */ .og)(this.getHsvContainer()), this.createPalette(), this.firstPaletteFocus(), this.createInput(), this.refreshPopupPos(), this.wireEvents(), this.trigger('onModeSwitch', {
+                    }), this.unWireEvents(), this.destroyOtherComp(), (0, ej2_base /* detach */ .og)((0, ej2_base /* select */ .Ys)('.e-slider-preview', this.container)), !this.getWrapper().classList.contains(HIDEVALUE) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, this.container)), (0, ej2_base /* detach */ .og)(this.getHsvContainer()), this.createPalette(), this.firstPaletteFocus(), this.createInput(), this.refreshPopupPos(), this.wireEvents(), this.trigger('onModeSwitch', {
                         element: this.container,
                         mode: 'Palette'
                     });
@@ -27313,7 +27314,7 @@
                     ], i = 0, len = clsName.length; i < len; i++)(inst = (0, ej2_base /* getInstance */ .s8)((0, ej2_base /* select */ .Ys)('.' + clsName[i], this.container), numerictextbox /* NumericTextBox */ .N)).value = Math.round(value[i]), format && (inst.placeholder = clsName[i].substr(idx, 1).toUpperCase(), inst.max = max ? max[i] : 255), inst.dataBind();
                 }, ColorPicker.prototype.previewHandler = function(e) {
                     var target = e.target, pValue = this.rgbToHex(this.rgb);
-                    this.rgb = this.convertRgbToNumberArray(target.style.backgroundColor), this.rgb[3] || (this.rgb[3] = 1);
+                    this.rgb = this.convertRgbToNumberArray(target.style.backgroundColor), !this.rgb[3] && (this.rgb[3] = 1);
                     var cValue = this.rgbToHex(this.rgb), hsv = this.rgbToHsv.apply(this, this.rgb);
                     hsv[0] !== this.hsv[0] && (this.hueSlider.setProperties({
                         value: hsv[0]
@@ -27329,7 +27330,7 @@
                             var cValue = target.getAttribute('aria-label'), pValue = this.rgbToHex(this.rgb);
                             this.rgb = this.hexToRgb(this.roundValue(cValue)), this.hsv = this.rgbToHsv.apply(this, this.rgb), this.getWrapper().classList.contains(SHOWVALUE) && this.updateInput(cValue), this.triggerEvent(cValue, pValue, this.convertToRgbString(this.rgb));
                         }
-                        this.inline || this.showButtons || this.closePopup(e);
+                        !this.inline && !this.showButtons && this.closePopup(e);
                     } else (0, ej2_base /* closest */ .oq)(target, '.' + MODESWITCH) ? this.switchToPicker() : target.classList.contains(APPLY) || target.classList.contains(CANCEL) ? this.ctrlBtnClick(target, e) : this.getWrapper().classList.contains(SHOWVALUE) && (0, ej2_base /* closest */ .oq)(target, '.' + FORMATSWITCH) && this.formatSwitchHandler();
                 }, ColorPicker.prototype.noColorTile = function(isKey) {
                     void 0 === isKey && (isKey = !1);
@@ -27353,7 +27354,7 @@
                         var cValue = this.rgbToHex(this.rgb);
                         this.triggerChangeEvent(cValue);
                     }
-                    this.inline || (this.closePopup(e), this.splitBtn.element.focus());
+                    !this.inline && (this.closePopup(e), this.splitBtn.element.focus());
                 }, ColorPicker.prototype.paletteKeyDown = function(e) {
                     var selectedEle, idx, target = e.target;
                     if (target.classList.contains(PALETTES)) {
@@ -27516,7 +27517,7 @@
                         Math.round(1000 * (0 === max ? 0 : d / max)) / 10,
                         Math.round(1000 * max) / 10
                     ];
-                    return (0, ej2_base /* isNullOrUndefined */ .le)(opacity) || hsv.push(opacity), hsv;
+                    return !(0, ej2_base /* isNullOrUndefined */ .le)(opacity) && hsv.push(opacity), hsv;
                 }, ColorPicker.prototype.hsvToRgb = function(h, s, v, opacity) {
                     if (v /= 100, 0 == (s /= 100)) return [
                         Math.round(255 * (r = g = b = v)),
@@ -27549,9 +27550,9 @@
                         Math.round(255 * g),
                         Math.round(255 * b)
                     ];
-                    return (0, ej2_base /* isNullOrUndefined */ .le)(opacity) || rgb.push(opacity), rgb;
+                    return !(0, ej2_base /* isNullOrUndefined */ .le)(opacity) && rgb.push(opacity), rgb;
                 }, ColorPicker.prototype.rgbToHex = function(rgb) {
-                    return rgb.length ? '#' + this.hex(rgb[0]) + this.hex(rgb[1]) + this.hex(rgb[2]) + ((0, ej2_base /* isNullOrUndefined */ .le)(rgb[3]) ? '' : 0 !== rgb[3] ? (Math.round(255 * rgb[3]) + 0x10000).toString(16).substr(-2) : '00') : '';
+                    return rgb.length ? '#' + this.hex(rgb[0]) + this.hex(rgb[1]) + this.hex(rgb[2]) + (!(0, ej2_base /* isNullOrUndefined */ .le)(rgb[3]) ? 0 !== rgb[3] ? (Math.round(255 * rgb[3]) + 0x10000).toString(16).substr(-2) : '00' : '') : '';
                 }, ColorPicker.prototype.hex = function(x) {
                     return ('0' + x.toString(16)).slice(-2);
                 }, ColorPicker.prototype.changeModeSwitcherProp = function(prop) {
@@ -27594,9 +27595,9 @@
                         this.container.parentElement
                     ], HIDEOPACITY), this.createOpacitySlider((0, ej2_base /* select */ .Ys)('.e-colorpicker-slider', this.container).appendChild(this.createElement('div', {
                         className: 'e-opacity-slider'
-                    }))), wrapper.classList.contains(HIDEVALUE) || wrapper.classList.contains(HIDERGBA) || this.appendOpacityValue((0, ej2_base /* select */ .Ys)('.e-input-container', this.container))) : ((0, ej2_base /* addClass */ .cn)([
+                    }))), !wrapper.classList.contains(HIDEVALUE) && !wrapper.classList.contains(HIDERGBA) && this.appendOpacityValue((0, ej2_base /* select */ .Ys)('.e-input-container', this.container))) : ((0, ej2_base /* addClass */ .cn)([
                         this.container.parentElement
-                    ], HIDEOPACITY), this.opacitySlider.destroy(), (0, ej2_base /* remove */ .Od)(this.opacitySlider.element), this.opacitySlider = null, wrapper.classList.contains(HIDEVALUE) || wrapper.classList.contains(HIDERGBA) || (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + OPACITY, this.container).parentElement));
+                    ], HIDEOPACITY), this.opacitySlider.destroy(), (0, ej2_base /* remove */ .Od)(this.opacitySlider.element), this.opacitySlider = null, !wrapper.classList.contains(HIDEVALUE) && !wrapper.classList.contains(HIDERGBA) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + OPACITY, this.container).parentElement));
                 }, /**
      * Called internally if any of the property value changed.
      *
@@ -27623,7 +27624,7 @@
                     }
                     for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
                         case 'inline':
-                            newProp.inline ? (this.getWrapper().appendChild(this.container), this.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this.element.nextElementSibling), this.container.children.length || this.createWidget()) : (this.destroyOtherComp(), this.unWireEvents(), this.container.innerHTML = '', this.createSplitBtn());
+                            newProp.inline ? (this.getWrapper().appendChild(this.container), this.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this.element.nextElementSibling), !this.container.children.length && this.createWidget()) : (this.destroyOtherComp(), this.unWireEvents(), this.container.innerHTML = '', this.createSplitBtn());
                             break;
                         case 'cssClass':
                             this.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
@@ -27656,10 +27657,10 @@
                             break;
                         case 'columns':
                         case 'presetColors':
-                            this.isPicker() || this.changePaletteProps();
+                            !this.isPicker() && this.changePaletteProps();
                             break;
                         case 'noColor':
-                            newProp.noColor ? 'Palette' !== this.mode || this.modeSwitcher || this.setNoColor() : this.changePaletteProps();
+                            newProp.noColor ? 'Palette' === this.mode && !this.modeSwitcher && this.setNoColor() : this.changePaletteProps();
                             break;
                         case 'enableOpacity':
                             this.changeOpacityProps(newProp.enableOpacity);
@@ -27812,7 +27813,7 @@
                             // eslint-disable-next-line
                             for(var index = 0; index < args.element.childNodes.length; index++){
                                 var divNode = _this.parent.createElement('div');
-                                divNode.innerHTML = dropDown.content.trim(), '' !== divNode.textContent.trim() && args.element.childNodes[index].textContent.trim() === divNode.textContent.trim() ? args.element.childNodes[index].classList.contains('e-active') || (0, ej2_base /* addClass */ .cn)([
+                                divNode.innerHTML = dropDown.content.trim(), '' !== divNode.textContent.trim() && args.element.childNodes[index].textContent.trim() === divNode.textContent.trim() ? !args.element.childNodes[index].classList.contains('e-active') && (0, ej2_base /* addClass */ .cn)([
                                     args.element.childNodes[index]
                                 ], 'e-active') : (0, ej2_base /* removeClass */ .IV)([
                                     args.element.childNodes[index]
@@ -27868,7 +27869,7 @@
                     return dropDown.isStringTemplate = !0, dropDown.createElement = proxy.parent.createElement, dropDown.appendTo(args.element), args.element.tabIndex = -1, document.getElementById(dropDown.element.id + '-popup').setAttribute('aria-owns', this.parent.getID()), 1 === args.element.childElementCount && dropDown.element.insertBefore(content, dropDown.element.querySelector('.e-caret')), args.element.tabIndex = -1, dropDown.element.removeAttribute('type'), dropDown;
                 }, // eslint-disable-next-line
                 ToolbarRenderer.prototype.onPopupOverlay = function(args) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.popupOverlay) || ((0, ej2_base /* closest */ .oq)(this.popupOverlay, '.e-popup-container').style.display = 'none', this.popupOverlay.style.display = 'none', (0, ej2_base /* removeClass */ .IV)([
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.popupOverlay) && ((0, ej2_base /* closest */ .oq)(this.popupOverlay, '.e-popup-container').style.display = 'none', this.popupOverlay.style.display = 'none', (0, ej2_base /* removeClass */ .IV)([
                         this.popupOverlay
                     ], 'e-popup-overlay'));
                 }, ToolbarRenderer.prototype.setIsModel = function(element) {
@@ -28087,13 +28088,13 @@
                 }, BaseToolbar.prototype.removeEventListener = function() {
                     this.parent.off(constant /* rtlMode */ .vN, this.setRtl), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* destroy */ .ob, this.removeEventListener);
                 }, BaseToolbar.prototype.setCssClass = function(e) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarObj) || ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarObj) && ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass + ' ' + e.cssClass).trim()
                     }) : this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass.replace(e.oldCssClass, '').trim() + ' ' + e.cssClass).trim()
                     }));
                 }, BaseToolbar.prototype.setRtl = function(args) {
-                    (0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarObj) || this.toolbarObj.setProperties({
+                    !(0, ej2_base /* isNullOrUndefined */ .le)(this.toolbarObj) && this.toolbarObj.setProperties({
                         enableRtl: args.enableRtl
                     });
                 }, BaseToolbar.prototype.getClass = function(item) {
@@ -28320,7 +28321,7 @@
                                     itemName: 'FontName',
                                     items: fontItem,
                                     element: targetElement
-                                }), (0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.fontFamily.default) || (_this.getEditNode().style.fontFamily = _this.parent.fontFamily.default);
+                                }), !(0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.fontFamily.default) && (_this.getEditNode().style.fontFamily = _this.parent.fontFamily.default);
                                 break;
                             case 'fontsize':
                                 if (targetElement = (0, ej2_base /* select */ .Ys)('#' + _this.parent.getID() + '_' + type + '_FontSize', tbElement), (0, ej2_base /* isNullOrUndefined */ .le)(targetElement) || targetElement.classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD)) return;
@@ -28344,7 +28345,7 @@
                                     itemName: 'FontSize',
                                     items: fontsize,
                                     element: targetElement
-                                }), (0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.fontSize.default) || (_this.getEditNode().style.fontSize = _this.parent.fontSize.default);
+                                }), !(0, ej2_base /* isNullOrUndefined */ .le)(_this.parent.fontSize.default) && (_this.getEditNode().style.fontSize = _this.parent.fontSize.default);
                                 break;
                             case 'alignments':
                                 if (targetElement = (0, ej2_base /* select */ .Ys)('#' + _this.parent.getID() + '_' + type + '_Alignments', tbElement), (0, ej2_base /* isNullOrUndefined */ .le)(targetElement) || targetElement.classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD)) return;
@@ -28401,7 +28402,7 @@
                                 case 'default':
                                 case 'width':
                                     var fontItems = this.fontNameDropDown.items;
-                                    type = (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.fontNameDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'toolbar' : 'quick';
+                                    type = !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.fontNameDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'quick' : 'toolbar';
                                     var fontNameContent = (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontFamily.default) ? fontItems[0].text : this.parent.fontFamily.default;
                                     content = this.dropdownContent(this.parent.fontFamily.width, type, 'quick' === type ? '' : (0, util /* getDropDownValue */ .Iw)(fontItems, fontNameContent, 'text', 'text')), this.fontNameDropDown.setProperties({
                                         content: content
@@ -28418,7 +28419,7 @@
                                 case 'default':
                                 case 'width':
                                     var fontsize = this.fontSizeDropDown.items;
-                                    type = (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.fontSizeDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'toolbar' : 'quick';
+                                    type = !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.fontSizeDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'quick' : 'toolbar';
                                     var fontSizeContent = (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.fontSize.default) ? fontsize[1].text : this.parent.fontSize.default;
                                     content = this.dropdownContent(this.parent.fontSize.width, type, (0, util /* getFormattedFontSize */ .R1)((0, util /* getDropDownValue */ .Iw)(fontsize, fontSizeContent.replace(/\s/g, ''), 'value', 'text'))), this.fontSizeDropDown.setProperties({
                                         content: content
@@ -28435,7 +28436,7 @@
                                 case 'default':
                                 case 'width':
                                     var formatItems = this.formatDropDown.items;
-                                    type = (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.formatDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'toolbar' : 'quick';
+                                    type = !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.formatDropDown.element, '.' + classes /* CLS_QUICK_TB */ .gr)) ? 'quick' : 'toolbar';
                                     var formatContent = (0, ej2_base /* isNullOrUndefined */ .le)(this.parent.format.default) ? formatItems[0].text : this.parent.format.default;
                                     content = this.dropdownContent(this.parent.format.width, type, 'quick' === type ? '' : (0, util /* getDropDownValue */ .Iw)(formatItems, formatContent, 'text', 'text')), this.formatDropDown.setProperties({
                                         content: content
@@ -28450,7 +28451,7 @@
                 }, DropDownButtons.prototype.getEditNode = function() {
                     return this.parent.contentModule.getEditPanel();
                 }, DropDownButtons.prototype.rowDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableRows', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.tableRowsDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableRows', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.tableRowsDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-table-rows e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ITEMS */ .br + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'TableRows',
@@ -28458,7 +28459,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.columnDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableColumns', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.tableColumnsDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableColumns', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.tableColumnsDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-table-columns e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ITEMS */ .br + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'TableColumns',
@@ -28466,7 +28467,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.cellDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableCell', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.tableRowsDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableCell', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.tableRowsDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-table-cell e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ITEMS */ .br + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'TableCell',
@@ -28474,7 +28475,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.verticalAlignDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableCellVerticalAlign', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.tableCellVerticalAlignDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_TableCellVerticalAlign', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.tableCellVerticalAlignDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-table-cell-ver-align e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ITEMS */ .br + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'TableCellVerticalAlign',
@@ -28482,7 +28483,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.imageDisplayDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Display', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.displayDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Display', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.displayDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-display e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ITEMS */ .br + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'Display',
@@ -28490,7 +28491,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.imageAlignmentDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Align', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.imageAlignDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Align', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.imageAlignDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-justify-left e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ICONS */ .yH + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'Align',
@@ -28498,7 +28499,7 @@
                         element: targetElement
                     }));
                 }, DropDownButtons.prototype.tableStylesDropDown = function(type, tbElement, targetElement) {
-                    (targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Styles', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) || (this.imageAlignDropDown = this.toolbarRenderer.renderDropDownButton({
+                    !(targetElement = (0, ej2_base /* select */ .Ys)('#' + this.parent.getID() + '_' + type + '_Styles', tbElement)).classList.contains(classes /* CLS_DROPDOWN_BTN */ .zD) && (this.imageAlignDropDown = this.toolbarRenderer.renderDropDownButton({
                         iconCss: 'e-style e-icons',
                         cssClass: classes /* CLS_DROPDOWN_POPUP */ .LK + ' ' + classes /* CLS_DROPDOWN_ICONS */ .yH + ' ' + classes /* CLS_QUICK_DROPDOWN */ .uO,
                         itemName: 'Styles',
@@ -28561,11 +28562,11 @@
                         this.tableCellVerticalAlignDropDown
                     ], i = 0; i < dropDownObj.length; i++)this.updateCss(dropDownObj[i], e);
                 }, DropDownButtons.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.on(constant /* beforeDropDownItemRender */ .nd, this.beforeRender, this), this.parent.on(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown, this), this.parent.on(constant /* rtlMode */ .vN, this.setRtl, this), this.parent.on(constant /* destroy */ .ob, this.removeEventListener, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this));
+                    !this.parent.isDestroyed && (this.parent.on(constant /* beforeDropDownItemRender */ .nd, this.beforeRender, this), this.parent.on(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown, this), this.parent.on(constant /* rtlMode */ .vN, this.setRtl, this), this.parent.on(constant /* destroy */ .ob, this.removeEventListener, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this));
                 }, DropDownButtons.prototype.onIframeMouseDown = function() {
                     (0, util /* dispatchEvent */ .Nu)(document, 'mousedown');
                 }, DropDownButtons.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown), this.parent.off(constant /* rtlMode */ .vN, this.setRtl), this.parent.off(constant /* beforeDropDownItemRender */ .nd, this.beforeRender), this.parent.off(constant /* destroy */ .ob, this.removeEventListener), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown), this.parent.off(constant /* rtlMode */ .vN, this.setRtl), this.parent.off(constant /* beforeDropDownItemRender */ .nd, this.beforeRender), this.parent.off(constant /* destroy */ .ob, this.removeEventListener), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass));
                 }, DropDownButtons;
             }(), service_locator = __webpack_require__(9336), renderer_factory = __webpack_require__(2503), ToolbarAction = /** @class */ function() {
                 function ToolbarAction(parent) {
@@ -28607,7 +28608,7 @@
                 return Toolbar.prototype.initializeInstance = function() {
                     this.contentRenderer = this.renderFactory.getRenderer(base_enum /* RenderType.Content */ .y2.Content), this.editableElement = this.contentRenderer.getEditPanel(), this.editPanel = this.contentRenderer.getPanel();
                 }, Toolbar.prototype.toolbarBindEvent = function() {
-                    this.parent.inlineMode.enable || (this.keyBoardModule = new ej2_base /* KeyboardEvents */ .nv(this.getToolbarElement(), {
+                    !this.parent.inlineMode.enable && (this.keyBoardModule = new ej2_base /* KeyboardEvents */ .nv(this.getToolbarElement(), {
                         keyAction: this.toolBarKeyDown.bind(this),
                         keyConfigs: this.parent.formatter.keyConfig,
                         eventName: 'keydown'
@@ -28617,7 +28618,7 @@
                 }, Toolbar.prototype.createToolbarElement = function() {
                     this.tbElement = this.parent.createElement('div', {
                         id: this.parent.getID() + '_toolbar'
-                    }), !ej2_base /* Browser.isDevice */ .AR.isDevice && this.parent.inlineMode.enable && (0, util /* isIDevice */ .FA)() || (this.parent.toolbarSettings.enableFloating && !this.parent.inlineMode.enable ? (this.tbWrapper = this.parent.createElement('div', {
+                    }), !(!ej2_base /* Browser.isDevice */ .AR.isDevice && this.parent.inlineMode.enable && (0, util /* isIDevice */ .FA)()) && (this.parent.toolbarSettings.enableFloating && !this.parent.inlineMode.enable ? (this.tbWrapper = this.parent.createElement('div', {
                         id: this.parent.getID() + '_toolbar_wrapper',
                         innerHTML: this.tbElement.outerHTML,
                         className: classes /* CLS_TB_WRAP */ .Rj
@@ -28677,7 +28678,7 @@
                             var bodyStyle = window.getComputedStyle(scrollParent);
                             scrollParentRelativeTop = parseFloat(bodyStyle.marginTop.split('px')[0]) + parseFloat(bodyStyle.paddingTop.split('px')[0]);
                         }
-                        var targetTop = this.parent.element.getBoundingClientRect().top, scrollParentYOffset = ej2_base /* Browser.isMSPointer */ .AR.isMSPointer && isBody ? window.pageYOffset : scrollParent.parentElement.scrollTop, scrollParentRect = scrollParent.getBoundingClientRect(), scrollParentTop = isBody ? scrollParentRect.top + scrollParentYOffset : scrollParentRect.top, outOfRange = !(targetTop - (isBody ? 0 : scrollParentTop) + trgHeight > tbHeight + floatOffset);
+                        var targetTop = this.parent.element.getBoundingClientRect().top, scrollParentYOffset = ej2_base /* Browser.isMSPointer */ .AR.isMSPointer && isBody ? window.pageYOffset : scrollParent.parentElement.scrollTop, scrollParentRect = scrollParent.getBoundingClientRect(), scrollParentTop = !isBody ? scrollParentRect.top : scrollParentRect.top + scrollParentYOffset, outOfRange = !(targetTop - (!isBody ? scrollParentTop : 0) + trgHeight > tbHeight + floatOffset);
                         targetTop > scrollParentTop + floatOffset || targetTop < -trgHeight || targetTop < 0 && outOfRange ? (isFloat = !1, (0, ej2_base /* removeClass */ .IV)([
                             this.tbElement
                         ], [
@@ -28715,7 +28716,7 @@
                             mode: this.getToolbarMode(),
                             target: this.tbElement,
                             cssClass: this.parent.cssClass
-                        }), this.parent.inlineMode.enable || (this.parent.toolbarSettings.enableFloating && (this.checkIsTransformChild(), this.toggleFloatClass()), (0, ej2_base /* addClass */ .cn)([
+                        }), !this.parent.inlineMode.enable && (this.parent.toolbarSettings.enableFloating && (this.checkIsTransformChild(), this.toggleFloatClass()), (0, ej2_base /* addClass */ .cn)([
                             this.parent.element
                         ], [
                             classes /* CLS_RTE_TB_ENABLED */ .bs
@@ -28723,7 +28724,7 @@
                             this.parent.element
                         ], [
                             classes /* CLS_RTE_EXPAND_TB */ .re
-                        ]))), this.wireEvents(), this.parent.inlineMode.enable && !(0, util /* isIDevice */ .FA)() && this.addFixedTBarClass(), this.parent.inlineMode.enable || (this.dropDownModule.renderDropDowns({
+                        ]))), this.wireEvents(), this.parent.inlineMode.enable && !(0, util /* isIDevice */ .FA)() && this.addFixedTBarClass(), !this.parent.inlineMode.enable && (this.dropDownModule.renderDropDowns({
                             container: this.tbElement,
                             containerType: 'toolbar',
                             items: this.parent.toolbarSettings.items
@@ -28733,7 +28734,7 @@
                             items: this.parent.toolbarSettings.items
                         }), this.refreshToolbarOverflow());
                         var divEle = this.parent.element.querySelector('.e-rte-srctextarea'), iframeEle = this.parent.element.querySelector('.e-source-content');
-                        (this.parent.iframeSettings.enable || (0, ej2_base /* isNullOrUndefined */ .le)(divEle) || 'block' !== divEle.style.display) && (!this.parent.iframeSettings.enable || (0, ej2_base /* isNullOrUndefined */ .le)(iframeEle) || 'block' !== iframeEle.style.display) || (this.parent.notify(constant /* updateToolbarItem */ .W0, {
+                        (!this.parent.iframeSettings.enable && !(0, ej2_base /* isNullOrUndefined */ .le)(divEle) && 'block' === divEle.style.display || this.parent.iframeSettings.enable && !(0, ej2_base /* isNullOrUndefined */ .le)(iframeEle) && 'block' === iframeEle.style.display) && (this.parent.notify(constant /* updateToolbarItem */ .W0, {
                             targetItem: 'SourceCode',
                             updateItem: 'Preview',
                             baseToolbar: this.parent.getBaseToolbarObject()
@@ -28846,7 +28847,7 @@
                         var item = this.tbItems[trgItems[i]];
                         item && baseToolbar.toolbarObj.enableItems(item, isEnable);
                     }
-                    (0, ej2_base /* select */ .Ys)('.e-rte-srctextarea', this.parent.element) || muteToolbarUpdate || (0, util /* updateUndoRedoStatus */ .j)(baseToolbar, this.parent.formatter.editorManager.undoRedoManager.getUndoStatus());
+                    !(0, ej2_base /* select */ .Ys)('.e-rte-srctextarea', this.parent.element) && !muteToolbarUpdate && (0, util /* updateUndoRedoStatus */ .j)(baseToolbar, this.parent.formatter.editorManager.undoRedoManager.getUndoStatus());
                 }, /**
      * removeTBarItems method
      *
@@ -28922,7 +28923,7 @@
                             classes /* CLS_RTE_EXPAND_TB */ .re
                         ]);
                         var tbWrapper = (0, ej2_base /* select */ .Ys)('.' + classes /* CLS_TB_WRAP */ .Rj, this.parent.element), tbElement = (0, ej2_base /* select */ .Ys)('.' + classes /* CLS_TOOLBAR */ .zE, this.parent.element);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(tbWrapper) ? (0, ej2_base /* isNullOrUndefined */ .le)(tbElement) || (0, ej2_base /* detach */ .og)(tbElement) : (0, ej2_base /* detach */ .og)(tbWrapper);
+                        (0, ej2_base /* isNullOrUndefined */ .le)(tbWrapper) ? !(0, ej2_base /* isNullOrUndefined */ .le)(tbElement) && (0, ej2_base /* detach */ .og)(tbElement) : (0, ej2_base /* detach */ .og)(tbWrapper);
                     }
                 }, /**
      * Destroys the ToolBar.
@@ -28967,13 +28968,13 @@
                         classes /* CLS_EXPAND_OPEN */ .Yi
                     ]);
                 }, Toolbar.prototype.wireEvents = function() {
-                    this.parent.inlineMode.enable && (0, util /* isIDevice */ .FA)() || (ej2_base /* EventHandler.add */ .bi.add(this.tbElement, 'focusin', this.tbFocusHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.tbElement, 'keydown', this.tbKeydownHandler, this));
+                    !(this.parent.inlineMode.enable && (0, util /* isIDevice */ .FA)()) && (ej2_base /* EventHandler.add */ .bi.add(this.tbElement, 'focusin', this.tbFocusHandler, this), ej2_base /* EventHandler.add */ .bi.add(this.tbElement, 'keydown', this.tbKeydownHandler, this));
                 }, Toolbar.prototype.unWireEvents = function() {
                     ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'focusin', this.tbFocusHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'keydown', this.tbKeydownHandler);
                 }, Toolbar.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
+                    !this.parent.isDestroyed && (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), !this.parent.inlineMode.enable && !(0, util /* isIDevice */ .FA)() && this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
                 }, Toolbar.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), !this.parent.inlineMode.enable && !(0, util /* isIDevice */ .FA)() && this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
                 }, Toolbar.prototype.setCssClass = function(e) {
                     this.toolbarObj && e.cssClass && ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass + ' ' + e.cssClass).trim()
@@ -28981,7 +28982,7 @@
                         cssClass: (this.toolbarObj.cssClass.replace(e.oldCssClass, '').trim() + ' ' + e.cssClass).trim()
                     }));
                 }, Toolbar.prototype.onRefresh = function() {
-                    this.parent.inlineMode.enable || this.refreshToolbarOverflow(), this.parent.setContentHeight('', !0);
+                    !this.parent.inlineMode.enable && this.refreshToolbarOverflow(), this.parent.setContentHeight('', !0);
                 }, /**
      * Called internally if any of the property value changed.
      *
@@ -28995,7 +28996,7 @@
                 }, Toolbar.prototype.refreshToolbar = function() {
                     (0, ej2_base /* isNullOrUndefined */ .le)(this.baseToolbar.toolbarObj) && (this.baseToolbar = this.parent.getBaseToolbarObject());
                     var tbWrapper = (0, ej2_base /* select */ .Ys)('.' + classes /* CLS_TB_WRAP */ .Rj, this.parent.element);
-                    ((0, ej2_base /* select */ .Ys)('.' + classes /* CLS_TOOLBAR */ .zE, this.parent.element) || tbWrapper) && this.destroyToolbar(), this.parent.toolbarSettings.enable && (this.addEventListener(), this.renderToolbar(), this.parent.wireScrollElementsEvents(), (0, ej2_base /* select */ .Ys)('.e-rte-srctextarea', this.parent.element) || (0, util /* updateUndoRedoStatus */ .j)(this.baseToolbar, this.parent.formatter.editorManager.undoRedoManager.getUndoStatus()), this.parent.notify(constant /* dynamicModule */ .ny, {}));
+                    ((0, ej2_base /* select */ .Ys)('.' + classes /* CLS_TOOLBAR */ .zE, this.parent.element) || tbWrapper) && this.destroyToolbar(), this.parent.toolbarSettings.enable && (this.addEventListener(), this.renderToolbar(), this.parent.wireScrollElementsEvents(), !(0, ej2_base /* select */ .Ys)('.e-rte-srctextarea', this.parent.element) && (0, util /* updateUndoRedoStatus */ .j)(this.baseToolbar, this.parent.formatter.editorManager.undoRedoManager.getUndoStatus()), this.parent.notify(constant /* dynamicModule */ .ny, {}));
                 }, /**
      * For internal use only - Get the module name.
      *
@@ -29915,7 +29916,7 @@
                         for(var emptyInlineElem = tempNode.querySelectorAll(_base_constant__WEBPACK_IMPORTED_MODULE_4__ /* .inlineEmptyNodes */ .KS), i = 0; i < emptyInlineElem.length; i++)emptyInlineElem[i].innerHTML = '&ZeroWidthSpace;';
                         'BR' !== rteObj.enterKey && ('#text' === tempNode.firstChild.nodeName && (0 > tempNode.firstChild.textContent.indexOf('\n') || '' !== tempNode.firstChild.textContent.trim()) || inlineNode.indexOf(tempNode.firstChild.nodeName.toLocaleLowerCase()) >= 0) ? (isPreviousInlineElem ? previousParent.appendChild(tempNode.firstChild) : (insertElem = 'DIV' === rteObj.enterKey ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az)('div') : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az)('p'), resultElm.appendChild(insertElem), insertElem.appendChild(tempNode.firstChild)), previousParent = insertElem, isPreviousInlineElem = !0) : '#text' === tempNode.firstChild.nodeName && ('\n' === tempNode.firstChild.textContent || tempNode.firstChild.textContent.indexOf('\n') >= 0 && '' === tempNode.firstChild.textContent.trim()) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(tempNode.firstChild) : (resultElm.appendChild(tempNode.firstChild), isPreviousInlineElem = !1);
                     }
-                    for(var imageElm = resultElm.querySelectorAll('img'), i = 0; i < imageElm.length; i++)imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_RTE_IMAGE */ .Qk) || imageElm[i].classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_RTE_IMAGE */ .Qk), imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGINLINE */ .Em) || imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGBREAK */ .Bn) || imageElm[i].classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGINLINE */ .Em);
+                    for(var imageElm = resultElm.querySelectorAll('img'), i = 0; i < imageElm.length; i++)!imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_RTE_IMAGE */ .Qk) && imageElm[i].classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_RTE_IMAGE */ .Qk), !(imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGINLINE */ .Em) || imageElm[i].classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGBREAK */ .Bn)) && imageElm[i].classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_2__ /* .CLS_IMGINLINE */ .Em);
                 }
                 return resultElm.innerHTML;
             }
@@ -29951,7 +29952,7 @@
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .extend */ .l7)(item, item, {
                         cancel: !1,
                         helper: null
-                    }), parent.trigger('beforeSanitizeHtml', item), item.cancel && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(item.helper) ? value = item.helper(value) : item.cancel || (value = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.serializeValue */ .pJ.serializeValue(item, value));
+                    }), parent.trigger('beforeSanitizeHtml', item), item.cancel && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(item.helper) ? value = item.helper(value) : !item.cancel && (value = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.serializeValue */ .pJ.serializeValue(item, value));
                 }
                 return value;
             }
@@ -31569,7 +31570,7 @@
      * @returns {void}
      */ CheckBox.prototype.destroy = function() {
                     var _this = this, wrapper = this.getWrapper();
-                    _super.prototype.destroy.call(this), this.wrapper && (wrapper = this.wrapper, this.disabled || this.unWireEvents(), 'INPUT' === this.tagName ? (this.getWrapper() && wrapper.parentNode && wrapper.parentNode.insertBefore(this.element, wrapper), (0, ej2_base /* detach */ .og)(wrapper), this.element.checked = !1, this.indeterminate && (this.element.indeterminate = !1), [
+                    _super.prototype.destroy.call(this), this.wrapper && (wrapper = this.wrapper, !this.disabled && this.unWireEvents(), 'INPUT' === this.tagName ? (this.getWrapper() && wrapper.parentNode && wrapper.parentNode.insertBefore(this.element, wrapper), (0, ej2_base /* detach */ .og)(wrapper), this.element.checked = !1, this.indeterminate && (this.element.indeterminate = !1), [
                         'name',
                         'value',
                         'disabled'
@@ -31610,7 +31611,7 @@
                     }, !0)), this.checked && this.changeState('check'), this.indeterminate && this.changeState(), this.disabled && this.setDisabled();
                 }, CheckBox.prototype.initWrapper = function() {
                     var wrapper = this.element.parentElement;
-                    wrapper.classList.contains(WRAPPER) || (wrapper = this.createElement('div', {
+                    !wrapper.classList.contains(WRAPPER) && (wrapper = this.createElement('div', {
                         className: WRAPPER
                     }), this.element.parentNode.insertBefore(wrapper, this.element));
                     var label = this.createElement('label', {
@@ -31698,14 +31699,14 @@
      * @returns {void}
      */ CheckBox.prototype.preRender = function() {
                     var element = this.element;
-                    this.tagName = this.element.tagName, element = (0, common /* wrapperInitialize */ .Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), this.element = element, 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), this.element.id || (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName()));
+                    this.tagName = this.element.tagName, element = (0, common /* wrapperInitialize */ .Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), this.element = element, 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), !this.element.id && (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName()));
                 }, /**
      * Initialize the control rendering.
      *
      * @private
      * @returns {void}
      */ CheckBox.prototype.render = function() {
-                    this.initWrapper(), this.initialize(), this.disabled || this.wireEvents(), this.updateHtmlAttributeToWrapper(), this.updateVueArrayModel(!0), this.renderComplete(), this.wrapper = this.getWrapper();
+                    this.initWrapper(), this.initialize(), !this.disabled && this.wireEvents(), this.updateHtmlAttributeToWrapper(), this.updateVueArrayModel(!0), this.renderComplete(), this.wrapper = this.getWrapper();
                 }, CheckBox.prototype.setDisabled = function() {
                     var wrapper = this.getWrapper();
                     this.element.disabled = !0, wrapper.classList.add(DISABLED), wrapper.setAttribute('aria-disabled', 'true');
@@ -31812,7 +31813,7 @@
                     this.parent = parent, this.rteID = parent.element.id, this.i10n = serviceLocator.getService('rteLocale'), this.addEventListener(), this.serviceLocator = serviceLocator, this.rendererFactory = serviceLocator.getService('rendererFactory'), this.dialogRenderObj = serviceLocator.getService('dialogRenderObject');
                 }
                 return Link.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.on(constant /* insertLink */ .T8, this.linkDialog, this), this.parent.on(constant /* showLinkDialog */ .nk, this.showDialog, this), this.parent.on(constant /* closeLinkDialog */ .OI, this.closeDialog, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* insertCompleted */ .IK, this.showLinkQuickToolbar, this), this.parent.on(constant /* clearDialogObj */ .zA, this.clearDialogObj, this), this.parent.on(constant /* linkToolbarAction */ .Tc, this.onToolbarAction, this), this.parent.on(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown, this), this.parent.on(constant /* unLink */ .tC, this.removeLink, this), this.parent.on(constant /* editLink */ .xD, this.editLink, this), this.parent.on(constant /* openLink */ .nG, this.openLink, this), this.parent.on(constant /* editAreaClick */ .uU, this.editAreaClickHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this));
+                    !this.parent.isDestroyed && (this.parent.on(constant /* insertLink */ .T8, this.linkDialog, this), this.parent.on(constant /* showLinkDialog */ .nk, this.showDialog, this), this.parent.on(constant /* closeLinkDialog */ .OI, this.closeDialog, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* insertCompleted */ .IK, this.showLinkQuickToolbar, this), this.parent.on(constant /* clearDialogObj */ .zA, this.clearDialogObj, this), this.parent.on(constant /* linkToolbarAction */ .Tc, this.onToolbarAction, this), this.parent.on(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown, this), this.parent.on(constant /* unLink */ .tC, this.removeLink, this), this.parent.on(constant /* editLink */ .xD, this.editLink, this), this.parent.on(constant /* openLink */ .nG, this.openLink, this), this.parent.on(constant /* editAreaClick */ .uU, this.editAreaClickHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this));
                 }, Link.prototype.onToolbarAction = function(args) {
                     switch(args.args.item.subCommand){
                         case 'OpenLink':
@@ -31825,7 +31826,7 @@
                             this.parent.notify(constant /* unLink */ .tC, args);
                     }
                 }, Link.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* insertLink */ .T8, this.linkDialog), this.parent.off(constant /* showLinkDialog */ .nk, this.showDialog), this.parent.off(constant /* closeLinkDialog */ .OI, this.closeDialog), this.parent.off(constant /* keyDown */ .QG, this.onKeyDown), this.parent.off(constant /* insertCompleted */ .IK, this.showLinkQuickToolbar), this.parent.off(constant /* clearDialogObj */ .zA, this.clearDialogObj), this.parent.off(constant /* linkToolbarAction */ .Tc, this.onToolbarAction), this.parent.off(constant /* unLink */ .tC, this.removeLink), this.parent.off(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown), this.parent.off(constant /* editLink */ .xD, this.editLink), this.parent.off(constant /* openLink */ .nG, this.openLink), this.parent.off(constant /* editAreaClick */ .uU, this.editAreaClickHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* insertLink */ .T8, this.linkDialog), this.parent.off(constant /* showLinkDialog */ .nk, this.showDialog), this.parent.off(constant /* closeLinkDialog */ .OI, this.closeDialog), this.parent.off(constant /* keyDown */ .QG, this.onKeyDown), this.parent.off(constant /* insertCompleted */ .IK, this.showLinkQuickToolbar), this.parent.off(constant /* clearDialogObj */ .zA, this.clearDialogObj), this.parent.off(constant /* linkToolbarAction */ .Tc, this.onToolbarAction), this.parent.off(constant /* unLink */ .tC, this.removeLink), this.parent.off(constant /* iframeMouseDown */ .a$, this.onIframeMouseDown), this.parent.off(constant /* editLink */ .xD, this.editLink), this.parent.off(constant /* openLink */ .nG, this.openLink), this.parent.off(constant /* editAreaClick */ .uU, this.editAreaClickHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy));
                 }, Link.prototype.onIframeMouseDown = function() {
                     this.dialogObj && this.dialogObj.hide({
                         returnValue: !0
@@ -31886,13 +31887,13 @@
                     var originalEvent = event.args;
                     switch(originalEvent.action){
                         case 'escape':
-                            (0, ej2_base /* isNullOrUndefined */ .le)(this.dialogObj) || this.dialogObj.close();
+                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.dialogObj) && this.dialogObj.close();
                             break;
                         case 'insert-link':
                             this.openDialog(!0, event), originalEvent.preventDefault();
                     }
                 }, Link.prototype.openDialog = function(isInternal, event) {
-                    if (isInternal || this.parent.contentModule.getEditPanel().focus(), 'HTML' === this.parent.editorMode) {
+                    if (!isInternal && this.parent.contentModule.getEditPanel().focus(), 'HTML' === this.parent.editorMode) {
                         var range = this.parent.formatter.editorManager.nodeSelection.getRange(this.parent.contentModule.getDocument()), save = this.parent.formatter.editorManager.nodeSelection.save(range, this.parent.contentModule.getDocument()), selectNodeEle = this.parent.formatter.editorManager.nodeSelection.getNodeCollection(range), selectParentEle = this.parent.formatter.editorManager.nodeSelection.getParentNodeCollection(range), eventArgs = {
                             args: event ? event.args : {
                                 item: {
@@ -32005,7 +32006,7 @@
                         }
                     };
                     // eslint-disable-next-line
-                    this.dialogObj = this.dialogRenderObj.render(dialogModel), this.dialogObj.createElement = this.parent.createElement, this.dialogObj.appendTo(linkDialogEle), linkDialogEle.style.maxHeight = 'inherit', !(0, ej2_base /* isNullOrUndefined */ .le)(this.dialogObj) && ((0, ej2_base /* isNullOrUndefined */ .le)(inputDetails) || (linkUrl.value = inputDetails.url, linkText.value = inputDetails.text, linkTitle.value = inputDetails.title, // eslint-disable-next-line
+                    this.dialogObj = this.dialogRenderObj.render(dialogModel), this.dialogObj.createElement = this.parent.createElement, this.dialogObj.appendTo(linkDialogEle), linkDialogEle.style.maxHeight = 'inherit', !(0, ej2_base /* isNullOrUndefined */ .le)(this.dialogObj) && (!(0, ej2_base /* isNullOrUndefined */ .le)(inputDetails) && (linkUrl.value = inputDetails.url, linkText.value = inputDetails.text, linkTitle.value = inputDetails.title, // eslint-disable-next-line
                     inputDetails.target ? this.checkBoxObj.checked = !0 : this.checkBoxObj.checked = !1, this.dialogObj.header = inputDetails.header, this.dialogObj.element.querySelector('.e-insertLink').textContent = inputDetails.btnText), this.checkUrl(!1), ('HTML' === this.parent.editorMode && (0, ej2_base /* isNullOrUndefined */ .le)(inputDetails) && (!(0, ej2_base /* isNullOrUndefined */ .le)(selectText) && '' !== selectText && 0 === e.selection.range.startOffset || e.selection.range.startOffset !== e.selection.range.endOffset) || 'Markdown' === e.module) && (linkText.value = selectText), ej2_base /* EventHandler.add */ .bi.add(this.parent.element.ownerDocument, 'mousedown', this.onDocumentClick, this), this.quickToolObj && (this.hideLinkQuickToolbar(), this.quickToolObj.inlineQTBar && document.body.contains(this.quickToolObj.inlineQTBar.element) && this.quickToolObj.inlineQTBar.hidePopup()));
                 }, // eslint-disable-next-line
                 Link.prototype.insertlink = function(e) {
@@ -32016,7 +32017,7 @@
                         this.selfLink.checkUrl(!0);
                         return;
                     }
-                    this.selfLink.isUrl(linkUrl) ? this.selfLink.checkUrl(!1) : (linkText = '' === linkText ? linkUrl : linkText, this.selfLink.parent.enableAutoUrl || (linkUrl = linkUrl.indexOf('http') > -1 ? linkUrl : 'http://' + linkUrl));
+                    this.selfLink.isUrl(linkUrl) ? this.selfLink.checkUrl(!1) : (linkText = '' === linkText ? linkUrl : linkText, !this.selfLink.parent.enableAutoUrl && (linkUrl = linkUrl.indexOf('http') > -1 ? linkUrl : 'http://' + linkUrl));
                     var proxy = this.selfLink;
                     if ('HTML' === proxy.parent.editorMode && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.selection.range.startContainer.parentNode, "[id='" + proxy.parent.contentModule.getPanel().id + "']"))) {
                         proxy.parent.contentModule.getEditPanel().focus(), ej2_base /* Browser.isIE */ .AR.isIE && proxy.parent.iframeSettings.enable && this.selection.restore();
@@ -32137,9 +32138,9 @@
                     this.ensureInsideTableList = !0, this.pageX = null, this.pageY = null, this.moveEle = null, this.currentColumnResize = '', this.currentMarginLeft = 0, this.parent = parent, this.rteID = parent.element.id, this.l10n = serviceLocator.getService('rteLocale'), this.rendererFactory = serviceLocator.getService('rendererFactory'), this.dialogRenderObj = serviceLocator.getService('dialogRenderObject'), this.addEventListener();
                 }
                 return Table.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .createTable */ .W_, this.renderDlgContent, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .initialEnd */ .Xr, this.afterRender, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dynamicModule */ .ny, this.afterRender, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .showTableDialog */ .Np, this.showDialog, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .closeTableDialog */ .HB, this.closeDialog, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .docClick */ .v4, this.docClick, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .editAreaClick */ .uU, this.editAreaClickHandler, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .clearDialogObj */ .zA, this.clearDialogObj, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableToolbarAction */ .ZY, this.onToolbarAction, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dropDownSelect */ .s7, this.dropdownSelect, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .keyDown */ .QG, this.keyDown, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseUp */ .vV, this.selectionTable, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .bindCssClass */ ._8, this.setCssClass, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .destroy */ .ob, this.destroy, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .moduleDestroy */ .P0, this.moduleDestroy, this));
+                    !this.parent.isDestroyed && (this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .createTable */ .W_, this.renderDlgContent, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .initialEnd */ .Xr, this.afterRender, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dynamicModule */ .ny, this.afterRender, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .showTableDialog */ .Np, this.showDialog, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .closeTableDialog */ .HB, this.closeDialog, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .docClick */ .v4, this.docClick, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .editAreaClick */ .uU, this.editAreaClickHandler, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .clearDialogObj */ .zA, this.clearDialogObj, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableToolbarAction */ .ZY, this.onToolbarAction, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dropDownSelect */ .s7, this.dropdownSelect, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .keyDown */ .QG, this.keyDown, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseUp */ .vV, this.selectionTable, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .bindCssClass */ ._8, this.setCssClass, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .destroy */ .ob, this.destroy, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .moduleDestroy */ .P0, this.moduleDestroy, this));
                 }, Table.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .createTable */ .W_, this.renderDlgContent), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .initialEnd */ .Xr, this.afterRender), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dynamicModule */ .ny, this.afterRender), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .docClick */ .v4, this.docClick), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .showTableDialog */ .Np, this.showDialog), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .closeTableDialog */ .HB, this.closeDialog), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .editAreaClick */ .uU, this.editAreaClickHandler), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .clearDialogObj */ .zA, this.clearDialogObj), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableToolbarAction */ .ZY, this.onToolbarAction), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dropDownSelect */ .s7, this.dropdownSelect), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseDown */ .uG, this.cellSelect), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableColorPickerChanged */ .Yo, this.setBGColor), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .keyDown */ .QG, this.keyDown), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseUp */ .vV, this.selectionTable), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .bindCssClass */ ._8, this.setCssClass), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .destroy */ .ob, this.destroy), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .moduleDestroy */ .P0, this.moduleDestroy));
+                    !this.parent.isDestroyed && (this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .createTable */ .W_, this.renderDlgContent), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .initialEnd */ .Xr, this.afterRender), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dynamicModule */ .ny, this.afterRender), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .docClick */ .v4, this.docClick), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .showTableDialog */ .Np, this.showDialog), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .closeTableDialog */ .HB, this.closeDialog), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .editAreaClick */ .uU, this.editAreaClickHandler), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .clearDialogObj */ .zA, this.clearDialogObj), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableToolbarAction */ .ZY, this.onToolbarAction), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .dropDownSelect */ .s7, this.dropdownSelect), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseDown */ .uG, this.cellSelect), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableColorPickerChanged */ .Yo, this.setBGColor), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .keyDown */ .QG, this.keyDown), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseUp */ .vV, this.selectionTable), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .bindCssClass */ ._8, this.setCssClass), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .destroy */ .ob, this.destroy), this.parent.off(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .moduleDestroy */ .P0, this.moduleDestroy));
                 }, Table.prototype.updateCss = function(currentObj, e) {
                     currentObj && e.cssClass && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(e.oldCssClass) ? currentObj.setProperties({
                         cssClass: (currentObj.cssClass + ' ' + e.cssClass).trim()
@@ -32161,7 +32162,7 @@
                     ], i = 0; i < numericTextBoxObj.length; i++)this.updateCss(numericTextBoxObj[i], e);
                 }, Table.prototype.selectionTable = function(e) {
                     var target = e.args.target;
-                    'mozilla' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.name */ .AR.info.name || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table')) || 'TABLE' !== (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table').tagName || this.parent.contentModule.getEditPanel().setAttribute('contenteditable', 'true');
+                    'mozilla' === _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.name */ .AR.info.name && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table')) && 'TABLE' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table').tagName && this.parent.contentModule.getEditPanel().setAttribute('contenteditable', 'true');
                 }, Table.prototype.afterRender = function() {
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.contentModule) && (this.contentModule = this.rendererFactory.getRenderer(_base_enum__WEBPACK_IMPORTED_MODULE_2__ /* .RenderType.Content */ .y2.Content), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .tableColorPickerChanged */ .Yo, this.setBGColor, this), this.parent.on(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .mouseDown */ .uG, this.cellSelect, this), this.parent.tableSettings.resize && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.parent.contentModule.getEditPanel(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchStartEvent */ .AR.touchStartEvent, this.resizeStart, this), !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && this.parent.tableSettings.resize && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.contentModule.getEditPanel(), 'mouseover', this.resizeHelper, this));
                 }, Table.prototype.dropdownSelect = function(e) {
@@ -32232,7 +32233,7 @@
                         }
                     }
                 }, Table.prototype.openDialog = function(isInternal, e) {
-                    if (isInternal || this.parent.contentModule.getEditPanel().focus(), 'HTML' === this.parent.editorMode) {
+                    if (!isInternal && this.parent.contentModule.getEditPanel().focus(), 'HTML' === this.parent.editorMode) {
                         var docElement = this.parent.contentModule.getDocument(), range = this.parent.formatter.editorManager.nodeSelection.getRange(docElement), selection = this.parent.formatter.editorManager.nodeSelection.save(range, docElement), args = {
                             originalEvent: e ? e.args : {
                                 action: 'insert-table'
@@ -32283,7 +32284,7 @@
                 }, Table.prototype.tabSelection = function(event, selection, ele) {
                     var insideList = this.insideList(selection.range);
                     if ((37 !== event.keyCode && 39 !== event.keyCode || 3 !== selection.range.startContainer.nodeType) && !insideList) if (event.preventDefault(), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), event.shiftKey || 37 === event.keyCode) {
-                        var prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes[(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes.length - 1] : ele.previousSibling;
+                        var prevElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.previousSibling) ? ele.previousSibling : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes[(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousSibling.childNodes.length - 1] : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) && 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : ele;
                         if (ele === prevElement && 0 === ele.cellIndex && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead) {
                             var clsTble = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table');
                             prevElement = clsTble.rows[0].cells[clsTble.rows[0].cells.length - 1];
@@ -32291,14 +32292,14 @@
                         37 === event.keyCode && ele === prevElement && (prevElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling), prevElement && (// eslint-disable-next-line
                         '' !== prevElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(prevElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), prevElement) : selection.setSelectionText(this.contentModule.getDocument(), prevElement, prevElement, 0, 0));
                     } else {
-                        var nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) ? ele : 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling.childNodes[0] : ele.nextSibling;
+                        var nextElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(ele.nextSibling) ? ele.nextSibling : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextSibling.childNodes[0] : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) && 'td' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling.nodeName.toLowerCase() ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : ele;
                         ele === nextElement && 'TH' === ele.nodeName && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').rows[1].cells[0]), 39 === event.keyCode && ele === nextElement && (nextElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling), nextElement && (// eslint-disable-next-line
                         '' !== nextElement.textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0)), ele === nextElement && 39 !== event.keyCode && nextElement && (ele.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), this.addRow(selection, event, !0), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), // eslint-disable-next-line
                         '' !== (nextElement = nextElement.parentElement.nextSibling ? nextElement.parentElement.nextSibling.firstChild : nextElement.parentElement.firstChild).textContent.trim() && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(nextElement, 'td') ? selection.setSelectionNode(this.contentModule.getDocument(), nextElement) : selection.setSelectionText(this.contentModule.getDocument(), nextElement, nextElement, 0, 0));
                     }
                 }, Table.prototype.tableArrowNavigation = function(event, selection, ele) {
                     var selText = selection.range.startContainer;
-                    40 === event.keyCode && 3 === selText.nodeType && (selText.nextSibling && 'BR' === selText.nextSibling.nodeName || selText.parentNode && 'TD' !== selText.parentNode.nodeName) || 38 === event.keyCode && 3 === selText.nodeType && (selText.previousSibling && 'BR' === selText.previousSibling.nodeName || selText.parentNode && 'TD' !== selText.parentNode.nodeName) || (event.preventDefault(), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), (ele = 40 === event.keyCode ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextElementSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead && 'TH' === ele.nodeName ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').rows[1].cells[ele.cellIndex] : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) ? ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextElementSibling.children[ele.cellIndex] : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousElementSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead && 'TH' !== ele.nodeName ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead.rows[0].cells[ele.cellIndex] : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) ? ele : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousElementSibling.children[ele.cellIndex]) && selection.setSelectionText(this.contentModule.getDocument(), ele, ele, 0, 0));
+                    (40 !== event.keyCode || 3 !== selText.nodeType || (!selText.nextSibling || 'BR' !== selText.nextSibling.nodeName) && (!selText.parentNode || 'TD' === selText.parentNode.nodeName)) && (38 !== event.keyCode || 3 !== selText.nodeType || (!selText.previousSibling || 'BR' !== selText.previousSibling.nodeName) && (!selText.parentNode || 'TD' === selText.parentNode.nodeName)) && (event.preventDefault(), ele.classList.remove(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), (ele = 40 === event.keyCode ? !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextElementSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').nextElementSibling.children[ele.cellIndex] : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead && 'TH' === ele.nodeName ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').rows[1].cells[ele.cellIndex] : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').nextSibling : ele : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousElementSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'tr').previousElementSibling.children[ele.cellIndex] : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead && 'TH' !== ele.nodeName ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').tHead.rows[0].cells[ele.cellIndex] : !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(ele, 'table').previousSibling : ele) && selection.setSelectionText(this.contentModule.getDocument(), ele, ele, 0, 0));
                 }, Table.prototype.setBGColor = function(args) {
                     var range = this.parent.formatter.editorManager.nodeSelection.getRange(this.contentModule.getDocument());
                     // eslint-disable-next-line
@@ -32351,7 +32352,7 @@
                     this.self.tableInsert(row, col, e, this);
                 }, Table.prototype.tableInsert = function(row, col, e, selectionObj) {
                     var proxy = selectionObj.self ? selectionObj.self : this, startContainer = selectionObj.selection.range.startContainer;
-                    'P' !== startContainer.nodeName || '' !== startContainer.textContent.trim() || startContainer.childNodes.length > 0 || (startContainer.innerHTML = '<br />');
+                    'P' === startContainer.nodeName && '' === startContainer.textContent.trim() && !(startContainer.childNodes.length > 0) && (startContainer.innerHTML = '<br />');
                     var parentNode = startContainer.parentNode;
                     if ('HTML' === proxy.parent.editorMode && (proxy.parent.iframeSettings.enable && !(0, _base_util__WEBPACK_IMPORTED_MODULE_4__ /* .hasClass */ .pv)(parentNode.ownerDocument.querySelector('body'), 'e-lib') || // eslint-disable-next-line
                     !proxy.parent.iframeSettings.enable && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(parentNode, "[id='" + proxy.contentModule.getPanel().id + "']")))) {
@@ -32374,7 +32375,7 @@
                     var target = e.args.target, tdNode = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'td,th');
                     target = 'TD' !== target.nodeName && tdNode && this.parent.contentModule.getEditPanel().contains(tdNode) ? tdNode : target, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(this.contentModule.getEditPanel().querySelectorAll('table td, table th'), _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), target && ('TD' === target.tagName || 'TH' === target.tagName) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         target
-                    ], _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), this.activeCell = target, this.curTable = this.curTable ? this.curTable : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table'), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.curTable, 'mousemove', this.tableMove, this), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.curTable, 'mouseup', this.tableMouseUp, this), this.removeResizeElement(), this.helper && this.contentModule.getEditPanel().contains(this.helper) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(this.helper)), 'mozilla' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.name */ .AR.info.name || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table')) || 'TABLE' !== (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table').tagName || this.parent.contentModule.getEditPanel().setAttribute('contenteditable', 'false');
+                    ], _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), this.activeCell = target, this.curTable = this.curTable ? this.curTable : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table'), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.curTable, 'mousemove', this.tableMove, this), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.curTable, 'mouseup', this.tableMouseUp, this), this.removeResizeElement(), this.helper && this.contentModule.getEditPanel().contains(this.helper) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(this.helper)), 'mozilla' === _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.info.name */ .AR.info.name && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table')) && 'TABLE' === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'table').tagName && this.parent.contentModule.getEditPanel().setAttribute('contenteditable', 'false');
                 }, Table.prototype.tableMove = function(event) {
                     this.parent.formatter.editorManager.observer.notify('TABLE_MOVE', {
                         event: event,
@@ -32409,7 +32410,7 @@
                             }
                         });
                         rowReEle.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_RTE_TABLE_RESIZE */ .IJ, _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_ROW_RES */ .Dw);
-                        var rowPosLeft = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(table.getAttribute('cellspacing')) && '' === table.getAttribute('cellspacing') ? this.calcPos(rows[i]).left : 0;
+                        var rowPosLeft = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(table.getAttribute('cellspacing')) || '' !== table.getAttribute('cellspacing') ? 0 : this.calcPos(rows[i]).left;
                         rowReEle.style.cssText = 'width: ' + width + 'px; height: 4px; top: ' + (this.calcPos(rows[i]).top + pos.top + rows[i].offsetHeight - 2) + 'px; left:' + (rowPosLeft + pos.left) + 'px;', this.contentModule.getEditPanel().appendChild(rowReEle);
                     }
                     var tableReBox = this.parent.createElement('span', {
@@ -32508,15 +32509,15 @@
                                     }
                                 } else for(var cellColl = _this.curTable.rows[_this.calMaxCol(_this.curTable)].cells, actualwid = width - mouseX, totalwid = parseFloat(_this.columnEle.offsetWidth.toString()) + parseFloat(cellColl[_this.colIndex - 1].offsetWidth.toString()), i = 0; i < _this.curTable.rows.length; i++)if (totalwid - actualwid > 20 && actualwid > 20) {
                                     var leftColumnWidth = totalwid - actualwid;
-                                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(_this.curTable.rows[i].cells[_this.colIndex - 1]) || (_this.curTable.rows[i].cells[_this.colIndex - 1].style.width = _this.convertPixelToPercentage(leftColumnWidth, tableWidth) + '%'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(_this.curTable.rows[i].cells[_this.colIndex]) || (_this.curTable.rows[i].cells[_this.colIndex].style.width = _this.convertPixelToPercentage(actualwid, tableWidth) + '%');
+                                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(_this.curTable.rows[i].cells[_this.colIndex - 1]) && (_this.curTable.rows[i].cells[_this.colIndex - 1].style.width = _this.convertPixelToPercentage(leftColumnWidth, tableWidth) + '%'), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(_this.curTable.rows[i].cells[_this.colIndex]) && (_this.curTable.rows[i].cells[_this.colIndex].style.width = _this.convertPixelToPercentage(actualwid, tableWidth) + '%');
                                 }
                                 _this.updateHelper();
                             } else if (_this.resizeBtnStat.row) {
                                 _this.parent.preventDefaultResize(e);
                                 var height = parseFloat(_this.rowEle.clientHeight.toString()) + mouseY;
-                                height > 20 && (_this.rowEle.style.height = height + 'px'), _this.curTable.style.height = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(tableReBox) || (tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;'), _this.updateHelper();
+                                height > 20 && (_this.rowEle.style.height = height + 'px'), _this.curTable.style.height = '', !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(tableReBox) && (tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;'), _this.updateHelper();
                             } else if (_this.resizeBtnStat.tableBox) {
-                                _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper);
+                                !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper);
                                 var widthType = _this.curTable.style.width.indexOf('%') > -1;
                                 _this.curTable.style.width = widthType ? _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%' : tableWidth + mouseX + 'px', _this.curTable.style.height = tableHeight + mouseY + 'px', tableReBox.classList.add('e-rbox-select'), tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;';
                             }
@@ -32533,7 +32534,7 @@
                 }, Table.prototype.cancelResizeAction = function() {
                     _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchMoveEvent */ .AR.touchMoveEvent, this.resizing), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchEndEvent */ .AR.touchEndEvent, this.resizeEnd), this.removeResizeElement();
                 }, Table.prototype.resizeEnd = function(e) {
-                    this.resizeBtnInit(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchMoveEvent */ .AR.touchMoveEvent, this.resizing), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchEndEvent */ .AR.touchEndEvent, this.resizeEnd), this.contentModule.getEditPanel().querySelector('.e-table-box') && this.contentModule.getEditPanel().contains(this.contentModule.getEditPanel().querySelector('.e-table-box')) && (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.contentModule.getEditPanel(), 'mouseover', this.resizeHelper, this), this.removeResizeElement()), this.helper && this.contentModule.getEditPanel().contains(this.helper) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(this.helper), this.helper = null), this.pageX = null, this.pageY = null, this.moveEle = null, this.parent.trigger(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .resizeStop */ .d$, {
+                    this.resizeBtnInit(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchMoveEvent */ .AR.touchMoveEvent, this.resizing), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.contentModule.getDocument(), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.touchEndEvent */ .AR.touchEndEvent, this.resizeEnd), this.contentModule.getEditPanel().querySelector('.e-table-box') && this.contentModule.getEditPanel().contains(this.contentModule.getEditPanel().querySelector('.e-table-box')) && (!_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.contentModule.getEditPanel(), 'mouseover', this.resizeHelper, this), this.removeResizeElement()), this.helper && this.contentModule.getEditPanel().contains(this.helper) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(this.helper), this.helper = null), this.pageX = null, this.pageY = null, this.moveEle = null, this.parent.trigger(_base_constant__WEBPACK_IMPORTED_MODULE_1__ /* .resizeStop */ .d$, {
                         event: e,
                         requestType: 'table'
                     }), this.parent.formatter.saveData();
@@ -32610,7 +32611,7 @@
                             tabindex: '0'
                         }
                     });
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.parent.getToolbarElement().querySelector('.e-expended-nav')) || this.parent.getToolbarElement().querySelector('.e-expended-nav').setAttribute('tabindex', '1'), this.dlgDiv.appendChild(btnEle), this.createTableButton = new _syncfusion_ej2_buttons__WEBPACK_IMPORTED_MODULE_5__ /* .Button */ .z({
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.parent.getToolbarElement().querySelector('.e-expended-nav')) && this.parent.getToolbarElement().querySelector('.e-expended-nav').setAttribute('tabindex', '1'), this.dlgDiv.appendChild(btnEle), this.createTableButton = new _syncfusion_ej2_buttons__WEBPACK_IMPORTED_MODULE_5__ /* .Button */ .z({
                         iconCss: 'e-icons e-create-table',
                         content: insertbtn,
                         cssClass: "e-flat " + this.parent.cssClass,
@@ -32643,14 +32644,14 @@
                         }
                     }), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.popupObj.element
-                    ], 'e-popup-open'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.parent.cssClass) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], 'e-popup-open'), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.parent.cssClass) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.popupObj.element
                     ], this.parent.cssClass), this.popupObj.refreshPosition(target);
                 }, Table.prototype.docClick = function(e) {
                     var target = e.args.target;
                     target && target.classList && (this.popupObj && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, "[id='" + this.popupObj.element.id + "']") || this.editdlgObj && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '#' + this.editdlgObj.element.id)) && !target.classList.contains('e-create-table') && target.offsetParent && !target.offsetParent.classList.contains('e-rte-backgroundcolor-dropdown') && (this.popupObj && this.popupObj.hide(), this.editdlgObj && this.editdlgObj.hide(), this.parent.isBlur = !0, (0, _base_util__WEBPACK_IMPORTED_MODULE_4__ /* .dispatchEvent */ .Nu)(this.parent.element, 'focusout'));
                     var closestEle = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, 'td'), isExist = !!(closestEle && this.parent.contentModule.getEditPanel().contains(closestEle));
-                    !target || 'TD' === target.tagName || 'TH' === target.tagName || isExist || null !== (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-quick-popup') || !target.offsetParent || target.offsetParent.classList.contains('e-quick-dropdown') || target.offsetParent.classList.contains('e-rte-backgroundcolor-dropdown') || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-dropdown-popup') || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-elements') || ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(this.parent.inputElement.querySelectorAll('table td'), _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIE */ .AR.isIE || this.hideTableQuickToolbar()), !target || !target.classList || target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_COL_RES */ .rp) || target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_ROW_RES */ .Dw) || target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_BOX_RES */ .uX) || this.removeResizeElement();
+                    target && 'TD' !== target.tagName && 'TH' !== target.tagName && !isExist && null === (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-quick-popup') && target.offsetParent && !target.offsetParent.classList.contains('e-quick-dropdown') && !target.offsetParent.classList.contains('e-rte-backgroundcolor-dropdown') && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-dropdown-popup') && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(target, '.e-rte-elements') && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(this.parent.inputElement.querySelectorAll('table td'), _base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TABLE_SEL */ .HC), !_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isIE */ .AR.isIE && this.hideTableQuickToolbar()), target && target.classList && !target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_COL_RES */ .rp) && !target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_ROW_RES */ .Dw) && !target.classList.contains(_base_classes__WEBPACK_IMPORTED_MODULE_3__ /* .CLS_TB_BOX_RES */ .uX) && this.removeResizeElement();
                 }, Table.prototype.drawTable = function(tableDiv, args) {
                     for(var rowDiv, tableCell, row = 0; row < 3; row++){
                         rowDiv = this.parent.createElement('div', {
@@ -32710,7 +32711,7 @@
                     var proxy = this.self ? this.self : this;
                     proxy.popupObj && proxy.popupObj.hide(), proxy.createDialog(args);
                     var dlgContent = proxy.tableCellDlgContent(), insert = proxy.l10n.getConstant('dialogInsert'), cancel = proxy.l10n.getConstant('dialogCancel');
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(proxy.editdlgObj) || (proxy.editdlgObj.setProperties({
+                    !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(proxy.editdlgObj) && (proxy.editdlgObj.setProperties({
                         height: 'initial',
                         width: '290px',
                         content: dlgContent,
@@ -32733,7 +32734,7 @@
                                 }
                             }
                         ]
-                    }), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(proxy.parent.cssClass) || proxy.editdlgObj.setProperties({
+                    }), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(proxy.parent.cssClass) && proxy.editdlgObj.setProperties({
                         cssClass: proxy.parent.cssClass
                     }), proxy.editdlgObj.element.style.maxHeight = 'none', proxy.editdlgObj.content.querySelector('input').focus());
                 }, Table.prototype.tableCellDlgContent = function() {
@@ -32868,7 +32869,7 @@
                         format: 'n0',
                         min: 0,
                         // eslint-disable-next-line
-                        value: '' === brdSpcVal || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(brdSpcVal) ? 0 : parseInt(brdSpcVal, null),
+                        value: '' !== brdSpcVal && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(brdSpcVal) ? parseInt(brdSpcVal, null) : 0,
                         placeholder: cellSpacing,
                         floatLabelType: 'Auto',
                         enableRtl: this.parent.enableRtl,
@@ -33012,7 +33013,7 @@
 
      */ NodeSelection.prototype.getIndex = function(node) {
                     var num = 0;
-                    if (node = node.previousSibling || 'BR' !== node.tagName ? node.previousSibling : node) for(node.nodeType; node;)node.nodeType, num++, node = node.previousSibling;
+                    if (node = !node.previousSibling && 'BR' === node.tagName ? node : node.previousSibling) for(node.nodeType; node;)node.nodeType, num++, node = node.previousSibling;
                     return num;
                 }, NodeSelection.prototype.isChildNode = function(nodeCollection, parentNode) {
                     for(var index = 0; index < parentNode.childNodes.length; index++)if (nodeCollection.indexOf(parentNode.childNodes[index]) > -1) return !0;

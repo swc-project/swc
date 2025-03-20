@@ -3492,9 +3492,9 @@
                 return sourceIsArray !== Array.isArray(target) ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
-                    propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
+                    !(propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
                     !(Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
-                    Object.propertyIsEnumerable.call(target, key)) || (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
+                    Object.propertyIsEnumerable.call(target, key))) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
                         if (!options.customMerge) return deepmerge;
                         var customMerge = options.customMerge(key);
                         return "function" == typeof customMerge ? customMerge : deepmerge;
@@ -3545,7 +3545,7 @@
                      * the author.
                      * @param {Element} el
                      */ function addFocusVisibleClass(el) {
-                        el.classList.contains("focus-visible") || (el.classList.add("focus-visible"), el.setAttribute("data-focus-visible-added", ""));
+                        !el.classList.contains("focus-visible") && (el.classList.add("focus-visible"), el.setAttribute("data-focus-visible-added", ""));
                     }
                     /**
                      * If at any point a user clicks with a pointing device, ensure that we change
@@ -3574,7 +3574,7 @@
                      */ function onInitialPointerMove(e) {
                         // Work around a Safari quirk that fires a mousemove on <html> whenever the
                         // window blurs, even if you're tabbing out of the page. ¯\_(ツ)_/¯
-                        e.target.nodeName && "html" === e.target.nodeName.toLowerCase() || (hadKeyboardEvent = !1, document.removeEventListener("mousemove", onInitialPointerMove), document.removeEventListener("mousedown", onInitialPointerMove), document.removeEventListener("mouseup", onInitialPointerMove), document.removeEventListener("pointermove", onInitialPointerMove), document.removeEventListener("pointerdown", onInitialPointerMove), document.removeEventListener("pointerup", onInitialPointerMove), document.removeEventListener("touchmove", onInitialPointerMove), document.removeEventListener("touchstart", onInitialPointerMove), document.removeEventListener("touchend", onInitialPointerMove));
+                        (!e.target.nodeName || "html" !== e.target.nodeName.toLowerCase()) && (hadKeyboardEvent = !1, document.removeEventListener("mousemove", onInitialPointerMove), document.removeEventListener("mousedown", onInitialPointerMove), document.removeEventListener("mouseup", onInitialPointerMove), document.removeEventListener("pointermove", onInitialPointerMove), document.removeEventListener("pointerdown", onInitialPointerMove), document.removeEventListener("pointerup", onInitialPointerMove), document.removeEventListener("touchmove", onInitialPointerMove), document.removeEventListener("touchstart", onInitialPointerMove), document.removeEventListener("touchend", onInitialPointerMove));
                     }
                     // For some kinds of state, we are interested in changes at the global scope
                     // only. For example, global pointer input, global key presses and global
@@ -3587,7 +3587,7 @@
                      * of our keyboard modality state with `hadKeyboardEvent`.
                      * @param {KeyboardEvent} e
                      */ function(e) {
-                        e.metaKey || e.altKey || e.ctrlKey || (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
+                        !e.metaKey && !e.altKey && !e.ctrlKey && (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
                     }, !0), document.addEventListener("mousedown", onPointerDown, !0), document.addEventListener("pointerdown", onPointerDown, !0), document.addEventListener("touchstart", onPointerDown, !0), document.addEventListener("visibilitychange", /**
                      * If the user changes tabs, keep track of whether or not the previously
                      * focused element had .focus-visible.
@@ -6651,7 +6651,7 @@
                     t.nextTick = function(e) {
                         var t = Array(arguments.length - 1);
                         if (arguments.length > 1) for(var r = 1; r < arguments.length; r++)t[r - 1] = arguments[r];
-                        i.push(new Item(e, t)), 1 !== i.length || o || runTimeout(drainQueue);
+                        i.push(new Item(e, t)), 1 === i.length && !o && runTimeout(drainQueue);
                     }, Item.prototype.run = function() {
                         this.fun.apply(null, this.array);
                     }, t.title = "browser", t.browser = !0, t.env = {}, t.argv = [], t.version = "", t.versions = {}, t.on = noop, t.addListener = noop, t.once = noop, t.off = noop, t.removeListener = noop, t.removeAllListeners = noop, t.emit = noop, t.prependListener = noop, t.prependOnceListener = noop, t.listeners = function(e) {

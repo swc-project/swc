@@ -28,7 +28,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ...HIGHLIGHT_TAGS
     });
     addAlgoliaAgents(searchClient), helper.on("search", function() {
-        stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
+        !stalledSearchTimer && (stalledSearchTimer = setTimeout(()=>{
             const { resultsFacetValues, ...partialState } = store.getState();
             store.setState({
                 ...partialState,
@@ -46,7 +46,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         // The state manager's updates need to be batched since more than one
         // component can register or unregister widgets during the same tick.
         function scheduleUpdate() {
-            scheduled || (scheduled = !0, defer(()=>{
+            !scheduled && (scheduled = !0, defer(()=>{
                 scheduled = !1, onWidgetsUpdate();
             }));
         }
@@ -274,7 +274,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             };
             const currentState = store.getState();
             let nextIsSearchStalled = currentState.isSearchStalled;
-            helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
+            !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
             const { resultsFacetValues, ...partialState } = currentState;
             store.setState({
                 ...partialState,
@@ -288,7 +288,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     function handleSearchError({ error }) {
         const currentState = store.getState();
         let nextIsSearchStalled = currentState.isSearchStalled;
-        helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
+        !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
         const { resultsFacetValues, ...partialState } = currentState;
         store.setState({
             ...partialState,

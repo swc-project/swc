@@ -363,7 +363,7 @@
                                     },
                                     f: function() {
                                         try {
-                                            normalCompletion || null == it.return || it.return();
+                                            !normalCompletion && null != it.return && it.return();
                                         } finally{
                                             if (didErr) throw err;
                                         }

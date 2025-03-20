@@ -507,7 +507,7 @@
                 BN.prototype.neg = function() {
                     return this.clone().ineg();
                 }, BN.prototype.ineg = function() {
-                    return this.isZero() || (this.negative ^= 1), this;
+                    return !this.isZero() && (this.negative ^= 1), this;
                 }, // Or `num` with `this` in-place
                 BN.prototype.iuor = function(num) {
                     for(; this.length < num.length;)this.words[this.length++] = 0;
@@ -674,7 +674,7 @@
                 function FFTM(x, y) {
                     this.x = x, this.y = y;
                 }
-                Math.imul || (comb10MulTo = smallMulTo), BN.prototype.mulTo = function(num, out) {
+                !Math.imul && (comb10MulTo = smallMulTo), BN.prototype.mulTo = function(num, out) {
                     var len = this.length + num.length;
                     return 10 === this.length && 10 === num.length ? comb10MulTo(this, num, out) : len < 63 ? smallMulTo(this, num, out) : len < 1024 ? bigMulTo(this, num, out) : jumboMulTo(this, num, out);
                 }, FFTM.prototype.makeRBT = function(N) {
@@ -887,7 +887,7 @@
                         var qj = (0 | a.words[b.length + j]) * 0x4000000 + (0 | a.words[b.length + j - 1]);
                         for(// NOTE: (qj / bhi) is (0x3ffffff * 0x4000000 + 0x3ffffff) / 0x2000000 max
                         // (0x7ffffff)
-                        qj = Math.min(qj / bhi | 0, 0x3ffffff), a._ishlnsubmul(b, qj, j); 0 !== a.negative;)qj--, a.negative = 0, a._ishlnsubmul(b, 1, j), a.isZero() || (a.negative ^= 1);
+                        qj = Math.min(qj / bhi | 0, 0x3ffffff), a._ishlnsubmul(b, qj, j); 0 !== a.negative;)qj--, a.negative = 0, a._ishlnsubmul(b, 1, j), !a.isZero() && (a.negative ^= 1);
                         q && (q.words[j] = qj);
                     }
                     return q && q._strip(), a._strip(), 'div' !== mode && 0 !== shift && a.iushrn(shift), {
@@ -1395,7 +1395,7 @@
                     return callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options), 'open' !== this[kStatus] ? this.nextTick(callback, new ModuleError('Batch is not open: cannot call write() after write() or close()', {
                         code: 'LEVEL_BATCH_NOT_OPEN'
                     })) : 0 === this.length ? this.close(callback) : (this[kStatus] = 'writing', this._write(options, (err)=>{
-                        this[kStatus] = 'closing', this[kCloseCallbacks].push(()=>callback(err)), err || this.db.emit('batch', this[kOperations]), this._close(this[kFinishClose]);
+                        this[kStatus] = 'closing', this[kCloseCallbacks].push(()=>callback(err)), !err && this.db.emit('batch', this[kOperations]), this._close(this[kFinishClose]);
                     })), callback[kPromise];
                 }
                 _write(options, callback) {}
@@ -1537,7 +1537,7 @@
                         let item;
                         for(; void 0 !== (item = await this.next());)yield item;
                     } finally{
-                        this[kClosed] || await this.close();
+                        !this[kClosed] && await this.close();
                     }
                 }
             }
@@ -1570,7 +1570,7 @@
                     this[kCount] += entries.length, this[kReturnMany](cb, null, entries);
                 }
                 end(callback) {
-                    return warnedEnd || 'undefined' == typeof console || (warnedEnd = !0, console.warn(new ModuleError('The iterator.end() method was renamed to close() and end() is an alias that will be removed in a future version', {
+                    return !warnedEnd && 'undefined' != typeof console && (warnedEnd = !0, console.warn(new ModuleError('The iterator.end() method was renamed to close() and end() is an alias that will be removed in a future version', {
                         code: 'LEVEL_LEGACY'
                     }))), this.close(callback);
                 }
@@ -1693,7 +1693,7 @@
                             batch: !0,
                             clear: !0
                         })
-                    }), this[kTranscoder] = new Transcoder(formats(this)), this[kKeyEncoding] = this[kTranscoder].encoding(keyEncoding || 'utf8'), this[kValueEncoding] = this[kTranscoder].encoding(valueEncoding || 'utf8'), this[kTranscoder].encodings()))this.supports.encodings[encoding.commonName] || (this.supports.encodings[encoding.commonName] = !0);
+                    }), this[kTranscoder] = new Transcoder(formats(this)), this[kKeyEncoding] = this[kTranscoder].encoding(keyEncoding || 'utf8'), this[kValueEncoding] = this[kTranscoder].encoding(valueEncoding || 'utf8'), this[kTranscoder].encodings()))!this.supports.encodings[encoding.commonName] && (this.supports.encodings[encoding.commonName] = !0);
                     this[kDefaultOptions] = {
                         empty: Object.freeze({}),
                         entry: Object.freeze({
@@ -1792,9 +1792,9 @@
                         keyEncoding: keyFormat,
                         valueEncoding: valueFormat
                     })), this._get(this.prefixKey(keyEncoding.encode(key), keyFormat), options, (err, value)=>{
-                        if (err) return ('LEVEL_NOT_FOUND' === err.code || err.notFound || /NotFound/i.test(err)) && (err.code || (err.code = 'LEVEL_NOT_FOUND' // Preferred way going forward
-                        ), err.notFound || (err.notFound = !0 // Same as level-errors
-                        ), err.status || (err.status = 404 // Same as level-errors
+                        if (err) return ('LEVEL_NOT_FOUND' === err.code || err.notFound || /NotFound/i.test(err)) && (!err.code && (err.code = 'LEVEL_NOT_FOUND' // Preferred way going forward
+                        ), !err.notFound && (err.notFound = !0 // Same as level-errors
+                        ), !err.status && (err.status = 404 // Same as level-errors
                         )), callback(err);
                         try {
                             value = valueEncoding.decode(value);
@@ -3387,7 +3387,7 @@
                     // Everything looks ok, reconstruct the TransactionUpload,
                     // prepare the chunks again and verify the data_root matches
                     var transaction = new transaction_1.default(serialized.transaction);
-                    transaction.chunks || await transaction.prepareChunks(data);
+                    !transaction.chunks && await transaction.prepareChunks(data);
                     const upload = new TransactionUploader(api, transaction);
                     if (// Copy the serialized upload information, and data passed in.
                     upload.chunkIndex = serialized.chunkIndex, upload.lastRequestTimeEnd = serialized.lastRequestTimeEnd, upload.lastResponseError = serialized.lastResponseError, upload.lastResponseStatus = serialized.lastResponseStatus, upload.txPosted = serialized.txPosted, upload.data = data, upload.transaction.data_root !== serialized.transaction.data_root) throw Error("Data mismatch: Uploader doesn't match provided data.");
@@ -3529,7 +3529,7 @@
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
-                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
+                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), !this.chunks && 0 === data.byteLength && (this.chunks = {
                         chunks: [],
                         data_root: new Uint8Array(),
                         proofs: []
@@ -3585,7 +3585,7 @@
                                 tags
                             ]);
                         case 2:
-                            this.data_root || await this.prepareChunks(this.data);
+                            !this.data_root && await this.prepareChunks(this.data);
                             const tagList = this.tags.map((tag)=>[
                                     tag.get("name", {
                                         decode: !0,
@@ -3978,7 +3978,7 @@
                         });
                     } else {
                         try {
-                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                            !(await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") && await window.arweaveWallet.connect([
                                 "SIGN_TRANSACTION"
                             ]);
                         } catch (_a) {
@@ -4006,8 +4006,8 @@
          */ return this.crypto.verify(transaction.owner, signaturePayload, rawSignature);
                 }
                 async post(transaction) {
-                    if ("string" == typeof transaction ? transaction = new transaction_1.default(JSON.parse(transaction)) : "function" == typeof transaction.readInt32BE ? transaction = new transaction_1.default(JSON.parse(transaction.toString())) : "object" != typeof transaction || transaction instanceof transaction_1.default || (transaction = new transaction_1.default(transaction)), !(transaction instanceof transaction_1.default)) throw Error("Must be Transaction object");
-                    transaction.chunks || await transaction.prepareChunks(transaction.data);
+                    if ("string" == typeof transaction ? transaction = new transaction_1.default(JSON.parse(transaction)) : "function" == typeof transaction.readInt32BE ? transaction = new transaction_1.default(JSON.parse(transaction.toString())) : "object" == typeof transaction && !(transaction instanceof transaction_1.default) && (transaction = new transaction_1.default(transaction)), !(transaction instanceof transaction_1.default)) throw Error("Must be Transaction object");
+                    !transaction.chunks && await transaction.prepareChunks(transaction.data);
                     const uploader = await this.getUploader(transaction, transaction.data);
                     // Emulate existing error & return value behavior.
                     try {
@@ -4047,8 +4047,8 @@
      */ async getUploader(upload, data) {
                     let uploader;
                     if (data instanceof ArrayBuffer && (data = new Uint8Array(data)), upload instanceof transaction_1.default) {
-                        if (data || (data = upload.data), !(data instanceof Uint8Array)) throw Error("Data format is invalid");
-                        upload.chunks || await upload.prepareChunks(data), (uploader = new transaction_uploader_1.TransactionUploader(this.api, upload)).data && 0 !== uploader.data.length || (uploader.data = data);
+                        if (!data && (data = upload.data), !(data instanceof Uint8Array)) throw Error("Data format is invalid");
+                        !upload.chunks && await upload.prepareChunks(data), (!(uploader = new transaction_uploader_1.TransactionUploader(this.api, upload)).data || 0 === uploader.data.length) && (uploader.data = data);
                     } else {
                         if ("string" == typeof upload && (upload = await transaction_uploader_1.TransactionUploader.fromTransactionId(this.api, upload)), !data || !(data instanceof Uint8Array)) throw Error("Must provide data when resuming upload");
                         // upload should be a serialized upload.
@@ -4376,7 +4376,7 @@
             } : function(o, m, k, k2) {
                 void 0 === k2 && (k2 = k), o[k2] = m[k];
             }), __exportStar = this && this.__exportStar || function(m, exports) {
-                for(var p in m)"default" === p || Object.prototype.hasOwnProperty.call(exports, p) || __createBinding(exports, m, p);
+                for(var p in m)"default" !== p && !Object.prototype.hasOwnProperty.call(exports, p) && __createBinding(exports, m, p);
             };
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -4953,7 +4953,7 @@
                     // Everything looks ok, reconstruct the TransactionUpload,
                     // prepare the chunks again and verify the data_root matches
                     var transaction = new transaction_1.default(serialized.transaction);
-                    transaction.chunks || await transaction.prepareChunks(data);
+                    !transaction.chunks && await transaction.prepareChunks(data);
                     const upload = new TransactionUploader(api, transaction);
                     if (// Copy the serialized upload information, and data passed in.
                     upload.chunkIndex = serialized.chunkIndex, upload.lastRequestTimeEnd = serialized.lastRequestTimeEnd, upload.lastResponseError = serialized.lastResponseError, upload.lastResponseStatus = serialized.lastResponseStatus, upload.txPosted = serialized.txPosted, upload.data = data, upload.transaction.data_root !== serialized.transaction.data_root) throw Error("Data mismatch: Uploader doesn't match provided data.");
@@ -5067,7 +5067,7 @@
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
-                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), this.chunks || 0 !== data.byteLength || (this.chunks = {
+                    !this.chunks && data.byteLength > 0 && (this.chunks = await (0, merkle_1.generateTransactionChunks)(data), this.data_root = ArweaveUtils.bufferTob64Url(this.chunks.data_root)), !this.chunks && 0 === data.byteLength && (this.chunks = {
                         chunks: [],
                         data_root: new Uint8Array(),
                         proofs: []
@@ -5123,7 +5123,7 @@
                                 tags
                             ]);
                         case 2:
-                            this.data_root || await this.prepareChunks(this.data);
+                            !this.data_root && await this.prepareChunks(this.data);
                             const tagList = this.tags.map((tag)=>[
                                     tag.get("name", {
                                         decode: !0,
@@ -5441,7 +5441,7 @@
                         });
                     } else {
                         try {
-                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                            !(await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") && await window.arweaveWallet.connect([
                                 "SIGN_TRANSACTION"
                             ]);
                         } catch (_a) {
@@ -5469,8 +5469,8 @@
          */ return this.crypto.verify(transaction.owner, signaturePayload, rawSignature);
                 }
                 async post(transaction) {
-                    if ("string" == typeof transaction ? transaction = new transaction_1.default(JSON.parse(transaction)) : "function" == typeof transaction.readInt32BE ? transaction = new transaction_1.default(JSON.parse(transaction.toString())) : "object" != typeof transaction || transaction instanceof transaction_1.default || (transaction = new transaction_1.default(transaction)), !(transaction instanceof transaction_1.default)) throw Error("Must be Transaction object");
-                    transaction.chunks || await transaction.prepareChunks(transaction.data);
+                    if ("string" == typeof transaction ? transaction = new transaction_1.default(JSON.parse(transaction)) : "function" == typeof transaction.readInt32BE ? transaction = new transaction_1.default(JSON.parse(transaction.toString())) : "object" == typeof transaction && !(transaction instanceof transaction_1.default) && (transaction = new transaction_1.default(transaction)), !(transaction instanceof transaction_1.default)) throw Error("Must be Transaction object");
+                    !transaction.chunks && await transaction.prepareChunks(transaction.data);
                     const uploader = await this.getUploader(transaction, transaction.data);
                     // Emulate existing error & return value behavior.
                     try {
@@ -5510,8 +5510,8 @@
      */ async getUploader(upload, data) {
                     let uploader;
                     if (data instanceof ArrayBuffer && (data = new Uint8Array(data)), upload instanceof transaction_1.default) {
-                        if (data || (data = upload.data), !(data instanceof Uint8Array)) throw Error("Data format is invalid");
-                        upload.chunks || await upload.prepareChunks(data), (uploader = new transaction_uploader_1.TransactionUploader(this.api, upload)).data && 0 !== uploader.data.length || (uploader.data = data);
+                        if (!data && (data = upload.data), !(data instanceof Uint8Array)) throw Error("Data format is invalid");
+                        !upload.chunks && await upload.prepareChunks(data), (!(uploader = new transaction_uploader_1.TransactionUploader(this.api, upload)).data || 0 === uploader.data.length) && (uploader.data = data);
                     } else {
                         if ("string" == typeof upload && (upload = await transaction_uploader_1.TransactionUploader.fromTransactionId(this.api, upload)), !data || !(data instanceof Uint8Array)) throw Error("Must provide data when resuming upload");
                         // upload should be a serialized upload.
@@ -5632,11 +5632,11 @@
                     Base.call(this, entity, name);
                 }, new Generated(this);
             }, Entity.prototype._getDecoder = function(enc) {
-                return enc = enc || 'der', this.decoders.hasOwnProperty(enc) || (this.decoders[enc] = this._createNamed(decoders[enc])), this.decoders[enc];
+                return enc = enc || 'der', !this.decoders.hasOwnProperty(enc) && (this.decoders[enc] = this._createNamed(decoders[enc])), this.decoders[enc];
             }, Entity.prototype.decode = function(data, enc, options) {
                 return this._getDecoder(enc).decode(data, options);
             }, Entity.prototype._getEncoder = function(enc) {
-                return enc = enc || 'der', this.encoders.hasOwnProperty(enc) || (this.encoders[enc] = this._createNamed(encoders[enc])), this.encoders[enc];
+                return enc = enc || 'der', !this.encoders.hasOwnProperty(enc) && (this.encoders[enc] = this._createNamed(encoders[enc])), this.encoders[enc];
             }, Entity.prototype.encode = function(data, enc, /* internal */ reporter) {
                 return this._getEncoder(enc).encode(data, reporter);
             };
@@ -5653,7 +5653,7 @@
             }
             function EncoderBuffer(value, reporter) {
                 if (Array.isArray(value)) this.length = 0, this.value = value.map(function(item) {
-                    return EncoderBuffer.isEncoderBuffer(item) || (item = new EncoderBuffer(item, reporter)), this.length += item.length, item;
+                    return !EncoderBuffer.isEncoderBuffer(item) && (item = new EncoderBuffer(item, reporter)), this.length += item.length, item;
                 }, this);
                 else if ('number' == typeof value) {
                     if (!(0 <= value && value <= 0xff)) return reporter.error('non-byte EncoderBuffer value');
@@ -5689,7 +5689,7 @@
             }, exports.R = EncoderBuffer, EncoderBuffer.isEncoderBuffer = function(data) {
                 return data instanceof EncoderBuffer || 'object' == typeof data && 'EncoderBuffer' === data.constructor.name && 'number' == typeof data.length && 'function' == typeof data.join;
             }, EncoderBuffer.prototype.join = function(out, offset) {
-                return out || (out = Buffer.alloc(this.length)), offset || (offset = 0), 0 === this.length || (Array.isArray(this.value) ? this.value.forEach(function(item) {
+                return !out && (out = Buffer.alloc(this.length)), !offset && (offset = 0), 0 === this.length || (Array.isArray(this.value) ? this.value.forEach(function(item) {
                     item.join(out, offset), offset += item.length;
                 }) : ('number' == typeof this.value ? out[offset] = this.value : 'string' == typeof this.value ? out.write(this.value, offset) : Buffer.isBuffer(this.value) && this.value.copy(out, offset), offset += this.length)), out;
             };
@@ -5761,7 +5761,7 @@
             function Node(enc, parent, name) {
                 const state = {};
                 this._baseState = state, state.name = name, state.enc = enc, state.parent = parent || null, state.children = null, // State
-                state.tag = null, state.args = null, state.reverseArgs = null, state.choice = null, state.optional = !1, state.any = !1, state.obj = !1, state.use = null, state.useDecoder = null, state.key = null, state.default = null, state.explicit = null, state.implicit = null, state.contains = null, state.parent || (state.children = [], this._wrap());
+                state.tag = null, state.args = null, state.reverseArgs = null, state.choice = null, state.optional = !1, state.any = !1, state.obj = !1, state.use = null, state.useDecoder = null, state.key = null, state.default = null, state.explicit = null, state.implicit = null, state.contains = null, !state.parent && (state.children = [], this._wrap());
             }
             module.exports = Node;
             const stateProps = [
@@ -5909,7 +5909,7 @@
                     }
                     if (options && options.track && null !== state.tag && options.track(input.path(), start, input.length, 'tagged'), options && options.track && null !== state.tag && options.track(input.path(), input.offset, input.length, 'content'), state.any || (result = null === state.choice ? this._decodeGeneric(state.tag, input, options) : this._decodeChoice(input, options)), input.isError(result)) return result;
                     // Decode contained/encoded by schema, only in bit or octet strings
-                    if (state.any || null !== state.choice || null === state.children || state.children.forEach(function(child) {
+                    if (!state.any && null === state.choice && null !== state.children && state.children.forEach(function(child) {
                         // NOTE: We are ignoring errors here, to let parser continue with other
                         // parts of encoded data
                         child._decode(input, options);
@@ -5996,7 +5996,7 @@
                 return null !== state.explicit && (result = this._encodeComposite(state.explicit, !1, 'context', result)), result;
             }, Node.prototype._encodeChoice = function(data, reporter) {
                 const state = this._baseState, node = state.choice[data.type];
-                return node || assert(!1, data.type + ' not found in ' + JSON.stringify(Object.keys(state.choice))), node._encode(data.value, reporter);
+                return !node && assert(!1, data.type + ' not found in ' + JSON.stringify(Object.keys(state.choice))), node._encode(data.value, reporter);
             }, Node.prototype._encodePrimitive = function(tag, data) {
                 const state = this._baseState;
                 if (/str$/.test(tag)) return this._encodeStr(data, tag);
@@ -6061,7 +6061,7 @@
                 if (err = inherited ? msg : new ReporterError(state.path.map(function(elem) {
                     return '[' + JSON.stringify(elem) + ']';
                 }).join(''), msg.message || msg, msg.stack), !state.options.partial) throw err;
-                return inherited || state.errors.push(err), err;
+                return !inherited && state.errors.push(err), err;
             }, Reporter.prototype.wrapResult = function(result) {
                 const state = this._reporterState;
                 return state.options.partial ? {
@@ -6188,7 +6188,7 @@
                 return len;
             }
             module.exports = DERDecoder, DERDecoder.prototype.decode = function(data, options) {
-                return DecoderBuffer.isDecoderBuffer(data) || (data = new DecoderBuffer(data, options)), this.tree._decode(data, options);
+                return !DecoderBuffer.isDecoderBuffer(data) && (data = new DecoderBuffer(data, options)), this.tree._decode(data, options);
             }, inherits(DERNode, Node), DERNode.prototype._peekTag = function(buffer, tag, any) {
                 if (buffer.isEmpty()) return !1;
                 const state = buffer.save(), decodedTag = derDecodeTag(buffer, 'Failed to peek tag: "' + tag + '"');
@@ -6341,7 +6341,7 @@
                     if ('number' != typeof tag || (0 | tag) !== tag) return reporter.error('Unknown tag: ' + tag);
                     res = tag;
                 }
-                return res >= 0x1f ? reporter.error('Multi-octet tag encoding unsupported') : (primitive || (res |= 0x20), res |= der.tagClassByName[cls || 'universal'] << 6);
+                return res >= 0x1f ? reporter.error('Multi-octet tag encoding unsupported') : (!primitive && (res |= 0x20), res |= der.tagClassByName[cls || 'universal'] << 6);
             }
             module.exports = DEREncoder, DEREncoder.prototype.encode = function(data, reporter) {
                 return this.tree._encode(data, reporter).join();
@@ -6506,7 +6506,7 @@
                     function onloadend() {
                         if (request) {
                             // Prepare the response
-                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, responseData = responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText, response = {
+                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, responseData = !responseType || 'text' === responseType || 'json' === responseType ? request.responseText : request.response, response = {
                                 data: responseData,
                                 status: request.status,
                                 statusText: request.statusText,
@@ -6556,11 +6556,11 @@
                         void 0 === requestData && 'content-type' === key.toLowerCase() ? // Remove Content-Type if data is undefined
                         delete requestHeaders[key] : // Otherwise add header to the request
                         request.setRequestHeader(key, val);
-                    }), utils.isUndefined(config.withCredentials) || (request.withCredentials = !!config.withCredentials), responseType && 'json' !== responseType && (request.responseType = config.responseType), 'function' == typeof config.onDownloadProgress && request.addEventListener('progress', config.onDownloadProgress), 'function' == typeof config.onUploadProgress && request.upload && request.upload.addEventListener('progress', config.onUploadProgress), (config.cancelToken || config.signal) && (// Handle cancellation
+                    }), !utils.isUndefined(config.withCredentials) && (request.withCredentials = !!config.withCredentials), responseType && 'json' !== responseType && (request.responseType = config.responseType), 'function' == typeof config.onDownloadProgress && request.addEventListener('progress', config.onDownloadProgress), 'function' == typeof config.onUploadProgress && request.upload && request.upload.addEventListener('progress', config.onUploadProgress), (config.cancelToken || config.signal) && (// Handle cancellation
                     // eslint-disable-next-line func-names
                     onCanceled = function(cancel) {
                         request && (reject(!cancel || cancel && cancel.type ? new CanceledError() : cancel), request.abort(), request = null);
-                    }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), requestData || (requestData = null);
+                    }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), !requestData && (requestData = null);
                     var protocol = parseProtocol(fullPath);
                     if (protocol && -1 === [
                         'http',
@@ -6636,7 +6636,7 @@
                         token.unsubscribe(_resolve);
                     }, promise;
                 }, executor(function(message) {
-                    token.reason || (token.reason = new CanceledError(message), resolvePromise(token.reason));
+                    !token.reason && (token.reason = new CanceledError(message), resolvePromise(token.reason));
                 });
             }
             /**
@@ -7411,7 +7411,7 @@
                                     else if (utils.endsWith(key, '[]') && (arr = utils.toArray(value))) {
                                         // eslint-disable-next-line func-names
                                         arr.forEach(function(el) {
-                                            utils.isUndefined(el) || formData.append(fullKey, convertValue(el));
+                                            !utils.isUndefined(el) && formData.append(fullKey, convertValue(el));
                                         });
                                         return;
                                     }
@@ -7696,7 +7696,7 @@
                 var props, i, prop, merged = {};
                 destObj = destObj || {};
                 do {
-                    for(i = (props = Object.getOwnPropertyNames(sourceObj)).length; i-- > 0;)merged[prop = props[i]] || (destObj[prop] = sourceObj[prop], merged[prop] = !0);
+                    for(i = (props = Object.getOwnPropertyNames(sourceObj)).length; i-- > 0;)!merged[prop = props[i]] && (destObj[prop] = sourceObj[prop], merged[prop] = !0);
                     sourceObj = Object.getPrototypeOf(sourceObj);
                 }while (sourceObj && (!filter || filter(sourceObj, destObj)) && sourceObj !== Object.prototype)
                 return destObj;
@@ -8404,7 +8404,7 @@
                                 // Round up?
                                 if (// Truncate xc to the required number of decimal places.
                                 xc.length = d, r) // Rounding up may mean the previous digit has to be rounded up and so on.
-                                for(--baseOut; ++xc[--d] > baseOut;)xc[d] = 0, d || (++e, xc = [
+                                for(--baseOut; ++xc[--d] > baseOut;)xc[d] = 0, !d && (++e, xc = [
                                     1
                                 ].concat(xc));
                                 // Determine trailing zeros.
@@ -8447,11 +8447,11 @@
                             var cmp, e, i, more, n, prod, prodL, q, qc, rem, remL, rem0, xi, xL, yc0, yL, yz, s = x.s == y.s ? 1 : -1, xc = x.c, yc = y.c;
                             // Either NaN, Infinity or 0?
                             if (!xc || !xc[0] || !yc || !yc[0]) return new BigNumber(// Return NaN if either NaN, or both Infinity or 0.
-                            x.s && y.s && (xc ? !yc || xc[0] != yc[0] : yc) ? // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
-                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0 : NaN);
+                            !x.s || !y.s || (xc ? yc && xc[0] == yc[0] : !yc) ? NaN : // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
+                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0);
                             // Result exponent may be one less then the current value of e.
                             // The coefficients of the BigNumbers from convertBase may have trailing zeros.
-                            for(qc = (q = new BigNumber(s)).c = [], s = dp + (e = x.e - y.e) + 1, base || (base = BASE, e = bitFloor(x.e / LOG_BASE) - bitFloor(y.e / LOG_BASE), s = s / LOG_BASE | 0), i = 0; yc[i] == (xc[i] || 0); i++);
+                            for(qc = (q = new BigNumber(s)).c = [], s = dp + (e = x.e - y.e) + 1, !base && (base = BASE, e = bitFloor(x.e / LOG_BASE) - bitFloor(y.e / LOG_BASE), s = s / LOG_BASE | 0), i = 0; yc[i] == (xc[i] || 0); i++);
                             if (yc[i] > (xc[i] || 0) && e--, s < 0) qc.push(1), more = !0;
                             else {
                                 // Add zeros to make remainder as long as divisor.
@@ -8506,7 +8506,7 @@
                                         xc[xi]
                                     ], remL = 1);
                                 }while ((xi++ < xL || null != rem[0]) && s--)
-                                more = null != rem[0], qc[0] || qc.splice(0, 1);
+                                more = null != rem[0], !qc[0] && qc.splice(0, 1);
                             }
                             if (base == BASE) {
                                 // To calculate q.e, first get the number of digits of qc[0].
@@ -8798,7 +8798,7 @@
                         return(// Return NaN if x is Infinity or NaN, or y is NaN or zero.
                         (y = new BigNumber(y, b), x.c && y.s && (!y.c || y.c[0])) ? y.c && (!x.c || x.c[0]) ? (9 == MODULO_MODE ? (// Euclidian division: q = sign(y) * floor(x / abs(y))
                         // r = x - qy    where  0 <= r < abs(y)
-                        s = y.s, y.s = 1, q = div(x, y, 0, 3), y.s = s, q.s *= s) : q = div(x, y, 0, MODULO_MODE), (y = x.minus(q.times(y))).c[0] || 1 != MODULO_MODE || (y.s = x.s), y) : new BigNumber(x) : new BigNumber(NaN));
+                        s = y.s, y.s = 1, q = div(x, y, 0, 3), y.s = s, q.s *= s) : q = div(x, y, 0, MODULO_MODE), !(y = x.minus(q.times(y))).c[0] && 1 == MODULO_MODE && (y.s = x.s), y) : new BigNumber(x) : new BigNumber(NaN));
                     }, /*
      *  n * 0 = 0
      *  n * N = N
@@ -8944,7 +8944,7 @@
                                 if (r.e < e && --s, '9999' != (n = n.slice(s - 3, s + 1)) && (rep || '4999' != n)) {
                                     // If rounding digits are null, 0{0,4} or 50{0,3}, check for exact
                                     // result. If not, then there are further digits and m will be truthy.
-                                    +n && (+n.slice(1) || '5' != n.charAt(0)) || (// Truncate to the first rounding digit.
+                                    (!+n || !+n.slice(1) && '5' == n.charAt(0)) && (// Truncate to the first rounding digit.
                                     round(r, r.e + DECIMAL_PLACES + 2, 1), m = !r.times(r).eq(x));
                                     break;
                                 }
@@ -9144,9 +9144,9 @@
                     return str;
                 }
                 // EXPORT
-                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return BigNumber;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
             }(0);
         /***/ },
         /***/ 3550: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -9501,7 +9501,7 @@
                 BN.prototype.neg = function() {
                     return this.clone().ineg();
                 }, BN.prototype.ineg = function() {
-                    return this.isZero() || (this.negative ^= 1), this;
+                    return !this.isZero() && (this.negative ^= 1), this;
                 }, // Or `num` with `this` in-place
                 BN.prototype.iuor = function(num) {
                     for(; this.length < num.length;)this.words[this.length++] = 0;
@@ -9665,7 +9665,7 @@
                 function FFTM(x, y) {
                     this.x = x, this.y = y;
                 }
-                Math.imul || (comb10MulTo = smallMulTo), BN.prototype.mulTo = function(num, out) {
+                !Math.imul && (comb10MulTo = smallMulTo), BN.prototype.mulTo = function(num, out) {
                     var len = this.length + num.length;
                     return 10 === this.length && 10 === num.length ? comb10MulTo(this, num, out) : len < 63 ? smallMulTo(this, num, out) : len < 1024 ? bigMulTo(this, num, out) : jumboMulTo(this, num, out);
                 }, FFTM.prototype.makeRBT = function(N) {
@@ -9877,7 +9877,7 @@
                         var qj = (0 | a.words[b.length + j]) * 0x4000000 + (0 | a.words[b.length + j - 1]);
                         for(// NOTE: (qj / bhi) is (0x3ffffff * 0x4000000 + 0x3ffffff) / 0x2000000 max
                         // (0x7ffffff)
-                        qj = Math.min(qj / bhi | 0, 0x3ffffff), a._ishlnsubmul(b, qj, j); 0 !== a.negative;)qj--, a.negative = 0, a._ishlnsubmul(b, 1, j), a.isZero() || (a.negative ^= 1);
+                        qj = Math.min(qj / bhi | 0, 0x3ffffff), a._ishlnsubmul(b, qj, j); 0 !== a.negative;)qj--, a.negative = 0, a._ishlnsubmul(b, 1, j), !a.isZero() && (a.negative ^= 1);
                         q && (q.words[j] = qj);
                     }
                     return q && q.strip(), a.strip(), 'div' !== mode && 0 !== shift && a.iushrn(shift), {
@@ -10321,7 +10321,7 @@
                 this.rand = rand;
             }
             if (module.exports = function(len) {
-                return r || (r = new Rand(null)), r.generate(len);
+                return !r && (r = new Rand(null)), r.generate(len);
             }, module.exports.Rand = Rand, Rand.prototype.generate = function(len) {
                 return this._rand(len);
             }, // Emulate crypto API using randy
@@ -10396,7 +10396,7 @@
                         this[kIDB] = req.result, callback();
                     }, req.onupgradeneeded = (ev)=>{
                         const db = ev.target.result;
-                        db.objectStoreNames.contains(this[kLocation]) || db.createObjectStore(this[kLocation]);
+                        !db.objectStoreNames.contains(this[kLocation]) && db.createObjectStore(this[kLocation]);
                     };
                 }
                 [kStore](mode) {
@@ -10864,7 +10864,7 @@
                 // coercion fail below.
                 if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || // Force coercion to uint32. This will also coerce falsey/NaN values to 0.
                 (end >>>= 0) <= (start >>>= 0))) return '';
-                for(encoding || (encoding = 'utf8');;)switch(encoding){
+                for(!encoding && (encoding = 'utf8');;)switch(encoding){
                     case 'hex':
                         return hexSlice(this, start, end);
                     case 'utf8':
@@ -11017,7 +11017,7 @@
  * using __proto__. Firefox 4-29 lacks support for adding new properties to `Uint8Array`
  * (See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438). IE 10 lacks support
  * for __proto__ and has a buggy typed array implementation.
- */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), Buffer.TYPED_ARRAY_SUPPORT || 'undefined' == typeof console || 'function' != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, 'parent', {
+ */ Buffer.TYPED_ARRAY_SUPPORT = typedArraySupport(), !Buffer.TYPED_ARRAY_SUPPORT && 'undefined' != typeof console && 'function' == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, 'parent', {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -11090,7 +11090,7 @@
                 let pos = 0;
                 for(i = 0; i < list.length; ++i){
                     let buf = list[i];
-                    if (isInstance(buf, Uint8Array)) pos + buf.length > buffer.length ? (Buffer.isBuffer(buf) || (buf = Buffer.from(buf)), buf.copy(buffer, pos)) : Uint8Array.prototype.set.call(buffer, buf, pos);
+                    if (isInstance(buf, Uint8Array)) pos + buf.length > buffer.length ? (!Buffer.isBuffer(buf) && (buf = Buffer.from(buf)), buf.copy(buffer, pos)) : Uint8Array.prototype.set.call(buffer, buf, pos);
                     else if (Buffer.isBuffer(buf)) buf.copy(buffer, pos);
                     else throw TypeError('"list" argument must be an Array of Buffers');
                     pos += buf.length;
@@ -11155,7 +11155,7 @@
                 else throw Error('Buffer.write(string, encoding, offset[, length]) is no longer supported');
                 const remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError('Attempt to write outside buffer bounds');
-                encoding || (encoding = 'utf8');
+                !encoding && (encoding = 'utf8');
                 let loweredCase = !1;
                 for(;;)switch(encoding){
                     case 'hex':
@@ -11253,10 +11253,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, !noAssert && checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             Buffer.prototype.slice = function(start, end) {
                 const len = this.length;
@@ -11265,25 +11265,25 @@
                 return(// Return an augmented `Uint8Array` instance
                 Object.setPrototypeOf(newBuf, Buffer.prototype), newBuf);
             }, Buffer.prototype.readUintLE = Buffer.prototype.readUIntLE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 let val = this[offset], mul = 1, i = 0;
                 for(; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
                 return val;
             }, Buffer.prototype.readUintBE = Buffer.prototype.readUIntBE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 let val = this[offset + --byteLength], mul = 1;
                 for(; byteLength > 0 && (mul *= 0x100);)val += this[offset + --byteLength] * mul;
                 return val;
             }, Buffer.prototype.readUint8 = Buffer.prototype.readUInt8 = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), this[offset];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), this[offset];
             }, Buffer.prototype.readUint16LE = Buffer.prototype.readUInt16LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 2, this.length), this[offset] | this[offset + 1] << 8;
+                return offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length), this[offset] | this[offset + 1] << 8;
             }, Buffer.prototype.readUint16BE = Buffer.prototype.readUInt16BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 2, this.length), this[offset] << 8 | this[offset + 1];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length), this[offset] << 8 | this[offset + 1];
             }, Buffer.prototype.readUint32LE = Buffer.prototype.readUInt32LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 0x1000000 * this[offset + 3];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 0x1000000 * this[offset + 3];
             }, Buffer.prototype.readUint32BE = Buffer.prototype.readUInt32BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), 0x1000000 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), 0x1000000 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
             }, Buffer.prototype.readBigUInt64LE = defineBigIntMethod(function(offset) {
                 validateNumber(offset >>>= 0, 'offset');
                 const first = this[offset], last = this[offset + 7];
@@ -11297,29 +11297,29 @@
                 const hi = 16777216 * first + 65536 * this[++offset] + 256 * this[++offset] + this[++offset], lo = 16777216 * this[++offset] + 65536 * this[++offset] + 256 * this[++offset] + last;
                 return (BigInt(hi) << BigInt(32)) + BigInt(lo);
             }), Buffer.prototype.readIntLE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 let val = this[offset], mul = 1, i = 0;
                 for(; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
                 return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readIntBE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 let i = byteLength, mul = 1, val = this[offset + --i];
                 for(; i > 0 && (mul *= 0x100);)val += this[offset + --i] * mul;
                 return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readInt8 = function(offset, noAssert) {
-                return (offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
+                return (offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
             }, Buffer.prototype.readInt16LE = function(offset, noAssert) {
-                offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
+                offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length);
                 const val = this[offset] | this[offset + 1] << 8;
                 return 0x8000 & val ? 0xFFFF0000 | val : val;
             }, Buffer.prototype.readInt16BE = function(offset, noAssert) {
-                offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
+                offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length);
                 const val = this[offset + 1] | this[offset] << 8;
                 return 0x8000 & val ? 0xFFFF0000 | val : val;
             }, Buffer.prototype.readInt32LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
             }, Buffer.prototype.readInt32BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
             }, Buffer.prototype.readBigInt64LE = defineBigIntMethod(function(offset) {
                 validateNumber(offset >>>= 0, 'offset');
                 const first = this[offset], last = this[offset + 7];
@@ -11331,13 +11331,13 @@
                 return (void 0 === first || void 0 === last) && boundsError(offset, this.length - 8), (BigInt((first << 24) + // Overflow
                 65536 * this[++offset] + 256 * this[++offset] + this[++offset]) << BigInt(32)) + BigInt(16777216 * this[++offset] + 65536 * this[++offset] + 256 * this[++offset] + last);
             }), Buffer.prototype.readFloatLE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), ieee754.read(this, offset, !0, 23, 4);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), ieee754.read(this, offset, !0, 23, 4);
             }, Buffer.prototype.readFloatBE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), ieee754.read(this, offset, !1, 23, 4);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), ieee754.read(this, offset, !1, 23, 4);
             }, Buffer.prototype.readDoubleLE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !0, 52, 8);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 8, this.length), ieee754.read(this, offset, !0, 52, 8);
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUintLE = Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
                 if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     const maxBytes = Math.pow(2, 8 * byteLength) - 1;
@@ -11355,15 +11355,15 @@
                 for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeUint8 = Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeUint16LE = Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeUint16BE = Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeUint32LE = Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeUint32BE = Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeBigUInt64LE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt('0xffffffffffffffff'));
             }), Buffer.prototype.writeBigUInt64BE = defineBigIntMethod(function(value, offset = 0) {
@@ -11385,15 +11385,15 @@
                 for(this[offset + i] = 0xFF & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xFF;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeBigInt64LE = defineBigIntMethod(function(value, offset = 0) {
                 return wrtBigUInt64LE(this, value, offset, -BigInt('0x8000000000000000'), BigInt('0x7fffffffffffffff'));
             }), Buffer.prototype.writeBigInt64BE = defineBigIntMethod(function(value, offset = 0) {
@@ -11410,7 +11410,7 @@
             Buffer.prototype.copy = function(target, targetStart, start, end) {
                 if (!Buffer.isBuffer(target)) throw TypeError('argument should be a Buffer');
                 // Copy 0 bytes; we're done
-                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
+                if (!start && (start = 0), !end && 0 !== end && (end = this.length), targetStart >= target.length && (targetStart = target.length), !targetStart && (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
                 // Fatal error conditions
                 if (targetStart < 0) throw RangeError('targetStart out of bounds');
                 if (start < 0 || start >= this.length) throw RangeError('Index out of range');
@@ -11438,7 +11438,7 @@
                 // Invalid ranges are not set to a default, so can range check early.
                 if (start < 0 || this.length < start || this.length < end) throw RangeError('Out of range index');
                 if (end <= start) return this;
-                if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), 'number' == typeof val) for(i = start; i < end; ++i)this[i] = val;
+                if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, !val && (val = 0), 'number' == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     const bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
                     if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');
@@ -11876,7 +11876,7 @@
                 this.twisted = (0 | conf.a) != 1, this.mOneA = this.twisted && (0 | conf.a) == -1, this.extended = this.mOneA, Base.call(this, 'edwards', conf), this.a = new BN(conf.a, 16).umod(this.red.m), this.a = this.a.toRed(this.red), this.c = new BN(conf.c, 16).toRed(this.red), this.c2 = this.c.redSqr(), this.d = new BN(conf.d, 16).toRed(this.red), this.dd = this.d.redAdd(this.d), assert(!this.twisted || 0 === this.c.fromRed().cmpn(1)), this.oneC = (0 | conf.c) == 1;
             }
             function Point(curve, x, y, z, t) {
-                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, !this.curve.extended || this.t || (this.t = this.x.redMul(this.y), this.zOne || (this.t = this.t.redMul(this.z.redInvm()))));
+                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), !this.x.red && (this.x = this.x.toRed(this.curve.red)), !this.y.red && (this.y = this.y.toRed(this.curve.red)), !this.z.red && (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, this.curve.extended && !this.t && (this.t = this.x.redMul(this.y), !this.zOne && (this.t = this.t.redMul(this.z.redInvm()))));
             }
             inherits(EdwardsCurve, Base), module.exports = EdwardsCurve, EdwardsCurve.prototype._mulA = function(num) {
                 return this.mOneA ? num.redNeg() : this.a.redMul(num);
@@ -11886,13 +11886,13 @@
             EdwardsCurve.prototype.jpoint = function(x, y, z, t) {
                 return this.point(x, y, z, t);
             }, EdwardsCurve.prototype.pointFromX = function(x, odd) {
-                (x = new BN(x, 16)).red || (x = x.toRed(this.red));
+                !(x = new BN(x, 16)).red && (x = x.toRed(this.red));
                 var x2 = x.redSqr(), rhs = this.c2.redSub(this.a.redMul(x2)), lhs = this.one.redSub(this.c2.redMul(this.d).redMul(x2)), y2 = rhs.redMul(lhs.redInvm()), y = y2.redSqrt();
                 if (0 !== y.redSqr().redSub(y2).cmp(this.zero)) throw Error('invalid point');
                 var isOdd = y.fromRed().isOdd();
                 return (odd && !isOdd || !odd && isOdd) && (y = y.redNeg()), this.point(x, y);
             }, EdwardsCurve.prototype.pointFromY = function(y, odd) {
-                (y = new BN(y, 16)).red || (y = y.toRed(this.red));
+                !(y = new BN(y, 16)).red && (y = y.toRed(this.red));
                 // x^2 = (y^2 - c^2) / (c^2 d y^2 - a)
                 var y2 = y.redSqr(), lhs = y2.redSub(this.c2), rhs = y2.redMul(this.d).redMul(this.c2).redSub(this.a), x2 = lhs.redMul(rhs.redInvm());
                 if (0 === x2.cmp(this.zero)) if (!odd) return this.point(this.zero, y);
@@ -12032,7 +12032,7 @@
                 Base.call(this, 'mont', conf), this.a = new BN(conf.a, 16).toRed(this.red), this.b = new BN(conf.b, 16).toRed(this.red), this.i4 = new BN(4).toRed(this.red).redInvm(), this.two = new BN(2).toRed(this.red), this.a24 = this.i4.redMul(this.a.redAdd(this.two));
             }
             function Point(curve, x, z) {
-                Base.BasePoint.call(this, curve, 'projective'), null === x && null === z ? (this.x = this.curve.one, this.z = this.curve.zero) : (this.x = new BN(x, 16), this.z = new BN(z, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)));
+                Base.BasePoint.call(this, curve, 'projective'), null === x && null === z ? (this.x = this.curve.one, this.z = this.curve.zero) : (this.x = new BN(x, 16), this.z = new BN(z, 16), !this.x.red && (this.x = this.x.toRed(this.curve.red)), !this.z.red && (this.z = this.z.toRed(this.curve.red)));
             }
             inherits(MontCurve, Base), module.exports = MontCurve, MontCurve.prototype.validate = function(point) {
                 var x = point.normalize().x, x2 = x.redSqr(), rhs = x2.redMul(x).redAdd(x2.redMul(this.a)).redAdd(x);
@@ -12105,10 +12105,10 @@
                 ];
             }
             function Point(curve, x, y, isRed) {
-                Base.BasePoint.call(this, curve, 'affine'), null === x && null === y ? (this.x = null, this.y = null, this.inf = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), isRed && (this.x.forceRed(this.curve.red), this.y.forceRed(this.curve.red)), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.inf = !1);
+                Base.BasePoint.call(this, curve, 'affine'), null === x && null === y ? (this.x = null, this.y = null, this.inf = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), isRed && (this.x.forceRed(this.curve.red), this.y.forceRed(this.curve.red)), !this.x.red && (this.x = this.x.toRed(this.curve.red)), !this.y.red && (this.y = this.y.toRed(this.curve.red)), this.inf = !1);
             }
             function JPoint(curve, x, y, z) {
-                Base.BasePoint.call(this, curve, 'jacobian'), null === x && null === y && null === z ? (this.x = this.curve.one, this.y = this.curve.one, this.z = new BN(0)) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = new BN(z, 16)), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.zOne = this.z === this.curve.one;
+                Base.BasePoint.call(this, curve, 'jacobian'), null === x && null === y && null === z ? (this.x = this.curve.one, this.y = this.curve.one, this.z = new BN(0)) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = new BN(z, 16)), !this.x.red && (this.x = this.x.toRed(this.curve.red)), !this.y.red && (this.y = this.y.toRed(this.curve.red)), !this.z.red && (this.z = this.z.toRed(this.curve.red)), this.zOne = this.z === this.curve.one;
             }
             inherits(ShortCurve, Base), module.exports = ShortCurve, ShortCurve.prototype._getEndomorphism = function(conf) {
                 // No efficient endomorphism
@@ -12174,7 +12174,7 @@
                     k2: q1.add(q2).neg()
                 };
             }, ShortCurve.prototype.pointFromX = function(x, odd) {
-                (x = new BN(x, 16)).red || (x = x.toRed(this.red));
+                !(x = new BN(x, 16)).red && (x = x.toRed(this.red));
                 var y2 = x.redSqr().redMul(x).redIAdd(x.redMul(this.a)).redIAdd(this.b), y = y2.redSqrt();
                 if (0 !== y.redSqr().redSub(y2).cmp(this.zero)) throw Error('invalid point');
                 // XXX Is there any way to tell if the number is odd without converting it
@@ -12663,7 +12663,7 @@
             }, EC.prototype.keyFromPublic = function(pub, enc) {
                 return KeyPair.fromPublic(this, pub, enc);
             }, EC.prototype.genKeyPair = function(options) {
-                options || (options = {});
+                !options && (options = {});
                 for(// Instantiate Hmac_DRBG
                 var drbg = new HmacDRBG({
                     hash: this.hash,
@@ -12680,7 +12680,7 @@
                 var delta = 8 * msg.byteLength() - this.n.bitLength();
                 return (delta > 0 && (msg = msg.ushrn(delta)), !truncOnly && msg.cmp(this.n) >= 0) ? msg.sub(this.n) : msg;
             }, EC.prototype.sign = function(msg, key, enc, options) {
-                'object' == typeof enc && (options = enc, enc = null), options || (options = {}), key = this.keyFromPrivate(key, enc), msg = this._truncateToN(new BN(msg, 16));
+                'object' == typeof enc && (options = enc, enc = null), !options && (options = {}), key = this.keyFromPrivate(key, enc), msg = this._truncateToN(new BN(msg, 16));
                 for(var bytes = this.n.byteLength(), bkey = key.getPrivate().toArray('be', bytes), nonce = msg.toArray('be', bytes), drbg = new HmacDRBG({
                     hash: this.hash,
                     entropy: bkey,
@@ -12771,7 +12771,7 @@
                     reason: 'Public key is not a point'
                 };
             }, KeyPair.prototype.getPublic = function(compact, enc) {
-                return ('string' == typeof compact && (enc = compact, compact = null), this.pub || (this.pub = this.ec.g.mul(this.priv)), enc) ? this.pub.encode(enc, compact) : this.pub;
+                return ('string' == typeof compact && (enc = compact, compact = null), !this.pub && (this.pub = this.ec.g.mul(this.priv)), enc) ? this.pub.encode(enc, compact) : this.pub;
             }, KeyPair.prototype.getPrivate = function(enc) {
                 return 'hex' === enc ? this.priv.toString(16, 2) : this.priv;
             }, KeyPair.prototype._importPrivate = function(key, enc) {
@@ -12786,7 +12786,7 @@
                 this.pub = this.ec.curve.decodePoint(key, enc);
             }, // ECDH
             KeyPair.prototype.derive = function(pub) {
-                return pub.validate() || assert(pub.validate(), 'public point not validated'), pub.mul(this.priv).getX();
+                return !pub.validate() && assert(pub.validate(), 'public point not validated'), pub.mul(this.priv).getX();
             }, // ECDSA
             KeyPair.prototype.sign = function(msg, enc, options) {
                 return this.ec.sign(msg, this, enc, options);
@@ -12801,7 +12801,7 @@
             var BN = __webpack_require__(3550), utils = __webpack_require__(953), assert = utils.assert;
             function Signature(options, enc) {
                 if (options instanceof Signature) return options;
-                this._importDER(options, enc) || (assert(options.r && options.s, 'Signature without r or s'), this.r = new BN(options.r, 16), this.s = new BN(options.s, 16), void 0 === options.recoveryParam ? this.recoveryParam = null : this.recoveryParam = options.recoveryParam);
+                !this._importDER(options, enc) && (assert(options.r && options.s, 'Signature without r or s'), this.r = new BN(options.r, 16), this.s = new BN(options.s, 16), void 0 === options.recoveryParam ? this.recoveryParam = null : this.recoveryParam = options.recoveryParam);
             }
             function Position() {
                 this.place = 0;
@@ -14092,7 +14092,7 @@
                     cache.set(object, clone);
                     for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) if (descriptor = getOwnPropertyDescriptor(object, property)) {
                         // Only clone the value if actually a value, not a getter / setter.
-                        descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
+                        !descriptor.get && !descriptor.set && (descriptor.value = handleCopy(object[property], cache));
                         try {
                             defineProperty(clone, property, descriptor);
                         } catch (error) {
@@ -14749,7 +14749,7 @@
                 '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
                 '%JSON%': 'object' == typeof JSON ? JSON : undefined,
                 '%Map%': 'undefined' == typeof Map ? undefined : Map,
-                '%MapIteratorPrototype%': 'undefined' != typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : undefined,
+                '%MapIteratorPrototype%': 'undefined' == typeof Map || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
                 '%Math%': Math,
                 '%Number%': Number,
                 '%Object%': Object,
@@ -14762,7 +14762,7 @@
                 '%Reflect%': 'undefined' == typeof Reflect ? undefined : Reflect,
                 '%RegExp%': RegExp,
                 '%Set%': 'undefined' == typeof Set ? undefined : Set,
-                '%SetIteratorPrototype%': 'undefined' != typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : undefined,
+                '%SetIteratorPrototype%': 'undefined' == typeof Set || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
                 '%SharedArrayBuffer%': 'undefined' == typeof SharedArrayBuffer ? undefined : SharedArrayBuffer,
                 '%String%': String,
                 '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
@@ -15039,7 +15039,7 @@
                 for(var i = 1, isOwn = !0; i < parts.length; i += 1){
                     var part = parts[i], first = $strSlice(part, 0, 1), last = $strSlice(part, -1);
                     if (('"' === first || "'" === first || '`' === first || '"' === last || "'" === last || '`' === last) && first !== last) throw new $SyntaxError('property names with quotes must have matching quotes');
-                    if ('constructor' !== part && isOwn || (skipFurtherCaching = !0), intrinsicBaseName += '.' + part, hasOwn(INTRINSICS, intrinsicRealName = '%' + intrinsicBaseName + '%')) value = INTRINSICS[intrinsicRealName];
+                    if (('constructor' === part || !isOwn) && (skipFurtherCaching = !0), intrinsicBaseName += '.' + part, hasOwn(INTRINSICS, intrinsicRealName = '%' + intrinsicBaseName + '%')) value = INTRINSICS[intrinsicRealName];
                     else if (null != value) {
                         if (!(part in value)) {
                             if (!allowMissing) throw new $TypeError('base intrinsic for ' + name + ' exists, but the property is not available.');
@@ -16223,7 +16223,7 @@
                 var arr = new g[typedArray]();
                 if (Symbol.toStringTag in arr) {
                     var proto = getPrototypeOf(arr), descriptor = gOPD(proto, Symbol.toStringTag);
-                    descriptor || (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
+                    !descriptor && (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
                 }
             });
             var tryTypedArrays = function(value) {
@@ -16434,7 +16434,7 @@
                     if (!this.finalized) {
                         this.finalized = !0;
                         var blocks = this.blocks, i = this.lastByteIndex;
-                        blocks[16] = this.block, blocks[i >> 2] |= EXTRA[3 & i], this.block = blocks[16], i >= 56 && (this.hashed || this.hash(), blocks[0] = this.block, blocks[16] = blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0), blocks[14] = this.hBytes << 3 | this.bytes >>> 29, blocks[15] = this.bytes << 3, this.hash();
+                        blocks[16] = this.block, blocks[i >> 2] |= EXTRA[3 & i], this.block = blocks[16], i >= 56 && (!this.hashed && this.hash(), blocks[0] = this.block, blocks[16] = blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0), blocks[14] = this.hBytes << 3 | this.bytes >>> 29, blocks[15] = this.bytes << 3, this.hash();
                     }
                 }, Sha256.prototype.hash = function() {
                     var j, s0, s1, maj, t1, t2, ch, ab, da, cd, bc, a = this.h0, b = this.h1, c = this.h2, d = this.h3, e = this.h4, f = this.h5, g = this.h6, h = this.h7, blocks = this.blocks;
@@ -16445,7 +16445,7 @@
                 }, Sha256.prototype.hex = function() {
                     this.finalize();
                     var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5, h6 = this.h6, h7 = this.h7, hex = HEX_CHARS[h0 >> 28 & 0x0F] + HEX_CHARS[h0 >> 24 & 0x0F] + HEX_CHARS[h0 >> 20 & 0x0F] + HEX_CHARS[h0 >> 16 & 0x0F] + HEX_CHARS[h0 >> 12 & 0x0F] + HEX_CHARS[h0 >> 8 & 0x0F] + HEX_CHARS[h0 >> 4 & 0x0F] + HEX_CHARS[0x0F & h0] + HEX_CHARS[h1 >> 28 & 0x0F] + HEX_CHARS[h1 >> 24 & 0x0F] + HEX_CHARS[h1 >> 20 & 0x0F] + HEX_CHARS[h1 >> 16 & 0x0F] + HEX_CHARS[h1 >> 12 & 0x0F] + HEX_CHARS[h1 >> 8 & 0x0F] + HEX_CHARS[h1 >> 4 & 0x0F] + HEX_CHARS[0x0F & h1] + HEX_CHARS[h2 >> 28 & 0x0F] + HEX_CHARS[h2 >> 24 & 0x0F] + HEX_CHARS[h2 >> 20 & 0x0F] + HEX_CHARS[h2 >> 16 & 0x0F] + HEX_CHARS[h2 >> 12 & 0x0F] + HEX_CHARS[h2 >> 8 & 0x0F] + HEX_CHARS[h2 >> 4 & 0x0F] + HEX_CHARS[0x0F & h2] + HEX_CHARS[h3 >> 28 & 0x0F] + HEX_CHARS[h3 >> 24 & 0x0F] + HEX_CHARS[h3 >> 20 & 0x0F] + HEX_CHARS[h3 >> 16 & 0x0F] + HEX_CHARS[h3 >> 12 & 0x0F] + HEX_CHARS[h3 >> 8 & 0x0F] + HEX_CHARS[h3 >> 4 & 0x0F] + HEX_CHARS[0x0F & h3] + HEX_CHARS[h4 >> 28 & 0x0F] + HEX_CHARS[h4 >> 24 & 0x0F] + HEX_CHARS[h4 >> 20 & 0x0F] + HEX_CHARS[h4 >> 16 & 0x0F] + HEX_CHARS[h4 >> 12 & 0x0F] + HEX_CHARS[h4 >> 8 & 0x0F] + HEX_CHARS[h4 >> 4 & 0x0F] + HEX_CHARS[0x0F & h4] + HEX_CHARS[h5 >> 28 & 0x0F] + HEX_CHARS[h5 >> 24 & 0x0F] + HEX_CHARS[h5 >> 20 & 0x0F] + HEX_CHARS[h5 >> 16 & 0x0F] + HEX_CHARS[h5 >> 12 & 0x0F] + HEX_CHARS[h5 >> 8 & 0x0F] + HEX_CHARS[h5 >> 4 & 0x0F] + HEX_CHARS[0x0F & h5] + HEX_CHARS[h6 >> 28 & 0x0F] + HEX_CHARS[h6 >> 24 & 0x0F] + HEX_CHARS[h6 >> 20 & 0x0F] + HEX_CHARS[h6 >> 16 & 0x0F] + HEX_CHARS[h6 >> 12 & 0x0F] + HEX_CHARS[h6 >> 8 & 0x0F] + HEX_CHARS[h6 >> 4 & 0x0F] + HEX_CHARS[0x0F & h6];
-                    return this.is224 || (hex += HEX_CHARS[h7 >> 28 & 0x0F] + HEX_CHARS[h7 >> 24 & 0x0F] + HEX_CHARS[h7 >> 20 & 0x0F] + HEX_CHARS[h7 >> 16 & 0x0F] + HEX_CHARS[h7 >> 12 & 0x0F] + HEX_CHARS[h7 >> 8 & 0x0F] + HEX_CHARS[h7 >> 4 & 0x0F] + HEX_CHARS[0x0F & h7]), hex;
+                    return !this.is224 && (hex += HEX_CHARS[h7 >> 28 & 0x0F] + HEX_CHARS[h7 >> 24 & 0x0F] + HEX_CHARS[h7 >> 20 & 0x0F] + HEX_CHARS[h7 >> 16 & 0x0F] + HEX_CHARS[h7 >> 12 & 0x0F] + HEX_CHARS[h7 >> 8 & 0x0F] + HEX_CHARS[h7 >> 4 & 0x0F] + HEX_CHARS[0x0F & h7]), hex;
                 }, Sha256.prototype.toString = Sha256.prototype.hex, Sha256.prototype.digest = function() {
                     this.finalize();
                     var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5, h6 = this.h6, h7 = this.h7, arr = [
@@ -16478,11 +16478,11 @@
                         h6 >> 8 & 0xFF,
                         0xFF & h6
                     ];
-                    return this.is224 || arr.push(h7 >> 24 & 0xFF, h7 >> 16 & 0xFF, h7 >> 8 & 0xFF, 0xFF & h7), arr;
+                    return !this.is224 && arr.push(h7 >> 24 & 0xFF, h7 >> 16 & 0xFF, h7 >> 8 & 0xFF, 0xFF & h7), arr;
                 }, Sha256.prototype.array = Sha256.prototype.digest, Sha256.prototype.arrayBuffer = function() {
                     this.finalize();
                     var buffer = new ArrayBuffer(this.is224 ? 28 : 32), dataView = new DataView(buffer);
-                    return dataView.setUint32(0, this.h0), dataView.setUint32(4, this.h1), dataView.setUint32(8, this.h2), dataView.setUint32(12, this.h3), dataView.setUint32(16, this.h4), dataView.setUint32(20, this.h5), dataView.setUint32(24, this.h6), this.is224 || dataView.setUint32(28, this.h7), buffer;
+                    return dataView.setUint32(0, this.h0), dataView.setUint32(4, this.h1), dataView.setUint32(8, this.h2), dataView.setUint32(12, this.h3), dataView.setUint32(16, this.h4), dataView.setUint32(20, this.h5), dataView.setUint32(24, this.h6), !this.is224 && dataView.setUint32(28, this.h7), buffer;
                 }, HmacSha256.prototype = new Sha256(), HmacSha256.prototype.finalize = function() {
                     if (Sha256.prototype.finalize.call(this), this.inner) {
                         this.inner = !1;
@@ -16491,9 +16491,9 @@
                     }
                 };
                 var exports = createMethod();
-                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
             }();
         /***/ },
         /***/ 3434: /***/ function(module, exports, __webpack_require__) {
@@ -16800,7 +16800,7 @@
                     if (!this.finalized) {
                         this.finalized = !0;
                         var blocks = this.blocks, i = this.lastByteIndex;
-                        blocks[32] = this.block, blocks[i >> 2] |= EXTRA[3 & i], this.block = blocks[32], i >= 112 && (this.hashed || this.hash(), blocks[0] = this.block, blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = blocks[16] = blocks[17] = blocks[18] = blocks[19] = blocks[20] = blocks[21] = blocks[22] = blocks[23] = blocks[24] = blocks[25] = blocks[26] = blocks[27] = blocks[28] = blocks[29] = blocks[30] = blocks[31] = blocks[32] = 0), blocks[30] = this.hBytes << 3 | this.bytes >>> 29, blocks[31] = this.bytes << 3, this.hash();
+                        blocks[32] = this.block, blocks[i >> 2] |= EXTRA[3 & i], this.block = blocks[32], i >= 112 && (!this.hashed && this.hash(), blocks[0] = this.block, blocks[1] = blocks[2] = blocks[3] = blocks[4] = blocks[5] = blocks[6] = blocks[7] = blocks[8] = blocks[9] = blocks[10] = blocks[11] = blocks[12] = blocks[13] = blocks[14] = blocks[15] = blocks[16] = blocks[17] = blocks[18] = blocks[19] = blocks[20] = blocks[21] = blocks[22] = blocks[23] = blocks[24] = blocks[25] = blocks[26] = blocks[27] = blocks[28] = blocks[29] = blocks[30] = blocks[31] = blocks[32] = 0), blocks[30] = this.hBytes << 3 | this.bytes >>> 29, blocks[31] = this.bytes << 3, this.hash();
                     }
                 }, Sha512.prototype.hash = function() {
                     var j, s0h, s0l, s1h, s1l, c1, c2, c3, c4, abh, abl, dah, dal, cdh, cdl, bch, bcl, majh, majl, t1h, t1l, t2h, t2l, chh, chl, h0h = this.h0h, h0l = this.h0l, h1h = this.h1h, h1l = this.h1l, h2h = this.h2h, h2l = this.h2l, h3h = this.h3h, h3l = this.h3l, h4h = this.h4h, h4l = this.h4l, h5h = this.h5h, h5l = this.h5l, h6h = this.h6h, h6l = this.h6l, h7h = this.h7h, h7l = this.h7l, blocks = this.blocks;
@@ -16892,9 +16892,9 @@
                     return hash;
                 };
                 var exports = createMethod(512);
-                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
             }();
         /***/ },
         /***/ 5548: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -17560,7 +17560,7 @@
  * @param {*} value The value to assign.
  */ function(object, key, value) {
                 var objValue = object[key];
-                hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
+                (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || void 0 === value && !(key in object)) && baseAssignValue(object, key, value);
             };
         /***/ },
         /***/ 8470: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -17804,7 +17804,7 @@
  */ function(object) {
                 if (!isObject(object)) return nativeKeysIn(object);
                 var isProto = isPrototype(object), result = [];
-                for(var key in object)'constructor' == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
+                for(var key in object)!('constructor' == key && (isProto || !hasOwnProperty.call(object, key))) && result.push(key);
                 return result;
             };
         /***/ },
@@ -18070,18 +18070,18 @@
         /***/ },
         /***/ 9551: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var arrayFilter = __webpack_require__(4963), stubArray = __webpack_require__(479), propertyIsEnumerable = Object.prototype.propertyIsEnumerable, nativeGetSymbols = Object.getOwnPropertySymbols;
-            module.exports = nativeGetSymbols ? function(object) {
+            module.exports = !nativeGetSymbols ? stubArray : function(object) {
                 return null == object ? [] : arrayFilter(nativeGetSymbols(object = Object(object)), function(symbol) {
                     return propertyIsEnumerable.call(object, symbol);
                 });
-            } : stubArray;
+            };
         /***/ },
         /***/ 1442: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var arrayPush = __webpack_require__(2488), getPrototype = __webpack_require__(5924), getSymbols = __webpack_require__(9551), stubArray = __webpack_require__(479);
-            module.exports = Object.getOwnPropertySymbols ? function(object) {
+            module.exports = !Object.getOwnPropertySymbols ? stubArray : function(object) {
                 for(var result = []; object;)arrayPush(result, getSymbols(object)), object = getPrototype(object);
                 return result;
-            } : stubArray;
+            };
         /***/ },
         /***/ 4160: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var DataView1 = __webpack_require__(8552), Map1 = __webpack_require__(7071), Promise1 = __webpack_require__(3818), Set1 = __webpack_require__(8525), WeakMap1 = __webpack_require__(577), baseGetTag = __webpack_require__(4239), toSource = __webpack_require__(346), mapTag = '[object Map]', objectTag = '[object Object]', promiseTag = '[object Promise]', setTag = '[object Set]', weakMapTag = '[object WeakMap]', dataViewTag = '[object DataView]', dataViewCtorString = toSource(DataView1), mapCtorString = toSource(Map1), promiseCtorString = toSource(Promise1), setCtorString = toSource(Set1), weakMapCtorString = toSource(WeakMap1), getTag = baseGetTag;
@@ -19290,7 +19290,7 @@
                         t.nextTick = function(e) {
                             var t = Array(arguments.length - 1);
                             if (arguments.length > 1) for(var r = 1; r < arguments.length; r++)t[r - 1] = arguments[r];
-                            i.push(new Item(e, t)), 1 !== i.length || o || runTimeout(drainQueue);
+                            i.push(new Item(e, t)), 1 === i.length && !o && runTimeout(drainQueue);
                         }, Item.prototype.run = function() {
                             this.fun.apply(null, this.array);
                         }, t.title = "browser", t.browser = !0, t.env = {}, t.argv = [], t.version = "", t.versions = {}, t.on = noop, t.addListener = noop, t.once = noop, t.off = noop, t.removeListener = noop, t.removeAllListeners = noop, t.emit = noop, t.prependListener = noop, t.prependOnceListener = noop, t.listeners = function(e) {
@@ -19351,7 +19351,7 @@
                             function getMessage(e, t, n) {
                                 return "string" == typeof r ? r : r(e, t, n);
                             }
-                            n || (n = Error);
+                            !n && (n = Error);
                             class NodeError extends n {
                                 constructor(e, t, r){
                                     super(getMessage(e, t, r));
@@ -19405,14 +19405,14 @@
                         r(140)(Duplex, i);
                         for(var o = n(a.prototype), s = 0; s < o.length; s++){
                             var f = o[s];
-                            Duplex.prototype[f] || (Duplex.prototype[f] = a.prototype[f]);
+                            !Duplex.prototype[f] && (Duplex.prototype[f] = a.prototype[f]);
                         }
                         function Duplex(e) {
                             if (!(this instanceof Duplex)) return new Duplex(e);
                             i.call(this, e), a.call(this, e), this.allowHalfOpen = !0, e && (!1 === e.readable && (this.readable = !1), !1 === e.writable && (this.writable = !1), !1 === e.allowHalfOpen && (this.allowHalfOpen = !1, this.once("end", onend)));
                         }
                         function onend() {
-                            this._writableState.ended || process.nextTick(onEndNT, this);
+                            !this._writableState.ended && process.nextTick(onEndNT, this);
                         }
                         function onEndNT(e) {
                             e.end();
@@ -19485,7 +19485,7 @@
                             ] : e.on(t, r);
                         }
                         function ReadableState(e, t, i) {
-                            n = n || r(716), e = e || {}, "boolean" != typeof i && (i = t instanceof n), this.objectMode = !!e.objectMode, i && (this.objectMode = this.objectMode || !!e.readableObjectMode), this.highWaterMark = p(this, e, "readableHighWaterMark", i), this.buffer = new d, this.length = 0, this.pipes = null, this.pipesCount = 0, this.flowing = null, this.ended = !1, this.endEmitted = !1, this.reading = !1, this.sync = !0, this.needReadable = !1, this.emittedReadable = !1, this.readableListening = !1, this.resumeScheduled = !1, this.paused = !0, this.emitClose = !1 !== e.emitClose, this.autoDestroy = !!e.autoDestroy, this.destroyed = !1, this.defaultEncoding = e.defaultEncoding || "utf8", this.awaitDrain = 0, this.readingMore = !1, this.decoder = null, this.encoding = null, e.encoding && (w || (w = r(862).s), this.decoder = new w(e.encoding), this.encoding = e.encoding);
+                            n = n || r(716), e = e || {}, "boolean" != typeof i && (i = t instanceof n), this.objectMode = !!e.objectMode, i && (this.objectMode = this.objectMode || !!e.readableObjectMode), this.highWaterMark = p(this, e, "readableHighWaterMark", i), this.buffer = new d, this.length = 0, this.pipes = null, this.pipesCount = 0, this.flowing = null, this.ended = !1, this.endEmitted = !1, this.reading = !1, this.sync = !0, this.needReadable = !1, this.emittedReadable = !1, this.readableListening = !1, this.resumeScheduled = !1, this.paused = !0, this.emitClose = !1 !== e.emitClose, this.autoDestroy = !!e.autoDestroy, this.destroyed = !1, this.defaultEncoding = e.defaultEncoding || "utf8", this.awaitDrain = 0, this.readingMore = !1, this.decoder = null, this.encoding = null, e.encoding && (!w && (w = r(862).s), this.decoder = new w(e.encoding), this.encoding = e.encoding);
                         }
                         function Readable(e) {
                             if (n = n || r(716), !(this instanceof Readable)) return new Readable(e);
@@ -19496,14 +19496,14 @@
                             u("readableAddChunk", t);
                             var o, a = e._readableState;
                             if (null === t) a.reading = !1, onEofChunk(e, a);
-                            else if (i || (o = chunkInvalid(a, t)), o) R(e, o);
-                            else if (a.objectMode || t && t.length > 0) if ("string" == typeof t || a.objectMode || Object.getPrototypeOf(t) === s.prototype || (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
+                            else if (!i && (o = chunkInvalid(a, t)), o) R(e, o);
+                            else if (a.objectMode || t && t.length > 0) if ("string" != typeof t && !a.objectMode && Object.getPrototypeOf(t) !== s.prototype && (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
                             else if (a.ended) R(e, new y);
                             else {
                                 if (a.destroyed) return !1;
                                 a.reading = !1, a.decoder && !r ? (t = a.decoder.write(t), a.objectMode || 0 !== t.length ? addChunk(e, a, t, !1) : maybeReadMore(e, a)) : addChunk(e, a, t, !1);
                             }
-                            else n || (a.reading = !1, maybeReadMore(e, a));
+                            else !n && (a.reading = !1, maybeReadMore(e, a));
                             return !a.ended && (a.length < a.highWaterMark || 0 === a.length);
                         }
                         function addChunk(e, t, r, n) {
@@ -19511,7 +19511,7 @@
                         }
                         function chunkInvalid(e, t) {
                             var r;
-                            return _isUint8Array(t) || "string" == typeof t || void 0 === t || e.objectMode || (r = new g("chunk", [
+                            return !_isUint8Array(t) && "string" != typeof t && void 0 !== t && !e.objectMode && (r = new g("chunk", [
                                 "string",
                                 "Buffer",
                                 "Uint8Array"
@@ -19535,7 +19535,7 @@
                         }, Readable.prototype.isPaused = function() {
                             return !1 === this._readableState.flowing;
                         }, Readable.prototype.setEncoding = function(e) {
-                            w || (w = r(862).s);
+                            !w && (w = r(862).s);
                             var t = new w(e);
                             this._readableState.decoder = t, this._readableState.encoding = this._readableState.decoder.encoding;
                             for(var n = this._readableState.buffer.head, i = ""; null !== n;)i += t.write(n.data), n = n.next;
@@ -19558,19 +19558,19 @@
                                     var r = t.decoder.end();
                                     r && r.length && (t.buffer.push(r), t.length += t.objectMode ? 1 : r.length);
                                 }
-                                t.ended = !0, t.sync ? emitReadable(e) : (t.needReadable = !1, t.emittedReadable || (t.emittedReadable = !0, emitReadable_(e)));
+                                t.ended = !0, t.sync ? emitReadable(e) : (t.needReadable = !1, !t.emittedReadable && (t.emittedReadable = !0, emitReadable_(e)));
                             }
                         }
                         function emitReadable(e) {
                             var t = e._readableState;
-                            u("emitReadable", t.needReadable, t.emittedReadable), t.needReadable = !1, t.emittedReadable || (u("emitReadable", t.flowing), t.emittedReadable = !0, process.nextTick(emitReadable_, e));
+                            u("emitReadable", t.needReadable, t.emittedReadable), t.needReadable = !1, !t.emittedReadable && (u("emitReadable", t.flowing), t.emittedReadable = !0, process.nextTick(emitReadable_, e));
                         }
                         function emitReadable_(e) {
                             var t = e._readableState;
                             u("emitReadable_", t.destroyed, t.length, t.ended), !t.destroyed && (t.length || t.ended) && (e.emit("readable"), t.emittedReadable = !1), t.needReadable = !t.flowing && !t.ended && t.length <= t.highWaterMark, flow(e);
                         }
                         function maybeReadMore(e, t) {
-                            t.readingMore || (t.readingMore = !0, process.nextTick(maybeReadMore_, e, t));
+                            !t.readingMore && (t.readingMore = !0, process.nextTick(maybeReadMore_, e, t));
                         }
                         function maybeReadMore_(e, t) {
                             for(; !t.reading && !t.ended && (t.length < t.highWaterMark || t.flowing && 0 === t.length);){
@@ -19593,10 +19593,10 @@
                             u("readable nexttick read 0"), e.read(0);
                         }
                         function resume(e, t) {
-                            t.resumeScheduled || (t.resumeScheduled = !0, process.nextTick(resume_, e, t));
+                            !t.resumeScheduled && (t.resumeScheduled = !0, process.nextTick(resume_, e, t));
                         }
                         function resume_(e, t) {
-                            u("resume", t.reading), t.reading || e.read(0), t.resumeScheduled = !1, e.emit("resume"), flow(e), t.flowing && !t.reading && e.read(0);
+                            u("resume", t.reading), !t.reading && e.read(0), t.resumeScheduled = !1, e.emit("resume"), flow(e), t.flowing && !t.reading && e.read(0);
                         }
                         function flow(e) {
                             var t = e._readableState;
@@ -19608,7 +19608,7 @@
                         }
                         function endReadable(e) {
                             var t = e._readableState;
-                            u("endReadable", t.endEmitted), t.endEmitted || (t.ended = !0, process.nextTick(endReadableNT, t, e));
+                            u("endReadable", t.endEmitted), !t.endEmitted && (t.ended = !0, process.nextTick(endReadableNT, t, e));
                         }
                         function endReadableNT(e, t) {
                             if (u("endReadableNT", e.endEmitted, e.length), !e.endEmitted && 0 === e.length && (e.endEmitted = !0, t.readable = !1, t.emit("end"), e.autoDestroy)) {
@@ -19626,7 +19626,7 @@
                             if (0 !== e && (t.emittedReadable = !1), 0 === e && t.needReadable && ((0 !== t.highWaterMark ? t.length >= t.highWaterMark : t.length > 0) || t.ended)) return u("read: emitReadable", t.length, t.ended), 0 === t.length && t.ended ? endReadable(this) : emitReadable(this), null;
                             if (0 === (e = howMuchToRead(e, t)) && t.ended) return 0 === t.length && endReadable(this), null;
                             var n = t.needReadable;
-                            return u("need readable", n), (0 === t.length || t.length - e < t.highWaterMark) && u("length less than watermark", n = !0), t.ended || t.reading ? u("reading or ended", n = !1) : n && (u("do read"), t.reading = !0, t.sync = !0, 0 === t.length && (t.needReadable = !0), this._read(t.highWaterMark), t.sync = !1, t.reading || (e = howMuchToRead(r, t))), null === (i = e > 0 ? fromList(e, t) : null) ? (t.needReadable = t.length <= t.highWaterMark, e = 0) : (t.length -= e, t.awaitDrain = 0), 0 === t.length && (t.ended || (t.needReadable = !0), r !== e && t.ended && endReadable(this)), null !== i && this.emit("data", i), i;
+                            return u("need readable", n), (0 === t.length || t.length - e < t.highWaterMark) && u("length less than watermark", n = !0), t.ended || t.reading ? u("reading or ended", n = !1) : n && (u("do read"), t.reading = !0, t.sync = !0, 0 === t.length && (t.needReadable = !0), this._read(t.highWaterMark), t.sync = !1, !t.reading && (e = howMuchToRead(r, t))), null === (i = e > 0 ? fromList(e, t) : null) ? (t.needReadable = t.length <= t.highWaterMark, e = 0) : (t.length -= e, t.awaitDrain = 0), 0 === t.length && (!t.ended && (t.needReadable = !0), r !== e && t.ended && endReadable(this)), null !== i && this.emit("data", i), i;
                         }, Readable.prototype._read = function(e) {
                             R(this, new _("_read()"));
                         }, Readable.prototype.pipe = function(e, t) {
@@ -19645,7 +19645,7 @@
                                     n.pipes.push(e);
                             }
                             n.pipesCount += 1, u("pipe count=%d opts=%j", n.pipesCount, t);
-                            var o = t && !1 === t.end || e === process.stdout || e === process.stderr ? unpipe : onend;
+                            var o = (!t || !1 !== t.end) && e !== process.stdout && e !== process.stderr ? onend : unpipe;
                             function onunpipe(e, t) {
                                 u("onunpipe"), e === r && t && !1 === t.hasUnpiped && (t.hasUnpiped = !0, cleanup());
                             }
@@ -19676,13 +19676,13 @@
                             function unpipe() {
                                 u("unpipe"), r.unpipe(e);
                             }
-                            return r.on("data", ondata), prependListener(e, "error", onerror), e.once("close", onclose), e.once("finish", onfinish), e.emit("pipe", r), n.flowing || (u("pipe resume"), r.resume()), e;
+                            return r.on("data", ondata), prependListener(e, "error", onerror), e.once("close", onclose), e.once("finish", onfinish), e.emit("pipe", r), !n.flowing && (u("pipe resume"), r.resume()), e;
                         }, Readable.prototype.unpipe = function(e) {
                             var t = this._readableState, r = {
                                 hasUnpiped: !1
                             };
                             if (0 === t.pipesCount) return this;
-                            if (1 === t.pipesCount) return e && e !== t.pipes || (e || (e = t.pipes), t.pipes = null, t.pipesCount = 0, t.flowing = !1, e && e.emit("unpipe", this, r)), this;
+                            if (1 === t.pipesCount) return e && e !== t.pipes || (!e && (e = t.pipes), t.pipes = null, t.pipesCount = 0, t.flowing = !1, e && e.emit("unpipe", this, r)), this;
                             if (!e) {
                                 var n = t.pipes, i = t.pipesCount;
                                 t.pipes = null, t.pipesCount = 0, t.flowing = !1;
@@ -19695,7 +19695,7 @@
                             return -1 === o || (t.pipes.splice(o, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
                         }, Readable.prototype.on = function(e, t) {
                             var r = o.prototype.on.call(this, e, t), n = this._readableState;
-                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" !== e || n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this)), r;
+                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" === e && !n.endEmitted && !n.readableListening && (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : !n.reading && process.nextTick(nReadingNextTick, this)), r;
                         }, Readable.prototype.addListener = Readable.prototype.on, Readable.prototype.removeListener = function(e, t) {
                             var r = o.prototype.removeListener.call(this, e, t);
                             return "readable" === e && process.nextTick(updateReadableListening, this), r;
@@ -19704,7 +19704,7 @@
                             return ("readable" === e || void 0 === e) && process.nextTick(updateReadableListening, this), t;
                         }, Readable.prototype.resume = function() {
                             var e = this._readableState;
-                            return e.flowing || (u("resume"), e.flowing = !e.readableListening, resume(this, e)), e.paused = !1, this;
+                            return !e.flowing && (u("resume"), e.flowing = !e.readableListening, resume(this, e)), e.paused = !1, this;
                         }, Readable.prototype.pause = function() {
                             return u("call pause flowing=%j", this._readableState.flowing), !1 !== this._readableState.flowing && (u("pause"), this._readableState.flowing = !1, this.emit("pause")), this._readableState.paused = !0, this;
                         }, Readable.prototype.wrap = function(e) {
@@ -19716,7 +19716,7 @@
                                 }
                                 t.push(null);
                             }), e.on("data", function(i) {
-                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
+                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && !t.push(i) && (n = !0, e.pause());
                             }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                                 return function() {
                                     return e[t].apply(e, arguments);
@@ -19848,13 +19848,13 @@
                         }
                         function validChunk(e, t, r, n) {
                             var i;
-                            return null === r ? i = new y : "string" == typeof r || t.objectMode || (i = new c("chunk", [
+                            return null === r ? i = new y : "string" != typeof r && !t.objectMode && (i = new c("chunk", [
                                 "string",
                                 "Buffer"
                             ], r)), !i || (w(e, i), process.nextTick(n, i), !1);
                         }
                         function decodeChunk(e, t, r) {
-                            return e.objectMode || !1 === e.decodeStrings || "string" != typeof t || (t = o.from(t, r)), t;
+                            return !e.objectMode && !1 !== e.decodeStrings && "string" == typeof t && (t = o.from(t, r)), t;
                         }
                         function writeOrBuffer(e, t, r, n, i, a) {
                             if (!r) {
@@ -19864,7 +19864,7 @@
                             var s = t.objectMode ? 1 : n.length;
                             t.length += s;
                             var f = t.length < t.highWaterMark;
-                            if (f || (t.needDrain = !0), t.writing || t.corked) {
+                            if (!f && (t.needDrain = !0), t.writing || t.corked) {
                                 var l = t.lastBufferedRequest;
                                 t.lastBufferedRequest = {
                                     chunk: n,
@@ -19891,11 +19891,11 @@
                             if (onwriteStateUpdate(r), t) onwriteError(e, r, n, t, i);
                             else {
                                 var a = needFinish(r) || e.destroyed;
-                                a || r.corked || r.bufferProcessing || !r.bufferedRequest || clearBuffer(e, r), n ? process.nextTick(afterWrite, e, r, a, i) : afterWrite(e, r, a, i);
+                                !a && !r.corked && !r.bufferProcessing && r.bufferedRequest && clearBuffer(e, r), n ? process.nextTick(afterWrite, e, r, a, i) : afterWrite(e, r, a, i);
                             }
                         }
                         function afterWrite(e, t, r, n) {
-                            r || onwriteDrain(e, t), t.pendingcb--, n(), finishMaybe(e, t);
+                            !r && onwriteDrain(e, t), t.pendingcb--, n(), finishMaybe(e, t);
                         }
                         function onwriteDrain(e, t) {
                             0 === t.length && t.needDrain && (t.needDrain = !1, e.emit("drain"));
@@ -19906,7 +19906,7 @@
                             if (e._writev && r && r.next) {
                                 var i = Array(t.bufferedRequestCount), a = t.corkedRequestsFree;
                                 a.entry = r;
-                                for(var o = 0, s = !0; r;)i[o] = r, r.isBuf || (s = !1), r = r.next, o += 1;
+                                for(var o = 0, s = !0; r;)i[o] = r, !r.isBuf && (s = !1), r = r.next, o += 1;
                                 i.allBuffers = s, doWrite(e, t, !0, t.length, i, "", a.finish), t.pendingcb++, t.lastBufferedRequest = null, a.next ? (t.corkedRequestsFree = a.next, a.next = null) : t.corkedRequestsFree = new CorkedRequest(t), t.bufferedRequestCount = 0;
                             } else {
                                 for(; r;){
@@ -19926,7 +19926,7 @@
                             });
                         }
                         function prefinish(e, t) {
-                            t.prefinished || t.finalCalled || ("function" != typeof e._final || t.destroyed ? (t.prefinished = !0, e.emit("prefinish")) : (t.pendingcb++, t.finalCalled = !0, process.nextTick(callFinal, e, t)));
+                            !t.prefinished && !t.finalCalled && ("function" != typeof e._final || t.destroyed ? (t.prefinished = !0, e.emit("prefinish")) : (t.pendingcb++, t.finalCalled = !0, process.nextTick(callFinal, e, t)));
                         }
                         function finishMaybe(e, t) {
                             var r = needFinish(t);
@@ -19968,12 +19968,12 @@
                             w(this, new b);
                         }, Writable.prototype.write = function(e, t, r) {
                             var n = this._writableState, i = !1, a = !n.objectMode && _isUint8Array(e);
-                            return a && !o.isBuffer(e) && (e = _uint8ArrayToBuffer(e)), "function" == typeof t && (r = t, t = null), a ? t = "buffer" : t || (t = n.defaultEncoding), "function" != typeof r && (r = nop), n.ending ? writeAfterEnd(this, r) : (a || validChunk(this, n, e, r)) && (n.pendingcb++, i = writeOrBuffer(this, n, a, e, t, r)), i;
+                            return a && !o.isBuffer(e) && (e = _uint8ArrayToBuffer(e)), "function" == typeof t && (r = t, t = null), a ? t = "buffer" : !t && (t = n.defaultEncoding), "function" != typeof r && (r = nop), n.ending ? writeAfterEnd(this, r) : (a || validChunk(this, n, e, r)) && (n.pendingcb++, i = writeOrBuffer(this, n, a, e, t, r)), i;
                         }, Writable.prototype.cork = function() {
                             this._writableState.corked++;
                         }, Writable.prototype.uncork = function() {
                             var e = this._writableState;
-                            !e.corked || (e.corked--, e.writing || e.corked || e.bufferProcessing || !e.bufferedRequest || clearBuffer(this, e));
+                            e.corked && (e.corked--, !e.writing && !e.corked && !e.bufferProcessing && e.bufferedRequest && clearBuffer(this, e));
                         }, Writable.prototype.setDefaultEncoding = function(e) {
                             if ("string" == typeof e && (e = e.toLowerCase()), !([
                                 "hex",
@@ -20003,7 +20003,7 @@
                             r(new h("_write()"));
                         }, Writable.prototype._writev = null, Writable.prototype.end = function(e, t, r) {
                             var n = this._writableState;
-                            return "function" == typeof e ? (r = e, e = null, t = null) : "function" == typeof t && (r = t, t = null), null != e && this.write(e, t), n.corked && (n.corked = 1, this.uncork()), n.ending || endWritable(this, n, r), this;
+                            return "function" == typeof e ? (r = e, e = null, t = null) : "function" == typeof t && (r = t, t = null), null != e && this.write(e, t), n.corked && (n.corked = 1, this.uncork()), !n.ending && endWritable(this, n, r), this;
                         }, Object.defineProperty(Writable.prototype, "writableLength", {
                             enumerable: !1,
                             get: function() {
@@ -20301,7 +20301,7 @@
                         e.exports = {
                             destroy: function(e, t) {
                                 var r = this, n = this._readableState && this._readableState.destroyed, i = this._writableState && this._writableState.destroyed;
-                                return n || i ? t ? t(e) : e && (this._writableState ? this._writableState.errorEmitted || (this._writableState.errorEmitted = !0, process.nextTick(emitErrorNT, this, e)) : process.nextTick(emitErrorNT, this, e)) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e || null, function(e) {
+                                return n || i ? t ? t(e) : e && (this._writableState ? !this._writableState.errorEmitted && (this._writableState.errorEmitted = !0, process.nextTick(emitErrorNT, this, e)) : process.nextTick(emitErrorNT, this, e)) : (this._readableState && (this._readableState.destroyed = !0), this._writableState && (this._writableState.destroyed = !0), this._destroy(e || null, function(e) {
                                     !t && e ? r._writableState ? r._writableState.errorEmitted ? process.nextTick(emitCloseNT, r) : (r._writableState.errorEmitted = !0, process.nextTick(emitErrorAndCloseNT, r, e)) : process.nextTick(emitErrorAndCloseNT, r, e) : t ? (process.nextTick(emitCloseNT, r), t(e)) : process.nextTick(emitCloseNT, r);
                                 })), this;
                             },
@@ -20333,18 +20333,18 @@
                         }
                         function eos(e, t, r) {
                             if ("function" == typeof t) return eos(e, null, t);
-                            t || (t = {}), r = once(r || noop);
+                            !t && (t = {}), r = once(r || noop);
                             var i = t.readable || !1 !== t.readable && e.readable, a = t.writable || !1 !== t.writable && e.writable, o = function() {
-                                e.writable || f();
+                                !e.writable && f();
                             }, s = e._writableState && e._writableState.finished, f = function() {
-                                a = !1, s = !0, i || r.call(e);
+                                a = !1, s = !0, !i && r.call(e);
                             }, l = e._readableState && e._readableState.endEmitted, u = function() {
-                                i = !1, l = !0, a || r.call(e);
+                                i = !1, l = !0, !a && r.call(e);
                             }, d = function(t) {
                                 r.call(e, t);
                             }, c = function() {
                                 var t;
-                                return i && !l ? (e._readableState && e._readableState.ended || (t = new n), r.call(e, t)) : a && !s ? (e._writableState && e._writableState.ended || (t = new n), r.call(e, t)) : void 0;
+                                return i && !l ? ((!e._readableState || !e._readableState.ended) && (t = new n), r.call(e, t)) : a && !s ? ((!e._writableState || !e._writableState.ended) && (t = new n), r.call(e, t)) : void 0;
                             }, h = function() {
                                 e.req.on("finish", f);
                             };
@@ -20434,7 +20434,7 @@
                                 })).apply(this, arguments);
                             }
                             return a._read = function() {
-                                o || (o = !0, next());
+                                !o && (o = !0, next());
                             }, a;
                         };
                     },
@@ -20443,7 +20443,7 @@
                         function once(e) {
                             var t = !1;
                             return function() {
-                                t || (t = !0, e.apply(void 0, arguments));
+                                !t && (t = !0, e.apply(void 0, arguments));
                             };
                         }
                         var n, i = r(349).q, a = i.ERR_MISSING_ARGS, o = i.ERR_STREAM_DESTROYED;
@@ -20490,7 +20490,7 @@
                             var o = t.map(function(e, r) {
                                 var a = r < t.length - 1;
                                 return destroyer(e, a, r > 0, function(e) {
-                                    i || (i = e), e && o.forEach(call), a || (o.forEach(call), n(i));
+                                    !i && (i = e), e && o.forEach(call), !a && (o.forEach(call), n(i));
                                 });
                             });
                             return t.reduce(pipe);
@@ -20553,13 +20553,13 @@
                             function ondrain() {
                                 r.readable && r.resume && r.resume();
                             }
-                            r.on("data", ondata), e.on("drain", ondrain), e._isStdio || t && !1 === t.end || (r.on("end", onend), r.on("close", onclose));
+                            r.on("data", ondata), e.on("drain", ondrain), !e._isStdio && (!t || !1 !== t.end) && (r.on("end", onend), r.on("close", onclose));
                             var i = !1;
                             function onend() {
-                                i || (i = !0, e.end());
+                                !i && (i = !0, e.end());
                             }
                             function onclose() {
-                                i || (i = !0, "function" == typeof e.destroy && e.destroy());
+                                !i && (i = !0, "function" == typeof e.destroy && e.destroy());
                             }
                             function onerror(e) {
                                 if (cleanup(), 0 === n.listenerCount(this, "error")) throw e;
@@ -20843,7 +20843,7 @@
                         Script.prototype.runInContext = function(e) {
                             if (!(e instanceof Context)) throw TypeError("needs a 'context' argument.");
                             var t = document.createElement("iframe");
-                            t.style || (t.style = {}), t.style.display = "none", document.body.appendChild(t);
+                            !t.style && (t.style = {}), t.style.display = "none", document.body.appendChild(t);
                             var r = t.contentWindow, n = r.eval, o = r.execScript;
                             !n && o && (o.call(r, "null"), n = r.eval), forEach(Object_keys(e), function(t) {
                                 r[t] = e[t];
@@ -20854,7 +20854,7 @@
                             return forEach(Object_keys(r), function(t) {
                                 (t in e || -1 === indexOf(c, t)) && (e[t] = r[t]);
                             }), forEach(globals, function(t) {
-                                t in e || defineProp(e, t, r[t]);
+                                !(t in e) && defineProp(e, t, r[t]);
                             }), document.body.removeChild(t), i;
                         }, Script.prototype.runInThisContext = function() {
                             return eval(this.code);
@@ -21967,7 +21967,7 @@
                     }
                 }
                 let funcIndex = 0, { costTable, moduleStr, fieldStr, meterType } = opts;
-                costTable || (costTable = defaultCostTable), moduleStr || (moduleStr = 'metering'), fieldStr || (fieldStr = 'usegas'), meterType || (meterType = 'i32'), findSection(json, 'type') || createSection(json, 'type'), findSection(json, 'import') || createSection(json, 'import');
+                !costTable && (costTable = defaultCostTable), !moduleStr && (moduleStr = 'metering'), !fieldStr && (fieldStr = 'usegas'), !meterType && (meterType = 'i32'), !findSection(json, 'type') && createSection(json, 'type'), !findSection(json, 'import') && createSection(json, 'import');
                 const importJson = {
                     moduleStr: moduleStr,
                     fieldStr: fieldStr,
@@ -22527,11 +22527,11 @@
             for(key in buffer)buffer.hasOwnProperty(key) && 'SlowBuffer' !== key && 'Buffer' !== key && (safer[key] = buffer[key]);
             var Safer = safer.Buffer = {};
             for(key in Buffer)Buffer.hasOwnProperty(key) && 'allocUnsafe' !== key && 'allocUnsafeSlow' !== key && (Safer[key] = Buffer[key]);
-            if (safer.Buffer.prototype = Buffer.prototype, Safer.from && Safer.from !== Uint8Array.from || (Safer.from = function(value, encodingOrOffset, length) {
+            if (safer.Buffer.prototype = Buffer.prototype, (!Safer.from || Safer.from === Uint8Array.from) && (Safer.from = function(value, encodingOrOffset, length) {
                 if ('number' == typeof value) throw TypeError('The "value" argument must not be of type number. Received type ' + typeof value);
                 if (value && void 0 === value.length) throw TypeError('The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type ' + typeof value);
                 return Buffer(value, encodingOrOffset, length);
-            }), Safer.alloc || (Safer.alloc = function(size, fill, encoding) {
+            }), !Safer.alloc && (Safer.alloc = function(size, fill, encoding) {
                 if ('number' != typeof size) throw TypeError('The "size" argument must be of type number. Received type ' + typeof size);
                 if (size < 0 || size >= 2 * 1073741824) throw RangeError('The value "' + size + '" is invalid for option "size"');
                 var buf = Buffer(size);
@@ -23955,7 +23955,7 @@ class Zip {
                 value.inspect !== exports.inspect && // Also filter out any prototype objects using the circular check.
                 !(value.constructor && value.constructor.prototype === value)) {
                     var output, ret = value.inspect(recurseTimes, ctx);
-                    return isString(ret) || (ret = formatValue(ctx, ret, recurseTimes)), ret;
+                    return !isString(ret) && (ret = formatValue(ctx, ret, recurseTimes)), ret;
                 }
                 // Primitive types cannot have properties
                 var primitive = formatPrimitive(ctx, value);
@@ -24003,14 +24003,14 @@ class Zip {
             function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
                 for(var output = [], i = 0, l = value.length; i < l; ++i)hasOwnProperty(value, String(i)) ? output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), !0)) : output.push('');
                 return keys.forEach(function(key) {
-                    key.match(/^\d+$/) || output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, !0));
+                    !key.match(/^\d+$/) && output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, !0));
                 }), output;
             }
             function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
                 var name, str, desc;
                 if ((desc = Object.getOwnPropertyDescriptor(value, key) || {
                     value: value[key]
-                }).get ? str = desc.set ? ctx.stylize('[Getter/Setter]', 'special') : ctx.stylize('[Getter]', 'special') : desc.set && (str = ctx.stylize('[Setter]', 'special')), hasOwnProperty(visibleKeys, key) || (name = '[' + key + ']'), !str && (0 > ctx.seen.indexOf(desc.value) ? (str = isNull(recurseTimes) ? formatValue(ctx, desc.value, null) : formatValue(ctx, desc.value, recurseTimes - 1)).indexOf('\n') > -1 && (str = array ? str.split('\n').map(function(line) {
+                }).get ? str = desc.set ? ctx.stylize('[Getter/Setter]', 'special') : ctx.stylize('[Getter]', 'special') : desc.set && (str = ctx.stylize('[Setter]', 'special')), !hasOwnProperty(visibleKeys, key) && (name = '[' + key + ']'), !str && (0 > ctx.seen.indexOf(desc.value) ? (str = isNull(recurseTimes) ? formatValue(ctx, desc.value, null) : formatValue(ctx, desc.value, recurseTimes - 1)).indexOf('\n') > -1 && (str = array ? str.split('\n').map(function(line) {
                     return '  ' + line;
                 }).join('\n').substr(2) : '\n' + str.split('\n').map(function(line) {
                     return '   ' + line;
@@ -24654,7 +24654,7 @@ class Zip {
                 }
                 async callContract(input, caller, sortKey, tags = [], transfer = CreateContract_1.emptyTransfer) {
                     let effectiveCaller;
-                    this.logger.info('Call contract input', input), this.maybeResetRootContract(), this.signer || this.logger.warn('Wallet not set.');
+                    this.logger.info('Call contract input', input), this.maybeResetRootContract(), !this.signer && this.logger.warn('Wallet not set.');
                     const { arweave, stateEvaluator } = this.warp;
                     // create execution context
                     let executionContext = await this.createExecutionContext(this._contractTxId, sortKey, !0);
@@ -24985,7 +24985,7 @@ class Zip {
                     // note: in case of useBundler = true, we're posting both
                     // src tx and contract tx in one request.
                     let responseOk = !0;
-                    if (useBundler || (responseOk = 200 === (response = await this.arweave.transactions.post(srcTx)).status || 208 === response.status), responseOk) return srcTx;
+                    if (!useBundler && (responseOk = 200 === (response = await this.arweave.transactions.post(srcTx)).status || 208 === response.status), responseOk) return srcTx;
                     throw Error(`Unable to write Contract Source. Arweave responded with status ${response.status}: ${response.statusText}`);
                 }
                 isGoModule(moduleImports) {
@@ -25017,7 +25017,7 @@ class Zip {
             function dummyImports(moduleImports) {
                 const imports = {};
                 return moduleImports.forEach((moduleImport)=>{
-                    Object.prototype.hasOwnProperty.call(imports, moduleImport.module) || (imports[moduleImport.module] = {}), imports[moduleImport.module][moduleImport.name] = function() {};
+                    !Object.prototype.hasOwnProperty.call(imports, moduleImport.module) && (imports[moduleImport.module] = {}), imports[moduleImport.module][moduleImport.name] = function() {};
                 }), imports;
             }
             exports.SourceImpl = SourceImpl;
@@ -25663,7 +25663,7 @@ class Zip {
                     var _a;
                     if ((null === (_a = executionContext.sortedInteractions) || void 0 === _a ? void 0 : _a.length) == 0) return;
                     const txIndex = executionContext.sortedInteractions.indexOf(transaction);
-                    txIndex < 1 || await this.putInCache(executionContext.contractDefinition.txId, executionContext.sortedInteractions[txIndex - 1], state);
+                    !(txIndex < 1) && await this.putInCache(executionContext.contractDefinition.txId, executionContext.sortedInteractions[txIndex - 1], state);
                 }
                 async putInCache(contractTxId, transaction, state) {
                     if (transaction.dry || void 0 !== transaction.confirmationStatus && 'confirmed' !== transaction.confirmationStatus) return;
@@ -26227,7 +26227,7 @@ class Zip {
                             var _a, _b;
                             throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.rLogger.error(error.body.message), Error(`Unable to retrieve contract data. Warp gateway responded with status ${error.status}:${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
                         });
-                        if (null == result.srcBinary || result.srcBinary instanceof Buffer || (result.srcBinary = Buffer.from(result.srcBinary.data)), result.srcBinary) {
+                        if (null != result.srcBinary && !(result.srcBinary instanceof Buffer) && (result.srcBinary = Buffer.from(result.srcBinary.data)), result.srcBinary) {
                             let sourceTx;
                             const wasmSrc = new WasmSrc_1.WasmSrc(result.srcBinary);
                             result.srcBinary = wasmSrc.wasmBinary(), sourceTx = result.srcTx ? new transaction_1.default({
@@ -27320,7 +27320,7 @@ class Zip {
                     return (null === cachegetInt32Memory0 || cachegetInt32Memory0.buffer !== wasmInstance.exports.memory.buffer) && (cachegetInt32Memory0 = new Int32Array(wasmInstance.exports.memory.buffer)), cachegetInt32Memory0;
                 }
                 function dropObject(idx) {
-                    idx < 36 || (heap[idx] = heap_next, heap_next = idx);
+                    !(idx < 36) && (heap[idx] = heap_next, heap_next = idx);
                 }
                 function takeObject(idx) {
                     const ret = getObject(idx);
@@ -27480,7 +27480,7 @@ class Zip {
             } : function(o, m, k, k2) {
                 void 0 === k2 && (k2 = k), o[k2] = m[k];
             }), __exportStar = this && this.__exportStar || function(m, exports) {
-                for(var p in m)"default" === p || Object.prototype.hasOwnProperty.call(exports, p) || __createBinding(exports, m, p);
+                for(var p in m)"default" !== p && !Object.prototype.hasOwnProperty.call(exports, p) && __createBinding(exports, m, p);
             };
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -27929,7 +27929,7 @@ class Zip {
                     }, moduleName);
                 }
                 create(moduleName = 'SWC') {
-                    return Object.prototype.hasOwnProperty.call(this.registeredLoggers, moduleName) || (this.registeredLoggers[moduleName] = new ConsoleLogger_1.ConsoleLogger(moduleName, this.getOptions(moduleName))), this.registeredLoggers[moduleName];
+                    return !Object.prototype.hasOwnProperty.call(this.registeredLoggers, moduleName) && (this.registeredLoggers[moduleName] = new ConsoleLogger_1.ConsoleLogger(moduleName, this.getOptions(moduleName))), this.registeredLoggers[moduleName];
                 }
             }
             exports.ConsoleLoggerFactory = ConsoleLoggerFactory;
@@ -28186,7 +28186,7 @@ class Zip {
                     var arr = new g[typedArray]();
                     if (Symbol.toStringTag in arr) {
                         var proto = getPrototypeOf(arr), descriptor = gOPD(proto, Symbol.toStringTag);
-                        descriptor || (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
+                        !descriptor && (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
                     }
                 }
             });
@@ -28410,7 +28410,7 @@ class Zip {
                         let parts = internalName.split("."), curr = extendedExports;
                         for(; parts.length > 1;){
                             let part = parts.shift();
-                            Object.hasOwn(curr, part) || (curr[part] = {}), curr = curr[part];
+                            !Object.hasOwn(curr, part) && (curr[part] = {}), curr = curr[part];
                         }
                         let name = parts[0], hash = name.indexOf("#");
                         if (hash >= 0) {
@@ -28452,7 +28452,7 @@ class Zip {
                                 return(// !
                                 setArgumentsLength(args.length), elem(this[THIS], ...args));
                             }).original = elem;
-                        } else /^(get|set):/.test(name) ? Object.hasOwn(curr, name = name.substring(4)) || Object.defineProperty(curr, name, {
+                        } else /^(get|set):/.test(name) ? !Object.hasOwn(curr, name = name.substring(4)) && Object.defineProperty(curr, name, {
                             get: exports[internalName.replace("set:", "get:")],
                             set: exports[internalName.replace("get:", "set:")],
                             enumerable: !0
@@ -28469,9 +28469,9 @@ class Zip {
                     demangle
                 }, "default" in exports ? exports.default : exports);
             }({});
-            void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+            void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                 return loader;
-            }).apply(exports, [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+            }).apply(exports, [])) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
         /***/ },
         /***/ 3083: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

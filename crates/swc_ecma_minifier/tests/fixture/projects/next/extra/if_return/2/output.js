@@ -7,7 +7,7 @@ export function insertRule(rule, index) {
         try {
             sheet.insertRule(rule, index);
         } catch (error) {
-            return isProd || console.warn("StyleSheet: illegal rule: \n\n" + rule + "\n\nSee https://stackoverflow.com/q/20007992 for more info"), -1;
+            return !isProd && console.warn("StyleSheet: illegal rule: \n\n" + rule + "\n\nSee https://stackoverflow.com/q/20007992 for more info"), -1;
         }
     } else {
         var insertionPoint = this._tags[index];

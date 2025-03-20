@@ -18,7 +18,7 @@
                             const method = [
                                 "raw"
                             ][b];
-                            return method || // never gets here
+                            return !method && // never gets here
                             console.log("in @gmod/binary-parser"), method;
                         }
                     }), ipHeader2 = new binary_parser__WEBPACK_IMPORTED_MODULE_3__ /* .Parser */ ._().uint8("compressionMethod", {
@@ -26,7 +26,7 @@
                             const method = [
                                 "raw"
                             ][b];
-                            return method || console.log("in binary-parser"), method;
+                            return !method && console.log("in binary-parser"), method;
                         }
                     });
                     console.log({

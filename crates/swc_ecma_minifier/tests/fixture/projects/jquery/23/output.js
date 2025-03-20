@@ -11,7 +11,7 @@ export const obj = {
             hooks && "get" in hooks && void 0 !== (ret = hooks.get(elem, !1, extra)) ? ret : style[name]);
             // Make sure that NaN and null values aren't set. See: #7116
             if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name)), // Fixes bug #9237
-            type = "number"), !(null == value || "number" === type && isNaN(value)) && ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name.indexOf("background") || (style[name] = "inherit"), !hooks || !("set" in hooks) || void 0 !== (value = hooks.set(elem, value, extra)))) // Wrapped to prevent IE from throwing errors when 'invalid' values are provided
+            type = "number"), !(null == value || "number" === type && isNaN(value)) && ("number" === type && !jQuery.cssNumber[origName] && (value += "px"), !jQuery.support.clearCloneStyle && "" === value && 0 === name.indexOf("background") && (style[name] = "inherit"), !hooks || !("set" in hooks) || void 0 !== (value = hooks.set(elem, value, extra)))) // Wrapped to prevent IE from throwing errors when 'invalid' values are provided
             // Fixes bug #5509
             try {
                 style[name] = value;

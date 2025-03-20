@@ -348,7 +348,7 @@ var ts, ts1, dynamicImportUMDHelper;
                         // If we're exporting these variables, then these just become assignments to 'exports.x'.
                         for(var statements, variables, expressions, modifiers = void 0, removeCommentsOnExpressions = !1, _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++){
                             var variable = _a[_i];
-                            if (ts1.isIdentifier(variable.name) && ts1.isLocalName(variable.name)) modifiers || (modifiers = ts1.visitNodes(node.modifiers, modifierVisitor, ts1.isModifier)), variables = ts1.append(variables, variable);
+                            if (ts1.isIdentifier(variable.name) && ts1.isLocalName(variable.name)) !modifiers && (modifiers = ts1.visitNodes(node.modifiers, modifierVisitor, ts1.isModifier)), variables = ts1.append(variables, variable);
                             else if (variable.initializer) if (!ts1.isBindingPattern(variable.name) && (ts1.isArrowFunction(variable.initializer) || ts1.isFunctionExpression(variable.initializer) || ts1.isClassExpression(variable.initializer))) {
                                 var expression = factory.createAssignment(ts1.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), /*location*/ variable.name), factory.createIdentifier(ts1.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts1.visitNode(variable.initializer, visitor));
                                 variables = ts1.append(variables, updatedVariable), expressions = ts1.append(expressions, expression), removeCommentsOnExpressions = !0;
@@ -414,7 +414,7 @@ var ts, ts1, dynamicImportUMDHelper;
                 return factory.updatePartiallyEmittedExpression(node, ts1.visitNode(node.expression, valueIsDiscarded ? discardedValueVisitor : visitor, ts1.isExpression));
             case 207 /* CallExpression */ :
                 if (ts1.isImportCall(node) && void 0 === currentSourceFile.impliedNodeFormat) return function(node) {
-                    var externalModuleName = ts1.getExternalModuleNameLiteral(factory, node, currentSourceFile, host, resolver, compilerOptions), firstArgument = ts1.visitNode(ts1.firstOrUndefined(node.arguments), visitor), argument = !externalModuleName || firstArgument && ts1.isStringLiteral(firstArgument) && firstArgument.text === externalModuleName.text ? firstArgument : externalModuleName, containsLexicalThis = !!(8192 /* ContainsLexicalThis */  & node.transformFlags);
+                    var externalModuleName = ts1.getExternalModuleNameLiteral(factory, node, currentSourceFile, host, resolver, compilerOptions), firstArgument = ts1.visitNode(ts1.firstOrUndefined(node.arguments), visitor), argument = externalModuleName && (!firstArgument || !ts1.isStringLiteral(firstArgument) || firstArgument.text !== externalModuleName.text) ? externalModuleName : firstArgument, containsLexicalThis = !!(8192 /* ContainsLexicalThis */  & node.transformFlags);
                     switch(compilerOptions.module){
                         case ts1.ModuleKind.AMD:
                             return createImportCallExpressionAMD(argument, containsLexicalThis);
@@ -493,7 +493,7 @@ var ts, ts1, dynamicImportUMDHelper;
                         var exportedNames = getExports(node.operand);
                         if (exportedNames) {
                             var temp = void 0, expression = ts1.visitNode(node.operand, visitor, ts1.isExpression);
-                            ts1.isPrefixUnaryExpression(node) ? expression = factory.updatePrefixUnaryExpression(node, expression) : (expression = factory.updatePostfixUnaryExpression(node, expression), valueIsDiscarded || (temp = factory.createTempVariable(hoistVariableDeclaration), expression = factory.createAssignment(temp, expression), ts1.setTextRange(expression, node)), expression = factory.createComma(expression, factory.cloneNode(node.operand)), ts1.setTextRange(expression, node));
+                            ts1.isPrefixUnaryExpression(node) ? expression = factory.updatePrefixUnaryExpression(node, expression) : (expression = factory.updatePostfixUnaryExpression(node, expression), !valueIsDiscarded && (temp = factory.createTempVariable(hoistVariableDeclaration), expression = factory.createAssignment(temp, expression), ts1.setTextRange(expression, node)), expression = factory.createComma(expression, factory.cloneNode(node.operand)), ts1.setTextRange(expression, node));
                             for(var _i = 0; _i < exportedNames.length; _i++){
                                 var exportName = exportedNames[_i];
                                 noSubstitution[ts1.getNodeId(expression)] = !0, expression = createExportExpression(exportName, expression), ts1.setTextRange(expression, node);
@@ -640,9 +640,9 @@ var ts, ts1, dynamicImportUMDHelper;
             if (currentModuleInfo.exportEquals) return statements;
             if (ts1.isBindingPattern(decl.name)) for(var _i = 0, _a = decl.name.elements; _i < _a.length; _i++){
                 var element = _a[_i];
-                ts1.isOmittedExpression(element) || (statements = appendExportsOfBindingElement(statements, element));
+                !ts1.isOmittedExpression(element) && (statements = appendExportsOfBindingElement(statements, element));
             }
-            else ts1.isGeneratedIdentifier(decl.name) || (statements = appendExportsOfDeclaration(statements, decl));
+            else !ts1.isGeneratedIdentifier(decl.name) && (statements = appendExportsOfDeclaration(statements, decl));
             return statements;
         }(statements, _a[_i]);
         return statements;
@@ -686,7 +686,7 @@ var ts, ts1, dynamicImportUMDHelper;
          * @param allowComments Whether to allow comments on the export.
          */ function appendExportStatement(statements, exportName, expression, location, allowComments, liveBinding) {
         var statement;
-        return statements = ts1.append(statements, (statement = ts1.setTextRange(factory.createExpressionStatement(createExportExpression(exportName, expression, /* location */ void 0, liveBinding)), location), ts1.startOnNewLine(statement), allowComments || ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statement));
+        return statements = ts1.append(statements, (statement = ts1.setTextRange(factory.createExpressionStatement(createExportExpression(exportName, expression, /* location */ void 0, liveBinding)), location), ts1.startOnNewLine(statement), !allowComments && ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statement));
     }
     function createUnderscoreUnderscoreESModule() {
         var statement;
