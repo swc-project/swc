@@ -9,9 +9,13 @@ repository  = { workspace = true }
 version     = "1.2.0"
 
 [features]
-default = ["parallel"]
+default = ["chili"]
 # Make it really parallel
-parallel = ["dep:chili"]
+parallel = []
+# Use rayon for parallel execution
+rayon = ["dep:rayon", "parallel"]
+# Use chili for parallel execution
+chili = ["dep:chili", "parallel"]
 # Alias for parallel, just for CI. Do not use it if you are not working on SWC.
 concurrent = ["parallel"]
 indexmap   = ["dep:indexmap"]
@@ -20,6 +24,7 @@ indexmap   = ["dep:indexmap"]
 chili     = { workspace = true, optional = true }
 indexmap  = { workspace = true, optional = true }
 once_cell = { workspace = true }
+rayon     = { workspace = true, optional = true }
 
 [dev-dependencies]
 scoped-tls = { workspace = true }

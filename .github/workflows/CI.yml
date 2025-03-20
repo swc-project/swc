@@ -301,7 +301,7 @@ jobs:
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
         run: |
-          cargo test -p swc_ecma_minifier --features concurrent --release
+          cargo test -p swc_ecma_minifier --features concurrent --features swc_parallel/chili
 
       - name: Run cargo test (swc_ecma_parser)
         if: matrix.settings.crate == 'swc_ecma_parser'

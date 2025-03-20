@@ -1,27 +1,33 @@
-#![cfg_attr(not(feature = "parallel"), allow(unused_variables))]
+#![cfg_attr(not(feature = "chili"), allow(unused_variables))]
 
 use std::{cell::RefCell, mem::transmute};
 
 pub mod items;
 pub mod merge;
 
+#[cfg(all(not(feature = "chili"), not(feature = "rayon"), feature = "parallel"))]
+compile_error!("You must enable `chili` or `rayon` feature if you want to use `parallel` feature");
+
+#[cfg(all(feature = "chili", feature = "rayon"))]
+compile_error!("You must enable `chili` or `rayon` feature, not both");
+
 #[derive(Default)]
 pub struct MaybeScope<'a>(ScopeLike<'a>);
 
 enum ScopeLike<'a> {
     Scope(Scope<'a>),
-    #[cfg(feature = "parallel")]
+    #[cfg(feature = "chili")]
     Global(Option<chili::Scope<'a>>),
 }
 
 impl Default for ScopeLike<'_> {
     fn default() -> Self {
-        #[cfg(feature = "parallel")]
+        #[cfg(feature = "chili")]
         {
             ScopeLike::Global(None)
         }
 
-        #[cfg(not(feature = "parallel"))]
+        #[cfg(not(feature = "chili"))]
         {
             ScopeLike::Scope(Scope(std::marker::PhantomData))
         }
@@ -40,14 +46,14 @@ impl<'a> MaybeScope<'a> {
     where
         F: FnOnce(Scope<'a>) -> R,
     {
-        #[cfg(feature = "parallel")]
+        #[cfg(feature = "chili")]
         let scope: &mut chili::Scope = match &mut self.0 {
             ScopeLike::Scope(scope) => unsafe {
                 // Safety: chili Scope will be alive until the end of the function, because it's
                 // contract of 'a lifetime in the type.
                 transmute::<&mut chili::Scope, &mut chili::Scope>(&mut scope.0)
             },
-            #[cfg(feature = "parallel")]
+            #[cfg(feature = "chili")]
             ScopeLike::Global(global_scope) => {
                 // Initialize global scope lazily, and only once.
                 let scope = global_scope.get_or_insert_with(|| chili::Scope::global());
@@ -60,20 +66,20 @@ impl<'a> MaybeScope<'a> {
             }
         };
 
-        #[cfg(feature = "parallel")]
+        #[cfg(feature = "chili")]
         let scope = Scope(scope);
 
-        #[cfg(not(feature = "parallel"))]
+        #[cfg(not(feature = "chili"))]
         let scope = Scope(std::marker::PhantomData);
 
         f(scope)
     }
 }
 
-#[cfg(not(feature = "parallel"))]
+#[cfg(not(feature = "chili"))]
 pub struct Scope<'a>(std::marker::PhantomData<&'a ()>);
 
-#[cfg(feature = "parallel")]
+#[cfg(feature = "chili")]
 pub struct Scope<'a>(&'a mut chili::Scope<'a>);
 
 #[inline]
@@ -151,7 +157,7 @@ where
     RA: Send,
     RB: Send,
 {
-    #[cfg(feature = "parallel")]
+    #[cfg(feature = "chili")]
     let (ra, rb) = scope.0.join(
         |scope| {
             let scope = Scope(unsafe {
@@ -171,6 +177,12 @@ where
 
             oper_b(scope)
         },
+    );
+
+    #[cfg(feature = "rayon")]
+    let (ra, rb) = rayon::join(
+        || oper_a(Scope(std::marker::PhantomData)),
+        || oper_b(Scope(std::marker::PhantomData)),
     );
 
     #[cfg(not(feature = "parallel"))]

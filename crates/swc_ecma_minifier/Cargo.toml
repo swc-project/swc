@@ -72,19 +72,22 @@ swc_parallel = { version = "1.2.0", path = "../swc_parallel", default-features =
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 
 [dev-dependencies]
-ansi_term         = { workspace = true }
-anyhow            = { workspace = true }
-criterion         = { workspace = true }
-flate2            = { workspace = true }
-humansize         = { workspace = true }
-pretty_assertions = { workspace = true }
-walkdir           = { workspace = true }
-
+ansi_term                 = { workspace = true }
+anyhow                    = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
-swc_allocator             = { version = "4.0.0", path = "../swc_allocator" }
-swc_ecma_testing          = { version = "8.0.0", path = "../swc_ecma_testing" }
-swc_malloc                = { version = "1.2.2", path = "../swc_malloc" }
-testing                   = { version = "8.0.0", path = "../testing" }
+criterion                 = { workspace = true }
+flate2                    = { workspace = true }
+humansize                 = { workspace = true }
+pretty_assertions         = { workspace = true }
+walkdir                   = { workspace = true }
+
+swc_allocator = { version = "4.0.0", path = "../swc_allocator" }
+swc_ecma_testing = { version = "8.0.0", path = "../swc_ecma_testing" }
+swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
+swc_parallel = { version = "1.2.0", path = "../swc_parallel", features = [
+  "chili",
+] }
+testing = { version = "8.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
