@@ -60,7 +60,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+        negate(self.expr_ctx, e, true, is_ret_val_ignored);
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
     }
 
