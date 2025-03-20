@@ -13,6 +13,8 @@ use crate::{
 
 impl Pure<'_> {
     pub(super) fn negate_bool_for_expr_stmt(&mut self, e: &mut Expr) {
+        self.negate_bool_preserving_semantics(e);
+
         let cost = negate_cost(self.expr_ctx, e, false, true);
         if cost >= 0 {
             return;
@@ -27,7 +29,7 @@ impl Pure<'_> {
             self.negate_bool_preserving_semantics(&mut cond.cons);
             self.negate_bool_preserving_semantics(&mut cond.alt);
 
-            let cost = negate_cost(self.expr_ctx, &cond.test, false, true);
+            let cost = negate_cost(self.expr_ctx, &cond.test, true, false);
             if cost >= 0 {
                 return;
             }
