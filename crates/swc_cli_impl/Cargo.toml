@@ -44,6 +44,9 @@ swc_core = { version = "16.7.0", features = [
   "common_concurrent",
   "base_concurrent",
 ], path = "../swc_core" }
+swc_parallel = { version = "1.2.0", path = "../swc_parallel", features = [
+  "chili",
+] }
 
 [dev-dependencies]
 assert_cmd = { workspace = true }
