@@ -5,6 +5,12 @@ use std::{cell::RefCell, mem::transmute};
 pub mod items;
 pub mod merge;
 
+#[cfg(all(not(feature = "chili"), not(feature = "rayon")))]
+compile_error!("You must enable either `chili` or `rayon` feature, not both");
+
+#[cfg(all(feature = "chili", feature = "rayon"))]
+compile_error!("You must enable either `chili` or `rayon` feature, not both");
+
 #[derive(Default)]
 pub struct MaybeScope<'a>(ScopeLike<'a>);
 
