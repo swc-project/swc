@@ -21,6 +21,22 @@ impl Pure<'_> {
         self.negate(e, false, true);
     }
 
+    pub(super) fn negate_bool_preserving_semantics(&mut self, e: &mut Expr) {
+        if let Expr::Cond(cond) = e {
+            self.negate_bool_preserving_semantics(&mut cond.test);
+            self.negate_bool_preserving_semantics(&mut cond.cons);
+            self.negate_bool_preserving_semantics(&mut cond.alt);
+
+            let cost = negate_cost(self.expr_ctx, &cond.test, false, true);
+            if cost >= 0 {
+                return;
+            }
+
+            self.negate(&mut cond.test, true, false);
+            swap(&mut cond.cons, &mut cond.alt);
+        }
+    }
+
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
