@@ -2291,9 +2291,9 @@ impl VisitMut for Optimizer<'_> {
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        self.negate_if_stmt(n);
-
         self.merge_nested_if(n);
+
+        self.negate_if_stmt(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
