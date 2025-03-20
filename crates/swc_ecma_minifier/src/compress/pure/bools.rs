@@ -6,7 +6,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
 use super::Pure;
 use crate::{
-    compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
+    compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate},
     option::CompressOptions,
     util::make_bool,
 };
@@ -19,65 +19,6 @@ impl Pure<'_> {
 
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
         negate(self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
-    }
-
-    /// `!(a && b)` => `!a || !b`
-    pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        if !self.ctx.in_first_expr {
-            return;
-        }
-
-        if let Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) = e
-        {
-            match &mut **arg {
-                Expr::Bin(BinExpr {
-                    op: op!("&&"),
-                    left,
-                    right,
-                    ..
-                }) => {
-                    if negate_cost(self.expr_ctx, left, false, false) >= 0
-                        || negate_cost(self.expr_ctx, right, false, false) >= 0
-                    {
-                        return;
-                    }
-                    report_change!("bools: Optimizing `!(a && b)` as `!a || !b`");
-                    self.negate(arg, false, false);
-                    *e = *arg.take();
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    arg: arg_of_arg,
-                    ..
-                }) => {
-                    if let Expr::Bin(BinExpr {
-                        op: op!("||"),
-                        left,
-                        right,
-                        ..
-                    }) = &mut **arg_of_arg
-                    {
-                        if negate_cost(self.expr_ctx, left, false, false) > 0
-                            || negate_cost(self.expr_ctx, right, false, false) > 0
-                        {
-                            return;
-                        }
-                        report_change!("bools: Optimizing `!!(a || b)` as `!a && !b`");
-                        self.negate(arg_of_arg, false, false);
-                        *e = *arg.take();
-                    }
-                }
-
-                _ => {}
-            }
-        }
     }
 
     pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
