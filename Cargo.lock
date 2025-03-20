@@ -6202,6 +6202,7 @@ dependencies = [
  "hstr",
  "indexmap 2.7.1",
  "once_cell",
+ "rayon",
  "scoped-tls",
 ]
 
