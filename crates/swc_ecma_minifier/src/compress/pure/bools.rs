@@ -6,12 +6,21 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
 use super::Pure;
 use crate::{
-    compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate},
+    compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
     option::CompressOptions,
     util::make_bool,
 };
 
 impl Pure<'_> {
+    pub(super) fn negate_bool_for_expr_stmt(&mut self, e: &mut Expr) {
+        let cost = negate_cost(self.expr_ctx, e, false, true);
+        if cost >= 0 {
+            return;
+        }
+
+        self.negate(e, false, true);
+    }
+
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
