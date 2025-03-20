@@ -99,7 +99,7 @@
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
                         var key, i, target = {}, sourceKeys = Object.keys(source);
-                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                         return target;
                     }(source, excluded);
                     if (Object.getOwnPropertySymbols) {
@@ -150,7 +150,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -442,7 +442,7 @@
                     };
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
-                    sizes: sizes || "w" !== kind ? sizes : "100vw",
+                    sizes: !sizes && "w" === kind ? "100vw" : sizes,
                     srcSet: widths.map(function(w, i) {
                         return "".concat(loader({
                             src: src,
@@ -497,7 +497,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -655,7 +655,7 @@
                 var key, i, target = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(source, excluded);
                 if (Object.getOwnPropertySymbols) {
@@ -813,7 +813,7 @@
                 })), start = _useCountUp.start, reset = _useCountUp.reset, updateCountUp = _useCountUp.update, pauseResume = _useCountUp.pauseResume, getCountUp = _useCountUp.getCountUp, restart = useEventCallback(function() {
                     start();
                 }), update = useEventCallback(function(end) {
-                    props.preserveValue || reset(), updateCountUp(end);
+                    !props.preserveValue && reset(), updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
                     if ("function" == typeof props.children && !(containerRef.current instanceof Element)) {
                         console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');

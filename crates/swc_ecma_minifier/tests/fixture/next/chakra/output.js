@@ -108,7 +108,7 @@
                 var containerRef = props.containerRef, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(props, _excluded);
                 return containerRef ? /*#__PURE__*/ react.createElement(ContainerPortal, _extends({
@@ -1410,7 +1410,7 @@
                         for(var _len2 = arguments.length, parts = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)parts[_key2] = arguments[_key2];
                         for(var _i2 = 0; _i2 < parts.length; _i2++){
                             var part = parts[_i2];
-                            part in _this.map || (_this.map[part] = _this.toPart(part));
+                            !(part in _this.map) && (_this.map[part] = _this.toPart(part));
                         }
                         return _this;
                     }, this.toPart = function(part) {
@@ -1869,7 +1869,7 @@
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
                 }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (new module_TinyColor(getColor(theme, bg)).isDark() ? "dark" : "light"), color = "white";
-                return isBgDark || (color = "gray.800"), {
+                return !isBgDark && (color = "gray.800"), {
                     bg: bg,
                     color: color,
                     borderColor: mode("white", "gray.800")(props),
@@ -4379,7 +4379,7 @@
                 var styles = (0, chakra_ui_system_esm /* useStyleConfig */ .mq)("Spinner", props), _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), _omitThemingProps$lab = _omitThemingProps.label, label = void 0 === _omitThemingProps$lab ? "Loading..." : _omitThemingProps$lab, _omitThemingProps$thi = _omitThemingProps.thickness, _omitThemingProps$spe = _omitThemingProps.speed, _omitThemingProps$emp = _omitThemingProps.emptyColor, emptyColor = void 0 === _omitThemingProps$emp ? "transparent" : _omitThemingProps$emp, className = _omitThemingProps.className, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(_omitThemingProps, chakra_ui_spinner_esm_excluded), _className = (0, chakra_ui_utils_esm.cx)("chakra-spinner", className), spinnerStyles = chakra_ui_spinner_esm_extends({
                     display: "inline-block",
@@ -4460,7 +4460,7 @@
                 var _props$colorScheme, _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), _omitThemingProps$sta = _omitThemingProps.status, status = void 0 === _omitThemingProps$sta ? "info" : _omitThemingProps$sta, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(_omitThemingProps, chakra_ui_alert_esm_excluded), colorScheme = null != (_props$colorScheme = props.colorScheme) ? _props$colorScheme : STATUSES[status].colorScheme, styles = (0, chakra_ui_system_esm /* useMultiStyleConfig */ .jC)("Alert", chakra_ui_alert_esm_extends({}, props, {
                     colorScheme: colorScheme
@@ -4539,7 +4539,7 @@
                 var styles = (0, chakra_ui_system_esm /* useStyleConfig */ .mq)("CloseButton", props), _omitThemingProps = (0, chakra_ui_system_esm /* omitThemingProps */ .Lr)(props), children = _omitThemingProps.children, isDisabled = _omitThemingProps.isDisabled, __css = _omitThemingProps.__css, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(_omitThemingProps, chakra_ui_close_button_esm_excluded);
                 return /*#__PURE__*/ react.createElement(chakra_ui_system_esm /* chakra.button */ .m$.button, chakra_ui_close_button_esm_extends({
@@ -4773,7 +4773,7 @@
             }, ToastComponent = /*#__PURE__*/ react.memo(function(props) {
                 var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence /* useIsPresent */ .hO)();
                 (0, chakra_ui_hooks_esm /* useUpdateEffect */ .rf)(function() {
-                    isPresent || null == onCloseComplete || onCloseComplete();
+                    !isPresent && (null == onCloseComplete || onCloseComplete());
                 }, [
                     isPresent
                 ]), (0, chakra_ui_hooks_esm /* useUpdateEffect */ .rf)(function() {
@@ -4859,8 +4859,8 @@
                             margin: "top" === position || "bottom" === position ? "0 auto" : void 0,
                             top: position.includes("top") ? "env(safe-area-inset-top, 0px)" : void 0,
                             bottom: position.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0,
-                            right: position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)",
-                            left: position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)"
+                            right: !position.includes("left") ? "env(safe-area-inset-right, 0px)" : void 0,
+                            left: !position.includes("right") ? "env(safe-area-inset-left, 0px)" : void 0
                         }
                     }, /*#__PURE__*/ react.createElement(AnimatePresence /* AnimatePresence */ .M, {
                         initial: !1
@@ -4881,7 +4881,7 @@
                 var children = _ref.children, toastOptions = _ref.toastOptions, restProps = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                     return target;
                 }(_ref, chakra_ui_react_esm_excluded);
                 return /*#__PURE__*/ react.createElement(chakra_ui_provider_esm_ChakraProvider, restProps, children, /*#__PURE__*/ react.createElement(ToastProvider, toastOptions));

@@ -227,7 +227,7 @@
                     function slowToString(e, r, t) {
                         var r1, t1, f1 = !1;
                         if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0 || (t >>>= 0) <= (r >>>= 0))) return "";
-                        for(e || (e = "utf8");;)switch(e){
+                        for(!e && (e = "utf8");;)switch(e){
                             case "hex":
                                 return function(e, r, t) {
                                     var f = e.length;
@@ -349,10 +349,10 @@
                         if (t + f > e.length || t < 0) throw RangeError("Index out of range");
                     }
                     function writeFloat(e, r, t, f, i) {
-                        return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n.write(e, r, t, f, 23, 4), t + 4;
+                        return r *= 1, t >>>= 0, !i && checkIEEE754(e, r, t, 4, 34028234663852886e22, -340282346638528860000000000000000000000), n.write(e, r, t, f, 23, 4), t + 4;
                     }
                     function writeDouble(e, r, t, f, i) {
-                        return r *= 1, t >>>= 0, i || checkIEEE754(e, r, t, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), n.write(e, r, t, f, 52, 8), t + 8;
+                        return r *= 1, t >>>= 0, !i && checkIEEE754(e, r, t, 8, 17976931348623157e292, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), n.write(e, r, t, f, 52, 8), t + 8;
                     }
                     r.Buffer = Buffer, r.SlowBuffer = function(e) {
                         return +e != e && (e = 0), Buffer.alloc(+e);
@@ -367,7 +367,7 @@
                         } catch (e) {
                             return !1;
                         }
-                    }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+                    }(), !Buffer.TYPED_ARRAY_SUPPORT && "undefined" != typeof console && "function" == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                         enumerable: !0,
                         get: function() {
                             if (Buffer.isBuffer(this)) return this.buffer;
@@ -472,7 +472,7 @@
                         else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                         var t1, f1, t2, f2, t3, f3, t4, f4, t5, f5, n = this.length - r;
                         if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
-                        f || (f = "utf8");
+                        !f && (f = "utf8");
                         for(var i = !1;;)switch(f){
                             case "hex":
                                 return function(e, r, t, f) {
@@ -521,53 +521,53 @@
                         var f = this.subarray(e, r);
                         return Object.setPrototypeOf(f, Buffer.prototype), f;
                     }, Buffer.prototype.readUIntLE = function(e, r, t) {
-                        e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
+                        e >>>= 0, r >>>= 0, !t && checkOffset(e, r, this.length);
                         for(var f = this[e], n = 1, i = 0; ++i < r && (n *= 256);)f += this[e + i] * n;
                         return f;
                     }, Buffer.prototype.readUIntBE = function(e, r, t) {
-                        e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
+                        e >>>= 0, r >>>= 0, !t && checkOffset(e, r, this.length);
                         for(var f = this[e + --r], n = 1; r > 0 && (n *= 256);)f += this[e + --r] * n;
                         return f;
                     }, Buffer.prototype.readUInt8 = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 1, this.length), this[e];
+                        return e >>>= 0, !r && checkOffset(e, 1, this.length), this[e];
                     }, Buffer.prototype.readUInt16LE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 2, this.length), this[e] | this[e + 1] << 8;
+                        return e >>>= 0, !r && checkOffset(e, 2, this.length), this[e] | this[e + 1] << 8;
                     }, Buffer.prototype.readUInt16BE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 2, this.length), this[e] << 8 | this[e + 1];
+                        return e >>>= 0, !r && checkOffset(e, 2, this.length), this[e] << 8 | this[e + 1];
                     }, Buffer.prototype.readUInt32LE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), (this[e] | this[e + 1] << 8 | this[e + 2] << 16) + 16777216 * this[e + 3];
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), (this[e] | this[e + 1] << 8 | this[e + 2] << 16) + 16777216 * this[e + 3];
                     }, Buffer.prototype.readUInt32BE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), 16777216 * this[e] + (this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3]);
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), 16777216 * this[e] + (this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3]);
                     }, Buffer.prototype.readIntLE = function(e, r, t) {
-                        e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
+                        e >>>= 0, r >>>= 0, !t && checkOffset(e, r, this.length);
                         for(var f = this[e], n = 1, i = 0; ++i < r && (n *= 256);)f += this[e + i] * n;
                         return f >= (n *= 128) && (f -= Math.pow(2, 8 * r)), f;
                     }, Buffer.prototype.readIntBE = function(e, r, t) {
-                        e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
+                        e >>>= 0, r >>>= 0, !t && checkOffset(e, r, this.length);
                         for(var f = r, n = 1, i = this[e + --f]; f > 0 && (n *= 256);)i += this[e + --f] * n;
                         return i >= (n *= 128) && (i -= Math.pow(2, 8 * r)), i;
                     }, Buffer.prototype.readInt8 = function(e, r) {
-                        return (e >>>= 0, r || checkOffset(e, 1, this.length), 128 & this[e]) ? -((255 - this[e] + 1) * 1) : this[e];
+                        return (e >>>= 0, !r && checkOffset(e, 1, this.length), 128 & this[e]) ? -((255 - this[e] + 1) * 1) : this[e];
                     }, Buffer.prototype.readInt16LE = function(e, r) {
-                        e >>>= 0, r || checkOffset(e, 2, this.length);
+                        e >>>= 0, !r && checkOffset(e, 2, this.length);
                         var t = this[e] | this[e + 1] << 8;
                         return 32768 & t ? 4294901760 | t : t;
                     }, Buffer.prototype.readInt16BE = function(e, r) {
-                        e >>>= 0, r || checkOffset(e, 2, this.length);
+                        e >>>= 0, !r && checkOffset(e, 2, this.length);
                         var t = this[e + 1] | this[e] << 8;
                         return 32768 & t ? 4294901760 | t : t;
                     }, Buffer.prototype.readInt32LE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), this[e] | this[e + 1] << 8 | this[e + 2] << 16 | this[e + 3] << 24;
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), this[e] | this[e + 1] << 8 | this[e + 2] << 16 | this[e + 3] << 24;
                     }, Buffer.prototype.readInt32BE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), this[e] << 24 | this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3];
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), this[e] << 24 | this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3];
                     }, Buffer.prototype.readFloatLE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), n.read(this, e, !0, 23, 4);
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), n.read(this, e, !0, 23, 4);
                     }, Buffer.prototype.readFloatBE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 4, this.length), n.read(this, e, !1, 23, 4);
+                        return e >>>= 0, !r && checkOffset(e, 4, this.length), n.read(this, e, !1, 23, 4);
                     }, Buffer.prototype.readDoubleLE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !0, 52, 8);
+                        return e >>>= 0, !r && checkOffset(e, 8, this.length), n.read(this, e, !0, 52, 8);
                     }, Buffer.prototype.readDoubleBE = function(e, r) {
-                        return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
+                        return e >>>= 0, !r && checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
                     }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
                         if (e *= 1, r >>>= 0, t >>>= 0, !f) {
                             var n = Math.pow(2, 8 * t) - 1;
@@ -585,15 +585,15 @@
                         for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                         return r + t;
                     }, Buffer.prototype.writeUInt8 = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 1, 255, 0), this[r] = 255 & e, r + 1;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 1, 255, 0), this[r] = 255 & e, r + 1;
                     }, Buffer.prototype.writeUInt16LE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 2, 65535, 0), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
                     }, Buffer.prototype.writeUInt16BE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 2, 65535, 0), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
                     }, Buffer.prototype.writeUInt32LE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r + 3] = e >>> 24, this[r + 2] = e >>> 16, this[r + 1] = e >>> 8, this[r] = 255 & e, r + 4;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 4, 4294967295, 0), this[r + 3] = e >>> 24, this[r + 2] = e >>> 16, this[r + 1] = e >>> 8, this[r] = 255 & e, r + 4;
                     }, Buffer.prototype.writeUInt32BE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 4, 4294967295, 0), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
                     }, Buffer.prototype.writeIntLE = function(e, r, t, f) {
                         if (e *= 1, r >>>= 0, !f) {
                             var n = Math.pow(2, 8 * t - 1);
@@ -611,15 +611,15 @@
                         for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i + 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
                         return r + t;
                     }, Buffer.prototype.writeInt8 = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
                     }, Buffer.prototype.writeInt16LE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 2, 32767, -32768), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
                     }, Buffer.prototype.writeInt16BE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 2, 32767, -32768), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
                     }, Buffer.prototype.writeInt32LE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), this[r] = 255 & e, this[r + 1] = e >>> 8, this[r + 2] = e >>> 16, this[r + 3] = e >>> 24, r + 4;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 4, 2147483647, -2147483648), this[r] = 255 & e, this[r + 1] = e >>> 8, this[r + 2] = e >>> 16, this[r + 3] = e >>> 24, r + 4;
                     }, Buffer.prototype.writeInt32BE = function(e, r, t) {
-                        return e *= 1, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
+                        return e *= 1, r >>>= 0, !t && checkInt(this, e, r, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
                     }, Buffer.prototype.writeFloatLE = function(e, r, t) {
                         return writeFloat(this, e, r, !0, t);
                     }, Buffer.prototype.writeFloatBE = function(e, r, t) {
@@ -630,7 +630,7 @@
                         return writeDouble(this, e, r, !1, t);
                     }, Buffer.prototype.copy = function(e, r, t, f) {
                         if (!Buffer.isBuffer(e)) throw TypeError("argument should be a Buffer");
-                        if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
+                        if (!t && (t = 0), !f && 0 !== f && (f = this.length), r >= e.length && (r = e.length), !r && (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
                         if (r < 0) throw RangeError("targetStart out of bounds");
                         if (t < 0 || t >= this.length) throw RangeError("Index out of range");
                         if (f < 0) throw RangeError("sourceEnd out of bounds");
@@ -651,7 +651,7 @@
                         } else "number" == typeof e ? e &= 255 : "boolean" == typeof e && (e = Number(e));
                         if (r < 0 || this.length < r || this.length < t) throw RangeError("Out of range index");
                         if (t <= r) return this;
-                        if (r >>>= 0, t = void 0 === t ? this.length : t >>> 0, e || (e = 0), "number" == typeof e) for(i = r; i < t; ++i)this[i] = e;
+                        if (r >>>= 0, t = void 0 === t ? this.length : t >>> 0, !e && (e = 0), "number" == typeof e) for(i = r; i < t; ++i)this[i] = e;
                         else {
                             var o = Buffer.isBuffer(e) ? e : Buffer.from(e, f), u = o.length;
                             if (0 === u) throw TypeError('The value "' + e + '" is invalid for argument "value"');
@@ -821,7 +821,7 @@
                     t.nextTick = function(e) {
                         var t = Array(arguments.length - 1);
                         if (arguments.length > 1) for(var r = 1; r < arguments.length; r++)t[r - 1] = arguments[r];
-                        i.push(new Item(e, t)), 1 !== i.length || o || runTimeout(drainQueue);
+                        i.push(new Item(e, t)), 1 === i.length && !o && runTimeout(drainQueue);
                     }, Item.prototype.run = function() {
                         this.fun.apply(null, this.array);
                     }, t.title = "browser", t.browser = !0, t.env = {}, t.argv = [], t.version = "", t.versions = {}, t.on = noop, t.addListener = noop, t.once = noop, t.off = noop, t.removeListener = noop, t.removeAllListeners = noop, t.emit = noop, t.prependListener = noop, t.prependOnceListener = noop, t.listeners = function(e) {
@@ -958,7 +958,7 @@
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
                         "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%MapIteratorPrototype%": "undefined" == typeof Map || !f ? o : u(new Map()[Symbol.iterator]()),
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
@@ -971,7 +971,7 @@
                         "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
                         "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SetIteratorPrototype%": "undefined" == typeof Set || !f ? o : u(new Set()[Symbol.iterator]()),
                         "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
@@ -1234,7 +1234,7 @@
                         for(var l = 1, d = !0; l < e.length; l += 1){
                             var A = e[l], v = h(A, 0, 1), P = h(A, -1);
                             if (('"' === v || "'" === v || "`" === v || '"' === P || "'" === P || "`" === P) && v !== P) throw new n("property names with quotes must have matching quotes");
-                            if ("constructor" !== A && d || (s = !0), i += "." + A, b(g, f = "%" + i + "%")) u = g[f];
+                            if (("constructor" === A || !d) && (s = !0), i += "." + A, b(g, f = "%" + i + "%")) u = g[f];
                             else if (null != u) {
                                 if (!(A in u)) {
                                     if (!t) throw new a("base intrinsic for " + r + " exists, but the property is not available.");
@@ -1343,7 +1343,7 @@
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
                         "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%MapIteratorPrototype%": "undefined" == typeof Map || !f ? o : u(new Map()[Symbol.iterator]()),
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
@@ -1356,7 +1356,7 @@
                         "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
                         "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SetIteratorPrototype%": "undefined" == typeof Set || !f ? o : u(new Set()[Symbol.iterator]()),
                         "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
@@ -1632,7 +1632,7 @@
                         for(var d = 1, g = !0; d < e.length; d += 1){
                             var A = e[d], m = P(A, 0, 1), h = P(A, -1);
                             if (('"' === m || "'" === m || "`" === m || '"' === h || "'" === h || "`" === h) && m !== h) throw new n("property names with quotes must have matching quotes");
-                            if ("constructor" !== A && g || (s = !0), i += "." + A, v(l, f = "%" + i + "%")) u = l[f];
+                            if (("constructor" === A || !g) && (s = !0), i += "." + A, v(l, f = "%" + i + "%")) u = l[f];
                             else if (null != u) {
                                 if (!(A in u)) {
                                     if (!t) throw new a("base intrinsic for " + r + " exists, but the property is not available.");
@@ -1728,7 +1728,7 @@
                         var t = new __webpack_require__.g[r]();
                         if (!(Symbol.toStringTag in t)) throw EvalError("this engine has support for Symbol.toStringTag, but " + r + " does not have the property! Please report this.");
                         var e = d(t), o = l(e, Symbol.toStringTag);
-                        o || (o = l(d(e), Symbol.toStringTag)), c[r] = o.get;
+                        !o && (o = l(d(e), Symbol.toStringTag)), c[r] = o.get;
                     });
                     var g = function(r) {
                         var t = !1;
@@ -1947,7 +1947,7 @@
                     function formatValue(r, e, o) {
                         if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
                             var t1, e1, o1, t2, l, n = e.inspect(o, r);
-                            return isString(n) || (n = formatValue(r, n, o)), n;
+                            return !isString(n) && (n = formatValue(r, n, o)), n;
                         }
                         var i = function(r, t) {
                             if (isUndefined(t)) return r.stylize("undefined", "undefined");
@@ -1984,7 +1984,7 @@
                         return r.seen.push(e), l = u ? function(r, t, e, o, n) {
                             for(var i = [], a = 0, y = t.length; a < y; ++a)hasOwnProperty(t, String(a)) ? i.push(formatProperty(r, t, e, o, String(a), !0)) : i.push("");
                             return n.forEach(function(n) {
-                                n.match(/^\d+$/) || i.push(formatProperty(r, t, e, o, n, !0));
+                                !n.match(/^\d+$/) && i.push(formatProperty(r, t, e, o, n, !0));
                             }), i;
                         }(r, e, o, y, a) : a.map(function(t) {
                             return formatProperty(r, e, o, y, t, u);
@@ -1999,7 +1999,7 @@
                         var a, y, p;
                         if ((p = Object.getOwnPropertyDescriptor(t, n) || {
                             value: t[n]
-                        }).get ? y = p.set ? r.stylize("[Getter/Setter]", "special") : r.stylize("[Getter]", "special") : p.set && (y = r.stylize("[Setter]", "special")), hasOwnProperty(o, n) || (a = "[" + n + "]"), !y && (0 > r.seen.indexOf(p.value) ? (y = isNull(e) ? formatValue(r, p.value, null) : formatValue(r, p.value, e - 1)).indexOf("\n") > -1 && (y = i ? y.split("\n").map(function(r) {
+                        }).get ? y = p.set ? r.stylize("[Getter/Setter]", "special") : r.stylize("[Getter]", "special") : p.set && (y = r.stylize("[Setter]", "special")), !hasOwnProperty(o, n) && (a = "[" + n + "]"), !y && (0 > r.seen.indexOf(p.value) ? (y = isNull(e) ? formatValue(r, p.value, null) : formatValue(r, p.value, e - 1)).indexOf("\n") > -1 && (y = i ? y.split("\n").map(function(r) {
                             return "  " + r;
                         }).join("\n").substr(2) : "\n" + y.split("\n").map(function(r) {
                             return "   " + r;
@@ -2225,7 +2225,7 @@
                             var t = new __webpack_require__.g[r]();
                             if (!(Symbol.toStringTag in t)) throw EvalError("this engine has support for Symbol.toStringTag, but " + r + " does not have the property! Please report this.");
                             var e = l(t), o = c(e, Symbol.toStringTag);
-                            o || (o = c(l(e), Symbol.toStringTag)), s[r] = o.get;
+                            !o && (o = c(l(e), Symbol.toStringTag)), s[r] = o.get;
                         }
                     });
                     var d = function(r) {
@@ -2302,7 +2302,7 @@
                         "%IteratorPrototype%": f ? u(u([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
                         "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && f ? u(new Map()[Symbol.iterator]()) : o,
+                        "%MapIteratorPrototype%": "undefined" == typeof Map || !f ? o : u(new Map()[Symbol.iterator]()),
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
@@ -2315,7 +2315,7 @@
                         "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
                         "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && f ? u(new Set()[Symbol.iterator]()) : o,
+                        "%SetIteratorPrototype%": "undefined" == typeof Set || !f ? o : u(new Set()[Symbol.iterator]()),
                         "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": f ? u(""[Symbol.iterator]()) : o,
@@ -2574,7 +2574,7 @@
                         ], u)));
                         for(var s = 1, c = !0; s < e.length; s += 1){
                             var l = e[s];
-                            if ("constructor" !== l && c || (f = !0), o += "." + l, b(g, i = "%" + o + "%")) p = g[i];
+                            if (("constructor" === l || !c) && (f = !0), o += "." + l, b(g, i = "%" + o + "%")) p = g[i];
                             else if (null != p) {
                                 if (y && s + 1 >= e.length) {
                                     var d = y(p, l);

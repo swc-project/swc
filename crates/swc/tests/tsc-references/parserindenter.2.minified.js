@@ -132,7 +132,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return this.GetIndentString(existingIndentation, level * indentSize, tabSize, convertTabsToSpaces);
     }, _proto.GetIndentString = function(prefix, totalIndentSize, tabSize, convertTabsToSpaces) {
         var tabString = convertTabsToSpaces ? StringUtils.create(' ', tabSize) : "\t", text = "";
-        StringUtils.IsNullOrEmpty(prefix) || (text += prefix);
+        !StringUtils.IsNullOrEmpty(prefix) && (text += prefix);
         for(var pos = 0; pos <= totalIndentSize - tabSize;)text += tabString, pos += tabSize;
         for(; pos < totalIndentSize;)text += ' ', pos++;
         return text;
@@ -182,7 +182,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         }
         if (null != indentNode) {
             var indentOverride = this.GetLineIndentationForOffset(offset);
-            this.smartIndent || null === tree.StartNodePreviousSibling || null == indentNode.Parent || ParseNodeExtensions.GetChildren(indentNode.Parent).foreach(function(sibling) {
+            !this.smartIndent && null !== tree.StartNodePreviousSibling && null != indentNode.Parent && ParseNodeExtensions.GetChildren(indentNode.Parent).foreach(function(sibling) {
                 sibling !== indentNode && sibling.CanIndent() && sibling.SetIndentationOverride(indentOverride);
             });
             var lastDelta = 0, lastLine = this.snapshot.GetLineNumberFromPosition(indentNode.AuthorNode.Details.StartOffset);

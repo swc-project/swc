@@ -172,7 +172,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                     var previous = ctx.path.ast();
                     (null == previous || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) && ctx.path.push(cur);
                 }
-                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, 2) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
+                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), !hasFlag(options, 2) && (walker.options.goChildren = minChar <= pos && pos <= limChar);
             }
             return cur;
         }, null, null, ctx), ctx.path;

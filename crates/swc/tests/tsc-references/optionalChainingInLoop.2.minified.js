@@ -16,7 +16,7 @@ try {
             _didIteratorError = !0, _iteratorError = err;
         } finally{
             try {
-                _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+                !_iteratorNormalCompletion && null != _iterator.return && _iterator.return();
             } finally{
                 if (_didIteratorError) throw _iteratorError;
             }
@@ -26,7 +26,7 @@ try {
     _didIteratorError = !0, _iteratorError = err;
 } finally{
     try {
-        _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+        !_iteratorNormalCompletion && null != _iterator.return && _iterator.return();
     } finally{
         if (_didIteratorError) throw _iteratorError;
     }

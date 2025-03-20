@@ -82,7 +82,7 @@
             exports.Z = function(source, excluded) {
                 if (null == source) return {};
                 var key, i, target = {}, sourceKeys = Object.keys(source);
-                for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                 return target;
             };
         /***/ },
@@ -717,7 +717,7 @@
             }
             exports.default = (onPerfEntry)=>{
                 // Update function if it changes:
-                userReportHandler = onPerfEntry, isRegistered || (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
+                userReportHandler = onPerfEntry, !isRegistered && (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
@@ -748,7 +748,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.removeBasePath = function(path) {
-                return (path = path.slice(0)).startsWith("/") || (path = "/".concat(path)), path;
+                return !(path = path.slice(0)).startsWith("/") && (path = "/".concat(path)), path;
             }, __webpack_require__(4119), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
@@ -961,7 +961,7 @@
                         // Resolved, cancel the timeout
                         cancelled = !0, resolve(r);
                     }).catch(reject), _requestIdleCallback.requestIdleCallback(()=>setTimeout(()=>{
-                            cancelled || reject(err);
+                            !cancelled && reject(err);
                         }, ms));
                 });
             }
@@ -1169,7 +1169,7 @@
                 ]), { updateScripts, scripts, getIsSsr } = _react.useContext(_headManagerContext.HeadManagerContext), hasOnReadyEffectCalled = _react.useRef(!1);
                 _react.useEffect(()=>{
                     const cacheKey = id || src;
-                    hasOnReadyEffectCalled.current || (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
+                    !hasOnReadyEffectCalled.current && (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
                 }, [
                     onReady,
                     id,
@@ -1177,7 +1177,7 @@
                 ]);
                 const hasLoadScriptEffectCalled = _react.useRef(!1);
                 return _react.useEffect(()=>{
-                    hasLoadScriptEffectCalled.current || ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
+                    !hasLoadScriptEffectCalled.current && ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
                         _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
                     })), hasLoadScriptEffectCalled.current = !0);
                 }, [
@@ -1391,7 +1391,7 @@
                         charSet: "utf-8"
                     })
                 ];
-                return inAmpMode || head.push(/*#__PURE__*/ _react.default.createElement("meta", {
+                return !inAmpMode && head.push(/*#__PURE__*/ _react.default.createElement("meta", {
                     name: "viewport",
                     content: "width=device-width"
                 })), head;
@@ -1648,7 +1648,7 @@
             function omit(object, keys) {
                 const omitted = {};
                 return Object.keys(object).forEach((key)=>{
-                    keys.includes(key) || (omitted[key] = object[key]);
+                    !keys.includes(key) && (omitted[key] = object[key]);
                 }), omitted;
             }
             function isLocalURL(url) {
@@ -1669,19 +1669,19 @@
                 query;
                 interpolatedRoute = route;
                 const params = Object.keys(dynamicGroups);
-                return params.every((param)=>{
+                return !params.every((param)=>{
                     let value = dynamicMatches[param] || "";
                     const { repeat, optional } = dynamicGroups[param];
                     // support single-level catch-all
                     // TODO: more robust handling for user-error (passing `/`)
                     let replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
-                    return optional && (replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
+                    return optional && (replaced = "".concat(!value ? "/" : "", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
                         value
                     ]), (optional || param in dynamicMatches) && // Interpolate group into data URL if present
                     (interpolatedRoute = interpolatedRoute.replace(replaced, repeat ? value.map(// into the URL and we expect URL encoded segments
                     // when parsing dynamic route params
                     (segment)=>encodeURIComponent(segment)).join("/") : encodeURIComponent(value)) || "/");
-                }) || (interpolatedRoute = "" // did not satisfy all requirements
+                }) && (interpolatedRoute = "" // did not satisfy all requirements
                 ), {
                     params,
                     result: interpolatedRoute
@@ -1745,7 +1745,7 @@
             }
             function resolveDynamicRoute(pathname, pages) {
                 const cleanPathname = _removeTrailingSlash.removeTrailingSlash(_denormalizePagePath.denormalizePagePath(pathname));
-                return "/404" === cleanPathname || "/_error" === cleanPathname ? pathname : (pages.includes(cleanPathname) || // eslint-disable-next-line array-callback-return
+                return "/404" === cleanPathname || "/_error" === cleanPathname ? pathname : (!pages.includes(cleanPathname) && // eslint-disable-next-line array-callback-return
                 pages.some((page)=>{
                     if (_isDynamic.isDynamicRoute(page) && _routeRegex.getRouteRegex(page).re.test(cleanPathname)) return pathname = page, !0;
                 }), _removeTrailingSlash.removeTrailingSlash(pathname));
@@ -1827,7 +1827,7 @@
                                     };
                                 }
                                 const error = Error("Failed to load static props");
-                                throw isServerRender || _routeLoader.markAssetError(error), error;
+                                throw !isServerRender && _routeLoader.markAssetError(error), error;
                             }
                             return {
                                 dataHref,
@@ -1836,7 +1836,7 @@
                                 text,
                                 cacheKey
                             };
-                        })).then((data)=>(persistCache && "no-cache" !== data.response.headers.get("x-middleware-cache") || delete inflightCache[cacheKey], data)).catch((err)=>{
+                        })).then((data)=>((!persistCache || "no-cache" === data.response.headers.get("x-middleware-cache")) && delete inflightCache[cacheKey], data)).catch((err)=>{
                         throw delete inflightCache[cacheKey], err;
                     });
                 return(// when skipping client cache we wait to update
@@ -1913,13 +1913,13 @@
                         const isSsr = _this.isSsr;
                         // if a route transition is already in progress before
                         // the query updating is triggered ignore query updating
-                        if (isQueryUpdating || (_this.isSsr = !1), isQueryUpdating && _this.clc) return !1;
+                        if (!isQueryUpdating && (_this.isSsr = !1), isQueryUpdating && _this.clc) return !1;
                         const prevLocale = nextState.locale;
                         _utils.ST && performance.mark("routeChange");
                         const { shallow = !1, scroll = !0 } = options, routeProps = {
                             shallow
                         };
-                        _this._inFlightRoute && _this.clc && (isSsr || Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps), _this.clc(), _this.clc = null), as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale));
+                        _this._inFlightRoute && _this.clc && (!isSsr && Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps), _this.clc(), _this.clc = null), as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale));
                         const cleanedAs = _removeLocale.removeLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, nextState.locale);
                         _this._inFlightRoute = as;
                         const localeChange = prevLocale !== nextState.locale;
@@ -1952,7 +1952,7 @@
                                 router: _this
                             }), !1);
                         }
-                        _this.urlIsNew(cleanedAs) || localeChange || (method = "replaceState");
+                        !_this.urlIsNew(cleanedAs) && !localeChange && (method = "replaceState");
                         // we need to resolve the as value using rewrites for dynamic SSG
                         // pages to allow building the data URL correctly
                         let resolvedAs = as;
@@ -1967,7 +1967,7 @@
                             locale: nextState.locale,
                             router: _this
                         });
-                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname === pathname || (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
+                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname !== pathname && (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), !isMiddlewareMatch && (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
                             url: as,
                             router: _this
                         }), !1;
@@ -1987,7 +1987,7 @@
                                 if (missingParams.length > 0 && !isMiddlewareMatch) throw Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(", "), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? "href-interpolation-failed" : "incompatible-href-as"));
                             }
                         }
-                        isQueryUpdating || Router.events.emit("routeChangeStart", as, routeProps);
+                        !isQueryUpdating && Router.events.emit("routeChangeStart", as, routeProps);
                         try {
                             var ref2, ref3, _route, _scroll;
                             let routeInfo = yield _this.getRouteInfo({
@@ -2004,7 +2004,7 @@
                                 isQueryUpdating: isQueryUpdating && !_this.isFallback
                             });
                             if ("route" in routeInfo && isMiddlewareMatch) {
-                                route = pathname = routeInfo.route || route, routeProps.shallow || (query = Object.assign({}, routeInfo.query || {}, query));
+                                route = pathname = routeInfo.route || route, !routeProps.shallow && (query = Object.assign({}, routeInfo.query || {}, query));
                                 const cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname;
                                 if (routeMatch && pathname !== cleanedParsedPathname && Object.keys(routeMatch).forEach((key)=>{
                                     routeMatch && query[key] === routeMatch[key] && delete query[key];
@@ -2085,8 +2085,8 @@
                                 if (yield _this.set(upcomingRouterState, routeInfo, upcomingScrollState).catch((e)=>{
                                     if (e.cancelled) error = error || e;
                                     else throw e;
-                                }), error) throw isQueryUpdating || Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
-                                isQueryUpdating || Router.events.emit("routeChangeComplete", as, routeProps), shouldScroll && /#.+$/.test(as) && _this.scrollToHash(as);
+                                }), error) throw !isQueryUpdating && Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
+                                !isQueryUpdating && Router.events.emit("routeChangeComplete", as, routeProps), shouldScroll && /#.+$/.test(as) && _this.scrollToHash(as);
                             }
                             return !0;
                         } catch (err11) {
@@ -2165,7 +2165,7 @@
                             let existingInfo = _this.components[route];
                             if (routeProps.shallow && existingInfo && _this.route === route) return existingInfo;
                             hasMiddleware && (existingInfo = void 0);
-                            let cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo;
+                            let cachedRouteInfo = existingInfo && !("initial" in existingInfo) ? existingInfo : void 0;
                             const fetchNextDataParams = {
                                 dataHref: _this.pageLoader.getDataHref({
                                     href: _formatUrl.formatWithValidation({
@@ -2199,7 +2199,7 @@
                                         }, rewriteHeader = response.headers.get("x-nextjs-rewrite");
                                         let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
                                         const matchedPath = response.headers.get("x-matched-path");
-                                        if (!matchedPath || rewriteTarget || matchedPath.includes("__next_data_catchall") || matchedPath.includes("/_error") || matchedPath.includes("/404") || // leverage x-matched-path to detect next.config.js rewrites
+                                        if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404") && // leverage x-matched-path to detect next.config.js rewrites
                                         (rewriteTarget = matchedPath), rewriteTarget) {
                                             if (rewriteTarget.startsWith("/")) {
                                                 const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
@@ -2222,7 +2222,7 @@
                                                         const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
                                                         resolvedPathname !== fsPathname && (fsPathname = resolvedPathname);
                                                     }
-                                                    const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
+                                                    const resolvedHref = !pages.includes(fsPathname) ? resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages) : fsPathname;
                                                     if (_isDynamic.isDynamicRoute(resolvedHref)) {
                                                         const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
                                                         Object.assign(parsedRewriteTarget.query, matches || {});
@@ -2661,7 +2661,7 @@
                 let { auth, hostname } = urlObj, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
                 auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
                 let search = urlObj.search || query && "?".concat(query) || "";
-                return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : host || (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
+                return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : !host && (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
             }
             exports.urlObjectKeys = [
                 "auth",
@@ -2953,7 +2953,7 @@
                             // replace any non-word characters since they can break
                             // the named regex
                             let cleanedKey = key.replace(/\W/g, ""), invalidKey = !1;
-                            return (0 === cleanedKey.length || cleanedKey.length > 30) && (invalidKey = !0), isNaN(parseInt(cleanedKey.slice(0, 1))) || (invalidKey = !0), invalidKey && (cleanedKey = getSafeRouteKey()), routeKeys[cleanedKey] = key, repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
+                            return (0 === cleanedKey.length || cleanedKey.length > 30) && (invalidKey = !0), !isNaN(parseInt(cleanedKey.slice(0, 1))) && (invalidKey = !0), invalidKey && (cleanedKey = getSafeRouteKey()), routeKeys[cleanedKey] = key, repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
                         }
                     }).join(""),
                     routeKeys
@@ -3047,7 +3047,7 @@
                             nextSegment = "[]";
                         }
                     }
-                    this.children.has(nextSegment) || this.children.set(nextSegment, new UrlNode()), this.children.get(nextSegment)._insert(urlPaths.slice(1), slugNames, isCatchAll);
+                    !this.children.has(nextSegment) && this.children.set(nextSegment, new UrlNode()), this.children.get(nextSegment)._insert(urlPaths.slice(1), slugNames, isCatchAll);
                 }
                 constructor(){
                     this.placeholder = !0, this.children = new Map(), this.slugName = null, this.restSlugName = null, this.optionalRestSlugName = null;
@@ -3109,7 +3109,7 @@
                 let result, used = !1;
                 return function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return used || (used = !0, result = fn(...args)), result;
+                    return !used && (used = !0, result = fn(...args)), result;
                 };
             }, exports.getLocationOrigin = getLocationOrigin, exports.getURL = function() {
                 const { href } = window.location, origin = getLocationOrigin();
@@ -3429,11 +3429,11 @@
                     D();
                     var C, w = f("INP"), a = function(n) {
                         n.forEach(function(n) {
-                            n.interactionId && H(n), "first-input" !== n.entryType || V.some(function(y) {
+                            n.interactionId && H(n), "first-input" === n.entryType && !V.some(function(y) {
                                 return y.entries.some(function(y) {
                                     return n.duration === y.duration && n.startTime === y.startTime;
                                 });
-                            }) || H(n);
+                            }) && H(n);
                         });
                         var y, T = (y = Math.min(V.length - 1, Math.floor(R() / 50)), V[y]);
                         T && T.latency !== w.value && (w.value = T.latency, w.entries = T.entries, C());

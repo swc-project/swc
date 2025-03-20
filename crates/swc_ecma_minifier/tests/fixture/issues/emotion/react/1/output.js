@@ -1014,7 +1014,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -1079,7 +1079,7 @@
                     onClick: function(e) {
                         if (child.props && "function" == typeof child.props.onClick && child.props.onClick(e), !e.defaultPrevented) {
                             var target, scroll1 = scroll;
-                            "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
+                            !("A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href))) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
                             router[replace ? "replace" : "push"](href, as, {
                                 shallow: shallow,
                                 locale: locale,
@@ -1116,7 +1116,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }

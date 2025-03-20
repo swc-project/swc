@@ -83,7 +83,7 @@
     var didWarnStateUpdateForUnmountedComponent = {};
     function warnNoop(publicInstance, callerName) {
         var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || "ReactClass", warningKey = componentName + "." + callerName;
-        didWarnStateUpdateForUnmountedComponent[warningKey] || (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
+        !didWarnStateUpdateForUnmountedComponent[warningKey] && (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
     }
     /**
      * This is the abstract API for an update queue.
@@ -348,7 +348,7 @@
                 ref = config.ref;
                 if ("string" == typeof config.ref && ReactCurrentOwner.current && config.__self && ReactCurrentOwner.current.stateNode !== config.__self) {
                     var componentName = getComponentName(ReactCurrentOwner.current.type);
-                    didWarnAboutStringRefs[componentName] || (error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
+                    !didWarnAboutStringRefs[componentName] && (error('Component "%s" contains the string ref "%s". Support for string refs will be removed in a future major release. This case cannot be automatically converted to an arrow function. We ask you to manually fix this case by using useRef() or createRef() instead. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-string-ref', componentName, config.ref), didWarnAboutStringRefs[componentName] = !0);
                 }
             }
             for(propName in hasValidKey(config) && (key = "" + config.key), self = void 0 === config.__self ? null : config.__self, source = void 0 === config.__source ? null : config.__source, config)hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName) && (props[propName] = config[propName]);
@@ -367,12 +367,12 @@
         if (key || ref) {
             var warnAboutAccessingKey, warnAboutAccessingRef, displayName = "function" == typeof type ? type.displayName || type.name || "Unknown" : type;
             key && ((warnAboutAccessingKey = function() {
-                specialPropKeyWarningShown || (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+                !specialPropKeyWarningShown && (specialPropKeyWarningShown = !0, error("%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
             }).isReactWarning = !0, Object.defineProperty(props, "key", {
                 get: warnAboutAccessingKey,
                 configurable: !0
             })), ref && ((warnAboutAccessingRef = function() {
-                specialPropRefWarningShown || (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
+                !specialPropRefWarningShown && (specialPropRefWarningShown = !0, error("%s: `ref` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://reactjs.org/link/special-props)", displayName));
             }).isReactWarning = !0, Object.defineProperty(props, "ref", {
                 get: warnAboutAccessingRef,
                 configurable: !0
@@ -489,7 +489,7 @@
                 if ("function" == typeof iteratorFn) {
                     var child, nextName, step, iterableChildren = children;
                     // Warn about using Maps as children
-                    iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
+                    iteratorFn === iterableChildren.entries && (!didWarnAboutMaps && warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
                     for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
                 } else if ("object" === type) {
                     var childrenString = "" + children;
@@ -819,13 +819,13 @@
                         } catch (ex) {
                             error$1 = ex;
                         }
-                        !error$1 || error$1 instanceof Error || (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (// Only monitor this failure once because there tends to be a lot of the
+                        error$1 && !(error$1 instanceof Error) && (setCurrentlyValidatingElement(element), error("%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).", componentName || "React class", location, typeSpecName, typeof error$1), setCurrentlyValidatingElement(null)), error$1 instanceof Error && !(error$1.message in loggedTypeFailures) && (// Only monitor this failure once because there tends to be a lot of the
                         // same error.
                         loggedTypeFailures[error$1.message] = !0, setCurrentlyValidatingElement(element), error("Failed %s type: %s", location, error$1.message), setCurrentlyValidatingElement(null));
                     }
                 }(propTypes, element.props, "prop", name, element);
-            } else void 0 === type.PropTypes || propTypesMisspellWarningShown || (propTypesMisspellWarningShown = !0, error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", getComponentName(type) || "Unknown"));
-            "function" != typeof type.getDefaultProps || type.getDefaultProps.isReactClassApproved || error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
+            } else void 0 !== type.PropTypes && !propTypesMisspellWarningShown && (propTypesMisspellWarningShown = !0, error("Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?", getComponentName(type) || "Unknown"));
+            "function" == typeof type.getDefaultProps && !type.getDefaultProps.isReactClassApproved && error("getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.");
         }
     }
     function createElementWithValidation(type, props, children) {
@@ -961,7 +961,7 @@
         return Object.defineProperties(Consumer, {
             Provider: {
                 get: function() {
-                    return hasWarnedAboutUsingConsumerProvider || (hasWarnedAboutUsingConsumerProvider = !0, error("Rendering <Context.Consumer.Provider> is not supported and will be removed in a future major release. Did you mean to render <Context.Provider> instead?")), context.Provider;
+                    return !hasWarnedAboutUsingConsumerProvider && (hasWarnedAboutUsingConsumerProvider = !0, error("Rendering <Context.Consumer.Provider> is not supported and will be removed in a future major release. Did you mean to render <Context.Provider> instead?")), context.Provider;
                 },
                 set: function(_Provider) {
                     context.Provider = _Provider;
@@ -993,7 +993,7 @@
             },
             Consumer: {
                 get: function() {
-                    return hasWarnedAboutUsingNestedContextConsumers || (hasWarnedAboutUsingNestedContextConsumers = !0, error("Rendering <Context.Consumer.Consumer> is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")), context.Consumer;
+                    return !hasWarnedAboutUsingNestedContextConsumers && (hasWarnedAboutUsingNestedContextConsumers = !0, error("Rendering <Context.Consumer.Consumer> is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")), context.Consumer;
                 }
             },
             displayName: {
@@ -1001,13 +1001,13 @@
                     return context.displayName;
                 },
                 set: function(displayName) {
-                    hasWarnedAboutDisplayNameOnConsumer || (warn("Setting `displayName` on Context.Consumer has no effect. You should set it directly on the context with Context.displayName = '%s'.", displayName), hasWarnedAboutDisplayNameOnConsumer = !0);
+                    !hasWarnedAboutDisplayNameOnConsumer && (warn("Setting `displayName` on Context.Consumer has no effect. You should set it directly on the context with Context.displayName = '%s'.", displayName), hasWarnedAboutDisplayNameOnConsumer = !0);
                 }
             }
         }), context.Consumer = Consumer, context._currentRenderer = null, context._currentRenderer2 = null, context;
     }, exports.createElement = createElementWithValidation, exports.createFactory = function(type) {
         var validatedFactory = createElementWithValidation.bind(null, type);
-        return validatedFactory.type = type, didWarnAboutDeprecatedCreateFactory || (didWarnAboutDeprecatedCreateFactory = !0, warn("React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.")), Object.defineProperty(validatedFactory, "type", {
+        return validatedFactory.type = type, !didWarnAboutDeprecatedCreateFactory && (didWarnAboutDeprecatedCreateFactory = !0, warn("React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.")), Object.defineProperty(validatedFactory, "type", {
             enumerable: !1,
             get: function() {
                 return warn("Factory.type is deprecated. Access the class directly before passing it to createFactory."), Object.defineProperty(this, "type", {
@@ -1074,7 +1074,7 @@
             }
         }), lazyType;
     }, exports.memo = function(type, compare) {
-        isValidElementType(type) || error("memo: The first argument must be a component. Instead received: %s", null === type ? "null" : typeof type);
+        !isValidElementType(type) && error("memo: The first argument must be a component. Instead received: %s", null === type ? "null" : typeof type);
         var ownName, elementType = {
             $$typeof: REACT_MEMO_TYPE,
             type: type,

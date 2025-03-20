@@ -56,7 +56,7 @@ available.
         return o && o.hasOwnProperty && o instanceof type;
     }, gconf = "undefined" != typeof YUI_config && YUI_config;
     if (instanceOf(Y, YUI) ? (// set up the core environment
-    Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
+    Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), !l && Y._setup()) : Y = new YUI(), l) {
         // Each instance can accept one or more configuration objects.
         // These are applied after YUI.GlobalConfig and YUI_Config,
         // overriding values set in those config files if there is a
@@ -216,7 +216,7 @@ available.
                     }
                 }, (Env = Y.Env)._loaded[VERSION] = {}, G_ENV && Y !== YUI) Env._yidx = ++G_ENV._yidx, Env._guidp = ("yui_" + VERSION + "_" + Env._yidx + "_" + time).replace(/[^a-z0-9_]+/g, "_");
                 else if (YUI._YUI) {
-                    for(prop in G_ENV = YUI._YUI.Env, Env._yidx += G_ENV._yidx, Env._uidx += G_ENV._uidx, G_ENV)prop in Env || (Env[prop] = G_ENV[prop]);
+                    for(prop in G_ENV = YUI._YUI.Env, Env._yidx += G_ENV._yidx, Env._uidx += G_ENV._uidx, G_ENV)!(prop in Env) && (Env[prop] = G_ENV[prop]);
                     delete YUI._YUI;
                 }
                 Y.id = Y.stamp(Y), instances[Y.id] = Y;
@@ -233,7 +233,7 @@ available.
                 useNativeES5: !0,
                 win: win,
                 global: Function("return this")()
-            }, doc && !doc.getElementById(CSS_STAMP_EL) ? ((el = doc.createElement("div")).innerHTML = '<div id="' + CSS_STAMP_EL + '" style="position: absolute !important; visibility: hidden !important"></div>', YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL)), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), filter && "mindebug".indexOf(filter) || (filter = "min"), filter = filter ? "-" + filter : filter, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter + ".js";
+            }, doc && !doc.getElementById(CSS_STAMP_EL) ? ((el = doc.createElement("div")).innerHTML = '<div id="' + CSS_STAMP_EL + '" style="position: absolute !important; visibility: hidden !important"></div>', YUI.Env.cssStampEl = el.firstChild, doc.body ? doc.body.appendChild(YUI.Env.cssStampEl) : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild)) : doc && doc.getElementById(CSS_STAMP_EL) && !YUI.Env.cssStampEl && (YUI.Env.cssStampEl = doc.getElementById(CSS_STAMP_EL)), Y.config.lang = Y.config.lang || "en-US", Y.config.base = YUI.config.base || Y.Env.getBase(Y.Env._BASE_RE), (!filter || !"mindebug".indexOf(filter)) && (filter = "min"), filter = filter ? "-" + filter : filter, Y.config.loaderPath = YUI.config.loaderPath || "loader/loader" + filter + ".js";
         },
         /**
     Finishes the instance setup. Attaches whatever YUI modules were defined
@@ -263,7 +263,7 @@ available.
             if (!(method in APPLY_TO_AUTH)) return this.log(method + ": applyTo not allowed", "warn", "yui"), null;
             var nest, m, i, instance = instances[id];
             if (instance) {
-                for(i = 0, nest = method.split("."), m = instance; i < nest.length; i += 1)(m = m[nest[i]]) || this.log("applyTo not found: " + method, "warn", "yui");
+                for(i = 0, nest = method.split("."), m = instance; i < nest.length; i += 1)!(m = m[nest[i]]) && this.log("applyTo not found: " + method, "warn", "yui");
                 return m && m.apply(instance, args);
             }
             return null;
@@ -515,7 +515,7 @@ with any configuration info required for the module.
         been attached.
     @private
     **/ _use: function(args, callback) {
-            this.Array || this._attach([
+            !this.Array && this._attach([
                 "yui-base"
             ]);
             var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process1 = function(names, skip) {
@@ -525,7 +525,7 @@ with any configuration info required for the module.
                         for(i = 0, len = names.length; i < len; i++)aliases[names[i]] && !mods[names[i]] ? a = [].concat(a, aliases[names[i]]) : a.push(names[i]);
                         names = a;
                     }
-                    for(i = 0, len = names.length; i < len; i++)name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
+                    for(i = 0, len = names.length; i < len; i++)name = names[i], !skip && r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
                 }
             }, handleLoader = function(fromLoader) {
                 var redo, origMissing, response = fromLoader || {
@@ -542,7 +542,7 @@ with any configuration info required for the module.
                 return Y._attach(args) && handleLoader(), Y;
             }
             return (mods.loader || mods["loader-base"]) && !Y.Loader && Y._attach([
-                "loader" + (mods.loader ? "" : "-base")
+                "loader" + (!mods.loader ? "-base" : "")
             ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process1(args), (len = missing.length) && (len = (missing = YArray.dedupe(missing)).length), boot && len && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
                 Y._loading = !1, queue.running = !1, Env.bootstrapped = !0, G_ENV._bootstrapping = !1, Y._attach([
                     "loader"
@@ -1294,11 +1294,11 @@ containing a mix of strings and numbers, may result in unexpected behavior.
 @since 3.4.0
 **/ YArray.dedupe = Lang._isNative(Object.create) ? function(array) {
         var i, item, len, hash = Object.create(null), results = [];
-        for(i = 0, len = array.length; i < len; ++i)hash[item = array[i]] || (hash[item] = 1, results.push(item));
+        for(i = 0, len = array.length; i < len; ++i)!hash[item = array[i]] && (hash[item] = 1, results.push(item));
         return results;
     } : function(array) {
         var i, item, len, hash = {}, results = [];
-        for(i = 0, len = array.length; i < len; ++i)item = array[i], hasOwn.call(hash, item) || (hash[item] = 1, results.push(item));
+        for(i = 0, len = array.length; i < len; ++i)item = array[i], !hasOwn.call(hash, item) && (hash[item] = 1, results.push(item));
         return results;
     }, /**
 Executes the supplied function on each item in the array. This method wraps
@@ -1514,7 +1514,7 @@ string `[object Object]` when used as a cache key.
 **/ Y.cached = function(source, cache, refetch) {
         return /*jshint expr: true*/ cache || (cache = {}), function(arg) {
             var key = arguments.length > 1 ? Array.prototype.join.call(arguments, "__") : String(arg);
-            return key in cache && (!refetch || cache[key] != refetch) || (cache[key] = source.apply(source, arguments)), cache[key];
+            return (!(key in cache) || refetch && cache[key] == refetch) && (cache[key] = source.apply(source, arguments)), cache[key];
         };
     }, /**
 Returns the `location` object from the window/frame in which this YUI instance
@@ -2113,10 +2113,10 @@ properties are not copied). The following copying modes are available:
        * @static
        */ o.userAgent = ua, o.secure = href && 0 === href.toLowerCase().indexOf("https"), ua && (/windows|win32/i.test(ua) ? o.os = "windows" : /macintosh|mac_powerpc/i.test(ua) ? o.os = "macintosh" : /android/i.test(ua) ? o.os = "android" : /symbos/i.test(ua) ? o.os = "symbos" : /linux/i.test(ua) ? o.os = "linux" : /rhino/i.test(ua) && (o.os = "rhino"), /KHTML/.test(ua) && (o.webkit = 1), /IEMobile|XBLWP7/.test(ua) && (o.mobile = "windows"), /Fennec/.test(ua) && (o.mobile = "gecko"), // Modern WebKit browsers are at least X-Grade
         (m = ua.match(/AppleWebKit\/([^\s]*)/)) && m[1] && (o.webkit = numberify(m[1]), o.safari = o.webkit, /PhantomJS/.test(ua) && (m = ua.match(/PhantomJS\/([^\s]*)/)) && m[1] && (o.phantomjs = numberify(m[1])), / Mobile\//.test(ua) || /iPad|iPod|iPhone/.test(ua) ? (o.mobile = "Apple", (m = ua.match(/OS ([^\s]*)/)) && m[1] && (m = numberify(m[1].replace("_", "."))), o.ios = m, o.os = "ios", o.ipad = o.ipod = o.iphone = 0, (m = ua.match(/iPad|iPod|iPhone/)) && m[0] && (o[m[0].toLowerCase()] = o.ios)) : ((m = ua.match(/NokiaN[^\/]*|webOS\/\d\.\d/)) && // Nokia N-series, webOS, ex: NokiaN95
-        (o.mobile = m[0]), /webOS/.test(ua) && (o.mobile = "WebOS", (m = ua.match(/webOS\/([^\s]*);/)) && m[1] && (o.webos = numberify(m[1]))), / Android/.test(ua) && (/Mobile/.test(ua) && (o.mobile = "Android"), (m = ua.match(/Android ([^\s]*);/)) && m[1] && (o.android = numberify(m[1]))), /Silk/.test(ua) && ((m = ua.match(/Silk\/([^\s]*)\)/)) && m[1] && (o.silk = numberify(m[1])), o.android || (o.android = 2.34, o.os = "Android"), /Accelerated=true/.test(ua) && (o.accel = !0))), (m = ua.match(/OPR\/(\d+\.\d+)/)) && m[1] ? // Opera 15+ with Blink (pretends to be both Chrome and Safari)
+        (o.mobile = m[0]), /webOS/.test(ua) && (o.mobile = "WebOS", (m = ua.match(/webOS\/([^\s]*);/)) && m[1] && (o.webos = numberify(m[1]))), / Android/.test(ua) && (/Mobile/.test(ua) && (o.mobile = "Android"), (m = ua.match(/Android ([^\s]*);/)) && m[1] && (o.android = numberify(m[1]))), /Silk/.test(ua) && ((m = ua.match(/Silk\/([^\s]*)\)/)) && m[1] && (o.silk = numberify(m[1])), !o.android && (o.android = 2.34, o.os = "Android"), /Accelerated=true/.test(ua) && (o.accel = !0))), (m = ua.match(/OPR\/(\d+\.\d+)/)) && m[1] ? // Opera 15+ with Blink (pretends to be both Chrome and Safari)
         o.opera = numberify(m[1]) : (m = ua.match(/(Chrome|CrMo|CriOS)\/([^\s]*)/)) && m[1] && m[2] ? (o.chrome = numberify(m[2]), o.safari = 0, "CrMo" === m[1] && (o.mobile = "chrome")) : (m = ua.match(/AdobeAIR\/([^\s]*)/)) && (o.air = m[0])), !o.webkit && (/Opera/.test(ua) ? ((m = ua.match(/Opera[\s\/]([^\s]*)/)) && m[1] && (o.opera = numberify(m[1])), (m = ua.match(/Version\/([^\s]*)/)) && m[1] && (o.opera = numberify(m[1])), /Opera Mobi/.test(ua) && (o.mobile = "opera", (m = ua.replace("Opera Mobi", "").match(/Opera ([^\s]*)/)) && m[1] && (o.opera = numberify(m[1]))), (m = ua.match(/Opera Mini[^;]*/)) && (o.mobile = m[0])) : // not opera or webkit
         (m = ua.match(/MSIE ([^;]*)|Trident.*; rv:([0-9.]+)/)) && (m[1] || m[2]) ? o.ie = numberify(m[1] || m[2]) : // not opera, webkit, or ie
-        (m = ua.match(/Gecko\/([^\s]*)/)) && (o.gecko = 1, (m = ua.match(/rv:([^\s\)]*)/)) && m[1] && (o.gecko = numberify(m[1]), /Mobile|Tablet/.test(ua) && (o.mobile = "ffos"))))), win && nav && !(o.chrome && o.chrome < 6) && (o.touchEnabled = "ontouchstart" in win || "msMaxTouchPoints" in nav && nav.msMaxTouchPoints > 0), subUA || ("object" == typeof process && process.versions && process.versions.node && (//NodeJS
+        (m = ua.match(/Gecko\/([^\s]*)/)) && (o.gecko = 1, (m = ua.match(/rv:([^\s\)]*)/)) && m[1] && (o.gecko = numberify(m[1]), /Mobile|Tablet/.test(ua) && (o.mobile = "ffos"))))), win && nav && !(o.chrome && o.chrome < 6) && (o.touchEnabled = "ontouchstart" in win || "msMaxTouchPoints" in nav && nav.msMaxTouchPoints > 0), !subUA && ("object" == typeof process && process.versions && process.versions.node && (//NodeJS
         o.os = process.platform, o.nodejs = numberify(process.versions.node)), YUI.Env.UA = o), o);
     }, Y.UA = YUI.Env.UA || YUI.Env.parseUA(), /**
 Performs a simple comparison between two version numbers, accounting for
@@ -2885,7 +2885,7 @@ Provides dynamic loading of remote JavaScript and CSS resources.
         },
         _getTransaction: function(urls, options) {
             var i, len, req, url, requests = [];
-            for(Lang.isArray(urls) || (urls = [
+            for(!Lang.isArray(urls) && (urls = [
                 urls
             ]), // Clone the attributes object so we don't end up modifying it by ref.
             (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
@@ -2902,7 +2902,7 @@ Provides dynamic loading of remote JavaScript and CSS resources.
                     // request-specific options.
                     Y.mix(req, url, !1, null, 0, !0), url = url.url;
                 }
-                Y.mix(req, options, !1, null, 0, !0), req.type || (this.REGEX_CSS.test(url) ? req.type = "css" : (this.REGEX_JS.test(url), req.type = "js")), // Mix in type-specific default options, but don't overwrite any
+                Y.mix(req, options, !1, null, 0, !0), !req.type && (this.REGEX_CSS.test(url) ? req.type = "css" : (this.REGEX_JS.test(url), req.type = "js")), // Mix in type-specific default options, but don't overwrite any
                 // options that have already been set.
                 Y.mix(req, "js" === req.type ? this.jsOptions : this.cssOptions, !1, null, 0, !0), // Give the node an id attribute if it doesn't already have one.
                 req.attributes.id || (req.attributes.id = Y.guid()), req.win ? req.doc = req.win.document : req.win = req.doc.defaultView || req.doc.parentWindow, req.charset && (req.attributes.charset = req.charset), requests.push(req);
@@ -2911,7 +2911,7 @@ Provides dynamic loading of remote JavaScript and CSS resources.
         },
         _load: function(type, urls, options, callback) {
             var transaction;
-            return "function" == typeof options && (callback = options, options = {}), options || (options = {}), options.type = type, options._onFinish = Get._onTransactionFinish, this._env || this._getEnv(), transaction = this._getTransaction(urls, options), this._queue.push({
+            return "function" == typeof options && (callback = options, options = {}), options || (options = {}), options.type = type, options._onFinish = Get._onTransactionFinish, !this._env && this._getEnv(), transaction = this._getTransaction(urls, options), this._queue.push({
                 callback: callback,
                 transaction: transaction
             }), this._next(), transaction;
@@ -3063,7 +3063,7 @@ Id of the most recent transaction.
         // -- Protected Methods ----------------------------------------------------
         _createNode: function(name, attrs, doc) {
             var attr, testEl, node = doc.createElement(name);
-            for(attr in CUSTOM_ATTRS || (// IE6 and IE7 expect property names rather than attribute names for
+            for(attr in !CUSTOM_ATTRS && (// IE6 and IE7 expect property names rather than attribute names for
             // certain attributes. Rather than sniffing, we do a quick feature
             // test the first time _createNode() runs to determine whether we
             // need to provide a workaround.
@@ -3105,14 +3105,14 @@ Id of the most recent transaction.
             function onLoad() {
                 cssTimeout && clearTimeout(cssTimeout), self._progress(null, req);
             }
-            node || (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = req.node = this._createNode(nodeType, req.attributes, req.doc)), isScript ? (node.setAttribute("src", req.url), req.async ? // Explicitly indicate that we want the browser to execute this
+            !node && (nodeType = isScript ? "script" : !env.cssLoad && ua.gecko ? "style" : "link", node = req.node = this._createNode(nodeType, req.attributes, req.doc)), isScript ? (node.setAttribute("src", req.url), req.async ? // Explicitly indicate that we want the browser to execute this
             // script asynchronously. This is necessary for older browsers
             // like Firefox <4.
             node.async = !0 : (env.async && // This browser treats injected scripts as async by default
             // (standard HTML5 behavior) but asynchronous loading isn't
             // desired, so tell the browser not to mark this script as
             // async.
-            (node.async = !1), env.preservesScriptOrder || (this._pending = req))) : !env.cssLoad && ua.gecko ? // In Firefox <9, we can import the requested URL into a <style>
+            (node.async = !1), !env.preservesScriptOrder && (this._pending = req))) : !env.cssLoad && ua.gecko ? // In Firefox <9, we can import the requested URL into a <style>
             // node and poll for the existence of node.sheet.cssRules. This
             // gives us a reliable way to determine CSS load completion that
             // also works for cross-domain stylesheets.
@@ -3131,11 +3131,11 @@ Id of the most recent transaction.
                 setTimeout(onError, 0);
             }, node.onload = function() {
                 setTimeout(onLoad, 0);
-            }) : (node.onerror = onError, node.onload = onLoad), env.cssFail || isScript || (cssTimeout = setTimeout(onError, req.timeout || 3000))) : // CSS on Firefox <9 or WebKit.
+            }) : (node.onerror = onError, node.onload = onLoad), !env.cssFail && !isScript && (cssTimeout = setTimeout(onError, req.timeout || 3000))) : // CSS on Firefox <9 or WebKit.
             this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
         },
         _next: function() {
-            this._pending || (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
+            !this._pending && (this._queue.length ? this._insert(this._queue.shift()) : !this._reqsWaiting && this._finish());
         },
         _poll: function(newReq) {
             var i, j, nodeHref, req, sheets, self = this, pendingCSS = self._pendingCSS, isWebKit = Y.UA.webkit;
@@ -3545,7 +3545,7 @@ Contains the core of YUI's feature test architecture.
         return c.debug && (void 0 !== // apply source filters
         (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, // Determine the current minlevel as defined in configuration
         Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && // Skip this message if the we don't meet the defined minlevel
-        (bail = 1)), bail || (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher !== Y || publisher.getEvent(LOGEVENT) || publisher.publish(LOGEVENT, {
+        (bail = 1)), !bail && (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher === Y && !publisher.getEvent(LOGEVENT) && publisher.publish(LOGEVENT, {
             broadcast: 2
         }), publisher.fire(LOGEVENT, {
             msg: msg,
@@ -3604,13 +3604,13 @@ Contains the core of YUI's feature test architecture.
      * @return {object} a timer object. Call the cancel() method on this
      * object to stop the timer.
      */ Y.later = function(when, o, fn, data, periodic) {
-        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data);
+        when = when || 0, data = !Y.Lang.isUndefined(data) ? Y.Array(data) : NO_ARGS;
         var cancelled = !1, method = (o = o || Y.config.win || Y) && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
             // IE 8- may execute a setInterval callback one last time
             // after clearInterval was called, so in order to preserve
             // the cancel() === no more runny-run, we have to jump through
             // an extra hoop.
-            cancelled || (method.apply ? method.apply(o, data || NO_ARGS) : method(data[0], data[1], data[2], data[3]));
+            !cancelled && (method.apply ? method.apply(o, data || NO_ARGS) : method(data[0], data[1], data[2], data[3]));
         }, id = periodic ? setInterval(wrapper, when) : setTimeout(wrapper, when);
         return {
             id: id,
@@ -3695,9 +3695,9 @@ Contains the core of YUI's feature test architecture.
      * @submodule loader-base
      */ var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
-        return nomin || (path += "-min"), path += "." + (type || "css");
+        return !nomin && (path += "-min"), path += "." + (type || "css");
     };
-    YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {}), /**
+    !YUI.Env._cssLoaded && (YUI.Env._cssLoaded = {}), /**
      * The component metadata is stored in Y.Env.meta.
      * Part of the loader module.
      * @property meta
@@ -4256,14 +4256,14 @@ Contains the core of YUI's feature test architecture.
         optional and supersedes are far more fine grained than
         a blanket requires is.
         */ if (!o.type && (//Always assume it's javascript unless the CSS pattern is matched.
-            o.type = "js", (p = o.path || o.fullpath) && this.REGEX_CSS.test(p) && (o.type = "css")), o.path || o.fullpath || (o.path = _path(name, name, o.type)), o.supersedes = o.supersedes || o.use, o.ext = "ext" in o ? o.ext : !this._internal, // Handle submodule logic
+            o.type = "js", (p = o.path || o.fullpath) && this.REGEX_CSS.test(p) && (o.type = "css")), !o.path && !o.fullpath && (o.path = _path(name, name, o.type)), o.supersedes = o.supersedes || o.use, o.ext = "ext" in o ? o.ext : !this._internal, // Handle submodule logic
             subs = o.submodules, this.moduleInfo[name] = o, o.requires = o.requires || [], this.requires) for(i = 0; i < this.requires.length; i++)o.requires.push(this.requires[i]);
             if (o.group && this.groups && this.groups[o.group] && (g = this.groups[o.group]).requires) for(i = 0; i < g.requires.length; i++)o.requires.push(g.requires[i]);
-            if (o.defaults || (o.defaults = {
+            if (!o.defaults && (o.defaults = {
                 requires: o.requires ? [].concat(o.requires) : null,
                 supersedes: o.supersedes ? [].concat(o.supersedes) : null,
                 optional: o.optional ? [].concat(o.optional) : null
-            }), o.skinnable && o.ext && o.temp && (skinname = this._addSkin(this.skin.defaultSkin, name), o.requires.unshift(skinname)), o.requires.length && (o.requires = this.filterRequires(o.requires) || []), !o.langPack && o.lang) for(j = 0, langs = yArray(o.lang); j < langs.length; j++)lang = langs[j], packName = this.getLangPackName(lang, name), (smod = this.moduleInfo[packName]) || (smod = this._addLangPack(lang, o, packName));
+            }), o.skinnable && o.ext && o.temp && (skinname = this._addSkin(this.skin.defaultSkin, name), o.requires.unshift(skinname)), o.requires.length && (o.requires = this.filterRequires(o.requires) || []), !o.langPack && o.lang) for(j = 0, langs = yArray(o.lang); j < langs.length; j++)lang = langs[j], packName = this.getLangPackName(lang, name), !(smod = this.moduleInfo[packName]) && (smod = this._addLangPack(lang, o, packName));
             if (subs) {
                 for(i in sup = o.supersedes || [], l = 0, subs)if (subs.hasOwnProperty(i)) {
                     if ((s = subs[i]).path = s.path || _path(name, i, o.type), s.pkg = name, s.group = o.group, s.supersedes && (sup = sup.concat(s.supersedes)), smod = this.addModule(s, i), sup.push(i), smod.skinnable) {
@@ -4273,21 +4273,21 @@ Contains the core of YUI's feature test architecture.
                     // looks like we are expected to work out the metadata
                     // for the parent module language packs from what is
                     // specified in the child modules.
-                    if (s.lang && s.lang.length) for(j = 0, langs = yArray(s.lang); j < langs.length; j++)lang = langs[j], packName = this.getLangPackName(lang, name), supName = this.getLangPackName(lang, i), (smod = this.moduleInfo[packName]) || (smod = this._addLangPack(lang, o, packName)), supName in (flatSup = flatSup || yArray.hash(smod.supersedes)) || smod.supersedes.push(supName), o.lang = o.lang || [], lang in (flatLang = flatLang || yArray.hash(o.lang)) || o.lang.push(lang), // Add rollup file, need to add to supersedes list too
+                    if (s.lang && s.lang.length) for(j = 0, langs = yArray(s.lang); j < langs.length; j++)lang = langs[j], packName = this.getLangPackName(lang, name), supName = this.getLangPackName(lang, i), !(smod = this.moduleInfo[packName]) && (smod = this._addLangPack(lang, o, packName)), !(supName in (flatSup = flatSup || yArray.hash(smod.supersedes))) && smod.supersedes.push(supName), o.lang = o.lang || [], !(lang in (flatLang = flatLang || yArray.hash(o.lang))) && o.lang.push(lang), // Add rollup file, need to add to supersedes list too
                     // default packages
-                    packName = this.getLangPackName("", name), supName = this.getLangPackName("", i), (smod = this.moduleInfo[packName]) || (smod = this._addLangPack(lang, o, packName)), supName in flatSup || smod.supersedes.push(supName);
+                    packName = this.getLangPackName("", name), supName = this.getLangPackName("", i), !(smod = this.moduleInfo[packName]) && (smod = this._addLangPack(lang, o, packName)), !(supName in flatSup) && smod.supersedes.push(supName);
                     l++;
                 }
                 //o.supersedes = YObject.keys(yArray.hash(sup));
                 o.supersedes = yArray.dedupe(sup), this.allowRollup && (o.rollup = l < 4 ? l : Math.min(l - 1, 4));
             }
             if (plugins = o.plugins) for(i in plugins)plugins.hasOwnProperty(i) && ((plug = plugins[i]).pkg = name, plug.path = plug.path || _path(name, i, o.type), plug.requires = plug.requires || [], plug.group = o.group, this.addModule(plug, i), o.skinnable && this._addSkin(this.skin.defaultSkin, i, name));
-            if (o.condition) for(t = o.condition.trigger, YUI.Env.aliases[t] && (t = YUI.Env.aliases[t]), Y.Lang.isArray(t) || (t = [
+            if (o.condition) for(t = o.condition.trigger, YUI.Env.aliases[t] && (t = YUI.Env.aliases[t]), !Y.Lang.isArray(t) && (t = [
                 t
             ]), i = 0; i < t.length; i++)trigger = t[i], when = o.condition.when, conditions[trigger] = conditions[trigger] || {}, conditions[trigger][name] = o.condition, when && "after" !== when ? "instead" === when && (// replace the trigger
             o.supersedes = o.supersedes || [], o.supersedes.push(trigger)) : (// after the trigger
             o.after = o.after || [], o.after.push(trigger));
-            return o.supersedes && (o.supersedes = this.filterRequires(o.supersedes)), o.after && (o.after = this.filterRequires(o.after), o.after_map = yArray.hash(o.after)), o.configFn && !1 === o.configFn(o) && (delete this.moduleInfo[name], delete GLOBAL_ENV._renderedMods[name], o = null), o && (GLOBAL_ENV._renderedMods || (GLOBAL_ENV._renderedMods = {}), GLOBAL_ENV._renderedMods[name] = Y.mix(GLOBAL_ENV._renderedMods[name] || {}, o), GLOBAL_ENV._conditions = conditions), o;
+            return o.supersedes && (o.supersedes = this.filterRequires(o.supersedes)), o.after && (o.after = this.filterRequires(o.after), o.after_map = yArray.hash(o.after)), o.configFn && !1 === o.configFn(o) && (delete this.moduleInfo[name], delete GLOBAL_ENV._renderedMods[name], o = null), o && (!GLOBAL_ENV._renderedMods && (GLOBAL_ENV._renderedMods = {}), GLOBAL_ENV._renderedMods[name] = Y.mix(GLOBAL_ENV._renderedMods[name] || {}, o), GLOBAL_ENV._conditions = conditions), o;
         },
         /**
        * Add a requirement for one or more module
@@ -4320,7 +4320,7 @@ Contains the core of YUI's feature test architecture.
        * @return {Array} The new array of exploded requirements
        */ filterRequires: function(r) {
             if (r) {
-                Y.Lang.isArray(r) || (r = [
+                !Y.Lang.isArray(r) && (r = [
                     r
                 ]), r = Y.Array(r);
                 var i, mod, o, m, c = [];
@@ -4367,8 +4367,8 @@ Contains the core of YUI's feature test architecture.
             // Create skin modules
             if (mod.skinnable) {
                 for(i in skindef = this.skin.overrides, YUI.Env.aliases)YUI.Env.aliases.hasOwnProperty(i) && Y.Array.indexOf(YUI.Env.aliases[i], name) > -1 && (skinpar = i);
-                if (skindef && (skindef[name] || skinpar && skindef[skinpar])) for(skinname = name, skindef[skinpar] && (skinname = skinpar), i = 0; i < skindef[skinname].length; i++)skinmod = this._addSkin(skindef[skinname][i], name), this.isCSSLoaded(skinmod, this._boot) || d.push(skinmod);
-                else skinmod = this._addSkin(this.skin.defaultSkin, name), this.isCSSLoaded(skinmod, this._boot) || d.push(skinmod);
+                if (skindef && (skindef[name] || skinpar && skindef[skinpar])) for(skinname = name, skindef[skinpar] && (skinname = skinpar), i = 0; i < skindef[skinname].length; i++)skinmod = this._addSkin(skindef[skinname][i], name), !this.isCSSLoaded(skinmod, this._boot) && d.push(skinmod);
+                else skinmod = this._addSkin(this.skin.defaultSkin, name), !this.isCSSLoaded(skinmod, this._boot) && d.push(skinmod);
             }
             return mod._parsed = !1, intl && (mod.lang && !mod.langPack && Y.Intl && (lang = Y.Intl.lookupBestLang(this.lang || "", mod.lang), (packName = this.getLangPackName(lang, name)) && d.unshift(packName)), d.unshift(INTL)), mod.expanded_map = yArray.hash(d), mod.expanded = YObject.keys(mod.expanded_map), mod.expanded;
         },
@@ -4382,7 +4382,7 @@ Contains the core of YUI's feature test architecture.
             if (!name || !YUI.Env.cssStampEl || !skip && this.ignoreRegistered) return !1;
             var el = YUI.Env.cssStampEl, ret = !1, mod = YUI.Env._cssLoaded[name], style = el.currentStyle; //IE
             return void 0 !== mod ? mod : (//Add the classname to the element
-            el.className = name, style || (style = Y.config.doc.defaultView.getComputedStyle(el, null)), style && "none" === style.display && (ret = !0), el.className = "", YUI.Env._cssLoaded[name] = ret, ret);
+            el.className = name, !style && (style = Y.config.doc.defaultView.getComputedStyle(el, null)), style && "none" === style.display && (ret = !0), el.className = "", YUI.Env._cssLoaded[name] = ret, ret);
         },
         /**
        * Returns a hash of module names the supplied module satisfies.
@@ -4403,7 +4403,7 @@ Contains the core of YUI's feature test architecture.
        * @param {object} o optional options object.
        * @param {string} type optional argument to prune modules.
        */ calculate: function(o, type) {
-            (o || type || this.dirty) && (o && this._config(o), this._init || this._setup(), this._explode(), this.allowRollup ? this._rollup() : this._explodeRollups(), this._reduce(), this._sort());
+            (o || type || this.dirty) && (o && this._config(o), !this._init && this._setup(), this._explode(), this.allowRollup ? this._rollup() : this._explodeRollups(), this._reduce(), this._sort());
         },
         /**
        * Creates a "psuedo" package for languages provided in the lang array
@@ -4439,7 +4439,7 @@ Contains the core of YUI's feature test architecture.
             packName = this.getLangPackName("", name), this._addLangPack(null, m, packName)));
             // expand the list to include superseded modules
             for(j in //l = Y.merge(this.inserted);
-            l = {}, this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
+            l = {}, !this.ignoreRegistered && Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
             // remove modules on the force list from the loaded list
             if (this.force) for(i = 0; i < this.force.length; i++)this.force[i] in l && delete l[this.force[i]];
             Y.mix(this.loaded, l), this._init = !0;
@@ -4486,7 +4486,7 @@ Contains the core of YUI's feature test architecture.
             // check the patterns library to see if we should automatically add
             // the module with defaults
             if (!m || m && m.ext) {
-                for(pname in patterns)if (patterns.hasOwnProperty(pname) && ((p = patterns[pname]).test || (p.test = this._patternTest), p.test(mname, pname))) {
+                for(pname in patterns)if (patterns.hasOwnProperty(pname) && (!(p = patterns[pname]).test && (p.test = this._patternTest), p.test(mname, pname))) {
                     // use the metadata supplied for the pattern
                     // as the module definition.
                     found = p;
@@ -4632,7 +4632,7 @@ Contains the core of YUI's feature test architecture.
             // one pass when the type is not specified.
             var deps, complete, modules = this.resolve(!skipcalc), self = this, comp = 0, actions = 0, mods = {};
             if (self._refetch = [], type && //Filter out the opposite type and reset the array so the checks later work
-            (modules["js" === type ? "css" : "js"] = []), self.fetchCSS || (modules.css = []), modules.js.length && comp++, modules.css.length && comp++, //console.log('Resolved Modules: ', modules);
+            (modules["js" === type ? "css" : "js"] = []), !self.fetchCSS && (modules.css = []), modules.js.length && comp++, modules.css.length && comp++, //console.log('Resolved Modules: ', modules);
             complete = function(d) {
                 actions++;
                 var fn, modName, resMods, errs = {}, i = 0, o = 0, u = "";
@@ -4641,7 +4641,7 @@ Contains the core of YUI's feature test architecture.
                 if (actions === comp) {
                     if (self._loading = null, self._refetch.length) {
                         //Get the deps for the new meta-data and reprocess
-                        for(i = 0; i < self._refetch.length; i++)for(o = 0, deps = self.getRequires(self.getModule(self._refetch[i])); o < deps.length; o++)self.inserted[deps[o]] || //We wouldn't be to this point without the module being here
+                        for(i = 0; i < self._refetch.length; i++)for(o = 0, deps = self.getRequires(self.getModule(self._refetch[i])); o < deps.length; o++)!self.inserted[deps[o]] && //We wouldn't be to this point without the module being here
                         (mods[deps[o]] = deps[o]);
                         if ((mods = Y.Object.keys(mods)).length) {
                             if (self.require(mods), (resMods = self.resolve(!0)).cssMods.length) {

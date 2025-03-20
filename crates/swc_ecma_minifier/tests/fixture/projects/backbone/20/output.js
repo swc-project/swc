@@ -23,7 +23,7 @@ export const E = {
         }
         // Remove nonexistent models if appropriate.
         if (remove) {
-            for(i = 0, l = this.length; i < l; ++i)modelMap[(model = this.models[i]).cid] || toRemove.push(model);
+            for(i = 0, l = this.length; i < l; ++i)!modelMap[(model = this.models[i]).cid] && toRemove.push(model);
             toRemove.length && this.remove(toRemove, options);
         }
         // See if sorting is needed, update `length` and splice in new models.

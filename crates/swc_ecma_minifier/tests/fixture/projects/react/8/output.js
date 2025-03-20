@@ -36,7 +36,7 @@ function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
         if ("function" == typeof iteratorFn) {
             var child, nextName, step, iterableChildren = children;
             // Warn about using Maps as children
-            iteratorFn === iterableChildren.entries && (didWarnAboutMaps || warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
+            iteratorFn === iterableChildren.entries && (!didWarnAboutMaps && warn("Using Maps as children is not supported. Use an array of keyed ReactElements instead."), didWarnAboutMaps = !0);
             for(var iterator = iteratorFn.call(iterableChildren), ii = 0; !(step = iterator.next()).done;)nextName = nextNamePrefix + getElementKey(child = step.value, ii++), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
         } else if ("object" === type) {
             var childrenString = "" + children;

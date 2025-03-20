@@ -19,13 +19,13 @@
             var C = Object.getOwnPropertyNames;
             var N = Object.getPrototypeOf, $ = Object.prototype.hasOwnProperty;
             var D = (m, S, h, E)=>{
-                if (S && "object" == typeof S || "function" == typeof S) for (let k of C(S))$.call(m, k) || k === h || j(m, k, {
+                if (S && "object" == typeof S || "function" == typeof S) for (let k of C(S))!$.call(m, k) && k !== h && j(m, k, {
                     get: ()=>S[k],
                     enumerable: !(E = B(S, k)) || E.enumerable
                 });
                 return m;
             };
-            var M = (m, S, h)=>(h = null != m ? L(N(m)) : {}, D(!S && m && m.__esModule ? h : j(h, "default", {}), m));
+            var M = (m, S, h)=>(h = null != m ? L(N(m)) : {}, D(S || !m || !m.__esModule ? j(h, "default", {}) : h, m));
             var F = (E = ()=>{}, ()=>(k || E((k = {
                     exports: {}
                 }).exports, k), k.exports));
@@ -360,7 +360,7 @@
                         ...z,
                         S
                     ];
-                    _ && h.includes(_) || b(null != (m = z[0]) ? m : S);
+                    (!_ || !h.includes(_)) && b(null != (m = z[0]) ? m : S);
                 }, [
                     l,
                     z,
