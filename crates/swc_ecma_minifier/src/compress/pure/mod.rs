@@ -539,9 +539,13 @@ impl VisitMut for Pure<'_> {
             },
         );
 
-        if s.expr.is_seq() {
-            debug_assert_valid(&s.expr);
+        if s.expr.is_invalid() {
+            return;
         }
+
+        debug_assert_valid(&s.expr);
+
+        self.negate_bool_for_expr_stmt(&mut s.expr)
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
