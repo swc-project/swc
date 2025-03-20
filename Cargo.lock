@@ -4586,6 +4586,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_malloc",
  "swc_node_comments",
+ "swc_parallel",
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_timer",

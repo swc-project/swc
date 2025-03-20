@@ -30,7 +30,7 @@ os:
 check:
   swc:
     # plugin feature is verified by other tasks
-    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js"
+    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --features swc_parallel/chili"
   swc_allocator:
     - "cargo hack check --feature-powerset"
   swc_bundler:
