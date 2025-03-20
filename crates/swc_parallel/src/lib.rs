@@ -179,7 +179,7 @@ where
         || oper_b(Scope(std::marker::PhantomData)),
     );
 
-    #[cfg(all(not(feature = "chili"), not(feature = "rayon")))]
+    #[cfg(not(feature = "parallel"))]
     let (ra, rb) = (
         oper_a(Scope(std::marker::PhantomData)),
         oper_b(Scope(std::marker::PhantomData)),
