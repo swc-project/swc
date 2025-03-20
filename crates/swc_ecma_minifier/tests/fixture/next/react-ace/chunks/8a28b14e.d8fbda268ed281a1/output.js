@@ -476,10 +476,8 @@
                 function normalizeCommandKeys(callback, e, keyCode) {
                     var hashId = getModifierHash(e);
                     if (!useragent.isMac && pressedKeys) {
-                        if (e.getModifierState && (e.getModifierState("OS") || e.getModifierState("Win")) && (hashId |= 8), pressedKeys.altGr) {
-                            if ((3 & hashId) == 3) return;
-                            pressedKeys.altGr = 0;
-                        }
+                        if (e.getModifierState && (e.getModifierState("OS") || e.getModifierState("Win")) && (hashId |= 8), pressedKeys.altGr) if ((3 & hashId) == 3) return;
+                        else pressedKeys.altGr = 0;
                         if (18 === keyCode || 17 === keyCode) {
                             var location = "location" in e ? e.location : e.keyLocation;
                             17 === keyCode && 1 === location ? 1 == pressedKeys[keyCode] && (ts = e.timeStamp) : 18 === keyCode && 3 === hashId && 2 === location && e.timeStamp - ts < 50 && (pressedKeys.altGr = !0);
@@ -1559,10 +1557,8 @@
                         var touches = e.touches;
                         if (!(touches.length > 1) && "zoom" != mode) {
                             var touchObj = touches[0], wheelX = startX - touchObj.clientX, wheelY = startY - touchObj.clientY;
-                            if ("wait" == mode) {
-                                if (!(wheelX * wheelX + wheelY * wheelY > 4)) return e.preventDefault();
-                                mode = "cursor";
-                            }
+                            if ("wait" == mode) if (!(wheelX * wheelX + wheelY * wheelY > 4)) return e.preventDefault();
+                            else mode = "cursor";
                             startX = touchObj.clientX, startY = touchObj.clientY, e.clientX = touchObj.clientX, e.clientY = touchObj.clientY;
                             var t = e.timeStamp, dt = t - lastT;
                             if (lastT = t, "scroll" == mode) {
@@ -2429,7 +2425,14 @@
                 }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
-                    return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? +!!/[\u0591-\u05f4]/.test(ch) : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
+                    if (0 == hi) return uc > 0x00bf ? 0 : UnicodeTBL00[uc];
+                    if (5 == hi) return +!!/[\u0591-\u05f4]/.test(ch);
+                    if (6 == hi) if (/[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch)) return 12;
+                    else if (/[\u0660-\u0669\u066b-\u066c]/.test(ch)) return 3;
+                    else if (0x066a == uc) return 11;
+                    else if (/[\u06f0-\u06f9]/.test(ch)) return 2;
+                    else return 7;
+                    return 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
                 }
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
@@ -2791,11 +2794,10 @@
                         else {
                             for(; (ch = rightOfCursor[index]) && whitespaceRe.test(ch);)index++;
                             if (index < 1) {
-                                for(tokenRe.lastIndex = 0; (ch = rightOfCursor[index]) && !tokenRe.test(ch);)if (tokenRe.lastIndex = 0, index++, whitespaceRe.test(ch)) {
-                                    if (index > 2) {
-                                        index--;
-                                        break;
-                                    }
+                                for(tokenRe.lastIndex = 0; (ch = rightOfCursor[index]) && !tokenRe.test(ch);)if (tokenRe.lastIndex = 0, index++, whitespaceRe.test(ch)) if (index > 2) {
+                                    index--;
+                                    break;
+                                } else {
                                     for(; (ch = rightOfCursor[index]) && whitespaceRe.test(ch);)index++;
                                     if (index > 2) break;
                                 }
@@ -2875,17 +2877,14 @@
                         }
                         return data;
                     }, this.fromJSON = function(data) {
-                        if (void 0 == data.start) {
-                            if (this.rangeList && data.length > 1) {
-                                this.toSingleRange(data[0]);
-                                for(var i = data.length; i--;){
-                                    var r = Range.fromPoints(data[i].start, data[i].end);
-                                    data[i].isBackwards && (r.cursor = r.start), this.addRange(r, !0);
-                                }
-                                return;
+                        if (void 0 == data.start) if (this.rangeList && data.length > 1) {
+                            this.toSingleRange(data[0]);
+                            for(var i = data.length; i--;){
+                                var r = Range.fromPoints(data[i].start, data[i].end);
+                                data[i].isBackwards && (r.cursor = r.start), this.addRange(r, !0);
                             }
-                            data = data[0];
-                        }
+                            return;
+                        } else data = data[0];
                         this.rangeList && this.toSingleRange(data), this.setSelectionRange(data, data.isBackwards);
                     }, this.isEqual = function(data) {
                         if ((data.length || this.rangeCount) && data.length != this.rangeCount) return !1;
@@ -3252,19 +3251,20 @@
                             initContext(editor);
                             var selection = editor.getSelectionRange(), selected = session.doc.getTextRange(selection);
                             if ("" !== selected && "{" !== selected && editor.getWrapBehavioursEnabled()) return getWrapped(selection, selected, "{", "}");
-                            if (CstyleBehaviour.isSaneInsertion(editor, session)) return /[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options && options.braces ? (CstyleBehaviour.recordAutoInsert(editor, session, "}"), {
+                            if (CstyleBehaviour.isSaneInsertion(editor, session)) if (/[\]\}\)]/.test(line[cursor.column]) || editor.inMultiSelectMode || options && options.braces) return CstyleBehaviour.recordAutoInsert(editor, session, "}"), {
                                 text: "{}",
                                 selection: [
                                     1,
                                     1
                                 ]
-                            }) : (CstyleBehaviour.recordMaybeInsert(editor, session, "{"), {
+                            };
+                            else return CstyleBehaviour.recordMaybeInsert(editor, session, "{"), {
                                 text: "{",
                                 selection: [
                                     1,
                                     1
                                 ]
-                            });
+                            };
                         } else if ("}" == text) {
                             initContext(editor);
                             var rightChar = line.substring(cursor.column, cursor.column + 1);
@@ -5115,10 +5115,8 @@
                             anchor = this.start, consumePoint(fold.start, anchor), consumePoint(fold.end, anchor);
                             for(var anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
                             var afterStart = this.subFolds[i], firstConsumed = 0;
-                            if (0 == cmp) {
-                                if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
-                                firstConsumed = 1;
-                            }
+                            if (0 == cmp) if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
+                            else firstConsumed = 1;
                             for(var row = fold.range.end.row, column = fold.range.end.column, j = i, cmp = -1; j < this.subFolds.length && 1 == (cmp = this.subFolds[j].range.compare(row, column)); j++);
                             0 == cmp && j++;
                             for(var consumedFolds = this.subFolds.splice(i, j - i, fold), last = 0 == cmp ? consumedFolds.length - 1 : consumedFolds.length, k = firstConsumed; k < last; k++)fold.addSubFold(consumedFolds[k]);
@@ -9422,13 +9420,10 @@
                         this.config = config;
                         for(var first = Math.max(firstRow, config.firstRow), last = Math.min(lastRow, config.lastRow), lineElements = this.element.childNodes, lineElementsIdx = 0, row = config.firstRow; row < first; row++){
                             var foldLine = this.session.getFoldLine(row);
-                            if (foldLine) {
-                                if (foldLine.containsRow(first)) {
-                                    first = foldLine.start.row;
-                                    break;
-                                }
-                                row = foldLine.end.row;
-                            }
+                            if (foldLine) if (foldLine.containsRow(first)) {
+                                first = foldLine.start.row;
+                                break;
+                            } else row = foldLine.end.row;
                             lineElementsIdx++;
                         }
                         for(var heightChanged = !1, row = first, foldLine = this.session.getNextFoldLine(row), foldStart = foldLine ? foldLine.start.row : 1 / 0; row > foldStart && (row = foldLine.end.row + 1, foldStart = (foldLine = this.session.getNextFoldLine(row, foldLine)) ? foldLine.start.row : 1 / 0), !(row > last);){
@@ -10458,10 +10453,8 @@ margin: 0 10px;\
                         if (void 0 === lastRow && (lastRow = 1 / 0), this.$changedLines ? (this.$changedLines.firstRow > firstRow && (this.$changedLines.firstRow = firstRow), this.$changedLines.lastRow < lastRow && (this.$changedLines.lastRow = lastRow)) : this.$changedLines = {
                             firstRow: firstRow,
                             lastRow: lastRow
-                        }, this.$changedLines.lastRow < this.layerConfig.firstRow) {
-                            if (!force) return;
-                            this.$changedLines.lastRow = this.layerConfig.lastRow;
-                        }
+                        }, this.$changedLines.lastRow < this.layerConfig.firstRow) if (!force) return;
+                        else this.$changedLines.lastRow = this.layerConfig.lastRow;
                         this.$changedLines.firstRow > this.layerConfig.lastRow || this.$loop.schedule(this.CHANGE_LINES);
                     }, this.onChangeNewLineMode = function() {
                         this.$loop.schedule(this.CHANGE_TEXT), this.$textLayer.$updateEolChar(), this.session.$bidiHandler.setEolChar(this.$textLayer.EOL_CHAR);

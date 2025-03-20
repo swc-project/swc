@@ -7137,8 +7137,8 @@
                         ids[j + 1] = temp;
                     }
                     else {
-                        var i$1 = left + 1, j$1 = right;
-                        swap(ids, left + right >> 1, i$1), dists[ids[left]] > dists[ids[right]] && swap(ids, left, right), dists[ids[i$1]] > dists[ids[right]] && swap(ids, i$1, right), dists[ids[left]] > dists[ids[i$1]] && swap(ids, left, i$1);
+                        var median = left + right >> 1, i$1 = left + 1, j$1 = right;
+                        swap(ids, median, i$1), dists[ids[left]] > dists[ids[right]] && swap(ids, left, right), dists[ids[i$1]] > dists[ids[right]] && swap(ids, i$1, right), dists[ids[left]] > dists[ids[i$1]] && swap(ids, left, i$1);
                         for(var temp$1 = ids[i$1], tempDist$1 = dists[temp$1];;){
                             do i$1++;
                             while (dists[ids[i$1]] < tempDist$1)
@@ -11463,8 +11463,7 @@
                                 // New behavior only for users of `prop-types` package
                                 var err = Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
                                 throw err.name = 'Invariant Violation', err;
-                            }
-                            if ('undefined' != typeof console) {
+                            } else if ('undefined' != typeof console) {
                                 // Old behavior for people using React.PropTypes
                                 var cacheKey = componentName + ':' + propName;
                                 !manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
@@ -11494,7 +11493,7 @@
                     var propType = getPropType(propValue);
                     if ('object' === propType) {
                         if (propValue instanceof Date) return 'date';
-                        if (propValue instanceof RegExp) return 'regexp';
+                        else if (propValue instanceof RegExp) return 'regexp';
                     }
                     return propType;
                 }

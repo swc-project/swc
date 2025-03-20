@@ -637,7 +637,7 @@ impl VisitMut for Pure<'_> {
 
         {
             let ctx = Ctx {
-                preserve_block: true,
+                preserve_block: false,
                 ..self.ctx
             };
             s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
