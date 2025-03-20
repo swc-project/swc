@@ -16,8 +16,8 @@ parallel = []
 rayon = ["dep:rayon", "parallel"]
 # Use chili for parallel execution
 chili = ["dep:chili", "parallel"]
-# Alias for chili, just for CI. Do not use it if you are not working on SWC.
-concurrent = ["chili"]
+# Alias for parallel, just for CI. Do not use it if you are not working on SWC.
+concurrent = ["parallel"]
 indexmap   = ["dep:indexmap"]
 
 [dependencies]
