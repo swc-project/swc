@@ -259,14 +259,3 @@ impl Compressor<'_> {
         }
     }
 }
-
-#[cfg(feature = "debug")]
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(pub &'a str);
-
-#[cfg(feature = "debug")]
-impl Debug for DebugUsingDisplay<'_> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
-    }
-}
