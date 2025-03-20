@@ -5960,8 +5960,10 @@
                 let result = null;
                 // Check if data is there
                 if (// Set reporter to share it with a child class
-                this.reporter = reporter, state.optional && void 0 === data) if (null === state.default) return;
-                else data = state.default;
+                this.reporter = reporter, state.optional && void 0 === data) {
+                    if (null === state.default) return;
+                    data = state.default;
+                }
                 // Encode children first
                 let content = null, primitive = !1;
                 if (state.any) // Anything that was given is translated to buffer
@@ -6506,19 +6508,19 @@
                     function onloadend() {
                         if (request) {
                             // Prepare the response
-                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, responseData = responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText, response = {
-                                data: responseData,
+                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+                            settle(function(value) {
+                                resolve(value), done();
+                            }, function(err) {
+                                reject(err), done();
+                            }, {
+                                data: responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText,
                                 status: request.status,
                                 statusText: request.statusText,
                                 headers: responseHeaders,
                                 config: config,
                                 request: request
-                            };
-                            settle(function(value) {
-                                resolve(value), done();
-                            }, function(err) {
-                                reject(err), done();
-                            }, response), // Clean up request
+                            }), // Clean up request
                             request = null;
                         }
                     }
@@ -10905,21 +10907,20 @@
                 if (0 === buffer.length) return -1;
                 if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset *= 1 // Coerce to Number.
                 ) && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) if (dir) return -1;
-                else byteOffset = buffer.length - 1;
-                else if (byteOffset < 0) if (!dir) return -1;
-                else byteOffset = 0;
+                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
+                    if (dir) return -1;
+                    byteOffset = buffer.length - 1;
+                } else if (byteOffset < 0) {
+                    if (!dir) return -1;
+                    byteOffset = 0;
+                }
                 // Finally, search either indexOf (if dir is true) or lastIndexOf
                 if ('string' == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return(// Special case: looking for empty string/buffer always fails
                 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir));
-                if ('number' == typeof val) {
-                    if (val &= 0xFF // Search for a byte value [0-255]
-                    , 'function' == typeof Uint8Array.prototype.indexOf) if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-                    else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-                    return arrayIndexOf(buffer, [
-                        val
-                    ], byteOffset, encoding, dir);
-                }
+                if ('number' == typeof val) return (val &= 0xFF // Search for a byte value [0-255]
+                , 'function' == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
+                    val
+                ], byteOffset, encoding, dir);
                 throw TypeError('val must be string, number or Buffer');
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
@@ -11895,8 +11896,10 @@
                 (y = new BN(y, 16)).red || (y = y.toRed(this.red));
                 // x^2 = (y^2 - c^2) / (c^2 d y^2 - a)
                 var y2 = y.redSqr(), lhs = y2.redSub(this.c2), rhs = y2.redMul(this.d).redMul(this.c2).redSub(this.a), x2 = lhs.redMul(rhs.redInvm());
-                if (0 === x2.cmp(this.zero)) if (!odd) return this.point(this.zero, y);
-                else throw Error('invalid point');
+                if (0 === x2.cmp(this.zero)) {
+                    if (!odd) return this.point(this.zero, y);
+                    throw Error('invalid point');
+                }
                 var x = x2.redSqrt();
                 if (0 !== x.redSqr().redSub(x2).cmp(this.zero)) throw Error('invalid point');
                 return x.fromRed().isOdd() !== odd && (x = x.redNeg()), this.point(x, y);
@@ -12351,8 +12354,7 @@
                 if (p.isInfinity()) return this;
                 // 12M + 4S + 7A
                 var pz2 = p.z.redSqr(), z2 = this.z.redSqr(), u1 = this.x.redMul(pz2), u2 = p.x.redMul(z2), s1 = this.y.redMul(pz2.redMul(p.z)), s2 = p.y.redMul(z2.redMul(this.z)), h = u1.redSub(u2), r = s1.redSub(s2);
-                if (0 === h.cmpn(0)) if (0 !== r.cmpn(0)) return this.curve.jpoint(null, null, null);
-                else return this.dbl();
+                if (0 === h.cmpn(0)) return 0 !== r.cmpn(0) ? this.curve.jpoint(null, null, null) : this.dbl();
                 var h2 = h.redSqr(), h3 = h2.redMul(h), v = u1.redMul(h2), nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v), ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3)), nz = this.z.redMul(p.z).redMul(h);
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype.mixedAdd = function(p) {
@@ -12362,8 +12364,7 @@
                 if (p.isInfinity()) return this;
                 // 8M + 3S + 7A
                 var z2 = this.z.redSqr(), u1 = this.x, u2 = p.x.redMul(z2), s1 = this.y, s2 = p.y.redMul(z2).redMul(this.z), h = u1.redSub(u2), r = s1.redSub(s2);
-                if (0 === h.cmpn(0)) if (0 !== r.cmpn(0)) return this.curve.jpoint(null, null, null);
-                else return this.dbl();
+                if (0 === h.cmpn(0)) return 0 !== r.cmpn(0) ? this.curve.jpoint(null, null, null) : this.dbl();
                 var h2 = h.redSqr(), h3 = h2.redMul(h), v = u1.redMul(h2), nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v), ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3)), nz = this.z.redMul(h);
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype.dblp = function(pow) {
@@ -12842,12 +12843,16 @@
                 var slen = getLength(data, p);
                 if (!1 === slen || data.length !== slen + p.place) return !1;
                 var s = data.slice(p.place, slen + p.place);
-                if (0 === r[0]) if (!(0x80 & r[1])) // Leading zeroes
-                return !1;
-                else r = r.slice(1);
-                if (0 === s[0]) if (!(0x80 & s[1])) // Leading zeroes
-                return !1;
-                else s = s.slice(1);
+                if (0 === r[0]) {
+                    if (!(0x80 & r[1])) // Leading zeroes
+                    return !1;
+                    r = r.slice(1);
+                }
+                if (0 === s[0]) {
+                    if (!(0x80 & s[1])) // Leading zeroes
+                    return !1;
+                    s = s.slice(1);
+                }
                 return this.r = new BN(r), this.s = new BN(s), this.recoveryParam = null, !0;
             }, Signature.prototype.toDER = function(enc) {
                 var r = this.r.toArray(), s = this.s.toArray();
@@ -14493,11 +14498,12 @@
                             stack[i - 1] = z;
                             return;
                         }
-                        if (s._color === BLACK) if (p._color === RED) {
-                            //console.log("case 2: black sibling, red parent", p.right.value)
-                            p._color = BLACK, p.right = repaint(RED, s);
-                            return;
-                        } else {
+                        if (s._color === BLACK) {
+                            if (p._color === RED) {
+                                //console.log("case 2: black sibling, red parent", p.right.value)
+                                p._color = BLACK, p.right = repaint(RED, s);
+                                return;
+                            }
                             //console.log("case 2: black sibling, black parent", p.right.value)
                             p.right = repaint(RED, s);
                             continue;
@@ -14528,11 +14534,12 @@
                             stack[i - 1] = z;
                             return;
                         }
-                        if (s._color === BLACK) if (p._color === RED) {
-                            //console.log("case 2: black sibling, red parent")
-                            p._color = BLACK, p.left = repaint(RED, s);
-                            return;
-                        } else {
+                        if (s._color === BLACK) {
+                            if (p._color === RED) {
+                                //console.log("case 2: black sibling, red parent")
+                                p._color = BLACK, p.left = repaint(RED, s);
+                                return;
+                            }
                             //console.log("case 2: black sibling, black parent")
                             p.left = repaint(RED, s);
                             continue;
@@ -16401,7 +16408,7 @@
                         key = bytes;
                     } else if ('object' === type) {
                         if (null === key) throw Error(ERROR);
-                        else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
+                        if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
                         else if (!Array.isArray(key) && (!ARRAY_BUFFER || !ArrayBuffer.isView(key))) throw Error(ERROR);
                     } else throw Error(ERROR);
                     key.length > 64 && (key = new Sha256(is224, !0).update(key).array());
@@ -16418,7 +16425,7 @@
                         if ('string' !== type) {
                             if ('object' === type) {
                                 if (null === message) throw Error(ERROR);
-                                else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
+                                if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
                                 else if (!Array.isArray(message) && (!ARRAY_BUFFER || !ArrayBuffer.isView(message))) throw Error(ERROR);
                             } else throw Error(ERROR);
                             notString = !0;
@@ -16762,7 +16769,7 @@
                     if ('string' !== type) {
                         if ('object' === type) {
                             if (null === key) throw Error(INPUT_ERROR);
-                            else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
+                            if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
                             else if (!Array.isArray(key) && (!ARRAY_BUFFER || !ArrayBuffer.isView(key))) throw Error(INPUT_ERROR);
                         } else throw Error(INPUT_ERROR);
                         notString = !0;
@@ -16785,7 +16792,7 @@
                     if ('string' !== type) {
                         if ('object' === type) {
                             if (null === message) throw Error(INPUT_ERROR);
-                            else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
+                            if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
                             else if (!Array.isArray(message) && (!ARRAY_BUFFER || !ArrayBuffer.isView(message))) throw Error(INPUT_ERROR);
                         } else throw Error(INPUT_ERROR);
                         notString = !0;
@@ -19072,11 +19079,7 @@
             }, Ctor.prototype[kTest] = function() {
                 return !0;
             }, Ctor.prototype[kOutOfRange] = function(target) {
-                if (!this[kTest](target)) return !0;
-                if (this[kLowerBound] === kNone) return !1;
-                if (this[kReverse]) if ('lte' in this[kOptions]) return compare(target, this[kLowerBound]) > 0;
-                else return compare(target, this[kLowerBound]) >= 0;
-                return 'gte' in this[kOptions] ? 0 > compare(target, this[kLowerBound]) : 0 >= compare(target, this[kLowerBound]);
+                return !this[kTest](target) || this[kLowerBound] !== kNone && (this[kReverse] ? 'lte' in this[kOptions] ? compare(target, this[kLowerBound]) > 0 : compare(target, this[kLowerBound]) >= 0 : 'gte' in this[kOptions] ? 0 > compare(target, this[kLowerBound]) : 0 >= compare(target, this[kLowerBound]));
             }, Ctor.prototype._seek = function(target, options) {
                 this[kOutOfRange](target) ? (this[kIterator] = this[kIterator].tree.end, this[kIterator].next()) : this[kReverse] ? this[kIterator] = this[kIterator].tree.le(target) : this[kIterator] = this[kIterator].tree.ge(target);
             };
@@ -19546,11 +19549,7 @@
                             return e >= T ? e = T : (e--, e |= e >>> 1, e |= e >>> 2, e |= e >>> 4, e |= e >>> 8, e |= e >>> 16, e++), e;
                         }
                         function howMuchToRead(e, t) {
-                            if (e <= 0 || 0 === t.length && t.ended) return 0;
-                            if (t.objectMode) return 1;
-                            if (e != e) if (t.flowing && t.length) return t.buffer.head.data.length;
-                            else return t.length;
-                            return (e > t.highWaterMark && (t.highWaterMark = computeNewHighWaterMark(e)), e <= t.length) ? e : t.ended ? t.length : (t.needReadable = !0, 0);
+                            return e <= 0 || 0 === t.length && t.ended ? 0 : t.objectMode ? 1 : e != e ? t.flowing && t.length ? t.buffer.head.data.length : t.length : (e > t.highWaterMark && (t.highWaterMark = computeNewHighWaterMark(e)), e <= t.length) ? e : t.ended ? t.length : (t.needReadable = !0, 0);
                         }
                         function onEofChunk(e, t) {
                             if (u("onEofChunk"), !t.ended) {
@@ -23979,15 +23978,12 @@ class Zip {
                     '{',
                     '}'
                 ];
-                if (isArray(value) && (array = !0, braces = [
+                return (isArray(value) && (array = !0, braces = [
                     '[',
                     ']'
-                ]), isFunction(value) && (base = ' [Function' + (value.name ? ': ' + value.name : '') + ']'), isRegExp(value) && (base = ' ' + RegExp.prototype.toString.call(value)), isDate(value) && (base = ' ' + Date.prototype.toUTCString.call(value)), isError(value) && (base = ' ' + formatError(value)), 0 === keys.length && (!array || 0 == value.length)) return braces[0] + base + braces[1];
-                if (recurseTimes < 0) if (isRegExp(value)) return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-                else return ctx.stylize('[Object]', 'special');
-                return ctx.seen.push(value), output = array ? formatArray(ctx, value, recurseTimes, visibleKeys, keys) : keys.map(function(key) {
+                ]), isFunction(value) && (base = ' [Function' + (value.name ? ': ' + value.name : '') + ']'), isRegExp(value) && (base = ' ' + RegExp.prototype.toString.call(value)), isDate(value) && (base = ' ' + Date.prototype.toUTCString.call(value)), isError(value) && (base = ' ' + formatError(value)), 0 !== keys.length || array && 0 != value.length) ? recurseTimes < 0 ? isRegExp(value) ? ctx.stylize(RegExp.prototype.toString.call(value), 'regexp') : ctx.stylize('[Object]', 'special') : (ctx.seen.push(value), output = array ? formatArray(ctx, value, recurseTimes, visibleKeys, keys) : keys.map(function(key) {
                     return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-                }), ctx.seen.pop(), reduceToSingleString(output, base, braces);
+                }), ctx.seen.pop(), reduceToSingleString(output, base, braces)) : braces[0] + base + braces[1];
             }
             function formatPrimitive(ctx, value) {
                 if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');

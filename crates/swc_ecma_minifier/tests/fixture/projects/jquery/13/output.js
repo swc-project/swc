@@ -24,11 +24,9 @@ function internalRemoveData(elem, name, pvt) {
                 if (!(pvt ? isEmptyDataObject : jQuery.isEmptyObject)(thisCache)) return;
             }
             // See jQuery.data for more information
-            if (!pvt && (delete cache[id].data, !isEmptyDataObject(cache[id]))) return;
-            // Destroy the cache
-            isNode ? jQuery.cleanData([
+            (pvt || (delete cache[id].data, isEmptyDataObject(cache[id]))) && (isNode ? jQuery.cleanData([
                 elem
-            ], !0) : jQuery.support.deleteExpando || cache != cache.window ? delete cache[id] : cache[id] = null;
+            ], !0) : jQuery.support.deleteExpando || cache != cache.window ? delete cache[id] : cache[id] = null);
         }
     }
 }

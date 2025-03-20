@@ -912,11 +912,13 @@
             var loc = this.location, atRoot = loc.pathname.replace(/[^\/]$/, "$&/") === this.root;
             // Transition from hashChange to pushState or vice versa if both are
             // requested.
-            if (this._wantsHashChange && this._wantsPushState) // If we've started off with a route from a `pushState`-enabled
-            // browser, but we're currently in a browser that doesn't support it...
-            if (!this._hasPushState && !atRoot) // Return immediately as browser will do redirect to new url
-            return this.fragment = this.getFragment(null, !0), this.location.replace(this.root + this.location.search + "#" + this.fragment), !0;
-            else this._hasPushState && atRoot && loc.hash && (this.fragment = this.getHash().replace(routeStripper, ""), this.history.replaceState({}, document.title, this.root + this.fragment + loc.search));
+            if (this._wantsHashChange && this._wantsPushState) {
+                // If we've started off with a route from a `pushState`-enabled
+                // browser, but we're currently in a browser that doesn't support it...
+                if (!this._hasPushState && !atRoot) // Return immediately as browser will do redirect to new url
+                return this.fragment = this.getFragment(null, !0), this.location.replace(this.root + this.location.search + "#" + this.fragment), !0;
+                this._hasPushState && atRoot && loc.hash && (this.fragment = this.getHash().replace(routeStripper, ""), this.history.replaceState({}, document.title, this.root + this.fragment + loc.search));
+            }
             if (!this.options.silent) return this.loadUrl();
         },
         // Disable Backbone.history, perhaps temporarily. Not useful in a real app,

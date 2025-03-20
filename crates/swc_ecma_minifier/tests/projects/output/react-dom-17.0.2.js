@@ -668,7 +668,7 @@
         return node._valueTracker;
     }
     function track(node) {
-        getTracker(node) || (node._valueTracker = function(node) {
+        !getTracker(node) && (node._valueTracker = function(node) {
             var valueField = isCheckable(node) ? "checked" : "value", descriptor = Object.getOwnPropertyDescriptor(node.constructor.prototype, valueField), currentValue = "" + node[valueField];
             // and don't track value will cause over reporting of changes,
             // but it's better then a hard failure
@@ -815,7 +815,7 @@
    * Implements an <option> host component that warns when `selected` is set.
    */ function validateProps(element, props) {
         "object" == typeof props.children && null !== props.children && React.Children.forEach(props.children, function(child) {
-            null != child && "string" != typeof child && "number" != typeof child && ("string" != typeof child.type || didWarnInvalidChild || (didWarnInvalidChild = !0, error("Only strings and numbers are supported as <option> children.")));
+            null != child && "string" != typeof child && "number" != typeof child && "string" == typeof child.type && (didWarnInvalidChild || (didWarnInvalidChild = !0, error("Only strings and numbers are supported as <option> children.")));
         }), null == props.selected || didWarnSelectedSetOnOption || (error("Use the `defaultValue` or `value` props on <select> instead of setting `selected` on <option>."), didWarnSelectedSetOnOption = !0);
     }
     function getHostProps$1(element, props) {
@@ -1348,13 +1348,13 @@
             return character.toUpperCase();
         })));
     }, warnBadVendoredStyleName = function(name) {
-        warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name] || (warnedStyleNames[name] = !0, error("Unsupported vendor-prefixed style property %s. Did you mean %s?", name, name.charAt(0).toUpperCase() + name.slice(1)));
+        (!warnedStyleNames.hasOwnProperty(name) || !warnedStyleNames[name]) && (warnedStyleNames[name] = !0, error("Unsupported vendor-prefixed style property %s. Did you mean %s?", name, name.charAt(0).toUpperCase() + name.slice(1)));
     }, warnStyleValueWithSemicolon = function(name, value) {
-        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, "")));
+        (!warnedStyleValues.hasOwnProperty(value) || !warnedStyleValues[value]) && (warnedStyleValues[value] = !0, error('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, "")));
     }, warnStyleValueIsNaN = function(name, value) {
-        warnedForNaNValue || (warnedForNaNValue = !0, error("`NaN` is an invalid value for the `%s` css style property.", name));
+        !warnedForNaNValue && (warnedForNaNValue = !0, error("`NaN` is an invalid value for the `%s` css style property.", name));
     }, warnStyleValueIsInfinity = function(name, value) {
-        warnedForInfinityValue || (warnedForInfinityValue = !0, error("`Infinity` is an invalid value for the `%s` css style property.", name));
+        !warnedForInfinityValue && (warnedForInfinityValue = !0, error("`Infinity` is an invalid value for the `%s` css style property.", name));
     }, warnValidStyle$1 = function(name, value) {
         name.indexOf("-") > -1 ? warnHyphenatedStyleName(name) : badVendoredStyleNamePattern.test(name) ? warnBadVendoredStyleName(name) : badStyleValueWithSemicolonPattern.test(value) && warnStyleValueWithSemicolon(name, value), "number" != typeof value || (isNaN(value) ? warnStyleValueIsNaN(name, value) : isFinite(value) || warnStyleValueIsInfinity(name, value));
     };
@@ -3344,18 +3344,19 @@
         }
     }
     function handleEventsForInputEventPolyfill(domEventName, target, targetInst) {
-        if ("focusin" === domEventName) // In IE9, propertychange fires for most input events but is buggy and
-        // doesn't fire when text is deleted, but conveniently, selectionchange
-        // appears to fire in all of the remaining cases so we catch those and
-        // forward the event if the value has changed
-        // In either case, we don't want to call the event handler if the value
-        // is changed from JS so we redefine a setter for `.value` that updates
-        // our activeElementValue variable, allowing us to ignore those changes
-        //
-        // stopWatching() should be a noop here but we call it just in case we
-        // missed a blur event somehow.
-        stopWatchingForValueChange(), activeElement = target, activeElementInst = targetInst, activeElement.attachEvent("onpropertychange", handlePropertyChange);
-        else "focusout" === domEventName && stopWatchingForValueChange();
+        if ("focusin" === domEventName) {
+            // In IE9, propertychange fires for most input events but is buggy and
+            // doesn't fire when text is deleted, but conveniently, selectionchange
+            // appears to fire in all of the remaining cases so we catch those and
+            // forward the event if the value has changed
+            // In either case, we don't want to call the event handler if the value
+            // is changed from JS so we redefine a setter for `.value` that updates
+            // our activeElementValue variable, allowing us to ignore those changes
+            //
+            // stopWatching() should be a noop here but we call it just in case we
+            // missed a blur event somehow.
+            stopWatchingForValueChange(), activeElement = target, activeElementInst = targetInst, activeElement.attachEvent("onpropertychange", handlePropertyChange);
+        } else "focusout" === domEventName && stopWatchingForValueChange();
     } // For IE8 and IE9.
     function getTargetInstForInputEventPolyfill(domEventName, targetInst) {
         if ("selectionchange" === domEventName || "keyup" === domEventName || "keydown" === domEventName) // On the selectionchange event, the target is just document which isn't
@@ -3831,7 +3832,7 @@
     }
     var listeningMarker = "_reactListening" + Math.random().toString(36).slice(2);
     function listenToAllSupportedEvents(rootContainerElement) {
-        rootContainerElement[listeningMarker] || (rootContainerElement[listeningMarker] = !0, allNativeEvents.forEach(function(domEventName) {
+        !rootContainerElement[listeningMarker] && (rootContainerElement[listeningMarker] = !0, allNativeEvents.forEach(function(domEventName) {
             nonDelegatedEvents.has(domEventName) || listenToNativeEvent(domEventName, !1, rootContainerElement, null), listenToNativeEvent(domEventName, !0, rootContainerElement, null);
         }));
     }
@@ -4079,68 +4080,69 @@
                             });
                         }
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) /**
+                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) {
+                    /**
    * For almost every interaction we care about, there will be both a top-level
    * `mouseover` and `mouseout` event that occurs. Only use `mouseout` so that
    * we do not extract duplicate events. However, moving the mouse into the
    * browser from outside will not fire a `mouseout` event. In this case, we use
    * the `mouseover` top-level event.
    */ (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
-                    if (isOverEvent && (16 & eventSystemFlags) == 0) {
-                        // If this is an over event with a target, we might have already dispatched
-                        // the event in the out event of the other target. If this is replayed,
-                        // then it's because we couldn't dispatch against this target previously
-                        // so we have to do it now instead.
-                        var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
-                        if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
-                    }
-                    if (isOutEvent || isOverEvent) {
-                        if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
-                        win = nativeEventTarget;
-                        else {
-                            // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
-                            var doc = nativeEventTarget.ownerDocument;
-                            win = doc ? doc.defaultView || doc.parentWindow : window;
+                        var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
+                        if (isOverEvent && (16 & eventSystemFlags) == 0) {
+                            // If this is an over event with a target, we might have already dispatched
+                            // the event in the out event of the other target. If this is replayed,
+                            // then it's because we couldn't dispatch against this target previously
+                            // so we have to do it now instead.
+                            var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
+                            if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
                         }
-                        if (isOutEvent) {
-                            var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
-                            if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
-                                var nearestMounted = getNearestMountedFiber(to);
-                                (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+                        if (isOutEvent || isOverEvent) {
+                            if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
+                            win = nativeEventTarget;
+                            else {
+                                // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
+                                var doc = nativeEventTarget.ownerDocument;
+                                win = doc ? doc.defaultView || doc.parentWindow : window;
                             }
-                        } else // Moving to a node from outside the window.
-                        from = null, to = targetInst;
-                        if (from !== to) {
-                            var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
-                            ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
-                            var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
-                            leave.target = fromNode, leave.relatedTarget = toNode;
-                            var enter = null; // We should only process this nativeEvent if we are processing
-                            if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
-                                var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
-                                enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
-                            }
-                            dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
+                            if (isOutEvent) {
+                                var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
+                                if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
+                                    var nearestMounted = getNearestMountedFiber(to);
+                                    (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
+                                }
+                            } else // Moving to a node from outside the window.
+                            from = null, to = targetInst;
+                            if (from !== to) {
+                                var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
+                                ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
+                                var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
+                                leave.target = fromNode, leave.relatedTarget = toNode;
+                                var enter = null; // We should only process this nativeEvent if we are processing
+                                if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
+                                    var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
+                                    enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
+                                }
+                                dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
    * Return the lowest common ancestor of A and B, or null if they are in
    * different trees.
    */ function(instA, instB) {
-                                for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
-                                for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
-                                 // If A is deeper, crawl up.
-                                for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
-                                 // If B is deeper, crawl up.
-                                for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
-                                 // Walk in lockstep until we find a match.
-                                for(var depth = depthA; depth--;){
-                                    if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
-                                    nodeA = getParent(nodeA), nodeB = getParent(nodeB);
-                                }
-                                return null;
-                            }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
+                                    for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
+                                    for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
+                                     // If A is deeper, crawl up.
+                                    for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
+                                     // If B is deeper, crawl up.
+                                    for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
+                                     // Walk in lockstep until we find a match.
+                                    for(var depth = depthA; depth--;){
+                                        if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
+                                        nodeA = getParent(nodeA), nodeB = getParent(nodeB);
+                                    }
+                                    return null;
+                                }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
+                            }
                         }
-                    }
-                })(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
+                    })(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
    * This plugin creates an `onChange` event that normalizes change events
    * across form elements. This event fires at a time when it's possible to
    * change the element's value without seeing a flicker.
@@ -4150,17 +4152,17 @@
    * - textarea
    * - select
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                    if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
-                        var inst = getTargetInstFunc(domEventName, targetInst);
-                        if (inst) {
-                            createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
-                            return;
+                        var node, state, nodeName, nodeName1, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                        if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
+                            var inst = getTargetInstFunc(domEventName, targetInst);
+                            if (inst) {
+                                createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
+                                return;
+                            }
                         }
-                    }
-                    handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
-                    setDefaultValue(targetNode, "number", targetNode.value);
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                        handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" !== domEventName || (state = (node = targetNode)._wrapperState) && state.controlled && "number" === node.type && // If controlled, assign the value attribute to the current value on blur
+                        setDefaultValue(node, "number", node.value);
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * This plugin creates an `onSelect` event that normalizes select events
    * across form elements.
    *
@@ -4174,123 +4176,123 @@
    * - Fires for collapsed selection.
    * - Fires after user input.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                    switch(domEventName){
-                        // Track the input node that has focus.
-                        case "focusin":
-                            (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
-                            break;
-                        case "focusout":
-                            activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
-                            break;
-                        // Don't fire the event while the user is dragging. This matches the
-                        // semantics of the native select event.
-                        case "mousedown":
-                            mouseDown = !0;
-                            break;
-                        case "contextmenu":
-                        case "mouseup":
-                        case "dragend":
-                            mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                            break;
-                        // Chrome and IE fire non-standard event when selection is changed (and
-                        // sometimes when it hasn't). IE's event fires out of order with respect
-                        // to key and input events on deletion, so we discard it.
-                        //
-                        // Firefox doesn't support selectionchange, so check selection status
-                        // after each key entry. The selection changes after keydown and before
-                        // keyup, but we check on keydown as well in the case of holding down a
-                        // key, when multiple keydown events are fired but only one keyup is.
-                        // This is also our approach for IE handling, for the reason above.
-                        case "selectionchange":
-                            if (skipSelectionChangeEvent) break;
-                        // falls through
-                        case "keydown":
-                        case "keyup":
-                            constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                        var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                        switch(domEventName){
+                            // Track the input node that has focus.
+                            case "focusin":
+                                (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
+                                break;
+                            case "focusout":
+                                activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
+                                break;
+                            // Don't fire the event while the user is dragging. This matches the
+                            // semantics of the native select event.
+                            case "mousedown":
+                                mouseDown = !0;
+                                break;
+                            case "contextmenu":
+                            case "mouseup":
+                            case "dragend":
+                                mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                                break;
+                            // Chrome and IE fire non-standard event when selection is changed (and
+                            // sometimes when it hasn't). IE's event fires out of order with respect
+                            // to key and input events on deletion, so we discard it.
+                            //
+                            // Firefox doesn't support selectionchange, so check selection status
+                            // after each key entry. The selection changes after keydown and before
+                            // keyup, but we check on keydown as well in the case of holding down a
+                            // key, when multiple keydown events are fired but only one keyup is.
+                            // This is also our approach for IE handling, for the reason above.
+                            case "selectionchange":
+                                if (skipSelectionChangeEvent) break;
+                            // falls through
+                            case "keydown":
+                            case "keyup":
+                                constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                        }
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * @return {?object} A SyntheticCompositionEvent.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                    if (canUseCompositionEvent) eventType = /**
+                        if (canUseCompositionEvent) eventType = /**
    * Translate native top level events into event types.
    */ function(domEventName) {
-                        switch(domEventName){
-                            case "compositionstart":
-                                return "onCompositionStart";
-                            case "compositionend":
-                                return "onCompositionEnd";
-                            case "compositionupdate":
-                                return "onCompositionUpdate";
-                        }
-                    }(domEventName);
-                    else if (isComposing) isFallbackCompositionEnd(domEventName, nativeEvent) && (eventType = "onCompositionEnd");
-                    else "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
-                    if (eventType) {
-                        useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
-                        var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
-                            if (dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), fallbackData) // Inject data generated from fallback path into the synthetic event.
-                            // This matches the property of native CompositionEventInterface.
-                            event.data = fallbackData;
-                            else {
-                                var customData = getDataFromCustomEvent(nativeEvent);
-                                null !== customData && (event.data = customData);
+                            switch(domEventName){
+                                case "compositionstart":
+                                    return "onCompositionStart";
+                                case "compositionend":
+                                    return "onCompositionEnd";
+                                case "compositionupdate":
+                                    return "onCompositionUpdate";
+                            }
+                        }(domEventName);
+                        else if (isComposing) isFallbackCompositionEnd(domEventName, nativeEvent) && (eventType = "onCompositionEnd");
+                        else "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
+                        if (eventType) {
+                            useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
+                            var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
+                                if (dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), fallbackData) // Inject data generated from fallback path into the synthetic event.
+                                // This matches the property of native CompositionEventInterface.
+                                event.data = fallbackData;
+                                else {
+                                    var customData = getDataFromCustomEvent(nativeEvent);
+                                    null !== customData && (event.data = customData);
+                                }
                             }
                         }
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * Extract a SyntheticInputEvent for `beforeInput`, based on either native
    * `textInput` or fallback behavior.
    *
    * @return {?object} A SyntheticInputEvent.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                    // be fired.
-                    if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
-                        switch(domEventName){
-                            case "compositionend":
-                                return getDataFromCustomEvent(nativeEvent);
-                            case "keypress":
-                                if (32 !== nativeEvent.which) return null;
-                                return hasSpaceKeypress = !0, " ";
-                            case "textInput":
-                                // Record the characters to be added to the DOM.
-                                var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
-                                // it at the keypress level and bail immediately. Android Chrome
-                                // doesn't give us keycodes, so we need to ignore it.
-                                if (" " === chars && hasSpaceKeypress) return null;
-                                return chars;
-                            default:
-                                // For other native event types, do nothing.
-                                return null;
-                        }
-                    }(domEventName, nativeEvent) : /**
+                        // be fired.
+                        if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
+                            switch(domEventName){
+                                case "compositionend":
+                                    return getDataFromCustomEvent(nativeEvent);
+                                case "keypress":
+                                    if (32 !== nativeEvent.which) return null;
+                                    return hasSpaceKeypress = !0, " ";
+                                case "textInput":
+                                    // Record the characters to be added to the DOM.
+                                    var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
+                                    // it at the keypress level and bail immediately. Android Chrome
+                                    // doesn't give us keycodes, so we need to ignore it.
+                                    if (" " === chars && hasSpaceKeypress) return null;
+                                    return chars;
+                                default:
+                                    // For other native event types, do nothing.
+                                    return null;
+                            }
+                        }(domEventName, nativeEvent) : /**
    * For browsers that do not provide the `textInput` event, extract the
    * appropriate string to use for SyntheticInputEvent.
    */ function(domEventName, nativeEvent) {
-                        // If we are currently composing (IME) and using a fallback to do so,
-                        // try to extract the composed characters from the fallback object.
-                        // If composition event is available, we extract a string only at
-                        // compositionevent, otherwise extract it at fallback events.
-                        if (isComposing) {
-                            if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
-                                var chars = getData();
-                                return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
-                            }
-                            return null;
-                        }
-                        switch(domEventName){
-                            case "paste":
-                            default:
-                                // If a paste event occurs after a keypress, throw out the input
-                                // chars. Paste events should not lead to BeforeInput events.
+                            // If we are currently composing (IME) and using a fallback to do so,
+                            // try to extract the composed characters from the fallback object.
+                            // If composition event is available, we extract a string only at
+                            // compositionevent, otherwise extract it at fallback events.
+                            if (isComposing) {
+                                if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
+                                    var chars = getData();
+                                    return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
+                                }
                                 return null;
-                            case "keypress":
-                                /**
+                            }
+                            switch(domEventName){
+                                case "paste":
+                                default:
+                                    // If a paste event occurs after a keypress, throw out the input
+                                    // chars. Paste events should not lead to BeforeInput events.
+                                    return null;
+                                case "keypress":
+                                    /**
          * As of v27, Firefox may fire keypress events even when no character
          * will be inserted. A few possibilities:
          *
@@ -4306,31 +4308,32 @@
          *   being used. Ex: `Cmd+C`. No character is inserted, and no
          *   `input` event will occur.
          */ if (!((nativeEvent.ctrlKey || nativeEvent.altKey || nativeEvent.metaKey) && // ctrlKey && altKey is equivalent to AltGr, and is not a command.
-                                !(nativeEvent.ctrlKey && nativeEvent.altKey))) // IE fires the `keypress` event when a user types an emoji via
-                                // Touch keyboard of Windows.  In such a case, the `char` property
-                                // holds an emoji character like `\uD83D\uDE0A`.  Because its length
-                                // is 2, the property `which` does not represent an emoji correctly.
-                                // In such a case, we directly return the `char` property instead of
-                                // using `which`.
-                                {
-                                    if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
-                                    else if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
-                                }
-                                return null;
-                            case "compositionend":
-                                return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
+                                    !(nativeEvent.ctrlKey && nativeEvent.altKey))) {
+                                        // IE fires the `keypress` event when a user types an emoji via
+                                        // Touch keyboard of Windows.  In such a case, the `char` property
+                                        // holds an emoji character like `\uD83D\uDE0A`.  Because its length
+                                        // is 2, the property `which` does not represent an emoji correctly.
+                                        // In such a case, we directly return the `char` property instead of
+                                        // using `which`.
+                                        if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
+                                        if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
+                                    }
+                                    return null;
+                                case "compositionend":
+                                    return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
+                            }
+                        }(domEventName, nativeEvent)) {
+                            var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
+                                dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), event.data = chars;
+                            }
                         }
-                    }(domEventName, nativeEvent)) {
-                        var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
-                            dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), event.data = chars;
-                        }
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
+                    }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
+                }
             } // List of events that need to be individually attached to media elements.
             (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags));
         });
@@ -4401,35 +4404,37 @@
         // @see https://electronjs.org/docs/api/webview-tag
         webview: !0
     }, validatePropertiesInDevelopment = function(type, props) {
-        if (!isCustomComponent(type, props)) {
-            var invalidProps = [];
-            for(var key in props)!function(tagName, name) {
-                if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
-                if (rARIACamel.test(name)) {
-                    var ariaName = "aria-" + name.slice(4).toLowerCase(), correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
-                    // DOM properties, then it is an invalid aria-* attribute.
-                    if (null == correctName) return error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0;
-                     // aria-* attributes should be lowercase; suggest the lowercase version.
-                    if (name !== correctName) return error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0;
-                }
-                if (rARIA.test(name)) {
-                    var lowerCasedName = name.toLowerCase(), standardName = ariaProperties.hasOwnProperty(lowerCasedName) ? lowerCasedName : null;
-                    // DOM properties, then it is an invalid aria-* attribute.
-                    if (null == standardName) return warnedProperties[name] = !0, !1;
-                     // aria-* attributes should be lowercase; suggest the lowercase version.
-                    name !== standardName && (error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0);
-                }
-                return !0;
-            }(0, key) && invalidProps.push(key);
-            var unknownPropString = invalidProps.map(function(prop) {
-                return "`" + prop + "`";
-            }).join(", ");
-            1 === invalidProps.length ? error("Invalid aria prop %s on <%s> tag. For details, see https://reactjs.org/link/invalid-aria-props", unknownPropString, type) : invalidProps.length > 1 && error("Invalid aria props %s on <%s> tag. For details, see https://reactjs.org/link/invalid-aria-props", unknownPropString, type);
-        }
-        "input" !== type && "textarea" !== type && "select" !== type || null == props || null !== props.value || didWarnValueNull || (didWarnValueNull = !0, "select" === type && props.multiple ? error("`value` prop on `%s` should not be null. Consider using an empty array when `multiple` is set to `true` to clear the component or `undefined` for uncontrolled components.", type) : error("`value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.", type)), isCustomComponent(type, props) || warnUnknownProperties(type, props, {
+        var type1, props1, type2, props2, eventRegistry;
+        (function(type, props) {
+            if (!isCustomComponent(type, props)) {
+                var invalidProps = [];
+                for(var key in props)!function(tagName, name) {
+                    if (hasOwnProperty$1.call(warnedProperties, name) && warnedProperties[name]) return !0;
+                    if (rARIACamel.test(name)) {
+                        var ariaName = "aria-" + name.slice(4).toLowerCase(), correctName = ariaProperties.hasOwnProperty(ariaName) ? ariaName : null;
+                        // DOM properties, then it is an invalid aria-* attribute.
+                        if (null == correctName) return error("Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.", name), warnedProperties[name] = !0, !0;
+                         // aria-* attributes should be lowercase; suggest the lowercase version.
+                        if (name !== correctName) return error("Invalid ARIA attribute `%s`. Did you mean `%s`?", name, correctName), warnedProperties[name] = !0, !0;
+                    }
+                    if (rARIA.test(name)) {
+                        var lowerCasedName = name.toLowerCase(), standardName = ariaProperties.hasOwnProperty(lowerCasedName) ? lowerCasedName : null;
+                        // DOM properties, then it is an invalid aria-* attribute.
+                        if (null == standardName) return warnedProperties[name] = !0, !1;
+                         // aria-* attributes should be lowercase; suggest the lowercase version.
+                        name !== standardName && (error("Unknown ARIA attribute `%s`. Did you mean `%s`?", name, standardName), warnedProperties[name] = !0);
+                    }
+                    return !0;
+                }(0, key) && invalidProps.push(key);
+                var unknownPropString = invalidProps.map(function(prop) {
+                    return "`" + prop + "`";
+                }).join(", ");
+                1 === invalidProps.length ? error("Invalid aria prop %s on <%s> tag. For details, see https://reactjs.org/link/invalid-aria-props", unknownPropString, type) : invalidProps.length > 1 && error("Invalid aria props %s on <%s> tag. For details, see https://reactjs.org/link/invalid-aria-props", unknownPropString, type);
+            }
+        })(type, props), type1 = type, props1 = props, ("input" === type1 || "textarea" === type1 || "select" === type1) && (null == props1 || null !== props1.value || didWarnValueNull || (didWarnValueNull = !0, "select" === type1 && props1.multiple ? error("`value` prop on `%s` should not be null. Consider using an empty array when `multiple` is set to `true` to clear the component or `undefined` for uncontrolled components.", type1) : error("`value` prop on `%s` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.", type1))), type2 = type, props2 = props, eventRegistry = {
             registrationNameDependencies: registrationNameDependencies,
             possibleRegistrationNames: possibleRegistrationNames
-        });
+        }, isCustomComponent(type2, props2) || warnUnknownProperties(type2, props2, eventRegistry);
     }, // browsers. It adds spaces and sorts the properties in some
     // non-alphabetical order. Handling that would require sorting CSS
     // properties in the client & server versions or applying
@@ -4463,16 +4468,16 @@
         warnForTextDifference(textNode.nodeValue, text);
     }
     function warnForDeletedHydratableElement(parentNode, child) {
-        didWarnInvalidHydration || (didWarnInvalidHydration = !0, error("Did not expect server HTML to contain a <%s> in <%s>.", child.nodeName.toLowerCase(), parentNode.nodeName.toLowerCase()));
+        !didWarnInvalidHydration && (didWarnInvalidHydration = !0, error("Did not expect server HTML to contain a <%s> in <%s>.", child.nodeName.toLowerCase(), parentNode.nodeName.toLowerCase()));
     }
     function warnForDeletedHydratableText(parentNode, child) {
-        didWarnInvalidHydration || (didWarnInvalidHydration = !0, error('Did not expect server HTML to contain the text node "%s" in <%s>.', child.nodeValue, parentNode.nodeName.toLowerCase()));
+        !didWarnInvalidHydration && (didWarnInvalidHydration = !0, error('Did not expect server HTML to contain the text node "%s" in <%s>.', child.nodeValue, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedElement(parentNode, tag, props) {
-        didWarnInvalidHydration || (didWarnInvalidHydration = !0, error("Expected server HTML to contain a matching <%s> in <%s>.", tag, parentNode.nodeName.toLowerCase()));
+        !didWarnInvalidHydration && (didWarnInvalidHydration = !0, error("Expected server HTML to contain a matching <%s> in <%s>.", tag, parentNode.nodeName.toLowerCase()));
     }
     function warnForInsertedHydratedText(parentNode, text) {
-        "" !== text && (didWarnInvalidHydration || (didWarnInvalidHydration = !0, error('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase())));
+        "" !== text && !didWarnInvalidHydration && (didWarnInvalidHydration = !0, error('Expected server HTML to contain a matching text node for "%s" in <%s>.', text, parentNode.nodeName.toLowerCase()));
     }
     normalizeMarkupForTextOrAttribute = function(markup) {
         return ("string" == typeof markup ? markup : "" + markup).replace(NORMALIZE_NEWLINES_REGEX, "\n").replace(NORMALIZE_NULL_AND_REPLACEMENT_REGEX, "");
@@ -4824,9 +4829,10 @@
         for(var node = targetInstance.previousSibling, depth = 0; node;){
             if (8 === node.nodeType) {
                 var data = node.data;
-                if ("$" === data || "$!" === data || "$?" === data) if (0 === depth) return node;
-                else depth--;
-                else "/$" === data && depth++;
+                if ("$" === data || "$!" === data || "$?" === data) {
+                    if (0 === depth) return node;
+                    depth--;
+                } else "/$" === data && depth++;
             }
             node = node.previousSibling;
         }
@@ -5661,7 +5667,7 @@
             if ("object" != typeof child._store) throw Error("React Component in warnForMissingKey should have a _store. This error is likely caused by a bug in React. Please file an issue.");
             child._store.validated = !0;
             var componentName = getComponentName(returnFiber.type) || "Component";
-            ownerHasKeyUseWarning[componentName] || (ownerHasKeyUseWarning[componentName] = !0, error('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
+            !ownerHasKeyUseWarning[componentName] && (ownerHasKeyUseWarning[componentName] = !0, error('Each child in a list should have a unique "key" prop. See https://reactjs.org/link/warning-keys for more information.'));
         }
     };
     var isArray$1 = Array.isArray;
@@ -5703,7 +5709,7 @@
     }
     function warnOnFunctionType(returnFiber) {
         var componentName = getComponentName(returnFiber.type) || "Component";
-        ownerHasFunctionTypeWarning[componentName] || (ownerHasFunctionTypeWarning[componentName] = !0, error("Functions are not valid as a React child. This may happen if you return a Component instead of <Component /> from render. Or maybe you meant to call this function rather than return it."));
+        !ownerHasFunctionTypeWarning[componentName] && (ownerHasFunctionTypeWarning[componentName] = !0, error("Functions are not valid as a React child. This may happen if you return a Component instead of <Component /> from render. Or maybe you meant to call this function rather than return it."));
     } // We avoid inlining this to avoid potential deopts from using try/catch.
     // to be able to optimize each path individually by branching early. This needs
     // a compiler or we can do it manually. Helpers that don't need this branching
@@ -5928,11 +5934,12 @@
                         for(var key = portal.key, child = currentFirstChild; null !== child;){
                             // TODO: If key === null and child.key === null, then this only applies to
                             // the first item in the list.
-                            if (child.key === key) if (4 === child.tag && child.stateNode.containerInfo === portal.containerInfo && child.stateNode.implementation === portal.implementation) {
-                                deleteRemainingChildren(returnFiber, child.sibling);
-                                var existing = useFiber(child, portal.children || []);
-                                return existing.return = returnFiber, existing;
-                            } else {
+                            if (child.key === key) {
+                                if (4 === child.tag && child.stateNode.containerInfo === portal.containerInfo && child.stateNode.implementation === portal.implementation) {
+                                    deleteRemainingChildren(returnFiber, child.sibling);
+                                    var existing = useFiber(child, portal.children || []);
+                                    return existing.return = returnFiber, existing;
+                                }
                                 deleteRemainingChildren(returnFiber, child);
                                 break;
                             }
@@ -6280,9 +6287,10 @@
             for(var node = suspenseInstance.nextSibling, depth = 0; node;){
                 if (8 === node.nodeType) {
                     var data = node.data;
-                    if ("/$" === data) if (0 === depth) return getNextHydratableSibling(node);
-                    else depth--;
-                    else ("$" === data || "$!" === data || "$?" === data) && depth++;
+                    if ("/$" === data) {
+                        if (0 === depth) return getNextHydratableSibling(node);
+                        depth--;
+                    } else ("$" === data || "$!" === data || "$?" === data) && depth++;
                 }
                 node = node.nextSibling;
             } // TODO: Warn, we didn't find the end comment boundary.
@@ -7794,10 +7802,11 @@
             // it behind on this node.
             workInProgress.lanes = /*                  */ 33554432, markSpawnedWork(33554432), _fallbackFragment;
         }
-        if (null !== current.memoizedState) if (showFallback) {
-            var _nextFallbackChildren2 = nextProps.fallback, _fallbackChildFragment = updateSuspenseFallbackChildren(current, workInProgress, nextProps.children, _nextFallbackChildren2, renderLanes), _primaryChildFragment3 = workInProgress.child, prevOffscreenState = current.child.memoizedState;
-            return _primaryChildFragment3.memoizedState = null === prevOffscreenState ? mountSuspenseOffscreenState(renderLanes) : updateSuspenseOffscreenState(prevOffscreenState, renderLanes), _primaryChildFragment3.childLanes = getRemainingWorkInPrimaryTree(current, renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, _fallbackChildFragment;
-        } else {
+        if (null !== current.memoizedState) {
+            if (showFallback) {
+                var _nextFallbackChildren2 = nextProps.fallback, _fallbackChildFragment = updateSuspenseFallbackChildren(current, workInProgress, nextProps.children, _nextFallbackChildren2, renderLanes), _primaryChildFragment3 = workInProgress.child, prevOffscreenState = current.child.memoizedState;
+                return _primaryChildFragment3.memoizedState = null === prevOffscreenState ? mountSuspenseOffscreenState(renderLanes) : updateSuspenseOffscreenState(prevOffscreenState, renderLanes), _primaryChildFragment3.childLanes = getRemainingWorkInPrimaryTree(current, renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, _fallbackChildFragment;
+            }
             var _primaryChildFragment4 = updateSuspensePrimaryChildren(current, workInProgress, nextProps.children, renderLanes);
             return workInProgress.memoizedState = null, _primaryChildFragment4;
         }
@@ -8007,20 +8016,20 @@
     }
     var hasWarnedAboutUsingNoValuePropOnContextProvider = !1, hasWarnedAboutUsingContextAsConsumer = !1;
     function bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes) {
-        if (null !== current && // Reuse previous dependencies
+        return (null !== current && // Reuse previous dependencies
         (workInProgress.dependencies = current.dependencies), profilerStartTime = -1, function(lane) {
             workInProgressRootSkippedLanes |= lane;
-        }(workInProgress.lanes), (renderLanes & workInProgress.childLanes) == 0) // The children don't have any work either. We can skip them.
-        // TODO: Once we add back resuming, we should check if the children are
-        // a work-in-progress set. If so, we need to transfer their effects.
-        return null;
-        if (null !== current && workInProgress.child !== current.child) throw Error("Resuming work not yet implemented.");
-        if (null !== workInProgress.child) {
-            var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
-            for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
-            newChild.sibling = null;
-        }
-        return workInProgress.child;
+        }(workInProgress.lanes), (renderLanes & workInProgress.childLanes) != 0) ? (!// This fiber doesn't have work, but its subtree does. Clone the child
+        // fibers and continue.
+        function(current, workInProgress) {
+            if (null !== current && workInProgress.child !== current.child) throw Error("Resuming work not yet implemented.");
+            if (null !== workInProgress.child) {
+                var currentChild = workInProgress.child, newChild = createWorkInProgress(currentChild, currentChild.pendingProps);
+                for(workInProgress.child = newChild, newChild.return = workInProgress; null !== currentChild.sibling;)currentChild = currentChild.sibling, (newChild = newChild.sibling = createWorkInProgress(currentChild, currentChild.pendingProps)).return = workInProgress;
+                newChild.sibling = null;
+            }
+        } // Reset a workInProgress child set to prepare it for a second pass.
+        (current, workInProgress), workInProgress.child) : null;
     }
     function beginWork(current, workInProgress, renderLanes) {
         var updateLanes = workInProgress.lanes;
@@ -8452,9 +8461,9 @@
                         return null;
                     }
                     var currentHostContext = getHostContext(); // TODO: Move createInstance to beginWork and keep it on a context
-                    if (popHydrationState(workInProgress)) // TODO: Move this and createInstance step into the beginPhase
-                    // to consolidate.
-                    {
+                    if (popHydrationState(workInProgress)) {
+                        // TODO: Move this and createInstance step into the beginPhase
+                        // to consolidate.
                         if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
@@ -10670,7 +10679,9 @@
                         // (eg DOM renderer may schedule auto-focus for inputs and form controls).
                         // These effects should only be committed when components are first mounted,
                         // aka when there is no current/alternate.
-                        if (null === current && 4 & finishedWork.flags) shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && _instance2.focus();
+                        if (null === current && 4 & finishedWork.flags) {
+                            shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && _instance2.focus();
+                        }
                         return;
                     case 6:
                     case 4:
@@ -11784,8 +11795,10 @@
         if (null !== owner && null !== owner.stateNode && (owner.stateNode._warnedAboutRefsInRender || error("%s is accessing findDOMNode inside its render(). render() should be a pure function of props and state. It should never access something that requires stale data from the previous render, such as refs. Move this logic to componentDidMount and componentDidUpdate instead.", getComponentName(owner.type) || "A component"), owner.stateNode._warnedAboutRefsInRender = !0), null == componentOrElement) return null;
         if (1 === componentOrElement.nodeType) return componentOrElement;
         var methodName = "findDOMNode", fiber = get(componentOrElement);
-        if (void 0 === fiber) if ("function" == typeof componentOrElement.render) throw Error("Unable to find node on an unmounted component.");
-        else throw Error("Argument appears to not be a ReactComponent. Keys: " + Object.keys(componentOrElement));
+        if (void 0 === fiber) {
+            if ("function" == typeof componentOrElement.render) throw Error("Unable to find node on an unmounted component.");
+            throw Error("Argument appears to not be a ReactComponent. Keys: " + Object.keys(componentOrElement));
+        }
         var hostFiber = findCurrentHostFiber(fiber);
         if (null === hostFiber) return null;
         if (1 & hostFiber.mode) {

@@ -10115,8 +10115,10 @@
                 if ("." == chr()) {
                     if (0 == length || (pointer -= length, pieceIndex > 6)) return;
                     for(numbersSeen = 0; chr();){
-                        if (ipv4Piece = null, numbersSeen > 0) if ("." != chr() || !(numbersSeen < 4)) return;
-                        else pointer++;
+                        if (ipv4Piece = null, numbersSeen > 0) {
+                            if ("." != chr() || !(numbersSeen < 4)) return;
+                            pointer++;
+                        }
                         if (!DIGIT.test(chr())) return;
                         for(; DIGIT.test(chr());){
                             if (number = parseInt(chr(), 10), null === ipv4Piece) ipv4Piece = number;
@@ -11747,15 +11749,20 @@
                         continue;
                     }
                     var value = data[token.name];
-                    if (null == value) if (token.optional) {
-                        // Prepend partial segment prefixes.
-                        token.partial && (path += token.prefix);
-                        continue;
-                    } else throw TypeError('Expected "' + token.name + '" to be defined');
+                    if (null == value) {
+                        if (token.optional) {
+                            // Prepend partial segment prefixes.
+                            token.partial && (path += token.prefix);
+                            continue;
+                        }
+                        throw TypeError('Expected "' + token.name + '" to be defined');
+                    }
                     if (isarray(value)) {
                         if (!token.repeat) throw TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + "`");
-                        if (0 === value.length) if (token.optional) continue;
-                        else throw TypeError('Expected "' + token.name + '" to not be empty');
+                        if (0 === value.length) {
+                            if (token.optional) continue;
+                            throw TypeError('Expected "' + token.name + '" to not be empty');
+                        }
                         for(var j = 0; j < value.length; j++){
                             if (segment = encode(value[j]), !matches[i].test(segment)) throw TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + "`");
                             path += (0 === j ? token.prefix : token.delimiter) + segment;
@@ -18767,7 +18774,7 @@
                             var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
                             if (hasCatch && hasFinally) {
                                 if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                                else if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
                             } else if (hasCatch) {
                                 if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                             } else if (hasFinally) {

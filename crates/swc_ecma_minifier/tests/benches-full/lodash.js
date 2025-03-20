@@ -10673,8 +10673,10 @@
                 for(var iterIndex = -1, value = array[index += dir]; ++iterIndex < iterLength;){
                     var data = iteratees[iterIndex], iteratee = data.iteratee, type = data.type, computed = iteratee(value);
                     if (2 == type) value = computed;
-                    else if (!computed) if (1 == type) continue outer;
-                    else break outer;
+                    else if (!computed) {
+                        if (1 == type) continue outer;
+                        break outer;
+                    }
                 }
                 result[resIndex++] = value;
             }

@@ -11,14 +11,16 @@ export function generateTicks$1(generationOptions, dataRange) {
     const countDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(count);
     const minSpacing = (rmax - rmin) / (maxDigits + 1);
     let spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)((rmax - rmin) / maxSpaces / unit) * unit;
-    if (spacing < 1e-14 && !minDefined && !maxDefined) return [
-        {
-            value: rmin
-        },
-        {
-            value: rmax
-        }
-    ];
+    if (spacing < 1e-14 && !minDefined && !maxDefined) {
+        return [
+            {
+                value: rmin
+            },
+            {
+                value: rmax
+            }
+        ];
+    }
     numSpaces = Math.ceil(rmax / spacing) - Math.floor(rmin / spacing);
     if (numSpaces > maxSpaces) spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)(numSpaces * spacing / maxSpaces / unit) * unit;
     if (!(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision)) spacing = Math.ceil(spacing * (factor = Math.pow(10, precision))) / factor;

@@ -18039,13 +18039,10 @@
                             "{",
                             "}"
                         ];
-                        if (y(r) && (T = !0, C = [
+                        return (y(r) && (T = !0, C = [
                             "[",
                             "]"
-                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 === f.length && (!T || 0 == r.length)) return C[0] + k + C[1];
-                        if (n < 0) if (w(r)) return e.stylize(RegExp.prototype.toString.call(r), "regexp");
-                        else return e.stylize("[Object]", "special");
-                        return e.seen.push(r), l = T ? function(e, t, r, n, i) {
+                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 !== f.length || T && 0 != r.length) ? n < 0 ? w(r) ? e.stylize(RegExp.prototype.toString.call(r), "regexp") : e.stylize("[Object]", "special") : (e.seen.push(r), l = T ? function(e, t, r, n, i) {
                             for(var o = [], a = 0, u = t.length; a < u; ++a)O(t, String(a)) ? o.push(h(e, t, r, n, String(a), !0)) : o.push("");
                             return i.forEach(function(i) {
                                 i.match(/^\d+$/) || o.push(h(e, t, r, n, i, !0));
@@ -18054,7 +18051,7 @@
                             return h(e, r, n, E, t, T);
                         }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
                             return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1];
+                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
                     }
                     function p(e) {
                         return "[" + Error.prototype.toString.call(e) + "]";
@@ -20520,18 +20517,17 @@
                     function g(e, t, r, n, i) {
                         var o;
                         if (0 === e.length) return -1;
-                        if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r *= 1) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) if (i) return -1;
-                        else r = e.length - 1;
-                        else if (r < 0) if (!i) return -1;
-                        else r = 0;
-                        if ("string" == typeof t && (t = u.from(t, n)), u.isBuffer(t)) return 0 === t.length ? -1 : v(e, t, r, n, i);
-                        if ("number" == typeof t) {
-                            if (t &= 255, "function" == typeof Uint8Array.prototype.indexOf) if (i) return Uint8Array.prototype.indexOf.call(e, t, r);
-                            else return Uint8Array.prototype.lastIndexOf.call(e, t, r);
-                            return v(e, [
-                                t
-                            ], r, n, i);
+                        if ("string" == typeof r ? (n = r, r = 0) : r > 2147483647 ? r = 2147483647 : r < -2147483648 && (r = -2147483648), (o = r *= 1) != o && (r = i ? 0 : e.length - 1), r < 0 && (r = e.length + r), r >= e.length) {
+                            if (i) return -1;
+                            r = e.length - 1;
+                        } else if (r < 0) {
+                            if (!i) return -1;
+                            r = 0;
                         }
+                        if ("string" == typeof t && (t = u.from(t, n)), u.isBuffer(t)) return 0 === t.length ? -1 : v(e, t, r, n, i);
+                        if ("number" == typeof t) return (t &= 255, "function" == typeof Uint8Array.prototype.indexOf) ? i ? Uint8Array.prototype.indexOf.call(e, t, r) : Uint8Array.prototype.lastIndexOf.call(e, t, r) : v(e, [
+                            t
+                        ], r, n, i);
                         throw TypeError("val must be string, number or Buffer");
                     }
                     function v(e, t, r, n, i) {
@@ -21519,8 +21515,7 @@
                     function O(e, t) {
                         if (e <= 0 || 0 === t.length && t.ended) return 0;
                         if (t.objectMode) return 1;
-                        if (e != e) if (t.flowing && t.length) return t.buffer.head.data.length;
-                        else return t.length;
+                        if (e != e) return t.flowing && t.length ? t.buffer.head.data.length : t.length;
                         if (e > t.highWaterMark) {
                             var r;
                             (r = e) >= 1073741824 ? r = 1073741824 : (r--, r |= r >>> 1, r |= r >>> 2, r |= r >>> 4, r |= r >>> 8, r |= r >>> 16, r++), t.highWaterMark = r;
@@ -23729,13 +23724,10 @@
                             "{",
                             "}"
                         ];
-                        if (y(r) && (T = !0, C = [
+                        return (y(r) && (T = !0, C = [
                             "[",
                             "]"
-                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 === f.length && (!T || 0 == r.length)) return C[0] + k + C[1];
-                        if (n < 0) if (w(r)) return e.stylize(RegExp.prototype.toString.call(r), "regexp");
-                        else return e.stylize("[Object]", "special");
-                        return e.seen.push(r), l = T ? function(e, t, r, n, i) {
+                        ]), S(r) && (k = " [Function" + (r.name ? ": " + r.name : "") + "]"), w(r) && (k = " " + RegExp.prototype.toString.call(r)), _(r) && (k = " " + Date.prototype.toUTCString.call(r)), x(r) && (k = " " + p(r)), 0 !== f.length || T && 0 != r.length) ? n < 0 ? w(r) ? e.stylize(RegExp.prototype.toString.call(r), "regexp") : e.stylize("[Object]", "special") : (e.seen.push(r), l = T ? function(e, t, r, n, i) {
                             for(var o = [], a = 0, u = t.length; a < u; ++a)O(t, String(a)) ? o.push(h(e, t, r, n, String(a), !0)) : o.push("");
                             return i.forEach(function(i) {
                                 i.match(/^\d+$/) || o.push(h(e, t, r, n, i, !0));
@@ -23744,7 +23736,7 @@
                             return h(e, r, n, E, t, T);
                         }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
                             return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1];
+                        }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
                     }
                     function p(e) {
                         return "[" + Error.prototype.toString.call(e) + "]";
@@ -28697,9 +28689,7 @@
                     }
                     if (0 !== a) throw Error("Data error");
                 }while (!n)
-                if (u.destLen < u.dest.length) if ("function" == typeof u.dest.slice) return u.dest.slice(0, u.destLen);
-                else return u.dest.subarray(0, u.destLen);
-                return u.dest;
+                return u.destLen < u.dest.length ? "function" == typeof u.dest.slice ? u.dest.slice(0, u.destLen) : u.dest.subarray(0, u.destLen) : u.dest;
             };
         /***/ },
         /***/ 7055: /***/ function(e, t, r) {

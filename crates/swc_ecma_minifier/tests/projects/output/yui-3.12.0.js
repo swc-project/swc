@@ -525,7 +525,8 @@ with any configuration info required for the module.
                         for(i = 0, len = names.length; i < len; i++)aliases[names[i]] && !mods[names[i]] ? a = [].concat(a, aliases[names[i]]) : a.push(names[i]);
                         names = a;
                     }
-                    for(i = 0, len = names.length; i < len; i++)name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
+                    for(i = 0, len = names.length; i < len; i++)// only attach a module once
+                    name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
                 }
             }, handleLoader = function(fromLoader) {
                 var redo, origMissing, response = fromLoader || {
@@ -1604,7 +1605,12 @@ properties are not copied). The following copying modes are available:
         } else from = supplier, to = receiver;
         if (// If `overwrite` is truthy and `merge` is falsy, then we can skip a
         // property existence check on each iteration and save some time.
-        alwaysOverwrite = overwrite && !merge, whitelist) for(i = 0, len = whitelist.length; i < len; ++i)key = whitelist[i], hasOwn.call(from, key) && (// The `key in to` check here is (sadly) intentional for backwards
+        alwaysOverwrite = overwrite && !merge, whitelist) for(i = 0, len = whitelist.length; i < len; ++i)// We call `Object.prototype.hasOwnProperty` instead of calling
+        // `hasOwnProperty` on the object itself, since the object's
+        // `hasOwnProperty` method may have been overridden or removed.
+        // Also, some native objects don't implement a `hasOwnProperty`
+        // method.
+        key = whitelist[i], hasOwn.call(from, key) && (// The `key in to` check here is (sadly) intentional for backwards
         // compatibility reasons. It prevents undesired shadowing of
         // prototype members on `to`.
         exists = !alwaysOverwrite && key in to, merge && exists && isObject(to[key], !0) && isObject(from[key], !0) ? // If we're in merge mode, and the key is present on both
@@ -3135,7 +3141,7 @@ Id of the most recent transaction.
             this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
         },
         _next: function() {
-            this._pending || (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
+            !this._pending && (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
         },
         _poll: function(newReq) {
             var i, j, nodeHref, req, sheets, self = this, pendingCSS = self._pendingCSS, isWebKit = Y.UA.webkit;

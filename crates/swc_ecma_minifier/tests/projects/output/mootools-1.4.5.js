@@ -1756,9 +1756,11 @@ requires: Slick.Parser
                     }
                     if (item) {
                         if (this.document !== node && !this.contains(node, item)) return;
-                    } else // if the context is in the dom we return, else we will try GEBTN, breaking the getById label
-                    if (this.contains(this.root, node)) return;
-                    else break getById;
+                    } else {
+                        // if the context is in the dom we return, else we will try GEBTN, breaking the getById label
+                        if (this.contains(this.root, node)) return;
+                        break getById;
+                    }
                     this.push(item, tag, null, classes, attributes, pseudos);
                     return;
                 }
@@ -2244,7 +2246,7 @@ function() {
     }), null == window.$$ && Window.implement("$$", function(selector) {
         if (1 == arguments.length) {
             if ("string" == typeof selector) return Slick.search(this.document, selector, new Elements());
-            else if (Type.isEnumerable(selector)) return new Elements(selector);
+            if (Type.isEnumerable(selector)) return new Elements(selector);
         }
         return new Elements(arguments);
     });
