@@ -8,11 +8,12 @@
     let {} = a, [] = a, {} = a, [] = a;
     var {} = a;
     let {} = a, {} = a;
+}(), function() {
+    let ns = [];
+    for (var {} of ns);
+    for (let {} of ns);
+    for (let {} of ns);
+    for (var [] of ns);
+    for (let [] of ns);
+    for (let [] of ns);
 }();
-const ns = [];
-for (var {} of ns);
-for (let {} of ns);
-for (const {} of ns);
-for (var [] of ns);
-for (let [] of ns);
-for (const [] of ns);

@@ -10,21 +10,22 @@ try {
     var N;
     _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1), N || (N = {});
-    let env1 = {
-        stack: [],
-        error: void 0,
-        hasError: !1
-    };
-    try {
-        _ts_add_disposable_resource(env1, {
-            [Symbol.dispose] () {}
-        }, !1);
-    } catch (e) {
-        env1.error = e, env1.hasError = !0;
-    } finally{
-        _ts_dispose_resources(env1);
-    }
+    }, !1), function(N) {
+        let env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, {
+                [Symbol.dispose] () {}
+            }, !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }(N || (N = {}));
     {
         let env = {
             stack: [],
@@ -43,20 +44,20 @@ try {
     }
     switch(Math.random()){
         case 0:
-            let env11 = {
+            let env1 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
             };
             try {
-                _ts_add_disposable_resource(env11, {
+                _ts_add_disposable_resource(env1, {
                     [Symbol.dispose] () {}
                 }, !1);
                 break;
             } catch (e) {
-                env11.error = e, env11.hasError = !0;
+                env1.error = e, env1.hasError = !0;
             } finally{
-                _ts_dispose_resources(env11);
+                _ts_dispose_resources(env1);
             }
         case 1:
             let env2 = {
@@ -240,17 +241,19 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-let env1 = {
-    stack: [],
-    error: void 0,
-    hasError: !1
-};
-try {
-    _ts_add_disposable_resource(env1, {
-        [Symbol.dispose] () {}
-    }, !1);
-} catch (e) {
-    env1.error = e, env1.hasError = !0;
-} finally{
-    _ts_dispose_resources(env1);
-}
+(()=>{
+    let env = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env, {
+            [Symbol.dispose] () {}
+        }, !1);
+    } catch (e) {
+        env.error = e, env.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env);
+    }
+})();

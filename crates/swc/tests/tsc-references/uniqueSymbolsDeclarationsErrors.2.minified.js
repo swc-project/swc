@@ -1,8 +1,12 @@
 //// [uniqueSymbolsDeclarationsErrors.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     ClassWithPrivateNamedAccessors: function() {
         return ClassWithPrivateNamedAccessors;
     },
@@ -21,10 +25,6 @@ var target = exports, all = {
     obj: function() {
         return obj;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
 const obj = {
     method1: (p)=>p,

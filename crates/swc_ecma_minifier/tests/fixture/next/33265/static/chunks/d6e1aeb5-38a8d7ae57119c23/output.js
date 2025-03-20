@@ -2823,9 +2823,55 @@
              * @deprecated rangeIndex must be set to a value, in the future this will throw an error.
              * @throws     {Error} if rangeIndex is more than the length of ranges
              */ function getRange(fnName, valueIndex, ranges, rangeIndex) {
-                var maxIndex = ranges.length - 1;
-                if ("number" != typeof rangeIndex || rangeIndex < 0 || rangeIndex > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + rangeIndex + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
-                return ranges[rangeIndex][valueIndex];
+                return !/**
+             * @file time-ranges.js
+             * @module time-ranges
+             */ /**
+             * Returns the time for the specified index at the start or end
+             * of a TimeRange object.
+             *
+             * @typedef    {Function} TimeRangeIndex
+             *
+             * @param      {number} [index=0]
+             *             The range number to return the time for.
+             *
+             * @return     {number}
+             *             The time offset at the specified index.
+             *
+             * @deprecated The index argument must be provided.
+             *             In the future, leaving it out will throw an error.
+             */ /**
+             * An object that contains ranges of time.
+             *
+             * @typedef  {Object} TimeRange
+             *
+             * @property {number} length
+             *           The number of time ranges represented by this object.
+             *
+             * @property {module:time-ranges~TimeRangeIndex} start
+             *           Returns the time offset at which a specified time range begins.
+             *
+             * @property {module:time-ranges~TimeRangeIndex} end
+             *           Returns the time offset at which a specified time range ends.
+             *
+             * @see https://developer.mozilla.org/en-US/docs/Web/API/TimeRanges
+             */ /**
+             * Check if any of the time ranges are over the maximum index.
+             *
+             * @private
+             * @param   {string} fnName
+             *          The function name to use for logging
+             *
+             * @param   {number} index
+             *          The index to check
+             *
+             * @param   {number} maxIndex
+             *          The maximum possible index
+             *
+             * @throws  {Error} if the timeRanges provided are over the maxIndex
+             */ function(fnName, index, maxIndex) {
+                    if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
+                }(fnName, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
             }
             /**
              * Create a time range object given ranges of time.
@@ -11336,24 +11382,29 @@
                 if (el) {
                     for(el.parentNode && el.parentNode.removeChild(el); el.hasChildNodes();)el.removeChild(el.firstChild);
                      // remove any src reference. not setting `src=''` because that causes a warning
-                    // however IE on Windows 7N has a bug that throws an error so need a try/catch (#793)
-                    if (// in firefox
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // not supported
-                    }
+                    // in firefox
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // not supported
+                        }
+                    }();
                 }
             }, Html5.resetMediaElement = function(el) {
                 if (el) {
                     for(var sources = el.querySelectorAll("source"), i = sources.length; i--;)el.removeChild(sources[i]);
                      // remove any src reference.
-                    if (// not setting `src=''` because that throws an error
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // satisfy linter
-                    }
+                    // not setting `src=''` because that throws an error
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // satisfy linter
+                        }
+                    }();
                 }
             }, /* Native HTML5 element property wrapping ----------------------------------- */ // Wrap native boolean attributes with getters that check both property and attribute
             // The list is as followed:
@@ -24617,7 +24668,9 @@
                         path: basedir,
                         exports: {},
                         require: function(path, base) {
-                            throw null == base && module.path, Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
+                            return function() {
+                                throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
+                            }(path, null == base ? module.path : base);
                         }
                     }, module.exports), module.exports;
                 }

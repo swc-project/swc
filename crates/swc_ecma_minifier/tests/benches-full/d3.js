@@ -5829,7 +5829,7 @@ function(global, factory) {
         }
     });
     function scaleTranslateRotate(k, dx, dy, sx, sy, alpha) {
-        if (!alpha) {
+        if (!alpha) return function(k, dx, dy, sx, sy) {
             function transform(x, y) {
                 return [
                     dx + k * (x *= sx),
@@ -5842,20 +5842,20 @@ function(global, factory) {
                     (dy - y) / k * sy
                 ];
             }, transform;
-        }
+        }(k, dx, dy, sx, sy);
         var cosAlpha = cos$1(alpha), sinAlpha = sin$1(alpha), a = cosAlpha * k, b = sinAlpha * k, ai = cosAlpha / k, bi = sinAlpha / k, ci = (sinAlpha * dy - cosAlpha * dx) / k, fi = (sinAlpha * dx + cosAlpha * dy) / k;
-        function transform1(x, y) {
+        function transform(x, y) {
             return [
                 a * (x *= sx) - b * (y *= sy) + dx,
                 dy - b * x - a * y
             ];
         }
-        return transform1.invert = function(x, y) {
+        return transform.invert = function(x, y) {
             return [
                 sx * (ai * x - bi * y + ci),
                 sy * (fi - bi * x - ai * y)
             ];
-        }, transform1;
+        }, transform;
     }
     function projection(project) {
         return projectionMutator(function() {
@@ -5955,8 +5955,8 @@ function(global, factory) {
     function conicEqualAreaRaw(y0, y1) {
         var sy0 = sin$1(y0), n = (sy0 + sin$1(y1)) / 2;
         // Are the parallels symmetrical around the Equator?
-        if (1e-6 > abs$2(n)) {
-            var cosPhi0 = cos$1(y0);
+        if (1e-6 > abs$2(n)) return function(phi0) {
+            var cosPhi0 = cos$1(phi0);
             function forward(lambda, phi) {
                 return [
                     lambda * cosPhi0,
@@ -5969,7 +5969,7 @@ function(global, factory) {
                     asin(y * cosPhi0)
                 ];
             }, forward;
-        }
+        }(y0);
         var c = 1 + sy0 * (2 * n - sy0), r0 = sqrt(c) / n;
         function project(x, y) {
             var r = sqrt(c - 2 * n * sin$1(y)) / n;

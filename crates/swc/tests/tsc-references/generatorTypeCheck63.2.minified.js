@@ -1,8 +1,17 @@
 //// [generatorTypeCheck63.ts]
+function strategy(stratName, gen) {
+    return function*(state) {
+        for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
+    };
+}
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     Nothing: function() {
         return Nothing;
     },
@@ -18,16 +27,7 @@ var target = exports, all = {
     strategy: function() {
         return strategy;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
-function strategy(stratName, gen) {
-    return function*(state) {
-        for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
-    };
-}
 const Nothing = strategy("Nothing", function*(state) {
     return yield 1, state;
 }), Nothing1 = strategy("Nothing", function*(state) {}), Nothing2 = strategy("Nothing", function*(state) {

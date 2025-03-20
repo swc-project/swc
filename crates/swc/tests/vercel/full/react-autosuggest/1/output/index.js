@@ -78,14 +78,16 @@ function _defineProperty(obj, key, value) {
     }) : obj[key] = value, obj;
 }
 var ItemsList = function(_Component) {
-    if ("function" != typeof _Component && null !== _Component) throw TypeError("Super expression must either be null or a function");
-    ItemsList.prototype = Object.create(_Component && _Component.prototype, {
-        constructor: {
-            value: ItemsList,
-            writable: !0,
-            configurable: !0
-        }
-    }), _Component && _setPrototypeOf(ItemsList, _Component);
+    !function(subClass, superClass) {
+        if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                writable: !0,
+                configurable: !0
+            }
+        }), superClass && _setPrototypeOf(subClass, superClass);
+    }(ItemsList, _Component);
     var protoProps, _super = function() {
         var self, call, result, Super = _getPrototypeOf(ItemsList);
         return result = !function() {
@@ -100,7 +102,9 @@ var ItemsList = function(_Component) {
     };
     function ItemsList() {
         var _this;
-        if (!_instanceof._(this, ItemsList)) throw TypeError("Cannot call a class as a function");
+        !function(instance, Constructor) {
+            if (!_instanceof._(instance, Constructor)) throw TypeError("Cannot call a class as a function");
+        }(this, ItemsList);
         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
         return _defineProperty(_assertThisInitialized(_this = _super.call.apply(_super, [
             this

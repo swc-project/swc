@@ -269,18 +269,17 @@
  */ function util_extend(copied, first, second, deep) {
                 var result = copied && 'object' == typeof copied ? copied : {}, length = arguments.length;
                 deep && (length -= 1);
-                for(var arguments_1 = arguments, i = 1; i < length; i++){
-                    var i1 = i;
+                for(var arguments_1 = arguments, i = 1; i < length; i++)!function(i) {
                     // eslint-disable-next-line
-                    if (arguments_1[i1]) {
+                    if (arguments_1[i]) {
                         // eslint-disable-next-line
-                        var obj1 = arguments_1[i1];
+                        var obj1 = arguments_1[i];
                         Object.keys(obj1).forEach(function(key) {
                             var clone, src = result[key], copy = obj1[key];
                             Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (/* istanbul ignore next */ clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                         });
                     }
-                }
+                }(i);
                 return result;
             }
             /**
@@ -6574,71 +6573,73 @@
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             };
-            function Droppable(element, options) {
-                var _this = Base.call(this, options, element) || this;
-                return _this.mouseOver = !1, _this.dragData = {}, _this.dragStopCalled = !1, _this.bind(), _this;
-            }
-            droppable_extends(Droppable, Base), Droppable.prototype.bind = function() {
-                this.wireEvents();
-            }, Droppable.prototype.wireEvents = function() {
-                EventHandler.add(this.element, Browser.touchEndEvent, this.intDrop, this);
-            }, // triggers when property changed
-            // eslint-disable-next-line
-            Droppable.prototype.onPropertyChanged = function(newProp, oldProp) {
-            //No Code to handle
-            }, Droppable.prototype.getModuleName = function() {
-                return 'droppable';
-            }, Droppable.prototype.intOver = function(event, element) {
-                if (!this.mouseOver) {
-                    var drag = this.dragData[this.scope];
-                    this.trigger('over', {
-                        event: event,
-                        target: element,
-                        dragData: drag
-                    }), this.mouseOver = !0;
+            !/** @class */ function(_super) {
+                function Droppable(element, options) {
+                    var _this = _super.call(this, options, element) || this;
+                    return _this.mouseOver = !1, _this.dragData = {}, _this.dragStopCalled = !1, _this.bind(), _this;
                 }
-            }, Droppable.prototype.intOut = function(event, element) {
-                this.mouseOver && (this.trigger('out', {
-                    evt: event,
-                    target: element
-                }), this.mouseOver = !1);
-            }, Droppable.prototype.intDrop = function(evt, element) {
-                if (this.dragStopCalled) {
-                    this.dragStopCalled = !1;
-                    var area, accept = !0, drag = this.dragData[this.scope], isDrag = !!drag && drag.helper && isVisible(drag.helper);
-                    isDrag && (area = this.isDropArea(evt, drag.helper, element), this.accept && (accept = matches(drag.helper, this.accept))), isDrag && this.drop && area.canDrop && accept && this.trigger('drop', {
-                        event: evt,
-                        target: area.target,
-                        droppedElement: drag.helper,
-                        dragData: drag
-                    }), this.mouseOver = !1;
-                }
-            }, Droppable.prototype.isDropArea = function(evt, helper, element) {
-                var area = {
-                    canDrop: !0,
-                    target: element || evt.target
-                }, isTouch = 'touchend' === evt.type;
-                if (isTouch || area.target === helper) {
-                    helper.style.display = 'none';
-                    var coord = isTouch ? evt.changedTouches[0] : evt, ele = document.elementFromPoint(coord.clientX, coord.clientY);
-                    area.canDrop = !1, area.canDrop = compareElementParent(ele, this.element), area.canDrop && (area.target = ele), helper.style.display = '';
-                }
-                return area;
-            }, Droppable.prototype.destroy = function() {
-                EventHandler.remove(this.element, Browser.touchEndEvent, this.intDrop), Base.prototype.destroy.call(this);
-            }, droppable_decorate([
-                Property()
-            ], Droppable.prototype, "accept", void 0), droppable_decorate([
-                Property('default')
-            ], Droppable.prototype, "scope", void 0), droppable_decorate([
-                notify_property_change_Event()
-            ], Droppable.prototype, "drop", void 0), droppable_decorate([
-                notify_property_change_Event()
-            ], Droppable.prototype, "over", void 0), droppable_decorate([
-                notify_property_change_Event()
-            ], Droppable.prototype, "out", void 0), Droppable = droppable_decorate([
-                NotifyPropertyChanges
-            ], Droppable);
+                droppable_extends(Droppable, _super), Droppable.prototype.bind = function() {
+                    this.wireEvents();
+                }, Droppable.prototype.wireEvents = function() {
+                    EventHandler.add(this.element, Browser.touchEndEvent, this.intDrop, this);
+                }, // triggers when property changed
+                // eslint-disable-next-line
+                Droppable.prototype.onPropertyChanged = function(newProp, oldProp) {
+                //No Code to handle
+                }, Droppable.prototype.getModuleName = function() {
+                    return 'droppable';
+                }, Droppable.prototype.intOver = function(event, element) {
+                    if (!this.mouseOver) {
+                        var drag = this.dragData[this.scope];
+                        this.trigger('over', {
+                            event: event,
+                            target: element,
+                            dragData: drag
+                        }), this.mouseOver = !0;
+                    }
+                }, Droppable.prototype.intOut = function(event, element) {
+                    this.mouseOver && (this.trigger('out', {
+                        evt: event,
+                        target: element
+                    }), this.mouseOver = !1);
+                }, Droppable.prototype.intDrop = function(evt, element) {
+                    if (this.dragStopCalled) {
+                        this.dragStopCalled = !1;
+                        var area, accept = !0, drag = this.dragData[this.scope], isDrag = !!drag && drag.helper && isVisible(drag.helper);
+                        isDrag && (area = this.isDropArea(evt, drag.helper, element), this.accept && (accept = matches(drag.helper, this.accept))), isDrag && this.drop && area.canDrop && accept && this.trigger('drop', {
+                            event: evt,
+                            target: area.target,
+                            droppedElement: drag.helper,
+                            dragData: drag
+                        }), this.mouseOver = !1;
+                    }
+                }, Droppable.prototype.isDropArea = function(evt, helper, element) {
+                    var area = {
+                        canDrop: !0,
+                        target: element || evt.target
+                    }, isTouch = 'touchend' === evt.type;
+                    if (isTouch || area.target === helper) {
+                        helper.style.display = 'none';
+                        var coord = isTouch ? evt.changedTouches[0] : evt, ele = document.elementFromPoint(coord.clientX, coord.clientY);
+                        area.canDrop = !1, area.canDrop = compareElementParent(ele, this.element), area.canDrop && (area.target = ele), helper.style.display = '';
+                    }
+                    return area;
+                }, Droppable.prototype.destroy = function() {
+                    EventHandler.remove(this.element, Browser.touchEndEvent, this.intDrop), _super.prototype.destroy.call(this);
+                }, droppable_decorate([
+                    Property()
+                ], Droppable.prototype, "accept", void 0), droppable_decorate([
+                    Property('default')
+                ], Droppable.prototype, "scope", void 0), droppable_decorate([
+                    notify_property_change_Event()
+                ], Droppable.prototype, "drop", void 0), droppable_decorate([
+                    notify_property_change_Event()
+                ], Droppable.prototype, "over", void 0), droppable_decorate([
+                    notify_property_change_Event()
+                ], Droppable.prototype, "out", void 0), Droppable = droppable_decorate([
+                    NotifyPropertyChanges
+                ], Droppable);
+            }(Base);
             var keyboard_extends = (extendStatics4 = function(d, b) {
                 return (extendStatics4 = Object.setPrototypeOf || ({
                     __proto__: []
@@ -10128,13 +10129,15 @@
                     this.constructor = d;
                 }
                 extendStatics1(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
-            }), _super = react.PureComponent;
-            function ComplexBase() {
-                return null !== _super && _super.apply(this, arguments) || this;
-            }
-            complex_base_extends(ComplexBase, _super), ComplexBase.prototype.render = function() {
-                return null;
-            }, ComplexBase.isDirective = !0;
+            });
+            !/** @class */ function(_super) {
+                function ComplexBase() {
+                    return null !== _super && _super.apply(this, arguments) || this;
+                }
+                complex_base_extends(ComplexBase, _super), ComplexBase.prototype.render = function() {
+                    return null;
+                }, ComplexBase.isDirective = !0;
+            }(react.PureComponent);
             var services_extends = (extendStatics2 = function(d, b) {
                 return (extendStatics2 = Object.setPrototypeOf || ({
                     __proto__: []
@@ -27694,49 +27697,51 @@
                         this.changeCssClassProps(newProp.cssClass, oldProp.cssClass), this.changeRtlProps(newProp.enableRtl);
                         return;
                     }
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
-                        case 'inline':
-                            newProp.inline ? (this.getWrapper().appendChild(this.container), this.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this.element.nextElementSibling), this.container.children.length || this.createWidget()) : (this.destroyOtherComp(), this.unWireEvents(), this.container.innerHTML = '', this.createSplitBtn());
-                            break;
-                        case 'cssClass':
-                            this.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
-                            var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
-                            props = props.reduce(function(a, b) {
-                                return 0 > a.indexOf(b) && a.push(b), a;
-                            }, []);
-                            var count_1 = 0;
-                            props.forEach(function(cls) {
-                                0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
-                            });
-                            break;
-                        case 'enableRtl':
-                            this.isPicker() && (this.hueSlider.enableRtl = newProp.enableRtl, this.enableOpacity && (this.opacitySlider.enableRtl = newProp.enableRtl), this.setInputEleProps()), this.changeRtlProps(newProp.enableRtl);
-                            break;
-                        case 'disabled':
-                            this.changeDisabledProp(newProp.disabled);
-                            break;
-                        case 'value':
-                            this.value !== oldProp.value && this.changeValueProp(newProp.value);
-                            break;
-                        case 'showButtons':
-                            this.changeShowBtnProps(newProp.showButtons);
-                            break;
-                        case 'mode':
-                            'Picker' === newProp.mode ? this.switchToPicker() : this.switchToPalette();
-                            break;
-                        case 'modeSwitcher':
-                            this.changeModeSwitcherProp(newProp.modeSwitcher);
-                            break;
-                        case 'columns':
-                        case 'presetColors':
-                            this.isPicker() || this.changePaletteProps();
-                            break;
-                        case 'noColor':
-                            newProp.noColor ? 'Palette' !== this.mode || this.modeSwitcher || this.setNoColor() : this.changePaletteProps();
-                            break;
-                        case 'enableOpacity':
-                            this.changeOpacityProps(newProp.enableOpacity);
-                    }
+                    for(var this_1 = this, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)!function(prop) {
+                        switch(prop){
+                            case 'inline':
+                                newProp.inline ? (this_1.getWrapper().appendChild(this_1.container), this_1.splitBtn.destroy(), (0, ej2_base /* detach */ .og)(this_1.element.nextElementSibling), this_1.container.children.length || this_1.createWidget()) : (this_1.destroyOtherComp(), this_1.unWireEvents(), this_1.container.innerHTML = '', this_1.createSplitBtn());
+                                break;
+                            case 'cssClass':
+                                this_1.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
+                                var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
+                                props = props.reduce(function(a, b) {
+                                    return 0 > a.indexOf(b) && a.push(b), a;
+                                }, []);
+                                var count_1 = 0;
+                                props.forEach(function(cls) {
+                                    0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base /* remove */ .Od)((0, ej2_base /* select */ .Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
+                                });
+                                break;
+                            case 'enableRtl':
+                                this_1.isPicker() && (this_1.hueSlider.enableRtl = newProp.enableRtl, this_1.enableOpacity && (this_1.opacitySlider.enableRtl = newProp.enableRtl), this_1.setInputEleProps()), this_1.changeRtlProps(newProp.enableRtl);
+                                break;
+                            case 'disabled':
+                                this_1.changeDisabledProp(newProp.disabled);
+                                break;
+                            case 'value':
+                                this_1.value !== oldProp.value && this_1.changeValueProp(newProp.value);
+                                break;
+                            case 'showButtons':
+                                this_1.changeShowBtnProps(newProp.showButtons);
+                                break;
+                            case 'mode':
+                                'Picker' === newProp.mode ? this_1.switchToPicker() : this_1.switchToPalette();
+                                break;
+                            case 'modeSwitcher':
+                                this_1.changeModeSwitcherProp(newProp.modeSwitcher);
+                                break;
+                            case 'columns':
+                            case 'presetColors':
+                                this_1.isPicker() || this_1.changePaletteProps();
+                                break;
+                            case 'noColor':
+                                newProp.noColor ? 'Palette' !== this_1.mode || this_1.modeSwitcher || this_1.setNoColor() : this_1.changePaletteProps();
+                                break;
+                            case 'enableOpacity':
+                                this_1.changeOpacityProps(newProp.enableOpacity);
+                        }
+                    }(_a[_i]);
                 }, /**
      * Sets the focus to Colorpicker
      * its native method

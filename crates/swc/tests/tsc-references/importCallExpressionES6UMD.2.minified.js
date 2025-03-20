@@ -20,20 +20,19 @@ var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard) {
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    });
-    var all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports1, {
         D: function() {
             return D;
         },
         p2: function() {
             return p2;
         }
-    };
-    for(var name in all)Object.defineProperty(exports1, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-    import("./0"), import("./0").then((zero)=>zero.foo());
+    }), import("./0"), import("./0").then((zero)=>zero.foo());
     var p2 = import("./0");
     class D {
         method() {

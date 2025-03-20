@@ -7,8 +7,12 @@ define([
 ], function(require, exports, _ts_add_disposable_resource, _ts_dispose_resources) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    });
-    var all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports, {
         default: function() {
             return _default;
         },
@@ -21,10 +25,6 @@ define([
         y: function() {
             return y;
         }
-    };
-    for(var name in all)Object.defineProperty(exports, name, {
-        enumerable: !0,
-        get: all[name]
     });
     let env = {
         stack: [],

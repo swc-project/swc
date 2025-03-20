@@ -462,59 +462,20 @@ pub trait StmtExt {
 
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool {
-        fn terminates_many(stmts: &[Stmt], allow_break: bool, allow_throw: bool) -> bool {
-            stmts
-                .iter()
-                .rev()
-                .any(|s| terminates(s, allow_break, allow_throw))
-        }
-
-        fn terminates(stmt: &Stmt, allow_break: bool, allow_throw: bool) -> bool {
+        fn terminates(stmt: &Stmt) -> bool {
             match stmt {
-                Stmt::Break(_) => allow_break,
-                Stmt::Throw(_) => allow_throw,
-                Stmt::Continue(_) | Stmt::Return(_) => true,
-                Stmt::Block(block) => terminates_many(&block.stmts, allow_break, allow_throw),
+                Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
+                Stmt::Block(block) => block.stmts.iter().rev().any(|s| s.terminates()),
                 Stmt::If(IfStmt {
                     cons,
                     alt: Some(alt),
                     ..
                 }) => cons.terminates() && alt.terminates(),
-                Stmt::Switch(s) => {
-                    let mut has_default = false;
-                    let mut has_non_empty_terminates = false;
-
-                    for case in &s.cases {
-                        if case.test.is_none() {
-                            has_default = true
-                        }
-
-                        if !case.cons.is_empty() {
-                            let t = terminates_many(&case.cons, false, allow_throw);
-
-                            if t {
-                                has_non_empty_terminates = true
-                            } else {
-                                return false;
-                            }
-                        }
-                    }
-
-                    has_default && has_non_empty_terminates
-                }
-                Stmt::Try(t) => {
-                    if let Some(h) = &t.handler {
-                        terminates_many(&t.block.stmts, allow_break, false)
-                            && terminates_many(&h.body.stmts, allow_break, allow_throw)
-                    } else {
-                        terminates_many(&t.block.stmts, allow_break, allow_throw)
-                    }
-                }
                 _ => false,
             }
         }
 
-        terminates(self.as_stmt(), true, true)
+        terminates(self.as_stmt())
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {

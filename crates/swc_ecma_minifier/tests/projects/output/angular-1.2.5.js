@@ -427,6 +427,20 @@
     } : function(value) {
         return isString(value) ? value.replace(/^\s\s*/, "").replace(/\s\s*$/, "") : value;
     };
+    /**
+   * @ngdoc function
+   * @name angular.isElement
+   * @function
+   *
+   * @description
+   * Determines if a reference is a DOM element (or wrapped jQuery element).
+   *
+   * @param {*} value Reference to check.
+   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
+   */ function isElement(node) {
+        return !!(node && (node.nodeName || // we are a direct element
+        node.on && node.find)); // we have an on and find method part of jQuery API
+    }
     function indexOf(array, obj) {
         if (array.indexOf) return array.indexOf(obj);
         for(var i = 0; i < array.length; i++)if (obj === array[i]) return i;
@@ -901,7 +915,13 @@
    * - `minor` – `{number}` – Minor version number, such as "9".
    * - `dot` – `{number}` – Dot version number, such as "18".
    * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
-   */ var jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+   */ var version = {
+        full: "1.2.5",
+        major: 1,
+        minor: 2,
+        dot: 5,
+        codeName: "singularity-expansion"
+    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);
@@ -5022,6 +5042,74 @@
                 }, interval);
             }
         ];
+    }
+    /**
+   * @ngdoc object
+   * @name ng.$locale
+   *
+   * @description
+   * $locale service provides localization rules for various Angular components. As of right now the
+   * only public api is:
+   *
+   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
+   */ function $LocaleProvider() {
+        this.$get = function() {
+            return {
+                id: "en-us",
+                NUMBER_FORMATS: {
+                    DECIMAL_SEP: ".",
+                    GROUP_SEP: ",",
+                    PATTERNS: [
+                        {
+                            // Decimal Pattern
+                            minInt: 1,
+                            minFrac: 0,
+                            maxFrac: 3,
+                            posPre: "",
+                            posSuf: "",
+                            negPre: "-",
+                            negSuf: "",
+                            gSize: 3,
+                            lgSize: 3
+                        },
+                        {
+                            //Currency Pattern
+                            minInt: 1,
+                            minFrac: 2,
+                            maxFrac: 2,
+                            posPre: "\u00A4",
+                            posSuf: "",
+                            negPre: "(\u00A4",
+                            negSuf: ")",
+                            gSize: 3,
+                            lgSize: 3
+                        }
+                    ],
+                    CURRENCY_SYM: "$"
+                },
+                DATETIME_FORMATS: {
+                    MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
+                    SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
+                    DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
+                    SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
+                    AMPMS: [
+                        "AM",
+                        "PM"
+                    ],
+                    medium: "MMM d, y h:mm:ss a",
+                    short: "M/d/yy h:mm a",
+                    fullDate: "EEEE, MMMM d, y",
+                    longDate: "MMMM d, y",
+                    mediumDate: "MMM d, y",
+                    shortDate: "M/d/yy",
+                    mediumTime: "h:mm:ss a",
+                    shortTime: "h:mm a"
+                },
+                pluralCat: function(num) {
+                    return 1 === num ? "one" : "other";
+                }
+            };
+        };
     }
     var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/, DEFAULT_PORTS = {
         http: 80,
@@ -11707,72 +11795,53 @@
         inheritedData: JQLitePrototype.inheritedData
     }), // Method signature:
     //     jqLitePatchJQueryRemove(name, dispatchThis, filterElems, getterIfNoArguments)
-    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite;
-    extend(angular1, {
-        bootstrap: bootstrap,
-        copy: copy,
-        extend: extend,
-        equals: equals,
-        element: jqLite,
-        forEach: forEach,
-        injector: createInjector,
-        noop: noop,
-        bind: bind,
-        toJson: toJson,
-        fromJson: fromJson,
-        identity: identity,
-        isUndefined: isUndefined,
-        isDefined: isDefined,
-        isString: isString,
-        isFunction: isFunction,
-        isObject: isObject,
-        isNumber: isNumber,
-        isElement: /**
-   * @ngdoc function
-   * @name angular.isElement
-   * @function
-   *
-   * @description
-   * Determines if a reference is a DOM element (or wrapped jQuery element).
-   *
-   * @param {*} value Reference to check.
-   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
-   */ function(node) {
-            return !!(node && (node.nodeName || // we are a direct element
-            node.on && node.find)); // we have an on and find method part of jQuery API
-        },
-        isArray: isArray,
-        version: {
-            full: "1.2.5",
-            major: 1,
-            minor: 2,
-            dot: 5,
-            codeName: "singularity-expansion"
-        },
-        isDate: isDate,
-        lowercase: lowercase,
-        uppercase: uppercase,
-        callbacks: {
-            counter: 0
-        },
-        $$minErr: minErr,
-        $$csp: csp
-    }), angularModule = /**
+    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite, function(angular1) {
+        extend(angular1, {
+            bootstrap: bootstrap,
+            copy: copy,
+            extend: extend,
+            equals: equals,
+            element: jqLite,
+            forEach: forEach,
+            injector: createInjector,
+            noop: noop,
+            bind: bind,
+            toJson: toJson,
+            fromJson: fromJson,
+            identity: identity,
+            isUndefined: isUndefined,
+            isDefined: isDefined,
+            isString: isString,
+            isFunction: isFunction,
+            isObject: isObject,
+            isNumber: isNumber,
+            isElement: isElement,
+            isArray: isArray,
+            version: version,
+            isDate: isDate,
+            lowercase: lowercase,
+            uppercase: uppercase,
+            callbacks: {
+                counter: 0
+            },
+            $$minErr: minErr,
+            $$csp: csp
+        }), angularModule = /**
    * @ngdoc interface
    * @name angular.Module
    * @description
    *
    * Interface for configuring angular {@link angular.module modules}.
    */ function(window1) {
-        var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
-        function ensure(obj, name, factory) {
-            return obj[name] || (obj[name] = factory());
-        }
-        var angular1 = ensure(window1, "angular", Object);
-        return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
-        angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
-            /** @type {Object.<string, angular.Module>} */ var modules = {};
-            /**
+            var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
+            function ensure(obj, name, factory) {
+                return obj[name] || (obj[name] = factory());
+            }
+            var angular1 = ensure(window1, "angular", Object);
+            return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
+            angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
+                /** @type {Object.<string, angular.Module>} */ var modules = {};
+                /**
        * @ngdoc function
        * @name angular.module
        * @description
@@ -11822,14 +11891,15 @@
        *        {@link angular.Module#methods_config Module#config()}.
        * @returns {module} new module with the {@link angular.Module} api.
        */ return function(name, requires, configFn) {
-                if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
-                return requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
-                    if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
-                    /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
-                        // Private state
-                        _invokeQueue: invokeQueue,
-                        _runBlocks: runBlocks,
-                        /**
+                    return function(name, context) {
+                        if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
+                    }(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
+                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
+                        /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
+                            // Private state
+                            _invokeQueue: invokeQueue,
+                            _runBlocks: runBlocks,
+                            /**
              * @ngdoc property
              * @name angular.Module#requires
              * @propertyOf angular.Module
@@ -11838,14 +11908,14 @@
              * Holds the list of modules which the injector will load before the current module is
              * loaded.
              */ requires: requires,
-                        /**
+                            /**
              * @ngdoc property
              * @name angular.Module#name
              * @propertyOf angular.Module
              * @returns {string} Name of the module.
              * @description
              */ name: name,
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#provider
              * @methodOf angular.Module
@@ -11855,7 +11925,7 @@
              * @description
              * See {@link AUTO.$provide#provider $provide.provider()}.
              */ provider: invokeLater("$provide", "provider"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#factory
              * @methodOf angular.Module
@@ -11864,7 +11934,7 @@
              * @description
              * See {@link AUTO.$provide#factory $provide.factory()}.
              */ factory: invokeLater("$provide", "factory"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#service
              * @methodOf angular.Module
@@ -11873,7 +11943,7 @@
              * @description
              * See {@link AUTO.$provide#service $provide.service()}.
              */ service: invokeLater("$provide", "service"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#value
              * @methodOf angular.Module
@@ -11882,7 +11952,7 @@
              * @description
              * See {@link AUTO.$provide#value $provide.value()}.
              */ value: invokeLater("$provide", "value"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#constant
              * @methodOf angular.Module
@@ -11892,7 +11962,7 @@
              * Because the constant are fixed, they get applied before other provide methods.
              * See {@link AUTO.$provide#constant $provide.constant()}.
              */ constant: invokeLater("$provide", "constant", "unshift"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#animation
              * @methodOf angular.Module
@@ -11924,7 +11994,7 @@
              * See {@link ngAnimate.$animateProvider#register $animateProvider.register()} and
              * {@link ngAnimate ngAnimate module} for more information.
              */ animation: invokeLater("$animateProvider", "register"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#filter
              * @methodOf angular.Module
@@ -11933,7 +12003,7 @@
              * @description
              * See {@link ng.$filterProvider#register $filterProvider.register()}.
              */ filter: invokeLater("$filterProvider", "register"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#controller
              * @methodOf angular.Module
@@ -11943,7 +12013,7 @@
              * @description
              * See {@link ng.$controllerProvider#register $controllerProvider.register()}.
              */ controller: invokeLater("$controllerProvider", "register"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#directive
              * @methodOf angular.Module
@@ -11954,7 +12024,7 @@
              * @description
              * See {@link ng.$compileProvider#methods_directive $compileProvider.directive()}.
              */ directive: invokeLater("$compileProvider", "directive"),
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#config
              * @methodOf angular.Module
@@ -11963,7 +12033,7 @@
              * @description
              * Use this method to register work which needs to be performed on module loading.
              */ config: config,
-                        /**
+                            /**
              * @ngdoc method
              * @name angular.Module#run
              * @methodOf angular.Module
@@ -11973,175 +12043,109 @@
              * Use this method to register work which should be performed when the injector is done
              * loading all modules.
              */ run: function(block) {
-                            return runBlocks.push(block), this;
-                        }
-                    };
-                    return configFn && config(configFn), moduleInstance;
-                    /**
+                                return runBlocks.push(block), this;
+                            }
+                        };
+                        return configFn && config(configFn), moduleInstance;
+                        /**
            * @param {string} provider
            * @param {string} method
            * @param {String=} insertMethod
            * @returns {angular.Module}
            */ function invokeLater(provider, method, insertMethod) {
-                        return function() {
-                            return invokeQueue[insertMethod || "push"]([
-                                provider,
-                                method,
-                                arguments
-                            ]), moduleInstance;
-                        };
-                    }
-                });
-            };
-        }));
-    }(window1);
-    try {
-        angularModule("ngLocale");
-    } catch (e) {
-        angularModule("ngLocale", []).provider("$locale", /**
-   * @ngdoc object
-   * @name ng.$locale
-   *
-   * @description
-   * $locale service provides localization rules for various Angular components. As of right now the
-   * only public api is:
-   *
-   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
-   */ function() {
-            this.$get = function() {
-                return {
-                    id: "en-us",
-                    NUMBER_FORMATS: {
-                        DECIMAL_SEP: ".",
-                        GROUP_SEP: ",",
-                        PATTERNS: [
-                            {
-                                // Decimal Pattern
-                                minInt: 1,
-                                minFrac: 0,
-                                maxFrac: 3,
-                                posPre: "",
-                                posSuf: "",
-                                negPre: "-",
-                                negSuf: "",
-                                gSize: 3,
-                                lgSize: 3
-                            },
-                            {
-                                //Currency Pattern
-                                minInt: 1,
-                                minFrac: 2,
-                                maxFrac: 2,
-                                posPre: "\u00A4",
-                                posSuf: "",
-                                negPre: "(\u00A4",
-                                negSuf: ")",
-                                gSize: 3,
-                                lgSize: 3
-                            }
-                        ],
-                        CURRENCY_SYM: "$"
-                    },
-                    DATETIME_FORMATS: {
-                        MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
-                        SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
-                        DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
-                        SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
-                        AMPMS: [
-                            "AM",
-                            "PM"
-                        ],
-                        medium: "MMM d, y h:mm:ss a",
-                        short: "M/d/yy h:mm a",
-                        fullDate: "EEEE, MMMM d, y",
-                        longDate: "MMMM d, y",
-                        mediumDate: "MMM d, y",
-                        shortDate: "M/d/yy",
-                        mediumTime: "h:mm:ss a",
-                        shortTime: "h:mm a"
-                    },
-                    pluralCat: function(num) {
-                        return 1 === num ? "one" : "other";
-                    }
+                            return function() {
+                                return invokeQueue[insertMethod || "push"]([
+                                    provider,
+                                    method,
+                                    arguments
+                                ]), moduleInstance;
+                            };
+                        }
+                    });
                 };
-            };
-        });
-    }
-    angularModule("ng", [
-        "ngLocale"
-    ], [
-        "$provide",
-        function($provide) {
-            // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
-            $provide.provider({
-                $$sanitizeUri: $$SanitizeUriProvider
-            }), $provide.provider("$compile", $CompileProvider).directive({
-                a: htmlAnchorDirective,
-                input: inputDirective,
-                textarea: inputDirective,
-                form: formDirective,
-                script: scriptDirective,
-                select: selectDirective,
-                style: styleDirective,
-                option: optionDirective,
-                ngBind: ngBindDirective,
-                ngBindHtml: ngBindHtmlDirective,
-                ngBindTemplate: ngBindTemplateDirective,
-                ngClass: ngClassDirective,
-                ngClassEven: ngClassEvenDirective,
-                ngClassOdd: ngClassOddDirective,
-                ngCloak: ngCloakDirective,
-                ngController: ngControllerDirective,
-                ngForm: ngFormDirective,
-                ngHide: ngHideDirective,
-                ngIf: ngIfDirective,
-                ngInclude: ngIncludeDirective,
-                ngInit: ngInitDirective,
-                ngNonBindable: ngNonBindableDirective,
-                ngPluralize: ngPluralizeDirective,
-                ngRepeat: ngRepeatDirective,
-                ngShow: ngShowDirective,
-                ngStyle: ngStyleDirective,
-                ngSwitch: ngSwitchDirective,
-                ngSwitchWhen: ngSwitchWhenDirective,
-                ngSwitchDefault: ngSwitchDefaultDirective,
-                ngOptions: ngOptionsDirective,
-                ngTransclude: ngTranscludeDirective,
-                ngModel: ngModelDirective,
-                ngList: ngListDirective,
-                ngChange: ngChangeDirective,
-                required: requiredDirective,
-                ngRequired: requiredDirective,
-                ngValue: ngValueDirective
-            }).directive({
-                ngInclude: ngIncludeFillContentDirective
-            }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
-                $anchorScroll: $AnchorScrollProvider,
-                $animate: $AnimateProvider,
-                $browser: $BrowserProvider,
-                $cacheFactory: $CacheFactoryProvider,
-                $controller: $ControllerProvider,
-                $document: $DocumentProvider,
-                $exceptionHandler: $ExceptionHandlerProvider,
-                $filter: $FilterProvider,
-                $interpolate: $InterpolateProvider,
-                $interval: $IntervalProvider,
-                $http: $HttpProvider,
-                $httpBackend: $HttpBackendProvider,
-                $location: $LocationProvider,
-                $log: $LogProvider,
-                $parse: $ParseProvider,
-                $rootScope: $RootScopeProvider,
-                $q: $QProvider,
-                $sce: $SceProvider,
-                $sceDelegate: $SceDelegateProvider,
-                $sniffer: $SnifferProvider,
-                $templateCache: $TemplateCacheProvider,
-                $timeout: $TimeoutProvider,
-                $window: $WindowProvider
-            });
+            }));
+        }(window1);
+        try {
+            angularModule("ngLocale");
+        } catch (e) {
+            angularModule("ngLocale", []).provider("$locale", $LocaleProvider);
         }
-    ]), jqLite(document1).ready(function() {
+        angularModule("ng", [
+            "ngLocale"
+        ], [
+            "$provide",
+            function($provide) {
+                // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+                $provide.provider({
+                    $$sanitizeUri: $$SanitizeUriProvider
+                }), $provide.provider("$compile", $CompileProvider).directive({
+                    a: htmlAnchorDirective,
+                    input: inputDirective,
+                    textarea: inputDirective,
+                    form: formDirective,
+                    script: scriptDirective,
+                    select: selectDirective,
+                    style: styleDirective,
+                    option: optionDirective,
+                    ngBind: ngBindDirective,
+                    ngBindHtml: ngBindHtmlDirective,
+                    ngBindTemplate: ngBindTemplateDirective,
+                    ngClass: ngClassDirective,
+                    ngClassEven: ngClassEvenDirective,
+                    ngClassOdd: ngClassOddDirective,
+                    ngCloak: ngCloakDirective,
+                    ngController: ngControllerDirective,
+                    ngForm: ngFormDirective,
+                    ngHide: ngHideDirective,
+                    ngIf: ngIfDirective,
+                    ngInclude: ngIncludeDirective,
+                    ngInit: ngInitDirective,
+                    ngNonBindable: ngNonBindableDirective,
+                    ngPluralize: ngPluralizeDirective,
+                    ngRepeat: ngRepeatDirective,
+                    ngShow: ngShowDirective,
+                    ngStyle: ngStyleDirective,
+                    ngSwitch: ngSwitchDirective,
+                    ngSwitchWhen: ngSwitchWhenDirective,
+                    ngSwitchDefault: ngSwitchDefaultDirective,
+                    ngOptions: ngOptionsDirective,
+                    ngTransclude: ngTranscludeDirective,
+                    ngModel: ngModelDirective,
+                    ngList: ngListDirective,
+                    ngChange: ngChangeDirective,
+                    required: requiredDirective,
+                    ngRequired: requiredDirective,
+                    ngValue: ngValueDirective
+                }).directive({
+                    ngInclude: ngIncludeFillContentDirective
+                }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
+                    $anchorScroll: $AnchorScrollProvider,
+                    $animate: $AnimateProvider,
+                    $browser: $BrowserProvider,
+                    $cacheFactory: $CacheFactoryProvider,
+                    $controller: $ControllerProvider,
+                    $document: $DocumentProvider,
+                    $exceptionHandler: $ExceptionHandlerProvider,
+                    $filter: $FilterProvider,
+                    $interpolate: $InterpolateProvider,
+                    $interval: $IntervalProvider,
+                    $http: $HttpProvider,
+                    $httpBackend: $HttpBackendProvider,
+                    $location: $LocationProvider,
+                    $log: $LogProvider,
+                    $parse: $ParseProvider,
+                    $rootScope: $RootScopeProvider,
+                    $q: $QProvider,
+                    $sce: $SceProvider,
+                    $sceDelegate: $SceDelegateProvider,
+                    $sniffer: $SnifferProvider,
+                    $templateCache: $TemplateCacheProvider,
+                    $timeout: $TimeoutProvider,
+                    $window: $WindowProvider
+                });
+            }
+        ]);
+    }(angular1), jqLite(document1).ready(function() {
         !/**
  * @ngdoc directive
  * @name ng.directive:ngApp

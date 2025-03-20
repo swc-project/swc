@@ -5,10 +5,25 @@ define([
     "@swc/helpers/_/_async_to_generator",
     "@swc/helpers/_/_interop_require_wildcard"
 ], function(require, exports, _async_to_generator, _interop_require_wildcard) {
+    var _ref;
+    function fn() {
+        return _fn.apply(this, arguments);
+    }
+    function _fn() {
+        return (_fn = _async_to_generator._(function*() {
+            yield new Promise((resolve, reject)=>require([
+                    "./test"
+                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
+        })).apply(this, arguments);
+    }
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    });
-    var _ref, all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports, {
         cl1: function() {
             return cl1;
         },
@@ -24,21 +39,7 @@ define([
         obj: function() {
             return obj;
         }
-    };
-    for(var name in all)Object.defineProperty(exports, name, {
-        enumerable: !0,
-        get: all[name]
     });
-    function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        return (_fn = _async_to_generator._(function*() {
-            yield new Promise((resolve, reject)=>require([
-                    "./test"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
-        })).apply(this, arguments);
-    }
     class cl1 {
         m() {
             return _async_to_generator._(function*() {

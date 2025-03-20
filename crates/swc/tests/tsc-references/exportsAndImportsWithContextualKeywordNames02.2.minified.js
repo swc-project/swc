@@ -2,18 +2,18 @@
 //// [t1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     as: function() {
         return as;
     },
     return: function() {
         return as;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
 var as = 100;
 //// [t2.ts]

@@ -6947,15 +6947,17 @@ function(global, factory) {
                 var renderTargetProperties = properties.get(renderTarget), isCube = !0 === renderTarget.isWebGLCubeRenderTarget;
                 if (renderTarget.depthTexture) {
                     if (isCube) throw Error('target.depthTexture not supported in Cube render targets');
-                    var framebuffer = renderTargetProperties.__webglFramebuffer;
-                    if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
-                    if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
-                     // upload an empty depth texture with framebuffer size
-                    properties.get(renderTarget.depthTexture).__webglTexture && renderTarget.depthTexture.image.width === renderTarget.width && renderTarget.depthTexture.image.height === renderTarget.height || (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
-                    var webglDepthTexture = properties.get(renderTarget.depthTexture).__webglTexture;
-                    if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
-                    else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
-                    else throw Error('Unknown depthTexture format');
+                    !function(framebuffer, renderTarget) {
+                        if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
+                        if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
+                         // upload an empty depth texture with framebuffer size
+                        properties.get(renderTarget.depthTexture).__webglTexture && renderTarget.depthTexture.image.width === renderTarget.width && renderTarget.depthTexture.image.height === renderTarget.height || (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
+                        var webglDepthTexture = properties.get(renderTarget.depthTexture).__webglTexture;
+                        if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
+                        else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
+                        else throw Error('Unknown depthTexture format');
+                    } // Setup GL resources for a non-texture depth buffer
+                    (renderTargetProperties.__webglFramebuffer, renderTarget);
                 } else if (isCube) {
                     renderTargetProperties.__webglDepthbuffer = [];
                     for(var i = 0; i < 6; i++)_gl.bindFramebuffer(36160, renderTargetProperties.__webglFramebuffer[i]), renderTargetProperties.__webglDepthbuffer[i] = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthbuffer[i], renderTarget, !1);

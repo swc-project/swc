@@ -1161,6 +1161,10 @@ function(global, factory) {
         }
         return signal(cm, "renderLine", cm, lineView.line, builder.pre), builder.pre.className && (builder.textClass = joinClasses(builder.pre.className, builder.textClass || "")), builder;
     }
+    function defaultSpecialCharPlaceholder(ch) {
+        var token = elt("span", "\u2022", "cm-invalidchar");
+        return token.title = "\\u" + ch.charCodeAt(0).toString(16), token.setAttribute("aria-label", token.title), token;
+    }
     // Build up the DOM representation for a single token, and add it to
     // the line map. Takes care to render special characters separately.
     function buildToken(builder, text, style, startStyle, endStyle, css, attributes) {
@@ -1293,13 +1297,14 @@ function(global, factory) {
         return ext && ext.line == lineView.line ? (cm.display.externalMeasured = null, lineView.measure = ext.measure, ext.built) : buildLineContent(cm, lineView);
     }
     function updateLineClasses(cm, lineView) {
-        var cls = lineView.bgClass ? lineView.bgClass + " " + (lineView.line.bgClass || "") : lineView.line.bgClass;
-        if (cls && (cls += " CodeMirror-linebackground"), lineView.background) cls ? lineView.background.className = cls : (lineView.background.parentNode.removeChild(lineView.background), lineView.background = null);
-        else if (cls) {
-            var wrap = ensureLineWrapped(lineView);
-            lineView.background = wrap.insertBefore(elt("div", null, cls), wrap.firstChild), cm.display.input.setUneditable(lineView.background);
-        }
-        lineView.line.wrapClass ? ensureLineWrapped(lineView).className = lineView.line.wrapClass : lineView.node != lineView.text && (lineView.node.className = "");
+        !function(cm, lineView) {
+            var cls = lineView.bgClass ? lineView.bgClass + " " + (lineView.line.bgClass || "") : lineView.line.bgClass;
+            if (cls && (cls += " CodeMirror-linebackground"), lineView.background) cls ? lineView.background.className = cls : (lineView.background.parentNode.removeChild(lineView.background), lineView.background = null);
+            else if (cls) {
+                var wrap = ensureLineWrapped(lineView);
+                lineView.background = wrap.insertBefore(elt("div", null, cls), wrap.firstChild), cm.display.input.setUneditable(lineView.background);
+            }
+        }(cm, lineView), lineView.line.wrapClass ? ensureLineWrapped(lineView).className = lineView.line.wrapClass : lineView.node != lineView.text && (lineView.node.className = "");
         var textClass = lineView.textClass ? lineView.textClass + " " + (lineView.line.textClass || "") : lineView.line.textClass;
         lineView.text.className = textClass || "";
     }
@@ -2316,14 +2321,18 @@ function(global, factory) {
         op && function(op, endCb) {
             var group = op.ownsGroup;
             if (group) try {
-                var callbacks = group.delayedCallbacks, i = 0;
-                do {
-                    for(; i < callbacks.length; i++)callbacks[i].call(null);
-                    for(var j = 0; j < group.ops.length; j++){
-                        var op1 = group.ops[j];
-                        if (op1.cursorActivityHandlers) for(; op1.cursorActivityCalled < op1.cursorActivityHandlers.length;)op1.cursorActivityHandlers[op1.cursorActivityCalled++].call(null, op1.cm);
-                    }
-                }while (i < callbacks.length)
+                !function(group) {
+                    // Calls delayed callbacks and cursorActivity handlers until no
+                    // new ones appear
+                    var callbacks = group.delayedCallbacks, i = 0;
+                    do {
+                        for(; i < callbacks.length; i++)callbacks[i].call(null);
+                        for(var j = 0; j < group.ops.length; j++){
+                            var op = group.ops[j];
+                            if (op.cursorActivityHandlers) for(; op.cursorActivityCalled < op.cursorActivityHandlers.length;)op.cursorActivityHandlers[op.cursorActivityCalled++].call(null, op.cm);
+                        }
+                    }while (i < callbacks.length)
+                }(group);
             } finally{
                 operationGroup = null, endCb(group);
             }
@@ -2381,13 +2390,18 @@ function(global, factory) {
                             }
                             return rect;
                         }(cm, clipPos(doc, op.scrollToPos.from), clipPos(doc, op.scrollToPos.to), op.scrollToPos.margin);
-                        if (!signalDOMEvent(cm, "scrollCursorIntoView")) {
-                            var display1 = cm.display, box = display1.sizer.getBoundingClientRect(), doScroll = null;
-                            if (rect.top + box.top < 0 ? doScroll = !0 : rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight) && (doScroll = !1), null != doScroll && !phantom) {
-                                var scrollNode = elt("div", "\u200b", null, "position: absolute;\n                         top: " + (rect.top - display1.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display1.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
-                                cm.display.lineSpace.appendChild(scrollNode), scrollNode.scrollIntoView(doScroll), cm.display.lineSpace.removeChild(scrollNode);
+                        !// SCROLLING THINGS INTO VIEW
+                        // If an editor sits on the top or bottom of the window, partially
+                        // scrolled out of view, this ensures that the cursor is visible.
+                        function(cm, rect) {
+                            if (!signalDOMEvent(cm, "scrollCursorIntoView")) {
+                                var display = cm.display, box = display.sizer.getBoundingClientRect(), doScroll = null;
+                                if (rect.top + box.top < 0 ? doScroll = !0 : rect.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight) && (doScroll = !1), null != doScroll && !phantom) {
+                                    var scrollNode = elt("div", "\u200b", null, "position: absolute;\n                         top: " + (rect.top - display.viewOffset - paddingTop(cm.display)) + "px;\n                         height: " + (rect.bottom - rect.top + scrollGap(cm) + display.barHeight) + "px;\n                         left: " + rect.left + "px; width: " + Math.max(2, rect.right - rect.left) + "px;");
+                                    cm.display.lineSpace.appendChild(scrollNode), scrollNode.scrollIntoView(doScroll), cm.display.lineSpace.removeChild(scrollNode);
+                                }
                             }
-                        }
+                        }(cm, rect);
                     }
                     // Fire events for markers that are hidden/unidden by editing or
                     // undoing
@@ -5013,6 +5027,17 @@ function(global, factory) {
             return "CodeMirror.Init";
         }
     }, defaults = {}, optionHandlers1 = {};
+    function dragDropChanged(cm, value, old) {
+        if (!value != !(old && old != Init)) {
+            var funcs = cm.display.dragFunctions, toggle = value ? on : off;
+            toggle(cm.display.scroller, "dragstart", funcs.start), toggle(cm.display.scroller, "dragenter", funcs.enter), toggle(cm.display.scroller, "dragover", funcs.over), toggle(cm.display.scroller, "dragleave", funcs.leave), toggle(cm.display.scroller, "drop", funcs.drop);
+        }
+    }
+    function wrappingChanged(cm) {
+        cm.options.lineWrapping ? (addClass(cm.display.wrapper, "CodeMirror-wrap"), cm.display.sizer.style.minWidth = "", cm.display.sizerWidth = null) : (rmClass(cm.display.wrapper, "CodeMirror-wrap"), findMaxLine(cm)), estimateLineHeights(cm), regChange(cm), clearCaches(cm), setTimeout(function() {
+            return updateScrollbars(cm);
+        }, 100);
+    }
     // A CodeMirror instance represents an editor. This is the object
     // that user code is usually dealing with.
     function CodeMirror(place, options) {
@@ -5126,16 +5151,17 @@ function(global, factory) {
                     }(cm, e), e_stop(e));
                 },
                 start: function(e) {
-                    var cm1 = cm, e1 = e;
-                    if (ie && (!cm1.state.draggingText || +new Date() - lastDrop < 100)) {
-                        e_stop(e1);
-                        return;
-                    }
-                    if (!(signalDOMEvent(cm1, e1) || eventInWidget(cm1.display, e1)) && (e1.dataTransfer.setData("Text", cm1.getSelection()), e1.dataTransfer.effectAllowed = "copyMove", e1.dataTransfer.setDragImage && !safari)) {
-                        var img = elt("img", null, null, "position: fixed; left: 0; top: 0;");
-                        img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm1.display.wrapper.appendChild(img), // Force a relayout, or Opera won't use our image for some obscure reason
-                        img._top = img.offsetTop), e1.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
-                    }
+                    return function(cm, e) {
+                        if (ie && (!cm.state.draggingText || +new Date() - lastDrop < 100)) {
+                            e_stop(e);
+                            return;
+                        }
+                        if (!(signalDOMEvent(cm, e) || eventInWidget(cm.display, e)) && (e.dataTransfer.setData("Text", cm.getSelection()), e.dataTransfer.effectAllowed = "copyMove", e.dataTransfer.setDragImage && !safari)) {
+                            var img = elt("img", null, null, "position: fixed; left: 0; top: 0;");
+                            img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm.display.wrapper.appendChild(img), // Force a relayout, or Opera won't use our image for some obscure reason
+                            img._top = img.offsetTop), e.dataTransfer.setDragImage(img, 0, 0), presto && img.parentNode.removeChild(img);
+                        }
+                    }(cm, e);
                 },
                 drop: operation(cm, onDrop),
                 leave: function(e) {
@@ -5875,93 +5901,83 @@ function(global, factory) {
         }
     }, TextareaInput.prototype.readOnlyChanged = function(val) {
         val || this.reset(), this.textarea.disabled = "nocursor" == val, this.textarea.readOnly = !!val;
-    }, TextareaInput.prototype.setUneditable = function() {}, TextareaInput.prototype.needsContentAttribute = !1;
-    var optionHandlers2 = CodeMirror.optionHandlers;
-    function option(name, deflt, handle, notOnInit) {
-        CodeMirror.defaults[name] = deflt, handle && (optionHandlers2[name] = notOnInit ? function(cm, val, old) {
-            old != Init && handle(cm, val, old);
-        } : handle);
-    }
-    CodeMirror.defineOption = option, // Passed to option handlers when there is no old value.
-    CodeMirror.Init = Init, // These two are, on init, called from the constructor because they
-    // have to be initialized before the editor can start at all.
-    option("value", "", function(cm, val) {
-        return cm.setValue(val);
-    }, !0), option("mode", null, function(cm, val) {
-        cm.doc.modeOption = val, loadMode(cm);
-    }, !0), option("indentUnit", 2, loadMode, !0), option("indentWithTabs", !1), option("smartIndent", !0), option("tabSize", 4, function(cm) {
-        resetModeState(cm), clearCaches(cm), regChange(cm);
-    }, !0), option("lineSeparator", null, function(cm, val) {
-        if (cm.doc.lineSep = val, val) {
-            var newBreaks = [], lineNo = cm.doc.first;
-            cm.doc.iter(function(line) {
-                for(var pos = 0;;){
-                    var found = line.text.indexOf(val, pos);
-                    if (-1 == found) break;
-                    pos = found + val.length, newBreaks.push(Pos(lineNo, found));
-                }
-                lineNo++;
-            });
-            for(var i = newBreaks.length - 1; i >= 0; i--)replaceRange(cm.doc, val, newBreaks[i], Pos(newBreaks[i].line, newBreaks[i].ch + val.length));
+    }, TextareaInput.prototype.setUneditable = function() {}, TextareaInput.prototype.needsContentAttribute = !1, // EDITOR CONSTRUCTOR
+    function(CodeMirror) {
+        var optionHandlers = CodeMirror.optionHandlers;
+        function option(name, deflt, handle, notOnInit) {
+            CodeMirror.defaults[name] = deflt, handle && (optionHandlers[name] = notOnInit ? function(cm, val, old) {
+                old != Init && handle(cm, val, old);
+            } : handle);
         }
-    }), option("specialChars", /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, function(cm, val, old) {
-        cm.state.specialChars = RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g"), old != Init && cm.refresh();
-    }), option("specialCharPlaceholder", function(ch) {
-        var token = elt("span", "\u2022", "cm-invalidchar");
-        return token.title = "\\u" + ch.charCodeAt(0).toString(16), token.setAttribute("aria-label", token.title), token;
-    }, function(cm) {
-        return cm.refresh();
-    }, !0), option("electricChars", !0), option("inputStyle", mobile ? "contenteditable" : "textarea", function() {
-        throw Error("inputStyle can not (yet) be changed in a running editor"); // FIXME
-    }, !0), option("spellcheck", !1, function(cm, val) {
-        return cm.getInputField().spellcheck = val;
-    }, !0), option("autocorrect", !1, function(cm, val) {
-        return cm.getInputField().autocorrect = val;
-    }, !0), option("autocapitalize", !1, function(cm, val) {
-        return cm.getInputField().autocapitalize = val;
-    }, !0), option("rtlMoveVisually", !windows), option("wholeLineUpdateBefore", !0), option("theme", "default", function(cm) {
-        themeChanged(cm), updateGutters(cm);
-    }, !0), option("keyMap", "default", function(cm, val, old) {
-        var next = getKeyMap(val), prev = old != Init && getKeyMap(old);
-        prev && prev.detach && prev.detach(cm, next), next.attach && next.attach(cm, prev || null);
-    }), option("extraKeys", null), option("configureMouse", null), option("lineWrapping", !1, function(cm) {
-        cm.options.lineWrapping ? (addClass(cm.display.wrapper, "CodeMirror-wrap"), cm.display.sizer.style.minWidth = "", cm.display.sizerWidth = null) : (rmClass(cm.display.wrapper, "CodeMirror-wrap"), findMaxLine(cm)), estimateLineHeights(cm), regChange(cm), clearCaches(cm), setTimeout(function() {
+        CodeMirror.defineOption = option, // Passed to option handlers when there is no old value.
+        CodeMirror.Init = Init, // These two are, on init, called from the constructor because they
+        // have to be initialized before the editor can start at all.
+        option("value", "", function(cm, val) {
+            return cm.setValue(val);
+        }, !0), option("mode", null, function(cm, val) {
+            cm.doc.modeOption = val, loadMode(cm);
+        }, !0), option("indentUnit", 2, loadMode, !0), option("indentWithTabs", !1), option("smartIndent", !0), option("tabSize", 4, function(cm) {
+            resetModeState(cm), clearCaches(cm), regChange(cm);
+        }, !0), option("lineSeparator", null, function(cm, val) {
+            if (cm.doc.lineSep = val, val) {
+                var newBreaks = [], lineNo = cm.doc.first;
+                cm.doc.iter(function(line) {
+                    for(var pos = 0;;){
+                        var found = line.text.indexOf(val, pos);
+                        if (-1 == found) break;
+                        pos = found + val.length, newBreaks.push(Pos(lineNo, found));
+                    }
+                    lineNo++;
+                });
+                for(var i = newBreaks.length - 1; i >= 0; i--)replaceRange(cm.doc, val, newBreaks[i], Pos(newBreaks[i].line, newBreaks[i].ch + val.length));
+            }
+        }), option("specialChars", /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g, function(cm, val, old) {
+            cm.state.specialChars = RegExp(val.source + (val.test("\t") ? "" : "|\t"), "g"), old != Init && cm.refresh();
+        }), option("specialCharPlaceholder", defaultSpecialCharPlaceholder, function(cm) {
+            return cm.refresh();
+        }, !0), option("electricChars", !0), option("inputStyle", mobile ? "contenteditable" : "textarea", function() {
+            throw Error("inputStyle can not (yet) be changed in a running editor"); // FIXME
+        }, !0), option("spellcheck", !1, function(cm, val) {
+            return cm.getInputField().spellcheck = val;
+        }, !0), option("autocorrect", !1, function(cm, val) {
+            return cm.getInputField().autocorrect = val;
+        }, !0), option("autocapitalize", !1, function(cm, val) {
+            return cm.getInputField().autocapitalize = val;
+        }, !0), option("rtlMoveVisually", !windows), option("wholeLineUpdateBefore", !0), option("theme", "default", function(cm) {
+            themeChanged(cm), updateGutters(cm);
+        }, !0), option("keyMap", "default", function(cm, val, old) {
+            var next = getKeyMap(val), prev = old != Init && getKeyMap(old);
+            prev && prev.detach && prev.detach(cm, next), next.attach && next.attach(cm, prev || null);
+        }), option("extraKeys", null), option("configureMouse", null), option("lineWrapping", !1, wrappingChanged, !0), option("gutters", [], function(cm, val) {
+            cm.display.gutterSpecs = getGutters(val, cm.options.lineNumbers), updateGutters(cm);
+        }, !0), option("fixedGutter", !0, function(cm, val) {
+            cm.display.gutters.style.left = val ? compensateForHScroll(cm.display) + "px" : "0", cm.refresh();
+        }, !0), option("coverGutterNextToScrollbar", !1, function(cm) {
             return updateScrollbars(cm);
-        }, 100);
-    }, !0), option("gutters", [], function(cm, val) {
-        cm.display.gutterSpecs = getGutters(val, cm.options.lineNumbers), updateGutters(cm);
-    }, !0), option("fixedGutter", !0, function(cm, val) {
-        cm.display.gutters.style.left = val ? compensateForHScroll(cm.display) + "px" : "0", cm.refresh();
-    }, !0), option("coverGutterNextToScrollbar", !1, function(cm) {
-        return updateScrollbars(cm);
-    }, !0), option("scrollbarStyle", "native", function(cm) {
-        initScrollbars(cm), updateScrollbars(cm), cm.display.scrollbars.setScrollTop(cm.doc.scrollTop), cm.display.scrollbars.setScrollLeft(cm.doc.scrollLeft);
-    }, !0), option("lineNumbers", !1, function(cm, val) {
-        cm.display.gutterSpecs = getGutters(cm.options.gutters, val), updateGutters(cm);
-    }, !0), option("firstLineNumber", 1, updateGutters, !0), option("lineNumberFormatter", function(integer) {
-        return integer;
-    }, updateGutters, !0), option("showCursorWhenSelecting", !1, updateSelection, !0), option("resetSelectionOnContextMenu", !0), option("lineWiseCopyCut", !0), option("pasteLinesPerSelection", !0), option("selectionsMayTouch", !1), option("readOnly", !1, function(cm, val) {
-        "nocursor" == val && (onBlur(cm), cm.display.input.blur()), cm.display.input.readOnlyChanged(val);
-    }), option("screenReaderLabel", null, function(cm, val) {
-        val = "" === val ? null : val, cm.display.input.screenReaderLabelChanged(val);
-    }), option("disableInput", !1, function(cm, val) {
-        val || cm.display.input.reset();
-    }, !0), option("dragDrop", !0, function(cm, value, old) {
-        if (!value != !(old && old != Init)) {
-            var funcs = cm.display.dragFunctions, toggle = value ? on : off;
-            toggle(cm.display.scroller, "dragstart", funcs.start), toggle(cm.display.scroller, "dragenter", funcs.enter), toggle(cm.display.scroller, "dragover", funcs.over), toggle(cm.display.scroller, "dragleave", funcs.leave), toggle(cm.display.scroller, "drop", funcs.drop);
-        }
-    }), option("allowDropFileTypes", null), option("cursorBlinkRate", 530), option("cursorScrollMargin", 0), option("cursorHeight", 1, updateSelection, !0), option("singleCursorHeightPerLine", !0, updateSelection, !0), option("workTime", 100), option("workDelay", 100), option("flattenSpans", !0, resetModeState, !0), option("addModeClass", !1, resetModeState, !0), option("pollInterval", 100), option("undoDepth", 200, function(cm, val) {
-        return cm.doc.history.undoDepth = val;
-    }), option("historyEventDelay", 1250), option("viewportMargin", 10, function(cm) {
-        return cm.refresh();
-    }, !0), option("maxHighlightLength", 10000, resetModeState, !0), option("moveInputWithCursor", !0, function(cm, val) {
-        val || cm.display.input.resetPosition();
-    }), option("tabindex", null, function(cm, val) {
-        return cm.display.input.getField().tabIndex = val || "";
-    }), option("autofocus", null), option("direction", "ltr", function(cm, val) {
-        return cm.doc.setDirection(val);
-    }, !0), option("phrases", null), optionHandlers = CodeMirror.optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
+        }, !0), option("scrollbarStyle", "native", function(cm) {
+            initScrollbars(cm), updateScrollbars(cm), cm.display.scrollbars.setScrollTop(cm.doc.scrollTop), cm.display.scrollbars.setScrollLeft(cm.doc.scrollLeft);
+        }, !0), option("lineNumbers", !1, function(cm, val) {
+            cm.display.gutterSpecs = getGutters(cm.options.gutters, val), updateGutters(cm);
+        }, !0), option("firstLineNumber", 1, updateGutters, !0), option("lineNumberFormatter", function(integer) {
+            return integer;
+        }, updateGutters, !0), option("showCursorWhenSelecting", !1, updateSelection, !0), option("resetSelectionOnContextMenu", !0), option("lineWiseCopyCut", !0), option("pasteLinesPerSelection", !0), option("selectionsMayTouch", !1), option("readOnly", !1, function(cm, val) {
+            "nocursor" == val && (onBlur(cm), cm.display.input.blur()), cm.display.input.readOnlyChanged(val);
+        }), option("screenReaderLabel", null, function(cm, val) {
+            val = "" === val ? null : val, cm.display.input.screenReaderLabelChanged(val);
+        }), option("disableInput", !1, function(cm, val) {
+            val || cm.display.input.reset();
+        }, !0), option("dragDrop", !0, dragDropChanged), option("allowDropFileTypes", null), option("cursorBlinkRate", 530), option("cursorScrollMargin", 0), option("cursorHeight", 1, updateSelection, !0), option("singleCursorHeightPerLine", !0, updateSelection, !0), option("workTime", 100), option("workDelay", 100), option("flattenSpans", !0, resetModeState, !0), option("addModeClass", !1, resetModeState, !0), option("pollInterval", 100), option("undoDepth", 200, function(cm, val) {
+            return cm.doc.history.undoDepth = val;
+        }), option("historyEventDelay", 1250), option("viewportMargin", 10, function(cm) {
+            return cm.refresh();
+        }, !0), option("maxHighlightLength", 10000, resetModeState, !0), option("moveInputWithCursor", !0, function(cm, val) {
+            val || cm.display.input.resetPosition();
+        }), option("tabindex", null, function(cm, val) {
+            return cm.display.input.getField().tabIndex = val || "";
+        }), option("autofocus", null), option("direction", "ltr", function(cm, val) {
+            return cm.doc.setDirection(val);
+        }, !0), option("phrases", null);
+    }(CodeMirror), optionHandlers = CodeMirror.optionHandlers, helpers = CodeMirror.helpers = {}, CodeMirror.prototype = {
         constructor: CodeMirror,
         focus: function() {
             window.focus(), this.display.input.focus();

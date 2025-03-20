@@ -1,4 +1,1 @@
-(()=>{
-    "use strict";
-    somethingGlobal();
-})();
+somethingGlobal();

@@ -1,2 +1,4 @@
-while(2);
-console.log(2);
+!function() {
+    while(2);
+    console.log(2);
+}();

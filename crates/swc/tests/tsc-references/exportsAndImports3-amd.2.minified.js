@@ -10,8 +10,12 @@ define([
 ], function(require, exports, _class_call_check) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    });
-    var E, D, all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports, {
         C: function() {
             return C;
         },
@@ -54,12 +58,8 @@ define([
         v1: function() {
             return v;
         }
-    };
-    for(var name in all)Object.defineProperty(exports, name, {
-        enumerable: !0,
-        get: all[name]
     });
-    var M, v = 1;
+    var E, D, M, v = 1;
     function f() {}
     var C = function C() {
         _class_call_check._(this, C);
@@ -75,8 +75,12 @@ define([
 ], function(require, exports, _t1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    });
-    var all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports, {
         C: function() {
             return _t1.C1;
         },
@@ -107,10 +111,6 @@ define([
         v: function() {
             return _t1.v1;
         }
-    };
-    for(var name in all)Object.defineProperty(exports, name, {
-        enumerable: !0,
-        get: all[name]
     });
 });
 //// [t3.ts]
@@ -121,8 +121,12 @@ define([
 ], function(require, exports, _t1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    });
-    var all = {
+    }), function(target, all) {
+        for(var name in all)Object.defineProperty(target, name, {
+            enumerable: !0,
+            get: all[name]
+        });
+    }(exports, {
         C: function() {
             return _t1.C1;
         },
@@ -153,9 +157,5 @@ define([
         v: function() {
             return _t1.v1;
         }
-    };
-    for(var name in all)Object.defineProperty(exports, name, {
-        enumerable: !0,
-        get: all[name]
     });
 });

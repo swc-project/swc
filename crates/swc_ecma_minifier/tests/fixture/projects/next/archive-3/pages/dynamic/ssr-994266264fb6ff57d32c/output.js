@@ -28,24 +28,20 @@
                 return target;
             }
             exports.default = function(dynamicOptions, options) {
-                var loadableFn = _loadable.default, loadableOptions = {
+                var loadableOptions, loadableFn = _loadable.default, loadableOptions1 = {
                     // A loading component is not required, so we default it
                     loading: function(_ref) {
                         return _ref.error, _ref.isLoading, _ref.pastDelay, null;
                     }
                 };
-                if (dynamicOptions instanceof Promise ? loadableOptions.loader = function() {
+                if (dynamicOptions instanceof Promise ? loadableOptions1.loader = function() {
                     return dynamicOptions;
-                } : "function" == typeof dynamicOptions ? loadableOptions.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), dynamicOptions)), (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), options)).loadableGenerated && (loadableOptions = _objectSpread(_objectSpread({}, loadableOptions), loadableOptions.loadableGenerated), delete loadableOptions.loadableGenerated), "boolean" == typeof loadableOptions.ssr) {
-                    if (!loadableOptions.ssr) {
-                        delete loadableOptions.ssr;
-                        var loadableOptions1 = loadableOptions;
-                        return(// Removing webpack and modules means react-loadable won't try preloading
-                        delete loadableOptions1.webpack, delete loadableOptions1.modules, loadableFn(loadableOptions1));
-                    }
-                    delete loadableOptions.ssr;
+                } : "function" == typeof dynamicOptions ? loadableOptions1.loader = dynamicOptions : "object" == typeof dynamicOptions && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), dynamicOptions)), (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), options)).loadableGenerated && (loadableOptions1 = _objectSpread(_objectSpread({}, loadableOptions1), loadableOptions1.loadableGenerated), delete loadableOptions1.loadableGenerated), "boolean" == typeof loadableOptions1.ssr) {
+                    if (!loadableOptions1.ssr) return delete loadableOptions1.ssr, loadableOptions = loadableOptions1, // Removing webpack and modules means react-loadable won't try preloading
+                    delete loadableOptions.webpack, delete loadableOptions.modules, loadableFn(loadableOptions);
+                    delete loadableOptions1.ssr;
                 }
-                return loadableFn(loadableOptions);
+                return loadableFn(loadableOptions1);
             }, _interopRequireDefault(__webpack_require__(2735));
             var _loadable = _interopRequireDefault(__webpack_require__(880));
             function _interopRequireDefault(obj) {

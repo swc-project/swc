@@ -16,26 +16,14 @@
     }) : // Browser globals
     factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var undefined1, rDividerListItem, origDefaultFilterCallback, undefined2, nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined3, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, // fakeBody required for <FF4 when executed in <head>
-    fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined4, path, $base, dialogHashKey, undefined5, path1, initialHref, undefined6, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, // base element management, defined depending on dynamic base tag support
+    var undefined1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined2, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, // fakeBody required for <FF4 when executed in <head>
+    fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined3, path, $base, dialogHashKey, undefined4, path1, initialHref, undefined5, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, // base element management, defined depending on dynamic base tag support
     // TODO move to external widget
-    base, undefined7, originalWidget, // Record the original, non-mobileinit-modified version of $.mobile.keepNative
+    base, undefined6, originalWidget, // Record the original, non-mobileinit-modified version of $.mobile.keepNative
     // so we can later determine whether someone has modified $.mobile.keepNative
-    keepNativeFactoryDefault, orig, undefined8, pageTransitionQueue, // indicates whether or not page is in process of transitioning
-    isPageTransitioning, window2, undefined9, rInitialLetter, // Construct iconpos class from iconpos value
-    iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined10;
-    function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
-        var returnValue = desired;
-        return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
-    }
-    function getWindowCoordinates(theWindow) {
-        return {
-            x: theWindow.scrollLeft(),
-            y: theWindow.scrollTop(),
-            cx: theWindow[0].innerWidth || theWindow.width(),
-            cy: theWindow[0].innerHeight || theWindow.height()
-        };
-    }
+    keepNativeFactoryDefault, orig, undefined7, pageTransitionQueue, // indicates whether or not page is in process of transitioning
+    isPageTransitioning, window2, undefined8, rInitialLetter, // Construct iconpos class from iconpos value
+    iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined9, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             // Version of the jQuery Mobile Framework
@@ -131,7 +119,7 @@
     // ensures all data is set and retrieved using jQuery Mobile's data namespace
     jQuery.fn.jqmData = function(prop, value) {
         var result;
-        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), result = arguments.length < 2 || undefined2 === value ? this.data(prop) : this.data(prop, value)), result;
+        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), result = arguments.length < 2 || undefined1 === value ? this.data(prop) : this.data(prop, value)), result;
     }, jQuery.jqmData = function(elem, prop, value) {
         var result;
         return void 0 !== prop && (result = jQuery.data(elem, prop ? jQuery.mobile.nsNormalize(prop) : prop, value)), result;
@@ -499,7 +487,7 @@
         // so the old child constructors can be garbage collected
         delete existingConstructor._childConstructors) : base._childConstructors.push(constructor), jQuery.widget.bridge(name, constructor), constructor;
     }, jQuery.widget.extend = function(target) {
-        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined3 !== value && (jQuery.isPlainObject(value) ? target[key] = jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : target[key] = value);
+        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined2 !== value && (jQuery.isPlainObject(value) ? target[key] = jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : target[key] = value);
         return target;
     }, jQuery.widget.bridge = function(name, object) {
         var fullName = object.prototype.widgetFullName || name;
@@ -510,7 +498,7 @@
                 options
             ].concat(args)) : options, isMethodCall ? this.each(function() {
                 var methodValue, instance = jQuery.data(this, fullName);
-                return "instance" === options ? (returnValue = instance, !1) : instance ? jQuery.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && undefined3 !== methodValue ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : jQuery.error("no such method '" + options + "' for " + name + " widget instance") : jQuery.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
+                return "instance" === options ? (returnValue = instance, !1) : instance ? jQuery.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && undefined2 !== methodValue ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : jQuery.error("no such method '" + options + "' for " + name + " widget instance") : jQuery.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
             }) : this.each(function() {
                 var instance = jQuery.data(this, fullName);
                 instance ? instance.option(options || {})._init() : jQuery.data(this, fullName, new object(options, this));
@@ -556,10 +544,10 @@
                 if (// handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
                 options = {}, key = (parts = key.split(".")).shift(), parts.length) {
                     for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
-                    if (key = parts.pop(), undefined3 === value) return curOption[key] === undefined3 ? null : curOption[key];
+                    if (key = parts.pop(), undefined2 === value) return curOption[key] === undefined2 ? null : curOption[key];
                     curOption[key] = value;
                 } else {
-                    if (undefined3 === value) return this.options[key] === undefined3 ? null : this.options[key];
+                    if (undefined2 === value) return this.options[key] === undefined2 ? null : this.options[key];
                     options[key] = value;
                 }
             }
@@ -1283,7 +1271,7 @@
         },
         //get path from current hash, or from a file path
         get: function(newPath) {
-            return undefined4 === newPath && (newPath = path.parseLocation().hash), path.stripHash(newPath).replace(/[^\/]*\.[^\/*]+$/, "");
+            return undefined3 === newPath && (newPath = path.parseLocation().hash), path.stripHash(newPath).replace(/[^\/]*\.[^\/*]+$/, "");
         },
         //set location hash to path
         set: function(path) {
@@ -1366,7 +1354,7 @@
             var u = path.parseUrl(path.makeUrlAbsolute(url, this.documentBase)), // Does the url have the same path as the document?
             samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, // Get the first page element.
             fp = jQuery.mobile.firstPage, // Get the id of the first page element if it has one.
-            fpId = fp && fp[0] ? fp[0].id : undefined4;
+            fpId = fp && fp[0] ? fp[0].id : undefined3;
             // The url refers to the first page if the path matches the document and
             // it either has no hash value, or the hash is exactly equal to the id
             // of the first page element.
@@ -1426,11 +1414,11 @@
             // NOTE the preference for backward history movement is driven by the fact that
             //      most mobile browsers only have a dedicated back button, and users rarely use
             //      the forward button in desktop browser anyhow
-            (closest = this.find(url, this.stack.slice(0, a))) && (closest = undefined5 === (closest = this.find(url, this.stack.slice(a), !0)) ? closest : closest + a), closest;
+            (closest = this.find(url, this.stack.slice(0, a))) && (closest = undefined4 === (closest = this.find(url, this.stack.slice(a), !0)) ? closest : closest + a), closest;
         },
         direct: function(opts) {
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
-            undefined5 !== newActiveIndex && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : undefined5 === newActiveIndex && opts.missing && opts.missing(this.getActive());
+            undefined4 !== newActiveIndex && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : undefined4 === newActiveIndex && opts.missing && opts.missing(this.getActive());
         }
     }), path1 = jQuery.mobile.path, initialHref = location.href, jQuery.mobile.Navigator = function(history1) {
         this.history = history1, this.ignoreInitialHashChange = !0, jQuery.mobile.window.bind({
@@ -1633,18 +1621,18 @@
         // Get correct name for test
         var testName = 0 === i ? test + "-name" : test;
         jQuery.each(vendorPrefixes, function(j, prefix) {
-            if (testElement.style[jQuery.camelCase(prefix + testName)] !== undefined6) return props[test].prefix = prefix, !1;
+            if (testElement.style[jQuery.camelCase(prefix + testName)] !== undefined5) return props[test].prefix = prefix, !1;
         }), // Set event and duration names for later use
         props[test].duration = jQuery.camelCase(props[test].prefix + test + "-duration"), props[test].event = jQuery.camelCase(props[test].prefix + test + "-end"), "" === props[test].prefix && (props[test].event = props[test].event.toLowerCase());
     }), // If a valid prefix was found then the it is supported by the browser
-    jQuery.support.cssTransitions = props.transition.prefix !== undefined6, jQuery.support.cssAnimations = props.animation.prefix !== undefined6, // Remove the testElement
+    jQuery.support.cssTransitions = props.transition.prefix !== undefined5, jQuery.support.cssAnimations = props.animation.prefix !== undefined5, // Remove the testElement
     jQuery(testElement).remove(), // Animation complete callback
     jQuery.fn.animationComplete = function(callback, type, fallbackTime) {
         var timer, duration, that = this, animationType = type && "animation" !== type ? "transition" : "animation";
         return(// Make sure selected type is supported by browser
-        jQuery.support.cssTransitions && "transition" === animationType || jQuery.support.cssAnimations && "animation" === animationType ? (undefined6 === fallbackTime && (jQuery(this).context !== document1 && // Parse the durration since its in second multiple by 1000 for milliseconds
+        jQuery.support.cssTransitions && "transition" === animationType || jQuery.support.cssAnimations && "animation" === animationType ? (undefined5 === fallbackTime && (jQuery(this).context !== document1 && // Parse the durration since its in second multiple by 1000 for milliseconds
         // Multiply by 3 to make sure we give the animation plenty of time.
-        (duration = 3000 * parseFloat(jQuery(this).css(props[animationType].duration))), (0 === duration || undefined6 === duration || isNaN(duration)) && (duration = jQuery.fn.animationComplete.defaultDuration)), // Sets up the fallback if event never comes
+        (duration = 3000 * parseFloat(jQuery(this).css(props[animationType].duration))), (0 === duration || undefined5 === duration || isNaN(duration)) && (duration = jQuery.fn.animationComplete.defaultDuration)), // Sets up the fallback if event never comes
         timer = setTimeout(function() {
             jQuery(that).off(props[animationType].event), callback.apply(that);
         }, duration), jQuery(this).one(props[animationType].event, function() {
@@ -2083,7 +2071,7 @@
         }
     }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, orig = jQuery.widget, jQuery.widget = function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
-        return constructor.initSelector = constructor.prototype.initSelector !== undefined7 ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
+        return constructor.initSelector = constructor.prototype.initSelector !== undefined6 ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
     }, // Make sure $.widget still has bridge and extend methods
     jQuery.extend(jQuery.widget, originalWidget), // For backcompat remove in 1.5
     jQuery.mobile.document.on("create", function(event1) {
@@ -2115,7 +2103,7 @@
             var attrPrefix = "data-" + jQuery.mobile.ns, self = this;
             this.options.role && this.element.attr("data-" + jQuery.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), // Manipulation of content os Deprecated as of 1.4 remove in 1.5
             this.element.find("[" + attrPrefix + "role='content']").each(function() {
-                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || undefined7;
+                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || undefined6;
                 self.options.contentTheme = theme || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), // Add ARIA role
                 $this.attr("role", "main").addClass("ui-content");
             });
@@ -2133,7 +2121,7 @@
             });
         },
         _setOptions: function(o) {
-            o.theme !== undefined7 && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), o.contentTheme !== undefined7 && this.element.find("[data-" + jQuery.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
+            o.theme !== undefined6 && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), o.contentTheme !== undefined6 && this.element.find("[data-" + jQuery.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
         },
         _handlePageBeforeShow: function() {
             this.setContainerBackground();
@@ -2195,7 +2183,7 @@
             }, this));
         },
         _setOptions: function(options) {
-            options.theme !== undefined8 && "none" !== options.theme ? this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme) : options.theme !== undefined8 && this.element.removeClass("ui-overlay-" + this.options.theme), this._super(options);
+            options.theme !== undefined7 && "none" !== options.theme ? this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme) : options.theme !== undefined7 && this.element.removeClass("ui-overlay-" + this.options.theme), this._super(options);
         },
         _disableRecordScroll: function() {
             this.setLastScrollEnabled = !1;
@@ -2319,7 +2307,7 @@
             // TODO stripping the hash twice with handleUrl
             var to = jQuery.mobile.path.stripHash(url), history1 = this._getHistory(), // transition is false if it's the first page, undefined
             // otherwise (and may be overridden by default)
-            transition = 0 === history1.stack.length ? "none" : undefined8, // default options for the changPage calls made after examining
+            transition = 0 === history1.stack.length ? "none" : undefined7, // default options for the changPage calls made after examining
             // the current state of the page and the hash, NOTE that the
             // transition is derived from the previous history entry
             changePageOptions = {
@@ -2434,9 +2422,9 @@
                 // Note that it is the responsibility of the listener/handler
                 // that called preventDefault(), to resolve/reject the
                 // deferred object within the triggerData.
-                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = jQuery.mobile.path.getFilePath(jQuery("<div>" + RegExp.$1 + "</div>").text())), settings.prefetch === undefined8 && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), // Add the content reference and xhr to our triggerData.
+                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = jQuery.mobile.path.getFilePath(jQuery("<div>" + RegExp.$1 + "</div>").text())), settings.prefetch === undefined7 && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), // Add the content reference and xhr to our triggerData.
                 triggerData.xhr = xhr, triggerData.textStatus = textStatus, // DEPRECATED
-                triggerData.page = content, triggerData.content = content, this._trigger("load", undefined8, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + jQuery.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), // BEGIN DEPRECATED ---------------------------------------------------
+                triggerData.page = content, triggerData.content = content, this._trigger("load", undefined7, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + jQuery.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), // BEGIN DEPRECATED ---------------------------------------------------
                 // Let listeners know the content loaded successfully.
                 this.element.trigger("pageload"), // END DEPRECATED -----------------------------------------------------
                 deferred.resolve(absUrl, settings, content));
@@ -2444,12 +2432,12 @@
         },
         _loadDefaults: {
             type: "get",
-            data: undefined8,
+            data: undefined7,
             // DEPRECATED
             reloadPage: !1,
             reload: !1,
             // By default we rely on the role defined by the @data-role attribute.
-            role: undefined8,
+            role: undefined7,
             showLoadMsg: !1,
             // This delay allows loads that pull from browser cache to
             // occur without showing the loading message.
@@ -2466,7 +2454,7 @@
             // If it isn't a reference to the first content and refers to missing
             // embedded content reject the deferred and return
             if (// DEPRECATED reloadPage
-            settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = jQuery.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined8), settings.data && "post" === settings.type && (settings.reload = !0), // The absolute version of the URL minus any dialog/subcontent params.
+            settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = jQuery.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined7), settings.data && "post" === settings.type && (settings.reload = !0), // The absolute version of the URL minus any dialog/subcontent params.
             // In otherwords the real URL of the content to be loaded.
             fileUrl = this._createFileUrl(absUrl), // The version of the Url actually stored in the data-url attribute of
             // the content. For embedded content, it is just the id of the page. For
@@ -2496,7 +2484,7 @@
                 options: settings
             }, !(// Let listeners know we're about to load content.
             (pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented())) {
-                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), settings.prefetch === undefined8 && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) {
+                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), settings.prefetch === undefined7 && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) {
                     deferred.reject(absUrl, settings);
                     return;
                 }
@@ -2675,7 +2663,7 @@
                 // If this is a deep-link or a reload ( active === undefined ) then just
                 // use pageTitle
                 (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document1.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), // Make sure we have a transition defined.
-                settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined8) || (isDialog ? jQuery.mobile.defaultDialogTransition : jQuery.mobile.defaultPageTransition), !historyDir && alreadyThere && (jQuery.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!jQuery.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), // TODO the property names here are just silly
+                settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined7) || (isDialog ? jQuery.mobile.defaultDialogTransition : jQuery.mobile.defaultPageTransition), !historyDir && alreadyThere && (jQuery.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!jQuery.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), // TODO the property names here are just silly
                 params = {
                     transition: settings.transition,
                     title: pageTitle,
@@ -3177,10 +3165,10 @@
         },
         _applyOptions: function(options) {
             var isCollapsed, newTheme, oldTheme, hasCorners, hasIcon, elem = this.element, currentOpts = this._renderedOptions, ui = this._ui, anchor = ui.anchor, status = ui.status, opts = this._getOptions(options);
-            void 0 !== options.collapsed && this._handleExpandCollapse(options.collapsed), (isCollapsed = elem.hasClass("ui-collapsible-collapsed")) ? opts.expandCueText !== undefined9 && status.text(opts.expandCueText) : opts.collapseCueText !== undefined9 && status.text(opts.collapseCueText), // Update icon
+            void 0 !== options.collapsed && this._handleExpandCollapse(options.collapsed), (isCollapsed = elem.hasClass("ui-collapsible-collapsed")) ? opts.expandCueText !== undefined8 && status.text(opts.expandCueText) : opts.collapseCueText !== undefined8 && status.text(opts.collapseCueText), // Update icon
             // Is it supposed to have an icon?
             hasIcon = // If the collapsedIcon is being set, consult that
-            opts.collapsedIcon !== undefined9 ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, (opts.iconpos !== undefined9 || opts.collapsedIcon !== undefined9 || opts.expandedIcon !== undefined9) && (// Remove all current icon-related classes
+            opts.collapsedIcon !== undefined8 ? !1 !== opts.collapsedIcon : !1 !== currentOpts.collapsedIcon, (opts.iconpos !== undefined8 || opts.collapsedIcon !== undefined8 || opts.expandedIcon !== undefined8) && (// Remove all current icon-related classes
             anchor.removeClass([
                 iconposClass(currentOpts.iconpos)
             ].concat(currentOpts.expandedIcon ? [
@@ -3188,12 +3176,12 @@
             ] : []).concat(currentOpts.collapsedIcon ? [
                 "ui-icon-" + currentOpts.collapsedIcon
             ] : []).join(" ")), hasIcon && anchor.addClass([
-                iconposClass(opts.iconpos !== undefined9 ? opts.iconpos : currentOpts.iconpos)
+                iconposClass(opts.iconpos !== undefined8 ? opts.iconpos : currentOpts.iconpos)
             ].concat(isCollapsed ? [
-                "ui-icon-" + (opts.collapsedIcon !== undefined9 ? opts.collapsedIcon : currentOpts.collapsedIcon)
+                "ui-icon-" + (opts.collapsedIcon !== undefined8 ? opts.collapsedIcon : currentOpts.collapsedIcon)
             ] : [
-                "ui-icon-" + (opts.expandedIcon !== undefined9 ? opts.expandedIcon : currentOpts.expandedIcon)
-            ]).join(" "))), opts.theme !== undefined9 && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), opts.contentTheme !== undefined9 && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), opts.inset !== undefined9 && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), opts.corners !== undefined9 && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), undefined9 !== hasCorners && elem.toggleClass("ui-corner-all", hasCorners), opts.mini !== undefined9 && anchor.toggleClass("ui-mini", opts.mini);
+                "ui-icon-" + (opts.expandedIcon !== undefined8 ? opts.expandedIcon : currentOpts.expandedIcon)
+            ]).join(" "))), opts.theme !== undefined8 && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), opts.contentTheme !== undefined8 && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), opts.inset !== undefined8 && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), opts.corners !== undefined8 && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), undefined8 !== hasCorners && elem.toggleClass("ui-corner-all", hasCorners), opts.mini !== undefined8 && anchor.toggleClass("ui-mini", opts.mini);
         },
         _setOptions: function(options) {
             this._applyOptions(options), this._super(options), this._renderedOptions = this._getOptions(this.options);
@@ -4406,398 +4394,412 @@
             var idref = this.getAttribute("href").substring(1);
             idref && (this.setAttribute("aria-haspopup", !0), this.setAttribute("aria-owns", idref), this.setAttribute("aria-expanded", !1));
         }).end().not(".ui-btn, :jqmData(role='none'), :jqmData(role='nojs')").addClass("ui-link");
-    }, jQuery.widget("mobile.popup", {
-        options: {
-            wrapperClass: null,
-            theme: null,
-            overlayTheme: null,
-            shadow: !0,
-            corners: !0,
-            transition: "none",
-            positionTo: "origin",
-            tolerance: null,
-            closeLinkSelector: "a:jqmData(rel='back')",
-            closeLinkEvents: "click.popup",
-            navigateEvents: "navigate.popup",
-            closeEvents: "navigate.popup pagebeforechange.popup",
-            dismissible: !0,
-            enhanced: !1,
-            // NOTE Windows Phone 7 has a scroll position caching issue that
-            //      requires us to disable popup history management by default
-            //      https://github.com/jquery/jquery-mobile/issues/4784
-            //
-            // NOTE this option is modified in _create!
-            history: !jQuery.mobile.browser.oldIE
-        },
-        _create: function() {
-            var theElement = this.element, myId = theElement.attr("id"), currentOptions = this.options;
-            // We need to adjust the history option to be false if there's no AJAX nav.
-            // We can't do it in the option declarations because those are run before
-            // it is determined whether there shall be AJAX nav.
-            currentOptions.history = currentOptions.history && jQuery.mobile.ajaxEnabled && jQuery.mobile.hashListeningEnabled, // Define instance variables
-            jQuery.extend(this, {
-                _scrollTop: 0,
-                _page: theElement.closest(".ui-page"),
-                _ui: null,
-                _fallbackTransition: "",
-                _currentTransition: !1,
-                _prerequisites: null,
-                _isOpen: !1,
-                _tolerance: null,
-                _resizeData: null,
-                _ignoreResizeTo: 0,
-                _orientationchangeInProgress: !1
-            }), 0 === this._page.length && (this._page = jQuery("body")), currentOptions.enhanced ? this._ui = {
-                container: theElement.parent(),
-                screen: theElement.parent().prev(),
-                placeholder: jQuery(this.document[0].getElementById(myId + "-placeholder"))
-            } : (this._ui = this._enhance(theElement, myId), this._applyTransition(currentOptions.transition)), this._setTolerance(currentOptions.tolerance)._ui.focusElement = this._ui.container, // Event handlers
-            this._on(this._ui.screen, {
-                vclick: "_eatEventAndClose"
-            }), this._on(this.window, {
-                orientationchange: jQuery.proxy(this, "_handleWindowOrientationchange"),
-                resize: jQuery.proxy(this, "_handleWindowResize"),
-                keyup: jQuery.proxy(this, "_handleWindowKeyUp")
-            }), this._on(this.document, {
-                focusin: "_handleDocumentFocusIn"
-            });
-        },
-        _enhance: function(theElement, myId) {
-            var currentOptions = this.options, wrapperClass = currentOptions.wrapperClass, ui = {
-                screen: jQuery("<div class='ui-screen-hidden ui-popup-screen " + this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme) + "'></div>"),
-                placeholder: jQuery("<div style='display: none;'><!-- placeholder --></div>"),
-                container: jQuery("<div class='ui-popup-container ui-popup-hidden ui-popup-truncate" + (wrapperClass ? " " + wrapperClass : "") + "'></div>")
-            }, fragment = this.document[0].createDocumentFragment();
-            return fragment.appendChild(ui.screen[0]), fragment.appendChild(ui.container[0]), myId && (ui.screen.attr("id", myId + "-screen"), ui.container.attr("id", myId + "-popup"), ui.placeholder.attr("id", myId + "-placeholder").html("<!-- placeholder for " + myId + " -->")), // Apply the proto
-            this._page[0].appendChild(fragment), // Leave a placeholder where the element used to be
-            ui.placeholder.insertAfter(theElement), theElement.detach().addClass("ui-popup " + this._themeClassFromOption("ui-body-", currentOptions.theme) + " " + (currentOptions.shadow ? "ui-overlay-shadow " : "") + (currentOptions.corners ? "ui-corner-all " : "")).appendTo(ui.container), ui;
-        },
-        _eatEventAndClose: function(theEvent) {
-            return theEvent.preventDefault(), theEvent.stopImmediatePropagation(), this.options.dismissible && this.close(), !1;
-        },
-        // Make sure the screen covers the entire document - CSS is sometimes not
-        // enough to accomplish this.
-        _resizeScreen: function() {
-            var screen1 = this._ui.screen, popupHeight = this._ui.container.outerHeight(!0), screenHeight = screen1.removeAttr("style").height(), // Subtracting 1 here is necessary for an obscure Andrdoid 4.0 bug where
-            // the browser hangs if the screen covers the entire document :/
-            documentHeight = this.document.height() - 1;
-            screenHeight < documentHeight ? screen1.height(documentHeight) : popupHeight > screenHeight && screen1.height(popupHeight);
-        },
-        _handleWindowKeyUp: function(theEvent) {
-            if (this._isOpen && theEvent.keyCode === jQuery.mobile.keyCode.ESCAPE) return this._eatEventAndClose(theEvent);
-        },
-        _expectResizeEvent: function() {
-            var windowCoordinates = getWindowCoordinates(this.window);
-            if (this._resizeData) {
-                if (windowCoordinates.x === this._resizeData.windowCoordinates.x && windowCoordinates.y === this._resizeData.windowCoordinates.y && windowCoordinates.cx === this._resizeData.windowCoordinates.cx && windowCoordinates.cy === this._resizeData.windowCoordinates.cy) // timeout not refreshed
-                return !1;
-                // clear existing timeout - it will be refreshed below
-                clearTimeout(this._resizeData.timeoutId);
-            }
-            return this._resizeData = {
-                timeoutId: this._delay("_resizeTimeout", 200),
-                windowCoordinates: windowCoordinates
-            }, !0;
-        },
-        _resizeTimeout: function() {
-            this._isOpen ? this._expectResizeEvent() || (this._ui.container.hasClass("ui-popup-hidden") && (// effectively rapid-open the popup while leaving the screen intact
-            this._ui.container.removeClass("ui-popup-hidden ui-popup-truncate"), this.reposition({
-                positionTo: "window"
-            }), this._ignoreResizeEvents()), this._resizeScreen(), this._resizeData = null, this._orientationchangeInProgress = !1) : (this._resizeData = null, this._orientationchangeInProgress = !1);
-        },
-        _stopIgnoringResizeEvents: function() {
-            this._ignoreResizeTo = 0;
-        },
-        _ignoreResizeEvents: function() {
-            this._ignoreResizeTo && clearTimeout(this._ignoreResizeTo), this._ignoreResizeTo = this._delay("_stopIgnoringResizeEvents", 1000);
-        },
-        _handleWindowResize: function() {
-            this._isOpen && 0 === this._ignoreResizeTo && (this._expectResizeEvent() || this._orientationchangeInProgress) && !this._ui.container.hasClass("ui-popup-hidden") && // effectively rapid-close the popup while leaving the screen intact
-            this._ui.container.addClass("ui-popup-hidden ui-popup-truncate").removeAttr("style");
-        },
-        _handleWindowOrientationchange: function() {
-            !this._orientationchangeInProgress && this._isOpen && 0 === this._ignoreResizeTo && (this._expectResizeEvent(), this._orientationchangeInProgress = !0);
-        },
-        // When the popup is open, attempting to focus on an element that is not a
-        // child of the popup will redirect focus to the popup
-        _handleDocumentFocusIn: function(theEvent) {
-            var target, targetElement = theEvent.target, ui = this._ui;
-            if (this._isOpen) {
-                if (targetElement !== ui.container[0]) {
-                    if (0 === (target = jQuery(targetElement)).parents().filter(ui.container[0]).length) return jQuery(this.document[0].activeElement).one("focus", function() {
-                        target.blur();
-                    }), ui.focusElement.focus(), theEvent.preventDefault(), theEvent.stopImmediatePropagation(), !1;
-                    ui.focusElement[0] === ui.container[0] && (ui.focusElement = target);
+    }, function($, undefined) {
+        function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
+            var returnValue = desired;
+            return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
+        }
+        function getWindowCoordinates(theWindow) {
+            return {
+                x: theWindow.scrollLeft(),
+                y: theWindow.scrollTop(),
+                cx: theWindow[0].innerWidth || theWindow.width(),
+                cy: theWindow[0].innerHeight || theWindow.height()
+            };
+        }
+        $.widget("mobile.popup", {
+            options: {
+                wrapperClass: null,
+                theme: null,
+                overlayTheme: null,
+                shadow: !0,
+                corners: !0,
+                transition: "none",
+                positionTo: "origin",
+                tolerance: null,
+                closeLinkSelector: "a:jqmData(rel='back')",
+                closeLinkEvents: "click.popup",
+                navigateEvents: "navigate.popup",
+                closeEvents: "navigate.popup pagebeforechange.popup",
+                dismissible: !0,
+                enhanced: !1,
+                // NOTE Windows Phone 7 has a scroll position caching issue that
+                //      requires us to disable popup history management by default
+                //      https://github.com/jquery/jquery-mobile/issues/4784
+                //
+                // NOTE this option is modified in _create!
+                history: !$.mobile.browser.oldIE
+            },
+            _create: function() {
+                var theElement = this.element, myId = theElement.attr("id"), currentOptions = this.options;
+                // We need to adjust the history option to be false if there's no AJAX nav.
+                // We can't do it in the option declarations because those are run before
+                // it is determined whether there shall be AJAX nav.
+                currentOptions.history = currentOptions.history && $.mobile.ajaxEnabled && $.mobile.hashListeningEnabled, // Define instance variables
+                $.extend(this, {
+                    _scrollTop: 0,
+                    _page: theElement.closest(".ui-page"),
+                    _ui: null,
+                    _fallbackTransition: "",
+                    _currentTransition: !1,
+                    _prerequisites: null,
+                    _isOpen: !1,
+                    _tolerance: null,
+                    _resizeData: null,
+                    _ignoreResizeTo: 0,
+                    _orientationchangeInProgress: !1
+                }), 0 === this._page.length && (this._page = $("body")), currentOptions.enhanced ? this._ui = {
+                    container: theElement.parent(),
+                    screen: theElement.parent().prev(),
+                    placeholder: $(this.document[0].getElementById(myId + "-placeholder"))
+                } : (this._ui = this._enhance(theElement, myId), this._applyTransition(currentOptions.transition)), this._setTolerance(currentOptions.tolerance)._ui.focusElement = this._ui.container, // Event handlers
+                this._on(this._ui.screen, {
+                    vclick: "_eatEventAndClose"
+                }), this._on(this.window, {
+                    orientationchange: $.proxy(this, "_handleWindowOrientationchange"),
+                    resize: $.proxy(this, "_handleWindowResize"),
+                    keyup: $.proxy(this, "_handleWindowKeyUp")
+                }), this._on(this.document, {
+                    focusin: "_handleDocumentFocusIn"
+                });
+            },
+            _enhance: function(theElement, myId) {
+                var currentOptions = this.options, wrapperClass = currentOptions.wrapperClass, ui = {
+                    screen: $("<div class='ui-screen-hidden ui-popup-screen " + this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme) + "'></div>"),
+                    placeholder: $("<div style='display: none;'><!-- placeholder --></div>"),
+                    container: $("<div class='ui-popup-container ui-popup-hidden ui-popup-truncate" + (wrapperClass ? " " + wrapperClass : "") + "'></div>")
+                }, fragment = this.document[0].createDocumentFragment();
+                return fragment.appendChild(ui.screen[0]), fragment.appendChild(ui.container[0]), myId && (ui.screen.attr("id", myId + "-screen"), ui.container.attr("id", myId + "-popup"), ui.placeholder.attr("id", myId + "-placeholder").html("<!-- placeholder for " + myId + " -->")), // Apply the proto
+                this._page[0].appendChild(fragment), // Leave a placeholder where the element used to be
+                ui.placeholder.insertAfter(theElement), theElement.detach().addClass("ui-popup " + this._themeClassFromOption("ui-body-", currentOptions.theme) + " " + (currentOptions.shadow ? "ui-overlay-shadow " : "") + (currentOptions.corners ? "ui-corner-all " : "")).appendTo(ui.container), ui;
+            },
+            _eatEventAndClose: function(theEvent) {
+                return theEvent.preventDefault(), theEvent.stopImmediatePropagation(), this.options.dismissible && this.close(), !1;
+            },
+            // Make sure the screen covers the entire document - CSS is sometimes not
+            // enough to accomplish this.
+            _resizeScreen: function() {
+                var screen1 = this._ui.screen, popupHeight = this._ui.container.outerHeight(!0), screenHeight = screen1.removeAttr("style").height(), // Subtracting 1 here is necessary for an obscure Andrdoid 4.0 bug where
+                // the browser hangs if the screen covers the entire document :/
+                documentHeight = this.document.height() - 1;
+                screenHeight < documentHeight ? screen1.height(documentHeight) : popupHeight > screenHeight && screen1.height(popupHeight);
+            },
+            _handleWindowKeyUp: function(theEvent) {
+                if (this._isOpen && theEvent.keyCode === $.mobile.keyCode.ESCAPE) return this._eatEventAndClose(theEvent);
+            },
+            _expectResizeEvent: function() {
+                var windowCoordinates = getWindowCoordinates(this.window);
+                if (this._resizeData) {
+                    if (windowCoordinates.x === this._resizeData.windowCoordinates.x && windowCoordinates.y === this._resizeData.windowCoordinates.y && windowCoordinates.cx === this._resizeData.windowCoordinates.cx && windowCoordinates.cy === this._resizeData.windowCoordinates.cy) // timeout not refreshed
+                    return !1;
+                    // clear existing timeout - it will be refreshed below
+                    clearTimeout(this._resizeData.timeoutId);
                 }
-                this._ignoreResizeEvents();
-            }
-        },
-        _themeClassFromOption: function(prefix, value) {
-            return value ? "none" === value ? "" : prefix + value : prefix + "inherit";
-        },
-        _applyTransition: function(value) {
-            return value && (this._ui.container.removeClass(this._fallbackTransition), "none" !== value && (this._fallbackTransition = jQuery.mobile._maybeDegradeTransition(value), "none" === this._fallbackTransition && (this._fallbackTransition = ""), this._ui.container.addClass(this._fallbackTransition))), this;
-        },
-        _setOptions: function(newOptions) {
-            var currentOptions = this.options, theElement = this.element, screen1 = this._ui.screen;
-            return void 0 !== newOptions.wrapperClass && this._ui.container.removeClass(currentOptions.wrapperClass).addClass(newOptions.wrapperClass), newOptions.theme !== undefined10 && theElement.removeClass(this._themeClassFromOption("ui-body-", currentOptions.theme)).addClass(this._themeClassFromOption("ui-body-", newOptions.theme)), newOptions.overlayTheme !== undefined10 && (screen1.removeClass(this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme)).addClass(this._themeClassFromOption("ui-overlay-", newOptions.overlayTheme)), this._isOpen && screen1.addClass("in")), newOptions.shadow !== undefined10 && theElement.toggleClass("ui-overlay-shadow", newOptions.shadow), newOptions.corners !== undefined10 && theElement.toggleClass("ui-corner-all", newOptions.corners), newOptions.transition === undefined10 || this._currentTransition || this._applyTransition(newOptions.transition), newOptions.tolerance !== undefined10 && this._setTolerance(newOptions.tolerance), newOptions.disabled !== undefined10 && newOptions.disabled && this.close(), this._super(newOptions);
-        },
-        _setTolerance: function(value) {
-            var ar, tol = {
-                t: 30,
-                r: 15,
-                b: 30,
-                l: 15
-            };
-            if (undefined10 !== value) switch(ar = String(value).split(","), jQuery.each(ar, function(idx, val) {
-                ar[idx] = parseInt(val, 10);
-            }), ar.length){
-                // All values are to be the same
-                case 1:
-                    isNaN(ar[0]) || (tol.t = tol.r = tol.b = tol.l = ar[0]);
-                    break;
-                // The first value denotes top/bottom tolerance, and the second value denotes left/right tolerance
-                case 2:
-                    isNaN(ar[0]) || (tol.t = tol.b = ar[0]), isNaN(ar[1]) || (tol.l = tol.r = ar[1]);
-                    break;
-                // The array contains values in the order top, right, bottom, left
-                case 4:
-                    isNaN(ar[0]) || (tol.t = ar[0]), isNaN(ar[1]) || (tol.r = ar[1]), isNaN(ar[2]) || (tol.b = ar[2]), isNaN(ar[3]) || (tol.l = ar[3]);
-            }
-            return this._tolerance = tol, this;
-        },
-        _clampPopupWidth: function(infoOnly) {
-            var windowCoordinates = getWindowCoordinates(this.window), // rectangle within which the popup must fit
-            rectangle = {
-                x: this._tolerance.l,
-                y: windowCoordinates.y + this._tolerance.t,
-                cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
-                cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b
-            };
-            return infoOnly || // Clamp the width of the menu before grabbing its size
-            this._ui.container.css("max-width", rectangle.cx), {
-                rc: rectangle,
-                menuSize: {
-                    cx: this._ui.container.outerWidth(!0),
-                    cy: this._ui.container.outerHeight(!0)
-                }
-            };
-        },
-        _calculateFinalLocation: function(desired, clampInfo) {
-            var returnValue, rectangle = clampInfo.rc, menuSize = clampInfo.menuSize;
-            return(// Make sure the top of the menu is visible
-            // Center the menu over the desired coordinates, while not going outside
-            // the window tolerances. This will center wrt. the window if the popup is
-            // too large.
-            (returnValue = {
-                left: fitSegmentInsideSegment(rectangle.cx, menuSize.cx, rectangle.x, desired.x),
-                top: fitSegmentInsideSegment(rectangle.cy, menuSize.cy, rectangle.y, desired.y)
-            }).top = Math.max(0, returnValue.top), // If the height of the menu is smaller than the height of the document
-            // align the bottom with the bottom of the document
-            returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue);
-        },
-        // Try and center the overlay over the given coordinates
-        _placementCoords: function(desired) {
-            return this._calculateFinalLocation(desired, this._clampPopupWidth());
-        },
-        _createPrerequisites: function(screenPrerequisite, containerPrerequisite, whenDone) {
-            var prerequisites, self = this;
-            // It is important to maintain both the local variable prerequisites and
-            // self._prerequisites. The local variable remains in the closure of the
-            // functions which call the callbacks passed in. The comparison between the
-            // local variable and self._prerequisites is necessary, because once a
-            // function has been passed to .animationComplete() it will be called next
-            // time an animation completes, even if that's not the animation whose end
-            // the function was supposed to catch (for example, if an abort happens
-            // during the opening animation, the .animationComplete handler is not
-            // called for that animation anymore, but the handler remains attached, so
-            // it is called the next time the popup is opened - making it stale.
-            // Comparing the local variable prerequisites to the widget-level variable
-            // self._prerequisites ensures that callbacks triggered by a stale
-            // .animationComplete will be ignored.
-            (prerequisites = {
-                screen: jQuery.Deferred(),
-                container: jQuery.Deferred()
-            }).screen.then(function() {
-                prerequisites === self._prerequisites && screenPrerequisite();
-            }), prerequisites.container.then(function() {
-                prerequisites === self._prerequisites && containerPrerequisite();
-            }), jQuery.when(prerequisites.screen, prerequisites.container).done(function() {
-                prerequisites === self._prerequisites && (self._prerequisites = null, whenDone());
-            }), self._prerequisites = prerequisites;
-        },
-        _animate: function(args) {
-            if (// NOTE before removing the default animation of the screen
-            //      this had an animate callback that would resolve the deferred
-            //      now the deferred is resolved immediately
-            // TODO remove the dependency on the screen deferred
-            this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) {
-                this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete(jQuery.proxy(args.prerequisites.container, "resolve"));
-                return;
-            }
-            this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
-        },
-        // The desired coordinates passed in will be returned untouched if no reference element can be identified via
-        // desiredPosition.positionTo. Nevertheless, this function ensures that its return value always contains valid
-        // x and y coordinates by specifying the center middle of the window if the coordinates are absent.
-        // options: { x: coordinate, y: coordinate, positionTo: string: "origin", "window", or jQuery selector
-        _desiredCoords: function(openOptions) {
-            var offset, dst = null, windowCoordinates = getWindowCoordinates(this.window), x = openOptions.x, y = openOptions.y, pTo = openOptions.positionTo;
-            // Establish which element will serve as the reference
-            if (pTo && "origin" !== pTo) {
-                if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
-                else {
-                    try {
-                        dst = jQuery(pTo);
-                    } catch (err) {
-                        dst = null;
+                return this._resizeData = {
+                    timeoutId: this._delay("_resizeTimeout", 200),
+                    windowCoordinates: windowCoordinates
+                }, !0;
+            },
+            _resizeTimeout: function() {
+                this._isOpen ? this._expectResizeEvent() || (this._ui.container.hasClass("ui-popup-hidden") && (// effectively rapid-open the popup while leaving the screen intact
+                this._ui.container.removeClass("ui-popup-hidden ui-popup-truncate"), this.reposition({
+                    positionTo: "window"
+                }), this._ignoreResizeEvents()), this._resizeScreen(), this._resizeData = null, this._orientationchangeInProgress = !1) : (this._resizeData = null, this._orientationchangeInProgress = !1);
+            },
+            _stopIgnoringResizeEvents: function() {
+                this._ignoreResizeTo = 0;
+            },
+            _ignoreResizeEvents: function() {
+                this._ignoreResizeTo && clearTimeout(this._ignoreResizeTo), this._ignoreResizeTo = this._delay("_stopIgnoringResizeEvents", 1000);
+            },
+            _handleWindowResize: function() {
+                this._isOpen && 0 === this._ignoreResizeTo && (this._expectResizeEvent() || this._orientationchangeInProgress) && !this._ui.container.hasClass("ui-popup-hidden") && // effectively rapid-close the popup while leaving the screen intact
+                this._ui.container.addClass("ui-popup-hidden ui-popup-truncate").removeAttr("style");
+            },
+            _handleWindowOrientationchange: function() {
+                !this._orientationchangeInProgress && this._isOpen && 0 === this._ignoreResizeTo && (this._expectResizeEvent(), this._orientationchangeInProgress = !0);
+            },
+            // When the popup is open, attempting to focus on an element that is not a
+            // child of the popup will redirect focus to the popup
+            _handleDocumentFocusIn: function(theEvent) {
+                var target, targetElement = theEvent.target, ui = this._ui;
+                if (this._isOpen) {
+                    if (targetElement !== ui.container[0]) {
+                        if (0 === (target = $(targetElement)).parents().filter(ui.container[0]).length) return $(this.document[0].activeElement).one("focus", function() {
+                            target.blur();
+                        }), ui.focusElement.focus(), theEvent.preventDefault(), theEvent.stopImmediatePropagation(), !1;
+                        ui.focusElement[0] === ui.container[0] && (ui.focusElement = target);
                     }
-                    dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
+                    this._ignoreResizeEvents();
                 }
-            }
-            return dst && (x = (offset = dst.offset()).left + dst.outerWidth() / 2, y = offset.top + dst.outerHeight() / 2), ("number" !== jQuery.type(x) || isNaN(x)) && (x = windowCoordinates.cx / 2 + windowCoordinates.x), ("number" !== jQuery.type(y) || isNaN(y)) && (y = windowCoordinates.cy / 2 + windowCoordinates.y), {
-                x: x,
-                y: y
-            };
-        },
-        _reposition: function(openOptions) {
-            // We only care about position-related parameters for repositioning
-            openOptions = {
-                x: openOptions.x,
-                y: openOptions.y,
-                positionTo: openOptions.positionTo
-            }, this._trigger("beforeposition", undefined10, openOptions), this._ui.container.offset(this._placementCoords(this._desiredCoords(openOptions)));
-        },
-        reposition: function(openOptions) {
-            this._isOpen && this._reposition(openOptions);
-        },
-        _openPrerequisitesComplete: function() {
-            var id = this.element.attr("id");
-            this._ui.container.addClass("ui-popup-active"), this._isOpen = !0, this._resizeScreen(), this._ui.container.attr("tabindex", "0").focus(), this._ignoreResizeEvents(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !0), this._trigger("afteropen");
-        },
-        _open: function(options) {
-            var ua, // Rendering engine is Webkit, and capture major version
-            wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = jQuery.extend({}, this.options, options), // TODO move blacklist to private method
-            androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], andversion = !!(androidmatch = ua.match(/Android (\d+(?:\.\d+))/)) && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && !!(wkversion > 534.13) && !chromematch);
-            // Count down to triggering "popupafteropen" - we have two prerequisites:
-            // 1. The popup window animation completes (container())
-            // 2. The screen opacity animation completes (screen())
-            this._createPrerequisites(jQuery.noop, jQuery.noop, jQuery.proxy(this, "_openPrerequisitesComplete")), this._currentTransition = openOptions.transition, this._applyTransition(openOptions.transition), this._ui.screen.removeClass("ui-screen-hidden"), this._ui.container.removeClass("ui-popup-truncate"), // Give applications a chance to modify the contents of the container before it appears
-            this._reposition(openOptions), this._ui.container.removeClass("ui-popup-hidden"), this.options.overlayTheme && androidBlacklist && /* TODO: The native browser on Android 4.0.X ("Ice Cream Sandwich") suffers from an issue where the popup overlay appears to be z-indexed above the popup itself when certain other styles exist on the same page -- namely, any element set to `position: fixed` and certain types of input. These issues are reminiscent of previously uncovered bugs in older versions of Android's native browser: https://github.com/scottjehl/Device-Bugs/issues/3
+            },
+            _themeClassFromOption: function(prefix, value) {
+                return value ? "none" === value ? "" : prefix + value : prefix + "inherit";
+            },
+            _applyTransition: function(value) {
+                return value && (this._ui.container.removeClass(this._fallbackTransition), "none" !== value && (this._fallbackTransition = $.mobile._maybeDegradeTransition(value), "none" === this._fallbackTransition && (this._fallbackTransition = ""), this._ui.container.addClass(this._fallbackTransition))), this;
+            },
+            _setOptions: function(newOptions) {
+                var currentOptions = this.options, theElement = this.element, screen1 = this._ui.screen;
+                return void 0 !== newOptions.wrapperClass && this._ui.container.removeClass(currentOptions.wrapperClass).addClass(newOptions.wrapperClass), void 0 !== newOptions.theme && theElement.removeClass(this._themeClassFromOption("ui-body-", currentOptions.theme)).addClass(this._themeClassFromOption("ui-body-", newOptions.theme)), newOptions.overlayTheme !== undefined && (screen1.removeClass(this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme)).addClass(this._themeClassFromOption("ui-overlay-", newOptions.overlayTheme)), this._isOpen && screen1.addClass("in")), newOptions.shadow !== undefined && theElement.toggleClass("ui-overlay-shadow", newOptions.shadow), newOptions.corners !== undefined && theElement.toggleClass("ui-corner-all", newOptions.corners), newOptions.transition === undefined || this._currentTransition || this._applyTransition(newOptions.transition), newOptions.tolerance !== undefined && this._setTolerance(newOptions.tolerance), newOptions.disabled !== undefined && newOptions.disabled && this.close(), this._super(newOptions);
+            },
+            _setTolerance: function(value) {
+                var ar, tol = {
+                    t: 30,
+                    r: 15,
+                    b: 30,
+                    l: 15
+                };
+                if (undefined !== value) switch(ar = String(value).split(","), $.each(ar, function(idx, val) {
+                    ar[idx] = parseInt(val, 10);
+                }), ar.length){
+                    // All values are to be the same
+                    case 1:
+                        isNaN(ar[0]) || (tol.t = tol.r = tol.b = tol.l = ar[0]);
+                        break;
+                    // The first value denotes top/bottom tolerance, and the second value denotes left/right tolerance
+                    case 2:
+                        isNaN(ar[0]) || (tol.t = tol.b = ar[0]), isNaN(ar[1]) || (tol.l = tol.r = ar[1]);
+                        break;
+                    // The array contains values in the order top, right, bottom, left
+                    case 4:
+                        isNaN(ar[0]) || (tol.t = ar[0]), isNaN(ar[1]) || (tol.r = ar[1]), isNaN(ar[2]) || (tol.b = ar[2]), isNaN(ar[3]) || (tol.l = ar[3]);
+                }
+                return this._tolerance = tol, this;
+            },
+            _clampPopupWidth: function(infoOnly) {
+                var windowCoordinates = getWindowCoordinates(this.window), // rectangle within which the popup must fit
+                rectangle = {
+                    x: this._tolerance.l,
+                    y: windowCoordinates.y + this._tolerance.t,
+                    cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
+                    cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b
+                };
+                return infoOnly || // Clamp the width of the menu before grabbing its size
+                this._ui.container.css("max-width", rectangle.cx), {
+                    rc: rectangle,
+                    menuSize: {
+                        cx: this._ui.container.outerWidth(!0),
+                        cy: this._ui.container.outerHeight(!0)
+                    }
+                };
+            },
+            _calculateFinalLocation: function(desired, clampInfo) {
+                var returnValue, rectangle = clampInfo.rc, menuSize = clampInfo.menuSize;
+                return(// Make sure the top of the menu is visible
+                // Center the menu over the desired coordinates, while not going outside
+                // the window tolerances. This will center wrt. the window if the popup is
+                // too large.
+                (returnValue = {
+                    left: fitSegmentInsideSegment(rectangle.cx, menuSize.cx, rectangle.x, desired.x),
+                    top: fitSegmentInsideSegment(rectangle.cy, menuSize.cy, rectangle.y, desired.y)
+                }).top = Math.max(0, returnValue.top), // If the height of the menu is smaller than the height of the document
+                // align the bottom with the bottom of the document
+                returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue);
+            },
+            // Try and center the overlay over the given coordinates
+            _placementCoords: function(desired) {
+                return this._calculateFinalLocation(desired, this._clampPopupWidth());
+            },
+            _createPrerequisites: function(screenPrerequisite, containerPrerequisite, whenDone) {
+                var prerequisites, self = this;
+                // It is important to maintain both the local variable prerequisites and
+                // self._prerequisites. The local variable remains in the closure of the
+                // functions which call the callbacks passed in. The comparison between the
+                // local variable and self._prerequisites is necessary, because once a
+                // function has been passed to .animationComplete() it will be called next
+                // time an animation completes, even if that's not the animation whose end
+                // the function was supposed to catch (for example, if an abort happens
+                // during the opening animation, the .animationComplete handler is not
+                // called for that animation anymore, but the handler remains attached, so
+                // it is called the next time the popup is opened - making it stale.
+                // Comparing the local variable prerequisites to the widget-level variable
+                // self._prerequisites ensures that callbacks triggered by a stale
+                // .animationComplete will be ignored.
+                (prerequisites = {
+                    screen: $.Deferred(),
+                    container: $.Deferred()
+                }).screen.then(function() {
+                    prerequisites === self._prerequisites && screenPrerequisite();
+                }), prerequisites.container.then(function() {
+                    prerequisites === self._prerequisites && containerPrerequisite();
+                }), $.when(prerequisites.screen, prerequisites.container).done(function() {
+                    prerequisites === self._prerequisites && (self._prerequisites = null, whenDone());
+                }), self._prerequisites = prerequisites;
+            },
+            _animate: function(args) {
+                if (// NOTE before removing the default animation of the screen
+                //      this had an animate callback that would resolve the deferred
+                //      now the deferred is resolved immediately
+                // TODO remove the dependency on the screen deferred
+                this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) {
+                    this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete($.proxy(args.prerequisites.container, "resolve"));
+                    return;
+                }
+                this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
+            },
+            // The desired coordinates passed in will be returned untouched if no reference element can be identified via
+            // desiredPosition.positionTo. Nevertheless, this function ensures that its return value always contains valid
+            // x and y coordinates by specifying the center middle of the window if the coordinates are absent.
+            // options: { x: coordinate, y: coordinate, positionTo: string: "origin", "window", or jQuery selector
+            _desiredCoords: function(openOptions) {
+                var offset, dst = null, windowCoordinates = getWindowCoordinates(this.window), x = openOptions.x, y = openOptions.y, pTo = openOptions.positionTo;
+                // Establish which element will serve as the reference
+                if (pTo && "origin" !== pTo) {
+                    if ("window" === pTo) x = windowCoordinates.cx / 2 + windowCoordinates.x, y = windowCoordinates.cy / 2 + windowCoordinates.y;
+                    else {
+                        try {
+                            dst = $(pTo);
+                        } catch (err) {
+                            dst = null;
+                        }
+                        dst && (dst.filter(":visible"), 0 === dst.length && (dst = null));
+                    }
+                }
+                return dst && (x = (offset = dst.offset()).left + dst.outerWidth() / 2, y = offset.top + dst.outerHeight() / 2), ("number" !== $.type(x) || isNaN(x)) && (x = windowCoordinates.cx / 2 + windowCoordinates.x), ("number" !== $.type(y) || isNaN(y)) && (y = windowCoordinates.cy / 2 + windowCoordinates.y), {
+                    x: x,
+                    y: y
+                };
+            },
+            _reposition: function(openOptions) {
+                // We only care about position-related parameters for repositioning
+                openOptions = {
+                    x: openOptions.x,
+                    y: openOptions.y,
+                    positionTo: openOptions.positionTo
+                }, this._trigger("beforeposition", undefined, openOptions), this._ui.container.offset(this._placementCoords(this._desiredCoords(openOptions)));
+            },
+            reposition: function(openOptions) {
+                this._isOpen && this._reposition(openOptions);
+            },
+            _openPrerequisitesComplete: function() {
+                var id = this.element.attr("id");
+                this._ui.container.addClass("ui-popup-active"), this._isOpen = !0, this._resizeScreen(), this._ui.container.attr("tabindex", "0").focus(), this._ignoreResizeEvents(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !0), this._trigger("afteropen");
+            },
+            _open: function(options) {
+                var ua, // Rendering engine is Webkit, and capture major version
+                wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = $.extend({}, this.options, options), // TODO move blacklist to private method
+                androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], andversion = !!(androidmatch = ua.match(/Android (\d+(?:\.\d+))/)) && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && !!(wkversion > 534.13) && !chromematch);
+                // Count down to triggering "popupafteropen" - we have two prerequisites:
+                // 1. The popup window animation completes (container())
+                // 2. The screen opacity animation completes (screen())
+                this._createPrerequisites($.noop, $.noop, $.proxy(this, "_openPrerequisitesComplete")), this._currentTransition = openOptions.transition, this._applyTransition(openOptions.transition), this._ui.screen.removeClass("ui-screen-hidden"), this._ui.container.removeClass("ui-popup-truncate"), // Give applications a chance to modify the contents of the container before it appears
+                this._reposition(openOptions), this._ui.container.removeClass("ui-popup-hidden"), this.options.overlayTheme && androidBlacklist && /* TODO: The native browser on Android 4.0.X ("Ice Cream Sandwich") suffers from an issue where the popup overlay appears to be z-indexed above the popup itself when certain other styles exist on the same page -- namely, any element set to `position: fixed` and certain types of input. These issues are reminiscent of previously uncovered bugs in older versions of Android's native browser: https://github.com/scottjehl/Device-Bugs/issues/3
 			This fix closes the following bugs ( I use "closes" with reluctance, and stress that this issue should be revisited as soon as possible ):
 			https://github.com/jquery/jquery-mobile/issues/4816
 			https://github.com/jquery/jquery-mobile/issues/4844
 			https://github.com/jquery/jquery-mobile/issues/4874
 			*/ // TODO sort out why this._page isn't working
-            this.element.closest(".ui-page").addClass("ui-popup-open"), this._animate({
-                additionalCondition: !0,
-                transition: openOptions.transition,
-                classToRemove: "",
-                screenClassToAdd: "in",
-                containerClassToAdd: "in",
-                applyTransition: !1,
-                prerequisites: this._prerequisites
-            });
-        },
-        _closePrerequisiteScreen: function() {
-            this._ui.screen.removeClass("out").addClass("ui-screen-hidden");
-        },
-        _closePrerequisiteContainer: function() {
-            this._ui.container.removeClass("reverse out").addClass("ui-popup-hidden ui-popup-truncate").removeAttr("style");
-        },
-        _closePrerequisitesDone: function() {
-            var container = this._ui.container, id = this.element.attr("id");
-            container.removeAttr("tabindex"), // remove the global mutex for popups
-            jQuery.mobile.popup.active = undefined10, // Blur elements inside the container, including the container
-            jQuery(":focus", container[0]).add(container[0]).blur(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !1), // alert users that the popup is closed
-            this._trigger("afterclose");
-        },
-        _close: function(immediate) {
-            this._ui.container.removeClass("ui-popup-active"), this._page.removeClass("ui-popup-open"), this._isOpen = !1, // Count down to triggering "popupafterclose" - we have two prerequisites:
-            // 1. The popup window reverse animation completes (container())
-            // 2. The screen opacity animation completes (screen())
-            this._createPrerequisites(jQuery.proxy(this, "_closePrerequisiteScreen"), jQuery.proxy(this, "_closePrerequisiteContainer"), jQuery.proxy(this, "_closePrerequisitesDone")), this._animate({
-                additionalCondition: this._ui.screen.hasClass("in"),
-                transition: immediate ? "none" : this._currentTransition,
-                classToRemove: "in",
-                screenClassToAdd: "out",
-                containerClassToAdd: "reverse out",
-                applyTransition: !0,
-                prerequisites: this._prerequisites
-            });
-        },
-        _unenhance: function() {
-            !this.options.enhanced && (// Put the element back to where the placeholder was and remove the "ui-popup" class
-            this._setOptions({
-                theme: jQuery.mobile.popup.prototype.options.theme
-            }), this.element// Cannot directly insertAfter() - we need to detach() first, because
-            // insertAfter() will do nothing if the payload div was not attached
-            // to the DOM at the time the widget was created, and so the payload
-            // will remain inside the container even after we call insertAfter().
-            // If that happens and we remove the container a few lines below, we
-            // will cause an infinite recursion - #5244
-            .detach().insertAfter(this._ui.placeholder).removeClass("ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit"), this._ui.screen.remove(), this._ui.container.remove(), this._ui.placeholder.remove());
-        },
-        _destroy: function() {
-            return jQuery.mobile.popup.active === this ? (this.element.one("popupafterclose", jQuery.proxy(this, "_unenhance")), this.close()) : this._unenhance(), this;
-        },
-        _closePopup: function(theEvent, data) {
-            var parsedDst, toUrl, currentOptions = this.options, immediate = !1;
-            !(theEvent && theEvent.isDefaultPrevented()) && jQuery.mobile.popup.active === this && (// restore location on screen
-            window.scrollTo(0, this._scrollTop), theEvent && "pagebeforechange" === theEvent.type && data && (parsedDst = "string" == typeof data.toPage ? data.toPage : data.toPage.jqmData("url"), toUrl = (parsedDst = jQuery.mobile.path.parseUrl(parsedDst)).pathname + parsedDst.search + parsedDst.hash, this._myUrl !== jQuery.mobile.path.makeUrlAbsolute(toUrl) ? // Going to a different page - close immediately
-            immediate = !0 : theEvent.preventDefault()), // remove nav bindings
-            this.window.off(currentOptions.closeEvents), // unbind click handlers added when history is disabled
-            this.element.undelegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents), this._close(immediate));
-        },
-        // any navigation event after a popup is opened should close the popup
-        // NOTE the pagebeforechange is bound to catch navigation events that don't
-        //      alter the url (eg, dialogs from popups)
-        _bindContainerClose: function() {
-            this.window.on(this.options.closeEvents, jQuery.proxy(this, "_closePopup"));
-        },
-        widget: function() {
-            return this._ui.container;
-        },
-        // TODO no clear deliniation of what should be here and
-        // what should be in _open. Seems to be "visual" vs "history" for now
-        open: function(options) {
-            var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
-            return jQuery.mobile.popup.active || currentOptions.disabled || ((// set the global popup mutex
-            jQuery.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (// cache some values for min/readability
-            urlHistory = jQuery.mobile.navigate.history, hashkey = jQuery.mobile.dialogHashKey, currentIsDialog = !!(activePage = jQuery.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose()) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = jQuery.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), // swallow the the initial navigation event, and bind for the next
-            this.window.one("beforenavigate", function(theEvent) {
-                theEvent.preventDefault(), self._open(options), self._bindContainerClose();
-            }), this.urlAltered = !0, jQuery.mobile.navigate(url, {
-                role: "dialog"
-            })) : (self._open(options), self._bindContainerClose(), // When histoy is disabled we have to grab the data-rel
-            // back link clicks so we can close the popup instead of
-            // relying on history to do it for us
-            self.element.delegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents, function(theEvent) {
-                self.close(), theEvent.preventDefault();
-            }))), this;
-        },
-        close: function() {
-            return jQuery.mobile.popup.active !== this || (this._scrollTop = this.window.scrollTop(), this.options.history && this.urlAltered ? (jQuery.mobile.back(), this.urlAltered = !1) : // simulate the nav bindings having fired
-            this._closePopup()), this;
-        }
-    }), // TODO this can be moved inside the widget
-    jQuery.mobile.popup.handleLink = function($link) {
-        var offset, path = jQuery.mobile.path, // NOTE make sure to get only the hash from the href because ie7 (wp7)
-        //      returns the absolute href in this case ruining the element selection
-        popup = jQuery(path.hashToSelector(path.parseUrl($link.attr("href")).hash)).first();
-        popup.length > 0 && popup.data("mobile-popup") && (offset = $link.offset(), popup.popup("open", {
-            x: offset.left + $link.outerWidth() / 2,
-            y: offset.top + $link.outerHeight() / 2,
-            transition: $link.jqmData("transition"),
-            positionTo: $link.jqmData("position-to")
-        })), //remove after delay
-        setTimeout(function() {
-            $link.removeClass(jQuery.mobile.activeBtnClass);
-        }, 300);
-    }, // TODO move inside _create
-    jQuery.mobile.document.on("pagebeforechange", function(theEvent, data) {
-        "popup" === data.options.role && (jQuery.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
-    }), /*
+                this.element.closest(".ui-page").addClass("ui-popup-open"), this._animate({
+                    additionalCondition: !0,
+                    transition: openOptions.transition,
+                    classToRemove: "",
+                    screenClassToAdd: "in",
+                    containerClassToAdd: "in",
+                    applyTransition: !1,
+                    prerequisites: this._prerequisites
+                });
+            },
+            _closePrerequisiteScreen: function() {
+                this._ui.screen.removeClass("out").addClass("ui-screen-hidden");
+            },
+            _closePrerequisiteContainer: function() {
+                this._ui.container.removeClass("reverse out").addClass("ui-popup-hidden ui-popup-truncate").removeAttr("style");
+            },
+            _closePrerequisitesDone: function() {
+                var container = this._ui.container, id = this.element.attr("id");
+                container.removeAttr("tabindex"), // remove the global mutex for popups
+                $.mobile.popup.active = undefined, // Blur elements inside the container, including the container
+                $(":focus", container[0]).add(container[0]).blur(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !1), // alert users that the popup is closed
+                this._trigger("afterclose");
+            },
+            _close: function(immediate) {
+                this._ui.container.removeClass("ui-popup-active"), this._page.removeClass("ui-popup-open"), this._isOpen = !1, // Count down to triggering "popupafterclose" - we have two prerequisites:
+                // 1. The popup window reverse animation completes (container())
+                // 2. The screen opacity animation completes (screen())
+                this._createPrerequisites($.proxy(this, "_closePrerequisiteScreen"), $.proxy(this, "_closePrerequisiteContainer"), $.proxy(this, "_closePrerequisitesDone")), this._animate({
+                    additionalCondition: this._ui.screen.hasClass("in"),
+                    transition: immediate ? "none" : this._currentTransition,
+                    classToRemove: "in",
+                    screenClassToAdd: "out",
+                    containerClassToAdd: "reverse out",
+                    applyTransition: !0,
+                    prerequisites: this._prerequisites
+                });
+            },
+            _unenhance: function() {
+                !this.options.enhanced && (// Put the element back to where the placeholder was and remove the "ui-popup" class
+                this._setOptions({
+                    theme: $.mobile.popup.prototype.options.theme
+                }), this.element// Cannot directly insertAfter() - we need to detach() first, because
+                // insertAfter() will do nothing if the payload div was not attached
+                // to the DOM at the time the widget was created, and so the payload
+                // will remain inside the container even after we call insertAfter().
+                // If that happens and we remove the container a few lines below, we
+                // will cause an infinite recursion - #5244
+                .detach().insertAfter(this._ui.placeholder).removeClass("ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit"), this._ui.screen.remove(), this._ui.container.remove(), this._ui.placeholder.remove());
+            },
+            _destroy: function() {
+                return $.mobile.popup.active === this ? (this.element.one("popupafterclose", $.proxy(this, "_unenhance")), this.close()) : this._unenhance(), this;
+            },
+            _closePopup: function(theEvent, data) {
+                var parsedDst, toUrl, currentOptions = this.options, immediate = !1;
+                !(theEvent && theEvent.isDefaultPrevented()) && $.mobile.popup.active === this && (// restore location on screen
+                window.scrollTo(0, this._scrollTop), theEvent && "pagebeforechange" === theEvent.type && data && (parsedDst = "string" == typeof data.toPage ? data.toPage : data.toPage.jqmData("url"), toUrl = (parsedDst = $.mobile.path.parseUrl(parsedDst)).pathname + parsedDst.search + parsedDst.hash, this._myUrl !== $.mobile.path.makeUrlAbsolute(toUrl) ? // Going to a different page - close immediately
+                immediate = !0 : theEvent.preventDefault()), // remove nav bindings
+                this.window.off(currentOptions.closeEvents), // unbind click handlers added when history is disabled
+                this.element.undelegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents), this._close(immediate));
+            },
+            // any navigation event after a popup is opened should close the popup
+            // NOTE the pagebeforechange is bound to catch navigation events that don't
+            //      alter the url (eg, dialogs from popups)
+            _bindContainerClose: function() {
+                this.window.on(this.options.closeEvents, $.proxy(this, "_closePopup"));
+            },
+            widget: function() {
+                return this._ui.container;
+            },
+            // TODO no clear deliniation of what should be here and
+            // what should be in _open. Seems to be "visual" vs "history" for now
+            open: function(options) {
+                var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
+                return $.mobile.popup.active || currentOptions.disabled || ((// set the global popup mutex
+                $.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (// cache some values for min/readability
+                urlHistory = $.mobile.navigate.history, hashkey = $.mobile.dialogHashKey, currentIsDialog = !!(activePage = $.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose()) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = $.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), // swallow the the initial navigation event, and bind for the next
+                this.window.one("beforenavigate", function(theEvent) {
+                    theEvent.preventDefault(), self._open(options), self._bindContainerClose();
+                }), this.urlAltered = !0, $.mobile.navigate(url, {
+                    role: "dialog"
+                })) : (self._open(options), self._bindContainerClose(), // When histoy is disabled we have to grab the data-rel
+                // back link clicks so we can close the popup instead of
+                // relying on history to do it for us
+                self.element.delegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents, function(theEvent) {
+                    self.close(), theEvent.preventDefault();
+                }))), this;
+            },
+            close: function() {
+                return $.mobile.popup.active !== this || (this._scrollTop = this.window.scrollTop(), this.options.history && this.urlAltered ? ($.mobile.back(), this.urlAltered = !1) : // simulate the nav bindings having fired
+                this._closePopup()), this;
+            }
+        }), // TODO this can be moved inside the widget
+        $.mobile.popup.handleLink = function($link) {
+            var offset, path = $.mobile.path, // NOTE make sure to get only the hash from the href because ie7 (wp7)
+            //      returns the absolute href in this case ruining the element selection
+            popup = $(path.hashToSelector(path.parseUrl($link.attr("href")).hash)).first();
+            popup.length > 0 && popup.data("mobile-popup") && (offset = $link.offset(), popup.popup("open", {
+                x: offset.left + $link.outerWidth() / 2,
+                y: offset.top + $link.outerHeight() / 2,
+                transition: $link.jqmData("transition"),
+                positionTo: $link.jqmData("position-to")
+            })), //remove after delay
+            setTimeout(function() {
+                $link.removeClass($.mobile.activeBtnClass);
+            }, 300);
+        }, // TODO move inside _create
+        $.mobile.document.on("pagebeforechange", function(theEvent, data) {
+            "popup" === data.options.role && ($.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
+        });
+    }(jQuery), /*
    * custom "selectmenu" plugin
    */ function($, undefined) {
         var unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')", goToAdjacentItem = function(item, target, direction) {
@@ -6056,7 +6058,7 @@
         },
         _setOptions: function(options) {
             var ret = this._super(options);
-            return void 0 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), options.filterTheme !== undefined1 && this._search && jQuery.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
+            return void 0 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), options.filterTheme !== undefined9 && this._search && jQuery.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
         },
         _destroy: function() {
             this._isSearchInternal() && this._search.remove(), this._super();
@@ -6067,7 +6069,7 @@
             // generated variety, rather than one specified by the user.
             if (this._isSearchInternal() && jQuery.mobile.textinput) {
                 // Apply only the options understood by textinput
-                for(idx in jQuery.mobile.textinput.prototype.options)options[idx] !== undefined1 && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
+                for(idx in jQuery.mobile.textinput.prototype.options)options[idx] !== undefined9 && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
                 this._search.textinput("option", textinputOptions);
             }
         }

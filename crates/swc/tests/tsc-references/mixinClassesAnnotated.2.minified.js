@@ -16,11 +16,13 @@ var _class, Derived = /*#__PURE__*/ function(Base) {
     _class_call_check(this, Base), this.x = x, this.y = y;
 });
 function Tagged(superClass) {
-    function C() {
-        for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-        return _class_call_check(this, C), (_this = _call_super(this, C, _to_consumable_array(args)))._tag = "hello", _this;
-    }
-    return _inherits(C, superClass), C;
+    return /*#__PURE__*/ function(superClass) {
+        function C() {
+            for(var _this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+            return _class_call_check(this, C), (_this = _call_super(this, C, _to_consumable_array(args)))._tag = "hello", _this;
+        }
+        return _inherits(C, superClass), C;
+    }(superClass);
 }
 Tagged(Derived), Tagged(((_class = /*#__PURE__*/ function(superClass) {
     function _class() {

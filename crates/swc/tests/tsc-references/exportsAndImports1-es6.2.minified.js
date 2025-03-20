@@ -2,8 +2,12 @@
 //// [t1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var E, D, target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     C: function() {
         return C;
     },
@@ -25,12 +29,8 @@ var E, D, target = exports, all = {
     v: function() {
         return v;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
-var M, v = 1;
+var E, D, M, v = 1;
 function f() {}
 class C {
 }
@@ -40,8 +40,12 @@ const a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     C: function() {
         return _t1.C;
     },
@@ -72,17 +76,17 @@ var target = exports, all = {
     v: function() {
         return _t1.v;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
 const _t1 = require("./t1");
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var target = exports, all = {
+}), function(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+}(exports, {
     C: function() {
         return _t1.C;
     },
@@ -113,9 +117,5 @@ var target = exports, all = {
     v: function() {
         return _t1.v;
     }
-};
-for(var name in all)Object.defineProperty(target, name, {
-    enumerable: !0,
-    get: all[name]
 });
 const _t1 = require("./t1");
