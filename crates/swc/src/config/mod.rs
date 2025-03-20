@@ -1,5 +1,5 @@
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     env,
     path::{Path, PathBuf},
     sync::Arc,
@@ -1568,7 +1568,11 @@ pub enum GlobalInliningPassEnvs {
 
 impl Default for GlobalInliningPassEnvs {
     fn default() -> Self {
-        GlobalInliningPassEnvs::List(Default::default())
+        let mut v = HashSet::default();
+        v.insert(String::from("NODE_ENV"));
+        v.insert(String::from("SWC_ENV"));
+
+        GlobalInliningPassEnvs::List(v)
     }
 }
 

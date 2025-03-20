@@ -924,7 +924,7 @@ export interface GlobalPassOption {
   /**
    * Name of environment variables to inline.
    *
-   * Defaults to `[]`
+   * Defaults to `["NODE_ENV", "SWC_ENV"]`
    */
   envs?: string[] | Record<string, string>;
 }
