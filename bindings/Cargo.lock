@@ -276,6 +276,7 @@ dependencies = [
  "serde_json",
  "swc_core",
  "swc_malloc",
+ "swc_parallel",
  "tracing",
  "tracing-chrome 0.7.2",
  "tracing-futures",
