@@ -60,7 +60,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+        negate(self.expr_ctx, e, true, is_ret_val_ignored);
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
     }
 
@@ -327,8 +327,6 @@ impl Pure<'_> {
 
     /// This method converts `!1` to `0`.
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr, is_ignore: bool) {
-        self.optmize_known_logical_expr(n);
-
         match n {
             Expr::Bin(BinExpr {
                 op: op!("&&") | op!("||"),

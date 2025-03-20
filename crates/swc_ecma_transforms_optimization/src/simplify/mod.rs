@@ -13,7 +13,7 @@ pub use self::{
 mod branch;
 pub mod const_propagation;
 pub mod dce;
-mod expr;
+pub mod expr;
 pub mod inlining;
 
 #[derive(Debug, Default)]
