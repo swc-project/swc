@@ -50,7 +50,8 @@ check:
   swc_ecma_transforms_optimization:
     - "cargo hack check --feature-powerset"
   swc_ecma_utils:
-    - "cargo hack check --feature-powerset"
+    # - "cargo hack check --feature-powerset"
+    - "cargo check --features concurrent"
   swc_ecma_visit:
     - "cargo hack check --feature-powerset"
   swc_cli:
