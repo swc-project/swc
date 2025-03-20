@@ -5902,6 +5902,7 @@ dependencies = [
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_parallel",
 ]
 
 [[package]]
