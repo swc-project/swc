@@ -4,15 +4,9 @@ use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
-use super::Pure;
-use crate::{compress::util::can_absorb_negate, util::make_bool};
 use super::{DropOpts, Pure};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::util::{can_absorb_negate, negate_cost},
-    util::make_bool,
-};
 use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
