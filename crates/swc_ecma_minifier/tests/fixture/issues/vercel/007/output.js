@@ -19,4 +19,4 @@ import _JSXStyle from "styled-jsx/style";
                 top ? "column" : "column-reverse"
             ]
         ]
-    ]), /*#__PURE__*/ top ? "column" : "column-reverse"))({});
+    ])))({});

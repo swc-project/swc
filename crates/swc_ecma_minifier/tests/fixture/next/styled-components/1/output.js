@@ -4743,17 +4743,16 @@
                 }
                 return e.prototype.generateAndInjectStyles = function(e, t, n) {
                     var r = this.componentId, o = [];
-                    if (this.baseStyle && o.push(this.baseStyle.generateAndInjectStyles(e, t, n)), this.isStatic && !n.hash) {
-                        if (this.staticRulesId && t.hasNameForId(r, this.staticRulesId)) o.push(this.staticRulesId);
-                        else {
-                            var s = Ne(this.rules, e, t, n).join(""), i = ee(te(this.baseHash, s) >>> 0);
-                            if (!t.hasNameForId(r, i)) {
-                                var a = n(s, "." + i, void 0, r);
-                                t.insertRules(r, i, a);
-                            }
-                            o.push(i), this.staticRulesId = i;
+                    if (this.baseStyle && o.push(this.baseStyle.generateAndInjectStyles(e, t, n)), this.isStatic && !n.hash) if (this.staticRulesId && t.hasNameForId(r, this.staticRulesId)) o.push(this.staticRulesId);
+                    else {
+                        var s = Ne(this.rules, e, t, n).join(""), i = ee(te(this.baseHash, s) >>> 0);
+                        if (!t.hasNameForId(r, i)) {
+                            var a = n(s, "." + i, void 0, r);
+                            t.insertRules(r, i, a);
                         }
-                    } else {
+                        o.push(i), this.staticRulesId = i;
+                    }
+                    else {
                         for(var c = this.rules.length, u = te(this.baseHash, n.hash), l = "", d = 0; d < c; d++){
                             var h = this.rules[d];
                             if ("string" == typeof h) l += h;
@@ -5897,7 +5896,7 @@
             }, positiveOrNegative = function(scale, value) {
                 if ("number" != typeof value || value >= 0) return index_esm_get(scale, value, value);
                 var absolute = Math.abs(value), n = index_esm_get(scale, absolute, absolute);
-                return "string" == typeof n ? "-" + n : -1 * n;
+                return "string" == typeof n ? "-" + n : -+n;
             }, transforms = [
                 "margin",
                 "marginTop",

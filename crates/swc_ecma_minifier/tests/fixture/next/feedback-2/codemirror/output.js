@@ -694,12 +694,10 @@ function(global, factory) {
                     var i_end = st[i];
                     i_end > end && st.splice(i, 1, end, st[i + 1], i_end), i += 2, at = Math.min(end, i_end);
                 }
-                if (style) {
-                    if (overlay.opaque) st.splice(start, i - start, end, "overlay " + style), i = start + 2;
-                    else for(; start < i; start += 2){
-                        var cur = st[start + 1];
-                        st[start + 1] = (cur ? cur + " " : "") + "overlay " + style;
-                    }
+                if (style) if (overlay.opaque) st.splice(start, i - start, end, "overlay " + style), i = start + 2;
+                else for(; start < i; start += 2){
+                    var cur = st[start + 1];
+                    st[start + 1] = (cur ? cur + " " : "") + "overlay " + style;
                 }
             }, lineClasses), context.state = state, context.baseTokens = null, context.baseTokenPos = 1;
         }(o);
@@ -2885,13 +2883,12 @@ function(global, factory) {
             // sure line objects move the way they are supposed to.
             var added = linesFor(0, text.length - 1);
             update(lastLine, lastLine.text, lastSpans), nlines && doc.remove(from.line, nlines), added.length && doc.insert(from.line, added);
-        } else if (firstLine == lastLine) {
-            if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + lastText + firstLine.text.slice(to.ch), lastSpans);
-            else {
-                var added$1 = linesFor(1, text.length - 1);
-                added$1.push(new Line(lastText + firstLine.text.slice(to.ch), lastSpans, estimateHeight)), update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), doc.insert(from.line + 1, added$1);
-            }
-        } else if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + text[0] + lastLine.text.slice(to.ch), spansFor(0)), doc.remove(from.line + 1, nlines);
+        } else if (firstLine == lastLine) if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + lastText + firstLine.text.slice(to.ch), lastSpans);
+        else {
+            var added$1 = linesFor(1, text.length - 1);
+            added$1.push(new Line(lastText + firstLine.text.slice(to.ch), lastSpans, estimateHeight)), update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), doc.insert(from.line + 1, added$1);
+        }
+        else if (1 == text.length) update(firstLine, firstLine.text.slice(0, from.ch) + text[0] + lastLine.text.slice(to.ch), spansFor(0)), doc.remove(from.line + 1, nlines);
         else {
             update(firstLine, firstLine.text.slice(0, from.ch) + text[0], spansFor(0)), update(lastLine, lastText + lastLine.text.slice(to.ch), lastSpans);
             var added$2 = linesFor(1, text.length - 1);
@@ -3963,10 +3960,9 @@ function(global, factory) {
         addLineClass: docMethodOp(function(handle, where, cls) {
             return changeLine(this, handle, "gutter" == where ? "gutter" : "class", function(line) {
                 var prop = "text" == where ? "textClass" : "background" == where ? "bgClass" : "gutter" == where ? "gutterClass" : "wrapClass";
-                if (line[prop]) {
-                    if (classTest(cls).test(line[prop])) return !1;
-                    line[prop] += " " + cls;
-                } else line[prop] = cls;
+                if (line[prop]) if (classTest(cls).test(line[prop])) return !1;
+                else line[prop] += " " + cls;
+                else line[prop] = cls;
                 return !0;
             });
         }),
@@ -4149,56 +4145,54 @@ function(global, factory) {
         if (clearDragCursor(cm), !(signalDOMEvent(cm, e) || eventInWidget(cm.display, e))) {
             e_preventDefault(e), ie && (lastDrop = +new Date());
             var pos = posFromMouse(cm, e, !0), files = e.dataTransfer.files;
-            if (!(!pos || cm.isReadOnly())) {
-                // Might be a file drop, in which case we simply extract the text
-                // and insert it.
-                if (files && files.length && window.FileReader && window.File) for(var n = files.length, text = Array(n), read = 0, markAsReadAndPasteIfAllFilesAreRead = function() {
-                    ++read == n && operation(cm, function() {
-                        var change = {
-                            from: pos = clipPos(cm.doc, pos),
-                            to: pos,
-                            text: cm.doc.splitLines(text.filter(function(t) {
-                                return null != t;
-                            }).join(cm.doc.lineSeparator())),
-                            origin: "paste"
-                        };
-                        makeChange(cm.doc, change), setSelectionReplaceHistory(cm.doc, simpleSelection(clipPos(cm.doc, pos), clipPos(cm.doc, changeEnd(change))));
-                    })();
-                }, readTextFromFile = function(file, i) {
-                    if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) {
+            if (!(!pos || cm.isReadOnly())) // Might be a file drop, in which case we simply extract the text
+            // and insert it.
+            if (files && files.length && window.FileReader && window.File) for(var n = files.length, text = Array(n), read = 0, markAsReadAndPasteIfAllFilesAreRead = function() {
+                ++read == n && operation(cm, function() {
+                    var change = {
+                        from: pos = clipPos(cm.doc, pos),
+                        to: pos,
+                        text: cm.doc.splitLines(text.filter(function(t) {
+                            return null != t;
+                        }).join(cm.doc.lineSeparator())),
+                        origin: "paste"
+                    };
+                    makeChange(cm.doc, change), setSelectionReplaceHistory(cm.doc, simpleSelection(clipPos(cm.doc, pos), clipPos(cm.doc, changeEnd(change))));
+                })();
+            }, readTextFromFile = function(file, i) {
+                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) {
+                    markAsReadAndPasteIfAllFilesAreRead();
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onerror = function() {
+                    return markAsReadAndPasteIfAllFilesAreRead();
+                }, reader.onload = function() {
+                    var content = reader.result;
+                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(content)) {
                         markAsReadAndPasteIfAllFilesAreRead();
                         return;
                     }
-                    var reader = new FileReader();
-                    reader.onerror = function() {
-                        return markAsReadAndPasteIfAllFilesAreRead();
-                    }, reader.onload = function() {
-                        var content = reader.result;
-                        if (/[\x00-\x08\x0e-\x1f]{2}/.test(content)) {
-                            markAsReadAndPasteIfAllFilesAreRead();
-                            return;
-                        }
-                        text[i] = content, markAsReadAndPasteIfAllFilesAreRead();
-                    }, reader.readAsText(file);
-                }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
-                else {
-                    // Normal drop
-                    // Don't do a replace if the drop happened inside of the selected text.
-                    if (cm.state.draggingText && cm.doc.sel.contains(pos) > -1) {
-                        cm.state.draggingText(e), // Ensure the editor is re-focused
-                        setTimeout(function() {
-                            return cm.display.input.focus();
-                        }, 20);
-                        return;
-                    }
-                    try {
-                        var selected, text$1 = e.dataTransfer.getData("Text");
-                        if (text$1) {
-                            if (cm.state.draggingText && !cm.state.draggingText.copy && (selected = cm.listSelections()), setSelectionNoUndo(cm.doc, simpleSelection(pos, pos)), selected) for(var i$1 = 0; i$1 < selected.length; ++i$1)replaceRange(cm.doc, "", selected[i$1].anchor, selected[i$1].head, "drag");
-                            cm.replaceSelection(text$1, "around", "paste"), cm.display.input.focus();
-                        }
-                    } catch (e$1) {}
+                    text[i] = content, markAsReadAndPasteIfAllFilesAreRead();
+                }, reader.readAsText(file);
+            }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
+            else {
+                // Normal drop
+                // Don't do a replace if the drop happened inside of the selected text.
+                if (cm.state.draggingText && cm.doc.sel.contains(pos) > -1) {
+                    cm.state.draggingText(e), // Ensure the editor is re-focused
+                    setTimeout(function() {
+                        return cm.display.input.focus();
+                    }, 20);
+                    return;
                 }
+                try {
+                    var selected, text$1 = e.dataTransfer.getData("Text");
+                    if (text$1) {
+                        if (cm.state.draggingText && !cm.state.draggingText.copy && (selected = cm.listSelections()), setSelectionNoUndo(cm.doc, simpleSelection(pos, pos)), selected) for(var i$1 = 0; i$1 < selected.length; ++i$1)replaceRange(cm.doc, "", selected[i$1].anchor, selected[i$1].head, "drag");
+                        cm.replaceSelection(text$1, "around", "paste"), cm.display.input.focus();
+                    }
+                } catch (e$1) {}
             }
         }
     }
@@ -4904,55 +4898,51 @@ function(global, factory) {
                     var move = operation(cm, function(e) {
                         0 !== e.buttons && e_button(e) ? function extend(e) {
                             var curCount = ++counter, cur = posFromMouse(cm, e, !0, "rectangle" == behavior.unit);
-                            if (cur) {
-                                if (0 != cmp(cur, lastPos)) {
-                                    cm.curOp.focus = activeElt(), function(pos) {
-                                        if (0 != cmp(lastPos, pos)) {
-                                            if (lastPos = pos, "rectangle" == behavior.unit) {
-                                                for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
-                                                    var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
-                                                    left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
-                                                }
-                                                ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
-                                                    origin: "*mouse",
-                                                    scroll: !1
-                                                }), cm.scrollIntoView(pos);
-                                            } else {
-                                                var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
-                                                cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
-                                                var ranges$1 = startSel.ranges.slice(0);
-                                                ranges$1[ourIndex] = // Used when mouse-selecting to adjust the anchor to the proper side
-                                                // of a bidi jump depending on the visual position of the head.
-                                                function(cm, range) {
-                                                    var leftSide, anchor = range.anchor, head = range.head, anchorLine = getLine(cm.doc, anchor.line);
-                                                    if (0 == cmp(anchor, head) && anchor.sticky == head.sticky) return range;
-                                                    var order = getOrder(anchorLine);
-                                                    if (!order) return range;
-                                                    var index = getBidiPartAt(order, anchor.ch, anchor.sticky), part = order[index];
-                                                    if (part.from != anchor.ch && part.to != anchor.ch) return range;
-                                                    var boundary = index + +(part.from == anchor.ch != (1 != part.level));
-                                                    if (0 == boundary || boundary == order.length) return range;
-                                                    if (head.line != anchor.line) leftSide = (head.line - anchor.line) * ("ltr" == cm.doc.direction ? 1 : -1) > 0;
-                                                    else {
-                                                        var headIndex = getBidiPartAt(order, head.ch, head.sticky), dir = headIndex - index || (head.ch - anchor.ch) * (1 == part.level ? -1 : 1);
-                                                        leftSide = headIndex == boundary - 1 || headIndex == boundary ? dir < 0 : dir > 0;
-                                                    }
-                                                    var usePart = order[boundary + (leftSide ? -1 : 0)], from = leftSide == (1 == usePart.level), ch = from ? usePart.from : usePart.to, sticky = from ? "after" : "before";
-                                                    return anchor.ch == ch && anchor.sticky == sticky ? range : new Range(new Pos(anchor.line, ch, sticky), head);
-                                                }(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
-                                            }
+                            if (cur) if (0 != cmp(cur, lastPos)) {
+                                cm.curOp.focus = activeElt(), function(pos) {
+                                    if (0 != cmp(lastPos, pos)) if (lastPos = pos, "rectangle" == behavior.unit) {
+                                        for(var ranges = [], tabSize = cm.options.tabSize, startCol = countColumn(getLine(doc, start.line).text, start.ch, tabSize), posCol = countColumn(getLine(doc, pos.line).text, pos.ch, tabSize), left = Math.min(startCol, posCol), right = Math.max(startCol, posCol), line = Math.min(start.line, pos.line), end = Math.min(cm.lastLine(), Math.max(start.line, pos.line)); line <= end; line++){
+                                            var text = getLine(doc, line).text, leftPos = findColumn(text, left, tabSize);
+                                            left == right ? ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos))) : text.length > leftPos && ranges.push(new Range(Pos(line, leftPos), Pos(line, findColumn(text, right, tabSize))));
                                         }
-                                    }(cur);
-                                    var visible = visibleLines(display, doc);
-                                    (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
-                                        counter == curCount && extend(e);
-                                    }), 150);
-                                } else {
-                                    var outside = e.clientY < editorSize.top ? -20 : 20 * (e.clientY > editorSize.bottom);
-                                    outside && setTimeout(operation(cm, function() {
-                                        counter == curCount && (display.scroller.scrollTop += outside, extend(e));
-                                    }), 50);
-                                }
+                                        ranges.length || ranges.push(new Range(start, start)), setSelection(doc, normalizeSelection(cm, startSel.ranges.slice(0, ourIndex).concat(ranges), ourIndex), {
+                                            origin: "*mouse",
+                                            scroll: !1
+                                        }), cm.scrollIntoView(pos);
+                                    } else {
+                                        var head, oldRange = ourRange, range = rangeForUnit(cm, pos, behavior.unit), anchor = oldRange.anchor;
+                                        cmp(range.anchor, anchor) > 0 ? (head = range.head, anchor = minPos(oldRange.from(), range.anchor)) : (head = range.anchor, anchor = maxPos(oldRange.to(), range.head));
+                                        var ranges$1 = startSel.ranges.slice(0);
+                                        ranges$1[ourIndex] = // Used when mouse-selecting to adjust the anchor to the proper side
+                                        // of a bidi jump depending on the visual position of the head.
+                                        function(cm, range) {
+                                            var leftSide, anchor = range.anchor, head = range.head, anchorLine = getLine(cm.doc, anchor.line);
+                                            if (0 == cmp(anchor, head) && anchor.sticky == head.sticky) return range;
+                                            var order = getOrder(anchorLine);
+                                            if (!order) return range;
+                                            var index = getBidiPartAt(order, anchor.ch, anchor.sticky), part = order[index];
+                                            if (part.from != anchor.ch && part.to != anchor.ch) return range;
+                                            var boundary = index + +(part.from == anchor.ch != (1 != part.level));
+                                            if (0 == boundary || boundary == order.length) return range;
+                                            if (head.line != anchor.line) leftSide = (head.line - anchor.line) * ("ltr" == cm.doc.direction ? 1 : -1) > 0;
+                                            else {
+                                                var headIndex = getBidiPartAt(order, head.ch, head.sticky), dir = headIndex - index || (head.ch - anchor.ch) * (1 == part.level ? -1 : 1);
+                                                leftSide = headIndex == boundary - 1 || headIndex == boundary ? dir < 0 : dir > 0;
+                                            }
+                                            var usePart = order[boundary + (leftSide ? -1 : 0)], from = leftSide == (1 == usePart.level), ch = from ? usePart.from : usePart.to, sticky = from ? "after" : "before";
+                                            return anchor.ch == ch && anchor.sticky == sticky ? range : new Range(new Pos(anchor.line, ch, sticky), head);
+                                        }(cm, new Range(clipPos(doc, anchor), head)), setSelection(doc, normalizeSelection(cm, ranges$1, ourIndex), sel_mouse);
+                                    }
+                                }(cur);
+                                var visible = visibleLines(display, doc);
+                                (cur.line >= visible.to || cur.line < visible.from) && setTimeout(operation(cm, function() {
+                                    counter == curCount && extend(e);
+                                }), 150);
+                            } else {
+                                var outside = e.clientY < editorSize.top ? -20 : 20 * (e.clientY > editorSize.bottom);
+                                outside && setTimeout(operation(cm, function() {
+                                    counter == curCount && (display.scroller.scrollTop += outside, extend(e));
+                                }), 50);
                             }
                         }(e) : done(e);
                     }), up = operation(cm, done);
@@ -5218,18 +5208,16 @@ function(global, factory) {
         cm.display.shift = !1, sel || (sel = doc.sel);
         var recent = +new Date() - 200, paste = "paste" == origin || cm.state.pasteIncoming > recent, textLines = splitLinesAuto(inserted), multiPaste = null;
         // When pasting N lines into N selections, insert one line per selection
-        if (paste && sel.ranges.length > 1) {
-            if (lastCopied && lastCopied.text.join("\n") == inserted) {
-                if (sel.ranges.length % lastCopied.text.length == 0) {
-                    multiPaste = [];
-                    for(var i = 0; i < lastCopied.text.length; i++)multiPaste.push(doc.splitLines(lastCopied.text[i]));
-                }
-            } else textLines.length == sel.ranges.length && cm.options.pasteLinesPerSelection && (multiPaste = map(textLines, function(l) {
-                return [
-                    l
-                ];
-            }));
-        }
+        if (paste && sel.ranges.length > 1) if (lastCopied && lastCopied.text.join("\n") == inserted) {
+            if (sel.ranges.length % lastCopied.text.length == 0) {
+                multiPaste = [];
+                for(var i = 0; i < lastCopied.text.length; i++)multiPaste.push(doc.splitLines(lastCopied.text[i]));
+            }
+        } else textLines.length == sel.ranges.length && cm.options.pasteLinesPerSelection && (multiPaste = map(textLines, function(l) {
+            return [
+                l
+            ];
+        }));
         // Normal behavior is to insert the new text into every selection
         for(var updateInput = cm.curOp.updateInput, i$1 = sel.ranges.length - 1; i$1 >= 0; i$1--){
             var range = sel.ranges[i$1], from = range.from(), to = range.to();

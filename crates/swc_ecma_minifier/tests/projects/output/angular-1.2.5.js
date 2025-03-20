@@ -35,7 +35,9 @@
             var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
             for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
-                if (index + 2 < templateArgs.length) return "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg;
+                if (index + 2 < templateArgs.length) {
+                    return "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg;
+                }
                 return match;
             })) + "\nhttp://errors.angularjs.org/1.2.5/" + (module ? module + "/" : "") + code; i < arguments.length; i++){
                 message = message + (2 == i ? "?" : "&") + "p" + (i - 2) + "=" + encodeURIComponent((obj = arguments[i], "function" == typeof obj ? obj.toString().replace(/ \{[\s\S]*$/, "") : void 0 === obj ? "undefined" : "string" != typeof obj ? JSON.stringify(obj) : obj));
@@ -133,11 +135,11 @@
    * @description Converts the specified string to lowercase.
    * @param {string} string String to be converted to lowercase.
    * @returns {string} Lowercased string.
-   */ var promiseWarning, /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
+   */ var promiseWarning, lowercase = function(string) {
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
-    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
+    }, /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
         "0",
         "0",
         "0"
@@ -180,12 +182,10 @@
  * @returns {Object|Array} Reference to `obj`.
  */ function forEach(obj, iterator, context) {
         var key;
-        if (obj) {
-            if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-            else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
-            else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
-            else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-        }
+        if (obj) if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
+        else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
+        else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
         return obj;
     }
     function sortedKeys(obj) {
@@ -540,24 +540,22 @@
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0; // NaN === NaN
         var length, key, keySet, t1 = typeof o1;
-        if (t1 == typeof o2 && "object" == t1) {
-            if (isArray(o1)) {
-                if (!isArray(o2)) return !1;
-                if ((length = o1.length) == o2.length) {
-                    for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
-                    return !0;
-                }
-            } else {
-                if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
-                if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
-                if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
-                for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
-                    if (!equals(o1[key], o2[key])) return !1;
-                    keySet[key] = !0;
-                }
-                for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+        if (t1 == typeof o2 && "object" == t1) if (isArray(o1)) {
+            if (!isArray(o2)) return !1;
+            if ((length = o1.length) == o2.length) {
+                for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
                 return !0;
             }
+        } else {
+            if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
+            if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
+            if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
+            for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
+                if (!equals(o1[key], o2[key])) return !1;
+                keySet[key] = !0;
+            }
+            for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+            return !0;
         }
         return !1;
     }
@@ -3398,16 +3396,14 @@
                                 // We need only nonTlbTranscludeDirective so that we prevent putting transclusion
                                 // on the same element more than once.
                                 nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) {
-                                if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
-                                    if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                                    replaceWith(jqCollection, $compileNode, compileNode);
-                                    var newTemplateAttrs = {
-                                        $attr: {}
-                                    }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
-                                    newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
-                                } else $compileNode.html(directiveValue);
-                            }
+                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
+                                if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                                replaceWith(jqCollection, $compileNode, compileNode);
+                                var newTemplateAttrs = {
+                                    $attr: {}
+                                }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
+                            } else $compileNode.html(directiveValue);
                             if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = function(directives, $compileNode, tAttrs, $rootElement, childTranscludeFn, preLinkFns, postLinkFns, previousCompileContext) {
                                 var afterTemplateNodeLinkFn, afterTemplateChildLinkFn, linkQueue = [], beforeTemplateCompileNode = $compileNode[0], origAsyncDirective = directives.shift(), // The fact that we have to copy and patch the directive seems wrong!
                                 derivedSyncDirective = extend({}, origAsyncDirective, {
@@ -4550,15 +4546,13 @@
                                         }));
                                     }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
-                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
-                                    if (isDefined(cachedResp = cache.get(url))) {
-                                        if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
-                                        cachedResp.then(removePendingReq, removePendingReq), cachedResp);
-                                        // serving from cache
-                                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                                    } else // put the promise for the non-transformed response into cache as a placeholder
-                                    cache.put(url, promise);
-                                }
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
+                                    if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
+                                    cachedResp.then(removePendingReq, removePendingReq), cachedResp);
+                                    // serving from cache
+                                    isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                } else // put the promise for the non-transformed response into cache as a placeholder
+                                cache.put(url, promise);
                                 return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, /**
            * Callback registered to $httpBackend():
            *  - caches the response if desired
@@ -5927,10 +5921,8 @@
             };
         },
         filterChain: function() {
-            for(var token, left = this.expression();;){
-                if (!(token = this.expect("|"))) return left;
-                left = this.binaryFn(left, token.fn, this.filter());
-            }
+            for(var token, left = this.expression();;)if (!(token = this.expect("|"))) return left;
+            else left = this.binaryFn(left, token.fn, this.filter());
         },
         filter: function() {
             for(var token = this.expect(), fn = this.$filter(token.text), argsFn = [];;)if (token = this.expect(":")) argsFn.push(this.expression());
@@ -5960,10 +5952,8 @@
             return (token = this.expect("?")) ? (middle = this.ternary(), token = this.expect(":")) ? this.ternaryFn(left, middle, this.ternary()) : void this.throwError("expected :", token) : left;
         },
         logicalOR: function() {
-            for(var token, left = this.logicalAND();;){
-                if (!(token = this.expect("||"))) return left;
-                left = this.binaryFn(left, token.fn, this.logicalAND());
-            }
+            for(var token, left = this.logicalAND();;)if (!(token = this.expect("||"))) return left;
+            else left = this.binaryFn(left, token.fn, this.logicalAND());
         },
         logicalAND: function() {
             var token, left = this.equality();
@@ -6955,21 +6945,20 @@
        */ $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) {
-                                if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
-                                    (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
-                                    changeDetected++, oldValue.length = oldLength = newLength);
-                                    // copy the items to oldValue and look for changes.
-                                    for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
-                                } else {
-                                    for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
-                                    oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
-                                    newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
-                                    if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
-                                    changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
-                                }
-                            } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
+                            if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
+                                oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
+                                (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
+                                changeDetected++, oldValue.length = oldLength = newLength);
+                                // copy the items to oldValue and look for changes.
+                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                            } else {
+                                for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
+                                oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
+                                newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
+                                if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
+                                changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
+                            }
+                            else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
                         }, function() {
                             listener(newValue, oldValue, self);
@@ -7041,16 +7030,14 @@
                                 length = watchers.length; length--;)try {
                                     // Most common watches are on primitives, in which case we can short
                                     // circuit it with === operator, only when === fails do we use .equals
-                                    if (watch = watchers[length]) {
-                                        if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
-                                            if (watch === lastDirtyWatch) {
-                                                // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
-                                                // have already been tested.
-                                                dirty = !1;
-                                                break traverseScopesLoop;
-                                            }
-                                        } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
-                                    }
+                                    if (watch = watchers[length]) if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
+                                        if (watch === lastDirtyWatch) {
+                                            // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
+                                            // have already been tested.
+                                            dirty = !1;
+                                            break traverseScopesLoop;
+                                        }
+                                    } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
                                 } catch (e) {
                                     clearPhase(), $exceptionHandler(e);
                                 }
@@ -11545,12 +11532,10 @@
                                 }, optionGroupNames = [
                                     ""
                                 ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {}, selectedSet = !1;
-                                if (multiple) {
-                                    if (trackFn && isArray(modelValue)) {
-                                        selectedSet = new HashMap([]);
-                                        for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
-                                    } else selectedSet = new HashMap(modelValue);
-                                }
+                                if (multiple) if (trackFn && isArray(modelValue)) {
+                                    selectedSet = new HashMap([]);
+                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
+                                } else selectedSet = new HashMap(modelValue);
                                 // We now build up the list of options we need (we merge later)
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {

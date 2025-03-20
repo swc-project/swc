@@ -1004,6 +1004,12 @@ impl Pure<'_> {
 
         match e {
             Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last_mut() {
+                    self.ignore_return_value(last, opts);
+                }
+
+                seq.exprs.retain(|expr| !expr.is_invalid());
+
                 if seq.exprs.is_empty() {
                     e.take();
                     return;
@@ -1011,12 +1017,29 @@ impl Pure<'_> {
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.remove(0);
                 }
+                return;
             }
 
             Expr::Call(CallExpr {
                 span, ctxt, args, ..
             }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new =
+                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
                 let new =
@@ -1039,8 +1062,12 @@ impl Pure<'_> {
             }
 
             Expr::New(NewExpr {
-                span, ctxt, args, ..
-            }) if ctxt.has_mark(self.marks.pure) => {
+                callee,
+                span,
+                ctxt,
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -1091,7 +1118,57 @@ impl Pure<'_> {
             _ => (),
         }
 
-        if self.options.unused && opts.drop_number {
+        if self.options.conditionals || self.options.expr {
+            if let Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+                ..
+            }) = e
+            {
+                self.ignore_return_value(cons, opts);
+                self.ignore_return_value(alt, opts);
+
+                if cons.is_invalid() && alt.is_invalid() {
+                    report_change!("Dropping a conditional expression");
+                    *e = *test.take();
+                    self.changed = true;
+                    return;
+                }
+
+                if cons.is_invalid() {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("||"),
+                        left: test.take(),
+                        right: alt.take(),
+                    });
+                    report_change!("Dropping the `then` branch of a conditional expression");
+                    self.changed = true;
+                    return;
+                }
+
+                if alt.is_invalid() {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("&&"),
+                        left: test.take(),
+                        right: cons.take(),
+                    });
+                    report_change!("Dropping the `else` branch of a conditional expression");
+                    self.changed = true;
+                    return;
+                }
+            }
+        }
+
+        if opts.drop_number
+            && (self.options.unused
+                || self.options.dead_code
+                || self.options.collapse_vars
+                || self.options.expr)
+        {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
@@ -1122,10 +1199,34 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.side_effects {
+        if self.options.side_effects
+            || self.options.dead_code
+            || self.options.collapse_vars
+            || self.options.expr
+        {
             match e {
                 Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~"),
+                    op: op!("!"), arg, ..
+                }) => {
+                    self.ignore_return_value(
+                        arg,
+                        DropOpts {
+                            drop_str_lit: true,
+                            drop_global_refs_if_unused: true,
+                            drop_number: true,
+                            ..opts
+                        },
+                    );
+
+                    if arg.is_invalid() {
+                        report_change!("Dropping an unary expression");
+                        *e = Invalid { span: DUMMY_SP }.into();
+                        return;
+                    }
+                }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!(unary, "+") | op!(unary, "-") | op!("~"),
                     arg,
                     ..
                 }) => {
@@ -1144,6 +1245,10 @@ impl Pure<'_> {
                         *e = Invalid { span: DUMMY_SP }.into();
                         return;
                     }
+
+                    report_change!("Dropping an unary operator");
+                    *e = *arg.take();
+                    return;
                 }
 
                 Expr::Bin(
@@ -1204,7 +1309,11 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.unused || self.options.side_effects {
+        if self.options.unused
+            || self.options.side_effects
+            || self.options.dead_code
+            || self.options.collapse_vars
+        {
             match e {
                 Expr::Lit(Lit::Num(n)) => {
                     if n.value == 0.0 && opts.drop_number {
@@ -1309,6 +1418,60 @@ impl Pure<'_> {
                                 self.changed = true;
                                 *e = *assign.right.take();
                             }
+                        }
+                    }
+                }
+
+                Expr::Object(obj) => {
+                    let mut has_spread = false;
+                    for prop in obj.props.iter_mut() {
+                        match prop {
+                            PropOrSpread::Spread(..) => {
+                                has_spread = true;
+                                break;
+                            }
+                            PropOrSpread::Prop(p) => match &mut **p {
+                                Prop::KeyValue(kv) => {
+                                    if !kv.key.is_computed()
+                                        && !kv.value.may_have_side_effects(self.expr_ctx)
+                                    {
+                                        **p = Prop::Shorthand(Ident::dummy());
+                                        self.changed = true;
+                                        report_change!(
+                                            "Dropping a key-value pair in an object literal"
+                                        );
+                                    }
+                                }
+
+                                Prop::Shorthand(i) => {
+                                    if i.ctxt.outer() != self.marks.unresolved_mark {
+                                        *i = Ident::dummy();
+                                        self.changed = true;
+                                        report_change!(
+                                            "Dropping a shorthand property in an object literal"
+                                        );
+                                    }
+                                }
+
+                                _ => {}
+                            },
+                        }
+                    }
+
+                    obj.props.retain(|p| match p {
+                        PropOrSpread::Prop(prop) => match &**prop {
+                            Prop::Shorthand(i) => !i.is_dummy(),
+                            _ => true,
+                        },
+                        _ => true,
+                    });
+
+                    if !has_spread {
+                        if obj.props.is_empty() {
+                            *e = Expr::dummy();
+                            report_change!("Dropping an empty object literal");
+                            self.changed = true;
+                            return;
                         }
                     }
                 }
@@ -1710,6 +1873,40 @@ impl Pure<'_> {
             *expr = *cond.test.take();
         }
     }
+
+    pub(super) fn drop_needless_block(&mut self, s: &mut Stmt) {
+        fn is_simple_stmt(s: &Stmt) -> bool {
+            !matches!(
+                s,
+                Stmt::Switch(..)
+                    | Stmt::For(..)
+                    | Stmt::With(..)
+                    | Stmt::ForIn(..)
+                    | Stmt::ForOf(..)
+                    | Stmt::While(..)
+                    | Stmt::DoWhile(..)
+                    | Stmt::Try(..)
+            )
+        }
+
+        if let Stmt::Block(bs) = s {
+            if bs.stmts.is_empty() {
+                self.changed = true;
+                report_change!("Dropping an empty block");
+                *s = Stmt::dummy();
+                return;
+            }
+
+            if bs.stmts.len() == 1
+                && !is_block_scoped_stmt(&bs.stmts[0])
+                && is_simple_stmt(&bs.stmts[0])
+            {
+                *s = bs.stmts.remove(0);
+                self.changed = true;
+                report_change!("Dropping a needless block");
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -1773,4 +1970,14 @@ fn is_pure_member_access(obj: &Ident, prop: &MemberProp) -> bool {
     );
 
     false
+}
+
+fn is_block_scoped_stmt(s: &Stmt) -> bool {
+    match s {
+        Stmt::Decl(Decl::Var(v)) if v.kind == VarDeclKind::Const || v.kind == VarDeclKind::Let => {
+            true
+        }
+        Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
+        _ => false,
+    }
 }

@@ -19,10 +19,10 @@ impl Optimizer<'_> {
         };
 
         // We only care about instant breaks.
-        let label = match &mut *f.body {
-            Stmt::Break(b) => b.label.take(),
+        match &mut *f.body {
+            Stmt::Break(BreakStmt { label: None, .. }) => {}
             _ => return,
-        };
+        }
 
         self.changed = true;
         report_change!("loops: Removing a for loop with instant break");
@@ -43,15 +43,6 @@ impl Optimizer<'_> {
             }
             .into()
         }));
-        if label.is_some() {
-            self.prepend_stmts.push(
-                BreakStmt {
-                    span: DUMMY_SP,
-                    label,
-                }
-                .into(),
-            );
-        }
 
         *s = EmptyStmt { span: DUMMY_SP }.into()
     }

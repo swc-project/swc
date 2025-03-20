@@ -373,40 +373,38 @@
             return new Date().getTime();
         }
     }), jQuery.ready.promise = function(obj) {
-        if (!readyList) {
-            // Catch cases where $(document).ready() is called after the browser event has already occurred.
-            // we once tried to use readyState "interactive" here, but it caused issues like the one
-            // discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
-            if (readyList = jQuery.Deferred(), "complete" === document.readyState) // Handle it asynchronously to allow scripts the opportunity to delay ready
-            setTimeout(jQuery.ready);
-            else if (document.addEventListener) // Use the handy event callback
-            document.addEventListener("DOMContentLoaded", completed, !1), // A fallback to window.onload, that will always work
-            window1.addEventListener("load", completed, !1);
-            else {
-                // Ensure firing before onload, maybe late but safe also for iframes
-                document.attachEvent("onreadystatechange", completed), // A fallback to window.onload, that will always work
-                window1.attachEvent("onload", completed);
-                // If IE and not a frame
-                // continually check to see if the document is ready
-                var top = !1;
-                try {
-                    top = null == window1.frameElement && document.documentElement;
-                } catch (e) {}
-                top && top.doScroll && function doScrollCheck() {
-                    if (!jQuery.isReady) {
-                        try {
-                            // Use the trick by Diego Perini
-                            // http://javascript.nwbox.com/IEContentLoaded/
-                            top.doScroll("left");
-                        } catch (e) {
-                            return setTimeout(doScrollCheck, 50);
-                        }
-                        // detach all dom ready events
-                        detach(), // and execute any waiting functions
-                        jQuery.ready();
+        if (!readyList) // Catch cases where $(document).ready() is called after the browser event has already occurred.
+        // we once tried to use readyState "interactive" here, but it caused issues like the one
+        // discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
+        if (readyList = jQuery.Deferred(), "complete" === document.readyState) // Handle it asynchronously to allow scripts the opportunity to delay ready
+        setTimeout(jQuery.ready);
+        else if (document.addEventListener) // Use the handy event callback
+        document.addEventListener("DOMContentLoaded", completed, !1), // A fallback to window.onload, that will always work
+        window1.addEventListener("load", completed, !1);
+        else {
+            // Ensure firing before onload, maybe late but safe also for iframes
+            document.attachEvent("onreadystatechange", completed), // A fallback to window.onload, that will always work
+            window1.attachEvent("onload", completed);
+            // If IE and not a frame
+            // continually check to see if the document is ready
+            var top = !1;
+            try {
+                top = null == window1.frameElement && document.documentElement;
+            } catch (e) {}
+            top && top.doScroll && function doScrollCheck() {
+                if (!jQuery.isReady) {
+                    try {
+                        // Use the trick by Diego Perini
+                        // http://javascript.nwbox.com/IEContentLoaded/
+                        top.doScroll("left");
+                    } catch (e) {
+                        return setTimeout(doScrollCheck, 50);
                     }
-                }();
-            }
+                    // detach all dom ready events
+                    detach(), // and execute any waiting functions
+                    jQuery.ready();
+                }
+            }();
         }
         return readyList.promise(obj);
     }, // Populate the class2type map
@@ -975,7 +973,9 @@
         },
         val: function(value) {
             var ret, hooks, isFunction, elem = this[0];
-            if (!arguments.length) return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && (ret = hooks.get(elem, "value")) !== undefined ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
+            if (!arguments.length) {
+                return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && (ret = hooks.get(elem, "value")) !== undefined ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
+            }
             return isFunction = jQuery.isFunction(value), this.each(function(i) {
                 var val, self = jQuery(this);
                 1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
@@ -1021,11 +1021,10 @@
             if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
                 // Fallback to prop when attributes are not supported
                 if (typeof elem.getAttribute === core_strundefined) return jQuery.prop(elem, name1, value);
-                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name1 = name1.toLowerCase(), hooks = jQuery.attrHooks[name1] || (rboolean.test(name1) ? boolHook : nodeHook)), undefined !== value) {
-                    if (null === value) jQuery.removeAttr(elem, name1);
-                    else if (hooks && notxml && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined) return ret;
-                    else return elem.setAttribute(name1, value + ""), value;
-                } else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name1))) return ret;
+                if ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)) && (name1 = name1.toLowerCase(), hooks = jQuery.attrHooks[name1] || (rboolean.test(name1) ? boolHook : nodeHook)), undefined !== value) if (null === value) jQuery.removeAttr(elem, name1);
+                else if (hooks && notxml && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined) return ret;
+                else return elem.setAttribute(name1, value + ""), value;
+                else if (hooks && notxml && "get" in hooks && null !== (ret = hooks.get(elem, name1))) return ret;
                 else // Non-existent attributes return null, we normalize to undefined
                 return typeof elem.getAttribute !== core_strundefined && (ret = elem.getAttribute(name1)), null == ret ? undefined : ret;
             }
@@ -1063,8 +1062,10 @@
         prop: function(elem, name1, value) {
             var ret, hooks, nType = elem.nodeType;
             // don't get/set properties on text, comment and attribute nodes
-            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (// Fix name and attach hooks
-            name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), undefined !== value) ? hooks && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
+            if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
+                return (1 === nType && jQuery.isXMLDoc(elem) || (// Fix name and attach hooks
+                name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), undefined !== value) ? hooks && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : (0, elem[name1]);
+            }
         },
         propHooks: {
             tabIndex: {
@@ -1678,8 +1679,8 @@
             if (1 !== (nodeType = context.nodeType) && 9 !== nodeType) return [];
             if (!documentIsXML && !seed) {
                 // Shortcuts
-                if (match = rquickExpr.exec(selector)) {
-                    // Speed-up: Sizzle("#ID")
+                if (match = rquickExpr.exec(selector)) // Speed-up: Sizzle("#ID")
+                {
                     if (m = match[1]) {
                         if (9 === nodeType) {
                             // Check parentNode to catch when Blackberry 4.6 returns
@@ -1889,7 +1890,9 @@
             sortOrder = docElem.compareDocumentPosition ? function(a, b) {
                 var compare;
                 if (a === b) return hasDuplicate = !0, 0;
-                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1;
+                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) {
+                    return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1;
+                }
                 return a.compareDocumentPosition ? -1 : 1;
             } : function(a, b) {
                 var cur, i = 0, aup = a.parentNode, bup = b.parentNode, ap = [
@@ -2021,9 +2024,9 @@
                 },
                 CLASS: function(className) {
                     var pattern = classCache[className + " "];
-                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)"), classCache(className, function(elem) {
+                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")) && classCache(className, function(elem) {
                         return pattern.test(elem.className || typeof elem.getAttribute !== strundefined && elem.getAttribute("class") || "");
-                    }));
+                    });
                 },
                 ATTR: function(name1, operator, check) {
                     return function(elem) {
@@ -2804,38 +2807,34 @@
                 }
             }(node, destElements[i]);
             // Copy the events from the original to the clone
-            if (dataAndEvents) {
-                if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
-                else cloneCopyEvent(elem, clone);
-            }
+            if (dataAndEvents) if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
+            else cloneCopyEvent(elem, clone);
             // Return the cloned set
             return(// Preserve script evaluation history
             (destElements = getAll(clone, "script")).length > 0 && setGlobalEval(destElements, !inPage && getAll(elem, "script")), destElements = srcElements = node = null, clone);
         },
         buildFragment: function(elems, context, scripts, selection) {
             for(var j, elem, contains, tmp, tag, tbody, wrap, l = elems.length, // Ensure a safe fragment
-            safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
-                // Add nodes directly
-                if ("object" === jQuery.type(elem)) jQuery.merge(nodes, elem.nodeType ? [
-                    elem
-                ] : elem);
-                else if (rhtml.test(elem)) {
-                    for(tmp = tmp || safe.appendChild(context.createElement("div")), wrap = wrapMap[// Deserialize a standard representation
-                    tag = (rtagName.exec(elem) || [
-                        "",
-                        ""
-                    ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], // Descend through wrappers to the right content
-                    j = wrap[0]; j--;)tmp = tmp.lastChild;
-                    // Remove IE's autoinserted <tbody> from table fragments
-                    if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem) && nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0])), !jQuery.support.tbody) for(j = // String was a <table>, *may* have spurious <tbody>
-                    (elem = "table" !== tag || rtbody.test(elem) ? "<table>" !== wrap[1] || rtbody.test(elem) ? 0 : tmp : tmp.firstChild) && elem.childNodes.length; j--;)jQuery.nodeName(tbody = elem.childNodes[j], "tbody") && !tbody.childNodes.length && elem.removeChild(tbody);
-                    // Fix #12392 for oldIE
-                    for(jQuery.merge(nodes, tmp.childNodes), // Fix #12392 for WebKit and IE > 9
-                    tmp.textContent = ""; tmp.firstChild;)tmp.removeChild(tmp.firstChild);
-                    // Remember the top-level container for proper cleanup
-                    tmp = safe.lastChild;
-                } else nodes.push(context.createTextNode(elem));
-            }
+            safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) // Add nodes directly
+            if ("object" === jQuery.type(elem)) jQuery.merge(nodes, elem.nodeType ? [
+                elem
+            ] : elem);
+            else if (rhtml.test(elem)) {
+                for(tmp = tmp || safe.appendChild(context.createElement("div")), wrap = wrapMap[// Deserialize a standard representation
+                tag = (rtagName.exec(elem) || [
+                    "",
+                    ""
+                ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], // Descend through wrappers to the right content
+                j = wrap[0]; j--;)tmp = tmp.lastChild;
+                // Remove IE's autoinserted <tbody> from table fragments
+                if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem) && nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0])), !jQuery.support.tbody) for(j = // String was a <table>, *may* have spurious <tbody>
+                (elem = "table" !== tag || rtbody.test(elem) ? "<table>" !== wrap[1] || rtbody.test(elem) ? 0 : tmp : tmp.firstChild) && elem.childNodes.length; j--;)jQuery.nodeName(tbody = elem.childNodes[j], "tbody") && !tbody.childNodes.length && elem.removeChild(tbody);
+                // Fix #12392 for oldIE
+                for(jQuery.merge(nodes, tmp.childNodes), // Fix #12392 for WebKit and IE > 9
+                tmp.textContent = ""; tmp.firstChild;)tmp.removeChild(tmp.firstChild);
+                // Remember the top-level container for proper cleanup
+                tmp = safe.lastChild;
+            } else nodes.push(context.createTextNode(elem));
             for(tmp && safe.removeChild(tmp), jQuery.support.appendChecked || jQuery.grep(getAll(nodes, "input"), fixDefaultChecked), i = 0; elem = nodes[i++];)// #4087 - If origin and destination elements are the same, and this is
             // that element, do not do anything
             if ((!selection || -1 === jQuery.inArray(elem, selection)) && (contains = jQuery.contains(elem.ownerDocument, elem), // Append to fragment
@@ -3405,15 +3404,13 @@
                 // Status-dependent callbacks
                 statusCode: function(map) {
                     var code;
-                    if (map) {
-                        if (state < 2) for(code in map)// Lazy-add the new callback in a way that preserves old ones
-                        statusCode[code] = [
-                            statusCode[code],
-                            map[code]
-                        ];
-                        else // Execute the appropriate callbacks
-                        jqXHR.always(map[jqXHR.status]);
-                    }
+                    if (map) if (state < 2) for(code in map)// Lazy-add the new callback in a way that preserves old ones
+                    statusCode[code] = [
+                        statusCode[code],
+                        map[code]
+                    ];
+                    else // Execute the appropriate callbacks
+                    jqXHR.always(map[jqXHR.status]);
                     return this;
                 },
                 // Cancel the request
@@ -3537,17 +3534,15 @@
                                 }
                             }
                             // Apply converter (if not an equivalence)
-                            if (!0 !== conv) {
-                                // Unless errors are allowed to bubble, catch and return them
-                                if (conv && s.throws) response = conv(response);
-                                else try {
-                                    response = conv(response);
-                                } catch (e) {
-                                    return {
-                                        state: "parsererror",
-                                        error: conv ? e : "No conversion from " + prev + " to " + current
-                                    };
-                                }
+                            if (!0 !== conv) // Unless errors are allowed to bubble, catch and return them
+                            if (conv && s.throws) response = conv(response);
+                            else try {
+                                response = conv(response);
+                            } catch (e) {
+                                return {
+                                    state: "parsererror",
+                                    error: conv ? e : "No conversion from " + prev + " to " + current
+                                };
                             }
                         }
                         // Update prev for next iteration
@@ -3709,23 +3704,21 @@
                         // http://helpful.knobs-dials.com/index.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
                         try {
                             // Was never called and is aborted or complete
-                            if (callback && (isAbort || 4 === xhr.readyState)) {
-                                // If it's an abort
-                                if (// Only called once
-                                callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) // Abort it manually if needed
-                                4 !== xhr.readyState && xhr.abort();
-                                else {
-                                    responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
-                                    // Firefox throws an exception when accessing
-                                    // statusText for faulty cross-domain requests
-                                    try {
-                                        statusText = xhr.statusText;
-                                    } catch (e) {
-                                        // We normalize with Webkit giving an empty statusText
-                                        statusText = "";
-                                    }
-                                    status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
+                            if (callback && (isAbort || 4 === xhr.readyState)) // If it's an abort
+                            if (// Only called once
+                            callback = undefined, handle && (xhr.onreadystatechange = jQuery.noop, xhrOnUnloadAbort && delete xhrCallbacks[handle]), isAbort) // Abort it manually if needed
+                            4 !== xhr.readyState && xhr.abort();
+                            else {
+                                responses = {}, status = xhr.status, responseHeaders = xhr.getAllResponseHeaders(), "string" == typeof xhr.responseText && (responses.text = xhr.responseText);
+                                // Firefox throws an exception when accessing
+                                // statusText for faulty cross-domain requests
+                                try {
+                                    statusText = xhr.statusText;
+                                } catch (e) {
+                                    // We normalize with Webkit giving an empty statusText
+                                    statusText = "";
                                 }
+                                status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                             }
                         } catch (firefoxAccessException) {
                             isAbort || complete(-1, firefoxAccessException);
