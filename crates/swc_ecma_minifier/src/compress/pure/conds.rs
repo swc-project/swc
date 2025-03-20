@@ -13,6 +13,7 @@ use crate::{
     compress::util::{can_absorb_negate, negate_cost},
     util::make_bool,
 };
+use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
     pub(super) fn optimize_const_cond(&mut self, e: &mut Expr) {
