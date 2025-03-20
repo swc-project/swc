@@ -2720,10 +2720,9 @@
      * @returns {boolean} ?
      */ NumberFormat.checkValueRange = function(val1, val2, checkbothExist, isFraction) {
                     var decide = isFraction ? 'f' : 's', dint = 0, str1 = errorText['l' + decide], str2 = errorText['m' + decide];
-                    if (!util_isUndefined(val1) && (this.checkRange(val1, str1, isFraction), dint++), !util_isUndefined(val2) && (this.checkRange(val2, str2, isFraction), dint++), 2 === dint) {
-                        if (!(val1 < val2)) return !0;
-                        throwError(str2 + 'specified must be less than the' + str1);
-                    } else checkbothExist && 1 === dint && throwError('Both' + str2 + 'and' + str2 + 'must be present');
+                    if (!util_isUndefined(val1) && (this.checkRange(val1, str1, isFraction), dint++), !util_isUndefined(val2) && (this.checkRange(val2, str2, isFraction), dint++), 2 === dint) if (!(val1 < val2)) return !0;
+                    else throwError(str2 + 'specified must be less than the' + str1);
+                    else checkbothExist && 1 === dint && throwError('Both' + str2 + 'and' + str2 + 'must be present');
                     return !1;
                 }, /**
      * Check if the provided fraction range is valid
@@ -14210,7 +14209,7 @@
                                 65
                             ], arrayKey = void 0, i = 0; i <= array.length - 1; i++)if (e.which === array[i]) {
                                 if (e.ctrlKey && 65 === e.which) return;
-                                if (65 !== e.which) {
+                                else if (65 !== e.which) {
                                     arrayKey = array[i];
                                     return;
                                 }
@@ -15938,7 +15937,7 @@
                 }, Formats.prototype.onKeyDown = function(e) {
                     if (13 === e.event.which) {
                         var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), startCon = 0 === range.startContainer.textContent.length || 'PRE' === range.startContainer.nodeName ? range.startContainer : range.startContainer.parentElement, endCon = 0 === range.endContainer.textContent.length || 'PRE' === range.endContainer.nodeName ? range.endContainer : range.endContainer.parentElement, preElem = (0, ej2_base /* closest */ .oq)(startCon, 'pre'), endPreElem = (0, ej2_base /* closest */ .oq)(endCon, 'pre');
-                        if (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) || (0, ej2_base /* isNullOrUndefined */ .le)(preElem.parentElement) || 'LI' !== preElem.parentElement.tagName) && (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem) || !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && (0, ej2_base /* isNullOrUndefined */ .le)(endPreElem)) && (e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range), range = this.parent.nodeSelection.getRange(this.parent.currentDocument), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, endCon, 0)), 13 === e.event.which && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem))) {
+                        if (!(!(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem.parentElement) && 'LI' === preElem.parentElement.tagName) && (((0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem) || !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && (0, ej2_base /* isNullOrUndefined */ .le)(endPreElem)) && (e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range), range = this.parent.nodeSelection.getRange(this.parent.currentDocument), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, endCon, 0)), 13 === e.event.which && !(0, ej2_base /* isNullOrUndefined */ .le)(preElem) && !(0, ej2_base /* isNullOrUndefined */ .le)(endPreElem))) {
                             e.event.preventDefault(), this.deleteContent(range), this.removeCodeContent(range);
                             var lastEmpty = (range = this.parent.nodeSelection.getRange(this.parent.currentDocument)).startContainer.childNodes[range.endOffset], lastBeforeBr = range.startContainer.childNodes[range.endOffset - 1], startParent = range.startContainer;
                             if (!(0, ej2_base /* isNullOrUndefined */ .le)(lastEmpty) && !(0, ej2_base /* isNullOrUndefined */ .le)(lastBeforeBr) && (0, ej2_base /* isNullOrUndefined */ .le)(lastEmpty.nextSibling) && 'BR' === lastEmpty.nodeName && 'BR' === lastBeforeBr.nodeName) this.paraFocus(range.startContainer, e.enterAction);
@@ -16341,10 +16340,8 @@
                             this.isBlockNode(currentNode.parentNode) || 0 === txtArray.length || 0 === i || i === txtArray.length - 1 || 3 === range.startContainer.nodeType ? (inlineNodes[i] = currentNode, check = !1) : currentNode = currentNode.parentNode;
                         }
                     }
-                    for(var i = 0, j_1 = 0; i < inlineNodes.length; i++)if (0 === i && (finalinlineNodes[j_1] = inlineNodes[i]), inlineNodes.length > 1 && i < inlineNodes.length - 1) {
-                        if (inlineNodes[i].parentElement === inlineNodes[i + 1].parentElement && inlineNodes[i] === inlineNodes[i + 1]) continue;
-                        finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
-                    }
+                    for(var i = 0, j_1 = 0; i < inlineNodes.length; i++)if (0 === i && (finalinlineNodes[j_1] = inlineNodes[i]), inlineNodes.length > 1 && i < inlineNodes.length - 1) if (inlineNodes[i].parentElement === inlineNodes[i + 1].parentElement && inlineNodes[i] === inlineNodes[i + 1]) continue;
+                    else finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
                     var j = 0;
                     anchorNodes[0] = this.createAchorNode(e);
                     for(var i = 0; i < finalinlineNodes.length; i++)if (0 === i && (cloneNode = finalinlineNodes[i].cloneNode(!0), anchorNodes[i].appendChild(cloneNode)), i < finalinlineNodes.length - 1) if (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode) {
@@ -18165,14 +18162,13 @@
                             prevList.appendChild(pElement), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
                         }
                         else if (1 === collection[index].nestedLevel) root.lastChild.tagName.toLowerCase() === collection[index].listType ? temp = root.lastChild : (root.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), temp.style.listStyleType = collection[index].listStyleTypeName), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString());
-                        else for(elem = prevList; elem.parentElement;)if ((elem = elem.parentElement).attributes.getNamedItem('level')) {
-                            // eslint-disable-next-line
+                        else for(elem = prevList; elem.parentElement;)if ((elem = elem.parentElement).attributes.getNamedItem('level')) // eslint-disable-next-line
+                        {
                             if (parseInt(elem.attributes.getNamedItem('level').textContent, null) === collection[index].nestedLevel) {
                                 (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), elem.appendChild(prevList);
                                 break;
                             // eslint-disable-next-line
-                            }
-                            if (collection[index].nestedLevel > parseInt(elem.attributes.getNamedItem('level').textContent, null)) {
+                            } else if (collection[index].nestedLevel > parseInt(elem.attributes.getNamedItem('level').textContent, null)) {
                                 elem.appendChild(temp = (0, ej2_base /* createElement */ .az)(collection[index].listType)), (prevList = (0, ej2_base /* createElement */ .az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
                                 break;
                             }
@@ -19791,7 +19787,7 @@
                         var container3, template = (0, ej2_base /* isNullOrUndefined */ .le)(args.template) ? null : args.template;
                         container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base /* isNullOrUndefined */ .le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
-                    container.wrap.classList.add(CLS_HIDESPIN);
+                    container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
             }
             /**
@@ -24240,7 +24236,7 @@
                         ], 'e-focused'), ul.children[liIdx].focus());
                     }(this.getULElement(), e.keyCode));
                 }, DropDownButton.prototype.keyEventHandler = function(e) {
-                    !(this.target && (13 === e.keyCode || 9 === e.keyCode) || e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode) && (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e));
+                    (!this.target || 13 !== e.keyCode && 9 !== e.keyCode) && (e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode || (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e)));
                 }, DropDownButton.prototype.getLI = function(elem) {
                     return 'LI' === elem.tagName ? elem : (0, ej2_base /* closest */ .oq)(elem, 'li');
                 }, DropDownButton.prototype.mousedownHandler = function(e) {
@@ -24912,7 +24908,7 @@
                     }, 1500));
                 }, Tooltip.prototype.targetClick = function(e) {
                     var target;
-                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
+                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, (0, ej2_base /* isNullOrUndefined */ .le)(target) || (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
                 }, Tooltip.prototype.targetHover = function(e) {
                     if (target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') || 0 !== this.closeDelay)) {
                         for(var target, targetList = [].slice.call((0, ej2_base /* selectAll */ .td)('[data-tooltip-id= "' + this.ctrlId + '_content"]', document)), _i = 0; _i < targetList.length; _i++){
@@ -28975,9 +28971,9 @@
                 }, Toolbar.prototype.unWireEvents = function() {
                     ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'focusin', this.tbFocusHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'keydown', this.tbKeydownHandler);
                 }, Toolbar.prototype.addEventListener = function() {
-                    !this.parent.isDestroyed && (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
+                    this.parent.isDestroyed || (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
                 }, Toolbar.prototype.removeEventListener = function() {
-                    !this.parent.isDestroyed && (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
+                    this.parent.isDestroyed || (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
                 }, Toolbar.prototype.setCssClass = function(e) {
                     this.toolbarObj && e.cssClass && ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass + ' ' + e.cssClass).trim()

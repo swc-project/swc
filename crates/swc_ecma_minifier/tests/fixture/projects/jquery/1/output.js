@@ -11,16 +11,15 @@ export const obj = {
                 null,
                 selector,
                 null
-            ] : rquickExpr.exec(selector)) && (match[1] || !context)) {
-                // HANDLE: $(html) -> $(array)
-                if (match[1]) {
-                    // HANDLE: $(html, props)
-                    if (context = context instanceof jQuery ? context[0] : context, // scripts is true for back-compat
-                    jQuery.merge(this, jQuery.parseHTML(match[1], context && context.nodeType ? context.ownerDocument || context : document, !0)), rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) for(match in context)// Properties of context are called as methods if possible
-                    jQuery.isFunction(this[match]) ? this[match](context[match]) : this.attr(match, context[match]);
-                    return this;
-                // HANDLE: $(#id)
-                }
+            ] : rquickExpr.exec(selector)) && (match[1] || !context)) // HANDLE: $(html) -> $(array)
+            if (match[1]) {
+                // HANDLE: $(html, props)
+                if (context = context instanceof jQuery ? context[0] : context, // scripts is true for back-compat
+                jQuery.merge(this, jQuery.parseHTML(match[1], context && context.nodeType ? context.ownerDocument || context : document, !0)), rsingleTag.test(match[1]) && jQuery.isPlainObject(context)) for(match in context)// Properties of context are called as methods if possible
+                jQuery.isFunction(this[match]) ? this[match](context[match]) : this.attr(match, context[match]);
+                return this;
+            // HANDLE: $(#id)
+            } else {
                 // Check parentNode to catch when Blackberry 4.6 returns
                 // nodes that are no longer in the document #6963
                 if ((elem = document.getElementById(match[2])) && elem.parentNode) {
@@ -31,7 +30,6 @@ export const obj = {
                     this.length = 1, this[0] = elem;
                 }
                 return this.context = document, this.selector = selector, this;
-            // HANDLE: $(expr, $(...))
             }
             return !context || context.jquery ? (context || rootjQuery).find(selector) : this.constructor(context).find(selector);
         // HANDLE: $(DOMElement)

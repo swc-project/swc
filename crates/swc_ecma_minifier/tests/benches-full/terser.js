@@ -1017,32 +1017,30 @@
                                 var node = function() {
                                     var is_default, exported_names, node, exported_value, exported_definition, start = S.token;
                                     if (is("keyword", "default")) is_default = !0, next();
-                                    else if (exported_names = map_names(!1)) {
-                                        if (!is("name", "from")) return new AST_Export({
+                                    else if (exported_names = map_names(!1)) if (!is("name", "from")) return new AST_Export({
+                                        start: start,
+                                        is_default: is_default,
+                                        exported_names: exported_names,
+                                        end: prev()
+                                    });
+                                    else {
+                                        next();
+                                        var mod_str = S.token;
+                                        "string" !== mod_str.type && unexpected(), next();
+                                        const assert_clause = maybe_import_assertion();
+                                        return new AST_Export({
                                             start: start,
                                             is_default: is_default,
                                             exported_names: exported_names,
-                                            end: prev()
+                                            module_name: new AST_String({
+                                                start: mod_str,
+                                                value: mod_str.value,
+                                                quote: mod_str.quote,
+                                                end: mod_str
+                                            }),
+                                            end: prev(),
+                                            assert_clause
                                         });
-                                        {
-                                            next();
-                                            var mod_str = S.token;
-                                            "string" !== mod_str.type && unexpected(), next();
-                                            const assert_clause = maybe_import_assertion();
-                                            return new AST_Export({
-                                                start: start,
-                                                is_default: is_default,
-                                                exported_names: exported_names,
-                                                module_name: new AST_String({
-                                                    start: mod_str,
-                                                    value: mod_str.value,
-                                                    quote: mod_str.quote,
-                                                    end: mod_str
-                                                }),
-                                                end: prev(),
-                                                assert_clause
-                                            });
-                                        }
                                     }
                                     return is("punc", "{") || is_default && (is("keyword", "class") || is("keyword", "function")) && is_token(peek(), "punc") ? (exported_value = expression(!1), semicolon()) : (node = statement(is_default)) instanceof AST_Definitions && is_default ? unexpected(node.start) : node instanceof AST_Definitions || node instanceof AST_Defun || node instanceof AST_DefClass ? exported_definition = node : node instanceof AST_ClassExpression || node instanceof AST_Function ? exported_value = node : node instanceof AST_SimpleStatement ? exported_value = node.body : unexpected(node.start), new AST_Export({
                                         start: start,
@@ -1617,17 +1615,18 @@
             }
             "async" === name && is_not_method_start() && (is_async = !0, name = as_property_name()), "operator" === prev().type && "*" === prev().value && (is_generator = !0, name = as_property_name()), ("get" === name || "set" === name) && is_not_method_start() && (accessor_type = name, name = as_property_name()), "privatename" === prev().type && (is_private = !0);
             const property_token = prev();
-            if (null != accessor_type) return is_private ? annotate(new ("get" === accessor_type ? AST_PrivateGetter : AST_PrivateSetter)({
-                start,
-                static: is_static,
-                key: get_symbol_ast(name),
-                value: create_accessor(),
-                end: prev()
-            })) : annotate(new ("get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter)({
+            if (null != accessor_type) if (!is_private) return annotate(new ("get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter)({
                 start,
                 static: is_static,
                 key: name = get_symbol_ast(name),
                 quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
+                value: create_accessor(),
+                end: prev()
+            }));
+            else return annotate(new ("get" === accessor_type ? AST_PrivateGetter : AST_PrivateSetter)({
+                start,
+                static: is_static,
+                key: get_symbol_ast(name),
                 value: create_accessor(),
                 end: prev()
             }));
@@ -1993,15 +1992,13 @@
         var maybe_assign = function(no_in) {
             handle_regexp();
             var start, star, has_expression, start1 = S.token;
-            if ("name" == start1.type && "yield" == start1.value) {
-                if (is_in_generator()) return next(), is_in_generator() || croak("Unexpected yield expression outside generator function", S.prev.line, S.prev.col, S.prev.pos), start = S.token, star = !1, has_expression = !0, can_insert_semicolon() || is("punc") && PUNC_AFTER_EXPRESSION.has(S.token.value) ? has_expression = !1 : is("operator", "*") && (star = !0, next()), new AST_Yield({
-                    start: start,
-                    is_star: star,
-                    expression: has_expression ? expression() : null,
-                    end: prev()
-                });
-                S.input.has_directive("use strict") && token_error(S.token, "Unexpected yield identifier inside strict mode");
-            }
+            if ("name" == start1.type && "yield" == start1.value) if (is_in_generator()) return next(), is_in_generator() || croak("Unexpected yield expression outside generator function", S.prev.line, S.prev.col, S.prev.pos), start = S.token, star = !1, has_expression = !0, can_insert_semicolon() || is("punc") && PUNC_AFTER_EXPRESSION.has(S.token.value) ? has_expression = !1 : is("operator", "*") && (star = !0, next()), new AST_Yield({
+                start: start,
+                is_star: star,
+                expression: has_expression ? expression() : null,
+                end: prev()
+            });
+            else S.input.has_directive("use strict") && token_error(S.token, "Unexpected yield identifier inside strict mode");
             var left = maybe_conditional(no_in), val = S.token.value;
             if (is("operator") && ASSIGNMENT.has(val)) {
                 if (is_assignable(left) || (left = to_destructuring(left)) instanceof AST_Destructuring) return next(), new AST_Assign({
@@ -5365,10 +5362,8 @@
                 var printed_comments = this.printed_comments;
                 // There cannot be a newline between return/yield and its value.
                 const keyword_with_value = node instanceof AST_Exit && node.value || (node instanceof AST_Await || node instanceof AST_Yield) && node.expression;
-                if (start.comments_before && printed_comments.has(start.comments_before)) {
-                    if (!keyword_with_value) return;
-                    start.comments_before = [];
-                }
+                if (start.comments_before && printed_comments.has(start.comments_before)) if (!keyword_with_value) return;
+                else start.comments_before = [];
                 var comments = start.comments_before;
                 if (comments || (comments = start.comments_before = []), printed_comments.add(comments), keyword_with_value) {
                     var tw = new TreeWalker(function(node) {
@@ -6814,7 +6809,7 @@
         return walk_parent(scope_node, (node, info)=>{
             if (node instanceof AST_Scope && node !== scope_node) {
                 var parent = info.parent();
-                return parent instanceof AST_Call && parent.expression === node && !(node.async || node.is_generator) ? void 0 : !walk(node, find_ref) || walk_abort;
+                if (!(parent instanceof AST_Call) || parent.expression !== node || node.async || node.is_generator) return !walk(node, find_ref) || walk_abort;
             }
         });
     }
@@ -7782,7 +7777,7 @@
             } else {
                 if (obj instanceof RegExp) {
                     if ("source" == key) return regexp_source_fix(obj.source);
-                    if ("flags" == key || regexp_flags.has(key)) return obj[key];
+                    else if ("flags" == key || regexp_flags.has(key)) return obj[key];
                 }
                 if (!obj || obj === exp || !HOP(obj, key)) return this;
                 if ("function" == typeof obj) switch(key){
@@ -9129,12 +9124,10 @@
             return;
         }
         var d = node.name.definition();
-        if (node.value) {
-            if (safe_to_assign(tw, d, node.name.scope, node.value)) return d.fixed = function() {
-                return node.value;
-            }, tw.loop_ids.set(d.id, tw.in_loop), mark(tw, d, !1), descend(), mark(tw, d, !0), !0;
-            d.fixed = !1;
-        }
+        if (node.value) if (safe_to_assign(tw, d, node.name.scope, node.value)) return d.fixed = function() {
+            return node.value;
+        }, tw.loop_ids.set(d.id, tw.in_loop), mark(tw, d, !1), descend(), mark(tw, d, !0), !0;
+        else d.fixed = !1;
     }), def_reduce_vars(AST_While, function(tw, descend, compressor) {
         reset_block_variables(compressor, this);
         const saved_loop = tw.in_loop;
@@ -9172,8 +9165,7 @@
             var def = node._find_defs(compressor, "");
             if (def) {
                 for(var parent, level = 0, child = node; (parent = this.parent(level++)) && parent instanceof AST_PropAccess && parent.expression === child;)child = parent;
-                if (is_lhs(child, parent)) return;
-                return def;
+                if (!is_lhs(child, parent)) return def;
             }
         }))) : this;
     }), def_find_defs(AST_Node, noop), def_find_defs(AST_Chain, function(compressor, suffix) {
@@ -10721,13 +10713,11 @@
                     if (!(ll instanceof AST_Node)) return maintain_this_binding(compressor.parent(), compressor.self(), self1.left).optimize(compressor);
                     var rr = self1.right.evaluate(compressor);
                     if (rr) {
-                        if (!(rr instanceof AST_Node)) {
-                            if (compressor.in_boolean_context()) return make_sequence(self1, [
-                                self1.left,
-                                make_node(AST_True, self1)
-                            ]).optimize(compressor);
-                            set_flag(self1, 0b00000010);
-                        }
+                        if (!(rr instanceof AST_Node)) if (compressor.in_boolean_context()) return make_sequence(self1, [
+                            self1.left,
+                            make_node(AST_True, self1)
+                        ]).optimize(compressor);
+                        else set_flag(self1, 0b00000010);
                     } else {
                         var parent = compressor.parent();
                         if ("||" == parent.operator && parent.left === compressor.self() || compressor.in_boolean_context()) return self1.left.optimize(compressor);
@@ -11184,7 +11174,8 @@
             return self1.condition = expressions.pop(), expressions.push(self1), make_sequence(self1, expressions);
         }
         var cond = self1.condition.evaluate(compressor);
-        if (cond !== self1.condition) return cond ? maintain_this_binding(compressor.parent(), compressor.self(), self1.consequent) : maintain_this_binding(compressor.parent(), compressor.self(), self1.alternative);
+        if (cond !== self1.condition) if (cond) return maintain_this_binding(compressor.parent(), compressor.self(), self1.consequent);
+        else return maintain_this_binding(compressor.parent(), compressor.self(), self1.alternative);
         var negated = cond.negate(compressor, first_in_statement(compressor));
         best_of(compressor, cond, negated) === negated && (self1 = make_node(AST_Conditional, self1, {
             condition: negated,

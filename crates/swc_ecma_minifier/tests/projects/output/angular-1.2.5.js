@@ -35,9 +35,7 @@
             var obj, message, i, code = arguments[0], template = arguments[1], templateArgs = arguments;
             for(i = 2, message = (message = "[" + (module ? module + ":" : "") + code + "] " + template.replace(/\{\d+\}/g, function(match) {
                 var arg, index = +match.slice(1, -1);
-                if (index + 2 < templateArgs.length) {
-                    return "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg;
-                }
+                if (index + 2 < templateArgs.length) return "function" == typeof (arg = templateArgs[index + 2]) ? arg.toString().replace(/ ?\{[\s\S]*$/, "") : void 0 === arg ? "undefined" : "string" != typeof arg ? toJson(arg) : arg;
                 return match;
             })) + "\nhttp://errors.angularjs.org/1.2.5/" + (module ? module + "/" : "") + code; i < arguments.length; i++){
                 message = message + (2 == i ? "?" : "&") + "p" + (i - 2) + "=" + encodeURIComponent((obj = arguments[i], "function" == typeof obj ? obj.toString().replace(/ \{[\s\S]*$/, "") : void 0 === obj ? "undefined" : "string" != typeof obj ? JSON.stringify(obj) : obj));
@@ -1129,10 +1127,9 @@
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
-            if (BOOLEAN_ATTR[lowercasedName]) {
-                if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
-                value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
-            } else if (isDefined(value)) element.setAttribute(name, value);
+            if (BOOLEAN_ATTR[lowercasedName]) if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
+            else value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
+            else if (isDefined(value)) element.setAttribute(name, value);
             else if (element.getAttribute) {
                 // the extra argument "2" is to get the right thing for a.href in IE, see jQuery code
                 // some elements (e.g. Document) don't have get attribute, so return undefined
@@ -1180,15 +1177,14 @@
             // jqLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
             // jqLiteEmpty takes no arguments but is a setter.
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) {
-                if (isObject(arg1)) {
-                    // we are a write, but the object properties are the key/values
-                    for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
-                    fn(this[i], arg1);
-                    else for(key in arg1)fn(this[i], key, arg1[key]);
-                    // return self for chaining
-                    return this;
-                }
+            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) if (isObject(arg1)) {
+                // we are a write, but the object properties are the key/values
+                for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
+                fn(this[i], arg1);
+                else for(key in arg1)fn(this[i], key, arg1[key]);
+                // return self for chaining
+                return this;
+            } else {
                 for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
                     var nodeValue = fn(this[j], arg1, arg2);
                     value = value ? value + nodeValue : nodeValue;
@@ -4546,12 +4542,11 @@
                                         }));
                                     }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
-                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) {
-                                    if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
-                                    cachedResp.then(removePendingReq, removePendingReq), cachedResp);
-                                    // serving from cache
-                                    isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                                } else // put the promise for the non-transformed response into cache as a placeholder
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
+                                cachedResp.then(removePendingReq, removePendingReq), cachedResp);
+                                else // serving from cache
+                                isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                else // put the promise for the non-transformed response into cache as a placeholder
                                 cache.put(url, promise);
                                 return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, /**
            * Callback registered to $httpBackend():
@@ -5576,9 +5571,9 @@
         // nifty check if obj is Function that is fast and works across iframes and other contexts
         if (obj) {
             if (obj.constructor === obj) throw $parseMinErr("isecfn", "Referencing Function in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isWindow(obj)
+            else if (// isWindow(obj)
             obj.document && obj.location && obj.alert && obj.setInterval) throw $parseMinErr("isecwindow", "Referencing the Window in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isElement(obj)
+            else if (// isElement(obj)
             obj.children && (obj.nodeName || obj.on && obj.find)) throw $parseMinErr("isecdom", "Referencing DOM nodes in Angular expressions is disallowed! Expression: {0}", fullExpression);
         }
         return obj;
@@ -7658,25 +7653,23 @@
                         // If we get here, then we may only take one of two actions.
                         // 1. sanitize the value for the requested type, or
                         // 2. throw an exception.
-                        if (type === SCE_CONTEXTS.RESOURCE_URL) {
-                            if (function(url) {
-                                var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
-                                // Ensure that at least one item from the whitelist allows this url.
-                                for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
-                                    allowed = !0;
+                        if (type === SCE_CONTEXTS.RESOURCE_URL) if (function(url) {
+                            var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
+                            // Ensure that at least one item from the whitelist allows this url.
+                            for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
+                                allowed = !0;
+                                break;
+                            }
+                            if (allowed) // Ensure that no item from the blacklist blocked this url.
+                            {
+                                for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
+                                    allowed = !1;
                                     break;
                                 }
-                                if (allowed) // Ensure that no item from the blacklist blocked this url.
-                                {
-                                    for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
-                                        allowed = !1;
-                                        break;
-                                    }
-                                }
-                                return allowed;
-                            }(maybeTrusted)) return maybeTrusted;
-                            throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
-                        }
+                            }
+                            return allowed;
+                        }(maybeTrusted)) return maybeTrusted;
+                        else throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
                         if (type === SCE_CONTEXTS.HTML) return htmlSanitizer(maybeTrusted);
                         throw $sceMinErr("unsafe", "Attempting to use an unsafe value in a safe context.");
                     },
@@ -9315,8 +9308,9 @@
  */ function limitToFilter() {
         return function(input, limit) {
             if (!isArray(input) && !isString(input)) return input;
-            if (limit = int(limit), isString(input)) return(//NaN check on limit
-            limit ? limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length) : "");
+            if (limit = int(limit), isString(input)) //NaN check on limit
+            if (limit) return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length);
+            else return "";
             var i, n, out = [];
             for(limit > input.length ? limit = input.length : limit < -input.length && (limit = -input.length), limit > 0 ? (i = 0, n = limit) : (i = input.length + limit, n = input.length); i < n; i++)out.push(input[i]);
             return out;

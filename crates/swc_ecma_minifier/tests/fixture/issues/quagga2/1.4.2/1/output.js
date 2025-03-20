@@ -4299,7 +4299,7 @@
                                 var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
                                 if (hasCatch && hasFinally) {
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                                    if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                                    else if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
                                 } else if (hasCatch) {
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {

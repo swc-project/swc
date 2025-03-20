@@ -2515,9 +2515,9 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : // String.prototype.fromCharCode does not supports
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? // String.prototype.fromCharCode does not supports
                             // > 2 bytes unicode chars directly
-                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
+                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             //has some bugs
@@ -6511,19 +6511,20 @@
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
                 if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
-                    if (dir) return -1;
-                    byteOffset = buffer.length - 1;
-                } else if (byteOffset < 0) {
-                    if (!dir) return -1;
-                    byteOffset = 0;
-                }
+                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) if (dir) return -1;
+                else byteOffset = buffer.length - 1;
+                else if (byteOffset < 0) if (!dir) return -1;
+                else byteOffset = 0;
                 // Finally, search either indexOf (if dir is true) or lastIndexOf
                 if ("string" == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return(// Special case: looking for empty string/buffer always fails
                 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir));
-                if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
-                    val
-                ], byteOffset, encoding, dir);
+                if ("number" == typeof val) {
+                    if (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+                    else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+                    return arrayIndexOf(buffer, [
+                        val
+                    ], byteOffset, encoding, dir);
+                }
                 throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
