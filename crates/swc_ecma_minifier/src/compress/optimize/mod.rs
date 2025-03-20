@@ -694,8 +694,6 @@ impl Optimizer<'_> {
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
-        self.optimize_bang_within_logical_ops(e, true);
-
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         self.drop_unused_update(e);
@@ -2079,18 +2077,6 @@ impl VisitMut for Optimizer<'_> {
 
                     Expr::undefined(DUMMY_SP)
                 });
-            }
-        } else {
-            match &mut *n.expr {
-                Expr::Seq(e) => {
-                    // Non-last items are handled by visit_mut_seq_expr
-                    if let Some(e) = e.exprs.last_mut() {
-                        self.optimize_bang_within_logical_ops(e, true);
-                    }
-                }
-                _ => {
-                    self.optimize_bang_within_logical_ops(&mut n.expr, true);
-                }
             }
         }
 
