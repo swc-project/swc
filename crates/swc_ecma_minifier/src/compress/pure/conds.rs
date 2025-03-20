@@ -7,6 +7,7 @@ use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
+use super::{DropOpts, Pure};
 use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
