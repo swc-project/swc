@@ -5,8 +5,8 @@ use std::{cell::RefCell, mem::transmute};
 pub mod items;
 pub mod merge;
 
-#[cfg(all(not(feature = "chili"), not(feature = "rayon")))]
-compile_error!("You must enable `chili` or `rayon` feature, not both");
+#[cfg(all(not(feature = "chili"), not(feature = "rayon"), feature = "parallel"))]
+compile_error!("You must enable `chili` or `rayon` feature if you want to use `parallel` feature");
 
 #[cfg(all(feature = "chili", feature = "rayon"))]
 compile_error!("You must enable `chili` or `rayon` feature, not both");
