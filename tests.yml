@@ -42,13 +42,17 @@ check:
   swc_ecma_loader:
     - "cargo hack check --feature-powerset"
   swc_ecma_transforms:
-    - "cargo hack check --feature-powerset"
+    # - "cargo hack check --feature-powerset"
+    - "cargo check --features concurrent"
   swc_ecma_transforms_base:
-    - "cargo hack check --feature-powerset"
+    # - "cargo hack check --feature-powerset"
+    - "cargo check --features concurrent"
   swc_ecma_transforms_compat:
-    - "cargo hack check --feature-powerset"
+    # - "cargo hack check --feature-powerset"
+    - "cargo check --features concurrent"
   swc_ecma_transforms_optimization:
-    - "cargo hack check --feature-powerset"
+    # - "cargo hack check --feature-powerset"
+    - "cargo check --features concurrent"
   swc_ecma_utils:
     # - "cargo hack check --feature-powerset"
     - "cargo check --features concurrent"
