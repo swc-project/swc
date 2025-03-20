@@ -132,12 +132,12 @@
                     maxHeight: "100%",
                     objectFit: objectFit,
                     objectPosition: objectPosition
-                }), blurStyle = "blur" !== placeholder || blurComplete ? {} : {
+                }), blurStyle = "blur" === placeholder && !blurComplete ? {
                     backgroundSize: objectFit || "cover",
                     backgroundPosition: objectPosition || "0% 0%",
                     filter: "blur(20px)",
                     backgroundImage: 'url("'.concat(blurDataURL, '")')
-                };
+                } : {};
                 if ("fill" === layout) // <Image src="i.png" layout="fill" />
                 wrapperStyle.display = "block", wrapperStyle.position = "absolute", wrapperStyle.top = 0, wrapperStyle.left = 0, wrapperStyle.bottom = 0, wrapperStyle.right = 0;
                 else if (void 0 !== widthInt && void 0 !== heightInt) {
@@ -371,7 +371,7 @@
                     };
                 }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
-                    sizes: sizes || "w" !== kind ? sizes : "100vw",
+                    sizes: !sizes && "w" === kind ? "100vw" : sizes,
                     srcSet: widths.map(function(w, i) {
                         return "".concat(loader({
                             config: config,

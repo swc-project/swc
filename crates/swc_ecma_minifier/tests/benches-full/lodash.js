@@ -1118,7 +1118,7 @@
      * @param {string} key The key of the property to assign.
      * @param {*} value The value to assign.
      */ function assignMergeValue(object, key, value) {
-            (undefined === value || eq(object[key], value)) && (undefined !== value || key in object) || baseAssignValue(object, key, value);
+            (undefined !== value && !eq(object[key], value) || undefined === value && !(key in object)) && baseAssignValue(object, key, value);
         }
         /**
      * Assigns `value` to `key` of `object` if the existing value is not equivalent
@@ -1131,7 +1131,7 @@
      * @param {*} value The value to assign.
      */ function assignValue(object, key, value) {
             var objValue = object[key];
-            hasOwnProperty.call(object, key) && eq(objValue, value) && (undefined !== value || key in object) || baseAssignValue(object, key, value);
+            (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || undefined === value && !(key in object)) && baseAssignValue(object, key, value);
         }
         /**
      * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -1348,7 +1348,7 @@
                 if (value = comparator || 0 !== value ? value : 0, isCommon && computed == computed) {
                     for(var valuesIndex = valuesLength; valuesIndex--;)if (values[valuesIndex] === computed) continue outer;
                     result.push(value);
-                } else includes(values, computed, comparator) || result.push(value);
+                } else !includes(values, computed, comparator) && result.push(value);
             }
             return result;
         }
@@ -1720,7 +1720,7 @@
             for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
                 var value = array[index];
                 depth > 0 && predicate(value) ? depth > 1 ? // Recursively flatten arrays (susceptible to call stack limits).
-                baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : isStrict || (result[result.length] = value);
+                baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : !isStrict && (result[result.length] = value);
             }
             return result;
         }
@@ -2383,16 +2383,16 @@
      * @param {Function} func The function to associate metadata with.
      * @param {*} data The metadata.
      * @returns {Function} Returns `func`.
-     */ var baseSetData = metaMap ? function(func, data) {
+     */ var baseSetData = !metaMap ? identity : function(func, data) {
             return metaMap.set(func, data), func;
-        } : identity, baseSetToString = defineProperty ? function(func, string) {
+        }, baseSetToString = !defineProperty ? identity : function(func, string) {
             return defineProperty(func, 'toString', {
                 configurable: !0,
                 enumerable: !1,
                 value: constant(string),
                 writable: !0
             });
-        } : identity;
+        };
         /**
      * The base implementation of `_.slice` without an iteratee call guard.
      *
@@ -2531,7 +2531,7 @@
                 if (value = comparator || 0 !== value ? value : 0, isCommon && computed == computed) {
                     for(var seenIndex = seen.length; seenIndex--;)if (seen[seenIndex] === computed) continue outer;
                     iteratee && seen.push(computed), result.push(value);
-                } else includes(seen, computed, comparator) || (seen !== result && seen.push(computed), result.push(value));
+                } else !includes(seen, computed, comparator) && (seen !== result && seen.push(computed), result.push(value));
             }
             return result;
         }
@@ -3105,7 +3105,7 @@
      * @returns {Function} Returns the new wrapped function.
      */ function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
             var isCurry = 8 & bitmask, newHolders = isCurry ? holders : undefined, newHoldersRight = isCurry ? undefined : holders, newPartials = isCurry ? partials : undefined, newPartialsRight = isCurry ? undefined : partials;
-            bitmask |= isCurry ? 32 : 64, 4 & (bitmask &= ~(isCurry ? 64 : 32)) || (bitmask &= -4);
+            bitmask |= isCurry ? 32 : 64, !(4 & (bitmask &= ~(isCurry ? 64 : 32))) && (bitmask &= -4);
             var newData = [
                 func,
                 bitmask,
@@ -3144,12 +3144,12 @@
      * @private
      * @param {Array} values The values to add to the set.
      * @returns {Object} Returns the new set.
-     */ var createSet = Set && 1 / setToArray(new Set([
+     */ var createSet = !(Set && 1 / setToArray(new Set([
             ,
             -0
-        ]))[1] == INFINITY ? function(values) {
+        ]))[1] == INFINITY) ? noop : function(values) {
             return new Set(values);
-        } : noop;
+        };
         /**
      * Creates a `_.toPairs` or `_.toPairsIn` function.
      *
@@ -3200,7 +3200,7 @@
             var isBindKey = 2 & bitmask;
             if (!isBindKey && 'function' != typeof func) throw new TypeError(FUNC_ERROR_TEXT);
             var length = partials ? partials.length : 0;
-            if (length || (bitmask &= -97, partials = holders = undefined), ary = undefined === ary ? ary : nativeMax(toInteger(ary), 0), arity = undefined === arity ? arity : toInteger(arity), length -= holders ? holders.length : 0, 64 & bitmask) {
+            if (!length && (bitmask &= -97, partials = holders = undefined), ary = undefined === ary ? ary : nativeMax(toInteger(ary), 0), arity = undefined === arity ? arity : toInteger(arity), length -= holders ? holders.length : 0, 64 & bitmask) {
                 var partialsRight = partials, holdersRight = holders;
                 partials = holders = undefined;
             }
@@ -3248,7 +3248,7 @@
                     (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), // Use source `func` and merge bitmasks.
                     data[0] = source[0], data[1] = newBitmask;
                 }
-            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? result = /**
+            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], !(arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) && 24 & bitmask && (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? result = /**
      * Creates a function that wraps `func` to enable currying.
      *
      * @private
@@ -3393,9 +3393,9 @@
      * @private
      * @param {Function} func The function to query.
      * @returns {*} Returns the metadata for `func`.
-     */ var getData = metaMap ? function(func) {
+     */ var getData = !metaMap ? noop : function(func) {
             return metaMap.get(func);
-        } : noop;
+        };
         /**
      * Gets the name of `func`.
      *
@@ -3477,14 +3477,14 @@
      * @private
      * @param {Object} object The object to query.
      * @returns {Array} Returns the array of symbols.
-     */ var getSymbols = nativeGetSymbols ? function(object) {
+     */ var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
             return null == object ? [] : arrayFilter(nativeGetSymbols(object = Object1(object)), function(symbol) {
                 return propertyIsEnumerable.call(object, symbol);
             });
-        } : stubArray, getSymbolsIn = nativeGetSymbols ? function(object) {
+        }, getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
             for(var result = []; object;)arrayPush(result, getSymbols(object)), object = getPrototype(object);
             return result;
-        } : stubArray, getTag = baseGetTag;
+        }, getTag = baseGetTag;
         /**
      * Checks if `path` exists on `object`.
      *
@@ -5782,7 +5782,7 @@
                     return result;
                 }
                 var isProto = isPrototype(object), result1 = [];
-                for(var key1 in object)'constructor' == key1 && (isProto || !hasOwnProperty.call(object, key1)) || result1.push(key1);
+                for(var key1 in object)!('constructor' == key1 && (isProto || !hasOwnProperty.call(object, key1))) && result1.push(key1);
                 return result1;
             }(object);
         }
@@ -6237,7 +6237,7 @@
      * // => ['e']
      */ function mixin(object, source, options) {
             var props = keys(source), methodNames = baseFunctions(source, props);
-            null != options || isObject(source) && (methodNames.length || !props.length) || (options = source, source = object, object = this, methodNames = baseFunctions(source, keys(source)));
+            null == options && !(isObject(source) && (methodNames.length || !props.length)) && (options = source, source = object, object = this, methodNames = baseFunctions(source, keys(source)));
             var chain = !(isObject(options) && 'chain' in options) || !!options.chain, isFunc = isFunction(object);
             return arrayEach(methodNames, function(methodName) {
                 var func = source[methodName];
@@ -6585,13 +6585,13 @@
      * // => 'no match'
      */ function(pairs) {
             var length = null == pairs ? 0 : pairs.length, toIteratee = getIteratee();
-            return pairs = length ? arrayMap(pairs, function(pair) {
+            return pairs = !length ? [] : arrayMap(pairs, function(pair) {
                 if ('function' != typeof pair[1]) throw new TypeError(FUNC_ERROR_TEXT);
                 return [
                     toIteratee(pair[0]),
                     pair[1]
                 ];
-            }) : [], baseRest(function(args) {
+            }), baseRest(function(args) {
                 for(var index = -1; ++index < length;){
                     var pair = pairs[index];
                     if (apply(pair[0], this, args)) return apply(pair[1], this, args);
@@ -7286,9 +7286,9 @@
      * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
      * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
      */ function(collection, iteratees, orders, guard) {
-            return null == collection ? [] : (isArray(iteratees) || (iteratees = null == iteratees ? [] : [
+            return null == collection ? [] : (!isArray(iteratees) && (iteratees = null == iteratees ? [] : [
                 iteratees
-            ]), isArray(orders = guard ? undefined : orders) || (orders = null == orders ? [] : [
+            ]), !isArray(orders = guard ? undefined : orders) && (orders = null == orders ? [] : [
                 orders
             ]), baseOrderBy(collection, iteratees, orders));
         }, lodash.over = over, lodash.overArgs = overArgs, lodash.overEvery = overEvery, lodash.overSome = overSome, lodash.partial = partial, lodash.partialRight = partialRight, lodash.partition = partition, lodash.pick = pick, lodash.pickBy = pickBy, lodash.property = property, lodash.propertyOf = /**
@@ -9768,7 +9768,7 @@
      */ function(object, path, defaultValue) {
             path = castPath(path, object);
             var index = -1, length = path.length;
-            for(length || (length = 1, object = undefined); ++index < length;){
+            for(!length && (length = 1, object = undefined); ++index < length;){
                 var value = null == object ? undefined : object[toKey(path[index])];
                 undefined === value && (index = length, value = defaultValue), object = isFunction(value) ? value.call(object) : value;
             }
@@ -10406,7 +10406,7 @@
             if (strSymbols && (end += result.length - end), isRegExp(separator)) {
                 if (string.slice(end).search(separator)) {
                     var match, substring = result;
-                    for(separator.global || (separator = RegExp1(separator.source, toString(reFlags.exec(separator)) + 'g')), separator.lastIndex = 0; match = separator.exec(substring);)var newEnd = match.index;
+                    for(!separator.global && (separator = RegExp1(separator.source, toString(reFlags.exec(separator)) + 'g')), separator.lastIndex = 0; match = separator.exec(substring);)var newEnd = match.index;
                     result = result.slice(0, undefined === newEnd ? end : newEnd);
                 }
             } else if (string.indexOf(baseToString(separator), end) != end) {
@@ -10455,7 +10455,7 @@
             return toString(prefix) + id;
         }, lodash.upperCase = upperCase, lodash.upperFirst = upperFirst, // Add aliases.
         lodash.each = forEach, lodash.eachRight = forEachRight, lodash.first = head, mixin(lodash, (source = {}, baseForOwn(lodash, function(func, methodName) {
-            hasOwnProperty.call(lodash.prototype, methodName) || (source[methodName] = func);
+            !hasOwnProperty.call(lodash.prototype, methodName) && (source[methodName] = func);
         }), source), {
             chain: !1
         }), /*------------------------------------------------------------------------*/ /**
@@ -10594,7 +10594,7 @@
             var lodashFunc = lodash[methodName];
             if (lodashFunc) {
                 var key = lodashFunc.name + '';
-                hasOwnProperty.call(realNames, key) || (realNames[key] = []), realNames[key].push({
+                !hasOwnProperty.call(realNames, key) && (realNames[key] = []), realNames[key].push({
                     name: methodName,
                     func: lodashFunc
                 });

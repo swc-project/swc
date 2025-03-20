@@ -1518,7 +1518,7 @@
                     default:
                         e = ed;
                 }
-                c = e.bind(null, b, c, a), e = void 0, Kb && ("touchstart" === b || "touchmove" === b || "wheel" === b) && (e = !0), d ? void 0 !== e ? a.addEventListener(b, c, {
+                c = e.bind(null, b, c, a), e = void 0, !Kb || "touchstart" !== b && "touchmove" !== b && "wheel" !== b || (e = !0), d ? void 0 !== e ? a.addEventListener(b, c, {
                     capture: !0,
                     passive: e
                 }) : a.addEventListener(b, c, !0) : void 0 !== e ? a.addEventListener(b, c, {

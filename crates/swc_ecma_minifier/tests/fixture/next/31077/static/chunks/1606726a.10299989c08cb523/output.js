@@ -176,12 +176,12 @@
                 // Inline, not in text node (this is not Bidi-safe)
                 if (offset && (side < 0 || offset == nodeSize(node))) {
                     var before$1 = node.childNodes[offset - 1], target = 3 == before$1.nodeType ? textRange(before$1, nodeSize(before$1) - +!supportEmptyRange) : // Only use them if they are the last element in their parent
-                    1 != before$1.nodeType || "BR" == before$1.nodeName && before$1.nextSibling ? null : before$1;
+                    1 == before$1.nodeType && ("BR" != before$1.nodeName || !before$1.nextSibling) ? before$1 : null;
                     if (target) return flattenV(singleRect(target, 1), !1);
                 }
                 if (offset < nodeSize(node)) {
                     for(var after$1 = node.childNodes[offset]; after$1.pmViewDesc && after$1.pmViewDesc.ignoreForCoords;)after$1 = after$1.nextSibling;
-                    var target$1 = after$1 ? 3 == after$1.nodeType ? textRange(after$1, 0, +!supportEmptyRange) : 1 == after$1.nodeType ? after$1 : null : null;
+                    var target$1 = !after$1 ? null : 3 == after$1.nodeType ? textRange(after$1, 0, +!supportEmptyRange) : 1 == after$1.nodeType ? after$1 : null;
                     if (target$1) return flattenV(singleRect(target$1, -1), !0);
                 }
                 // All else failed, just try to get a rectangle for the target node
@@ -623,7 +623,7 @@
                 }
                 return ViewDesc && (MarkViewDesc.__proto__ = ViewDesc), MarkViewDesc.prototype = Object.create(ViewDesc && ViewDesc.prototype), MarkViewDesc.prototype.constructor = MarkViewDesc, MarkViewDesc.create = function(parent, mark, inline, view) {
                     var custom = view.nodeViews[mark.type.name], spec = custom && custom(mark, view, inline);
-                    return spec && spec.dom || (spec = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, mark.type.spec.toDOM(mark, inline))), new MarkViewDesc(parent, mark, spec.dom, spec.contentDOM || spec.dom);
+                    return (!spec || !spec.dom) && (spec = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, mark.type.spec.toDOM(mark, inline))), new MarkViewDesc(parent, mark, spec.dom, spec.contentDOM || spec.dom);
                 }, MarkViewDesc.prototype.parseRule = function() {
                     return {
                         mark: this.mark.type.name,
@@ -678,8 +678,8 @@
                     if (node.isText) if (dom) {
                         if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                     } else dom = document.createTextNode(node.text);
-                    else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
-                    contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
+                    else !dom && (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
+                    !contentDOM && !node.isText && "BR" != dom.nodeName && (!dom.hasAttribute("contenteditable") && (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
                 }, NodeViewDesc.prototype.parseRule = function() {
@@ -747,9 +747,9 @@
                                 for(var i$3 = 0; i$3 < active.length; i$3++)active[i$3].to < cutAt && (cutAt = active[i$3].to);
                                 cutAt < end && (restNode = child$1.cut(cutAt - offset), child$1 = child$1.cut(0, cutAt - offset), end = cutAt, index = -1);
                             }
-                            var outerDeco = active.length ? child$1.isInline && !child$1.isLeaf ? active.filter(function(d) {
+                            var outerDeco = !active.length ? nothing : child$1.isInline && !child$1.isLeaf ? active.filter(function(d) {
                                 return !d.inline;
-                            }) : active.slice() : nothing;
+                            }) : active.slice();
                             onNode(child$1, outerDeco, deco.forChild(offset, child$1), index), offset = end;
                         }
                     })(this.node, this.innerDeco, function(widget, i, insideNode) {
@@ -856,7 +856,7 @@
                 // If this desc be updated to match the given node decoration,
                 // do so and return true.
                 NodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
-                    return !!(3 != this.dirty && node.sameMarkup(this.node)) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
+                    return 3 != this.dirty && !!node.sameMarkup(this.node) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
                 }, NodeViewDesc.prototype.updateInner = function(node, outerDeco, innerDeco, view) {
                     this.updateOuterDeco(outerDeco), this.node = node, this.innerDeco = innerDeco, this.contentDOM && this.updateChildren(view, this.posAtStart), this.dirty = 0;
                 }, NodeViewDesc.prototype.updateOuterDeco = function(outerDeco) {
@@ -895,7 +895,7 @@
                         skip: skip || !0
                     };
                 }, TextViewDesc.prototype.update = function(node, outerDeco, _, view) {
-                    return !!(3 != this.dirty && (0 == this.dirty || this.inParent()) && node.sameMarkup(this.node)) && (this.updateOuterDeco(outerDeco), (0 != this.dirty || node.text != this.node.text) && node.text != this.nodeDOM.nodeValue && (this.nodeDOM.nodeValue = node.text, view.trackWrites == this.nodeDOM && (view.trackWrites = null)), this.node = node, this.dirty = 0, !0);
+                    return 3 != this.dirty && (0 == this.dirty || !!this.inParent()) && !!node.sameMarkup(this.node) && (this.updateOuterDeco(outerDeco), (0 != this.dirty || node.text != this.node.text) && node.text != this.nodeDOM.nodeValue && (this.nodeDOM.nodeValue = node.text, view.trackWrites == this.nodeDOM && (view.trackWrites = null)), this.node = node, this.dirty = 0, !0);
                 }, TextViewDesc.prototype.inParent = function() {
                     for(var parentDOM = this.parent.contentDOM, n = this.nodeDOM; n; n = n.parentNode)if (n == parentDOM) return !0;
                     return !1;
@@ -998,7 +998,7 @@
                         prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     !function(dom, prev, cur) {
-                        for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);
+                        for(var name in prev)"class" != name && "style" != name && "nodeName" != name && !(name in cur) && dom.removeAttribute(name);
                         for(var name$1 in cur)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && cur[name$1] != prev[name$1] && dom.setAttribute(name$1, cur[name$1]);
                         if (prev.class != cur.class) {
                             for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)-1 == curList.indexOf(prevList[i]) && dom.classList.remove(prevList[i]);
@@ -1112,7 +1112,7 @@
                     if (view.domObserver.disconnectSelection(), view.cursorWrapper) domSel = view.root.getSelection(), range = document.createRange(), (img = "IMG" == (node = view.cursorWrapper.dom).nodeName) ? range.setEnd(node.parentNode, domIndex(node) + 1) : range.setEnd(node, 0), range.collapse(!1), domSel.removeAllRanges(), domSel.addRange(range), !img && !view.state.selection.visible && result.ie && result.ie_version <= 11 && (node.disabled = !0, node.disabled = !1);
                     else {
                         var domSel, range, node, img, doc, domSel1, node1, offset, resetEditableFrom, resetEditableTo, anchor = sel.anchor, head = sel.head;
-                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = view.dom.ownerDocument).removeEventListener("selectionchange", view.hideSelectionGuard), node1 = (domSel1 = view.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
+                        brokenSelectBetweenUneditable && !(sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && (!sel.$from.parent.inlineContent && (resetEditableFrom = temporarilyEditableNear(view, sel.from)), !sel.empty && !sel.$from.parent.inlineContent && (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = view.dom.ownerDocument).removeEventListener("selectionchange", view.hideSelectionGuard), node1 = (domSel1 = view.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
                             (domSel1.anchorNode != node1 || domSel1.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view.hideSelectionGuard), setTimeout(function() {
                                 (!editorOwnsSelection(view) || view.state.selection.visible) && view.dom.classList.remove("ProseMirror-hideselection");
                             }, 20));
@@ -1213,8 +1213,8 @@
             // contentEditable.
             ViewTreeUpdater.prototype.addTextblockHacks = function() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
-                !(!lastChild || // Empty textblock
-                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
+                (!lastChild || // Empty textblock
+                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) && ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
             }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {
@@ -1268,7 +1268,7 @@
                 }
             }
             function moveSelectionBlock(state, dir) {
-                var ref = state.selection, $anchor = ref.$anchor, $head = ref.$head, $side = dir > 0 ? $anchor.max($head) : $anchor.min($head), $start = $side.parent.inlineContent ? $side.depth ? state.doc.resolve(dir > 0 ? $side.after() : $side.before()) : null : $side;
+                var ref = state.selection, $anchor = ref.$anchor, $head = ref.$head, $side = dir > 0 ? $anchor.max($head) : $anchor.min($head), $start = !$side.parent.inlineContent ? $side : $side.depth ? state.doc.resolve(dir > 0 ? $side.after() : $side.before()) : null;
                 return $start && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.findFrom($start, dir);
             }
             function apply(view, sel) {
@@ -1492,7 +1492,7 @@
                     }
                 }(dom);
                 var contextNode = dom && dom.querySelector("[data-pm-slice]"), sliceData = contextNode && /^(\d+) (\d+) (.*)/.exec(contextNode.getAttribute("data-pm-slice"));
-                if (slice || (slice = (view.someProp("clipboardParser") || view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema)).parseSlice(dom, {
+                if (!slice && (slice = (view.someProp("clipboardParser") || view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema)).parseSlice(dom, {
                     preserveWhitespace: !!(asText || sliceData),
                     context: $context
                 })), sliceData) slice = function(slice, context) {
@@ -1722,7 +1722,7 @@
                             a.parentNode && a.parentNode.parentNode == b.parentNode ? b.remove() : a.remove();
                         }
                     }
-                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
+                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, !cssChecked && (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : !this.currentSelection.eq(sel) && selectionToDOM(this.view), this.currentSelection.set(sel));
                 }
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
                 // Ignore mutations inside nodes that were already noted as inserted
@@ -1768,7 +1768,7 @@
             }
             function ensureListeners(view) {
                 view.someProp("handleDOMEvents", function(currentHandlers) {
-                    for(var type in currentHandlers)view.eventHandlers[type] || view.dom.addEventListener(type, view.eventHandlers[type] = function(event) {
+                    for(var type in currentHandlers)!view.eventHandlers[type] && view.dom.addEventListener(type, view.eventHandlers[type] = function(event) {
                         return runCustomHandler(view, event);
                     });
                 });
@@ -1800,7 +1800,7 @@
                 return !1;
             }
             function updateSelection(view, selection, origin) {
-                view.focused || view.focus();
+                !view.focused && view.focus();
                 var tr = view.state.tr.setSelection(selection);
                 "pointer" == origin && tr.setMeta("pointer", !0), view.dispatch(tr);
             }
@@ -1850,9 +1850,9 @@
                     var sel = view.state.selection;
                     if (!(sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) || !sel.$from.sameParent(sel.$to)) {
                         var text = String.fromCharCode(event.charCode);
-                        view.someProp("handleTextInput", function(f) {
+                        !view.someProp("handleTextInput", function(f) {
                             return f(view, sel.$from.pos, sel.$to.pos, text);
-                        }) || view.dispatch(view.state.tr.insertText(text).scrollIntoView()), event.preventDefault();
+                        }) && view.dispatch(view.state.tr.insertText(text).scrollIntoView()), event.preventDefault();
                     }
                 }
             };
@@ -2039,7 +2039,7 @@
                 if (data && doPaste(view, data.getData("text/plain"), data.getData("text/html"), e)) e.preventDefault();
                 else if (view.dom.parentNode) {
                     var plainText = view.shiftKey || view.state.selection.$from.parent.type.spec.code, target = view.dom.parentNode.appendChild(document.createElement(plainText ? "textarea" : "div"));
-                    plainText || (target.contentEditable = "true"), target.style.cssText = "position: fixed; left: -10000px; top: 10px", target.focus(), setTimeout(function() {
+                    !plainText && (target.contentEditable = "true"), target.style.cssText = "position: fixed; left: -10000px; top: 10px", target.focus(), setTimeout(function() {
                         view.focus(), target.parentNode && target.parentNode.removeChild(target), plainText ? doPaste(view, target.value, null, e) : doPaste(view, target.textContent, target.innerHTML, e);
                     }, 50);
                 }
@@ -2060,7 +2060,7 @@
                     }
                     var slice = view.state.selection.content(), ref = serializeForClipboard(view, slice), dom = ref.dom, text = ref.text;
                     e.dataTransfer.clearData(), e.dataTransfer.setData(brokenClipboardAPI ? "Text" : "text/html", dom.innerHTML), // See https://github.com/ProseMirror/prosemirror/issues/1156
-                    e.dataTransfer.effectAllowed = "copyMove", brokenClipboardAPI || e.dataTransfer.setData("text/plain", text), view.dragging = new Dragging(slice, !e[dragCopyModifier]);
+                    e.dataTransfer.effectAllowed = "copyMove", !brokenClipboardAPI && e.dataTransfer.setData("text/plain", text), view.dragging = new Dragging(slice, !e[dragCopyModifier]);
                 }
             }, handlers.dragend = function(view) {
                 var dragging = view.dragging;
@@ -2110,7 +2110,7 @@
                     }
                 }
             }, handlers.focus = function(view) {
-                view.focused || (view.domObserver.stop(), view.dom.classList.add("ProseMirror-focused"), view.domObserver.start(), view.focused = !0, setTimeout(function() {
+                !view.focused && (view.domObserver.stop(), view.dom.classList.add("ProseMirror-focused"), view.domObserver.start(), view.focused = !0, setTimeout(function() {
                     view.docView && view.hasFocus() && !view.domObserver.currentSelection.eq(view.root.getSelection()) && selectionToDOM(view);
                 }, 20));
             }, handlers.blur = function(view, e) {
@@ -2404,11 +2404,11 @@
                 doc.forEach(function(childNode, childOffset) {
                     var found, baseOffset = childOffset + offset;
                     if (found = takeSpansForNode(decorations, childNode, baseOffset)) {
-                        for(children || (children = this$1.children.slice()); childIndex < children.length && children[childIndex] < childOffset;)childIndex += 3;
+                        for(!children && (children = this$1.children.slice()); childIndex < children.length && children[childIndex] < childOffset;)childIndex += 3;
                         children[childIndex] == childOffset ? children[childIndex + 2] = children[childIndex + 2].addInner(childNode, found, baseOffset + 1) : children.splice(childIndex, 0, childOffset, childOffset + childNode.nodeSize, buildTree(found, childNode, baseOffset + 1, noSpec)), childIndex += 3;
                     }
                 });
-                for(var local = moveSpans(childIndex ? withoutNulls(decorations) : decorations, -offset), i = 0; i < local.length; i++)local[i].type.valid(doc, local[i]) || local.splice(i--, 1);
+                for(var local = moveSpans(childIndex ? withoutNulls(decorations) : decorations, -offset), i = 0; i < local.length; i++)!local[i].type.valid(doc, local[i]) && local.splice(i--, 1);
                 return new DecorationSet(local.length ? this.local.concat(local).sort(byPos) : this.local, children || this.children);
             }, // :: ([Decoration]) → DecorationSet
             // Create a new set that contains the decorations in this set, minus
@@ -2461,7 +2461,7 @@
             }, DecorationSet.prototype.localsInner = function(node) {
                 if (this == empty) return none;
                 if (node.inlineContent || !this.local.some(InlineType.is)) return this.local;
-                for(var result = [], i = 0; i < this.local.length; i++)this.local[i].type instanceof InlineType || result.push(this.local[i]);
+                for(var result = [], i = 0; i < this.local.length; i++)!(this.local[i].type instanceof InlineType) && result.push(this.local[i]);
                 return result;
             };
             // DecorationSource:: interface
@@ -2514,7 +2514,7 @@
                         subtree != empty && children.push(localStart, localStart + childNode.nodeSize, subtree);
                     }
                 });
-                for(var locals = moveSpans(hasNulls ? withoutNulls(spans) : spans, -offset).sort(byPos), i = 0; i < locals.length; i++)locals[i].type.valid(node, locals[i]) || (options.onRemove && options.onRemove(locals[i].spec), locals.splice(i--, 1));
+                for(var locals = moveSpans(hasNulls ? withoutNulls(spans) : spans, -offset).sort(byPos), i = 0; i < locals.length; i++)!locals[i].type.valid(node, locals[i]) && (options.onRemove && options.onRemove(locals[i].spec), locals.splice(i--, 1));
                 return locals.length || children.length ? new DecorationSet(locals, children) : empty;
             }
             // : (Decoration, Decoration) → number
@@ -2650,7 +2650,7 @@
                                     node: anchor,
                                     offset: domSel.anchorOffset
                                 }
-                            ], selectionCollapsed(domSel) || find.push({
+                            ], !selectionCollapsed(domSel) && find.push({
                                 node: domSel.focusNode,
                                 offset: domSel.focusOffset
                             })), result.chrome && 8 === view.lastKeyCode) for(var off = toOffset; off > fromOffset; off--){
@@ -2809,7 +2809,7 @@
                                 tr = view.state.tr.insertText(text$1, chFrom, chTo);
                             }
                         }
-                        if (tr || (tr = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from))), parse.sel) {
+                        if (!tr && (tr = view.state.tr.replace(chFrom, chTo, parse.doc.slice(change.start - parse.from, change.endB - parse.from))), parse.sel) {
                             var sel$2 = resolveSelection(view, tr.doc, parse.sel);
                             // Chrome Android will sometimes, during composition, report the
                             // selection in the wrong place. If it looks like that is
@@ -2824,12 +2824,12 @@
                 view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
                     var handler = handlers[event];
                     view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
-                        !function(view, event) {
+                        (function(view, event) {
                             if (!event.bubbles) return !0;
                             if (event.defaultPrevented) return !1;
                             for(var node = event.target; node != view.dom; node = node.parentNode)if (!node || 11 == node.nodeType || node.pmViewDesc && node.pmViewDesc.stopEvent(event)) return !1;
                             return !0;
-                        }(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
+                        })(view, event) && !runCustomHandler(view, event) && (view.editable || !(event.type in editHandlers)) && handler(view, event);
                     });
                 }(event);
                 result.safari && view.dom.addEventListener("input", function() {
@@ -2846,7 +2846,7 @@
             function computeDocDeco(view) {
                 var attrs = Object.create(null);
                 return attrs.class = "ProseMirror", attrs.contenteditable = String(view.editable), attrs.translate = "no", view.someProp("attributes", function(value) {
-                    if ("function" == typeof value && (value = value(view.state)), value) for(var attr in value)"class" == attr && (attrs.class += " " + value[attr]), "style" == attr ? attrs.style = (attrs.style ? attrs.style + ";" : "") + value[attr] : attrs[attr] || "contenteditable" == attr || "nodeName" == attr || (attrs[attr] = String(value[attr]));
+                    if ("function" == typeof value && (value = value(view.state)), value) for(var attr in value)"class" == attr && (attrs.class += " " + value[attr]), "style" == attr ? attrs.style = (attrs.style ? attrs.style + ";" : "") + value[attr] : !attrs[attr] && "contenteditable" != attr && "nodeName" != attr && (attrs[attr] = String(value[attr]));
                 }), [
                     Decoration.node(0, view.state.doc.content.size, attrs)
                 ];
@@ -2871,7 +2871,7 @@
             function buildNodeViews(view) {
                 var result = {};
                 return view.someProp("nodeViews", function(obj) {
-                    for(var prop in obj)Object.prototype.hasOwnProperty.call(result, prop) || (result[prop] = obj[prop]);
+                    for(var prop in obj)!Object.prototype.hasOwnProperty.call(result, prop) && (result[prop] = obj[prop]);
                 }), result;
             }
             function checkStateComponent(plugin) {
@@ -3030,7 +3030,7 @@
                                 preventScroll: !0
                             }, !0;
                         }
-                    } : void 0), preventScrollSupported || (preventScrollSupported = !1, restoreScrollStack(stored, 0));
+                    } : void 0), !preventScrollSupported && (preventScrollSupported = !1, restoreScrollStack(stored, 0));
                 }(this.dom), selectionToDOM(this), this.domObserver.start();
             }, // :: union<dom.Document, dom.DocumentFragment>
             // Get the document root in which the editor exists. This will
@@ -3040,7 +3040,7 @@
             prototypeAccessors$2.root.get = function() {
                 var cached = this._root;
                 if (null == cached) {
-                    for(var search = this.dom.parentNode; search; search = search.parentNode)if (9 == search.nodeType || 11 == search.nodeType && search.host) return search.getSelection || (Object.getPrototypeOf(search).getSelection = function() {
+                    for(var search = this.dom.parentNode; search; search = search.parentNode)if (9 == search.nodeType || 11 == search.nodeType && search.host) return !search.getSelection && (Object.getPrototypeOf(search).getSelection = function() {
                         return document.getSelection();
                     }), this._root = search;
                 }
@@ -3270,7 +3270,7 @@
                 }
             }, // Used for testing.
             EditorView.prototype.dispatchEvent = function(event) {
-                runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);
+                !runCustomHandler(this, event) && handlers[event.type] && (this.editable || !(event.type in editHandlers)) && handlers[event.type](this, event);
             }, // :: (Transaction)
             // Dispatch a transaction. Will call
             // [`dispatchTransaction`](#view.DirectEditorProps.dispatchTransaction)

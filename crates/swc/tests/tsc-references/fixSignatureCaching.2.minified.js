@@ -312,7 +312,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     } : Array.isArray, !function() {
         var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
         for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
-            for(values = mobileDetectRules.props[key], isArray(values) || (values = [
+            for(values = mobileDetectRules.props[key], !isArray(values) && (values = [
                 values
             ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf('[VER]')) >= 0 && (value = value.substring(0, verPos) + '([\\w._\\+]+)' + value.substring(verPos + 5)), values[i] = RegExp(value, 'i');
             mobileDetectRules.props[key] = values;
@@ -394,7 +394,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return containsIC(this.userAgents(), key) || equalIC(key, this.os()) || equalIC(key, this.phone()) || equalIC(key, this.tablet()) || containsIC(impl.findMatches(impl.mobileDetectRules.utils, this.ua), key);
         },
         match: function(pattern) {
-            return _instanceof(pattern, RegExp) || (pattern = RegExp(pattern, 'i')), pattern.test(this.ua);
+            return !_instanceof(pattern, RegExp) && (pattern = RegExp(pattern, 'i')), pattern.test(this.ua);
         },
         isPhoneSized: function(maxPhoneWidth) {
             return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);

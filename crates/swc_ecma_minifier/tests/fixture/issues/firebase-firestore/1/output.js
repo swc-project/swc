@@ -8105,7 +8105,7 @@
                             case "gapi":
                                 const e = t.client;
                                 // Make sure this really is a Gapi client.
-                                return "object" == typeof e && null !== e && e.auth && e.auth.getAuthHeaderValueForFirstParty || L(), new Y(e, t.sessionIndex || "0", t.iamToken || null);
+                                return !("object" != typeof e || null === e || !e.auth || !e.auth.getAuthHeaderValueForFirstParty) || L(), new Y(e, t.sessionIndex || "0", t.iamToken || null);
                             case "provider":
                                 return t.client;
                             default:

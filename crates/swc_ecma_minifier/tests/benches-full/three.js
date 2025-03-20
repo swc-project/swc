@@ -498,7 +498,7 @@ function(global, factory) {
                 }
                 output.image = image.uuid;
             }
-            return isRootObject || (meta.textures[this.uuid] = output), output;
+            return !isRootObject && (meta.textures[this.uuid] = output), output;
         },
         dispose: function() {
             this.dispatchEvent({
@@ -982,7 +982,7 @@ function(global, factory) {
         }, _proto.multiplyVectors = function(a, b) {
             return this.x = a.x * b.x, this.y = a.y * b.y, this.z = a.z * b.z, this;
         }, _proto.applyEuler = function(euler) {
-            return euler && euler.isEuler || console.error('THREE.Vector3: .applyEuler() now expects an Euler rotation rather than a Vector3 and order.'), this.applyQuaternion(_quaternion.setFromEuler(euler));
+            return !(euler && euler.isEuler) && console.error('THREE.Vector3: .applyEuler() now expects an Euler rotation rather than a Vector3 and order.'), this.applyQuaternion(_quaternion.setFromEuler(euler));
         }, _proto.applyAxisAngle = function(axis, angle) {
             return this.applyQuaternion(_quaternion.setFromAxisAngle(axis, angle));
         }, _proto.applyMatrix3 = function(m) {
@@ -1215,7 +1215,7 @@ function(global, factory) {
                 _f2.x,
                 0
             ];
-            return !!(satForAxes(axes, _v0, _v1, _v2, _extents) && satForAxes(axes = [
+            return !!satForAxes(axes, _v0, _v1, _v2, _extents) && !!satForAxes(axes = [
                 1,
                 0,
                 0,
@@ -1225,7 +1225,7 @@ function(global, factory) {
                 0,
                 0,
                 1
-            ], _v0, _v1, _v2, _extents)) && (// use already existing triangle edge vectors here
+            ], _v0, _v1, _v2, _extents) && (// use already existing triangle edge vectors here
             _triangleNormal.crossVectors(_f0, _f1), satForAxes(axes = [
                 _triangleNormal.x,
                 _triangleNormal.y,
@@ -1470,7 +1470,7 @@ function(global, factory) {
             var te = this.elements, me = m.elements, scaleX = 1 / _v1$1.setFromMatrixColumn(m, 0).length(), scaleY = 1 / _v1$1.setFromMatrixColumn(m, 1).length(), scaleZ = 1 / _v1$1.setFromMatrixColumn(m, 2).length();
             return te[0] = me[0] * scaleX, te[1] = me[1] * scaleX, te[2] = me[2] * scaleX, te[3] = 0, te[4] = me[4] * scaleY, te[5] = me[5] * scaleY, te[6] = me[6] * scaleY, te[7] = 0, te[8] = me[8] * scaleZ, te[9] = me[9] * scaleZ, te[10] = me[10] * scaleZ, te[11] = 0, te[12] = 0, te[13] = 0, te[14] = 0, te[15] = 1, this;
         }, _proto.makeRotationFromEuler = function(euler) {
-            euler && euler.isEuler || console.error('THREE.Matrix4: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.');
+            !(euler && euler.isEuler) && console.error('THREE.Matrix4: .makeRotationFromEuler() now expects a Euler rotation rather than a Vector3 and order.');
             var te = this.elements, x = euler.x, y = euler.y, z = euler.z, a = Math.cos(x), b = Math.sin(x), c = Math.cos(y), d = Math.sin(y), e = Math.cos(z), f = Math.sin(z);
             if ('XYZ' === euler.order) {
                 var ae = a * e, af = a * f, be = b * e, bf = b * f;
@@ -4710,7 +4710,7 @@ function(global, factory) {
                 return extensions[name] = extension, null !== extension;
             },
             get: function(name) {
-                return this.has(name) || console.warn('THREE.WebGLRenderer: ' + name + ' extension not supported.'), extensions[name];
+                return !this.has(name) && console.warn('THREE.WebGLRenderer: ' + name + ' extension not supported.'), extensions[name];
             }
         };
     }
@@ -5096,15 +5096,15 @@ function(global, factory) {
     }
     function setValueV2i(gl, v) {
         var cache = this.cache;
-        arraysEqual(cache, v) || (gl.uniform2iv(this.addr, v), copyArray(cache, v));
+        !arraysEqual(cache, v) && (gl.uniform2iv(this.addr, v), copyArray(cache, v));
     }
     function setValueV3i(gl, v) {
         var cache = this.cache;
-        arraysEqual(cache, v) || (gl.uniform3iv(this.addr, v), copyArray(cache, v));
+        !arraysEqual(cache, v) && (gl.uniform3iv(this.addr, v), copyArray(cache, v));
     }
     function setValueV4i(gl, v) {
         var cache = this.cache;
-        arraysEqual(cache, v) || (gl.uniform4iv(this.addr, v), copyArray(cache, v));
+        !arraysEqual(cache, v) && (gl.uniform4iv(this.addr, v), copyArray(cache, v));
     } // uint
     function setValueV1ui(gl, v) {
         var cache = this.cache;
@@ -6437,7 +6437,7 @@ function(global, factory) {
                                 }
                             }(scene, camera, shadow.camera, light, this.type);
                         } // do blur pass for VSM
-                        shadow.isPointLightShadow || 3 !== this.type || function(shadow, camera) {
+                        !shadow.isPointLightShadow && 3 === this.type && function(shadow, camera) {
                             var geometry = _objects.update(fullScreenMesh); // vertical pass
                             shadowMaterialVertical.uniforms.shadow_pass.value = shadow.map.texture, shadowMaterialVertical.uniforms.resolution.value = shadow.mapSize, shadowMaterialVertical.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.mapPass), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialVertical, fullScreenMesh, null), shadowMaterialHorizontal.uniforms.shadow_pass.value = shadow.mapPass.texture, shadowMaterialHorizontal.uniforms.resolution.value = shadow.mapSize, shadowMaterialHorizontal.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.map), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
                         }(shadow, camera), shadow.needsUpdate = !1;
@@ -6452,7 +6452,7 @@ function(global, factory) {
             var locked = !1, color = new Vector4(), currentColorMask = null, currentColorClear = new Vector4(0, 0, 0, 0);
             return {
                 setMask: function(colorMask) {
-                    currentColorMask === colorMask || locked || (gl.colorMask(colorMask, colorMask, colorMask, colorMask), currentColorMask = colorMask);
+                    currentColorMask !== colorMask && !locked && (gl.colorMask(colorMask, colorMask, colorMask, colorMask), currentColorMask = colorMask);
                 },
                 setLocked: function(lock) {
                     locked = lock;
@@ -6471,7 +6471,7 @@ function(global, factory) {
                     depthTest ? enable(2929) : disable(2929);
                 },
                 setMask: function(depthMask) {
-                    currentDepthMask === depthMask || locked || (gl.depthMask(depthMask), currentDepthMask = depthMask);
+                    currentDepthMask !== depthMask && !locked && (gl.depthMask(depthMask), currentDepthMask = depthMask);
                 },
                 setFunc: function(depthFunc) {
                     if (currentDepthFunc !== depthFunc) {
@@ -6519,10 +6519,10 @@ function(global, factory) {
             var locked = !1, currentStencilMask = null, currentStencilFunc = null, currentStencilRef = null, currentStencilFuncMask = null, currentStencilFail = null, currentStencilZFail = null, currentStencilZPass = null, currentStencilClear = null;
             return {
                 setTest: function(stencilTest) {
-                    locked || (stencilTest ? enable(2960) : disable(2960));
+                    !locked && (stencilTest ? enable(2960) : disable(2960));
                 },
                 setMask: function(stencilMask) {
-                    currentStencilMask === stencilMask || locked || (gl.stencilMask(stencilMask), currentStencilMask = stencilMask);
+                    currentStencilMask !== stencilMask && !locked && (gl.stencilMask(stencilMask), currentStencilMask = stencilMask);
                 },
                 setFunc: function(stencilFunc, stencilRef, stencilMask) {
                     (currentStencilFunc !== stencilFunc || currentStencilRef !== stencilRef || currentStencilFuncMask !== stencilMask) && (gl.stencilFunc(stencilFunc, stencilRef, stencilMask), currentStencilFunc = stencilFunc, currentStencilRef = stencilRef, currentStencilFuncMask = stencilMask);
@@ -6570,7 +6570,7 @@ function(global, factory) {
                 currentBlendingEnabled && (disable(3042), currentBlendingEnabled = !1);
                 return;
             }
-            if (currentBlendingEnabled || (enable(3042), currentBlendingEnabled = !0), 5 !== blending) {
+            if (!currentBlendingEnabled && (enable(3042), currentBlendingEnabled = !0), 5 !== blending) {
                 if (blending !== currentBlending || premultipliedAlpha !== currentPremultipledAlpha) {
                     if ((100 !== currentBlendEquation || 100 !== currentBlendEquationAlpha) && (gl.blendEquation(32774), currentBlendEquation = 100, currentBlendEquationAlpha = 100), premultipliedAlpha) switch(blending){
                         case 1:
@@ -6938,7 +6938,7 @@ function(global, factory) {
                     if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
                     if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
                      // upload an empty depth texture with framebuffer size
-                    properties.get(renderTarget.depthTexture).__webglTexture && renderTarget.depthTexture.image.width === renderTarget.width && renderTarget.depthTexture.image.height === renderTarget.height || (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
+                    (!properties.get(renderTarget.depthTexture).__webglTexture || renderTarget.depthTexture.image.width !== renderTarget.width || renderTarget.depthTexture.image.height !== renderTarget.height) && (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
                     var webglDepthTexture = properties.get(renderTarget.depthTexture).__webglTexture;
                     if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
                     else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
@@ -7416,7 +7416,7 @@ function(global, factory) {
             programChange = !1;
             programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), materialProperties.program = program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
             var uniforms = materialProperties.uniforms;
-            (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (// wire up the material to this renderer's lighting state
+            (!material.isShaderMaterial && !material.isRawShaderMaterial || !0 === material.clipping) && (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (// wire up the material to this renderer's lighting state
             uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
             var progUniforms = materialProperties.program.getUniforms();
             materialProperties.uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
@@ -7889,7 +7889,7 @@ function(global, factory) {
             if (null !== intersect || (// check second triangle
             transformVertex(_vB$1.set(-0.5, 0.5, 0), _mvPosition, center, _worldScale, sin, cos), _uvB$1.set(0, 1), null !== (intersect = raycaster.ray.intersectTriangle(_vA$1, _vC$1, _vB$1, !1, _intersectPoint)))) {
                 var distance = raycaster.ray.origin.distanceTo(_intersectPoint);
-                distance < raycaster.near || distance > raycaster.far || intersects.push({
+                !(distance < raycaster.near) && !(distance > raycaster.far) && intersects.push({
                     distance: distance,
                     point: _intersectPoint.clone(),
                     uv: Triangle.getUV(_intersectPoint, _vA$1, _vB$1, _vC$1, _uvA$1, _uvB$1, _uvC$1, new Vector2()),
@@ -8190,7 +8190,7 @@ function(global, factory) {
                         if (vStart.fromBufferAttribute(positionAttribute, a), vEnd.fromBufferAttribute(positionAttribute, b), !(_ray$1.distanceSqToSegment(vStart, vEnd, interRay, interSegment) > localThresholdSq)) {
                             interRay.applyMatrix4(this.matrixWorld);
                             var distance = raycaster.ray.origin.distanceTo(interRay);
-                            distance < raycaster.near || distance > raycaster.far || intersects.push({
+                            !(distance < raycaster.near) && !(distance > raycaster.far) && intersects.push({
                                 distance: distance,
                                 // What do we want? intersection point on the ray or on the segment??
                                 // point: raycaster.ray.at( distance ),
@@ -8205,7 +8205,7 @@ function(global, factory) {
                     else for(var _i2 = 0, _l2 = positionAttribute.count - 1; _i2 < _l2; _i2 += step)if (vStart.fromBufferAttribute(positionAttribute, _i2), vEnd.fromBufferAttribute(positionAttribute, _i2 + 1), !(_ray$1.distanceSqToSegment(vStart, vEnd, interRay, interSegment) > localThresholdSq)) {
                         interRay.applyMatrix4(this.matrixWorld);
                         var _distance = raycaster.ray.origin.distanceTo(interRay);
-                        _distance < raycaster.near || _distance > raycaster.far || intersects.push({
+                        !(_distance < raycaster.near) && !(_distance > raycaster.far) && intersects.push({
                             distance: _distance,
                             // What do we want? intersection point on the ray or on the segment??
                             // point: raycaster.ray.at( distance ),
@@ -8220,7 +8220,7 @@ function(global, factory) {
                     for(var vertices = geometry.vertices, nbVertices = vertices.length, _i3 = 0; _i3 < nbVertices - 1; _i3 += step)if (!(_ray$1.distanceSqToSegment(vertices[_i3], vertices[_i3 + 1], interRay, interSegment) > localThresholdSq)) {
                         interRay.applyMatrix4(this.matrixWorld); //Move back to world space for distance calculation
                         var _distance2 = raycaster.ray.origin.distanceTo(interRay);
-                        _distance2 < raycaster.near || _distance2 > raycaster.far || intersects.push({
+                        !(_distance2 < raycaster.near) && !(_distance2 > raycaster.far) && intersects.push({
                             distance: _distance2,
                             // What do we want? intersection point on the ray or on the segment??
                             // point: raycaster.ray.at( distance ),
@@ -8516,7 +8516,7 @@ function(global, factory) {
             //	 otherwise just copy (for faster repeated calls)
             for(var f = 0, fl = this.faces.length; f < fl; f++){
                 var face = this.faces[f];
-                face.__originalFaceNormal ? face.__originalFaceNormal.copy(face.normal) : face.__originalFaceNormal = face.normal.clone(), face.__originalVertexNormals || (face.__originalVertexNormals = []);
+                face.__originalFaceNormal ? face.__originalFaceNormal.copy(face.normal) : face.__originalFaceNormal = face.normal.clone(), !face.__originalVertexNormals && (face.__originalVertexNormals = []);
                 for(var i = 0, il = face.vertexNormals.length; i < il; i++)face.__originalVertexNormals[i] ? face.__originalVertexNormals[i].copy(face.vertexNormals[i]) : face.__originalVertexNormals[i] = face.vertexNormals[i].clone();
             } // use temp geometry to compute face and vertex normals for each morph
             var tmpGeo = new Geometry();
@@ -9184,7 +9184,7 @@ function(global, factory) {
                 if (a.fromBufferAttribute(positionAttr, indexArr[0]), b.fromBufferAttribute(positionAttr, indexArr[1]), c.fromBufferAttribute(positionAttr, indexArr[2]), _triangle.getNormal(_normal$1), hashes[0] = Math.round(10000 * a.x) + "," + Math.round(10000 * a.y) + "," + Math.round(10000 * a.z), hashes[1] = Math.round(10000 * b.x) + "," + Math.round(10000 * b.y) + "," + Math.round(10000 * b.z), hashes[2] = Math.round(10000 * c.x) + "," + Math.round(10000 * c.y) + "," + Math.round(10000 * c.z), hashes[0] !== hashes[1] && hashes[1] !== hashes[2] && hashes[2] !== hashes[0]) for(var j = 0; j < 3; j++){
                     // get the first and next vertex making up the edge
                     var jNext = (j + 1) % 3, vecHash0 = hashes[j], vecHash1 = hashes[jNext], v0 = _triangle[vertKeys[j]], v1 = _triangle[vertKeys[jNext]], hash = vecHash0 + "_" + vecHash1, reverseHash = vecHash1 + "_" + vecHash0;
-                    reverseHash in edgeData && edgeData[reverseHash] ? (_normal$1.dot(edgeData[reverseHash].normal) <= thresholdDot && (vertices.push(v0.x, v0.y, v0.z), vertices.push(v1.x, v1.y, v1.z)), edgeData[reverseHash] = null) : hash in edgeData || // if we've already got an edge here then skip adding a new one
+                    reverseHash in edgeData && edgeData[reverseHash] ? (_normal$1.dot(edgeData[reverseHash].normal) <= thresholdDot && (vertices.push(v0.x, v0.y, v0.z), vertices.push(v1.x, v1.y, v1.z)), edgeData[reverseHash] = null) : !(hash in edgeData) && // if we've already got an edge here then skip adding a new one
                     (edgeData[hash] = {
                         index0: indexArr[j],
                         index1: indexArr[jNext],
@@ -9368,7 +9368,7 @@ function(global, factory) {
     } // eliminate colinear or duplicate points
     function filterPoints(start, end) {
         if (!start) return start;
-        end || (end = start);
+        !end && (end = start);
         var again, p = start;
         do if (again = !1, !p.steiner && (equals(p, p.next) || 0 === area(p.prev, p, p.next))) {
             if (removeNode(p), (p = end = p.prev) === p.next) break;
@@ -9463,7 +9463,7 @@ function(global, factory) {
                 var extrudePts, extrudeByPath = !1;
                 extrudePath && (extrudePts = extrudePath.getSpacedPoints(steps), extrudeByPath = !0, bevelEnabled = !1, // SETUP TNB variables
                 // TODO1 - have a .isClosed in spline?
-                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), bevelEnabled || (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
+                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), !bevelEnabled && (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
                 var shapePoints = shape.extractPoints(curveSegments), vertices = shapePoints.shape, holes = shapePoints.holes;
                 if (!ShapeUtils.isClockWise(vertices)) {
                     vertices = vertices.reverse(); // Maybe we should also check if holes are in the opposite direction, just to be safe ...
@@ -9477,7 +9477,7 @@ function(global, factory) {
                     vertices = vertices.concat(_ahole);
                 }
                 function scalePt2(pt, vec, size) {
-                    return vec || console.error('THREE.ExtrudeGeometry: vec does not exist'), vec.clone().multiplyScalar(size).add(pt);
+                    return !vec && console.error('THREE.ExtrudeGeometry: vec does not exist'), vec.clone().multiplyScalar(size).add(pt);
                 }
                 var vlen = vertices.length, flen = faces.length; // Find directions for point movement
                 function getBevelVec(inPt, inPrev, inNext) {
@@ -11273,13 +11273,13 @@ function(global, factory) {
                 var times = [], values = [];
                 times.push((i + numMorphTargets - 1) % numMorphTargets, i, (i + 1) % numMorphTargets), values.push(0, 1, 0);
                 var order = AnimationUtils.getKeyframeOrder(times);
-                times = AnimationUtils.sortedArray(times, 1, order), values = AnimationUtils.sortedArray(values, 1, order), noLoop || 0 !== times[0] || (times.push(numMorphTargets), values.push(values[0])), tracks.push(new NumberKeyframeTrack('.morphTargetInfluences[' + morphTargetSequence[i].name + ']', times, values).scale(1.0 / fps));
+                times = AnimationUtils.sortedArray(times, 1, order), values = AnimationUtils.sortedArray(values, 1, order), !noLoop && 0 === times[0] && (times.push(numMorphTargets), values.push(values[0])), tracks.push(new NumberKeyframeTrack('.morphTargetInfluences[' + morphTargetSequence[i].name + ']', times, values).scale(1.0 / fps));
             }
             return new AnimationClip(name, -1, tracks);
         },
         findByName: function(objectOrClipArray, name) {
             var clipArray = objectOrClipArray;
-            Array.isArray(objectOrClipArray) || (clipArray = objectOrClipArray.geometry && objectOrClipArray.geometry.animations || objectOrClipArray.animations);
+            !Array.isArray(objectOrClipArray) && (clipArray = objectOrClipArray.geometry && objectOrClipArray.geometry.animations || objectOrClipArray.animations);
             for(var i = 0; i < clipArray.length; i++)if (clipArray[i].name === name) return clipArray[i];
             return null;
         },
@@ -11289,7 +11289,7 @@ function(global, factory) {
                 var morphTarget = morphTargets[i], parts = morphTarget.name.match(pattern);
                 if (parts && parts.length > 1) {
                     var name = parts[1], animationMorphTargets = animationToMorphTargets[name];
-                    animationMorphTargets || (animationToMorphTargets[name] = animationMorphTargets = []), animationMorphTargets.push(morphTarget);
+                    !animationMorphTargets && (animationToMorphTargets[name] = animationMorphTargets = []), animationMorphTargets.push(morphTarget);
                 }
             }
             var clips = []; // tested with https://regex101.com/ on trick sequences
@@ -11864,7 +11864,7 @@ function(global, factory) {
     }), EllipseCurve.prototype = Object.create(Curve.prototype), EllipseCurve.prototype.constructor = EllipseCurve, EllipseCurve.prototype.isEllipseCurve = !0, EllipseCurve.prototype.getPoint = function(t, optionalTarget) {
         for(var point = optionalTarget || new Vector2(), twoPi = 2 * Math.PI, deltaAngle = this.aEndAngle - this.aStartAngle, samePoints = Math.abs(deltaAngle) < Number.EPSILON; deltaAngle < 0;)deltaAngle += twoPi;
         for(; deltaAngle > twoPi;)deltaAngle -= twoPi;
-        deltaAngle < Number.EPSILON && (deltaAngle = samePoints ? 0 : twoPi), !0 !== this.aClockwise || samePoints || (deltaAngle === twoPi ? deltaAngle = -twoPi : deltaAngle -= twoPi);
+        deltaAngle < Number.EPSILON && (deltaAngle = samePoints ? 0 : twoPi), !0 === this.aClockwise && !samePoints && (deltaAngle === twoPi ? deltaAngle = -twoPi : deltaAngle -= twoPi);
         var angle = this.aStartAngle + t * deltaAngle, x = this.aX + this.xRadius * Math.cos(angle), y = this.aY + this.yRadius * Math.sin(angle);
         if (0 !== this.aRotation) {
             var cos = Math.cos(this.aRotation), sin = Math.sin(this.aRotation), tx = x - this.aX, ty = y - this.aY;
@@ -12180,7 +12180,7 @@ function(global, factory) {
         closePath: function() {
             // Add a line curve if start and end of lines are not connected
             var startPoint = this.curves[0].getPoint(0), endPoint = this.curves[this.curves.length - 1].getPoint(1);
-            startPoint.equals(endPoint) || this.curves.push(new LineCurve(endPoint, startPoint));
+            !startPoint.equals(endPoint) && this.curves.push(new LineCurve(endPoint, startPoint));
         },
         // To get accurate point with reference to
         // entire path distance at time t,
@@ -12228,7 +12228,7 @@ function(global, factory) {
             void 0 === divisions && (divisions = 12);
             for(var last, points = [], i = 0, curves = this.curves; i < curves.length; i++)for(var curve = curves[i], resolution = curve && curve.isEllipseCurve ? 2 * divisions : curve && (curve.isLineCurve || curve.isLineCurve3) ? 1 : curve && curve.isSplineCurve ? divisions * curve.points.length : divisions, pts = curve.getPoints(resolution), j = 0; j < pts.length; j++){
                 var point = pts[j];
-                last && last.equals(point) || (points.push(point), last = point); // ensures no consecutive points are duplicates
+                !(last && last.equals(point)) && (points.push(point), last = point); // ensures no consecutive points are duplicates
             }
             return this.autoClose && points.length > 1 && !points[points.length - 1].equals(points[0]) && points.push(points[0]), points;
         },
@@ -12301,7 +12301,7 @@ function(global, factory) {
             if (this.curves.length > 0) {
                 // if a previous curve is present, attempt to join
                 var firstPoint = curve.getPoint(0);
-                firstPoint.equals(this.currentPoint) || this.lineTo(firstPoint.x, firstPoint.y);
+                !firstPoint.equals(this.currentPoint) && this.lineTo(firstPoint.x, firstPoint.y);
             }
             this.curves.push(curve);
             var lastPoint = curve.getPoint(1);
@@ -13477,7 +13477,7 @@ function(global, factory) {
         }, _proto.getFilters = function() {
             return this.filters;
         }, _proto.setFilters = function(value) {
-            return value || (value = []), !0 === this._connected ? (this.disconnect(), this.filters = value.slice(), this.connect()) : this.filters = value.slice(), this;
+            return !value && (value = []), !0 === this._connected ? (this.disconnect(), this.filters = value.slice(), this.connect()) : this.filters = value.slice(), this;
         }, _proto.setDetune = function(value) {
             if (this.detune = value, void 0 !== this.source.detune) return !0 === this.isPlaying && this.source.detune.setTargetAtTime(this.detune, this.context.currentTime, 0.01), this;
              // only set detune when available
@@ -13907,7 +13907,7 @@ function(global, factory) {
         // create getter / setter pair for a property in the scene graph
         bind: function() {
             var targetObject = this.node, parsedPath = this.parsedPath, objectName = parsedPath.objectName, propertyName = parsedPath.propertyName, propertyIndex = parsedPath.propertyIndex;
-            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
+            if (!targetObject && (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
                 console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
                 return;
             }
@@ -15092,7 +15092,7 @@ function(global, factory) {
         }
         return _inheritsLoose(Box3Helper, _LineSegments), Box3Helper.prototype.updateMatrixWorld = function(force) {
             var box = this.box;
-            box.isEmpty() || (box.getCenter(this.position), box.getSize(this.scale), this.scale.multiplyScalar(0.5), _LineSegments.prototype.updateMatrixWorld.call(this, force));
+            !box.isEmpty() && (box.getCenter(this.position), box.getSize(this.scale), this.scale.multiplyScalar(0.5), _LineSegments.prototype.updateMatrixWorld.call(this, force));
         }, Box3Helper;
     }(LineSegments), PlaneHelper = /*#__PURE__*/ function(_Line) {
         function PlaneHelper(plane, size, hex) {
@@ -15449,7 +15449,7 @@ function(global, factory) {
             var renderer = this._renderer;
             texture.isCubeTexture ? null == this._cubemapShader && (this._cubemapShader = _getCubemapShader()) : null == this._equirectShader && (this._equirectShader = _getEquirectShader());
             var material = texture.isCubeTexture ? this._cubemapShader : this._equirectShader, mesh = new Mesh(_lodPlanes[0], material), uniforms = material.uniforms;
-            uniforms.envMap.value = texture, texture.isCubeTexture || uniforms.texelSize.value.set(1.0 / texture.image.width, 1.0 / texture.image.height), uniforms.inputEncoding.value = ENCODINGS[texture.encoding], uniforms.outputEncoding.value = ENCODINGS[cubeUVRenderTarget.texture.encoding], _setViewport(cubeUVRenderTarget, 0, 0, 768, 512), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(mesh, _flatCamera);
+            uniforms.envMap.value = texture, !texture.isCubeTexture && uniforms.texelSize.value.set(1.0 / texture.image.width, 1.0 / texture.image.height), uniforms.inputEncoding.value = ENCODINGS[texture.encoding], uniforms.outputEncoding.value = ENCODINGS[cubeUVRenderTarget.texture.encoding], _setViewport(cubeUVRenderTarget, 0, 0, 768, 512), renderer.setRenderTarget(cubeUVRenderTarget), renderer.render(mesh, _flatCamera);
         }, _proto._applyPMREM = function(cubeUVRenderTarget) {
             var renderer = this._renderer, autoClear = renderer.autoClear;
             renderer.autoClear = !1;

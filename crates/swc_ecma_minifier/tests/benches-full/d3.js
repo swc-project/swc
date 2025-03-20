@@ -168,7 +168,7 @@ function(global, factory) {
     function bin() {
         var value = identity, domain = extent, threshold = thresholdSturges;
         function histogram(data) {
-            Array.isArray(data) || (data = Array.from(data));
+            !Array.isArray(data) && (data = Array.from(data));
             var i, x, n = data.length, values = Array(n);
             for(i = 0; i < n; ++i)values[i] = value(data[i], i, data);
             var xz = domain(values), x0 = xz[0], x1 = xz[1], tz = threshold(values, x0, x1);
@@ -775,7 +775,7 @@ function(global, factory) {
             function compareNode(a, b) {
                 return a && b ? compare(a.__data__, b.__data__) : !a - !b;
             }
-            compare || (compare = ascending$1);
+            !compare && (compare = ascending$1);
             for(var groups = this._groups, m = groups.length, sortgroups = Array(m), j = 0; j < m; ++j){
                 for(var node, group = groups[j], n = group.length, sortgroup = sortgroups[j] = Array(n), i = 0; i < n; ++i)(node = group[i]) && (sortgroup[i] = node);
                 sortgroup.sort(compareNode);
@@ -1338,7 +1338,7 @@ function(global, factory) {
         return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
     }
     function rgbConvert(o) {
-        return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
+        return (!(o instanceof Color) && (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
     }
     function rgb(r, g, b, opacity) {
         return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -1361,7 +1361,7 @@ function(global, factory) {
     }
     function hslConvert(o) {
         if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
-        if (o instanceof Color || (o = color(o)), !o) return new Hsl;
+        if (!(o instanceof Color) && (o = color(o)), !o) return new Hsl;
         if (o instanceof Hsl) return o;
         var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
         return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
@@ -1429,7 +1429,7 @@ function(global, factory) {
     function labConvert(o) {
         if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
         if (o instanceof Hcl) return hcl2lab(o);
-        o instanceof Rgb || (o = rgbConvert(o));
+        !(o instanceof Rgb) && (o = rgbConvert(o));
         var x, z, r = rgb2lrgb(o.r), g = rgb2lrgb(o.g), b = rgb2lrgb(o.b), y = xyz2lab((0.2225045 * r + 0.7168786 * g + 0.0606169 * b) / 1);
         return r === g && g === b ? x = z = y : (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)), new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
     }
@@ -1453,7 +1453,7 @@ function(global, factory) {
     }
     function hclConvert(o) {
         if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-        if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
+        if (!(o instanceof Lab) && (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
         var h = Math.atan2(o.b, o.a) * degrees;
         return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
     }
@@ -1494,7 +1494,7 @@ function(global, factory) {
     function cubehelix(h, s, l, opacity) {
         return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
-            o instanceof Rgb || (o = rgbConvert(o));
+            !(o instanceof Rgb) && (o = rgbConvert(o));
             var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
             return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
         }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
@@ -1572,7 +1572,7 @@ function(global, factory) {
     }
     var rgbBasis = rgbSpline(basis$1), rgbBasisClosed = rgbSpline(basisClosed);
     function numberArray(a, b) {
-        b || (b = []);
+        !b && (b = []);
         var i, n = a ? Math.min(b.length, a.length) : 0, c = b.slice();
         return function(t) {
             for(i = 0; i < n; ++i)c[i] = a[i] * (1 - t) + b[i] * t;
@@ -1702,7 +1702,7 @@ function(global, factory) {
         const m = new ("function" == typeof DOMMatrix ? DOMMatrix : WebKitCSSMatrix)(value + "");
         return m.isIdentity ? identity$2 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
     }, "px, ", "px)", "deg)"), interpolateTransformSvg = interpolateTransform(function(value) {
-        return null == value ? identity$2 : (svgNode || (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? decompose((value = value.matrix).a, value.b, value.c, value.d, value.e, value.f) : identity$2;
+        return null == value ? identity$2 : (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? decompose((value = value.matrix).a, value.b, value.c, value.d, value.e, value.f) : identity$2;
     }, ", ", ")", ")");
     function cosh(x) {
         return ((x = Math.exp(x)) + 1 / x) / 2;
@@ -1813,7 +1813,7 @@ function(global, factory) {
         delay > 1000 && (clockSkew -= delay, clockLast = now);
     }
     function sleep(time) {
-        !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (interval || (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake))); // Soonest alarm already set, or will be.
+        !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (!interval && (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake))); // Soonest alarm already set, or will be.
     }
     function timeout$1(callback, delay, time) {
         var t = new Timer;
@@ -1825,7 +1825,7 @@ function(global, factory) {
         constructor: Timer,
         restart: function(callback, delay, time) {
             if ("function" != typeof callback) throw TypeError("callback is not a function");
-            time = (null == time ? now() : +time) + (null == delay ? 0 : +delay), this._next || taskTail === this || (taskTail ? taskTail._next = this : taskHead = this, taskTail = this), this._call = callback, this._time = time, sleep();
+            time = (null == time ? now() : +time) + (null == delay ? 0 : +delay), !this._next && taskTail !== this && (taskTail ? taskTail._next = this : taskHead = this, taskTail = this), this._call = callback, this._time = time, sleep();
         },
         stop: function() {
             this._call && (this._call = null, this._time = 1 / 0, sleep());
@@ -2958,7 +2958,7 @@ function(global, factory) {
         var source = defaultSource, target = defaultTarget, sourceRadius = defaultRadius, targetRadius = defaultRadius, startAngle = defaultStartAngle, endAngle = defaultEndAngle, padAngle = defaultPadAngle, context = null;
         function ribbon() {
             var buffer, s = source.apply(this, arguments), t = target.apply(this, arguments), ap = padAngle.apply(this, arguments) / 2, argv = slice$2.call(arguments), sr = +sourceRadius.apply(this, (argv[0] = s, argv)), sa0 = startAngle.apply(this, argv) - halfPi$1, sa1 = endAngle.apply(this, argv) - halfPi$1, tr = +targetRadius.apply(this, (argv[0] = t, argv)), ta0 = startAngle.apply(this, argv) - halfPi$1, ta1 = endAngle.apply(this, argv) - halfPi$1;
-            if (context || (context = buffer = path()), ap > 1e-12 && (abs$1(sa1 - sa0) > 2 * ap + 1e-12 ? sa1 > sa0 ? (sa0 += ap, sa1 -= ap) : (sa0 -= ap, sa1 += ap) : sa0 = sa1 = (sa0 + sa1) / 2, abs$1(ta1 - ta0) > 2 * ap + 1e-12 ? ta1 > ta0 ? (ta0 += ap, ta1 -= ap) : (ta0 -= ap, ta1 += ap) : ta0 = ta1 = (ta0 + ta1) / 2), context.moveTo(sr * cos(sa0), sr * sin(sa0)), context.arc(0, 0, sr, sa0, sa1), sa0 !== ta0 || sa1 !== ta1) if (headRadius) {
+            if (!context && (context = buffer = path()), ap > 1e-12 && (abs$1(sa1 - sa0) > 2 * ap + 1e-12 ? sa1 > sa0 ? (sa0 += ap, sa1 -= ap) : (sa0 -= ap, sa1 += ap) : sa0 = sa1 = (sa0 + sa1) / 2, abs$1(ta1 - ta0) > 2 * ap + 1e-12 ? ta1 > ta0 ? (ta0 += ap, ta1 -= ap) : (ta0 -= ap, ta1 += ap) : ta0 = ta1 = (ta0 + ta1) / 2), context.moveTo(sr * cos(sa0), sr * sin(sa0)), context.arc(0, 0, sr, sa0, sa1), sa0 !== ta0 || sa1 !== ta1) if (headRadius) {
                 var hr = +headRadius.apply(this, arguments), tr2 = tr - hr, ta2 = (ta0 + ta1) / 2;
                 context.quadraticCurveTo(0, 0, tr2 * cos(ta0), tr2 * sin(ta0)), context.lineTo(tr * cos(ta2), tr * sin(ta2)), context.lineTo(tr2 * cos(ta1), tr2 * sin(ta1));
             } else context.quadraticCurveTo(0, 0, tr * cos(ta0), tr * sin(ta0)), context.arc(0, 0, tr, ta0, ta1);
@@ -4009,7 +4009,7 @@ function(global, factory) {
     function inferColumns(rows) {
         var columnSet = Object.create(null), columns = [];
         return rows.forEach(function(row) {
-            for(var column in row)column in columnSet || columns.push(columnSet[column] = column);
+            for(var column in row)!(column in columnSet) && columns.push(columnSet[column] = column);
         }), columns;
     }
     function pad(value, width) {
@@ -4041,7 +4041,7 @@ function(global, factory) {
             }
             for(10 === text.charCodeAt(N - 1) && --N, 13 === text.charCodeAt(N - 1) && --N; (t = token()) !== EOF;){
                 for(var row = []; t !== EOL && t !== EOF;)row.push(t), t = token();
-                f && null == (row = f(row, n++)) || rows.push(row);
+                (!f || null != (row = f(row, n++))) && rows.push(row);
             }
             return rows;
         }
@@ -4450,7 +4450,7 @@ function(global, factory) {
         }), percent = void 0 === locale.percent ? "%" : locale.percent + "", minus = void 0 === locale.minus ? "\u2212" : locale.minus + "", nan = void 0 === locale.nan ? "NaN" : locale.nan + "";
         function newFormat(specifier) {
             var fill = (specifier = formatSpecifier(specifier)).fill, align = specifier.align, sign = specifier.sign, symbol = specifier.symbol, zero = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
-            "n" === type ? (comma = !0, type = "g") : formatTypes[type] || (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
+            "n" === type ? (comma = !0, type = "g") : !formatTypes[type] && (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
             // Compute the prefix and suffix.
             // For SI-prefix, the suffix is lazily computed.
             var prefix = "$" === symbol ? currencyPrefix : "#" === symbol && /[boxX]/.test(type) ? "0" + type.toLowerCase() : "", suffix = "$" === symbol ? currencySuffix : /[%p]/.test(type) ? percent : "", formatType = formatTypes[type], maybeSuffix = /[defgprs%]/.test(type);
@@ -5002,7 +5002,7 @@ function(global, factory) {
                 polygonEnd: function() {
                     clip.point = point, clip.lineStart = lineStart, clip.lineEnd = lineEnd, segments = merge(segments);
                     var startInside = polygonContains(polygon, start);
-                    segments.length ? (polygonStarted || (sink.polygonStart(), polygonStarted = !0), clipRejoin(segments, compareIntersection, startInside, interpolate, sink)) : startInside && (polygonStarted || (sink.polygonStart(), polygonStarted = !0), sink.lineStart(), interpolate(null, null, 1, sink), sink.lineEnd()), polygonStarted && (sink.polygonEnd(), polygonStarted = !1), segments = polygon = null;
+                    segments.length ? (!polygonStarted && (sink.polygonStart(), polygonStarted = !0), clipRejoin(segments, compareIntersection, startInside, interpolate, sink)) : startInside && (!polygonStarted && (sink.polygonStart(), polygonStarted = !0), sink.lineStart(), interpolate(null, null, 1, sink), sink.lineEnd()), polygonStarted && (sink.polygonEnd(), polygonStarted = !1), segments = polygon = null;
                 },
                 sphere: function() {
                     sink.polygonStart(), sink.lineStart(), interpolate(null, null, 1, sink), sink.lineEnd(), sink.polygonEnd();
@@ -5036,7 +5036,7 @@ function(global, factory) {
                     // No intersections.
                     if (1 & clean) {
                         if ((m = (segment = ringSegments[0]).length - 1) > 0) {
-                            for(polygonStarted || (sink.polygonStart(), polygonStarted = !0), sink.lineStart(), i = 0; i < m; ++i)sink.point((point = segment[i])[0], point[1]);
+                            for(!polygonStarted && (sink.polygonStart(), polygonStarted = !0), sink.lineStart(), i = 0; i < m; ++i)sink.point((point = segment[i])[0], point[1]);
                             sink.lineEnd();
                         }
                         return;
@@ -5147,7 +5147,7 @@ function(global, factory) {
                     ], v = visible(lambda, phi), c = smallRadius ? v ? 0 : code(lambda, phi) : v ? code(lambda + (lambda < 0 ? pi$3 : -pi$3), phi) : 0;
                     !point0 && (v00 = v0 = v) && stream.lineStart(), v !== v0 && (!(point2 = intersect(point0, point1)) || pointEqual(point0, point2) || pointEqual(point1, point2)) && (point1[2] = 1), v !== v0 ? (clean = 0, v ? (// outside going in
                     stream.lineStart(), point2 = intersect(point1, point0), stream.point(point2[0], point2[1])) : (// inside going out
-                    point2 = intersect(point0, point1), stream.point(point2[0], point2[1], 2), stream.lineEnd()), point0 = point2) : notHemisphere && point0 && smallRadius ^ v && !(c & c0) && (t = intersect(point1, point0, !0)) && (clean = 0, smallRadius ? (stream.lineStart(), stream.point(t[0][0], t[0][1]), stream.point(t[1][0], t[1][1]), stream.lineEnd()) : (stream.point(t[1][0], t[1][1]), stream.lineEnd(), stream.lineStart(), stream.point(t[0][0], t[0][1], 3))), !v || point0 && pointEqual(point0, point1) || stream.point(point1[0], point1[1]), point0 = point1, v0 = v, c0 = c;
+                    point2 = intersect(point0, point1), stream.point(point2[0], point2[1], 2), stream.lineEnd()), point0 = point2) : notHemisphere && point0 && smallRadius ^ v && !(c & c0) && (t = intersect(point1, point0, !0)) && (clean = 0, smallRadius ? (stream.lineStart(), stream.point(t[0][0], t[0][1]), stream.point(t[1][0], t[1][1]), stream.lineEnd()) : (stream.point(t[1][0], t[1][1]), stream.lineEnd(), stream.lineStart(), stream.point(t[0][0], t[0][1], 3))), v && (!point0 || !pointEqual(point0, point1)) && stream.point(point1[0], point1[1]), point0 = point1, v0 = v, c0 = c;
                 },
                 lineEnd: function() {
                     v0 && stream.lineEnd(), point0 = null;
@@ -5271,7 +5271,7 @@ function(global, factory) {
                                 }
                             }
                         }
-                    }(a, b, x0, y0, x1, y1) ? v && (activeStream.lineStart(), activeStream.point(x, y), clean = !1) : (v_ || (activeStream.lineStart(), activeStream.point(a[0], a[1])), activeStream.point(b[0], b[1]), v || activeStream.lineEnd(), clean = !1);
+                    }(a, b, x0, y0, x1, y1) ? v && (activeStream.lineStart(), activeStream.point(x, y), clean = !1) : (!v_ && (activeStream.lineStart(), activeStream.point(a[0], a[1])), activeStream.point(b[0], b[1]), !v && activeStream.lineEnd(), clean = !1);
                 }
                 x_ = x, y_ = y, v_ = v;
             }
@@ -6369,7 +6369,7 @@ function(global, factory) {
     }
     function radiusLeaf(radius) {
         return function(node) {
-            node.children || (node.r = Math.max(0, +radius(node) || 0));
+            !node.children && (node.r = Math.max(0, +radius(node) || 0));
         };
     }
     function packChildren(padding, k) {
@@ -6479,7 +6479,7 @@ function(global, factory) {
         leaves: function() {
             var leaves = [];
             return this.eachBefore(function(node) {
-                node.children || leaves.push(node);
+                !node.children && leaves.push(node);
             }), leaves;
         },
         links: function() {
@@ -6805,7 +6805,7 @@ function(global, factory) {
             if (!arguments.length) return domain.slice();
             for (const value of (domain = [], index = new Map(), _)){
                 const key = value + "";
-                index.has(key) || index.set(key, domain.push(value));
+                !index.has(key) && index.set(key, domain.push(value));
             }
             return scale;
         }, scale.range = function(_) {
@@ -6930,17 +6930,17 @@ function(global, factory) {
         switch((specifier = formatSpecifier(null == specifier ? ",f" : specifier)).type){
             case "s":
                 var value = Math.max(Math.abs(start), Math.abs(stop));
-                return null != specifier.precision || isNaN(precision = precisionPrefix(step, value)) || (specifier.precision = precision), exports1.formatPrefix(specifier, value);
+                return null == specifier.precision && !isNaN(precision = precisionPrefix(step, value)) && (specifier.precision = precision), exports1.formatPrefix(specifier, value);
             case "":
             case "e":
             case "g":
             case "p":
             case "r":
-                null != specifier.precision || isNaN(precision = precisionRound(step, Math.max(Math.abs(start), Math.abs(stop)))) || (specifier.precision = precision - ("e" === specifier.type));
+                null == specifier.precision && !isNaN(precision = precisionRound(step, Math.max(Math.abs(start), Math.abs(stop)))) && (specifier.precision = precision - ("e" === specifier.type));
                 break;
             case "f":
             case "%":
-                null != specifier.precision || isNaN(precision = precisionFixed(step)) || (specifier.precision = precision - ("%" === specifier.type) * 2);
+                null == specifier.precision && !isNaN(precision = precisionFixed(step)) && (specifier.precision = precision - ("%" === specifier.type) * 2);
         }
         return exports1.format(specifier);
     }
@@ -7431,7 +7431,7 @@ function(global, factory) {
         function newFormat(specifier, formats) {
             return function(date) {
                 var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
-                for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
+                for(!(date instanceof Date) && (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
                 return string.push(specifier.slice(j, i)), string.join("");
             };
         }
@@ -7443,10 +7443,10 @@ function(global, factory) {
                 if ("Q" in d) return new Date(d.Q);
                 if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                 // Convert day-of-week and week-of-year to day-of-year.
-                if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
+                if (Z && !("Z" in d) && (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
-                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
+                    !("w" in d) && (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                } else ("W" in d || "U" in d) && (!("w" in d) && (d.w = "u" in d ? d.u % 7 : +("W" in d)), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return(// If a time zone is specified, all fields are interpreted as UTC and then
                 // offset according to the specified time zone.
                 "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
@@ -8315,7 +8315,7 @@ function(global, factory) {
         var source = linkSource, target = linkTarget, x = x$3, y = y$3, context = null;
         function link() {
             var buffer, argv = slice$4.call(arguments), s = source.apply(this, argv), t = target.apply(this, argv);
-            if (context || (context = buffer = path()), curve(context, +x.apply(this, (argv[0] = s, argv)), +y.apply(this, argv), +x.apply(this, (argv[0] = t, argv)), +y.apply(this, argv)), buffer) return context = null, buffer + "" || null;
+            if (!context && (context = buffer = path()), curve(context, +x.apply(this, (argv[0] = s, argv)), +y.apply(this, argv), +x.apply(this, (argv[0] = t, argv)), +y.apply(this, argv)), buffer) return context = null, buffer + "" || null;
         }
         return link.source = function(_) {
             return arguments.length ? (source = _, link) : source;
@@ -9189,7 +9189,7 @@ function(global, factory) {
         function arc() {
             var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - halfPi$3, a1 = endAngle.apply(this, arguments) - halfPi$3, da = abs$3(a1 - a0), cw = a1 > a0;
             // Is it a point?
-            if (context || (context = buffer = path()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > 1e-12) if (da > tau$5 - 1e-12) context.moveTo(r1 * cos$2(a0), r1 * sin$2(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > 1e-12 && (context.moveTo(r0 * cos$2(a1), r0 * sin$2(a1)), context.arc(0, 0, r0, a1, a0, cw));
+            if (!context && (context = buffer = path()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > 1e-12) if (da > tau$5 - 1e-12) context.moveTo(r1 * cos$2(a0), r1 * sin$2(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > 1e-12 && (context.moveTo(r0 * cos$2(a1), r0 * sin$2(a1)), context.arc(0, 0, r0, a1, a0, cw));
             else {
                 var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > 1e-12 && (padRadius ? +padRadius.apply(this, arguments) : sqrt$2(r0 * r0 + r1 * r1)), rc = min$2(abs$3(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
                 // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
@@ -10585,7 +10585,7 @@ function(global, factory) {
             ];
         }, scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
-            for (let d of (domain = [], _))null == d || isNaN(d *= 1) || domain.push(d);
+            for (let d of (domain = [], _))null != d && !isNaN(d *= 1) && domain.push(d);
             return domain.sort(ascending), rescale();
         }, scale.range = function(_) {
             return arguments.length ? (range = Array.from(_), rescale()) : range.slice();
@@ -10689,7 +10689,7 @@ function(global, factory) {
         }
         return scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
-            for (let d of (domain = [], _))null == d || isNaN(d *= 1) || domain.push(d);
+            for (let d of (domain = [], _))null != d && !isNaN(d *= 1) && domain.push(d);
             return domain.sort(ascending), scale;
         }, scale.interpolator = function(_) {
             return arguments.length ? (interpolator = _, scale) : interpolator;
@@ -10870,7 +10870,7 @@ function(global, factory) {
         var context = null;
         function symbol() {
             var buffer;
-            if (context || (context = buffer = path()), type.apply(this, arguments).draw(context, +size.apply(this, arguments)), buffer) return context = null, buffer + "" || null;
+            if (!context && (context = buffer = path()), type.apply(this, arguments).draw(context, +size.apply(this, arguments)), buffer) return context = null, buffer + "" || null;
         }
         return type = "function" == typeof type ? type : constant$a(type || circle$2), size = "function" == typeof size ? size : constant$a(void 0 === size ? 64 : +size), symbol.type = function(_) {
             return arguments.length ? (type = "function" == typeof _ ? _ : constant$a(_), symbol) : type;
@@ -11139,7 +11139,7 @@ function(global, factory) {
                     p = pointer(t = touches[i], this),
                     this.__zoom.invert(p),
                     t.identifier
-                ], g.touch0 ? g.touch1 || g.touch0[2] === p[2] || (g.touch1 = p, g.taps = 0) : (g.touch0 = p, started = !0, g.taps = 1 + !!touchstarting);
+                ], g.touch0 ? !g.touch1 && g.touch0[2] !== p[2] && (g.touch1 = p, g.taps = 0) : (g.touch0 = p, started = !0, g.taps = 1 + !!touchstarting);
                 touchstarting && (touchstarting = clearTimeout(touchstarting)), started && (g.taps < 2 && (touchfirst = p[0], touchstarting = setTimeout(function() {
                     touchstarting = null;
                 }, 500)), interrupt(this), g.start());

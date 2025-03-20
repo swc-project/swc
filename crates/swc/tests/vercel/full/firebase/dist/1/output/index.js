@@ -51,7 +51,7 @@ var e, t = require("@firebase/util"), n = require("tslib"), r = require("@fireba
     }, e.prototype._getService = function(e, t) {
         void 0 === t && (t = i._DEFAULT_ENTRY_NAME), this._delegate.checkDestroyed();
         var n, r = this._delegate.container.getProvider(e);
-        return r.isInitialized() || (null === (n = r.getComponent()) || void 0 === n ? void 0 : n.instantiationMode) !== "EXPLICIT" || r.initialize(), r.getImmediate({
+        return !r.isInitialized() && (null === (n = r.getComponent()) || void 0 === n ? void 0 : n.instantiationMode) === "EXPLICIT" && r.initialize(), r.getImmediate({
             identifier: t
         });
     }, e.prototype._removeServiceInstance = function(e, t) {

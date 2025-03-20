@@ -22,7 +22,7 @@
             if (this.parseStringPromise = bind(this.parseStringPromise, this), this.parseString = bind(this.parseString, this), this.reset = bind(this.reset, this), this.assignOrPush = bind(this.assignOrPush, this), this.processAsync = bind(this.processAsync, this), !(this instanceof exports.Parser)) return new exports.Parser(opts);
             for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (value = ref[key], this.options[key] = value);
             for(key in opts)hasProp.call(opts, key) && (value = opts[key], this.options[key] = value);
-            this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
+            this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (!this.options.tagNameProcessors && (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
         }
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
             var chunk;
@@ -33,7 +33,7 @@
                 if (!this.saxParser.errThrown) return this.saxParser.errThrown = !0, this.emit(error1);
             }
         }, Parser.prototype.assignOrPush = function(obj, key, newValue) {
-            return key in obj ? (obj[key] instanceof Array || (obj[key] = [
+            return key in obj ? (!(obj[key] instanceof Array) && (obj[key] = [
                 obj[key]
             ]), obj[key].push(newValue)) : this.options.explicitArray ? obj[key] = [
                 newValue
@@ -50,14 +50,14 @@
                 if (!_this1.saxParser.ended) return _this1.saxParser.ended = !0, _this1.emit("end", _this1.resultObject);
             }), this.saxParser.ended = !1, this.EXPLICIT_CHARKEY = this.options.explicitCharkey, this.resultObject = null, stack = [], attrkey = this.options.attrkey, charkey = this.options.charkey, this.saxParser.onopentag = (_this2 = this, function(node) {
                 var key, newValue, obj, processedKey, ref;
-                if ((obj = {})[charkey] = "", !_this2.options.ignoreAttrs) for(key in ref = node.attributes)hasProp.call(ref, key) && (attrkey in obj || _this2.options.mergeAttrs || (obj[attrkey] = {}), newValue = _this2.options.attrValueProcessors ? processItem(_this2.options.attrValueProcessors, node.attributes[key], key) : node.attributes[key], processedKey = _this2.options.attrNameProcessors ? processItem(_this2.options.attrNameProcessors, key) : key, _this2.options.mergeAttrs ? _this2.assignOrPush(obj, processedKey, newValue) : obj[attrkey][processedKey] = newValue);
+                if ((obj = {})[charkey] = "", !_this2.options.ignoreAttrs) for(key in ref = node.attributes)hasProp.call(ref, key) && (!(attrkey in obj) && !_this2.options.mergeAttrs && (obj[attrkey] = {}), newValue = _this2.options.attrValueProcessors ? processItem(_this2.options.attrValueProcessors, node.attributes[key], key) : node.attributes[key], processedKey = _this2.options.attrNameProcessors ? processItem(_this2.options.attrNameProcessors, key) : key, _this2.options.mergeAttrs ? _this2.assignOrPush(obj, processedKey, newValue) : obj[attrkey][processedKey] = newValue);
                 return obj["#name"] = _this2.options.tagNameProcessors ? processItem(_this2.options.tagNameProcessors, node.name) : node.name, _this2.options.xmlns && (obj[_this2.options.xmlnskey] = {
                     uri: node.uri,
                     local: node.local
                 }), stack.push(obj);
             }), this.saxParser.onclosetag = (_this3 = this, function() {
                 var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath, thing;
-                if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), "object" == typeof (thing = obj) && null != thing && 0 === Object.keys(thing).length && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
+                if (nodeName = (obj = stack.pop())["#name"], (!_this3.options.explicitChildren || !_this3.options.preserveChildrenOrder) && delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), "object" == typeof (thing = obj) && null != thing && 0 === Object.keys(thing).length && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;

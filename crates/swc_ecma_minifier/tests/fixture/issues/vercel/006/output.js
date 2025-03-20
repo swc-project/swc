@@ -38,7 +38,7 @@ class LoadScript extends React.PureComponent {
     }
     componentWillUnmount() {
         isBrowser && (this.cleanup(), window.setTimeout(()=>{
-            this.check.current || (// @ts-ignore
+            !this.check.current && (// @ts-ignore
             delete window.google, cleaningUp = !1);
         }, 1), this.props.onUnmount && this.props.onUnmount());
     }
@@ -62,7 +62,7 @@ class LoadScript extends React.PureComponent {
                 if (cleaningUp) {
                     if (isBrowser) {
                         const timer = window.setInterval(function() {
-                            cleaningUp || (window.clearInterval(timer), resolve());
+                            !cleaningUp && (window.clearInterval(timer), resolve());
                         }, 1);
                     }
                 } else resolve();

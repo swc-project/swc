@@ -1433,7 +1433,7 @@
                         "%IteratorPrototype%": y ? l(l([][Symbol.iterator]())) : o,
                         "%JSON%": "object" == typeof JSON ? JSON : o,
                         "%Map%": "undefined" == typeof Map ? o : Map,
-                        "%MapIteratorPrototype%": "undefined" != typeof Map && y ? l((new Map)[Symbol.iterator]()) : o,
+                        "%MapIteratorPrototype%": "undefined" == typeof Map || !y ? o : l((new Map)[Symbol.iterator]()),
                         "%Math%": Math,
                         "%Number%": Number,
                         "%Object%": Object,
@@ -1446,7 +1446,7 @@
                         "%Reflect%": "undefined" == typeof Reflect ? o : Reflect,
                         "%RegExp%": RegExp,
                         "%Set%": "undefined" == typeof Set ? o : Set,
-                        "%SetIteratorPrototype%": "undefined" != typeof Set && y ? l((new Set)[Symbol.iterator]()) : o,
+                        "%SetIteratorPrototype%": "undefined" == typeof Set || !y ? o : l((new Set)[Symbol.iterator]()),
                         "%SharedArrayBuffer%": "undefined" == typeof SharedArrayBuffer ? o : SharedArrayBuffer,
                         "%String%": String,
                         "%StringIteratorPrototype%": y ? l(""[Symbol.iterator]()) : o,
@@ -1723,7 +1723,7 @@
                         for(var l = 1, s = !0; l < r.length; l += 1){
                             var d = r[l], g = j(d, 0, 1), h = j(d, -1);
                             if (('"' === g || "'" === g || "`" === g || '"' === h || "'" === h || "`" === h) && g !== h) throw new n("property names with quotes must have matching quotes");
-                            if ("constructor" !== d && s || (f = !0), o += "." + d, v(b, p = "%" + o + "%")) u = b[p];
+                            if (("constructor" === d || !s) && (f = !0), o += "." + d, v(b, p = "%" + o + "%")) u = b[p];
                             else if (null != u) {
                                 if (!(d in u)) {
                                     if (!e) throw new a("base intrinsic for " + t + " exists, but the property is not available.");
@@ -1844,7 +1844,7 @@
                         var e = new r.g[t];
                         if (!(Symbol.toStringTag in e)) throw EvalError("this engine has support for Symbol.toStringTag, but " + t + " does not have the property! Please report this.");
                         var o = d(e), n = s(o, Symbol.toStringTag);
-                        n || (n = s(d(o), Symbol.toStringTag)), l[t] = n.get;
+                        !n && (n = s(d(o), Symbol.toStringTag)), l[t] = n.get;
                     });
                     var b = function(t) {
                         var e = !1;
@@ -2053,7 +2053,7 @@
                     function l(t, r, o) {
                         if (t.customInspect && r && x(r.inspect) && r.inspect !== e.inspect && !(r.constructor && r.constructor.prototype === r)) {
                             var n, i, a, p, c, u = r.inspect(o, t);
-                            return v(u) || (u = l(t, u, o)), u;
+                            return !v(u) && (u = l(t, u, o)), u;
                         }
                         var f = function(t, e) {
                             if (S(e)) return t.stylize("undefined", "undefined");
@@ -2090,7 +2090,7 @@
                         return t.seen.push(r), c = F ? function(t, e, r, o, n) {
                             for(var i = [], a = 0, p = e.length; a < p; ++a)I(e, String(a)) ? i.push(d(t, e, r, o, String(a), !0)) : i.push("");
                             return n.forEach(function(n) {
-                                n.match(/^\d+$/) || i.push(d(t, e, r, o, n, !0));
+                                !n.match(/^\d+$/) && i.push(d(t, e, r, o, n, !0));
                             }), i;
                         }(t, r, o, O, y) : y.map(function(e) {
                             return d(t, r, o, O, e, F);
@@ -2105,7 +2105,7 @@
                         var a, p, c;
                         if ((c = Object.getOwnPropertyDescriptor(e, n) || {
                             value: e[n]
-                        }).get ? p = c.set ? t.stylize("[Getter/Setter]", "special") : t.stylize("[Getter]", "special") : c.set && (p = t.stylize("[Setter]", "special")), I(o, n) || (a = "[" + n + "]"), !p && (0 > t.seen.indexOf(c.value) ? (p = h(r) ? l(t, c.value, null) : l(t, c.value, r - 1)).indexOf("\n") > -1 && (p = i ? p.split("\n").map(function(t) {
+                        }).get ? p = c.set ? t.stylize("[Getter/Setter]", "special") : t.stylize("[Getter]", "special") : c.set && (p = t.stylize("[Setter]", "special")), !I(o, n) && (a = "[" + n + "]"), !p && (0 > t.seen.indexOf(c.value) ? (p = h(r) ? l(t, c.value, null) : l(t, c.value, r - 1)).indexOf("\n") > -1 && (p = i ? p.split("\n").map(function(t) {
                             return "  " + t;
                         }).join("\n").substr(2) : "\n" + p.split("\n").map(function(t) {
                             return "   " + t;
@@ -2331,7 +2331,7 @@
                             var e = new r.g[t];
                             if (!(Symbol.toStringTag in e)) throw EvalError("this engine has support for Symbol.toStringTag, but " + t + " does not have the property! Please report this.");
                             var o = s(e), n = l(o, Symbol.toStringTag);
-                            n || (n = l(s(o), Symbol.toStringTag)), y[t] = n.get;
+                            !n && (n = l(s(o), Symbol.toStringTag)), y[t] = n.get;
                         }
                     });
                     var d = function(t) {

@@ -1,6 +1,5 @@
 w;
-x ||
-    (function () {
-        x = {};
-    })();
+!x && function() {
+    x = {};
+}();
 y;

@@ -8,7 +8,7 @@ export const def = {
         const properties = allProps.filter((p)=>!(0, util_1.alwaysValidSchema)(it, schema[p]));
         if (0 === properties.length) return;
         const valid = gen.name("valid");
-        for (const prop of properties)it.opts.useDefaults && !it.compositeRule && void 0 !== schema[prop].default ? applyPropertySchema(prop) : (gen.if((0, code_1.propertyInData)(gen, data, prop, it.opts.ownProperties)), applyPropertySchema(prop), it.allErrors || gen.else().var(valid, !0), gen.endIf()), cxt.it.definedProperties.add(prop), cxt.ok(valid);
+        for (const prop of properties)it.opts.useDefaults && !it.compositeRule && void 0 !== schema[prop].default ? applyPropertySchema(prop) : (gen.if((0, code_1.propertyInData)(gen, data, prop, it.opts.ownProperties)), applyPropertySchema(prop), !it.allErrors && gen.else().var(valid, !0), gen.endIf()), cxt.it.definedProperties.add(prop), cxt.ok(valid);
         function applyPropertySchema(prop) {
             cxt.subschema({
                 keyword: "properties",

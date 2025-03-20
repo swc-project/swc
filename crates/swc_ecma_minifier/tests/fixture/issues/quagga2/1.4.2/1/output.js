@@ -25,7 +25,7 @@
         /******/ __webpack_require__.m = modules, /******/ /******/ // expose the module cache
         /******/ __webpack_require__.c = installedModules, /******/ /******/ // define getter function for harmony exports
         /******/ __webpack_require__.d = function(exports1, name, getter) {
-            /******/ __webpack_require__.o(exports1, name) || /******/ Object.defineProperty(exports1, name, {
+            /******/ !__webpack_require__.o(exports1, name) && /******/ Object.defineProperty(exports1, name, {
                 enumerable: !0,
                 get: getter
             });
@@ -225,7 +225,7 @@
                     }
                     return _add(point), updateCenter(), {
                         add: function(pointToAdd) {
-                            pointMap[pointToAdd.id] || (_add(pointToAdd), updateCenter());
+                            !pointMap[pointToAdd.id] && (_add(pointToAdd), updateCenter());
                         },
                         fits: function(otherPoint) {
                             return Math.abs(vec2.dot(otherPoint.point.vec, center.vec)) > threshold;
@@ -292,7 +292,7 @@
                             0
                         ], max = (1 << bitsPerPixel) - 1;
                         hist = function(imageWrapper, bitsPerPixel) {
-                            bitsPerPixel || // eslint-disable-next-line no-param-reassign
+                            !bitsPerPixel && // eslint-disable-next-line no-param-reassign
                             (bitsPerPixel = 8);
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
@@ -301,14 +301,14 @@
                         return array_helper.a.maxIndex(vet);
                     }() << bitShift;
                 }(imageWrapper), targetWrapper1 = targetWrapper;
-                targetWrapper1 || // eslint-disable-next-line no-param-reassign
+                !targetWrapper1 && // eslint-disable-next-line no-param-reassign
                 (targetWrapper1 = imageWrapper);
                 for(var imageData = imageWrapper.data, length = imageData.length, targetData = targetWrapper1.data; length--;)targetData[length] = +(imageData[length] < threshold);
                 return threshold;
             } // local thresholding
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
-                for(property || // eslint-disable-next-line no-param-reassign
+                for(!property && // eslint-disable-next-line no-param-reassign
                 (property = "rad"), i = 0; i < points.length; i++)!function(newPoint) {
                     var found = !1;
                     for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
@@ -389,7 +389,7 @@
                         y: found
                     } : null;
                 }
-                return (optimalPatchSize = findPatchSizeForDivisors(common)) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches))), optimalPatchSize;
+                return !(optimalPatchSize = findPatchSizeForDivisors(common)) && !(optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) && (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches))), optimalPatchSize;
             }
             var _dimensionsConverters = {
                 top: function(dimension, context) {
@@ -589,7 +589,7 @@
                                 rad: 0
                             };
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
-                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
+                            for(i = 0; i < labelCount; i++)!isNaN((label = labelSum[i]).m00) && 0 !== label.m00 && (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
                                 Math.sin(tmp)
                             ]), result.push(label));
@@ -893,7 +893,7 @@
                             x: _currentImageWrapper.size.x / _subImageWrapper.size.x | 0,
                             // eslint-disable-next-line no-bitwise
                             y: _currentImageWrapper.size.y / _subImageWrapper.size.y | 0
-                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer.dom.binary = document.createElement("canvas"), _canvasContainer.dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d"), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
+                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), !_config.useWorker && "undefined" != typeof document && (_canvasContainer.dom.binary = document.createElement("canvas"), _canvasContainer.dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d"), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
                     },
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* halfSample */ f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* otsuThreshold */ i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
@@ -1344,7 +1344,7 @@
         /***/ },
         /* 38 */ /***/ function(module1, exports1) {
             module1.exports = function(module1) {
-                return module1.webpackPolyfill || (module1.deprecate = function() {}, module1.paths = [], module1.children || (module1.children = []), Object.defineProperty(module1, "loaded", {
+                return !module1.webpackPolyfill && (module1.deprecate = function() {}, module1.paths = [], !module1.children && (module1.children = []), Object.defineProperty(module1, "loaded", {
                     enumerable: !0,
                     get: function() {
                         return module1.l;
@@ -1513,7 +1513,7 @@
                  * @param {string} key The key of the property to assign.
                  * @param {*} value The value to assign.
                  */ function(object, key, value) {
-                (void 0 === value || eq(object[key], value)) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
+                (void 0 !== value && !eq(object[key], value) || void 0 === value && !(key in object)) && baseAssignValue(object, key, value);
             };
         /***/ },
         /* 49 */ /***/ function(module1, exports1, __webpack_require__) {
@@ -1576,7 +1576,7 @@
                  * @param {*} value The value to assign.
                  */ function(object, key, value) {
                 var objValue = object[key];
-                hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
+                (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || void 0 === value && !(key in object)) && baseAssignValue(object, key, value);
             };
         /***/ },
         /* 56 */ /***/ function(module1, exports1, __webpack_require__) {
@@ -3049,7 +3049,7 @@
                  */ function(object) {
                 if (!isObject(object)) return nativeKeysIn(object);
                 var isProto = isPrototype(object), result = [];
-                for(var key in object)"constructor" == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
+                for(var key in object)!("constructor" == key && (isProto || !hasOwnProperty.call(object, key))) && result.push(key);
                 return result;
             };
         /***/ },
@@ -3126,14 +3126,14 @@
         /***/ },
         /* 148 */ /***/ function(module1, exports1, __webpack_require__) {
             var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57);
-            module1.exports = defineProperty ? function(func, string) {
+            module1.exports = !defineProperty ? identity : function(func, string) {
                 return defineProperty(func, "toString", {
                     configurable: !0,
                     enumerable: !1,
                     value: constant(string),
                     writable: !0
                 });
-            } : identity;
+            };
         /***/ },
         /* 149 */ /***/ function(module1, exports1) {
             module1.exports = /**
@@ -3199,7 +3199,7 @@
             };
         /***/ },
         /* 152 */ /***/ function(module1, exports1) {
-            "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
+            "undefined" != typeof window && !window.requestAnimationFrame && (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
                 window.setTimeout(callback, 1000 / 60);
             }), "function" != typeof Math.imul && /* eslint-disable no-bitwise */ (Math.imul = function(a, b) {
                 var al = 0xffff & a, bl = 0xffff & b;
@@ -3237,7 +3237,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -3605,7 +3605,7 @@
                  * @function
                  */ function(a, stride, offset, count, fn, arg) {
                 var i, l;
-                for(stride || (stride = 2), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1];
+                for(!stride && (stride = 2), !offset && (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1];
                 return a;
             };
             var vec = __webpack_require__(63)();
@@ -3971,7 +3971,7 @@
                  * @function
                  */ function(a, stride, offset, count, fn, arg) {
                 var i, l;
-                for(stride || (stride = 3), offset || (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], vec[2] = a[i + 2], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1], a[i + 2] = vec[2];
+                for(!stride && (stride = 3), !offset && (offset = 0), l = count ? Math.min(count * stride + offset, a.length) : a.length, i = offset; i < l; i += stride)vec[0] = a[i], vec[1] = a[i + 1], vec[2] = a[i + 2], fn(vec, vec, arg), a[i] = vec[0], a[i + 1] = vec[1], a[i + 2] = vec[2];
                 return a;
             };
             var vec = __webpack_require__(72)();
@@ -4227,7 +4227,7 @@
                     // do is to check its .name property.
                     (ctor.displayName || ctor.name));
                 }, exports1.mark = function(genFun) {
-                    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, toStringTagSymbol in genFun || (genFun[toStringTagSymbol] = "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
+                    return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, !(toStringTagSymbol in genFun) && (genFun[toStringTagSymbol] = "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
                 }, // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
                 // `hasOwn.call(value, "__await")` to determine if the yielded value is
                 // meant to be awaited.
@@ -4719,7 +4719,7 @@
                 for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
                     var value = array[index];
                     depth > 0 && predicate(value) ? depth > 1 ? // Recursively flatten arrays (susceptible to call stack limits).
-                    baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : isStrict || (result[result.length] = value);
+                    baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : !isStrict && (result[result.length] = value);
                 }
                 return result;
             };
@@ -6440,7 +6440,7 @@
                                 start: 0,
                                 end: 0
                             }, counterPos = 0;
-                            offset || (offset = this._nextSet(this._row));
+                            !offset && (offset = this._nextSet(this._row));
                             for(var found = !1, i = offset; i < this._row.length; i++)// console.warn(`* loop i=${offset} len=${this._row.length} isWhite=${isWhite} counterPos=${counterPos}`);
                             if (this._row[i] ^ +!!isWhite) counter[counterPos] += 1;
                             else {
@@ -6474,7 +6474,7 @@
                                 start: start,
                                 end: start
                             }, isWhite = !this._row[start], counterPos = 0;
-                            coderange || // console.warn('* decodeCode before length');
+                            !coderange && // console.warn('* decodeCode before length');
                             (coderange = CODE_PATTERN.length);
                             for(var i = start; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
                             else {
@@ -7540,7 +7540,7 @@
                                 start: 0,
                                 end: 0
                             }, epsilon = this.AVG_CODE_ERROR;
-                            isWhite = isWhite || !1, tryHarder = tryHarder || !1, offset || (offset = this._nextSet(this._row));
+                            isWhite = isWhite || !1, tryHarder = tryHarder || !1, !offset && (offset = this._nextSet(this._row));
                             for(var i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
@@ -7784,7 +7784,7 @@
                                 start: 0,
                                 end: 0
                             }, sum = 0, error = 0, epsilon = this.AVG_CODE_ERROR;
-                            offset || (offset = this._nextSet(this._row));
+                            !offset && (offset = this._nextSet(this._row));
                             for(var i = 0; i < pattern.length; i++)counter[i] = 0;
                             for(var _i = offset; _i < this._row.length; _i++)if (this._row[_i] ^ +!!isWhite) counter[counterPos]++;
                             else {
@@ -8346,7 +8346,7 @@
             }, events = function() {
                 var events = {};
                 function getEvent(eventName) {
-                    return events[eventName] || (events[eventName] = {
+                    return !events[eventName] && (events[eventName] = {
                         subscribers: []
                     }), events[eventName];
                 }
@@ -8623,7 +8623,7 @@
                 return document.querySelector(selector);
             }
             function getCanvasAndContext(selector, className) {
-                var canvas, canvas1 = ((canvas = document.querySelector(selector)) || ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");
+                var canvas, canvas1 = (!(canvas = document.querySelector(selector)) && ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context
@@ -8786,7 +8786,7 @@
                             (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
                         },
                         addEventListener: function(event, f, bool) {
-                            -1 !== _eventNames.indexOf(event) ? (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
+                            -1 !== _eventNames.indexOf(event) ? (!_eventHandlers[event] && (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
                         },
                         clearEventHandlers: function() {
                             _eventNames.forEach(function(eventName) {
@@ -8907,7 +8907,7 @@
                             frameIdx = time;
                         },
                         addEventListener: function(event, f) {
-                            -1 !== _eventNames.indexOf(event) && (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f));
+                            -1 !== _eventNames.indexOf(event) && (!_eventHandlers[event] && (_eventHandlers[event] = []), _eventHandlers[event].push(f));
                         },
                         clearEventHandlers: function() {
                             Object.keys(_eventHandlers).forEach(function(ind) {
@@ -9107,7 +9107,7 @@
                             }, [
                                 availableWorker.imageData.buffer
                             ])), !0) : null);
-                            workersUpdated || (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
+                            !workersUpdated && (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
                         } else _this.context.framegrabber.attachData(null === (_this$context$inputIm2 = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm2 ? void 0 : _this$context$inputIm2.data), _this.context.framegrabber.grab(), _this.locateAndDecode();
                     });
                 }
@@ -9196,7 +9196,7 @@
                                     }
                                 };
                                 var dom = container.dom;
-                                return "undefined" != typeof document && viewport && ("ImageStream" !== type || viewport.contains(dom.image) || viewport.appendChild(dom.image), viewport.contains(dom.overlay) || viewport.appendChild(dom.overlay)), container;
+                                return "undefined" != typeof document && viewport && ("ImageStream" === type && !viewport.contains(dom.image) && viewport.appendChild(dom.image), !viewport.contains(dom.overlay) && viewport.appendChild(dom.overlay)), container;
                             }(this.context);
                             if (container) {
                                 var ctx = container.ctx, dom = container.dom;
@@ -9225,7 +9225,7 @@
                                             };
                                         case "LiveStream":
                                             var _video = null;
-                                            return !viewport || (_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video)), {
+                                            return viewport && !(_video = viewport.querySelector("video")) && (_video = document.createElement("video"), viewport.appendChild(_video)), {
                                                 video: _video,
                                                 inputStream: InputStream.createLiveStream(_video)
                                             };
@@ -9314,7 +9314,7 @@
                             this.context.stopped = !1;
                             var context = this.context;
                             !function newFrame(timestamp) {
-                                next = next || timestamp, context.stopped || (timestamp >= next && (next += delay, _this4.update()), window.requestAnimationFrame(newFrame));
+                                next = next || timestamp, !context.stopped && (timestamp >= next && (next += delay, _this4.update()), window.requestAnimationFrame(newFrame));
                             }(performance.now());
                         }
                     },
@@ -9375,7 +9375,7 @@
             }(), instance = new quagga_Quagga(), quagga_context = instance.context, QuaggaJSStaticInterface = {
                 init: function(config, cb, imageWrapper) {
                     var promise, quaggaInstance = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : instance;
-                    return cb || (promise = new Promise(function(resolve, reject) {
+                    return !cb && (promise = new Promise(function(resolve, reject) {
                         cb = function(err) {
                             err ? reject(err) : resolve();
                         };

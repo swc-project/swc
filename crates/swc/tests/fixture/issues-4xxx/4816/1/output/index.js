@@ -1,15 +1,15 @@
 export function left() {
     return(// left binop
-    check() || action(), foo());
+    !check() && action(), foo());
 }
 export function right() {
-    return check() || // right binop
+    return !check() && // right binop
     action(), foo();
 }
 export function between() {
     // between
-    return check() || action(), foo();
+    return !check() && action(), foo();
 }
 export function end() {
-    return check() || action(), foo();
+    return !check() && action(), foo();
 } // end
