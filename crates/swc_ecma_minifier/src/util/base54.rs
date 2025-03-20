@@ -4,7 +4,8 @@ use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{
-    sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, SyntaxContext,
+    sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError,
+    SyntaxContext, GLOBALS,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
@@ -227,39 +228,45 @@ impl CharFreq {
     }
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
-        let (mut a, b) = swc_parallel::join(
-            || {
-                let cm = Lrc::new(DummySourceMap);
-                let mut freq = Self::default();
+        let (mut a, b) = GLOBALS.with(|globals| {
+            swc_parallel::join(
+                || {
+                    GLOBALS.set(globals, || {
+                        let cm = Lrc::new(DummySourceMap);
+                        let mut freq = Self::default();
 
-                {
-                    let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config::default()
-                            .with_target(EsVersion::latest())
-                            .with_minify(true),
-                        cm,
-                        comments: None,
-                        wr: &mut freq,
-                    };
+                        {
+                            let mut emitter = Emitter {
+                                cfg: swc_ecma_codegen::Config::default()
+                                    .with_target(EsVersion::latest())
+                                    .with_minify(true),
+                                cm,
+                                comments: None,
+                                wr: &mut freq,
+                            };
 
-                    emitter.emit_program(p).unwrap();
-                }
+                            emitter.emit_program(p).unwrap();
+                        }
 
-                freq
-            },
-            || {
-                let mut visitor = CharFreqAnalyzer {
-                    freq: Default::default(),
-                    preserved,
-                    unresolved_ctxt,
-                };
+                        freq
+                    })
+                },
+                || {
+                    GLOBALS.set(globals, || {
+                        let mut visitor = CharFreqAnalyzer {
+                            freq: Default::default(),
+                            preserved,
+                            unresolved_ctxt,
+                        };
 
-                // Subtract
-                p.visit_with(&mut visitor);
+                        // Subtract
+                        p.visit_with(&mut visitor);
 
-                visitor.freq
-            },
-        );
+                        visitor.freq
+                    })
+                },
+            )
+        });
 
         a += b;
 
