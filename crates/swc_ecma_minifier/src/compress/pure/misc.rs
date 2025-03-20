@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{
-    ExprExt, ExprFactory, IdentUsageFinder, Type,
+    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
@@ -97,31 +97,35 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 impl Pure<'_> {
     pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
-        if e.props.iter().any(|p| {
-            // Do not compress object with side effect
+        fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
             match p {
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::KeyValue(KeyValueProp { key, value, .. }) => {
-                        key.is_computed() || value.may_have_side_effects(self.expr_ctx)
+                        key.is_computed() || value.may_have_side_effects(expr_ctx)
                     }
-                    Prop::Assign(AssignProp { value, .. }) => {
-                        value.may_have_side_effects(self.expr_ctx)
-                    }
-                    Prop::Getter(getter_prop) => getter_prop.key.is_computed(),
-                    Prop::Setter(setter_prop) => setter_prop.key.is_computed(),
-                    Prop::Method(method_prop) => method_prop.key.is_computed(),
+                    Prop::Assign(AssignProp { value, .. }) => value.may_have_side_effects(expr_ctx),
+                    Prop::Method(method) => method.key.is_computed(),
+
+                    Prop::Getter(..) | Prop::Setter(..) => true,
 
                     _ => false,
                 },
 
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
-                    expr.may_have_side_effects(self.expr_ctx)
-                }
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
+                    Expr::Object(ObjectLit { props, .. }) => {
+                        props.iter().any(|p| should_skip(p, expr_ctx))
+                    }
+                    _ => false,
+                },
             }
-        }) || !e.props.iter().any(|p| match p {
-            PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.is_object(),
-            _ => false,
-        }) {
+        }
+
+        if e.props.iter().any(|p| should_skip(p, self.expr_ctx))
+            || !e.props.iter().any(|p| match p {
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.is_object(),
+                _ => false,
+            })
+        {
             return;
         }
 
