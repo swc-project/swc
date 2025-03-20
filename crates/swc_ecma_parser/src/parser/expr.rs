@@ -1,6 +1,7 @@
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
+use swc_ecma_utils::stack_size::maybe_grow_default;
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
@@ -69,7 +70,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        self.parse_assignment_expr_base()
+        maybe_grow_default(|| self.parse_assignment_expr_base())
     }
 
     /// Parse an assignment expression. This includes applications of
@@ -215,7 +216,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let test = self.parse_bin_expr()?;
+        let test = maybe_grow_default(|| self.parse_bin_expr())?;
         return_if_arrow!(self, test);
 
         if eat!(self, '?') {
@@ -380,7 +381,9 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 tok!('(') => {
-                    return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
+                    return maybe_grow_default(|| {
+                        maybe_grow_default(|| self.parse_paren_expr_or_arrow_fn(can_be_arrow, None))
+                    });
                 }
 
                 _ => {}
@@ -540,8 +543,11 @@ impl<I: Tokens> Parser<I> {
             should_not_lex_lt_or_gt_as_type: true,
             ..self.ctx()
         };
-        self.with_ctx(ctx)
-            .parse_member_expr_or_new_expr_inner(is_new_expr)
+
+        maybe_grow_default(|| {
+            self.with_ctx(ctx)
+                .parse_member_expr_or_new_expr_inner(is_new_expr)
+        })
     }
 
     fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
@@ -658,7 +664,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_subscripts(base, true, false);
         }
         if eat!(self, "import") {
-            return self.parse_dynamic_import_or_import_meta(start, true);
+            return maybe_grow_default(|| self.parse_dynamic_import_or_import_meta(start, true));
         }
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
@@ -689,7 +695,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
 
-        self.parse_member_expr_or_new_expr(true)
+        maybe_grow_default(|| self.parse_member_expr_or_new_expr(true))
     }
 
     /// Parse `Arguments[Yield, Await]`
@@ -760,8 +766,10 @@ impl<I: Tokens> Parser<I> {
                 })
                 .map(|expr| ExprOrSpread { spread, expr })
         } else {
-            self.parse_assignment_expr()
-                .map(|expr| ExprOrSpread { spread: None, expr })
+            maybe_grow_default(|| {
+                self.parse_assignment_expr()
+                    .map(|expr| ExprOrSpread { spread: None, expr })
+            })
         }
     }
 
@@ -1776,7 +1784,7 @@ impl<I: Tokens> Parser<I> {
 
                     ExprOrSpread { spread, expr }
                 } else {
-                    self.include_in_expr(true).parse_expr_or_spread()?
+                    maybe_grow_default(|| self.include_in_expr(true).parse_expr_or_spread())?
                 }
             };
 
