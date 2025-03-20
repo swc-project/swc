@@ -1520,7 +1520,6 @@ impl Pure<'_> {
 
             Expr::Array(arr) => {
                 for elem in arr.elems.iter_mut().flatten() {
-                    self.ignore_return_value(&mut elem.expr, opts);
                     if elem.spread.is_none() {
                         self.ignore_return_value(
                             &mut elem.expr,
