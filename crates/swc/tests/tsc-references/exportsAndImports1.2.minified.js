@@ -2,12 +2,8 @@
 //// [t1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var E, D, target = exports, all = {
     C: function() {
         return C;
     },
@@ -29,8 +25,12 @@ Object.defineProperty(exports, "__esModule", {
     v: function() {
         return v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
-var E, D, M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
+var M, _class_call_check = require("@swc/helpers/_/_class_call_check"), v = 1;
 function f() {}
 var C = function C() {
     _class_call_check._(this, C);
@@ -40,12 +40,8 @@ var a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var target = exports, all = {
     C: function() {
         return _t1.C;
     },
@@ -76,17 +72,17 @@ Object.defineProperty(exports, "__esModule", {
     v: function() {
         return _t1.v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
 var _t1 = require("./t1");
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var target = exports, all = {
     C: function() {
         return _t1.C;
     },
@@ -117,5 +113,9 @@ Object.defineProperty(exports, "__esModule", {
     v: function() {
         return _t1.v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
 var _t1 = require("./t1");

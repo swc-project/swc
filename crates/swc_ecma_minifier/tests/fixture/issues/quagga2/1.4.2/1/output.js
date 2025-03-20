@@ -300,12 +300,11 @@
                         for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
                     }() << bitShift;
-                }(imageWrapper);
-                return !function(imageWrapper, threshold, targetWrapper) {
-                    targetWrapper || // eslint-disable-next-line no-param-reassign
-                    (targetWrapper = imageWrapper);
-                    for(var imageData = imageWrapper.data, length = imageData.length, targetData = targetWrapper.data; length--;)targetData[length] = +(imageData[length] < threshold);
-                }(imageWrapper, threshold, targetWrapper), threshold;
+                }(imageWrapper), targetWrapper1 = targetWrapper;
+                targetWrapper1 || // eslint-disable-next-line no-param-reassign
+                (targetWrapper1 = imageWrapper);
+                for(var imageData = imageWrapper.data, length = imageData.length, targetData = targetWrapper1.data; length--;)targetData[length] = +(imageData[length] < threshold);
+                return threshold;
             } // local thresholding
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
@@ -8321,10 +8320,8 @@
                             };
                         },
                         decodeFromImage: function(inputImageWrapper) {
-                            return function(imageWrapper) {
-                                for(var result = null, i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodeImage ? _barcodeReaders[i].decodeImage(imageWrapper) : null;
-                                return result;
-                            }(inputImageWrapper);
+                            for(var result = null, i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodeImage ? _barcodeReaders[i].decodeImage(inputImageWrapper) : null;
+                            return result;
                         },
                         registerReader: function(name, reader) {
                             if (READERS[name]) throw Error("cannot register existing reader", name);
@@ -8416,13 +8413,12 @@
                     return regenerator_default.a.wrap(function(_context2) {
                         for(;;)switch(_context2.prev = _context2.next){
                             case 0:
-                                return _context2.next = 2, function(constraints) {
-                                    try {
-                                        return navigator.mediaDevices.getUserMedia(constraints);
-                                    } catch (err) {
-                                        return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
-                                    }
-                                }(constraints);
+                                _context2.next = 2;
+                                try {
+                                    return navigator.mediaDevices.getUserMedia(constraints);
+                                } catch (err) {
+                                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
+                                }
                             case 2:
                                 if (streamRef = stream = _context2.sent, !video) {
                                     _context2.next = 11;
@@ -8454,13 +8450,12 @@
                     return regenerator_default.a.wrap(function(_context3) {
                         for(;;)switch(_context3.prev = _context3.next){
                             case 0:
-                                return _context3.next = 2, function() {
-                                    try {
-                                        return navigator.mediaDevices.enumerateDevices();
-                                    } catch (err) {
-                                        return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
-                                    }
-                                }();
+                                _context3.next = 2;
+                                try {
+                                    return navigator.mediaDevices.enumerateDevices();
+                                } catch (err) {
+                                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
+                                }
                             case 2:
                                 return devices = _context3.sent, _context3.abrupt("return", devices.filter(function(device) {
                                     return "videoinput" === device.kind;

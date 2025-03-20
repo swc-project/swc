@@ -2224,20 +2224,8 @@
                 identity
             ];
             var index = -1;
-            return iteratees = arrayMap(iteratees, baseUnary(getIteratee())), /**
-   * The base implementation of `_.sortBy` which uses `comparer` to define the
-   * sort order of `array` and replaces criteria objects with their corresponding
-   * values.
-   *
-   * @private
-   * @param {Array} array The array to sort.
-   * @param {Function} comparer The function to define sort order.
-   * @returns {Array} Returns `array`.
-   */ function(array, comparer) {
-                var length = array.length;
-                for(array.sort(comparer); length--;)array[length] = array[length].value;
-                return array;
-            }(baseMap(collection, function(value, key, collection) {
+            iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
+            var array = baseMap(collection, function(value, key, collection) {
                 return {
                     criteria: arrayMap(iteratees, function(iteratee) {
                         return iteratee(value);
@@ -2245,7 +2233,8 @@
                     index: ++index,
                     value: value
                 };
-            }), function(object, other) {
+            }), length = array.length;
+            for(array.sort(function(object, other) {
                 return(/**
      * Used by `_.orderBy` to compare multiple properties of a value to another
      * and stable sort them.
@@ -2276,7 +2265,8 @@
                     // See https://bugs.chromium.org/p/v8/issues/detail?id=90 for more details.
                     return object.index - other.index;
                 }(object, other, orders));
-            });
+            }); length--;)array[length] = array[length].value;
+            return array;
         }
         /**
      * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -3080,21 +3070,10 @@
      * @returns {Function} Returns the new range function.
      */ function createRange(fromRight) {
             return function(start, end, step) {
-                return step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = undefined), // Ensure the sign of `-0` is preserved.
-                start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), step = undefined === step ? start < end ? 1 : -1 : toFinite(step), /**
-     * The base implementation of `_.range` and `_.rangeRight` which doesn't
-     * coerce arguments.
-     *
-     * @private
-     * @param {number} start The start of the range.
-     * @param {number} end The end of the range.
-     * @param {number} step The value to increment or decrement by.
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Array} Returns the range of numbers.
-     */ function(start, end, step, fromRight) {
-                    for(var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array1(length); length--;)result[fromRight ? length : ++index] = start, start += step;
-                    return result;
-                }(start, end, step, fromRight);
+                step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = undefined), // Ensure the sign of `-0` is preserved.
+                start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), step = undefined === step ? start < end ? 1 : -1 : toFinite(step);
+                for(var start1 = start, end1 = end, step1 = step, index = -1, length = nativeMax(nativeCeil((end1 - start1) / (step1 || 1)), 0), result = Array1(length); length--;)result[fromRight ? length : ++index] = start1, start1 += step1;
+                return result;
             };
         }
         /**
@@ -5430,16 +5409,10 @@
      */ function toArray(value) {
             if (!value) return [];
             if (isArrayLike(value)) return isString(value) ? stringToArray(value) : copyArray(value);
-            if (symIterator && value[symIterator]) return(/**
-   * Converts `iterator` to an array.
-   *
-   * @private
-   * @param {Object} iterator The iterator to convert.
-   * @returns {Array} Returns the converted array.
-   */ function(iterator) {
-                for(var data, result = []; !(data = iterator.next()).done;)result.push(data.value);
+            if (symIterator && value[symIterator]) {
+                for(var data, iterator = value[symIterator](), result = []; !(data = iterator.next()).done;)result.push(data.value);
                 return result;
-            }(value[symIterator]()));
+            }
             var tag = getTag(value);
             return (tag == mapTag ? mapToArray : tag == setTag ? setToArray : values)(value);
         }
@@ -5803,22 +5776,14 @@
      * @param {Object} object The object to query.
      * @returns {Array} Returns the array of property names.
      */ function(object) {
-                if (!isObject(object)) return(/**
-     * This function is like
-     * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
-     * except that it includes inherited enumerable properties.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     */ function(object) {
+                if (!isObject(object)) {
                     var result = [];
                     if (null != object) for(var key in Object1(object))result.push(key);
                     return result;
-                }(object));
-                var isProto = isPrototype(object), result = [];
-                for(var key in object)'constructor' == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
-                return result;
+                }
+                var isProto = isPrototype(object), result1 = [];
+                for(var key1 in object)'constructor' == key1 && (isProto || !hasOwnProperty.call(object, key1)) || result1.push(key1);
+                return result1;
             }(object);
         }
         /**
@@ -6852,20 +6817,11 @@
      * // => [4, '*', '*', 10]
      */ function(array, value, start, end) {
             var length = null == array ? 0 : array.length;
-            return length ? (start && 'number' != typeof start && isIterateeCall(array, value, start) && (start = 0, end = length), /**
-     * The base implementation of `_.fill` without an iteratee call guard.
-     *
-     * @private
-     * @param {Array} array The array to fill.
-     * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns `array`.
-     */ function(array, value, start, end) {
-                var length = array.length;
-                for((start = toInteger(start)) < 0 && (start = -start > length ? 0 : length + start), (end = undefined === end || end > length ? length : toInteger(end)) < 0 && (end += length), end = start > end ? 0 : toLength(end); start < end;)array[start++] = value;
-                return array;
-            }(array, value, start, end)) : [];
+            if (!length) return [];
+            start && 'number' != typeof start && isIterateeCall(array, value, start) && (start = 0, end = length);
+            var start1 = start, end1 = end, length1 = array.length;
+            for((start1 = toInteger(start1)) < 0 && (start1 = -start1 > length1 ? 0 : length1 + start1), (end1 = undefined === end1 || end1 > length1 ? length1 : toInteger(end1)) < 0 && (end1 += length1), end1 = start1 > end1 ? 0 : toLength(end1); start1 < end1;)array[start1++] = value;
+            return array;
         }, lodash.filter = /**
      * Iterates over elements of `collection`, returning an array of all elements
      * `predicate` returns truthy for. The predicate is invoked with three

@@ -3264,12 +3264,11 @@
         if (runHi === hi) return 1;
         if (0 > compare(array[runHi++], array[lo])) {
             for(; runHi < hi && 0 > compare(array[runHi], array[runHi - 1]);)runHi++;
-            !function(array, lo, hi) {
-                for(hi--; lo < hi;){
-                    var t = array[lo];
-                    array[lo++] = array[hi], array[hi--] = t;
-                }
-            }(array, lo, runHi);
+            var lo1 = lo, hi1 = runHi;
+            for(hi1--; lo1 < hi1;){
+                var t = array[lo1];
+                array[lo1++] = array[hi1], array[hi1--] = t;
+            }
         } else for(; runHi < hi && compare(array[runHi], array[runHi - 1]) >= 0;)runHi++;
         return runHi - lo;
     }
@@ -6403,15 +6402,16 @@
                 // Already being applied 'emphasis'. DON'T mul opacity multiple times.
                 opacity: hasBlur ? currentOpacity : 0.1 * fromState.opacity
             }, blurStyle), state.style = blurStyle), state;
-            if ('select' === stateName) return function(el, stateName, state) {
+            if ('select' === stateName) {
+                var state2 = state1;
                 // const hasSelect = indexOf(el.currentStates, stateName) >= 0;
-                if (state && null == state.z2) {
-                    state = extend({}, state);
-                    var z2SelectLift = el.z2SelectLift;
-                    state.z2 = el.z2 + (null != z2SelectLift ? z2SelectLift : 9);
+                if (state2 && null == state2.z2) {
+                    state2 = extend({}, state2);
+                    var z2SelectLift = this.z2SelectLift;
+                    state2.z2 = this.z2 + (null != z2SelectLift ? z2SelectLift : 9);
                 }
-                return state;
-            }(this, 0, state1);
+                return state2;
+            }
         }
         return state1;
     }
@@ -7191,13 +7191,11 @@
     }
     var extendPathFromString = function(str, defaultOpts) {
         var innerOpts = createPathOptions(str, defaultOpts);
-        return function(_super) {
-            function Sub(opts) {
-                var _this = _super.call(this, opts) || this;
-                return _this.applyTransform = innerOpts.applyTransform, _this.buildPath = innerOpts.buildPath, _this;
-            }
-            return __extends(Sub, _super), Sub;
-        }(SVGPath);
+        function Sub(opts) {
+            var _this = SVGPath.call(this, opts) || this;
+            return _this.applyTransform = innerOpts.applyTransform, _this.buildPath = innerOpts.buildPath, _this;
+        }
+        return __extends(Sub, SVGPath), Sub;
     };
     /**
      * Extend path
@@ -9026,71 +9024,64 @@
             ComponentModel.hasSubTypes(componentType) && subTypeDefaulters[componentTypeMain] && (type = subTypeDefaulters[componentTypeMain](option));
         }
         return type;
-    }, /**
-     * Implements `TopologicalTravelable<any>` for `entity`.
-     *
-     * Topological travel on Activity Network (Activity On Vertices).
-     * Dependencies is defined in Model.prototype.dependencies, like ['xAxis', 'yAxis'].
-     * If 'xAxis' or 'yAxis' is absent in componentTypeList, just ignore it in topology.
-     * If there is circular dependencey, Error will be thrown.
-     */ function(entity, dependencyGetter) {
-        /**
-         * @param targetNameList Target Component type list.
-         *                       Can be ['aa', 'bb', 'aa.xx']
-         * @param fullNameList By which we can build dependency graph.
-         * @param callback Params: componentType, dependencies.
-         * @param context Scope of callback.
-         */ entity.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
-            if (targetNameList.length) {
-                var graph, noEntryList, result = (graph = {}, noEntryList = [], each(fullNameList, function(name) {
-                    var originalDeps, availableDeps, thisItem = createDependencyGraphItem(graph, name), availableDeps1 = (originalDeps = thisItem.originalDeps = dependencyGetter(name), availableDeps = [], each(originalDeps, function(dep) {
-                        indexOf(fullNameList, dep) >= 0 && availableDeps.push(dep);
-                    }), availableDeps);
-                    thisItem.entryCount = availableDeps1.length, 0 === thisItem.entryCount && noEntryList.push(name), each(availableDeps1, function(dependentName) {
-                        0 > indexOf(thisItem.predecessor, dependentName) && thisItem.predecessor.push(dependentName);
-                        var thatItem = createDependencyGraphItem(graph, dependentName);
-                        0 > indexOf(thatItem.successor, dependentName) && thatItem.successor.push(name);
-                    });
-                }), {
-                    graph: graph,
-                    noEntryList: noEntryList
-                }), graph1 = result.graph, noEntryList1 = result.noEntryList, targetNameSet = {};
-                for(each(targetNameList, function(name) {
-                    targetNameSet[name] = !0;
-                }); noEntryList1.length;){
-                    var currComponentType = noEntryList1.pop(), currVertex = graph1[currComponentType], isInTargetNameSet = !!targetNameSet[currComponentType];
-                    isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
-                }
-                each(targetNameSet, function() {
-                    throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
-                });
-            }
-            function removeEdge(succComponentType) {
-                graph1[succComponentType].entryCount--, 0 === graph1[succComponentType].entryCount && noEntryList1.push(succComponentType);
-            } // Consider this case: legend depends on series, and we call
-            // chart.setOption({series: [...]}), where only series is in option.
-            // If we do not have 'removeEdgeAndAdd', legendModel.mergeOption will
-            // not be called, but only sereis.mergeOption is called. Thus legend
-            // have no chance to update its local record about series (like which
-            // name of series is available in legend).
-            function removeEdgeAndAdd(succComponentType) {
-                targetNameSet[succComponentType] = !0, removeEdge(succComponentType);
-            }
-        };
-        function createDependencyGraphItem(graph, name) {
-            return graph[name] || (graph[name] = {
-                predecessor: [],
-                successor: []
-            }), graph[name];
-        }
-    }(ComponentModel, function(componentType) {
+    };
+    var dependencyGetter = function(componentType) {
         var deps = [];
         return each(ComponentModel.getClassesByMainType(componentType), function(clz) {
             deps = deps.concat(clz.dependencies || clz.prototype.dependencies || []);
         }), deps = map(deps, function(type) {
             return parseClassType(type).main;
         }), 'dataset' !== componentType && 0 >= indexOf(deps, 'dataset') && deps.unshift('dataset'), deps;
-    });
+    };
+    function createDependencyGraphItem(graph, name) {
+        return graph[name] || (graph[name] = {
+            predecessor: [],
+            successor: []
+        }), graph[name];
+    }
+    /**
+         * @param targetNameList Target Component type list.
+         *                       Can be ['aa', 'bb', 'aa.xx']
+         * @param fullNameList By which we can build dependency graph.
+         * @param callback Params: componentType, dependencies.
+         * @param context Scope of callback.
+         */ ComponentModel.topologicalTravel = function(targetNameList, fullNameList, callback, context) {
+        if (targetNameList.length) {
+            var graph, noEntryList, result = (graph = {}, noEntryList = [], each(fullNameList, function(name) {
+                var originalDeps, availableDeps, thisItem = createDependencyGraphItem(graph, name), availableDeps1 = (originalDeps = thisItem.originalDeps = dependencyGetter(name), availableDeps = [], each(originalDeps, function(dep) {
+                    indexOf(fullNameList, dep) >= 0 && availableDeps.push(dep);
+                }), availableDeps);
+                thisItem.entryCount = availableDeps1.length, 0 === thisItem.entryCount && noEntryList.push(name), each(availableDeps1, function(dependentName) {
+                    0 > indexOf(thisItem.predecessor, dependentName) && thisItem.predecessor.push(dependentName);
+                    var thatItem = createDependencyGraphItem(graph, dependentName);
+                    0 > indexOf(thatItem.successor, dependentName) && thatItem.successor.push(name);
+                });
+            }), {
+                graph: graph,
+                noEntryList: noEntryList
+            }), graph1 = result.graph, noEntryList1 = result.noEntryList, targetNameSet = {};
+            for(each(targetNameList, function(name) {
+                targetNameSet[name] = !0;
+            }); noEntryList1.length;){
+                var currComponentType = noEntryList1.pop(), currVertex = graph1[currComponentType], isInTargetNameSet = !!targetNameSet[currComponentType];
+                isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
+            }
+            each(targetNameSet, function() {
+                throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
+            });
+        }
+        function removeEdge(succComponentType) {
+            graph1[succComponentType].entryCount--, 0 === graph1[succComponentType].entryCount && noEntryList1.push(succComponentType);
+        } // Consider this case: legend depends on series, and we call
+        // chart.setOption({series: [...]}), where only series is in option.
+        // If we do not have 'removeEdgeAndAdd', legendModel.mergeOption will
+        // not be called, but only sereis.mergeOption is called. Thus legend
+        // have no chance to update its local record about series (like which
+        // name of series is available in legend).
+        function removeEdgeAndAdd(succComponentType) {
+            targetNameSet[succComponentType] = !0, removeEdge(succComponentType);
+        }
+    };
     /*
     * Licensed to the Apache Software Foundation (ASF) under one
     * or more contributor license agreements.  See the NOTICE file
@@ -13589,13 +13580,18 @@
             return;
         }
         var clipPaths = el.__clipPaths, prevElClipPaths = scope.prevElClipPaths, forceSetTransform = !1, forceSetStyle = !1;
-        if ((!prevElClipPaths || isClipPathChanged(clipPaths, prevElClipPaths)) && (prevElClipPaths && prevElClipPaths.length && (flushPathDrawn(ctx, scope), ctx.restore(), forceSetStyle = forceSetTransform = !0, scope.prevElClipPaths = null, scope.allClipped = !1, scope.prevEl = null), clipPaths && clipPaths.length && (flushPathDrawn(ctx, scope), ctx.save(), function(clipPaths, ctx, scope) {
-            for(var allClipped = !1, i = 0; i < clipPaths.length; i++){
-                var clipPath = clipPaths[i];
-                allClipped = allClipped || clipPath.isZeroArea(), setContextTransform(ctx, clipPath), ctx.beginPath(), clipPath.buildPath(ctx, clipPath.shape), ctx.clip();
+        if (!prevElClipPaths || isClipPathChanged(clipPaths, prevElClipPaths)) {
+            if (prevElClipPaths && prevElClipPaths.length && (flushPathDrawn(ctx, scope), ctx.restore(), forceSetStyle = forceSetTransform = !0, scope.prevElClipPaths = null, scope.allClipped = !1, scope.prevEl = null), clipPaths && clipPaths.length) {
+                flushPathDrawn(ctx, scope), ctx.save();
+                for(var allClipped = !1, i = 0; i < clipPaths.length; i++){
+                    var clipPath = clipPaths[i];
+                    allClipped = allClipped || clipPath.isZeroArea(), setContextTransform(ctx, clipPath), ctx.beginPath(), clipPath.buildPath(ctx, clipPath.shape), ctx.clip();
+                }
+                scope.allClipped = allClipped, forceSetTransform = !0;
             }
-            scope.allClipped = allClipped;
-        }(clipPaths, ctx, scope), forceSetTransform = !0), scope.prevElClipPaths = clipPaths), scope.allClipped) {
+            scope.prevElClipPaths = clipPaths;
+        }
+        if (scope.allClipped) {
             el.__isRendered = !1;
             return;
         }
@@ -14985,29 +14981,27 @@
                 };
             }), geoCoord)), each(rawRegions, function(region) {
                 var regionName = region.name;
-                (function(mapType, region) {
-                    if ('china' === mapType) {
-                        var coordFix = coordsOffsetMap[region.name];
-                        if (coordFix) {
-                            var cp = region.getCenter();
-                            cp[0] += coordFix[0] / 10.5, cp[1] += -coordFix[1] / 14, region.setCenter(cp);
-                        }
+                if ('china' === mapName) {
+                    var coordFix = coordsOffsetMap[region.name];
+                    if (coordFix) {
+                        var cp = region.getCenter();
+                        cp[0] += coordFix[0] / 10.5, cp[1] += -coordFix[1] / 14, region.setCenter(cp);
                     }
-                })(mapName, region), function(mapType, region) {
-                    if ('world' === mapType) {
-                        var geoCoord = geoCoordMap[region.name];
-                        if (geoCoord) {
-                            var cp = [
-                                geoCoord[0],
-                                geoCoord[1]
-                            ];
-                            region.setCenter(cp);
-                        }
+                }
+                if ('world' === mapName) {
+                    var geoCoord = geoCoordMap[region.name];
+                    if (geoCoord) {
+                        var cp1 = [
+                            geoCoord[0],
+                            geoCoord[1]
+                        ];
+                        region.setCenter(cp1);
                     }
-                }(mapName, region), 'china' === mapName && '台湾' === region.name && region.geometries.push({
+                }
+                'china' === mapName && '台湾' === region.name && region.geometries.push({
                     type: 'polygon',
                     exterior: points$2[0]
-                });
+                }); // Some area like Alaska in USA map needs to be tansformed
                 // to look better
                 var specialArea = this._specialAreas && this._specialAreas[regionName];
                 specialArea && region.transformTo(specialArea.left, specialArea.top, specialArea.width, specialArea.height);
@@ -43811,7 +43805,7 @@
         isArray(timelineOpt) || (timelineOpt = timelineOpt ? [
             timelineOpt
         ] : []), each(timelineOpt, function(opt) {
-            opt && function(opt) {
+            if (opt) {
                 var type = opt.type, ec2Types = {
                     number: 'value',
                     time: 'time'
@@ -43824,7 +43818,7 @@
                     isObject(dataItem) && !isArray(dataItem) && (!has(dataItem, 'value') && has(dataItem, 'name') && // In ec2, using name as value.
                     (dataItem.value = dataItem.name), transferItem(dataItem));
                 });
-            }(opt);
+            }
         });
     }
     function transferItem(opt) {

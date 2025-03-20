@@ -1,6 +1,5 @@
 exports.withStyles = function() {
-    !function(superClass) {
-        if ("function" != typeof superClass) throw TypeError("Super expression must be a function, not " + typeof superClass);
-        Object.create(superClass);
-    }(EXTERNAL());
+    var _a = EXTERNAL();
+    if ("function" != typeof _a) throw TypeError("Super expression must be a function, not " + typeof _a);
+    Object.create(_a);
 };

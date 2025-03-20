@@ -143,69 +143,68 @@ exports.modules = {
                 }), w;
                 function c(w) {
                     return function(T) {
-                        return function(w) {
-                            if (n) throw TypeError("Generator is already executing.");
-                            for(; R;)try {
-                                if (n = 1, i && (b = 2 & w[0] ? i.return : w[0] ? i.throw || ((b = i.return) && b.call(i), 0) : i.next) && !(b = b.call(i, w[1])).done) return b;
-                                switch(i = 0, b && (w = [
-                                    2 & w[0],
-                                    b.value
-                                ]), w[0]){
-                                    case 0:
-                                    case 1:
-                                        b = w;
-                                        break;
-                                    case 4:
-                                        return R.label++, {
-                                            value: w[1],
-                                            done: !1
-                                        };
-                                    case 5:
-                                        R.label++, i = w[1], w = [
-                                            0
-                                        ];
-                                        continue;
-                                    case 7:
-                                        w = R.ops.pop(), R.trys.pop();
-                                        continue;
-                                    default:
-                                        if (b = R.trys, !(b = b.length > 0 && b[b.length - 1]) && (6 === w[0] || 2 === w[0])) {
-                                            R = 0;
-                                            continue;
-                                        }
-                                        if (3 === w[0] && (!b || w[1] > b[0] && w[1] < b[3])) {
-                                            R.label = w[1];
-                                            break;
-                                        }
-                                        if (6 === w[0] && R.label < b[1]) {
-                                            R.label = b[1], b = w;
-                                            break;
-                                        }
-                                        if (b && R.label < b[2]) {
-                                            R.label = b[2], R.ops.push(w);
-                                            break;
-                                        }
-                                        b[2] && R.ops.pop(), R.trys.pop();
-                                        continue;
-                                }
-                                w = t.call(e, R);
-                            } catch (e) {
-                                w = [
-                                    6,
-                                    e
-                                ], i = 0;
-                            } finally{
-                                n = b = 0;
-                            }
-                            if (5 & w[0]) throw w[1];
-                            return {
-                                value: w[0] ? w[1] : void 0,
-                                done: !0
-                            };
-                        }([
+                        var I = [
                             w,
                             T
-                        ]);
+                        ];
+                        if (n) throw TypeError("Generator is already executing.");
+                        for(; R;)try {
+                            if (n = 1, i && (b = 2 & I[0] ? i.return : I[0] ? i.throw || ((b = i.return) && b.call(i), 0) : i.next) && !(b = b.call(i, I[1])).done) return b;
+                            switch(i = 0, b && (I = [
+                                2 & I[0],
+                                b.value
+                            ]), I[0]){
+                                case 0:
+                                case 1:
+                                    b = I;
+                                    break;
+                                case 4:
+                                    return R.label++, {
+                                        value: I[1],
+                                        done: !1
+                                    };
+                                case 5:
+                                    R.label++, i = I[1], I = [
+                                        0
+                                    ];
+                                    continue;
+                                case 7:
+                                    I = R.ops.pop(), R.trys.pop();
+                                    continue;
+                                default:
+                                    if (b = R.trys, !(b = b.length > 0 && b[b.length - 1]) && (6 === I[0] || 2 === I[0])) {
+                                        R = 0;
+                                        continue;
+                                    }
+                                    if (3 === I[0] && (!b || I[1] > b[0] && I[1] < b[3])) {
+                                        R.label = I[1];
+                                        break;
+                                    }
+                                    if (6 === I[0] && R.label < b[1]) {
+                                        R.label = b[1], b = I;
+                                        break;
+                                    }
+                                    if (b && R.label < b[2]) {
+                                        R.label = b[2], R.ops.push(I);
+                                        break;
+                                    }
+                                    b[2] && R.ops.pop(), R.trys.pop();
+                                    continue;
+                            }
+                            I = t.call(e, R);
+                        } catch (e) {
+                            I = [
+                                6,
+                                e
+                            ], i = 0;
+                        } finally{
+                            n = b = 0;
+                        }
+                        if (5 & I[0]) throw I[1];
+                        return {
+                            value: I[0] ? I[1] : void 0,
+                            done: !0
+                        };
                     };
                 }
             }

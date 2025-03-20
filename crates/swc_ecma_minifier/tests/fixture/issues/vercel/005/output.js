@@ -1,6 +1,7 @@
 export default function(value, options) {
     try {
-        if ("string" == typeof value && value.length > 0) return function(str) {
+        if ("string" == typeof value && value.length > 0) {
+            var str = value;
             if ((str = String(str)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
             const match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
             if (!match) return NaN;
@@ -47,7 +48,7 @@ export default function(value, options) {
                 default:
                     throw Error(`The unit ${type} was matched, but no matching case exists.`);
             }
-        }(value);
+        }
         if ("number" == typeof value && isFinite(value)) return options?.long ? function(ms) {
             const msAbs = Math.abs(ms);
             return msAbs >= 86400000 ? plural(ms, msAbs, 86400000, "day") : msAbs >= 3600000 ? plural(ms, msAbs, 3600000, "hour") : msAbs >= 60000 ? plural(ms, msAbs, 60000, "minute") : msAbs >= 1000 ? plural(ms, msAbs, 1000, "second") : `${ms} ms`;

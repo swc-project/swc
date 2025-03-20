@@ -9,12 +9,12 @@ var A = function A() {
         return _class_call_check(this, K), _call_super(this, K, arguments);
     }
     return _inherits(K, _B1), K;
-}(/*#__PURE__*/ function(A) {
+}(function() {
     function _class() {
         return _class_call_check(this, _class), _call_super(this, _class, arguments);
     }
     return _inherits(_class, A), _class;
-}(A)), C = /*#__PURE__*/ function(_anon) {
+}()), C = /*#__PURE__*/ function(_anon) {
     function C() {
         return _class_call_check(this, C), _call_super(this, C, arguments);
     }
@@ -31,10 +31,10 @@ var A = function A() {
         return _class_call_check(this, S), _call_super(this, S, arguments);
     }
     return _inherits(S, b3Number), S;
-}(/*#__PURE__*/ function(A) {
+}(function() {
     function Inner() {
         return _class_call_check(this, Inner), _call_super(this, Inner, arguments);
     }
     return _inherits(Inner, A), Inner;
-}(A)), c = new C(), k = new K(), s = new S();
+}()), c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

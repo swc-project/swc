@@ -24,19 +24,20 @@ define([
 ], function(require, exports, _class_call_check, _interop_require_wildcard) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            enumerable: !0,
-            get: all[name]
-        });
-    }(exports, {
+    });
+    var all = {
         D: function() {
             return D;
         },
         p2: function() {
             return p2;
         }
-    }), new Promise(function(resolve, reject) {
+    };
+    for(var name in all)Object.defineProperty(exports, name, {
+        enumerable: !0,
+        get: all[name]
+    });
+    new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {

@@ -1,5 +1,3 @@
-(function (a) {
-    while (a());
-})(function f() {
+while(function f() {
     console.log(typeof f);
-});
+}());

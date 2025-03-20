@@ -946,11 +946,7 @@
                     return btoa(this.binaryString);
                 }
                 toUint8Array() {
-                    return function(t) {
-                        const e = new Uint8Array(t.length);
-                        for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
-                        return e;
-                    }(/**
+                    var t = /**
                              * @license
                              * Copyright 2020 Google LLC
                              *
@@ -966,7 +962,10 @@
                              * See the License for the specific language governing permissions and
                              * limitations under the License.
                              */ // A RegExp matching ISO 8601 UTC timestamps with optional fraction.
-                    this.binaryString);
+                    this.binaryString;
+                    const e = new Uint8Array(t.length);
+                    for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
+                    return e;
                 }
                 approximateByteSize() {
                     return 2 * this.binaryString.length;
@@ -1165,12 +1164,10 @@
                     case 4 /* ServerTimestampValue */ :
                         return It(t).isEqual(It(e));
                     case 3 /* TimestampValue */ :
-                        return function(t, e) {
-                            if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
-                            return t.timestampValue === e.timestampValue;
-                            const n = gt(t.timestampValue), s = gt(e.timestampValue);
-                            return n.seconds === s.seconds && n.nanos === s.nanos;
-                        }(t, e);
+                        if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
+                        return t.timestampValue === e.timestampValue;
+                        const n1 = gt(t.timestampValue), s = gt(e.timestampValue);
+                        return n1.seconds === s.seconds && n1.nanos === s.nanos;
                     case 5 /* StringValue */ :
                         return t.stringValue === e.stringValue;
                     case 6 /* BlobValue */ :
@@ -1180,23 +1177,19 @@
                     case 8 /* GeoPointValue */ :
                         return yt(t.geoPointValue.latitude) === yt(e.geoPointValue.latitude) && yt(t.geoPointValue.longitude) === yt(e.geoPointValue.longitude);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
-                            if ("doubleValue" in t && "doubleValue" in e) {
-                                const n = yt(t.doubleValue), s = yt(e.doubleValue);
-                                return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
-                            }
-                            return !1;
-                        }(t, e);
+                        if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
+                        if ("doubleValue" in t && "doubleValue" in e) {
+                            const n = yt(t.doubleValue), s = yt(e.doubleValue);
+                            return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
+                        }
+                        return !1;
                     case 9 /* ArrayValue */ :
                         return nt(t.arrayValue.values || [], e.arrayValue.values || [], Vt);
                     case 10 /* ObjectValue */ :
-                        return function(t, e) {
-                            const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
-                            if (ot(n) !== ot(s)) return !1;
-                            for(const t in n)if (n.hasOwnProperty(t) && (void 0 === s[t] || !Vt(n[t], s[t]))) return !1;
-                            return !0;
-                        }(/** Returns true if the ArrayValue contains the specified element. */ t, e);
+                        const n2 = /** Returns true if the ArrayValue contains the specified element. */ t.mapValue.fields || {}, s1 = e.mapValue.fields || {};
+                        if (ot(n2) !== ot(s1)) return !1;
+                        for(const t in n2)if (n2.hasOwnProperty(t) && (void 0 === s1[t] || !Vt(n2[t], s1[t]))) return !1;
+                        return !0;
                     default:
                         return L();
                 }
@@ -1213,10 +1206,8 @@
                     case 1 /* BooleanValue */ :
                         return et(t.booleanValue, e.booleanValue);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            const n = yt(t.integerValue || t.doubleValue), s = yt(e.integerValue || e.doubleValue);
-                            return n < s ? -1 : n > s ? 1 : n === s ? 0 : isNaN(n) ? isNaN(s) ? 0 : -1 : 1;
-                        }(t, e);
+                        const n1 = yt(t.integerValue || t.doubleValue), s1 = yt(e.integerValue || e.doubleValue);
+                        return n1 < s1 ? -1 : n1 > s1 ? 1 : n1 === s1 ? 0 : isNaN(n1) ? isNaN(s1) ? 0 : -1 : 1;
                     case 3 /* TimestampValue */ :
                         return Ct(t.timestampValue, e.timestampValue);
                     case 4 /* ServerTimestampValue */ :
@@ -4225,10 +4216,9 @@
                     });
                 }
                 isEmpty() {
-                    return function(t) {
-                        for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
-                        return !0;
-                    }(this.inner);
+                    var t = this.inner;
+                    for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                    return !0;
                 }
             }
             /**
