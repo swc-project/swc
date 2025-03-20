@@ -771,7 +771,7 @@ impl VisitMut for Pure<'_> {
         self.drop_undefined_from_return_arg(s);
 
         if let Some(e) = &mut s.arg {
-            self.negate_bool_preserving_semantics(e);
+            self.negate_bool_preserving_semantics(e, false);
         }
     }
 

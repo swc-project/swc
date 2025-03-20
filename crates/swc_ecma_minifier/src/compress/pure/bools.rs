@@ -13,7 +13,7 @@ use crate::{
 
 impl Pure<'_> {
     pub(super) fn negate_bool_for_expr_stmt(&mut self, e: &mut Expr) {
-        self.negate_bool_preserving_semantics(e);
+        self.negate_bool_preserving_semantics(e, false);
 
         let cost = negate_cost(self.expr_ctx, e, false, true);
         if cost >= 0 {
@@ -23,19 +23,39 @@ impl Pure<'_> {
         self.negate(e, false, true);
     }
 
-    pub(super) fn negate_bool_preserving_semantics(&mut self, e: &mut Expr) {
-        if let Expr::Cond(cond) = e {
-            self.negate_bool_preserving_semantics(&mut cond.test);
-            self.negate_bool_preserving_semantics(&mut cond.cons);
-            self.negate_bool_preserving_semantics(&mut cond.alt);
+    pub(super) fn negate_bool_preserving_semantics(&mut self, e: &mut Expr, in_bool_ctx: bool) {
+        match e {
+            Expr::Cond(cond) => {
+                self.negate_bool_preserving_semantics(&mut cond.test, true);
+                self.negate_bool_preserving_semantics(&mut cond.cons, in_bool_ctx);
+                self.negate_bool_preserving_semantics(&mut cond.alt, in_bool_ctx);
 
-            let cost = negate_cost(self.expr_ctx, &cond.test, true, false);
-            if cost >= 0 {
-                return;
+                if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
+                    return;
+                }
+                self.negate(&mut cond.test, true, false);
+                swap(&mut cond.cons, &mut cond.alt);
             }
 
-            self.negate(&mut cond.test, true, false);
-            swap(&mut cond.cons, &mut cond.alt);
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                left,
+                right,
+                ..
+            }) => {
+                self.negate_bool_preserving_semantics(left, in_bool_ctx);
+                self.negate_bool_preserving_semantics(right, in_bool_ctx);
+            }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => {
+                self.negate_bool_preserving_semantics(arg, true);
+
+                if in_bool_ctx {}
+            }
+
+            _ => (),
         }
     }
 
