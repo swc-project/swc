@@ -1,4 +1,36 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Make `inline_globals` noop by default ([#10231](https://github.com/swc-project/swc/issues/10231)) ([b192dc8](https://github.com/swc-project/swc/commit/b192dc82e6a84bd30f159fb12ca8a216f41e8efb))
+
+
+- **(es/types)** Fix broken types ([#10224](https://github.com/swc-project/swc/issues/10224)) ([540bdf8](https://github.com/swc-project/swc/commit/540bdf868d888a017e90c9badf8bab49e9b485bb))
+
+### Features
+
+
+
+- **(es/fast-lexer)** Enhance identifier handling with Unicode support ([#10226](https://github.com/swc-project/swc/issues/10226)) ([482b63a](https://github.com/swc-project/swc/commit/482b63a905ddcc49a0cbf0b5a84f93ca7d2a42df))
+
+
+- **(es/minifier)** Invoke IIFE into block ([#10220](https://github.com/swc-project/swc/issues/10220)) ([c9a6c23](https://github.com/swc-project/swc/commit/c9a6c2378737828becd9b6a87c2fb3b93d9c0acb))
+
+
+- **(es/minifier)** Remove needless blocks ([#10234](https://github.com/swc-project/swc/issues/10234)) ([0817970](https://github.com/swc-project/swc/commit/08179702bfb1172d5764d8c5326bd00f4e04ba61))
+
+
+- **(swc_parallel)** Introduce `rayon` mode ([#10237](https://github.com/swc-project/swc/issues/10237)) ([3c2213c](https://github.com/swc-project/swc/commit/3c2213c8299e889fb99ace0a53cf0b2152976bae))
+
+### Performance
+
+
+
+- **(es/minifier)** Merge `dead_branch_remover` into pure optimizer ([#10201](https://github.com/swc-project/swc/issues/10201)) ([6841523](https://github.com/swc-project/swc/commit/6841523977d072f3bed361fbb7a47910b41bbcd9))
+
 ## [swc_core@v16.7.0] - 2025-03-17
 
 ### Features
@@ -1788,9 +1820,6 @@
 - **(es/typescrupt)** Fix ASI issue in fast ts strip ([#9332](https://github.com/swc-project/swc/issues/9332)) ([57146cf](https://github.com/swc-project/swc/commit/57146cf58acb43fb5fa526bfde206c4f147edc6d))
 
 
-- **(es/utils)** Use `$crate` for `quote_ident!()` ([#9309](https://github.com/swc-project/swc/issues/9309)) ([bdaaf47](https://github.com/swc-project/swc/commit/bdaaf47cb4fc0146485a567d48449116d0e67e98))
-
-
 - **(html)** Fix html binding ([eefae1c](https://github.com/swc-project/swc/commit/eefae1cde794b28b68e5c0af2d2f13a5053b7a49))
 
 
@@ -1864,12 +1893,6 @@
 
 
 - **(common)** Remove `dbg` log ([#9384](https://github.com/swc-project/swc/issues/9384)) ([a538ca1](https://github.com/swc-project/swc/commit/a538ca1990e7b5b8841bc4a883b464c7690e2022))
-
-
-- **(deps)** Update actions ([#9311](https://github.com/swc-project/swc/issues/9311)) ([475432e](https://github.com/swc-project/swc/commit/475432e83aad0191b8ad23e503d9fbe1835be196))
-
-
-- **(deps)** Update npm (patch) ([#9318](https://github.com/swc-project/swc/issues/9318)) ([9d983c3](https://github.com/swc-project/swc/commit/9d983c3864888c3402679ce5498f82e71899c210))
 
 
 - **(deps)** Update `wasmer` to fix broken Windows build ([#9322](https://github.com/swc-project/swc/issues/9322)) ([a120faf](https://github.com/swc-project/swc/commit/a120faf84b178c666b9ac785d27f426f89d10ac6))
