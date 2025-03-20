@@ -769,6 +769,10 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.drop_undefined_from_return_arg(s);
+
+        if let Some(e) = &mut s.arg {
+            self.negate_bool_preserving_semantics(e);
+        }
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
