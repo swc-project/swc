@@ -1,4 +1,4 @@
-use std::mem::{swap, take};
+use std::mem::take;
 
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -7,10 +7,7 @@ use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{
-    compress::util::{can_absorb_negate, negate_cost},
-    util::make_bool,
-};
+use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
     ///
@@ -188,25 +185,6 @@ impl Pure<'_> {
             }
             _ => (),
         }
-    }
-
-    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
-            return;
-        }
-
-        report_change!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        #[cfg(feature = "debug")]
-        let start_str = dump(&*cond, false);
-
-        self.negate(&mut cond.test, true, false);
-        swap(&mut cond.cons, &mut cond.alt);
-
-        dump_change_detail!(
-            "[Change] Negated cond: `{}` => `{}`",
-            start_str,
-            dump(&*cond, false)
-        );
     }
 
     /// Removes useless operands of an logical expressions.
