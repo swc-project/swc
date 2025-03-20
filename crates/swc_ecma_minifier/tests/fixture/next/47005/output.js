@@ -101,7 +101,7 @@
                 isElement: Z,
                 getDimensions: function(m) {
                     var S, h;
-                    return S = 0, m.getBoundingClientRect();
+                    return (S = 0), m.getBoundingClientRect();
                 },
                 getOffsetParent: et,
                 getDocumentElement: function(m) {},

@@ -1,64 +1,63 @@
 import { _ as e } from "@swc/helpers/_/_type_of";
-var s = 86400000 * 7;
-export default function(c, r) {
+export default function(a, c) {
     try {
-        if ("string" == typeof c && c.length > 0) {
-            var n, t, o, u, i, h = c;
-            if ((h = String(h)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
-            var m = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(h);
-            if (!m) return NaN;
-            var d = parseFloat(m[1]), l = (m[2] || "ms").toLowerCase();
-            switch(l){
+        if ("string" == typeof a && a.length > 0) {
+            var r, n, t, o, u, i = a;
+            if ((i = String(i)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
+            var h = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(i);
+            if (!h) return NaN;
+            var m = parseFloat(h[1]), d = (h[2] || "ms").toLowerCase();
+            switch(d){
                 case "years":
                 case "year":
                 case "yrs":
                 case "yr":
                 case "y":
-                    return 31557600000 * d;
+                    return 31557600000 * m;
                 case "weeks":
                 case "week":
                 case "w":
-                    return d * s;
+                    return 604800000 * m;
                 case "days":
                 case "day":
                 case "d":
-                    return 86400000 * d;
+                    return 86400000 * m;
                 case "hours":
                 case "hour":
                 case "hrs":
                 case "hr":
                 case "h":
-                    return 3600000 * d;
+                    return 3600000 * m;
                 case "minutes":
                 case "minute":
                 case "mins":
                 case "min":
                 case "m":
-                    return 60000 * d;
+                    return 60000 * m;
                 case "seconds":
                 case "second":
                 case "secs":
                 case "sec":
                 case "s":
-                    return 1000 * d;
+                    return 1000 * m;
                 case "milliseconds":
                 case "millisecond":
                 case "msecs":
                 case "msec":
                 case "ms":
-                    return d;
+                    return m;
                 default:
-                    throw Error("The unit ".concat(l, " was matched, but no matching case exists."));
+                    throw Error("The unit ".concat(d, " was matched, but no matching case exists."));
             }
         }
-        if ("number" == typeof c && isFinite(c)) {
-            return (null == r ? void 0 : r.long) ? (t = c, (o = Math.abs(t)) >= 86400000 ? a(t, o, 86400000, "day") : o >= 3600000 ? a(t, o, 3600000, "hour") : o >= 60000 ? a(t, o, 60000, "minute") : o >= 1000 ? a(t, o, 1000, "second") : "".concat(t, " ms")) : (u = c, (i = Math.abs(u)) >= 86400000 ? "".concat(Math.round(u / 86400000), "d") : i >= 3600000 ? "".concat(Math.round(u / 3600000), "h") : i >= 60000 ? "".concat(Math.round(u / 60000), "m") : i >= 1000 ? "".concat(Math.round(u / 1000), "s") : "".concat(u, "ms"));
+        if ("number" == typeof a && isFinite(a)) {
+            return (null == c ? void 0 : c.long) ? (n = a, (t = Math.abs(n)) >= 86400000 ? s(n, t, 86400000, "day") : t >= 3600000 ? s(n, t, 3600000, "hour") : t >= 60000 ? s(n, t, 60000, "minute") : t >= 1000 ? s(n, t, 1000, "second") : "".concat(n, " ms")) : (o = a, (u = Math.abs(o)) >= 86400000 ? "".concat(Math.round(o / 86400000), "d") : u >= 3600000 ? "".concat(Math.round(o / 3600000), "h") : u >= 60000 ? "".concat(Math.round(o / 60000), "m") : u >= 1000 ? "".concat(Math.round(o / 1000), "s") : "".concat(o, "ms"));
         }
         throw Error("Value is not a string or number.");
     } catch (s) {
-        throw Error((void 0 === (n = s) ? "undefined" : e(n)) === "object" && null !== n && "message" in n ? "".concat(s.message, ". value=").concat(JSON.stringify(c)) : "An unknown error has occurred.");
+        throw Error((void 0 === (r = s) ? "undefined" : e(r)) === "object" && null !== r && "message" in r ? "".concat(s.message, ". value=").concat(JSON.stringify(a)) : "An unknown error has occurred.");
     }
 }
-function a(e, s, a, c) {
+function s(e, s, a, c) {
     return "".concat(Math.round(e / a), " ").concat(c).concat(s >= 1.5 * a ? "s" : "");
 }

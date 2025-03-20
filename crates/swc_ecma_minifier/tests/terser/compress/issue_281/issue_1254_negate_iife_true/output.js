@@ -1,1 +1,1 @@
-console.log("test");
+void console.log("test");

@@ -311,7 +311,8 @@
                     if (// With dynamic assetPrefix it's no longer possible to set assetPrefix at the build time
                     // So, this is how we do it in the client side at runtime
                     __webpack_require__.p = "".concat(prefix, "/_next/") //eslint-disable-line
-                    , _runtimeConfig.setConfig({
+                    , // Initialize next/config with the environment configuration
+                    _runtimeConfig.setConfig({
                         serverRuntimeConfig: {},
                         publicRuntimeConfig: initialData.runtimeConfig || {}
                     }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader) {
@@ -741,7 +742,7 @@
                     };
                 }, [
                     type
-                ]), portalNode ? _reactDom.createPortal(children, portalNode) : null;
+                ]), portalNode ? /*#__PURE__*/ _reactDom.createPortal(children, portalNode) : null;
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
@@ -814,11 +815,13 @@
                 // https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/
                 _react.default.useEffect(()=>{
                     // If the path hasn't change, we do nothing.
-                    if (previouslyLoadedPath.current !== asPath) if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
-                    else {
-                        var ref;
-                        const pageHeader = document.querySelector("h1");
-                        setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
+                    if (previouslyLoadedPath.current !== asPath) {
+                        if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
+                        else {
+                            var ref;
+                            const pageHeader = document.querySelector("h1");
+                            setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
+                        }
                     }
                 }, [
                     asPath
@@ -1437,10 +1440,12 @@
                             case "meta":
                                 for(let i = 0, len = METATYPES.length; i < len; i++){
                                     const metatype = METATYPES[i];
-                                    if (h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
-                                    else {
-                                        const category = h.props[metatype], categories = metaCategories[metatype] || new Set();
-                                        ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
+                                    if (h.props.hasOwnProperty(metatype)) {
+                                        if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
+                                        else {
+                                            const category = h.props[metatype], categories = metaCategories[metatype] || new Set();
+                                            ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
+                                        }
                                     }
                                 }
                         }
@@ -3034,18 +3039,19 @@
                                 if (slug.replace(/\W/g, "") === nextSegment.replace(/\W/g, "")) throw Error('You cannot have the slug names "'.concat(slug, '" and "').concat(nextSlug, '" differ only by non-word symbols within a single dynamic path'));
                             }), slugNames.push(nextSlug);
                         }
-                        if (isCatchAll) if (isOptional) {
-                            if (null != this.restSlugName) throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
-                            handleSlug(this.optionalRestSlugName, segmentName), // slugName is kept as it can only be one particular slugName
-                            this.optionalRestSlugName = segmentName, // nextSegment is overwritten to [[...]] so that it can later be sorted specifically
-                            nextSegment = "[[...]]";
+                        if (isCatchAll) {
+                            if (isOptional) {
+                                if (null != this.restSlugName) throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
+                                handleSlug(this.optionalRestSlugName, segmentName), // slugName is kept as it can only be one particular slugName
+                                this.optionalRestSlugName = segmentName, // nextSegment is overwritten to [[...]] so that it can later be sorted specifically
+                                nextSegment = "[[...]]";
+                            } else {
+                                if (null != this.optionalRestSlugName) throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
+                                handleSlug(this.restSlugName, segmentName), // slugName is kept as it can only be one particular slugName
+                                this.restSlugName = segmentName, // nextSegment is overwritten to [...] so that it can later be sorted specifically
+                                nextSegment = "[...]";
+                            }
                         } else {
-                            if (null != this.optionalRestSlugName) throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
-                            handleSlug(this.restSlugName, segmentName), // slugName is kept as it can only be one particular slugName
-                            this.restSlugName = segmentName, // nextSegment is overwritten to [...] so that it can later be sorted specifically
-                            nextSegment = "[...]";
-                        }
-                        else {
                             if (isOptional) throw Error('Optional route parameters are not yet supported ("'.concat(urlPaths[0], '").'));
                             handleSlug(this.slugName, segmentName), // slugName is kept as it can only be one particular slugName
                             this.slugName = segmentName, // nextSegment is overwritten to [] so that it can later be sorted specifically

@@ -2601,10 +2601,12 @@
                     if (r < 0) throw Error("negative radius: " + r);
                     // Is this path empty? Move to (x1,y1).
                     if (null === this._x1) this._ += "M" + (this._x1 = x1) + "," + (this._y1 = y1);
-                    else if (l01_2 > 1e-6) if (Math.abs(y01 * x21 - y21 * x01) > 1e-6 && r) {
-                        var x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - (x20 * x20 + y20 * y20)) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
-                        Math.abs(t01 - 1) > 1e-6 && (this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01)), this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
-                    } else this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
+                    else if (l01_2 > 1e-6) {
+                        if (Math.abs(y01 * x21 - y21 * x01) > 1e-6 && r) {
+                            var x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r * Math.tan((pi - Math.acos((l21_2 + l01_2 - (x20 * x20 + y20 * y20)) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
+                            Math.abs(t01 - 1) > 1e-6 && (this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01)), this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
+                        } else this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
+                    }
                 },
                 arc: function(x, y, r, a0, a1, ccw) {
                     x *= 1, y *= 1, r *= 1, ccw = !!ccw;
@@ -3554,33 +3556,34 @@
                 function arc() {
                     var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - _math_js__WEBPACK_IMPORTED_MODULE_2__.halfPi, a1 = endAngle.apply(this, arguments) - _math_js__WEBPACK_IMPORTED_MODULE_2__.halfPi, da = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.abs)(a1 - a0), cw = a1 > a0;
                     // Is it a point?
-                    if (context || (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) if (da > _math_js__WEBPACK_IMPORTED_MODULE_2__.tau - _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) context.moveTo(r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a0), r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (context.moveTo(r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a1), r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a1)), context.arc(0, 0, r0, a1, a0, cw));
-                    else {
-                        var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (padRadius ? +padRadius.apply(this, arguments) : Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(r0 * r0 + r1 * r1)), rc = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.abs)(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
-                        // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
-                        if (rp > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) {
-                            var p0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.asin)(rp / r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(ap)), p1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.asin)(rp / r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(ap));
-                            (da0 -= 2 * p0) > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0) : (da0 = 0, a00 = a10 = (a0 + a1) / 2), (da1 -= 2 * p1) > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1) : (da1 = 0, a01 = a11 = (a0 + a1) / 2);
-                        }
-                        var x01 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a01), y01 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a01), x10 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a10), y10 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a10);
-                        // Apply rounded corners?
-                        if (rc > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) {
-                            var oc, x11 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a11), y11 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a11), x00 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a00), y00 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a00);
-                            // Restrict the corner radius according to the sector angle.
-                            if (da < _math_js__WEBPACK_IMPORTED_MODULE_2__.pi && (oc = function(x0, y0, x1, y1, x2, y2, x3, y3) {
-                                var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
-                                if (!(t * t < _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
-                                    x0 + t * x10,
-                                    y0 + t * y10
-                                ];
-                            }(x01, y01, x00, y00, x11, y11, x10, y10))) {
-                                var ax = x01 - oc[0], ay = y01 - oc[1], bx = x11 - oc[0], by = y11 - oc[1], kc = 1 / Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.acos)((ax * bx + ay * by) / (Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(ax * ax + ay * ay) * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(bx * bx + by * by))) / 2), lc = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(oc[0] * oc[0] + oc[1] * oc[1]);
-                                rc0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r0 - lc) / (kc - 1)), rc1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r1 - lc) / (kc + 1));
+                    if (context || (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) {
+                        if (da > _math_js__WEBPACK_IMPORTED_MODULE_2__.tau - _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) context.moveTo(r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a0), r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (context.moveTo(r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a1), r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a1)), context.arc(0, 0, r0, a1, a0, cw));
+                        else {
+                            var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (padRadius ? +padRadius.apply(this, arguments) : Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(r0 * r0 + r1 * r1)), rc = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.abs)(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
+                            // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
+                            if (rp > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) {
+                                var p0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.asin)(rp / r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(ap)), p1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.asin)(rp / r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(ap));
+                                (da0 -= 2 * p0) > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0) : (da0 = 0, a00 = a10 = (a0 + a1) / 2), (da1 -= 2 * p1) > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1) : (da1 = 0, a01 = a11 = (a0 + a1) / 2);
                             }
+                            var x01 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a01), y01 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a01), x10 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a10), y10 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a10);
+                            // Apply rounded corners?
+                            if (rc > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) {
+                                var oc, x11 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a11), y11 = r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a11), x00 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a00), y00 = r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a00);
+                                // Restrict the corner radius according to the sector angle.
+                                if (da < _math_js__WEBPACK_IMPORTED_MODULE_2__.pi && (oc = function(x0, y0, x1, y1, x2, y2, x3, y3) {
+                                    var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
+                                    if (!(t * t < _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
+                                        x0 + t * x10,
+                                        y0 + t * y10
+                                    ];
+                                }(x01, y01, x00, y00, x11, y11, x10, y10))) {
+                                    var ax = x01 - oc[0], ay = y01 - oc[1], bx = x11 - oc[0], by = y11 - oc[1], kc = 1 / Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.acos)((ax * bx + ay * by) / (Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(ax * ax + ay * ay) * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(bx * bx + by * by))) / 2), lc = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(oc[0] * oc[0] + oc[1] * oc[1]);
+                                    rc0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r0 - lc) / (kc - 1)), rc1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r1 - lc) / (kc + 1));
+                                }
+                            }
+                            da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
                         }
-                        da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
-                    }
-                    else context.moveTo(0, 0);
+                    } else context.moveTo(0, 0);
                     if (context.closePath(), buffer) return context = null, buffer + "" || null;
                 }
                 return arc.centroid = function() {
@@ -3619,10 +3622,12 @@
                 function area(data) {
                     var i, j, k, d, buffer, n = data.length, defined0 = !1, x0z = Array(n), y0z = Array(n);
                     for(null == context && (output = curve(buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)())), i = 0; i <= n; ++i){
-                        if (!(i < n && defined(d = data[i], i, data)) === defined0) if (defined0 = !defined0) j = i, output.areaStart(), output.lineStart();
-                        else {
-                            for(output.lineEnd(), output.lineStart(), k = i - 1; k >= j; --k)output.point(x0z[k], y0z[k]);
-                            output.lineEnd(), output.areaEnd();
+                        if (!(i < n && defined(d = data[i], i, data)) === defined0) {
+                            if (defined0 = !defined0) j = i, output.areaStart(), output.lineStart();
+                            else {
+                                for(output.lineEnd(), output.lineStart(), k = i - 1; k >= j; --k)output.point(x0z[k], y0z[k]);
+                                output.lineEnd(), output.areaEnd();
+                            }
                         }
                         defined0 && (x0z[i] = +x0(d, i, data), y0z[i] = +y0(d, i, data), output.point(x1 ? +x1(d, i, data) : x0z[i], y1 ? +y1(d, i, data) : y0z[i]));
                     }
@@ -4406,8 +4411,10 @@
                 },
                 lineEnd: function() {
                     var x = this._x, y = this._y, n = x.length;
-                    if (n) if (this._line ? this._context.lineTo(x[0], y[0]) : this._context.moveTo(x[0], y[0]), 2 === n) this._context.lineTo(x[1], y[1]);
-                    else for(var px = controlPoints(x), py = controlPoints(y), i0 = 0, i1 = 1; i1 < n; ++i0, ++i1)this._context.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1]);
+                    if (n) {
+                        if (this._line ? this._context.lineTo(x[0], y[0]) : this._context.moveTo(x[0], y[0]), 2 === n) this._context.lineTo(x[1], y[1]);
+                        else for(var px = controlPoints(x), py = controlPoints(y), i0 = 0, i1 = 1; i1 < n; ++i0, ++i1)this._context.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1]);
+                    }
                     (this._line || 0 !== this._line && 1 === n) && this._context.closePath(), this._line = 1 - this._line, this._x = this._y = null;
                 },
                 point: function(x, y) {
@@ -6053,10 +6060,12 @@
                         return newInterval(function(date) {
                             if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
                         }, function(date, step) {
-                            if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
-                             // eslint-disable-line no-empty
-                            else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
-                             // eslint-disable-line no-empty
+                            if (date >= date) {
+                                if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                                 // eslint-disable-line no-empty
+                                else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                                 // eslint-disable-line no-empty
+                            }
                         });
                     }, count && (interval.count = function(start, end) {
                         return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
@@ -6679,12 +6688,13 @@
                         if (!(d >= -_Diagram__WEBPACK_IMPORTED_MODULE_1__.epsilon2)) {
                             var ha = ax * ax + ay * ay, hc = cx * cx + cy * cy, x = (cy * ha - ay * hc) / d, y = (ax * hc - cx * ha) / d, circle = circlePool.pop() || new Circle;
                             circle.arc = arc, circle.site = cSite, circle.x = x + bx, circle.y = (circle.cy = y + by) + Math.sqrt(x * x + y * y), arc.circle = circle;
-                            for(var before = null, node = _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles._; node;)if (circle.y < node.y || circle.y === node.y && circle.x <= node.x) if (node.L) node = node.L;
-                            else {
-                                before = node.P;
-                                break;
-                            }
-                            else if (node.R) node = node.R;
+                            for(var before = null, node = _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles._; node;)if (circle.y < node.y || circle.y === node.y && circle.x <= node.x) {
+                                if (node.L) node = node.L;
+                                else {
+                                    before = node.P;
+                                    break;
+                                }
+                            } else if (node.R) node = node.R;
                             else {
                                 before = node;
                                 break;
@@ -6842,30 +6852,31 @@
                                 y0
                             ];
                         }
-                    } else if (fm = (lx - rx) / (ry - ly), fb = (ly + ry) / 2 - fm * fx, fm < -1 || fm > 1) if (lx > rx) {
-                        if (v0) {
-                            if (v0[1] >= y1) return;
-                        } else v0 = [
-                            (y0 - fb) / fm,
-                            y0
-                        ];
-                        v1 = [
-                            (y1 - fb) / fm,
-                            y1
-                        ];
-                    } else {
-                        if (v0) {
-                            if (v0[1] < y0) return;
-                        } else v0 = [
-                            (y1 - fb) / fm,
-                            y1
-                        ];
-                        v1 = [
-                            (y0 - fb) / fm,
-                            y0
-                        ];
-                    }
-                    else if (ly < ry) {
+                    } else if (fm = (lx - rx) / (ry - ly), fb = (ly + ry) / 2 - fm * fx, fm < -1 || fm > 1) {
+                        if (lx > rx) {
+                            if (v0) {
+                                if (v0[1] >= y1) return;
+                            } else v0 = [
+                                (y0 - fb) / fm,
+                                y0
+                            ];
+                            v1 = [
+                                (y1 - fb) / fm,
+                                y1
+                            ];
+                        } else {
+                            if (v0) {
+                                if (v0[1] < y0) return;
+                            } else v0 = [
+                                (y1 - fb) / fm,
+                                y1
+                            ];
+                            v1 = [
+                                (y0 - fb) / fm,
+                                y0
+                            ];
+                        }
+                    } else if (ly < ry) {
                         if (v0) {
                             if (v0[0] >= x1) return;
                         } else v0 = [
@@ -15122,27 +15133,23 @@
                     min > globalMax - size ? globalMax - size : Math.max(min, globalMin),
                     max < globalMin + size ? globalMin + size : Math.min(max, globalMax)
                 ];
-            }, fallbackProps = {
-                brushAreaStyle: {
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref) {
-                        return _ref.active ? 0.2 : 0.1;
-                    } // eslint-disable-line no-magic-numbers
-                },
-                brushStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref2) {
-                        return _ref2.active ? 0.4 : 0.3;
-                    } // eslint-disable-line no-magic-numbers
-                },
-                handleStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "none"
-                }
+            }, fallbackProps_brushAreaStyle = {
+                stroke: "none",
+                fill: "black",
+                opacity: function(_ref) {
+                    return _ref.active ? 0.2 : 0.1;
+                } // eslint-disable-line no-magic-numbers
+            }, fallbackProps_brushStyle = {
+                pointerEvents: "none",
+                stroke: "none",
+                fill: "black",
+                opacity: function(_ref2) {
+                    return _ref2.active ? 0.4 : 0.3;
+                } // eslint-disable-line no-magic-numbers
+            }, fallbackProps_handleStyle = {
+                pointerEvents: "none",
+                stroke: "none",
+                fill: "none"
             }, VictoryBrushLine = /*#__PURE__*/ function(_React$Component) {
                 var protoProps;
                 if ("function" != typeof _React$Component && null !== _React$Component) throw TypeError("Super expression must either be null or a function");
@@ -15227,7 +15234,7 @@
                         value: function(props) {
                             var handleComponent = props.handleComponent, handleStyle = props.handleStyle, id = props.id, brushDomain = props.brushDomain, _props$datum = props.datum, datum = void 0 === _props$datum ? {} : _props$datum, _props$activeBrushes2 = props.activeBrushes, activeBrushes = void 0 === _props$activeBrushes2 ? {} : _props$activeBrushes2;
                             if (!brushDomain) return null;
-                            var handleDimensions = this.getHandleDimensions(props), style = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps.handleStyle, handleStyle), minDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
+                            var handleDimensions = this.getHandleDimensions(props), style = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps_handleStyle, handleStyle), minDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 handleValue: victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(brushDomain)
                             }, datum), maxDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 handleValue: victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(brushDomain)
@@ -15255,7 +15262,7 @@
                         value: function(props) {
                             var brushComponent = props.brushComponent, brushStyle = props.brushStyle, _props$activeBrushes3 = props.activeBrushes, _props$datum2 = props.datum;
                             if (!props.brushDomain) return null;
-                            var brushWidth = props.brushWidth || props.width, rectDimensions = this.getRectDimensions(props, brushWidth), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps.brushStyle, brushStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
+                            var brushWidth = props.brushWidth || props.width, rectDimensions = this.getRectDimensions(props, brushWidth), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps_brushStyle, brushStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
                                 datum: void 0 === _props$datum2 ? {} : _props$datum2,
                                 active: (void 0 === _props$activeBrushes3 ? {} : _props$activeBrushes3).brush
                             }), brushProps = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
@@ -15269,7 +15276,7 @@
                         value: function(props) {
                             var brushAreaComponent = props.brushAreaComponent, brushAreaStyle = props.brushAreaStyle, _props$activeBrushes4 = props.activeBrushes, _props$datum3 = props.datum, brushAreaWidth = props.brushAreaWidth || props.width, cursor = this.getCursor(props), rectDimensions = this.getRectDimensions(props, brushAreaWidth, getFullDomain(props)), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 cursor: cursor
-                            }, fallbackProps.brushAreaStyle, brushAreaStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
+                            }, fallbackProps_brushAreaStyle, brushAreaStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
                                 datum: void 0 === _props$datum3 ? {} : _props$datum3,
                                 active: (void 0 === _props$activeBrushes4 ? {} : _props$activeBrushes4).brushArea
                             }), brushAreaProps = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
@@ -20193,24 +20200,26 @@
                 },
                 getTickFormat: function(props, scale) {
                     var tickFormat = props.tickFormat, axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis];
-                    if (tickFormat) if (tickFormat && Array.isArray(tickFormat)) {
-                        var tickArray = getTickArray(props), tickArrayIndices = tickArray ? tickArray.map(function(v) {
-                            return v.index;
-                        }) : void 0, filteredTickFormat = tickFormat.filter(function(t, index) {
-                            return tickArrayIndices.includes(index);
-                        });
-                        return function(x, index) {
-                            return filteredTickFormat[index];
+                    if (tickFormat) {
+                        if (tickFormat && Array.isArray(tickFormat)) {
+                            var tickArray = getTickArray(props), tickArrayIndices = tickArray ? tickArray.map(function(v) {
+                                return v.index;
+                            }) : void 0, filteredTickFormat = tickFormat.filter(function(t, index) {
+                                return tickArrayIndices.includes(index);
+                            });
+                            return function(x, index) {
+                                return filteredTickFormat[index];
+                            };
+                        }
+                        return tickFormat && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(tickFormat) ? stringMap ? function(tick, index, ticks) {
+                            var invertedStringMap = lodash_invert__WEBPACK_IMPORTED_MODULE_6___default()(stringMap), stringTickArray = ticks.map(function(t) {
+                                return invertedStringMap[t];
+                            });
+                            return props.tickFormat(invertedStringMap[tick], index, stringTickArray);
+                        } : tickFormat : function(x) {
+                            return x;
                         };
-                    } else if (tickFormat && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(tickFormat)) return stringMap ? function(tick, index, ticks) {
-                        var invertedStringMap = lodash_invert__WEBPACK_IMPORTED_MODULE_6___default()(stringMap), stringTickArray = ticks.map(function(t) {
-                            return invertedStringMap[t];
-                        });
-                        return props.tickFormat(invertedStringMap[tick], index, stringTickArray);
-                    } : tickFormat;
-                    else return function(x) {
-                        return x;
-                    };
+                    }
                     var defaultTickFormat = function(props) {
                         var tickValues = props.tickValues, axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], fallbackFormat = tickValues && !_collection__WEBPACK_IMPORTED_MODULE_13__.default.containsDates(tickValues) ? function(x) {
                             return x;
@@ -26088,23 +26097,25 @@
                         return void 0 !== animationDuration ? animationDuration : defaultTransitions[type] && defaultTransitions[type].duration;
                     };
                     return function(child, index) {
-                        var after, data = getChildData(child) || [], animate = lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, props.animate, child.props.animate), defaultTransitions = child.props.polar && child.type.defaultPolarTransitions || child.type.defaultTransitions;
+                        var data = getChildData(child) || [], animate = lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, props.animate, child.props.animate), defaultTransitions = child.props.polar && child.type.defaultPolarTransitions || child.type.defaultTransitions;
                         animate.onExit = lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, animate.onExit, defaultTransitions && defaultTransitions.onExit), animate.onEnter = lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, animate.onEnter, defaultTransitions && defaultTransitions.onEnter), animate.onLoad = lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default()({}, animate.onLoad, defaultTransitions && defaultTransitions.onLoad);
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
+                                var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
                                 return onExit(exitingNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
                                     duration: exit
                                 } : {
                                     delay: exit
                                 }));
-                            } else if (nodesWillEnter) {
+                            }
+                            if (nodesWillEnter) {
                                 var enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
                                 return onEnter(enteringNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
                                 }));
-                            } else if (!state && animate && animate.onExit) // This is the initial render, and nodes may enter when props change. Because
+                            }
+                            if (!state && animate && animate.onExit) // This is the initial render, and nodes may enter when props change. Because
                             // animation interpolation is determined by old- and next- props, data may need
                             // to be augmented with certain properties.
                             //
@@ -26196,30 +26207,32 @@
                     return childScale.length > 1 ? _scale__WEBPACK_IMPORTED_MODULE_19__.default.getScaleFromName("linear") : _scale__WEBPACK_IMPORTED_MODULE_19__.default.getScaleFromName(childScale[0]);
                 },
                 setAnimationState: function(props, nextProps) {
-                    if (props.animate) if (props.animate.parentState) {
-                        var oldProps = props.animate.parentState.nodesWillExit ? props : null;
-                        this.setState(lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
-                            oldProps: oldProps,
-                            nextProps: nextProps
-                        }, props.animate.parentState));
-                    } else {
-                        var oldChildren = react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(nextProps.children), isContinuous = function(child) {
-                            var check = function(c) {
-                                return c.type && c.type.continuous;
-                            };
-                            return Array.isArray(child) ? lodash_some__WEBPACK_IMPORTED_MODULE_4___default()(child, check) : check(child);
-                        }, continuous = !props.polar && lodash_some__WEBPACK_IMPORTED_MODULE_4___default()(oldChildren, function(child) {
-                            return isContinuous(child) || child.props.children && isContinuous(child.props.children);
-                        }), _Transitions$getIniti = _transitions__WEBPACK_IMPORTED_MODULE_13__.default.getInitialTransitionState(oldChildren, nextChildren), _nodesWillExit = _Transitions$getIniti.nodesWillExit, nodesWillEnter = _Transitions$getIniti.nodesWillEnter, childrenTransitions = _Transitions$getIniti.childrenTransitions, nodesShouldEnter = _Transitions$getIniti.nodesShouldEnter;
-                        this.setState({
-                            nodesWillExit: _nodesWillExit,
-                            nodesWillEnter: nodesWillEnter,
-                            nodesShouldEnter: nodesShouldEnter,
-                            childrenTransitions: _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[0] : childrenTransitions,
-                            oldProps: _nodesWillExit ? props : null,
-                            nextProps: nextProps,
-                            continuous: continuous
-                        });
+                    if (props.animate) {
+                        if (props.animate.parentState) {
+                            var oldProps = props.animate.parentState.nodesWillExit ? props : null;
+                            this.setState(lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
+                                oldProps: oldProps,
+                                nextProps: nextProps
+                            }, props.animate.parentState));
+                        } else {
+                            var oldChildren = react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(nextProps.children), isContinuous = function(child) {
+                                var check = function(c) {
+                                    return c.type && c.type.continuous;
+                                };
+                                return Array.isArray(child) ? lodash_some__WEBPACK_IMPORTED_MODULE_4___default()(child, check) : check(child);
+                            }, continuous = !props.polar && lodash_some__WEBPACK_IMPORTED_MODULE_4___default()(oldChildren, function(child) {
+                                return isContinuous(child) || child.props.children && isContinuous(child.props.children);
+                            }), _Transitions$getIniti = _transitions__WEBPACK_IMPORTED_MODULE_13__.default.getInitialTransitionState(oldChildren, nextChildren), _nodesWillExit = _Transitions$getIniti.nodesWillExit, nodesWillEnter = _Transitions$getIniti.nodesWillEnter, childrenTransitions = _Transitions$getIniti.childrenTransitions, nodesShouldEnter = _Transitions$getIniti.nodesShouldEnter;
+                            this.setState({
+                                nodesWillExit: _nodesWillExit,
+                                nodesWillEnter: nodesWillEnter,
+                                nodesShouldEnter: nodesShouldEnter,
+                                childrenTransitions: _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[0] : childrenTransitions,
+                                oldProps: _nodesWillExit ? props : null,
+                                nextProps: nextProps,
+                                continuous: continuous
+                            });
+                        }
                     }
                 },
                 getAllEvents: function(props) {

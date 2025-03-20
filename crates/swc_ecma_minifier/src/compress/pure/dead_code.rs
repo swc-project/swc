@@ -10,84 +10,19 @@ use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt}
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
-    pub(super) fn simplify_assign_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Simple(l),
-                right: r,
-                ..
-            }) if match &*l {
-                SimpleAssignTarget::Ident(l) => match &**r {
-                    Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
-                    _ => false,
-                },
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to the same variable");
-                self.changed = true;
-                *e = r.take().ident().unwrap().into();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
-                }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty object pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            _ => {}
-        }
-    }
-
     ///
     ///  - Removes `L1: break L1`
-    pub(super) fn handle_instant_break(&mut self, s: &mut Stmt) {
+    pub(super) fn drop_instant_break(&mut self, s: &mut Stmt) {
         if let Stmt::Labeled(ls) = s {
-            match &*ls.body {
-                Stmt::Break(BreakStmt {
-                    label: Some(label), ..
-                }) => {
-                    if label.sym == ls.label.sym {
-                        self.changed = true;
-                        report_change!("Dropping instant break `{}`", label);
-                        *s = Stmt::dummy();
-                    }
-                }
-
-                Stmt::Break(BreakStmt { label: None, .. }) => {
+            if let Stmt::Break(BreakStmt {
+                label: Some(label), ..
+            }) = &*ls.body
+            {
+                if label.sym == ls.label.sym {
                     self.changed = true;
-                    report_change!("Dropping instant break without label");
-                    *s = *ls.body.take();
+                    report_change!("Dropping instant break `{}`", label);
+                    s.take();
                 }
-
-                _ => (),
             }
         }
     }
@@ -115,13 +50,6 @@ impl Pure<'_> {
         }
 
         if let Stmt::Labeled(ls) = s {
-            if ls.body.is_empty() {
-                self.changed = true;
-                report_change!("Dropping an empty label statement: `{}`", ls.label);
-                *s = Stmt::dummy();
-                return None;
-            }
-
             if let Stmt::Block(bs) = &mut *ls.body {
                 let first = bs.stmts.first_mut()?;
 
@@ -560,11 +488,11 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn optimize_const_if<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn remove_dead_branch<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
     {
-        if !self.options.unused && !self.options.dead_code {
+        if !self.options.unused {
             return;
         }
 

@@ -1,2 +1,2 @@
 //// [parser_continueTarget3.ts]
-for(;;);
+for(;;)continue;

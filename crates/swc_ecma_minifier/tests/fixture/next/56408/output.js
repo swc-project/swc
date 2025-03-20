@@ -4,7 +4,7 @@ exports.ids = [
 ];
 exports.modules = {
     /***/ 4622: /***/ function(e, t, n) {
-        (function(e, t, n) {
+        void function(e, t, n) {
             "use strict";
             function r(e) {
                 return e && "object" == typeof e && "default" in e ? e : {
@@ -1337,6 +1337,6 @@ exports.modules = {
             }, e.default = ei, e.useDropzone = de, Object.defineProperty(e, "__esModule", {
                 value: !0
             });
-        })(t, n(9885), n(5601));
+        }(t, n(9885), n(5601));
     /***/ }
 };

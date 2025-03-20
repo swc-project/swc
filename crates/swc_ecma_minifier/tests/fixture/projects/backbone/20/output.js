@@ -27,11 +27,13 @@ export const E = {
             toRemove.length && this.remove(toRemove, options);
         }
         // See if sorting is needed, update `length` and splice in new models.
-        if (toAdd.length || order && order.length) if (sortable && (sort = !0), this.length += toAdd.length, null != at) for(i = 0, l = toAdd.length; i < l; i++)this.models.splice(at + i, 0, toAdd[i]);
-        else {
-            order && (this.models.length = 0);
-            var orderedModels = order || toAdd;
-            for(i = 0, l = orderedModels.length; i < l; i++)this.models.push(orderedModels[i]);
+        if (toAdd.length || order && order.length) {
+            if (sortable && (sort = !0), this.length += toAdd.length, null != at) for(i = 0, l = toAdd.length; i < l; i++)this.models.splice(at + i, 0, toAdd[i]);
+            else {
+                order && (this.models.length = 0);
+                var orderedModels = order || toAdd;
+                for(i = 0, l = orderedModels.length; i < l; i++)this.models.push(orderedModels[i]);
+            }
         }
         // Unless silenced, it's time to fire all appropriate add/sort events.
         if (sort && this.sort({

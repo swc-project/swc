@@ -8,7 +8,9 @@ use std::{borrow::Cow, time::Instant};
 use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Optional, Repeated};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
+use swc_ecma_transforms_optimization::simplify::{
+    dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
+};
 use swc_ecma_usage_analyzer::marks::Marks;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
@@ -155,31 +157,6 @@ impl Compressor<'_> {
         };
 
         {
-            let _timer = timer!("apply pure optimizer");
-
-            let mut visitor = pure_optimizer(
-                self.options,
-                self.marks,
-                PureOptimizerConfig {
-                    enable_join_vars: self.pass > 1,
-                    force_str_for_tpl: self.mode.force_str_for_tpl(),
-                },
-            );
-            n.visit_mut_with(&mut visitor);
-
-            self.changed |= visitor.changed();
-
-            #[cfg(feature = "debug")]
-            if visitor.changed() {
-                let src = force_dump_program(n);
-                debug!(
-                    "===== Before pure =====\n{}\n===== After pure =====\n{}",
-                    start, src
-                );
-            }
-        }
-
-        {
             tracing::info!(
                 "compress: Running expression simplifier (pass = {})",
                 self.pass
@@ -229,6 +206,33 @@ impl Compressor<'_> {
             }
         }
 
+        {
+            let _timer = timer!("apply pure optimizer");
+
+            let mut visitor = pure_optimizer(
+                self.options,
+                self.marks,
+                PureOptimizerConfig {
+                    enable_join_vars: self.pass > 1,
+                    force_str_for_tpl: self.mode.force_str_for_tpl(),
+                    #[cfg(feature = "debug")]
+                    debug_infinite_loop: self.pass >= 20,
+                },
+            );
+            n.visit_mut_with(&mut visitor);
+
+            self.changed |= visitor.changed();
+
+            #[cfg(feature = "debug")]
+            if visitor.changed() {
+                let src = force_dump_program(n);
+                debug!(
+                    "===== Before pure =====\n{}\n===== After pure =====\n{}",
+                    start, src
+                );
+            }
+        }
+
         #[cfg(debug_assertions)]
         {
             n.visit_with(&mut AssertValid);
@@ -256,6 +260,40 @@ impl Compressor<'_> {
 
             // let done = dump(&*n);
             // debug!("===== Result =====\n{}", done);
+        }
+
+        if self.options.conditionals || self.options.dead_code {
+            #[cfg(feature = "debug")]
+            let start = dump(&*n, false);
+
+            let start_time = now();
+
+            let mut v = dead_branch_remover(self.marks.unresolved_mark);
+            n.visit_mut_with(&mut v);
+
+            if let Some(start_time) = start_time {
+                let end_time = Instant::now();
+
+                tracing::info!(
+                    "compress: dead_branch_remover took {:?} (pass = {})",
+                    end_time - start_time,
+                    self.pass
+                );
+            }
+
+            #[cfg(feature = "debug")]
+            {
+                let simplified = dump(&*n, false);
+
+                if start != simplified {
+                    debug!(
+                        "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
+                        start, simplified
+                    );
+                }
+            }
+
+            self.changed |= v.changed();
         }
     }
 }

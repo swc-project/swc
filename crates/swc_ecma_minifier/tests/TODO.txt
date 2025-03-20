@@ -203,6 +203,8 @@ issue_1052/single_function/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/input.js
 issue_1105/check_drop_unused_in_peer_function/input.js
+issue_1105/compress_with_with_in_other_scope/input.js
+issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
@@ -220,6 +222,7 @@ issue_1466/same_variable_in_multiple_forOf_sequences_const/input.js
 issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_1466/same_variable_in_multiple_for_loop/input.js
 issue_1569/inner_reference/input.js
+issue_1639/issue_1639_1/input.js
 issue_1750/case_1/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
@@ -241,6 +244,7 @@ issue_913/keep_var_for_in/input.js
 issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
+issue_979/issue979_test_negated_is_best/input.js
 issue_t120/issue_t120_3/input.js
 issue_t120/issue_t120_4/input.js
 issue_t120/issue_t120_5/input.js
@@ -251,7 +255,7 @@ keep_names/keep_some_fnames_reduce/input.js
 keep_quoted_strict/keep_quoted_strict/input.js
 logical_assignment/assignment_in_left_part_2/input.js
 loops/drop_if_else_break_1/input.js
-loops/drop_if_else_break_2/input.js
+loops/issue_2740_3/input.js
 loops/issue_2740_5/input.js
 negate_iife/issue_1254_negate_iife_nested/input.js
 negate_iife/issue_1254_negate_iife_true/input.js
@@ -301,7 +305,6 @@ reduce_vars/pure_getters_3/input.js
 reduce_vars/redefine_farg_1/input.js
 reduce_vars/reduce_vars/input.js
 return_undefined/return_undefined/input.js
-sequences/call/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/for_init_var/input.js

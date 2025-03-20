@@ -245,12 +245,14 @@ var ts, ts1, dynamicImportUMDHelper;
          */ function addExportEqualsIfNeeded(statements, emitAsReturn) {
         if (currentModuleInfo.exportEquals) {
             var expressionResult = ts1.visitNode(currentModuleInfo.exportEquals.expression, visitor);
-            if (expressionResult) if (emitAsReturn) {
-                var statement = factory.createReturnStatement(expressionResult);
-                ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1920 /* NoComments */ ), statements.push(statement);
-            } else {
-                var statement = factory.createExpressionStatement(factory.createAssignment(factory.createPropertyAccessExpression(factory.createIdentifier("module"), "exports"), expressionResult));
-                ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statements.push(statement);
+            if (expressionResult) {
+                if (emitAsReturn) {
+                    var statement = factory.createReturnStatement(expressionResult);
+                    ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1920 /* NoComments */ ), statements.push(statement);
+                } else {
+                    var statement = factory.createExpressionStatement(factory.createAssignment(factory.createPropertyAccessExpression(factory.createIdentifier("module"), "exports"), expressionResult));
+                    ts1.setTextRange(statement, currentModuleInfo.exportEquals), ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statements.push(statement);
+                }
             }
         }
     }
@@ -301,7 +303,7 @@ var ts, ts1, dynamicImportUMDHelper;
          * @param The node to visit.
          */ function(node) {
                     if (node.moduleSpecifier) {
-                        var generatedName = factory.getGeneratedNameForNode(node);
+                        var innerExpr, generatedName = factory.getGeneratedNameForNode(node);
                         if (node.exportClause && ts1.isNamedExports(node.exportClause)) {
                             var statements = [];
                             // export { x, y } from "mod";
@@ -320,7 +322,7 @@ var ts, ts1, dynamicImportUMDHelper;
                         }
                         if (!node.exportClause) // export * from "mod";
                         return ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(emitHelpers().createExportStarHelper(moduleKind !== ts1.ModuleKind.AMD ? createRequireCall(node) : generatedName)), node), node);
-                        var innerExpr, statements = [];
+                        var statements = [];
                         return(// export * as ns from "mod";
                         // export * as default from "mod";
                         statements.push(ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createExportExpression(factory.cloneNode(node.exportClause.name), (innerExpr = moduleKind !== ts1.ModuleKind.AMD ? createRequireCall(node) : ts1.isExportNamespaceAsDefaultDeclaration(node) ? generatedName : factory.createIdentifier(ts1.idText(node.exportClause.name)), !ts1.getESModuleInterop(compilerOptions) || 67108864 /* NeverApplyImportHelper */  & ts1.getEmitFlags(node) ? innerExpr : ts1.getExportNeedsImportStarHelper(node) ? emitHelpers().createImportStarHelper(innerExpr) : innerExpr))), node), node)), ts1.singleOrMany(statements));
@@ -348,10 +350,12 @@ var ts, ts1, dynamicImportUMDHelper;
                         for(var statements, variables, expressions, modifiers = void 0, removeCommentsOnExpressions = !1, _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++){
                             var variable = _a[_i];
                             if (ts1.isIdentifier(variable.name) && ts1.isLocalName(variable.name)) modifiers || (modifiers = ts1.visitNodes(node.modifiers, modifierVisitor, ts1.isModifier)), variables = ts1.append(variables, variable);
-                            else if (variable.initializer) if (!ts1.isBindingPattern(variable.name) && (ts1.isArrowFunction(variable.initializer) || ts1.isFunctionExpression(variable.initializer) || ts1.isClassExpression(variable.initializer))) {
-                                var expression = factory.createAssignment(ts1.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), /*location*/ variable.name), factory.createIdentifier(ts1.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts1.visitNode(variable.initializer, visitor));
-                                variables = ts1.append(variables, updatedVariable), expressions = ts1.append(expressions, expression), removeCommentsOnExpressions = !0;
-                            } else expressions = ts1.append(expressions, ts1.isBindingPattern(variable.name) ? ts1.flattenDestructuringAssignment(ts1.visitNode(variable, visitor), /*visitor*/ void 0, context, 0 /* All */ , /*needsValue*/ !1, createAllExportExpressions) : factory.createAssignment(ts1.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), /*location*/ variable.name), variable.initializer ? ts1.visitNode(variable.initializer, visitor) : factory.createVoidZero()));
+                            else if (variable.initializer) {
+                                if (!ts1.isBindingPattern(variable.name) && (ts1.isArrowFunction(variable.initializer) || ts1.isFunctionExpression(variable.initializer) || ts1.isClassExpression(variable.initializer))) {
+                                    var expression = factory.createAssignment(ts1.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), /*location*/ variable.name), factory.createIdentifier(ts1.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts1.visitNode(variable.initializer, visitor));
+                                    variables = ts1.append(variables, updatedVariable), expressions = ts1.append(expressions, expression), removeCommentsOnExpressions = !0;
+                                } else expressions = ts1.append(expressions, ts1.isBindingPattern(variable.name) ? ts1.flattenDestructuringAssignment(ts1.visitNode(variable, visitor), /*visitor*/ void 0, context, 0 /* All */ , /*needsValue*/ !1, createAllExportExpressions) : factory.createAssignment(ts1.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), /*location*/ variable.name), variable.initializer ? ts1.visitNode(variable.initializer, visitor) : factory.createVoidZero()));
+                            }
                         }
                         if (variables && (statements = ts1.append(statements, factory.updateVariableStatement(node, modifiers, factory.updateVariableDeclarationList(node.declarationList, variables)))), expressions) {
                             var statement = ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(factory.inlineExpressions(expressions)), node), node);

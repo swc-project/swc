@@ -151,8 +151,8 @@ export function foo(global, env, buffer) {
     }
     function Qb() {
         var b = 0, d = 0;
-        BC(8104, 8, 400) | 0;
-        BC(8504, 408, 540) | 0;
+        BC(8104, 8, 400);
+        BC(8504, 408, 540);
         b = 9044;
         d = b + 44 | 0;
         do {
@@ -164,7 +164,7 @@ export function foo(global, env, buffer) {
         c[2273] = 0;
         c[2274] = 948;
         c[2275] = 948;
-        Ha(17, 8104, o | 0) | 0;
+        Ha(17, 8104, o | 0);
         return;
     }
     function Rb(a) {
@@ -190,15 +190,12 @@ export function foo(global, env, buffer) {
                 case 2:
                 case 4:
                 case 5:
-                    {
-                        if (c[a + 52 >> 2] | 0) {
-                            a = a + 48 | 0;
-                            break a;
-                        }
-                        break;
+                    if (c[a + 52 >> 2] | 0) {
+                        a = a + 48 | 0;
+                        break a;
                     }
+                    break;
                 default:
-                    {}
             }
             if (!(c[a + 68 >> 2] | 0)) {
                 a = (b | 1) == 5 ? 948 : d;
@@ -217,7 +214,7 @@ export function foo(global, env, buffer) {
         d = oB(1e3) | 0;
         Vb(b, (d | 0) != 0, 2456);
         c[2276] = (c[2276] | 0) + 1;
-        BC(d | 0, 8104, 1e3) | 0;
+        BC(d | 0, 8104, 1e3);
         if (a[b + 2 >> 0] | 0) {
             c[d + 4 >> 2] = 2;
             c[d + 12 >> 2] = 4;
@@ -257,7 +254,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0;
-        BC(a | 0, b | 0, 948) | 0;
+        BC(a | 0, b | 0, 948);
         ie(a + 948 | 0, b + 948 | 0);
         d = a + 960 | 0;
         a = b + 960 | 0;
@@ -275,7 +272,7 @@ export function foo(global, env, buffer) {
         b = a + 944 | 0;
         d = c[b >> 2] | 0;
         if (d | 0) {
-            _b(d + 948 | 0, a) | 0;
+            _b(d + 948 | 0, a);
             c[b >> 2] = 0;
         }
         d = $b(a) | 0;
@@ -309,7 +306,7 @@ export function foo(global, env, buffer) {
             h = 4;
         } else {
             a = e;
-            while(1){
+            while(true){
                 if ((c[a >> 2] | 0) == (b | 0)) {
                     f = a;
                     h = 4;
@@ -323,21 +320,23 @@ export function foo(global, env, buffer) {
             }
         }
         while (0)
-        if ((h | 0) == 4) if ((f | 0) != (d | 0)) {
-            e = f + 4 | 0;
-            a = g - e | 0;
-            b = a >> 2;
-            if (b) {
-                GC(f | 0, e | 0, a | 0) | 0;
-                d = c[i >> 2] | 0;
-            }
-            a = f + (b << 2) | 0;
-            if ((d | 0) == (a | 0)) a = 1;
-            else {
-                c[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
-                a = 1;
-            }
-        } else a = 0;
+        if ((h | 0) == 4) {
+            if ((f | 0) != (d | 0)) {
+                e = f + 4 | 0;
+                a = g - e | 0;
+                b = a >> 2;
+                if (b) {
+                    GC(f | 0, e | 0, a | 0);
+                    d = c[i >> 2] | 0;
+                }
+                a = f + (b << 2) | 0;
+                if ((d | 0) == (a | 0)) a = 1;
+                else {
+                    c[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
+                    a = 1;
+                }
+            } else a = 0;
+        }
         return a | 0;
     }
     function $b(a) {
@@ -378,7 +377,7 @@ export function foo(global, env, buffer) {
         do if (k | 0) {
             if ((c[(ac(a, 0) | 0) + 944 >> 2] | 0) == (a | 0)) {
                 if (!(_b(a + 948 | 0, b) | 0)) break;
-                BC(b + 400 | 0, 8504, 540) | 0;
+                BC(b + 400 | 0, 8504, 540);
                 c[b + 944 >> 2] = 0;
                 nc(a);
                 break;
@@ -412,7 +411,7 @@ export function foo(global, env, buffer) {
                     b = f >> 2;
                     if (!b) f = d;
                     else {
-                        GC(g | 0, e | 0, f | 0) | 0;
+                        GC(g | 0, e | 0, f | 0);
                         d = c[i >> 2] | 0;
                         f = d;
                     }
@@ -441,7 +440,7 @@ export function foo(global, env, buffer) {
         bc(d);
         d = b + 976 | 0;
         e = c[d >> 2] | 0;
-        BC(b | 0, 8104, 1e3) | 0;
+        BC(b | 0, 8104, 1e3);
         if (a[e + 2 >> 0] | 0) {
             c[b + 4 >> 2] = 2;
             c[b + 12 >> 2] = 4;
@@ -531,7 +530,7 @@ export function foo(global, env, buffer) {
         b = a + 948 | 0;
         c[h >> 2] = (c[b >> 2] | 0) + (d << 2);
         c[g >> 2] = c[h >> 2];
-        mc(b, g, f) | 0;
+        mc(b, g, f);
         c[(c[f >> 2] | 0) + 944 >> 2] = a;
         nc(a);
         l = e;
@@ -638,7 +637,7 @@ export function foo(global, env, buffer) {
                 f = j - g | 0;
                 g = f >> 2;
                 if (g) {
-                    GC(i | 0, e | 0, f | 0) | 0;
+                    GC(i | 0, e | 0, f | 0);
                     e = c[k >> 2] | 0;
                 }
                 t = i + (g << 2) | 0;
@@ -699,7 +698,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         if (BB(a, b, 400) | 0) {
-            BC(a | 0, b | 0, 400) | 0;
+            BC(a | 0, b | 0, 400);
             nc(a);
         }
         return;
@@ -1412,17 +1411,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T(g[a + 424 + (b << 2) >> 2]);
     }
@@ -1432,17 +1426,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T(g[a + 448 + (b << 2) >> 2]);
     }
@@ -1452,17 +1441,12 @@ export function foo(global, env, buffer) {
         ec(a, (b | 0) < 6, 2918);
         switch(b | 0){
             case 0:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                break;
             case 2:
-                {
-                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                    break;
-                }
+                b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                break;
             default:
-                {}
         }
         return T(g[a + 472 + (b << 2) >> 2]);
     }
@@ -1670,7 +1654,7 @@ export function foo(global, env, buffer) {
             if (!s) w = 21;
             else {
                 r = 0;
-                while(1){
+                while(true){
                     q = b + 524 + (r * 24 | 0) | 0;
                     if (((Ld(T(g[q >> 2]), d) | 0 ? Ld(T(g[b + 524 + (r * 24 | 0) + 4 >> 2]), e) | 0 : 0) ? (c[b + 524 + (r * 24 | 0) + 8 >> 2] | 0) == (i | 0) : 0) ? (c[b + 524 + (r * 24 | 0) + 12 >> 2] | 0) == (j | 0) : 0) {
                         w = 22;
@@ -1695,7 +1679,7 @@ export function foo(global, env, buffer) {
                 if (!s) w = 21;
                 else {
                     r = 0;
-                    while(1){
+                    while(true){
                         q = b + 524 + (r * 24 | 0) | 0;
                         H = T(g[q >> 2]);
                         I = T(g[b + 524 + (r * 24 | 0) + 4 >> 2]);
@@ -1724,12 +1708,14 @@ export function foo(global, env, buffer) {
             }
         } else if ((w | 0) == 22) {
             r = (a[11697] | 0) != 0;
-            if (!((q | 0) != 0 & (F ^ 1))) if (r) {
-                w = 28;
-                break;
-            } else {
-                w = 31;
-                break;
+            if (!((q | 0) != 0 & (F ^ 1))) {
+                if (r) {
+                    w = 28;
+                    break;
+                } else {
+                    w = 31;
+                    break;
+                }
             }
             t = q + 16 | 0;
             c[b + 908 >> 2] = c[t >> 2];
@@ -1962,7 +1948,7 @@ export function foo(global, env, buffer) {
             a: do if ((D | 0) == 1) {
                 h = 0;
                 r = 0;
-                while(1){
+                while(true){
                     q = ac(b, r) | 0;
                     if (!h) {
                         if (T(Ee(q)) > T(0.0) ? T(Fe(q)) > T(0.0) : 0) h = q;
@@ -2036,7 +2022,7 @@ export function foo(global, env, buffer) {
             L = 0;
             oa = T(0.0);
             da = T(0.0);
-            while(1){
+            while(true){
                 b: do if (G >>> 0 < Ia >>> 0) {
                     C = c[Ha >> 2] | 0;
                     s = 0;
@@ -2047,7 +2033,7 @@ export function foo(global, env, buffer) {
                     r = 0;
                     q = 0;
                     t = G;
-                    while(1){
+                    while(true){
                         B = c[C + (t << 2) >> 2] | 0;
                         if ((c[B + 36 >> 2] | 0) != 1 ? (c[B + 940 >> 2] = L, (c[B + 24 >> 2] | 0) != 1) : 0) {
                             x = T(Ud(B, Ja, Ea));
@@ -2243,7 +2229,7 @@ export function foo(global, env, buffer) {
                             E = T(g[ea >> 2]);
                             Na = c[ha >> 2] | 0;
                             Oa = c[ga >> 2] | 0;
-                            Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p) | 0;
+                            Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p);
                             a[Y >> 0] = a[Y >> 0] | a[r + 508 >> 0];
                             r = c[r + 960 >> 2] | 0;
                         }while ((r | 0) != 0)
@@ -2275,61 +2261,48 @@ export function foo(global, env, buffer) {
                         f = T(0.0);
                     } else X = 101;
                 } else X = 101;
-                d: do if ((X | 0) == 101) {
+                d: if ((X | 0) == 101) {
                     X = 0;
                     switch(Z | 0){
                         case 1:
-                            {
-                                q = 0;
-                                x = T(v * T(0.5));
-                                f = T(0.0);
-                                break d;
-                            }
+                            q = 0;
+                            x = T(v * T(0.5));
+                            f = T(0.0);
+                            break d;
                         case 2:
-                            {
-                                q = 0;
-                                x = v;
-                                f = T(0.0);
-                                break d;
-                            }
+                            q = 0;
+                            x = v;
+                            f = T(0.0);
+                            break d;
                         case 3:
-                            {
-                                if (k >>> 0 <= 1) {
-                                    q = 0;
-                                    x = T(0.0);
-                                    f = T(0.0);
-                                    break d;
-                                }
-                                f = T((k + -1 | 0) >>> 0);
-                                q = 0;
-                                x = T(0.0);
-                                f = T(T(cC(v, T(0.0))) / f);
-                                break d;
-                            }
-                        case 5:
-                            {
-                                f = T(v / T((k + 1 | 0) >>> 0));
-                                q = 0;
-                                x = f;
-                                break d;
-                            }
-                        case 4:
-                            {
-                                f = T(v / T(k >>> 0));
-                                q = 0;
-                                x = T(f * T(0.5));
-                                break d;
-                            }
-                        default:
-                            {
+                            if (k >>> 0 <= 1) {
                                 q = 0;
                                 x = T(0.0);
                                 f = T(0.0);
                                 break d;
                             }
+                            f = T((k + -1 | 0) >>> 0);
+                            q = 0;
+                            x = T(0.0);
+                            f = T(T(cC(v, T(0.0))) / f);
+                            break d;
+                        case 5:
+                            f = T(v / T((k + 1 | 0) >>> 0));
+                            q = 0;
+                            x = f;
+                            break d;
+                        case 4:
+                            f = T(v / T(k >>> 0));
+                            q = 0;
+                            x = T(f * T(0.5));
+                            break d;
+                        default:
+                            q = 0;
+                            x = T(0.0);
+                            f = T(0.0);
+                            break d;
                     }
                 }
-                while (0)
                 e = T($ + x);
                 if (B) {
                     w = T(v / T(q | 0));
@@ -2341,42 +2314,37 @@ export function foo(global, env, buffer) {
                         e: do if ((c[q + 36 >> 2] | 0) != 1) {
                             switch(c[q + 24 >> 2] | 0){
                                 case 1:
-                                    {
-                                        if (Ne(q, Ja) | 0) {
-                                            if (!o) break e;
-                                            Ma = T(Oe(q, Ja, H));
-                                            Ma = T(Ma + T(se(b, Ja)));
-                                            Ma = T(Ma + T(me(q, Ja, Ea)));
-                                            g[q + 400 + (c[S >> 2] << 2) >> 2] = Ma;
-                                            break e;
-                                        }
-                                        break;
+                                    if (Ne(q, Ja) | 0) {
+                                        if (!o) break e;
+                                        Ma = T(Oe(q, Ja, H));
+                                        Ma = T(Ma + T(se(b, Ja)));
+                                        Ma = T(Ma + T(me(q, Ja, Ea)));
+                                        g[q + 400 + (c[S >> 2] << 2) >> 2] = Ma;
+                                        break e;
                                     }
+                                    break;
                                 case 0:
-                                    {
-                                        Oa = (c[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                        Ma = T(w + e);
-                                        e = Oa ? Ma : e;
-                                        if (o) {
-                                            Oa = q + 400 + (c[S >> 2] << 2) | 0;
-                                            g[Oa >> 2] = T(e + T(g[Oa >> 2]));
-                                        }
-                                        Oa = (c[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                        Ma = T(w + e);
-                                        e = Oa ? Ma : e;
-                                        if (M) {
-                                            Ma = T(f + T(Ud(q, Ja, Ea)));
-                                            v = qa;
-                                            e = T(e + T(Ma + T(g[q + 504 >> 2])));
-                                            break e;
-                                        } else {
-                                            e = T(e + T(f + T(Pe(q, Ja, Ea))));
-                                            v = T(cC(v, T(Pe(q, Ka, Ea))));
-                                            break e;
-                                        }
+                                    Oa = (c[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                    Ma = T(w + e);
+                                    e = Oa ? Ma : e;
+                                    if (o) {
+                                        Oa = q + 400 + (c[S >> 2] << 2) | 0;
+                                        g[Oa >> 2] = T(e + T(g[Oa >> 2]));
+                                    }
+                                    Oa = (c[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                    Ma = T(w + e);
+                                    e = Oa ? Ma : e;
+                                    if (M) {
+                                        Ma = T(f + T(Ud(q, Ja, Ea)));
+                                        v = qa;
+                                        e = T(e + T(Ma + T(g[q + 504 >> 2])));
+                                        break e;
+                                    } else {
+                                        e = T(e + T(f + T(Pe(q, Ja, Ea))));
+                                        v = T(cC(v, T(Pe(q, Ka, Ea))));
+                                        break e;
                                     }
                                 default:
-                                    {}
                             }
                             if (o) {
                                 Ma = T(x + T(se(b, Ja)));
@@ -2447,7 +2415,7 @@ export function foo(global, env, buffer) {
                                 Ma = Fa ? e : F;
                                 e = Fa ? F : e;
                                 Oa = ((Sb(Ma) | 0) ^ 1) & 1;
-                                Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p) | 0;
+                                Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p);
                                 e = u;
                             } else X = 139;
                             while (0)
@@ -2470,20 +2438,14 @@ export function foo(global, env, buffer) {
                                 }
                                 switch(q | 0){
                                     case 1:
-                                        {
-                                            e = u;
-                                            break f;
-                                        }
+                                        e = u;
+                                        break f;
                                     case 2:
-                                        {
-                                            e = T(u + T(e * T(0.5)));
-                                            break f;
-                                        }
+                                        e = T(u + T(e * T(0.5)));
+                                        break f;
                                     default:
-                                        {
-                                            e = T(u + e);
-                                            break f;
-                                        }
+                                        e = T(u + e);
+                                        break f;
                                 }
                             }
                             while (0)
@@ -2512,23 +2474,17 @@ export function foo(global, env, buffer) {
                     e = T(qa - oa);
                     g: do switch(c[b + 12 >> 2] | 0){
                         case 3:
-                            {
-                                u = T(u + e);
-                                z = T(0.0);
-                                break;
-                            }
+                            u = T(u + e);
+                            z = T(0.0);
+                            break;
                         case 2:
-                            {
-                                u = T(u + T(e * T(0.5)));
-                                z = T(0.0);
-                                break;
-                            }
+                            u = T(u + T(e * T(0.5)));
+                            z = T(0.0);
+                            break;
                         case 4:
-                            {
-                                if (qa > oa) z = T(e / T(k >>> 0));
-                                else z = T(0.0);
-                                break;
-                            }
+                            if (qa > oa) z = T(e / T(k >>> 0));
+                            else z = T(0.0);
+                            break;
                         case 7:
                             if (qa > oa) {
                                 u = T(u + T(e / T(k << 1 >>> 0)));
@@ -2541,11 +2497,9 @@ export function foo(global, env, buffer) {
                                 break g;
                             }
                         case 6:
-                            {
-                                z = T(e / T(L >>> 0));
-                                z = qa > oa & q ? z : T(0.0);
-                                break;
-                            }
+                            z = T(e / T(L >>> 0));
+                            z = qa > oa & q ? z : T(0.0);
+                            break;
                         default:
                             z = T(0.0);
                     }
@@ -2555,13 +2509,13 @@ export function foo(global, env, buffer) {
                         C = 976 + (Ka << 2) | 0;
                         t = 0;
                         r = 0;
-                        while(1){
+                        while(true){
                             h: do if (r >>> 0 < Ia >>> 0) {
                                 v = T(0.0);
                                 w = T(0.0);
                                 e = T(0.0);
                                 s = r;
-                                while(1){
+                                while(true){
                                     q = c[(c[Ha >> 2] | 0) + (s << 2) >> 2] | 0;
                                     do if ((c[q + 36 >> 2] | 0) != 1 ? (c[q + 24 >> 2] | 0) == 0 : 0) {
                                         if ((c[q + 940 >> 2] | 0) != (t | 0)) break h;
@@ -2602,53 +2556,42 @@ export function foo(global, env, buffer) {
                                 q = r;
                                 do {
                                     r = c[(c[Ha >> 2] | 0) + (q << 2) >> 2] | 0;
-                                    i: do if ((c[r + 36 >> 2] | 0) != 1 ? (c[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
+                                    i: if ((c[r + 36 >> 2] | 0) != 1 ? (c[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
                                         case 1:
-                                            {
-                                                Ma = T(f + T(me(r, Ka, Ea)));
-                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T(f + T(me(r, Ka, Ea)));
+                                            g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 3:
-                                            {
-                                                Ma = T(T(u - T(ne(r, Ka, Ea))) - T(g[r + 908 + (c[C >> 2] << 2) >> 2]));
-                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T(T(u - T(ne(r, Ka, Ea))) - T(g[r + 908 + (c[C >> 2] << 2) >> 2]));
+                                            g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 2:
-                                            {
-                                                Ma = T(f + T(T(y - T(g[r + 908 + (c[C >> 2] << 2) >> 2])) * T(0.5)));
-                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                break i;
-                                            }
+                                            Ma = T(f + T(T(y - T(g[r + 908 + (c[C >> 2] << 2) >> 2])) * T(0.5)));
+                                            g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                            break i;
                                         case 4:
-                                            {
-                                                Ma = T(f + T(me(r, Ka, Ea)));
-                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                if (ae(r, Ka, qa) | 0) break i;
-                                                if (Fa) {
-                                                    v = T(g[r + 908 >> 2]);
-                                                    e = T(v + T(Ud(r, Ja, Ea)));
-                                                    w = y;
-                                                } else {
-                                                    w = T(g[r + 912 >> 2]);
-                                                    w = T(w + T(Ud(r, Ka, Ea)));
-                                                    e = y;
-                                                    v = T(g[r + 908 >> 2]);
-                                                }
-                                                if (Ld(e, v) | 0 ? Ld(w, T(g[r + 912 >> 2])) | 0 : 0) break i;
-                                                Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p) | 0;
-                                                break i;
+                                            Ma = T(f + T(me(r, Ka, Ea)));
+                                            g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                            if (ae(r, Ka, qa) | 0) break i;
+                                            if (Fa) {
+                                                v = T(g[r + 908 >> 2]);
+                                                e = T(v + T(Ud(r, Ja, Ea)));
+                                                w = y;
+                                            } else {
+                                                w = T(g[r + 912 >> 2]);
+                                                w = T(w + T(Ud(r, Ka, Ea)));
+                                                e = y;
+                                                v = T(g[r + 908 >> 2]);
                                             }
+                                            if (Ld(e, v) | 0 ? Ld(w, T(g[r + 912 >> 2])) | 0 : 0) break i;
+                                            Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p);
+                                            break i;
                                         case 5:
-                                            {
-                                                g[r + 404 >> 2] = T(T(x - T(Se(r))) + T(Oe(r, 0, qa)));
-                                                break i;
-                                            }
+                                            g[r + 404 >> 2] = T(T(x - T(Se(r))) + T(Oe(r, 0, qa)));
+                                            break i;
                                         default:
                                             break i;
                                     }
-                                    while (0)
                                     q = q + 1 | 0;
                                 }while ((q | 0) != (s | 0))
                             }
@@ -2798,22 +2741,16 @@ export function foo(global, env, buffer) {
         switch(c[a + 4 >> 2] | 0){
             case 0:
             case 3:
-                {
-                    a = 0;
-                    break;
-                }
+                a = 0;
+                break;
             case 1:
-                {
-                    if (T(g[a >> 2]) < T(0.0)) a = 0;
-                    else e = 5;
-                    break;
-                }
+                if (T(g[a >> 2]) < T(0.0)) a = 0;
+                else e = 5;
+                break;
             case 2:
-                {
-                    if (T(g[a >> 2]) < T(0.0)) a = 0;
-                    else a = (Sb(d) | 0) ^ 1;
-                    break;
-                }
+                if (T(g[a >> 2]) < T(0.0)) a = 0;
+                else a = (Sb(d) | 0) ^ 1;
+                break;
             default:
                 e = 5;
         }
@@ -2825,15 +2762,11 @@ export function foo(global, env, buffer) {
         b = T(b);
         switch(c[a + 4 >> 2] | 0){
             case 2:
-                {
-                    b = T(T(T(g[a >> 2]) * b) / T(100.0));
-                    break;
-                }
+                b = T(T(T(g[a >> 2]) * b) / T(100.0));
+                break;
             case 1:
-                {
-                    b = T(g[a >> 2]);
-                    break;
-                }
+                b = T(g[a >> 2]);
+                break;
             default:
                 b = T(t);
         }
@@ -2913,10 +2846,8 @@ export function foo(global, env, buffer) {
         switch(d | 0){
             case 5:
             case 0:
-                {
-                    a = CB(c[489] | 0, e, f) | 0;
-                    break;
-                }
+                a = CB(c[489] | 0, e, f) | 0;
+                break;
             default:
                 a = iC(e, f) | 0;
         }
@@ -2943,7 +2874,7 @@ export function foo(global, env, buffer) {
         e = e | 0;
         f = f | 0;
         a = a | 0 ? a : 956;
-        Bb[c[a + 8 >> 2] & 1](a, b, d, e, f) | 0;
+        Bb[c[a + 8 >> 2] & 1](a, b, d, e, f);
         if ((d | 0) == 5) Ta();
         else return;
     }
@@ -2991,7 +2922,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c[e >> 2] | 0, b | 0, a | 0);
             c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -3040,17 +2971,13 @@ export function foo(global, env, buffer) {
         a: do if ((b | 0) == 2) {
             switch(a | 0){
                 case 2:
-                    {
-                        a = 3;
-                        break a;
-                    }
+                    a = 3;
+                    break a;
                 case 3:
                     break;
                 default:
-                    {
-                        c = 4;
-                        break a;
-                    }
+                    c = 4;
+                    break a;
             }
             a = 2;
         } else c = 4;
@@ -3238,7 +3165,7 @@ export function foo(global, env, buffer) {
     function Ge(b) {
         b = b | 0;
         var d = 0, e = 0;
-        yC(b + 400 | 0, 0, 540) | 0;
+        yC(b + 400 | 0, 0, 540);
         a[b + 985 >> 0] = 1;
         lc(b);
         e = $b(b) | 0;
@@ -3368,7 +3295,7 @@ export function foo(global, env, buffer) {
             Me(b, 0, i, h, D, B);
             d = T(g[A >> 2]);
             f = T(g[B >> 2]);
-            Td(b, d, f, k, c[C >> 2] | 0, c[D >> 2] | 0, h, i, 0, 3565, m) | 0;
+            Td(b, d, f, k, c[C >> 2] | 0, c[D >> 2] | 0, h, i, 0, 3565, m);
             i = T(g[b + 908 + (c[976 + (F << 2) >> 2] << 2) >> 2]);
             g[b + 504 >> 2] = T(cC(i, T(Ce(b, F, h))));
         }
@@ -3420,22 +3347,17 @@ export function foo(global, env, buffer) {
         switch(c[f >> 2] | 0){
             case 2:
             case 1:
-                {
-                    f = Sb(d) | 0;
-                    e = T(g[h >> 2]);
-                    g[h >> 2] = f | e < d ? e : d;
-                    break;
-                }
+                f = Sb(d) | 0;
+                e = T(g[h >> 2]);
+                g[h >> 2] = f | e < d ? e : d;
+                break;
             case 0:
-                {
-                    if (!(Sb(d) | 0)) {
-                        c[f >> 2] = 2;
-                        g[h >> 2] = d;
-                    }
-                    break;
+                if (!(Sb(d) | 0)) {
+                    c[f >> 2] = 2;
+                    g[h >> 2] = d;
                 }
+                break;
             default:
-                {}
         }
         return;
     }
@@ -3480,7 +3402,7 @@ export function foo(global, env, buffer) {
                 if (!d) b = 0;
                 else {
                     b = 0;
-                    while(1){
+                    while(true){
                         e = ac(a, b) | 0;
                         if ((c[e + 24 >> 2] | 0) == 0 ? (c[e + 20 >> 2] | 0) == 5 : 0) {
                             b = 1;
@@ -3514,7 +3436,7 @@ export function foo(global, env, buffer) {
             do if (h | 0) {
                 d = 0;
                 f = 0;
-                while(1){
+                while(true){
                     e = ac(a, f) | 0;
                     if (c[e + 940 >> 2] | 0) {
                         i = 8;
@@ -3610,13 +3532,15 @@ export function foo(global, env, buffer) {
         } else k = T(o + T(be(c[b + 996 >> 2] | 0, f)));
         l = Sb(j) | 0;
         m = Sb(k) | 0;
-        do if (l ^ m ? (p = T(g[b + 396 >> 2]), !(Sb(p) | 0)) : 0) if (l) {
-            j = T(n + T(T(k - o) * p));
-            break;
-        } else {
-            v = T(o + T(T(j - n) / p));
-            k = m ? v : k;
-            break;
+        do if (l ^ m ? (p = T(g[b + 396 >> 2]), !(Sb(p) | 0)) : 0) {
+            if (l) {
+                j = T(n + T(T(k - o) * p));
+                break;
+            } else {
+                v = T(o + T(T(j - n) / p));
+                k = m ? v : k;
+                break;
+            }
         }
         while (0)
         m = Sb(j) | 0;
@@ -3625,13 +3549,13 @@ export function foo(global, env, buffer) {
             w = (m ^ 1) & 1;
             e = d > T(0.0) & ((e | 0) != 0 & m);
             j = r ? j : e ? d : j;
-            Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i) | 0;
+            Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i);
             j = T(g[b + 908 >> 2]);
             j = T(j + T(Ud(b, 2, d)));
             k = T(g[b + 912 >> 2]);
             k = T(k + T(Ud(b, 0, d)));
         }
-        Td(b, j, k, h, 1, 1, j, k, 1, 3635, i) | 0;
+        Td(b, j, k, h, 1, 1, j, k, 1, 3635, i);
         if (Ze(b, s) | 0 ? !(Ne(b, s) | 0) : 0) {
             w = c[976 + (s << 2) >> 2] | 0;
             v = T(g[a + 908 + (w << 2) >> 2]);
@@ -3707,12 +3631,10 @@ export function foo(global, env, buffer) {
         switch(c[b + 56 >> 2] | 0){
             case 0:
             case 3:
-                {
-                    d = T(g[b + 40 >> 2]);
-                    if (d > T(0.0) & ((Sb(d) | 0) ^ 1)) b = a[(c[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
-                    else b = 1056;
-                    break;
-                }
+                d = T(g[b + 40 >> 2]);
+                if (d > T(0.0) & ((Sb(d) | 0) ^ 1)) b = a[(c[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
+                else b = 1056;
+                break;
             default:
                 b = b + 52 | 0;
         }
@@ -3792,7 +3714,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -3842,7 +3764,7 @@ export function foo(global, env, buffer) {
                 c[h >> 2] = e;
             }while (a >>> 0 < d >>> 0)
         }
-        if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0) | 0;
+        if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0);
         return;
     }
     function ff(a, b, d) {
@@ -3857,12 +3779,12 @@ export function foo(global, env, buffer) {
         g = h - f | 0;
         e = j + (0 - (g >> 2) << 2) | 0;
         c[i >> 2] = e;
-        if ((g | 0) > 0) BC(e | 0, f | 0, g | 0) | 0;
+        if ((g | 0) > 0) BC(e | 0, f | 0, g | 0);
         f = a + 4 | 0;
         g = b + 8 | 0;
         e = (c[f >> 2] | 0) - h | 0;
         if ((e | 0) > 0) {
-            BC(c[g >> 2] | 0, d | 0, e | 0) | 0;
+            BC(c[g >> 2] | 0, d | 0, e | 0);
             c[g >> 2] = (c[g >> 2] | 0) + (e >>> 2 << 2);
         }
         h = c[a >> 2] | 0;
@@ -4609,7 +4531,7 @@ export function foo(global, env, buffer) {
             c[a + 12 >> 2] = c[b + 12 >> 2];
         } else {
             Zg(d, 0);
-            Ja(e | 0, d | 0) | 0;
+            Ja(e | 0, d | 0);
             _g(a, d);
             $g(d);
         }
@@ -4883,419 +4805,419 @@ export function foo(global, env, buffer) {
         f = b + 8 | 0;
         e = b;
         Eh(a, 3646);
-        Fh(a, 3651, 2) | 0;
-        Gh(a, 3665, 2) | 0;
-        Hh(a, 3682, 18) | 0;
+        Fh(a, 3651, 2);
+        Gh(a, 3665, 2);
+        Hh(a, 3682, 18);
         c[Ga >> 2] = 19;
         c[Ga + 4 >> 2] = 0;
         c[d >> 2] = c[Ga >> 2];
         c[d + 4 >> 2] = c[Ga + 4 >> 2];
-        Ih(a, 3690, d) | 0;
+        Ih(a, 3690, d);
         c[Fa >> 2] = 1;
         c[Fa + 4 >> 2] = 0;
         c[d >> 2] = c[Fa >> 2];
         c[d + 4 >> 2] = c[Fa + 4 >> 2];
-        Jh(a, 3696, d) | 0;
+        Jh(a, 3696, d);
         c[Ea >> 2] = 2;
         c[Ea + 4 >> 2] = 0;
         c[d >> 2] = c[Ea >> 2];
         c[d + 4 >> 2] = c[Ea + 4 >> 2];
-        Kh(a, 3706, d) | 0;
+        Kh(a, 3706, d);
         c[Da >> 2] = 1;
         c[Da + 4 >> 2] = 0;
         c[d >> 2] = c[Da >> 2];
         c[d + 4 >> 2] = c[Da + 4 >> 2];
-        Lh(a, 3722, d) | 0;
+        Lh(a, 3722, d);
         c[Ca >> 2] = 2;
         c[Ca + 4 >> 2] = 0;
         c[d >> 2] = c[Ca >> 2];
         c[d + 4 >> 2] = c[Ca + 4 >> 2];
-        Lh(a, 3734, d) | 0;
+        Lh(a, 3734, d);
         c[Ba >> 2] = 3;
         c[Ba + 4 >> 2] = 0;
         c[d >> 2] = c[Ba >> 2];
         c[d + 4 >> 2] = c[Ba + 4 >> 2];
-        Kh(a, 3753, d) | 0;
+        Kh(a, 3753, d);
         c[Aa >> 2] = 4;
         c[Aa + 4 >> 2] = 0;
         c[d >> 2] = c[Aa >> 2];
         c[d + 4 >> 2] = c[Aa + 4 >> 2];
-        Kh(a, 3769, d) | 0;
+        Kh(a, 3769, d);
         c[za >> 2] = 5;
         c[za + 4 >> 2] = 0;
         c[d >> 2] = c[za >> 2];
         c[d + 4 >> 2] = c[za + 4 >> 2];
-        Kh(a, 3783, d) | 0;
+        Kh(a, 3783, d);
         c[ya >> 2] = 6;
         c[ya + 4 >> 2] = 0;
         c[d >> 2] = c[ya >> 2];
         c[d + 4 >> 2] = c[ya + 4 >> 2];
-        Kh(a, 3796, d) | 0;
+        Kh(a, 3796, d);
         c[xa >> 2] = 7;
         c[xa + 4 >> 2] = 0;
         c[d >> 2] = c[xa >> 2];
         c[d + 4 >> 2] = c[xa + 4 >> 2];
-        Kh(a, 3813, d) | 0;
+        Kh(a, 3813, d);
         c[wa >> 2] = 8;
         c[wa + 4 >> 2] = 0;
         c[d >> 2] = c[wa >> 2];
         c[d + 4 >> 2] = c[wa + 4 >> 2];
-        Kh(a, 3825, d) | 0;
+        Kh(a, 3825, d);
         c[va >> 2] = 3;
         c[va + 4 >> 2] = 0;
         c[d >> 2] = c[va >> 2];
         c[d + 4 >> 2] = c[va + 4 >> 2];
-        Lh(a, 3843, d) | 0;
+        Lh(a, 3843, d);
         c[ua >> 2] = 4;
         c[ua + 4 >> 2] = 0;
         c[d >> 2] = c[ua >> 2];
         c[d + 4 >> 2] = c[ua + 4 >> 2];
-        Lh(a, 3853, d) | 0;
+        Lh(a, 3853, d);
         c[ta >> 2] = 9;
         c[ta + 4 >> 2] = 0;
         c[d >> 2] = c[ta >> 2];
         c[d + 4 >> 2] = c[ta + 4 >> 2];
-        Kh(a, 3870, d) | 0;
+        Kh(a, 3870, d);
         c[sa >> 2] = 10;
         c[sa + 4 >> 2] = 0;
         c[d >> 2] = c[sa >> 2];
         c[d + 4 >> 2] = c[sa + 4 >> 2];
-        Kh(a, 3884, d) | 0;
+        Kh(a, 3884, d);
         c[ra >> 2] = 11;
         c[ra + 4 >> 2] = 0;
         c[d >> 2] = c[ra >> 2];
         c[d + 4 >> 2] = c[ra + 4 >> 2];
-        Kh(a, 3896, d) | 0;
+        Kh(a, 3896, d);
         c[qa >> 2] = 1;
         c[qa + 4 >> 2] = 0;
         c[d >> 2] = c[qa >> 2];
         c[d + 4 >> 2] = c[qa + 4 >> 2];
-        Mh(a, 3907, d) | 0;
+        Mh(a, 3907, d);
         c[pa >> 2] = 2;
         c[pa + 4 >> 2] = 0;
         c[d >> 2] = c[pa >> 2];
         c[d + 4 >> 2] = c[pa + 4 >> 2];
-        Mh(a, 3915, d) | 0;
+        Mh(a, 3915, d);
         c[oa >> 2] = 3;
         c[oa + 4 >> 2] = 0;
         c[d >> 2] = c[oa >> 2];
         c[d + 4 >> 2] = c[oa + 4 >> 2];
-        Mh(a, 3928, d) | 0;
+        Mh(a, 3928, d);
         c[na >> 2] = 4;
         c[na + 4 >> 2] = 0;
         c[d >> 2] = c[na >> 2];
         c[d + 4 >> 2] = c[na + 4 >> 2];
-        Mh(a, 3948, d) | 0;
+        Mh(a, 3948, d);
         c[ma >> 2] = 5;
         c[ma + 4 >> 2] = 0;
         c[d >> 2] = c[ma >> 2];
         c[d + 4 >> 2] = c[ma + 4 >> 2];
-        Mh(a, 3960, d) | 0;
+        Mh(a, 3960, d);
         c[la >> 2] = 6;
         c[la + 4 >> 2] = 0;
         c[d >> 2] = c[la >> 2];
         c[d + 4 >> 2] = c[la + 4 >> 2];
-        Mh(a, 3974, d) | 0;
+        Mh(a, 3974, d);
         c[ka >> 2] = 7;
         c[ka + 4 >> 2] = 0;
         c[d >> 2] = c[ka >> 2];
         c[d + 4 >> 2] = c[ka + 4 >> 2];
-        Mh(a, 3983, d) | 0;
+        Mh(a, 3983, d);
         c[ja >> 2] = 20;
         c[ja + 4 >> 2] = 0;
         c[d >> 2] = c[ja >> 2];
         c[d + 4 >> 2] = c[ja + 4 >> 2];
-        Ih(a, 3999, d) | 0;
+        Ih(a, 3999, d);
         c[ia >> 2] = 8;
         c[ia + 4 >> 2] = 0;
         c[d >> 2] = c[ia >> 2];
         c[d + 4 >> 2] = c[ia + 4 >> 2];
-        Mh(a, 4012, d) | 0;
+        Mh(a, 4012, d);
         c[ha >> 2] = 9;
         c[ha + 4 >> 2] = 0;
         c[d >> 2] = c[ha >> 2];
         c[d + 4 >> 2] = c[ha + 4 >> 2];
-        Mh(a, 4022, d) | 0;
+        Mh(a, 4022, d);
         c[ga >> 2] = 21;
         c[ga + 4 >> 2] = 0;
         c[d >> 2] = c[ga >> 2];
         c[d + 4 >> 2] = c[ga + 4 >> 2];
-        Ih(a, 4039, d) | 0;
+        Ih(a, 4039, d);
         c[fa >> 2] = 10;
         c[fa + 4 >> 2] = 0;
         c[d >> 2] = c[fa >> 2];
         c[d + 4 >> 2] = c[fa + 4 >> 2];
-        Mh(a, 4053, d) | 0;
+        Mh(a, 4053, d);
         c[ea >> 2] = 11;
         c[ea + 4 >> 2] = 0;
         c[d >> 2] = c[ea >> 2];
         c[d + 4 >> 2] = c[ea + 4 >> 2];
-        Mh(a, 4065, d) | 0;
+        Mh(a, 4065, d);
         c[da >> 2] = 12;
         c[da + 4 >> 2] = 0;
         c[d >> 2] = c[da >> 2];
         c[d + 4 >> 2] = c[da + 4 >> 2];
-        Mh(a, 4084, d) | 0;
+        Mh(a, 4084, d);
         c[ca >> 2] = 13;
         c[ca + 4 >> 2] = 0;
         c[d >> 2] = c[ca >> 2];
         c[d + 4 >> 2] = c[ca + 4 >> 2];
-        Mh(a, 4097, d) | 0;
+        Mh(a, 4097, d);
         c[ba >> 2] = 14;
         c[ba + 4 >> 2] = 0;
         c[d >> 2] = c[ba >> 2];
         c[d + 4 >> 2] = c[ba + 4 >> 2];
-        Mh(a, 4117, d) | 0;
+        Mh(a, 4117, d);
         c[aa >> 2] = 15;
         c[aa + 4 >> 2] = 0;
         c[d >> 2] = c[aa >> 2];
         c[d + 4 >> 2] = c[aa + 4 >> 2];
-        Mh(a, 4129, d) | 0;
+        Mh(a, 4129, d);
         c[$ >> 2] = 16;
         c[$ + 4 >> 2] = 0;
         c[d >> 2] = c[$ >> 2];
         c[d + 4 >> 2] = c[$ + 4 >> 2];
-        Mh(a, 4148, d) | 0;
+        Mh(a, 4148, d);
         c[_ >> 2] = 17;
         c[_ + 4 >> 2] = 0;
         c[d >> 2] = c[_ >> 2];
         c[d + 4 >> 2] = c[_ + 4 >> 2];
-        Mh(a, 4161, d) | 0;
+        Mh(a, 4161, d);
         c[Z >> 2] = 18;
         c[Z + 4 >> 2] = 0;
         c[d >> 2] = c[Z >> 2];
         c[d + 4 >> 2] = c[Z + 4 >> 2];
-        Mh(a, 4181, d) | 0;
+        Mh(a, 4181, d);
         c[Y >> 2] = 5;
         c[Y + 4 >> 2] = 0;
         c[d >> 2] = c[Y >> 2];
         c[d + 4 >> 2] = c[Y + 4 >> 2];
-        Lh(a, 4196, d) | 0;
+        Lh(a, 4196, d);
         c[X >> 2] = 6;
         c[X + 4 >> 2] = 0;
         c[d >> 2] = c[X >> 2];
         c[d + 4 >> 2] = c[X + 4 >> 2];
-        Lh(a, 4206, d) | 0;
+        Lh(a, 4206, d);
         c[W >> 2] = 7;
         c[W + 4 >> 2] = 0;
         c[d >> 2] = c[W >> 2];
         c[d + 4 >> 2] = c[W + 4 >> 2];
-        Lh(a, 4217, d) | 0;
+        Lh(a, 4217, d);
         c[V >> 2] = 3;
         c[V + 4 >> 2] = 0;
         c[d >> 2] = c[V >> 2];
         c[d + 4 >> 2] = c[V + 4 >> 2];
-        Nh(a, 4235, d) | 0;
+        Nh(a, 4235, d);
         c[U >> 2] = 1;
         c[U + 4 >> 2] = 0;
         c[d >> 2] = c[U >> 2];
         c[d + 4 >> 2] = c[U + 4 >> 2];
-        Oh(a, 4251, d) | 0;
+        Oh(a, 4251, d);
         c[T >> 2] = 4;
         c[T + 4 >> 2] = 0;
         c[d >> 2] = c[T >> 2];
         c[d + 4 >> 2] = c[T + 4 >> 2];
-        Nh(a, 4263, d) | 0;
+        Nh(a, 4263, d);
         c[S >> 2] = 5;
         c[S + 4 >> 2] = 0;
         c[d >> 2] = c[S >> 2];
         c[d + 4 >> 2] = c[S + 4 >> 2];
-        Nh(a, 4279, d) | 0;
+        Nh(a, 4279, d);
         c[R >> 2] = 6;
         c[R + 4 >> 2] = 0;
         c[d >> 2] = c[R >> 2];
         c[d + 4 >> 2] = c[R + 4 >> 2];
-        Nh(a, 4293, d) | 0;
+        Nh(a, 4293, d);
         c[Q >> 2] = 7;
         c[Q + 4 >> 2] = 0;
         c[d >> 2] = c[Q >> 2];
         c[d + 4 >> 2] = c[Q + 4 >> 2];
-        Nh(a, 4306, d) | 0;
+        Nh(a, 4306, d);
         c[P >> 2] = 8;
         c[P + 4 >> 2] = 0;
         c[d >> 2] = c[P >> 2];
         c[d + 4 >> 2] = c[P + 4 >> 2];
-        Nh(a, 4323, d) | 0;
+        Nh(a, 4323, d);
         c[O >> 2] = 9;
         c[O + 4 >> 2] = 0;
         c[d >> 2] = c[O >> 2];
         c[d + 4 >> 2] = c[O + 4 >> 2];
-        Nh(a, 4335, d) | 0;
+        Nh(a, 4335, d);
         c[N >> 2] = 2;
         c[N + 4 >> 2] = 0;
         c[d >> 2] = c[N >> 2];
         c[d + 4 >> 2] = c[N + 4 >> 2];
-        Oh(a, 4353, d) | 0;
+        Oh(a, 4353, d);
         c[M >> 2] = 12;
         c[M + 4 >> 2] = 0;
         c[d >> 2] = c[M >> 2];
         c[d + 4 >> 2] = c[M + 4 >> 2];
-        Ph(a, 4363, d) | 0;
+        Ph(a, 4363, d);
         c[L >> 2] = 1;
         c[L + 4 >> 2] = 0;
         c[d >> 2] = c[L >> 2];
         c[d + 4 >> 2] = c[L + 4 >> 2];
-        Qh(a, 4376, d) | 0;
+        Qh(a, 4376, d);
         c[K >> 2] = 2;
         c[K + 4 >> 2] = 0;
         c[d >> 2] = c[K >> 2];
         c[d + 4 >> 2] = c[K + 4 >> 2];
-        Qh(a, 4388, d) | 0;
+        Qh(a, 4388, d);
         c[J >> 2] = 13;
         c[J + 4 >> 2] = 0;
         c[d >> 2] = c[J >> 2];
         c[d + 4 >> 2] = c[J + 4 >> 2];
-        Ph(a, 4402, d) | 0;
+        Ph(a, 4402, d);
         c[I >> 2] = 14;
         c[I + 4 >> 2] = 0;
         c[d >> 2] = c[I >> 2];
         c[d + 4 >> 2] = c[I + 4 >> 2];
-        Ph(a, 4411, d) | 0;
+        Ph(a, 4411, d);
         c[H >> 2] = 15;
         c[H + 4 >> 2] = 0;
         c[d >> 2] = c[H >> 2];
         c[d + 4 >> 2] = c[H + 4 >> 2];
-        Ph(a, 4421, d) | 0;
+        Ph(a, 4421, d);
         c[G >> 2] = 16;
         c[G + 4 >> 2] = 0;
         c[d >> 2] = c[G >> 2];
         c[d + 4 >> 2] = c[G + 4 >> 2];
-        Ph(a, 4433, d) | 0;
+        Ph(a, 4433, d);
         c[F >> 2] = 17;
         c[F + 4 >> 2] = 0;
         c[d >> 2] = c[F >> 2];
         c[d + 4 >> 2] = c[F + 4 >> 2];
-        Ph(a, 4446, d) | 0;
+        Ph(a, 4446, d);
         c[E >> 2] = 18;
         c[E + 4 >> 2] = 0;
         c[d >> 2] = c[E >> 2];
         c[d + 4 >> 2] = c[E + 4 >> 2];
-        Ph(a, 4458, d) | 0;
+        Ph(a, 4458, d);
         c[D >> 2] = 3;
         c[D + 4 >> 2] = 0;
         c[d >> 2] = c[D >> 2];
         c[d + 4 >> 2] = c[D + 4 >> 2];
-        Qh(a, 4471, d) | 0;
+        Qh(a, 4471, d);
         c[C >> 2] = 1;
         c[C + 4 >> 2] = 0;
         c[d >> 2] = c[C >> 2];
         c[d + 4 >> 2] = c[C + 4 >> 2];
-        Rh(a, 4486, d) | 0;
+        Rh(a, 4486, d);
         c[B >> 2] = 10;
         c[B + 4 >> 2] = 0;
         c[d >> 2] = c[B >> 2];
         c[d + 4 >> 2] = c[B + 4 >> 2];
-        Nh(a, 4496, d) | 0;
+        Nh(a, 4496, d);
         c[A >> 2] = 11;
         c[A + 4 >> 2] = 0;
         c[d >> 2] = c[A >> 2];
         c[d + 4 >> 2] = c[A + 4 >> 2];
-        Nh(a, 4508, d) | 0;
+        Nh(a, 4508, d);
         c[z >> 2] = 3;
         c[z + 4 >> 2] = 0;
         c[d >> 2] = c[z >> 2];
         c[d + 4 >> 2] = c[z + 4 >> 2];
-        Oh(a, 4519, d) | 0;
+        Oh(a, 4519, d);
         c[y >> 2] = 4;
         c[y + 4 >> 2] = 0;
         c[d >> 2] = c[y >> 2];
         c[d + 4 >> 2] = c[y + 4 >> 2];
-        Sh(a, 4530, d) | 0;
+        Sh(a, 4530, d);
         c[x >> 2] = 19;
         c[x + 4 >> 2] = 0;
         c[d >> 2] = c[x >> 2];
         c[d + 4 >> 2] = c[x + 4 >> 2];
-        Th(a, 4542, d) | 0;
+        Th(a, 4542, d);
         c[w >> 2] = 12;
         c[w + 4 >> 2] = 0;
         c[d >> 2] = c[w >> 2];
         c[d + 4 >> 2] = c[w + 4 >> 2];
-        Uh(a, 4554, d) | 0;
+        Uh(a, 4554, d);
         c[v >> 2] = 13;
         c[v + 4 >> 2] = 0;
         c[d >> 2] = c[v >> 2];
         c[d + 4 >> 2] = c[v + 4 >> 2];
-        Vh(a, 4568, d) | 0;
+        Vh(a, 4568, d);
         c[u >> 2] = 2;
         c[u + 4 >> 2] = 0;
         c[d >> 2] = c[u >> 2];
         c[d + 4 >> 2] = c[u + 4 >> 2];
-        Wh(a, 4578, d) | 0;
+        Wh(a, 4578, d);
         c[t >> 2] = 20;
         c[t + 4 >> 2] = 0;
         c[d >> 2] = c[t >> 2];
         c[d + 4 >> 2] = c[t + 4 >> 2];
-        Xh(a, 4587, d) | 0;
+        Xh(a, 4587, d);
         c[s >> 2] = 22;
         c[s + 4 >> 2] = 0;
         c[d >> 2] = c[s >> 2];
         c[d + 4 >> 2] = c[s + 4 >> 2];
-        Ih(a, 4602, d) | 0;
+        Ih(a, 4602, d);
         c[r >> 2] = 23;
         c[r + 4 >> 2] = 0;
         c[d >> 2] = c[r >> 2];
         c[d + 4 >> 2] = c[r + 4 >> 2];
-        Ih(a, 4619, d) | 0;
+        Ih(a, 4619, d);
         c[q >> 2] = 14;
         c[q + 4 >> 2] = 0;
         c[d >> 2] = c[q >> 2];
         c[d + 4 >> 2] = c[q + 4 >> 2];
-        Yh(a, 4629, d) | 0;
+        Yh(a, 4629, d);
         c[p >> 2] = 1;
         c[p + 4 >> 2] = 0;
         c[d >> 2] = c[p >> 2];
         c[d + 4 >> 2] = c[p + 4 >> 2];
-        Zh(a, 4637, d) | 0;
+        Zh(a, 4637, d);
         c[o >> 2] = 4;
         c[o + 4 >> 2] = 0;
         c[d >> 2] = c[o >> 2];
         c[d + 4 >> 2] = c[o + 4 >> 2];
-        Qh(a, 4653, d) | 0;
+        Qh(a, 4653, d);
         c[n >> 2] = 5;
         c[n + 4 >> 2] = 0;
         c[d >> 2] = c[n >> 2];
         c[d + 4 >> 2] = c[n + 4 >> 2];
-        Qh(a, 4669, d) | 0;
+        Qh(a, 4669, d);
         c[m >> 2] = 6;
         c[m + 4 >> 2] = 0;
         c[d >> 2] = c[m >> 2];
         c[d + 4 >> 2] = c[m + 4 >> 2];
-        Qh(a, 4686, d) | 0;
+        Qh(a, 4686, d);
         c[k >> 2] = 7;
         c[k + 4 >> 2] = 0;
         c[d >> 2] = c[k >> 2];
         c[d + 4 >> 2] = c[k + 4 >> 2];
-        Qh(a, 4701, d) | 0;
+        Qh(a, 4701, d);
         c[j >> 2] = 8;
         c[j + 4 >> 2] = 0;
         c[d >> 2] = c[j >> 2];
         c[d + 4 >> 2] = c[j + 4 >> 2];
-        Qh(a, 4719, d) | 0;
+        Qh(a, 4719, d);
         c[i >> 2] = 9;
         c[i + 4 >> 2] = 0;
         c[d >> 2] = c[i >> 2];
         c[d + 4 >> 2] = c[i + 4 >> 2];
-        Qh(a, 4736, d) | 0;
+        Qh(a, 4736, d);
         c[h >> 2] = 21;
         c[h + 4 >> 2] = 0;
         c[d >> 2] = c[h >> 2];
         c[d + 4 >> 2] = c[h + 4 >> 2];
-        _h(a, 4754, d) | 0;
+        _h(a, 4754, d);
         c[g >> 2] = 2;
         c[g + 4 >> 2] = 0;
         c[d >> 2] = c[g >> 2];
         c[d + 4 >> 2] = c[g + 4 >> 2];
-        Rh(a, 4772, d) | 0;
+        Rh(a, 4772, d);
         c[f >> 2] = 3;
         c[f + 4 >> 2] = 0;
         c[d >> 2] = c[f >> 2];
         c[d + 4 >> 2] = c[f + 4 >> 2];
-        Rh(a, 4790, d) | 0;
+        Rh(a, 4790, d);
         c[e >> 2] = 4;
         c[e + 4 >> 2] = 0;
         c[d >> 2] = c[e >> 2];
         c[d + 4 >> 2] = c[e + 4 >> 2];
-        Rh(a, 4808, d) | 0;
+        Rh(a, 4808, d);
         l = b;
         return;
     }
@@ -5728,7 +5650,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7616] | 0)) {
             qi(9136);
-            Ha(24, 9136, o | 0) | 0;
+            Ha(24, 9136, o | 0);
             d = 7616;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -5808,7 +5730,7 @@ export function foo(global, env, buffer) {
         g = a + 28 | 0;
         c[p >> 2] = c[g >> 2];
         c[o >> 2] = c[p >> 2];
-        gi(a + 24 | 0, o, n, m, k, j, i) | 0;
+        gi(a + 24 | 0, o, n, m, k, j, i);
         c[g >> 2] = c[c[g >> 2] >> 2];
         l = h;
         return;
@@ -5935,7 +5857,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -6082,7 +6004,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7632] | 0)) {
             Ti(9184);
-            Ha(25, 9184, o | 0) | 0;
+            Ha(25, 9184, o | 0);
             b = 7632;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -6112,7 +6034,7 @@ export function foo(global, env, buffer) {
     function Gi(a, b) {
         a = a | 0;
         b = b | 0;
-        Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0) | 0;
+        Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0);
         return;
     }
     function Hi(a) {
@@ -6354,7 +6276,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7640] | 0)) {
             jj(9232);
-            Ha(26, 9232, o | 0) | 0;
+            Ha(26, 9232, o | 0);
             d = 7640;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -6493,7 +6415,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -6690,7 +6612,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7648] | 0)) {
             Ij(9268);
-            Ha(27, 9268, o | 0) | 0;
+            Ha(27, 9268, o | 0);
             d = 7648;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -6829,7 +6751,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -6983,7 +6905,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7656] | 0)) {
             ak(9304);
-            Ha(28, 9304, o | 0) | 0;
+            Ha(28, 9304, o | 0);
             d = 7656;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -7122,7 +7044,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -7310,7 +7232,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7664] | 0)) {
             yk(9340);
-            Ha(29, 9340, o | 0) | 0;
+            Ha(29, 9340, o | 0);
             d = 7664;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -7449,7 +7371,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -7626,7 +7548,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7672] | 0)) {
             Vk(9376);
-            Ha(30, 9376, o | 0) | 0;
+            Ha(30, 9376, o | 0);
             d = 7672;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -7765,7 +7687,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -7915,7 +7837,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7680] | 0)) {
             ml(9412);
-            Ha(31, 9412, o | 0) | 0;
+            Ha(31, 9412, o | 0);
             d = 7680;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -8054,7 +7976,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -8208,7 +8130,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7688] | 0)) {
             Gl(9448);
-            Ha(32, 9448, o | 0) | 0;
+            Ha(32, 9448, o | 0);
             d = 7688;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -8347,7 +8269,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -8520,7 +8442,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7696] | 0)) {
             am(9484);
-            Ha(33, 9484, o | 0) | 0;
+            Ha(33, 9484, o | 0);
             d = 7696;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -8659,7 +8581,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -8823,7 +8745,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7704] | 0)) {
             tm(9520);
-            Ha(34, 9520, o | 0) | 0;
+            Ha(34, 9520, o | 0);
             d = 7704;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -8962,7 +8884,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -9121,7 +9043,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7712] | 0)) {
             Mm(9556);
-            Ha(35, 9556, o | 0) | 0;
+            Ha(35, 9556, o | 0);
             d = 7712;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -9260,7 +9182,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -9410,7 +9332,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7720] | 0)) {
             dn(9592);
-            Ha(36, 9592, o | 0) | 0;
+            Ha(36, 9592, o | 0);
             d = 7720;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -9549,7 +9471,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -9675,7 +9597,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7736] | 0)) {
             An(9640);
-            Ha(25, 9640, o | 0) | 0;
+            Ha(25, 9640, o | 0);
             b = 7736;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -9685,7 +9607,7 @@ export function foo(global, env, buffer) {
     function on(a, b) {
         a = a | 0;
         b = b | 0;
-        un(b, a, a + 8 | 0) | 0;
+        un(b, a, a + 8 | 0);
         return;
     }
     function pn(a) {
@@ -9851,7 +9773,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7744] | 0)) {
             Mn(9684);
-            Ha(37, 9684, o | 0) | 0;
+            Ha(37, 9684, o | 0);
             d = 7744;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -9990,7 +9912,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -10151,7 +10073,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7752] | 0)) {
             eo(9720);
-            Ha(38, 9720, o | 0) | 0;
+            Ha(38, 9720, o | 0);
             d = 7752;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -10290,7 +10212,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -10440,7 +10362,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7760] | 0)) {
             xo(9756);
-            Ha(39, 9756, o | 0) | 0;
+            Ha(39, 9756, o | 0);
             d = 7760;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -10579,7 +10501,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -10738,7 +10660,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7768] | 0)) {
             Qo(9792);
-            Ha(40, 9792, o | 0) | 0;
+            Ha(40, 9792, o | 0);
             d = 7768;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -10877,7 +10799,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -11041,7 +10963,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7776] | 0)) {
             hp(9828);
-            Ha(41, 9828, o | 0) | 0;
+            Ha(41, 9828, o | 0);
             d = 7776;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -11180,7 +11102,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -11339,7 +11261,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7784] | 0)) {
             Ap(9864);
-            Ha(42, 9864, o | 0) | 0;
+            Ha(42, 9864, o | 0);
             d = 7784;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -11478,7 +11400,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -11651,7 +11573,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7792] | 0)) {
             Wp(9900);
-            Ha(43, 9900, o | 0) | 0;
+            Ha(43, 9900, o | 0);
             d = 7792;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -11790,7 +11712,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -11905,7 +11827,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7800] | 0)) {
             mq(9936);
-            Ha(44, 9936, o | 0) | 0;
+            Ha(44, 9936, o | 0);
             d = 7800;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -12023,7 +11945,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -12125,7 +12047,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7808] | 0)) {
             Dq(9972);
-            Ha(45, 9972, o | 0) | 0;
+            Ha(45, 9972, o | 0);
             d = 7808;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -12243,7 +12165,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -12361,7 +12283,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7816] | 0)) {
             Yq(10008);
-            Ha(46, 10008, o | 0) | 0;
+            Ha(46, 10008, o | 0);
             d = 7816;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -12479,7 +12401,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -12558,7 +12480,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7832] | 0)) {
             nr(10052);
-            Ha(25, 10052, o | 0) | 0;
+            Ha(25, 10052, o | 0);
             b = 7832;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -12640,23 +12562,23 @@ export function foo(global, env, buffer) {
         f = b + 8 | 0;
         e = b;
         pr(a, 4827);
-        qr(a, 4834, 3) | 0;
-        rr(a, 3682, 47) | 0;
+        qr(a, 4834, 3);
+        rr(a, 3682, 47);
         c[g >> 2] = 9;
         c[g + 4 >> 2] = 0;
         c[d >> 2] = c[g >> 2];
         c[d + 4 >> 2] = c[g + 4 >> 2];
-        sr(a, 4841, d) | 0;
+        sr(a, 4841, d);
         c[f >> 2] = 1;
         c[f + 4 >> 2] = 0;
         c[d >> 2] = c[f >> 2];
         c[d + 4 >> 2] = c[f + 4 >> 2];
-        tr(a, 4871, d) | 0;
+        tr(a, 4871, d);
         c[e >> 2] = 10;
         c[e + 4 >> 2] = 0;
         c[d >> 2] = c[e >> 2];
         c[d + 4 >> 2] = c[e + 4 >> 2];
-        ur(a, 4891, d) | 0;
+        ur(a, 4891, d);
         l = b;
         return;
     }
@@ -12790,7 +12712,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7840] | 0)) {
             Gr(10100);
-            Ha(48, 10100, o | 0) | 0;
+            Ha(48, 10100, o | 0);
             d = 7840;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -12929,7 +12851,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -13088,7 +13010,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7848] | 0)) {
             Zr(10136);
-            Ha(49, 10136, o | 0) | 0;
+            Ha(49, 10136, o | 0);
             d = 7848;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -13227,7 +13149,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -13400,7 +13322,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7856] | 0)) {
             ts(10172);
-            Ha(50, 10172, o | 0) | 0;
+            Ha(50, 10172, o | 0);
             d = 7856;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -13539,7 +13461,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -13681,7 +13603,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7864] | 0)) {
             Os(10208);
-            Ha(51, 10208, o | 0) | 0;
+            Ha(51, 10208, o | 0);
             d = 7864;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -13799,7 +13721,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -13904,7 +13826,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7872] | 0)) {
             et(10244);
-            Ha(52, 10244, o | 0) | 0;
+            Ha(52, 10244, o | 0);
             d = 7872;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -14022,7 +13944,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -14108,7 +14030,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7880] | 0)) {
             ut(10280);
-            Ha(25, 10280, o | 0) | 0;
+            Ha(25, 10280, o | 0);
             b = 7880;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14164,8 +14086,8 @@ export function foo(global, env, buffer) {
     function vt(a) {
         a = a | 0;
         wt(a, 4920);
-        xt(a) | 0;
-        yt(a) | 0;
+        xt(a);
+        yt(a);
         return;
     }
     function wt(a, b) {
@@ -14196,7 +14118,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7888] | 0)) {
             Bt(10328);
-            Ha(53, 10328, o | 0) | 0;
+            Ha(53, 10328, o | 0);
             b = 7888;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14323,7 +14245,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7896] | 0)) {
             Nt(10364);
-            Ha(54, 10364, o | 0) | 0;
+            Ha(54, 10364, o | 0);
             b = 7896;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14469,7 +14391,7 @@ export function foo(global, env, buffer) {
     function eu(a) {
         a = a | 0;
         fu(a, 4926);
-        gu(a) | 0;
+        gu(a);
         return;
     }
     function fu(a, b) {
@@ -14493,7 +14415,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7912] | 0)) {
             iu(10412);
-            Ha(56, 10412, o | 0) | 0;
+            Ha(56, 10412, o | 0);
             b = 7912;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14630,8 +14552,8 @@ export function foo(global, env, buffer) {
     function yu(a) {
         a = a | 0;
         zu(a, 4933);
-        Au(a) | 0;
-        Bu(a) | 0;
+        Au(a);
+        Bu(a);
         return;
     }
     function zu(a, b) {
@@ -14662,7 +14584,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7920] | 0)) {
             Du(10452);
-            Ha(58, 10452, o | 0) | 0;
+            Ha(58, 10452, o | 0);
             b = 7920;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14815,7 +14737,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7928] | 0)) {
             Tu(10488);
-            Ha(59, 10488, o | 0) | 0;
+            Ha(59, 10488, o | 0);
             b = 7928;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -14912,7 +14834,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7936] | 0)) {
             jv(10524);
-            Ha(25, 10524, o | 0) | 0;
+            Ha(25, 10524, o | 0);
             b = 7936;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -15006,7 +14928,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[7944] | 0)) {
             ov(10568);
-            Ha(61, 10568, o | 0) | 0;
+            Ha(61, 10568, o | 0);
             d = 7944;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -15139,7 +15061,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -15196,7 +15118,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7952] | 0)) {
             Rv(10612);
-            Ha(25, 10612, o | 0) | 0;
+            Ha(25, 10612, o | 0);
             b = 7952;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -15219,7 +15141,7 @@ export function foo(global, env, buffer) {
         b = l;
         l = l + 16 | 0;
         d = b;
-        Iv() | 0;
+        Iv();
         c[d >> 2] = a;
         Jv(10608, d);
         l = b;
@@ -15228,7 +15150,7 @@ export function foo(global, env, buffer) {
     function Iv() {
         if (!(a[11714] | 0)) {
             c[2652] = 0;
-            Ha(62, 10608, o | 0) | 0;
+            Ha(62, 10608, o | 0);
             a[11714] = 1;
         }
         return 10608;
@@ -15297,10 +15219,10 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0, e = 0;
-        Iv() | 0;
+        Iv();
         d = c[2652] | 0;
         a: do if (d | 0) {
-            while(1){
+            while(true){
                 e = c[d + 4 >> 2] | 0;
                 if (e | 0 ? (AB(Tv(e) | 0, a) | 0) == 0 : 0) break;
                 d = c[d >> 2] | 0;
@@ -15333,7 +15255,7 @@ export function foo(global, env, buffer) {
     function Vv() {
         if (!(a[11716] | 0)) {
             c[2664] = 0;
-            Ha(63, 10656, o | 0) | 0;
+            Ha(63, 10656, o | 0);
             a[11716] = 1;
         }
         return 10656;
@@ -15389,7 +15311,7 @@ export function foo(global, env, buffer) {
         c[j >> 2] = d;
         c[i >> 2] = e;
         c[h >> 2] = f;
-        Vv() | 0;
+        Vv();
         _v(10656, m, k, j, i, h);
         l = g;
         return;
@@ -15437,7 +15359,7 @@ export function foo(global, env, buffer) {
                     c[j >> 2] = 0;
                     e = (cw(i) | 0) + 1 | 0;
                     dw(q, e);
-                    if (e | 0) while(1){
+                    if (e | 0) while(true){
                         e = e + -1 | 0;
                         OA(r, c[f >> 2] | 0);
                         g = c[p >> 2] | 0;
@@ -15452,10 +15374,10 @@ export function foo(global, env, buffer) {
                     c[r >> 2] = 0;
                     c[k >> 2] = 0;
                     c[m >> 2] = 0;
-                    a: do if (c[e >> 2] | 0) {
+                    a: if (c[e >> 2] | 0) {
                         f = 0;
                         g = 0;
-                        while(1){
+                        while(true){
                             if ((f | 0) == (g | 0)) gw(r, e);
                             else {
                                 c[f >> 2] = c[e >> 2];
@@ -15467,7 +15389,6 @@ export function foo(global, env, buffer) {
                             g = c[n >> 2] | 0;
                         }
                     }
-                    while (0)
                     c[s >> 2] = hw(h) | 0;
                     c[t >> 2] = si(i) | 0;
                     iw(d, a, s, t, q, r);
@@ -15699,7 +15620,7 @@ export function foo(global, env, buffer) {
         c[n >> 2] = 0;
         c[m >> 2] = 0;
         c[g >> 2] = 0;
-        Ba(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0) | 0;
+        Ba(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0);
         jw(j);
         kw(i);
         l = h;
@@ -15793,7 +15714,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[7960] | 0)) {
             Fw(10664);
-            Ha(25, 10664, o | 0) | 0;
+            Ha(25, 10664, o | 0);
             b = 7960;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -15887,7 +15808,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c[e >> 2] | 0, b | 0, a | 0);
             c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -15918,7 +15839,7 @@ export function foo(global, env, buffer) {
         e = a + 4 | 0;
         a = d - b | 0;
         if ((a | 0) > 0) {
-            BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
+            BC(c[e >> 2] | 0, b | 0, a | 0);
             c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
         }
         return;
@@ -15961,7 +15882,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -16025,7 +15946,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -16076,7 +15997,7 @@ export function foo(global, env, buffer) {
         if (h | 0) {
             j = c[i + 8 >> 2] | 0;
             i = c[i + 4 >> 2] | 0;
-            while(1){
+            while(true){
                 OA(m, h);
                 Vw(a, m, i, j);
                 g = g + 4 | 0;
@@ -16201,7 +16122,7 @@ export function foo(global, env, buffer) {
             if (!b) a = e;
             else {
                 b = e;
-                while(1){
+                while(true){
                     a = qC(12) | 0;
                     j = (hx(f) | 0) + 4 | 0;
                     i = c[j + 4 >> 2] | 0;
@@ -16276,7 +16197,7 @@ export function foo(global, env, buffer) {
         c[i >> 2] = 0;
         c[h >> 2] = 0;
         c[d >> 2] = 0;
-        xa(0, g | 0, a | 0, b | 0, tw(f) | 0) | 0;
+        xa(0, g | 0, a | 0, b | 0, tw(f) | 0);
         kw(f);
         l = e;
         return;
@@ -16340,7 +16261,7 @@ export function foo(global, env, buffer) {
         c[h >> 2] = c[b >> 2];
         c[g >> 2] = c[h >> 2];
         b = qw(g) | 0;
-        xa(0, f | 0, a | 0, b | 0, rw(d) | 0) | 0;
+        xa(0, f | 0, a | 0, b | 0, rw(d) | 0);
         l = e;
         return;
     }
@@ -16419,7 +16340,7 @@ export function foo(global, env, buffer) {
         c[h >> 2] = c[i >> 2];
         b = qw(h) | 0;
         d = rx(d) | 0;
-        $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0) | 0;
+        $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0);
         l = f;
         return;
     }
@@ -16468,58 +16389,50 @@ export function foo(global, env, buffer) {
         c[j + 8 >> 2] = 0;
         switch(f << 24 >> 24){
             case 0:
-                {
-                    a[m >> 0] = 0;
-                    wx(k, e, m);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
-                }
+                a[m >> 0] = 0;
+                wx(k, e, m);
+                xx(b, k);
+                wf(k);
+                break;
             case 8:
-                {
-                    o = PA(d) | 0;
-                    a[m >> 0] = 8;
-                    OA(n, c[o + 4 >> 2] | 0);
-                    yx(k, e, m, n, o + 8 | 0);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
-                }
+                o = PA(d) | 0;
+                a[m >> 0] = 8;
+                OA(n, c[o + 4 >> 2] | 0);
+                yx(k, e, m, n, o + 8 | 0);
+                xx(b, k);
+                wf(k);
+                break;
             case 9:
-                {
-                    h = PA(d) | 0;
-                    d = c[h + 4 >> 2] | 0;
-                    if (d | 0) {
-                        i = j + 8 | 0;
-                        g = h + 12 | 0;
-                        while(1){
-                            d = d + -1 | 0;
-                            OA(k, c[g >> 2] | 0);
-                            f = c[o >> 2] | 0;
-                            if (f >>> 0 < (c[i >> 2] | 0) >>> 0) {
-                                c[f >> 2] = c[k >> 2];
-                                c[o >> 2] = (c[o >> 2] | 0) + 4;
-                            } else ew(j, k);
-                            if (!d) break;
-                            else g = g + 4 | 0;
-                        }
+                h = PA(d) | 0;
+                d = c[h + 4 >> 2] | 0;
+                if (d | 0) {
+                    i = j + 8 | 0;
+                    g = h + 12 | 0;
+                    while(true){
+                        d = d + -1 | 0;
+                        OA(k, c[g >> 2] | 0);
+                        f = c[o >> 2] | 0;
+                        if (f >>> 0 < (c[i >> 2] | 0) >>> 0) {
+                            c[f >> 2] = c[k >> 2];
+                            c[o >> 2] = (c[o >> 2] | 0) + 4;
+                        } else ew(j, k);
+                        if (!d) break;
+                        else g = g + 4 | 0;
                     }
-                    a[m >> 0] = 9;
-                    OA(n, c[h + 8 >> 2] | 0);
-                    zx(k, e, m, n, j);
-                    xx(b, k) | 0;
-                    wf(k);
-                    break;
                 }
+                a[m >> 0] = 9;
+                OA(n, c[h + 8 >> 2] | 0);
+                zx(k, e, m, n, j);
+                xx(b, k);
+                wf(k);
+                break;
             default:
-                {
-                    o = PA(d) | 0;
-                    a[m >> 0] = f;
-                    OA(n, c[o + 4 >> 2] | 0);
-                    Ax(k, e, m, n);
-                    xx(b, k) | 0;
-                    wf(k);
-                }
+                o = PA(d) | 0;
+                a[m >> 0] = f;
+                OA(n, c[o + 4 >> 2] | 0);
+                Ax(k, e, m, n);
+                xx(b, k);
+                wf(k);
         }
         kw(j);
         l = p;
@@ -16795,7 +16708,7 @@ export function foo(global, env, buffer) {
     function Wx(a) {
         a = a | 0;
         Xx(a, 5044);
-        Yx(a) | 0;
+        Yx(a);
         return;
     }
     function Xx(a, b) {
@@ -16819,7 +16732,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[8032] | 0)) {
             _x(10820);
-            Ha(64, 10820, o | 0) | 0;
+            Ha(64, 10820, o | 0);
             b = 8032;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -16981,12 +16894,12 @@ export function foo(global, env, buffer) {
     function qy(a) {
         a = a | 0;
         ry(a, 5052);
-        sy(a) | 0;
-        ty(a, 5058, 26) | 0;
-        uy(a, 5069, 1) | 0;
-        vy(a, 5077, 10) | 0;
-        wy(a, 5087, 19) | 0;
-        yy(a, 5094, 27) | 0;
+        sy(a);
+        ty(a, 5058, 26);
+        uy(a, 5069, 1);
+        vy(a, 5077, 10);
+        wy(a, 5087, 19);
+        yy(a, 5094, 27);
         return;
     }
     function ry(a, b) {
@@ -17038,9 +16951,9 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         var d = 0, e = 0;
-        a: while(1){
+        a: while(true){
             d = c[2703] | 0;
-            while(1){
+            while(true){
                 if ((d | 0) == (b | 0)) break a;
                 e = c[d >> 2] | 0;
                 c[2703] = e;
@@ -17075,7 +16988,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[8040] | 0)) {
             Jy(10860);
-            Ha(65, 10860, o | 0) | 0;
+            Ha(65, 10860, o | 0);
             d = 8040;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -17193,7 +17106,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -17303,7 +17216,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[8048] | 0)) {
             $y(10896);
-            Ha(66, 10896, o | 0) | 0;
+            Ha(66, 10896, o | 0);
             d = 8048;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -17421,7 +17334,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -17525,7 +17438,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[8056] | 0)) {
             rz(10932);
-            Ha(67, 10932, o | 0) | 0;
+            Ha(67, 10932, o | 0);
             d = 8056;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -17643,7 +17556,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -17770,7 +17683,7 @@ export function foo(global, env, buffer) {
         if (!(e & 1)) c[a >> 2] = c[b >> 2];
         else {
             Dz(d, 0);
-            Ja(e | 0, d | 0) | 0;
+            Ja(e | 0, d | 0);
             Ez(a, d);
             Fz(d);
         }
@@ -17812,7 +17725,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[8064] | 0)) {
             Qz(10968);
-            Ha(68, 10968, o | 0) | 0;
+            Ha(68, 10968, o | 0);
             d = 8064;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -17930,7 +17843,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -18060,7 +17973,7 @@ export function foo(global, env, buffer) {
         var b = 0, d = 0;
         if (!(a[8072] | 0)) {
             gA(11004);
-            Ha(69, 11004, o | 0) | 0;
+            Ha(69, 11004, o | 0);
             d = 8072;
             c[d >> 2] = 1;
             c[d + 4 >> 2] = 0;
@@ -18178,7 +18091,7 @@ export function foo(global, env, buffer) {
         d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
         c[g >> 2] = d;
         if ((f | 0) > 0) {
-            BC(d | 0, e | 0, f | 0) | 0;
+            BC(d | 0, e | 0, f | 0);
             e = g;
             d = c[g >> 2] | 0;
         } else e = g;
@@ -18291,7 +18204,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[8080] | 0)) {
             sA(11040);
-            Ha(70, 11040, o | 0) | 0;
+            Ha(70, 11040, o | 0);
             b = 8080;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -18407,7 +18320,7 @@ export function foo(global, env, buffer) {
         var b = 0;
         if (!(a[8088] | 0)) {
             NA(11076);
-            Ha(25, 11076, o | 0) | 0;
+            Ha(25, 11076, o | 0);
             b = 8088;
             c[b >> 2] = 1;
             c[b + 4 >> 2] = 0;
@@ -18479,7 +18392,7 @@ export function foo(global, env, buffer) {
         l = l + 16 | 0;
         e = d;
         c[e >> 2] = c[a >> 2];
-        SA(b, e) | 0;
+        SA(b, e);
         l = d;
         return;
     }
@@ -18559,7 +18472,7 @@ export function foo(global, env, buffer) {
         if (b | 0) {
             g = c[f + 8 >> 2] | 0;
             f = c[f + 4 >> 2] | 0;
-            while(1){
+            while(true){
                 Ma(b | 0, d[f >> 0] | 0, a[g >> 0] | 0);
                 e = e + 4 | 0;
                 b = c[e >> 2] | 0;
@@ -18589,14 +18502,14 @@ export function foo(global, env, buffer) {
             if (b | 0) {
                 m = n;
                 do {
-                    while(1){
+                    while(true){
                         h = b;
                         b = c[b >> 2] | 0;
                         h = c[h + 4 >> 2] | 0;
                         if (!(cB(h) | 0)) break;
                         c[p >> 2] = m;
                         c[o >> 2] = c[p >> 2];
-                        dB(n, o) | 0;
+                        dB(n, o);
                         if (!b) break a;
                     }
                     eB(h);
@@ -18611,7 +18524,7 @@ export function foo(global, env, buffer) {
                     if (e | 0) {
                         f = j;
                         g = k;
-                        while(1){
+                        while(true){
                             c[f >> 2] = c[(Xw(c[e + 4 >> 2] | 0) | 0) >> 2];
                             c[g >> 2] = c[e + 8 >> 2];
                             e = c[e >> 2] | 0;
@@ -18648,55 +18561,48 @@ export function foo(global, env, buffer) {
             b = c[b >> 2] | 0;
         }while ((b | 0) != 0)
         b = c[(Iv() | 0) >> 2] | 0;
-        b: do if (b | 0) {
-            c: while(1){
+        b: if (b | 0) {
+            c: while(true){
                 e = c[b + 4 >> 2] | 0;
                 if (e | 0 ? (q = c[(Xw(e) | 0) >> 2] | 0, r = c[(ax(e) | 0) >> 2] | 0, r | 0) : 0) {
                     f = r;
                     do {
                         e = f + 4 | 0;
                         g = aw(e) | 0;
-                        d: do if (g | 0) switch(si(g) | 0){
+                        d: if (g | 0) switch(si(g) | 0){
                             case 0:
                                 break c;
                             case 4:
                             case 3:
                             case 2:
-                                {
-                                    k = fw(g) | 0;
-                                    m = bw(g) | 0;
-                                    n = (cw(g) | 0) + 1 | 0;
-                                    o = iB(g) | 0;
-                                    p = si(g) | 0;
-                                    t = hw(e) | 0;
-                                    Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                    break d;
-                                }
+                                k = fw(g) | 0;
+                                m = bw(g) | 0;
+                                n = (cw(g) | 0) + 1 | 0;
+                                o = iB(g) | 0;
+                                p = si(g) | 0;
+                                t = hw(e) | 0;
+                                Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                break d;
                             case 1:
-                                {
-                                    j = fw(g) | 0;
-                                    k = bw(g) | 0;
-                                    m = (cw(g) | 0) + 1 | 0;
-                                    n = iB(g) | 0;
-                                    o = jB(e) | 0;
-                                    p = si(g) | 0;
-                                    t = hw(e) | 0;
-                                    Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                    break d;
-                                }
+                                j = fw(g) | 0;
+                                k = bw(g) | 0;
+                                m = (cw(g) | 0) + 1 | 0;
+                                n = iB(g) | 0;
+                                o = jB(e) | 0;
+                                p = si(g) | 0;
+                                t = hw(e) | 0;
+                                Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                break d;
                             case 5:
-                                {
-                                    n = fw(g) | 0;
-                                    o = bw(g) | 0;
-                                    p = (cw(g) | 0) + 1 | 0;
-                                    t = iB(g) | 0;
-                                    Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
-                                    break d;
-                                }
+                                n = fw(g) | 0;
+                                o = bw(g) | 0;
+                                p = (cw(g) | 0) + 1 | 0;
+                                t = iB(g) | 0;
+                                Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
+                                break d;
                             default:
                                 break d;
                         }
-                        while (0)
                         f = c[f >> 2] | 0;
                     }while ((f | 0) != 0)
                 }
@@ -18705,7 +18611,6 @@ export function foo(global, env, buffer) {
             }
             Ta();
         }
-        while (0)
         Sa();
         l = s;
         return;
@@ -18905,7 +18810,7 @@ export function foo(global, env, buffer) {
                                     break;
                                 }
                             }
-                            while(1){
+                            while(true){
                                 d = b + 20 | 0;
                                 e = c[d >> 2] | 0;
                                 if (e | 0) {
@@ -19020,17 +18925,19 @@ export function foo(global, env, buffer) {
                     a = 0;
                     h = k << ((i | 0) == 31 ? 0 : 25 - (i >>> 1) | 0);
                     g = 0;
-                    while(1){
+                    while(true){
                         f = (c[d + 4 >> 2] & -8) - k | 0;
-                        if (f >>> 0 < e >>> 0) if (!f) {
-                            a = d;
-                            e = 0;
-                            f = d;
-                            v = 61;
-                            break a;
-                        } else {
-                            a = d;
-                            e = f;
+                        if (f >>> 0 < e >>> 0) {
+                            if (!f) {
+                                a = d;
+                                e = 0;
+                                f = d;
+                                v = 61;
+                                break a;
+                            } else {
+                                a = d;
+                                e = f;
+                            }
                         }
                         f = c[d + 20 >> 2] | 0;
                         d = c[d + 16 + (h >>> 31 << 2) >> 2] | 0;
@@ -19073,7 +18980,7 @@ export function foo(global, env, buffer) {
                         v = 61;
                     }
                 }
-                if ((v | 0) == 61) while(1){
+                if ((v | 0) == 61) while(true){
                     v = 0;
                     d = (c[f + 4 >> 2] & -8) - k | 0;
                     n = d >>> 0 < e >>> 0;
@@ -19109,7 +19016,7 @@ export function foo(global, env, buffer) {
                                 break;
                             }
                         }
-                        while(1){
+                        while(true){
                             d = b + 20 | 0;
                             e = c[d >> 2] | 0;
                             if (e | 0) {
@@ -19215,7 +19122,7 @@ export function foo(global, env, buffer) {
                         }
                         a = h << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                         d = c[d >> 2] | 0;
-                        while(1){
+                        while(true){
                             if ((c[d + 4 >> 2] & -8 | 0) == (h | 0)) {
                                 v = 97;
                                 break;
@@ -19327,7 +19234,7 @@ export function foo(global, env, buffer) {
             d = c[2789] | 0;
             c: do if (d) {
                 e = 11580;
-                while(1){
+                while(true){
                     a = c[e >> 2] | 0;
                     if (a >>> 0 <= d >>> 0 ? (r = e + 4 | 0, (a + (c[r >> 2] | 0) | 0) >>> 0 > d >>> 0) : 0) break;
                     a = c[e + 8 >> 2] | 0;
@@ -19376,14 +19283,16 @@ export function foo(global, env, buffer) {
             while (0)
             do if ((v | 0) == 126) {
                 d = 0 - b | 0;
-                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) if ((e | 0) == -1) {
-                    b = 0;
-                    break;
-                } else {
-                    h = b;
-                    g = e;
-                    v = 135;
-                    break b;
+                if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) {
+                    if ((e | 0) == -1) {
+                        b = 0;
+                        break;
+                    } else {
+                        h = b;
+                        g = e;
+                        v = 135;
+                        break b;
+                    }
                 }
                 a = c[2903] | 0;
                 a = j - b + a & 0 - a;
@@ -19394,7 +19303,7 @@ export function foo(global, env, buffer) {
                     break b;
                 }
                 if ((FC(a | 0) | 0) == -1) {
-                    FC(d | 0) | 0;
+                    FC(d | 0);
                     b = 0;
                     break;
                 } else {
@@ -19424,7 +19333,7 @@ export function foo(global, env, buffer) {
             j = c[2789] | 0;
             do if (j) {
                 b = 11580;
-                while(1){
+                while(true){
                     a = c[b >> 2] | 0;
                     d = b + 4 | 0;
                     e = c[d >> 2] | 0;
@@ -19452,7 +19361,7 @@ export function foo(global, env, buffer) {
                 if (g >>> 0 < (c[2787] | 0) >>> 0) c[2787] = g;
                 d = g + h | 0;
                 b = 11580;
-                while(1){
+                while(true){
                     if ((c[b >> 2] | 0) == (d | 0)) {
                         v = 153;
                         break;
@@ -19510,7 +19419,7 @@ export function foo(global, env, buffer) {
                                             break;
                                         } else d = e;
                                     }
-                                    while(1){
+                                    while(true){
                                         e = a + 20 | 0;
                                         f = c[e >> 2] | 0;
                                         if (f | 0) {
@@ -19618,7 +19527,7 @@ export function foo(global, env, buffer) {
                         }
                         a = f << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                         d = c[e >> 2] | 0;
-                        while(1){
+                        while(true){
                             if ((c[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                                 v = 194;
                                 break;
@@ -19661,7 +19570,7 @@ export function foo(global, env, buffer) {
                     return w | 0;
                 }
                 b = 11580;
-                while(1){
+                while(true){
                     a = c[b >> 2] | 0;
                     if (a >>> 0 <= j >>> 0 ? (w = a + (c[b + 4 >> 2] | 0) | 0, w >>> 0 > j >>> 0) : 0) break;
                     b = c[b + 8 >> 2] | 0;
@@ -19750,7 +19659,7 @@ export function foo(global, env, buffer) {
                     }
                     a = g << ((d | 0) == 31 ? 0 : 25 - (d >>> 1) | 0);
                     d = c[e >> 2] | 0;
-                    while(1){
+                    while(true){
                         if ((c[d + 4 >> 2] & -8 | 0) == (g | 0)) {
                             v = 216;
                             break;
@@ -19886,7 +19795,7 @@ export function foo(global, env, buffer) {
                         break;
                     } else b = d;
                 }
-                while(1){
+                while(true){
                     d = a + 20 | 0;
                     e = c[d >> 2] | 0;
                     if (e | 0) {
@@ -20005,7 +19914,7 @@ export function foo(global, env, buffer) {
                             break;
                         } else b = d;
                     }
-                    while(1){
+                    while(true){
                         d = a + 20 | 0;
                         e = c[d >> 2] | 0;
                         if (e | 0) {
@@ -20111,7 +20020,7 @@ export function foo(global, env, buffer) {
         do if (b & d) {
             b = f << ((a | 0) == 31 ? 0 : 25 - (a >>> 1) | 0);
             d = c[e >> 2] | 0;
-            while(1){
+            while(true){
                 if ((c[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                     a = 73;
                     break;
@@ -20154,7 +20063,7 @@ export function foo(global, env, buffer) {
         c[2791] = j;
         if (!j) a = 11588;
         else return;
-        while(1){
+        while(true){
             a = c[a >> 2] | 0;
             if (!a) break;
             else a = a + 8 | 0;
@@ -20202,7 +20111,7 @@ export function foo(global, env, buffer) {
         g = uB(gb(146, g | 0) | 0) | 0;
         a: do if ((e | 0) != (g | 0)) {
             b = 2;
-            while(1){
+            while(true){
                 if ((g | 0) < 0) break;
                 e = e - g | 0;
                 p = c[f + 4 >> 2] | 0;
@@ -20320,7 +20229,7 @@ export function foo(global, env, buffer) {
         var e = 0, f = 0;
         a: do if (!d) b = 0;
         else {
-            while(1){
+            while(true){
                 e = a[b >> 0] | 0;
                 f = a[c >> 0] | 0;
                 if (e << 24 >> 24 != f << 24 >> 24) break;
@@ -20377,7 +20286,7 @@ export function foo(global, env, buffer) {
                 c[k >> 2] = r + 80;
                 e = DB(b, d, n, q, o) | 0;
                 if (h) {
-                    sb[c[b + 36 >> 2] & 7](b, 0, 0) | 0;
+                    sb[c[b + 36 >> 2] & 7](b, 0, 0);
                     e = (c[j >> 2] | 0) == 0 ? -1 : e;
                     c[g >> 2] = h;
                     c[f >> 2] = 0;
@@ -20417,14 +20326,16 @@ export function foo(global, env, buffer) {
         k = 0;
         j = 0;
         p = 0;
-        a: while(1){
-            do if ((j | 0) > -1) if ((k | 0) > (2147483647 - j | 0)) {
-                c[(vB() | 0) >> 2] = 75;
-                j = -1;
-                break;
-            } else {
-                j = k + j | 0;
-                break;
+        a: while(true){
+            do if ((j | 0) > -1) {
+                if ((k | 0) > (2147483647 - j | 0)) {
+                    c[(vB() | 0) >> 2] = 75;
+                    j = -1;
+                    break;
+                } else {
+                    j = k + j | 0;
+                    break;
+                }
             }
             while (0)
             k = a[e >> 0] | 0;
@@ -20432,28 +20343,23 @@ export function foo(global, env, buffer) {
                 w = 87;
                 break;
             } else m = e;
-            b: while(1){
+            b: while(true){
                 switch(k << 24 >> 24){
                     case 37:
-                        {
-                            k = m;
-                            w = 9;
-                            break b;
-                        }
+                        k = m;
+                        w = 9;
+                        break b;
                     case 0:
-                        {
-                            k = m;
-                            break b;
-                        }
+                        k = m;
+                        break b;
                     default:
-                        {}
                 }
                 v = m + 1 | 0;
                 c[D >> 2] = v;
                 k = a[v >> 0] | 0;
                 m = v;
             }
-            c: do if ((w | 0) == 9) while(1){
+            c: do if ((w | 0) == 9) while(true){
                 w = 0;
                 if ((a[m + 1 >> 0] | 0) != 37) break c;
                 k = k + 1 | 0;
@@ -20483,7 +20389,7 @@ export function foo(global, env, buffer) {
             d: do if (m >>> 0 < 32) {
                 o = 0;
                 q = k;
-                while(1){
+                while(true){
                     k = 1 << m;
                     if (!(k & 75913)) {
                         k = q;
@@ -20566,7 +20472,7 @@ export function foo(global, env, buffer) {
             } else m = -1;
             while (0)
             t = 0;
-            while(1){
+            while(true){
                 if (((a[n >> 0] | 0) + -65 | 0) >>> 0 > 57) {
                     j = -1;
                     break a;
@@ -20621,175 +20527,139 @@ export function foo(global, env, buffer) {
                 case 110:
                     switch((t & 255) << 24 >> 24){
                         case 0:
-                            {
-                                c[c[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c[c[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 1:
-                            {
-                                c[c[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c[c[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 2:
-                            {
-                                k = c[E >> 2] | 0;
-                                c[k >> 2] = j;
-                                c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = c[E >> 2] | 0;
+                            c[k >> 2] = j;
+                            c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 3:
-                            {
-                                b[c[E >> 2] >> 1] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            b[c[E >> 2] >> 1] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 4:
-                            {
-                                a[c[E >> 2] >> 0] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            a[c[E >> 2] >> 0] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 6:
-                            {
-                                c[c[E >> 2] >> 2] = j;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            c[c[E >> 2] >> 2] = j;
+                            k = 0;
+                            e = v;
+                            continue a;
                         case 7:
-                            {
-                                k = c[E >> 2] | 0;
-                                c[k >> 2] = j;
-                                c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = c[E >> 2] | 0;
+                            c[k >> 2] = j;
+                            c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                            k = 0;
+                            e = v;
+                            continue a;
                         default:
-                            {
-                                k = 0;
-                                e = v;
-                                continue a;
-                            }
+                            k = 0;
+                            e = v;
+                            continue a;
                     }
                 case 112:
-                    {
-                        n = 120;
-                        m = m >>> 0 > 8 ? m : 8;
-                        e = u | 8;
-                        w = 61;
-                        break;
-                    }
+                    n = 120;
+                    m = m >>> 0 > 8 ? m : 8;
+                    e = u | 8;
+                    w = 61;
+                    break;
                 case 88:
                 case 120:
-                    {
-                        e = u;
-                        w = 61;
-                        break;
-                    }
+                    e = u;
+                    w = 61;
+                    break;
                 case 111:
-                    {
-                        n = E;
-                        e = c[n >> 2] | 0;
-                        n = c[n + 4 >> 2] | 0;
-                        r = KB(e, n, y) | 0;
-                        s = z - r | 0;
-                        o = 0;
-                        q = 5642;
-                        m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
-                        s = u;
-                        w = 67;
-                        break;
-                    }
+                    n = E;
+                    e = c[n >> 2] | 0;
+                    n = c[n + 4 >> 2] | 0;
+                    r = KB(e, n, y) | 0;
+                    s = z - r | 0;
+                    o = 0;
+                    q = 5642;
+                    m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
+                    s = u;
+                    w = 67;
+                    break;
                 case 105:
                 case 100:
-                    {
-                        n = E;
-                        e = c[n >> 2] | 0;
-                        n = c[n + 4 >> 2] | 0;
-                        if ((n | 0) < 0) {
-                            e = wC(0, 0, e | 0, n | 0) | 0;
-                            n = A;
-                            o = E;
-                            c[o >> 2] = e;
-                            c[o + 4 >> 2] = n;
-                            o = 1;
-                            q = 5642;
-                            w = 66;
-                            break e;
-                        } else {
-                            o = (u & 2049 | 0) != 0 & 1;
-                            q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
-                            w = 66;
-                            break e;
-                        }
+                    n = E;
+                    e = c[n >> 2] | 0;
+                    n = c[n + 4 >> 2] | 0;
+                    if ((n | 0) < 0) {
+                        e = wC(0, 0, e | 0, n | 0) | 0;
+                        n = A;
+                        o = E;
+                        c[o >> 2] = e;
+                        c[o + 4 >> 2] = n;
+                        o = 1;
+                        q = 5642;
+                        w = 66;
+                        break e;
+                    } else {
+                        o = (u & 2049 | 0) != 0 & 1;
+                        q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
+                        w = 66;
+                        break e;
                     }
                 case 117:
-                    {
-                        n = E;
-                        o = 0;
-                        q = 5642;
-                        e = c[n >> 2] | 0;
-                        n = c[n + 4 >> 2] | 0;
-                        w = 66;
-                        break;
-                    }
+                    n = E;
+                    o = 0;
+                    q = 5642;
+                    e = c[n >> 2] | 0;
+                    n = c[n + 4 >> 2] | 0;
+                    w = 66;
+                    break;
                 case 99:
-                    {
-                        a[B >> 0] = c[E >> 2];
-                        e = B;
-                        o = 0;
-                        q = 5642;
-                        r = y;
-                        n = 1;
-                        m = s;
-                        break;
-                    }
+                    a[B >> 0] = c[E >> 2];
+                    e = B;
+                    o = 0;
+                    q = 5642;
+                    r = y;
+                    n = 1;
+                    m = s;
+                    break;
                 case 109:
-                    {
-                        n = MB(c[(vB() | 0) >> 2] | 0) | 0;
-                        w = 71;
-                        break;
-                    }
+                    n = MB(c[(vB() | 0) >> 2] | 0) | 0;
+                    w = 71;
+                    break;
                 case 115:
-                    {
-                        n = c[E >> 2] | 0;
-                        n = n | 0 ? n : 5652;
-                        w = 71;
-                        break;
-                    }
+                    n = c[E >> 2] | 0;
+                    n = n | 0 ? n : 5652;
+                    w = 71;
+                    break;
                 case 67:
-                    {
-                        c[F >> 2] = c[E >> 2];
-                        c[C >> 2] = 0;
-                        c[E >> 2] = F;
-                        r = -1;
-                        n = F;
-                        w = 75;
-                        break;
-                    }
+                    c[F >> 2] = c[E >> 2];
+                    c[C >> 2] = 0;
+                    c[E >> 2] = F;
+                    r = -1;
+                    n = F;
+                    w = 75;
+                    break;
                 case 83:
-                    {
-                        e = c[E >> 2] | 0;
-                        if (!m) {
-                            OB(d, 32, k, 0, u);
-                            e = 0;
-                            w = 84;
-                        } else {
-                            r = m;
-                            n = e;
-                            w = 75;
-                        }
-                        break;
+                    e = c[E >> 2] | 0;
+                    if (!m) {
+                        OB(d, 32, k, 0, u);
+                        e = 0;
+                        w = 84;
+                    } else {
+                        r = m;
+                        n = e;
+                        w = 75;
                     }
+                    break;
                 case 65:
                 case 71:
                 case 70:
@@ -20798,19 +20668,15 @@ export function foo(global, env, buffer) {
                 case 103:
                 case 102:
                 case 101:
-                    {
-                        k = QB(d, +h[E >> 3], k, m, u, n) | 0;
-                        e = v;
-                        continue a;
-                    }
+                    k = QB(d, +h[E >> 3], k, m, u, n) | 0;
+                    e = v;
+                    continue a;
                 default:
-                    {
-                        o = 0;
-                        q = 5642;
-                        r = y;
-                        n = m;
-                        m = u;
-                    }
+                    o = 0;
+                    q = 5642;
+                    r = y;
+                    n = m;
+                    m = u;
             }
             while (0)
             f: do if ((w | 0) == 61) {
@@ -20844,7 +20710,7 @@ export function foo(global, env, buffer) {
                 q = n;
                 e = 0;
                 m = 0;
-                while(1){
+                while(true){
                     o = c[q >> 2] | 0;
                     if (!o) break;
                     m = PB(G, o) | 0;
@@ -20863,7 +20729,7 @@ export function foo(global, env, buffer) {
                     w = 84;
                 } else {
                     o = 0;
-                    while(1){
+                    while(true){
                         m = c[n >> 2] | 0;
                         if (!m) {
                             w = 84;
@@ -20913,28 +20779,30 @@ export function foo(global, env, buffer) {
             e = v;
         }
         g: do if ((w | 0) == 87) {
-            if (!d) if (!p) j = 0;
-            else {
-                j = 1;
-                while(1){
-                    e = c[i + (j << 2) >> 2] | 0;
-                    if (!e) break;
-                    IB(g + (j << 3) | 0, e, f);
-                    j = j + 1 | 0;
-                    if ((j | 0) >= 10) {
-                        j = 1;
-                        break g;
+            if (!d) {
+                if (!p) j = 0;
+                else {
+                    j = 1;
+                    while(true){
+                        e = c[i + (j << 2) >> 2] | 0;
+                        if (!e) break;
+                        IB(g + (j << 3) | 0, e, f);
+                        j = j + 1 | 0;
+                        if ((j | 0) >= 10) {
+                            j = 1;
+                            break g;
+                        }
                     }
-                }
-                while(1){
-                    if (c[i + (j << 2) >> 2] | 0) {
-                        j = -1;
-                        break g;
-                    }
-                    j = j + 1 | 0;
-                    if ((j | 0) >= 10) {
-                        j = 1;
-                        break;
+                    while(true){
+                        if (c[i + (j << 2) >> 2] | 0) {
+                            j = -1;
+                            break g;
+                        }
+                        j = j + 1 | 0;
+                        if ((j | 0) >= 10) {
+                            j = 1;
+                            break;
+                        }
                     }
                 }
             }
@@ -20955,7 +20823,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         b = b | 0;
         d = d | 0;
-        if (!(c[a >> 2] & 32)) aC(b, d, a) | 0;
+        if (!(c[a >> 2] & 32)) aC(b, d, a);
         return;
     }
     function HB(b) {
@@ -20979,110 +20847,88 @@ export function foo(global, env, buffer) {
         b = b | 0;
         d = d | 0;
         var e = 0, f = 0, g = 0.0;
-        a: do if (b >>> 0 <= 20) do switch(b | 0){
+        a: if (b >>> 0 <= 20) switch(b | 0){
             case 9:
-                {
-                    e = (c[d >> 2] | 0) + 3 & -4;
-                    b = c[e >> 2] | 0;
-                    c[d >> 2] = e + 4;
-                    c[a >> 2] = b;
-                    break a;
-                }
+                e = (c[d >> 2] | 0) + 3 & -4;
+                b = c[e >> 2] | 0;
+                c[d >> 2] = e + 4;
+                c[a >> 2] = b;
+                break a;
             case 10:
-                {
-                    e = (c[d >> 2] | 0) + 3 & -4;
-                    b = c[e >> 2] | 0;
-                    c[d >> 2] = e + 4;
-                    e = a;
-                    c[e >> 2] = b;
-                    c[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                e = (c[d >> 2] | 0) + 3 & -4;
+                b = c[e >> 2] | 0;
+                c[d >> 2] = e + 4;
+                e = a;
+                c[e >> 2] = b;
+                c[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
+                break a;
             case 11:
-                {
-                    e = (c[d >> 2] | 0) + 3 & -4;
-                    b = c[e >> 2] | 0;
-                    c[d >> 2] = e + 4;
-                    e = a;
-                    c[e >> 2] = b;
-                    c[e + 4 >> 2] = 0;
-                    break a;
-                }
+                e = (c[d >> 2] | 0) + 3 & -4;
+                b = c[e >> 2] | 0;
+                c[d >> 2] = e + 4;
+                e = a;
+                c[e >> 2] = b;
+                c[e + 4 >> 2] = 0;
+                break a;
             case 12:
-                {
-                    e = (c[d >> 2] | 0) + 7 & -8;
-                    b = e;
-                    f = c[b >> 2] | 0;
-                    b = c[b + 4 >> 2] | 0;
-                    c[d >> 2] = e + 8;
-                    e = a;
-                    c[e >> 2] = f;
-                    c[e + 4 >> 2] = b;
-                    break a;
-                }
+                e = (c[d >> 2] | 0) + 7 & -8;
+                b = e;
+                f = c[b >> 2] | 0;
+                b = c[b + 4 >> 2] | 0;
+                c[d >> 2] = e + 8;
+                e = a;
+                c[e >> 2] = f;
+                c[e + 4 >> 2] = b;
+                break a;
             case 13:
-                {
-                    f = (c[d >> 2] | 0) + 3 & -4;
-                    e = c[f >> 2] | 0;
-                    c[d >> 2] = f + 4;
-                    e = (e & 65535) << 16 >> 16;
-                    f = a;
-                    c[f >> 2] = e;
-                    c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 3 & -4;
+                e = c[f >> 2] | 0;
+                c[d >> 2] = f + 4;
+                e = (e & 65535) << 16 >> 16;
+                f = a;
+                c[f >> 2] = e;
+                c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                break a;
             case 14:
-                {
-                    f = (c[d >> 2] | 0) + 3 & -4;
-                    e = c[f >> 2] | 0;
-                    c[d >> 2] = f + 4;
-                    f = a;
-                    c[f >> 2] = e & 65535;
-                    c[f + 4 >> 2] = 0;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 3 & -4;
+                e = c[f >> 2] | 0;
+                c[d >> 2] = f + 4;
+                f = a;
+                c[f >> 2] = e & 65535;
+                c[f + 4 >> 2] = 0;
+                break a;
             case 15:
-                {
-                    f = (c[d >> 2] | 0) + 3 & -4;
-                    e = c[f >> 2] | 0;
-                    c[d >> 2] = f + 4;
-                    e = (e & 255) << 24 >> 24;
-                    f = a;
-                    c[f >> 2] = e;
-                    c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 3 & -4;
+                e = c[f >> 2] | 0;
+                c[d >> 2] = f + 4;
+                e = (e & 255) << 24 >> 24;
+                f = a;
+                c[f >> 2] = e;
+                c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                break a;
             case 16:
-                {
-                    f = (c[d >> 2] | 0) + 3 & -4;
-                    e = c[f >> 2] | 0;
-                    c[d >> 2] = f + 4;
-                    f = a;
-                    c[f >> 2] = e & 255;
-                    c[f + 4 >> 2] = 0;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 3 & -4;
+                e = c[f >> 2] | 0;
+                c[d >> 2] = f + 4;
+                f = a;
+                c[f >> 2] = e & 255;
+                c[f + 4 >> 2] = 0;
+                break a;
             case 17:
-                {
-                    f = (c[d >> 2] | 0) + 7 & -8;
-                    g = +h[f >> 3];
-                    c[d >> 2] = f + 8;
-                    h[a >> 3] = g;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 7 & -8;
+                g = +h[f >> 3];
+                c[d >> 2] = f + 8;
+                h[a >> 3] = g;
+                break a;
             case 18:
-                {
-                    f = (c[d >> 2] | 0) + 7 & -8;
-                    g = +h[f >> 3];
-                    c[d >> 2] = f + 8;
-                    h[a >> 3] = g;
-                    break a;
-                }
+                f = (c[d >> 2] | 0) + 7 & -8;
+                g = +h[f >> 3];
+                c[d >> 2] = f + 8;
+                h[a >> 3] = g;
+                break a;
             default:
                 break a;
         }
-        while (0)
-        while (0)
         return;
     }
     function JB(b, c, e, f) {
@@ -21116,7 +20962,7 @@ export function foo(global, env, buffer) {
         d = d | 0;
         var e = 0;
         if (c >>> 0 > 0 | (c | 0) == 0 & b >>> 0 > 4294967295) {
-            while(1){
+            while(true){
                 e = HC(b | 0, c | 0, 10, 0) | 0;
                 d = d + -1 | 0;
                 a[d >> 0] = e & 255 | 48;
@@ -21127,7 +20973,7 @@ export function foo(global, env, buffer) {
             }
             c = b;
         } else c = b;
-        if (c) while(1){
+        if (c) while(true){
             d = d + -1 | 0;
             a[d >> 0] = (c >>> 0) % 10 | 48;
             if (c >>> 0 < 10) break;
@@ -21148,7 +20994,7 @@ export function foo(global, env, buffer) {
         f = (e | 0) != 0;
         a: do if (f & (b & 3 | 0) != 0) {
             g = d & 255;
-            while(1){
+            while(true){
                 if ((a[b >> 0] | 0) == g << 24 >> 24) {
                     i = 6;
                     break a;
@@ -21163,13 +21009,15 @@ export function foo(global, env, buffer) {
             }
         } else i = 5;
         while (0)
-        if ((i | 0) == 5) if (f) i = 6;
-        else e = 0;
+        if ((i | 0) == 5) {
+            if (f) i = 6;
+            else e = 0;
+        }
         b: do if ((i | 0) == 6) {
             g = d & 255;
             if ((a[b >> 0] | 0) != g << 24 >> 24) {
                 f = P(h, 16843009) | 0;
-                c: do if (e >>> 0 > 3) while(1){
+                c: do if (e >>> 0 > 3) while(true){
                     h = c[b >> 2] ^ f;
                     if ((h & -2139062144 ^ -2139062144) & h + -16843009 | 0) break;
                     b = b + 4 | 0;
@@ -21187,7 +21035,7 @@ export function foo(global, env, buffer) {
                         break;
                     }
                 }
-                while(1){
+                while(true){
                     if ((a[b >> 0] | 0) == g << 24 >> 24) break b;
                     b = b + 1 | 0;
                     e = e + -1 | 0;
@@ -21213,7 +21061,7 @@ export function foo(global, env, buffer) {
         f = g;
         if ((c | 0) > (d | 0) & (e & 73728 | 0) == 0) {
             e = c - d | 0;
-            yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0) | 0;
+            yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0);
             if (e >>> 0 > 255) {
                 b = c - d | 0;
                 do {
@@ -21251,7 +21099,7 @@ export function foo(global, env, buffer) {
         n = H + 512 | 0;
         c[u >> 2] = 0;
         E = n + 12 | 0;
-        RB(e) | 0;
+        RB(e);
         if ((A | 0) < 0) {
             e = -e;
             C = 1;
@@ -21260,7 +21108,7 @@ export function foo(global, env, buffer) {
             C = (h & 2049 | 0) != 0 & 1;
             B = (h & 2048 | 0) == 0 ? (h & 1 | 0) == 0 ? 5660 : 5665 : 5662;
         }
-        RB(e) | 0;
+        RB(e);
         D = A & 2146435072;
         do if (D >>> 0 < 2146435072 | (D | 0) == 2146435072 & false) {
             r = +SB(e, u) * 2.0;
@@ -21343,7 +21191,7 @@ export function foo(global, env, buffer) {
             if ((j | 0) > 0) {
                 n = D;
                 p = m;
-                while(1){
+                while(true){
                     o = (j | 0) < 29 ? j : 29;
                     j = p + -4 | 0;
                     if (j >>> 0 >= n >>> 0) {
@@ -21363,7 +21211,7 @@ export function foo(global, env, buffer) {
                         }
                     }
                     m = p;
-                    while(1){
+                    while(true){
                         if (m >>> 0 <= n >>> 0) break;
                         j = m + -4 | 0;
                         if (!(c[j >> 2] | 0)) m = j;
@@ -21461,7 +21309,7 @@ export function foo(global, env, buffer) {
                         c[s >> 2] = x;
                         if (x >>> 0 > 999999999) {
                             m = s;
-                            while(1){
+                            while(true){
                                 n = m + -4 | 0;
                                 c[m >> 2] = 0;
                                 if (n >>> 0 < j >>> 0) {
@@ -21493,7 +21341,7 @@ export function foo(global, env, buffer) {
                 x = j;
             }
             w = n;
-            while(1){
+            while(true){
                 if (w >>> 0 <= x >>> 0) {
                     u = 0;
                     break;
@@ -21585,7 +21433,7 @@ export function foo(global, env, buffer) {
                             m = q;
                         }
                     } else if (m >>> 0 > G >>> 0) {
-                        yC(G | 0, 48, m - F | 0) | 0;
+                        yC(G | 0, 48, m - F | 0);
                         do m = m + -1 | 0;
                         while (m >>> 0 > G >>> 0)
                     }
@@ -21593,10 +21441,10 @@ export function foo(global, env, buffer) {
                     n = n + 4 | 0;
                 }while (n >>> 0 <= D >>> 0)
                 if (t | 0) GB(b, 5710, 1);
-                if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(1){
+                if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(true){
                     m = LB(c[n >> 2] | 0, 0, s) | 0;
                     if (m >>> 0 > G >>> 0) {
-                        yC(G | 0, 48, m - F | 0) | 0;
+                        yC(G | 0, 48, m - F | 0);
                         do m = m + -1 | 0;
                         while (m >>> 0 > G >>> 0)
                     }
@@ -21635,7 +21483,7 @@ export function foo(global, env, buffer) {
                             m = n;
                         } else {
                             if (m >>> 0 <= G >>> 0) break;
-                            yC(G | 0, 48, m + p | 0) | 0;
+                            yC(G | 0, 48, m + p | 0);
                             do m = m + -1 | 0;
                             while (m >>> 0 > G >>> 0)
                         }
@@ -21685,23 +21533,19 @@ export function foo(global, env, buffer) {
         f = AC(d | 0, e | 0, 52) | 0;
         switch(f & 2047){
             case 0:
-                {
-                    if (a != 0.0) {
-                        a = +TB(a * 18446744073709551616.0, b);
-                        d = (c[b >> 2] | 0) + -64 | 0;
-                    } else d = 0;
-                    c[b >> 2] = d;
-                    break;
-                }
+                if (a != 0.0) {
+                    a = +TB(a * 18446744073709551616.0, b);
+                    d = (c[b >> 2] | 0) + -64 | 0;
+                } else d = 0;
+                c[b >> 2] = d;
+                break;
             case 2047:
                 break;
             default:
-                {
-                    c[b >> 2] = (f & 2047) + -1022;
-                    c[j >> 2] = d;
-                    c[j + 4 >> 2] = e & -2146435073 | 1071644672;
-                    a = +h[j >> 3];
-                }
+                c[b >> 2] = (f & 2047) + -1022;
+                c[j >> 2] = d;
+                c[j + 4 >> 2] = e & -2146435073 | 1071644672;
+                a = +h[j >> 3];
         }
         return +a;
     }
@@ -21715,14 +21559,16 @@ export function foo(global, env, buffer) {
                 b = 1;
                 break;
             }
-            if (!(c[c[(VB() | 0) + 188 >> 2] >> 2] | 0)) if ((d & -128 | 0) == 57216) {
-                a[b >> 0] = d;
-                b = 1;
-                break;
-            } else {
-                c[(vB() | 0) >> 2] = 84;
-                b = -1;
-                break;
+            if (!(c[c[(VB() | 0) + 188 >> 2] >> 2] | 0)) {
+                if ((d & -128 | 0) == 57216) {
+                    a[b >> 0] = d;
+                    b = 1;
+                    break;
+                } else {
+                    c[(vB() | 0) >> 2] = 84;
+                    b = -1;
+                    break;
+                }
             }
             if (d >>> 0 < 2048) {
                 a[b >> 0] = d >>> 6 | 192;
@@ -21764,7 +21610,7 @@ export function foo(global, env, buffer) {
         e = e | 0;
         var f = 0, g = 0;
         g = 0;
-        while(1){
+        while(true){
             if ((d[5712 + g >> 0] | 0) == (b | 0)) {
                 b = 2;
                 break;
@@ -21777,12 +21623,14 @@ export function foo(global, env, buffer) {
                 break;
             } else g = f;
         }
-        if ((b | 0) == 2) if (!g) f = 5800;
-        else {
-            f = 5800;
-            b = 5;
+        if ((b | 0) == 2) {
+            if (!g) f = 5800;
+            else {
+                f = 5800;
+                b = 5;
+            }
         }
-        if ((b | 0) == 5) while(1){
+        if ((b | 0) == 5) while(true){
             do {
                 b = f;
                 f = f + 1 | 0;
@@ -21818,7 +21666,7 @@ export function foo(global, env, buffer) {
             n = f >>> 2;
             m = g >>> 2;
             l = 0;
-            while(1){
+            while(true){
                 j = h >>> 1;
                 k = l + j | 0;
                 i = k << 1;
@@ -21883,7 +21731,7 @@ export function foo(global, env, buffer) {
             }
             b: do if ((a[e + 75 >> 0] | 0) > -1) {
                 i = d;
-                while(1){
+                while(true){
                     if (!i) {
                         h = 0;
                         g = b;
@@ -21904,7 +21752,7 @@ export function foo(global, env, buffer) {
                 g = b;
             }
             while (0)
-            BC(f | 0, g | 0, d | 0) | 0;
+            BC(f | 0, g | 0, d | 0);
             c[j >> 2] = (c[j >> 2] | 0) + d;
             f = h + d | 0;
         }
@@ -21939,12 +21787,14 @@ export function foo(global, env, buffer) {
         c = dC(a) | 0;
         do if ((c & 2147483647) >>> 0 <= 2139095040) {
             d = dC(b) | 0;
-            if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
-                a = (c | 0) < 0 ? b : a;
-                break;
-            } else {
-                a = a < b ? b : a;
-                break;
+            if ((d & 2147483647) >>> 0 <= 2139095040) {
+                if ((d ^ c | 0) < 0) {
+                    a = (c | 0) < 0 ? b : a;
+                    break;
+                } else {
+                    a = a < b ? b : a;
+                    break;
+                }
             }
         } else a = b;
         while (0)
@@ -21961,12 +21811,14 @@ export function foo(global, env, buffer) {
         c = fC(a) | 0;
         do if ((c & 2147483647) >>> 0 <= 2139095040) {
             d = fC(b) | 0;
-            if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
-                a = (c | 0) < 0 ? a : b;
-                break;
-            } else {
-                a = a < b ? a : b;
-                break;
+            if ((d & 2147483647) >>> 0 <= 2139095040) {
+                if ((d ^ c | 0) < 0) {
+                    a = (c | 0) < 0 ? a : b;
+                    break;
+                } else {
+                    a = a < b ? a : b;
+                    break;
+                }
             }
         } else a = b;
         while (0)
@@ -22019,9 +21871,11 @@ export function foo(global, env, buffer) {
             f = e - k | 0;
             h = (f | 0) > -1;
             b: do if ((d | 0) > (i | 0)) {
-                while(1){
-                    if (h) if (!f) break;
-                    else e = f;
+                while(true){
+                    if (h) {
+                        if (!f) break;
+                        else e = f;
+                    }
                     e = e << 1;
                     d = d + -1 | 0;
                     f = e - k | 0;
@@ -22032,10 +21886,12 @@ export function foo(global, env, buffer) {
                 break a;
             }
             while (0)
-            if (h) if (!f) {
-                b = T(a * T(0.0));
-                break;
-            } else e = f;
+            if (h) {
+                if (!f) {
+                    b = T(a * T(0.0));
+                    break;
+                } else e = f;
+            }
             if (e >>> 0 < 8388608) do {
                 e = e << 1;
                 d = d + -1 | 0;
@@ -22104,7 +21960,7 @@ export function foo(global, env, buffer) {
         a = a | 0;
         var b = 0;
         b = (a | 0) == 0 ? 1 : a;
-        while(1){
+        while(true){
             a = oB(b) | 0;
             if (a | 0) break;
             a = uC() | 0;
@@ -22452,7 +22308,7 @@ export function foo(global, env, buffer) {
                 g = i | g << 1;
                 e = a << 1 | e >>> 31 | 0;
                 n = a >>> 31 | b << 1 | 0;
-                wC(k | 0, d | 0, e | 0, n | 0) | 0;
+                wC(k | 0, d | 0, e | 0, n | 0);
                 p = A;
                 o = p >> 31 | ((p | 0) < 0 ? -1 : 0) << 1;
                 i = o & 1;
@@ -22486,7 +22342,7 @@ export function foo(global, env, buffer) {
         b = c[i >> 2] | 0;
         a = b + d | 0;
         if ((d | 0) > 0 & (a | 0) < (b | 0) | (a | 0) < 0) {
-            Y() | 0;
+            Y();
             Qa(12);
             return -1;
         }
@@ -22514,7 +22370,7 @@ export function foo(global, env, buffer) {
                 a[b >> 0] = a[c >> 0] | 0;
             }
             b = e;
-        } else BC(b, c, d) | 0;
+        } else BC(b, c, d);
         return b | 0;
     }
     function HC(a, b, d, e) {
@@ -22526,7 +22382,7 @@ export function foo(global, env, buffer) {
         g = l;
         l = l + 16 | 0;
         f = g | 0;
-        DC(a, b, d, e, f) | 0;
+        DC(a, b, d, e, f);
         l = g;
         return (A = c[f + 4 >> 2] | 0, c[f >> 2] | 0) | 0;
     }

@@ -328,10 +328,10 @@
             if (!seed && (setDocument(context), context = context || document, documentIsHTML)) {
                 // If the selector is sufficiently simple, try using a "get*By*" DOM method
                 // (excepting DocumentFragment context, where the methods don't exist)
-                if (11 !== nodeType && (match = rquickExpr.exec(selector))) // ID selector
-                {
-                    if (m = match[1]) // Document context
-                    {
+                if (11 !== nodeType && (match = rquickExpr.exec(selector))) {
+                    // ID selector
+                    if (m = match[1]) {
+                        // Document context
                         if (9 === nodeType) {
                             if (!(elem = context.getElementById(m))) return results;
                             // Support: IE, Opera, Webkit
@@ -439,21 +439,16 @@
                 // Only certain elements can match :enabled or :disabled
                 // https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
                 // https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
-                if ("form" in elem) {
-                    return(// Check for inherited disabledness on relevant non-disabled elements:
-                    // * listed form-associated elements in a disabled fieldset
-                    //   https://html.spec.whatwg.org/multipage/forms.html#category-listed
-                    //   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
-                    // * option elements in a disabled optgroup
-                    //   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
-                    // All such elements have a "form" property.
-                    elem.parentNode && !1 === elem.disabled ? // Option elements defer to a parent optgroup if present
-                    "label" in elem ? "label" in elem.parentNode ? elem.parentNode.disabled === disabled : elem.disabled === disabled : elem.isDisabled === disabled || // Where there is no isDisabled, check manually
-                    /* jshint -W018 */ !disabled !== elem.isDisabled && inDisabledFieldset(elem) === disabled : elem.disabled === disabled);
-                // Try to winnow out elements that can't be disabled before trusting the disabled property.
-                // Some victims get caught in our net (label, legend, menu, track), but it shouldn't
-                // even exist on them, let alone have a boolean value.
-                }
+                if ("form" in elem) return(// Check for inherited disabledness on relevant non-disabled elements:
+                // * listed form-associated elements in a disabled fieldset
+                //   https://html.spec.whatwg.org/multipage/forms.html#category-listed
+                //   https://html.spec.whatwg.org/multipage/forms.html#concept-fe-disabled
+                // * option elements in a disabled optgroup
+                //   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
+                // All such elements have a "form" property.
+                elem.parentNode && !1 === elem.disabled ? // Option elements defer to a parent optgroup if present
+                "label" in elem ? "label" in elem.parentNode ? elem.parentNode.disabled === disabled : elem.disabled === disabled : elem.isDisabled === disabled || // Where there is no isDisabled, check manually
+                /* jshint -W018 */ !disabled !== elem.isDisabled && inDisabledFieldset(elem) === disabled : elem.disabled === disabled);
                 return "label" in elem && elem.disabled === disabled;
             };
         }
@@ -789,9 +784,9 @@
                 },
                 CLASS: function(className) {
                     var pattern = classCache[className + " "];
-                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)")) && classCache(className, function(elem) {
+                    return pattern || (pattern = RegExp("(^|" + whitespace + ")" + className + "(" + whitespace + "|$)"), classCache(className, function(elem) {
                         return pattern.test("string" == typeof elem.className && elem.className || void 0 !== elem.getAttribute && elem.getAttribute("class") || "");
-                    });
+                    }));
                 },
                 ATTR: function(name, operator, check) {
                     return function(elem) {
@@ -1876,13 +1871,15 @@
         var name, data1;
         // If nothing was found internally, try to fetch any
         // data from the HTML5 data-* attribute
-        if (void 0 === data && 1 === elem.nodeType) if (name = "data-" + key.replace(rmultiDash, "-$&").toLowerCase(), "string" == typeof (data = elem.getAttribute(name))) {
-            try {
-                data1 = data, data = "true" === data1 || "false" !== data1 && ("null" === data1 ? null : data1 === +data1 + "" ? +data1 : rbrace.test(data1) ? JSON.parse(data1) : data1);
-            } catch (e) {}
-            // Make sure we set the data so it isn't changed later
-            dataUser.set(elem, key, data);
-        } else data = void 0;
+        if (void 0 === data && 1 === elem.nodeType) {
+            if (name = "data-" + key.replace(rmultiDash, "-$&").toLowerCase(), "string" == typeof (data = elem.getAttribute(name))) {
+                try {
+                    data1 = data, data = "true" === data1 || "false" !== data1 && ("null" === data1 ? null : data1 === +data1 + "" ? +data1 : rbrace.test(data1) ? JSON.parse(data1) : data1);
+                } catch (e) {}
+                // Make sure we set the data so it isn't changed later
+                dataUser.set(elem, key, data);
+            } else data = void 0;
+        }
         return data;
     }
     jQuery.extend({
@@ -2130,24 +2127,26 @@
     ]);
     var rhtml = /<|&#?\w+;/;
     function buildFragment(elems, context, scripts, selection, ignored) {
-        for(var elem, tmp, wrap, attached, j, fragment = context.createDocumentFragment(), nodes = [], i = 0, l = elems.length; i < l; i++)if ((elem = elems[i]) || 0 === elem) // Add nodes directly
-        if ("object" === toType(elem)) // Support: Android <=4.0 only, PhantomJS 1 only
-        // push.apply(_, arraylike) throws on ancient WebKit
-        jQuery.merge(nodes, elem.nodeType ? [
-            elem
-        ] : elem);
-        else if (rhtml.test(elem)) {
-            for(tmp = tmp || fragment.appendChild(context.createElement("div")), wrap = wrapMap[(rtagName.exec(elem) || [
-                "",
-                ""
-            ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2], // Descend through wrappers to the right content
-            j = wrap[0]; j--;)tmp = tmp.lastChild;
-            // Support: Android <=4.0 only, PhantomJS 1 only
+        for(var elem, tmp, wrap, attached, j, fragment = context.createDocumentFragment(), nodes = [], i = 0, l = elems.length; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
+            // Add nodes directly
+            if ("object" === toType(elem)) // Support: Android <=4.0 only, PhantomJS 1 only
             // push.apply(_, arraylike) throws on ancient WebKit
-            jQuery.merge(nodes, tmp.childNodes), // Ensure the created nodes are orphaned (#12392)
-            // Remember the top-level container
-            (tmp = fragment.firstChild).textContent = "";
-        } else nodes.push(context.createTextNode(elem));
+            jQuery.merge(nodes, elem.nodeType ? [
+                elem
+            ] : elem);
+            else if (rhtml.test(elem)) {
+                for(tmp = tmp || fragment.appendChild(context.createElement("div")), wrap = wrapMap[(rtagName.exec(elem) || [
+                    "",
+                    ""
+                ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2], // Descend through wrappers to the right content
+                j = wrap[0]; j--;)tmp = tmp.lastChild;
+                // Support: Android <=4.0 only, PhantomJS 1 only
+                // push.apply(_, arraylike) throws on ancient WebKit
+                jQuery.merge(nodes, tmp.childNodes), // Ensure the created nodes are orphaned (#12392)
+                // Remember the top-level container
+                (tmp = fragment.firstChild).textContent = "";
+            } else nodes.push(context.createTextNode(elem));
+        }
         for(// Remove wrapper from fragment
         fragment.textContent = "", i = 0; elem = nodes[i++];){
             // Skip elements already in the context collection (trac-4087)
@@ -2220,10 +2219,10 @@
             namespace: !1,
             handler: function(event) {
                 var notAsync, result, saved = dataPriv.get(this, type);
-                if (1 & event.isTrigger && this[type]) // Interrupt processing of the outer synthetic .trigger()ed event
-                // Saved data should be false in such cases, but might be a leftover capture object
-                // from an async native handler (gh-4350)
-                {
+                if (1 & event.isTrigger && this[type]) {
+                    // Interrupt processing of the outer synthetic .trigger()ed event
+                    // Saved data should be false in such cases, but might be a leftover capture object
+                    // from an async native handler (gh-4350)
                     if (saved.length) (jQuery.event.special[type] || {}).delegateType && event.stopPropagation();
                     else if (// Store arguments for use when handling the inner native event
                     // There will always be at least one argument (an event object), so this array
@@ -2603,8 +2602,10 @@
                 "input" === nodeName && rcheckableType.test(src.type) ? dest.checked = src.checked : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
             }(srcElements[i], destElements[i]);
             // Copy the events from the original to the clone
-            if (dataAndEvents) if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), l = srcElements.length; i < l; i++)cloneCopyEvent(srcElements[i], destElements[i]);
-            else cloneCopyEvent(elem, clone);
+            if (dataAndEvents) {
+                if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), l = srcElements.length; i < l; i++)cloneCopyEvent(srcElements[i], destElements[i]);
+                else cloneCopyEvent(elem, clone);
+            }
             // Return the cloned set
             return(// Preserve script evaluation history
             (destElements = getAll(clone, "script")).length > 0 && setGlobalEval(destElements, !inPage && getAll(elem, "script")), clone);
@@ -3872,13 +3873,15 @@
                 // Status-dependent callbacks
                 statusCode: function(map) {
                     var code;
-                    if (map) if (completed) // Execute the appropriate callbacks
-                    jqXHR.always(map[jqXHR.status]);
-                    else // Lazy-add the new callbacks in a way that preserves old ones
-                    for(code in map)statusCode[code] = [
-                        statusCode[code],
-                        map[code]
-                    ];
+                    if (map) {
+                        if (completed) // Execute the appropriate callbacks
+                        jqXHR.always(map[jqXHR.status]);
+                        else // Lazy-add the new callbacks in a way that preserves old ones
+                        for(code in map)statusCode[code] = [
+                            statusCode[code],
+                            map[code]
+                        ];
+                    }
                     return this;
                 },
                 // Cancel the request
@@ -4001,8 +4004,8 @@
                     // Create converters map with lowercased keys
                     if (dataTypes[1]) for(conv in s.converters)converters[conv.toLowerCase()] = s.converters[conv];
                     // Convert to each sequential dataType
-                    for(current = dataTypes.shift(); current;)if (s.responseFields[current] && (jqXHR[s.responseFields[current]] = response), !prev && isSuccess && s.dataFilter && (response = s.dataFilter(response, s.dataType)), prev = current, current = dataTypes.shift()) // There's only work to do if current dataType is non-auto
-                    {
+                    for(current = dataTypes.shift(); current;)if (s.responseFields[current] && (jqXHR[s.responseFields[current]] = response), !prev && isSuccess && s.dataFilter && (response = s.dataFilter(response, s.dataType)), prev = current, current = dataTypes.shift()) {
+                        // There's only work to do if current dataType is non-auto
                         if ("*" === current) current = prev;
                         else if ("*" !== prev && prev !== current) {
                             // If none found, seek a pair
@@ -4017,15 +4020,17 @@
                                 }
                             }
                             // Apply converter (if not an equivalence)
-                            if (!0 !== conv) // Unless errors are allowed to bubble, catch and return them
-                            if (conv && s.throws) response = conv(response);
-                            else try {
-                                response = conv(response);
-                            } catch (e) {
-                                return {
-                                    state: "parsererror",
-                                    error: conv ? e : "No conversion from " + prev + " to " + current
-                                };
+                            if (!0 !== conv) {
+                                // Unless errors are allowed to bubble, catch and return them
+                                if (conv && s.throws) response = conv(response);
+                                else try {
+                                    response = conv(response);
+                                } catch (e) {
+                                    return {
+                                        state: "parsererror",
+                                        error: conv ? e : "No conversion from " + prev + " to " + current
+                                    };
+                                }
                             }
                         }
                     }

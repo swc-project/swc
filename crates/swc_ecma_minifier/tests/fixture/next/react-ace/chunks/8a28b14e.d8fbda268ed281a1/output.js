@@ -1185,10 +1185,12 @@
                                     var screenRow = editor.renderer.pixelToScreenCoordinates(0, mouseEvent.y).row, pos = mouseEvent.$pos;
                                     if (screenRow > editor.session.documentToScreenRow(pos.row, pos.column)) return hideTooltip();
                                 }
-                                if (tooltipAnnotation != annotation) if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
-                                else {
-                                    var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
-                                    style.left = rect.right + "px", style.top = rect.bottom + "px";
+                                if (tooltipAnnotation != annotation) {
+                                    if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
+                                    else {
+                                        var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
+                                        style.left = rect.right + "px", style.top = rect.bottom + "px";
+                                    }
                                 }
                             }() : hideTooltip();
                         }, 50));
@@ -2486,10 +2488,12 @@
                                     case 18:
                                         return 4;
                                 }
-                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) if (0x10 == action) {
-                                for(i = condPos; i < ix; i++)levels[i] = 1;
-                                condPos = -1;
-                            } else condPos = -1;
+                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
+                                if (0x10 == action) {
+                                    for(i = condPos; i < ix; i++)levels[i] = 1;
+                                    condPos = -1;
+                                } else condPos = -1;
+                            }
                             if (impTab[newState][6]) -1 == condPos && (condPos = ix);
                             else if (condPos > -1) {
                                 for(i = condPos; i < ix; i++)levels[i] = newLevel;
@@ -6022,37 +6026,38 @@
                         };
                     }, this.$updateInternalDataOnChange = function(delta) {
                         var useWrapMode = this.$useWrapMode, action = delta.action, start = delta.start, end = delta.end, firstRow = start.row, lastRow = end.row, len = lastRow - firstRow, removedFolds = null;
-                        if (this.$updating = !0, 0 != len) if ("remove" === action) {
-                            this[useWrapMode ? "$wrapData" : "$rowLengthCache"].splice(firstRow, len);
-                            var foldLines = this.$foldData;
-                            removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds);
-                            var foldLine = this.getFoldLine(end.row), idx = 0;
-                            if (foldLine) {
-                                foldLine.addRemoveChars(end.row, end.column, start.column - end.column), foldLine.shiftRow(-len);
-                                var foldLineBefore = this.getFoldLine(firstRow);
-                                foldLineBefore && foldLineBefore !== foldLine && (foldLineBefore.merge(foldLine), foldLine = foldLineBefore), idx = foldLines.indexOf(foldLine) + 1;
+                        if (this.$updating = !0, 0 != len) {
+                            if ("remove" === action) {
+                                this[useWrapMode ? "$wrapData" : "$rowLengthCache"].splice(firstRow, len);
+                                var foldLines = this.$foldData;
+                                removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds);
+                                var foldLine = this.getFoldLine(end.row), idx = 0;
+                                if (foldLine) {
+                                    foldLine.addRemoveChars(end.row, end.column, start.column - end.column), foldLine.shiftRow(-len);
+                                    var foldLineBefore = this.getFoldLine(firstRow);
+                                    foldLineBefore && foldLineBefore !== foldLine && (foldLineBefore.merge(foldLine), foldLine = foldLineBefore), idx = foldLines.indexOf(foldLine) + 1;
+                                }
+                                for(; idx < foldLines.length; idx++){
+                                    var foldLine = foldLines[idx];
+                                    foldLine.start.row >= end.row && foldLine.shiftRow(-len);
+                                }
+                                lastRow = firstRow;
+                            } else {
+                                var args = Array(len);
+                                args.unshift(firstRow, 0);
+                                var arr = useWrapMode ? this.$wrapData : this.$rowLengthCache;
+                                arr.splice.apply(arr, args);
+                                var foldLines = this.$foldData, foldLine = this.getFoldLine(firstRow), idx = 0;
+                                if (foldLine) {
+                                    var cmp = foldLine.range.compareInside(start.row, start.column);
+                                    0 == cmp ? (foldLine = foldLine.split(start.row, start.column)) && (foldLine.shiftRow(len), foldLine.addRemoveChars(lastRow, 0, end.column - start.column)) : -1 == cmp && (foldLine.addRemoveChars(firstRow, 0, end.column - start.column), foldLine.shiftRow(len)), idx = foldLines.indexOf(foldLine) + 1;
+                                }
+                                for(; idx < foldLines.length; idx++){
+                                    var foldLine = foldLines[idx];
+                                    foldLine.start.row >= firstRow && foldLine.shiftRow(len);
+                                }
                             }
-                            for(; idx < foldLines.length; idx++){
-                                var foldLine = foldLines[idx];
-                                foldLine.start.row >= end.row && foldLine.shiftRow(-len);
-                            }
-                            lastRow = firstRow;
                         } else {
-                            var args = Array(len);
-                            args.unshift(firstRow, 0);
-                            var arr = useWrapMode ? this.$wrapData : this.$rowLengthCache;
-                            arr.splice.apply(arr, args);
-                            var foldLines = this.$foldData, foldLine = this.getFoldLine(firstRow), idx = 0;
-                            if (foldLine) {
-                                var cmp = foldLine.range.compareInside(start.row, start.column);
-                                0 == cmp ? (foldLine = foldLine.split(start.row, start.column)) && (foldLine.shiftRow(len), foldLine.addRemoveChars(lastRow, 0, end.column - start.column)) : -1 == cmp && (foldLine.addRemoveChars(firstRow, 0, end.column - start.column), foldLine.shiftRow(len)), idx = foldLines.indexOf(foldLine) + 1;
-                            }
-                            for(; idx < foldLines.length; idx++){
-                                var foldLine = foldLines[idx];
-                                foldLine.start.row >= firstRow && foldLine.shiftRow(len);
-                            }
-                        }
-                        else {
                             len = Math.abs(delta.start.column - delta.end.column), "remove" === action && (removedFolds = this.getFoldsInRange(delta), this.removeFolds(removedFolds), len = -len);
                             var foldLine = this.getFoldLine(firstRow);
                             foldLine && foldLine.addRemoveChars(firstRow, start.column, len);
@@ -6263,10 +6268,12 @@
                 }).call(EditSession.prototype), require("./edit_session/folding").Folding.call(EditSession.prototype), require("./edit_session/bracket_match").BracketMatch.call(EditSession.prototype), config.defineOptions(EditSession.prototype, "session", {
                     wrap: {
                         set: function(value) {
-                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10) || !1) : value = !1, this.$wrap != value) if (this.$wrap = value, value) {
-                                var col = "number" == typeof value ? value : null;
-                                this.setWrapLimitRange(col, col), this.setUseWrapMode(!0);
-                            } else this.setUseWrapMode(!1);
+                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10) || !1) : value = !1, this.$wrap != value) {
+                                if (this.$wrap = value, value) {
+                                    var col = "number" == typeof value ? value : null;
+                                    this.setWrapLimitRange(col, col), this.setUseWrapMode(!0);
+                                } else this.setUseWrapMode(!1);
+                            }
                         },
                         get: function() {
                             return this.getUseWrapMode() ? -1 == this.$wrap ? "printMargin" : this.getWrapLimitRange().min ? this.$wrap : "free" : "off";
@@ -6549,16 +6556,17 @@
                         }
                     }, this._addCommandToBinding = function(keyId, command, position) {
                         var i, ckb = this.commandKeyBinding;
-                        if (command) if (!ckb[keyId] || this.$singleCommand) ckb[keyId] = command;
-                        else {
-                            Array.isArray(ckb[keyId]) ? -1 != (i = ckb[keyId].indexOf(command)) && ckb[keyId].splice(i, 1) : ckb[keyId] = [
-                                ckb[keyId]
-                            ], "number" != typeof position && (position = getPosition(command));
-                            var commands = ckb[keyId];
-                            for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
-                            commands.splice(i, 0, command);
-                        }
-                        else delete ckb[keyId];
+                        if (command) {
+                            if (!ckb[keyId] || this.$singleCommand) ckb[keyId] = command;
+                            else {
+                                Array.isArray(ckb[keyId]) ? -1 != (i = ckb[keyId].indexOf(command)) && ckb[keyId].splice(i, 1) : ckb[keyId] = [
+                                    ckb[keyId]
+                                ], "number" != typeof position && (position = getPosition(command));
+                                var commands = ckb[keyId];
+                                for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
+                                commands.splice(i, 0, command);
+                            }
+                        } else delete ckb[keyId];
                     }, this.addCommands = function(commands) {
                         commands && Object.keys(commands).forEach(function(name) {
                             var command = commands[name];
@@ -8977,14 +8985,16 @@
                                                 if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
                                                 else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
                                                 else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
-                                                else if (!i1 && !i2) if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
-                                                else {
-                                                    if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
-                                                        c1,
-                                                        before,
-                                                        after
-                                                    ].filter(Boolean);
-                                                    shift(d1, c1, -1);
+                                                else if (!i1 && !i2) {
+                                                    if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
+                                                    else {
+                                                        if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
+                                                            c1,
+                                                            before,
+                                                            after
+                                                        ].filter(Boolean);
+                                                        shift(d1, c1, -1);
+                                                    }
                                                 }
                                                 return [
                                                     c1,
@@ -9036,25 +9046,30 @@
                 }
                 function swap(d1, d2) {
                     var i1 = "insert" == d1.action, i2 = "insert" == d2.action;
-                    if (i1 && i2) if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
-                    else {
-                        if (!(0 >= cmp(d2.start, d1.start))) return null;
-                        shift(d1, d2, 1);
-                    }
-                    else if (i1 && !i2) if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
-                    else {
-                        if (!(0 >= cmp(d2.end, d1.start))) return null;
-                        shift(d1, d2, -1);
-                    }
-                    else if (!i1 && i2) if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
-                    else {
-                        if (!(0 >= cmp(d2.start, d1.start))) return null;
-                        shift(d1, d2, 1);
-                    }
-                    else if (!i1 && !i2) if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
-                    else {
-                        if (!(0 >= cmp(d2.end, d1.start))) return null;
-                        shift(d1, d2, -1);
+                    if (i1 && i2) {
+                        if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
+                        else {
+                            if (!(0 >= cmp(d2.start, d1.start))) return null;
+                            shift(d1, d2, 1);
+                        }
+                    } else if (i1 && !i2) {
+                        if (cmp(d2.start, d1.end) >= 0) shift(d2, d1, -1);
+                        else {
+                            if (!(0 >= cmp(d2.end, d1.start))) return null;
+                            shift(d1, d2, -1);
+                        }
+                    } else if (!i1 && i2) {
+                        if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
+                        else {
+                            if (!(0 >= cmp(d2.start, d1.start))) return null;
+                            shift(d1, d2, 1);
+                        }
+                    } else if (!i1 && !i2) {
+                        if (cmp(d2.start, d1.start) >= 0) shift(d2, d1, 1);
+                        else {
+                            if (!(0 >= cmp(d2.end, d1.start))) return null;
+                            shift(d1, d2, -1);
+                        }
                     }
                     return [
                         d2,
@@ -9316,10 +9331,12 @@
                                     continue;
                                 }
                                 var range = marker.range.clipRows(config.firstRow, config.lastRow);
-                                if (!range.isEmpty()) if (range = range.toScreenRange(this.session), marker.renderer) {
-                                    var top = this.$getTop(range.start.row, config), left = this.$padding + range.start.column * config.characterWidth;
-                                    marker.renderer(html, range, left, top, config);
-                                } else "fullLine" == marker.type ? this.drawFullLineMarker(html, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(html, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(html, range, marker.clazz, config) : this.drawMultiLineMarker(html, range, marker.clazz, config) : this.drawSingleLineMarker(html, range, marker.clazz + " ace_start ace_br15", config);
+                                if (!range.isEmpty()) {
+                                    if (range = range.toScreenRange(this.session), marker.renderer) {
+                                        var top = this.$getTop(range.start.row, config), left = this.$padding + range.start.column * config.characterWidth;
+                                        marker.renderer(html, range, left, top, config);
+                                    } else "fullLine" == marker.type ? this.drawFullLineMarker(html, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(html, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(html, range, marker.clazz, config) : this.drawMultiLineMarker(html, range, marker.clazz, config) : this.drawSingleLineMarker(html, range, marker.clazz + " ace_start ace_br15", config);
+                                }
                             }
                             if (-1 != this.i) for(; this.i < this.element.childElementCount;)this.element.removeChild(this.element.lastChild);
                         }
@@ -9475,11 +9492,12 @@
                                 if (i = m.index + m[0].length, before && valueFragment.appendChild(this.dom.createTextNode(before, this.element)), tab) {
                                     var tabSize = this.session.getScreenTabSize(screenColumn + m.index);
                                     valueFragment.appendChild(this.$tabStrings[tabSize].cloneNode(!0)), screenColumn += tabSize - 1;
-                                } else if (simpleSpace) if (this.showSpaces) {
-                                    var span = this.dom.createElement("span");
-                                    span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(this.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
-                                } else valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
-                                else if (controlCharacter) {
+                                } else if (simpleSpace) {
+                                    if (this.showSpaces) {
+                                        var span = this.dom.createElement("span");
+                                        span.className = "ace_invisible ace_invisible_space", span.textContent = lang.stringRepeat(this.SPACE_CHAR, simpleSpace.length), valueFragment.appendChild(span);
+                                    } else valueFragment.appendChild(this.com.createTextNode(simpleSpace, this.element));
+                                } else if (controlCharacter) {
                                     var span = this.dom.createElement("span");
                                     span.className = "ace_invisible ace_invisible_space ace_invalid", span.textContent = lang.stringRepeat(this.SPACE_CHAR, controlCharacter.length), valueFragment.appendChild(span);
                                 } else if (cjkSpace) {
@@ -10569,11 +10587,12 @@ margin: 0 10px;\
                                     return;
                                 }
                                 var w = 1, maxTop = this.$size.height - h;
-                                if (composition) if (composition.useTextareaForIME) {
-                                    var val = this.textarea.value;
-                                    w = this.characterWidth * this.session.$getStringScreenWidth(val)[0];
-                                } else posTop += this.lineHeight + 2;
-                                else posTop += this.lineHeight;
+                                if (composition) {
+                                    if (composition.useTextareaForIME) {
+                                        var val = this.textarea.value;
+                                        w = this.characterWidth * this.session.$getStringScreenWidth(val)[0];
+                                    } else posTop += this.lineHeight + 2;
+                                } else posTop += this.lineHeight;
                                 (posLeft -= this.scrollLeft) > this.$size.scrollerWidth - w && (posLeft = this.$size.scrollerWidth - w), posLeft += this.gutterWidth + this.margin.left, dom.setStyle(style, "height", h + "px"), dom.setStyle(style, "width", w + "px"), dom.translate(this.textarea, Math.min(posLeft, this.$size.scrollerWidth - w), Math.min(posTop, maxTop));
                             }
                         }

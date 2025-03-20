@@ -1348,21 +1348,24 @@ function(global, factory) {
             // - The closest point on the segment
             _segCenter.copy(v0).add(v1).multiplyScalar(0.5), _segDir.copy(v1).sub(v0).normalize(), _diff.copy(this.origin).sub(_segCenter);
             var s0, s1, sqrDist, extDet, segExtent = 0.5 * v0.distanceTo(v1), a01 = -this.direction.dot(_segDir), b0 = _diff.dot(this.direction), b1 = -_diff.dot(_segDir), c = _diff.lengthSq(), det = Math.abs(1 - a01 * a01);
-            if (det > 0) if (// The ray and segment are not parallel.
-            s0 = a01 * b1 - b0, s1 = a01 * b0 - b1, extDet = segExtent * det, s0 >= 0) if (s1 >= -extDet) if (s1 <= extDet) {
-                // region 0
-                // Minimum at interior points of ray and segment.
-                var invDet = 1 / det;
-                s0 *= invDet, s1 *= invDet, sqrDist = s0 * (s0 + a01 * s1 + 2 * b0) + s1 * (a01 * s0 + s1 + 2 * b1) + c;
-            } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 1
-            (s1 = segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
-            else sqrDist = -(s0 = Math.max(0, -(a01 * // region 5
-            (s1 = -segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
-            else s1 <= -extDet ? (s1 = // region 4
-            (s0 = Math.max(0, -(-a01 * segExtent + b0))) > 0 ? -segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c) : s1 <= extDet ? (// region 3
-            s0 = 0, sqrDist = (s1 = Math.min(Math.max(-segExtent, -b1), segExtent)) * (s1 + 2 * b1) + c) : (s1 = // region 2
-            (s0 = Math.max(0, -(a01 * segExtent + b0))) > 0 ? segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c);
-            else // Ray and segment are parallel.
+            if (det > 0) {
+                if (// The ray and segment are not parallel.
+                s0 = a01 * b1 - b0, s1 = a01 * b0 - b1, extDet = segExtent * det, s0 >= 0) {
+                    if (s1 >= -extDet) {
+                        if (s1 <= extDet) {
+                            // region 0
+                            // Minimum at interior points of ray and segment.
+                            var invDet = 1 / det;
+                            s0 *= invDet, s1 *= invDet, sqrDist = s0 * (s0 + a01 * s1 + 2 * b0) + s1 * (a01 * s0 + s1 + 2 * b1) + c;
+                        } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 1
+                        (s1 = segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
+                    } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 5
+                    (s1 = -segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
+                } else s1 <= -extDet ? (s1 = // region 4
+                (s0 = Math.max(0, -(-a01 * segExtent + b0))) > 0 ? -segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c) : s1 <= extDet ? (// region 3
+                s0 = 0, sqrDist = (s1 = Math.min(Math.max(-segExtent, -b1), segExtent)) * (s1 + 2 * b1) + c) : (s1 = // region 2
+                (s0 = Math.max(0, -(a01 * segExtent + b0))) > 0 ? segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c);
+            } else // Ray and segment are parallel.
             s1 = a01 > 0 ? -segExtent : segExtent, sqrDist = -(s0 = Math.max(0, -(a01 * s1 + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
             return optionalPointOnRay && optionalPointOnRay.copy(this.direction).multiplyScalar(s0).add(this.origin), optionalPointOnSegment && optionalPointOnSegment.copy(_segDir).multiplyScalar(s1).add(_segCenter), sqrDist;
         }, _proto.intersectSphere = function(sphere, target) {
@@ -1924,11 +1927,12 @@ function(global, factory) {
                     else serialize(meta.shapes, shapes);
                 }
             }
-            if (this.isSkinnedMesh && (object.bindMode = this.bindMode, object.bindMatrix = this.bindMatrix.toArray(), void 0 !== this.skeleton && (serialize(meta.skeletons, this.skeleton), object.skeleton = this.skeleton.uuid)), void 0 !== this.material) if (Array.isArray(this.material)) {
-                for(var uuids = [], _i = 0, _l = this.material.length; _i < _l; _i++)uuids.push(serialize(meta.materials, this.material[_i]));
-                object.material = uuids;
-            } else object.material = serialize(meta.materials, this.material);
-             //
+            if (this.isSkinnedMesh && (object.bindMode = this.bindMode, object.bindMatrix = this.bindMatrix.toArray(), void 0 !== this.skeleton && (serialize(meta.skeletons, this.skeleton), object.skeleton = this.skeleton.uuid)), void 0 !== this.material) {
+                if (Array.isArray(this.material)) {
+                    for(var uuids = [], _i = 0, _l = this.material.length; _i < _l; _i++)uuids.push(serialize(meta.materials, this.material[_i]));
+                    object.material = uuids;
+                } else object.material = serialize(meta.materials, this.material);
+            } //
             if (this.children.length > 0) {
                 object.children = [];
                 for(var _i2 = 0; _i2 < this.children.length; _i2++)object.children.push(this.children[_i2].toJSON(meta).object);
@@ -3216,12 +3220,15 @@ function(global, factory) {
                 if (_inverseMatrix.copy(matrixWorld).invert(), _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix), null !== geometry.boundingBox && !1 === _ray.intersectsBox(geometry.boundingBox)) return;
                 if (geometry.isBufferGeometry) {
                     var index = geometry.index, position = geometry.attributes.position, morphPosition = geometry.morphAttributes.position, morphTargetsRelative = geometry.morphTargetsRelative, uv = geometry.attributes.uv, uv2 = geometry.attributes.uv2, groups = geometry.groups, drawRange = geometry.drawRange;
-                    if (null !== index) // indexed buffer geometry
-                    if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3)(intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(j), index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
-                    else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(_i), index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
-                    else if (void 0 !== position) // non-indexed buffer geometry
-                    if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3)(intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _j, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
-                    else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _i3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
+                    if (null !== index) {
+                        // indexed buffer geometry
+                        if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3)(intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(j), index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
+                        else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(_i), index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
+                    } else if (void 0 !== position) {
+                        // non-indexed buffer geometry
+                        if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3)(intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _j, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
+                        else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _i3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
+                    }
                 } else if (geometry.isGeometry) {
                     var intersection, uvs, isMultiMaterial = Array.isArray(material), vertices = geometry.vertices, faces = geometry.faces, faceVertexUvs = geometry.faceVertexUvs[0];
                     faceVertexUvs.length > 0 && (uvs = faceVertexUvs);
@@ -6838,14 +6845,15 @@ function(global, factory) {
             glInternalFormat = 6402, isWebGL2 ? glInternalFormat = 1015 === texture.type ? 36012 : 1014 === texture.type ? 33190 : 1020 === texture.type ? 35056 : 33189 : 1015 === texture.type && console.error('WebGLRenderer: Floating point depth texture requires WebGL2.'), 1026 === texture.format && 6402 === glInternalFormat && 1012 !== texture.type && 1014 !== texture.type && (console.warn('THREE.WebGLRenderer: Use UnsignedShortType or UnsignedIntType for DepthFormat DepthTexture.'), texture.type = 1012, glType = utils.convert(texture.type)), 1027 === texture.format && 6402 === glInternalFormat && (// Depth stencil textures need the DEPTH_STENCIL internal format
             // (https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/)
             glInternalFormat = 34041, 1020 !== texture.type && (console.warn('THREE.WebGLRenderer: Use UnsignedInt248Type for DepthStencilFormat DepthTexture.'), texture.type = 1020, glType = utils.convert(texture.type))), state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, null);
-            else if (texture.isDataTexture) // use manually created mipmaps if available
-            // if there are no manual mipmaps
-            // set 0 level mipmap and then use GL to generate other mipmap levels
-            if (mipmaps.length > 0 && supportsMips) {
-                for(var i = 0, il = mipmaps.length; i < il; i++)mipmap = mipmaps[i], state.texImage2D(3553, i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
-                texture.generateMipmaps = !1, textureProperties.__maxMipLevel = mipmaps.length - 1;
-            } else state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
-            else if (texture.isCompressedTexture) {
+            else if (texture.isDataTexture) {
+                // use manually created mipmaps if available
+                // if there are no manual mipmaps
+                // set 0 level mipmap and then use GL to generate other mipmap levels
+                if (mipmaps.length > 0 && supportsMips) {
+                    for(var i = 0, il = mipmaps.length; i < il; i++)mipmap = mipmaps[i], state.texImage2D(3553, i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
+                    texture.generateMipmaps = !1, textureProperties.__maxMipLevel = mipmaps.length - 1;
+                } else state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
+            } else if (texture.isCompressedTexture) {
                 for(var _i = 0, _il = mipmaps.length; _i < _il; _i++)mipmap = mipmaps[_i], 1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()') : state.texImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
                 textureProperties.__maxMipLevel = mipmaps.length - 1;
             } else if (texture.isDataTexture2DArray) state.texImage3D(35866, 0, glInternalFormat, image.width, image.height, image.depth, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
@@ -6921,11 +6929,13 @@ function(global, factory) {
             if (isWebGL2 && 1022 === renderTarget.texture.format && (1015 === renderTarget.texture.type || 1016 === renderTarget.texture.type) && (renderTarget.texture.format = 1023, console.warn('THREE.WebGLRenderer: Rendering to textures with RGB format is not supported. Using RGBA format instead.')), isCube) {
                 renderTargetProperties.__webglFramebuffer = [];
                 for(var i = 0; i < 6; i++)renderTargetProperties.__webglFramebuffer[i] = _gl.createFramebuffer();
-            } else if (renderTargetProperties.__webglFramebuffer = _gl.createFramebuffer(), isMultisample) if (isWebGL2) {
-                renderTargetProperties.__webglMultisampledFramebuffer = _gl.createFramebuffer(), renderTargetProperties.__webglColorRenderbuffer = _gl.createRenderbuffer(), _gl.bindRenderbuffer(36161, renderTargetProperties.__webglColorRenderbuffer);
-                var glFormat = utils.convert(renderTarget.texture.format), glType = utils.convert(renderTarget.texture.type), glInternalFormat = getInternalFormat(renderTarget.texture.internalFormat, glFormat, glType), samples = getRenderTargetSamples(renderTarget);
-                _gl.renderbufferStorageMultisample(36161, samples, glInternalFormat, renderTarget.width, renderTarget.height), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer), _gl.framebufferRenderbuffer(36160, 36064, 36161, renderTargetProperties.__webglColorRenderbuffer), _gl.bindRenderbuffer(36161, null), renderTarget.depthBuffer && (renderTargetProperties.__webglDepthRenderbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthRenderbuffer, renderTarget, !0)), _gl.bindFramebuffer(36160, null);
-            } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
+            } else if (renderTargetProperties.__webglFramebuffer = _gl.createFramebuffer(), isMultisample) {
+                if (isWebGL2) {
+                    renderTargetProperties.__webglMultisampledFramebuffer = _gl.createFramebuffer(), renderTargetProperties.__webglColorRenderbuffer = _gl.createRenderbuffer(), _gl.bindRenderbuffer(36161, renderTargetProperties.__webglColorRenderbuffer);
+                    var glFormat = utils.convert(renderTarget.texture.format), glType = utils.convert(renderTarget.texture.type), glInternalFormat = getInternalFormat(renderTarget.texture.internalFormat, glFormat, glType), samples = getRenderTargetSamples(renderTarget);
+                    _gl.renderbufferStorageMultisample(36161, samples, glInternalFormat, renderTarget.width, renderTarget.height), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer), _gl.framebufferRenderbuffer(36160, 36064, 36161, renderTargetProperties.__webglColorRenderbuffer), _gl.bindRenderbuffer(36161, null), renderTarget.depthBuffer && (renderTargetProperties.__webglDepthRenderbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthRenderbuffer, renderTarget, !0)), _gl.bindFramebuffer(36160, null);
+                } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
+            }
              // Setup color buffer
             if (isCube) {
                 state.bindTexture(34067, textureProperties.__webglTexture), setTextureParameters(34067, renderTarget.texture, supportsMips);
@@ -6960,12 +6970,14 @@ function(global, factory) {
                 state.bindTexture(target, webglTexture), generateMipmap(target, texture, renderTarget.width, renderTarget.height), state.bindTexture(target, null);
             }
         }, this.updateMultisampleRenderTarget = function(renderTarget) {
-            if (renderTarget.isWebGLMultisampleRenderTarget) if (isWebGL2) {
-                var renderTargetProperties = properties.get(renderTarget);
-                _gl.bindFramebuffer(36008, renderTargetProperties.__webglMultisampledFramebuffer), _gl.bindFramebuffer(36009, renderTargetProperties.__webglFramebuffer);
-                var width = renderTarget.width, height = renderTarget.height, mask = 16384;
-                renderTarget.depthBuffer && (mask |= 256), renderTarget.stencilBuffer && (mask |= 1024), _gl.blitFramebuffer(0, 0, width, height, 0, 0, width, height, mask, 9728), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer);
-            } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
+            if (renderTarget.isWebGLMultisampleRenderTarget) {
+                if (isWebGL2) {
+                    var renderTargetProperties = properties.get(renderTarget);
+                    _gl.bindFramebuffer(36008, renderTargetProperties.__webglMultisampledFramebuffer), _gl.bindFramebuffer(36009, renderTargetProperties.__webglFramebuffer);
+                    var width = renderTarget.width, height = renderTarget.height, mask = 16384;
+                    renderTarget.depthBuffer && (mask |= 256), renderTarget.stencilBuffer && (mask |= 1024), _gl.blitFramebuffer(0, 0, width, height, 0, 0, width, height, mask, 9728), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer);
+                } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
+            }
         }, this.safeSetTexture2D = function(texture, slot) {
             texture && texture.isWebGLRenderTarget && (!1 === warnedTexture2D && (console.warn('THREE.WebGLTextures.safeSetTexture2D: don\'t use render targets as textures. Use their .texture property instead.'), warnedTexture2D = !0), texture = texture.texture), setTexture2D(texture, slot);
         }, this.safeSetTextureCube = function(texture, slot) {
@@ -7375,11 +7387,13 @@ function(global, factory) {
             var compiled = new WeakMap();
             scene.traverse(function(object) {
                 var material = object.material;
-                if (material) if (Array.isArray(material)) for(var i = 0; i < material.length; i++){
-                    var material2 = material[i];
-                    !1 === compiled.has(material2) && (initMaterial(material2, scene, object), compiled.set(material2));
+                if (material) {
+                    if (Array.isArray(material)) for(var i = 0; i < material.length; i++){
+                        var material2 = material[i];
+                        !1 === compiled.has(material2) && (initMaterial(material2, scene, object), compiled.set(material2));
+                    }
+                    else !1 === compiled.has(material) && (initMaterial(material, scene, object), compiled.set(material));
                 }
-                else !1 === compiled.has(material) && (initMaterial(material, scene, object), compiled.set(material));
             });
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -7623,25 +7637,27 @@ function(global, factory) {
         },
         update: function(inputSource, frame, referenceSpace) {
             var inputPose = null, gripPose = null, handPose = null, targetRay = this._targetRay, grip = this._grip, hand = this._hand;
-            if (inputSource && 'visible-blurred' !== frame.session.visibilityState) if (hand && inputSource.hand) {
-                handPose = !0;
-                for(var i = 0; i <= window.XRHand.LITTLE_PHALANX_TIP; i++)if (inputSource.hand[i]) {
-                    // Update the joints groups with the XRJoint poses
-                    var jointPose = frame.getJointPose(inputSource.hand[i], referenceSpace), joint = hand.joints[i];
-                    null !== jointPose && (joint.matrix.fromArray(jointPose.transform.matrix), joint.matrix.decompose(joint.position, joint.rotation, joint.scale), joint.jointRadius = jointPose.radius), joint.visible = null !== jointPose;
-                    // Check pinch
-                    var indexTip = hand.joints[window.XRHand.INDEX_PHALANX_TIP], thumbTip = hand.joints[window.XRHand.THUMB_PHALANX_TIP], distance = indexTip.position.distanceTo(thumbTip.position);
-                    hand.inputState.pinching && distance > 0.025 ? (hand.inputState.pinching = !1, this.dispatchEvent({
-                        type: 'pinchend',
-                        handedness: inputSource.handedness,
-                        target: this
-                    })) : !hand.inputState.pinching && distance <= 0.015 && (hand.inputState.pinching = !0, this.dispatchEvent({
-                        type: 'pinchstart',
-                        handedness: inputSource.handedness,
-                        target: this
-                    }));
-                }
-            } else null !== targetRay && null !== (inputPose = frame.getPose(inputSource.targetRaySpace, referenceSpace)) && (targetRay.matrix.fromArray(inputPose.transform.matrix), targetRay.matrix.decompose(targetRay.position, targetRay.rotation, targetRay.scale)), null !== grip && inputSource.gripSpace && null !== (gripPose = frame.getPose(inputSource.gripSpace, referenceSpace)) && (grip.matrix.fromArray(gripPose.transform.matrix), grip.matrix.decompose(grip.position, grip.rotation, grip.scale));
+            if (inputSource && 'visible-blurred' !== frame.session.visibilityState) {
+                if (hand && inputSource.hand) {
+                    handPose = !0;
+                    for(var i = 0; i <= window.XRHand.LITTLE_PHALANX_TIP; i++)if (inputSource.hand[i]) {
+                        // Update the joints groups with the XRJoint poses
+                        var jointPose = frame.getJointPose(inputSource.hand[i], referenceSpace), joint = hand.joints[i];
+                        null !== jointPose && (joint.matrix.fromArray(jointPose.transform.matrix), joint.matrix.decompose(joint.position, joint.rotation, joint.scale), joint.jointRadius = jointPose.radius), joint.visible = null !== jointPose;
+                        // Check pinch
+                        var indexTip = hand.joints[window.XRHand.INDEX_PHALANX_TIP], thumbTip = hand.joints[window.XRHand.THUMB_PHALANX_TIP], distance = indexTip.position.distanceTo(thumbTip.position);
+                        hand.inputState.pinching && distance > 0.025 ? (hand.inputState.pinching = !1, this.dispatchEvent({
+                            type: 'pinchend',
+                            handedness: inputSource.handedness,
+                            target: this
+                        })) : !hand.inputState.pinching && distance <= 0.015 && (hand.inputState.pinching = !0, this.dispatchEvent({
+                            type: 'pinchstart',
+                            handedness: inputSource.handedness,
+                            target: this
+                        }));
+                    }
+                } else null !== targetRay && null !== (inputPose = frame.getPose(inputSource.targetRaySpace, referenceSpace)) && (targetRay.matrix.fromArray(inputPose.transform.matrix), targetRay.matrix.decompose(targetRay.position, targetRay.rotation, targetRay.scale)), null !== grip && inputSource.gripSpace && null !== (gripPose = frame.getPose(inputSource.gripSpace, referenceSpace)) && (grip.matrix.fromArray(gripPose.transform.matrix), grip.matrix.decompose(grip.position, grip.rotation, grip.scale));
+            }
             return null !== targetRay && (targetRay.visible = null !== inputPose), null !== grip && (grip.visible = null !== gripPose), null !== hand && (hand.visible = null !== handPose), this;
         }
     }), Object.assign(WebXRManager.prototype, EventDispatcher.prototype), WebGL1Renderer.prototype = Object.assign(Object.create(WebGLRenderer.prototype), {
@@ -8169,14 +8185,15 @@ function(global, factory) {
         },
         computeLineDistances: function() {
             var geometry = this.geometry;
-            if (geometry.isBufferGeometry) // we assume non-indexed geometry
-            if (null === geometry.index) {
-                for(var positionAttribute = geometry.attributes.position, lineDistances = [
-                    0
-                ], i = 1, l = positionAttribute.count; i < l; i++)_start.fromBufferAttribute(positionAttribute, i - 1), _end.fromBufferAttribute(positionAttribute, i), lineDistances[i] = lineDistances[i - 1], lineDistances[i] += _start.distanceTo(_end);
-                geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
-            } else console.warn('THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
-            else if (geometry.isGeometry) {
+            if (geometry.isBufferGeometry) {
+                // we assume non-indexed geometry
+                if (null === geometry.index) {
+                    for(var positionAttribute = geometry.attributes.position, lineDistances = [
+                        0
+                    ], i = 1, l = positionAttribute.count; i < l; i++)_start.fromBufferAttribute(positionAttribute, i - 1), _end.fromBufferAttribute(positionAttribute, i), lineDistances[i] = lineDistances[i - 1], lineDistances[i] += _start.distanceTo(_end);
+                    geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
+                } else console.warn('THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
+            } else if (geometry.isGeometry) {
                 var vertices = geometry.vertices, _lineDistances = geometry.lineDistances;
                 _lineDistances[0] = 0;
                 for(var _i = 1, _l = vertices.length; _i < _l; _i++)_lineDistances[_i] = _lineDistances[_i - 1], _lineDistances[_i] += vertices[_i - 1].distanceTo(vertices[_i]);
@@ -8286,12 +8303,13 @@ function(global, factory) {
         isLineSegments: !0,
         computeLineDistances: function() {
             var geometry = this.geometry;
-            if (geometry.isBufferGeometry) // we assume non-indexed geometry
-            if (null === geometry.index) {
-                for(var positionAttribute = geometry.attributes.position, lineDistances = [], i = 0, l = positionAttribute.count; i < l; i += 2)_start$1.fromBufferAttribute(positionAttribute, i), _end$1.fromBufferAttribute(positionAttribute, i + 1), lineDistances[i] = 0 === i ? 0 : lineDistances[i - 1], lineDistances[i + 1] = lineDistances[i] + _start$1.distanceTo(_end$1);
-                geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
-            } else console.warn('THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
-            else if (geometry.isGeometry) for(var vertices = geometry.vertices, _lineDistances = geometry.lineDistances, _i = 0, _l = vertices.length; _i < _l; _i += 2)_start$1.copy(vertices[_i]), _end$1.copy(vertices[_i + 1]), _lineDistances[_i] = 0 === _i ? 0 : _lineDistances[_i - 1], _lineDistances[_i + 1] = _lineDistances[_i] + _start$1.distanceTo(_end$1);
+            if (geometry.isBufferGeometry) {
+                // we assume non-indexed geometry
+                if (null === geometry.index) {
+                    for(var positionAttribute = geometry.attributes.position, lineDistances = [], i = 0, l = positionAttribute.count; i < l; i += 2)_start$1.fromBufferAttribute(positionAttribute, i), _end$1.fromBufferAttribute(positionAttribute, i + 1), lineDistances[i] = 0 === i ? 0 : lineDistances[i - 1], lineDistances[i + 1] = lineDistances[i] + _start$1.distanceTo(_end$1);
+                    geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
+                } else console.warn('THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
+            } else if (geometry.isGeometry) for(var vertices = geometry.vertices, _lineDistances = geometry.lineDistances, _i = 0, _l = vertices.length; _i < _l; _i += 2)_start$1.copy(vertices[_i]), _end$1.copy(vertices[_i + 1]), _lineDistances[_i] = 0 === _i ? 0 : _lineDistances[_i - 1], _lineDistances[_i + 1] = _lineDistances[_i] + _start$1.distanceTo(_end$1);
             return this;
         }
     }), LineLoop.prototype = Object.assign(Object.create(Line.prototype), {
@@ -10760,15 +10778,16 @@ function(global, factory) {
             for(var i = 1, key = jsonKeys[0]; void 0 !== key && void 0 === key[valuePropertyName];)key = jsonKeys[i++];
             if (void 0 !== key) {
                 var value = key[valuePropertyName];
-                if (void 0 !== value) if (Array.isArray(value)) do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push.apply(values, value)), key = jsonKeys[i++];
-                while (void 0 !== key)
-                else if (void 0 !== value.toArray) // ...assume THREE.Math-ish
-                do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), value.toArray(values, values.length)), key = jsonKeys[i++];
-                while (void 0 !== key)
-                else // otherwise push as-is
-                do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push(value)), key = jsonKeys[i++];
-                while (void 0 !== key)
-                 // no data
+                if (void 0 !== value) {
+                    if (Array.isArray(value)) do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push.apply(values, value)), key = jsonKeys[i++];
+                    while (void 0 !== key)
+                    else if (void 0 !== value.toArray) // ...assume THREE.Math-ish
+                    do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), value.toArray(values, values.length)), key = jsonKeys[i++];
+                    while (void 0 !== key)
+                    else // otherwise push as-is
+                    do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push(value)), key = jsonKeys[i++];
+                    while (void 0 !== key)
+                } // no data
             } // no data
         },
         subclip: function(sourceClip, name, startFrame, endFrame, fps) {
@@ -11085,9 +11104,11 @@ function(global, factory) {
             }
             if (void 0 === factoryMethod) {
                 var message = 'unsupported interpolation for ' + this.ValueTypeName + ' keyframe track named ' + this.name;
-                if (void 0 === this.createInterpolant) // fall back to default, unless the default itself is messed up
-                if (interpolation !== this.DefaultInterpolation) this.setInterpolation(this.DefaultInterpolation);
-                else throw Error(message); // fatal, in this case
+                if (void 0 === this.createInterpolant) {
+                    // fall back to default, unless the default itself is messed up
+                    if (interpolation !== this.DefaultInterpolation) this.setInterpolation(this.DefaultInterpolation);
+                    else throw Error(message); // fatal, in this case
+                }
                 return console.warn('THREE.KeyframeTrack:', message), this;
             }
             return this.createInterpolant = factoryMethod, this;
@@ -11159,15 +11180,16 @@ function(global, factory) {
         optimize: function() {
             for(var times = AnimationUtils.arraySlice(this.times), values = AnimationUtils.arraySlice(this.values), stride = this.getValueSize(), smoothInterpolation = 2302 === this.getInterpolation(), lastIndex = times.length - 1, writeIndex = 1, i = 1; i < lastIndex; ++i){
                 var keep = !1, time = times[i];
-                if (time !== times[i + 1] && (1 !== i || time !== time[0])) if (smoothInterpolation) keep = !0;
-                else for(var offset = i * stride, offsetP = offset - stride, offsetN = offset + stride, j = 0; j !== stride; ++j){
-                    var value = values[offset + j];
-                    if (value !== values[offsetP + j] || value !== values[offsetN + j]) {
-                        keep = !0;
-                        break;
+                if (time !== times[i + 1] && (1 !== i || time !== time[0])) {
+                    if (smoothInterpolation) keep = !0;
+                    else for(var offset = i * stride, offsetP = offset - stride, offsetN = offset + stride, j = 0; j !== stride; ++j){
+                        var value = values[offset + j];
+                        if (value !== values[offsetP + j] || value !== values[offsetN + j]) {
+                            keep = !0;
+                            break;
+                        }
                     }
-                }
-                 // in-place compaction
+                } // in-place compaction
                 if (keep) {
                     if (i !== writeIndex) {
                         times[writeIndex] = times[i];
@@ -11312,27 +11334,28 @@ function(global, factory) {
                 }
             }, tracks = [], clipName = animation.name || 'default', fps = animation.fps || 30, blendMode = animation.blendMode, duration = animation.length || -1, hierarchyTracks = animation.hierarchy || [], h = 0; h < hierarchyTracks.length; h++){
                 var animationKeys = hierarchyTracks[h].keys; // skip empty tracks
-                if (animationKeys && 0 !== animationKeys.length) if (animationKeys[0].morphTargets) {
-                    // figure out all morph targets used in this track
-                    var morphTargetNames = {}, k = void 0;
-                    for(k = 0; k < animationKeys.length; k++)if (animationKeys[k].morphTargets) for(var m = 0; m < animationKeys[k].morphTargets.length; m++)morphTargetNames[animationKeys[k].morphTargets[m]] = -1;
-                     // create a track for each morph target with all zero
-                    // morphTargetInfluences except for the keys in which
-                    // the morphTarget is named.
-                    for(var morphTargetName in morphTargetNames){
-                        for(var times = [], values = [], _m = 0; _m !== animationKeys[k].morphTargets.length; ++_m){
-                            var animationKey = animationKeys[k];
-                            times.push(animationKey.time), values.push(+(animationKey.morphTarget === morphTargetName));
+                if (animationKeys && 0 !== animationKeys.length) {
+                    if (animationKeys[0].morphTargets) {
+                        // figure out all morph targets used in this track
+                        var morphTargetNames = {}, k = void 0;
+                        for(k = 0; k < animationKeys.length; k++)if (animationKeys[k].morphTargets) for(var m = 0; m < animationKeys[k].morphTargets.length; m++)morphTargetNames[animationKeys[k].morphTargets[m]] = -1;
+                         // create a track for each morph target with all zero
+                        // morphTargetInfluences except for the keys in which
+                        // the morphTarget is named.
+                        for(var morphTargetName in morphTargetNames){
+                            for(var times = [], values = [], _m = 0; _m !== animationKeys[k].morphTargets.length; ++_m){
+                                var animationKey = animationKeys[k];
+                                times.push(animationKey.time), values.push(+(animationKey.morphTarget === morphTargetName));
+                            }
+                            tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
                         }
-                        tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
+                        duration = morphTargetNames.length * (fps || 1.0);
+                    } else {
+                        // ...assume skeletal animation
+                        var boneName = '.bones[' + bones[h].name + ']';
+                        addNonemptyTrack(VectorKeyframeTrack, boneName + '.position', animationKeys, 'pos', tracks), addNonemptyTrack(QuaternionKeyframeTrack, boneName + '.quaternion', animationKeys, 'rot', tracks), addNonemptyTrack(VectorKeyframeTrack, boneName + '.scale', animationKeys, 'scl', tracks);
                     }
-                    duration = morphTargetNames.length * (fps || 1.0);
-                } else {
-                    // ...assume skeletal animation
-                    var boneName = '.bones[' + bones[h].name + ']';
-                    addNonemptyTrack(VectorKeyframeTrack, boneName + '.position', animationKeys, 'pos', tracks), addNonemptyTrack(QuaternionKeyframeTrack, boneName + '.quaternion', animationKeys, 'rot', tracks), addNonemptyTrack(VectorKeyframeTrack, boneName + '.scale', animationKeys, 'scl', tracks);
-                }
-                 // process morph targets
+                } // process morph targets
             }
             return 0 === tracks.length ? null : new AnimationClip(clipName, duration, tracks, blendMode);
         }
@@ -13688,7 +13711,7 @@ function(global, factory) {
         }
     });
     // Characters [].:/ are reserved for track binding syntax.
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp('^' + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp("^" + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'
@@ -14043,24 +14066,25 @@ function(global, factory) {
         uncache: function() {
             for(var objects = this._objects, indicesByUUID = this._indicesByUUID, bindings = this._bindings, nBindings = bindings.length, nCachedObjects = this.nCachedObjects_, nObjects = objects.length, i = 0, n = arguments.length; i !== n; ++i){
                 var object = arguments[i], uuid = object.uuid, index = indicesByUUID[uuid];
-                if (void 0 !== index) if (delete indicesByUUID[uuid], index < nCachedObjects) {
-                    // object is cached, shrink the CACHED region
-                    var firstActiveIndex = --nCachedObjects, lastCachedObject = objects[firstActiveIndex], lastIndex = --nObjects, lastObject = objects[lastIndex]; // last cached object takes this object's place
-                    indicesByUUID[lastCachedObject.uuid] = index, objects[index] = lastCachedObject, indicesByUUID[lastObject.uuid] = firstActiveIndex, objects[firstActiveIndex] = lastObject, objects.pop();
-                    for(var j = 0; j !== nBindings; ++j){
-                        var bindingsForPath = bindings[j], lastCached = bindingsForPath[firstActiveIndex], last = bindingsForPath[lastIndex];
-                        bindingsForPath[index] = lastCached, bindingsForPath[firstActiveIndex] = last, bindingsForPath.pop();
-                    }
-                } else {
-                    // object is active, just swap with the last and pop
-                    var _lastIndex = --nObjects, _lastObject = objects[_lastIndex];
-                    _lastIndex > 0 && (indicesByUUID[_lastObject.uuid] = index), objects[index] = _lastObject, objects.pop();
-                    for(var _j2 = 0; _j2 !== nBindings; ++_j2){
-                        var _bindingsForPath = bindings[_j2];
-                        _bindingsForPath[index] = _bindingsForPath[_lastIndex], _bindingsForPath.pop();
-                    }
-                } // cached or active
-                 // if object is known
+                if (void 0 !== index) {
+                    if (delete indicesByUUID[uuid], index < nCachedObjects) {
+                        // object is cached, shrink the CACHED region
+                        var firstActiveIndex = --nCachedObjects, lastCachedObject = objects[firstActiveIndex], lastIndex = --nObjects, lastObject = objects[lastIndex]; // last cached object takes this object's place
+                        indicesByUUID[lastCachedObject.uuid] = index, objects[index] = lastCachedObject, indicesByUUID[lastObject.uuid] = firstActiveIndex, objects[firstActiveIndex] = lastObject, objects.pop();
+                        for(var j = 0; j !== nBindings; ++j){
+                            var bindingsForPath = bindings[j], lastCached = bindingsForPath[firstActiveIndex], last = bindingsForPath[lastIndex];
+                            bindingsForPath[index] = lastCached, bindingsForPath[firstActiveIndex] = last, bindingsForPath.pop();
+                        }
+                    } else {
+                        // object is active, just swap with the last and pop
+                        var _lastIndex = --nObjects, _lastObject = objects[_lastIndex];
+                        _lastIndex > 0 && (indicesByUUID[_lastObject.uuid] = index), objects[index] = _lastObject, objects.pop();
+                        for(var _j2 = 0; _j2 !== nBindings; ++_j2){
+                            var _bindingsForPath = bindings[_j2];
+                            _bindingsForPath[index] = _bindingsForPath[_lastIndex], _bindingsForPath.pop();
+                        }
+                    } // cached or active
+                } // if object is known
             } // for arguments
             this.nCachedObjects_ = nCachedObjects;
         },

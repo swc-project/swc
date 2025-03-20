@@ -1,5 +1,5 @@
 function f() {
-    1 / 0;
+    Infinity = 1 / 0;
     ++Infinity;
     Infinity--;
     NaN *= NaN;

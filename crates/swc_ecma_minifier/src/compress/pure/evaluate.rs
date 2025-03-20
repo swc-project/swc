@@ -592,12 +592,12 @@ impl Pure<'_> {
                 return;
             }
 
-            // 1 || foo => 1
+            // 1 || foo => foo
             if let Value::Known(true) = bin_expr.left.as_pure_bool(self.expr_ctx) {
                 self.changed = true;
-                report_change!("evaluate: `true || foo` => `true`");
+                report_change!("evaluate: `true || foo` => `foo`");
 
-                *e = *bin_expr.left.take();
+                *e = *bin_expr.right.take();
             }
         } else {
             debug_assert_eq!(bin_expr.op, op!("&&"));

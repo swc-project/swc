@@ -886,15 +886,17 @@
                     } // if the HTTP status code is 4xx or 5xx, the request also failed
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
-                        if (decodeResponseBody) if (window1.TextDecoder) {
-                            var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
-                                var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
-                                return "charset" === type.trim() ? value.trim() : charset;
-                            }, "utf-8"));
-                            try {
-                                cause = new TextDecoder(charset).decode(responseBody);
-                            } catch (e) {}
-                        } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
+                        if (decodeResponseBody) {
+                            if (window1.TextDecoder) {
+                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
+                                    return "charset" === type.trim() ? value.trim() : charset;
+                                }, "utf-8"));
+                                try {
+                                    cause = new TextDecoder(charset).decode(responseBody);
+                                } catch (e) {}
+                            } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
+                        }
                         callback({
                             cause: cause
                         });
@@ -2622,10 +2624,11 @@
                                                     case "'":
                                                     case '"':
                                                         if (3 === s || 1 === s //|| s == S_ATTR_SPACE
-                                                        ) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                                        else //fatalError: no end quot match
-                                                        throw Error("attribute value no end '" + c + "' match");
-                                                        else if (4 == s) //console.log(attrName,value,start,p)
+                                                        ) {
+                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                                            else //fatalError: no end quot match
+                                                            throw Error("attribute value no end '" + c + "' match");
+                                                        } else if (4 == s) //console.log(attrName,value,start,p)
                                                         addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), //console.dir(el)
                                                         errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                                                         else //fatalError: no equal before
@@ -2977,12 +2980,13 @@
                  * @param {string} type the event name
                  */ _proto.trigger = function(type) {
                     var callbacks = this.listeners[type];
-                    if (callbacks) // can add a significant amount of overhead. Avoid the
-                    // intermediate object creation for the common case of a
-                    // single callback argument
-                    if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                    else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
-                     // Slicing the arguments on every invocation of this method
+                    if (callbacks) {
+                        // can add a significant amount of overhead. Avoid the
+                        // intermediate object creation for the common case of a
+                        // single callback argument
+                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                    } // Slicing the arguments on every invocation of this method
                 }, /**
                  * Destroys the stream and cleans up.
                  */ _proto.dispose = function() {
@@ -4056,7 +4060,7 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? (0, attributes.duration) ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                return (attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
                     {
                         number: attributes.startNumber || 1,
                         duration: attributes.sourceDuration,
@@ -4763,16 +4767,18 @@
                     if (!relativeParts.netLoc && (// 3) If the embedded URL's <net_loc> is non-empty, we skip to
                     // Step 7.  Otherwise, the embedded URL inherits the <net_loc>
                     // (if any) of the base URL.
-                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) if (relativeParts.path) {
-                        // 6) The last segment of the base URL's path (anything
-                        // following the rightmost slash "/", or the entire path if no
-                        // slash is present) is removed and the embedded URL's path is
-                        // appended in its place.
-                        var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
-                        builtParts.path = URLToolkit.normalizePath(newPath);
-                    } else // 5) If the embedded URL path is empty (and not preceded by a
-                    // slash), then the embedded URL inherits the base URL path
-                    builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) {
+                        if (relativeParts.path) {
+                            // 6) The last segment of the base URL's path (anything
+                            // following the rightmost slash "/", or the entire path if no
+                            // slash is present) is removed and the embedded URL's path is
+                            // appended in its place.
+                            var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
+                            builtParts.path = URLToolkit.normalizePath(newPath);
+                        } else // 5) If the embedded URL path is empty (and not preceded by a
+                        // slash), then the embedded URL inherits the base URL path
+                        builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    }
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -5661,7 +5667,7 @@
                     return;
                 }
                 for(var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
-                    font: Math.round(0.05 * containerBox.height * 100) / 100 + "px sans-serif"
+                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
                 }, i1 = 0; i1 < cues.length; i1++)// Compute the intial position and styles of the cue div.
                 styleBox = new CueStyleBox(window1, cue = cues[i1], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
                 // Move a StyleBox to its specified, or next best, position. The containerBox
@@ -5672,7 +5678,7 @@
                         if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                         if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                         for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                        return -+ ++count;
+                        return -1 * ++count;
                     }(cue), axis = [];
                     // If we have a line number to align the cue to.
                     if (cue.snapToLines) {
