@@ -81,7 +81,6 @@
                         // in the function makes it easier to test cases where console doesn't exist
                         // when the module is executed.
                         var fn = global_window__WEBPACK_IMPORTED_MODULE_0___default().console[type];
-                        // current logging level.
                         fn || "debug" !== type || // Certain browsers don't have support for console.debug. For those, we
                         // should default to the closest comparable log.
                         (fn = global_window__WEBPACK_IMPORTED_MODULE_0___default().console.info || global_window__WEBPACK_IMPORTED_MODULE_0___default().console.log), fn && lvl && lvlRegExp.test(type) && fn[Array.isArray(args) ? "apply" : "call"](global_window__WEBPACK_IMPORTED_MODULE_0___default().console, args);
@@ -4862,7 +4861,10 @@
                  * @return {Tech|undefined}
                  *         The `Tech` or undefined if there was no tech with the name requested.
                  */ Tech.getTech = function(name) {
-                    return name ? Tech.techs_ && Tech.techs_[name] ? Tech.techs_[name] : (name = toTitleCase$1(name), global_window__WEBPACK_IMPORTED_MODULE_0___default() && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) ? (log$1.warn("The " + name + " tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)"), global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) : void 0 : void 0;
+                    if (name) {
+                        if (Tech.techs_ && Tech.techs_[name]) return Tech.techs_[name];
+                        if (name = toTitleCase$1(name), global_window__WEBPACK_IMPORTED_MODULE_0___default() && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) return log$1.warn("The " + name + " tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)"), global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name];
+                    }
                 }, Tech;
             }(Component$1);
             /**
@@ -5677,7 +5679,7 @@
                     }))) {
                         for(var cues = [], i = 0; i < tracks.length; ++i)for(var track = tracks[i], j = 0; j < track.activeCues.length; ++j)cues.push(track.activeCues[j]);
                          // removes all cues before it processes new ones
-                        global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT.processCues(global_window__WEBPACK_IMPORTED_MODULE_0___default(), cues, this.el_);
+                        global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT.processCues(global_window__WEBPACK_IMPORTED_MODULE_0___default(), cues, this.el_); // add unique class to each language text track & add settings styling if necessary
                         for(var _i2 = 0; _i2 < tracks.length; ++_i2){
                             for(var _track2 = tracks[_i2], _j = 0; _j < _track2.activeCues.length; ++_j){
                                 var cueEl = _track2.activeCues[_j].displayState;
@@ -12954,9 +12956,9 @@
                  * @listens Tech#dblclick
                  * @private
                  */ _proto.handleTechDoubleClick_ = function(event) {
-                    this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
+                    this.controls_ && !Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
-                    }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen())); // we do not want to toggle fullscreen state
+                    }) && (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()); // we do not want to toggle fullscreen state
                 }, /**
                  * Handle a tap on the media element. It will toggle the user
                  * activity state, which hides and shows the controls.
@@ -14067,7 +14069,7 @@
                      *
                      * @event Player#posterchange
                      * @type {EventTarget~Event}
-                     */ this.trigger("posterchange")); // update the internal poster variable
+                     */ this.trigger("posterchange"));
                 }, /**
                  * Some techs (e.g. YouTube) can provide a poster source in an
                  * asynchronous way. We want the poster component to use this
@@ -14097,7 +14099,7 @@
                  *         The current value of controls when getting
                  */ _proto.controls = function(bool) {
                     if (void 0 === bool) return !!this.controls_;
-                    bool = !!bool, this.controls_ !== bool && (this.controls_ = bool, this.usingNativeControls() && this.techCall_("setControls", bool), this.controls_ ? (this.removeClass("vjs-controls-disabled"), this.addClass("vjs-controls-enabled"), /**
+                    bool = !!bool, this.controls_ === bool || (this.controls_ = bool, this.usingNativeControls() && this.techCall_("setControls", bool), this.controls_ ? (this.removeClass("vjs-controls-disabled"), this.addClass("vjs-controls-enabled"), /**
                          * @event Player#controlsenabled
                          * @type {EventTarget~Event}
                          */ this.trigger("controlsenabled"), this.usingNativeControls() || this.addTechControlsListeners_()) : (this.removeClass("vjs-controls-enabled"), this.addClass("vjs-controls-disabled"), /**
@@ -14254,7 +14256,7 @@
                                 // before the next user activity is picked up by the activity check loop
                                 // causing a flicker
                                 this.userActivity_ || this.userActive(!1);
-                            }, timeout)); // In <timeout> milliseconds, if no more activity has occurred the
+                            }, timeout));
                         } // Reset the activity tracker
                     }, 250);
                 }, /**
@@ -17052,7 +17054,8 @@
                         };
                     };
                 };
-                /**
+                // don't throw an error
+                if (/**
                      * Forwards all `data` events on this stream to the destination stream. The
                      * destination stream should provide a method `push` to receive the data
                      * events as they arrive.
@@ -17085,150 +17088,69 @@
                     this.trigger("endedtimeline", flushSource);
                 }, Stream.prototype.reset = function(flushSource) {
                     this.trigger("reset", flushSource);
-                }, function() {
-                    var i;
-                    // don't throw an error
-                    if (types = {
-                        avc1: [],
-                        // codingname
-                        avcC: [],
-                        btrt: [],
-                        dinf: [],
-                        dref: [],
-                        esds: [],
-                        ftyp: [],
-                        hdlr: [],
-                        mdat: [],
-                        mdhd: [],
-                        mdia: [],
-                        mfhd: [],
-                        minf: [],
-                        moof: [],
-                        moov: [],
-                        mp4a: [],
-                        // codingname
-                        mvex: [],
-                        mvhd: [],
-                        pasp: [],
-                        sdtp: [],
-                        smhd: [],
-                        stbl: [],
-                        stco: [],
-                        stsc: [],
-                        stsd: [],
-                        stsz: [],
-                        stts: [],
-                        styp: [],
-                        tfdt: [],
-                        tfhd: [],
-                        traf: [],
-                        trak: [],
-                        trun: [],
-                        trex: [],
-                        tkhd: [],
-                        vmhd: []
-                    }, "undefined" != typeof Uint8Array) {
-                        for(i in types)types.hasOwnProperty(i) && (types[i] = [
-                            i.charCodeAt(0),
-                            i.charCodeAt(1),
-                            i.charCodeAt(2),
-                            i.charCodeAt(3)
-                        ]);
-                        MAJOR_BRAND = new Uint8Array([
-                            105,
-                            115,
-                            111,
-                            109
-                        ]), AVC1_BRAND = new Uint8Array([
-                            97,
-                            118,
-                            99,
-                            49
-                        ]), MINOR_VERSION = new Uint8Array([
-                            0,
-                            0,
-                            0,
-                            1
-                        ]), HDLR_TYPES = {
-                            video: new Uint8Array([
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x76,
-                                0x69,
-                                0x64,
-                                0x65,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x56,
-                                0x69,
-                                0x64,
-                                0x65,
-                                0x6f,
-                                0x48,
-                                0x61,
-                                0x6e,
-                                0x64,
-                                0x6c,
-                                0x65,
-                                0x72,
-                                0x00
-                            ]),
-                            audio: new Uint8Array([
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x73,
-                                0x6f,
-                                0x75,
-                                0x6e,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x00,
-                                0x53,
-                                0x6f,
-                                0x75,
-                                0x6e,
-                                0x64,
-                                0x48,
-                                0x61,
-                                0x6e,
-                                0x64,
-                                0x6c,
-                                0x65,
-                                0x72,
-                                0x00
-                            ])
-                        }, DREF = new Uint8Array([
+                }, types = {
+                    avc1: [],
+                    // codingname
+                    avcC: [],
+                    btrt: [],
+                    dinf: [],
+                    dref: [],
+                    esds: [],
+                    ftyp: [],
+                    hdlr: [],
+                    mdat: [],
+                    mdhd: [],
+                    mdia: [],
+                    mfhd: [],
+                    minf: [],
+                    moof: [],
+                    moov: [],
+                    mp4a: [],
+                    // codingname
+                    mvex: [],
+                    mvhd: [],
+                    pasp: [],
+                    sdtp: [],
+                    smhd: [],
+                    stbl: [],
+                    stco: [],
+                    stsc: [],
+                    stsd: [],
+                    stsz: [],
+                    stts: [],
+                    styp: [],
+                    tfdt: [],
+                    tfhd: [],
+                    traf: [],
+                    trak: [],
+                    trun: [],
+                    trex: [],
+                    tkhd: [],
+                    vmhd: []
+                }, "undefined" != typeof Uint8Array) {
+                    for(i in types)types.hasOwnProperty(i) && (types[i] = [
+                        i.charCodeAt(0),
+                        i.charCodeAt(1),
+                        i.charCodeAt(2),
+                        i.charCodeAt(3)
+                    ]);
+                    MAJOR_BRAND = new Uint8Array([
+                        105,
+                        115,
+                        111,
+                        109
+                    ]), AVC1_BRAND = new Uint8Array([
+                        97,
+                        118,
+                        99,
+                        49
+                    ]), MINOR_VERSION = new Uint8Array([
+                        0,
+                        0,
+                        0,
+                        1
+                    ]), HDLR_TYPES = {
+                        video: new Uint8Array([
                             0x00,
                             0x00,
                             0x00,
@@ -17236,29 +17158,38 @@
                             0x00,
                             0x00,
                             0x00,
-                            0x01,
+                            0x00,
+                            0x76,
+                            0x69,
+                            0x64,
+                            0x65,
                             0x00,
                             0x00,
                             0x00,
-                            0x0c,
-                            0x75,
-                            0x72,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x56,
+                            0x69,
+                            0x64,
+                            0x65,
+                            0x6f,
+                            0x48,
+                            0x61,
+                            0x6e,
+                            0x64,
                             0x6c,
-                            0x20,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x01
-                        ]), SMHD = new Uint8Array([
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
+                            0x65,
+                            0x72,
                             0x00
-                        ]), STSC = STCO = new Uint8Array([
+                        ]),
+                        audio: new Uint8Array([
                             0x00,
                             0x00,
                             0x00,
@@ -17266,36 +17197,105 @@
                             0x00,
                             0x00,
                             0x00,
+                            0x00,
+                            0x73,
+                            0x6f,
+                            0x75,
+                            0x6e,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x00,
+                            0x53,
+                            0x6f,
+                            0x75,
+                            0x6e,
+                            0x64,
+                            0x48,
+                            0x61,
+                            0x6e,
+                            0x64,
+                            0x6c,
+                            0x65,
+                            0x72,
                             0x00
-                        ]), STSZ = new Uint8Array([
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00
-                        ]), STTS = STCO, VMHD = new Uint8Array([
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x01,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00
-                        ]);
-                    }
-                }(), box = function(type) {
+                        ])
+                    }, DREF = new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x01,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x0c,
+                        0x75,
+                        0x72,
+                        0x6c,
+                        0x20,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x01
+                    ]), SMHD = new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00
+                    ]), STSC = STCO = new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00
+                    ]), STSZ = new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00
+                    ]), STTS = STCO, VMHD = new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x01,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00
+                    ]);
+                }
+                box = function(type) {
                     var i, result, payload = [], size = 0;
                     for(i = 1; i < arguments.length; i++)payload.push(arguments[i]);
                     for(i = payload.length; i--;)size += payload[i].byteLength;
@@ -19263,7 +19263,7 @@
                     };
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
-                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
+                var i, videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
                 secondsToVideoTs, videoTsToSeconds, _MetadataStream, timestampRolloverStream = {
                     TimestampRolloverStream: TimestampRolloverStream$1,
                     handleRollover: handleRollover$1
@@ -19476,8 +19476,6 @@
                         size: 0
                     }, parsePes = function(payload, pes) {
                         var ptsDtsFlags, startPrefix = payload[0] << 16 | payload[1] << 8 | payload[2]; // default to an empty array
-                        // that are frame data that is continuing from the previous fragment. This
-                        // is to check that the pes data is the start of a new pes payload
                         pes.data = new Uint8Array(), 1 === startPrefix && (pes.packetLength = 6 + (payload[4] << 8 | payload[5]), pes.dataAlignmentIndicator = (0x04 & payload[6]) != 0, 0xc0 & // and a DTS value. Determine what combination of values is
                         // available to work with.
                         (ptsDtsFlags = payload[7]) && (// the PTS and DTS are not written out directly. For information
@@ -19485,7 +19483,7 @@
                         // http://dvd.sourceforge.net/dvdinfo/pes-hdr.html
                         pes.pts = (0x0e & payload[9]) << 27 | (0xff & payload[10]) << 20 | (0xfe & payload[11]) << 12 | (0xff & payload[12]) << 5 | (0xfe & payload[13]) >>> 3, pes.pts *= 4, pes.pts += (0x06 & payload[13]) >>> 1, pes.dts = pes.pts, 0x40 & ptsDtsFlags && (pes.dts = (0x0e & payload[14]) << 27 | (0xff & payload[15]) << 20 | (0xfe & payload[16]) << 12 | (0xff & payload[17]) << 5 | (0xfe & payload[18]) >>> 3, pes.dts *= 4, pes.dts += (0x06 & payload[18]) >>> 1)), // pes_header_data_length specifies the number of header bytes
                         // that follow the last byte of the field.
-                        pes.data = payload.subarray(9 + payload[8])); // get the packet length, this will be 0 for video
+                        pes.data = payload.subarray(9 + payload[8]));
                     }, /**
                              * Pass completely parsed PES packets to the next stream in the pipeline
                              **/ flushStream = function(stream, type, forceFlush) {
@@ -20396,11 +20394,14 @@
                         info: {}
                     }, timelineStartPts = 0;
                     if (this.pendingTracks.length < this.numberOfTracks) {
-                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource || this.remuxTracks) // Return because we haven't received a flush from a data-generating
+                        if ("VideoSegmentStream" !== flushSource && "AudioSegmentStream" !== flushSource) // Return because we haven't received a flush from a data-generating
                         // portion of the segment (meaning that we have only recieved meta-data
                         // or captions.)
                         return;
-                        if (0 === this.pendingTracks.length) {
+                        else if (this.remuxTracks) // Return until we have enough tracks from the pipeline to remux (if we
+                        // are remuxing audio and video into a single MP4)
+                        return;
+                        else if (0 === this.pendingTracks.length) {
                             // In the case where we receive a flush without any data having been
                             // received we consider it an emitted track for the purposes of coalescing
                             // `done` events.
@@ -20870,7 +20871,7 @@
                         // them. Future PMT declarations have the current_next_indicator
                         // set to zero.
                         if (pusi && (payloadOffset += packet[payloadOffset] + 1), 0x01 & packet[payloadOffset + 5]) {
-                            tableEnd = 3 + ((0x0f & packet[payloadOffset + 1]) << 8 | packet[payloadOffset + 2]) - 4;
+                            tableEnd = 3 + ((0x0f & packet[payloadOffset + 1]) << 8 | packet[payloadOffset + 2]) - 4; // to determine where the table is, we have to figure out how
                             for(var offset = 12 + ((0x0f & packet[payloadOffset + 10]) << 8 | packet[payloadOffset + 11]); offset < tableEnd;){
                                 var i = payloadOffset + offset; // add an entry that maps the elementary_pid to the stream_type
                                 programMapTable[(0x1f & packet[i + 1]) << 8 | packet[i + 2]] = packet[i], // skip past the elementary stream descriptors, if present
@@ -21376,10 +21377,10 @@
                 if (transmuxer.onmessage = function(event) {
                     transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
-                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
+                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" === event.data.type && (waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
                         transmuxedData: transmuxedData,
                         callback: onDone
-                    }), /* eslint-disable no-use-before-define */ dequeue(transmuxer)));
+                    }), /* eslint-disable no-use-before-define */ dequeue(transmuxer))));
                 /* eslint-enable */ }, audioAppendStart && transmuxer.postMessage({
                     action: "setAudioAppendStart",
                     appendStart: audioAppendStart
@@ -22500,7 +22501,6 @@
                     this.monitorBuffer_(), this.playlist_) {
                         if ("INIT" === this.state && this.couldBeginLoading_()) return this.init_();
                          // if we're in the middle of processing a segment already, don't
-                        // kick off an additional segment request
                         this.couldBeginLoading_() && ("READY" === this.state || "INIT" === this.state) && (this.state = "READY");
                     } // if all the configuration is ready, initialize and begin loading
                 }, /**
@@ -22797,7 +22797,7 @@
                                 var timeSavedBySwitching = requestTimeRemaining - timeUntilRebuffer$1 - switchCandidate.rebufferingImpact, minimumTimeSaving = 0.5;
                                 timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), switchCandidate.playlist && switchCandidate.playlist.uri !== this.playlist_.uri && !(timeSavedBySwitching < minimumTimeSaving) && (// BANDWIDTH_VARIANCE and add one so the playlist selector does not exclude it
                                 // don't trigger a bandwidthupdate as the bandwidth is artifial
-                                this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort")); // set the bandwidth to that of the desired playlist being sure to scale by
+                                this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
                             }
                         }
                     } // Wait at least 1 second since the first byte of data has been received before
@@ -23512,7 +23512,7 @@
                         // queue actions until both are available and the media source action can process.
                         return;
                     }
-                    if (!("mediaSource" === type || !sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
+                    if ("mediaSource" !== type && !(!sourceUpdater.ready() || "closed" === sourceUpdater.mediaSource.readyState || _updating(type, sourceUpdater))) {
                         if (queueEntry.type !== type) {
                             if (null === (queueIndex = nextQueueIndexOfType(type, sourceUpdater.queue))) // Either there's no queue entry that uses this source buffer type in the queue, or
                             // there's a media source queue entry before the next entry of this type, in which
@@ -25970,15 +25970,18 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
-                                this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
-                                    [
-                                        audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
-                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
-                                    ]
-                                ]) : // seekable has been calculated based on buffering video data so it
-                                // can be returned directly
-                                this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
+                                if (0 !== mainSeekable.length) {
+                                    if (this.mediaTypes_.AUDIO.activePlaylistLoader && (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null === (expired = this.syncController_.getExpiredTime(media, this.duration())) || 0 === (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length) || (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
+                                    this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
+                                        [
+                                            audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
+                                            audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
+                                        ]
+                                    ]) : // seekable has been calculated based on buffering video data so it
+                                    // can be returned directly
+                                    this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart)) return;
+                                    this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged");
+                                }
                             }
                         }
                     }
@@ -26884,7 +26887,6 @@
                             }) : error.code = 3, player.error(error);
                         });
                         var defaultSelector = this.options_.experimentalBufferBasedABR ? Vhs.movingAverageBandwidthSelector(0.55) : Vhs.STANDARD_PLAYLIST_SELECTOR; // `this` in selectPlaylist should be the VhsHandler for backwards
-                        // this can occur if someone sets the src in player.ready(), for instance
                         // compatibility with < v2
                         this.masterPlaylistController_.selectPlaylist = this.selectPlaylist ? this.selectPlaylist.bind(this) : defaultSelector.bind(this), this.masterPlaylistController_.selectInitialPlaylist = Vhs.INITIAL_PLAYLIST_SELECTOR.bind(this), this.playlists = this.masterPlaylistController_.masterPlaylistLoader_, this.mediaSource = this.masterPlaylistController_.mediaSource, // controller. Using a custom property for backwards compatibility
                         // with < v2

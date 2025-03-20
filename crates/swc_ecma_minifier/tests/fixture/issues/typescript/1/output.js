@@ -265,9 +265,9 @@ var ts, ts1, dynamicImportUMDHelper;
         switch(node.kind){
             case 265 /* ImportDeclaration */ :
                 var statements, statements1, id, statements2, statements3, namespaceDeclaration = ts1.getNamespaceDeclarationNode(node);
-                if (moduleKind !== ts1.ModuleKind.AMD) {
-                    if (!node.importClause) // import "mod";
-                    return ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createRequireCall(node)), node), node);
+                if (moduleKind !== ts1.ModuleKind.AMD) if (!node.importClause) // import "mod";
+                return ts1.setOriginalNode(ts1.setTextRange(factory.createExpressionStatement(createRequireCall(node)), node), node);
+                else {
                     var variables = [];
                     namespaceDeclaration && !ts1.isDefaultImport(node) ? // import * as n from "mod";
                     variables.push(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, getHelperExpressionForImport(node, createRequireCall(node)))) : (// import d from "mod";
@@ -275,7 +275,8 @@ var ts, ts1, dynamicImportUMDHelper;
                     // import d, { x, y } from "mod";
                     // import d, * as n from "mod";
                     variables.push(factory.createVariableDeclaration(factory.getGeneratedNameForNode(node), /*exclamationToken*/ void 0, /*type*/ void 0, getHelperExpressionForImport(node, createRequireCall(node)))), namespaceDeclaration && ts1.isDefaultImport(node) && variables.push(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, factory.getGeneratedNameForNode(node)))), statements3 = ts1.append(statements3, ts1.setOriginalNode(ts1.setTextRange(factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList(variables, 2 /* Const */  * (languageVersion >= 2 /* ES2015 */ ) /* None */ )), node), node));
-                } else namespaceDeclaration && ts1.isDefaultImport(node) && // import d, * as n from "mod";
+                }
+                else namespaceDeclaration && ts1.isDefaultImport(node) && // import d, * as n from "mod";
                 (statements3 = ts1.append(statements3, factory.createVariableStatement(/*modifiers*/ void 0, factory.createVariableDeclarationList([
                     ts1.setOriginalNode(ts1.setTextRange(factory.createVariableDeclaration(factory.cloneNode(namespaceDeclaration.name), /*exclamationToken*/ void 0, /*type*/ void 0, factory.getGeneratedNameForNode(node)), node), node)
                 ], 2 /* Const */  * (languageVersion >= 2 /* ES2015 */ ) /* None */ ))));
@@ -747,7 +748,7 @@ var ts, ts1, dynamicImportUMDHelper;
             var importDeclaration = resolver.getReferencedImportDeclaration(node);
             if (importDeclaration) {
                 if (ts1.isImportClause(importDeclaration)) return ts1.setTextRange(factory.createPropertyAccessExpression(factory.getGeneratedNameForNode(importDeclaration.parent), factory.createIdentifier("default")), /*location*/ node);
-                if (ts1.isImportSpecifier(importDeclaration)) {
+                else if (ts1.isImportSpecifier(importDeclaration)) {
                     var name = importDeclaration.propertyName || importDeclaration.name;
                     return ts1.setTextRange(factory.createPropertyAccessExpression(factory.getGeneratedNameForNode((null === (_b = null === (_a = importDeclaration.parent) || void 0 === _a ? void 0 : _a.parent) || void 0 === _b ? void 0 : _b.parent) || importDeclaration), factory.cloneNode(name)), /*location*/ node);
                 }

@@ -4669,8 +4669,8 @@ function(global, factory) {
             get: function(texture) {
                 if (texture && texture.isTexture) {
                     var mapping = texture.mapping;
-                    if (303 === mapping || 304 === mapping) {
-                        if (cubemaps.has(texture)) return mapTextureMapping(cubemaps.get(texture).texture, texture.mapping);
+                    if (303 === mapping || 304 === mapping) if (cubemaps.has(texture)) return mapTextureMapping(cubemaps.get(texture).texture, texture.mapping);
+                    else {
                         var image = texture.image;
                         if (!image || !(image.height > 0)) // image not yet ready. try the conversion next frame
                         return null;
@@ -6710,16 +6710,13 @@ function(global, factory) {
         }
         function resizeImage(image, needsPowerOfTwo, needsNewCanvas, maxSize) {
             var scale = 1; // handle case if texture exceeds max size
-            if ((image.width > maxSize || image.height > maxSize) && (scale = maxSize / Math.max(image.width, image.height)), scale < 1 || !0 === needsPowerOfTwo) {
-                // only perform resize for certain image types
-                if ('undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap) {
-                    var floor = needsPowerOfTwo ? MathUtils.floorPowerOfTwo : Math.floor, width = floor(scale * image.width), height = floor(scale * image.height);
-                    void 0 === _canvas && (_canvas = createCanvas(width, height));
-                    var canvas = needsNewCanvas ? createCanvas(width, height) : _canvas;
-                    return canvas.width = width, canvas.height = height, canvas.getContext('2d').drawImage(image, 0, 0, width, height), console.warn('THREE.WebGLRenderer: Texture has been resized from (' + image.width + 'x' + image.height + ') to (' + width + 'x' + height + ').'), canvas;
-                }
-                'data' in image && console.warn('THREE.WebGLRenderer: Image in DataTexture is too big (' + image.width + 'x' + image.height + ').');
-            }
+            if ((image.width > maxSize || image.height > maxSize) && (scale = maxSize / Math.max(image.width, image.height)), scale < 1 || !0 === needsPowerOfTwo) // only perform resize for certain image types
+            if ('undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap) {
+                var floor = needsPowerOfTwo ? MathUtils.floorPowerOfTwo : Math.floor, width = floor(scale * image.width), height = floor(scale * image.height);
+                void 0 === _canvas && (_canvas = createCanvas(width, height));
+                var canvas = needsNewCanvas ? createCanvas(width, height) : _canvas;
+                return canvas.width = width, canvas.height = height, canvas.getContext('2d').drawImage(image, 0, 0, width, height), console.warn('THREE.WebGLRenderer: Texture has been resized from (' + image.width + 'x' + image.height + ') to (' + width + 'x' + height + ').'), canvas;
+            } else 'data' in image && console.warn('THREE.WebGLRenderer: Image in DataTexture is too big (' + image.width + 'x' + image.height + ').');
             return image;
         }
         function isPowerOfTwo(image) {
@@ -7237,10 +7234,8 @@ function(global, factory) {
                     preserveDrawingBuffer: _preserveDrawingBuffer,
                     powerPreference: _powerPreference,
                     failIfMajorPerformanceCaveat: _failIfMajorPerformanceCaveat
-                }), null === _gl) {
-                    if (getContext(contextNames)) throw Error('Error creating WebGL context with your selected attributes.');
-                    throw Error('Error creating WebGL context.');
-                }
+                }), null === _gl) if (getContext(contextNames)) throw Error('Error creating WebGL context with your selected attributes.');
+                else throw Error('Error creating WebGL context.');
             } // Some experimental-webgl implementations do not have getShaderPrecisionFormat
             void 0 === _gl.getShaderPrecisionFormat && (_gl.getShaderPrecisionFormat = function() {
                 return {

@@ -142,23 +142,22 @@
             // character at that position, relative to the window.
             function coordsAtPos(view, pos, side) {
                 var ref = view.docView.domFromPos(pos, side < 0 ? -1 : 1), node = ref.node, offset = ref.offset, supportEmptyRange = result.webkit || result.gecko;
-                if (3 == node.nodeType) {
-                    // These browsers support querying empty text ranges. Prefer that in
-                    // bidi context or when at the end of a node.
-                    if (supportEmptyRange && (BIDI.test(node.nodeValue) || (side < 0 ? !offset : offset == node.nodeValue.length))) {
-                        var rect = singleRect(textRange(node, offset, offset), side);
-                        // Firefox returns bad results (the position before the space)
-                        // when querying a position directly after line-broken
-                        // whitespace. Detect this situation and and kludge around it
-                        if (result.gecko && offset && /\s/.test(node.nodeValue[offset - 1]) && offset < node.nodeValue.length) {
-                            var rectBefore = singleRect(textRange(node, offset - 1, offset - 1), -1);
-                            if (rectBefore.top == rect.top) {
-                                var rectAfter = singleRect(textRange(node, offset, offset + 1), -1);
-                                if (rectAfter.top != rect.top) return flattenV(rectAfter, rectAfter.left < rectBefore.left);
-                            }
+                if (3 == node.nodeType) // These browsers support querying empty text ranges. Prefer that in
+                // bidi context or when at the end of a node.
+                if (supportEmptyRange && (BIDI.test(node.nodeValue) || (side < 0 ? !offset : offset == node.nodeValue.length))) {
+                    var rect = singleRect(textRange(node, offset, offset), side);
+                    // Firefox returns bad results (the position before the space)
+                    // when querying a position directly after line-broken
+                    // whitespace. Detect this situation and and kludge around it
+                    if (result.gecko && offset && /\s/.test(node.nodeValue[offset - 1]) && offset < node.nodeValue.length) {
+                        var rectBefore = singleRect(textRange(node, offset - 1, offset - 1), -1);
+                        if (rectBefore.top == rect.top) {
+                            var rectAfter = singleRect(textRange(node, offset, offset + 1), -1);
+                            if (rectAfter.top != rect.top) return flattenV(rectAfter, rectAfter.left < rectBefore.left);
                         }
-                        return rect;
                     }
+                    return rect;
+                } else {
                     var from = offset, to = offset, takeSide = side < 0 ? 1 : -1;
                     return side < 0 && !offset ? (to++, takeSide = -1) : side >= 0 && offset == node.nodeValue.length ? (from--, takeSide = 1) : side < 0 ? from-- : to++, flattenV(singleRect(textRange(node, from, to), takeSide), takeSide < 0);
                 }
@@ -344,11 +343,9 @@
             ViewDesc.prototype.nearestDesc = function(dom, onlyNodes) {
                 for(var first = !0, cur = dom; cur; cur = cur.parentNode){
                     var desc = this.getDesc(cur);
-                    if (desc && (!onlyNodes || desc.node)) {
-                        // If dom is outside of this desc's nodeDOM, don't count it.
-                        if (!first || !desc.nodeDOM || (1 == desc.nodeDOM.nodeType ? desc.nodeDOM.contains(1 == dom.nodeType ? dom : dom.parentNode) : desc.nodeDOM == dom)) return desc;
-                        first = !1;
-                    }
+                    if (desc && (!onlyNodes || desc.node)) // If dom is outside of this desc's nodeDOM, don't count it.
+                    if (!first || !desc.nodeDOM || (1 == desc.nodeDOM.nodeType ? desc.nodeDOM.contains(1 == dom.nodeType ? dom : dom.parentNode) : desc.nodeDOM == dom)) return desc;
+                    else first = !1;
                 }
             }, ViewDesc.prototype.getDesc = function(dom) {
                 for(var desc = dom.pmViewDesc, cur = desc; cur; cur = cur.parent)if (cur == this) return desc;
@@ -808,11 +805,11 @@
                                 }
                             }
                         }(sel.focusNode, sel.focusOffset);
-                        if (textNode && this.dom.contains(textNode.parentNode)) {
-                            if (!this.node.inlineContent) return {
-                                node: textNode,
-                                pos: -1
-                            };
+                        if (textNode && this.dom.contains(textNode.parentNode)) if (!this.node.inlineContent) return {
+                            node: textNode,
+                            pos: -1
+                        };
+                        else {
                             // Find the text in the focused node in the node, stop if it's not
                             // there (may have been modified through other means, in which
                             // case it should overwritten)
@@ -1216,8 +1213,8 @@
             // contentEditable.
             ViewTreeUpdater.prototype.addTextblockHacks = function() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
-                (!lastChild || // Empty textblock
-                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) && ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
+                !(!lastChild || // Empty textblock
+                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
             }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {
@@ -1234,7 +1231,7 @@
                 if (result.safari && after && "false" == after.contentEditable) return setEditable(after);
                 if ((!after || "false" == after.contentEditable) && (!before || "false" == before.contentEditable)) {
                     if (after) return setEditable(after);
-                    if (before) return setEditable(before);
+                    else if (before) return setEditable(before);
                 }
             }
             function setEditable(element) {
@@ -1281,11 +1278,10 @@
                 var sel = view.state.selection;
                 if (sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) {
                     if (!sel.empty || mods.indexOf("s") > -1) return !1;
-                    if (view.endOfTextblock(dir > 0 ? "right" : "left")) {
+                    else if (view.endOfTextblock(dir > 0 ? "right" : "left")) {
                         var next = moveSelectionBlock(view.state, dir);
                         return !!next && next instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection && apply(view, next);
-                    }
-                    if (!(result.mac && mods.indexOf("m") > -1)) {
+                    } else if (!(result.mac && mods.indexOf("m") > -1)) {
                         var desc, $head = sel.$head, node = $head.textOffset ? null : dir < 0 ? $head.nodeBefore : $head.nodeAfter;
                         if (!node || node.isText) return !1;
                         var nodePos = dir < 0 ? $head.pos - node.nodeSize : $head.pos;
@@ -1310,13 +1306,14 @@
                 var sel = view.root.getSelection(), node = sel.focusNode, offset = sel.focusOffset;
                 if (node) {
                     var moveNode, moveOffset, force = !1;
-                    for(result.gecko && 1 == node.nodeType && offset < nodeLen(node) && isIgnorable(node.childNodes[offset]) && (force = !0);;)if (offset > 0) {
-                        if (1 != node.nodeType) break;
+                    for(result.gecko && 1 == node.nodeType && offset < nodeLen(node) && isIgnorable(node.childNodes[offset]) && (force = !0);;)if (offset > 0) if (1 != node.nodeType) break;
+                    else {
                         var before = node.childNodes[offset - 1];
                         if (isIgnorable(before)) moveNode = node, moveOffset = --offset;
                         else if (3 == before.nodeType) offset = (node = before).nodeValue.length;
                         else break;
-                    } else if (isBlockNode(node)) break;
+                    }
+                    else if (isBlockNode(node)) break;
                     else {
                         for(var prev = node.previousSibling; prev && isIgnorable(prev);)moveNode = node.parentNode, moveOffset = domIndex(prev), prev = prev.previousSibling;
                         if (prev) offset = nodeLen(node = prev);
@@ -1402,17 +1399,16 @@
             function ruleFromNode(dom) {
                 var desc = dom.pmViewDesc;
                 if (desc) return desc.parseRule();
-                if ("BR" == dom.nodeName && dom.parentNode) {
-                    // Safari replaces the list item or table cell with a BR
-                    // directly in the list node (?!) if you delete the last
-                    // character in a list item or table cell (#708, #862)
+                if ("BR" == dom.nodeName && dom.parentNode) // Safari replaces the list item or table cell with a BR
+                // directly in the list node (?!) if you delete the last
+                // character in a list item or table cell (#708, #862)
+                {
                     if (result.safari && /^(ul|ol)$/i.test(dom.parentNode.nodeName)) {
                         var skip = document.createElement("div");
                         return skip.appendChild(document.createElement("li")), {
                             skip: skip
                         };
-                    }
-                    if (dom.parentNode.lastChild == dom || result.safari && /^(tr|table)$/i.test(dom.parentNode.nodeName)) return {
+                    } else if (dom.parentNode.lastChild == dom || result.safari && /^(tr|table)$/i.test(dom.parentNode.nodeName)) return {
                         ignore: !0
                     };
                 } else if ("IMG" == dom.nodeName && dom.getAttribute("mark-placeholder")) return {
@@ -2022,32 +2018,31 @@
                 if (!sel.empty) {
                     // IE and Edge's clipboard interface is completely broken
                     var data = brokenClipboardAPI ? null : e.clipboardData, ref = serializeForClipboard(view, sel.content()), dom = ref.dom, text = ref.text;
-                    data ? (e.preventDefault(), data.clearData(), data.setData("text/html", dom.innerHTML), data.setData("text/plain", text)) : function(view, dom) {
-                        // The extra wrapper is somehow necessary on IE/Edge to prevent the
-                        // content from being mangled when it is put onto the clipboard
-                        if (view.dom.parentNode) {
-                            var wrap = view.dom.parentNode.appendChild(document.createElement("div"));
-                            wrap.appendChild(dom), wrap.style.cssText = "position: fixed; left: -10000px; top: 10px";
-                            var sel = getSelection(), range = document.createRange();
-                            range.selectNodeContents(dom), // Done because IE will fire a selectionchange moving the selection
-                            // to its start when removeAllRanges is called and the editor still
-                            // has focus (which will mess up the editor's selection state).
-                            view.dom.blur(), sel.removeAllRanges(), sel.addRange(range), setTimeout(function() {
-                                wrap.parentNode && wrap.parentNode.removeChild(wrap), view.focus();
-                            }, 50);
-                        }
-                    }(view, dom), cut && view.dispatch(view.state.tr.deleteSelection().scrollIntoView().setMeta("uiEvent", "cut"));
+                    if (data) e.preventDefault(), data.clearData(), data.setData("text/html", dom.innerHTML), data.setData("text/plain", text);
+                    else // The extra wrapper is somehow necessary on IE/Edge to prevent the
+                    // content from being mangled when it is put onto the clipboard
+                    if (view.dom.parentNode) {
+                        var wrap = view.dom.parentNode.appendChild(document.createElement("div"));
+                        wrap.appendChild(dom), wrap.style.cssText = "position: fixed; left: -10000px; top: 10px";
+                        var sel1 = getSelection(), range = document.createRange();
+                        range.selectNodeContents(dom), // Done because IE will fire a selectionchange moving the selection
+                        // to its start when removeAllRanges is called and the editor still
+                        // has focus (which will mess up the editor's selection state).
+                        view.dom.blur(), sel1.removeAllRanges(), sel1.addRange(range), setTimeout(function() {
+                            wrap.parentNode && wrap.parentNode.removeChild(wrap), view.focus();
+                        }, 50);
+                    }
+                    cut && view.dispatch(view.state.tr.deleteSelection().scrollIntoView().setMeta("uiEvent", "cut"));
                 }
             }, editHandlers.paste = function(view, e) {
                 var data = brokenClipboardAPI ? null : e.clipboardData;
-                data && doPaste(view, data.getData("text/plain"), data.getData("text/html"), e) ? e.preventDefault() : function(view, e) {
-                    if (view.dom.parentNode) {
-                        var plainText = view.shiftKey || view.state.selection.$from.parent.type.spec.code, target = view.dom.parentNode.appendChild(document.createElement(plainText ? "textarea" : "div"));
-                        plainText || (target.contentEditable = "true"), target.style.cssText = "position: fixed; left: -10000px; top: 10px", target.focus(), setTimeout(function() {
-                            view.focus(), target.parentNode && target.parentNode.removeChild(target), plainText ? doPaste(view, target.value, null, e) : doPaste(view, target.textContent, target.innerHTML, e);
-                        }, 50);
-                    }
-                }(view, e);
+                if (data && doPaste(view, data.getData("text/plain"), data.getData("text/html"), e)) e.preventDefault();
+                else if (view.dom.parentNode) {
+                    var plainText = view.shiftKey || view.state.selection.$from.parent.type.spec.code, target = view.dom.parentNode.appendChild(document.createElement(plainText ? "textarea" : "div"));
+                    plainText || (target.contentEditable = "true"), target.style.cssText = "position: fixed; left: -10000px; top: 10px", target.focus(), setTimeout(function() {
+                        view.focus(), target.parentNode && target.parentNode.removeChild(target), plainText ? doPaste(view, target.value, null, e) : doPaste(view, target.textContent, target.innerHTML, e);
+                    }, 50);
+                }
             };
             var Dragging = function(slice, move) {
                 this.slice = slice, this.move = move;
@@ -2133,6 +2128,7 @@
                             return f(view, keyEvent(8, "Backspace"));
                         }))) {
                             var $cursor = view.state.selection.$cursor;
+                            // Crude approximation of backspace behavior when no command handled it
                             $cursor && $cursor.pos > 0 && view.dispatch(view.state.tr.delete($cursor.pos - 1, $cursor.pos).scrollIntoView());
                         } // Event already had some effect
                     }, 50);
