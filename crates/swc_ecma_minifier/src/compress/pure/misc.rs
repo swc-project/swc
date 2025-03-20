@@ -1735,18 +1735,6 @@ impl Pure<'_> {
                     return;
                 }
 
-                Expr::Object(obj) => {
-                    if obj.props.iter().all(|prop| !prop.is_spread()) {
-                        let exprs = collect_exprs_from_object(obj);
-                        *e = self
-                            .make_ignored_expr(obj.span, exprs.into_iter())
-                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                        report_change!("Ignored an object literal");
-                        self.changed = true;
-                        return;
-                    }
-                }
-
                 Expr::Array(arr) => {
                     if arr.elems.iter().any(|e| match e {
                         Some(ExprOrSpread {
