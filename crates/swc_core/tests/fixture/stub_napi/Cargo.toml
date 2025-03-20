@@ -57,3 +57,6 @@ swc_core = { path = "../../../../swc_core", features = [
   "base_node",
   "base_concurrent",
 ] }
+swc_parallel = { version = "1.2.0", path = "../../../../swc_parallel", features = [
+  "chili",
+] }
