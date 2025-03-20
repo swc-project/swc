@@ -10,12 +10,10 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
-use tracing::{debug, span, Level};
+use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
 use super::util::is_pure_undefined_or_null;
-#[cfg(feature = "debug")]
-use crate::debug::dump;
 use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
 
 mod arrows;
@@ -33,6 +31,7 @@ mod numbers;
 mod properties;
 mod sequences;
 mod strings;
+mod switches;
 mod unsafes;
 mod vars;
 
@@ -42,9 +41,6 @@ pub(crate) struct PureOptimizerConfig {
     pub enable_join_vars: bool,
 
     pub force_str_for_tpl: bool,
-
-    #[cfg(feature = "debug")]
-    pub debug_infinite_loop: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -110,7 +106,7 @@ impl Pure<'_> {
             + VisitMutWith<self::vars::VarMover>
             + VisitWith<AssertValid>,
     {
-        self.remove_dead_branch(stmts);
+        self.optimize_const_if(stmts);
 
         #[cfg(debug_assertions)]
         {
@@ -271,6 +267,18 @@ impl VisitMut for Pure<'_> {
         self.negate_cond_expr(e);
     }
 
+    fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
+        s.test.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                preserve_block: true,
+                ..self.ctx
+            };
+            s.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         {
             let ctx = Ctx {
@@ -293,6 +301,8 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
+
+        self.simplify_assign_expr(e);
 
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
@@ -591,6 +601,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
+        self.optimize_for_init(&mut s.init);
+
+        self.optimize_for_update(&mut s.update);
+
         self.optimize_for_if_break(s);
 
         self.merge_for_if_break(s);
@@ -619,11 +633,29 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
-        s.visit_mut_children_with(self);
+        s.test.visit_mut_with(self);
+
+        {
+            let ctx = Ctx {
+                preserve_block: true,
+                ..self.ctx
+            };
+            s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        s.alt.visit_mut_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
         self.merge_else_if(s);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
+        let ctx = Ctx {
+            is_label_body: true,
+            ..self.ctx
+        };
+        s.body.visit_mut_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -662,6 +694,10 @@ impl VisitMut for Pure<'_> {
         e.args.visit_mut_with(self);
     }
 
+    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
+        p.visit_mut_children_with(self);
+    }
+
     fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
         {
             let ctx = Ctx {
@@ -693,6 +729,12 @@ impl VisitMut for Pure<'_> {
                 if e.is_invalid() {
                     *n = None;
                 }
+            }
+        }
+
+        if let Some(VarDeclOrExpr::Expr(e)) = n {
+            if e.is_invalid() {
+                *n = None;
             }
         }
     }
@@ -778,7 +820,7 @@ impl VisitMut for Pure<'_> {
 
         self.merge_seq_call(e);
 
-        let can_drop_zero = matches!(&**e.exprs.last().unwrap(), Expr::Arrow(..));
+        let can_drop_zero = !e.exprs.last().unwrap().directness_matters();
 
         let len = e.exprs.len();
         for (idx, e) in e.exprs.iter_mut().enumerate() {
@@ -798,6 +840,10 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
+        if !can_drop_zero && e.exprs.len() == 1 {
+            e.exprs.insert(0, 0.into());
+        }
+
         #[cfg(debug_assertions)]
         {
             e.exprs.visit_with(&mut AssertValid);
@@ -805,48 +851,54 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        #[cfg(feature = "debug")]
-        let _tracing = if self.config.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                Some(span!(Level::ERROR, "visit_mut_stmt", "start" = &*text).entered())
-            } else {
-                None
-            }
-        } else {
-            None
-        };
-
         {
             let ctx = Ctx {
                 is_update_arg: false,
                 is_callee: false,
                 in_delete: false,
                 in_first_expr: true,
+                preserve_block: false,
+                is_label_body: false,
                 ..self.ctx
             };
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
         match s {
-            Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
-                *s = EmptyStmt { span: DUMMY_SP }.into();
-                return;
+            Stmt::Expr(ExprStmt { expr, .. }) => {
+                if expr.is_invalid() {
+                    *s = Stmt::dummy();
+                    return;
+                }
+
+                self.ignore_return_value(
+                    expr,
+                    DropOpts {
+                        drop_number: true,
+                        ..Default::default()
+                    },
+                );
+
+                if expr.is_invalid() {
+                    *s = Stmt::dummy();
+                    self.changed = true;
+                    report_change!("Dropping an invalid expression statement");
+                    return;
+                }
+            }
+
+            Stmt::Block(bs) => {
+                if bs.stmts.is_empty() {
+                    *s = Stmt::dummy();
+                    self.changed = true;
+                    report_change!("Dropping an empty block statement");
+                    return;
+                }
             }
             _ => {}
         }
 
         debug_assert_valid(s);
-
-        #[cfg(feature = "debug")]
-        if self.config.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_children_with: {}", text);
-            }
-        }
 
         if self.options.drop_debugger {
             if let Stmt::Debugger(..) = s {
@@ -857,11 +909,29 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        if !self.ctx.preserve_block {
+            self.drop_needless_block(s);
+
+            debug_assert_valid(s);
+        }
+
+        self.optimize_empty_try_stmt(s);
+
+        debug_assert_valid(s);
+
+        self.optimize_meaningless_try(s);
+
+        debug_assert_valid(s);
+
+        self.optimize_loops_with_constant_condition(s);
+
+        debug_assert_valid(s);
+
         self.loop_to_for_stmt(s);
 
         debug_assert_valid(s);
 
-        self.drop_instant_break(s);
+        self.handle_instant_break(s);
 
         debug_assert_valid(s);
 
@@ -873,19 +943,18 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(s);
 
+        self.optimize_body_of_loop_stmt(s);
+
+        debug_assert_valid(s);
+
+        self.optimize_switch_stmt(s);
+
+        debug_assert_valid(s);
+
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
-            }
-        }
-
-        #[cfg(feature = "debug")]
-        if self.config.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_stmt: {}", text);
             }
         }
 
@@ -926,6 +995,12 @@ impl VisitMut for Pure<'_> {
                 e.prop = SuperProp::Ident(ident)
             };
         }
+    }
+
+    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
+        n.visit_mut_children_with(self);
+
+        self.optimize_switch_cases(n);
     }
 
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {

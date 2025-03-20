@@ -249,8 +249,6 @@ impl Evaluator {
                 PureOptimizerConfig {
                     enable_join_vars: false,
                     force_str_for_tpl: self.data.force_str_for_tpl(),
-                    #[cfg(feature = "debug")]
-                    debug_infinite_loop: false,
                 },
             ));
         }

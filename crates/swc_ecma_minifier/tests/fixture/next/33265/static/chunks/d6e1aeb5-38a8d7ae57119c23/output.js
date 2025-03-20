@@ -1123,20 +1123,19 @@
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
-                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n && !event.isImmediatePropagationStopped(); m++)try {
+                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n; m++)if (event.isImmediatePropagationStopped()) break;
+                        else try {
                             handlersCopy[m].call(elem, event, hash);
                         } catch (e) {
                             log$1.error(e);
                         }
                     }
-                }), 1 === data.handlers[type].length) {
-                    if (elem.addEventListener) {
-                        var options = !1;
-                        supportsPassive() && passiveEvents.indexOf(type) > -1 && (options = {
-                            passive: !0
-                        }), elem.addEventListener(type, data.dispatcher, options);
-                    } else elem.attachEvent && elem.attachEvent("on" + type, data.dispatcher);
-                }
+                }), 1 === data.handlers[type].length) if (elem.addEventListener) {
+                    var options = !1;
+                    supportsPassive() && passiveEvents.indexOf(type) > -1 && (options = {
+                        passive: !0
+                    }), elem.addEventListener(type, data.dispatcher, options);
+                } else elem.attachEvent && elem.attachEvent("on" + type, data.dispatcher);
             }
             /**
              * Removes event listeners from an element
@@ -3032,16 +3031,26 @@
                         };
                     })
                 });
-            }, textTrackConverter_textTracksToJson = function(tech) {
-                var trackEls = tech.$$("track"), trackObjs = Array.prototype.map.call(trackEls, function(t) {
-                    return t.track;
-                });
-                return Array.prototype.map.call(trackEls, function(trackEl) {
-                    var json = trackToJson_(trackEl.track);
-                    return trackEl.src && (json.src = trackEl.src), json;
-                }).concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
-                    return -1 === trackObjs.indexOf(track);
-                }).map(trackToJson_));
+            }, textTrackConverter = {
+                textTracksToJson: function(tech) {
+                    var trackEls = tech.$$("track"), trackObjs = Array.prototype.map.call(trackEls, function(t) {
+                        return t.track;
+                    });
+                    return Array.prototype.map.call(trackEls, function(trackEl) {
+                        var json = trackToJson_(trackEl.track);
+                        return trackEl.src && (json.src = trackEl.src), json;
+                    }).concat(Array.prototype.filter.call(tech.textTracks(), function(track) {
+                        return -1 === trackObjs.indexOf(track);
+                    }).map(trackToJson_));
+                },
+                jsonToTextTracks: function(json, tech) {
+                    return json.forEach(function(track) {
+                        var addedTrack = tech.addRemoteTextTrack(track).track;
+                        !track.src && track.cues && track.cues.forEach(function(cue) {
+                            return addedTrack.addCue(cue);
+                        });
+                    }), tech.textTracks();
+                }
             }, MODAL_CLASS_NAME = "vjs-modal-dialog", ModalDialog = /*#__PURE__*/ function(_Component) {
                 /**
                  * Create an instance of this class.
@@ -4580,39 +4589,38 @@
                  * @fires Tech#vttjserror
                  */ _proto.addWebVttScript_ = function() {
                     var _this5 = this;
-                    if (!global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT) {
-                        // signals that the Tech is ready at which point Tech.el_ is part of the DOM
-                        // before inserting the WebVTT script
-                        if (global_document__WEBPACK_IMPORTED_MODULE_1___default().body.contains(this.el())) {
-                            // load via require if available and vtt.js script location was not passed in
-                            // as an option. novtt builds will turn the above require call into an empty object
-                            // which will cause this if check to always fail.
-                            if (!this.options_["vtt.js"] && isPlain(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()) && Object.keys(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()).length > 0) {
-                                this.trigger("vttjsloaded");
-                                return;
-                            } // load vtt.js via the script location option or the cdn of no location was
-                            // passed in
-                            var script = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("script");
-                            script.src = this.options_["vtt.js"] || "https://vjs.zencdn.net/vttjs/0.14.1/vtt.min.js", script.onload = function() {
-                                /**
+                    if (!global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT) // signals that the Tech is ready at which point Tech.el_ is part of the DOM
+                    // before inserting the WebVTT script
+                    if (global_document__WEBPACK_IMPORTED_MODULE_1___default().body.contains(this.el())) {
+                        // load via require if available and vtt.js script location was not passed in
+                        // as an option. novtt builds will turn the above require call into an empty object
+                        // which will cause this if check to always fail.
+                        if (!this.options_["vtt.js"] && isPlain(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()) && Object.keys(videojs_vtt_js__WEBPACK_IMPORTED_MODULE_5___default()).length > 0) {
+                            this.trigger("vttjsloaded");
+                            return;
+                        } // load vtt.js via the script location option or the cdn of no location was
+                        // passed in
+                        var script = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("script");
+                        script.src = this.options_["vtt.js"] || "https://vjs.zencdn.net/vttjs/0.14.1/vtt.min.js", script.onload = function() {
+                            /**
                              * Fired when vtt.js is loaded.
                              *
                              * @event Tech#vttjsloaded
                              * @type {EventTarget~Event}
                              */ _this5.trigger("vttjsloaded");
-                            }, script.onerror = function() {
-                                /**
+                        }, script.onerror = function() {
+                            /**
                              * Fired when vtt.js was not loaded due to an error
                              *
                              * @event Tech#vttjsloaded
                              * @type {EventTarget~Event}
                              */ _this5.trigger("vttjserror");
-                            }, this.on("dispose", function() {
-                                script.onload = null, script.onerror = null;
-                            }), // we don't overwrite the injected window.WebVTT if it loads right away
-                            global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT = !0, this.el().parentNode.appendChild(script);
-                        } else this.ready(this.addWebVttScript_);
-                    } // Initially, Tech.el_ is a child of a dummy-div wait until the Component system
+                        }, this.on("dispose", function() {
+                            script.onload = null, script.onerror = null;
+                        }), // we don't overwrite the injected window.WebVTT if it loads right away
+                        global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT = !0, this.el().parentNode.appendChild(script);
+                    } else this.ready(this.addWebVttScript_);
+                     // Initially, Tech.el_ is a child of a dummy-div wait until the Component system
                 }, /**
                  * Emulate texttracks
                  *
@@ -12143,18 +12151,17 @@
                     // This latter part coincides with the load order
                     // (tag must exist before Player)
                     (options = assign(Player.getTagSettings(tag), options)).initChildren = !1, options.createEl = !1, options.evented = !1, // see enableTouchActivity in Component
-                    options.reportTouchActivity = !1, !options.language) {
-                        if ("function" == typeof tag.closest) {
-                            var _this, closest = tag.closest("[lang]");
-                            closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
-                        } else for(var element = tag; element && 1 === element.nodeType;){
-                            if (getAttributes(element).hasOwnProperty("lang")) {
-                                options.language = element.getAttribute("lang");
-                                break;
-                            }
-                            element = element.parentNode;
+                    options.reportTouchActivity = !1, !options.language) if ("function" == typeof tag.closest) {
+                        var _this, closest = tag.closest("[lang]");
+                        closest && closest.getAttribute && (options.language = closest.getAttribute("lang"));
+                    } else for(var element = tag; element && 1 === element.nodeType;){
+                        if (getAttributes(element).hasOwnProperty("lang")) {
+                            options.language = element.getAttribute("lang");
+                            break;
                         }
-                    } // Run base component initializing with new options
+                        element = element.parentNode;
+                    }
+                     // Run base component initializing with new options
                     // someone, bail early with an informative error
                     if ((_this = _Component.call(this, null, options, ready) || this).boundDocumentFullscreenChange_ = function(e) {
                         return _this.documentFullscreenChange_(e);
@@ -12454,7 +12461,7 @@
                  *
                  * @private
                  */ _proto.loadTech_ = function(techName, source) {
-                    var json, tech, _this4 = this;
+                    var _this4 = this;
                     this.tech_ && this.unloadTech_();
                     var titleTechName = toTitleCase$1(techName), camelTechName = techName.charAt(0).toLowerCase() + techName.slice(1);
                     "Html5" !== titleTechName && this.tag && (Tech.getTech("Html5").disposeMediaElement(this.tag), this.tag.player = null, this.tag = null), this.techName_ = titleTechName, this.isReady_ = !1;
@@ -12485,12 +12492,7 @@
                     }), assign(techOptions, this.options_[titleTechName]), assign(techOptions, this.options_[camelTechName]), assign(techOptions, this.options_[techName.toLowerCase()]), this.tag && (techOptions.tag = this.tag), source && source.src === this.cache_.src && this.cache_.currentTime > 0 && (techOptions.startTime = this.cache_.currentTime);
                     var TechClass = Tech.getTech(techName);
                     if (!TechClass) throw Error("No Tech named '" + titleTechName + "' exists! '" + titleTechName + "' should be registered using videojs.registerTech()'");
-                    this.tech_ = new TechClass(techOptions), this.tech_.ready(bind(this, this.handleTechReady_), !0), json = this.textTracksJson_ || [], tech = this.tech_, json.forEach(function(track) {
-                        var addedTrack = tech.addRemoteTextTrack(track).track;
-                        !track.src && track.cues && track.cues.forEach(function(cue) {
-                            return addedTrack.addCue(cue);
-                        });
-                    }), tech.textTracks(), TECH_EVENTS_RETRIGGER.forEach(function(event) {
+                    this.tech_ = new TechClass(techOptions), this.tech_.ready(bind(this, this.handleTechReady_), !0), textTrackConverter.jsonToTextTracks(this.textTracksJson_ || [], this.tech_), TECH_EVENTS_RETRIGGER.forEach(function(event) {
                         _this4.on(_this4.tech_, event, function(e) {
                             return _this4["handleTech" + toTitleCase$1(event) + "_"](e);
                         });
@@ -12550,7 +12552,7 @@
                     ALL.names.forEach(function(name) {
                         var props = ALL[name];
                         _this5[props.privateName] = _this5[props.getterName]();
-                    }), this.textTracksJson_ = textTrackConverter_textTracksToJson(this.tech_), this.isReady_ = !1, this.tech_.dispose(), this.tech_ = !1, this.isPosterFromTech_ && (this.poster_ = "", this.trigger("posterchange")), this.isPosterFromTech_ = !1;
+                    }), this.textTracksJson_ = textTrackConverter.textTracksToJson(this.tech_), this.isReady_ = !1, this.tech_.dispose(), this.tech_ = !1, this.isPosterFromTech_ && (this.poster_ = "", this.trigger("posterchange")), this.isPosterFromTech_ = !1;
                 }, /**
                  * Return a reference to the current {@link Tech}.
                  * It will print a warning by default about the danger of using the tech directly
@@ -13845,12 +13847,12 @@
                             }(src, middlewares[src.type], next, player);
                         }, 1);
                     }(this, sources[0], function(middlewareSource, mws) {
-                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
+                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
-                        }, 0), void // this needs a better comment about why this is needed
+                        }, 0), // this needs a better comment about why this is needed
                         _this14.triggerReady());
                         !/**
              * When the tech is set, passes the tech to each middleware's `setTech` method.
@@ -16578,7 +16580,7 @@
                 if ("estimate" === matchedSegment.type) return(// we've run out of retries
                 0 === retryCount ? callback({
                     message: programTime + " is not buffered yet. Try again"
-                }) : (seekTo(matchedSegment.estimatedStart + mediaOffset), void tech.one("seeked", function() {
+                }) : void (seekTo(matchedSegment.estimatedStart + mediaOffset), tech.one("seeked", function() {
                     seekToProgramTime({
                         programTime: programTime,
                         playlist: playlist,
@@ -17034,16 +17036,15 @@
                              * @param type {string} the event name
                              */ this.trigger = function(type) {
                             var callbacks, i, length, args;
-                            if (callbacks = listeners[type]) {
-                                // can add a significant amount of overhead. Avoid the
-                                // intermediate object creation for the common case of a
-                                // single callback argument
-                                if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                                else {
-                                    for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
-                                    for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
-                                }
-                            } // Slicing the arguments on every invocation of this method
+                            if (callbacks = listeners[type]) // can add a significant amount of overhead. Avoid the
+                            // intermediate object creation for the common case of a
+                            // single callback argument
+                            if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                            else {
+                                for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
+                                for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
+                            }
+                             // Slicing the arguments on every invocation of this method
                         }, /**
                              * Destroys the stream and cleans up.
                              */ this.dispose = function() {
@@ -18209,29 +18210,41 @@
                     var i, sum = 0; // sum the byteLength's all each nal unit in the frame
                     for(i = 0; i < array.length; i++)sum += array[i].data.byteLength;
                     return sum;
-                }, audioFrameUtils_prefixWithSilence = function(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime) {
-                    var baseMediaDecodeTimeTs, silentFrame, i, firstFrame, frameDuration = 0, audioFillFrameCount = 0, audioFillDuration = 0;
-                    if (frames.length && (baseMediaDecodeTimeTs = clock.audioTsToVideoTs(track.baseMediaDecodeTime, track.samplerate), frameDuration = Math.ceil(clock.ONE_SECOND_IN_TS / (track.samplerate / 1024)), audioAppendStartTs && videoBaseMediaDecodeTime && (audioFillDuration = (audioFillFrameCount = Math.floor((baseMediaDecodeTimeTs - Math.max(audioAppendStartTs, videoBaseMediaDecodeTime)) / frameDuration)) * frameDuration), !(audioFillFrameCount < 1) && !(audioFillDuration > clock.ONE_SECOND_IN_TS / 2))) {
-                        for((silentFrame = silence_1()[track.samplerate]) || // we don't have a silent frame pregenerated for the sample rate, so use a frame
-                        // from the content instead
-                        (silentFrame = frames[0].data), i = 0; i < audioFillFrameCount; i++)firstFrame = frames[0], frames.splice(0, 0, {
-                            data: silentFrame,
-                            dts: firstFrame.dts - frameDuration,
-                            pts: firstFrame.pts - frameDuration
+                }, audioFrameUtils = {
+                    prefixWithSilence: function(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime) {
+                        var baseMediaDecodeTimeTs, silentFrame, i, firstFrame, frameDuration = 0, audioFillFrameCount = 0, audioFillDuration = 0;
+                        if (frames.length && (baseMediaDecodeTimeTs = clock.audioTsToVideoTs(track.baseMediaDecodeTime, track.samplerate), frameDuration = Math.ceil(clock.ONE_SECOND_IN_TS / (track.samplerate / 1024)), audioAppendStartTs && videoBaseMediaDecodeTime && (audioFillDuration = (audioFillFrameCount = Math.floor((baseMediaDecodeTimeTs - Math.max(audioAppendStartTs, videoBaseMediaDecodeTime)) / frameDuration)) * frameDuration), !(audioFillFrameCount < 1) && !(audioFillDuration > clock.ONE_SECOND_IN_TS / 2))) {
+                            for((silentFrame = silence_1()[track.samplerate]) || // we don't have a silent frame pregenerated for the sample rate, so use a frame
+                            // from the content instead
+                            (silentFrame = frames[0].data), i = 0; i < audioFillFrameCount; i++)firstFrame = frames[0], frames.splice(0, 0, {
+                                data: silentFrame,
+                                dts: firstFrame.dts - frameDuration,
+                                pts: firstFrame.pts - frameDuration
+                            });
+                            return track.baseMediaDecodeTime -= Math.floor(clock.videoTsToAudioTs(audioFillDuration, track.samplerate)), audioFillDuration;
+                        }
+                    },
+                    trimAdtsFramesByEarliestDts: function(adtsFrames, track, earliestAllowedDts) {
+                        return track.minSegmentDts >= earliestAllowedDts ? adtsFrames : (track.minSegmentDts = 1 / 0, adtsFrames.filter(function(currentFrame) {
+                            return(// If this is an allowed frame, keep it and record it's Dts
+                            currentFrame.dts >= earliestAllowedDts && (track.minSegmentDts = Math.min(track.minSegmentDts, currentFrame.dts), track.minSegmentPts = track.minSegmentDts, !0) // Otherwise, discard it
+                            );
+                        })) // We will need to recalculate the earliest segment Dts
+                        ;
+                    },
+                    generateSampleTable: function(frames) {
+                        var i, samples = [];
+                        for(i = 0; i < frames.length; i++)samples.push({
+                            size: frames[i].data.byteLength,
+                            duration: 1024
                         });
-                        return track.baseMediaDecodeTime -= Math.floor(clock.videoTsToAudioTs(audioFillDuration, track.samplerate)), audioFillDuration;
+                        return samples;
+                    },
+                    concatenateFrameData: function(frames) {
+                        var i, currentFrame, dataOffset = 0, data = new Uint8Array(sumFrameByteLengths(frames));
+                        for(i = 0; i < frames.length; i++)currentFrame = frames[i], data.set(currentFrame.data, dataOffset), dataOffset += currentFrame.data.byteLength;
+                        return data;
                     }
-                }, audioFrameUtils_generateSampleTable = function(frames) {
-                    var i, samples = [];
-                    for(i = 0; i < frames.length; i++)samples.push({
-                        size: frames[i].data.byteLength,
-                        duration: 1024
-                    });
-                    return samples;
-                }, audioFrameUtils_concatenateFrameData = function(frames) {
-                    var i, currentFrame, dataOffset = 0, data = new Uint8Array(sumFrameByteLengths(frames));
-                    for(i = 0; i < frames.length; i++)currentFrame = frames[i], data.set(currentFrame.data, dataOffset), dataOffset += currentFrame.data.byteLength;
-                    return data;
                 }, ONE_SECOND_IN_TS$3 = clock.ONE_SECOND_IN_TS, trackDecodeInfo = {
                     clearDtsInfo: function(track) {
                         delete track.minSegmentDts, delete track.maxSegmentDts, delete track.minSegmentPts, delete track.maxSegmentPts;
@@ -18243,35 +18256,57 @@
                     collectDtsInfo: function(track, data) {
                         "number" == typeof data.pts && (void 0 === track.timelineStartInfo.pts && (track.timelineStartInfo.pts = data.pts), void 0 === track.minSegmentPts ? track.minSegmentPts = data.pts : track.minSegmentPts = Math.min(track.minSegmentPts, data.pts), void 0 === track.maxSegmentPts ? track.maxSegmentPts = data.pts : track.maxSegmentPts = Math.max(track.maxSegmentPts, data.pts)), "number" == typeof data.dts && (void 0 === track.timelineStartInfo.dts && (track.timelineStartInfo.dts = data.dts), void 0 === track.minSegmentDts ? track.minSegmentDts = data.dts : track.minSegmentDts = Math.min(track.minSegmentDts, data.dts), void 0 === track.maxSegmentDts ? track.maxSegmentDts = data.dts : track.maxSegmentDts = Math.max(track.maxSegmentDts, data.dts));
                     }
-                }, captionPacketParser_parseSei = function(bytes) {
-                    for(var i = 0, result = {
-                        payloadType: -1,
-                        payloadSize: 0
-                    }, payloadType = 0, payloadSize = 0; // stop once we have hit the end of the sei_rbsp
-                    i < bytes.byteLength && 128 !== bytes[i] // Parse payload type
-                    ;){
-                        for(; 0xff === bytes[i];)payloadType += 255, i++;
-                        for(payloadType += bytes[i++]; 0xff === bytes[i];)payloadSize += 255, i++;
-                        // there can only ever be one caption message in a frame's sei
-                        if (payloadSize += bytes[i++], !result.payload && 4 === payloadType) {
-                            if ("GA94" === String.fromCharCode(bytes[i + 3], bytes[i + 4], bytes[i + 5], bytes[i + 6])) {
-                                result.payloadType = payloadType, result.payloadSize = payloadSize, result.payload = bytes.subarray(i, i + payloadSize);
-                                break;
-                            }
-                            result.payload = void 0;
-                        } // skip the payload and parse the next message
-                        i += payloadSize, payloadType = 0, payloadSize = 0;
-                    }
-                    return result;
-                }, captionPacketParser_parseCaptionPackets = function(pts, userData) {
-                    var i, count, offset, data, results = []; // if this is just filler, return immediately
-                    if (!(0x40 & userData[0])) return results;
-                     // parse out the cc_data_1 and cc_data_2 fields
-                    for(i = 0, count = 0x1f & userData[0]; i < count; i++)data = {
-                        type: 0x03 & userData[(offset = 3 * i) + 2],
-                        pts: pts
-                    }, 0x04 & userData[offset + 2] && (data.ccData = userData[offset + 3] << 8 | userData[offset + 4], results.push(data));
-                    return results;
+                }, captionPacketParser = {
+                    parseSei: function(bytes) {
+                        for(var i = 0, result = {
+                            payloadType: -1,
+                            payloadSize: 0
+                        }, payloadType = 0, payloadSize = 0; // stop once we have hit the end of the sei_rbsp
+                        i < bytes.byteLength && 128 !== bytes[i] // Parse payload type
+                        ;){
+                            for(; 0xff === bytes[i];)payloadType += 255, i++;
+                            for(payloadType += bytes[i++]; 0xff === bytes[i];)payloadSize += 255, i++;
+                            // there can only ever be one caption message in a frame's sei
+                            if (payloadSize += bytes[i++], !result.payload && 4 === payloadType) {
+                                if ("GA94" === String.fromCharCode(bytes[i + 3], bytes[i + 4], bytes[i + 5], bytes[i + 6])) {
+                                    result.payloadType = payloadType, result.payloadSize = payloadSize, result.payload = bytes.subarray(i, i + payloadSize);
+                                    break;
+                                }
+                                result.payload = void 0;
+                            } // skip the payload and parse the next message
+                            i += payloadSize, payloadType = 0, payloadSize = 0;
+                        }
+                        return result;
+                    },
+                    parseUserData: function(sei) {
+                        return(// itu_t_t35_contry_code must be 181 (United States) for
+                        // captions
+                        181 !== sei.payload[0] || (sei.payload[1] << 8 | sei.payload[2]) != 49 || "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) || 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1) // itu_t_t35_provider_code should be 49 (ATSC) for captions
+                        );
+                    },
+                    parseCaptionPackets: function(pts, userData) {
+                        var i, count, offset, data, results = []; // if this is just filler, return immediately
+                        if (!(0x40 & userData[0])) return results;
+                         // parse out the cc_data_1 and cc_data_2 fields
+                        for(i = 0, count = 0x1f & userData[0]; i < count; i++)data = {
+                            type: 0x03 & userData[(offset = 3 * i) + 2],
+                            pts: pts
+                        }, 0x04 & userData[offset + 2] && (data.ccData = userData[offset + 3] << 8 | userData[offset + 4], results.push(data));
+                        return results;
+                    },
+                    discardEmulationPreventionBytes: function(data) {
+                        for(var newLength, newData, length = data.byteLength, emulationPreventionBytesPositions = [], i = 1; i < length - 2;)0 === data[i] && 0 === data[i + 1] && 0x03 === data[i + 2] ? (emulationPreventionBytesPositions.push(i + 2), i += 2) : i++;
+                         // If no Emulation Prevention Bytes were found just return the original
+                        // array
+                        if (0 === emulationPreventionBytesPositions.length) return data;
+                         // Create a new array to hold the NAL unit data
+                        newData = new Uint8Array(newLength = length - emulationPreventionBytesPositions.length);
+                        var sourceIndex = 0;
+                        for(i = 0; i < newLength; sourceIndex++, i++)sourceIndex === emulationPreventionBytesPositions[0] && (// Skip this byte
+                        sourceIndex++, emulationPreventionBytesPositions.shift()), newData[i] = data[sourceIndex];
+                        return newData;
+                    },
+                    USER_DATA_REGISTERED_ITU_T_T35: 4
                 }, CaptionStream$1 = function CaptionStream(options) {
                     options = options || {}, CaptionStream.prototype.init.call(this), this.parse708captions_ = "boolean" != typeof options.parse708captions || options.parse708captions, this.captionPackets_ = [], this.ccStreams_ = [
                         new Cea608Stream(0, 0),
@@ -18285,11 +18320,8 @@
                     }, this), this.parse708captions_ && (this.cc708Stream_.on("data", this.trigger.bind(this, "data")), this.cc708Stream_.on("partialdone", this.trigger.bind(this, "partialdone")), this.cc708Stream_.on("done", this.trigger.bind(this, "done")));
                 };
                 CaptionStream$1.prototype = new Stream(), CaptionStream$1.prototype.push = function(event) {
-                    var sei, userData, newCaptionPackets, sei1;
-                    if ("sei_rbsp" === event.nalUnitType && (sei = captionPacketParser_parseSei(event.escapedRBSP)).payload && 4 === sei.payloadType && (userData = // itu_t_t35_contry_code must be 181 (United States) for
-                    // captions
-                    181 !== (sei1 = sei).payload[0] || (sei1.payload[1] << 8 | sei1.payload[2]) != 49 || "GA94" !== String.fromCharCode(sei1.payload[3], sei1.payload[4], sei1.payload[5], sei1.payload[6]) || 0x03 !== sei1.payload[7] ? null : sei1.payload.subarray(8, sei1.payload.length - 1) // itu_t_t35_provider_code should be 49 (ATSC) for captions
-                    )) {
+                    var sei, userData, newCaptionPackets; // only examine SEI NALs
+                    if ("sei_rbsp" === event.nalUnitType && (sei = captionPacketParser.parseSei(event.escapedRBSP)).payload && sei.payloadType === captionPacketParser.USER_DATA_REGISTERED_ITU_T_T35 && (userData = captionPacketParser.parseUserData(sei))) {
                         // caption data from being processed twice, we track the latest dts we've
                         // received and ignore everything with a dts before that. However, since
                         // data for a specific dts can be split across packets on either side of
@@ -18307,7 +18339,7 @@
                             (this.ignoreNextEqualDts_ = !1);
                             return;
                         }
-                        newCaptionPackets = captionPacketParser_parseCaptionPackets(event.pts, userData), this.captionPackets_ = this.captionPackets_.concat(newCaptionPackets), this.latestDts_ !== event.dts && (this.numSameDts_ = 0), this.numSameDts_++, this.latestDts_ = event.dts;
+                        newCaptionPackets = captionPacketParser.parseCaptionPackets(event.pts, userData), this.captionPackets_ = this.captionPackets_.concat(newCaptionPackets), this.latestDts_ !== event.dts && (this.numSameDts_ = 0), this.numSameDts_++, this.latestDts_ = event.dts;
                     } // parse the sei
                 }, CaptionStream$1.prototype.flushCCStreams = function(flushType) {
                     this.ccStreams_.forEach(function(cc) {
@@ -18978,60 +19010,58 @@
                             this.lastControlCode_ = null;
                             return;
                         } // Store control codes
-                        if ((0xf000 & data) == 0x1000 ? this.lastControlCode_ = data : data !== this.PADDING_ && (this.lastControlCode_ = null), char0 = data >>> 8, char1 = 0xff & data, data !== this.PADDING_) {
-                            if (data === this.RESUME_CAPTION_LOADING_) this.mode_ = "popOn";
-                            else if (data === this.END_OF_CAPTION_) // If an EOC is received while in paint-on mode, the displayed caption
-                            // text should be swapped to non-displayed memory as if it was a pop-on
-                            // caption. Because of that, we should explicitly switch back to pop-on
-                            // mode
-                            this.mode_ = "popOn", this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), swap = this.displayed_, this.displayed_ = this.nonDisplayed_, this.nonDisplayed_ = swap, this.startPts_ = packet.pts;
-                            else if (data === this.ROLL_UP_2_ROWS_) this.rollUpRows_ = 2, this.setRollUp(packet.pts);
-                            else if (data === this.ROLL_UP_3_ROWS_) this.rollUpRows_ = 3, this.setRollUp(packet.pts);
-                            else if (data === this.ROLL_UP_4_ROWS_) this.rollUpRows_ = 4, this.setRollUp(packet.pts);
-                            else if (data === this.CARRIAGE_RETURN_) this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), this.shiftRowsUp_(), this.startPts_ = packet.pts;
-                            else if (data === this.BACKSPACE_) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
-                            else if (data === this.ERASE_DISPLAYED_MEMORY_) this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer();
-                            else if (data === this.ERASE_NON_DISPLAYED_MEMORY_) this.nonDisplayed_ = createDisplayBuffer();
-                            else if (data === this.RESUME_DIRECT_CAPTIONING_) "paintOn" !== this.mode_ && (// NOTE: This should be removed when proper caption positioning is
-                            // implemented
-                            this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer()), this.mode_ = "paintOn", this.startPts_ = packet.pts;
-                            else if (this.isSpecialCharacter(char0, char1)) text = getCharFromCode(// Bitmask char0 so that we can apply character transformations
-                            // regardless of field and data channel.
-                            // Then byte-shift to the left and OR with char1 so we can pass the
-                            // entire character code to `getCharFromCode`.
-                            (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
-                            else if (this.isExtCharacter(char0, char1)) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1), text = getCharFromCode(// regardless of field and data channel.
-                            // Then byte-shift to the left and OR with char1 so we can pass the
-                            // entire character code to `getCharFromCode`.
-                            (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
-                            else if (this.isMidRowCode(char0, char1)) // Attributes are not additive, so clear all formatting
-                            this.clearFormatting(packet.pts), // should be replaced with spaces, so add one now
-                            this[this.mode_](packet.pts, " "), this.column_++, (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
-                                "i"
-                            ]), (0x1 & char1) == 0x1 && this.addFormatting(packet.pts, [
+                        if ((0xf000 & data) == 0x1000 ? this.lastControlCode_ = data : data !== this.PADDING_ && (this.lastControlCode_ = null), char0 = data >>> 8, char1 = 0xff & data, data !== this.PADDING_) if (data === this.RESUME_CAPTION_LOADING_) this.mode_ = "popOn";
+                        else if (data === this.END_OF_CAPTION_) // If an EOC is received while in paint-on mode, the displayed caption
+                        // text should be swapped to non-displayed memory as if it was a pop-on
+                        // caption. Because of that, we should explicitly switch back to pop-on
+                        // mode
+                        this.mode_ = "popOn", this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), swap = this.displayed_, this.displayed_ = this.nonDisplayed_, this.nonDisplayed_ = swap, this.startPts_ = packet.pts;
+                        else if (data === this.ROLL_UP_2_ROWS_) this.rollUpRows_ = 2, this.setRollUp(packet.pts);
+                        else if (data === this.ROLL_UP_3_ROWS_) this.rollUpRows_ = 3, this.setRollUp(packet.pts);
+                        else if (data === this.ROLL_UP_4_ROWS_) this.rollUpRows_ = 4, this.setRollUp(packet.pts);
+                        else if (data === this.CARRIAGE_RETURN_) this.clearFormatting(packet.pts), this.flushDisplayed(packet.pts), this.shiftRowsUp_(), this.startPts_ = packet.pts;
+                        else if (data === this.BACKSPACE_) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
+                        else if (data === this.ERASE_DISPLAYED_MEMORY_) this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer();
+                        else if (data === this.ERASE_NON_DISPLAYED_MEMORY_) this.nonDisplayed_ = createDisplayBuffer();
+                        else if (data === this.RESUME_DIRECT_CAPTIONING_) "paintOn" !== this.mode_ && (// NOTE: This should be removed when proper caption positioning is
+                        // implemented
+                        this.flushDisplayed(packet.pts), this.displayed_ = createDisplayBuffer()), this.mode_ = "paintOn", this.startPts_ = packet.pts;
+                        else if (this.isSpecialCharacter(char0, char1)) text = getCharFromCode(// Bitmask char0 so that we can apply character transformations
+                        // regardless of field and data channel.
+                        // Then byte-shift to the left and OR with char1 so we can pass the
+                        // entire character code to `getCharFromCode`.
+                        (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
+                        else if (this.isExtCharacter(char0, char1)) "popOn" === this.mode_ ? this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1) : this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1), text = getCharFromCode(// regardless of field and data channel.
+                        // Then byte-shift to the left and OR with char1 so we can pass the
+                        // entire character code to `getCharFromCode`.
+                        (char0 = (0x03 & char0) << 8) | char1), this[this.mode_](packet.pts, text), this.column_++;
+                        else if (this.isMidRowCode(char0, char1)) // Attributes are not additive, so clear all formatting
+                        this.clearFormatting(packet.pts), // should be replaced with spaces, so add one now
+                        this[this.mode_](packet.pts, " "), this.column_++, (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
+                            "i"
+                        ]), (0x1 & char1) == 0x1 && this.addFormatting(packet.pts, [
+                            "u"
+                        ]);
+                        else if (this.isOffsetControlCode(char0, char1)) // Cursor position is set by indent PAC (see below) in 4-column
+                        // increments, with an additional offset code of 1-3 to reach any
+                        // of the 32 columns specified by CEA-608. So all we need to do
+                        // here is increment the column cursor by the given offset.
+                        this.column_ += 0x03 & char1; // Detect PACs (Preamble Address Codes)
+                        else if (this.isPAC(char0, char1)) {
+                            // There's no logic for PAC -> row mapping, so we have to just
+                            // find the row code in an array and use its index :(
+                            var row = ROWS.indexOf(0x1f20 & data); // Configure the caption window if we're in roll-up mode
+                            "rollUp" === this.mode_ && (row - this.rollUpRows_ + 1 < 0 && (row = this.rollUpRows_ - 1), this.setRollUp(packet.pts, row)), row !== this.row_ && (// formatting is only persistent for current row
+                            this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && -1 === this.formatting_.indexOf("u") && this.addFormatting(packet.pts, [
                                 "u"
+                            ]), (0x10 & data) == 0x10 && // We've got an indent level code. Each successive even number
+                            // increments the column cursor by 4, so we can get the desired
+                            // column position by bit-shifting to the right (to get n/2)
+                            // and multiplying by 4.
+                            (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
+                                "i"
                             ]);
-                            else if (this.isOffsetControlCode(char0, char1)) // Cursor position is set by indent PAC (see below) in 4-column
-                            // increments, with an additional offset code of 1-3 to reach any
-                            // of the 32 columns specified by CEA-608. So all we need to do
-                            // here is increment the column cursor by the given offset.
-                            this.column_ += 0x03 & char1; // Detect PACs (Preamble Address Codes)
-                            else if (this.isPAC(char0, char1)) {
-                                // There's no logic for PAC -> row mapping, so we have to just
-                                // find the row code in an array and use its index :(
-                                var row = ROWS.indexOf(0x1f20 & data); // Configure the caption window if we're in roll-up mode
-                                "rollUp" === this.mode_ && (row - this.rollUpRows_ + 1 < 0 && (row = this.rollUpRows_ - 1), this.setRollUp(packet.pts, row)), row !== this.row_ && (// formatting is only persistent for current row
-                                this.clearFormatting(packet.pts), this.row_ = row), 0x1 & char1 && -1 === this.formatting_.indexOf("u") && this.addFormatting(packet.pts, [
-                                    "u"
-                                ]), (0x10 & data) == 0x10 && // We've got an indent level code. Each successive even number
-                                // increments the column cursor by 4, so we can get the desired
-                                // column position by bit-shifting to the right (to get n/2)
-                                // and multiplying by 4.
-                                (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
-                                    "i"
-                                ]);
-                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length); // finish data processing
-                        }
+                        } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length); // finish data processing
                     };
                 };
                 Cea608Stream.prototype = new Stream(), // display buffer
@@ -19194,7 +19224,11 @@
                     var baseRow = this.displayed_[this.row_];
                     baseRow += text, this.displayed_[this.row_] = baseRow;
                 };
-                var streamTypes = {
+                var captionStream = {
+                    CaptionStream: CaptionStream$1,
+                    Cea608Stream: Cea608Stream,
+                    Cea708Stream: Cea708Stream
+                }, streamTypes = {
                     H264_STREAM_TYPE: 0x1b,
                     ADTS_STREAM_TYPE: 0x0f,
                     METADATA_STREAM_TYPE: 0x15
@@ -19230,7 +19264,10 @@
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
                 var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, minf, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, // 90kHz clock
-                secondsToVideoTs, videoTsToSeconds, _MetadataStream, percentEncode$1 = function(bytes, start, end) {
+                secondsToVideoTs, videoTsToSeconds, _MetadataStream, timestampRolloverStream = {
+                    TimestampRolloverStream: TimestampRolloverStream$1,
+                    handleRollover: handleRollover$1
+                }, percentEncode$1 = function(bytes, start, end) {
                     var i, result = "";
                     for(i = start; i < end; i++)result += "%" + ("00" + bytes[i].toString(16)).slice(-2);
                     return result;
@@ -19329,7 +19366,7 @@
                         } // if data_alignment_indicator is set in the PES header,
                     };
                 }).prototype = new Stream();
-                var metadataStream = _MetadataStream;
+                var metadataStream = _MetadataStream, TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
                 /**
                      * Splits an incoming stream of binary data into MPEG-2 Transport
                      * Stream packets.
@@ -19561,10 +19598,10 @@
                     TransportPacketStream: _TransportPacketStream,
                     TransportParseStream: _TransportParseStream,
                     ElementaryStream: _ElementaryStream,
-                    TimestampRolloverStream: TimestampRolloverStream$1,
-                    CaptionStream: CaptionStream$1,
-                    Cea608Stream: Cea608Stream,
-                    Cea708Stream: Cea708Stream,
+                    TimestampRolloverStream: TimestampRolloverStream,
+                    CaptionStream: captionStream.CaptionStream,
+                    Cea608Stream: captionStream.Cea608Stream,
+                    Cea708Stream: captionStream.Cea708Stream,
                     MetadataStream: metadataStream
                 };
                 for(var type in streamTypes)streamTypes.hasOwnProperty(type) && (m2ts[type] = streamTypes[type]);
@@ -19995,7 +20032,9 @@
                         };
                     };
                 }).prototype = new Stream();
-                var h264_H264Stream = _H264Stream, ADTS_SAMPLING_FREQUENCIES = [
+                var h264 = {
+                    H264Stream: _H264Stream
+                }, ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -20124,7 +20163,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio"
-                ], isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){
@@ -20176,18 +20215,13 @@
                     }, this.setAudioAppendStart = function(timestamp) {
                         audioAppendStartTs = timestamp;
                     }, this.flush = function() {
-                        var frames, moof, mdat, boxes, frameDuration, segmentDuration, videoClockCyclesOfSilencePrefixed, adtsFrames1, earliestAllowedDts1;
+                        var frames, moof, mdat, boxes, frameDuration, segmentDuration, videoClockCyclesOfSilencePrefixed; // return early if no audio data has been observed
                         if (0 === adtsFrames.length) {
                             this.trigger("done", "AudioSegmentStream");
                             return;
                         }
-                        adtsFrames1 = adtsFrames, earliestAllowedDts1 = earliestAllowedDts, frames = track.minSegmentDts >= earliestAllowedDts1 ? adtsFrames1 : (track.minSegmentDts = 1 / 0, adtsFrames1.filter(function(currentFrame) {
-                            return(// If this is an allowed frame, keep it and record it's Dts
-                            currentFrame.dts >= earliestAllowedDts1 && (track.minSegmentDts = Math.min(track.minSegmentDts, currentFrame.dts), track.minSegmentPts = track.minSegmentDts, !0) // Otherwise, discard it
-                            );
-                        })) // We will need to recalculate the earliest segment Dts
-                        , track.baseMediaDecodeTime = trackDecodeInfo.calculateTrackBaseMediaDecodeTime(track, options.keepOriginalTimestamps), videoClockCyclesOfSilencePrefixed = audioFrameUtils_prefixWithSilence(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime), // samples (that is, adts frames) in the audio data
-                        track.samples = audioFrameUtils_generateSampleTable(frames), mdat = mp4Generator.mdat(audioFrameUtils_concatenateFrameData(frames)), adtsFrames = [], boxes = new Uint8Array((moof = mp4Generator.moof(sequenceNumber, [
+                        frames = audioFrameUtils.trimAdtsFramesByEarliestDts(adtsFrames, track, earliestAllowedDts), track.baseMediaDecodeTime = trackDecodeInfo.calculateTrackBaseMediaDecodeTime(track, options.keepOriginalTimestamps), videoClockCyclesOfSilencePrefixed = audioFrameUtils.prefixWithSilence(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime), // samples (that is, adts frames) in the audio data
+                        track.samples = audioFrameUtils.generateSampleTable(frames), mdat = mp4Generator.mdat(audioFrameUtils.concatenateFrameData(frames)), adtsFrames = [], boxes = new Uint8Array((moof = mp4Generator.moof(sequenceNumber, [
                             track
                         ])).byteLength + mdat.byteLength), sequenceNumber++, boxes.set(moof), boxes.set(mdat, moof.byteLength), trackDecodeInfo.clearDtsInfo(track), frameDuration = Math.ceil(1024 * ONE_SECOND_IN_TS$1 / track.samplerate), frames.length && (segmentDuration = frames.length * frameDuration, this.trigger("segmentTimingInfo", generateSegmentTimingInfo(// The audio track's baseMediaDecodeTime is in audio clock cycles, but the
                         // frame info is in video clock cycles. Convert to match expectation of
@@ -20432,7 +20466,7 @@
                         }), pipeline.coalesceStream.on("data", this.trigger.bind(this, "data")), pipeline.coalesceStream.on("done", this.trigger.bind(this, "done")), addPipelineLogRetriggers(this, pipeline);
                     }, this.setupTsPipeline = function() {
                         var pipeline = {};
-                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new adts(), pipeline.h264Stream = new h264_H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), // demux the streams
+                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new adts(), pipeline.h264Stream = new H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), // demux the streams
                         pipeline.timestampRolloverStream.pipe(pipeline.h264Stream), pipeline.timestampRolloverStream.pipe(pipeline.adtsStream), pipeline.timestampRolloverStream.pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.h264Stream.pipe(pipeline.captionStream).pipe(pipeline.coalesceStream), pipeline.elementaryStream.on("data", function(data) {
                             var i;
                             if ("metadata" === data.type) {
@@ -20489,28 +20523,35 @@
                         this.transmuxPipeline_.captionStream && this.transmuxPipeline_.captionStream.reset();
                     };
                 }).prototype = new Stream();
-                var transmuxer_Transmuxer = _Transmuxer, bin_toUnsigned = function(value) {
-                    return value >>> 0;
+                var transmuxer = {
+                    Transmuxer: _Transmuxer
+                }, bin = {
+                    toUnsigned: function(value) {
+                        return value >>> 0;
+                    },
+                    toHexString: function(value) {
+                        return ("00" + value.toString(16)).slice(-2);
+                    }
                 }, parseType_1 = function(buffer) {
                     var result = "";
                     return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]);
-                }, findBox_1 = function findBox(data, path) {
+                }, toUnsigned$2 = bin.toUnsigned, findBox_1 = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) // short-circuit the search for empty paths
                     return null;
-                    for(i = 0; i < data.byteLength;)size = bin_toUnsigned(data[i] << 24 | data[i + 1] << 16 | data[i + 2] << 8 | data[i + 3]), type = parseType_1(data.subarray(i + 4, i + 8)), end = size > 1 ? i + size : data.byteLength, type === path[0] && (1 === path.length ? // this is the end of the path and we've found the box we were
+                    for(i = 0; i < data.byteLength;)size = toUnsigned$2(data[i] << 24 | data[i + 1] << 16 | data[i + 2] << 8 | data[i + 3]), type = parseType_1(data.subarray(i + 4, i + 8)), end = size > 1 ? i + size : data.byteLength, type === path[0] && (1 === path.length ? // this is the end of the path and we've found the box we were
                     // looking for
                     results.push(data.subarray(i + 8, end)) : // recursively search for the next box along the path
                     (subresults = findBox(data.subarray(i + 8, end), path.slice(1))).length && (results = results.concat(subresults))), i = end;
                      // we've finished searching all of data
                     return results;
-                }, parseTfdt = function(data) {
+                }, toUnsigned$1 = bin.toUnsigned, parseTfdt = function(data) {
                     var result = {
                         version: data[0],
                         flags: new Uint8Array(data.subarray(1, 4)),
-                        baseMediaDecodeTime: bin_toUnsigned(data[4] << 24 | data[5] << 16 | data[6] << 8 | data[7])
+                        baseMediaDecodeTime: toUnsigned$1(data[4] << 24 | data[5] << 16 | data[6] << 8 | data[7])
                     };
-                    return 1 === result.version && (result.baseMediaDecodeTime *= 4294967296, result.baseMediaDecodeTime += bin_toUnsigned(data[8] << 24 | data[9] << 16 | data[10] << 8 | data[11])), result;
+                    return 1 === result.version && (result.baseMediaDecodeTime *= 4294967296, result.baseMediaDecodeTime += toUnsigned$1(data[8] << 24 | data[9] << 16 | data[10] << 8 | data[11])), result;
                 }, parseSampleFlags_1 = function(flags) {
                     return {
                         isLeading: (0x0c & flags[0]) >>> 2,
@@ -20547,18 +20588,7 @@
                     }, baseDataOffsetPresent = 0x01 & result.flags[2], sampleDescriptionIndexPresent = 0x02 & result.flags[2], defaultSampleDurationPresent = 0x08 & result.flags[2], defaultSampleSizePresent = 0x10 & result.flags[2], defaultSampleFlagsPresent = 0x20 & result.flags[2], durationIsEmpty = 0x010000 & result.flags[0], defaultBaseIsMoof = 0x020000 & result.flags[0];
                     return i = 8, baseDataOffsetPresent && (i += 4, // FIXME: should we read the full 64 bits?
                     result.baseDataOffset = view.getUint32(12), i += 4), sampleDescriptionIndexPresent && (result.sampleDescriptionIndex = view.getUint32(i), i += 4), defaultSampleDurationPresent && (result.defaultSampleDuration = view.getUint32(i), i += 4), defaultSampleSizePresent && (result.defaultSampleSize = view.getUint32(i), i += 4), defaultSampleFlagsPresent && (result.defaultSampleFlags = view.getUint32(i)), durationIsEmpty && (result.durationIsEmpty = !0), !baseDataOffsetPresent && defaultBaseIsMoof && (result.baseDataOffsetIsMoof = !0), result;
-                }, discardEmulationPreventionBytes = function(data) {
-                    for(var newLength, newData, length = data.byteLength, emulationPreventionBytesPositions = [], i = 1; i < length - 2;)0 === data[i] && 0 === data[i + 1] && 0x03 === data[i + 2] ? (emulationPreventionBytesPositions.push(i + 2), i += 2) : i++;
-                     // If no Emulation Prevention Bytes were found just return the original
-                    // array
-                    if (0 === emulationPreventionBytesPositions.length) return data;
-                     // Create a new array to hold the NAL unit data
-                    newData = new Uint8Array(newLength = length - emulationPreventionBytesPositions.length);
-                    var sourceIndex = 0;
-                    for(i = 0; i < newLength; sourceIndex++, i++)sourceIndex === emulationPreventionBytesPositions[0] && (// Skip this byte
-                    sourceIndex++, emulationPreventionBytesPositions.shift()), newData[i] = data[sourceIndex];
-                    return newData;
-                }, mapToSample = function(offset, samples) {
+                }, discardEmulationPreventionBytes = captionPacketParser.discardEmulationPreventionBytes, CaptionStream = captionStream.CaptionStream, mapToSample = function(offset, samples) {
                     for(var approximateOffset = offset, i = 0; i < samples.length; i++){
                         var sample = samples[i];
                         if (approximateOffset < sample.size) return sample;
@@ -20647,7 +20677,7 @@
                          * Initializes the underlying CaptionStream, SEI NAL parsing
                          * and management, and caption collection
                          **/ this.init = function(options) {
-                        captionStream = new CaptionStream$1(), isInitialized = !0, parsingPartial = !!options && options.isPartial, captionStream.on("data", function(event) {
+                        captionStream = new CaptionStream(), isInitialized = !0, parsingPartial = !!options && options.isPartial, captionStream.on("data", function(event) {
                             // Convert to seconds in the source's timescale
                             event.startTime = event.startPts / timescale, event.endTime = event.endPts / timescale, parsedCaptions.captions.push(event), parsedCaptions.captionStreams[event.stream] = !0;
                         }), captionStream.on("log", function(log) {
@@ -20727,78 +20757,79 @@
                             logs: []
                         }, this.resetCaptionStream();
                     }, this.reset();
-                }, toHexString = function(value) {
-                    return ("00" + value.toString(16)).slice(-2);
-                };
+                }, toUnsigned = bin.toUnsigned, toHexString = bin.toHexString;
                 getTimescaleFromMediaHeader = function(mdhd) {
                     var index = 0 === mdhd[0] ? 12 : 20;
-                    return bin_toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
+                    return toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
                 };
-                var probe$2_startTime = function(timescale, fragment) {
-                    var trafs, baseTimes, result; // we need info from two childrend of each track fragment box
-                    return trafs = findBox_1(fragment, [
-                        "moof",
-                        "traf"
-                    ]), baseTimes = [].concat.apply([], trafs.map(function(traf) {
-                        return findBox_1(traf, [
-                            "tfhd"
-                        ]).map(function(tfhd) {
-                            var scale, baseTime; // get the track id from the tfhd
-                            return scale = timescale[bin_toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, (baseTime = "number" != typeof (baseTime = findBox_1(traf, [
-                                "tfdt"
-                            ]).map(function(tfdt) {
-                                var version, result;
-                                return version = tfdt[0], result = bin_toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += bin_toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
-                            })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
-                        });
-                    })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
-                }, probe$2_tracks = function(init) {
-                    var traks = findBox_1(init, [
-                        "moov",
-                        "trak"
-                    ]), tracks = [];
-                    return traks.forEach(function(trak) {
-                        var track = {}, tkhd = findBox_1(trak, [
-                            "tkhd"
-                        ])[0];
-                        tkhd && (track.id = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20));
-                        var hdlr = findBox_1(trak, [
-                            "mdia",
-                            "hdlr"
-                        ])[0]; // type
-                        if (hdlr) {
-                            var type = parseType_1(hdlr.subarray(8, 12));
-                            "vide" === type ? track.type = "video" : "soun" === type ? track.type = "audio" : track.type = type;
-                        } // codec
-                        var stsd = findBox_1(trak, [
-                            "mdia",
-                            "minf",
-                            "stbl",
-                            "stsd"
-                        ])[0];
-                        if (stsd) {
-                            var view, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
-                            track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
-                            var codecBox = findBox_1(sampleDescriptions, [
-                                track.codec
+                var probe$2 = {
+                    startTime: function(timescale, fragment) {
+                        var trafs, baseTimes, result; // we need info from two childrend of each track fragment box
+                        return trafs = findBox_1(fragment, [
+                            "moof",
+                            "traf"
+                        ]), baseTimes = [].concat.apply([], trafs.map(function(traf) {
+                            return findBox_1(traf, [
+                                "tfhd"
+                            ]).map(function(tfhd) {
+                                var scale, baseTime; // get the track id from the tfhd
+                                return scale = timescale[toUnsigned(tfhd[4] << 24 | tfhd[5] << 16 | tfhd[6] << 8 | tfhd[7])] || 90e3, (baseTime = "number" != typeof (baseTime = findBox_1(traf, [
+                                    "tfdt"
+                                ]).map(function(tfdt) {
+                                    var version, result;
+                                    return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
+                                })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
+                            });
+                        })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
+                    },
+                    tracks: function(init) {
+                        var traks = findBox_1(init, [
+                            "moov",
+                            "trak"
+                        ]), tracks = [];
+                        return traks.forEach(function(trak) {
+                            var track = {}, tkhd = findBox_1(trak, [
+                                "tkhd"
                             ])[0];
-                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? "avcC" === parseType_1(// we don't need anything but the "config" parameter of the
-                            // avc1 codecBox
-                            (codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", // profile idc
-                            track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : // TODO: show a warning that we couldn't parse the codec
-                            // and are using the default
-                            track.codec = "avc1.4d400d" : /^mp4[a,v]$/i.test(track.codec) ? "esds" === parseType_1(// we do not need anything but the streamDescriptor of the mp4a codecBox
-                            (codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : // TODO: show a warning that we couldn't parse the codec
-                            // and are using the default
-                            track.codec = "mp4a.40.2" : // flac, opus, etc
-                            track.codec = track.codec.toLowerCase());
-                        }
-                        var mdhd = findBox_1(trak, [
-                            "mdia",
-                            "mdhd"
-                        ])[0];
-                        mdhd && (track.timescale = getTimescaleFromMediaHeader(mdhd)), tracks.push(track);
-                    }), tracks;
+                            tkhd && (track.id = 0 === (view = new DataView(tkhd.buffer, tkhd.byteOffset, tkhd.byteLength)).getUint8(0) ? view.getUint32(12) : view.getUint32(20));
+                            var hdlr = findBox_1(trak, [
+                                "mdia",
+                                "hdlr"
+                            ])[0]; // type
+                            if (hdlr) {
+                                var type = parseType_1(hdlr.subarray(8, 12));
+                                "vide" === type ? track.type = "video" : "soun" === type ? track.type = "audio" : track.type = type;
+                            } // codec
+                            var stsd = findBox_1(trak, [
+                                "mdia",
+                                "minf",
+                                "stbl",
+                                "stsd"
+                            ])[0];
+                            if (stsd) {
+                                var view, codecConfig, sampleDescriptions = stsd.subarray(8); // gives the codec type string
+                                track.codec = parseType_1(sampleDescriptions.subarray(4, 8));
+                                var codecBox = findBox_1(sampleDescriptions, [
+                                    track.codec
+                                ])[0];
+                                codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? "avcC" === parseType_1(// we don't need anything but the "config" parameter of the
+                                // avc1 codecBox
+                                (codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", // profile idc
+                                track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : // TODO: show a warning that we couldn't parse the codec
+                                // and are using the default
+                                track.codec = "avc1.4d400d" : /^mp4[a,v]$/i.test(track.codec) ? "esds" === parseType_1(// we do not need anything but the streamDescriptor of the mp4a codecBox
+                                (codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : // TODO: show a warning that we couldn't parse the codec
+                                // and are using the default
+                                track.codec = "mp4a.40.2" : // flac, opus, etc
+                                track.codec = track.codec.toLowerCase());
+                            }
+                            var mdhd = findBox_1(trak, [
+                                "mdia",
+                                "mdhd"
+                            ])[0];
+                            mdhd && (track.timescale = getTimescaleFromMediaHeader(mdhd)), tracks.push(track);
+                        }), tracks;
+                    }
                 }, parsePid = function(packet) {
                     var pid = 0x1f & packet[1];
                     return pid <<= 8, pid |= packet[2];
@@ -20822,7 +20853,7 @@
                         default:
                             return null;
                     }
-                }, probe = {};
+                }, handleRollover = timestampRolloverStream.handleRollover, probe = {};
                 probe.ts = {
                     parseType: function(packet, pmtPid) {
                         var pid = parsePid(packet);
@@ -21015,16 +21046,16 @@
                     if (segmentInfo.audio && segmentInfo.audio.length) {
                         var audioBaseTimestamp = baseTimestamp;
                         (void 0 === audioBaseTimestamp || isNaN(audioBaseTimestamp)) && (audioBaseTimestamp = segmentInfo.audio[0].dts), segmentInfo.audio.forEach(function(info) {
-                            info.dts = handleRollover$1(info.dts, audioBaseTimestamp), info.pts = handleRollover$1(info.pts, audioBaseTimestamp), info.dtsTime = info.dts / ONE_SECOND_IN_TS, info.ptsTime = info.pts / ONE_SECOND_IN_TS;
+                            info.dts = handleRollover(info.dts, audioBaseTimestamp), info.pts = handleRollover(info.pts, audioBaseTimestamp), info.dtsTime = info.dts / ONE_SECOND_IN_TS, info.ptsTime = info.pts / ONE_SECOND_IN_TS;
                         });
                     }
                     if (segmentInfo.video && segmentInfo.video.length) {
                         var videoBaseTimestamp = baseTimestamp;
                         if ((void 0 === videoBaseTimestamp || isNaN(videoBaseTimestamp)) && (videoBaseTimestamp = segmentInfo.video[0].dts), segmentInfo.video.forEach(function(info) {
-                            info.dts = handleRollover$1(info.dts, videoBaseTimestamp), info.pts = handleRollover$1(info.pts, videoBaseTimestamp), info.dtsTime = info.dts / ONE_SECOND_IN_TS, info.ptsTime = info.pts / ONE_SECOND_IN_TS;
+                            info.dts = handleRollover(info.dts, videoBaseTimestamp), info.pts = handleRollover(info.pts, videoBaseTimestamp), info.dtsTime = info.dts / ONE_SECOND_IN_TS, info.ptsTime = info.pts / ONE_SECOND_IN_TS;
                         }), segmentInfo.firstKeyFrame) {
                             var frame = segmentInfo.firstKeyFrame;
-                            frame.dts = handleRollover$1(frame.dts, videoBaseTimestamp), frame.pts = handleRollover$1(frame.pts, videoBaseTimestamp), frame.dtsTime = frame.dts / ONE_SECOND_IN_TS, frame.ptsTime = frame.pts / ONE_SECOND_IN_TS;
+                            frame.dts = handleRollover(frame.dts, videoBaseTimestamp), frame.pts = handleRollover(frame.pts, videoBaseTimestamp), frame.dtsTime = frame.dts / ONE_SECOND_IN_TS, frame.ptsTime = frame.pts / ONE_SECOND_IN_TS;
                         }
                     }
                 }, inspectAac_ = function(bytes) {
@@ -21082,9 +21113,11 @@
                             result.audio = [], parseAudioPes_(bytes, pmt, result), 0 === result.audio.length && delete result.audio;
                     }
                     return result;
-                }, tsInspector_inspect = function(bytes, baseTimestamp) {
-                    var result;
-                    return (result = probe.aac.isLikelyAacData(bytes) ? inspectAac_(bytes) : inspectTs_(bytes)) && (result.audio || result.video) ? (adjustTimestamp_(result, baseTimestamp), result) : null;
+                }, tsInspector = {
+                    inspect: function(bytes, baseTimestamp) {
+                        var result;
+                        return (result = probe.aac.isLikelyAacData(bytes) ? inspectAac_(bytes) : inspectTs_(bytes)) && (result.audio || result.video) ? (adjustTimestamp_(result, baseTimestamp), result) : null;
+                    }
                 }, wireTransmuxerEvents = function(self1, transmuxer) {
                     transmuxer.on("data", function(segment) {
                         // transfer ownership of the underlying ArrayBuffer
@@ -21194,7 +21227,7 @@
                          * initialize our web worker and wire all the events.
                          */ var _proto = MessageHandlers.prototype;
                     return _proto.init = function() {
-                        this.transmuxer && this.transmuxer.dispose(), this.transmuxer = new transmuxer_Transmuxer(this.options), wireTransmuxerEvents(this.self, this.transmuxer);
+                        this.transmuxer && this.transmuxer.dispose(), this.transmuxer = new transmuxer.Transmuxer(this.options), wireTransmuxerEvents(this.self, this.transmuxer);
                     }, _proto.pushMp4Captions = function(data) {
                         this.captionParser || (this.captionParser = new captionParser(), this.captionParser.init());
                         var segment = new Uint8Array(data.data, data.byteOffset, data.byteLength), parsed = this.captionParser.parse(segment, data.trackIds, data.timescales);
@@ -21207,7 +21240,7 @@
                             segment.buffer
                         ]);
                     }, _proto.probeMp4StartTime = function(_ref) {
-                        var timescales = _ref.timescales, data = _ref.data, startTime = probe$2_startTime(timescales, data);
+                        var timescales = _ref.timescales, data = _ref.data, startTime = probe$2.startTime(timescales, data);
                         this.self.postMessage({
                             action: "probeMp4StartTime",
                             startTime: startTime,
@@ -21216,7 +21249,7 @@
                             data.buffer
                         ]);
                     }, _proto.probeMp4Tracks = function(_ref2) {
-                        var data = _ref2.data, tracks = probe$2_tracks(data);
+                        var data = _ref2.data, tracks = probe$2.tracks(data);
                         this.self.postMessage({
                             action: "probeMp4Tracks",
                             tracks: tracks,
@@ -21237,7 +21270,7 @@
                          * @return {Object} The start time of the current segment in "media time" as well as
                          *                  whether it contains video and/or audio
                          */ _proto.probeTs = function(_ref3) {
-                        var data = _ref3.data, baseStartTime = _ref3.baseStartTime, timeInfo = tsInspector_inspect(data, "number" != typeof baseStartTime || isNaN(baseStartTime) ? void 0 : baseStartTime * clock.ONE_SECOND_IN_TS), result = null;
+                        var data = _ref3.data, baseStartTime = _ref3.baseStartTime, tsStartTime = "number" != typeof baseStartTime || isNaN(baseStartTime) ? void 0 : baseStartTime * clock.ONE_SECOND_IN_TS, timeInfo = tsInspector.inspect(data, tsStartTime), result = null;
                         timeInfo && ((result = {
                             // each type's time info comes back as an array of 2 times, start and end
                             hasVideo: timeInfo.video && 2 === timeInfo.video.length || !1,
@@ -22502,22 +22535,21 @@
                         var mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
                         // this is important because we can abort a request and this value must be
                         // equal to the last appended mediaIndex
-                        if (this.logger_("live window shift [" + mediaSequenceDiff + "]"), null !== this.mediaIndex) {
-                            // update during that. mediaIndex would go from 0 to -1 if mediaSequence in the
-                            // new playlist was incremented by 1.
-                            if (this.mediaIndex -= mediaSequenceDiff, this.mediaIndex < 0) this.mediaIndex = null, this.partIndex = null;
-                            else {
-                                var segment = this.playlist_.segments[this.mediaIndex]; // partIndex should remain the same for the same segment
-                                // unless parts fell off of the playlist for this segment.
-                                // In that case we need to reset partIndex and resync
-                                if (this.partIndex && (!segment.parts || !segment.parts.length || !segment.parts[this.partIndex])) {
-                                    var mediaIndex = this.mediaIndex;
-                                    this.logger_("currently processing part (index " + this.partIndex + ") no longer exists."), this.resetLoader(), // as the part was dropped from our current playlists segment.
-                                    // The mediaIndex will still be valid so keep that around.
-                                    this.mediaIndex = mediaIndex;
-                                }
+                        if (this.logger_("live window shift [" + mediaSequenceDiff + "]"), null !== this.mediaIndex) // update during that. mediaIndex would go from 0 to -1 if mediaSequence in the
+                        // new playlist was incremented by 1.
+                        if (this.mediaIndex -= mediaSequenceDiff, this.mediaIndex < 0) this.mediaIndex = null, this.partIndex = null;
+                        else {
+                            var segment = this.playlist_.segments[this.mediaIndex]; // partIndex should remain the same for the same segment
+                            // unless parts fell off of the playlist for this segment.
+                            // In that case we need to reset partIndex and resync
+                            if (this.partIndex && (!segment.parts || !segment.parts.length || !segment.parts[this.partIndex])) {
+                                var mediaIndex = this.mediaIndex;
+                                this.logger_("currently processing part (index " + this.partIndex + ") no longer exists."), this.resetLoader(), // as the part was dropped from our current playlists segment.
+                                // The mediaIndex will still be valid so keep that around.
+                                this.mediaIndex = mediaIndex;
                             }
-                        } // update the mediaIndex on the SegmentInfo object
+                        }
+                         // update the mediaIndex on the SegmentInfo object
                         segmentInfo && (segmentInfo.mediaIndex -= mediaSequenceDiff, segmentInfo.mediaIndex < 0 ? (segmentInfo.mediaIndex = null, segmentInfo.partIndex = null) : (segmentInfo.mediaIndex >= 0 && (segmentInfo.segment = newPlaylist.segments[segmentInfo.mediaIndex]), segmentInfo.partIndex >= 0 && segmentInfo.segment.parts && (segmentInfo.part = segmentInfo.segment.parts[segmentInfo.partIndex]))), this.syncController_.saveExpiredSegmentInfo(oldPlaylist, newPlaylist);
                     }
                 }, /**
@@ -22675,12 +22707,10 @@
                     // that the next part we append is "independent" if possible.
                     // So we check if the previous part is independent, and request
                     // it if it is.
-                    if ("number" != typeof next.partIndex && nextSegment.parts && (next.partIndex = 0, nextPart = nextSegment.parts[0]), !bufferedTime && nextPart && !nextPart.independent) {
-                        if (0 === next.partIndex) {
-                            var lastSegment = segments[next.mediaIndex - 1], lastSegmentLastPart = lastSegment.parts && lastSegment.parts.length && lastSegment.parts[lastSegment.parts.length - 1];
-                            lastSegmentLastPart && lastSegmentLastPart.independent && (next.mediaIndex -= 1, next.partIndex = lastSegment.parts.length - 1, next.independent = "previous segment");
-                        } else nextSegment.parts[next.partIndex - 1].independent && (next.partIndex -= 1, next.independent = "previous part");
-                    }
+                    if ("number" != typeof next.partIndex && nextSegment.parts && (next.partIndex = 0, nextPart = nextSegment.parts[0]), !bufferedTime && nextPart && !nextPart.independent) if (0 === next.partIndex) {
+                        var lastSegment = segments[next.mediaIndex - 1], lastSegmentLastPart = lastSegment.parts && lastSegment.parts.length && lastSegment.parts[lastSegment.parts.length - 1];
+                        lastSegmentLastPart && lastSegmentLastPart.independent && (next.mediaIndex -= 1, next.partIndex = lastSegment.parts.length - 1, next.independent = "previous segment");
+                    } else nextSegment.parts[next.partIndex - 1].independent && (next.partIndex -= 1, next.independent = "previous part");
                     var ended = this.mediaSource_ && "ended" === this.mediaSource_.readyState; // do not choose a next segment if all of the following:
                     return(// 1. this is the last segment in the playlist
                     // 2. end of stream has been called on the media source already
@@ -24680,13 +24710,12 @@
                          * @param {string} type the event name
                          */ _proto.trigger = function(type) {
                         var callbacks = this.listeners[type];
-                        if (callbacks) {
-                            // can add a significant amount of overhead. Avoid the
-                            // intermediate object creation for the common case of a
-                            // single callback argument
-                            if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                            else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
-                        } // Slicing the arguments on every invocation of this method
+                        if (callbacks) // can add a significant amount of overhead. Avoid the
+                        // intermediate object creation for the common case of a
+                        // single callback argument
+                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                         // Slicing the arguments on every invocation of this method
                     }, /**
                          * Destroys the stream and cleans up.
                          */ _proto.dispose = function() {
@@ -25124,19 +25153,17 @@
                         var variants = null; // set to variants to main media active group
                         media.attributes[type] && (variants = groups[media.attributes[type]]);
                         var groupKeys = Object.keys(groups);
-                        if (!variants) {
-                            // find the masterPlaylistLoader media
-                            // that is in a media group if we are dealing
-                            // with audio only
-                            if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
-                                var groupPropertyList = groups[groupKeys[i]];
-                                if (groupMatch(groupPropertyList, media)) {
-                                    variants = groupPropertyList;
-                                    break;
-                                }
-                            } // use the main group if it exists
-                            else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
-                        }
+                        if (!variants) // find the masterPlaylistLoader media
+                        // that is in a media group if we are dealing
+                        // with audio only
+                        if ("AUDIO" === type && groupKeys.length > 1 && isAudioOnly(settings.master)) for(var i = 0; i < groupKeys.length; i++){
+                            var groupPropertyList = groups[groupKeys[i]];
+                            if (groupMatch(groupPropertyList, media)) {
+                                variants = groupPropertyList;
+                                break;
+                            }
+                        } // use the main group if it exists
+                        else groups.main ? variants = groups.main : 1 === groupKeys.length && (variants = groups[groupKeys[0]]);
                         return void 0 === track ? variants : null !== track && variants && variants.filter(function(props) {
                             return props.id === track.id;
                         })[0] || null;
@@ -25460,7 +25487,7 @@
                  */ _proto.setupMasterPlaylistLoaderListeners_ = function() {
                     var _this3 = this;
                     this.masterPlaylistLoader_.on("loadedmetadata", function() {
-                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1500 * media.targetDuration;
+                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1.5 * media.targetDuration * 1000;
                         isLowestEnabledRendition(_this3.masterPlaylistLoader_.master, _this3.masterPlaylistLoader_.media()) ? _this3.requestOptions_.timeout = 0 : _this3.requestOptions_.timeout = requestTimeout, media.endList && "none" !== _this3.tech_.preload() && (_this3.mainSegmentLoader_.playlist(media, _this3.requestOptions_), _this3.mainSegmentLoader_.load()), setupMediaGroups({
                             sourceType: _this3.sourceType_,
                             segmentLoaders: {
@@ -25496,7 +25523,7 @@
                     }), this.masterPlaylistLoader_.on("mediachanging", function() {
                         _this3.mainSegmentLoader_.abort(), _this3.mainSegmentLoader_.pause();
                     }), this.masterPlaylistLoader_.on("mediachange", function() {
-                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1500 * media.targetDuration;
+                        var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1.5 * media.targetDuration * 1000;
                         isLowestEnabledRendition(_this3.masterPlaylistLoader_.master, _this3.masterPlaylistLoader_.media()) ? _this3.requestOptions_.timeout = 0 : _this3.requestOptions_.timeout = requestTimeout, // that the segments have changed in some way and use that to
                         // update the SegmentLoader instead of doing it twice here and
                         // on `loadedplaylist`
@@ -26885,7 +26912,7 @@
                                     if (this.options_.useNetworkInformationApi && networkInformation) {
                                         // downlink returns Mbps
                                         // https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/downlink
-                                        var networkInfoBandwidthEstBitsPerSec = 1000000 * networkInformation.downlink; // downlink maxes out at 10 Mbps. In the event that both networkInformationApi and the player
+                                        var networkInfoBandwidthEstBitsPerSec = 1000 * networkInformation.downlink * 1000; // downlink maxes out at 10 Mbps. In the event that both networkInformationApi and the player
                                         // estimate a bandwidth greater than 10 Mbps, use the larger of the two estimates to ensure that
                                         // high quality streams are not filtered out.
                                         playerBandwidthEst = networkInfoBandwidthEstBitsPerSec >= 10e6 && playerBandwidthEst >= 10e6 ? Math.max(playerBandwidthEst, networkInfoBandwidthEstBitsPerSec) : networkInfoBandwidthEstBitsPerSec;

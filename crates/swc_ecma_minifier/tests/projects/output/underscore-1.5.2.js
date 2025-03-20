@@ -244,7 +244,8 @@
     }, // Get the last element of an array. Passing **n** will return the last N
     // values in the array. The **guard** check allows it to work with `_.map`.
     _.last = function(array, n, guard) {
-        if (null != array) return null == n || guard ? array[array.length - 1] : slice.call(array, Math.max(array.length - n, 0));
+        if (null != array) if (null == n || guard) return array[array.length - 1];
+        else return slice.call(array, Math.max(array.length - n, 0));
     }, // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
     // Especially useful on the arguments object. Passing an **n** will return
     // the rest N values in the array. The **guard**

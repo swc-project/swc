@@ -2045,15 +2045,13 @@
                         return r < 10 ? "0" + r.toString(10) : r.toString(10);
                     }
                     t.debuglog = function(r) {
-                        if (!i[r = r.toUpperCase()]) {
-                            if (a.test(r)) {
-                                var e = process.pid;
-                                i[r] = function() {
-                                    var o = t.format.apply(t, arguments);
-                                    console.error("%s %d: %s", r, e, o);
-                                };
-                            } else i[r] = function() {};
-                        }
+                        if (!i[r = r.toUpperCase()]) if (a.test(r)) {
+                            var e = process.pid;
+                            i[r] = function() {
+                                var o = t.format.apply(t, arguments);
+                                console.error("%s %d: %s", r, e, o);
+                            };
+                        } else i[r] = function() {};
                         return i[r];
                     }, t.inspect = inspect, inspect.colors = {
                         bold: [

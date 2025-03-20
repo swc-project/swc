@@ -3968,33 +3968,32 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) {
-                        if (jwk && "use_wallet" !== jwk) {
-                            transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
-                            transaction.setSignature({
-                                id: ArweaveUtils.bufferTob64Url(id),
-                                owner: jwk.n,
-                                signature: ArweaveUtils.bufferTob64Url(rawSignature)
-                            });
-                        } else {
-                            try {
-                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
-                                    "SIGN_TRANSACTION"
-                                ]);
-                            } catch (_a) {
-                            // Permission is already granted
-                            }
-                            const signedTransaction = await window.arweaveWallet.sign(transaction, options);
-                            transaction.setSignature({
-                                id: signedTransaction.id,
-                                owner: signedTransaction.owner,
-                                reward: signedTransaction.reward,
-                                tags: signedTransaction.tags,
-                                signature: signedTransaction.signature
-                            });
+                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                        transaction.setOwner(jwk.n);
+                        let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                        transaction.setSignature({
+                            id: ArweaveUtils.bufferTob64Url(id),
+                            owner: jwk.n,
+                            signature: ArweaveUtils.bufferTob64Url(rawSignature)
+                        });
+                    } else {
+                        try {
+                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                "SIGN_TRANSACTION"
+                            ]);
+                        } catch (_a) {
+                        // Permission is already granted
                         }
-                    } else throw Error("A new Arweave transaction must provide the jwk parameter.");
+                        const signedTransaction = await window.arweaveWallet.sign(transaction, options);
+                        transaction.setSignature({
+                            id: signedTransaction.id,
+                            owner: signedTransaction.owner,
+                            reward: signedTransaction.reward,
+                            tags: signedTransaction.tags,
+                            signature: signedTransaction.signature
+                        });
+                    }
+                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     const signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -5432,33 +5431,32 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) {
-                        if (jwk && "use_wallet" !== jwk) {
-                            transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
-                            transaction.setSignature({
-                                id: ArweaveUtils.bufferTob64Url(id),
-                                owner: jwk.n,
-                                signature: ArweaveUtils.bufferTob64Url(rawSignature)
-                            });
-                        } else {
-                            try {
-                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
-                                    "SIGN_TRANSACTION"
-                                ]);
-                            } catch (_a) {
-                            // Permission is already granted
-                            }
-                            const signedTransaction = await window.arweaveWallet.sign(transaction, options);
-                            transaction.setSignature({
-                                id: signedTransaction.id,
-                                owner: signedTransaction.owner,
-                                reward: signedTransaction.reward,
-                                tags: signedTransaction.tags,
-                                signature: signedTransaction.signature
-                            });
+                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                        transaction.setOwner(jwk.n);
+                        let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                        transaction.setSignature({
+                            id: ArweaveUtils.bufferTob64Url(id),
+                            owner: jwk.n,
+                            signature: ArweaveUtils.bufferTob64Url(rawSignature)
+                        });
+                    } else {
+                        try {
+                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                "SIGN_TRANSACTION"
+                            ]);
+                        } catch (_a) {
+                        // Permission is already granted
                         }
-                    } else throw Error("A new Arweave transaction must provide the jwk parameter.");
+                        const signedTransaction = await window.arweaveWallet.sign(transaction, options);
+                        transaction.setSignature({
+                            id: signedTransaction.id,
+                            owner: signedTransaction.owner,
+                            reward: signedTransaction.reward,
+                            tags: signedTransaction.tags,
+                            signature: signedTransaction.signature
+                        });
+                    }
+                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     const signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -6306,15 +6304,13 @@
                 let start = -1, end = -1;
                 for(let i = 0; i < lines.length; i++){
                     const match = lines[i].match(re);
-                    if (null !== match && match[2] === label) {
-                        if (-1 === start) {
-                            if ('BEGIN' !== match[1]) break;
-                            start = i;
-                        } else {
-                            if ('END' !== match[1]) break;
-                            end = i;
-                            break;
-                        }
+                    if (null !== match && match[2] === label) if (-1 === start) {
+                        if ('BEGIN' !== match[1]) break;
+                        start = i;
+                    } else {
+                        if ('END' !== match[1]) break;
+                        end = i;
+                        break;
                     }
                 }
                 if (-1 === start || -1 === end) throw Error('PEM section not found for: ' + label);
@@ -7632,14 +7628,12 @@
  * @param {Function} fn The callback to invoke for each item
  */ function forEach(obj, fn) {
                 // Don't bother if no value provided
-                if (null != obj) {
-                    if ('object' != typeof obj && /*eslint no-param-reassign:0*/ (obj = [
-                        obj
-                    ]), isArray(obj)) // Iterate over array values
-                    for(var i = 0, l = obj.length; i < l; i++)fn.call(null, obj[i], i, obj);
-                    else // Iterate over object keys
-                    for(var key in obj)Object.prototype.hasOwnProperty.call(obj, key) && fn.call(null, obj[key], key, obj);
-                }
+                if (null != obj) if ('object' != typeof obj && /*eslint no-param-reassign:0*/ (obj = [
+                    obj
+                ]), isArray(obj)) // Iterate over array values
+                for(var i = 0, l = obj.length; i < l; i++)fn.call(null, obj[i], i, obj);
+                else // Iterate over object keys
+                for(var key in obj)Object.prototype.hasOwnProperty.call(obj, key) && fn.call(null, obj[key], key, obj);
             }
             /**
  * Accepts varargs expecting each argument to be an object, then
@@ -8126,13 +8120,12 @@
                                 // If the rounding digit is in the first element of xc...
                                 if ((i = sd - d) < 0) i += LOG_BASE, j = sd, // Get the rounding digit at index j of n.
                                 rd = (n = xc[ni = 0]) / pows10[d - j - 1] % 10 | 0;
-                                else if ((ni = mathceil((i + 1) / LOG_BASE)) >= xc.length) {
-                                    if (r) {
-                                        // Needed by sqrt.
-                                        for(; xc.length <= ni; xc.push(0));
-                                        n = rd = 0, d = 1, i %= LOG_BASE, j = i - LOG_BASE + 1;
-                                    } else break out;
-                                } else {
+                                else if ((ni = mathceil((i + 1) / LOG_BASE)) >= xc.length) if (r) {
+                                    // Needed by sqrt.
+                                    for(; xc.length <= ni; xc.push(0));
+                                    n = rd = 0, d = 1, i %= LOG_BASE, j = i - LOG_BASE + 1;
+                                } else break out;
+                                else {
                                     // Get the number of digits of n.
                                     for(d = 1, n = k = xc[ni]; k >= 10; k /= 10, d++);
                                     // Get the index of rd within n.
@@ -8151,15 +8144,14 @@
                                 // Round up?
                                 if (0 == i ? (xc.length = ni, k = 1, ni--) : (xc.length = ni + 1, k = pows10[LOG_BASE - i], // E.g. 56700 becomes 56000 if 7 is the rounding digit.
                                 // j > 0 means i > number of leading zeros of n.
-                                xc[ni] = j > 0 ? mathfloor(n / pows10[d - j] % pows10[j]) * k : 0), r) for(;;){
-                                    // If the digit to be rounded up is in the first element of xc...
-                                    if (0 == ni) {
-                                        // i will be the length of xc[0] before k is added.
-                                        for(i = 1, j = xc[0]; j >= 10; j /= 10, i++);
-                                        for(j = xc[0] += k, k = 1; j >= 10; j /= 10, k++);
-                                        i != k && (x.e++, xc[0] == BASE && (xc[0] = 1));
-                                        break;
-                                    }
+                                xc[ni] = j > 0 ? mathfloor(n / pows10[d - j] % pows10[j]) * k : 0), r) for(;;)// If the digit to be rounded up is in the first element of xc...
+                                if (0 == ni) {
+                                    // i will be the length of xc[0] before k is added.
+                                    for(i = 1, j = xc[0]; j >= 10; j /= 10, i++);
+                                    for(j = xc[0] += k, k = 1; j >= 10; j /= 10, k++);
+                                    i != k && (x.e++, xc[0] == BASE && (xc[0] = 1));
+                                    break;
+                                } else {
                                     if (xc[ni] += k, xc[ni] != BASE) break;
                                     xc[ni--] = 0, k = 1;
                                 }
@@ -8213,44 +8205,34 @@
      * Return an object with the properties current values.
      */ BigNumber.config = BigNumber.set = function(obj) {
                         var p, v;
-                        if (null != obj) {
-                            if ('object' == typeof obj) {
-                                // RANGE {number|number[]} Non-zero integer, -MAX to MAX inclusive or
-                                // [integer -MAX to -1 inclusive, integer 1 to MAX inclusive].
-                                // '[BigNumber Error] RANGE {not a primitive number|not an integer|out of range|cannot be zero}: {v}'
-                                if (obj.hasOwnProperty(p = 'DECIMAL_PLACES') && (intCheck(v = obj[p], 0, MAX, p), DECIMAL_PLACES = v), obj.hasOwnProperty(p = 'ROUNDING_MODE') && (intCheck(v = obj[p], 0, 8, p), ROUNDING_MODE = v), obj.hasOwnProperty(p = 'EXPONENTIAL_AT') && ((v = obj[p]) && v.pop ? (intCheck(v[0], -MAX, 0, p), intCheck(v[1], 0, MAX, p), TO_EXP_NEG = v[0], TO_EXP_POS = v[1]) : (intCheck(v, -MAX, MAX, p), TO_EXP_NEG = -(TO_EXP_POS = v < 0 ? -v : v))), obj.hasOwnProperty(p = 'RANGE')) {
-                                    if ((v = obj[p]) && v.pop) intCheck(v[0], -MAX, -1, p), intCheck(v[1], 1, MAX, p), MIN_EXP = v[0], MAX_EXP = v[1];
-                                    else if (intCheck(v, -MAX, MAX, p), v) MIN_EXP = -(MAX_EXP = v < 0 ? -v : v);
-                                    else throw Error(bignumberError + p + ' cannot be zero: ' + v);
-                                }
-                                // CRYPTO {boolean} true or false.
-                                // '[BigNumber Error] CRYPTO not true or false: {v}'
-                                // '[BigNumber Error] crypto unavailable'
-                                if (obj.hasOwnProperty(p = 'CRYPTO')) {
-                                    if (!!(v = obj[p]) === v) {
-                                        if (v) {
-                                            if ('undefined' != typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
-                                            else throw CRYPTO = !v, Error(bignumberError + 'crypto unavailable');
-                                        } else CRYPTO = v;
-                                    } else throw Error(bignumberError + p + ' not true or false: ' + v);
-                                }
-                                // FORMAT {object}
-                                // '[BigNumber Error] FORMAT not an object: {v}'
-                                if (obj.hasOwnProperty(p = 'MODULO_MODE') && (intCheck(v = obj[p], 0, 9, p), MODULO_MODE = v), obj.hasOwnProperty(p = 'POW_PRECISION') && (intCheck(v = obj[p], 0, MAX, p), POW_PRECISION = v), obj.hasOwnProperty(p = 'FORMAT')) {
-                                    if ('object' == typeof (v = obj[p])) FORMAT = v;
-                                    else throw Error(bignumberError + p + ' not an object: ' + v);
-                                }
-                                // ALPHABET {string}
-                                // '[BigNumber Error] ALPHABET invalid: {v}'
-                                if (obj.hasOwnProperty(p = 'ALPHABET')) {
-                                    // Disallow if less than two characters,
-                                    // or if it contains '+', '-', '.', whitespace, or a repeated character.
-                                    if ('string' != typeof (v = obj[p]) || /^.?$|[+\-.\s]|(.).*\1/.test(v)) throw Error(bignumberError + p + ' invalid: ' + v);
-                                    alphabetHasNormalDecimalDigits = '0123456789' == v.slice(0, 10), ALPHABET = v;
-                                }
-                            } else // '[BigNumber Error] Object expected: {v}'
-                            throw Error(bignumberError + 'Object expected: ' + obj);
-                        }
+                        if (null != obj) if ('object' == typeof obj) {
+                            // RANGE {number|number[]} Non-zero integer, -MAX to MAX inclusive or
+                            // [integer -MAX to -1 inclusive, integer 1 to MAX inclusive].
+                            // '[BigNumber Error] RANGE {not a primitive number|not an integer|out of range|cannot be zero}: {v}'
+                            if (obj.hasOwnProperty(p = 'DECIMAL_PLACES') && (intCheck(v = obj[p], 0, MAX, p), DECIMAL_PLACES = v), obj.hasOwnProperty(p = 'ROUNDING_MODE') && (intCheck(v = obj[p], 0, 8, p), ROUNDING_MODE = v), obj.hasOwnProperty(p = 'EXPONENTIAL_AT') && ((v = obj[p]) && v.pop ? (intCheck(v[0], -MAX, 0, p), intCheck(v[1], 0, MAX, p), TO_EXP_NEG = v[0], TO_EXP_POS = v[1]) : (intCheck(v, -MAX, MAX, p), TO_EXP_NEG = -(TO_EXP_POS = v < 0 ? -v : v))), obj.hasOwnProperty(p = 'RANGE')) if ((v = obj[p]) && v.pop) intCheck(v[0], -MAX, -1, p), intCheck(v[1], 1, MAX, p), MIN_EXP = v[0], MAX_EXP = v[1];
+                            else if (intCheck(v, -MAX, MAX, p), v) MIN_EXP = -(MAX_EXP = v < 0 ? -v : v);
+                            else throw Error(bignumberError + p + ' cannot be zero: ' + v);
+                            // CRYPTO {boolean} true or false.
+                            // '[BigNumber Error] CRYPTO not true or false: {v}'
+                            // '[BigNumber Error] crypto unavailable'
+                            if (obj.hasOwnProperty(p = 'CRYPTO')) if (!!(v = obj[p]) === v) if (v) if ('undefined' != typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
+                            else throw CRYPTO = !v, Error(bignumberError + 'crypto unavailable');
+                            else CRYPTO = v;
+                            else throw Error(bignumberError + p + ' not true or false: ' + v);
+                            // FORMAT {object}
+                            // '[BigNumber Error] FORMAT not an object: {v}'
+                            if (obj.hasOwnProperty(p = 'MODULO_MODE') && (intCheck(v = obj[p], 0, 9, p), MODULO_MODE = v), obj.hasOwnProperty(p = 'POW_PRECISION') && (intCheck(v = obj[p], 0, MAX, p), POW_PRECISION = v), obj.hasOwnProperty(p = 'FORMAT')) if ('object' == typeof (v = obj[p])) FORMAT = v;
+                            else throw Error(bignumberError + p + ' not an object: ' + v);
+                            // ALPHABET {string}
+                            // '[BigNumber Error] ALPHABET invalid: {v}'
+                            if (obj.hasOwnProperty(p = 'ALPHABET')) {
+                                // Disallow if less than two characters,
+                                // or if it contains '+', '-', '.', whitespace, or a repeated character.
+                                if ('string' != typeof (v = obj[p]) || /^.?$|[+\-.\s]|(.).*\1/.test(v)) throw Error(bignumberError + p + ' invalid: ' + v);
+                                alphabetHasNormalDecimalDigits = '0123456789' == v.slice(0, 10), ALPHABET = v;
+                            }
+                        } else // '[BigNumber Error] Object expected: {v}'
+                        throw Error(bignumberError + 'Object expected: ' + obj);
                         return {
                             DECIMAL_PLACES: DECIMAL_PLACES,
                             ROUNDING_MODE: ROUNDING_MODE,
@@ -8327,35 +8309,33 @@
                         };
                         return function(dp) {
                             var a, b, e, k, v, i = 0, c = [], rand = new BigNumber(ONE);
-                            if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) {
-                                // Browsers supporting crypto.getRandomValues.
-                                if (crypto.getRandomValues) {
-                                    for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)// Rejection sampling:
-                                    // 0 <= v < 9007199254740992
-                                    // Probability that v >= 9e15, is
-                                    // 7199254740992 / 9007199254740992 ~= 0.0008, i.e. 1 in 1251
-                                    // 53 bits:
-                                    // ((Math.pow(2, 32) - 1) * Math.pow(2, 21)).toString(2)
-                                    // 11111 11111111 11111111 11111111 11100000 00000000 00000000
-                                    // ((Math.pow(2, 32) - 1) >>> 11).toString(2)
-                                    //                                     11111 11111111 11111111
-                                    // 0x20000 is 2^21.
-                                    (v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (// 0 <= v <= 8999999999999999
-                                    // 0 <= (v % 1e14) <= 99999999999999
-                                    c.push(v % 1e14), i += 2);
-                                    i = k / 2;
-                                // Node.js supporting crypto.randomBytes.
-                                } else if (crypto.randomBytes) {
-                                    for(// buffer
-                                    a = crypto.randomBytes(k *= 7); i < k;)// 0x1000000000000 is 2^48, 0x10000000000 is 2^40
-                                    // 0x100000000 is 2^32, 0x1000000 is 2^24
-                                    // 11111 11111111 11111111 11111111 11111111 11111111 11111111
-                                    // 0 <= v < 9007199254740992
-                                    (v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (// 0 <= (v % 1e14) <= 99999999999999
-                                    c.push(v % 1e14), i += 7);
-                                    i = k / 7;
-                                } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
-                            }
+                            if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) // Browsers supporting crypto.getRandomValues.
+                            if (crypto.getRandomValues) {
+                                for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)// Rejection sampling:
+                                // 0 <= v < 9007199254740992
+                                // Probability that v >= 9e15, is
+                                // 7199254740992 / 9007199254740992 ~= 0.0008, i.e. 1 in 1251
+                                // 53 bits:
+                                // ((Math.pow(2, 32) - 1) * Math.pow(2, 21)).toString(2)
+                                // 11111 11111111 11111111 11111111 11100000 00000000 00000000
+                                // ((Math.pow(2, 32) - 1) >>> 11).toString(2)
+                                //                                     11111 11111111 11111111
+                                // 0x20000 is 2^21.
+                                (v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (// 0 <= v <= 8999999999999999
+                                // 0 <= (v % 1e14) <= 99999999999999
+                                c.push(v % 1e14), i += 2);
+                                i = k / 2;
+                            // Node.js supporting crypto.randomBytes.
+                            } else if (crypto.randomBytes) {
+                                for(// buffer
+                                a = crypto.randomBytes(k *= 7); i < k;)// 0x1000000000000 is 2^48, 0x10000000000 is 2^40
+                                // 0x100000000 is 2^32, 0x1000000 is 2^24
+                                // 11111 11111111 11111111 11111111 11111111 11111111 11111111
+                                // 0 <= v < 9007199254740992
+                                (v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (// 0 <= (v % 1e14) <= 99999999999999
+                                c.push(v % 1e14), i += 7);
+                                i = k / 7;
+                            } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
                             // Use Math.random.
                             if (!CRYPTO) for(; i < k;)(v = random53bitInt()) < 9e15 && (c[i++] = v % 1e14);
                             // Remove trailing elements which are zero.
@@ -14115,20 +14095,18 @@
                     var clone = getCleanClone(object, realm);
                     // set in the cache immediately to be able to reuse the object recursively
                     cache.set(object, clone);
-                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) {
-                        if (descriptor = getOwnPropertyDescriptor(object, property)) {
-                            // Only clone the value if actually a value, not a getter / setter.
-                            descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
-                            try {
-                                defineProperty(clone, property, descriptor);
-                            } catch (error) {
-                                // Tee above can fail on node in edge cases, so fall back to the loose assignment.
-                                clone[property] = descriptor.value;
-                            }
-                        } else // In extra edge cases where the property descriptor cannot be retrived, fall back to
-                        // the loose assignment.
-                        clone[property] = handleCopy(object[property], cache);
-                    }
+                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) if (descriptor = getOwnPropertyDescriptor(object, property)) {
+                        // Only clone the value if actually a value, not a getter / setter.
+                        descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
+                        try {
+                            defineProperty(clone, property, descriptor);
+                        } catch (error) {
+                            // Tee above can fail on node in edge cases, so fall back to the loose assignment.
+                            clone[property] = descriptor.value;
+                        }
+                    } else // In extra edge cases where the property descriptor cannot be retrived, fall back to
+                    // the loose assignment.
+                    clone[property] = handleCopy(object[property], cache);
                     return clone;
                 }, getRegExpFlags = function(regExp) {
                     var flags = '';
@@ -14350,33 +14328,32 @@
                     var p = n_stack[s - 1], n = n_stack[s];
                     if (p._color === BLACK || n._color === BLACK) break;
                     var pp = n_stack[s - 2];
-                    if (pp.left === p) {
-                        if (p.left === n) {
-                            var y = pp.right;
-                            if (y && y._color === RED) //console.log("LLr")
-                            p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
-                            else {
-                                if (//console.log("LLb")
-                                pp._color = RED, pp.left = p.right, p._color = BLACK, p.right = pp, n_stack[s - 2] = p, n_stack[s - 1] = n, recount(pp), recount(p), s >= 3) {
-                                    var ppp = n_stack[s - 3];
-                                    ppp.left === pp ? ppp.left = p : ppp.right = p;
-                                }
-                                break;
+                    if (pp.left === p) if (p.left === n) {
+                        var y = pp.right;
+                        if (y && y._color === RED) //console.log("LLr")
+                        p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
+                        else {
+                            if (//console.log("LLb")
+                            pp._color = RED, pp.left = p.right, p._color = BLACK, p.right = pp, n_stack[s - 2] = p, n_stack[s - 1] = n, recount(pp), recount(p), s >= 3) {
+                                var ppp = n_stack[s - 3];
+                                ppp.left === pp ? ppp.left = p : ppp.right = p;
                             }
-                        } else {
-                            var y = pp.right;
-                            if (y && y._color === RED) //console.log("LRr")
-                            p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
-                            else {
-                                if (//console.log("LRb")
-                                p.right = n.left, pp._color = RED, pp.left = n.right, n._color = BLACK, n.left = p, n.right = pp, n_stack[s - 2] = n, n_stack[s - 1] = p, recount(pp), recount(p), recount(n), s >= 3) {
-                                    var ppp = n_stack[s - 3];
-                                    ppp.left === pp ? ppp.left = n : ppp.right = n;
-                                }
-                                break;
-                            }
+                            break;
                         }
-                    } else if (p.right === n) {
+                    } else {
+                        var y = pp.right;
+                        if (y && y._color === RED) //console.log("LRr")
+                        p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
+                        else {
+                            if (//console.log("LRb")
+                            p.right = n.left, pp._color = RED, pp.left = n.right, n._color = BLACK, n.left = p, n.right = pp, n_stack[s - 2] = n, n_stack[s - 1] = p, recount(pp), recount(p), recount(n), s >= 3) {
+                                var ppp = n_stack[s - 3];
+                                ppp.left === pp ? ppp.left = n : ppp.right = n;
+                            }
+                            break;
+                        }
+                    }
+                    else if (p.right === n) {
                         var y = pp.left;
                         if (y && y._color === RED) //console.log("RRr", y.key)
                         p._color = BLACK, pp.left = repaint(BLACK, y), pp._color = RED, s -= 1;
@@ -16023,14 +16000,13 @@
                 if (Array.isArray(msg)) return msg.slice();
                 if (!msg) return [];
                 var res = [];
-                if ('string' == typeof msg) {
-                    if (enc) {
-                        if ('hex' === enc) for((msg = msg.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg = '0' + msg), i = 0; i < msg.length; i += 2)res.push(parseInt(msg[i] + msg[i + 1], 16));
-                    } else for(var p = 0, i = 0; i < msg.length; i++){
-                        var c = msg.charCodeAt(i);
-                        c < 128 ? res[p++] = c : (c < 2048 ? res[p++] = c >> 6 | 192 : (isSurrogatePair(msg, i) ? (c = 0x10000 + ((0x03FF & c) << 10) + (0x03FF & msg.charCodeAt(++i)), res[p++] = c >> 18 | 240, res[p++] = c >> 12 & 63 | 128) : res[p++] = c >> 12 | 224, res[p++] = c >> 6 & 63 | 128), res[p++] = 63 & c | 128);
-                    }
-                } else for(i = 0; i < msg.length; i++)res[i] = 0 | msg[i];
+                if ('string' == typeof msg) if (enc) {
+                    if ('hex' === enc) for((msg = msg.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg = '0' + msg), i = 0; i < msg.length; i += 2)res.push(parseInt(msg[i] + msg[i + 1], 16));
+                } else for(var p = 0, i = 0; i < msg.length; i++){
+                    var c = msg.charCodeAt(i);
+                    c < 128 ? res[p++] = c : (c < 2048 ? res[p++] = c >> 6 | 192 : (isSurrogatePair(msg, i) ? (c = 0x10000 + ((0x03FF & c) << 10) + (0x03FF & msg.charCodeAt(++i)), res[p++] = c >> 18 | 240, res[p++] = c >> 12 & 63 | 128) : res[p++] = c >> 12 | 224, res[p++] = c >> 6 & 63 | 128), res[p++] = 63 & c | 128);
+                }
+                else for(i = 0; i < msg.length; i++)res[i] = 0 | msg[i];
                 return res;
             }, exports.toHex = function(msg) {
                 for(var res = '', i = 0; i < msg.length; i++)res += zero2(msg[i].toString(16));
@@ -17098,14 +17074,12 @@
                         } else if ('object' != typeof encoding || null === encoding) throw TypeError("First argument 'encoding' must be a string or object");
                         else resolved = from(encoding);
                         const { name, format } = resolved;
-                        if (!this[kFormats].has(format)) {
-                            if (this[kFormats].has('view')) resolved = resolved.createViewTranscoder();
-                            else if (this[kFormats].has('buffer')) resolved = resolved.createBufferTranscoder();
-                            else if (this[kFormats].has('utf8')) resolved = resolved.createUTF8Transcoder();
-                            else throw new ModuleError(`Encoding '${name}' cannot be transcoded`, {
-                                code: 'LEVEL_ENCODING_NOT_SUPPORTED'
-                            });
-                        }
+                        if (!this[kFormats].has(format)) if (this[kFormats].has('view')) resolved = resolved.createViewTranscoder();
+                        else if (this[kFormats].has('buffer')) resolved = resolved.createBufferTranscoder();
+                        else if (this[kFormats].has('utf8')) resolved = resolved.createUTF8Transcoder();
+                        else throw new ModuleError(`Encoding '${name}' cannot be transcoded`, {
+                            code: 'LEVEL_ENCODING_NOT_SUPPORTED'
+                        });
                         for (const k of [
                             encoding,
                             name,
@@ -19526,14 +19500,13 @@
                             var o, a = e._readableState;
                             if (null === t) a.reading = !1, onEofChunk(e, a);
                             else if (i || (o = chunkInvalid(a, t)), o) R(e, o);
-                            else if (a.objectMode || t && t.length > 0) {
-                                if ("string" == typeof t || a.objectMode || Object.getPrototypeOf(t) === s.prototype || (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
-                                else if (a.ended) R(e, new y);
-                                else {
-                                    if (a.destroyed) return !1;
-                                    a.reading = !1, a.decoder && !r ? (t = a.decoder.write(t), a.objectMode || 0 !== t.length ? addChunk(e, a, t, !1) : maybeReadMore(e, a)) : addChunk(e, a, t, !1);
-                                }
-                            } else n || (a.reading = !1, maybeReadMore(e, a));
+                            else if (a.objectMode || t && t.length > 0) if ("string" == typeof t || a.objectMode || Object.getPrototypeOf(t) === s.prototype || (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
+                            else if (a.ended) R(e, new y);
+                            else {
+                                if (a.destroyed) return !1;
+                                a.reading = !1, a.decoder && !r ? (t = a.decoder.write(t), a.objectMode || 0 !== t.length ? addChunk(e, a, t, !1) : maybeReadMore(e, a)) : addChunk(e, a, t, !1);
+                            }
+                            else n || (a.reading = !1, maybeReadMore(e, a));
                             return !a.ended && (a.length < a.highWaterMark || 0 === a.length);
                         }
                         function addChunk(e, t, r, n) {
@@ -24089,15 +24062,13 @@ class Zip {
                 return n < 10 ? '0' + n.toString(10) : n.toString(10);
             }
             exports.debuglog = function(set) {
-                if (!debugs[set = set.toUpperCase()]) {
-                    if (debugEnvRegex.test(set)) {
-                        var pid = process.pid;
-                        debugs[set] = function() {
-                            var msg = exports.format.apply(exports, arguments);
-                            console.error('%s %d: %s', set, pid, msg);
-                        };
-                    } else debugs[set] = function() {};
-                }
+                if (!debugs[set = set.toUpperCase()]) if (debugEnvRegex.test(set)) {
+                    var pid = process.pid;
+                    debugs[set] = function() {
+                        var msg = exports.format.apply(exports, arguments);
+                        console.error('%s %d: %s', set, pid, msg);
+                    };
+                } else debugs[set] = function() {};
                 return debugs[set];
             }, exports.inspect = inspect, // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
             inspect.colors = {

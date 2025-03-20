@@ -451,13 +451,11 @@
                 toRemove.length && this.remove(toRemove, options);
             }
             // See if sorting is needed, update `length` and splice in new models.
-            if (toAdd.length || order && order.length) {
-                if (sortable && (sort = !0), this.length += toAdd.length, null != at) for(i = 0, l = toAdd.length; i < l; i++)this.models.splice(at + i, 0, toAdd[i]);
-                else {
-                    order && (this.models.length = 0);
-                    var orderedModels = order || toAdd;
-                    for(i = 0, l = orderedModels.length; i < l; i++)this.models.push(orderedModels[i]);
-                }
+            if (toAdd.length || order && order.length) if (sortable && (sort = !0), this.length += toAdd.length, null != at) for(i = 0, l = toAdd.length; i < l; i++)this.models.splice(at + i, 0, toAdd[i]);
+            else {
+                order && (this.models.length = 0);
+                var orderedModels = order || toAdd;
+                for(i = 0, l = orderedModels.length; i < l; i++)this.models.push(orderedModels[i]);
             }
             // Unless silenced, it's time to fire all appropriate add/sort events.
             if (sort && this.sort({
@@ -890,13 +888,11 @@
         // Get the cross-browser normalized URL fragment, either from the URL,
         // the hash, or the override.
         getFragment: function(fragment, forcePushState) {
-            if (null == fragment) {
-                if (this._hasPushState || !this._wantsHashChange || forcePushState) {
-                    fragment = this.location.pathname;
-                    var root = this.root.replace(trailingSlash, "");
-                    fragment.indexOf(root) || (fragment = fragment.slice(root.length));
-                } else fragment = this.getHash();
-            }
+            if (null == fragment) if (this._hasPushState || !this._wantsHashChange || forcePushState) {
+                fragment = this.location.pathname;
+                var root = this.root.replace(trailingSlash, "");
+                fragment.indexOf(root) || (fragment = fragment.slice(root.length));
+            } else fragment = this.getHash();
             return fragment.replace(routeStripper, "");
         },
         // Start the hash change handling, returning `true` if the current URL matches

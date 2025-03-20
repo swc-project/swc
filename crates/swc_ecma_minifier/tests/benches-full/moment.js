@@ -621,15 +621,13 @@
         delete locales[name], null);
         var locale, parentConfig = baseConfig;
         if (config.abbr = name, null != locales[name]) deprecateSimple('defineLocaleOverride', "use moment.updateLocale(localeName, config) to change an existing locale. moment.defineLocale(localeName, config) should only be used for creating a new locale See http://momentjs.com/guides/#/warnings/define-locale/ for more info."), parentConfig = locales[name]._config;
-        else if (null != config.parentLocale) {
-            if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
-            else {
-                if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
-                    name: name,
-                    config: config
-                }), null;
-                parentConfig = locale._config;
-            }
+        else if (null != config.parentLocale) if (null != locales[config.parentLocale]) parentConfig = locales[config.parentLocale]._config;
+        else {
+            if (null == (locale = loadLocale(config.parentLocale))) return localeFamilies[config.parentLocale] || (localeFamilies[config.parentLocale] = []), localeFamilies[config.parentLocale].push({
+                name: name,
+                config: config
+            }), null;
+            parentConfig = locale._config;
         }
         return locales[name] = new Locale(mergeConfigs(parentConfig, config)), localeFamilies[name] && localeFamilies[name].forEach(function(x) {
             defineLocale(x.name, x.config);
@@ -810,12 +808,10 @@
                 config._isValid = !1;
                 return;
             }
-            if (match[4]) {
-                if (tzRegex.exec(match[4])) tzFormat = 'Z';
-                else {
-                    config._isValid = !1;
-                    return;
-                }
+            if (match[4]) if (tzRegex.exec(match[4])) tzFormat = 'Z';
+            else {
+                config._isValid = !1;
+                return;
             }
             config._f = dateFormat + (timeFormat || '') + (tzFormat || ''), configFromStringAndFormat(config);
         } else config._isValid = !1;
@@ -1003,7 +999,7 @@
         }(normalizedInput), // representation for dateAddRemove
         this._milliseconds = +milliseconds + 1e3 * seconds + // 1000
         6e4 * minutes + // 1000 * 60
-        3600000 * hours, // Because of dateAddRemove treats 24 hours as different from a
+        1000 * hours * 3600, // Because of dateAddRemove treats 24 hours as different from a
         // day when working around DST, we need to store them separately
         this._days = +days + 7 * weeks, // It is impossible to translate months into days without knowing
         // which months you are are talking about, so we have to store
@@ -1014,7 +1010,7 @@
         return obj instanceof Duration;
     }
     function absRound(number) {
-        return number < 0 ? -1 * Math.round(-1 * number) : Math.round(number);
+        return number < 0 ? -+Math.round(-1 * number) : Math.round(number);
     }
     // FORMATTING
     function offset(token, separator) {
@@ -1354,54 +1350,52 @@
     }
     proto.add = add, proto.calendar = function(time, formats) {
         // Support for single parameter, formats only overload to the calendar function
-        if (1 == arguments.length) {
-            if (arguments[0]) {
-                var input, arrayTest, dataTypeTest;
-                (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input.filter(function(item) {
-                    return !isNumber(item) && isString(input);
-                }).length), arrayTest && dataTypeTest) || function(input) {
-                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                        'years',
-                        'year',
-                        'y',
-                        'months',
-                        'month',
-                        'M',
-                        'days',
-                        'day',
-                        'd',
-                        'dates',
-                        'date',
-                        'D',
-                        'hours',
-                        'hour',
-                        'h',
-                        'minutes',
-                        'minute',
-                        'm',
-                        'seconds',
-                        'second',
-                        's',
-                        'milliseconds',
-                        'millisecond',
-                        'ms'
-                    ];
-                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                    return objectTest && propertyTest;
-                }(input) || null == input) ? (time = arguments[0], formats = void 0) : function(input) {
-                    var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
-                        'sameDay',
-                        'nextDay',
-                        'lastDay',
-                        'nextWeek',
-                        'lastWeek',
-                        'sameElse'
-                    ];
-                    for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
-                    return objectTest && propertyTest;
-                }(arguments[0]) && (formats = arguments[0], time = void 0);
-            } else time = void 0, formats = void 0;
-        }
+        if (1 == arguments.length) if (arguments[0]) {
+            var input, arrayTest, dataTypeTest;
+            (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input.filter(function(item) {
+                return !isNumber(item) && isString(input);
+            }).length), arrayTest && dataTypeTest) || function(input) {
+                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                    'years',
+                    'year',
+                    'y',
+                    'months',
+                    'month',
+                    'M',
+                    'days',
+                    'day',
+                    'd',
+                    'dates',
+                    'date',
+                    'D',
+                    'hours',
+                    'hour',
+                    'h',
+                    'minutes',
+                    'minute',
+                    'm',
+                    'seconds',
+                    'second',
+                    's',
+                    'milliseconds',
+                    'millisecond',
+                    'ms'
+                ];
+                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                return objectTest && propertyTest;
+            }(input) || null == input) ? (time = arguments[0], formats = void 0) : function(input) {
+                var i, property, objectTest = isObject(input) && !isObjectEmpty(input), propertyTest = !1, properties = [
+                    'sameDay',
+                    'nextDay',
+                    'lastDay',
+                    'nextWeek',
+                    'lastWeek',
+                    'sameElse'
+                ];
+                for(i = 0; i < properties.length; i += 1)property = properties[i], propertyTest = propertyTest || hasOwnProp(input, property);
+                return objectTest && propertyTest;
+            }(arguments[0]) && (formats = arguments[0], time = void 0);
+        } else time = void 0, formats = void 0;
         // We want to compare the start of today, vs this.
         // Getting start-of-today depends on whether we're local/utc/offset or not.
         var now = time || createLocal(), sod = cloneWithOffset(now, this).startOf('day'), format = hooks.calendarFormat(this, sod) || 'sameElse', output = formats && (isFunction(formats[format]) ? formats[format].call(this, now) : formats[format]);
@@ -1590,7 +1584,7 @@
         if (!this.isValid()) return null;
         var utc = !0 !== keepOffset, m = utc ? this.clone().utc() : this;
         return 0 > m.year() || m.year() > 9999 ? formatMoment(m, utc ? 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYYYY-MM-DD[T]HH:mm:ss.SSSZ') : isFunction(Date.prototype.toISOString) ? // native implementation is ~50x faster, use it when we can
-        utc ? this.toDate().toISOString() : new Date(this.valueOf() + 60000 * this.utcOffset()).toISOString().replace('Z', formatMoment(m, 'Z')) : formatMoment(m, utc ? 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYY-MM-DD[T]HH:mm:ss.SSSZ');
+        utc ? this.toDate().toISOString() : new Date(this.valueOf() + 60 * this.utcOffset() * 1000).toISOString().replace('Z', formatMoment(m, 'Z')) : formatMoment(m, utc ? 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYY-MM-DD[T]HH:mm:ss.SSSZ');
     }, proto.inspect = /**
      * Return a human readable representation of a moment that can
      * also be evaluated to get a new moment which is the same

@@ -1,2 +1,5 @@
 "use strict";
-console.log(1);
+console.log((()=>{
+    if (1 === x) async function x() {}
+    return 1;
+})());
