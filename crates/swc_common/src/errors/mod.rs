@@ -23,9 +23,10 @@ use termcolor::{Color, ColorSpec};
 
 use self::Level::*;
 pub use self::{
-    diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
+    diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, Message, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
+    snippet::Style,
 };
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
@@ -36,6 +37,11 @@ use crate::{
 
 mod diagnostic;
 mod diagnostic_builder;
+#[cfg(feature = "concurrent")]
+mod diagnostic_pretty;
+#[cfg(feature = "concurrent")]
+pub use diagnostic_pretty::{to_pretty_string, PrettyDiagnostic};
+
 pub mod emitter;
 mod lock;
 mod snippet;
@@ -837,11 +843,11 @@ impl Handler {
     }
 
     pub fn force_print_db(&self, mut db: DiagnosticBuilder<'_>) {
-        self.emitter.borrow_mut().emit(&db);
+        self.emitter.borrow_mut().emit(&mut db);
         db.cancel();
     }
 
-    fn emit_db(&self, db: &DiagnosticBuilder<'_>) {
+    fn emit_db(&self, db: &mut DiagnosticBuilder<'_>) {
         let diagnostic = &**db;
 
         TRACK_DIAGNOSTICS.with(|track_diagnostics| {
@@ -880,7 +886,7 @@ impl Handler {
     }
 }
 
-#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug)]
+#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug, Default)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -901,6 +907,7 @@ pub enum Level {
     Warning,
     Note,
     Help,
+    #[default]
     Cancelled,
     FailureNote,
 }

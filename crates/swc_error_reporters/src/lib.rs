@@ -3,6 +3,7 @@ use std::{
     intrinsics::transmute,
 };
 
+use handler::DiagnosticCollection;
 pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use miette::{
     LabeledSpan, MietteError, Severity, SourceCode, SourceOffset, SourceSpan, SpanContents,
@@ -198,7 +199,7 @@ impl SourceCode for MietteSourceCode<'_> {
 }
 
 impl Emitter for PrettyEmitter {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
+    fn emit(&mut self, db: &mut DiagnosticBuilder) {
         let d = &**db;
 
         let diagnostic = to_miette_diagnostic(&self.cm, &self.config, d);
@@ -414,5 +415,16 @@ fn level_to_severity(level: Level) -> Option<Severity> {
         Level::Warning => Some(Severity::Warning),
         Level::Note | Level::Help => Some(Severity::Advice),
         Level::Cancelled => None,
+    }
+}
+
+pub struct ErrorEmitter {
+    diagnostics: DiagnosticCollection,
+}
+
+impl Emitter for ErrorEmitter {
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
+        let d = db.take();
+        self.diagnostics.push(d);
     }
 }

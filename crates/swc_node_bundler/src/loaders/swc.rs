@@ -1,6 +1,6 @@
 use std::{collections::HashMap, env, sync::Arc};
 
-use anyhow::{bail, Context, Error};
+use anyhow::{anyhow, bail, Context, Error};
 use helpers::Helpers;
 use rustc_hash::FxHashMap;
 use swc::{
@@ -11,7 +11,7 @@ use swc_atoms::Atom;
 use swc_bundler::{Load, ModuleData};
 use swc_common::{
     comments::{NoopComments, SingleThreadedComments},
-    errors::{Handler, HANDLER},
+    errors::{to_pretty_string, Handler, HANDLER},
     sync::Lrc,
     FileName, Mark, DUMMY_SP,
 };
@@ -326,6 +326,16 @@ impl Load for SwcLoader {
     fn load(&self, name: &FileName) -> Result<ModuleData, Error> {
         try_with_handler(self.compiler.cm.clone(), Default::default(), |handler| {
             self.load_with_handler(handler, name)
+        })
+        .map_err(|e| {
+            let error_msg = to_pretty_string(
+                e.iter(),
+                &self.compiler.cm,
+                Default::default(),
+                Default::default(),
+            );
+
+            anyhow!(error_msg)
         })
     }
 }
