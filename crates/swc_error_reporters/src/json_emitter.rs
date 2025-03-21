@@ -40,53 +40,53 @@ pub struct JsonEmitterConfig {
 }
 
 impl Emitter for JsonEmitter {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
-        let d = &**db;
+    fn emit(&mut self, db: &mut DiagnosticBuilder) {
+        // let d = db;
 
-        let children = d
-            .children
-            .iter()
-            .map(|d| todo!("json subdiagnostic: {d:?}"))
-            .collect::<Vec<_>>();
+        // let children = d
+        //     .children
+        //     .iter()
+        //     .map(|d| todo!("json subdiagnostic: {d:?}"))
+        //     .collect::<Vec<_>>();
 
-        let error_code = match &d.code {
-            Some(DiagnosticId::Error(s)) => Some(&**s),
-            Some(DiagnosticId::Lint(s)) => Some(&**s),
-            None => None,
-        };
+        // let error_code = match &d.code {
+        //     Some(DiagnosticId::Error(s)) => Some(&**s),
+        //     Some(DiagnosticId::Lint(s)) => Some(&**s),
+        //     None => None,
+        // };
 
-        let loc = d
-            .span
-            .primary_span()
-            .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
+        // let loc = d
+        //     .span
+        //     .primary_span()
+        //     .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
 
-        let snippet = d
-            .span
-            .primary_span()
-            .and_then(|span| self.cm.span_to_snippet(span).ok());
+        // let snippet = d
+        //     .span
+        //     .primary_span()
+        //     .and_then(|span| self.cm.span_to_snippet(span).ok());
 
-        let filename = if self.config.skip_filename {
-            None
-        } else {
-            loc.as_ref().map(|loc| loc.file.name.to_string())
-        };
+        // let filename = if self.config.skip_filename {
+        //     None
+        // } else {
+        //     loc.as_ref().map(|loc| loc.file.name.to_string())
+        // };
 
-        let error = JsonDiagnostic {
-            code: error_code,
-            message: &d.message[0].0,
-            snippet: snippet.as_deref(),
-            filename: filename.as_deref(),
-            line: loc.as_ref().map(|loc| loc.line),
-            column: loc.as_ref().map(|loc| loc.col_display),
-            children,
-        };
+        // let error = JsonDiagnostic {
+        //     code: error_code,
+        //     message: &d.message[0].0,
+        //     snippet: snippet.as_deref(),
+        //     filename: filename.as_deref(),
+        //     line: loc.as_ref().map(|loc| loc.line),
+        //     column: loc.as_ref().map(|loc| loc.col_display),
+        //     children,
+        // };
 
-        let result = serde_json::to_string(&error).unwrap();
+        // let result = serde_json::to_string(&error).unwrap();
 
-        self.wr.write_str(&result).unwrap();
-        writeln!(self.wr).unwrap();
+        // self.wr.write_str(&result).unwrap();
+        // writeln!(self.wr).unwrap();
 
-        self.diagnostics.push(result);
+        // self.diagnostics.push(result);
     }
 
     fn take_diagnostics(&mut self) -> Vec<String> {

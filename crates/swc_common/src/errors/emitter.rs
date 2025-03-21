@@ -23,7 +23,8 @@ use super::{
     diagnostic::Message,
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
+    CodeSuggestion, Diagnostic, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn,
+    SubDiagnostic,
 };
 use crate::{
     sync::Lrc,
@@ -35,7 +36,7 @@ const ANONYMIZED_LINE_NUM: &str = "LL";
 /// Emitter trait for emitting errors.
 pub trait Emitter: crate::sync::Send {
     /// Emit a structured diagnostic.
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>);
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>);
 
     /// Check if should show explanations about "rustc --explain"
     fn should_show_explain(&self) -> bool {
@@ -48,7 +49,7 @@ pub trait Emitter: crate::sync::Send {
 }
 
 impl Emitter for EmitterWriter {
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
         let mut children = db.children.clone();
         let mut suggestions: &[_] = &[];
