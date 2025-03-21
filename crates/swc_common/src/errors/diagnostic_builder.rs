@@ -323,6 +323,10 @@ impl<'a> DiagnosticBuilder<'a> {
             allow_suggestions: true,
         }
     }
+
+    pub fn take(&mut self) -> Diagnostic {
+        std::mem::take(&mut *self.diagnostic)
+    }
 }
 
 impl Debug for DiagnosticBuilder<'_> {

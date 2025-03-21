@@ -28,8 +28,8 @@ pub(crate) fn new_handler(
 pub(crate) struct BufferedError(Lrc<RwLock<Vec<Diagnostic>>>);
 
 impl Emitter for BufferedError {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
-        self.0.write().unwrap().push((**db).clone());
+    fn emit(&mut self, db: &mut DiagnosticBuilder) {
+        self.0.write().unwrap().push(db.take());
     }
 }
 

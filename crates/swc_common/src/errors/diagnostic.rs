@@ -10,8 +10,14 @@
 
 use std::fmt;
 
+use serde::Serialize;
+
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
-use crate::syntax_pos::{MultiSpan, Span};
+use crate::{
+    sync::Lrc,
+    syntax_pos::{MultiSpan, Span},
+    SourceMap, SourceMapper,
+};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
@@ -27,7 +33,7 @@ use crate::syntax_pos::{MultiSpan, Span};
 pub struct Message(pub String, pub Style);
 
 #[must_use]
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -506,5 +512,19 @@ impl SubDiagnostic {
 
     pub fn styled_message(&self) -> &Vec<Message> {
         &self.message
+    }
+}
+
+// For readable diagnostic, then render by miette
+impl Diagnostic {
+    /// Returns a pretty-printed of the diagnostic.
+    #[cfg(feature = "concurrent")]
+    pub fn to_pretty_diagnostic<'a>(
+        &'a self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+    ) -> super::diagnostic_pretty::PrettyDiagnostic<'a> {
+        use super::diagnostic_pretty::PrettyDiagnostic;
+        PrettyDiagnostic::new(self, cm, skip_filename)
     }
 }

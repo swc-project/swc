@@ -45,5 +45,5 @@ impl fmt::Write for TestStderr {
 struct NoopEmitter;
 
 impl Emitter for NoopEmitter {
-    fn emit(&mut self, _: &DiagnosticBuilder<'_>) {}
+    fn emit(&mut self, _: &mut DiagnosticBuilder<'_>) {}
 }
