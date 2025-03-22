@@ -132,7 +132,7 @@
                     for(i = 0; i < n; ++i)values[i] = value(data[i], i, data);
                     var xz = domain(values), x0 = xz[0], x1 = xz[1], tz = threshold(values, x0, x1);
                     // Convert number of thresholds into uniform thresholds.
-                    Array.isArray(tz) || (tz = Object(_ticks__WEBPACK_IMPORTED_MODULE_6__.tickStep)(x0, x1, tz), tz = Object(_range__WEBPACK_IMPORTED_MODULE_5__.default)(Math.ceil(x0 / tz) * tz, x1, tz));
+                    !Array.isArray(tz) && (tz = Object(_ticks__WEBPACK_IMPORTED_MODULE_6__.tickStep)(x0, x1, tz), tz = Object(_range__WEBPACK_IMPORTED_MODULE_5__.default)(Math.ceil(x0 / tz) * tz, x1, tz));
                     for(// Remove any thresholds outside the domain.
                     var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
@@ -318,8 +318,8 @@
             /* harmony import */ var _ascending__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ascending */ "../../../node_modules/d3-array/src/ascending.js"), _number__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./number */ "../../../node_modules/d3-array/src/number.js"), _quantile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./quantile */ "../../../node_modules/d3-array/src/quantile.js");
             /* harmony default export */ __webpack_exports__.default = function(values, valueof) {
                 var value, n = values.length, i = -1, numbers = [];
-                if (null == valueof) for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_1__.default)(values[i])) || numbers.push(value);
-                else for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_1__.default)(valueof(values[i], i, values))) || numbers.push(value);
+                if (null == valueof) for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_1__.default)(values[i])) && numbers.push(value);
+                else for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_1__.default)(valueof(values[i], i, values))) && numbers.push(value);
                 return Object(_quantile__WEBPACK_IMPORTED_MODULE_2__.default)(numbers.sort(_ascending__WEBPACK_IMPORTED_MODULE_0__.default), 0.5);
             };
         /***/ },
@@ -519,8 +519,8 @@
             /* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./number */ "../../../node_modules/d3-array/src/number.js");
             /* harmony default export */ __webpack_exports__.default = function(values, valueof) {
                 var value, delta, n = values.length, m = 0, i = -1, mean = 0, sum = 0;
-                if (null == valueof) for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(values[i])) || (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
-                else for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(valueof(values[i], i, values))) || (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
+                if (null == valueof) for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(values[i])) && (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
+                else for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(valueof(values[i], i, values))) && (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
                 if (m > 1) return sum / (m - 1);
             };
         /***/ },
@@ -1000,7 +1000,7 @@
                 return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
             }
             function rgbConvert(o) {
-                return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
+                return (!(o instanceof Color) && (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
             }
             function rgb(r, g, b, opacity) {
                 return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -1023,7 +1023,7 @@
             }
             function hslConvert(o) {
                 if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
-                if (o instanceof Color || (o = color(o)), !o) return new Hsl;
+                if (!(o instanceof Color) && (o = color(o)), !o) return new Hsl;
                 if (o instanceof Hsl) return o;
                 var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
                 return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
@@ -1101,7 +1101,7 @@
             function cubehelix(h, s, l, opacity) {
                 return 1 == arguments.length ? function(o) {
                     if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
-                    o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb || (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
+                    !(o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb) && (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
                     var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : NaN;
                     return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
                 }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
@@ -1186,7 +1186,7 @@
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
-                o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb || (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
+                !(o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb) && (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
                 var x, z, r = rgb2lrgb(o.r), g = rgb2lrgb(o.g), b = rgb2lrgb(o.b), y = xyz2lab((0.2225045 * r + 0.7168786 * g + 0.0606169 * b) / 1);
                 return r === g && g === b ? x = z = y : (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)), new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
             }
@@ -1213,7 +1213,7 @@
             }
             function hclConvert(o) {
                 if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-                if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
+                if (!(o instanceof Lab) && (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
                 var h = Math.atan2(o.b, o.a) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg;
                 return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
             }
@@ -1880,7 +1880,7 @@
                 var group = void 0 === locale.grouping || void 0 === locale.thousands ? _identity_js__WEBPACK_IMPORTED_MODULE_7__.default : Object(_formatGroup_js__WEBPACK_IMPORTED_MODULE_1__.default)(map.call(locale.grouping, Number), locale.thousands + ""), currencyPrefix = void 0 === locale.currency ? "" : locale.currency[0] + "", currencySuffix = void 0 === locale.currency ? "" : locale.currency[1] + "", decimal = void 0 === locale.decimal ? "." : locale.decimal + "", numerals = void 0 === locale.numerals ? _identity_js__WEBPACK_IMPORTED_MODULE_7__.default : Object(_formatNumerals_js__WEBPACK_IMPORTED_MODULE_2__.default)(map.call(locale.numerals, String)), percent = void 0 === locale.percent ? "%" : locale.percent + "", minus = void 0 === locale.minus ? "-" : locale.minus + "", nan = void 0 === locale.nan ? "NaN" : locale.nan + "";
                 function newFormat(specifier) {
                     var fill = (specifier = Object(_formatSpecifier_js__WEBPACK_IMPORTED_MODULE_3__.default)(specifier)).fill, align = specifier.align, sign = specifier.sign, symbol = specifier.symbol, zero = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
-                    "n" === type ? (comma = !0, type = "g") : _formatTypes_js__WEBPACK_IMPORTED_MODULE_5__.default[type] || (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
+                    "n" === type ? (comma = !0, type = "g") : !_formatTypes_js__WEBPACK_IMPORTED_MODULE_5__.default[type] && (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
                     // Compute the prefix and suffix.
                     // For SI-prefix, the suffix is lazily computed.
                     var prefix = "$" === symbol ? currencyPrefix : "#" === symbol && /[boxX]/.test(type) ? "0" + type.toLowerCase() : "", suffix = "$" === symbol ? currencySuffix : /[%p]/.test(type) ? percent : "", formatType = _formatTypes_js__WEBPACK_IMPORTED_MODULE_5__.default[type], maybeSuffix = /[defgprs%]/.test(type);
@@ -2299,7 +2299,7 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumberArray", function() {
                 return isNumberArray;
             }), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                b || (b = []);
+                !b && (b = []);
                 var i, n = a ? Math.min(b.length, a.length) : 0, c = b.slice();
                 return function(t) {
                     for(i = 0; i < n; ++i)c[i] = a[i] * (1 - t) + b[i] * t;
@@ -2503,10 +2503,10 @@
             });
             /* harmony import */ var cssNode, cssRoot, cssView, svgNode, _decompose_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./decompose.js */ "../../../node_modules/d3-interpolate/src/transform/decompose.js");
             function parseCss(value) {
-                return "none" === value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (cssNode || (cssNode = document.createElement("DIV"), cssRoot = document.documentElement, cssView = document.defaultView), cssNode.style.transform = value, value = cssView.getComputedStyle(cssRoot.appendChild(cssNode), null).getPropertyValue("transform"), cssRoot.removeChild(cssNode), value = value.slice(7, -1).split(","), Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(+value[0], +value[1], +value[2], +value[3], +value[4], +value[5]));
+                return "none" === value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (!cssNode && (cssNode = document.createElement("DIV"), cssRoot = document.documentElement, cssView = document.defaultView), cssNode.style.transform = value, value = cssView.getComputedStyle(cssRoot.appendChild(cssNode), null).getPropertyValue("transform"), cssRoot.removeChild(cssNode), value = value.slice(7, -1).split(","), Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(+value[0], +value[1], +value[2], +value[3], +value[4], +value[5]));
             }
             function parseSvg(value) {
-                return null == value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (svgNode || (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? (value = value.matrix, Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(value.a, value.b, value.c, value.d, value.e, value.f)) : _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity;
+                return null == value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? (value = value.matrix, Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(value.a, value.b, value.c, value.d, value.e, value.f)) : _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity;
             }
         /***/ },
         /***/ "../../../node_modules/d3-interpolate/src/value.js": /*!************************************************************************************!*\
@@ -3092,7 +3092,7 @@
                     return range = null == range ? [] : _array__WEBPACK_IMPORTED_MODULE_1__.slice.call(range), scale.domain = function(_) {
                         if (!arguments.length) return domain.slice();
                         domain = [], index = Object(d3_collection__WEBPACK_IMPORTED_MODULE_0__.map)();
-                        for(var d, key, i = -1, n = _.length; ++i < n;)index.has(key = (d = _[i]) + "") || index.set(key, domain.push(d));
+                        for(var d, key, i = -1, n = _.length; ++i < n;)!index.has(key = (d = _[i]) + "") && index.set(key, domain.push(d));
                         return scale;
                     }, scale.range = function(_) {
                         return arguments.length ? (range = _array__WEBPACK_IMPORTED_MODULE_1__.slice.call(_), scale) : range.slice();
@@ -3167,7 +3167,7 @@
                     }, scale.domain = function(_) {
                         if (!arguments.length) return domain.slice();
                         domain = [];
-                        for(var d, i = 0, n = _.length; i < n; ++i)null == (d = _[i]) || isNaN(d *= 1) || domain.push(d);
+                        for(var d, i = 0, n = _.length; i < n; ++i)null != (d = _[i]) && !isNaN(d *= 1) && domain.push(d);
                         return domain.sort(d3_array__WEBPACK_IMPORTED_MODULE_0__.ascending), rescale();
                     }, scale.range = function(_) {
                         return arguments.length ? (range = _array__WEBPACK_IMPORTED_MODULE_1__.slice.call(_), rescale()) : range.slice();
@@ -3321,17 +3321,17 @@
                 switch((specifier = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.formatSpecifier)(null == specifier ? ",f" : specifier)).type){
                     case "s":
                         var value = Math.max(Math.abs(start), Math.abs(stop));
-                        return null != specifier.precision || isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionPrefix)(step, value)) || (specifier.precision = precision), Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.formatPrefix)(specifier, value);
+                        return null == specifier.precision && !isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionPrefix)(step, value)) && (specifier.precision = precision), Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.formatPrefix)(specifier, value);
                     case "":
                     case "e":
                     case "g":
                     case "p":
                     case "r":
-                        null != specifier.precision || isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionRound)(step, Math.max(Math.abs(start), Math.abs(stop)))) || (specifier.precision = precision - ("e" === specifier.type));
+                        null == specifier.precision && !isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionRound)(step, Math.max(Math.abs(start), Math.abs(stop)))) && (specifier.precision = precision - ("e" === specifier.type));
                         break;
                     case "f":
                     case "%":
-                        null != specifier.precision || isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionFixed)(step)) || (specifier.precision = precision - ("%" === specifier.type) * 2);
+                        null == specifier.precision && !isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionFixed)(step)) && (specifier.precision = precision - ("%" === specifier.type) * 2);
                 }
                 return Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.format)(specifier);
             };
@@ -3554,7 +3554,7 @@
                 function arc() {
                     var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - _math_js__WEBPACK_IMPORTED_MODULE_2__.halfPi, a1 = endAngle.apply(this, arguments) - _math_js__WEBPACK_IMPORTED_MODULE_2__.halfPi, da = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.abs)(a1 - a0), cw = a1 > a0;
                     // Is it a point?
-                    if (context || (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) if (da > _math_js__WEBPACK_IMPORTED_MODULE_2__.tau - _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) context.moveTo(r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a0), r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (context.moveTo(r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a1), r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a1)), context.arc(0, 0, r0, a1, a0, cw));
+                    if (!context && (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) if (da > _math_js__WEBPACK_IMPORTED_MODULE_2__.tau - _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) context.moveTo(r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a0), r1 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (context.moveTo(r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.cos)(a1), r0 * Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sin)(a1)), context.arc(0, 0, r0, a1, a0, cw));
                     else {
                         var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && (padRadius ? +padRadius.apply(this, arguments) : Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.sqrt)(r0 * r0 + r1 * r1)), rc = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.abs)(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
                         // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
@@ -4782,7 +4782,7 @@
                 var source = linkSource, target = linkTarget, x = _point_js__WEBPACK_IMPORTED_MODULE_3__.x, y = _point_js__WEBPACK_IMPORTED_MODULE_3__.y, context = null;
                 function link() {
                     var buffer, argv = _array_js__WEBPACK_IMPORTED_MODULE_1__.slice.call(arguments), s = source.apply(this, argv), t = target.apply(this, argv);
-                    if (context || (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), curve(context, +x.apply(this, (argv[0] = s, argv)), +y.apply(this, argv), +x.apply(this, (argv[0] = t, argv)), +y.apply(this, argv)), buffer) return context = null, buffer + "" || null;
+                    if (!context && (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), curve(context, +x.apply(this, (argv[0] = s, argv)), +y.apply(this, argv), +x.apply(this, (argv[0] = t, argv)), +y.apply(this, argv)), buffer) return context = null, buffer + "" || null;
                 }
                 return link.source = function(_) {
                     return arguments.length ? (source = _, link) : source;
@@ -5131,7 +5131,7 @@
                 var type = Object(_constant_js__WEBPACK_IMPORTED_MODULE_8__.default)(_symbol_circle_js__WEBPACK_IMPORTED_MODULE_1__.default), size = Object(_constant_js__WEBPACK_IMPORTED_MODULE_8__.default)(64), context = null;
                 function symbol() {
                     var buffer;
-                    if (context || (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), type.apply(this, arguments).draw(context, +size.apply(this, arguments)), buffer) return context = null, buffer + "" || null;
+                    if (!context && (context = buffer = Object(d3_path__WEBPACK_IMPORTED_MODULE_0__.path)()), type.apply(this, arguments).draw(context, +size.apply(this, arguments)), buffer) return context = null, buffer + "" || null;
                 }
                 return symbol.type = function(_) {
                     return arguments.length ? (type = "function" == typeof _ ? _ : Object(_constant_js__WEBPACK_IMPORTED_MODULE_8__.default)(_), symbol) : type;
@@ -5538,7 +5538,7 @@
                 function newFormat(specifier, formats) {
                     return function(date) {
                         var c, pad, format, string = [], i = -1, j = 0, n = specifier.length;
-                        for(date instanceof Date || (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
+                        for(!(date instanceof Date) && (date = new Date(+date)); ++i < n;)37 === specifier.charCodeAt(i) && (string.push(specifier.slice(j, i)), null != (pad = pads[c = specifier.charAt(++i)]) ? c = specifier.charAt(++i) : pad = "e" === c ? " " : "0", (format = formats[c]) && (c = format(date, pad)), string.push(c), j = i + 1);
                         return string.push(specifier.slice(j, i)), string.join("");
                     };
                 }
@@ -5550,10 +5550,10 @@
                         if ("Q" in d) return new Date(d.Q);
                         if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                         // Convert day-of-week and week-of-year to day-of-year.
-                        if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
+                        if (Z && !("Z" in d) && (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
-                            "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
-                        } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
+                            !("w" in d) && (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                        } else ("W" in d || "U" in d) && (!("w" in d) && (d.w = "u" in d ? d.u % 7 : +("W" in d)), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
                         return(// If a time zone is specified, all fields are interpreted as UTC and then
                         // offset according to the specified time zone.
                         "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d));
@@ -6470,13 +6470,13 @@
                 delay > 1000 && (clockSkew -= delay, clockLast = now);
             }
             function sleep(time) {
-                !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (interval || (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake))); // Soonest alarm already set, or will be.
+                !frame && (timeout && (timeout = clearTimeout(timeout)), time - clockNow > 24 ? (time < 1 / 0 && (timeout = setTimeout(wake, time - clock.now() - clockSkew)), interval && (interval = clearInterval(interval))) : (!interval && (clockLast = clock.now(), interval = setInterval(poke, 1000)), frame = 1, setFrame(wake))); // Soonest alarm already set, or will be.
             }
             Timer.prototype = timer.prototype = {
                 constructor: Timer,
                 restart: function(callback, delay, time) {
                     if ("function" != typeof callback) throw TypeError("callback is not a function");
-                    time = (null == time ? now() : +time) + (null == delay ? 0 : +delay), this._next || taskTail === this || (taskTail ? taskTail._next = this : taskHead = this, taskTail = this), this._call = callback, this._time = time, sleep();
+                    time = (null == time ? now() : +time) + (null == delay ? 0 : +delay), !this._next && taskTail !== this && (taskTail ? taskTail._next = this : taskHead = this, taskTail = this), this._call = callback, this._time = time, sleep();
                 },
                 stop: function() {
                     this._call && (this._call = null, this._time = 1 / 0, sleep());
@@ -6612,7 +6612,7 @@
                 var iCell, cell, site, iHalfedge, halfedges, nHalfedges, start, startX, startY, end, endX, endY, nCells = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells.length, cover = !0;
                 for(iCell = 0; iCell < nCells; ++iCell)if (cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]) {
                     // Remove any dangling clipped edges.
-                    for(site = cell.site, iHalfedge = (halfedges = cell.halfedges).length; iHalfedge--;)_Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[iHalfedge]] || halfedges.splice(iHalfedge, 1);
+                    for(site = cell.site, iHalfedge = (halfedges = cell.halfedges).length; iHalfedge--;)!_Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[iHalfedge]] && halfedges.splice(iHalfedge, 1);
                     for(// Insert any border edges as necessary.
                     iHalfedge = 0, nHalfedges = halfedges.length; iHalfedge < nHalfedges;)endX = (end = cellHalfedgeEnd(cell, _Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[iHalfedge]]))[0], endY = end[1], startX = (start = cellHalfedgeStart(cell, _Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[++iHalfedge % nHalfedges]]))[0], startY = start[1], (Math.abs(endX - startX) > _Diagram__WEBPACK_IMPORTED_MODULE_1__.epsilon || Math.abs(endY - startY) > _Diagram__WEBPACK_IMPORTED_MODULE_1__.epsilon) && (halfedges.splice(iHalfedge, 0, _Diagram__WEBPACK_IMPORTED_MODULE_1__.edges.push(Object(_Edge__WEBPACK_IMPORTED_MODULE_0__.createBorderEdge)(site, end, Math.abs(endX - x0) < _Diagram__WEBPACK_IMPORTED_MODULE_1__.epsilon && y1 - endY > _Diagram__WEBPACK_IMPORTED_MODULE_1__.epsilon ? [
                         x0,
@@ -6689,14 +6689,14 @@
                                 before = node;
                                 break;
                             }
-                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), before || (firstCircle = circle);
+                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), !before && (firstCircle = circle);
                         }
                     }
                 }
             }
             function detachCircle(arc) {
                 var circle = arc.circle;
-                circle && (circle.P || (firstCircle = circle.N), _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.remove(circle), circlePool.push(circle), Object(_RedBlackTree__WEBPACK_IMPORTED_MODULE_0__.RedBlackNode)(circle), arc.circle = null);
+                circle && (!circle.P && (firstCircle = circle.N), _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.remove(circle), circlePool.push(circle), Object(_RedBlackTree__WEBPACK_IMPORTED_MODULE_0__.RedBlackNode)(circle), arc.circle = null);
             }
         /***/ },
         /***/ "../../../node_modules/d3-voronoi/src/Diagram.js": /*!**********************************************************************************!*\
@@ -6813,7 +6813,7 @@
                 edge[0] || edge[1] ? edge.left === right ? edge[1] = vertex : edge[0] = vertex : (edge[0] = vertex, edge.left = left, edge.right = right);
             }
             function clipEdges(x0, y0, x1, y1) {
-                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)(function(edge, x0, y0, x1, y1) {
+                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)(!function(edge, x0, y0, x1, y1) {
                     var v1 = edge[1];
                     if (v1) return !0;
                     var fm, fb, v0 = edge[0], left = edge.left, right = edge.right, lx = left[0], ly = left[1], rx = right[0], ry = right[1], fx = (lx + rx) / 2;
@@ -6889,7 +6889,7 @@
                         ];
                     }
                     return edge[0] = v0, edge[1] = v1, !0;
-                })(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) && // Liang–Barsky line clipping.
+                }(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) || !// Liang–Barsky line clipping.
                 function(edge, x0, y0, x1, y1) {
                     var r, a = edge[0], b = edge[1], ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
                     if (r = x0 - ax, dx || !(r > 0)) {
@@ -6936,7 +6936,7 @@
                             }
                         }
                     }
-                }(edge, x0, y0, x1, y1) && (Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon) || delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
+                }(edge, x0, y0, x1, y1) || !(Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon)) && delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
             }
         /***/ },
         /***/ "../../../node_modules/d3-voronoi/src/RedBlackTree.js": /*!***************************************************************************************!*\
@@ -6989,11 +6989,11 @@
                             if (node === this._) break;
                             if (node === parent.L) {
                                 if ((sibling = parent.R).C && (sibling.C = !1, parent.C = !0, RedBlackRotateLeft(this, parent), sibling = parent.R), sibling.L && sibling.L.C || sibling.R && sibling.R.C) {
-                                    sibling.R && sibling.R.C || (sibling.L.C = !1, sibling.C = !0, RedBlackRotateRight(this, sibling), sibling = parent.R), sibling.C = parent.C, parent.C = sibling.R.C = !1, RedBlackRotateLeft(this, parent), node = this._;
+                                    (!sibling.R || !sibling.R.C) && (sibling.L.C = !1, sibling.C = !0, RedBlackRotateRight(this, sibling), sibling = parent.R), sibling.C = parent.C, parent.C = sibling.R.C = !1, RedBlackRotateLeft(this, parent), node = this._;
                                     break;
                                 }
                             } else if ((sibling = parent.L).C && (sibling.C = !1, parent.C = !0, RedBlackRotateRight(this, parent), sibling = parent.L), sibling.L && sibling.L.C || sibling.R && sibling.R.C) {
-                                sibling.L && sibling.L.C || (sibling.R.C = !1, sibling.C = !0, RedBlackRotateLeft(this, sibling), sibling = parent.L), sibling.C = parent.C, parent.C = sibling.L.C = !1, RedBlackRotateRight(this, parent), node = this._;
+                                (!sibling.L || !sibling.L.C) && (sibling.R.C = !1, sibling.C = !0, RedBlackRotateLeft(this, sibling), sibling = parent.L), sibling.C = parent.C, parent.C = sibling.L.C = !1, RedBlackRotateRight(this, parent), node = this._;
                                 break;
                             }
                             sibling.C = !0, node = parent, parent = parent.U;
@@ -7653,7 +7653,7 @@
          * @param {*} value The value to assign.
          */ function(object, key, value) {
                 var objValue = object[key];
-                hasOwnProperty.call(object, key) && eq(objValue, value) && (void 0 !== value || key in object) || baseAssignValue(object, key, value);
+                (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || void 0 === value && !(key in object)) && baseAssignValue(object, key, value);
             };
         /***/ },
         /***/ "../../../node_modules/lodash/_assocIndexOf.js": /*!********************************************************************************!*\
@@ -7755,7 +7755,7 @@
                     if (value = comparator || 0 !== value ? value : 0, isCommon && computed == computed) {
                         for(var valuesIndex = valuesLength; valuesIndex--;)if (values[valuesIndex] === computed) continue outer;
                         result.push(value);
-                    } else includes(values, computed, comparator) || result.push(value);
+                    } else !includes(values, computed, comparator) && result.push(value);
                 }
                 return result;
             };
@@ -7797,7 +7797,7 @@
                 for(predicate || (predicate = isFlattenable), result || (result = []); ++index < length;){
                     var value = array[index];
                     depth > 0 && predicate(value) ? depth > 1 ? // Recursively flatten arrays (susceptible to call stack limits).
-                    baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : isStrict || (result[result.length] = value);
+                    baseFlatten(value, depth - 1, predicate, isStrict, result) : arrayPush(result, value) : !isStrict && (result[result.length] = value);
                 }
                 return result;
             };
@@ -8419,7 +8419,7 @@
                     if (value = comparator || 0 !== value ? value : 0, isCommon && computed == computed) {
                         for(var seenIndex = seen.length; seenIndex--;)if (seen[seenIndex] === computed) continue outer;
                         iteratee && seen.push(computed), result.push(value);
-                    } else includes(seen, computed, comparator) || (seen !== result && seen.push(computed), result.push(value));
+                    } else !includes(seen, computed, comparator) && (seen !== result && seen.push(computed), result.push(value));
                 }
                 return result;
             };
@@ -10697,9 +10697,9 @@
          * _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
          * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
          */ function(collection, iteratees, orders, guard) {
-                return null == collection ? [] : (isArray(iteratees) || (iteratees = null == iteratees ? [] : [
+                return null == collection ? [] : (!isArray(iteratees) && (iteratees = null == iteratees ? [] : [
                     iteratees
-                ]), isArray(orders = guard ? void 0 : orders) || (orders = null == orders ? [] : [
+                ]), !isArray(orders = guard ? void 0 : orders) && (orders = null == orders ? [] : [
                     orders
                 ]), baseOrderBy(collection, iteratees, orders));
             };
@@ -11236,7 +11236,7 @@
                     } catch (ex) {
                         error = ex;
                     }
-                    if (!error || error instanceof Error || printWarning((componentName || 'React class') + ': type specification of ' + location + ' `' + typeSpecName + "` is invalid; the type checker function must return `null` or an `Error` but returned a " + typeof error + ". You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument)."), error instanceof Error && !(error.message in loggedTypeFailures)) {
+                    if (error && !(error instanceof Error) && printWarning((componentName || 'React class') + ': type specification of ' + location + ' `' + typeSpecName + "` is invalid; the type checker function must return `null` or an `Error` but returned a " + typeof error + ". You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument)."), error instanceof Error && !(error.message in loggedTypeFailures)) {
                         // Only monitor this failure once because there tends to be a lot of the
                         // same error.
                         loggedTypeFailures[error.message] = !0;
@@ -11610,7 +11610,7 @@
                     return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
                 }
                 exports1.AsyncMode = REACT_ASYNC_MODE_TYPE, exports1.ConcurrentMode = REACT_CONCURRENT_MODE_TYPE, exports1.ContextConsumer = REACT_CONTEXT_TYPE, exports1.ContextProvider = REACT_PROVIDER_TYPE, exports1.Element = REACT_ELEMENT_TYPE, exports1.ForwardRef = REACT_FORWARD_REF_TYPE, exports1.Fragment = REACT_FRAGMENT_TYPE, exports1.Lazy = REACT_LAZY_TYPE, exports1.Memo = REACT_MEMO_TYPE, exports1.Portal = REACT_PORTAL_TYPE, exports1.Profiler = REACT_PROFILER_TYPE, exports1.StrictMode = REACT_STRICT_MODE_TYPE, exports1.Suspense = REACT_SUSPENSE_TYPE, exports1.isAsyncMode = function(object) {
-                    return hasWarnedAboutDeprecatedIsAsyncMode || (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+                    return !hasWarnedAboutDeprecatedIsAsyncMode && (hasWarnedAboutDeprecatedIsAsyncMode = !0, console.warn("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.")), isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
                 }, exports1.isConcurrentMode = isConcurrentMode, exports1.isContextConsumer = function(object) {
                     return typeOf(object) === REACT_CONTEXT_TYPE;
                 }, exports1.isContextProvider = function(object) {
@@ -11669,7 +11669,7 @@
   !*** (webpack)/buildin/module.js ***!
   \***********************************/ /*! no static exports found */ /***/ function(module1, exports1) {
             module1.exports = function(module1) {
-                return module1.webpackPolyfill || (module1.deprecate = function() {}, module1.paths = [], module1.children || (module1.children = []), Object.defineProperty(module1, "loaded", {
+                return !module1.webpackPolyfill && (module1.deprecate = function() {}, module1.paths = [], !module1.children && (module1.children = []), Object.defineProperty(module1, "loaded", {
                     enumerable: !0,
                     get: function() {
                         return module1.l;
@@ -11870,7 +11870,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
+                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[!lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index] = {
                         labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
                     }), childProps;
                 }, initialChildProps);
@@ -12837,7 +12837,7 @@
                     bottomLeft: 0,
                     bottomRight: 0
                 }, updateCornerRadius = function(corner, fallback) {
-                    lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cornerRadius[corner]) ? lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cornerRadius[fallback]) || (realCornerRadius[corner] = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius[fallback], props)) : realCornerRadius[corner] = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius[corner], props);
+                    lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cornerRadius[corner]) ? !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(cornerRadius[fallback]) && (realCornerRadius[corner] = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius[fallback], props)) : realCornerRadius[corner] = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(cornerRadius[corner], props);
                 };
                 return updateCornerRadius("topLeft", "top"), updateCornerRadius("topRight", "top"), updateCornerRadius("bottomLeft", "bottom"), updateCornerRadius("bottomRight", "bottom"), realCornerRadius;
             }, getCornerRadius = function(cornerRadius, props) {
@@ -13095,7 +13095,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = getBarPosition(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, _getBarPosition = getBarPosition(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
                         alignment: alignment,
                         barRatio: barRatio,
                         barWidth: barWidth,
@@ -13945,7 +13945,7 @@
                     }
                 }, boxScale = scale.y;
                 return data.reduce(function(acc, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey;
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index;
                     if (isDatumOutOfBounds(datum, domain)) return acc;
                     var positions = {
                         x: horizontal ? scale.y(datum._y) : scale.x(datum._x),
@@ -14550,7 +14550,7 @@
                     };
                 },
                 getDefaultBrushArea: function(targetProps, cachedDomain, evt) {
-                    var domain = targetProps.domain, fullDomain = targetProps.fullDomain, scale = targetProps.scale, horizontal = targetProps.horizontal, defaultBrushArea = targetProps.allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move";
+                    var domain = targetProps.domain, fullDomain = targetProps.fullDomain, scale = targetProps.scale, horizontal = targetProps.horizontal, defaultBrushArea = !targetProps.allowResize && !targetProps.defaultBrushArea ? "move" : targetProps.defaultBrushArea;
                     if ("none" === defaultBrushArea) return this.getMinimumDomain();
                     if ("disable" === defaultBrushArea) return cachedDomain;
                     if ("move" !== defaultBrushArea) return domain;
@@ -14616,7 +14616,7 @@
                 onMouseDown: function(evt, targetProps) {
                     var _this2 = this;
                     evt.preventDefault();
-                    var handleWidth = targetProps.handleWidth, cachedBrushDomain = targetProps.cachedBrushDomain, domain = targetProps.domain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, allowDraw = targetProps.allowDraw, brushDimension = this.getDimension(targetProps), defaultBrushArea = allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move";
+                    var handleWidth = targetProps.handleWidth, cachedBrushDomain = targetProps.cachedBrushDomain, domain = targetProps.domain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, allowDraw = targetProps.allowDraw, brushDimension = this.getDimension(targetProps), defaultBrushArea = !allowResize && !targetProps.defaultBrushArea ? "move" : targetProps.defaultBrushArea;
                     if (!allowResize && !allowDrag) return {};
                     var fullDomainBox = targetProps.fullDomainBox || this.getDomainBox(targetProps, domain), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y;
                     if (!this.withinBounds({
@@ -14742,7 +14742,7 @@
                     // if a panning or selection has not been started, ignore the event
                     if (!targetProps.isPanning && !targetProps.isSelecting) return {};
                      // eslint-disable-line max-statements, complexity
-                    var x1 = targetProps.x1, y1 = targetProps.y1, x2 = targetProps.x2, y2 = targetProps.y2, isPanning = targetProps.isPanning, isSelecting = targetProps.isSelecting, onBrushDomainChange = targetProps.onBrushDomainChange, onBrushDomainChangeEnd = targetProps.onBrushDomainChangeEnd, onBrushCleared = targetProps.onBrushCleared, currentDomain = targetProps.currentDomain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, defaultBrushArea = allowResize || targetProps.defaultBrushArea ? targetProps.defaultBrushArea : "move", mutatedProps = {
+                    var x1 = targetProps.x1, y1 = targetProps.y1, x2 = targetProps.x2, y2 = targetProps.y2, isPanning = targetProps.isPanning, isSelecting = targetProps.isSelecting, onBrushDomainChange = targetProps.onBrushDomainChange, onBrushDomainChangeEnd = targetProps.onBrushDomainChangeEnd, onBrushCleared = targetProps.onBrushCleared, currentDomain = targetProps.currentDomain, allowResize = targetProps.allowResize, allowDrag = targetProps.allowDrag, defaultBrushArea = !allowResize && !targetProps.defaultBrushArea ? "move" : targetProps.defaultBrushArea, mutatedProps = {
                         isPanning: !1,
                         isSelecting: !1
                     };
@@ -14846,7 +14846,7 @@
                         {
                             key: "getSelectBox",
                             value: function(props, coordinates) {
-                                var x = coordinates.x, y = coordinates.y, brushStyle = props.brushStyle, brushComponent = props.brushComponent, name = props.name, brushComponentStyle = brushComponent.props && brushComponent.props.style, cursor = props.allowDrag || props.allowResize ? "move" : "auto";
+                                var x = coordinates.x, y = coordinates.y, brushStyle = props.brushStyle, brushComponent = props.brushComponent, name = props.name, brushComponentStyle = brushComponent.props && brushComponent.props.style, cursor = !props.allowDrag && !props.allowResize ? "auto" : "move";
                                 return x[0] !== x[1] && y[0] !== y[1] ? react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(brushComponent, {
                                     key: "".concat(name, "-brush"),
                                     width: Math.abs(x[1] - x[0]) || 1,
@@ -14865,7 +14865,7 @@
                                     yProps: "ns-resize",
                                     xProps: "ew-resize"
                                 };
-                                return !props.allowResize && props.allowDrag ? (cursors.xProps = "move", cursors.yProps = "move") : props.allowResize || props.allowDrag || (cursors.xProps = "auto", cursors.yProps = "auto"), cursors;
+                                return !props.allowResize && props.allowDrag ? (cursors.xProps = "move", cursors.yProps = "move") : !props.allowResize && !props.allowDrag && (cursors.xProps = "auto", cursors.yProps = "auto"), cursors;
                             }
                         },
                         {
@@ -15882,7 +15882,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(datum.eventKey) ? index : datum.eventKey, x = scale.x(void 0 !== datum._x1 ? datum._x1 : datum._x), _datum = datum = formatDataFromDomain(datum, domain), _low = _datum._low, _open = _datum._open, _close = _datum._close, _high = _datum._high, high = scale.y(_high), close = scale.y(_close), open = scale.y(_open), low = scale.y(_low), dataStyle = getDataStyles(datum, style.data, props), dataProps = {
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_2___default()(datum.eventKey) ? datum.eventKey : index, x = scale.x(void 0 !== datum._x1 ? datum._x1 : datum._x), _datum = datum = formatDataFromDomain(datum, domain), _low = _datum._low, _open = _datum._open, _close = _datum._close, _high = _datum._high, high = scale.y(_high), close = scale.y(_close), open = scale.y(_open), low = scale.y(_low), dataStyle = getDataStyles(datum, style.data, props), dataProps = {
                         x: x,
                         high: high,
                         low: low,
@@ -16500,12 +16500,12 @@
                 return axisComponent && axisComponent.props && axisComponent.props.invertAxis ? domain.concat().reverse() : domain;
             }, createStringMap = function(props, childComponents, allStrings) {
                 return {
-                    x: allStrings.x && 0 !== allStrings.x.length ? allStrings.x.reduce(function(memo, string, index) {
+                    x: !allStrings.x || 0 === allStrings.x.length ? null : allStrings.x.reduce(function(memo, string, index) {
                         return memo[string] = index + 1, memo;
-                    }, {}) : null,
-                    y: allStrings.y && 0 !== allStrings.y.length ? allStrings.y.reduce(function(memo, string, index) {
+                    }, {}),
+                    y: !allStrings.y || 0 === allStrings.y.length ? null : allStrings.y.reduce(function(memo, string, index) {
                         return memo[string] = index + 1, memo;
-                    }, {}) : null
+                    }, {})
                 };
             };
         /***/ },
@@ -17017,7 +17017,7 @@
                 var k, x, y, keyData = function(val) {
                     return Array.isArray(val) ? lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(val, "key") : val;
                 }, i = {}, c = {};
-                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k])) !== (y = keyData(b[k])) && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y) : c[k] = b[k];
+                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k])) === (y = keyData(b[k])) || !isInterpolatable(x) || !isInterpolatable(y) ? interpolateImmediate(x, y) : "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : c[k] = b[k];
                 return function(t) {
                     for(k in i)c[k] = i[k](t);
                     return c;
@@ -17082,7 +17082,7 @@
                         key: "componentDidUpdate",
                         value: function(prevProps) {
                             var _queue, arr;
-                            react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default()(this.props, prevProps) || (this.interpolator && this.state.animationInfo && this.state.animationInfo.progress < 1 ? // eslint-disable-next-line react/no-did-update-set-state
+                            !react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default()(this.props, prevProps) && (this.interpolator && this.state.animationInfo && this.state.animationInfo.progress < 1 ? // eslint-disable-next-line react/no-did-update-set-state
                             this.setState({
                                 data: this.interpolator(1),
                                 animationInfo: {
@@ -17279,7 +17279,7 @@
                     return (_this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
-                    }(this)).clipId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.clipId ? props.clipId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_0___default()("victory-clip-"), _this;
+                    }(this)).clipId = !lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) || void 0 === props.clipId ? lodash_uniqueId__WEBPACK_IMPORTED_MODULE_0___default()("victory-clip-") : props.clipId, _this;
                 }
                 return VictoryClipContainer.prototype = Object.create(_React$Component && _React$Component.prototype, {
                     constructor: {
@@ -17528,7 +17528,7 @@
                     return (_this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
-                    }(this)).containerId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.containerId ? props.containerId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("victory-container-"), _this.savePortalRef = function(portal) {
+                    }(this)).containerId = !lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) || void 0 === props.containerId ? lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("victory-container-") : props.containerId, _this.savePortalRef = function(portal) {
                         return _this.portalRef = portal, portal;
                     }, _this.portalUpdate = function(key, el) {
                         return _this.portalRef.portalUpdate(key, el);
@@ -18013,7 +18013,7 @@
                 }), tspans = text.map(function(line, i) {
                     var currentStyle = tspanValues[i].style, tspanProps = {
                         key: "".concat(id, "-key-").concat(i),
-                        x: inline ? void 0 : x,
+                        x: !inline ? x : void 0,
                         dx: inline ? dx + tspanValues[i].backgroundPadding.left : dx,
                         dy: getTSpanDy(tspanValues, calculatedProps, i),
                         textAnchor: currentStyle.textAnchor || textAnchor,
@@ -18311,13 +18311,13 @@
                     {
                         key: "componentDidMount",
                         value: function() {
-                            this.checkedContext || ("function" != typeof this.context.portalUpdate && (_victory_util_log__WEBPACK_IMPORTED_MODULE_3__.default.warn("`renderInPortal` is not supported outside of `VictoryContainer`. Component will be rendered in place"), this.renderInPlace = !0), this.checkedContext = !0), this.forceUpdate();
+                            !this.checkedContext && ("function" != typeof this.context.portalUpdate && (_victory_util_log__WEBPACK_IMPORTED_MODULE_3__.default.warn("`renderInPortal` is not supported outside of `VictoryContainer`. Component will be rendered in place"), this.renderInPlace = !0), this.checkedContext = !0), this.forceUpdate();
                         }
                     },
                     {
                         key: "componentDidUpdate",
                         value: function() {
-                            this.renderInPlace || (this.portalKey = this.portalKey || this.context.portalRegister(), this.context.portalUpdate(this.portalKey, this.element));
+                            !this.renderInPlace && (this.portalKey = this.portalKey || this.context.portalRegister(), this.context.portalUpdate(this.portalKey, this.element));
                         }
                     },
                     {
@@ -18617,7 +18617,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18745,7 +18745,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18819,7 +18819,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18953,7 +18953,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18978,7 +18978,7 @@
                 var children = props.children, title = props.title, desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -19660,7 +19660,7 @@
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
                             var _this2 = this;
-                            return react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps) || (this.timer.bypassAnimation(), this.setState(this.getTransitionState(this.props, nextProps), function() {
+                            return !react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps) && (this.timer.bypassAnimation(), this.setState(this.getTransitionState(this.props, nextProps), function() {
                                 return _this2.timer.resumeAnimation();
                             })), !0;
                         }
@@ -19865,7 +19865,7 @@
                             var externalMutations = this.getExternalMutations(nextProps), animating = this.props.animating || this.props.animate, newMutation = !react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(externalMutations, this.externalMutations);
                             if (animating || newMutation) return this.cacheValues(this.getCalculatedValues(nextProps)), this.externalMutations = externalMutations, this.applyExternalMutations(nextProps, externalMutations), !0;
                             var calculatedState = this.getStateChanges(nextProps);
-                            return !(react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.calculatedState, calculatedState) && react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps)) && (this.cacheValues(this.getCalculatedValues(nextProps)), !0);
+                            return (!react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.calculatedState, calculatedState) || !react_fast_compare__WEBPACK_IMPORTED_MODULE_11___default()(this.props, nextProps)) && (this.cacheValues(this.getCalculatedValues(nextProps)), !0);
                         }
                     },
                     {
@@ -20730,7 +20730,7 @@
                         var processedValue = accessor[type](datum), value = void 0 !== processedValue ? processedValue : fallbackValues[type];
                         return void 0 !== value && ("string" == typeof value && stringMap[type] ? (memo["".concat(type, "Name")] = value, memo["_".concat(type)] = stringMap[type][value]) : memo["_".concat(type)] = value), memo;
                     }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
-                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
+                    return !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) && dataArr.push(formattedDatum), dataArr;
                 }, []), props.sortKey, props.sortOrder), props);
                 return hasEventKeyAccessor = !!props.eventKey, key = props.eventKey, eventKeyAccessor = // creates a data accessor function
                 // given a property key, path, array index, or null for identity.
@@ -21337,7 +21337,7 @@
                     if (lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(events)) return {};
                     baseProps = baseProps || this.baseProps; // returns the original base props or base state of a given target element
                     var getTargetProps = function(identifier, type) {
-                        var childName = identifier.childName, target = identifier.target, key = identifier.key, baseType = "props" === type ? baseProps : _this2.state || {}, base = null != childName && baseType[childName] ? baseType[childName] : baseType;
+                        var childName = identifier.childName, target = identifier.target, key = identifier.key, baseType = "props" === type ? baseProps : _this2.state || {}, base = null == childName || !baseType[childName] ? baseType : baseType[childName];
                         return "parent" === key ? base.parent : base[key] && base[key][target];
                     }, parseEvent = function(eventReturn, eventKey) {
                         var childNames = "parent" === namespace ? eventReturn.childName : eventReturn.childName || childType, target = eventReturn.target || namespace, getMutationObject = function(key, childName) {
@@ -21817,7 +21817,7 @@
                 },
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
-                    var datum, style, horizontal, sign, labelStyle, datum1, sign1, labelStyle1, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
+                    var datum, style, horizontal, sign, labelStyle, datum1, sign1, labelStyle1, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : !horizontal ? "middle" : sign >= 0 ? "start" : "end"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : !props.horizontal ? sign1 >= 0 ? "end" : "start" : "middle"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
                         var style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                         if (!polar) return {
                             x: x,
@@ -25849,7 +25849,7 @@
                     {
                         key: "start",
                         value: function() {
-                            this.timer || (this.timer = Object(d3_timer__WEBPACK_IMPORTED_MODULE_0__.timer)(this.loop));
+                            !this.timer && (this.timer = Object(d3_timer__WEBPACK_IMPORTED_MODULE_0__.timer)(this.loop));
                         }
                     },
                     {
@@ -25900,7 +25900,7 @@
             }
             function getKeyedDataDifference(a, b) {
                 var hasDifference = !1, difference = lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(a).reduce(function(_difference, key) {
-                    return key in b || (hasDifference = !0, _difference[key] = !0), _difference;
+                    return !(key in b) && (hasDifference = !0, _difference[key] = !0), _difference;
                 }, {});
                 return hasDifference && difference;
             }
@@ -26430,7 +26430,7 @@
                     };
                 },
                 getCategories: function(props, childComponents, allStrings) {
-                    var xPropCategories = props.categories && !Array.isArray(props.categories) ? props.categories.x : props.categories, yPropCategories = props.categories && !Array.isArray(props.categories) ? props.categories.y : props.categories, fallbackProps = xPropCategories && yPropCategories ? {} : allStrings || this.getStringsFromChildren(props, childComponents), xCategories = xPropCategories || fallbackProps.x, yCategories = yPropCategories || fallbackProps.y;
+                    var xPropCategories = props.categories && !Array.isArray(props.categories) ? props.categories.x : props.categories, yPropCategories = props.categories && !Array.isArray(props.categories) ? props.categories.y : props.categories, fallbackProps = !xPropCategories || !yPropCategories ? allStrings || this.getStringsFromChildren(props, childComponents) : {}, xCategories = xPropCategories || fallbackProps.x, yCategories = yPropCategories || fallbackProps.y;
                     return {
                         x: xCategories.length > 0 ? xCategories : void 0,
                         y: yCategories.length > 0 ? yCategories : void 0
@@ -26498,7 +26498,7 @@
                             _d = !0, _e = err;
                         } finally{
                             try {
-                                _n || null == _i.return || _i.return();
+                                !_n && null != _i.return && _i.return();
                             } finally{
                                 if (_d) throw _e;
                             }
@@ -26665,7 +26665,7 @@
                         y1: domain.y[0],
                         y2: domain.y[1]
                     });
-                    return inBounds || (cursorValue = null), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(onCursorChange) && (inBounds ? onCursorChange(cursorDimension ? cursorValue[cursorDimension] : cursorValue, targetProps) : cursorValue !== targetProps.cursorValue && onCursorChange(targetProps.defaultCursorValue || null, targetProps)), [
+                    return !inBounds && (cursorValue = null), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(onCursorChange) && (inBounds ? onCursorChange(cursorDimension ? cursorValue[cursorDimension] : cursorValue, targetProps) : cursorValue !== targetProps.cursorValue && onCursorChange(targetProps.defaultCursorValue || null, targetProps)), [
                         {
                             target: "parent",
                             eventKey: "parent",
@@ -27211,7 +27211,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, props, {
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, props, {
                         scale: scale
                     }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                     datum = formatDataFromDomain(datum, domain);
@@ -27911,7 +27911,7 @@
                     return Math.abs(scale.x(datum.x1) - current);
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
                         alignment: "middle",
                         barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
                         cornerRadius: cornerRadius,
@@ -28210,12 +28210,12 @@
             /* harmony default export */ __webpack_exports__.default = function() {
                 var value = _identity_js__WEBPACK_IMPORTED_MODULE_4__.default, domain = _extent_js__WEBPACK_IMPORTED_MODULE_3__.default, threshold = _threshold_sturges_js__WEBPACK_IMPORTED_MODULE_7__.default;
                 function histogram(data) {
-                    Array.isArray(data) || (data = Array.from(data));
+                    !Array.isArray(data) && (data = Array.from(data));
                     var i, x, n = data.length, values = Array(n);
                     for(i = 0; i < n; ++i)values[i] = value(data[i], i, data);
                     var xz = domain(values), x0 = xz[0], x1 = xz[1], tz = threshold(values, x0, x1);
                     // Convert number of thresholds into uniform thresholds.
-                    Array.isArray(tz) || (tz = Object(_ticks_js__WEBPACK_IMPORTED_MODULE_6__.tickStep)(x0, x1, tz), tz = Object(_range_js__WEBPACK_IMPORTED_MODULE_5__.default)(Math.ceil(x0 / tz) * tz, x1, tz));
+                    !Array.isArray(tz) && (tz = Object(_ticks_js__WEBPACK_IMPORTED_MODULE_6__.tickStep)(x0, x1, tz), tz = Object(_range_js__WEBPACK_IMPORTED_MODULE_5__.default)(Math.ceil(x0 / tz) * tz, x1, tz));
                     for(// Remove any thresholds outside the domain.
                     var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
@@ -29243,7 +29243,7 @@
                 return groupedData.reduce(function(childProps, datum, i) {
                     var color = colorScale[i % colorScale.length], dataStyle = lodash_defaults__WEBPACK_IMPORTED_MODULE_6___default()({}, datum.symbol, style.data, {
                         fill: color
-                    }), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? i : datum.eventKey, offset = getOffset(datum, rowHeights, columnWidths), originY = y + borderPadding.top + datum.symbolSpacer, originX = x + borderPadding.left + datum.symbolSpacer, dataProps = {
+                    }), eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : i, offset = getOffset(datum, rowHeights, columnWidths), originY = y + borderPadding.top + datum.symbolSpacer, originX = x + borderPadding.left + datum.symbolSpacer, dataProps = {
                         index: i,
                         data: data,
                         datum: datum,
@@ -29601,7 +29601,7 @@
             }, toNewName = function(interpolation) {
                 return "curve".concat(interpolation && interpolation[0].toUpperCase() + interpolation.slice(1));
             }, getLineFunction = function(props) {
-                var polar = props.polar, scale = props.scale, horizontal = props.horizontal, openCurve = void 0 === props.openCurve ? !polar : props.openCurve, interpolationFunction = "function" == typeof props.interpolation && props.interpolation, interpolationName = "string" == typeof props.interpolation && (openCurve ? toNewName(props.interpolation) : "".concat(toNewName(props.interpolation), "Closed"));
+                var polar = props.polar, scale = props.scale, horizontal = props.horizontal, openCurve = void 0 === props.openCurve ? !polar : props.openCurve, interpolationFunction = "function" == typeof props.interpolation && props.interpolation, interpolationName = "string" == typeof props.interpolation && (!openCurve ? "".concat(toNewName(props.interpolation), "Closed") : toNewName(props.interpolation));
                 return polar ? d3_shape__WEBPACK_IMPORTED_MODULE_3__.lineRadial().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).angle(function(d) {
                     return -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2;
                 }).radius(getYAccessor(scale)) : d3_shape__WEBPACK_IMPORTED_MODULE_3__.line().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).x(horizontal ? getYAccessor(scale) : getXAccessor(scale)).y(horizontal ? getXAccessor(scale) : getYAccessor(scale));
@@ -29709,7 +29709,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
+                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[!lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index] = {
                         labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
                     }), childProps;
                 }, initialChildProps);
@@ -30016,7 +30016,7 @@
                         startAngle: victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.startAngle),
                         endAngle: victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.endAngle),
                         padAngle: victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.padAngle)
-                    }), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, dataProps = {
+                    }), eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, dataProps = {
                         index: index,
                         slice: slice,
                         datum: datum,
@@ -31173,7 +31173,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), dataProps = {
+                    var eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), dataProps = {
                         x: _Helpers$scalePoint.x,
                         y: _Helpers$scalePoint.y,
                         datum: datum,
@@ -31890,7 +31890,7 @@
                                     _d = !0, _e = err;
                                 } finally{
                                     try {
-                                        _n || null == _i.return || _i.return();
+                                        !_n && null != _i.return && _i.return();
                                     } finally{
                                         if (_d) throw _e;
                                     }
@@ -32161,7 +32161,7 @@
                             }) ? new Date(y0) : y0;
                         }(datum, i, datasets) || 0;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, datum, {
-                            _y0: datum._y instanceof Date ? yOffset ? new Date(yOffset) : datum._y : yOffset,
+                            _y0: !(datum._y instanceof Date) ? yOffset : yOffset ? new Date(yOffset) : datum._y,
                             _y1: null === datum._y ? null : datum._y instanceof Date ? new Date(+datum._y + +yOffset) : datum._y + yOffset,
                             _x1: null === datum._x ? null : datum._x instanceof Date ? new Date(+datum._x + +xOffset) : datum._x + xOffset
                         });
@@ -33275,7 +33275,7 @@
                                 }, []), _points$ = points[0], childName = _points$.childName, eventKey = _points$.eventKey, datum = (_points$.style, _points$.continuous, function(source, excluded) {
                                     if (null == source) return {};
                                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
                                     if (Object.getOwnPropertySymbols) {
                                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -33677,7 +33677,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), dataProps = {
+                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = !lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? datum.eventKey : index, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), dataProps = {
                         x: _Helpers$scalePoint.x,
                         y: _Helpers$scalePoint.y,
                         datum: datum,
@@ -34221,7 +34221,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -34719,7 +34719,7 @@
     /******/ __webpack_require__.m = modules, /******/ /******/ // expose the module cache
     /******/ __webpack_require__.c = installedModules, /******/ /******/ // define getter function for harmony exports
     /******/ __webpack_require__.d = function(exports1, name, getter) {
-        /******/ __webpack_require__.o(exports1, name) || /******/ Object.defineProperty(exports1, name, {
+        /******/ !__webpack_require__.o(exports1, name) && /******/ Object.defineProperty(exports1, name, {
             enumerable: !0,
             get: getter
         });

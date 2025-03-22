@@ -204,7 +204,7 @@
                 this.s = this.s, this.o = this.o;
             }
             v.prototype.s = !1, v.prototype.na = function() {
-                this.s || (this.s = !0, this.M());
+                !this.s && (this.s = !0, this.M());
             }, v.prototype.M = function() {
                 if (this.o) for(; this.o.length;)this.o.shift()();
             };
@@ -1746,7 +1746,7 @@
                     var key, i, target = function(source, excluded) {
                         if (null == source) return {};
                         var key, i, target = {}, sourceKeys = Object.keys(source);
-                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], !(excluded.indexOf(key) >= 0) && (target[key] = source[key]);
                         return target;
                     }(source, excluded);
                     if (Object.getOwnPropertySymbols) {
@@ -1797,7 +1797,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }
@@ -2089,7 +2089,7 @@
                     };
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
-                    sizes: sizes || "w" !== kind ? sizes : "100vw",
+                    sizes: !sizes && "w" === kind ? "100vw" : sizes,
                     srcSet: widths.map(function(w, i) {
                         return "".concat(loader({
                             src: src,
@@ -2144,7 +2144,7 @@
                         _d = !0, _e = err;
                     } finally{
                         try {
-                            _n || null == _i.return || _i.return();
+                            !_n && null != _i.return && _i.return();
                         } finally{
                             if (_d) throw _e;
                         }

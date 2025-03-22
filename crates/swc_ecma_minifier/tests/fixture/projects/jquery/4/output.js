@@ -8,6 +8,6 @@ export const obj = {
         } catch (e) {
             xml = void 0;
         }
-        return xml && xml.documentElement && !xml.getElementsByTagName("parsererror").length || jQuery.error("Invalid XML: " + data), xml;
+        return (!xml || !xml.documentElement || xml.getElementsByTagName("parsererror").length) && jQuery.error("Invalid XML: " + data), xml;
     }
 };

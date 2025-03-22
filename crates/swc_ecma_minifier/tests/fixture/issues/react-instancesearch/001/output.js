@@ -6,7 +6,7 @@ export default function createWidgetsManager(onWidgetsUpdate) {
     // The state manager's updates need to be batched since more than one
     // component can register or unregister widgets during the same tick.
     function scheduleUpdate() {
-        scheduled || (scheduled = !0, defer(()=>{
+        !scheduled && (scheduled = !0, defer(()=>{
             scheduled = !1, onWidgetsUpdate();
         }));
     }

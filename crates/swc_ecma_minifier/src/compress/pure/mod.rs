@@ -263,8 +263,6 @@ impl VisitMut for Pure<'_> {
         e.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut e.test, false);
-
-        self.negate_cond_expr(e);
     }
 
     fn visit_mut_do_while_stmt(&mut self, s: &mut DoWhileStmt) {
@@ -280,13 +278,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        {
-            let ctx = Ctx {
-                in_first_expr: false,
-                ..self.ctx
-            };
-            e.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        }
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Seq(seq) => {
@@ -396,12 +388,6 @@ impl VisitMut for Pure<'_> {
         }
 
         self.swap_bin_operands(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.optimize_bools(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -553,9 +539,13 @@ impl VisitMut for Pure<'_> {
             },
         );
 
-        if s.expr.is_seq() {
-            debug_assert_valid(&s.expr);
+        if s.expr.is_invalid() {
+            return;
         }
+
+        debug_assert_valid(&s.expr);
+
+        self.negate_bool_for_expr_stmt(&mut s.expr)
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
@@ -779,6 +769,10 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.drop_undefined_from_return_arg(s);
+
+        if let Some(e) = &mut s.arg {
+            self.negate_bool_preserving_semantics(e, false);
+        }
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
@@ -856,7 +850,6 @@ impl VisitMut for Pure<'_> {
                 is_update_arg: false,
                 is_callee: false,
                 in_delete: false,
-                in_first_expr: true,
                 preserve_block: false,
                 is_label_body: false,
                 ..self.ctx

@@ -117,7 +117,7 @@ var _obj, isMultiIndexContext = function(widget) {
             // unused results.
             results = !isDerivedHelpersEmpty && results.getFacetByName ? {} : results, results = isDerivedHelpersEmpty ? event.results : swcHelpers.objectSpread({}, results, swcHelpers.defineProperty({}, indexId, event.results));
             var currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
-            helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1), currentState.resultsFacetValues;
+            !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1), currentState.resultsFacetValues;
             var partialState = swcHelpers.objectWithoutProperties(currentState, [
                 "resultsFacetValues"
             ]);
@@ -130,7 +130,7 @@ var _obj, isMultiIndexContext = function(widget) {
         };
     }, handleSearchError = function(param) {
         var error = param.error, currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
-        helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1), currentState.resultsFacetValues;
+        !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1), currentState.resultsFacetValues;
         var partialState = swcHelpers.objectWithoutProperties(currentState, [
             "resultsFacetValues"
         ]);
@@ -221,7 +221,7 @@ var _obj, isMultiIndexContext = function(widget) {
         })));
     }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient), helper.on("search", function() {
-        stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
+        !stalledSearchTimer && (stalledSearchTimer = setTimeout(function() {
             var _ref = store.getState(), partialState = (_ref.resultsFacetValues, swcHelpers.objectWithoutProperties(_ref, [
                 "resultsFacetValues"
             ]));
@@ -314,9 +314,9 @@ var _obj, isMultiIndexContext = function(widget) {
                 })
             });
         }) : [],
-        results: resultsState ? Array.isArray(resultsState.results) ? resultsState.results.reduce(function(acc, result) {
+        results: !resultsState ? null : Array.isArray(resultsState.results) ? resultsState.results.reduce(function(acc, result) {
             return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults) : null,
+        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults),
         error: null,
         searching: !1,
         isSearchStalled: !0,

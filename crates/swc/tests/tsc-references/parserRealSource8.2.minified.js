@@ -76,7 +76,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             var locals = new SymbolScopeBuilder(funcMembers, ambientFuncMembers, null, null, parentScope, localContainer), statics = new SymbolScopeBuilder(funcStaticMembers, ambientFuncStaticMembers, null, null, parentScope, null);
             if (ast.isConstructor && context.scopeChain.thisType && (context.scopeChain.thisType.constructorScope = locals), ast.symbols = funcTable, !ast.isSpecialFn()) {
                 var group = ast.type, signature = ast.signature;
-                ast.isConstructor || (group.containedScope = locals, locals.container = group.symbol, group.memberScope = statics, statics.container = group.symbol), ast.enclosingFnc = context.scopeChain.fnc, group.enclosingType = isStatic ? context.scopeChain.classType : context.scopeChain.thisType;
+                !ast.isConstructor && (group.containedScope = locals, locals.container = group.symbol, group.memberScope = statics, statics.container = group.symbol), ast.enclosingFnc = context.scopeChain.fnc, group.enclosingType = isStatic ? context.scopeChain.classType : context.scopeChain.thisType;
                 var fgSym = ast.type.symbol;
                 if ((ast.fncFlags & FncFlags.Signature) == FncFlags.None && ast.vars && (context.typeFlow.addLocalsFromScope(locals, fgSym, ast.vars, funcTable, !1), context.typeFlow.addLocalsFromScope(statics, fgSym, ast.statics, funcStaticTable, !1)), signature.parameters) for(var len = signature.parameters.length, i = 0; i < len; i++){
                     var paramSym = signature.parameters[i];

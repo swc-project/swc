@@ -30,7 +30,7 @@ var f = function(e) {
 export default function S(u) {
     var o, l, S, v, x = u.indexName, _ = u.initialState, y = u.searchClient, w = u.resultsState, F = u.stalledSearchDelay, V = s(y, x, t({}, c));
     d(y), V.on("search", function() {
-        b || (b = setTimeout(function() {
+        !b && (b = setTimeout(function() {
             var e = R.getState(), n = (e.resultsFacetValues, a(e, [
                 "resultsFacetValues"
             ]));
@@ -263,7 +263,7 @@ export default function S(u) {
             var i = R.getState(), c = !V.derivedHelpers.length, u = i.results ? i.results : {};
             u = !c && u.getFacetByName ? {} : u, u = c ? n.results : r(t({}, u), e({}, s, n.results));
             var o = R.getState(), l = o.isSearchStalled;
-            V.hasPendingRequests() || (clearTimeout(b), b = null, l = !1), o.resultsFacetValues;
+            !V.hasPendingRequests() && (clearTimeout(b), b = null, l = !1), o.resultsFacetValues;
             var d = a(o, [
                 "resultsFacetValues"
             ]);
@@ -277,7 +277,7 @@ export default function S(u) {
     }
     function q(e) {
         var n = e.error, s = R.getState(), i = s.isSearchStalled;
-        V.hasPendingRequests() || (clearTimeout(b), i = !1), s.resultsFacetValues;
+        !V.hasPendingRequests() && (clearTimeout(b), i = !1), s.resultsFacetValues;
         var c = a(s, [
             "resultsFacetValues"
         ]);

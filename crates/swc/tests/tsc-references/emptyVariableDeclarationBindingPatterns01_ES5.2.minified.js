@@ -10,7 +10,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError = !0, _iteratorError = err;
     } finally{
         try {
-            _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+            !_iteratorNormalCompletion && null != _iterator.return && _iterator.return();
         } finally{
             if (_didIteratorError) throw _iteratorError;
         }
@@ -22,7 +22,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError1 = !0, _iteratorError1 = err;
     } finally{
         try {
-            _iteratorNormalCompletion1 || null == _iterator1.return || _iterator1.return();
+            !_iteratorNormalCompletion1 && null != _iterator1.return && _iterator1.return();
         } finally{
             if (_didIteratorError1) throw _iteratorError1;
         }
@@ -34,7 +34,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError2 = !0, _iteratorError2 = err;
     } finally{
         try {
-            _iteratorNormalCompletion2 || null == _iterator2.return || _iterator2.return();
+            !_iteratorNormalCompletion2 && null != _iterator2.return && _iterator2.return();
         } finally{
             if (_didIteratorError2) throw _iteratorError2;
         }
@@ -46,7 +46,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError3 = !0, _iteratorError3 = err;
     } finally{
         try {
-            _iteratorNormalCompletion3 || null == _iterator3.return || _iterator3.return();
+            !_iteratorNormalCompletion3 && null != _iterator3.return && _iterator3.return();
         } finally{
             if (_didIteratorError3) throw _iteratorError3;
         }
@@ -58,7 +58,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError4 = !0, _iteratorError4 = err;
     } finally{
         try {
-            _iteratorNormalCompletion4 || null == _iterator4.return || _iterator4.return();
+            !_iteratorNormalCompletion4 && null != _iterator4.return && _iterator4.return();
         } finally{
             if (_didIteratorError4) throw _iteratorError4;
         }
@@ -70,7 +70,7 @@ _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destruct
         _didIteratorError5 = !0, _iteratorError5 = err;
     } finally{
         try {
-            _iteratorNormalCompletion5 || null == _iterator5.return || _iterator5.return();
+            !_iteratorNormalCompletion5 && null != _iterator5.return && _iterator5.return();
         } finally{
             if (_didIteratorError5) throw _iteratorError5;
         }

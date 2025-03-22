@@ -41,7 +41,7 @@
                 }
             });
             /* unused harmony exports countBits, countBytes, padStart, isTypedArray, toHexString, toBinaryString, ENDIANNESS, IS_BIG_ENDIAN, IS_LITTLE_ENDIAN, sliceBytes, reverseBytes */ /* harmony import */ var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                return bytes instanceof Uint8Array ? bytes : (!Array.isArray(bytes) && !ArrayBuffer.isView(bytes) && !(bytes instanceof ArrayBuffer) && (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -94,7 +94,7 @@
             }, stringToBytes = function(string, stringIsBytes) {
                 if ("string" != typeof string && string && "function" == typeof string.toString && (string = string.toString()), "string" != typeof string) return new Uint8Array();
                  // If the string already is bytes, we don't have to do this
-                stringIsBytes || (string = unescape(encodeURIComponent(string)));
+                !stringIsBytes && (string = unescape(encodeURIComponent(string)));
                 for(var view = new Uint8Array(string.length), i = 0; i < string.length; i++)view[i] = string.charCodeAt(i);
                 return view;
             }, concatTypedArrays = function() {
@@ -195,7 +195,7 @@
                                 mediaType: name
                             });
                         }
-                    }), codecType || result.push({
+                    }), !codecType && result.push({
                         type: codec,
                         details: "",
                         mediaType: "unknown"
@@ -360,11 +360,11 @@
              * @return {Uint8Array[]}
              *         An array of the end paths that we found.
              */ var findBox = function findBox(bytes, paths, complete) {
-                void 0 === complete && (complete = !1), paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
-                    return normalizePath(p);
-                }) : [
+                void 0 === complete && (complete = !1), paths = !Array.isArray(paths1 = paths) ? [
                     normalizePath(paths1)
-                ], bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                ] : paths1.map(function(p) {
+                    return normalizePath(p);
+                }), bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
                 var paths1, results = [];
                 if (!paths.length) // short-circuit the search for empty paths
                 return results;
@@ -509,11 +509,11 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
-                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
-                    return ebml_helpers_normalizePath(p);
-                }) : [
+                paths = !Array.isArray(paths1 = paths) ? [
                     ebml_helpers_normalizePath(paths1)
-                ], bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
+                ] : paths1.map(function(p) {
+                    return ebml_helpers_normalizePath(p);
+                }), bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
                 var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
@@ -865,7 +865,7 @@
                 /^data:/.test(baseUrl) && (baseUrl = global_window__WEBPACK_IMPORTED_MODULE_1___default().location && global_window__WEBPACK_IMPORTED_MODULE_1___default().location.href || "");
                 // feature detect the behavior we want
                 var nativeURL = "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_1___default().URL, protocolLess = /^\/\//.test(baseUrl), removeLocation = !global_window__WEBPACK_IMPORTED_MODULE_1___default().location && !/\/\//i.test(baseUrl);
-                if (nativeURL ? baseUrl = new (global_window__WEBPACK_IMPORTED_MODULE_1___default()).URL(baseUrl, global_window__WEBPACK_IMPORTED_MODULE_1___default().location || DEFAULT_LOCATION) : /\/\//i.test(baseUrl) || (baseUrl = url_toolkit__WEBPACK_IMPORTED_MODULE_0___default().buildAbsoluteURL(global_window__WEBPACK_IMPORTED_MODULE_1___default().location && global_window__WEBPACK_IMPORTED_MODULE_1___default().location.href || "", baseUrl)), nativeURL) {
+                if (nativeURL ? baseUrl = new (global_window__WEBPACK_IMPORTED_MODULE_1___default()).URL(baseUrl, global_window__WEBPACK_IMPORTED_MODULE_1___default().location || DEFAULT_LOCATION) : !/\/\//i.test(baseUrl) && (baseUrl = url_toolkit__WEBPACK_IMPORTED_MODULE_0___default().buildAbsoluteURL(global_window__WEBPACK_IMPORTED_MODULE_1___default().location && global_window__WEBPACK_IMPORTED_MODULE_1___default().location.href || "", baseUrl)), nativeURL) {
                     var newUrl = new URL(relativeUrl, baseUrl); // if we're a protocol-less url, remove the protocol
                     return(// and if we're location-less, remove the location
                     // otherwise, return the url unmodified
@@ -938,10 +938,10 @@
             function _createXHR(options) {
                 if (void 0 === options.callback) throw Error("callback argument missing");
                 var key, aborted, timeoutTimer, called = !1, callback = function(err, response, body) {
-                    called || (called = !0, options.callback(err, response, body));
+                    !called && (called = !0, options.callback(err, response, body));
                 };
                 function errorFunc(evt) {
-                    return clearTimeout(timeoutTimer), evt instanceof Error || (evt = Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
+                    return clearTimeout(timeoutTimer), !(evt instanceof Error) && (evt = Error("" + (evt || "Unknown XMLHttpRequest Error"))), evt.statusCode = 0, callback(evt, failureResponse);
                 } // will load the data & process the response in a special response object
                 function loadFunc() {
                     if (!aborted) {
@@ -975,7 +975,7 @@
                     }
                 }
                 var xhr = options.xhr || null;
-                xhr || (xhr = options.cors || options.useXDR ? new createXHR.XDomainRequest() : new createXHR.XMLHttpRequest());
+                !xhr && (xhr = options.cors || options.useXDR ? new createXHR.XDomainRequest() : new createXHR.XMLHttpRequest());
                 var uri = xhr.url = options.uri || options.url, method = xhr.method = options.method || "GET", body = options.body || options.data, headers = xhr.headers = options.headers || {}, sync = !!options.sync, isJson = !1, failureResponse = {
                     body: void 0,
                     headers: {},
@@ -990,7 +990,7 @@
                 // IE must die
                 }, xhr.onabort = function() {
                     aborted = !0;
-                }, xhr.ontimeout = errorFunc, xhr.open(method, uri, !sync, options.username, options.password), sync || (xhr.withCredentials = !!options.withCredentials), !sync && options.timeout > 0 && (timeoutTimer = setTimeout(function() {
+                }, xhr.ontimeout = errorFunc, xhr.open(method, uri, !sync, options.username, options.password), !sync && (xhr.withCredentials = !!options.withCredentials), !sync && options.timeout > 0 && (timeoutTimer = setTimeout(function() {
                     if (!aborted) {
                         aborted = !0, xhr.abort("timeout");
                         var e = Error("XMLHttpRequest timeout");
@@ -1305,7 +1305,7 @@
              * @param {string} element
              * @returns {Record<string, boolean | undefined>}
              */ function orderedSetReducer(current, element) {
-                return current.hasOwnProperty(element) || (current[element] = !0), current;
+                return !current.hasOwnProperty(element) && (current[element] = !0), current;
             }
             /**
              * @see https://infra.spec.whatwg.org/#ordered-set
@@ -1525,7 +1525,7 @@
                 buf.push(" ", qualifiedName, '="', value.replace(/[<&"]/g, _xmlEncoder), '"');
             }
             function serializeToString(node, buf, isHTML, nodeFilter, visibleNamespaces) {
-                if (visibleNamespaces || (visibleNamespaces = []), nodeFilter) {
+                if (!visibleNamespaces && (visibleNamespaces = []), nodeFilter) {
                     if (!(node = nodeFilter(node))) return;
                     if ("string" == typeof node) {
                         buf.push(node);
@@ -1932,7 +1932,7 @@
                             case ATTRIBUTE_NODE:
                                 deep = !0;
                         }
-                        if (node2 || (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
+                        if (!node2 && (node2 = node.cloneNode(!1)), node2.ownerDocument = doc, node2.parentNode = null, deep) for(var child = node.firstChild; child;)node2.appendChild(importNode(doc, child, deep)), child = child.nextSibling;
                         return node2;
                     }(this, importedNode, deep);
                 },
@@ -2551,7 +2551,7 @@
                                         var localNSMap = config.localNSMap, endMatch = config.tagName == tagName;
                                         if (endMatch || config.tagName && config.tagName.toLowerCase() == tagName.toLowerCase()) {
                                             if (domBuilder.endElement(config.uri, config.localName, tagName), localNSMap) for(var prefix in localNSMap)domBuilder.endPrefixMapping(prefix);
-                                            endMatch || errorHandler.fatalError("end tag name: " + tagName + " is not match the current start tagName:" + config.tagName);
+                                            !endMatch && errorHandler.fatalError("end tag name: " + tagName + " is not match the current start tagName:" + config.tagName);
                                         } else parseStack.push(config);
                                         end++;
                                         break;
@@ -2662,7 +2662,7 @@
                                                             case 1:
                                                                 "/" === (value = source.slice(start, p)).slice(-1) && (el.closed = !0, value = value.slice(0, -1));
                                                             case 2:
-                                                                2 === s && (value = attrName), 4 == s ? (errorHandler.warning('attribute "' + value + '" missed quot(")!'), addAttribute(attrName, value.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!'), addAttribute(value, value, start));
+                                                                2 === s && (value = attrName), 4 == s ? (errorHandler.warning('attribute "' + value + '" missed quot(")!'), addAttribute(attrName, value.replace(/&#?\w+;/g, entityReplacer), start)) : ((!NAMESPACE.isHTML(currentNSMap[""]) || !value.match(/^(?:disabled|checked|selected)$/i)) && errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!'), addAttribute(value, value, start));
                                                                 break;
                                                             case 3:
                                                                 throw Error("attribute value missed!!");
@@ -2694,7 +2694,7 @@
                                                             //case S_ATTR:void();break;
                                                             //case S_ATTR_NOQUOT_VALUE:void();break;
                                                             case 2:
-                                                                el.tagName, NAMESPACE.isHTML(currentNSMap[""]) && attrName.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!'), addAttribute(attrName, attrName, start), start = p, s = 1;
+                                                                el.tagName, (!NAMESPACE.isHTML(currentNSMap[""]) || !attrName.match(/^(?:disabled|checked|selected)$/i)) && errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!'), addAttribute(attrName, attrName, start), start = p, s = 1;
                                                                 break;
                                                             case 5:
                                                                 errorHandler.warning('attribute space is required"' + attrName + '"!!');
@@ -2719,7 +2719,7 @@
                                             (pos = source.lastIndexOf("</" + tagName + ">")) < elStartEnd && //忘记闭合
                                             (pos = source.lastIndexOf("</" + tagName)), closeMap[tagName] = pos), pos < elStartEnd;
                                         //}
-                                        }(source, end, el.tagName, closeMap) && (el.closed = !0, entityMap.nbsp || errorHandler.warning("unclosed xml attribute")), locator && len) {
+                                        }(source, end, el.tagName, closeMap) && (el.closed = !0, !entityMap.nbsp && errorHandler.warning("unclosed xml attribute")), locator && len) {
                                             //try{//attribute position fixed
                                             for(var locator2 = copyLocator(locator, {}), i = 0; i < len; i++){
                                                 var a = el[i];
@@ -2779,7 +2779,7 @@
         /***/ },
         /***/ 9144: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             var doccy, topLevel = void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof window ? window : {}, minDoc = __webpack_require__(7579);
-            "undefined" != typeof document ? doccy = document : (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) || (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
+            "undefined" != typeof document ? doccy = document : !(doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"]) && (doccy = topLevel["__GLOBAL_DOCUMENT_CACHE@4"] = minDoc), module.exports = doccy;
         /***/ },
         /***/ 8908: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {};
@@ -2951,7 +2951,7 @@
                  * the specified type occurs
                  */ var _proto = Stream.prototype;
                 return _proto.on = function(type, listener) {
-                    this.listeners[type] || (this.listeners[type] = []), this.listeners[type].push(listener);
+                    !this.listeners[type] && (this.listeners[type] = []), this.listeners[type].push(listener);
                 }, /**
                  * Remove a listener for a specified event type.
                  *
@@ -3367,7 +3367,7 @@
                     return _this.on("end", function() {
                         // only add preloadSegment if we don't yet have a uri for it.
                         // and we actually have parts/preloadHints
-                        !currentUri.uri && (currentUri.parts || currentUri.preloadHints) && (!currentUri.map && currentMap && (currentUri.map = currentMap), !currentUri.key && _key && (currentUri.key = _key), currentUri.timeline || "number" != typeof currentTimeline || (currentUri.timeline = currentTimeline), _this.manifest.preloadSegment = currentUri);
+                        !currentUri.uri && (currentUri.parts || currentUri.preloadHints) && (!currentUri.map && currentMap && (currentUri.map = currentMap), !currentUri.key && _key && (currentUri.key = _key), !currentUri.timeline && "number" == typeof currentTimeline && (currentUri.timeline = currentTimeline), _this.manifest.preloadSegment = currentUri);
                     }), _this.parseStream.on("data", function(entry) {
                         var mediaGroup, rendition;
                         ({
@@ -3378,13 +3378,13 @@
                                         entry.version && (this.manifest.version = entry.version);
                                     },
                                     "allow-cache": function() {
-                                        this.manifest.allowCache = entry.allowed, "allowed" in entry || (this.trigger("info", {
+                                        this.manifest.allowCache = entry.allowed, !("allowed" in entry) && (this.trigger("info", {
                                             message: "defaulting allowCache to YES"
                                         }), this.manifest.allowCache = !0);
                                     },
                                     byterange: function() {
                                         var byterange = {};
-                                        "length" in entry && (currentUri.byterange = byterange, byterange.length = entry.length, "offset" in entry || /*
+                                        "length" in entry && (currentUri.byterange = byterange, byterange.length = entry.length, !("offset" in entry) && /*
                                                      * From the latest spec (as of this writing):
                                                      * https://tools.ietf.org/html/draft-pantos-http-live-streaming-23#section-4.3.2.2
                                                      *
@@ -3399,9 +3399,9 @@
                                         this.manifest.endList = !0;
                                     },
                                     inf: function() {
-                                        "mediaSequence" in this.manifest || (this.manifest.mediaSequence = 0, this.trigger("info", {
+                                        !("mediaSequence" in this.manifest) && (this.manifest.mediaSequence = 0, this.trigger("info", {
                                             message: "defaulting media sequence to zero"
-                                        })), "discontinuitySequence" in this.manifest || (this.manifest.discontinuitySequence = 0, this.trigger("info", {
+                                        })), !("discontinuitySequence" in this.manifest) && (this.manifest.discontinuitySequence = 0, this.trigger("info", {
                                             message: "defaulting discontinuity sequence to zero"
                                         })), entry.duration > 0 && (currentUri.duration = entry.duration), 0 === entry.duration && (currentUri.duration = 0.01, this.trigger("info", {
                                             message: "updating zero segment duration to a small value"
@@ -3468,7 +3468,7 @@
                                             };
                                             return;
                                         }
-                                        entry.attributes.METHOD || this.trigger("warn", {
+                                        !entry.attributes.METHOD && this.trigger("warn", {
                                             message: "defaulting key method to AES-128"
                                         }), _key = {
                                             method: entry.attributes.METHOD || "AES-128",
@@ -3512,7 +3512,7 @@
                                             });
                                             return;
                                         }
-                                        currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
+                                        !currentUri.attributes && (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
                                     },
                                     media: function() {
                                         if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) {
@@ -3575,20 +3575,20 @@
                                         var _this2 = this;
                                         hasParts = !0;
                                         var segmentIndex = this.manifest.segments.length, part = camelCaseKeys(entry.attributes);
-                                        currentUri.parts = currentUri.parts || [], currentUri.parts.push(part), part.byterange && (part.byterange.hasOwnProperty("offset") || (part.byterange.offset = lastPartByterangeEnd), lastPartByterangeEnd = part.byterange.offset + part.byterange.length);
+                                        currentUri.parts = currentUri.parts || [], currentUri.parts.push(part), part.byterange && (!part.byterange.hasOwnProperty("offset") && (part.byterange.offset = lastPartByterangeEnd), lastPartByterangeEnd = part.byterange.offset + part.byterange.length);
                                         var partIndex = currentUri.parts.length - 1;
                                         this.warnOnMissingAttributes_("#EXT-X-PART #" + partIndex + " for segment #" + segmentIndex, entry.attributes, [
                                             "URI",
                                             "DURATION"
                                         ]), this.manifest.renditionReports && this.manifest.renditionReports.forEach(function(r, i) {
-                                            r.hasOwnProperty("lastPart") || _this2.trigger("warn", {
+                                            !r.hasOwnProperty("lastPart") && _this2.trigger("warn", {
                                                 message: "#EXT-X-RENDITION-REPORT #" + i + " lacks required attribute(s): LAST-PART"
                                             });
                                         });
                                     },
                                     "server-control": function() {
                                         var attrs = this.manifest.serverControl = camelCaseKeys(entry.attributes);
-                                        attrs.hasOwnProperty("canBlockReload") || (attrs.canBlockReload = !1, this.trigger("info", {
+                                        !attrs.hasOwnProperty("canBlockReload") && (attrs.canBlockReload = !1, this.trigger("info", {
                                             message: "#EXT-X-SERVER-CONTROL defaulting CAN-BLOCK-RELOAD to false"
                                         })), setHoldBack.call(this, this.manifest), attrs.canSkipDateranges && !attrs.hasOwnProperty("canSkipUntil") && this.trigger("warn", {
                                             message: "#EXT-X-SERVER-CONTROL lacks required attribute CAN-SKIP-UNTIL which is required when CAN-SKIP-DATERANGES is set"
@@ -3629,7 +3629,7 @@
                                 })[entry.tagType] || noop).call(self1);
                             },
                             uri: function() {
-                                currentUri.uri = entry.uri, uris.push(currentUri), !this.manifest.targetDuration || "duration" in currentUri || (this.trigger("warn", {
+                                currentUri.uri = entry.uri, uris.push(currentUri), this.manifest.targetDuration && !("duration" in currentUri) && (this.trigger("warn", {
                                     message: "defaulting segment duration to the target duration"
                                 }), currentUri.duration = this.manifest.targetDuration), _key && (currentUri.key = _key), currentUri.timeline = currentTimeline, currentMap && (currentUri.map = currentMap), lastPartByterangeEnd = 0, currentUri = {};
                             },
@@ -3648,7 +3648,7 @@
                 return _proto.warnOnMissingAttributes_ = function(identifier, attributes, required) {
                     var missing = [];
                     required.forEach(function(key) {
-                        attributes.hasOwnProperty(key) || missing.push(key);
+                        !attributes.hasOwnProperty(key) && missing.push(key);
                     }), missing.length && this.trigger("warn", {
                         message: identifier + " lacks required attribute(s): " + missing.join(", ")
                     });
@@ -3909,7 +3909,7 @@
                 void 0 === sidxMapping && (sidxMapping = {}), void 0 === isAudioOnly && (isAudioOnly = !1);
                 var mainPlaylist, formattedPlaylists = playlists.reduce(function(a, playlist) {
                     var role = playlist.attributes.role && playlist.attributes.role.value || "", language = playlist.attributes.lang || "", label = playlist.attributes.label || "main";
-                    language && !playlist.attributes.label && (label = "" + playlist.attributes.lang + (role ? " (" + role + ")" : "")), a[label] || (a[label] = {
+                    language && !playlist.attributes.label && (label = "" + playlist.attributes.lang + (role ? " (" + role + ")" : "")), !a[label] && (a[label] = {
                         language: language,
                         autoselect: !0,
                         default: "main" === role,
@@ -3977,7 +3977,7 @@
                 var isAudioOnly = 0 === manifest.playlists.length;
                 return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), vttPlaylists.reduce(function(a, playlist) {
                     var label = playlist.attributes.lang || "text";
-                    return a[label] || (a[label] = {
+                    return !a[label] && (a[label] = {
                         language: label,
                         default: !1,
                         autoselect: !1,
@@ -4056,14 +4056,14 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? (0, attributes.duration) ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                return (!attributes.duration && !segmentTimeline ? [
                     {
                         number: attributes.startNumber || 1,
                         duration: attributes.sourceDuration,
                         time: 0,
                         timeline: attributes.periodIndex
                     }
-                ]).map(function(segment) {
+                ] : (0, attributes.duration) ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline)).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = // calculated in mpd-parser prior to this, so it's assumed to be available.
                     attributes.periodStart + (segment.time - presentationTimeOffset) / timescale; // See DASH spec section 5.3.9.2.2
@@ -4376,7 +4376,7 @@
                     })
                 };
                 return Object.keys(segmentInfo).forEach(function(key) {
-                    segmentInfo[key] || delete segmentInfo[key];
+                    !segmentInfo[key] && delete segmentInfo[key];
                 }), segmentInfo;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
@@ -4772,7 +4772,7 @@
                         builtParts.path = URLToolkit.normalizePath(newPath);
                     } else // 5) If the embedded URL path is empty (and not preceded by a
                     // slash), then the embedded URL inherits the base URL path
-                    builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    builtParts.path = baseParts.path, !relativeParts.params && (builtParts.params = baseParts.params, !relativeParts.query && (builtParts.query = baseParts.query));
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -4839,7 +4839,7 @@
                 window1.VTTCue = cueShim, window1.VTTRegion = regionShim;
             }, vttjs.restore = function() {
                 window1.VTTCue = nativeVTTCue, window1.VTTRegion = nativeVTTRegion;
-            }, window1.VTTCue || vttjs.shim();
+            }, !window1.VTTCue && vttjs.shim();
         /***/ },
         /***/ 3706: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             /**
@@ -4907,7 +4907,7 @@
             }, Settings.prototype = {
                 // Only accept the first assignment to any key.
                 set: function(k, v) {
-                    this.get(k) || "" === v || (this.values[k] = v);
+                    !this.get(k) && "" !== v && (this.values[k] = v);
                 },
                 // Return the value for a key, or a default value.
                 // If 'defaultKey' is passed then 'dflt' is assumed to be an object with
@@ -5757,7 +5757,7 @@
                 // if we don't have too.
                 cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
-                decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
+                !decoder && (decoder = vttjs, vttjs = {}), !vttjs && (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
             }, WebVTT1.Parser.prototype = {
                 // If the error is a ParsingError then report it to the consumer if
                 // possible. If it's not a ParsingError then throw it like normal.
@@ -5848,12 +5848,12 @@
                                             });
                                         }
                                     }
-                                }, /:/) : line || // An empty line terminates the header and starts the body (cues).
+                                }, /:/) : !line && // An empty line terminates the header and starts the body (cues).
                                 (self1.state = "ID");
                                 continue;
                             case "NOTE":
                                 // Ignore NOTE blocks.
-                                line || (self1.state = "ID");
+                                !line && (self1.state = "ID");
                                 continue;
                             case "ID":
                                 // Check for the start of NOTE blocks.
@@ -5997,7 +5997,7 @@
                                 continue;
                             case "BADCUE":
                                 // 54-62 - Collect and discard the remaining cue.
-                                line || (self1.state = "ID");
+                                !line && (self1.state = "ID");
                                 continue;
                         }
                     } catch (e) {
@@ -6452,7 +6452,7 @@
                 // coercion fail below.
                 if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
                 (end >>>= 0) <= (start >>>= 0))) return "";
-                for(encoding || (encoding = "utf8");;)switch(encoding){
+                for(!encoding && (encoding = "utf8");;)switch(encoding){
                     case "hex":
                         return function(buf, start, end) {
                             var len = buf.length;
@@ -6593,10 +6593,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError("Index out of range");
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkIEEE754(buf, value, offset, 4, 3.4028234663852886e38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, !noAssert && checkIEEE754(buf, value, offset, 8, 1.7976931348623157e308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             exports.Buffer = Buffer, exports.SlowBuffer = function(length) {
                 return +length != length && // eslint-disable-line eqeqeq
@@ -6626,7 +6626,7 @@
                 } catch (e) {
                     return !1;
                 }
-            }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
+            }(), !Buffer.TYPED_ARRAY_SUPPORT && "undefined" != typeof console && "function" == typeof console.error && console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
                 enumerable: !0,
                 get: function() {
                     if (Buffer.isBuffer(this)) return this.buffer;
@@ -6754,7 +6754,7 @@
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var offset1, length1, offset2, length2, offset3, length3, offset4, length4, offset5, length5, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
-                encoding || (encoding = "utf8");
+                !encoding && (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
                         return function(buf, string, offset, length) {
@@ -6805,53 +6805,53 @@
                 return(// Return an augmented `Uint8Array` instance
                 Object.setPrototypeOf(newBuf, Buffer.prototype), newBuf);
             }, Buffer.prototype.readUIntLE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
                 return val;
             }, Buffer.prototype.readUIntBE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 for(var val = this[offset + --byteLength], mul = 1; byteLength > 0 && (mul *= 0x100);)val += this[offset + --byteLength] * mul;
                 return val;
             }, Buffer.prototype.readUInt8 = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), this[offset];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), this[offset];
             }, Buffer.prototype.readUInt16LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 2, this.length), this[offset] | this[offset + 1] << 8;
+                return offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length), this[offset] | this[offset + 1] << 8;
             }, Buffer.prototype.readUInt16BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 2, this.length), this[offset] << 8 | this[offset + 1];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length), this[offset] << 8 | this[offset + 1];
             }, Buffer.prototype.readUInt32LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 0x1000000 * this[offset + 3];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + 0x1000000 * this[offset + 3];
             }, Buffer.prototype.readUInt32BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), 0x1000000 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), 0x1000000 * this[offset] + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
             }, Buffer.prototype.readIntLE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
                 return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readIntBE = function(offset, byteLength, noAssert) {
-                offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
+                offset >>>= 0, byteLength >>>= 0, !noAssert && checkOffset(offset, byteLength, this.length);
                 for(var i = byteLength, mul = 1, val = this[offset + --i]; i > 0 && (mul *= 0x100);)val += this[offset + --i] * mul;
                 return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readInt8 = function(offset, noAssert) {
-                return (offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
+                return (offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
             }, Buffer.prototype.readInt16LE = function(offset, noAssert) {
-                offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
+                offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length);
                 var val = this[offset] | this[offset + 1] << 8;
                 return 0x8000 & val ? 0xffff0000 | val : val;
             }, Buffer.prototype.readInt16BE = function(offset, noAssert) {
-                offset >>>= 0, noAssert || checkOffset(offset, 2, this.length);
+                offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length);
                 var val = this[offset + 1] | this[offset] << 8;
                 return 0x8000 & val ? 0xffff0000 | val : val;
             }, Buffer.prototype.readInt32LE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
             }, Buffer.prototype.readInt32BE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
             }, Buffer.prototype.readFloatLE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), ieee754.read(this, offset, !0, 23, 4);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), ieee754.read(this, offset, !0, 23, 4);
             }, Buffer.prototype.readFloatBE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), ieee754.read(this, offset, !1, 23, 4);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 4, this.length), ieee754.read(this, offset, !1, 23, 4);
             }, Buffer.prototype.readDoubleLE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !0, 52, 8);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 8, this.length), ieee754.read(this, offset, !0, 52, 8);
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
-                return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
+                return offset >>>= 0, !noAssert && checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
                 if (value *= 1, offset >>>= 0, byteLength >>>= 0, !noAssert) {
                     var maxBytes = Math.pow(2, 8 * byteLength) - 1;
@@ -6869,15 +6869,15 @@
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeUInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 1, 0xff, 0), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeUInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeUInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0xffff, 0), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeUInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset + 3] = value >>> 24, this[offset + 2] = value >>> 16, this[offset + 1] = value >>> 8, this[offset] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeUInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0xffffffff, 0), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeIntLE = function(value, offset, byteLength, noAssert) {
                 if (value *= 1, offset >>>= 0, !noAssert) {
                     var limit = Math.pow(2, 8 * byteLength - 1);
@@ -6895,15 +6895,15 @@
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;
             }, Buffer.prototype.writeInt16LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, offset + 2;
             }, Buffer.prototype.writeInt16BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 2, 0x7fff, -32768), this[offset] = value >>> 8, this[offset + 1] = 0xff & value, offset + 2;
             }, Buffer.prototype.writeInt32LE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), this[offset] = 0xff & value, this[offset + 1] = value >>> 8, this[offset + 2] = value >>> 16, this[offset + 3] = value >>> 24, offset + 4;
             }, Buffer.prototype.writeInt32BE = function(value, offset, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
+                return value *= 1, offset >>>= 0, !noAssert && checkInt(this, value, offset, 4, 0x7fffffff, -2147483648), value < 0 && (value = 0xffffffff + value + 1), this[offset] = value >>> 24, this[offset + 1] = value >>> 16, this[offset + 2] = value >>> 8, this[offset + 3] = 0xff & value, offset + 4;
             }, Buffer.prototype.writeFloatLE = function(value, offset, noAssert) {
                 return writeFloat(this, value, offset, !0, noAssert);
             }, Buffer.prototype.writeFloatBE = function(value, offset, noAssert) {
@@ -6916,7 +6916,7 @@
             Buffer.prototype.copy = function(target, targetStart, start, end) {
                 if (!Buffer.isBuffer(target)) throw TypeError("argument should be a Buffer");
                 // Copy 0 bytes; we're done
-                if (start || (start = 0), end || 0 === end || (end = this.length), targetStart >= target.length && (targetStart = target.length), targetStart || (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
+                if (!start && (start = 0), !end && 0 !== end && (end = this.length), targetStart >= target.length && (targetStart = target.length), !targetStart && (targetStart = 0), end > 0 && end < start && (end = start), end === start || 0 === target.length || 0 === this.length) return 0;
                 // Fatal error conditions
                 if (targetStart < 0) throw RangeError("targetStart out of bounds");
                 if (start < 0 || start >= this.length) throw RangeError("Index out of range");
@@ -6947,7 +6947,7 @@
                 // Invalid ranges are not set to a default, so can range check early.
                 if (start < 0 || this.length < start || this.length < end) throw RangeError("Out of range index");
                 if (end <= start) return this;
-                if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
+                if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, !val && (val = 0), "number" == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     var bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
                     if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');

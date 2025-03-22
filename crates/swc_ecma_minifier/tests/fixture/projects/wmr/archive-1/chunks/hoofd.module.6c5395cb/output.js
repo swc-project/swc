@@ -13,7 +13,7 @@ var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, cur
         timeout = null;
         var visited = new Set();
         document.title = applyTitleTemplate(titleQueue[0], titleTemplateQueue[0]), metaQueue.forEach(function(meta) {
-            visited.has(meta.charset ? meta.keyword : meta[meta.keyword]) || (visited.add(meta.charset ? meta.keyword : meta[meta.keyword]), changeOrCreateMetaTag(meta));
+            !visited.has(meta.charset ? meta.keyword : meta[meta.keyword]) && (visited.add(meta.charset ? meta.keyword : meta[meta.keyword]), changeOrCreateMetaTag(meta));
         }), currentTitleIndex = currentTitleTemplateIndex = currentMetaIndex = 0;
     }, 1000 / 60);
 }, {
@@ -21,7 +21,7 @@ var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, cur
         lang = l;
     },
     _addToQueue: function(type, payload) {
-        isServerSide || processQueue(), "S" === type ? scriptQueue.push(payload) : "T" === type ? titleQueue.splice(currentTitleIndex++, 0, payload) : "P" === type ? titleTemplateQueue.splice(currentTitleTemplateIndex++, 0, payload) : "M" === type ? metaQueue.splice(currentMetaIndex++, 0, payload) : linkQueue.push(payload);
+        !isServerSide && processQueue(), "S" === type ? scriptQueue.push(payload) : "T" === type ? titleQueue.splice(currentTitleIndex++, 0, payload) : "P" === type ? titleTemplateQueue.splice(currentTitleTemplateIndex++, 0, payload) : "M" === type ? metaQueue.splice(currentMetaIndex++, 0, payload) : linkQueue.push(payload);
     },
     _removeFromQueue: function(type, payload) {
         if ("T" === type || "P" === type) {

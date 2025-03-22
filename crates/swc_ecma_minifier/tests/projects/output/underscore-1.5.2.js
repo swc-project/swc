@@ -275,7 +275,7 @@
         _.isFunction(isSorted) && (context = iterator, iterator = isSorted, isSorted = !1);
         var initial = iterator ? _.map(array, iterator, context) : array, results = [], seen = [];
         return each(initial, function(value, index) {
-            (isSorted ? index && seen[seen.length - 1] === value : _.contains(seen, value)) || (seen.push(value), results.push(array[index]));
+            (isSorted ? !index || seen[seen.length - 1] !== value : !_.contains(seen, value)) && (seen.push(value), results.push(array[index]));
         }), results;
     }, // Produce an array that contains the union: each distinct element from all of
     // the passed-in arrays.
@@ -406,9 +406,9 @@
         };
         return function() {
             var now = new Date();
-            previous || !1 !== options.leading || (previous = now);
+            !previous && !1 === options.leading && (previous = now);
             var remaining = wait - (now - previous);
-            return context = this, args = arguments, remaining <= 0 ? (clearTimeout(timeout), timeout = null, previous = now, result = func.apply(context, args)) : timeout || !1 === options.trailing || (timeout = setTimeout(later, remaining)), result;
+            return context = this, args = arguments, remaining <= 0 ? (clearTimeout(timeout), timeout = null, previous = now, result = func.apply(context, args)) : !timeout && !1 !== options.trailing && (timeout = setTimeout(later, remaining)), result;
         };
     }, // Returns a function, that, as long as it continues to be invoked, will not
     // be triggered. The function will be called after it stops being called for
@@ -420,9 +420,9 @@
             context = this, args = arguments, timestamp = new Date();
             var later = function() {
                 var last = new Date() - timestamp;
-                last < wait ? timeout = setTimeout(later, wait - last) : (timeout = null, immediate || (result = func.apply(context, args)));
+                last < wait ? timeout = setTimeout(later, wait - last) : (timeout = null, !immediate && (result = func.apply(context, args)));
             }, callNow = immediate && !timeout;
-            return timeout || (timeout = setTimeout(later, wait)), callNow && (result = func.apply(context, args)), result;
+            return !timeout && (timeout = setTimeout(later, wait)), callNow && (result = func.apply(context, args)), result;
         };
     }, // Returns a function that will be executed at most one time, no matter how
     // often you call it. Useful for lazy initialization.
@@ -500,7 +500,7 @@
     }, // Return a copy of the object without the blacklisted properties.
     _.omit = function(obj) {
         var copy = {}, keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-        for(var key in obj)_.contains(keys, key) || (copy[key] = obj[key]);
+        for(var key in obj)!_.contains(keys, key) && (copy[key] = obj[key]);
         return copy;
     }, // Fill in a given object with default properties.
     _.defaults = function(obj) {
@@ -610,7 +610,7 @@
         _["is" + name] = function(obj) {
             return toString.call(obj) == "[object " + name + "]";
         };
-    }), _.isArguments(arguments) || (_.isArguments = function(obj) {
+    }), !_.isArguments(arguments) && (_.isArguments = function(obj) {
         return !!(obj && _.has(obj, "callee"));
     }), "function" != typeof /./ && (_.isFunction = function(obj) {
         return "function" == typeof obj;
@@ -734,7 +734,7 @@
             return source += text.slice(index, offset).replace(escaper, function(match) {
                 return "\\" + escapes[match];
             }), escape && (source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"), interpolate && (source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'"), evaluate && (source += "';\n" + evaluate + "\n__p+='"), index = offset + match.length, match;
-        }), source += "';\n", settings.variable || (source = "with(obj||{}){\n" + source + "}\n"), source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
+        }), source += "';\n", !settings.variable && (source = "with(obj||{}){\n" + source + "}\n"), source = "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
         try {
             render = Function(settings.variable || "obj", "_", source);
         } catch (e) {

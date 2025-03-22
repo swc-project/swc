@@ -84,7 +84,7 @@ function addButton(container, format, value) {
     input.setAttribute('type', 'button'), input.classList.add(`ql-${format}`), null != value && (input.value = value), container.appendChild(input);
 }
 function addControls(container, groups) {
-    Array.isArray(groups[0]) || (groups = [
+    !Array.isArray(groups[0]) && (groups = [
         groups
     ]), groups.forEach((controls)=>{
         const group = document.createElement('span');
@@ -114,7 +114,7 @@ Toolbar.DEFAULTS = {}, Toolbar.DEFAULTS = {
         },
         direction (value) {
             const { align } = this.quill.getFormat();
-            'rtl' === value && null == align ? this.quill.format('align', 'right', Quill.sources.USER) : value || 'right' !== align || this.quill.format('align', !1, Quill.sources.USER), this.quill.format('direction', value, Quill.sources.USER);
+            'rtl' === value && null == align ? this.quill.format('align', 'right', Quill.sources.USER) : !value && 'right' === align && this.quill.format('align', !1, Quill.sources.USER), this.quill.format('direction', value, Quill.sources.USER);
         },
         indent (value) {
             const range = this.quill.getSelection(), formats = this.quill.getFormat(range), indent = parseInt(formats.indent || 0, 10);
