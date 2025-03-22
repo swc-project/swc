@@ -136,6 +136,15 @@ better_scoped_tls::scoped_tls!(
     ///
     /// # Usages
     ///
+    /// ## Configuring
+    ///
+    /// ```rust
+    ///
+    /// GLOBALS.set(&Default::default(), || {
+    ///     // Do operations that require span hygiene
+    /// });
+    /// ```
+    ///
     /// ## Span hygiene
     ///
     /// [Mark]s are stored in this variable.
