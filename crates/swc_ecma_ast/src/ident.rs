@@ -572,6 +572,14 @@ impl Ident {
         }
     }
 
+    /// Creates a new private identifier. A private identifier is an identifier
+    /// that is guaranteed to be unique.
+    ///
+    /// See https://swc.rs/docs/contributing/es-commons/variable-management for more details.
+    ///
+    /// Note: This method requires configuring
+    /// [GLOBALS](`swc_common::GLOBALS`) because this method use [`Mark::new`]
+    /// internally.
     #[inline(never)]
     pub fn new_private(sym: Atom, span: Span) -> Self {
         Self::new(sym, span, SyntaxContext::empty().apply_mark(Mark::new()))
