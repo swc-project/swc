@@ -17,7 +17,9 @@ use swc_core::{
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
-        errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
+        errors::{to_pretty_string, ColorConfig},
+        sync::Lazy,
+        FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
     },
     trace_macro::swc_trace,
 };
@@ -419,11 +421,14 @@ impl CompileOptions {
         let inputs = self.collect_inputs()?;
 
         let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
+            let color = ColorConfig::Always;
+            let skip_filename = false;
+
             try_with_handler(
                 compiler.cm.clone(),
                 HandlerOpts {
-                    color: ColorConfig::Always,
-                    skip_filename: false,
+                    color,
+                    skip_filename,
                 },
                 |handler| {
                     GLOBALS.set(&Default::default(), || {
@@ -431,6 +436,11 @@ impl CompileOptions {
                     })
                 },
             )
+            .map_err(|e| {
+                let error_msg =
+                    to_pretty_string(e.iter(), &compiler.cm.clone(), color, skip_filename);
+                anyhow::anyhow!(error_msg)
+            })
         };
 
         if let Some(single_out_file) = self.out_file.as_ref() {
