@@ -10,7 +10,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
 
-        let left = match self.parse_unary_expr() {
+        let left = match maybe_grow_default(|| self.parse_unary_expr()) {
             Ok(v) => v,
             Err(err) => {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // UpdateExpression
-        let expr = self.parse_lhs_expr()?;
+        let expr = maybe_grow_default(|| self.parse_lhs_expr())?;
         return_if_arrow!(self, expr);
 
         // Line terminator isn't allowed here.
