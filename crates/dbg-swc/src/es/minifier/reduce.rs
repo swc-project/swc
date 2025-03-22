@@ -7,7 +7,7 @@ use std::{
 };
 
 use anyhow::{Context, Result};
-use clap::{ArgEnum, Args};
+use clap::{Args, ValueEnum};
 use rayon::prelude::*;
 use sha1::{Digest, Sha1};
 use swc_common::{SourceMap, GLOBALS};
@@ -45,7 +45,7 @@ pub struct ReduceCommand {
     ///
     /// In 'semantics' mode, this command tries to reduce the input file to a
     /// minimal reproduction case which triggers the bug.
-    #[clap(long, arg_enum)]
+    #[clap(long, value_enum)]
     pub mode: ReduceMode,
 
     /// If true, the input file will be removed after the reduction. This can be
@@ -54,7 +54,7 @@ pub struct ReduceCommand {
     pub remove: bool,
 }
 
-#[derive(Debug, Clone, Copy, ArgEnum)]
+#[derive(Debug, Clone, Copy, ValueEnum)]
 pub enum ReduceMode {
     Size,
     Semantics,
