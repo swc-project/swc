@@ -340,6 +340,9 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     pub const_to_let: bool,
 
+    #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
+    pub reduce_escaped_newline: bool,
+
     /// If you modified globals, set this to false.
     ///
     /// Defaults to true.
@@ -437,6 +440,7 @@ impl Default for CompressOptions {
             unsafe_undefined: false,
             unused: true,
             const_to_let: true,
+            reduce_escaped_newline: true,
             pristine_globals: true,
         }
     }

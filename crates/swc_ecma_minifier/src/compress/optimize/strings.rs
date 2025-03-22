@@ -4,6 +4,9 @@ use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
 
+const ESCAPED_NEWLINE: &str = "\\n";
+const UNESCAPED_NEWLINE: &str = "\n";
+
 impl Optimizer<'_> {
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
         if !self.options.unsafe_passes {
@@ -135,6 +138,37 @@ impl Optimizer<'_> {
             }
 
             _ => {}
+        }
+    }
+
+    pub(super) fn reduce_escaped_newline_for_tpl_element(&mut self, elm: &mut TplElement) {
+        if elm.raw.contains(ESCAPED_NEWLINE) {
+            elm.raw = elm.raw.replace(ESCAPED_NEWLINE, UNESCAPED_NEWLINE).into();
+            self.changed = true;
+            report_change!("strings: Reduced escaped newline in a template element");
+        }
+    }
+
+    pub(super) fn reduce_escaped_newline_for_str_lit(&mut self, expr: &mut Expr) {
+        if !self.options.reduce_escaped_newline || self.options.ecma < EsVersion::Es2015 {
+            return;
+        }
+
+        if let Expr::Lit(Lit::Str(str)) = expr {
+            if str.value.contains(UNESCAPED_NEWLINE) {
+                *expr = Expr::Tpl(Tpl {
+                    span: str.span,
+                    exprs: Default::default(),
+                    quasis: vec![TplElement {
+                        span: str.span,
+                        cooked: Some(str.value.clone().into()),
+                        raw: str.value.clone(),
+                        tail: true,
+                    }],
+                });
+                self.changed = true;
+                report_change!("strings: Reduced escaped newline in a string literal");
+            }
         }
     }
 }
