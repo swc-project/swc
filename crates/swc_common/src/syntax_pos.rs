@@ -139,6 +139,7 @@ better_scoped_tls::scoped_tls!(
     /// ## Configuring
     ///
     /// ```rust
+    /// use swc_common::GLOBALS;
     ///
     /// GLOBALS.set(&Default::default(), || {
     ///     // Do operations that require span hygiene
