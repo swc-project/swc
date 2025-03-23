@@ -15,6 +15,17 @@ impl Pure<'_> {
     pub(super) fn negate_bool_for_expr_stmt(&mut self, e: &mut Expr) {
         self.negate_bool_preserving_semantics(e, false);
 
+        if self.options.negate_iife {
+            if let Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) = e
+            {
+                if arg.is_fn_expr() {
+                    return;
+                }
+            }
+        }
+
         let cost = negate_cost(self.expr_ctx, e, false, true);
         if cost >= 0 {
             return;
