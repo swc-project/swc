@@ -1827,7 +1827,7 @@
                                     };
                                 }
                                 const error = Error("Failed to load static props");
-                                throw !isServerRender && _routeLoader.markAssetError(error), error;
+                                throw isServerRender || _routeLoader.markAssetError(error), error;
                             }
                             return {
                                 dataHref,
@@ -2085,7 +2085,7 @@
                                 if (yield _this.set(upcomingRouterState, routeInfo, upcomingScrollState).catch((e)=>{
                                     if (e.cancelled) error = error || e;
                                     else throw e;
-                                }), error) throw !isQueryUpdating && Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
+                                }), error) throw isQueryUpdating || Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
                                 isQueryUpdating || Router.events.emit("routeChangeComplete", as, routeProps), shouldScroll && /#.+$/.test(as) && _this.scrollToHash(as);
                             }
                             return !0;

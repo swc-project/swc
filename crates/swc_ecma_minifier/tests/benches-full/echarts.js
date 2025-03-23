@@ -4799,7 +4799,7 @@
             return clz;
         }, target.getClass = function(mainType, subType, throwWhenNotFound) {
             var clz = storage[mainType];
-            if (clz && clz[IS_CONTAINER] && (clz = subType ? clz[subType] : null), throwWhenNotFound && !clz) throw Error(!subType ? mainType + ".type should be specified." : 'Component ' + mainType + '.' + (subType || '') + ' is used but not imported.');
+            if (clz && clz[IS_CONTAINER] && (clz = subType ? clz[subType] : null), throwWhenNotFound && !clz) throw Error(subType ? 'Component ' + mainType + '.' + (subType || '') + ' is used but not imported.' : mainType + ".type should be specified.");
             return clz;
         }, target.getClassesByMainType = function(componentType) {
             var componentTypeInfo = parseClassType(componentType), result = [], obj = storage[componentTypeInfo.main];

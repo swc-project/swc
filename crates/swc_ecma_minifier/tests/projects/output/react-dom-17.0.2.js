@@ -6873,7 +6873,7 @@
             var attemptToReadValue, didUpgrade = !1, fiber = currentlyRenderingFiber$1, id = {
                 $$typeof: REACT_OPAQUE_ID_TYPE,
                 toString: attemptToReadValue = function() {
-                    throw !didUpgrade && (// Only upgrade once. This works even inside the render phase because
+                    throw didUpgrade || (// Only upgrade once. This works even inside the render phase because
                     // the update is added to a shared queue, which outlasts the
                     // in-progress render.
                     didUpgrade = !0, isUpdatingOpaqueValueInRenderPhase = !0, setId(makeId()), isUpdatingOpaqueValueInRenderPhase = !1, warnOnOpaqueIdentifierAccessInDEV(fiber)), Error("The object passed back from useOpaqueIdentifier is meant to be passed through to attributes only. Do not read the value directly.");
