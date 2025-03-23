@@ -1,7 +1,3 @@
-#[cfg(feature = "debug")]
-use std::fmt::{self, Debug, Display, Formatter};
-#[cfg(feature = "debug")]
-use std::thread;
 use std::{borrow::Cow, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
@@ -213,19 +209,6 @@ impl Compressor<'_> {
                     end_time - start_time,
                     self.pass
                 );
-            }
-
-            #[cfg(feature = "debug")]
-            if !visitor.changed() {
-                let simplified = force_dump_program(n);
-                if start != simplified {
-                    assert_eq!(
-                        DebugUsingDisplay(&start),
-                        DebugUsingDisplay(&simplified),
-                        "Invalid state: expr_simplifier: The code is changed but changed is not \
-                         setted to true",
-                    )
-                }
             }
         }
 
