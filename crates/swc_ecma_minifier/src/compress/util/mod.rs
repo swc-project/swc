@@ -95,7 +95,7 @@ fn negate_inner(
         {
             trace_op!("negate: cond");
 
-            let a = negate_inner(expr_ctx, cons, in_bool_ctx || is_ret_val_ignored, false);
+            let a = negate_inner(expr_ctx, cons, in_bool_ctx, false);
             let b = negate_inner(expr_ctx, alt, in_bool_ctx, is_ret_val_ignored);
             return a || b;
         }
@@ -261,7 +261,12 @@ pub(crate) fn negate_cost(
         }
 
         Expr::Bin(expr) => {
-            let lc = negate_cost(expr_ctx, &expr.left, in_bool_ctx, is_ret_val_ignored);
+            let lc = negate_cost(
+                expr_ctx,
+                &expr.left,
+                in_bool_ctx || is_ret_val_ignored,
+                false,
+            );
             let rc = negate_cost(expr_ctx, &expr.right, in_bool_ctx, is_ret_val_ignored);
 
             match &*expr.right {
@@ -276,6 +281,8 @@ pub(crate) fn negate_cost(
                         || (*op_of_rhs == op!("&&") && expr.op == op!("??"))
                     {
                         return lc + rc + 2;
+                    } else {
+                        return lc + rc - 2;
                     }
 
                     lc + rc

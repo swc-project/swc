@@ -219,7 +219,7 @@ fn negate_cost_6() {
          imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
         true,
         true,
-        4,
+        0,
     );
 }
 
@@ -263,7 +263,7 @@ fn next_31077_1() {
          this.addHackNode('BR')))",
         true,
         true,
-        -3,
+        0,
     );
 }
 
