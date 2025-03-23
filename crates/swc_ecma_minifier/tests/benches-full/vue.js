@@ -777,7 +777,7 @@
                     return;
                 }
                 var validator = prop.validator;
-                validator && !validator(value) && warn('Invalid prop: custom validator check failed for prop "' + name + '".', vm);
+                validator && (validator(value) || warn('Invalid prop: custom validator check failed for prop "' + name + '".', vm));
             }
         }(prop, key, value, vm, absent), value);
     }
@@ -1597,7 +1597,7 @@
    * Add a dependency to this directive.
    */ Watcher.prototype.addDep = function(dep) {
         var id = dep.id;
-        this.newDepIds.has(id) || (this.newDepIds.add(id), this.newDeps.push(dep), this.depIds.has(id) || dep.addSub(this));
+        !this.newDepIds.has(id) && (this.newDepIds.add(id), this.newDeps.push(dep), this.depIds.has(id) || dep.addSub(this));
     }, /**
    * Clean up for dependency collection.
    */ Watcher.prototype.cleanupDeps = function() {
@@ -2775,7 +2775,7 @@
                     pendingNode && pendingNode.tag === vnode.tag && pendingNode.elm._leaveCb && pendingNode.elm._leaveCb(), enterHook && enterHook(el, cb);
                 }), // start enter transition
                 beforeEnterHook && beforeEnterHook(el), expectsCSS && (addTransitionClass(el, startClass), addTransitionClass(el, activeClass), nextFrame(function() {
-                    removeTransitionClass(el, startClass), cb.cancelled || (addTransitionClass(el, toClass), userWantsControl || (isValidDuration(explicitEnterDuration) ? setTimeout(cb, explicitEnterDuration) : whenTransitionEnds(el, type, cb)));
+                    removeTransitionClass(el, startClass), !cb.cancelled && (addTransitionClass(el, toClass), userWantsControl || (isValidDuration(explicitEnterDuration) ? setTimeout(cb, explicitEnterDuration) : whenTransitionEnds(el, type, cb)));
                 })), vnode.data.show && (toggleDisplay && toggleDisplay(), enterHook && enterHook(el, cb)), expectsCSS || userWantsControl || cb();
             }
         }
@@ -2796,8 +2796,8 @@
         }
         function performLeave() {
             // the delayed leave may have already been cancelled
-            cb.cancelled || (!vnode.data.show && el.parentNode && ((el.parentNode._pending || (el.parentNode._pending = {}))[vnode.key] = vnode), beforeLeave && beforeLeave(el), expectsCSS && (addTransitionClass(el, leaveClass), addTransitionClass(el, leaveActiveClass), nextFrame(function() {
-                removeTransitionClass(el, leaveClass), cb.cancelled || (addTransitionClass(el, leaveToClass), userWantsControl || (isValidDuration(explicitLeaveDuration) ? setTimeout(cb, explicitLeaveDuration) : whenTransitionEnds(el, type, cb)));
+            !cb.cancelled && (!vnode.data.show && el.parentNode && ((el.parentNode._pending || (el.parentNode._pending = {}))[vnode.key] = vnode), beforeLeave && beforeLeave(el), expectsCSS && (addTransitionClass(el, leaveClass), addTransitionClass(el, leaveActiveClass), nextFrame(function() {
+                removeTransitionClass(el, leaveClass), !cb.cancelled && (addTransitionClass(el, leaveToClass), userWantsControl || (isValidDuration(explicitLeaveDuration) ? setTimeout(cb, explicitLeaveDuration) : whenTransitionEnds(el, type, cb)));
             })), leave && leave(el, cb), expectsCSS || userWantsControl || cb());
         }
     }
@@ -4079,7 +4079,7 @@
                     start: el.start
                 }), el.attrsMap.hasOwnProperty('v-for') && warnOnce("Cannot use v-for on stateful component root element because it renders multiple elements.", el.rawAttrsMap['v-for']);
             }
-            return function(html, options) {
+            return !function(html, options) {
                 for(var last, lastTag, stack = [], expectHTML = options.expectHTML, isUnaryTag$$1 = options.isUnaryTag || no, canBeLeftOpenTag$$1 = options.canBeLeftOpenTag || no, index = 0; html;){
                     // Make sure we're not in a plaintext content element like script/style
                     if (last = html, lastTag && isPlainTextElement(lastTag)) {
@@ -4447,7 +4447,7 @@
         // resolve template/el and convert to render function
         if (!options.render) {
             var template = options.template;
-            if (template) if ('string' == typeof template) '#' !== template.charAt(0) || (template = idToTemplate(template)) || warn("Template element not found or is empty: " + options.template, this);
+            if (template) if ('string' == typeof template) '#' === template.charAt(0) && ((template = idToTemplate(template)) || warn("Template element not found or is empty: " + options.template, this));
             else {
                 if (!template.nodeType) return warn('invalid template option:' + template, this), this;
                 template = template.innerHTML;

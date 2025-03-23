@@ -458,13 +458,13 @@
                 if (list) {
                     // First, we save the current length
                     var start = list.length;
-                    (function add(args) {
+                    !function add(args) {
                         jQuery.each(args, function(_, arg) {
                             var type = jQuery.type(arg);
                             "function" === type ? options.unique && self.has(arg) || list.push(arg) : arg && arg.length && "string" !== type && // Inspect recursively
                             add(arg);
                         });
-                    })(arguments), firing ? firingLength = list.length : memory && (firingStart = start, fire(memory));
+                    }(arguments), firing ? firingLength = list.length : memory && (firingStart = start, fire(memory));
                 }
                 return this;
             },
@@ -716,7 +716,7 @@
             id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
             // Avoid doing any more work than we need to when trying to get data on an
             // object that has no data at all
-            if (id && cache[id] && (pvt || cache[id].data) || !getByName || undefined !== data) return id || (isNode ? elem[internalKey] = id = core_deletedIds.pop() || jQuery.guid++ : id = internalKey), cache[id] || (cache[id] = {}, isNode || (cache[id].toJSON = jQuery.noop)), ("object" == typeof name1 || "function" == typeof name1) && (pvt ? cache[id] = jQuery.extend(cache[id], name1) : cache[id].data = jQuery.extend(cache[id].data, name1)), thisCache = cache[id], pvt || (thisCache.data || (thisCache.data = {}), thisCache = thisCache.data), undefined !== data && (thisCache[jQuery.camelCase(name1)] = data), getByName ? null == // First Try to find as-is property data
+            if (id && cache[id] && (pvt || cache[id].data) || !getByName || undefined !== data) return id || (isNode ? elem[internalKey] = id = core_deletedIds.pop() || jQuery.guid++ : id = internalKey), !cache[id] && (cache[id] = {}, isNode || (cache[id].toJSON = jQuery.noop)), ("object" == typeof name1 || "function" == typeof name1) && (pvt ? cache[id] = jQuery.extend(cache[id], name1) : cache[id].data = jQuery.extend(cache[id].data, name1)), thisCache = cache[id], pvt || (thisCache.data || (thisCache.data = {}), thisCache = thisCache.data), undefined !== data && (thisCache[jQuery.camelCase(name1)] = data), getByName ? null == // First Try to find as-is property data
             (ret = thisCache[name1]) && // Try to find the camelCased property
             (ret = thisCache[jQuery.camelCase(name1)]) : ret = thisCache, ret;
         }
@@ -974,7 +974,7 @@
             if (!arguments.length) return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && (ret = hooks.get(elem, "value")) !== undefined ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
             return isFunction = jQuery.isFunction(value), this.each(function(i) {
                 var val, self = jQuery(this);
-                1 !== this.nodeType || (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
+                1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
                     return null == value ? "" : value + "";
                 })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && hooks.set(this, val, "value") !== undefined || (this.value = val));
             });
@@ -1059,7 +1059,7 @@
                 if (1 === nType && jQuery.isXMLDoc(elem) || (// Fix name and attach hooks
                 name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), undefined !== value) if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name1)) !== undefined) return ret;
                 else return elem[name1] = value;
-                return hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : (0, elem[name1]);
+                return hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
             }
         },
         propHooks: {
@@ -2878,7 +2878,7 @@
         for(var display, elem, hidden, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (values[index] = jQuery._data(elem, "olddisplay"), display = elem.style.display, show ? (values[index] || "none" !== display || (elem.style.display = ""), "" === elem.style.display && isHidden(elem) && (values[index] = jQuery._data(elem, "olddisplay", css_defaultDisplay(elem.nodeName)))) : values[index] || (hidden = isHidden(elem), (display && "none" !== display || !hidden) && jQuery._data(elem, "olddisplay", hidden ? display : jQuery.css(elem, "display"))));
         // Set the display of most of the elements in a second loop
         // to avoid the constant reflow
-        for(index = 0; index < length; index++)(elem = elements[index]).style && (!show || "none" === elem.style.display || "" === elem.style.display) && (elem.style.display = show ? values[index] || "" : "none");
+        for(index = 0; index < length; index++)(elem = elements[index]).style && (show && "none" !== elem.style.display && "" !== elem.style.display || (elem.style.display = show ? values[index] || "" : "none"));
         return elements;
     }
     function setPositiveNumber(elem, value, subtract) {
@@ -3060,10 +3060,10 @@
             // if value === "", then remove inline opacity #12685
             // IE has trouble with opacity if it does not have layout
             // Force it by setting the zoom level
-            style.zoom = 1, (!(value >= 1) && "" !== value || "" !== jQuery.trim(filter.replace(ralpha, "")) || !style.removeAttribute || (// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
+            style.zoom = 1, (value >= 1 || "" === value) && "" === jQuery.trim(filter.replace(ralpha, "")) && style.removeAttribute && (// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
             // if "filter:" is present at all, clearType is disabled, we want to avoid this
             // style.removeAttribute is IE Only, but so apparently is this code path...
-            style.removeAttribute("filter"), "" !== value && (!currentStyle || currentStyle.filter))) && // otherwise, set new filter values
+            style.removeAttribute("filter"), "" === value || currentStyle && !currentStyle.filter) || // otherwise, set new filter values
             (style.filter = ralpha.test(filter) ? filter.replace(ralpha, opacity) : filter + " " + opacity);
         }
     }), // These hooks cannot be added until DOM ready because the support test
@@ -3154,7 +3154,7 @@
         });
         else // If traditional, encode the "old" way (the way 1.3.2 or older
         // did it), otherwise encode params recursively.
-        for(prefix in a)(function buildParams(prefix, obj, traditional, add) {
+        for(prefix in a)!function buildParams(prefix, obj, traditional, add) {
             var name1;
             if (jQuery.isArray(obj)) // Serialize array item.
             jQuery.each(obj, function(i, v) {
@@ -3166,7 +3166,7 @@
             add(prefix, obj);
             else // Serialize object item.
             for(name1 in obj)buildParams(prefix + "[" + name1 + "]", obj[name1], traditional, add);
-        })(prefix, a[prefix], traditional, add);
+        }(prefix, a[prefix], traditional, add);
         // Return the resulting serialization
         return s.join("&").replace(r20, "+");
     }, jQuery.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "), function(i, name1) {
@@ -3427,7 +3427,7 @@
             s.type = s.type.toUpperCase(), // Determine if request has content
             s.hasContent = !rnoContent.test(s.type), // Save the URL in case we're toying with the If-Modified-Since
             // and/or If-None-Match header later on
-            cacheURL = s.url, s.hasContent || (s.data && (cacheURL = s.url += (ajax_rquery.test(cacheURL) ? "&" : "?") + s.data, // #9682: remove data so that it's not used in an eventual retry
+            cacheURL = s.url, !s.hasContent && (s.data && (cacheURL = s.url += (ajax_rquery.test(cacheURL) ? "&" : "?") + s.data, // #9682: remove data so that it's not used in an eventual retry
             delete s.data), !1 === s.cache && (s.url = rts.test(cacheURL) ? cacheURL.replace(rts, "$1_=" + ajax_nonce++) : cacheURL + (ajax_rquery.test(cacheURL) ? "&" : "?") + "_=" + ajax_nonce++)), s.ifModified && (jQuery.lastModified[cacheURL] && jqXHR.setRequestHeader("If-Modified-Since", jQuery.lastModified[cacheURL]), jQuery.etag[cacheURL] && jqXHR.setRequestHeader("If-None-Match", jQuery.etag[cacheURL])), (s.data && s.hasContent && !1 !== s.contentType || options.contentType) && jqXHR.setRequestHeader("Content-Type", s.contentType), // Set the Accepts header for the server, depending on the dataType
             jqXHR.setRequestHeader("Accept", s.dataTypes[0] && s.accepts[s.dataTypes[0]] ? s.accepts[s.dataTypes[0]] + ("*" !== s.dataTypes[0] ? ", " + allTypes + "; q=0.01" : "") : s.accepts["*"]), s.headers)jqXHR.setRequestHeader(i, s.headers[i]);
             // Allow custom headers/mimetypes and early abort
@@ -3461,7 +3461,7 @@
             function done(status, nativeStatusText, responses, headers) {
                 var isSuccess, success, error, response, modified, statusText = nativeStatusText;
                 // Called once
-                2 === state || (// State is "done" now
+                2 !== state && (// State is "done" now
                 state = 2, timeoutTimer && clearTimeout(timeoutTimer), // Dereference transport for early garbage collection
                 // (no matter how long the jqXHR object will be used)
                 transport = undefined, // Cache response headers
@@ -3562,7 +3562,7 @@
                 completeDeferred.fireWith(callbackContext, [
                     jqXHR,
                     statusText
-                ]), !fireGlobals || (globalEventContext.trigger("ajaxComplete", [
+                ]), fireGlobals && (globalEventContext.trigger("ajaxComplete", [
                     jqXHR,
                     s
                 ]), --jQuery.active || jQuery.event.trigger("ajaxStop")));
@@ -3731,7 +3731,7 @@
         function(elem, props, opts) {
             /*jshint validthis:true */ var prop, index, length, value, dataShow, toggle, tween, hooks, oldfire, anim = this, style = elem.style, orig = {}, handled = [], hidden = elem.nodeType && isHidden(elem);
             // show/hide pass
-            for(index in opts.queue || (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
+            for(index in !opts.queue && (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
                 hooks.unqueued || oldfire();
             }), hooks.unqueued++, anim.always(function() {
                 // doing this makes sure that the complete handler will be called
@@ -3747,7 +3747,7 @@
                 style.overflow,
                 style.overflowX,
                 style.overflowY
-            ], "inline" === jQuery.css(elem, "display") && "none" === jQuery.css(elem, "float") && (jQuery.support.inlineBlockNeedsLayout && "inline" !== css_defaultDisplay(elem.nodeName) ? style.zoom = 1 : style.display = "inline-block")), opts.overflow && (style.overflow = "hidden", jQuery.support.shrinkWrapBlocks || anim.always(function() {
+            ], "inline" === jQuery.css(elem, "display") && "none" === jQuery.css(elem, "float") && (jQuery.support.inlineBlockNeedsLayout && "inline" !== css_defaultDisplay(elem.nodeName) ? style.zoom = 1 : style.display = "inline-block")), opts.overflow && (style.overflow = "hidden", !jQuery.support.shrinkWrapBlocks && anim.always(function() {
                 style.overflow = opts.overflow[0], style.overflowX = opts.overflow[1], style.overflowY = opts.overflow[2];
             })), props)if (value = props[index], rfxtypes.exec(value)) {
                 if (delete props[index], toggle = toggle || "toggle" === value, value === (hidden ? "hide" : "show")) continue;

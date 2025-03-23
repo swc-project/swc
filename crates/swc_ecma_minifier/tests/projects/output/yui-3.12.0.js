@@ -542,7 +542,7 @@ with any configuration info required for the module.
                 return Y._attach(args) && handleLoader(), Y;
             }
             return (mods.loader || mods["loader-base"]) && !Y.Loader && Y._attach([
-                "loader" + (mods.loader ? "" : "-base")
+                "loader" + (!mods.loader ? "-base" : "")
             ]), boot && Y.Loader && args.length && ((loader = getLoader(Y)).require(args), loader.ignoreRegistered = !0, loader._boot = !0, loader.calculate(null, fetchCSS ? null : "js"), args = loader.sorted, loader._boot = !1), process1(args), (len = missing.length) && (len = (missing = YArray.dedupe(missing)).length), boot && len && Y.Loader ? (Y._loading = !0, (loader = getLoader(Y)).onEnd = handleLoader, loader.context = Y, loader.data = args, loader.ignoreRegistered = !1, loader.require(missing), loader.insert(null, fetchCSS ? null : "js")) : boot && len && Y.Get && !Env.bootstrapped ? (Y._loading = !0, handleBoot = function() {
                 Y._loading = !1, queue.running = !1, Env.bootstrapped = !0, G_ENV._bootstrapping = !1, Y._attach([
                     "loader"
@@ -3063,7 +3063,7 @@ Id of the most recent transaction.
         // -- Protected Methods ----------------------------------------------------
         _createNode: function(name, attrs, doc) {
             var attr, testEl, node = doc.createElement(name);
-            for(attr in CUSTOM_ATTRS || (// IE6 and IE7 expect property names rather than attribute names for
+            for(attr in !CUSTOM_ATTRS && (// IE6 and IE7 expect property names rather than attribute names for
             // certain attributes. Rather than sniffing, we do a quick feature
             // test the first time _createNode() runs to determine whether we
             // need to provide a workaround.
@@ -3135,7 +3135,7 @@ Id of the most recent transaction.
             this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
         },
         _next: function() {
-            this._pending || (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
+            !this._pending && (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
         },
         _poll: function(newReq) {
             var i, j, nodeHref, req, sheets, self = this, pendingCSS = self._pendingCSS, isWebKit = Y.UA.webkit;
@@ -4151,7 +4151,7 @@ Contains the core of YUI's feature test architecture.
        * @private
        */ _addSkin: function(skin, mod, parent) {
             var mdef, pkg, name, nmod, info = this.moduleInfo, sinf = this.skin, ext = info[mod] && info[mod].ext;
-            return mod && !info[name = this.formatSkin(skin, mod)] && (pkg = (mdef = info[mod]).pkg || mod, nmod = {
+            return mod && (info[name = this.formatSkin(skin, mod)] || (pkg = (mdef = info[mod]).pkg || mod, nmod = {
                 skin: !0,
                 name: name,
                 group: mdef.group,
@@ -4159,7 +4159,7 @@ Contains the core of YUI's feature test architecture.
                 after: sinf.after,
                 path: (parent || pkg) + "/" + sinf.base + skin + "/" + mod + ".css",
                 ext: ext
-            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name)), name;
+            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name))), name;
         },
         /**
        * Adds an alias module to the system
@@ -4439,7 +4439,7 @@ Contains the core of YUI's feature test architecture.
             packName = this.getLangPackName("", name), this._addLangPack(null, m, packName)));
             // expand the list to include superseded modules
             for(j in //l = Y.merge(this.inserted);
-            l = {}, this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
+            l = {}, !this.ignoreRegistered && Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
             // remove modules on the force list from the loaded list
             if (this.force) for(i = 0; i < this.force.length; i++)this.force[i] in l && delete l[this.force[i]];
             Y.mix(this.loaded, l), this._init = !0;

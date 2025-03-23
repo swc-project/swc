@@ -13,7 +13,7 @@
             });
             // UNUSED EXPORTS: CacheProvider, ClassNames, ThemeContext, ThemeProvider, __unsafe_useEmotionCache, createElement, css, jsx, keyframes, useTheme, withEmotionCache, withTheme
             // EXTERNAL MODULE: ./node_modules/react/index.js
-            var cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
+            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -347,6 +347,7 @@
                  * @param {number} length
                  * @return {string}
                  */ function prefix(value, length) {
+                                var search, search1;
                                 switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     // color-adjust
                                     case 5103:
@@ -456,7 +457,7 @@
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             // (s)tretch
                                             case 115:
-                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~(search = "stretch", value.indexOf(search)) ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     // position: sticky
@@ -465,7 +466,7 @@
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     // display: (flex|inline-flex)
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~(search1 = "!important", value.indexOf(search1)) && 10))){
                                             // stic(k)y
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
@@ -498,25 +499,28 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) return element.props.map(function(value) {
-                                var value1;
-                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                    // :read-(only|write)
-                                    case ":read-only":
-                                    case ":read-write":
-                                        return serialize([
-                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
-                                        ], callback);
-                                    // :placeholder
-                                    case "::placeholder":
-                                        return serialize([
-                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
-                                        ], callback);
-                                }
-                                return "";
-                            }).join("");
+                            if (element.length) {
+                                var array, callback1;
+                                return array = element.props, callback1 = function(value) {
+                                    var value1;
+                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                        // :read-(only|write)
+                                        case ":read-only":
+                                        case ":read-write":
+                                            return serialize([
+                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
+                                            ], callback);
+                                        // :placeholder
+                                        case "::placeholder":
+                                            return serialize([
+                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
+                                            ], callback);
+                                    }
+                                    return "";
+                                }, array.map(callback1).join("");
+                            }
                     }
                 }
             ], hash_browser_esm = /* eslint-disable */ // Inspired by https://github.com/garycourt/murmurhash-js
@@ -590,8 +594,10 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = (cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
+            }, processStyleName = (fn = function(styleName) {
+                return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+            }, cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":

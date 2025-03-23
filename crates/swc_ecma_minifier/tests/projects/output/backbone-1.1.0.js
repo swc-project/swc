@@ -101,7 +101,7 @@
             var listeningTo = this._listeningTo;
             if (!listeningTo) return this;
             var remove = !name && !callback;
-            for(var id in callback || "object" != typeof name || (callback = this), obj && ((listeningTo = {})[obj._listenId] = obj), listeningTo)(obj = listeningTo[id]).off(name, callback, this), (remove || _.isEmpty(obj._events)) && delete this._listeningTo[id];
+            for(var id in !callback && "object" == typeof name && (callback = this), obj && ((listeningTo = {})[obj._listenId] = obj), listeningTo)(obj = listeningTo[id]).off(name, callback, this), (remove || _.isEmpty(obj._events)) && delete this._listeningTo[id];
             return this;
         }
     }, eventSplitter = /\s+/, eventsApi = function(obj, action, name, rest) {
@@ -211,7 +211,7 @@
             if ("object" == typeof key ? (attrs = key, options = val) : (attrs = {})[key] = val, options || (options = {}), !this._validate(attrs, options)) return !1;
             // For each `set` attribute, update or delete the current value.
             for(attr in // Extract attributes and options.
-            unset = options.unset, silent = options.silent, changes = [], changing = this._changing, this._changing = !0, changing || (this._previousAttributes = _.clone(this.attributes), this.changed = {}), current = this.attributes, prev = this._previousAttributes, this.idAttribute in attrs && (this.id = attrs[this.idAttribute]), attrs)val = attrs[attr], _.isEqual(current[attr], val) || changes.push(attr), _.isEqual(prev[attr], val) ? delete this.changed[attr] : this.changed[attr] = val, unset ? delete current[attr] : current[attr] = val;
+            unset = options.unset, silent = options.silent, changes = [], changing = this._changing, this._changing = !0, !changing && (this._previousAttributes = _.clone(this.attributes), this.changed = {}), current = this.attributes, prev = this._previousAttributes, this.idAttribute in attrs && (this.id = attrs[this.idAttribute]), attrs)val = attrs[attr], _.isEqual(current[attr], val) || changes.push(attr), _.isEqual(prev[attr], val) ? delete this.changed[attr] : this.changed[attr] = val, unset ? delete current[attr] : current[attr] = val;
             // Trigger all relevant attribute changes.
             if (!silent) {
                 changes.length && (this._pending = !0);

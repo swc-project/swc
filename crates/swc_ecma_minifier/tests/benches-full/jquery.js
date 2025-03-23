@@ -1515,7 +1515,7 @@
         self = {
             // Add a callback or a collection of callbacks to the list
             add: function() {
-                return list && (memory && !firing && (firingIndex = list.length - 1, queue.push(memory)), function add(args) {
+                return list && (memory && !firing && (firingIndex = list.length - 1, queue.push(memory)), !function add(args) {
                     jQuery.each(args, function(_, arg) {
                         isFunction(arg) ? options.unique && self.has(arg) || list.push(arg) : arg && arg.length && "string" !== toType(arg) && // Inspect recursively
                         add(arg);
@@ -1557,7 +1557,7 @@
             },
             // Call all callbacks with the given context and arguments
             fireWith: function(context, args) {
-                return locked || (args = [
+                return !locked && (args = [
                     context,
                     (args = args || []).slice ? args.slice() : args
                 ], queue.push(args), firing || fire()), this;
@@ -2048,7 +2048,7 @@
     var defaultDisplayMap = {};
     function showHide(elements, show) {
         // Determine new display value for elements that need to change
-        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" !== display || (values[index] = dataPriv.get(elem, "display") || null, values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = function(elem) {
+        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" === display && (values[index] = dataPriv.get(elem, "display") || null, values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = function(elem) {
             var temp, doc = elem.ownerDocument, nodeName = elem.nodeName, display = defaultDisplayMap[nodeName];
             return display || (temp = doc.body.appendChild(doc.createElement(nodeName)), display = jQuery.css(temp, "display"), temp.parentNode.removeChild(temp), "none" === display && (display = "block"), defaultDisplayMap[nodeName] = display), display;
         }(elem))) : "none" !== display && (values[index] = "none", // Remember what we're overwriting
@@ -3159,7 +3159,7 @@
             function(elem, props, opts) {
                 var prop, value, toggle, hooks, oldfire, propTween, restoreDisplay, display, isBox = "width" in props || "height" in props, anim = this, orig = {}, style = elem.style, hidden = elem.nodeType && isHiddenWithinTree(elem), dataShow = dataPriv.get(elem, "fxshow");
                 // Detect show/hide animations
-                for(prop in opts.queue || (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
+                for(prop in !opts.queue && (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
                     hooks.unqueued || oldfire();
                 }), hooks.unqueued++, anim.always(function() {
                     // Ensure the complete handler is called before this completes
@@ -3188,9 +3188,9 @@
                     elem
                 ], !0), restoreDisplay = elem.style.display || restoreDisplay, display = jQuery.css(elem, "display"), showHide([
                     elem
-                ]))), ("inline" === display || "inline-block" === display && null != restoreDisplay) && "none" === jQuery.css(elem, "float") && (propTween || (anim.done(function() {
+                ]))), ("inline" === display || "inline-block" === display && null != restoreDisplay) && "none" === jQuery.css(elem, "float") && (!propTween && (anim.done(function() {
                     style.display = restoreDisplay;
-                }), null != restoreDisplay || (restoreDisplay = "none" === (display = style.display) ? "" : display)), style.display = "inline-block")), opts.overflow && (style.overflow = "hidden", anim.always(function() {
+                }), null == restoreDisplay && (restoreDisplay = "none" === (display = style.display) ? "" : display)), style.display = "inline-block")), opts.overflow && (style.overflow = "hidden", anim.always(function() {
                     style.overflow = opts.overflow[0], style.overflowX = opts.overflow[1], style.overflowY = opts.overflow[2];
                 })), // Implement show/hide animations
                 propTween = !1, orig)propTween || (dataShow ? "hidden" in dataShow && (hidden = dataShow.hidden) : dataShow = dataPriv.access(elem, "fxshow", {
@@ -3198,7 +3198,7 @@
                 }), toggle && (dataShow.hidden = !hidden), hidden && showHide([
                     elem
                 ], !0), /* eslint-disable no-loop-func */ anim.done(function() {
-                    for(prop in hidden || showHide([
+                    for(prop in !hidden && showHide([
                         elem
                     ]), dataPriv.remove(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
                 })), // Per-property setup
@@ -3506,7 +3506,7 @@
             var hooks, ret, valueIsFunction, elem = this[0];
             return arguments.length ? (valueIsFunction = isFunction(value), this.each(function(i) {
                 var val;
-                1 !== this.nodeType || (null == (val = valueIsFunction ? value.call(this, i, jQuery(this).val()) : value) ? val = "" : "number" == typeof val ? val += "" : Array.isArray(val) && (val = jQuery.map(val, function(value) {
+                1 === this.nodeType && (null == (val = valueIsFunction ? value.call(this, i, jQuery(this).val()) : value) ? val = "" : "number" == typeof val ? val += "" : Array.isArray(val) && (val = jQuery.map(val, function(value) {
                     return null == value ? "" : value + "";
                 })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && void 0 !== hooks.set(this, val, "value") || (this.value = val));
             })) : elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && void 0 !== (ret = hooks.get(elem, "value")) ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
@@ -3957,7 +3957,7 @@
             function done(status, nativeStatusText, responses, headers) {
                 var isSuccess, success, error, response, modified, statusText = nativeStatusText;
                 // Ignore repeat invocations
-                completed || (completed = !0, timeoutTimer && window1.clearTimeout(timeoutTimer), // Dereference transport for early garbage collection
+                !completed && (completed = !0, timeoutTimer && window1.clearTimeout(timeoutTimer), // Dereference transport for early garbage collection
                 // (no matter how long the jqXHR object will be used)
                 transport = void 0, // Cache response headers
                 responseHeadersString = headers || "", // Set readyState
@@ -4053,7 +4053,7 @@
                 completeDeferred.fireWith(callbackContext, [
                     jqXHR,
                     statusText
-                ]), !fireGlobals || (globalEventContext.trigger("ajaxComplete", [
+                ]), fireGlobals && (globalEventContext.trigger("ajaxComplete", [
                     jqXHR,
                     s
                 ]), --jQuery.active || jQuery.event.trigger("ajaxStop")));
@@ -4155,7 +4155,7 @@
                 // Apply custom fields if provided
                 if (xhr.open(options.type, options.url, options.async, options.username, options.password), options.xhrFields) for(i in options.xhrFields)xhr[i] = options.xhrFields[i];
                 // Set headers
-                for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), options.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
+                for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), !options.crossDomain && !headers["X-Requested-With"] && (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
                 // Callback
                 callback = function(type) {
                     return function() {

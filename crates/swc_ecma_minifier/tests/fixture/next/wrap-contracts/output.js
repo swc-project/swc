@@ -7342,9 +7342,9 @@
  */ module.exports = function(headers) {
                 var key, val, i, parsed = {};
                 return headers && utils.forEach(headers.split('\n'), function(line) {
-                    i = line.indexOf(':'), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && !(parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) && ('set-cookie' === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
+                    i = line.indexOf(':'), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ('set-cookie' === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                         val
-                    ]) : parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val);
+                    ]) : parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val));
                 }), parsed;
             };
         /***/ },
@@ -7815,7 +7815,7 @@
             }
             // Support decoding URL-safe base64 strings, as Node.js does.
             // See: https://en.wikipedia.org/wiki/Base64#URL_applications
-            revLookup['-'.charCodeAt(0)] = 62, revLookup['_'.charCodeAt(0)] = 63;
+            revLookup[45] = 62, revLookup[95] = 63;
         /***/ },
         /***/ 4431: /***/ function(module, exports, __webpack_require__) {
             var __WEBPACK_AMD_DEFINE_RESULT__;
@@ -8447,8 +8447,8 @@
                             var cmp, e, i, more, n, prod, prodL, q, qc, rem, remL, rem0, xi, xL, yc0, yL, yz, s = x.s == y.s ? 1 : -1, xc = x.c, yc = y.c;
                             // Either NaN, Infinity or 0?
                             if (!xc || !xc[0] || !yc || !yc[0]) return new BigNumber(// Return NaN if either NaN, or both Infinity or 0.
-                            x.s && y.s && (xc ? !yc || xc[0] != yc[0] : yc) ? // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
-                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0 : NaN);
+                            !x.s || !y.s || (xc ? yc && xc[0] == yc[0] : !yc) ? NaN : // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
+                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0);
                             // Result exponent may be one less then the current value of e.
                             // The coefficients of the BigNumbers from convertBase may have trailing zeros.
                             for(qc = (q = new BigNumber(s)).c = [], s = dp + (e = x.e - y.e) + 1, base || (base = BASE, e = bitFloor(x.e / LOG_BASE) - bitFloor(y.e / LOG_BASE), s = s / LOG_BASE | 0), i = 0; yc[i] == (xc[i] || 0); i++);
@@ -11876,7 +11876,7 @@
                 this.twisted = (0 | conf.a) != 1, this.mOneA = this.twisted && (0 | conf.a) == -1, this.extended = this.mOneA, Base.call(this, 'edwards', conf), this.a = new BN(conf.a, 16).umod(this.red.m), this.a = this.a.toRed(this.red), this.c = new BN(conf.c, 16).toRed(this.red), this.c2 = this.c.redSqr(), this.d = new BN(conf.d, 16).toRed(this.red), this.dd = this.d.redAdd(this.d), assert(!this.twisted || 0 === this.c.fromRed().cmpn(1)), this.oneC = (0 | conf.c) == 1;
             }
             function Point(curve, x, y, z, t) {
-                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, !this.curve.extended || this.t || (this.t = this.x.redMul(this.y), this.zOne || (this.t = this.t.redMul(this.z.redInvm()))));
+                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, this.curve.extended && !this.t && (this.t = this.x.redMul(this.y), this.zOne || (this.t = this.t.redMul(this.z.redInvm()))));
             }
             inherits(EdwardsCurve, Base), module.exports = EdwardsCurve, EdwardsCurve.prototype._mulA = function(num) {
                 return this.mOneA ? num.redNeg() : this.a.redMul(num);
@@ -14749,7 +14749,7 @@
                 '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
                 '%JSON%': 'object' == typeof JSON ? JSON : undefined,
                 '%Map%': 'undefined' == typeof Map ? undefined : Map,
-                '%MapIteratorPrototype%': 'undefined' != typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : undefined,
+                '%MapIteratorPrototype%': 'undefined' == typeof Map || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
                 '%Math%': Math,
                 '%Number%': Number,
                 '%Object%': Object,
@@ -14762,7 +14762,7 @@
                 '%Reflect%': 'undefined' == typeof Reflect ? undefined : Reflect,
                 '%RegExp%': RegExp,
                 '%Set%': 'undefined' == typeof Set ? undefined : Set,
-                '%SetIteratorPrototype%': 'undefined' != typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : undefined,
+                '%SetIteratorPrototype%': 'undefined' == typeof Set || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
                 '%SharedArrayBuffer%': 'undefined' == typeof SharedArrayBuffer ? undefined : SharedArrayBuffer,
                 '%String%': String,
                 '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
@@ -19695,7 +19695,7 @@
                             return -1 === o || (t.pipes.splice(o, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
                         }, Readable.prototype.on = function(e, t) {
                             var r = o.prototype.on.call(this, e, t), n = this._readableState;
-                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" !== e || n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this)), r;
+                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" === e && (n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this))), r;
                         }, Readable.prototype.addListener = Readable.prototype.on, Readable.prototype.removeListener = function(e, t) {
                             var r = o.prototype.removeListener.call(this, e, t);
                             return "readable" === e && process.nextTick(updateReadableListening, this), r;
@@ -19973,7 +19973,7 @@
                             this._writableState.corked++;
                         }, Writable.prototype.uncork = function() {
                             var e = this._writableState;
-                            !e.corked || (e.corked--, e.writing || e.corked || e.bufferProcessing || !e.bufferedRequest || clearBuffer(this, e));
+                            e.corked && (e.corked--, e.writing || e.corked || e.bufferProcessing || !e.bufferedRequest || clearBuffer(this, e));
                         }, Writable.prototype.setDefaultEncoding = function(e) {
                             if ("string" == typeof e && (e = e.toLowerCase()), !([
                                 "hex",

@@ -442,7 +442,7 @@
                     };
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
-                    sizes: sizes || "w" !== kind ? sizes : "100vw",
+                    sizes: !sizes && "w" === kind ? "100vw" : sizes,
                     srcSet: widths.map(function(w, i) {
                         return "".concat(loader({
                             src: src,

@@ -61,7 +61,7 @@
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
-                })().concat(nodeName).join("/"), function() {
+                })().concat(nodeName).join("/"), !function() {
                     try {
                         obj = _this3.options.validator(xpath, s && s[nodeName], obj);
                     } catch (error1) {

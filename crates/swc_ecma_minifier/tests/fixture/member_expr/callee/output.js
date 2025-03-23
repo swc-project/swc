@@ -1,5 +1,3 @@
-try {
-    ({}).bar.baz?.();
-} catch (e) {
+try {} catch (e) {
     console.log('PASS');
 }

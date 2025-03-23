@@ -389,7 +389,7 @@
                         y: found
                     } : null;
                 }
-                return (optimalPatchSize = findPatchSizeForDivisors(common)) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches))), optimalPatchSize;
+                return !(optimalPatchSize = findPatchSizeForDivisors(common)) && ((optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches)))), optimalPatchSize;
             }
             var _dimensionsConverters = {
                 top: function(dimension, context) {
@@ -412,7 +412,7 @@
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
                     var value, parsed = {
                         value: parseFloat(value = area[key]),
-                        unit: (value.indexOf("%"), value.length, "%")
+                        unit: (value.indexOf("%") === value.length, "%")
                     }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
@@ -2076,7 +2076,7 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) == 5) {
+                            if ((sum | 0) == (5 | 0)) {
                                 images[outImagePtr + offset + u | 0] = 1;
                             } else {
                                 images[outImagePtr + offset + u | 0] = 0;
@@ -2146,7 +2146,7 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) > 0) {
+                            if ((sum | 0) > (0 | 0)) {
                                 images[outImagePtr + offset + u | 0] = 1;
                             } else {
                                 images[outImagePtr + offset + u | 0] = 0;
@@ -3199,9 +3199,9 @@
             };
         /***/ },
         /* 152 */ /***/ function(module1, exports1) {
-            "undefined" == typeof window || window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
+            "undefined" != typeof window && (window.requestAnimationFrame || (window.requestAnimationFrame = window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(/* function FrameRequestCallback */ callback) {
                 window.setTimeout(callback, 1000 / 60);
-            }), "function" != typeof Math.imul && /* eslint-disable no-bitwise */ (Math.imul = function(a, b) {
+            })), "function" != typeof Math.imul && /* eslint-disable no-bitwise */ (Math.imul = function(a, b) {
                 var al = 0xffff & a, bl = 0xffff & b;
                 // the final |0 converts the unsigned value into a signed value
                 return al * bl + ((a >>> 16 & 0xffff) * bl + al * (b >>> 16 & 0xffff) << 16 >>> 0) | 0;
@@ -4357,11 +4357,7 @@
                         (this.arg = undefined), ContinueSentinel;
                     }
                 }, exports1;
-            }(// If this script is executing as a CommonJS module, use module.exports
-            // as the regeneratorRuntime namespace. Otherwise create a new empty
-            // object. Either way, the resulting object will be used to initialize
-            // the regeneratorRuntime variable at the top of this file.
-            module1.exports);
+            }(module1.exports);
             try {
                 regeneratorRuntime = runtime;
             } catch (accidentalStrictMode) {
@@ -8071,7 +8067,7 @@
                         value: function(charArray, index, maxWeight) {
                             var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
                             return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
-                                return sum + ((-+i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
+                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
                             }, 0) % 47] === charArray[index].charCodeAt(0);
                         }
                     },
@@ -9107,7 +9103,7 @@
                             }, [
                                 availableWorker.imageData.buffer
                             ])), !0) : null);
-                            workersUpdated || (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
+                            !workersUpdated && (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && (workersUpdated || _this.locateAndDecode()));
                         } else _this.context.framegrabber.attachData(null === (_this$context$inputIm2 = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm2 ? void 0 : _this$context$inputIm2.data), _this.context.framegrabber.grab(), _this.locateAndDecode();
                     });
                 }
@@ -9225,7 +9221,7 @@
                                             };
                                         case "LiveStream":
                                             var _video = null;
-                                            return !viewport || (_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video)), {
+                                            return viewport && ((_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video))), {
                                                 video: _video,
                                                 inputStream: InputStream.createLiveStream(_video)
                                             };

@@ -1,2 +1,2 @@
-var a = (()=>true ? "expected" : "unexpected1")();
+var a = (()=>"expected")();
 console.log(a);

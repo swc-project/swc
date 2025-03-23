@@ -1042,7 +1042,7 @@
                         return loadedChunks.some(function(_ref2) {
                             return _ref2[0].indexOf(chunk) > -1;
                         });
-                    }) && !resolved && (resolved = !0, resolve());
+                    }) && (resolved || (resolved = !0, resolve()));
                 }
                 loadedChunks.push = function() {
                     originalPush.apply(void 0, arguments), checkReadyState();
@@ -2754,9 +2754,9 @@
              */ module.exports = function(headers) {
             var key, val, i, parsed = {};
             return headers && utils.forEach(headers.split("\n"), function(line) {
-                i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && !(parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) && ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
+                i = line.indexOf(":"), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ("set-cookie" === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                     val
-                ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val);
+                ]) : parsed[key] = parsed[key] ? parsed[key] + ", " + val : val));
             }), parsed;
         };
     /***/ },
@@ -4083,7 +4083,7 @@
                 };
             }, TO_STRING_TAG = NAME + " Iterator", INCORRECT_VALUES_NAME = !1, IterablePrototype = Iterable.prototype, nativeIterator = IterablePrototype[ITERATOR] || IterablePrototype["@@iterator"] || DEFAULT && IterablePrototype[DEFAULT], defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT), anyNativeIterator = "Array" == NAME && IterablePrototype.entries || nativeIterator;
             // export additional methods
-            if (anyNativeIterator && (CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()))) !== Object.prototype && CurrentIteratorPrototype.next && (IS_PURE || getPrototypeOf(CurrentIteratorPrototype) === IteratorPrototype || (setPrototypeOf ? setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype) : isCallable(CurrentIteratorPrototype[ITERATOR]) || redefine(CurrentIteratorPrototype, ITERATOR, returnThis)), // Set @@toStringTag to native iterators
+            if (anyNativeIterator && (CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()))) !== Object.prototype && CurrentIteratorPrototype.next && (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype && (setPrototypeOf ? setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype) : isCallable(CurrentIteratorPrototype[ITERATOR]) || redefine(CurrentIteratorPrototype, ITERATOR, returnThis)), // Set @@toStringTag to native iterators
             setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, !0, !0), IS_PURE && (Iterators[TO_STRING_TAG] = returnThis)), PROPER_FUNCTION_NAME && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES && (!IS_PURE && CONFIGURABLE_FUNCTION_NAME ? createNonEnumerableProperty(IterablePrototype, "name", VALUES) : (INCORRECT_VALUES_NAME = !0, defaultIterator = function() {
                 return nativeIterator.call(this);
             })), DEFAULT) if (methods = {
@@ -9107,7 +9107,7 @@
         };
         // `Symbol.prototype[@@toPrimitive]` method
         // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
-        if (NATIVE_SYMBOL || (redefine(($Symbol = function() {
+        if (!NATIVE_SYMBOL && (redefine(($Symbol = function() {
             if (this instanceof $Symbol) throw TypeError("Symbol is not a constructor");
             var description = arguments.length && void 0 !== arguments[0] ? $toString(arguments[0]) : void 0, tag = uid(description), setter = function(value) {
                 this === ObjectPrototype && setter.call(ObjectPrototypeSymbols, value), has(this, HIDDEN) && has(this[HIDDEN], tag) && (this[HIDDEN][tag] = !1), setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
@@ -18826,11 +18826,7 @@
                     (this.arg = undefined), ContinueSentinel;
                 }
             }, exports;
-        }(// If this script is executing as a CommonJS module, use module.exports
-        // as the regeneratorRuntime namespace. Otherwise create a new empty
-        // object. Either way, the resulting object will be used to initialize
-        // the regeneratorRuntime variable at the top of this file.
-        module.exports);
+        }(module.exports);
         try {
             regeneratorRuntime = runtime;
         } catch (accidentalStrictMode) {

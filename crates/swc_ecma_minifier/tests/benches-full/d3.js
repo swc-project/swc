@@ -1675,10 +1675,10 @@ function(global, factory) {
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
-            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
+            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
                 i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
             }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -10939,7 +10939,7 @@ function(global, factory) {
             // Finally, we add a new thread (if necessary).
             function(v, w, ancestor) {
                 if (w) {
-                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (// Shifts the current subtree rooted at w+. This is done by increasing
+                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (!// Shifts the current subtree rooted at w+. This is done by increasing
                     // prelim(w+) and mod(w+) by shift.
                     function(wm, wp, shift) {
                         var change = shift / (wp.i - wm.i);
@@ -11010,7 +11010,7 @@ function(global, factory) {
     }, exports1.treemapBinary = function(parent, x0, y0, x1, y1) {
         var i, sum, nodes = parent.children, n = nodes.length, sums = Array(n + 1);
         for(sums[0] = sum = i = 0; i < n; ++i)sums[i + 1] = sum += nodes[i].value;
-        (function partition(i, j, value, x0, y0, x1, y1) {
+        !function partition(i, j, value, x0, y0, x1, y1) {
             if (i >= j - 1) {
                 var node = nodes[i];
                 node.x0 = x0, node.y0 = y0, node.x1 = x1, node.y1 = y1;
@@ -11029,7 +11029,7 @@ function(global, factory) {
                 var yk = value ? (y0 * valueRight + y1 * valueLeft) / value : y1;
                 partition(i, k, valueLeft, x0, y0, x1, yk), partition(k, j, valueRight, x0, yk, x1, y1);
             }
-        })(0, n, parent.value, x0, y0, x1, y1);
+        }(0, n, parent.value, x0, y0, x1, y1);
     }, exports1.treemapDice = treemapDice, exports1.treemapResquarify = resquarify, exports1.treemapSlice = treemapSlice, exports1.treemapSliceDice = function(parent, x0, y0, x1, y1) {
         (1 & parent.depth ? treemapSlice : treemapDice)(parent, x0, y0, x1, y1);
     }, exports1.treemapSquarify = squarify, exports1.tsv = tsv$1, exports1.tsvFormat = tsvFormat, exports1.tsvFormatBody = tsvFormatBody, exports1.tsvFormatRow = tsvFormatRow, exports1.tsvFormatRows = tsvFormatRows, exports1.tsvFormatValue = tsvFormatValue, exports1.tsvParse = tsvParse, exports1.tsvParseRows = tsvParseRows, exports1.union = function(...others) {

@@ -894,9 +894,9 @@ function(global, factory) {
         // This array is used to make a Date, either with `new Date` or `Date.UTC`
         var locale, hour, meridiem, isPm, i, parsedInput, tokens1, token, skipped, era, string = "" + config._i, stringLength = string.length, totalParsedInputLength = 0;
         for(i = 0, tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens1.length; i++)// don't parse if it's not a known token
-        (token = tokens1[i], (parsedInput = (string.match(hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : new RegExp(regexEscape(token.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
+        (token = tokens1[i], (parsedInput = (string.match(!hasOwnProp(regexes, token) ? new RegExp(regexEscape(token.replace("\\", "").replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
-        })))) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token]) ? (parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token), null != parsedInput && hasOwnProp(tokens, token) && tokens[token](parsedInput, config._a, config, token)) : config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token);
+        }))) : regexes[token](config._strict, config._locale)) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token]) ? (parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token), null != parsedInput && hasOwnProp(tokens, token) && tokens[token](parsedInput, config._a, config, token)) : config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token);
         // add remaining unparsed input length to the string
         getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength, string.length > 0 && getParsingFlags(config).unusedInput.push(string), config._a[3] <= 12 && !0 === getParsingFlags(config).bigHour && config._a[3] > 0 && (getParsingFlags(config).bigHour = void 0), getParsingFlags(config).parsedDateParts = config._a.slice(0), getParsingFlags(config).meridiem = config._meridiem, // handle meridiem
         config._a[3] = (locale = config._locale, hour = config._a[3], null == (meridiem = config._meridiem) ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && (// Fallback
@@ -907,7 +907,7 @@ function(global, factory) {
         var input = config._i, format = config._f;
         return (config._locale = config._locale || getLocale(config._l), null === input || void 0 === format && "" === input) ? createInvalid({
             nullInput: !0
-        }) : ("string" == typeof input && (config._i = input = config._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config._d = input : isArray(format) ? // date from string and array of format strings
+        }) : ("string" == typeof input && (config._i = input = config._locale.preparse(input)), isMoment(input)) ? new Moment(checkOverflow(input)) : (isDate(input) ? config._d = input : isArray(format) ? !// date from string and array of format strings
         function(config) {
             var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = !1;
             if (0 === config._f.length) {
@@ -1022,7 +1022,7 @@ function(global, factory) {
         return obj instanceof Duration;
     }
     function absRound(number) {
-        return number < 0 ? -+Math.round(-1 * number) : Math.round(number);
+        return number < 0 ? -1 * Math.round(-1 * number) : Math.round(number);
     }
     // FORMATTING
     function offset(token, separator) {
@@ -1717,7 +1717,7 @@ function(global, factory) {
         if ("string" == typeof input) {
             if (null === (input = offsetFromString(matchShortOffset, input))) return this;
         } else 16 > Math.abs(input) && !keepMinutes && (input *= 60);
-        return !this._isUTC && keepLocalTime && (localAdjust = getDateOffset(this)), this._offset = input, this._isUTC = !0, null != localAdjust && this.add(localAdjust, "m"), offset === input || (!keepLocalTime || this._changeInProgress ? addSubtract(this, createDuration(input - offset, "m"), 1, !1) : this._changeInProgress || (this._changeInProgress = !0, hooks.updateOffset(this, !0), this._changeInProgress = null)), this;
+        return !this._isUTC && keepLocalTime && (localAdjust = getDateOffset(this)), this._offset = input, this._isUTC = !0, null != localAdjust && this.add(localAdjust, "m"), offset !== input && (!keepLocalTime || this._changeInProgress ? addSubtract(this, createDuration(input - offset, "m"), 1, !1) : this._changeInProgress || (this._changeInProgress = !0, hooks.updateOffset(this, !0), this._changeInProgress = null)), this;
     }, proto.utc = function(keepLocalTime) {
         return this.utcOffset(0, keepLocalTime);
     }, proto.local = function(keepLocalTime) {

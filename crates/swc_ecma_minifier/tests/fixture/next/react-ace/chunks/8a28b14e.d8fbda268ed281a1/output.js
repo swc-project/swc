@@ -1025,7 +1025,7 @@
                         this.mousedownEvent = ev;
                         var editor = this.editor, button = ev.getButton();
                         if (0 !== button) {
-                            (editor.getSelectionRange().isEmpty() || 1 == button) && editor.selection.moveToPosition(pos), 2 != button || (editor.textInput.onContextMenu(ev.domEvent), useragent.isMozilla || ev.preventDefault());
+                            (editor.getSelectionRange().isEmpty() || 1 == button) && editor.selection.moveToPosition(pos), 2 == button && (editor.textInput.onContextMenu(ev.domEvent), useragent.isMozilla || ev.preventDefault());
                             return;
                         }
                         if (this.mousedownEvent.time = Date.now(), inSelection && !editor.isFocused() && (editor.focus(), this.$focusTimeout && !this.$clickSelection && !editor.inMultiSelectMode)) {
@@ -1587,7 +1587,7 @@
                 }, exports.loadScript = function(path, callback) {
                     var head = dom.getDocumentHead(), s = document.createElement("script");
                     s.src = path, head.appendChild(s), s.onload = s.onreadystatechange = function(_, isAbort) {
-                        !isAbort && s.readyState && "loaded" != s.readyState && "complete" != s.readyState || (s = s.onload = s.onreadystatechange = null, isAbort || callback());
+                        (isAbort || !s.readyState || "loaded" == s.readyState || "complete" == s.readyState) && (s = s.onload = s.onreadystatechange = null, isAbort || callback());
                     };
                 }, exports.qualifyURL = function(url) {
                     var a = document.createElement("a");
@@ -8065,7 +8065,7 @@
                         var session = this.session, mode = session.getMode(), cursor = this.getCursorPosition();
                         if (this.getBehavioursEnabled() && !pasted) {
                             var transform = mode.transformAction(session.getState(cursor.row), "insertion", this, session, text);
-                            transform && (text === transform.text || this.inVirtualSelectionMode || (this.session.mergeUndoDeltas = !1, this.mergeNextCommand = !1), text = transform.text);
+                            transform && (text !== transform.text && (this.inVirtualSelectionMode || (this.session.mergeUndoDeltas = !1, this.mergeNextCommand = !1)), text = transform.text);
                         }
                         if ("\t" == text && (text = this.session.getTabString()), this.selection.isEmpty()) {
                             if (this.session.getOverwrite() && -1 == text.indexOf("\n")) {
@@ -8885,7 +8885,7 @@
                     this.addSession = function(session) {
                         this.$session = session;
                     }, this.add = function(delta, allowMerge, session) {
-                        this.$fromUndo || delta == this.$lastDelta || (this.$keepRedoStack || (this.$redoStack.length = 0), !1 !== allowMerge && this.lastDeltas || (this.lastDeltas = [], this.$undoStack.push(this.lastDeltas), delta.id = this.$rev = ++this.$maxRev), ("remove" == delta.action || "insert" == delta.action) && (this.$lastDelta = delta), this.lastDeltas.push(delta));
+                        this.$fromUndo || delta != this.$lastDelta && (this.$keepRedoStack || (this.$redoStack.length = 0), !1 !== allowMerge && this.lastDeltas || (this.lastDeltas = [], this.$undoStack.push(this.lastDeltas), delta.id = this.$rev = ++this.$maxRev), ("remove" == delta.action || "insert" == delta.action) && (this.$lastDelta = delta), this.lastDeltas.push(delta));
                     }, this.addSelection = function(selection, rev) {
                         this.selections.push({
                             value: selection,
@@ -12324,7 +12324,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             }), ace.require([
                 "ace/ace"
             ], function(a) {
-                for(var key in a && (a.config.init(!0), a.define = ace.define), window.ace || (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
+                for(var key in a && (a.config.init(!0), a.define = ace.define), !window.ace && (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
                 window.ace.default = window.ace, module && (module.exports = window.ace);
             });
         /***/ }
