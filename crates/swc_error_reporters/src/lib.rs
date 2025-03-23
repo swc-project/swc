@@ -188,7 +188,7 @@ impl SourceCode for MietteSourceCode<'_> {
         Ok(Box::new(SpanContentsImpl {
             _cm: self.cm,
             data: src,
-            span: convert_span(span),
+            span: to_miette_span(span),
             line: loc.line.saturating_sub(1),
             column: loc.col_display,
             line_count,
@@ -270,7 +270,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
         let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+            LabeledSpan::new_with_span(span_label.label, to_miette_span(span_label.span))
         });
 
         Some(Box::new(iter))
@@ -302,7 +302,7 @@ impl fmt::Display for MietteDiagnostic<'_> {
     }
 }
 
-fn convert_span(span: Span) -> SourceSpan {
+pub fn to_miette_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, len.0 as usize)
@@ -336,7 +336,7 @@ impl miette::Diagnostic for MietteSubdiagnostic<'_> {
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = LabeledSpan> + '_>> {
         let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+            LabeledSpan::new_with_span(span_label.label, to_miette_span(span_label.span))
         });
 
         Some(Box::new(iter))
