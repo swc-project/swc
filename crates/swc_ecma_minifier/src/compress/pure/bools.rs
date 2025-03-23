@@ -49,6 +49,20 @@ impl Pure<'_> {
                 return;
             }
 
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                let len = exprs.len();
+                for (idx, expr) in exprs.iter_mut().enumerate() {
+                    let is_last = idx == len - 1;
+
+                    self.make_bool_short(
+                        expr,
+                        !is_last || ignore_return_value,
+                        !is_last || ignore_return_value,
+                    );
+                }
+                return;
+            }
+
             _ => return,
         }
 
