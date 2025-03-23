@@ -96,7 +96,7 @@ fn negate_cost_1() {
         "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
         false,
         true,
-        2,
+        0,
     );
 }
 
@@ -106,7 +106,7 @@ fn negate_cost_2() {
         "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
         false,
         true,
-        -2,
+        0,
     );
 }
 
@@ -120,7 +120,7 @@ fn negate_cost_3() {
          cache[id] = null)",
         true,
         true,
-        0,
+        2,
     );
 }
 
@@ -131,7 +131,7 @@ fn negate_cost_4() {
         "!(force || this._isRebuildRequired()) || self._buildList()",
         true,
         true,
-        2,
+        -1,
     );
 }
 
@@ -219,7 +219,7 @@ fn negate_cost_6() {
          imageSize, ctx), result.frame = canvas.toDataURL()), results.push(result))",
         true,
         true,
-        0,
+        4,
     );
 }
 
@@ -263,7 +263,7 @@ fn next_31077_1() {
          this.addHackNode('BR')))",
         true,
         true,
-        0,
+        -1,
     );
 }
 
@@ -275,7 +275,7 @@ fn next_31077_2() {
          this.addHackNode('BR')))",
         true,
         true,
-        -3,
+        -1,
     );
 }
 
@@ -285,7 +285,7 @@ fn negate_cost_iterator_pattern_1() {
         "!_iteratorNormalCompletion && null != _iterator.return && _iterator.return()",
         false,
         true,
-        -1,
+        -2,
     );
 }
 
@@ -295,7 +295,7 @@ fn negate_cost_iterator_pattern_2() {
         "!_iteratorNormalCompletion && null != _iterator.return",
         true,
         false,
-        -1,
+        -2,
     );
 }
 

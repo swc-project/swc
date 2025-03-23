@@ -282,7 +282,8 @@ pub(crate) fn negate_cost(
                     {
                         return lc + rc + 2;
                     } else {
-                        return lc + rc - 2;
+                        // TODO: Is this -2?
+                        return lc + rc - 1;
                     }
 
                     lc + rc
