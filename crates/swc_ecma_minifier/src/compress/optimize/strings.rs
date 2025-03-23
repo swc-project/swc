@@ -145,15 +145,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Expr::Lit(Lit::Str(str)) = expr {
-            if str.value.contains('\n') {
+        if let Expr::Lit(Lit::Str(s)) = expr {
+            if s.value.contains('\n') {
                 *expr = Expr::Tpl(Tpl {
-                    span: str.span,
+                    span: s.span,
                     exprs: Default::default(),
                     quasis: vec![TplElement {
-                        span: str.span,
-                        cooked: Some(str.value.clone().into()),
-                        raw: str.value.clone(),
+                        span: s.span,
+                        cooked: Some(s.value.clone()),
+                        raw: s.value.clone(),
                         tail: true,
                     }],
                 });
