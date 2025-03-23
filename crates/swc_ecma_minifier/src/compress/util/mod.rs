@@ -258,12 +258,8 @@ pub(crate) fn negate_cost(
             right,
             ..
         }) => {
-            negate_cost(
-                expr_ctx,
-                left,
-                in_bool_ctx || is_ret_val_ignored,
-                is_ret_val_ignored,
-            ) + negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored)
+            negate_cost(expr_ctx, left, in_bool_ctx || is_ret_val_ignored, false)
+                + negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored)
         }
 
         Expr::Unary(UnaryExpr {
@@ -278,6 +274,10 @@ pub(crate) fn negate_cost(
         }
 
         _ => {
+            if is_ret_val_ignored {
+                return 0;
+            }
+
             // We need to create !e
             1
         }
