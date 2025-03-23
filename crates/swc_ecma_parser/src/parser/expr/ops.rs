@@ -379,6 +379,8 @@ impl<I: Tokens> Parser<I> {
             assert_and_bump!(self, "await");
         }
 
+        let await_token = span!(self, start);
+
         if is!(self, '*') {
             syntax_error!(self, SyntaxError::AwaitStar);
         }
@@ -396,7 +398,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if ctx.in_function && !ctx.in_async {
-            self.emit_err(self.input.cur_span(), SyntaxError::AwaitInFunction);
+            self.emit_err(await_token, SyntaxError::AwaitInFunction);
         }
 
         if ctx.in_parameters && !ctx.in_function {
