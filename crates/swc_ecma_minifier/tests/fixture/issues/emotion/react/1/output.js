@@ -328,9 +328,9 @@
             }, removeLabel = function(element) {
                 if ("decl" === element.type) {
                     var value = element.value;
-                    108 === // charcode for l
-                    value.charCodeAt(0) && // charcode for b
-                    98 === value.charCodeAt(2) && (// this ignores label
+                    108 !== // charcode for l
+                    value.charCodeAt(0) || // charcode for b
+                    98 !== value.charCodeAt(2) || (// this ignores label
                     element.return = "", element.value = "");
                 }
             }, defaultStylisPlugins = [
@@ -848,7 +848,7 @@
                                         break;
                                     // -
                                     case 45:
-                                        45 === previous && 2 == Utility_strlen(characters1) && (variable = 0);
+                                        45 !== previous || 2 != Utility_strlen(characters1) || (variable = 0);
                                 }
                         }
                         return rulesets;

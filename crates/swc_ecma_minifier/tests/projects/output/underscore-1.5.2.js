@@ -406,7 +406,7 @@
         };
         return function() {
             var now = new Date();
-            !previous && !1 === options.leading && (previous = now);
+            previous || !1 !== options.leading || (previous = now);
             var remaining = wait - (now - previous);
             return context = this, args = arguments, remaining <= 0 ? (clearTimeout(timeout), timeout = null, previous = now, result = func.apply(context, args)) : !timeout && !1 !== options.trailing && (timeout = setTimeout(later, remaining)), result;
         };
@@ -500,7 +500,7 @@
     }, // Return a copy of the object without the blacklisted properties.
     _.omit = function(obj) {
         var copy = {}, keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-        for(var key in obj)!_.contains(keys, key) && (copy[key] = obj[key]);
+        for(var key in obj)_.contains(keys, key) || (copy[key] = obj[key]);
         return copy;
     }, // Fill in a given object with default properties.
     _.defaults = function(obj) {

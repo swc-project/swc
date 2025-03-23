@@ -3587,7 +3587,7 @@
                      * of our keyboard modality state with `hadKeyboardEvent`.
                      * @param {KeyboardEvent} e
                      */ function(e) {
-                        !e.metaKey && !e.altKey && !e.ctrlKey && (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
+                        e.metaKey || e.altKey || e.ctrlKey || (isValidFocusTarget(scope.activeElement) && addFocusVisibleClass(scope.activeElement), hadKeyboardEvent = !0);
                     }, !0), document.addEventListener("mousedown", onPointerDown, !0), document.addEventListener("pointerdown", onPointerDown, !0), document.addEventListener("touchstart", onPointerDown, !0), document.addEventListener("visibilitychange", /**
                      * If the user changes tabs, keep track of whether or not the previously
                      * focused element had .focus-visible.
@@ -6116,7 +6116,7 @@
             function getSystemColorMode() {
                 var _window$matchMedia2, _window2, _window$matchMedia2$c;
                 return(// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                "undefined" != typeof window && null !== (_window$matchMedia2 = (_window2 = window).matchMedia) && void 0 !== _window$matchMedia2 && null !== (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && void 0 !== _window$matchMedia2$c && _window$matchMedia2$c.matches ? "night" : "day");
+                "undefined" == typeof window || null === (_window$matchMedia2 = (_window2 = window).matchMedia) || void 0 === _window$matchMedia2 || null === (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) || void 0 === _window$matchMedia2$c || !_window$matchMedia2$c.matches ? "day" : "night");
             }
             function resolveColorMode(colorMode, systemColorMode) {
                 return "auto" === colorMode ? systemColorMode : colorMode;

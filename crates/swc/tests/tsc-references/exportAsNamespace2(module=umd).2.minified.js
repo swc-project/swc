@@ -17,9 +17,9 @@ global = this, factory = function(exports1) {
         get: all[name]
     });
     var a = 1, b = 2;
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {}) : factory(exports);
 //// [1.ts]
 var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard, _0) {
@@ -31,19 +31,19 @@ global = this, factory = function(exports1, _interop_require_wildcard, _0) {
             return _0;
         }
     }), _0 = /*#__PURE__*/ _interop_require_wildcard._(_0), ns.a, ns.b;
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0")) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_interop_require_wildcard",
     "./0"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcard, global["0"]);
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcard, global["0"]) : factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./0"));
 //// [2.ts]
 var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard, _1) {
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), (_1 = /*#__PURE__*/ _interop_require_wildcard._(_1)).ns.a, _1.ns.b;
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./1")) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_interop_require_wildcard",
     "./1"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcard, global["1"]);
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcard, global["1"]) : factory(exports, require("@swc/helpers/_/_interop_require_wildcard"), require("./1"));

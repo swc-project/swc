@@ -11,9 +11,9 @@ global = this, factory = function(exports1) {
     });
     class _default {
     }
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.aTs = {});
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.aTs = {}) : factory(exports);
 //// [b.ts]
 var global, factory;
 global = this, factory = function(exports1) {
@@ -26,6 +26,6 @@ global = this, factory = function(exports1) {
             return _default;
         }
     });
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.bTs = {});
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.bTs = {}) : factory(exports);

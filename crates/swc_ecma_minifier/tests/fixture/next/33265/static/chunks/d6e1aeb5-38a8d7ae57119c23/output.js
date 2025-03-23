@@ -1063,7 +1063,7 @@
                     for(var key in event = {}, old)// Safari 6.0.3 warns you if you try to copy deprecated layerX/Y
                     // Chrome warns you if you try to copy deprecated keyboardEvent.keyLocation
                     // and webkitMovementX/Y
-                    "layerX" !== key && "layerY" !== key && "keyLocation" !== key && "webkitMovementX" !== key && "webkitMovementY" !== key && !("returnValue" === key && old.preventDefault) && (event[key] = old[key]);
+                    "layerX" === key || "layerY" === key || "keyLocation" === key || "webkitMovementX" === key || "webkitMovementY" === key || "returnValue" === key && old.preventDefault || (event[key] = old[key]);
                      // The event occurred on this element
                     if (!event.target && (event.target = event.srcElement || global_document__WEBPACK_IMPORTED_MODULE_1___default()), !event.relatedTarget && (event.relatedTarget = event.fromElement === event.target ? event.toElement : event.fromElement), event.preventDefault = function() {
                         old.preventDefault && old.preventDefault(), event.returnValue = !1, old.returnValue = !1, event.defaultPrevented = !0;
@@ -1198,13 +1198,14 @@
                 if ("string" == typeof event ? event = {
                     type: event,
                     target: elem
-                } : !event.target && (event.target = elem), event = fixEvent(event), elemData.dispatcher && elemData.dispatcher.call(elem, event, hash), parent && !event.isPropagationStopped() && !0 === event.bubbles) trigger.call(null, parent, event, hash); // If at the top of the DOM, triggers the default action unless disabled.
-                else if (!parent && !event.defaultPrevented && event.target && event.target[event.type]) {
-                    !DomData.has(event.target) && DomData.set(event.target, {});
-                    var targetData = DomData.get(event.target); // Checks if the target has a default action for this event.
-                    event.target[event.type] && (// Temporarily disables event dispatching on the target as we have already executed the handler.
-                    targetData.disabled = !0, "function" == typeof event.target[event.type] && event.target[event.type](), targetData.disabled = !1);
-                } // Inform the triggerer if the default was prevented by returning false
+                } : !event.target && (event.target = elem), event = fixEvent(event), elemData.dispatcher && elemData.dispatcher.call(elem, event, hash), !parent || event.isPropagationStopped() || !0 !== event.bubbles) {
+                    if (!parent && !event.defaultPrevented && event.target && event.target[event.type]) {
+                        !DomData.has(event.target) && DomData.set(event.target, {});
+                        var targetData = DomData.get(event.target); // Checks if the target has a default action for this event.
+                        event.target[event.type] && (// Temporarily disables event dispatching on the target as we have already executed the handler.
+                        targetData.disabled = !0, "function" == typeof event.target[event.type] && event.target[event.type](), targetData.disabled = !1);
+                    } // Inform the triggerer if the default was prevented by returning false
+                } else trigger.call(null, parent, event, hash); // If at the top of the DOM, triggers the default action unless disabled.
                 return !event.defaultPrevented;
             }
             /**
@@ -2361,7 +2362,7 @@
    *         The dimension when getting or 0 if unset
    */ _proto.dimension = function(widthOrHeight, num, skipListeners) {
                     if (void 0 !== num) {
-                        (null === num || num != num) && (num = 0), -1 !== ("" + num).indexOf("%") || -1 !== ("" + num).indexOf("px") ? this.el_.style[widthOrHeight] = num : "auto" === num ? this.el_.style[widthOrHeight] = "" : this.el_.style[widthOrHeight] = num + "px", !skipListeners && /**
+                        (null === num || num != num) && (num = 0), -1 === ("" + num).indexOf("%") && -1 === ("" + num).indexOf("px") ? "auto" === num ? this.el_.style[widthOrHeight] = "" : this.el_.style[widthOrHeight] = num + "px" : this.el_.style[widthOrHeight] = num, !skipListeners && /**
                              * Triggered when a component is resized.
                              *
                              * @event Component#componentresize
@@ -2833,7 +2834,11 @@
              *          An array of time ranges.
              */ function createTimeRangesObj(ranges) {
                 var timeRangesObj;
-                return timeRangesObj = void 0 === ranges || 0 === ranges.length ? {
+                return timeRangesObj = void 0 !== ranges && 0 !== ranges.length ? {
+                    length: ranges.length,
+                    start: getRange.bind(null, "start", 0, ranges),
+                    end: getRange.bind(null, "end", 1, ranges)
+                } : {
                     length: 0,
                     start: function() {
                         throw Error("This TimeRanges object is empty");
@@ -2841,10 +2846,6 @@
                     end: function() {
                         throw Error("This TimeRanges object is empty");
                     }
-                } : {
-                    length: ranges.length,
-                    start: getRange.bind(null, "start", 0, ranges),
-                    end: getRange.bind(null, "end", 1, ranges)
                 }, global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol && global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator && (timeRangesObj[global_window__WEBPACK_IMPORTED_MODULE_0___default().Symbol.iterator] = function() {
                     return (ranges || []).values();
                 }), timeRangesObj;
@@ -2861,12 +2862,12 @@
              *        The end of a single range. Cannot be used with the array form of
              *        the `start` argument.
              */ function createTimeRanges(start, end) {
-                return Array.isArray(start) ? createTimeRangesObj(start) : void 0 === start || void 0 === end ? createTimeRangesObj() : createTimeRangesObj([
+                return Array.isArray(start) ? createTimeRangesObj(start) : void 0 !== start && void 0 !== end ? createTimeRangesObj([
                     [
                         start,
                         end
                     ]
-                ]);
+                ]) : createTimeRangesObj();
             }
             /**
              * @file buffer.js
@@ -3908,10 +3909,10 @@
                     }), mode = TextTrackMode[settings.mode] || "disabled", default_ = settings.default;
                     ("metadata" === settings.kind || "chapters" === settings.kind) && (mode = "hidden"), (_this = _Track.call(this, settings) || this).tech_ = settings.tech, _this.cues_ = [], _this.activeCues_ = [], _this.preload_ = !1 !== _this.tech_.preloadTextTracks;
                     var cues = new TextTrackCueList(_this.cues_), activeCues = new TextTrackCueList(_this.activeCues_), changed = !1, timeupdateHandler = bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), function() {
-                        !(!this.tech_.isReady_ || this.tech_.isDisposed()) && (// due to its nature as a getter function. Do not remove or cues will
+                        !this.tech_.isReady_ || this.tech_.isDisposed() || (// due to its nature as a getter function. Do not remove or cues will
                         // stop updating!
                         // Use the setter to prevent deletion from uglify (pure_getters rule)
-                        this.activeCues = this.activeCues, changed && (this.trigger("cuechange"), changed = !1)); // Accessing this.activeCues for the side-effects of updating itself
+                        this.activeCues = this.activeCues, !changed || (this.trigger("cuechange"), changed = !1)); // Accessing this.activeCues for the side-effects of updating itself
                     });
                     return _this.tech_.one("dispose", function() {
                         _this.tech_.off("timeupdate", timeupdateHandler);
@@ -4302,7 +4303,7 @@
                         "Video"
                     ].forEach(function(track) {
                         !1 === options["native" + track + "Tracks"] && (_this["featuresNative" + track + "Tracks"] = !1);
-                    }), !1 === options.nativeCaptions || !1 === options.nativeTextTracks ? _this.featuresNativeTextTracks = !1 : (!0 === options.nativeCaptions || !0 === options.nativeTextTracks) && (_this.featuresNativeTextTracks = !0), !_this.featuresNativeTextTracks && _this.emulateTextTracks(), _this.preloadTextTracks = !1 !== options.preloadTextTracks, _this.autoRemoteTextTracks_ = new ALL.text.ListClass(), _this.initTrackListeners(), !options.nativeControlsForTouch && _this.emitTapEvents(), _this.constructor && (_this.name_ = _this.constructor.name || "Unknown Tech"), _this;
+                    }), !1 !== options.nativeCaptions && !1 !== options.nativeTextTracks ? (!0 === options.nativeCaptions || !0 === options.nativeTextTracks) && (_this.featuresNativeTextTracks = !0) : _this.featuresNativeTextTracks = !1, !_this.featuresNativeTextTracks && _this.emulateTextTracks(), _this.preloadTextTracks = !1 !== options.preloadTextTracks, _this.autoRemoteTextTracks_ = new ALL.text.ListClass(), _this.initTrackListeners(), !options.nativeControlsForTouch && _this.emitTapEvents(), _this.constructor && (_this.name_ = _this.constructor.name || "Unknown Tech"), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(Tech, _Component);
                 /**
@@ -6522,7 +6523,7 @@
                 }, /**
                  * Enable controls for this slider if they are disabled
                  */ _proto.enable = function() {
-                    !this.enabled() && (this.on("mousedown", this.handleMouseDown_), this.on("touchstart", this.handleMouseDown_), this.on("keydown", this.handleKeyDown_), this.on("click", this.handleClick_), this.on(this.player_, "controlsvisible", this.update), this.playerEvent && this.on(this.player_, this.playerEvent, this.update), this.removeClass("disabled"), this.setAttribute("tabindex", 0), this.enabled_ = !0);
+                    this.enabled() || (this.on("mousedown", this.handleMouseDown_), this.on("touchstart", this.handleMouseDown_), this.on("keydown", this.handleKeyDown_), this.on("click", this.handleClick_), this.on(this.player_, "controlsvisible", this.update), this.playerEvent && this.on(this.player_, this.playerEvent, this.update), this.removeClass("disabled"), this.setAttribute("tabindex", 0), this.enabled_ = !0);
                 }, /**
                  * Disable controls for this slider if they are enabled
                  */ _proto.disable = function() {
@@ -6991,7 +6992,7 @@
                 }, _proto.enableInterval_ = function() {
                     !this.updateInterval && (this.updateInterval = this.setInterval(this.update, 30));
                 }, _proto.disableInterval_ = function(e) {
-                    (!(this.player_.liveTracker && this.player_.liveTracker.isLive()) || !e || "ended" === e.type) && this.updateInterval && (this.clearInterval(this.updateInterval), this.updateInterval = null);
+                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || !this.updateInterval || (this.clearInterval(this.updateInterval), this.updateInterval = null);
                 }, /**
                  * Create the `Component`'s DOM element
                  *
@@ -10624,7 +10625,7 @@
                     var restoreTrackMode = function restoreTrackMode() {
                         for(var i = 0; i < metadataTracksPreFullscreenState.length; i++){
                             var storedTrack = metadataTracksPreFullscreenState[i];
-                            "disabled" === storedTrack.track.mode && storedTrack.track.mode !== storedTrack.storedMode && (storedTrack.track.mode = storedTrack.storedMode);
+                            "disabled" !== storedTrack.track.mode || storedTrack.track.mode === storedTrack.storedMode || (storedTrack.track.mode = storedTrack.storedMode);
                         } // we only want this handler to be executed on the first 'change' event
                         textTracks.removeEventListener("change", restoreTrackMode);
                     }; // when we enter fullscreen playback, stop updating the snapshot and
@@ -12447,7 +12448,7 @@
                         techEl && (_width >= 0 && (techEl.width = _width), _height >= 0 && (techEl.height = _height));
                         return;
                     }
-                    var ratioParts = (void 0 !== this.aspectRatio_ && "auto" !== this.aspectRatio_ ? this.aspectRatio_ : this.videoWidth() > 0 ? this.videoWidth() + ":" + this.videoHeight() : "16:9").split(":"), ratioMultiplier = ratioParts[1] / ratioParts[0];
+                    var ratioParts = (void 0 === this.aspectRatio_ || "auto" === this.aspectRatio_ ? this.videoWidth() > 0 ? this.videoWidth() + ":" + this.videoHeight() : "16:9" : this.aspectRatio_).split(":"), ratioMultiplier = ratioParts[1] / ratioParts[0];
                     // Use any width that's been specifically set
                     width = void 0 !== this.width_ ? this.width_ : void 0 !== this.height_ ? this.height_ / ratioMultiplier : this.videoWidth() || 300, // Use any height that's been specifically set
                     height = void 0 !== this.height_ ? this.height_ : width * ratioMultiplier, idClass = /^[^a-zA-Z]/.test(this.id()) ? "dimensions-" + this.id() : this.id() + "-dimensions", this.addClass(idClass), setTextContent(this.styleEl_, "\n      ." + idClass + " {\n        width: " + width + "px;\n        height: " + height + "px;\n      }\n\n      ." + idClass + ".vjs-fluid {\n        padding-top: " + 100 * ratioMultiplier + "%;\n      }\n    ");
@@ -15902,7 +15903,7 @@
                 },
                 hasAttribute: hasAttribute,
                 estimateSegmentRequestTime: function(segmentDuration, bandwidth, playlist, bytesReceived) {
-                    return (void 0 === bytesReceived && (bytesReceived = 0), hasAttribute("BANDWIDTH", playlist)) ? (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth : NaN;
+                    return (void 0 === bytesReceived && (bytesReceived = 0), !hasAttribute("BANDWIDTH", playlist)) ? NaN : (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth;
                 },
                 isLowestEnabledRendition: isLowestEnabledRendition,
                 isAudioOnly: isAudioOnly,
@@ -16702,7 +16703,7 @@
                 // playlist loader setups from media groups will expect to be able to pass a playlist
                 // (since there aren't external URLs to media playlists with DASH)
                 function DashPlaylistLoader(srcUrlOrPlaylist, vhs, options, masterPlaylistLoader) {
-                    void 0 === options && (options = {}), (_this = _EventTarget.call(this) || this).masterPlaylistLoader_ = masterPlaylistLoader || (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), masterPlaylistLoader || (_this.isMaster_ = !0);
+                    void 0 === options && (options = {}), (_this = _EventTarget.call(this) || this).masterPlaylistLoader_ = masterPlaylistLoader || (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), !masterPlaylistLoader && (_this.isMaster_ = !0);
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
                     if (_this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife, !srcUrlOrPlaylist) throw Error("A non-empty playlist URL or object is required");
                      // event naming?
@@ -18281,7 +18282,7 @@
                     parseUserData: function(sei) {
                         return(// itu_t_t35_contry_code must be 181 (United States) for
                         // captions
-                        181 !== sei.payload[0] || (sei.payload[1] << 8 | sei.payload[2]) != 49 || "GA94" !== String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) || 0x03 !== sei.payload[7] ? null : sei.payload.subarray(8, sei.payload.length - 1) // itu_t_t35_provider_code should be 49 (ATSC) for captions
+                        181 === sei.payload[0] && (sei.payload[1] << 8 | sei.payload[2]) == 49 && "GA94" === String.fromCharCode(sei.payload[3], sei.payload[4], sei.payload[5], sei.payload[6]) && 0x03 === sei.payload[7] ? sei.payload.subarray(8, sei.payload.length - 1) : null // itu_t_t35_provider_code should be 49 (ATSC) for captions
                         );
                     },
                     parseCaptionPackets: function(pts, userData) {
@@ -19429,8 +19430,8 @@
                                 "timed-metadata": {}
                             }, tableEnd = 3 + ((0x0f & payload[1]) << 8 | payload[2]) - 4, offset = 12 + ((0x0f & payload[10]) << 8 | payload[11]); offset < tableEnd;){
                                 var streamType = payload[offset], pid = (0x1f & payload[offset + 1]) << 8 | payload[offset + 2];
-                                streamType === streamTypes.H264_STREAM_TYPE && null === self1.programMapTable.video ? self1.programMapTable.video = pid : streamType === streamTypes.ADTS_STREAM_TYPE && null === self1.programMapTable.audio ? self1.programMapTable.audio = pid : streamType === streamTypes.METADATA_STREAM_TYPE && // map pid to stream type for metadata streams
-                                (self1.programMapTable["timed-metadata"][pid] = streamType), // skip past the elementary stream descriptors, if present
+                                streamType !== streamTypes.H264_STREAM_TYPE || null !== self1.programMapTable.video ? streamType !== streamTypes.ADTS_STREAM_TYPE || null !== self1.programMapTable.audio ? streamType === streamTypes.METADATA_STREAM_TYPE && // map pid to stream type for metadata streams
+                                (self1.programMapTable["timed-metadata"][pid] = streamType) : self1.programMapTable.audio = pid : self1.programMapTable.video = pid, // skip past the elementary stream descriptors, if present
                                 offset += ((0x0f & payload[offset + 3]) << 8 | payload[offset + 4]) + 5;
                             } // record the map on the packet as well
                             pmt.programMapTable = self1.programMapTable;
@@ -20070,7 +20071,7 @@
                         return 6144 & header[byteIndex + 3] | middle | lowThree;
                     },
                     parseType: function(header, byteIndex) {
-                        return 73 === header[byteIndex] && 68 === header[byteIndex + 1] && 51 === header[byteIndex + 2] ? "timed-metadata" : !0 & header[byteIndex] && (0xf0 & header[byteIndex + 1]) == 0xf0 ? "audio" : null;
+                        return 73 !== header[byteIndex] || 68 !== header[byteIndex + 1] || 51 !== header[byteIndex + 2] ? !(!0 & header[byteIndex]) || (0xf0 & header[byteIndex + 1]) != 0xf0 ? null : "audio" : "timed-metadata";
                     },
                     parseSampleRate: function(packet) {
                         for(var i = 0; i + 5 < packet.length;){
@@ -20711,11 +20712,11 @@
                             var cachedSegment = segmentCache.shift();
                             this.parse(cachedSegment, videoTrackIds, timescales);
                         }
-                        return ((parsedData = parseEmbeddedCaptions(segment, trackId, timescale)) && parsedData.logs && (parsedCaptions.logs = parsedCaptions.logs.concat(parsedData.logs)), null !== parsedData && parsedData.seiNals) ? (this.pushNals(parsedData.seiNals), this.flushStream(), parsedCaptions) : parsedCaptions.logs.length ? {
+                        return ((parsedData = parseEmbeddedCaptions(segment, trackId, timescale)) && parsedData.logs && (parsedCaptions.logs = parsedCaptions.logs.concat(parsedData.logs)), null === parsedData || !parsedData.seiNals) ? parsedCaptions.logs.length ? {
                             logs: parsedCaptions.logs,
                             captions: [],
                             captionStreams: []
-                        } : null;
+                        } : null : (this.pushNals(parsedData.seiNals), this.flushStream(), parsedCaptions);
                     }, /**
                          * Pushes SEI NALUs onto CaptionStream
                          * @param {Object[]} nals - A list of SEI nals parsed using `parseCaptionNals`
@@ -21494,12 +21495,12 @@
                     message: "HLS request errored at URL: " + request.uri,
                     code: REQUEST_ERRORS.FAILURE,
                     xhr: request
-                } : "arraybuffer" === request.responseType && 0 === request.response.byteLength ? {
+                } : "arraybuffer" !== request.responseType || 0 !== request.response.byteLength ? null : {
                     status: request.status,
                     message: "Empty HLS response at URL: " + request.uri,
                     code: REQUEST_ERRORS.FAILURE,
                     xhr: request
-                } : null;
+                };
             }, handleKeyResponse = function(segment, objects, finishProcessingFn) {
                 return function(error, request) {
                     var response = request.response, errorObj = handleErrors(error, request);
@@ -22191,7 +22192,7 @@
                     }
                 }
             }, createMetadataTrackIfNotExists = function(inbandTextTracks, dispatchType, tech) {
-                !inbandTextTracks.metadataTrack_ && (inbandTextTracks.metadataTrack_ = tech.addRemoteTextTrack({
+                inbandTextTracks.metadataTrack_ || (inbandTextTracks.metadataTrack_ = tech.addRemoteTextTrack({
                     kind: "metadata",
                     label: "Timed Metadata"
                 }, !1).track, inbandTextTracks.metadataTrack_.inBandMetadataTrackDispatchType = dispatchType);
@@ -22361,7 +22362,7 @@
                     }, _this.transmuxer_ = _this.createTransmuxer_(), _this.triggerSyncInfoUpdate_ = function() {
                         return _this.trigger("syncinfoupdate");
                     }, _this.syncController_.on("syncinfoupdate", _this.triggerSyncInfoUpdate_), _this.mediaSource_.addEventListener("sourceopen", function() {
-                        !_this.isEndOfStream_() && (_this.ended_ = !1);
+                        _this.isEndOfStream_() || (_this.ended_ = !1);
                     }), _this.fetchAtBuffer_ = !1, _this.logger_ = logger("SegmentLoader[" + _this.loaderType_ + "]"), Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), "state", {
                         get: function() {
                             return this.state_;
@@ -25410,7 +25411,7 @@
                     return this.audioAppendsToLoadedData__;
                 }, _proto.appendsToLoadedData_ = function() {
                     var main = this.mainAppendsToLoadedData_(), audio = this.audioAppendsToLoadedData_();
-                    return -1 === main || -1 === audio ? -1 : main + audio;
+                    return -1 !== main && -1 !== audio ? main + audio : -1;
                 }, _proto.timeToLoadedData_ = function() {
                     return this.timeToLoadedData__;
                 }, /**
@@ -25443,7 +25444,7 @@
                  */ _proto.stopABRTimer_ = function() {
                     // if we're scrubbing, we don't need to pause.
                     // This getter will be added to Video.js in version 7.11.
-                    !(this.tech_.scrubbing && this.tech_.scrubbing()) && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearInterval(this.abrTimer_), this.abrTimer_ = null);
+                    this.tech_.scrubbing && this.tech_.scrubbing() || (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearInterval(this.abrTimer_), this.abrTimer_ = null);
                 }, /**
                  * Get a list of playlists for the currently selected audio playlist
                  *
@@ -25581,7 +25582,7 @@
                  * @private
                  */ _proto.triggerPresenceUsage_ = function(master, media) {
                     var mediaGroups = master.mediaGroups || {}, defaultDemuxed = !0, audioGroupKeys = Object.keys(mediaGroups.AUDIO);
-                    for(var mediaGroup in mediaGroups.AUDIO)for(var label in mediaGroups.AUDIO[mediaGroup])!mediaGroups.AUDIO[mediaGroup][label].uri && (defaultDemuxed = !1);
+                    for(var mediaGroup in mediaGroups.AUDIO)for(var label in mediaGroups.AUDIO[mediaGroup])mediaGroups.AUDIO[mediaGroup][label].uri || (defaultDemuxed = !1);
                     defaultDemuxed && (this.tech_.trigger({
                         type: "usage",
                         name: "vhs-demuxed"
@@ -25672,7 +25673,7 @@
                         codecs && _this4.sourceUpdater_.addOrChangeSourceBuffers(codecs);
                     };
                     this.mainSegmentLoader_.on("trackinfo", updateCodecs), this.audioSegmentLoader_.on("trackinfo", updateCodecs), this.mainSegmentLoader_.on("fmp4", function() {
-                        !_this4.triggeredFmp4Usage && (_this4.tech_.trigger({
+                        _this4.triggeredFmp4Usage || (_this4.tech_.trigger({
                             type: "usage",
                             name: "vhs-fmp4"
                         }), _this4.tech_.trigger({
@@ -25680,7 +25681,7 @@
                             name: "hls-fmp4"
                         }), _this4.triggeredFmp4Usage = !0);
                     }), this.audioSegmentLoader_.on("fmp4", function() {
-                        !_this4.triggeredFmp4Usage && (_this4.tech_.trigger({
+                        _this4.triggeredFmp4Usage || (_this4.tech_.trigger({
                             type: "usage",
                             name: "vhs-fmp4"
                         }), _this4.tech_.trigger({
@@ -25865,7 +25866,7 @@
                             // skip current playlist which is about to be blacklisted
                             if (playlist !== currentPlaylist) {
                                 var excludeUntil = playlist.excludeUntil; // a playlist cannot be reincluded if it wasn't excluded to begin with.
-                                void 0 !== excludeUntil && excludeUntil !== 1 / 0 && (reincluded = !0, delete playlist.excludeUntil);
+                                void 0 === excludeUntil || excludeUntil === 1 / 0 || (reincluded = !0, delete playlist.excludeUntil);
                             }
                         }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last rendition is about to be excluded."), // playlist. This is needed for users relying on the retryplaylist event to catch a
                         // case where the player might be stuck and looping through "dead" playlists.
@@ -26083,7 +26084,7 @@
                     }), usingAudioLoader && unsupportedAudio && this.media().attributes.AUDIO) {
                         var audioGroup = this.media().attributes.AUDIO;
                         this.master().playlists.forEach(function(variant) {
-                            (variant.attributes && variant.attributes.AUDIO) === audioGroup && variant !== _this9.media() && (variant.excludeUntil = 1 / 0);
+                            (variant.attributes && variant.attributes.AUDIO) !== audioGroup || variant === _this9.media() || (variant.excludeUntil = 1 / 0);
                         }), this.logger_("excluding audio group " + audioGroup + " as " + unsupportedAudio + ' does not support codec(s): "' + codecs.audio + '"');
                     } // if we have any unsupported codecs blacklist this playlist.
                     if (Object.keys(unsupportedCodecs).length) {

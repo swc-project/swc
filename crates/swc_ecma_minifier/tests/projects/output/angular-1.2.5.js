@@ -591,7 +591,7 @@
     }
     function toJsonReplacer(key, value) {
         var val = value;
-        return "string" == typeof key && "$" === key.charAt(0) ? val = undefined : isWindow(value) ? val = "$WINDOW" : value && document1 === value ? val = "$DOCUMENT" : isScope(value) && (val = "$SCOPE"), val;
+        return "string" != typeof key || "$" !== key.charAt(0) ? isWindow(value) ? val = "$WINDOW" : value && document1 === value ? val = "$DOCUMENT" : isScope(value) && (val = "$SCOPE") : val = undefined, val;
     }
     /**
    * @ngdoc function
@@ -1084,8 +1084,8 @@
    *         The resulting string key is in 'type:hashKey' format.
    */ function hashKey(obj) {
         var key, objType = typeof obj;
-        return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? // must invoke on object to keep the right this
-        key = obj.$$hashKey() : undefined === key && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
+        return "object" != objType || null === obj ? key = obj : "function" == typeof (key = obj.$$hashKey) ? // must invoke on object to keep the right this
+        key = obj.$$hashKey() : undefined === key && (key = obj.$$hashKey = nextUid()), objType + ":" + key;
     }
     /**
    * HashMap which can use objects as keys
@@ -1177,24 +1177,25 @@
             // jqLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
             // jqLiteEmpty takes no arguments but is a setter.
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) if (isObject(arg1)) {
+            if (fn === jqLiteEmpty || (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) !== undefined) {
+                // we are a write, so apply to all children
+                for(i = 0; i < this.length; i++)fn(this[i], arg1, arg2);
+                // return self for chaining
+                return this;
+            }
+            if (isObject(arg1)) {
                 // we are a write, but the object properties are the key/values
                 for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
                 fn(this[i], arg1);
                 else for(key in arg1)fn(this[i], key, arg1[key]);
                 // return self for chaining
                 return this;
-            } else {
-                for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
-                    var nodeValue = fn(this[j], arg1, arg2);
-                    value = value ? value + nodeValue : nodeValue;
-                }
-                return value;
             }
-            // we are a write, so apply to all children
-            for(i = 0; i < this.length; i++)fn(this[i], arg1, arg2);
-            // return self for chaining
-            return this;
+            for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
+                var nodeValue = fn(this[j], arg1, arg2);
+                value = value ? value + nodeValue : nodeValue;
+            }
+            return value;
         };
     }), //////////////////////////////////////////
     // Functions iterating traversal.
@@ -2073,7 +2074,7 @@
                     var list, result, elm, hash = $location.hash();
                     // empty hash, scroll to the top of the page
                     hash ? (elm = document1.getElementById(hash)) || (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
-                        !result && "a" === lowercase(element.nodeName) && (result = element);
+                        result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }
                 return autoScrollingEnabled && $rootScope.$watch(function() {
@@ -2341,8 +2342,8 @@
      * @param {boolean=} replace Should new url replace current history record ?
      */ self.url = function(url, replace) {
             return(// setter
-            (location !== window1.location && (location = window1.location), url) ? lastBrowserUrl != url ? (lastBrowserUrl = url, $sniffer.history ? replace ? history.replaceState(null, "", url) : (history.pushState(null, "", url), // Crazy Opera Bug: http://my.opera.com/community/forums/topic.dml?id=1185462
-            baseElement.attr("href", baseElement.attr("href"))) : (newLocation = url, replace ? location.replace(url) : location.href = url), self) : void 0 : newLocation || location.href.replace(/%27/g, "'"));
+            (location !== window1.location && (location = window1.location), !url) ? newLocation || location.href.replace(/%27/g, "'") : lastBrowserUrl != url ? (lastBrowserUrl = url, $sniffer.history ? replace ? history.replaceState(null, "", url) : (history.pushState(null, "", url), // Crazy Opera Bug: http://my.opera.com/community/forums/topic.dml?id=1185462
+            baseElement.attr("href", baseElement.attr("href"))) : (newLocation = url, replace ? location.replace(url) : location.href = url), self) : void 0);
         };
         var urlChangeListeners = [], urlChangeInit = !1;
         function fireUrlChange() {
@@ -3615,7 +3616,7 @@
                                                                 //skip animations when the first digest occurs (when
                                                                 //both the new and the old values are the same) since
                                                                 //the CSS classes are the non-interpolated values
-                                                                "class" === name && newValue != oldValue ? attr.$updateClass(newValue, oldValue) : attr.$set(name, newValue);
+                                                                "class" !== name || newValue == oldValue ? attr.$set(name, newValue) : attr.$updateClass(newValue, oldValue);
                                                             }));
                                                         }
                                                     };
@@ -4909,8 +4910,8 @@
      *      against.
      *
      */ function $interpolate(text, mustHaveExpression, trustedContext) {
-                    for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)-1 != (startIndex = text.indexOf(startSymbol, index)) && -1 != (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) ? (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0) : (// we did not find anything, so we have to add the remainder to the parts array
-                    index != length && parts.push(text.substring(index)), index = length);
+                    for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)-1 == (startIndex = text.indexOf(startSymbol, index)) || -1 == (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) ? (// we did not find anything, so we have to add the remainder to the parts array
+                    index != length && parts.push(text.substring(index)), index = length) : (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0);
                     // Concatenating expressions makes it hard to reason about whether some combination of
                     // concatenated values are unsafe to use and could easily lead to XSS.  By requiring that a
                     // single expression be used for iframe[src], object[src], etc., we ensure that the value
@@ -6058,18 +6059,18 @@
             var promise, pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
             return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), !key1 || null == pathVal || ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), !key2 || null == pathVal || ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), !key3 || null == pathVal || ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), !key4 || null == pathVal || (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), !("$$v" in pathVal) && ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
             })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
             var pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
-            return null == pathVal ? pathVal : (pathVal = pathVal[key0], key1 && null != pathVal && (pathVal = pathVal[key1], key2 && null != pathVal && (pathVal = pathVal[key2], key3 && null != pathVal && (pathVal = pathVal[key3], key4 && null != pathVal)))) ? pathVal = pathVal[key4] : pathVal;
+            return null == pathVal || (pathVal = pathVal[key0], !key1 || null == pathVal || (pathVal = pathVal[key1], !key2 || null == pathVal || (pathVal = pathVal[key2], !key3 || null == pathVal || (pathVal = pathVal[key3], !key4 || null == pathVal)))) ? pathVal : pathVal = pathVal[key4];
         };
     }
     function getterFn(path, options, fullExp) {

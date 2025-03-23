@@ -1806,11 +1806,7 @@
                         for (const e of t.filters)if (e.v()) return e.field;
                         return null;
                     }(t), n = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[0].field : null;
-                    if (null !== t1 && null === n) // In order to implicitly add key ordering, we must also add the
-                    // inequality filter field for it to be a valid query.
-                    // Note that the default inequality field and key ordering is ascending.
-                    t1.isKeyField() || t.V.push(new ae(t1)), t.V.push(new ae(ft.keyField(), "asc" /* ASCENDING */ ));
-                    else {
+                    if (null === t1 || null !== n) {
                         let t1 = !1;
                         for (const n of t.explicitOrderBy)t.V.push(n), n.field.isKeyField() && (t1 = !0);
                         if (!t1) {
@@ -1819,7 +1815,10 @@
                             const t1 = t.explicitOrderBy.length > 0 ? t.explicitOrderBy[t.explicitOrderBy.length - 1].dir : "asc"; /* ASCENDING */ 
                             t.V.push(new ae(ft.keyField(), t1));
                         }
-                    }
+                    } else // In order to implicitly add key ordering, we must also add the
+                    // inequality filter field for it to be a valid query.
+                    // Note that the default inequality field and key ordering is ascending.
+                    t1.isKeyField() || t.V.push(new ae(t1)), t.V.push(new ae(ft.keyField(), "asc" /* ASCENDING */ ));
                 }
                 return t.V;
             }
@@ -6890,7 +6889,7 @@
                 }
                 track(t) {
                     const e = t.doc.key, n = this.Zr.get(e);
-                    n ? 0 /* Added */  !== t.type && 3 /* Metadata */  === n.type ? this.Zr = this.Zr.insert(e, t) : 3 /* Metadata */  === t.type && 1 /* Removed */  !== n.type ? this.Zr = this.Zr.insert(e, {
+                    n && (0 /* Added */  === t.type || 3 /* Metadata */  !== n.type) ? 3 /* Metadata */  === t.type && 1 /* Removed */  !== n.type ? this.Zr = this.Zr.insert(e, {
                         type: n.type,
                         doc: t.doc
                     }) : 2 /* Modified */  === t.type && 2 /* Modified */  === n.type ? this.Zr = this.Zr.insert(e, {

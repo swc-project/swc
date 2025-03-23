@@ -83,7 +83,8 @@ export class FileLoader extends Loader {
         }), mimeType = this.mimeType, responseType = this.responseType;
         // start the fetch
         fetch(req).then((response)=>{
-            if (200 === response.status || 0 === response.status) {
+            if (200 !== response.status && 0 !== response.status) throw new HttpError(`fetch for "${response.url}" responded with ${response.status}: ${response.statusText}`, response);
+            {
                 // Workaround: Checking if response.body === undefined for Alipay browser #23548
                 if (0 === response.status && console.warn('THREE.FileLoader: HTTP Status 0 received.'), 'undefined' == typeof ReadableStream || void 0 === response.body || void 0 === response.body.getReader) return response;
                 const callbacks = loading[url], reader = response.body.getReader(), contentLength = response.headers.get('Content-Length') || response.headers.get('X-File-Size'), total = contentLength ? parseInt(contentLength) : 0, lengthComputable = 0 !== total;
@@ -110,7 +111,6 @@ export class FileLoader extends Loader {
                     }
                 }));
             }
-            throw new HttpError(`fetch for "${response.url}" responded with ${response.status}: ${response.statusText}`, response);
         }).then((response)=>{
             switch(responseType){
                 case 'arraybuffer':

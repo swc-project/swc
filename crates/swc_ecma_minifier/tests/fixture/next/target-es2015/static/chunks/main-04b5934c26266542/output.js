@@ -123,7 +123,7 @@
                 return _normalizeTrailingSlash.normalizePathTrailingSlash(_addPathPrefix.addPathPrefix(path, ""));
             };
             var _addPathPrefix = __webpack_require__(5391), _normalizeTrailingSlash = __webpack_require__(2392);
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -156,7 +156,7 @@
                 return _pathHasPrefix.pathHasPrefix(path, "");
             };
             var _pathHasPrefix = __webpack_require__(1259);
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -237,7 +237,7 @@
                 }
                 return oldTag.isEqualNode(newTag);
             }
-            exports.DOMAttributeNames = DOMAttributeNames, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            exports.DOMAttributeNames = DOMAttributeNames, "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -619,7 +619,7 @@
                     (null == opts ? void 0 : opts.beforeRender) && (yield opts.beforeRender()), render(renderCtx);
                 })).apply(this, arguments);
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -749,7 +749,7 @@
                 value: !0
             }), exports.removeBasePath = function(path) {
                 return !(path = path.slice(0)).startsWith("/") && (path = "/".concat(path)), path;
-            }, __webpack_require__(4119), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, __webpack_require__(4119), "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -759,7 +759,7 @@
                 value: !0
             }), exports.removeLocale = function(path, locale) {
                 return path;
-            }, __webpack_require__(4943), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, __webpack_require__(4943), "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -984,7 +984,7 @@
                     };
                 });
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -1095,7 +1095,7 @@
                         }
                     });
                 });
-            }), exports.default = singletonRouter, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }), exports.default = singletonRouter, "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -1169,7 +1169,7 @@
                 ]), { updateScripts, scripts, getIsSsr } = _react.useContext(_headManagerContext.HeadManagerContext), hasOnReadyEffectCalled = _react.useRef(!1);
                 _react.useEffect(()=>{
                     const cacheKey = id || src;
-                    !hasOnReadyEffectCalled.current && (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
+                    hasOnReadyEffectCalled.current || (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
                 }, [
                     onReady,
                     id,
@@ -1177,7 +1177,7 @@
                 ]);
                 const hasLoadScriptEffectCalled = _react.useRef(!1);
                 return _react.useEffect(()=>{
-                    !hasLoadScriptEffectCalled.current && ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
+                    hasLoadScriptEffectCalled.current || ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && ("complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(()=>loadScript(props)) : window.addEventListener("load", ()=>{
                         _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
                     })), hasLoadScriptEffectCalled.current = !0);
                 }, [
@@ -1221,7 +1221,7 @@
                     }
                     return policy;
                 }()) ? void 0 : ref.createScriptURL(url)) || url;
-            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -1238,7 +1238,7 @@
                 return WithRouterWrapper.getInitialProps = ComposedComponent.getInitialProps, WithRouterWrapper.origGetInitialProps = ComposedComponent.origGetInitialProps, WithRouterWrapper;
             };
             var _react = (0, __webpack_require__(2648)/* ["default"] */ .Z)(__webpack_require__(7294)), _router = __webpack_require__(387);
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -1398,7 +1398,7 @@
             }
             function onlyReactElement(list, child) {
                 return(// React children can be "string" or "number" in this case we ignore them for backwards compat
-                "string" == typeof child || "number" == typeof child ? list : child.type === _react.default.Fragment ? list.concat(_react.default.Children.toArray(child.props.children).reduce((fragmentList, fragmentChild)=>"string" == typeof fragmentChild || "number" == typeof fragmentChild ? fragmentList : fragmentList.concat(fragmentChild), [])) : list.concat(child));
+                "string" == typeof child || "number" == typeof child ? list : child.type === _react.default.Fragment ? list.concat(_react.default.Children.toArray(child.props.children).reduce((fragmentList, fragmentChild)=>"string" != typeof fragmentChild && "number" != typeof fragmentChild ? fragmentList.concat(fragmentChild) : fragmentList, [])) : list.concat(child));
             }
             __webpack_require__(3794);
             const METATYPES = [
@@ -1648,7 +1648,7 @@
             function omit(object, keys) {
                 const omitted = {};
                 return Object.keys(object).forEach((key)=>{
-                    !keys.includes(key) && (omitted[key] = object[key]);
+                    keys.includes(key) || (omitted[key] = object[key]);
                 }), omitted;
             }
             function isLocalURL(url) {
@@ -1952,7 +1952,7 @@
                                 router: _this
                             }), !1);
                         }
-                        !_this.urlIsNew(cleanedAs) && !localeChange && (method = "replaceState");
+                        _this.urlIsNew(cleanedAs) || localeChange || (method = "replaceState");
                         // we need to resolve the as value using rewrites for dynamic SSG
                         // pages to allow building the data URL correctly
                         let resolvedAs = as;
@@ -2661,7 +2661,7 @@
                 let { auth, hostname } = urlObj, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
                 auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
                 let search = urlObj.search || query && "?".concat(query) || "";
-                return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : !host && (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
+                return protocol && !protocol.endsWith(":") && (protocol += ":"), !(urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host) ? !host && (host = "") : (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
             }
             exports.urlObjectKeys = [
                 "auth",
@@ -3061,7 +3061,7 @@
                 value: !0
             }), exports.setConfig = function(configValue) {
                 runtimeConfig = configValue;
-            }, exports.default = void 0, exports.default = ()=>runtimeConfig, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, exports.default = void 0, exports.default = ()=>runtimeConfig, "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },

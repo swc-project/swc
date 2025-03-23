@@ -57,7 +57,7 @@
                             return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? t.exports = e = function(t) {
                                 return typeof t;
                             } : t.exports = e = function(t) {
-                                return t && "function" == typeof Symbol && t.constructor === Symbol && t !== Symbol.prototype ? "symbol" : typeof t;
+                                return !t || "function" != typeof Symbol || t.constructor !== Symbol || t === Symbol.prototype ? typeof t : "symbol";
                             }, t.exports.default = t.exports, t.exports.__esModule = !0, e(r);
                         }
                         t.exports = e, t.exports.default = t.exports, t.exports.__esModule = !0;

@@ -738,10 +738,10 @@
         /***/ },
         /* 19 */ /***/ function(module1, exports1) {
             function _typeof(obj) {
-                return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? module1.exports = _typeof = function(obj) {
-                    return typeof obj;
-                } : module1.exports = _typeof = function(obj) {
+                return "function" != typeof Symbol || "symbol" != typeof Symbol.iterator ? module1.exports = _typeof = function(obj) {
                     return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+                } : module1.exports = _typeof = function(obj) {
+                    return typeof obj;
                 }, module1.exports.default = module1.exports, module1.exports.__esModule = !0, _typeof(obj);
             }
             module1.exports = _typeof, module1.exports.default = module1.exports, module1.exports.__esModule = !0;
@@ -4324,7 +4324,7 @@
                     },
                     complete: function(record, afterLoc) {
                         if ("throw" === record.type) throw record.arg;
-                        return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+                        return "break" !== record.type && "continue" !== record.type ? "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc) : this.next = record.arg, ContinueSentinel;
                     },
                     finish: function(finallyLoc) {
                         for(var i = this.tryEntries.length - 1; i >= 0; --i){
@@ -6210,7 +6210,7 @@
                                 else done = !0;
                                 unshift && (codeset = codeset === this.CODE_A ? this.CODE_B : this.CODE_A);
                             }
-                            return null === code ? null : (code.end = this._nextUnset(this._row, code.end), this._verifyTrailingWhitespace(code) && (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 === rawResult[rawResult.length - 1] && result.length) ? (removeLastCharacter && result.splice(result.length - 1, 1), {
+                            return null === code || (code.end = this._nextUnset(this._row, code.end), !this._verifyTrailingWhitespace(code) || (checksum -= multiplier * rawResult[rawResult.length - 1]) % 103 !== rawResult[rawResult.length - 1] || !result.length) ? null : (removeLastCharacter && result.splice(result.length - 1, 1), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: code.end,
@@ -6219,7 +6219,7 @@
                                 decodedCodes: decodedCodes,
                                 endInfo: code,
                                 format: this.FORMAT
-                            }) : null;
+                            });
                         }
                     },
                     {
@@ -6792,14 +6792,14 @@
                                 if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
-                            return (result.pop(), result.length && this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? {
+                            return (result.pop(), !result.length || !this._verifyTrailingWhitespace(lastStart, nextStart, counters)) ? null : {
                                 code: result.join(""),
                                 start: start.start,
                                 end: nextStart,
                                 startInfo: start,
                                 decodedCodes: result,
                                 format: this.FORMAT
-                            } : null;
+                            };
                         }
                     }
                 ]), Code39Reader;
@@ -7652,14 +7652,14 @@
                             var endInfo = this._findEnd();
                             if (!endInfo) return null;
                             var counters = this._fillCounters(startInfo.end, endInfo.start, !1);
-                            return !this._verifyCounterLength(counters) || !this._decodePayload(counters, result, decodedCodes) || result.length % 2 != 0 || result.length < 6 ? null : (decodedCodes.push(endInfo), {
+                            return this._verifyCounterLength(counters) && this._decodePayload(counters, result, decodedCodes) && result.length % 2 == 0 && !(result.length < 6) ? (decodedCodes.push(endInfo), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,
                                 startInfo: startInfo,
                                 decodedCodes: decodedCodes,
                                 format: this.FORMAT
-                            });
+                            }) : null;
                         }
                     }
                 ]), I2of5Reader;
@@ -8099,14 +8099,14 @@
                                 if (pattern < 0 || null === (decodedChar = this._patternToChar(pattern))) return null;
                                 result.push(decodedChar), lastStart = nextStart, nextStart += array_helper.a.sum(counters), nextStart = this._nextSet(this._row, nextStart);
                             }while ("*" !== decodedChar)
-                            return (result.pop(), result.length && this._verifyEnd(lastStart, nextStart) && this._verifyChecksums(result)) ? (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result))) ? null : {
+                            return (result.pop(), !result.length || !this._verifyEnd(lastStart, nextStart) || !this._verifyChecksums(result) || (result = result.slice(0, result.length - 2), null === (result = this._decodeExtended(result)))) ? null : {
                                 code: result.join(""),
                                 start: start.start,
                                 end: nextStart,
                                 startInfo: start,
                                 decodedCodes: result,
                                 format: this.FORMAT
-                            } : null;
+                            };
                         }
                     }
                 ]), Code93Reader;
@@ -8704,7 +8704,7 @@
                                                 var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
                                                 tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
                                                     var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
-                                                    return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
+                                                    return 3 !== type || 1 !== numValues ? null : file.getUint16(entryOffset + 8, !bigEnd);
                                                 }(file, entryOffset, 0, 0, bigEnd));
                                             }
                                             return tags;

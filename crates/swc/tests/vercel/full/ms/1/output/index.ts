@@ -52,7 +52,7 @@ export default function(c, r) {
             }
         }
         if ("number" == typeof c && isFinite(c)) {
-            return (null == r ? void 0 : r.long) ? (t = c, (o = Math.abs(t)) >= 86400000 ? a(t, o, 86400000, "day") : o >= 3600000 ? a(t, o, 3600000, "hour") : o >= 60000 ? a(t, o, 60000, "minute") : o >= 1000 ? a(t, o, 1000, "second") : "".concat(t, " ms")) : (u = c, (i = Math.abs(u)) >= 86400000 ? "".concat(Math.round(u / 86400000), "d") : i >= 3600000 ? "".concat(Math.round(u / 3600000), "h") : i >= 60000 ? "".concat(Math.round(u / 60000), "m") : i >= 1000 ? "".concat(Math.round(u / 1000), "s") : "".concat(u, "ms"));
+            return (null != r ? r.long : void 0) ? (t = c, (o = Math.abs(t)) >= 86400000 ? a(t, o, 86400000, "day") : o >= 3600000 ? a(t, o, 3600000, "hour") : o >= 60000 ? a(t, o, 60000, "minute") : o >= 1000 ? a(t, o, 1000, "second") : "".concat(t, " ms")) : (u = c, (i = Math.abs(u)) >= 86400000 ? "".concat(Math.round(u / 86400000), "d") : i >= 3600000 ? "".concat(Math.round(u / 3600000), "h") : i >= 60000 ? "".concat(Math.round(u / 60000), "m") : i >= 1000 ? "".concat(Math.round(u / 1000), "s") : "".concat(u, "ms"));
         }
         throw Error("Value is not a string or number.");
     } catch (s) {

@@ -3,7 +3,7 @@ var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     function lastOf(items) {
-        return null === items || 0 === items.length ? null : items[items.length - 1];
+        return null !== items && 0 !== items.length ? items[items.length - 1] : null;
     }
     function max(a, b) {
         return a >= b ? a : b;

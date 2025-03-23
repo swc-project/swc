@@ -679,7 +679,7 @@
                         if (3 != dom.nodeType) throw RangeError("Text must be rendered as a DOM text node");
                     } else dom = document.createTextNode(node.text);
                     else dom || (dom = (assign = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, node.type.spec.toDOM(node))).dom, contentDOM = assign.contentDOM);
-                    !contentDOM && !node.isText && "BR" != dom.nodeName && (!dom.hasAttribute("contenteditable") && (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
+                    contentDOM || node.isText || "BR" == dom.nodeName || (!dom.hasAttribute("contenteditable") && (dom.contentEditable = !1), !node.type.spec.draggable || (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
                 }, NodeViewDesc.prototype.parseRule = function() {
@@ -995,7 +995,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        (!prev || prev.nodeName != deco.nodeName || curDOM == outerDOM || !(parent = curDOM.parentNode) || parent.tagName.toLowerCase() != deco.nodeName) && ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     !function(dom, prev, cur) {
                         for(var name in prev)"class" != name && "style" != name && "nodeName" != name && !(name in cur) && dom.removeAttribute(name);
@@ -2010,7 +2010,7 @@
                     return f(view, e, slice || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.empty);
                 })) return !0;
                 if (!slice) return !1;
-                var singleNode = 0 == slice.openStart && 0 == slice.openEnd && 1 == slice.content.childCount ? slice.content.firstChild : null, tr = singleNode ? view.state.tr.replaceSelectionWith(singleNode, view.shiftKey) : view.state.tr.replaceSelection(slice);
+                var singleNode = 0 != slice.openStart || 0 != slice.openEnd || 1 != slice.content.childCount ? null : slice.content.firstChild, tr = singleNode ? view.state.tr.replaceSelectionWith(singleNode, view.shiftKey) : view.state.tr.replaceSelection(slice);
                 return view.dispatch(tr.scrollIntoView().setMeta("paste", !0).setMeta("uiEvent", "paste")), !0;
             }
             handlers.copy = editHandlers.cut = function(view, e) {
@@ -2354,7 +2354,7 @@
                     for(var children = oldChildren.slice(), shift = function(oldStart, oldEnd, newStart, newEnd) {
                         for(var i = 0; i < children.length; i += 3){
                             var end = children[i + 1], dSize = void 0;
-                            -1 != end && !(oldStart > end + oldOffset) && (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : newStart >= offset && (dSize = newEnd - newStart - (oldEnd - oldStart)) && (children[i] += dSize, children[i + 1] += dSize));
+                            -1 == end || oldStart > end + oldOffset || (oldEnd >= children[i] + oldOffset ? children[i + 1] = -1 : !(newStart >= offset) || !(dSize = newEnd - newStart - (oldEnd - oldStart)) || (children[i] += dSize, children[i + 1] += dSize));
                         }
                     }, i = 0; i < mapping.maps.length; i++)mapping.maps[i].forEach(shift);
                     for(var mustRebuild = !1, i$1 = 0; i$1 < children.length; i$1 += 3)if (-1 == children[i$1 + 1]) {
@@ -2871,7 +2871,7 @@
             function buildNodeViews(view) {
                 var result = {};
                 return view.someProp("nodeViews", function(obj) {
-                    for(var prop in obj)!Object.prototype.hasOwnProperty.call(result, prop) && (result[prop] = obj[prop]);
+                    for(var prop in obj)Object.prototype.hasOwnProperty.call(result, prop) || (result[prop] = obj[prop]);
                 }), result;
             }
             function checkStateComponent(plugin) {
@@ -2976,11 +2976,7 @@
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
             }, EditorView.prototype.updatePluginViews = function(prevState) {
-                if (prevState && prevState.plugins == this.state.plugins && this.directPlugins == this.prevDirectPlugins) for(var i$2 = 0; i$2 < this.pluginViews.length; i$2++){
-                    var pluginView = this.pluginViews[i$2];
-                    pluginView.update && pluginView.update(this, prevState);
-                }
-                else {
+                if (!prevState || prevState.plugins != this.state.plugins || this.directPlugins != this.prevDirectPlugins) {
                     this.prevDirectPlugins = this.directPlugins, this.destroyPluginViews();
                     for(var i = 0; i < this.directPlugins.length; i++){
                         var plugin = this.directPlugins[i];
@@ -2990,6 +2986,9 @@
                         var plugin$1 = this.state.plugins[i$1];
                         plugin$1.spec.view && this.pluginViews.push(plugin$1.spec.view(this));
                     }
+                } else for(var i$2 = 0; i$2 < this.pluginViews.length; i$2++){
+                    var pluginView = this.pluginViews[i$2];
+                    pluginView.update && pluginView.update(this, prevState);
                 }
             }, // :: (string, ?(prop: *) → *) → *
             // Goes over the values of a prop, first those provided directly,
@@ -3093,7 +3092,7 @@
                         }
                         // Suspiciously specific kludge to work around caret*FromPoint
                         // never returning a position at the end of the document
-                        node == view.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = view.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {
+                        node != view.dom || offset != node.childNodes.length - 1 || 1 != node.lastChild.nodeType || !(coords.top > node.lastChild.getBoundingClientRect().bottom) ? (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {
                             for(var outside = -1, cur = node; cur != view.dom;){
                                 var desc = view.docView.nearestDesc(cur, !0);
                                 if (!desc) return null;
@@ -3106,7 +3105,7 @@
                                 cur = desc.dom.parentNode;
                             }
                             return outside > -1 ? outside : view.docView.posFromDOM(node, offset);
-                        }(view, node, offset, coords));
+                        }(view, node, offset, coords)) : pos = view.state.doc.content.size;
                     }
                     null == pos && (pos = function(view, elt, coords) {
                         var ref = function findOffsetInNode(node, coords) {
@@ -3146,10 +3145,10 @@
                                     node: node,
                                     offset: 0
                                 };
-                            }(closest, coordsClosest) : !closest || dxClosest && 1 == closest.nodeType ? {
+                            }(closest, coordsClosest) : closest && (!dxClosest || 1 != closest.nodeType) ? findOffsetInNode(closest, coordsClosest) : {
                                 node: node,
                                 offset: offset
-                            } : findOffsetInNode(closest, coordsClosest);
+                            };
                         }(elt, coords), node = ref.node, offset = ref.offset, bias = -1;
                         if (1 == node.nodeType && !node.firstChild) {
                             var rect = node.getBoundingClientRect();
@@ -3218,7 +3217,7 @@
             // pass a different state.
             EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
-                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                return view = this, state1 = state || this.state, cachedState != state1 || cachedDir != dir ? (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
@@ -3258,8 +3257,8 @@
                         var result = !($head.depth ? view.docView.domAfterPos($head.before()) : view.dom).contains(1 == sel.focusNode.nodeType ? sel.focusNode : sel.focusNode.parentNode) || oldNode == sel.focusNode && oldOff == sel.focusOffset;
                         return(// Restore the previous selection
                         sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result);
-                    }) : "left" == dir || "backward" == dir ? !offset : atEnd);
-                }(view, state1, dir));
+                    }) : "left" != dir && "backward" != dir ? atEnd : !offset);
+                }(view, state1, dir)) : cachedResult;
             }, // :: ()
             // Removes the editor from the DOM and destroys all [node
             // views](#view.NodeView).

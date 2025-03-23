@@ -1,6 +1,6 @@
 function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
     var type = typeof children;
-    ("undefined" === type || "boolean" === type) && // All of the above are perceived as null.
+    "undefined" !== type && "boolean" !== type || // All of the above are perceived as null.
     (children = null);
     var invokeCallback = !1;
     if (null === children) invokeCallback = !0;

@@ -59,8 +59,8 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
     }), function() {
         return _ref.apply(this, arguments);
     });
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard")) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_async_to_generator",
     "@swc/helpers/_/_interop_require_wildcard"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.testTs = {}, global.asyncToGenerator, global.interopRequireWildcard);
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.testTs = {}, global.asyncToGenerator, global.interopRequireWildcard) : factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard"));

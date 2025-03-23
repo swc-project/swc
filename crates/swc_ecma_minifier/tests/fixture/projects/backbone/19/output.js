@@ -1,7 +1,7 @@
 export const obj = {
     navigate: function(fragment, options) {
         if (!History.started) return !1;
-        (!options || !0 === options) && (options = {
+        options && !0 !== options || (options = {
             trigger: !!options
         });
         var url = this.root + (fragment = this.getFragment(fragment || ""));

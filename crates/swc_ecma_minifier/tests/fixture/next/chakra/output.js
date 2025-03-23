@@ -316,7 +316,7 @@
              * Take input from [0, n] and return it as [0, 1]
              * @hidden
              */ function bound01(n, max) {
-                "string" == typeof (n1 = n) && -1 !== n1.indexOf(".") && 1 === parseFloat(n1) && (n = "100%");
+                "string" != typeof (n1 = n) || -1 === n1.indexOf(".") || 1 !== parseFloat(n1) || (n = "100%");
                 var n1, n2, isPercent = "string" == typeof (n2 = n) && -1 !== n2.indexOf("%");
                 return(// Handle floating point rounding errors
                 (n = 360 === max ? n : Math.min(max, Math.max(0, parseFloat(n))), isPercent && (n = parseInt(String(n * max), 10) / 100), 0.000001 > Math.abs(n - max)) ? 1 : // If n is a hue given in degrees,

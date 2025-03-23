@@ -149,7 +149,7 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
     }, extend = function(name, method) {
         if (!method || !method.$hidden) {
             var previous = this[name];
-            (null == previous || !previous.$protected) && (this[name] = method);
+            null != previous && previous.$protected || (this[name] = method);
         }
     };
     Type1.implement({
@@ -610,7 +610,7 @@ provides: Number
 }), Number.alias("each", "times"), function(math) {
     var methods = {};
     math.each(function(name) {
-        !Number[name] && (methods[name] = function() {
+        Number[name] || (methods[name] = function() {
             return Math[name].apply(null, [
                 this
             ].concat(Array.from(arguments)));
@@ -1988,7 +1988,7 @@ provides: [Element, Elements, $, $$, Iframe, Selectors]
         var parsed = Slick.parse(tag).expressions[0][0];
         tag = "*" == parsed.tag ? "div" : parsed.tag, parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
-        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null == props[(attr = attributes[i]).key] && (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : !attr.value && !attr.operator && (props[attr.key] = !0));
+        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null == props[(attr = attributes[i]).key] && (null == attr.value || "=" != attr.operator ? !attr.value && !attr.operator && (props[attr.key] = !0) : props[attr.key] = attr.value);
         parsed.classList && null == props.class && (props.class = parsed.classList.join(" "));
     }
     return document.newElement(tag, props);
@@ -2667,7 +2667,7 @@ provides: Element.Style
         element.style.opacity = opacity;
     } : hasFilter ? function(element, opacity) {
         var style = element.style;
-        (!element.currentStyle || !element.currentStyle.hasLayout) && (style.zoom = 1), opacity = null == opacity || 1 == opacity ? "" : "alpha(opacity=" + (100 * opacity).limit(0, 100).round() + ")";
+        (!element.currentStyle || !element.currentStyle.hasLayout) && (style.zoom = 1), opacity = null != opacity && 1 != opacity ? "alpha(opacity=" + (100 * opacity).limit(0, 100).round() + ")" : "";
         var filter = style.filter || element.getComputedStyle("filter") || "";
         style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity, !style.filter && style.removeAttribute("filter");
     } : setVisibility, getOpacity = hasOpacity ? function(element) {
@@ -2675,7 +2675,7 @@ provides: Element.Style
         return "" == opacity ? 1 : opacity.toFloat();
     } : hasFilter ? function(element) {
         var opacity, filter = element.style.filter || element.getComputedStyle("filter");
-        return filter && (opacity = filter.match(reAlpha)), null == opacity || null == filter ? 1 : opacity[1] / 100;
+        return filter && (opacity = filter.match(reAlpha)), null != opacity && null != filter ? opacity[1] / 100 : 1;
     } : function(element) {
         var opacity = element.retrieve("$opacity");
         return null == opacity && (opacity = +("hidden" != element.style.visibility)), opacity;
@@ -3650,9 +3650,9 @@ provides: [Fx.Tween, Element.fade, Element.highlight]
         }
         !toggle && this.eliminate("fade:flag"), fade[method].apply(fade, args);
         var to = args[args.length - 1];
-        return "set" == method || 0 != to ? this.setStyle("visibility", 0 == to ? "hidden" : "visible") : fade.chain(function() {
+        return "set" != method && 0 == to ? fade.chain(function() {
             this.element.setStyle("visibility", "hidden"), this.callChain();
-        }), this;
+        }) : this.setStyle("visibility", 0 == to ? "hidden" : "visible"), this;
     },
     highlight: function(start, end) {
         end || (end = "transparent" == (end = this.retrieve("highlight:original", this.getStyle("background-color"))) ? "#fff" : end);

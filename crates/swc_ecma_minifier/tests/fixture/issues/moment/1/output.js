@@ -4,7 +4,7 @@
 //! license : MIT
 //! momentjs.com
 function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? module.exports = factory() : "function" == typeof define && define.amd ? define(factory) : global.moment = factory();
+    "object" != typeof exports || "undefined" == typeof module ? "function" == typeof define && define.amd ? define(factory) : global.moment = factory() : module.exports = factory();
 }(this, function() {
     "use strict";
     function hooks() {
@@ -92,7 +92,7 @@ function(global, factory) {
     var token, getSetMillisecond, momentProperties = hooks.momentProperties = [], updateInProgress = !1;
     function copyConfig(to, from) {
         var i, prop, val;
-        if (!isUndefined(from._isAMomentObject) && (to._isAMomentObject = from._isAMomentObject), !isUndefined(from._i) && (to._i = from._i), !isUndefined(from._f) && (to._f = from._f), !isUndefined(from._l) && (to._l = from._l), !isUndefined(from._strict) && (to._strict = from._strict), !isUndefined(from._tzm) && (to._tzm = from._tzm), !isUndefined(from._isUTC) && (to._isUTC = from._isUTC), !isUndefined(from._offset) && (to._offset = from._offset), !isUndefined(from._pf) && (to._pf = getParsingFlags(from)), !isUndefined(from._locale) && (to._locale = from._locale), momentProperties.length > 0) for(i = 0; i < momentProperties.length; i++)!isUndefined(val = from[prop = momentProperties[i]]) && (to[prop] = val);
+        if (!isUndefined(from._isAMomentObject) && (to._isAMomentObject = from._isAMomentObject), !isUndefined(from._i) && (to._i = from._i), !isUndefined(from._f) && (to._f = from._f), !isUndefined(from._l) && (to._l = from._l), !isUndefined(from._strict) && (to._strict = from._strict), !isUndefined(from._tzm) && (to._tzm = from._tzm), !isUndefined(from._isUTC) && (to._isUTC = from._isUTC), !isUndefined(from._offset) && (to._offset = from._offset), !isUndefined(from._pf) && (to._pf = getParsingFlags(from)), !isUndefined(from._locale) && (to._locale = from._locale), momentProperties.length > 0) for(i = 0; i < momentProperties.length; i++)isUndefined(val = from[prop = momentProperties[i]]) || (to[prop] = val);
         return to;
     }
     // Moment prototype object
@@ -216,7 +216,7 @@ function(global, factory) {
         return mom.isValid() ? mom._d["get" + (mom._isUTC ? "UTC" : "") + unit]() : NaN;
     }
     function set$1(mom, unit, value) {
-        mom.isValid() && !isNaN(value) && ("FullYear" === unit && isLeapYear(mom.year()) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value));
+        mom.isValid() && !isNaN(value) && (!("FullYear" === unit && isLeapYear(mom.year())) || 1 !== mom.month() || 29 !== mom.date() ? mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value) : (value = toInt(value), mom._d["set" + (mom._isUTC ? "UTC" : "") + unit](value, mom.month(), daysInMonth(value, mom.month()))));
     }
     var hookCallback, some, keys, regexes, match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, // any word (or two) characters or numbers including two/three word month in arabic.
     // includes scottish gaelic two word and hyphenated months
@@ -294,7 +294,7 @@ function(global, factory) {
         ]), this._shortMonthsParse[i] = this.monthsShort(mom, "").toLocaleLowerCase(), this._longMonthsParse[i] = this.months(mom, "").toLocaleLowerCase();
         if (strict) if ("MMM" === format) return -1 !== (ii = indexOf.call(this._shortMonthsParse, llc)) ? ii : null;
         else return -1 !== (ii = indexOf.call(this._longMonthsParse, llc)) ? ii : null;
-        return "MMM" === format ? -1 !== (ii = indexOf.call(this._shortMonthsParse, llc)) || -1 !== (ii = indexOf.call(this._longMonthsParse, llc)) ? ii : null : -1 !== (ii = indexOf.call(this._longMonthsParse, llc)) || -1 !== (ii = indexOf.call(this._shortMonthsParse, llc)) ? ii : null;
+        return "MMM" === format ? -1 === (ii = indexOf.call(this._shortMonthsParse, llc)) && -1 === (ii = indexOf.call(this._longMonthsParse, llc)) ? null : ii : -1 === (ii = indexOf.call(this._longMonthsParse, llc)) && -1 === (ii = indexOf.call(this._shortMonthsParse, llc)) ? null : ii;
     }
     // MOMENTS
     function setMonth(mom, value) {
@@ -865,15 +865,15 @@ function(global, factory) {
                 nowValue.getFullYear(),
                 nowValue.getMonth(),
                 nowValue.getDate()
-            ], config._w && null == config._a[2] && null == config._a[1] && (null != (w = config._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, // TODO: We need to take the current isoWeekYear, but that depends on
-            // how we interpret now (local, utc, fixed offset). So create
-            // a now version of current config (take local/utc/offset flags, and
-            // create now).
-            weekYear = defaults(w.GG, config._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config._locale._week.dow, doy = config._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config._a[0], curWeek.year), // Default to current week.
+            ], config._w && null == config._a[2] && null == config._a[1] && (null == (w = config._w).GG && null == w.W && null == w.E ? (dow = config._locale._week.dow, doy = config._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config._a[0], curWeek.year), // Default to current week.
             week = defaults(w.w, curWeek.week), null != w.d ? (// weekday -- low day numbers are considered next week
             (weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (// local weekday -- counting starts from beginning of week
             weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : // default to beginning of week
-            weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config._a[0] = temp.year, config._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
+            weekday = dow) : (dow = 1, doy = 4, // TODO: We need to take the current isoWeekYear, but that depends on
+            // how we interpret now (local, utc, fixed offset). So create
+            // a now version of current config (take local/utc/offset flags, and
+            // create now).
+            weekYear = defaults(w.GG, config._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config._a[0] = temp.year, config._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
             // Zero out whatever was not defaulted, including time
             for(; i < 7; i++)config._a[i] = input[i] = null == config._a[i] ? +(2 === i) : config._a[i];
             24 === config._a[3] && 0 === config._a[4] && 0 === config._a[5] && 0 === config._a[6] && (config._nextDay = !0, config._a[3] = 0), config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input), expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay(), null != config._tzm && config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), config._nextDay && (config._a[3] = 24), config._w && void 0 !== config._w.d && config._w.d !== expectedWeekday && (getParsingFlags(config).weekdayMismatch = !0);
@@ -2003,15 +2003,7 @@ function(global, factory) {
     }, proto$2.as = function(units) {
         if (!this.isValid()) return NaN;
         var days, months, milliseconds = this._milliseconds;
-        if ("month" === (units = normalizeUnits(units)) || "quarter" === units || "year" === units) switch(days = this._days + milliseconds / 864e5, months = this._months + daysToMonths(days), units){
-            case "month":
-                return months;
-            case "quarter":
-                return months / 3;
-            case "year":
-                return months / 12;
-        }
-        else switch(// handle milliseconds separately because of floating point math errors (issue #1867)
+        if ("month" !== (units = normalizeUnits(units)) && "quarter" !== units && "year" !== units) switch(// handle milliseconds separately because of floating point math errors (issue #1867)
         days = this._days + Math.round(monthsToDays(this._months)), units){
             case "week":
                 return days / 7 + milliseconds / 6048e5;
@@ -2028,6 +2020,14 @@ function(global, factory) {
                 return Math.floor(864e5 * days) + milliseconds;
             default:
                 throw Error("Unknown unit " + units);
+        }
+        switch(days = this._days + milliseconds / 864e5, months = this._months + daysToMonths(days), units){
+            case "month":
+                return months;
+            case "quarter":
+                return months / 3;
+            case "year":
+                return months / 12;
         }
     }, proto$2.asMilliseconds = asMilliseconds, proto$2.asSeconds = asSeconds, proto$2.asMinutes = asMinutes, proto$2.asHours = asHours, proto$2.asDays = asDays, proto$2.asWeeks = asWeeks, proto$2.asMonths = asMonths, proto$2.asQuarters = asQuarters, proto$2.asYears = asYears, proto$2.valueOf = // TODO: Use this.as('ms')?
     function() {
@@ -2116,12 +2116,12 @@ function(global, factory) {
     }, hooks.defineLocale = defineLocale, hooks.updateLocale = function(name, config) {
         if (null != config) {
             var locale, tmpLocale, parentConfig = baseConfig;
-            null != locales[name] && null != locales[name].parentLocale ? // Update existing child locale in-place to avoid memory-leaks
-            locales[name].set(mergeConfigs(locales[name]._config, config)) : (null != // MERGE
+            null == locales[name] || null == locales[name].parentLocale ? (null != // MERGE
             (tmpLocale = loadLocale(name)) && (parentConfig = tmpLocale._config), config = mergeConfigs(parentConfig, config), null == tmpLocale && // updateLocale is called for creating a new locale
             // Set abbr so it will have a name (getters return
             // undefined otherwise).
-            (config.abbr = name), (locale = new Locale(config)).parentLocale = locales[name], locales[name] = locale), // backwards compat for now: also set the locale
+            (config.abbr = name), (locale = new Locale(config)).parentLocale = locales[name], locales[name] = locale) : // Update existing child locale in-place to avoid memory-leaks
+            locales[name].set(mergeConfigs(locales[name]._config, config)), // backwards compat for now: also set the locale
             getSetGlobalLocale(name);
         } else // pass null for config to unupdate, useful for tests
         null != locales[name] && (null != locales[name].parentLocale ? (locales[name] = locales[name].parentLocale, name === getSetGlobalLocale() && getSetGlobalLocale(name)) : null != locales[name] && delete locales[name]);

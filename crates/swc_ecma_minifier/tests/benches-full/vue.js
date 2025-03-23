@@ -484,7 +484,7 @@
         if (!property || !1 !== property.configurable) {
             // cater for pre-defined getter/setters
             var getter = property && property.get, setter = property && property.set;
-            (!getter || setter) && 2 == arguments.length && (val = obj[key]);
+            getter && !setter || 2 != arguments.length || (val = obj[key]);
             var childOb = !shallow && observe(val);
             Object.defineProperty(obj, key, {
                 enumerable: !0,
@@ -748,7 +748,7 @@
             if (null != value || prop.required) {
                 var message, expectedType, receivedType, expectedValue, receivedValue, type = prop.type, valid = !type || !0 === type, expectedTypes = [];
                 if (type) {
-                    !Array.isArray(type) && (type = [
+                    Array.isArray(type) || (type = [
                         type
                     ]);
                     for(var i = 0; i < type.length && !valid; i++){
@@ -757,7 +757,7 @@
                             if (simpleCheckRE.test(expectedType)) {
                                 var t = typeof value;
                                 // for primitive wrapper objects
-                                !(valid = t === expectedType.toLowerCase()) && 'object' === t && (valid = value instanceof type);
+                                (valid = t === expectedType.toLowerCase()) || 'object' !== t || (valid = value instanceof type);
                             } else valid = 'Object' === expectedType ? isPlainObject(value) : 'Array' === expectedType ? Array.isArray(value) : value instanceof type;
                             return {
                                 valid: valid,
@@ -1059,10 +1059,11 @@
             var child = children[i], data = child.data;
             // named slots should only be respected if the vnode was rendered in the
             // same context.
-            if (data && data.attrs && data.attrs.slot && delete data.attrs.slot, (child.context === context || child.fnContext === context) && data && null != data.slot) {
+            if (data && data.attrs && data.attrs.slot && delete data.attrs.slot, child.context !== context && child.fnContext !== context || !data || null == data.slot) (slots.default || (slots.default = [])).push(child);
+            else {
                 var name = data.slot, slot = slots[name] || (slots[name] = []);
                 'template' === child.tag ? slot.push.apply(slot, child.children || []) : slot.push(child);
-            } else (slots.default || (slots.default = [])).push(child);
+            }
         }
         // ignore slots that contains only whitespace
         for(var name$1 in slots)slots[name$1].every(isWhitespace) && delete slots[name$1];
@@ -1153,7 +1154,7 @@
                     hash = asProp || config.mustUseProp(tag, type, key) ? data.domProps || (data.domProps = {}) : data.attrs || (data.attrs = {});
                 }
                 var camelizedKey = camelize(key), hyphenatedKey = hyphenate(key);
-                !(camelizedKey in hash) && !(hyphenatedKey in hash) && (hash[key] = value[key], isSync && ((data.on || (data.on = {}))["update:" + key] = function($event) {
+                camelizedKey in hash || hyphenatedKey in hash || (hash[key] = value[key], !isSync || ((data.on || (data.on = {}))["update:" + key] = function($event) {
                     value[key] = $event;
                 }));
             };
@@ -1433,7 +1434,7 @@
     // without getting yelled at by flow
     function createElement(context, tag, data, children, normalizationType, alwaysNormalize) {
         var tag1, data1, children1, normalizationType1, vnode, ns, Ctor, data2;
-        return (Array.isArray(data) || isPrimitive(data)) && (normalizationType = children, children = data, data = void 0), isTrue(alwaysNormalize) && (normalizationType = 2), tag1 = tag, data1 = data, children1 = children, normalizationType1 = normalizationType, isDef(data1) && isDef(data1.__ob__) ? (warn("Avoid using observed data object as vnode data: " + JSON.stringify(data1) + "\nAlways create fresh vnode data objects in each render!", context), createEmptyVNode()) : (isDef(data1) && isDef(data1.is) && (tag1 = data1.is), tag1) ? (isDef(data1) && isDef(data1.key) && !isPrimitive(data1.key) && warn("Avoid using non-primitive value as key, use string/number value instead.", context), Array.isArray(children1) && 'function' == typeof children1[0] && ((data1 = data1 || {}).scopedSlots = {
+        return (Array.isArray(data) || isPrimitive(data)) && (normalizationType = children, children = data, data = void 0), isTrue(alwaysNormalize) && (normalizationType = 2), tag1 = tag, data1 = data, children1 = children, normalizationType1 = normalizationType, isDef(data1) && isDef(data1.__ob__) ? (warn("Avoid using observed data object as vnode data: " + JSON.stringify(data1) + "\nAlways create fresh vnode data objects in each render!", context), createEmptyVNode()) : (isDef(data1) && isDef(data1.is) && (tag1 = data1.is), !tag1) ? createEmptyVNode() : (isDef(data1) && isDef(data1.key) && !isPrimitive(data1.key) && warn("Avoid using non-primitive value as key, use string/number value instead.", context), Array.isArray(children1) && 'function' == typeof children1[0] && ((data1 = data1 || {}).scopedSlots = {
             default: children1[0]
         }, children1.length = 0), 2 === normalizationType1 ? children1 = normalizeChildren(children1) : 1 === normalizationType1 && (children1 = /*  */ // The template compiler attempts to minimize the need for normalization by
         // statically analyzing the template at compile time.
@@ -1449,15 +1450,17 @@
         function(children) {
             for(var i = 0; i < children.length; i++)if (Array.isArray(children[i])) return Array.prototype.concat.apply([], children);
             return children;
-        }(children1)), 'string' == typeof tag1 ? (ns = context.$vnode && context.$vnode.ns || config.getTagNamespace(tag1), config.isReservedTag(tag1) ? (isDef(data1) && isDef(data1.nativeOn) && warn("The .native modifier for v-on is only valid on components but it was used on <" + tag1 + ">.", context), vnode = new VNode(config.parsePlatformTagName(tag1), data1, children1, void 0, void 0, context)) : // component
-        vnode = (!data1 || !data1.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag1)) ? createComponent(Ctor, data1, context, children1, tag1) : new VNode(tag1, data1, children1, void 0, void 0, context)) : // direct component options / constructor
+        }(children1)), 'string' == typeof tag1 ? (ns = context.$vnode && context.$vnode.ns || config.getTagNamespace(tag1), config.isReservedTag(tag1) ? (isDef(data1) && isDef(data1.nativeOn) && warn("The .native modifier for v-on is only valid on components but it was used on <" + tag1 + ">.", context), vnode = new VNode(config.parsePlatformTagName(tag1), data1, children1, void 0, void 0, context)) : // unknown or unlisted namespaced elements
+        // check at runtime because it may get assigned a namespace when its
+        // parent normalizes children
+        vnode = !((!data1 || !data1.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag1))) ? new VNode(tag1, data1, children1, void 0, void 0, context) : createComponent(Ctor, data1, context, children1, tag1)) : // direct component options / constructor
         vnode = createComponent(tag1, data1, context, children1), Array.isArray(vnode)) ? vnode : isDef(vnode) ? (isDef(ns) && function applyNS(vnode, ns, force) {
             if (vnode.ns = ns, 'foreignObject' === vnode.tag && (// use default namespace inside foreignObject
             ns = void 0, force = !0), isDef(vnode.children)) for(var i = 0, l = vnode.children.length; i < l; i++){
                 var child = vnode.children[i];
                 isDef(child.tag) && (isUndef(child.ns) || isTrue(force) && 'svg' !== child.tag) && applyNS(child, ns, force);
             }
-        }(vnode, ns), isDef(data1) && (isObject((data2 = data1).style) && traverse(data2.style), isObject(data2.class) && traverse(data2.class)), vnode) : createEmptyVNode() : createEmptyVNode();
+        }(vnode, ns), isDef(data1) && (isObject((data2 = data1).style) && traverse(data2.style), isObject(data2.class) && traverse(data2.class)), vnode) : createEmptyVNode();
     }
     var currentRenderingInstance = null;
     /*  */ function ensureCtor(comp, base) {
@@ -2295,10 +2298,10 @@
     /*  */ var validDivisionCharRE = /[\w).+\-_$\]]/;
     function parseFilters(exp) {
         var c, prev, i, expression, filters, inSingle = !1, inDouble = !1, inTemplateString = !1, inRegex = !1, curly = 0, square = 0, paren = 0, lastFilterIndex = 0;
-        for(i = 0; i < exp.length; i++)if (prev = c, c = exp.charCodeAt(i), inSingle) 0x27 === c && 0x5C !== prev && (inSingle = !1);
-        else if (inDouble) 0x22 === c && 0x5C !== prev && (inDouble = !1);
-        else if (inTemplateString) 0x60 === c && 0x5C !== prev && (inTemplateString = !1);
-        else if (inRegex) 0x2f === c && 0x5C !== prev && (inRegex = !1);
+        for(i = 0; i < exp.length; i++)if (prev = c, c = exp.charCodeAt(i), inSingle) 0x27 !== c || 0x5C === prev || (inSingle = !1);
+        else if (inDouble) 0x22 !== c || 0x5C === prev || (inDouble = !1);
+        else if (inTemplateString) 0x60 !== c || 0x5C === prev || (inTemplateString = !1);
+        else if (inRegex) 0x2f !== c || 0x5C === prev || (inRegex = !1);
         else if (0x7C !== c || // pipe
         0x7C === exp.charCodeAt(i + 1) || 0x7C === exp.charCodeAt(i - 1) || curly || square || paren) {
             switch(c){
@@ -2332,7 +2335,7 @@
             if (0x2f === c) {
                 // find first non-whitespace prev char
                 for(var j = i - 1, p = void 0; j >= 0 && ' ' === (p = exp.charAt(j)); j--);
-                (!p || !validDivisionCharRE.test(p)) && (inRegex = !0);
+                p && validDivisionCharRE.test(p) || (inRegex = !0);
             }
         } else void 0 === expression ? (// first filter, end of expression
         lastFilterIndex = i + 1, expression = exp.slice(0, i).trim()) : pushFilter();
@@ -2552,7 +2555,22 @@
                     if (vnode.children && (vnode.children.length = 0), cur === oldProps[key]) continue;
                     1 === elm.childNodes.length && elm.removeChild(elm.childNodes[0]);
                 }
-                if ('value' === key && 'PROGRESS' !== elm.tagName) {
+                if ('value' !== key || 'PROGRESS' === elm.tagName) {
+                    if ('innerHTML' === key && isSVG(elm.tagName) && isUndef(elm.innerHTML)) {
+                        // IE doesn't support innerHTML for SVG elements
+                        (svgContainer = svgContainer || document.createElement('div')).innerHTML = "<svg>" + cur + "</svg>";
+                        for(var svg = svgContainer.firstChild; elm.firstChild;)elm.removeChild(elm.firstChild);
+                        for(; svg.firstChild;)elm.appendChild(svg.firstChild);
+                    } else if (// skip the update if old and new VDOM state is the same.
+                    // `value` is handled separately because the DOM value may be temporarily
+                    // out of sync with VDOM state due to focus, composition and modifiers.
+                    // This  #4521 by skipping the unnecessary `checked` update.
+                    cur !== oldProps[key]) // some property updates can throw
+                    // e.g. `value` on <progress> w/ non-finite value
+                    try {
+                        elm[key] = cur;
+                    } catch (e) {}
+                } else {
                     // store value as _value as well since
                     // non-string values will be stringified
                     elm._value = cur;
@@ -2576,20 +2594,7 @@
                         }
                         return value !== newVal;
                     }(elm, strCur)) && (elm.value = strCur);
-                } else if ('innerHTML' === key && isSVG(elm.tagName) && isUndef(elm.innerHTML)) {
-                    // IE doesn't support innerHTML for SVG elements
-                    (svgContainer = svgContainer || document.createElement('div')).innerHTML = "<svg>" + cur + "</svg>";
-                    for(var svg = svgContainer.firstChild; elm.firstChild;)elm.removeChild(elm.firstChild);
-                    for(; svg.firstChild;)elm.appendChild(svg.firstChild);
-                } else if (// skip the update if old and new VDOM state is the same.
-                // `value` is handled separately because the DOM value may be temporarily
-                // out of sync with VDOM state due to focus, composition and modifiers.
-                // This  #4521 by skipping the unnecessary `checked` update.
-                cur !== oldProps[key]) // some property updates can throw
-                // e.g. `value` on <progress> w/ non-finite value
-                try {
-                    elm[key] = cur;
-                } catch (e) {}
+                }
             }
         }
     }
@@ -3331,11 +3336,10 @@
             render: function(h) {
                 for(var tag = this.tag || this.$vnode.data.tag || 'span', map = Object.create(null), prevChildren = this.prevChildren = this.children, rawChildren = this.$slots.default || [], children = this.children = [], transitionData = extractTransitionData(this), i = 0; i < rawChildren.length; i++){
                     var c = rawChildren[i];
-                    if (c.tag) if (null != c.key && 0 !== String(c.key).indexOf('__vlist')) children.push(c), map[c.key] = c, (c.data || (c.data = {})).transition = transitionData;
-                    else {
+                    if (c.tag) if (null == c.key || 0 === String(c.key).indexOf('__vlist')) {
                         var opts = c.componentOptions, name = opts ? opts.Ctor.options.name || opts.tag || '' : c.tag;
                         warn("<transition-group> children must be keyed: <" + name + ">");
-                    }
+                    } else children.push(c), map[c.key] = c, (c.data || (c.data = {})).transition = transitionData;
                 }
                 if (prevChildren) {
                     for(var kept = [], removed = [], i$1 = 0; i$1 < prevChildren.length; i$1++){
@@ -3630,9 +3634,11 @@
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) // component v-model doesn't need extra runtime
                 return genComponentModel(el, value, modifiers), !1;
                 if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
-                else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
-                else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
-                else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
+                else if ('input' !== tag || 'checkbox' !== type) if ('input' !== tag || 'radio' !== type) if ('input' !== tag && 'textarea' !== tag) {
+                    if (!config.isReservedTag(tag)) // component v-model doesn't need extra runtime
+                    return genComponentModel(el, value, modifiers), !1;
+                    warn$1("<" + el.tag + " v-model=\"" + value + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
+                } else !function(el, value, modifiers) {
                     var type = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
                     if (value$1 && !typeBinding) {
                         var binding = el.attrsMap['v-bind:value'] ? 'v-bind:value' : ':value';
@@ -3643,11 +3649,8 @@
                     var code = genAssignmentCode(value, valueExpression);
                     !lazy && 'range' !== type && (code = "if($event.target.composing)return;" + code), addProp(el, 'value', "(" + value + ")"), addHandler(el, lazy ? 'change' : 'range' === type ? '__r' : 'input', code, null, !0), (trim || number) && addHandler(el, 'blur', '$forceUpdate()');
                 }(el, value, modifiers);
-                else {
-                    if (!config.isReservedTag(tag)) // component v-model doesn't need extra runtime
-                    return genComponentModel(el, value, modifiers), !1;
-                    warn$1("<" + el.tag + " v-model=\"" + value + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
-                }
+                else number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
+                else number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 // ensure runtime directive metadata
                 return !0;
             },
@@ -4232,7 +4235,7 @@
                             name: list[i].name,
                             value: JSON.stringify(list[i].value)
                         }, null != list[i].start && (attrs[i].start = list[i].start, attrs[i].end = list[i].end);
-                        else !el.pre && // non root node in pre blocks with no attributes
+                        else el.pre || // non root node in pre blocks with no attributes
                         (el.plain = !0);
                     }(element) : !element.processed && (// structural directives
                     processFor(element), function(el) {
@@ -4266,15 +4269,15 @@
                     /* istanbul ignore if */ if (!isIE || 'textarea' !== currentParent.tag || currentParent.attrsMap.placeholder !== text) {
                         var el, res, child, children = currentParent.children;
                         (text = inPre || text.trim() ? 'script' === (el = currentParent).tag || 'style' === el.tag ? text : decodeHTMLCached(text) : children.length ? whitespaceOption ? 'condense' === whitespaceOption && lineBreakRE.test(text) ? '' : ' ' : preserveWhitespace ? ' ' : '' : '') && (!inPre && 'condense' === whitespaceOption && // condense consecutive whitespaces into single space
-                        (text = text.replace(whitespaceRE$1, ' ')), !inVPre && ' ' !== text && (res = parseText(text, delimiters)) ? child = {
+                        (text = text.replace(whitespaceRE$1, ' ')), !(!inVPre && ' ' !== text && (res = parseText(text, delimiters))) ? (' ' !== text || !children.length || ' ' !== children[children.length - 1].text) && (child = {
+                            type: 3,
+                            text: text
+                        }) : child = {
                             type: 2,
                             expression: res.expression,
                             tokens: res.tokens,
                             text: text
-                        } : (' ' !== text || !children.length || ' ' !== children[children.length - 1].text) && (child = {
-                            type: 3,
-                            text: text
-                        }), child && (options.outputSourceRange && (child.start = start, child.end = end), children.push(child)));
+                        }, child && (options.outputSourceRange && (child.start = start, child.end = end), children.push(child)));
                     }
                 },
                 comment: function(text, start, end) {
@@ -4348,7 +4351,7 @@
                     };
                 }
                 // copy other options
-                for(var key in options.modules && (finalOptions.modules = (baseOptions.modules || []).concat(options.modules)), options.directives && (finalOptions.directives = extend(Object.create(baseOptions.directives || null), options.directives)), options)'modules' !== key && 'directives' !== key && (finalOptions[key] = options[key]);
+                for(var key in options.modules && (finalOptions.modules = (baseOptions.modules || []).concat(options.modules)), options.directives && (finalOptions.directives = extend(Object.create(baseOptions.directives || null), options.directives)), options)'modules' === key || 'directives' === key || (finalOptions[key] = options[key]);
             }
             finalOptions.warn = warn1;
             var compiled = baseCompile(template.trim(), finalOptions);

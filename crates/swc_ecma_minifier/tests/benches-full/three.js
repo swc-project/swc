@@ -3618,7 +3618,7 @@ function(global, factory) {
         }
         return {
             start: function() {
-                !0 !== isAnimating && null !== animationLoop && (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
+                !0 === isAnimating || null === animationLoop || (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
             },
             stop: function() {
                 context.cancelAnimationFrame(requestId), isAnimating = !1;
@@ -4469,7 +4469,7 @@ function(global, factory) {
                     }(geometry, index);
                 } else {
                     var wireframe1 = !0 === material.wireframe;
-                    (currentState.geometry !== geometry.id || currentState.program !== program.id || currentState.wireframe !== wireframe1) && (currentState.geometry = geometry.id, currentState.program = program.id, currentState.wireframe = wireframe1, updateBuffers = !0);
+                    currentState.geometry === geometry.id && currentState.program === program.id && currentState.wireframe === wireframe1 || (currentState.geometry = geometry.id, currentState.program = program.id, currentState.wireframe = wireframe1, updateBuffers = !0);
                 }
                 !0 === object.isInstancedMesh && (updateBuffers = !0), null !== index && attributes.update(index, 34963), updateBuffers && (function(object, material, program, geometry) {
                     if (!1 !== capabilities.isWebGL2 || !object.isInstancedMesh && !geometry.isInstancedBufferGeometry || null !== extensions.get('ANGLE_instanced_arrays')) {
@@ -5020,7 +5020,7 @@ function(global, factory) {
     } // Single float vector (from flat array or THREE.VectorN)
     function setValueV2f(gl, v) {
         var cache = this.cache;
-        if (void 0 !== v.x) (cache[0] !== v.x || cache[1] !== v.y) && (gl.uniform2f(this.addr, v.x, v.y), cache[0] = v.x, cache[1] = v.y);
+        if (void 0 !== v.x) cache[0] === v.x && cache[1] === v.y || (gl.uniform2f(this.addr, v.x, v.y), cache[0] = v.x, cache[1] = v.y);
         else {
             if (arraysEqual(cache, v)) return;
             gl.uniform2fv(this.addr, v), copyArray(cache, v);
@@ -5028,8 +5028,8 @@ function(global, factory) {
     }
     function setValueV3f(gl, v) {
         var cache = this.cache;
-        if (void 0 !== v.x) (cache[0] !== v.x || cache[1] !== v.y || cache[2] !== v.z) && (gl.uniform3f(this.addr, v.x, v.y, v.z), cache[0] = v.x, cache[1] = v.y, cache[2] = v.z);
-        else if (void 0 !== v.r) (cache[0] !== v.r || cache[1] !== v.g || cache[2] !== v.b) && (gl.uniform3f(this.addr, v.r, v.g, v.b), cache[0] = v.r, cache[1] = v.g, cache[2] = v.b);
+        if (void 0 !== v.x) cache[0] === v.x && cache[1] === v.y && cache[2] === v.z || (gl.uniform3f(this.addr, v.x, v.y, v.z), cache[0] = v.x, cache[1] = v.y, cache[2] = v.z);
+        else if (void 0 !== v.r) cache[0] === v.r && cache[1] === v.g && cache[2] === v.b || (gl.uniform3f(this.addr, v.r, v.g, v.b), cache[0] = v.r, cache[1] = v.g, cache[2] = v.b);
         else {
             if (arraysEqual(cache, v)) return;
             gl.uniform3fv(this.addr, v), copyArray(cache, v);
@@ -5037,7 +5037,7 @@ function(global, factory) {
     }
     function setValueV4f(gl, v) {
         var cache = this.cache;
-        if (void 0 !== v.x) (cache[0] !== v.x || cache[1] !== v.y || cache[2] !== v.z || cache[3] !== v.w) && (gl.uniform4f(this.addr, v.x, v.y, v.z, v.w), cache[0] = v.x, cache[1] = v.y, cache[2] = v.z, cache[3] = v.w);
+        if (void 0 !== v.x) cache[0] === v.x && cache[1] === v.y && cache[2] === v.z && cache[3] === v.w || (gl.uniform4f(this.addr, v.x, v.y, v.z, v.w), cache[0] = v.x, cache[1] = v.y, cache[2] = v.z, cache[3] = v.w);
         else {
             if (arraysEqual(cache, v)) return;
             gl.uniform4fv(this.addr, v), copyArray(cache, v);
@@ -5318,13 +5318,14 @@ function(global, factory) {
                 var path = activeInfo.name, pathLength = path.length; // reset RegExp object, because of the early exit of a previous run
                 for(RePathPart.lastIndex = 0;;){
                     var match = RePathPart.exec(path), matchEnd = RePathPart.lastIndex, id = match[1], idIsIndex = ']' === match[2], subscript = match[3];
-                    if (idIsIndex && (id |= 0), void 0 === subscript || '[' === subscript && matchEnd + 2 === pathLength) {
+                    if (idIsIndex && (id |= 0), void 0 !== subscript && ('[' !== subscript || matchEnd + 2 !== pathLength)) {
+                        var next = container.map[id];
+                        void 0 === next && addUniform(container, next = new StructuredUniform(id)), container = next;
+                    } else {
                         // bare name or "pure" bottom-level array "[0]" suffix
                         addUniform(container, void 0 === subscript ? new SingleUniform(id, activeInfo, addr) : new PureArrayUniform(id, activeInfo, addr));
                         break;
                     }
-                    var next = container.map[id];
-                    void 0 === next && addUniform(container, next = new StructuredUniform(id)), container = next;
                 }
             } // Root Container
             (info, addr, this);
@@ -6450,7 +6451,7 @@ function(global, factory) {
             var locked = !1, color = new Vector4(), currentColorMask = null, currentColorClear = new Vector4(0, 0, 0, 0);
             return {
                 setMask: function(colorMask) {
-                    currentColorMask !== colorMask && !locked && (gl.colorMask(colorMask, colorMask, colorMask, colorMask), currentColorMask = colorMask);
+                    currentColorMask === colorMask || locked || (gl.colorMask(colorMask, colorMask, colorMask, colorMask), currentColorMask = colorMask);
                 },
                 setLocked: function(lock) {
                     locked = lock;
@@ -6469,7 +6470,7 @@ function(global, factory) {
                     depthTest ? enable(2929) : disable(2929);
                 },
                 setMask: function(depthMask) {
-                    currentDepthMask !== depthMask && !locked && (gl.depthMask(depthMask), currentDepthMask = depthMask);
+                    currentDepthMask === depthMask || locked || (gl.depthMask(depthMask), currentDepthMask = depthMask);
                 },
                 setFunc: function(depthFunc) {
                     if (currentDepthFunc !== depthFunc) {
@@ -6520,13 +6521,13 @@ function(global, factory) {
                     !locked && (stencilTest ? enable(2960) : disable(2960));
                 },
                 setMask: function(stencilMask) {
-                    currentStencilMask !== stencilMask && !locked && (gl.stencilMask(stencilMask), currentStencilMask = stencilMask);
+                    currentStencilMask === stencilMask || locked || (gl.stencilMask(stencilMask), currentStencilMask = stencilMask);
                 },
                 setFunc: function(stencilFunc, stencilRef, stencilMask) {
-                    (currentStencilFunc !== stencilFunc || currentStencilRef !== stencilRef || currentStencilFuncMask !== stencilMask) && (gl.stencilFunc(stencilFunc, stencilRef, stencilMask), currentStencilFunc = stencilFunc, currentStencilRef = stencilRef, currentStencilFuncMask = stencilMask);
+                    currentStencilFunc === stencilFunc && currentStencilRef === stencilRef && currentStencilFuncMask === stencilMask || (gl.stencilFunc(stencilFunc, stencilRef, stencilMask), currentStencilFunc = stencilFunc, currentStencilRef = stencilRef, currentStencilFuncMask = stencilMask);
                 },
                 setOp: function(stencilFail, stencilZFail, stencilZPass) {
-                    (currentStencilFail !== stencilFail || currentStencilZFail !== stencilZFail || currentStencilZPass !== stencilZPass) && (gl.stencilOp(stencilFail, stencilZFail, stencilZPass), currentStencilFail = stencilFail, currentStencilZFail = stencilZFail, currentStencilZPass = stencilZPass);
+                    currentStencilFail === stencilFail && currentStencilZFail === stencilZFail && currentStencilZPass === stencilZPass || (gl.stencilOp(stencilFail, stencilZFail, stencilZPass), currentStencilFail = stencilFail, currentStencilZFail = stencilZFail, currentStencilZPass = stencilZPass);
                 },
                 setLocked: function(lock) {
                     locked = lock;
@@ -6635,7 +6636,7 @@ function(global, factory) {
             setMaterial: function(material, frontFaceCW) {
                 2 === material.side ? disable(2884) : enable(2884);
                 var flipSided = 1 === material.side;
-                frontFaceCW && (flipSided = !flipSided), setFlipSided(flipSided), 1 === material.blending && !1 === material.transparent ? setBlending(0) : setBlending(material.blending, material.blendEquation, material.blendSrc, material.blendDst, material.blendEquationAlpha, material.blendSrcAlpha, material.blendDstAlpha, material.premultipliedAlpha), depthBuffer.setFunc(material.depthFunc), depthBuffer.setTest(material.depthTest), depthBuffer.setMask(material.depthWrite), colorBuffer.setMask(material.colorWrite);
+                frontFaceCW && (flipSided = !flipSided), setFlipSided(flipSided), 1 !== material.blending || !1 !== material.transparent ? setBlending(material.blending, material.blendEquation, material.blendSrc, material.blendDst, material.blendEquationAlpha, material.blendSrcAlpha, material.blendDstAlpha, material.premultipliedAlpha) : setBlending(0), depthBuffer.setFunc(material.depthFunc), depthBuffer.setTest(material.depthTest), depthBuffer.setMask(material.depthWrite), colorBuffer.setMask(material.colorWrite);
                 var stencilWrite = material.stencilWrite;
                 stencilBuffer.setTest(stencilWrite), stencilWrite && (stencilBuffer.setMask(material.stencilWriteMask), stencilBuffer.setFunc(material.stencilFunc, material.stencilRef, material.stencilFuncMask), stencilBuffer.setOp(material.stencilFail, material.stencilZFail, material.stencilZPass)), setPolygonOffset(material.polygonOffset, material.polygonOffsetFactor, material.polygonOffsetUnits);
             } //
@@ -6661,7 +6662,7 @@ function(global, factory) {
             },
             unbindTexture: function() {
                 var boundTexture = currentBoundTextures[currentTextureSlot];
-                void 0 !== boundTexture && void 0 !== boundTexture.type && (gl.bindTexture(boundTexture.type, null), boundTexture.type = void 0, boundTexture.texture = void 0);
+                void 0 === boundTexture || void 0 === boundTexture.type || (gl.bindTexture(boundTexture.type, null), boundTexture.type = void 0, boundTexture.texture = void 0);
             },
             compressedTexImage2D: function() {
                 try {
@@ -6736,7 +6737,7 @@ function(global, factory) {
             return 6403 === glFormat && (5126 === glType && (internalFormat = 33326), 5131 === glType && (internalFormat = 33325), 5121 === glType && (internalFormat = 33321)), 6407 === glFormat && (5126 === glType && (internalFormat = 34837), 5131 === glType && (internalFormat = 34843), 5121 === glType && (internalFormat = 32849)), 6408 === glFormat && (5126 === glType && (internalFormat = 34836), 5131 === glType && (internalFormat = 34842), 5121 === glType && (internalFormat = 32856)), (33325 === internalFormat || 33326 === internalFormat || 34842 === internalFormat || 34836 === internalFormat) && extensions.get('EXT_color_buffer_float'), internalFormat;
         } // Fallback filters for non-power-of-2 textures
         function filterFallback(f) {
-            return 1003 === f || 1004 === f || 1005 === f ? 9728 : 9729;
+            return 1003 !== f && 1004 !== f && 1005 !== f ? 9729 : 9728;
         } //
         function onTextureDispose(event) {
             var textureProperties, texture = event.target;
@@ -6841,7 +6842,7 @@ function(global, factory) {
                 texture.generateMipmaps = !1, textureProperties.__maxMipLevel = mipmaps.length - 1;
             } else state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
             else if (texture.isCompressedTexture) {
-                for(var _i = 0, _il = mipmaps.length; _i < _il; _i++)mipmap = mipmaps[_i], 1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()') : state.texImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
+                for(var _i = 0, _il = mipmaps.length; _i < _il; _i++)mipmap = mipmaps[_i], 1023 === texture.format || 1022 === texture.format ? state.texImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data) : null !== glFormat ? state.compressedTexImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()');
                 textureProperties.__maxMipLevel = mipmaps.length - 1;
             } else if (texture.isDataTexture2DArray) state.texImage3D(35866, 0, glInternalFormat, image.width, image.height, image.depth, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
             else if (texture.isDataTexture3D) state.texImage3D(32879, 0, glInternalFormat, image.width, image.height, image.depth, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
@@ -9461,7 +9462,7 @@ function(global, factory) {
                 var extrudePts, extrudeByPath = !1;
                 extrudePath && (extrudePts = extrudePath.getSpacedPoints(steps), extrudeByPath = !0, bevelEnabled = !1, // SETUP TNB variables
                 // TODO1 - have a .isClosed in spline?
-                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), bevelEnabled || (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
+                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), !bevelEnabled && (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
                 var shapePoints = shape.extractPoints(curveSegments), vertices = shapePoints.shape, holes = shapePoints.holes;
                 if (!ShapeUtils.isClockWise(vertices)) {
                     vertices = vertices.reverse(); // Maybe we should also check if holes are in the opposite direction, just to be safe ...
@@ -11277,7 +11278,7 @@ function(global, factory) {
         },
         findByName: function(objectOrClipArray, name) {
             var clipArray = objectOrClipArray;
-            !Array.isArray(objectOrClipArray) && (clipArray = objectOrClipArray.geometry && objectOrClipArray.geometry.animations || objectOrClipArray.animations);
+            Array.isArray(objectOrClipArray) || (clipArray = objectOrClipArray.geometry && objectOrClipArray.geometry.animations || objectOrClipArray.animations);
             for(var i = 0; i < clipArray.length; i++)if (clipArray[i].name === name) return clipArray[i];
             return null;
         },
@@ -11598,7 +11599,13 @@ function(global, factory) {
                     onError: onError
                 }), (request = new XMLHttpRequest()).open('GET', url, !0), request.addEventListener('load', function(event) {
                     var response = this.response, callbacks = loading[url];
-                    if (delete loading[url], 200 === this.status || 0 === this.status) {
+                    if (delete loading[url], 200 !== this.status && 0 !== this.status) {
+                        for(var _i2 = 0, _il = callbacks.length; _i2 < _il; _i2++){
+                            var _callback = callbacks[_i2];
+                            _callback.onError && _callback.onError(event);
+                        }
+                        scope.manager.itemError(url), scope.manager.itemEnd(url);
+                    } else {
                         0 === this.status && console.warn('THREE.FileLoader: HTTP Status 0 received.'), // error response bodies as proper responses to requests.
                         Cache.add(url, response);
                         for(var _i = 0, il = callbacks.length; _i < il; _i++){
@@ -11606,12 +11613,6 @@ function(global, factory) {
                             callback.onLoad && callback.onLoad(response);
                         }
                         scope.manager.itemEnd(url);
-                    } else {
-                        for(var _i2 = 0, _il = callbacks.length; _i2 < _il; _i2++){
-                            var _callback = callbacks[_i2];
-                            _callback.onError && _callback.onError(event);
-                        }
-                        scope.manager.itemError(url), scope.manager.itemEnd(url);
                     }
                 }, !1), request.addEventListener('progress', function(event) {
                     for(var callbacks = loading[url], _i3 = 0, il = callbacks.length; _i3 < il; _i3++){
@@ -11924,11 +11925,12 @@ function(global, factory) {
         tmp.subVectors(points[0], points[1]).add(points[0]), p0 = tmp);
         var p1 = points[intPoint % l], p2 = points[(intPoint + 1) % l];
         if (this.closed || intPoint + 2 < l ? p3 = points[(intPoint + 2) % l] : (// extrapolate last point
-        tmp.subVectors(points[l - 1], points[l - 2]).add(points[l - 1]), p3 = tmp), 'centripetal' === this.curveType || 'chordal' === this.curveType) {
+        tmp.subVectors(points[l - 1], points[l - 2]).add(points[l - 1]), p3 = tmp), 'centripetal' !== this.curveType && 'chordal' !== this.curveType) 'catmullrom' === this.curveType && (px.initCatmullRom(p0.x, p1.x, p2.x, p3.x, this.tension), py.initCatmullRom(p0.y, p1.y, p2.y, p3.y, this.tension), pz.initCatmullRom(p0.z, p1.z, p2.z, p3.z, this.tension));
+        else {
             // init Centripetal / Chordal Catmull-Rom
             var pow = 'chordal' === this.curveType ? 0.5 : 0.25, dt0 = Math.pow(p0.distanceToSquared(p1), pow), dt1 = Math.pow(p1.distanceToSquared(p2), pow), dt2 = Math.pow(p2.distanceToSquared(p3), pow);
             dt1 < 1e-4 && (dt1 = 1.0), dt0 < 1e-4 && (dt0 = dt1), dt2 < 1e-4 && (dt2 = dt1), px.initNonuniformCatmullRom(p0.x, p1.x, p2.x, p3.x, dt0, dt1, dt2), py.initNonuniformCatmullRom(p0.y, p1.y, p2.y, p3.y, dt0, dt1, dt2), pz.initNonuniformCatmullRom(p0.z, p1.z, p2.z, p3.z, dt0, dt1, dt2);
-        } else 'catmullrom' === this.curveType && (px.initCatmullRom(p0.x, p1.x, p2.x, p3.x, this.tension), py.initCatmullRom(p0.y, p1.y, p2.y, p3.y, this.tension), pz.initCatmullRom(p0.z, p1.z, p2.z, p3.z, this.tension));
+        }
         return point.set(px.calc(weight), py.calc(weight), pz.calc(weight)), point;
     }, CatmullRomCurve3.prototype.copy = function(source) {
         Curve.prototype.copy.call(this, source), this.points = [];
@@ -12226,7 +12228,7 @@ function(global, factory) {
             void 0 === divisions && (divisions = 12);
             for(var last, points = [], i = 0, curves = this.curves; i < curves.length; i++)for(var curve = curves[i], resolution = curve && curve.isEllipseCurve ? 2 * divisions : curve && (curve.isLineCurve || curve.isLineCurve3) ? 1 : curve && curve.isSplineCurve ? divisions * curve.points.length : divisions, pts = curve.getPoints(resolution), j = 0; j < pts.length; j++){
                 var point = pts[j];
-                !(last && last.equals(point)) && (points.push(point), last = point); // ensures no consecutive points are duplicates
+                last && last.equals(point) || (points.push(point), last = point); // ensures no consecutive points are duplicates
             }
             return this.autoClose && points.length > 1 && !points[points.length - 1].equals(points[0]) && points.push(points[0]), points;
         },
@@ -15987,7 +15989,7 @@ function(global, factory) {
             console.warn('THREE.BufferGeometry: .addIndex() has been renamed to .setIndex().'), this.setIndex(index);
         },
         addAttribute: function(name, attribute) {
-            return (console.warn('THREE.BufferGeometry: .addAttribute() has been renamed to .setAttribute().'), attribute && attribute.isBufferAttribute || attribute && attribute.isInterleavedBufferAttribute) ? 'index' === name ? (console.warn('THREE.BufferGeometry.addAttribute: Use .setIndex() for index attribute.'), this.setIndex(attribute), this) : this.setAttribute(name, attribute) : (console.warn('THREE.BufferGeometry: .addAttribute() now expects ( name, attribute ).'), this.setAttribute(name, new BufferAttribute(arguments[1], arguments[2])));
+            return (console.warn('THREE.BufferGeometry: .addAttribute() has been renamed to .setAttribute().'), !(attribute && attribute.isBufferAttribute) && !(attribute && attribute.isInterleavedBufferAttribute)) ? (console.warn('THREE.BufferGeometry: .addAttribute() now expects ( name, attribute ).'), this.setAttribute(name, new BufferAttribute(arguments[1], arguments[2]))) : 'index' === name ? (console.warn('THREE.BufferGeometry.addAttribute: Use .setIndex() for index attribute.'), this.setIndex(attribute), this) : this.setAttribute(name, attribute);
         },
         addDrawCall: function(start, count, indexOffset) {
             void 0 !== indexOffset && console.warn('THREE.BufferGeometry: .addDrawCall() no longer supports indexOffset.'), console.warn('THREE.BufferGeometry: .addDrawCall() is now .addGroup().'), this.addGroup(start, count);

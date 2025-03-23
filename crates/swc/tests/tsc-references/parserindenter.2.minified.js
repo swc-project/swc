@@ -19,7 +19,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (this.AdjustStartOffsetIfNeeded(token, node), this.scriptBlockBeginLineNumber == token.lineNumber() || !sameLineIndent && this.IsMultiLineString(token)) return result;
         if (null == (indentationInfo = this.GetSpecialCaseIndentation(token, node))) {
             for(; !node.CanIndent() && null != node.Parent && token.Span.span.start() == node.Parent.AuthorNode.Details.StartOffset;)node = node.Parent;
-            indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token == AuthorTokenKind.atkIdentifier && null != nextToken && nextToken.Token == AuthorTokenKind.atkColon ? node.GetEffectiveChildrenIndentation(this) : this.ApplyIndentationDeltaFromParent(token, node);
+            indentationInfo = node.CanIndent() && token.Span.span.start() == node.AuthorNode.Details.StartOffset ? node.GetEffectiveIndentation(this) : token.Token != AuthorTokenKind.atkIdentifier || null == nextToken || nextToken.Token != AuthorTokenKind.atkColon ? this.ApplyIndentationDeltaFromParent(token, node) : node.GetEffectiveChildrenIndentation(this);
         }
         if (null != indentationInfo) {
             var edit = this.GetIndentEdit(indentationInfo, token.Span.startPosition(), sameLineIndent);
@@ -132,7 +132,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return this.GetIndentString(existingIndentation, level * indentSize, tabSize, convertTabsToSpaces);
     }, _proto.GetIndentString = function(prefix, totalIndentSize, tabSize, convertTabsToSpaces) {
         var tabString = convertTabsToSpaces ? StringUtils.create(' ', tabSize) : "\t", text = "";
-        !StringUtils.IsNullOrEmpty(prefix) && (text += prefix);
+        StringUtils.IsNullOrEmpty(prefix) || (text += prefix);
         for(var pos = 0; pos <= totalIndentSize - tabSize;)text += tabString, pos += tabSize;
         for(; pos < totalIndentSize;)text += ' ', pos++;
         return text;
@@ -168,7 +168,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return indentationDeltaSize;
     }, _proto.FillInheritedIndentation = function(tree) {
         var offset = -1, indentNode = null;
-        if (null != tree.StartNodeSelf) if (this.smartIndent || null === tree.StartNodePreviousSibling || 0 != tree.StartNodeSelf.AuthorNode.Label || 0 != tree.StartNodePreviousSibling.Label) {
+        if (null != tree.StartNodeSelf) if (!this.smartIndent && null !== tree.StartNodePreviousSibling && 0 == tree.StartNodeSelf.AuthorNode.Label && 0 == tree.StartNodePreviousSibling.Label) {
+            indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
+            for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && ((indentNode = node).IndentationDelta = 0);
+        } else {
             if (this.smartIndent) for(parent = tree.StartNodeSelf; null != parent && parent.AuthorNode.Details.StartOffset == this.firstToken.Span.startPosition();)parent = parent.Parent;
             else {
                 var startNodeLineNumber = this.snapshot.GetLineNumberFromPosition(tree.StartNodeSelf.AuthorNode.Details.StartOffset);
@@ -176,9 +179,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             }
             for(; null != parent && !parent.CanIndent();)parent = parent.Parent;
             null != parent && parent.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkProg && (offset = parent.AuthorNode.Details.StartOffset, indentNode = parent);
-        } else {
-            indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
-            for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && ((indentNode = node).IndentationDelta = 0);
         }
         if (null != indentNode) {
             var indentOverride = this.GetLineIndentationForOffset(offset);

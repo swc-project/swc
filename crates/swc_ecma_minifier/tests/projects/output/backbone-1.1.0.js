@@ -80,7 +80,7 @@
                 name
             ] : _.keys(this._events)).length; i < l; i++)if (name = names[i], events = this._events[name]) {
                 if (this._events[name] = retain = [], callback || context) for(j = 0, k = events.length; j < k; j++)ev = events[j], (callback && callback !== ev.callback && callback !== ev.callback._callback || context && context !== ev.context) && retain.push(ev);
-                !retain.length && delete this._events[name];
+                retain.length || delete this._events[name];
             }
             return this;
         },
@@ -252,7 +252,7 @@
         changedAttributes: function(diff) {
             if (!diff) return !!this.hasChanged() && _.clone(this.changed);
             var val, changed = !1, old = this._changing ? this._previousAttributes : this.attributes;
-            for(var attr in diff)!_.isEqual(old[attr], val = diff[attr]) && ((changed || (changed = {}))[attr] = val);
+            for(var attr in diff)_.isEqual(old[attr], val = diff[attr]) || ((changed || (changed = {}))[attr] = val);
             return changed;
         },
         // Get the previous value of an attribute, recorded at the time the last
@@ -284,7 +284,7 @@
             // If we're not waiting and attributes exist, save acts as
             // `set(attr).save(null, opts)` with validation. Otherwise, check if
             // the model will be valid when the attributes, if any, are set.
-            if (null == key || "object" == typeof key ? (attrs = key, options = val) : (attrs = {})[key] = val, options = _.extend({
+            if (null != key && "object" != typeof key ? (attrs = {})[key] = val : (attrs = key, options = val), options = _.extend({
                 validate: !0
             }, options), attrs && !options.wait) {
                 if (!this.set(attrs, options)) return !1;
@@ -824,7 +824,7 @@
         //     });
         //
         route: function(route, name, callback) {
-            !_.isRegExp(route) && (route = this._routeToRegExp(route)), _.isFunction(name) && (callback = name, name = ""), callback || (callback = this[name]);
+            !_.isRegExp(route) && (route = this._routeToRegExp(route)), _.isFunction(name) && (callback = name, name = ""), !callback && (callback = this[name]);
             var router = this;
             return Backbone.history.route(route, function(fragment) {
                 var args = router._extractParameters(route, fragment);
@@ -956,7 +956,7 @@
         // you wish to modify the current URL without adding an entry to the history.
         navigate: function(fragment, options) {
             if (!History.started) return !1;
-            (!options || !0 === options) && (options = {
+            options && !0 !== options || (options = {
                 trigger: !!options
             });
             var url = this.root + (fragment = this.getFragment(fragment || ""));

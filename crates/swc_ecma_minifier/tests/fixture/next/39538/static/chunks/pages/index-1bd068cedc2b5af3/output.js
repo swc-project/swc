@@ -485,7 +485,7 @@
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },
@@ -563,7 +563,7 @@
                 ];
             };
             var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            "function" != typeof exports.default && ("object" != typeof exports.default || null === exports.default) || void 0 !== exports.default.__esModule || (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         /***/ },

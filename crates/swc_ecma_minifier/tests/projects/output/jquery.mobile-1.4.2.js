@@ -2193,7 +2193,7 @@
             }, this));
         },
         _setOptions: function(options) {
-            options.theme !== undefined8 && "none" !== options.theme ? this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme) : options.theme !== undefined8 && this.element.removeClass("ui-overlay-" + this.options.theme), this._super(options);
+            options.theme === undefined8 || "none" === options.theme ? options.theme !== undefined8 && this.element.removeClass("ui-overlay-" + this.options.theme) : this.element.removeClass("ui-overlay-" + this.options.theme).addClass("ui-overlay-" + options.theme), this._super(options);
         },
         _disableRecordScroll: function() {
             this.setLastScrollEnabled = !1;
@@ -3600,10 +3600,10 @@
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
-            !disabledInitially && !jQuery.mobile.zoom.locked && (meta.attr("content", disabledZoom), jQuery.mobile.zoom.enabled = !1, jQuery.mobile.zoom.locked = lock || !1);
+            disabledInitially || jQuery.mobile.zoom.locked || (meta.attr("content", disabledZoom), jQuery.mobile.zoom.enabled = !1, jQuery.mobile.zoom.locked = lock || !1);
         },
         enable: function(unlock) {
-            !disabledInitially && (!jQuery.mobile.zoom.locked || !0 === unlock) && (meta.attr("content", enabledZoom), jQuery.mobile.zoom.enabled = !0, jQuery.mobile.zoom.locked = !1);
+            disabledInitially || jQuery.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), jQuery.mobile.zoom.enabled = !0, jQuery.mobile.zoom.locked = !1);
         },
         restore: function() {
             disabledInitially || (meta.attr("content", initialContent), jQuery.mobile.zoom.enabled = !0);
@@ -4537,7 +4537,7 @@
             }), ar.length){
                 // All values are to be the same
                 case 1:
-                    !isNaN(ar[0]) && (tol.t = tol.r = tol.b = tol.l = ar[0]);
+                    isNaN(ar[0]) || (tol.t = tol.r = tol.b = tol.l = ar[0]);
                     break;
                 // The first value denotes top/bottom tolerance, and the second value denotes left/right tolerance
                 case 2:
@@ -4744,17 +4744,17 @@
         open: function(options) {
             var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
             return jQuery.mobile.popup.active || currentOptions.disabled || ((// set the global popup mutex
-            jQuery.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (// cache some values for min/readability
+            jQuery.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), !currentOptions.history) ? (self._open(options), self._bindContainerClose(), // When histoy is disabled we have to grab the data-rel
+            // back link clicks so we can close the popup instead of
+            // relying on history to do it for us
+            self.element.delegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents, function(theEvent) {
+                self.close(), theEvent.preventDefault();
+            })) : (// cache some values for min/readability
             urlHistory = jQuery.mobile.navigate.history, hashkey = jQuery.mobile.dialogHashKey, currentIsDialog = !!(activePage = jQuery.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose()) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = jQuery.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), // swallow the the initial navigation event, and bind for the next
             this.window.one("beforenavigate", function(theEvent) {
                 theEvent.preventDefault(), self._open(options), self._bindContainerClose();
             }), this.urlAltered = !0, jQuery.mobile.navigate(url, {
                 role: "dialog"
-            })) : (self._open(options), self._bindContainerClose(), // When histoy is disabled we have to grab the data-rel
-            // back link clicks so we can close the popup instead of
-            // relying on history to do it for us
-            self.element.delegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents, function(theEvent) {
-                self.close(), theEvent.preventDefault();
             }))), this;
         },
         close: function() {
@@ -4800,7 +4800,7 @@
                 this._super(event1), this._handleButtonVclickKeydown(event1);
             },
             _handleButtonVclickKeydown: function(event1) {
-                !this.options.disabled && !this.isOpen && ("vclick" === event1.type || event1.keyCode && (event1.keyCode === $.mobile.keyCode.ENTER || event1.keyCode === $.mobile.keyCode.SPACE)) && (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
+                this.options.disabled || this.isOpen || "vclick" !== event1.type && (!event1.keyCode || event1.keyCode !== $.mobile.keyCode.ENTER && event1.keyCode !== $.mobile.keyCode.SPACE) || (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
             },
             _handleListFocus: function(e) {
                 var params = "focusin" === e.type ? {
@@ -5049,7 +5049,7 @@
                     // Loop over the classes
                     for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)// Assume it's an unrecognized class
                     unknownClass = !0, undefined !== // Recognize boolean options from the presence of classes
-                    (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
+                    (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 !== classes[idx].indexOf("ui-btn-") || 8 !== classes[idx].length ? "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0) : (unknownClass = !1, o.theme = classes[idx].substring(7)), unknownClass && unknownClasses.push(classes[idx]);
                     return noIcon && (o.icon = ""), {
                         options: o,
                         unknownClasses: unknownClasses,
@@ -5181,7 +5181,7 @@
                 }), this.element.attr("role", "header" === role ? "banner" : "contentinfo").addClass("ui-" + role), this.refresh(), this._setOptions(this.options);
             },
             _setOptions: function(o) {
-                if (void 0 !== o.addBackBtn && (this.options.addBackBtn && "header" === this.role && $(".ui-page").length > 1 && this.page[0].getAttribute("data-" + $.mobile.ns + "url") !== $.mobile.path.stripHash(location.hash) && !this.leftbtn ? this._addBackButton() : this.element.find(".ui-toolbar-back-btn").remove()), null != o.backBtnTheme && this.element.find(".ui-toolbar-back-btn").addClass("ui-btn ui-btn-" + o.backBtnTheme), void 0 !== o.backBtnText && this.element.find(".ui-toolbar-back-btn .ui-btn-text").text(o.backBtnText), o.theme !== undefined) {
+                if (void 0 !== o.addBackBtn && (!this.options.addBackBtn || "header" !== this.role || !($(".ui-page").length > 1) || this.page[0].getAttribute("data-" + $.mobile.ns + "url") === $.mobile.path.stripHash(location.hash) || this.leftbtn ? this.element.find(".ui-toolbar-back-btn").remove() : this._addBackButton()), null != o.backBtnTheme && this.element.find(".ui-toolbar-back-btn").addClass("ui-btn ui-btn-" + o.backBtnTheme), void 0 !== o.backBtnText && this.element.find(".ui-toolbar-back-btn .ui-btn-text").text(o.backBtnText), o.theme !== undefined) {
                     var currentTheme = this.options.theme ? this.options.theme : "inherit", newTheme = o.theme ? o.theme : "inherit";
                     this.element.removeClass("ui-bar-" + currentTheme).addClass("ui-bar-" + newTheme);
                 }
@@ -5537,11 +5537,11 @@
                 // the desired coordinates is the shortest.
                 $.each((!0 === optionValue ? "l,t,r,b" : optionValue).split(","), $.proxy(function(key, value) {
                     best = this._tryAnArrow(params[value], value, desired, state, best);
-                }, this)), best) ? (// Move the arrow into place
+                }, this)), !best) ? (ar.arEls.hide(), this._super(desired)) : (// Move the arrow into place
                 ar.ct.removeClass("ui-popup-arrow-l ui-popup-arrow-t ui-popup-arrow-r ui-popup-arrow-b").addClass("ui-popup-arrow-" + best.dir).removeAttr("style").css(best.posProp, best.posVal).show(), !ieHack && (elOffset = this.element.offset(), bgRef[params[best.dir].fst] = ar.ct.offset(), bgRef[params[best.dir].snd] = {
                     left: elOffset.left + state.contentBox.x,
                     top: elOffset.top + state.contentBox.y
-                }), best.result) : (ar.arEls.hide(), this._super(desired)) : this._super(desired);
+                }), best.result) : this._super(desired);
             },
             _setOptions: function(opts) {
                 var newTheme, oldTheme = this.options.theme, ar = this._ui.arrow, ret = this._super(opts);
@@ -6040,7 +6040,7 @@
             // generated variety, rather than one specified by the user.
             if (this._isSearchInternal() && jQuery.mobile.textinput) {
                 // Apply only the options understood by textinput
-                for(idx in jQuery.mobile.textinput.prototype.options)options[idx] !== undefined1 && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
+                for(idx in jQuery.mobile.textinput.prototype.options)options[idx] !== undefined1 && ("theme" !== idx || null == this.options.filterTheme ? textinputOptions[idx] = options[idx] : textinputOptions[idx] = this.options.filterTheme);
                 this._search.textinput("option", textinputOptions);
             }
         }
@@ -6231,7 +6231,7 @@
             _setupDisabled: function(disabled) {
                 $.isArray(disabled) && (disabled.length ? disabled.length === this.anchors.length && (disabled = !0) : disabled = !1);
                 // disable tabs
-                for(var li, i = 0; li = this.tabs[i]; i++)!0 === disabled || -1 !== $.inArray(i, disabled) ? $(li).addClass("ui-state-disabled").attr("aria-disabled", "true") : $(li).removeClass("ui-state-disabled").removeAttr("aria-disabled");
+                for(var li, i = 0; li = this.tabs[i]; i++)!0 !== disabled && -1 === $.inArray(i, disabled) ? $(li).removeClass("ui-state-disabled").removeAttr("aria-disabled") : $(li).addClass("ui-state-disabled").attr("aria-disabled", "true");
                 this.options.disabled = disabled;
             },
             _setupEvents: function(event1) {

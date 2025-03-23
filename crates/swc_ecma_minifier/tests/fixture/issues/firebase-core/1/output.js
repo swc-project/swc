@@ -24,7 +24,7 @@
              * Returns navigator.userAgent string or '' if it's not defined.
              * @return user agent string
              */ function getUA() {
-                return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
+                return "undefined" == typeof navigator || "string" != typeof navigator.userAgent ? "" : navigator.userAgent;
             }
             /**
              * Detect Cordova / PhoneGap / Ionic frameworks on a mobile device.
@@ -740,7 +740,7 @@
                     a.o = 4, J(15), F(a.j, a.m, c, "[Invalid Chunk]"), d = !1;
                     break;
                 } else F(a.j, a.m, e, null), sc(a, e);
-                qc(a) && e != hc && e != gc && (a.h.g = "", a.C = 0), 4 != b || 0 != c.length || a.h.h || (a.o = 1, J(16), d = !1), a.i = a.i && d, d ? 0 < c.length && !a.aa && (a.aa = !0, (b = a.l).g == a && b.$ && !b.L && (b.h.info("Great, no buffering proxy detected. Bytes received: " + c.length), wc(b), b.L = !0, J(11))) : (F(a.j, a.m, c, "[Invalid Chunked Response]"), P(a), rc(a));
+                !qc(a) || e == hc || e == gc || (a.h.g = "", a.C = 0), 4 != b || 0 != c.length || a.h.h || (a.o = 1, J(16), d = !1), a.i = a.i && d, d ? 0 < c.length && !a.aa && (a.aa = !0, (b = a.l).g == a && b.$ && !b.L && (b.h.info("Great, no buffering proxy detected. Bytes received: " + c.length), wc(b), b.L = !0, J(11))) : (F(a.j, a.m, c, "[Invalid Chunked Response]"), P(a), rc(a));
             }
             function lc(a) {
                 a.Y = Date.now() + a.P, xc(a, a.P);
@@ -2067,10 +2067,7 @@
                             kind: "w"
                         };
                     }
-                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
-                        widths: configDeviceSizes,
-                        kind: "w"
-                    } : {
+                    return "number" == typeof width && "fill" !== layout && "responsive" !== layout ? {
                         widths: _toConsumableArray(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
                         // > resolution image will be visually the same, though the 3x image
                         // > takes significantly more data. Even true 3x resolution screens are
@@ -2086,6 +2083,9 @@
                             }) || allSizes[allSizes.length - 1];
                         }))),
                         kind: "x"
+                    } : {
+                        widths: configDeviceSizes,
+                        kind: "w"
                     };
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {

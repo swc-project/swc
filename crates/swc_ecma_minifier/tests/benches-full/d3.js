@@ -611,7 +611,7 @@ function(global, factory) {
         return function() {
             var on = this.__on;
             if (on) {
-                for(var o, j = 0, i = -1, m = on.length; j < m; ++j)(o = on[j], typename.type && o.type !== typename.type || o.name !== typename.name) ? on[++i] = o : this.removeEventListener(o.type, o.listener, o.options);
+                for(var o, j = 0, i = -1, m = on.length; j < m; ++j)(o = on[j], (!typename.type || o.type === typename.type) && o.name === typename.name) ? this.removeEventListener(o.type, o.listener, o.options) : on[++i] = o;
                 ++i ? on.length = i : delete this.__on;
             }
         };
@@ -1338,7 +1338,7 @@ function(global, factory) {
         return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
     }
     function rgbConvert(o) {
-        return (!(o instanceof Color) && (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
+        return (!(o instanceof Color) && (o = color(o)), !o) ? new Rgb : new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity);
     }
     function rgb(r, g, b, opacity) {
         return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -1431,7 +1431,7 @@ function(global, factory) {
         if (o instanceof Hcl) return hcl2lab(o);
         !(o instanceof Rgb) && (o = rgbConvert(o));
         var x, z, r = rgb2lrgb(o.r), g = rgb2lrgb(o.g), b = rgb2lrgb(o.b), y = xyz2lab((0.2225045 * r + 0.7168786 * g + 0.0606169 * b) / 1);
-        return r === g && g === b ? x = z = y : (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)), new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
+        return r !== g || g !== b ? (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)) : x = z = y, new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
     }
     function lab(l, a, b, opacity) {
         return 1 == arguments.length ? labConvert(l) : new Lab(l, a, b, null == opacity ? 1 : opacity);
@@ -1665,7 +1665,8 @@ function(global, factory) {
         return function(a, b) {
             var a1, b1, a2, b2, s = [], q = []; // number interpolators
             return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
-                if (xa !== xb || ya !== yb) {
+                if (xa === xb && ya === yb) (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                else {
                     var i = s.push("translate(", null, pxComma, null, pxParen);
                     q.push({
                         i: i - 4,
@@ -1674,7 +1675,7 @@ function(global, factory) {
                         i: i - 2,
                         x: interpolateNumber(ya, yb)
                     });
-                } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                }
             }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
@@ -1682,7 +1683,8 @@ function(global, factory) {
                 i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
             }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
-                if (xa !== xb || ya !== yb) {
+                if (xa === xb && ya === yb) (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
+                else {
                     var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                     q.push({
                         i: i - 4,
@@ -1691,7 +1693,7 @@ function(global, factory) {
                         i: i - 2,
                         x: interpolateNumber(ya, yb)
                     });
-                } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
+                }
             }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
                 for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
                 return s.join("");
@@ -1702,7 +1704,7 @@ function(global, factory) {
         const m = new ("function" == typeof DOMMatrix ? DOMMatrix : WebKitCSSMatrix)(value + "");
         return m.isIdentity ? identity$2 : decompose(m.a, m.b, m.c, m.d, m.e, m.f);
     }, "px, ", "px)", "deg)"), interpolateTransformSvg = interpolateTransform(function(value) {
-        return null == value ? identity$2 : (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? decompose((value = value.matrix).a, value.b, value.c, value.d, value.e, value.f) : identity$2;
+        return null == value || (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), !(value = svgNode.transform.baseVal.consolidate())) ? identity$2 : decompose((value = value.matrix).a, value.b, value.c, value.d, value.e, value.f);
     }, ", ", ")", ")");
     function cosh(x) {
         return ((x = Math.exp(x)) + 1 / x) / 2;
@@ -2019,13 +2021,13 @@ function(global, factory) {
                 var string00, string10, interpolate0;
                 return function() {
                     var string0, string1, value1 = value(this);
-                    return null == value1 ? void this.removeAttributeNS(fullname.space, fullname.local) : (string0 = this.getAttributeNS(fullname.space, fullname.local)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+                    return null == value1 ? void this.removeAttributeNS(fullname.space, fullname.local) : (string0 = this.getAttributeNS(fullname.space, fullname.local)) === (string1 = value1 + "") ? null : string0 !== string00 || string1 !== string10 ? (string10 = string1, interpolate0 = interpolate(string00 = string0, value1)) : interpolate0;
                 };
             } : function(name, interpolate, value) {
                 var string00, string10, interpolate0;
                 return function() {
                     var string0, string1, value1 = value(this);
-                    return null == value1 ? void this.removeAttribute(name) : (string0 = this.getAttribute(name)) === (string1 = value1 + "") ? null : string0 === string00 && string1 === string10 ? interpolate0 : (string10 = string1, interpolate0 = interpolate(string00 = string0, value1));
+                    return null == value1 ? void this.removeAttribute(name) : (string0 = this.getAttribute(name)) === (string1 = value1 + "") ? null : string0 !== string00 || string1 !== string10 ? (string10 = string1, interpolate0 = interpolate(string00 = string0, value1)) : interpolate0;
                 };
             })(fullname, i, tweenValue(this, "attr." + name, value)) : null == value ? (fullname.local ? function(fullname) {
                 return function() {
@@ -2082,7 +2084,7 @@ function(global, factory) {
                 return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : interpolate0 = i(string00 = string0, string10 = string1);
             })).on("end.style." + name, styleRemove$1(name)) : "function" == typeof value ? this.styleTween(name, (name2 = name, value1 = tweenValue(this, "style." + name, value), function() {
                 var string0 = styleValue(this, name2), value11 = value1(this), string1 = value11 + "";
-                return null == value11 && (this.style.removeProperty(name2), string1 = value11 = styleValue(this, name2)), string0 === string1 ? null : string0 === string001 && string1 === string101 ? interpolate01 : (string101 = string1, interpolate01 = i(string001 = string0, value11));
+                return null == value11 && (this.style.removeProperty(name2), string1 = value11 = styleValue(this, name2)), string0 === string1 ? null : string0 !== string001 || string1 !== string101 ? (string101 = string1, interpolate01 = i(string001 = string0, value11)) : interpolate01;
             })).each((id = this._id, event = "end." + (key = "style." + (name3 = name)), function() {
                 var schedule = set$2(this, id), on = schedule.on, listener = null == schedule.value[key] ? remove || (remove = styleRemove$1(name3)) : void 0;
                 (on !== on0 || listener0 !== listener) && (on1 = (on0 = on).copy()).on(event, listener0 = listener), schedule.on = on1;
@@ -2590,7 +2592,7 @@ function(global, factory) {
         }
         function emitter(that, args, clean) {
             var emit = that.__brush.emitter;
-            return !emit || clean && emit.clean ? new Emitter(that, args, clean) : emit;
+            return emit && (!clean || !emit.clean) ? emit : new Emitter(that, args, clean);
         }
         function Emitter(that, args, clean) {
             this.that = that, this.args = args, this.state = that.__brush, this.active = 0, this.clean = clean;
@@ -3712,11 +3714,7 @@ function(global, factory) {
             let e0, e1;
             const n = points.length;
             let P = null, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
-            for(let j = 0; j < n; j += 2)if (x0 = x1, y0 = y1, x1 = points[j], y1 = points[j + 1], c0 = c1, c1 = this._regioncode(x1, y1), 0 === c0 && 0 === c1) e0 = e1, e1 = 0, P ? P.push(x1, y1) : P = [
-                x1,
-                y1
-            ];
-            else {
+            for(let j = 0; j < n; j += 2)if (x0 = x1, y0 = y1, x1 = points[j], y1 = points[j + 1], c0 = c1, c1 = this._regioncode(x1, y1), 0 !== c0 || 0 !== c1) {
                 let S, sx0, sy0, sx1, sy1;
                 if (0 === c0) {
                     if (null === (S = this._clipSegment(x0, y0, x1, y1, c0, c1))) continue;
@@ -3732,7 +3730,10 @@ function(global, factory) {
                     sx1,
                     sy1
                 ];
-            }
+            } else e0 = e1, e1 = 0, P ? P.push(x1, y1) : P = [
+                x1,
+                y1
+            ];
             if (P) e0 = e1, e1 = this._edgecode(P[0], P[1]), e0 && e1 && this._edge(i, e0, e1, P, P.length);
             else if (this.contains(i, (this.xmin + this.xmax) / 2, (this.ymin + this.ymax) / 2)) return [
                 this.xmax,
@@ -3806,7 +3807,7 @@ function(global, factory) {
             }
             if (P.length > 4) for(let i = 0; i < P.length; i += 2){
                 const j = (i + 2) % P.length, k = (i + 4) % P.length;
-                (P[i] === P[j] && P[j] === P[k] || P[i + 1] === P[j + 1] && P[j + 1] === P[k + 1]) && (P.splice(j, 2), i -= 2);
+                (P[i] !== P[j] || P[j] !== P[k]) && (P[i + 1] !== P[j + 1] || P[j + 1] !== P[k + 1]) || (P.splice(j, 2), i -= 2);
             }
             return j;
         }
@@ -3902,7 +3903,7 @@ function(global, factory) {
             // on the hull we give priority to exterior halfedges
             for(let e = 0, n = halfedges.length; e < n; ++e){
                 const p = triangles[e % 3 == 2 ? e - 2 : e + 1];
-                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
+                -1 !== halfedges[e] && -1 !== inedges[p] || (inedges[p] = e);
             }
             for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
             // degenerate case: 1 or 2 (distinct) points
@@ -4229,7 +4230,7 @@ function(global, factory) {
     }, treeProto.addAll = function(data) {
         var d, i, x, y, n = data.length, xz = Array(n), yz = Array(n), x0 = 1 / 0, y0 = 1 / 0, x1 = -1 / 0, y1 = -1 / 0;
         // Compute the points and their extent.
-        for(i = 0; i < n; ++i)!(isNaN(x = +this._x.call(null, d = data[i])) || isNaN(y = +this._y.call(null, d))) && (xz[i] = x, yz[i] = y, x < x0 && (x0 = x), x > x1 && (x1 = x), y < y0 && (y0 = y), y > y1 && (y1 = y));
+        for(i = 0; i < n; ++i)isNaN(x = +this._x.call(null, d = data[i])) || isNaN(y = +this._y.call(null, d)) || (xz[i] = x, yz[i] = y, x < x0 && (x0 = x), x > x1 && (x1 = x), y < y0 && (y0 = y), !(y > y1) || (y1 = y));
         // If there were no (valid) points, abort.
         if (x0 > x1 || y0 > y1) return this;
         // Add the new points.
@@ -6936,11 +6937,11 @@ function(global, factory) {
             case "g":
             case "p":
             case "r":
-                null == specifier.precision && !isNaN(precision = precisionRound(step, Math.max(Math.abs(start), Math.abs(stop)))) && (specifier.precision = precision - ("e" === specifier.type));
+                null != specifier.precision || isNaN(precision = precisionRound(step, Math.max(Math.abs(start), Math.abs(stop)))) || (specifier.precision = precision - ("e" === specifier.type));
                 break;
             case "f":
             case "%":
-                null == specifier.precision && !isNaN(precision = precisionFixed(step)) && (specifier.precision = precision - ("%" === specifier.type) * 2);
+                null != specifier.precision || isNaN(precision = precisionFixed(step)) || (specifier.precision = precision - ("%" === specifier.type) * 2);
         }
         return exports1.format(specifier);
     }
@@ -9213,7 +9214,7 @@ function(global, factory) {
                         rc0 = min$2(rc, (r0 - lc) / (kc - 1)), rc1 = min$2(rc, (r1 - lc) / (kc + 1));
                     }
                 }
-                da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), !(r0 > 1e-12) || !(da0 > 1e-12) ? context.lineTo(x10, y10) : rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw);
+                da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > 1e-12 && da0 > 1e-12 ? rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
             }
             else context.moveTo(0, 0);
             if (context.closePath(), buffer) return context = null, buffer + "" || null;
@@ -9568,7 +9569,7 @@ function(global, factory) {
             return arguments.length ? (clickDistance2 = (_ *= 1) * _, drag) : Math.sqrt(clickDistance2);
         }, drag;
     }, exports1.dragDisable = dragDisable, exports1.dragEnable = yesdrag, exports1.dsv = function(delimiter, input, init, row) {
-        3 == arguments.length && "function" == typeof init && (row = init, init = void 0);
+        3 != arguments.length || "function" != typeof init || (row = init, init = void 0);
         var format = dsvFormat(delimiter);
         return text(input, init).then(function(response) {
             return format.parse(response, row);
@@ -10017,16 +10018,7 @@ function(global, factory) {
             // The final bounding box will be the inverse of this gap.
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
-        return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
-            [
-                NaN,
-                NaN
-            ],
-            [
-                NaN,
-                NaN
-            ]
-        ] : [
+        return ranges = range$1 = null, lambda0$1 !== 1 / 0 && phi0 !== 1 / 0 ? [
             [
                 lambda0$1,
                 phi0
@@ -10034,6 +10026,15 @@ function(global, factory) {
             [
                 lambda1,
                 phi1
+            ]
+        ] : [
+            [
+                NaN,
+                NaN
+            ],
+            [
+                NaN,
+                NaN
             ]
         ];
     }, exports1.geoCentroid = function(object) {

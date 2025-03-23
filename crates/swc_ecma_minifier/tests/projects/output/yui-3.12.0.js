@@ -1428,7 +1428,7 @@ collections, such as `<form>` and `<select>`, to be array-like.
             // indexed, but no tagName (element) or scrollTo/document (window. From DOM.isWindow test which we can't use here),
             // or functions without apply/call (Safari
             // HTMLElementCollection bug).
-            "length" in obj && !obj.tagName && !(obj.scrollTo && obj.document) && !obj.apply && (result = 2);
+            !("length" in obj) || obj.tagName || obj.scrollTo && obj.document || obj.apply || (result = 2);
         } catch (ex) {}
         return result;
     }, Queue.prototype = {
@@ -4118,7 +4118,7 @@ Contains the core of YUI's feature test architecture.
                 } else if ("modules" === i) // add a hash of module definitions
                 for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
                 else if ("aliases" === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
-                else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
+                else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" !== i && "2in3" !== i ? self[i] = val : this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o);
             }
             if (// fix filter
             f = self.filter, L.isString(f) && (self.filterName = f = f.toUpperCase(), self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
@@ -4641,7 +4641,7 @@ Contains the core of YUI's feature test architecture.
                 if (actions === comp) {
                     if (self._loading = null, self._refetch.length) {
                         //Get the deps for the new meta-data and reprocess
-                        for(i = 0; i < self._refetch.length; i++)for(o = 0, deps = self.getRequires(self.getModule(self._refetch[i])); o < deps.length; o++)!self.inserted[deps[o]] && //We wouldn't be to this point without the module being here
+                        for(i = 0; i < self._refetch.length; i++)for(o = 0, deps = self.getRequires(self.getModule(self._refetch[i])); o < deps.length; o++)self.inserted[deps[o]] || //We wouldn't be to this point without the module being here
                         (mods[deps[o]] = deps[o]);
                         if ((mods = Y.Object.keys(mods)).length) {
                             if (self.require(mods), (resMods = self.resolve(!0)).cssMods.length) {

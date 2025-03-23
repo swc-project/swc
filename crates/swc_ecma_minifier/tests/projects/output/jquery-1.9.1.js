@@ -209,7 +209,7 @@
             return !isNaN(parseFloat(obj)) && isFinite(obj);
         },
         type: function(obj) {
-            return null == obj ? String(obj) : "object" == typeof obj || "function" == typeof obj ? class2type[core_toString.call(obj)] || "object" : typeof obj;
+            return null == obj ? String(obj) : "object" != typeof obj && "function" != typeof obj ? typeof obj : class2type[core_toString.call(obj)] || "object";
         },
         isPlainObject: function(obj) {
             var key;
@@ -348,11 +348,11 @@
             var args, proxy, tmp;
             return(// Quick check to determine if target is callable, in the spec
             // this throws a TypeError, but we will just return undefined.
-            ("string" == typeof context && (tmp = fn[context], context = fn, fn = tmp), jQuery.isFunction(fn)) ? (// Simulated bind
+            ("string" == typeof context && (tmp = fn[context], context = fn, fn = tmp), !jQuery.isFunction(fn)) ? undefined : (// Simulated bind
             args = core_slice.call(arguments, 2), // Set the guid of unique handler to the same of original handler, so it can be removed
             (proxy = function() {
                 return fn.apply(context || this, args.concat(core_slice.call(arguments)));
-            }).guid = fn.guid = fn.guid || jQuery.guid++, proxy) : undefined);
+            }).guid = fn.guid = fn.guid || jQuery.guid++, proxy));
         },
         // Multifunctional method to get and set values of a collection
         // The value/s can optionally be executed if it's a function
@@ -1101,13 +1101,13 @@
     nodeHook = jQuery.valHooks.button = {
         get: function(elem, name1) {
             var ret = elem.getAttributeNode(name1);
-            return ret && ("id" === name1 || "name" === name1 || "coords" === name1 ? "" !== ret.value : ret.specified) ? ret.value : undefined;
+            return ret && ("id" !== name1 && "name" !== name1 && "coords" !== name1 ? ret.specified : "" !== ret.value) ? ret.value : undefined;
         },
         set: function(elem, value, name1) {
             // Set the existing or create a new attribute node
             var ret = elem.getAttributeNode(name1);
             // Break association with cloned elements by also using setAttribute (#9646)
-            return !ret && elem.setAttributeNode(ret = elem.ownerDocument.createAttribute(name1)), ret.value = value += "", "value" === name1 || value === elem.getAttribute(name1) ? value : undefined;
+            return !ret && elem.setAttributeNode(ret = elem.ownerDocument.createAttribute(name1)), ret.value = value += "", "value" !== name1 && value !== elem.getAttribute(name1) ? undefined : value;
         }
     }, // Set contenteditable to false on removals(#10429)
     // Setting to empty string throws an error as an invalid value
@@ -1521,10 +1521,10 @@
                 data = data || selector, selector = undefined), types)this.on(type, selector, data, types[type], one);
                 return this;
             }
-            if (null == data && null == fn ? (// ( types, fn )
-            fn = selector, data = selector = undefined) : null == fn && ("string" == typeof selector ? (// ( types, selector, fn )
+            if (null != data || null != fn ? null == fn && ("string" == typeof selector ? (// ( types, selector, fn )
             fn = data, data = undefined) : (// ( types, data, fn )
-            fn = data, data = selector, selector = undefined)), !1 === fn) fn = returnFalse;
+            fn = data, data = selector, selector = undefined)) : (// ( types, fn )
+            fn = selector, data = selector = undefined), !1 === fn) fn = returnFalse;
             else if (!fn) return this;
             return 1 === one && (origFn = fn, // Use same guid so caller can remove using origFn
             (fn = function(event) {
@@ -1814,9 +1814,9 @@
             }) : (Expr.find.ID = function(id, context) {
                 if (typeof context.getElementById !== strundefined && !documentIsXML) {
                     var m = context.getElementById(id);
-                    return m ? m.id === id || typeof m.getAttributeNode !== strundefined && m.getAttributeNode("id").value === id ? [
+                    return m ? m.id !== id && (typeof m.getAttributeNode === strundefined || m.getAttributeNode("id").value !== id) ? void 0 : [
                         m
-                    ] : void 0 : [];
+                    ] : [];
                 }
             }, Expr.filter.ID = function(id) {
                 var attrId = id.replace(runescape, funescape);
@@ -2026,9 +2026,7 @@
                 },
                 CHILD: function(type, what, argument, first, last) {
                     var simple = "nth" !== type.slice(0, 3), forward = "last" !== type.slice(-4), ofType = "of-type" === what;
-                    return 1 === first && 0 === last ? function(elem) {
-                        return !!elem.parentNode;
-                    } : function(elem, context, xml) {
+                    return 1 !== first || 0 !== last ? function(elem, context, xml) {
                         var cache, outerCache, node, diff, nodeIndex, start, dir = simple !== forward ? "nextSibling" : "previousSibling", parent = elem.parentNode, name1 = ofType && elem.nodeName.toLowerCase(), useCache = !xml && !ofType;
                         if (parent) {
                             // :(first|last|only)-(child|of-type)
@@ -2064,6 +2062,8 @@
                             return(// Incorporate the offset, then check against cycle size
                             (diff -= last) === first || diff % first == 0 && diff / first >= 0);
                         }
+                    } : function(elem) {
+                        return !!elem.parentNode;
                     };
                 },
                 PSEUDO: function(pseudo, argument) {
@@ -2790,10 +2790,10 @@
                         // Event data gets referenced instead of copied if the expando gets copied too
                         dest.removeAttribute(jQuery.expando);
                     }
-                    "script" === nodeName && dest.text !== src.text ? (disableScript(dest).text = src.text, restoreScript(dest)) : "object" === nodeName ? (dest.parentNode && (dest.outerHTML = src.outerHTML), jQuery.support.html5Clone && src.innerHTML && !jQuery.trim(dest.innerHTML) && (dest.innerHTML = src.innerHTML)) : "input" === nodeName && manipulation_rcheckableType.test(src.type) ? (// IE6-8 fails to persist the checked state of a cloned checkbox
+                    "script" !== nodeName || dest.text === src.text ? "object" === nodeName ? (dest.parentNode && (dest.outerHTML = src.outerHTML), jQuery.support.html5Clone && src.innerHTML && !jQuery.trim(dest.innerHTML) && (dest.innerHTML = src.innerHTML)) : "input" === nodeName && manipulation_rcheckableType.test(src.type) ? (// IE6-8 fails to persist the checked state of a cloned checkbox
                     // or radio button. Worse, IE6-7 fail to give the cloned element
                     // a checked appearance if the defaultChecked value isn't also set
-                    dest.defaultChecked = dest.checked = src.checked, dest.value !== src.value && (dest.value = src.value)) : "option" === nodeName ? dest.defaultSelected = dest.selected = src.defaultSelected : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
+                    dest.defaultChecked = dest.checked = src.checked, dest.value !== src.value && (dest.value = src.value)) : "option" === nodeName ? dest.defaultSelected = dest.selected = src.defaultSelected : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue) : (disableScript(dest).text = src.text, restoreScript(dest));
                 }
             }(node, destElements[i]);
             // Copy the events from the original to the clone
@@ -3708,7 +3708,7 @@
                                     // We normalize with Webkit giving an empty statusText
                                     statusText = "";
                                 }
-                                !status && s.isLocal && !s.crossDomain ? status = responses.text ? 200 : 404 : 1223 === status && (status = 204);
+                                status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
                             }
                         } catch (firefoxAccessException) {
                             !isAbort && complete(-1, firefoxAccessException);
@@ -3758,7 +3758,7 @@
             }), anim.done(function() {
                 var prop;
                 for(prop in jQuery._removeData(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
-            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), prop in dataShow || (dataShow[prop] = tween.start, !hidden || (tween.end = tween.start, tween.start = +("width" === prop || "height" === prop)));
+            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), !(prop in dataShow) && (dataShow[prop] = tween.start, hidden && (tween.end = tween.start, tween.start = +("width" === prop || "height" === prop)));
         }
     ], tweeners = {
         "*": [
@@ -3895,11 +3895,11 @@
         _default: {
             get: function(tween) {
                 var result;
-                return null == tween.elem[tween.prop] || tween.elem.style && null != tween.elem.style[tween.prop] ? // passing an empty string as a 3rd parameter to .css will automatically
+                return null != tween.elem[tween.prop] && (!tween.elem.style || null == tween.elem.style[tween.prop]) ? tween.elem[tween.prop] : // passing an empty string as a 3rd parameter to .css will automatically
                 // attempt a parseFloat and fallback to a string if the parse fails
                 // so, simple values such as "10px" are parsed to Float.
                 // complex values such as "rotate(1rad)" are returned as is.
-                (result = jQuery.css(tween.elem, tween.prop, "")) && "auto" !== result ? result : 0 : tween.elem[tween.prop];
+                (result = jQuery.css(tween.elem, tween.prop, "")) && "auto" !== result ? result : 0;
             },
             set: function(tween) {
                 // use step hook for back compat - use cssHook if its there - use .style if its
@@ -3920,7 +3920,7 @@
     ], function(i, name1) {
         var cssFn = jQuery.fn[name1];
         jQuery.fn[name1] = function(speed, easing, callback) {
-            return null == speed || "boolean" == typeof speed ? cssFn.apply(this, arguments) : this.animate(genFx(name1, !0), speed, easing, callback);
+            return null != speed && "boolean" != typeof speed ? this.animate(genFx(name1, !0), speed, easing, callback) : cssFn.apply(this, arguments);
         };
     }), jQuery.fn.extend({
         fadeTo: function(speed, to, easing, callback) {
@@ -4034,10 +4034,10 @@
             left: 0
         }, elem = this[0], doc = elem && elem.ownerDocument;
         if (doc) return(// Make sure it's not a disconnected DOM node
-        (docElem = doc.documentElement, jQuery.contains(docElem, elem)) ? (typeof elem.getBoundingClientRect !== core_strundefined && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
+        (docElem = doc.documentElement, !jQuery.contains(docElem, elem)) ? box : (typeof elem.getBoundingClientRect !== core_strundefined && (box = elem.getBoundingClientRect()), win = getWindow(doc), {
             top: box.top + (win.pageYOffset || docElem.scrollTop) - (docElem.clientTop || 0),
             left: box.left + (win.pageXOffset || docElem.scrollLeft) - (docElem.clientLeft || 0)
-        }) : box);
+        }));
     }, jQuery.offset = {
         setOffset: function(elem, options, i) {
             var position = jQuery.css(elem, "position");

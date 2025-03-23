@@ -256,7 +256,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             };
             const currentState = store.getState();
             let nextIsSearchStalled = currentState.isSearchStalled;
-            !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
+            helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
             const { resultsFacetValues, ...partialState } = currentState;
             store.setState({
                 ...partialState,
@@ -270,7 +270,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     function handleSearchError({ error }) {
         const currentState = store.getState();
         let nextIsSearchStalled = currentState.isSearchStalled;
-        !helper.hasPendingRequests() && (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
+        helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
         const { resultsFacetValues, ...partialState } = currentState;
         store.setState({
             ...partialState,

@@ -12,7 +12,7 @@ global = this, factory = function(exports1, _class_call_check) {
     var Object = function Object() {
         _class_call_check._(this, Object);
     };
-}, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_class_call_check")) : "function" == typeof define && define.amd ? define([
+}, "object" != typeof module || "object" != typeof module.exports ? "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_class_call_check"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.exportClassNameWithObjectUMDTs = {}, global.classCallCheck);
+], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.exportClassNameWithObjectUMDTs = {}, global.classCallCheck) : factory(exports, require("@swc/helpers/_/_class_call_check"));

@@ -785,7 +785,7 @@
    */ function replaceHolders(array, placeholder) {
         for(var index = -1, length = array.length, resIndex = 0, result = []; ++index < length;){
             var value = array[index];
-            (value === placeholder || value === PLACEHOLDER) && (array[index] = PLACEHOLDER, result[resIndex++] = index);
+            value !== placeholder && value !== PLACEHOLDER || (array[index] = PLACEHOLDER, result[resIndex++] = index);
         }
         return result;
     }
@@ -1233,9 +1233,7 @@
             } else {
                 var length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
-                if (tag == objectTag || tag == argsTag || isFunc && !object) {
-                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));
-                } else {
+                if (tag != objectTag && tag != argsTag && (!isFunc || object)) {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = /**
      * Initializes an object clone based on its `toStringTag`.
@@ -1281,7 +1279,7 @@
                                 return symbolValueOf ? Object1(symbolValueOf.call(object)) : {};
                         }
                     }(value, tag, isDeep);
-                }
+                } else if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));
             }
             // Check for circular references and return its corresponding clone.
             stack || (stack = new Stack);
@@ -2145,7 +2143,7 @@
      * @returns {Function} Returns the new spec function.
      */ function baseMatchesProperty(path, srcValue) {
             var value;
-            return isKey(path) && (value = srcValue) == value && !isObject(value) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
+            return !(!isKey(path) || (value = srcValue) != value || isObject(value)) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                 var objValue = get(object, path);
                 return undefined === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
             };
@@ -2932,7 +2930,7 @@
                 }
                 for(index = wrapper ? index : length; ++index < length;){
                     var funcName = getFuncName(func = funcs[index]), data = 'wrapper' == funcName ? getData(func) : undefined;
-                    wrapper = data && isLaziable(data[0]) && 424 == data[1] && !data[4].length && 1 == data[9] ? wrapper[getFuncName(data[0])].apply(wrapper, data[3]) : 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
+                    wrapper = !(data && isLaziable(data[0])) || 424 != data[1] || data[4].length || 1 != data[9] ? 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func) : wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
                 }
                 return function() {
                     var args = arguments, value = args[0];
@@ -3027,7 +3025,7 @@
                 if (undefined === value && undefined === other) return defaultValue;
                 if (undefined !== value && (result = value), undefined !== other) {
                     if (undefined === result) return other;
-                    'string' == typeof value || 'string' == typeof other ? (value = baseToString(value), other = baseToString(other)) : (value = baseToNumber(value), other = baseToNumber(other)), result = operator(value, other);
+                    'string' != typeof value && 'string' != typeof other ? (value = baseToNumber(value), other = baseToNumber(other)) : (value = baseToString(value), other = baseToString(other)), result = operator(value, other);
                 }
                 return result;
             };
@@ -3286,7 +3284,7 @@
      * @param {Object} object The parent object of `objValue`.
      * @returns {*} Returns the value to assign.
      */ function customDefaultsAssignIn(objValue, srcValue, key, object) {
-            return undefined === objValue || eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key) ? srcValue : objValue;
+            return !(undefined === objValue || eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key)) ? objValue : srcValue;
         }
         /**
      * Used by `_.defaultsDeep` to customize its `_.merge` use to merge source
@@ -3571,7 +3569,7 @@
             var data = getData(other);
             return !!data && func === data[0];
         }
-        (DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag || Map && getTag(new Map) != mapTag || Promise && getTag(Promise.resolve()) != promiseTag || Set && getTag(new Set) != setTag || WeakMap && getTag(new WeakMap) != weakMapTag) && (getTag = function(value) {
+        (!DataView || getTag(new DataView(new ArrayBuffer(1))) == dataViewTag) && (!Map || getTag(new Map) == mapTag) && (!Promise || getTag(Promise.resolve()) == promiseTag) && (!Set || getTag(new Set) == setTag) && (!WeakMap || getTag(new WeakMap) == weakMapTag) || (getTag = function(value) {
             var result = baseGetTag(value), Ctor = result == objectTag ? value.constructor : undefined, ctorString = Ctor ? toSource(Ctor) : '';
             if (ctorString) switch(ctorString){
                 case dataViewCtorString:
@@ -5439,7 +5437,7 @@
      * _.toFinite('3.2');
      * // => 3.2
      */ function toFinite(value) {
-            return value ? (value = toNumber(value)) === INFINITY || value === -INFINITY ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
+            return value ? (value = toNumber(value)) !== INFINITY && value !== -INFINITY ? value == value ? value : 0 : (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : 0 === value ? value : 0;
         }
         /**
      * Converts `value` to an integer.
@@ -5630,7 +5628,7 @@
             var index = -1, length = sources.length, guard = length > 2 ? sources[2] : undefined;
             for(guard && isIterateeCall(sources[0], sources[1], guard) && (length = 1); ++index < length;)for(var source = sources[index], props = keysIn(source), propsIndex = -1, propsLength = props.length; ++propsIndex < propsLength;){
                 var key = props[propsIndex], value = object[key];
-                (undefined === value || eq(value, objectProto[key]) && !hasOwnProperty.call(object, key)) && (object[key] = source[key]);
+                !(undefined === value || eq(value, objectProto[key]) && !hasOwnProperty.call(object, key)) || (object[key] = source[key]);
             }
             return object;
         }), defaultsDeep = baseRest(function(args) {
@@ -7657,7 +7655,7 @@
      * _.split('a-b-c', '-', 2);
      * // => ['a', 'b']
      */ function(string, separator, limit) {
-            return (limit && 'number' != typeof limit && isIterateeCall(string, separator, limit) && (separator = limit = undefined), limit = undefined === limit ? 4294967295 : limit >>> 0) ? (string = toString(string)) && ('string' == typeof separator || null != separator && !isRegExp(separator)) && !(separator = baseToString(separator)) && hasUnicode(string) ? castSlice(stringToArray(string), 0, limit) : string.split(separator, limit) : [];
+            return (limit && 'number' != typeof limit && isIterateeCall(string, separator, limit) && (separator = limit = undefined), !(limit = undefined === limit ? 4294967295 : limit >>> 0)) ? [] : (string = toString(string)) && ('string' == typeof separator || null != separator && !isRegExp(separator)) && !(separator = baseToString(separator)) && hasUnicode(string) ? castSlice(stringToArray(string), 0, limit) : string.split(separator, limit);
         }, lodash.spread = /**
      * Creates a function that invokes `func` with the `this` binding of the
      * create function and an array of arguments much like
@@ -9621,7 +9619,7 @@
      * _.random(1.2, 5.2);
      * // => a floating-point number between 1.2 and 5.2
      */ function(lower, upper, floating) {
-            if (floating && 'boolean' != typeof floating && isIterateeCall(lower, upper, floating) && (upper = floating = undefined), undefined === floating && ('boolean' == typeof upper ? (floating = upper, upper = undefined) : 'boolean' == typeof lower && (floating = lower, lower = undefined)), undefined === lower && undefined === upper ? (lower = 0, upper = 1) : (lower = toFinite(lower), undefined === upper ? (upper = lower, lower = 0) : upper = toFinite(upper)), lower > upper) {
+            if (floating && 'boolean' != typeof floating && isIterateeCall(lower, upper, floating) && (upper = floating = undefined), undefined === floating && ('boolean' == typeof upper ? (floating = upper, upper = undefined) : 'boolean' == typeof lower && (floating = lower, lower = undefined)), undefined !== lower || undefined !== upper ? (lower = toFinite(lower), undefined === upper ? (upper = lower, lower = 0) : upper = toFinite(upper)) : (lower = 0, upper = 1), lower > upper) {
                 var temp = lower;
                 lower = upper, upper = temp;
             }
@@ -9820,7 +9818,7 @@
             if (null == collection) return 0;
             if (isArrayLike(collection)) return isString(collection) ? stringSize(collection) : collection.length;
             var tag = getTag(collection);
-            return tag == mapTag || tag == setTag ? collection.size : baseKeys(collection).length;
+            return tag != mapTag && tag != setTag ? baseKeys(collection).length : collection.size;
         }, lodash.snakeCase = snakeCase, lodash.some = /**
      * Checks if `predicate` returns truthy for **any** element of `collection`.
      * Iteration is stopped once `predicate` returns truthy. The predicate is
@@ -10455,7 +10453,7 @@
             return toString(prefix) + id;
         }, lodash.upperCase = upperCase, lodash.upperFirst = upperFirst, // Add aliases.
         lodash.each = forEach, lodash.eachRight = forEachRight, lodash.first = head, mixin(lodash, (source = {}, baseForOwn(lodash, function(func, methodName) {
-            !hasOwnProperty.call(lodash.prototype, methodName) && (source[methodName] = func);
+            hasOwnProperty.call(lodash.prototype, methodName) || (source[methodName] = func);
         }), source), {
             chain: !1
         }), /*------------------------------------------------------------------------*/ /**

@@ -519,8 +519,8 @@
             /* harmony import */ var _number__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./number */ "../../../node_modules/d3-array/src/number.js");
             /* harmony default export */ __webpack_exports__.default = function(values, valueof) {
                 var value, delta, n = values.length, m = 0, i = -1, mean = 0, sum = 0;
-                if (null == valueof) for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(values[i])) && (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
-                else for(; ++i < n;)!isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(valueof(values[i], i, values))) && (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
+                if (null == valueof) for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(values[i])) || (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
+                else for(; ++i < n;)isNaN(value = Object(_number__WEBPACK_IMPORTED_MODULE_0__.default)(valueof(values[i], i, values))) || (delta = value - mean, mean += delta / ++m, sum += delta * (value - mean));
                 if (m > 1) return sum / (m - 1);
             };
         /***/ },
@@ -1000,7 +1000,7 @@
                 return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
             }
             function rgbConvert(o) {
-                return (!(o instanceof Color) && (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
+                return (!(o instanceof Color) && (o = color(o)), !o) ? new Rgb : new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity);
             }
             function rgb(r, g, b, opacity) {
                 return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -1188,7 +1188,7 @@
                 if (o instanceof Hcl) return hcl2lab(o);
                 !(o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb) && (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
                 var x, z, r = rgb2lrgb(o.r), g = rgb2lrgb(o.g), b = rgb2lrgb(o.b), y = xyz2lab((0.2225045 * r + 0.7168786 * g + 0.0606169 * b) / 1);
-                return r === g && g === b ? x = z = y : (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)), new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
+                return r !== g || g !== b ? (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)) : x = z = y, new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
             }
             function gray(l, opacity) {
                 return new Lab(l, 0, 0, null == opacity ? 1 : opacity);
@@ -2457,7 +2457,8 @@
                 return function(a, b) {
                     var a1, b1, a2, b2, s = [], q = []; // number interpolators
                     return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
-                        if (xa !== xb || ya !== yb) {
+                        if (xa === xb && ya === yb) (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                        else {
                             var i = s.push("translate(", null, pxComma, null, pxParen);
                             q.push({
                                 i: i - 4,
@@ -2466,7 +2467,7 @@
                                 i: i - 2,
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
-                        } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
+                        }
                     }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
@@ -2474,7 +2475,8 @@
                         i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
                     }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
-                        if (xa !== xb || ya !== yb) {
+                        if (xa === xb && ya === yb) (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
+                        else {
                             var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                             q.push({
                                 i: i - 4,
@@ -2483,7 +2485,7 @@
                                 i: i - 2,
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
-                        } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
+                        }
                     }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
                         for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
                         return s.join("");
@@ -2506,7 +2508,7 @@
                 return "none" === value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (!cssNode && (cssNode = document.createElement("DIV"), cssRoot = document.documentElement, cssView = document.defaultView), cssNode.style.transform = value, value = cssView.getComputedStyle(cssRoot.appendChild(cssNode), null).getPropertyValue("transform"), cssRoot.removeChild(cssNode), value = value.slice(7, -1).split(","), Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(+value[0], +value[1], +value[2], +value[3], +value[4], +value[5]));
             }
             function parseSvg(value) {
-                return null == value ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), value = svgNode.transform.baseVal.consolidate()) ? (value = value.matrix, Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(value.a, value.b, value.c, value.d, value.e, value.f)) : _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity;
+                return null == value || (!svgNode && (svgNode = document.createElementNS("http://www.w3.org/2000/svg", "g")), svgNode.setAttribute("transform", value), !(value = svgNode.transform.baseVal.consolidate())) ? _decompose_js__WEBPACK_IMPORTED_MODULE_0__.identity : (value = value.matrix, Object(_decompose_js__WEBPACK_IMPORTED_MODULE_0__.default)(value.a, value.b, value.c, value.d, value.e, value.f));
             }
         /***/ },
         /***/ "../../../node_modules/d3-interpolate/src/value.js": /*!************************************************************************************!*\
@@ -3327,11 +3329,11 @@
                     case "g":
                     case "p":
                     case "r":
-                        null == specifier.precision && !isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionRound)(step, Math.max(Math.abs(start), Math.abs(stop)))) && (specifier.precision = precision - ("e" === specifier.type));
+                        null != specifier.precision || isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionRound)(step, Math.max(Math.abs(start), Math.abs(stop)))) || (specifier.precision = precision - ("e" === specifier.type));
                         break;
                     case "f":
                     case "%":
-                        null == specifier.precision && !isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionFixed)(step)) && (specifier.precision = precision - ("%" === specifier.type) * 2);
+                        null != specifier.precision || isNaN(precision = Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.precisionFixed)(step)) || (specifier.precision = precision - ("%" === specifier.type) * 2);
                 }
                 return Object(d3_format__WEBPACK_IMPORTED_MODULE_1__.format)(specifier);
             };
@@ -3578,7 +3580,7 @@
                                 rc0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r0 - lc) / (kc - 1)), rc1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r1 - lc) / (kc + 1));
                             }
                         }
-                        da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), !(r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) || !(da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) ? context.lineTo(x10, y10) : rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw);
+                        da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
                     }
                     else context.moveTo(0, 0);
                     if (context.closePath(), buffer) return context = null, buffer + "" || null;
@@ -6689,7 +6691,7 @@
                                 before = node;
                                 break;
                             }
-                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), before || (firstCircle = circle);
+                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), !before && (firstCircle = circle);
                         }
                     }
                 }
@@ -6813,7 +6815,7 @@
                 edge[0] || edge[1] ? edge.left === right ? edge[1] = vertex : edge[0] = vertex : (edge[0] = vertex, edge.left = left, edge.right = right);
             }
             function clipEdges(x0, y0, x1, y1) {
-                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)(!function(edge, x0, y0, x1, y1) {
+                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)(function(edge, x0, y0, x1, y1) {
                     var v1 = edge[1];
                     if (v1) return !0;
                     var fm, fb, v0 = edge[0], left = edge.left, right = edge.right, lx = left[0], ly = left[1], rx = right[0], ry = right[1], fx = (lx + rx) / 2;
@@ -6889,7 +6891,7 @@
                         ];
                     }
                     return edge[0] = v0, edge[1] = v1, !0;
-                }(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) || !// Liang–Barsky line clipping.
+                })(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) && // Liang–Barsky line clipping.
                 function(edge, x0, y0, x1, y1) {
                     var r, a = edge[0], b = edge[1], ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
                     if (r = x0 - ax, dx || !(r > 0)) {
@@ -6936,7 +6938,7 @@
                             }
                         }
                     }
-                }(edge, x0, y0, x1, y1) || !(Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon)) && delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
+                }(edge, x0, y0, x1, y1) && (Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon) || delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
             }
         /***/ },
         /***/ "../../../node_modules/d3-voronoi/src/RedBlackTree.js": /*!***************************************************************************************!*\
@@ -7355,7 +7357,7 @@
                     // on the hull we give priority to exterior halfedges
                     for(var halfedges = this.halfedges = delaunator.halfedges, hull = this.hull = delaunator.hull, triangles = this.triangles = delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1), _e = 0, _n = halfedges.length; _e < _n; ++_e){
                         var _p = triangles[_e % 3 == 2 ? _e - 2 : _e + 1];
-                        (-1 === halfedges[_e] || -1 === inedges[_p]) && (inedges[_p] = _e);
+                        -1 !== halfedges[_e] && -1 !== inedges[_p] || (inedges[_p] = _e);
                     }
                     for(var _i = 0, _n2 = hull.length; _i < _n2; ++_i)hullIndex[hull[_i]] = _i;
                      // degenerate case: 1 or 2 (distinct) points
@@ -8678,7 +8680,7 @@
                     }
                     for(index = wrapper ? index : length; ++index < length;){
                         var funcName = getFuncName(func = funcs[index]), data = 'wrapper' == funcName ? getData(func) : void 0;
-                        wrapper = data && isLaziable(data[0]) && 424 == data[1] && !data[4].length && 1 == data[9] ? wrapper[getFuncName(data[0])].apply(wrapper, data[3]) : 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
+                        wrapper = !(data && isLaziable(data[0])) || 424 != data[1] || data[4].length || 1 != data[9] ? 1 == func.length && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func) : wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
                     }
                     return function() {
                         var args = arguments, value = args[0];
@@ -9648,7 +9650,7 @@
                 var index = -1, length = sources.length, guard = length > 2 ? sources[2] : void 0;
                 for(guard && isIterateeCall(sources[0], sources[1], guard) && (length = 1); ++index < length;)for(var source = sources[index], props = keysIn(source), propsIndex = -1, propsLength = props.length; ++propsIndex < propsLength;){
                     var key = props[propsIndex], value = object[key];
-                    (void 0 === value || eq(value, objectProto[key]) && !hasOwnProperty.call(object, key)) && (object[key] = source[key]);
+                    !(void 0 === value || eq(value, objectProto[key]) && !hasOwnProperty.call(object, key)) || (object[key] = source[key]);
                 }
                 return object;
             });
@@ -10923,7 +10925,7 @@
          * _.toFinite('3.2');
          * // => 3.2
          */ function(value) {
-                return value ? (value = toNumber(value)) === INFINITY || value === -INFINITY ? (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : value == value ? value : 0 : 0 === value ? value : 0;
+                return value ? (value = toNumber(value)) !== INFINITY && value !== -INFINITY ? value == value ? value : 0 : (value < 0 ? -1 : 1) * 1.7976931348623157e+308 : 0 === value ? value : 0;
             };
         /***/ },
         /***/ "../../../node_modules/lodash/toInteger.js": /*!****************************************************************************!*\
@@ -13215,10 +13217,10 @@
                 }({}, props, getPosition(props, width)));
             }, getStartAngle = function(props, index) {
                 var data = props.data, scale = props.scale, alignment = props.alignment, currentAngle = getAngle(props, index), angularRange = Math.abs(scale.x.range()[1] - scale.x.range()[0]), previousAngle = 0 === index ? getAngle(props, data.length - 1) - 2 * Math.PI : getAngle(props, index - 1);
-                return 0 === index && angularRange < 2 * Math.PI ? scale.x.range()[0] : "start" === alignment || "end" === alignment ? "start" === alignment ? previousAngle : currentAngle : (currentAngle + previousAngle) / 2;
+                return 0 === index && angularRange < 2 * Math.PI ? scale.x.range()[0] : "start" !== alignment && "end" !== alignment ? (currentAngle + previousAngle) / 2 : "start" === alignment ? previousAngle : currentAngle;
             }, getEndAngle = function(props, index) {
                 var data = props.data, scale = props.scale, alignment = props.alignment, currentAngle = getAngle(props, index), angularRange = Math.abs(scale.x.range()[1] - scale.x.range()[0]), lastAngle = scale.x.range()[1] === 2 * Math.PI ? getAngle(props, 0) + 2 * Math.PI : scale.x.range()[1], nextAngle = index === data.length - 1 ? getAngle(props, 0) + 2 * Math.PI : getAngle(props, index + 1);
-                return index === data.length - 1 && angularRange < 2 * Math.PI ? lastAngle : "start" === alignment || "end" === alignment ? "start" === alignment ? currentAngle : nextAngle : (currentAngle + nextAngle) / 2;
+                return index === data.length - 1 && angularRange < 2 * Math.PI ? lastAngle : "start" !== alignment && "end" !== alignment ? (currentAngle + nextAngle) / 2 : "start" === alignment ? currentAngle : nextAngle;
             }, mapPointsToPath = function(coords, cornerRadius, direction) {
                 var topLeftPath = "".concat(cornerRadius.topLeft, " ").concat(cornerRadius.topLeft, " ").concat(direction), topRightPath = "".concat(cornerRadius.topRight, " ").concat(cornerRadius.topRight, " ").concat(direction), bottomLeftPath = "".concat(cornerRadius.bottomLeft, " ").concat(cornerRadius.bottomLeft, " ").concat(direction), bottomRightPath = "".concat(cornerRadius.bottomRight, " ").concat(cornerRadius.bottomRight, " ").concat(direction), path = [
                     "M",
@@ -13876,7 +13878,7 @@
                 };
             }, getText = function(props, type) {
                 var datum = props.datum, index = props.index, labels = props.labels, labelProp = props["".concat(type, "Labels")];
-                return labelProp || labels ? !0 === labelProp || !0 === labels ? "".concat(datum["_".concat(type)]) : Array.isArray(labelProp) ? labelProp[index] : labelProp : null;
+                return labelProp || labels ? !0 !== labelProp && !0 !== labels ? Array.isArray(labelProp) ? labelProp[index] : labelProp : "".concat(datum["_".concat(type)]) : null;
             }, getLabelProps = function(props, text, type) {
                 var datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation = props.labelOrientation, style = props.style, theme = props.theme, orientation = "object" == typeof labelOrientation && labelOrientation[type] || labelOrientation, labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
                     var sign = {
@@ -15008,10 +15010,10 @@
                                         return props.disable ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onMouseDown(evt, targetProps);
                                     },
                                     onGlobalMouseMove: function(evt, targetProps) {
-                                        return props.disable || !targetProps.isPanning && !targetProps.isSelecting ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps);
+                                        return !props.disable && (targetProps.isPanning || targetProps.isSelecting) ? _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps) : {};
                                     },
                                     onGlobalTouchMove: function(evt, targetProps) {
-                                        return props.disable || !targetProps.isPanning && !targetProps.isSelecting ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps);
+                                        return !props.disable && (targetProps.isPanning || targetProps.isSelecting) ? _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps) : {};
                                     },
                                     onGlobalMouseUp: function(evt, targetProps) {
                                         return props.disable ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseUp(evt, targetProps);
@@ -15786,7 +15788,7 @@
                 });
             }, getText = function(props, type) {
                 var datum = props.datum, index = props.index, labels = props.labels, labelProp = props["".concat(type, "Labels")];
-                return labelProp || labels ? !0 === labelProp || !0 === labels ? "".concat(datum["_".concat(type)]) : Array.isArray(labelProp) ? labelProp[index] : labelProp : null;
+                return labelProp || labels ? !0 !== labelProp && !0 !== labels ? Array.isArray(labelProp) ? labelProp[index] : labelProp : "".concat(datum["_".concat(type)]) : null;
             }, getCandleWidth = function(props, style) {
                 var data = props.data, candleWidth = props.candleWidth, scale = props.scale, defaultCandleWidth = props.defaultCandleWidth;
                 if (candleWidth) return lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(candleWidth) ? victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(candleWidth, props) : candleWidth;
@@ -17031,7 +17033,7 @@
                 return(// If the values are strictly equal, or either value is not interpolatable,
                 // just use either the start value `a` or end value `b` at every step, as
                 // there is no reasonable in-between value.
-                a !== b && isInterpolatable(a) && isInterpolatable(b) ? "function" == typeof a || "function" == typeof b ? interpolateFunction(a, b) : lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(a) || lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(b) ? interpolateObject(a, b) : "string" == typeof a || "string" == typeof b ? interpolateString(a, b) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(a, b) : interpolateImmediate(a, b));
+                a !== b && isInterpolatable(a) && isInterpolatable(b) ? "function" != typeof a && "function" != typeof b ? lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(a) || lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(b) ? interpolateObject(a, b) : "string" != typeof a && "string" != typeof b ? Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(a, b) : interpolateString(a, b) : interpolateFunction(a, b) : interpolateImmediate(a, b));
             };
         /***/ },
         /***/ "../../victory-core/es/victory-animation/victory-animation.js": /*!***********************************************************************************************************!*\
@@ -18617,7 +18619,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18745,7 +18747,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18819,7 +18821,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18953,7 +18955,7 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -18978,7 +18980,7 @@
                 var children = props.children, title = props.title, desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -21354,7 +21356,7 @@
                             }, "state"), mutatedProps = eventReturn.mutation(lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, mutationTargetProps, mutationTargetState), baseProps), childState = baseState[childName] || {}, updateState = function(state) {
                                 return mutatedProps ? "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps)))) : (state[key] && state[key][target] && delete state[key][target], state[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state[key]).length && delete state[key], state);
                             };
-                            return null != childName ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(baseState, _defineProperty({}, childName, updateState(childState))) : updateState(baseState);
+                            return null == childName ? updateState(baseState) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(baseState, _defineProperty({}, childName, updateState(childState)));
                         }, getReturnByChild = function(childName) {
                             var mutationKeys = "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
                             return Array.isArray(mutationKeys) ? mutationKeys.reduce(function(memo, key) {
@@ -21799,7 +21801,7 @@
             function getPolarVerticalAnchor(props, degrees) {
                 var labelPlacement = getLabelPlacement(props), orientation = // eslint-disable-next-line no-magic-numbers
                 degrees < 45 || degrees > 315 ? "right" : degrees >= 45 && degrees <= 135 ? "top" : degrees > 135 && degrees < 225 ? "left" : "bottom";
-                return "parallel" === labelPlacement || "left" === orientation || "right" === orientation ? "middle" : "top" === orientation ? "end" : "start";
+                return "parallel" !== labelPlacement && "left" !== orientation && "right" !== orientation ? "top" === orientation ? "end" : "start" : "middle";
             }
             function getDegrees(props, datum) {
                 var x = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.getPoint(datum).x;
@@ -21813,7 +21815,7 @@
                     var labelPlacement = props.labelPlacement, datum = props.datum;
                     if (!labelPlacement || "vertical" === labelPlacement) return 0;
                     var degrees = void 0 !== baseAngle ? baseAngle % 360 : getDegrees(props, datum), angle = 0;
-                    return 0 === degrees || 180 === degrees ? angle = 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
+                    return 0 !== degrees && 180 !== degrees ? degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees) : angle = 90, angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                 },
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
@@ -32708,7 +32710,7 @@
                             var angle, polar = props.polar, labelPlacement = props.labelPlacement, orientation = props.orientation, datum = props.datum;
                             if (!polar || !labelPlacement || "vertical" === labelPlacement) return 0;
                             var degrees = victory_core__WEBPACK_IMPORTED_MODULE_7__.LabelHelpers.getDegrees(props, datum);
-                            return 0 === degrees || 180 === degrees ? angle = "top" === orientation && 180 === degrees ? 270 : 90 : degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees), angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
+                            return 0 !== degrees && 180 !== degrees ? degrees > 0 && degrees < 180 ? angle = 90 - degrees : degrees > 180 && degrees < 360 && (angle = 270 - degrees) : angle = "top" === orientation && 180 === degrees ? 270 : 90, angle + 90 * ("perpendicular" !== labelPlacement) * (degrees > 90 && degrees < 180 || degrees > 270 ? 1 : -1);
                         }
                     },
                     {
@@ -33275,7 +33277,7 @@
                                 }, []), _points$ = points[0], childName = _points$.childName, eventKey = _points$.eventKey, datum = (_points$.style, _points$.continuous, function(source, excluded) {
                                     if (null == source) return {};
                                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                                    for(i = 0; i < sourceKeys.length; i++)!(excluded.indexOf(key = sourceKeys[i]) >= 0) && (target[key] = source[key]);
+                                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
                                     if (Object.getOwnPropertySymbols) {
                                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
                                         for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
@@ -34068,7 +34070,7 @@
                         {
                             key: "downsampleZoomData",
                             value: function(props, child, domain) {
-                                var childProps, data, x, y, defaultGetData, downsample = props.downsample, data1 = (data = (childProps = child.props).data, x = childProps.x, y = childProps.y, defaultGetData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_0___default()(child.type.getData) ? child.type.getData : function() {}, Array.isArray(data) && !x && !y ? data : defaultGetData(childProps));
+                                var childProps, data, x, y, defaultGetData, downsample = props.downsample, data1 = (data = (childProps = child.props).data, x = childProps.x, y = childProps.y, defaultGetData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_0___default()(child.type.getData) ? child.type.getData : function() {}, !Array.isArray(data) || x || y ? defaultGetData(childProps) : data);
                                 if (downsample && domain && data1) {
                                     var dimension = props.zoomDimension || "x", startIndex = data1.findIndex(function(d) {
                                         return d[dimension] >= domain[dimension][0];

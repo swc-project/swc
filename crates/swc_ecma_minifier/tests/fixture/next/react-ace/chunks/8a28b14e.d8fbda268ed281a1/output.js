@@ -111,7 +111,7 @@
                         return els;
                     }
                     var el = document.createElement(arr[0]), options = arr[1], childIndex = 1;
-                    options && "object" == typeof options && !Array.isArray(options) && (childIndex = 2);
+                    !options || "object" != typeof options || Array.isArray(options) || (childIndex = 2);
                     for(var i = childIndex; i < arr.length; i++)buildDom(arr[i], el, refs);
                     return 2 == childIndex && Object.keys(options).forEach(function(n) {
                         var val = options[n];
@@ -130,7 +130,7 @@
                 }, exports.hasCssClass = function(el, name) {
                     return -1 !== (el.className + "").split(/\s+/g).indexOf(name);
                 }, exports.addCssClass = function(el, name) {
-                    !exports.hasCssClass(el, name) && (el.className += " " + name);
+                    exports.hasCssClass(el, name) || (el.className += " " + name);
                 }, exports.removeCssClass = function(el, name) {
                     for(var classes = el.className.split(/\s+/g);;){
                         var index = classes.indexOf(name);
@@ -425,7 +425,7 @@
                 }, exports.preventDefault = function(e) {
                     e.preventDefault && e.preventDefault();
                 }, exports.getButton = function(e) {
-                    return "dblclick" == e.type ? 0 : "contextmenu" == e.type || useragent.isMac && e.ctrlKey && !e.altKey && !e.shiftKey ? 2 : e.button;
+                    return "dblclick" == e.type ? 0 : "contextmenu" != e.type && (!useragent.isMac || !e.ctrlKey || e.altKey || e.shiftKey) ? e.button : 2;
                 }, exports.capture = function(el, eventHandler, releaseCaptureHandler) {
                     var ownerDocument = el && el.ownerDocument || document;
                     function onMouseUp(e) {
@@ -588,11 +588,11 @@
                     }, this.compare = function(row, column) {
                         return this.isMultiLine() || row !== this.start.row ? row < this.start.row ? -1 : row > this.end.row ? 1 : this.start.row === row ? column >= this.start.column ? 0 : -1 : this.end.row === row ? column <= this.end.column ? 0 : 1 : 0 : column < this.start.column ? -1 : +(column > this.end.column);
                     }, this.compareStart = function(row, column) {
-                        return this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
+                        return this.start.row != row || this.start.column != column ? this.compare(row, column) : -1;
                     }, this.compareEnd = function(row, column) {
-                        return this.end.row == row && this.end.column == column ? 1 : this.compare(row, column);
+                        return this.end.row != row || this.end.column != column ? this.compare(row, column) : 1;
                     }, this.compareInside = function(row, column) {
-                        return this.end.row == row && this.end.column == column ? 1 : this.start.row == row && this.start.column == column ? -1 : this.compare(row, column);
+                        return this.end.row != row || this.end.column != column ? this.start.row != row || this.start.column != column ? this.compare(row, column) : -1 : 1;
                     }, this.clipRows = function(firstRow, lastRow) {
                         if (this.end.row > lastRow) var end = {
                             row: lastRow + 1,
@@ -967,7 +967,7 @@
                     }, !0), detectArrowKeys = function(e) {
                         if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
                             var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
-                            if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
+                            if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : !(selectionStart < lastSelectionStart) && (selectionStart != lastSelectionStart || lastSelectionEnd == lastSelectionStart || selectionStart != selectionEnd) ? selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right) : key = KEYS.left, selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
                                 if (!host.onCommandKey({}, modifier, key) && host.commands) {
                                     key = KEYS.keyCodeToString(key);
                                     var command = host.commands.findKeyCommand(modifier, key);
@@ -1056,11 +1056,10 @@
                             var cmpStart = this.$clickSelection.comparePoint(range.start), cmpEnd = this.$clickSelection.comparePoint(range.end);
                             if (-1 == cmpStart && cmpEnd <= 0) anchor = this.$clickSelection.end, (range.end.row != cursor.row || range.end.column != cursor.column) && (cursor = range.start);
                             else if (1 == cmpEnd && cmpStart >= 0) anchor = this.$clickSelection.start, (range.start.row != cursor.row || range.start.column != cursor.column) && (cursor = range.end);
-                            else if (-1 == cmpStart && 1 == cmpEnd) cursor = range.end, anchor = range.start;
-                            else {
+                            else if (-1 != cmpStart || 1 != cmpEnd) {
                                 var orientedRange = calcRangeOrientation(this.$clickSelection, cursor);
                                 cursor = orientedRange.cursor, anchor = orientedRange.anchor;
-                            }
+                            } else cursor = range.end, anchor = range.start;
                             editor.selection.setSelectionAnchor(anchor.row, anchor.column);
                         }
                         editor.selection.selectToPosition(cursor), editor.renderer.scrollCursorIntoView();
@@ -1084,7 +1083,7 @@
                         if (!ev.getAccelKey()) {
                             ev.getShiftKey() && ev.wheelY && !ev.wheelX && (ev.wheelX = ev.wheelY, ev.wheelY = 0);
                             var editor = this.editor;
-                            !this.$lastScroll && (this.$lastScroll = {
+                            this.$lastScroll || (this.$lastScroll = {
                                 t: 0,
                                 vx: 0,
                                 vy: 0,
@@ -1781,7 +1780,7 @@
                         var re = RegExp("^" + component + "[\\-_]|[\\-_]" + component + "$", "g");
                         base = base.replace(re, "");
                     }
-                    (!base || base == component) && parts.length > 1 && (base = parts[parts.length - 2]);
+                    base && base != component || !(parts.length > 1) || (base = parts[parts.length - 2]);
                     var path = options[component + "Path"];
                     return null == path ? path = options.basePath : "/" == sep && (component = sep = ""), path && "/" != path.slice(-1) && (path += "/"), path + component + sep + base + this.get("suffix");
                 }, exports.setModuleUrl = function(name, subst) {
@@ -1812,7 +1811,7 @@
                     }
                 };
                 var reportErrorIfPathIsNotConfigured = function() {
-                    !options.basePath && !options.workerPath && !options.modePath && !options.themePath && !Object.keys(options.$moduleUrls).length && (console.error("Unable to infer path to ace from script src,", "use ace.config.set('basePath', 'path') to enable dynamic loading of modes and themes", "or with webpack use ace/webpack-resolver"), reportErrorIfPathIsNotConfigured = function() {});
+                    options.basePath || options.workerPath || options.modePath || options.themePath || Object.keys(options.$moduleUrls).length || (console.error("Unable to infer path to ace from script src,", "use ace.config.set('basePath', 'path') to enable dynamic loading of modes and themes", "or with webpack use ace/webpack-resolver"), reportErrorIfPathIsNotConfigured = function() {});
                 };
                 function init(packaged) {
                     if (global && global.document) {
@@ -1992,7 +1991,7 @@
                         }
                     }, this.addKeyboardHandler = function(kb, pos) {
                         if (kb) {
-                            "function" == typeof kb && !kb.handleKeyboard && (kb.handleKeyboard = kb);
+                            "function" != typeof kb || kb.handleKeyboard || (kb.handleKeyboard = kb);
                             var i = this.$handlers.indexOf(kb);
                             -1 != i && this.$handlers.splice(i, 1), void 0 == pos ? this.$handlers.push(kb) : this.$handlers.splice(pos, 0, kb), -1 == i && kb.attach && kb.attach(this.$editor);
                         }
@@ -2616,7 +2615,7 @@
                             }
                             charWidth = this.charWidths[levels[++visualIdx]];
                         }
-                        return visualIdx > 0 && levels[visualIdx - 1] % 2 != 0 && levels[visualIdx] % 2 == 0 ? (posX < offset && visualIdx--, logicalIdx = this.bidiMap.logicalFromVisual[visualIdx]) : visualIdx > 0 && levels[visualIdx - 1] % 2 == 0 && levels[visualIdx] % 2 != 0 ? logicalIdx = 1 + (posX > offset ? this.bidiMap.logicalFromVisual[visualIdx] : this.bidiMap.logicalFromVisual[visualIdx - 1]) : this.isRtlDir && visualIdx === levels.length - 1 && 0 === charWidth && levels[visualIdx - 1] % 2 == 0 || !this.isRtlDir && 0 === visualIdx && levels[visualIdx] % 2 != 0 ? logicalIdx = 1 + this.bidiMap.logicalFromVisual[visualIdx] : (visualIdx > 0 && levels[visualIdx - 1] % 2 != 0 && 0 !== charWidth && visualIdx--, logicalIdx = this.bidiMap.logicalFromVisual[visualIdx]), 0 === logicalIdx && this.isRtlDir && logicalIdx++, logicalIdx + this.wrapIndent;
+                        return visualIdx > 0 && levels[visualIdx - 1] % 2 != 0 && levels[visualIdx] % 2 == 0 ? (posX < offset && visualIdx--, logicalIdx = this.bidiMap.logicalFromVisual[visualIdx]) : visualIdx > 0 && levels[visualIdx - 1] % 2 == 0 && levels[visualIdx] % 2 != 0 ? logicalIdx = 1 + (posX > offset ? this.bidiMap.logicalFromVisual[visualIdx] : this.bidiMap.logicalFromVisual[visualIdx - 1]) : (!this.isRtlDir || visualIdx !== levels.length - 1 || 0 !== charWidth || levels[visualIdx - 1] % 2 != 0) && (this.isRtlDir || 0 !== visualIdx || levels[visualIdx] % 2 == 0) ? (visualIdx > 0 && levels[visualIdx - 1] % 2 != 0 && 0 !== charWidth && visualIdx--, logicalIdx = this.bidiMap.logicalFromVisual[visualIdx]) : logicalIdx = 1 + this.bidiMap.logicalFromVisual[visualIdx], 0 === logicalIdx && this.isRtlDir && logicalIdx++, logicalIdx + this.wrapIndent;
                     };
                 }).call(BidiHandler.prototype), exports.BidiHandler = BidiHandler;
             }), ace.define("ace/selection", [
@@ -2844,7 +2843,7 @@
                         var fold = this.session.getFoldAt(row, column, 1);
                         fold && (row = fold.start.row, column = fold.start.column), this.$keepDesiredColumnOnChange = !0;
                         var line = this.session.getLine(row);
-                        /[\uDC00-\uDFFF]/.test(line.charAt(column)) && line.charAt(column - 1) && (this.lead.row == row && this.lead.column == column + 1 ? column -= 1 : column += 1), this.lead.setPosition(row, column), this.$keepDesiredColumnOnChange = !1, keepDesiredColumn || (this.$desiredColumn = null);
+                        /[\uDC00-\uDFFF]/.test(line.charAt(column)) && line.charAt(column - 1) && (this.lead.row != row || this.lead.column != column + 1 ? column += 1 : column -= 1), this.lead.setPosition(row, column), this.$keepDesiredColumnOnChange = !1, !keepDesiredColumn && (this.$desiredColumn = null);
                     }, this.moveCursorToScreen = function(row, column, keepDesiredColumn) {
                         var pos = this.session.screenToDocumentPosition(row, column);
                         this.moveCursorTo(pos.row, pos.column, keepDesiredColumn);
@@ -2909,10 +2908,10 @@
                             if (rule.defaultToken && (mapping.defaultToken = rule.defaultToken), rule.caseInsensitive && (flag = "gi"), null != rule.regex) {
                                 rule.regex instanceof RegExp && (rule.regex = rule.regex.toString().slice(1, -1));
                                 var adjustedregex = rule.regex, matchcount = RegExp("(?:(" + adjustedregex + ")|(.))").exec("a").length - 2;
-                                Array.isArray(rule.token) ? 1 == rule.token.length || 1 == matchcount ? rule.token = rule.token[0] : matchcount - 1 != rule.token.length ? (this.reportError("number of classes and regexp groups doesn't match", {
+                                Array.isArray(rule.token) ? 1 != rule.token.length && 1 != matchcount ? matchcount - 1 != rule.token.length ? (this.reportError("number of classes and regexp groups doesn't match", {
                                     rule: rule,
                                     groupCount: matchcount - 1
-                                }), rule.token = rule.token[0]) : (rule.tokenArray = rule.token, rule.token = null, rule.onMatch = this.$arrayTokens) : "function" == typeof rule.token && !rule.onMatch && (matchcount > 1 ? rule.onMatch = this.$applyToken : rule.onMatch = rule.token), matchcount > 1 && (/\\\d/.test(rule.regex) ? adjustedregex = rule.regex.replace(/\\([0-9]+)/g, function(match, digit) {
+                                }), rule.token = rule.token[0]) : (rule.tokenArray = rule.token, rule.token = null, rule.onMatch = this.$arrayTokens) : rule.token = rule.token[0] : "function" == typeof rule.token && !rule.onMatch && (matchcount > 1 ? rule.onMatch = this.$applyToken : rule.onMatch = rule.token), matchcount > 1 && (/\\\d/.test(rule.regex) ? adjustedregex = rule.regex.replace(/\\([0-9]+)/g, function(match, digit) {
                                     return "\\" + (parseInt(digit, 10) + matchTotal + 1);
                                 }) : (matchcount = 1, adjustedregex = this.removeCapturingGroups(rule.regex)), !rule.splitRegex && "string" != typeof rule.token && splitterRurles.push(rule)), mapping[matchTotal] = i, matchTotal += matchcount, ruleRegExps.push(adjustedregex), !rule.onMatch && (rule.onMatch = null);
                             }
@@ -2985,10 +2984,10 @@
                                 break;
                             }
                             if (value) {
-                                if ("string" == typeof type) rule && !1 === rule.merge || token.type !== type ? (token.type && tokens.push(token), token = {
+                                if ("string" == typeof type) (!rule || !1 !== rule.merge) && token.type === type ? token.value += value : (token.type && tokens.push(token), token = {
                                     type: type,
                                     value: value
-                                }) : token.value += value;
+                                });
                                 else if (type) {
                                     token.type && tokens.push(token), token = {
                                         type: null,
@@ -3278,7 +3277,8 @@
                                     1
                                 ]
                             };
-                        } else if ("\n" == text || "\r\n" == text) {
+                        } else if ("\n" != text && "\r\n" != text) CstyleBehaviour.clearMaybeInsertedClosing();
+                        else {
                             initContext(editor);
                             var closing = "";
                             CstyleBehaviour.isMaybeInsertedClosing(cursor, line) && (closing = lang.stringRepeat("}", context.maybeInsertedBrackets), CstyleBehaviour.clearMaybeInsertedClosing());
@@ -3305,7 +3305,7 @@
                                     indent.length
                                 ]
                             };
-                        } else CstyleBehaviour.clearMaybeInsertedClosing();
+                        }
                     }), this.add("braces", "deletion", function(state, action, editor, session, range) {
                         var selected = session.doc.getTextRange(range);
                         if (!range.isMultiLine() && "{" == selected) {
@@ -4939,9 +4939,8 @@
                         return null;
                     }, this.addRemoveChars = function(row, column, len) {
                         var fold, folds, ret = this.getNextFoldTo(row, column);
-                        if (ret) {
-                            if (fold = ret.fold, "inside" == ret.kind && fold.start.column != column && fold.start.row != row) window.console && window.console.log(row, column, fold);
-                            else if (fold.start.row == row) {
+                        if (ret) if (fold = ret.fold, "inside" != ret.kind || fold.start.column == column || fold.start.row == row) {
+                            if (fold.start.row == row) {
                                 var i = (folds = this.folds).indexOf(fold);
                                 for(0 === i && (this.start.column += len); i < folds.length; i++){
                                     if (fold = folds[i], fold.start.column += len, !fold.sameRow) return;
@@ -4949,7 +4948,7 @@
                                 }
                                 this.end.column += len;
                             }
-                        }
+                        } else window.console && window.console.log(row, column, fold);
                     }, this.split = function(row, column) {
                         var pos = this.getNextFoldTo(row, column);
                         if (!pos || "inside" == pos.kind) return null;
@@ -5371,7 +5370,7 @@
                                 var lastRow = -1;
                                 do if (token = iterator.stepForward(), -1 == lastRow) {
                                     var state = this.getState(iterator.$row);
-                                    !re.test(state) && (lastRow = iterator.$row);
+                                    re.test(state) || (lastRow = iterator.$row);
                                 } else if (iterator.$row > lastRow) break;
                                 while (token && re.test(token.type))
                                 token = iterator.stepBackward();
@@ -5747,7 +5746,7 @@
                         }
                         this.$searchHighlight.setRegexp(re);
                     }, this.highlightLines = function(startRow, endRow, clazz, inFront) {
-                        "number" != typeof endRow && (clazz = endRow, endRow = startRow), clazz || (clazz = "ace_step");
+                        "number" != typeof endRow && (clazz = endRow, endRow = startRow), !clazz && (clazz = "ace_step");
                         var range = new Range(startRow, 0, endRow, 1 / 0);
                         return range.id = this.addMarker(range, clazz, "fullLine", inFront), range;
                     }, this.setAnnotations = function(annotations) {
@@ -6079,7 +6078,7 @@
                         function addSplit(screenPos) {
                             for(var len = screenPos - lastSplit, i = lastSplit; i < screenPos; i++){
                                 var ch = tokens[i];
-                                (12 === ch || 2 === ch) && (len -= 1);
+                                12 !== ch && 2 !== ch || (len -= 1);
                             }
                             !splits.length && (splits.indent = indent = function() {
                                 var indentation = 0;
@@ -6147,7 +6146,7 @@
                         ];
                     }, this.lineWidgets = null, this.getRowLength = function(row) {
                         var h = 1;
-                        return (this.lineWidgets && (h += this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0), this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + h : h;
+                        return (this.lineWidgets && (h += this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0), !this.$useWrapMode || !this.$wrapData[row]) ? h : this.$wrapData[row].length + h;
                     }, this.getRowLineCount = function(row) {
                         return this.$useWrapMode && this.$wrapData[row] ? this.$wrapData[row].length + 1 : 1;
                     }, this.getRowWrapIndent = function(screenRow) {
@@ -6375,7 +6374,7 @@
                             outer: for(var row = re.offset || 0; row <= maxRow; row++){
                                 for(var j = 0; j < len; j++)if (-1 == lines[row + j].search(re[j])) continue outer;
                                 var startLine = lines[row], line = lines[row + len - 1], startIndex = startLine.length - startLine.match(re[0])[0].length, endIndex = line.match(re[len - 1])[0].length;
-                                (!prevRange || prevRange.end.row !== row || !(prevRange.end.column > startIndex)) && (ranges.push(prevRange = new Range(row, startIndex, row + len - 1, endIndex)), len > 2 && (row = row + len - 2));
+                                prevRange && prevRange.end.row === row && prevRange.end.column > startIndex || (ranges.push(prevRange = new Range(row, startIndex, row + len - 1, endIndex)), !(len > 2) || (row = row + len - 2));
                             }
                         } else for(var i = 0; i < lines.length; i++)for(var matches = lang.getMatchOffsets(lines[i], re), j = 0; j < matches.length; j++){
                             var match = matches[j];
@@ -6515,7 +6514,7 @@
                         this.commands[command.name] && this.removeCommand(command), this.commands[command.name] = command, command.bindKey && this._buildKeyHash(command);
                     }, this.removeCommand = function(command, keepCommand) {
                         var name = command && ("string" == typeof command ? command : command.name);
-                        command = this.commands[name], keepCommand || delete this.commands[name];
+                        command = this.commands[name], !keepCommand && delete this.commands[name];
                         var ckb = this.commandKeyBinding;
                         for(var keyId in ckb){
                             var cmdGroup = ckb[keyId];
@@ -7814,7 +7813,8 @@
                             "always" != this.$mergeUndoDeltas && Date.now() - this.sequenceStartTime > 2000 && (shouldMerge = !1), shouldMerge ? this.session.mergeUndoDeltas = !0 : -1 !== mergeableCommands.indexOf(e.command.name) && (this.sequenceStartTime = Date.now());
                         }
                     }, this.setKeyboardHandler = function(keyboardHandler, cb) {
-                        if (keyboardHandler && "string" == typeof keyboardHandler && "ace" != keyboardHandler) {
+                        if (!keyboardHandler || "string" != typeof keyboardHandler || "ace" == keyboardHandler) this.$keybindingId = null, this.keyBinding.setKeyboardHandler(keyboardHandler), cb && cb();
+                        else {
                             this.$keybindingId = keyboardHandler;
                             var _self = this;
                             config.loadModule([
@@ -7823,7 +7823,7 @@
                             ], function(module) {
                                 _self.$keybindingId == keyboardHandler && _self.keyBinding.setKeyboardHandler(module && module.handler), cb && cb();
                             });
-                        } else this.$keybindingId = null, this.keyBinding.setKeyboardHandler(keyboardHandler), cb && cb();
+                        }
                     }, this.getKeyboardHandler = function() {
                         return this.keyBinding.getKeyboardHandler();
                     }, this.setSession = function(session) {
@@ -9660,7 +9660,7 @@
                     }, this.update = function(config) {
                         this.config = config;
                         var selections = this.session.$selectionMarkers, i = 0, cursorIndex = 0;
-                        (void 0 === selections || 0 === selections.length) && (selections = [
+                        void 0 !== selections && 0 !== selections.length || (selections = [
                             {
                                 cursor: null
                             }
@@ -9815,7 +9815,7 @@
                             height: (node || this.$measureNode).clientHeight,
                             width: (node || this.$measureNode).clientWidth / 256
                         };
-                        return 0 === size.width || 0 === size.height ? null : size;
+                        return 0 !== size.width && 0 !== size.height ? size : null;
                     }, this.$measureCharWidth = function(ch) {
                         return this.$main.textContent = lang.stringRepeat(ch, 256), this.$main.getBoundingClientRect().width / 256;
                     }, this.getCharacterWidth = function(ch) {
@@ -10472,7 +10472,7 @@ margin: 0 10px;\
                         if (!(this.resizing > 2)) {
                             this.resizing > 0 ? this.resizing++ : this.resizing = +!!force;
                             var el = this.container;
-                            !height && (height = el.clientHeight || el.scrollHeight), width || (width = el.clientWidth || el.scrollWidth);
+                            !height && (height = el.clientHeight || el.scrollHeight), !width && (width = el.clientWidth || el.scrollWidth);
                             var changes = this.$updateCachedSize(force, gutterWidth, width, height);
                             if (!this.$size.scrollerHeight || !width && !height) return this.resizing = 0;
                             force && (this.$gutterLayer.$padding = null), force ? this.$renderChanges(changes | this.$changes, !0) : this.$loop.schedule(changes | this.$changes), this.resizing && (this.resizing = 0), this.scrollBarH.scrollLeft = this.scrollBarV.scrollTop = null;
@@ -11522,7 +11522,7 @@ margin: 0 10px;\
                                 if (this.rangeList.add(oldRange), this.rangeList.add(range), 2 != this.rangeList.ranges.length) return this.rangeList.removeAll(), $blockChangeEvents || this.fromOrientedRange(range);
                                 this.rangeList.removeAll(), this.rangeList.add(oldRange), this.$onAddRange(oldRange);
                             }
-                            !range.cursor && (range.cursor = range.end);
+                            range.cursor || (range.cursor = range.end);
                             var removed = this.rangeList.add(range);
                             return this.$onAddRange(range), removed.length && this.$onRemoveRange(removed), this.rangeCount > 1 && !this.inMultiSelectMode && (this._signal("multiSelect"), this.inMultiSelectMode = !0, this.session.$undoSelect = !1, this.rangeList.attach(this.session)), $blockChangeEvents || this.fromOrientedRange(range);
                         }
@@ -11553,7 +11553,7 @@ margin: 0 10px;\
                             ranges: removed
                         }), 0 === this.rangeCount && this.inMultiSelectMode && (this.inMultiSelectMode = !1, this._signal("singleSelect"), this.session.$undoSelect = !0, this.rangeList.detach(this.session)), (lastRange = lastRange || this.ranges[0]) && !lastRange.isEqual(this.getRange()) && this.fromOrientedRange(lastRange);
                     }, this.$initRangeList = function() {
-                        !this.rangeList && (this.rangeList = new RangeList(), this.ranges = [], this.rangeCount = 0);
+                        this.rangeList || (this.rangeList = new RangeList(), this.ranges = [], this.rangeCount = 0);
                     }, this.getAllRanges = function() {
                         return this.rangeCount ? this.rangeList.ranges.concat() : [
                             this.getRange()
@@ -11626,7 +11626,7 @@ margin: 0 10px;\
                     this.updateSelectionMarkers = function() {
                         this.renderer.updateCursor(), this.renderer.updateBackMarkers();
                     }, this.addSelectionMarker = function(orientedRange) {
-                        !orientedRange.cursor && (orientedRange.cursor = orientedRange.end);
+                        orientedRange.cursor || (orientedRange.cursor = orientedRange.end);
                         var style = this.getSelectionStyle();
                         return orientedRange.marker = this.session.addMarker(orientedRange, "ace_selection", style), this.session.$selectionMarkers.push(orientedRange), this.session.selectionMarkerCount = this.session.$selectionMarkers.length, orientedRange;
                     }, this.removeSelectionMarker = function(range) {
@@ -12014,7 +12014,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 (function() {
                     this.getRowLength = function(row) {
                         var h;
-                        return (h = this.lineWidgets && this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0, this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + 1 + h : 1 + h;
+                        return (h = this.lineWidgets && this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0, !this.$useWrapMode || !this.$wrapData[row]) ? 1 + h : this.$wrapData[row].length + 1 + h;
                     }, this.$getWidgetScreenLength = function() {
                         var screenRows = 0;
                         return this.lineWidgets.forEach(function(w) {

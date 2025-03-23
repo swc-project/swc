@@ -99,10 +99,10 @@
         /***/ 7130: /***/ function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
             function _typeof(obj) {
-                return (_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-                    return typeof obj;
+                return (_typeof = "function" != typeof Symbol || "symbol" != typeof Symbol.iterator ? function(obj) {
+                    return !obj || "function" != typeof Symbol || obj.constructor !== Symbol || obj === Symbol.prototype ? typeof obj : "symbol";
                 } : function(obj) {
-                    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+                    return typeof obj;
                 })(obj);
             }
             // EXPORTS

@@ -165,7 +165,7 @@
                         if (isInstance(e, ArrayBuffer) || e && isInstance(e.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(e, SharedArrayBuffer) || e && isInstance(e.buffer, SharedArrayBuffer))) {
                             if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
                             if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
-                            return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
+                            return Object.setPrototypeOf(f = void 0 !== r || void 0 !== t ? void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t) : new Uint8Array(e), Buffer.prototype), f;
                         }
                         if ("number" == typeof e) throw TypeError('The "value" argument must not be of type number. Received type number');
                         var f2 = e.valueOf && e.valueOf();
@@ -175,7 +175,7 @@
                                 var e1, r = 0 | checked(e.length), t = createBuffer(r);
                                 return 0 === t.length || e.copy(t, 0, 0, r), t;
                             }
-                            return void 0 !== e.length ? "number" != typeof e.length || (e1 = e.length) != e1 ? createBuffer(0) : fromArrayLike(e) : "Buffer" === e.type && Array.isArray(e.data) ? fromArrayLike(e.data) : void 0;
+                            return void 0 !== e.length ? "number" == typeof e.length && (e1 = e.length) == e1 ? fromArrayLike(e) : createBuffer(0) : "Buffer" === e.type && Array.isArray(e.data) ? fromArrayLike(e.data) : void 0;
                         }(e);
                         if (n1) return n1;
                         if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof e[Symbol.toPrimitive]) return Buffer.from(e[Symbol.toPrimitive]("string"), r, t);
@@ -254,7 +254,7 @@
                                     return f;
                                 }(this, r, t);
                             case "base64":
-                                return r1 = r, t1 = t, 0 === r1 && t1 === this.length ? f.fromByteArray(this) : f.fromByteArray(this.slice(r1, t1));
+                                return r1 = r, t1 = t, 0 !== r1 || t1 !== this.length ? f.fromByteArray(this.slice(r1, t1)) : f.fromByteArray(this);
                             case "ucs2":
                             case "ucs-2":
                             case "utf16le":
@@ -467,9 +467,9 @@
                         return bidirectionalIndexOf(this, e, r, t, !1);
                     }, Buffer.prototype.write = function(e, r, t, f) {
                         if (void 0 === r) f = "utf8", t = this.length, r = 0;
-                        else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
-                        else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
+                        else if (void 0 !== t || "string" != typeof r) if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                         else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                        else f = r, t = this.length, r = 0;
                         var t1, f1, t2, f2, t3, f3, t4, f4, t5, f5, n = this.length - r;
                         if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                         f || (f = "utf8");
@@ -547,7 +547,7 @@
                         for(var f = r, n = 1, i = this[e + --f]; f > 0 && (n *= 256);)i += this[e + --f] * n;
                         return i >= (n *= 128) && (i -= Math.pow(2, 8 * r)), i;
                     }, Buffer.prototype.readInt8 = function(e, r) {
-                        return (e >>>= 0, !r && checkOffset(e, 1, this.length), 128 & this[e]) ? -((255 - this[e] + 1) * 1) : this[e];
+                        return (e >>>= 0, !r && checkOffset(e, 1, this.length), !(128 & this[e])) ? this[e] : -((255 - this[e] + 1) * 1);
                     }, Buffer.prototype.readInt16LE = function(e, r) {
                         e >>>= 0, !r && checkOffset(e, 2, this.length);
                         var t = this[e] | this[e + 1] << 8;
@@ -636,9 +636,9 @@
                         if (f < 0) throw RangeError("sourceEnd out of bounds");
                         f > this.length && (f = this.length), e.length - r < f - t && (f = e.length - r + t);
                         var n = f - t;
-                        if (this === e && "function" == typeof Uint8Array.prototype.copyWithin) this.copyWithin(r, t, f);
-                        else if (this === e && t < r && r < f) for(var i = n - 1; i >= 0; --i)e[i + r] = this[i + t];
+                        if (this !== e || "function" != typeof Uint8Array.prototype.copyWithin) if (this === e && t < r && r < f) for(var i = n - 1; i >= 0; --i)e[i + r] = this[i + t];
                         else Uint8Array.prototype.set.call(e, this.subarray(t, f), r);
+                        else this.copyWithin(r, t, f);
                         return n;
                     }, Buffer.prototype.fill = function(e, r, t, f) {
                         if ("string" == typeof e) {

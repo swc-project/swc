@@ -420,10 +420,7 @@
                             kind: "w"
                         };
                     }
-                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
-                        widths: configDeviceSizes,
-                        kind: "w"
-                    } : {
+                    return "number" == typeof width && "fill" !== layout && "responsive" !== layout ? {
                         widths: _toConsumableArray(new Set(// > blue colors. Showing a 3x resolution image in the app vs a 2x
                         // > resolution image will be visually the same, though the 3x image
                         // > takes significantly more data. Even true 3x resolution screens are
@@ -439,6 +436,9 @@
                             }) || allSizes[allSizes.length - 1];
                         }))),
                         kind: "x"
+                    } : {
+                        widths: configDeviceSizes,
+                        kind: "w"
                     };
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {

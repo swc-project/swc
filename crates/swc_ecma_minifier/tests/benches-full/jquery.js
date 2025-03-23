@@ -632,18 +632,18 @@
                 if (a === b) return hasDuplicate = !0, 0;
                 // Sort on method existence if only one input has compareDocumentPosition
                 var compare = !a.compareDocumentPosition - !b.compareDocumentPosition;
-                return compare || (1 & // Calculate position if both inputs belong to the same document
+                return compare || (!(1 & // Calculate position if both inputs belong to the same document
                 // Support: IE 11+, Edge 17 - 18+
                 // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
                 // two documents; shallow comparisons work.
                 // eslint-disable-next-line eqeqeq
                 (compare = (a.ownerDocument || a) == (b.ownerDocument || b) ? a.compareDocumentPosition(b) : // Otherwise we know they are disconnected
-                1) || !support.sortDetached && b.compareDocumentPosition(a) === compare ? // Choose the first element that is related to our preferred document
+                1)) && (support.sortDetached || b.compareDocumentPosition(a) !== compare) ? 4 & compare ? -1 : 1 : // Choose the first element that is related to our preferred document
                 // Support: IE 11+, Edge 17 - 18+
                 // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
                 // two documents; shallow comparisons work.
                 // eslint-disable-next-line eqeqeq
-                a == document || a.ownerDocument == preferredDoc && contains(preferredDoc, a) ? -1 : b == document || b.ownerDocument == preferredDoc && contains(preferredDoc, b) ? 1 : sortInput ? indexOf(sortInput, a) - indexOf(sortInput, b) : 0 : 4 & compare ? -1 : 1);
+                a == document || a.ownerDocument == preferredDoc && contains(preferredDoc, a) ? -1 : b == document || b.ownerDocument == preferredDoc && contains(preferredDoc, b) ? 1 : sortInput ? indexOf(sortInput, a) - indexOf(sortInput, b) : 0);
             } : function(a, b) {
                 // Exit early if the nodes are identical
                 if (a === b) return hasDuplicate = !0, 0;
@@ -719,14 +719,14 @@
  * @param {Array|Element} elem
  */ getText = Sizzle.getText = function(elem) {
             var node, ret = "", i = 0, nodeType = elem.nodeType;
-            if (nodeType) {
-                if (1 === nodeType || 9 === nodeType || 11 === nodeType) // Use textContent for elements
-                // innerText usage removed for consistency of new lines (jQuery #11153)
-                if ("string" == typeof elem.textContent) return elem.textContent;
-                else // Traverse its children
-                for(elem = elem.firstChild; elem; elem = elem.nextSibling)ret += getText(elem);
-                else if (3 === nodeType || 4 === nodeType) return elem.nodeValue;
-            } else // If no nodeType, this is expected to be an array
+            if (nodeType) if (1 !== nodeType && 9 !== nodeType && 11 !== nodeType) {
+                if (3 === nodeType || 4 === nodeType) return elem.nodeValue;
+            } else // Use textContent for elements
+            // innerText usage removed for consistency of new lines (jQuery #11153)
+            if ("string" == typeof elem.textContent) return elem.textContent;
+            else // Traverse its children
+            for(elem = elem.firstChild; elem; elem = elem.nextSibling)ret += getText(elem);
+            else // If no nodeType, this is expected to be an array
             for(; node = elem[i++];)// Do not traverse comment nodes
             ret += getText(node);
             // Do not include comment or processing instruction nodes
@@ -1849,13 +1849,13 @@
             //   1. The entire cache object
             //   2. The data stored at the key
             //
-            void 0 === key || key && "string" == typeof key && void 0 === value ? this.get(owner, key) : (// When the key is not a string, or both a key and value
+            void 0 !== key && (!key || "string" != typeof key || void 0 !== value) ? (// When the key is not a string, or both a key and value
             // are specified, set or extend (existing objects) with either:
             //
             //   1. An object of properties
             //   2. A key and value
             //
-            this.set(owner, key, value), void 0 !== value ? value : key));
+            this.set(owner, key, value), void 0 !== value ? value : key) : this.get(owner, key));
         },
         remove: function(owner, key) {
             var i, cache = owner[this.expando];
@@ -1929,12 +1929,12 @@
                 // `value` parameter was not undefined. An empty jQuery object
                 // will result in `undefined` for elem = this[ 0 ] which will
                 // throw an exception if an attempt to read a data cache is made.
-                if (elem && void 0 === value) return void 0 !== // Attempt to get data from the cache
+                if (elem && void 0 === value) return void 0 === // Attempt to get data from the cache
                 // The key will always be camelCased in Data
-                (data = dataUser.get(elem, key)) || void 0 !== // Attempt to "discover" the data in
+                (data = dataUser.get(elem, key)) && void 0 === // Attempt to "discover" the data in
                 // HTML5 custom data-* attrs
-                (data = dataAttr(elem, key)) ? data : // We tried really hard, but the data doesn't exist.
-                void 0;
+                (data = dataAttr(elem, key)) ? // We tried really hard, but the data doesn't exist.
+                void 0 : data;
                 // Set the data...
                 this.each(function() {
                     // We always store the camelCased key
@@ -2195,10 +2195,10 @@
             data = data || selector, selector = void 0), types)on(elem, type, selector, data, types[type], one);
             return elem;
         }
-        if (null == data && null == fn ? (// ( types, fn )
-        fn = selector, data = selector = void 0) : null == fn && ("string" == typeof selector ? (// ( types, selector, fn )
+        if (null != data || null != fn ? null == fn && ("string" == typeof selector ? (// ( types, selector, fn )
         fn = data, data = void 0) : (// ( types, data, fn )
-        fn = data, data = selector, selector = void 0)), !1 === fn) fn = returnFalse;
+        fn = data, data = selector, selector = void 0)) : (// ( types, fn )
+        fn = selector, data = selector = void 0), !1 === fn) fn = returnFalse;
         else if (!fn) return elem;
         return 1 === one && (origFn = fn, // Use same guid so caller can remove using origFn
         (fn = function(event) {
@@ -2635,7 +2635,7 @@
         text: function(value) {
             return access(this, function(value) {
                 return void 0 === value ? jQuery.text(this) : this.empty().each(function() {
-                    (1 === this.nodeType || 11 === this.nodeType || 9 === this.nodeType) && (this.textContent = value);
+                    1 !== this.nodeType && 11 !== this.nodeType && 9 !== this.nodeType || (this.textContent = value);
                 });
             }, null, value, arguments.length);
         },
@@ -3020,11 +3020,11 @@
                 var result;
                 return(// Use a property on the element directly when it is not a DOM element,
                 // or when there is no matching style property that exists.
-                1 !== tween.elem.nodeType || null != tween.elem[tween.prop] && null == tween.elem.style[tween.prop] ? tween.elem[tween.prop] : // Passing an empty string as a 3rd parameter to .css will automatically
+                1 === tween.elem.nodeType && (null == tween.elem[tween.prop] || null != tween.elem.style[tween.prop]) ? // Passing an empty string as a 3rd parameter to .css will automatically
                 // attempt a parseFloat and fallback to a string if the parse fails.
                 // Simple values such as "10px" are parsed to Float;
                 // complex values such as "rotate(1rad)" are returned as-is.
-                (result = jQuery.css(tween.elem, tween.prop, "")) && "auto" !== result ? result : 0);
+                (result = jQuery.css(tween.elem, tween.prop, "")) && "auto" !== result ? result : 0 : tween.elem[tween.prop]);
             },
             set: function(tween) {
                 // Use step hook for back compat.
@@ -3202,7 +3202,7 @@
                         elem
                     ]), dataPriv.remove(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
                 })), // Per-property setup
-                propTween = createTween(hidden ? dataShow[prop] : 0, prop, anim), prop in dataShow || (dataShow[prop] = propTween.start, !hidden || (propTween.end = propTween.start, propTween.start = 0));
+                propTween = createTween(hidden ? dataShow[prop] : 0, prop, anim), !(prop in dataShow) && (dataShow[prop] = propTween.start, hidden && (propTween.end = propTween.start, propTween.start = 0));
             }
         ],
         prefilter: function(callback, prepend) {
@@ -4034,7 +4034,7 @@
                         state: "success",
                         data: response
                     };
-                }(s, response, jqXHR, isSuccess), isSuccess ? (s.ifModified && ((modified = jqXHR.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 === status || "HEAD" === s.type ? statusText = "nocontent" : 304 === status ? statusText = "notmodified" : (statusText = response.state, success = response.data, isSuccess = !(error = response.error))) : (// Extract error from statusText and normalize for non-aborts
+                }(s, response, jqXHR, isSuccess), isSuccess ? (s.ifModified && ((modified = jqXHR.getResponseHeader("Last-Modified")) && (jQuery.lastModified[cacheURL] = modified), (modified = jqXHR.getResponseHeader("etag")) && (jQuery.etag[cacheURL] = modified)), 204 !== status && "HEAD" !== s.type ? 304 === status ? statusText = "notmodified" : (statusText = response.state, success = response.data, isSuccess = !(error = response.error)) : statusText = "nocontent") : (// Extract error from statusText and normalize for non-aborts
                 error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), // Set data for the fake xhr object
                 jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
                     success,

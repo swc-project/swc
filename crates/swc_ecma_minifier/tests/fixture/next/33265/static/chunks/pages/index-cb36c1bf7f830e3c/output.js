@@ -41,9 +41,9 @@
                 }
             });
             /* unused harmony exports countBits, countBytes, padStart, isTypedArray, toHexString, toBinaryString, ENDIANNESS, IS_BIG_ENDIAN, IS_LITTLE_ENDIAN, sliceBytes, reverseBytes */ /* harmony import */ var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                return bytes instanceof Uint8Array ? bytes : (!Array.isArray(bytes) && !ArrayBuffer.isView(bytes) && !(bytes instanceof ArrayBuffer) && (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                return bytes instanceof Uint8Array ? bytes : (!Array.isArray(bytes) && !ArrayBuffer.isView(bytes) && !(bytes instanceof ArrayBuffer) && (bytes = "number" == typeof bytes && ("number" != typeof bytes || bytes == bytes) ? [
                     bytes
-                ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
+                ] : 0), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
                 BigInt("0x1"),
                 BigInt("0x100"),
@@ -72,7 +72,7 @@
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
-                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
+                ("bigint" == typeof number || "number" == typeof number) && ("number" != typeof number || number == number) || (number = 0);
                 for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
@@ -2621,15 +2621,15 @@
                                                         break;
                                                     case "'":
                                                     case '"':
-                                                        if (3 === s || 1 === s //|| s == S_ATTR_SPACE
-                                                        ) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                                        else //fatalError: no end quot match
-                                                        throw Error("attribute value no end '" + c + "' match");
-                                                        else if (4 == s) //console.log(attrName,value,start,p)
+                                                        if (3 !== s && 1 !== s //|| s == S_ATTR_SPACE
+                                                        ) if (4 == s) //console.log(attrName,value,start,p)
                                                         addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), //console.dir(el)
                                                         errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                                                         else //fatalError: no equal before
                                                         throw Error('attribute value must after "="'); // No known test case
+                                                        else if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                                        else //fatalError: no end quot match
+                                                        throw Error("attribute value no end '" + c + "' match");
                                                         break;
                                                     case "/":
                                                         switch(s){
@@ -3378,7 +3378,7 @@
                                         entry.version && (this.manifest.version = entry.version);
                                     },
                                     "allow-cache": function() {
-                                        this.manifest.allowCache = entry.allowed, "allowed" in entry || (this.trigger("info", {
+                                        this.manifest.allowCache = entry.allowed, !("allowed" in entry) && (this.trigger("info", {
                                             message: "defaulting allowCache to YES"
                                         }), this.manifest.allowCache = !0);
                                     },
@@ -4376,7 +4376,7 @@
                     })
                 };
                 return Object.keys(segmentInfo).forEach(function(key) {
-                    !segmentInfo[key] && delete segmentInfo[key];
+                    segmentInfo[key] || delete segmentInfo[key];
                 }), segmentInfo;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
@@ -4394,7 +4394,7 @@
                 // 4. in all other cases, consider the period an "early available period" (note: not
                 //    currently supported)
                 // (1)
-                "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0 // (2)
+                "number" == typeof attributes.start ? attributes.start : !priorPeriodAttributes || "number" != typeof priorPeriodAttributes.start || "number" != typeof priorPeriodAttributes.duration ? priorPeriodAttributes || "static" !== mpdType ? null : 0 : priorPeriodAttributes.start + priorPeriodAttributes.duration // (2)
                 );
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
@@ -4907,7 +4907,7 @@
             }, Settings.prototype = {
                 // Only accept the first assignment to any key.
                 set: function(k, v) {
-                    !this.get(k) && "" !== v && (this.values[k] = v);
+                    this.get(k) || "" === v || (this.values[k] = v);
                 },
                 // Return the value for a key, or a default value.
                 // If 'defaultKey' is passed then 'dflt' is assumed to be an object with
@@ -6384,7 +6384,7 @@
                     if (encodingOrOffset < 0 || value.byteLength < encodingOrOffset) throw RangeError('"offset" is outside of buffer bounds');
                     if (value.byteLength < encodingOrOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                     return(// Return an augmented `Uint8Array` instance
-                    Object.setPrototypeOf(buf = void 0 === encodingOrOffset && void 0 === length ? new Uint8Array(value) : void 0 === length ? new Uint8Array(value, encodingOrOffset) : new Uint8Array(value, encodingOrOffset, length), Buffer.prototype), buf);
+                    Object.setPrototypeOf(buf = void 0 !== encodingOrOffset || void 0 !== length ? void 0 === length ? new Uint8Array(value, encodingOrOffset) : new Uint8Array(value, encodingOrOffset, length) : new Uint8Array(value), Buffer.prototype), buf);
                 }
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
@@ -6394,7 +6394,7 @@
                         var obj1, len = 0 | checked(obj.length), buf = createBuffer(len);
                         return 0 === buf.length || obj.copy(buf, 0, 0, len), buf;
                     }
-                    return void 0 !== obj.length ? "number" != typeof obj.length || (obj1 = obj.length) != obj1 ? createBuffer(0) : fromArrayLike(obj) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
+                    return void 0 !== obj.length ? "number" == typeof obj.length && (obj1 = obj.length) == obj1 ? fromArrayLike(obj) : createBuffer(0) : "Buffer" === obj.type && Array.isArray(obj.data) ? fromArrayLike(obj.data) : void 0;
                 }(value);
                 if (b) return b;
                 if ("undefined" != typeof Symbol && null != Symbol.toPrimitive && "function" == typeof value[Symbol.toPrimitive]) return Buffer.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
@@ -6479,7 +6479,7 @@
                             return ret;
                         }(this, start, end);
                     case "base64":
-                        return start1 = start, end1 = end, 0 === start1 && end1 === this.length ? base64.fromByteArray(this) : base64.fromByteArray(this.slice(start1, end1));
+                        return start1 = start, end1 = end, 0 !== start1 || end1 !== this.length ? base64.fromByteArray(this.slice(start1, end1)) : base64.fromByteArray(this);
                     case "ucs2":
                     case "ucs-2":
                     case "utf16le":
@@ -6749,9 +6749,9 @@
             }, Buffer.prototype.write = function(string, offset, length, encoding) {
                 // Buffer#write(string)
                 if (void 0 === offset) encoding = "utf8", length = this.length, offset = 0;
-                else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
-                else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
+                else if (void 0 !== length || "string" != typeof offset) if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
+                else encoding = offset, length = this.length, offset = 0;
                 var offset1, length1, offset2, length2, offset3, length3, offset4, length4, offset5, length5, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
@@ -6831,7 +6831,7 @@
                 for(var i = byteLength, mul = 1, val = this[offset + --i]; i > 0 && (mul *= 0x100);)val += this[offset + --i] * mul;
                 return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readInt8 = function(offset, noAssert) {
-                return (offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
+                return (offset >>>= 0, !noAssert && checkOffset(offset, 1, this.length), !(0x80 & this[offset])) ? this[offset] : -((0xff - this[offset] + 1) * 1);
             }, Buffer.prototype.readInt16LE = function(offset, noAssert) {
                 offset >>>= 0, !noAssert && checkOffset(offset, 2, this.length);
                 var val = this[offset] | this[offset + 1] << 8;
@@ -6923,11 +6923,11 @@
                 if (end < 0) throw RangeError("sourceEnd out of bounds");
                 end > this.length && (end = this.length), target.length - targetStart < end - start && (end = target.length - targetStart + start);
                 var len = end - start;
-                if (this === target && "function" == typeof Uint8Array.prototype.copyWithin) // Use built-in when available, missing from IE11
-                this.copyWithin(targetStart, start, end);
-                else if (this === target && start < targetStart && targetStart < end) // descending copy from end
+                if (this !== target || "function" != typeof Uint8Array.prototype.copyWithin) if (this === target && start < targetStart && targetStart < end) // descending copy from end
                 for(var i = len - 1; i >= 0; --i)target[i + targetStart] = this[i + start];
                 else Uint8Array.prototype.set.call(target, this.subarray(start, end), targetStart);
+                else // Use built-in when available, missing from IE11
+                this.copyWithin(targetStart, start, end);
                 return len;
             }, // Usage:
             //    buffer.fill(number[, offset[, end]])
