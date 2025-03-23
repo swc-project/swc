@@ -602,7 +602,7 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(&s.expr);
 
-        self.negate_bool_for_expr_stmt(&mut s.expr)
+        self.make_bool_short(&mut s.expr, false, true);
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
@@ -851,7 +851,7 @@ impl VisitMut for Pure<'_> {
         self.drop_undefined_from_return_arg(s);
 
         if let Some(e) = &mut s.arg {
-            self.negate_bool_preserving_semantics(e, false);
+            self.make_bool_short(e, false, false);
         }
     }
 

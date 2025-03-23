@@ -12,23 +12,17 @@ use crate::{
 };
 
 impl Pure<'_> {
-    pub(super) fn negate_bool_for_expr_stmt(&mut self, e: &mut Expr) {
-        self.negate_bool_preserving_semantics(e, false);
-
-        let cost = negate_cost(self.expr_ctx, e, false, true);
-        if cost >= 0 {
-            return;
-        }
-
-        self.negate(e, false, true);
-    }
-
-    pub(super) fn negate_bool_preserving_semantics(&mut self, e: &mut Expr, in_bool_ctx: bool) {
+    pub(super) fn make_bool_short(
+        &mut self,
+        e: &mut Expr,
+        in_bool_ctx: bool,
+        ignore_return_value: bool,
+    ) {
         match e {
             Expr::Cond(cond) => {
-                self.negate_bool_preserving_semantics(&mut cond.test, true);
-                self.negate_bool_preserving_semantics(&mut cond.cons, in_bool_ctx);
-                self.negate_bool_preserving_semantics(&mut cond.alt, in_bool_ctx);
+                self.make_bool_short(&mut cond.test, true, false);
+                self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
+                self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
 
                 if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
                     return;
@@ -43,14 +37,14 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                self.negate_bool_preserving_semantics(left, in_bool_ctx);
-                self.negate_bool_preserving_semantics(right, in_bool_ctx);
+                self.make_bool_short(left, in_bool_ctx || ignore_return_value, false);
+                self.make_bool_short(right, in_bool_ctx, ignore_return_value);
             }
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
-                self.negate_bool_preserving_semantics(arg, true);
+                self.make_bool_short(arg, true, ignore_return_value);
 
                 if in_bool_ctx {}
             }
