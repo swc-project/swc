@@ -42,10 +42,27 @@ impl Pure<'_> {
                 self.make_bool_short(right, in_bool_ctx, ignore_return_value);
             }
 
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.make_bool_short(left, false, false);
+                self.make_bool_short(right, false, false);
+                return;
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
                 self.make_bool_short(arg, true, ignore_return_value);
+                return;
+            }
+
+            Expr::Call(CallExpr { callee, args, .. }) => {
+                if let Callee::Expr(callee) = callee {
+                    self.make_bool_short(callee, false, false);
+                }
+
+                for arg in args {
+                    self.make_bool_short(&mut arg.expr, false, false);
+                }
                 return;
             }
 
