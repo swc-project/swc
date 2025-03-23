@@ -250,6 +250,111 @@ pub(crate) fn negate_cost(
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
 ) -> isize {
+    match e {
+        // Binary expressions for comparisons
+        Expr::Bin(BinExpr {
+            op: op!("==") | op!("!=") | op!("===") | op!("!=="),
+            ..
+        }) => {
+            // Negating a comparison just flips the operator, so no change in length
+            0
+        }
+
+        // Logical AND: a && b => !a || !b
+        Expr::Bin(BinExpr {
+            op: op!("&&"),
+            left,
+            right,
+            ..
+        }) if is_ok_to_negate_rhs(expr_ctx, right) => {
+            let a_cost = negate_cost(expr_ctx, left, in_bool_ctx, false);
+            let b_cost = negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
+
+            // No length change for the operator itself (&& -> ||)
+            // But cost may increase if negation is added to operands
+            if can_absorb_negate(left, expr_ctx) && can_absorb_negate(right, expr_ctx) {
+                0 // No length change if both sides can absorb negation
+            } else {
+                a_cost + b_cost
+            }
+        }
+
+        // Logical OR: a || b => !a && !b
+        Expr::Bin(BinExpr {
+            op: op!("||"),
+            left,
+            right,
+            ..
+        }) if is_ok_to_negate_rhs(expr_ctx, right) => {
+            let a_cost = negate_cost(expr_ctx, left, in_bool_ctx, false);
+            let b_cost = negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
+
+            // No length change for the operator itself (|| -> &&)
+            // But cost may increase if negation is added to operands
+            if can_absorb_negate(left, expr_ctx) && can_absorb_negate(right, expr_ctx) {
+                0 // No length change if both sides can absorb negation
+            } else {
+                a_cost + b_cost
+            }
+        }
+
+        // Conditional expressions: test ? cons : alt
+        Expr::Cond(CondExpr { cons, alt, .. })
+            if is_ok_to_negate_for_cond(cons) && is_ok_to_negate_for_cond(alt) =>
+        {
+            let cons_cost = negate_cost(expr_ctx, cons, in_bool_ctx, false);
+            let alt_cost = negate_cost(expr_ctx, alt, in_bool_ctx, is_ret_val_ignored);
+
+            // The conditional structure doesn't change, only the results are negated
+            cons_cost + alt_cost
+        }
+
+        // Sequence expression: (a, b, c)
+        Expr::Seq(SeqExpr { exprs, .. }) => {
+            if let Some(last) = exprs.last() {
+                negate_cost(expr_ctx, last, in_bool_ctx, is_ret_val_ignored)
+            } else {
+                0 // Empty sequence, no cost
+            }
+        }
+
+        // Double negation: !!expr => expr
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) => {
+            match &**arg {
+                // !!bool => bool - Two negation operators are removed, so length decreases
+                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -2,
+
+                // Special cases for in/instanceof
+                Expr::Bin(BinExpr {
+                    op: op!("in") | op!("instanceof"),
+                    ..
+                }) => -1,
+
+                // In boolean context or when return value is ignored, negation can be removed
+                _ if in_bool_ctx || is_ret_val_ignored => -1,
+
+                // Default case
+                _ => negate_cost(expr_ctx, arg, in_bool_ctx, is_ret_val_ignored) - 1,
+            }
+        }
+
+        // Literals and identifiers are usually cheap to negate
+        Expr::Lit(_) | Expr::Ident(_) => 1,
+
+        // When return value is ignored, simply use the original expression (no length change)
+        _ if is_ret_val_ignored => 0,
+
+        // For side-effect-free expressions in boolean context
+        _ if in_bool_ctx && !e.may_have_side_effects(expr_ctx) => {
+            // Length increases due to added negation operator, but optimizable in context
+            1
+        }
+
+        // Default case: adding negation operator increases length
+        _ => 2,
+    }
 }
 
 pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
