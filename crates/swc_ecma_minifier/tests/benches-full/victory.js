@@ -3578,7 +3578,7 @@
                                 rc0 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r0 - lc) / (kc - 1)), rc1 = Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.min)(rc, (r1 - lc) / (kc + 1));
                             }
                         }
-                        da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon && da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
+                        da1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? rc1 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), !(r0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) || !(da0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon) ? context.lineTo(x10, y10) : rc0 > _math_js__WEBPACK_IMPORTED_MODULE_2__.epsilon ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y01, t0.x01), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t0.cy + t0.y11, t0.cx + t0.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y11, t1.x11), Object(_math_js__WEBPACK_IMPORTED_MODULE_2__.atan2)(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw);
                     }
                     else context.moveTo(0, 0);
                     if (context.closePath(), buffer) return context = null, buffer + "" || null;
@@ -11324,7 +11324,7 @@
                         });
                     },
                     node: createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                        return !function isNode(propValue) {
+                        return function isNode(propValue) {
                             switch(typeof propValue){
                                 case 'number':
                                 case 'string':
@@ -11365,7 +11365,7 @@
                                 default:
                                     return !1;
                             }
-                        }(props[propName]) ? new PropTypeError('Invalid ' + location + ' `' + propFullName + "` supplied to `" + componentName + '`, expected a ReactNode.') : null;
+                        }(props[propName]) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + "` supplied to `" + componentName + '`, expected a ReactNode.');
                     }),
                     objectOf: function(typeChecker) {
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
@@ -15008,10 +15008,10 @@
                                         return props.disable ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onMouseDown(evt, targetProps);
                                     },
                                     onGlobalMouseMove: function(evt, targetProps) {
-                                        return !props.disable && (targetProps.isPanning || targetProps.isSelecting) ? _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps) : {};
+                                        return props.disable || !targetProps.isPanning && !targetProps.isSelecting ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps);
                                     },
                                     onGlobalTouchMove: function(evt, targetProps) {
-                                        return !props.disable && (targetProps.isPanning || targetProps.isSelecting) ? _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps) : {};
+                                        return props.disable || !targetProps.isPanning && !targetProps.isSelecting ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseMove(evt, targetProps);
                                     },
                                     onGlobalMouseUp: function(evt, targetProps) {
                                         return props.disable ? {} : _brush_helpers__WEBPACK_IMPORTED_MODULE_5__.default.onGlobalMouseUp(evt, targetProps);
@@ -34068,7 +34068,7 @@
                         {
                             key: "downsampleZoomData",
                             value: function(props, child, domain) {
-                                var childProps, data, x, y, defaultGetData, downsample = props.downsample, data1 = (data = (childProps = child.props).data, x = childProps.x, y = childProps.y, defaultGetData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_0___default()(child.type.getData) ? child.type.getData : function() {}, !Array.isArray(data) || x || y ? defaultGetData(childProps) : data);
+                                var childProps, data, x, y, defaultGetData, downsample = props.downsample, data1 = (data = (childProps = child.props).data, x = childProps.x, y = childProps.y, defaultGetData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_0___default()(child.type.getData) ? child.type.getData : function() {}, Array.isArray(data) && !x && !y ? data : defaultGetData(childProps));
                                 if (downsample && domain && data1) {
                                     var dimension = props.zoomDimension || "x", startIndex = data1.findIndex(function(d) {
                                         return d[dimension] >= domain[dimension][0];

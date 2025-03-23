@@ -6730,7 +6730,7 @@
         })).body : best_of_expression(ast1, ast2);
     }
     /** Simplify an object property's key, if possible */ function get_simple_key(key) {
-        return key instanceof AST_Constant ? key.getValue() : key instanceof AST_UnaryPrefix && "void" == key.operator && key.expression instanceof AST_Constant ? void 0 : key;
+        return key instanceof AST_Constant ? key.getValue() : !(key instanceof AST_UnaryPrefix) || "void" != key.operator || !(key.expression instanceof AST_Constant) ? key : void 0;
     }
     function read_property(obj, key) {
         if (!((key = get_simple_key(key)) instanceof AST_Node)) {
@@ -8092,7 +8092,7 @@
                 var obj = tw.parent(level + 1);
                 mark_escaped(tw, d, scope, obj, obj, level + 2, depth);
             } else if (parent instanceof AST_PropAccess && node === parent.expression && (value = read_property(value, parent.property), mark_escaped(tw, d, scope, parent, value, level + 1, depth + 1), value)) return;
-            !(level > 0) && (!(parent instanceof AST_Sequence) || node === parent.tail_node()) && !(parent instanceof AST_SimpleStatement) && (d.direct_access = !0);
+            !(level > 0) && (!(parent instanceof AST_Sequence) || node === parent.tail_node()) && (parent instanceof AST_SimpleStatement || (d.direct_access = !0));
         }
     }
     /** Drop unused variables from this scope */ AST_Scope.DEFMETHOD("drop_unused", function(compressor) {
@@ -10340,7 +10340,7 @@
                             if (stat && !line.definitions.every((var_def)=>!var_def.value)) return !1;
                         } else {
                             if (stat) return !1;
-                            !(line instanceof AST_EmptyStatement) && (stat = line);
+                            line instanceof AST_EmptyStatement || (stat = line);
                         }
                     }
                     return return_value(stat);

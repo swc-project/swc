@@ -8796,9 +8796,9 @@
      */ P.modulo = P.mod = function(y, b) {
                         var q, s, x = this;
                         return(// Return NaN if x is Infinity or NaN, or y is NaN or zero.
-                        (y = new BigNumber(y, b), x.c && y.s && (!y.c || y.c[0])) ? y.c && (!x.c || x.c[0]) ? (9 == MODULO_MODE ? (// Euclidian division: q = sign(y) * floor(x / abs(y))
+                        (y = new BigNumber(y, b), x.c && y.s && (!y.c || y.c[0])) ? !y.c || x.c && !x.c[0] ? new BigNumber(x) : (9 == MODULO_MODE ? (// Euclidian division: q = sign(y) * floor(x / abs(y))
                         // r = x - qy    where  0 <= r < abs(y)
-                        s = y.s, y.s = 1, q = div(x, y, 0, 3), y.s = s, q.s *= s) : q = div(x, y, 0, MODULO_MODE), !(y = x.minus(q.times(y))).c[0] && 1 == MODULO_MODE && (y.s = x.s), y) : new BigNumber(x) : new BigNumber(NaN));
+                        s = y.s, y.s = 1, q = div(x, y, 0, 3), y.s = s, q.s *= s) : q = div(x, y, 0, MODULO_MODE), !(y = x.minus(q.times(y))).c[0] && 1 == MODULO_MODE && (y.s = x.s), y) : new BigNumber(NaN));
                     }, /*
      *  n * 0 = 0
      *  n * N = N
@@ -9144,9 +9144,9 @@
                     return str;
                 }
                 // EXPORT
-                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return BigNumber;
-                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
             }(0);
         /***/ },
         /***/ 3550: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -16491,9 +16491,9 @@
                     }
                 };
                 var exports = createMethod();
-                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
+                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
             }();
         /***/ },
         /***/ 3434: /***/ function(module, exports, __webpack_require__) {
@@ -16892,9 +16892,9 @@
                     return hash;
                 };
                 var exports = createMethod(512);
-                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
+                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
             }();
         /***/ },
         /***/ 5548: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -28469,9 +28469,9 @@ class Zip {
                     demangle
                 }, "default" in exports ? exports.default : exports);
             }({});
-            void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+            void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                 return loader;
-            }).apply(exports, [])) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+            }).apply(exports, [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
         /***/ },
         /***/ 3083: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

@@ -1,5 +1,5 @@
 var a = 1;
-!function() {
+(function() {
     a++;
-}();
+})();
 console.log(a);

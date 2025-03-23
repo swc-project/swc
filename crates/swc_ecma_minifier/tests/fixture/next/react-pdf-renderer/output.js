@@ -9824,7 +9824,7 @@
         /***/ },
         /***/ 4756: /***/ function(e, t, r) {
             var n, i;
-            void 0 === (i = "function" == typeof (n = function() {
+            void 0 !== (i = "function" == typeof (n = function() {
                 var e = "debug", t = "hyphenChar", n = "minWordLength", i = "object" == typeof r.g ? r.g : "object" == typeof window ? window : "object" == typeof this ? this : {};
                 function o(e) {
                     var t = {};
@@ -9954,14 +9954,14 @@
                         }(i, y, f[D], s, b, v, m, c);
                     };
                 };
-            }) ? n.apply(t, []) : n) || (e.exports = i);
+            }) ? n.apply(t, []) : n) && (e.exports = i);
         /***/ },
         /***/ 3202: /***/ function(e, t, r) {
             e.exports = r(4756);
         /***/ },
         /***/ 1487: /***/ function(e, t) {
             var r, n;
-            void 0 === (n = "function" == typeof (r = function() {
+            void 0 !== (n = "function" == typeof (r = function() {
                 return {
                     patterns: [
                         " ",
@@ -14925,7 +14925,7 @@
                         ""
                     ]
                 };
-            }) ? r.apply(t, []) : r) || (e.exports = n);
+            }) ? r.apply(t, []) : r) && (e.exports = n);
         /***/ },
         /***/ 5717: /***/ function(e) {
             "function" == typeof Object.create ? // implementation from standard node.js 'util' module
@@ -28094,7 +28094,7 @@
                         Int32: 4,
                         Float: 4,
                         Double: 8
-                    }, n.prototype)"read" === e.slice(0, 4) && function(e) {
+                    }, n.prototype)"read" !== e.slice(0, 4) || function(e) {
                         var t;
                         t = r.TYPES[e.replace(/read|[BL]E/g, "")], r.prototype[e] = function() {
                             var r;
@@ -28155,7 +28155,7 @@
                     function o(e) {
                         null == e && (e = 65536), o.__super__.constructor.apply(this, arguments), this.buffer = new n(e), this.bufferOffset = 0, this.pos = 0;
                     }
-                    for(r in u(o, e), n.prototype)"write" === r.slice(0, 5) && function(e) {
+                    for(r in u(o, e), n.prototype)"write" !== r.slice(0, 5) || function(e) {
                         var r;
                         r = +t.TYPES[e.replace(/write|[BL]E/g, "")], o.prototype[e] = function(t) {
                             return this.ensure(r), this.buffer[e](t, this.bufferOffset), this.bufferOffset += r, this.pos += r;

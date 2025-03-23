@@ -286,9 +286,9 @@
                         "setAuth"
                     ])), pageConfigAuth = pageConfig.auth;
                     if (pageConfigAuth && !Array.isArray(pageConfigAuth)) throw Error("pageConfig.auth must be an array");
-                    return Array.isArray(pageConfigAuth) && pageConfigAuth.length && !Object.keys(auth).filter(function(item) {
+                    return !Array.isArray(pageConfigAuth) || !pageConfigAuth.length || Object.keys(auth).filter(function(item) {
                         return !!pageConfigAuth.includes(item) && auth[item];
-                    }).length ? authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null : _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest));
+                    }).length ? _jsxRuntime.jsx(PageComponent, swcHelpers.objectSpread({}, rest)) : authConfig.NoAuthFallback ? "function" == typeof authConfig.NoAuthFallback ? _jsxRuntime.jsx(authConfig.NoAuthFallback, {}) : authConfig.NoAuthFallback : null;
                 });
             });
         };

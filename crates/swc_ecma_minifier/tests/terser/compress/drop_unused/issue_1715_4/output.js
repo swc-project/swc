@@ -1,7 +1,7 @@
 var a = 1;
-!function() {
+(function() {
     try {
         x();
     } catch (a) {}
-}();
+})();
 console.log(a);

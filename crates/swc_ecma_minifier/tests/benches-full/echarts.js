@@ -4197,9 +4197,9 @@
      * @return The origin list, which has been reformed.
      */ function reformIntervals(list) {
         list.sort(function(a, b) {
-            return !function littleThan(a, b, lg) {
+            return function littleThan(a, b, lg) {
                 return a.interval[lg] < b.interval[lg] || a.interval[lg] === b.interval[lg] && (a.close[lg] - b.close[lg] == (!lg ? 1 : -1) || !lg && littleThan(a, b, 1));
-            }(a, b, 0) ? 1 : -1;
+            }(a, b, 0) ? -1 : 1;
         });
         for(var curr = -1 / 0, currClose = 1, i = 0; i < list.length;){
             for(var interval = list[i].interval, close_1 = list[i].close, lg = 0; lg < 2; lg++)interval[lg] <= curr && (interval[lg] = curr, close_1[lg] = !lg ? 1 - currClose : 1), curr = interval[lg], currClose = close_1[lg];
@@ -4378,7 +4378,7 @@
      * data could be [12, 2323, {value: 223}, [1221, 23], {value: [2, 23]}]
      * This helper method retieves value from data.
      */ function getDataItemValue(dataItem) {
-        return !isObject(dataItem) || isArray(dataItem) || dataItem instanceof Date ? dataItem : dataItem.value;
+        return isObject(dataItem) && !isArray(dataItem) && !(dataItem instanceof Date) ? dataItem.value : dataItem;
     }
     /**
      * Mapping to existings for merge.
@@ -5317,7 +5317,7 @@
             for(var i = 0; i < len; i++)this.data[i] = data[i];
             this._len = len;
         }, PathProxy.prototype.appendPath = function(path) {
-            !(path instanceof Array) && (path = [
+            path instanceof Array || (path = [
                 path
             ]);
             for(var len = path.length, appendSize = 0, offset = this._len, i = 0; i < len; i++)appendSize += path[i].len();
@@ -6815,11 +6815,11 @@
                             ctx.moveTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr1 < cr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr1, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, radius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), !clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr1, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
                         } else ctx.moveTo(x + xrs, y + yrs), ctx.arc(x, y, radius, startAngle, endAngle, !clockwise);
                         else ctx.moveTo(x + xrs, y + yrs);
-                        if (innerRadius > 1e-4 && arc > 1e-4) if (cr0 > 1e-4) {
+                        if (!(innerRadius > 1e-4) || !(arc > 1e-4)) ctx.lineTo(x + xire, y + yire);
+                        else if (cr0 > 1e-4) {
                             var ct0 = computeCornerTangents(xire, yire, xre, yre, innerRadius, -cr0, clockwise), ct1 = computeCornerTangents(xrs, yrs, xirs, yirs, innerRadius, -cr0, clockwise);
                             ctx.lineTo(x + ct0.cx + ct0.x01, y + ct0.cy + ct0.y01), cr0 < icr ? ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct1.y01, ct1.x01), !clockwise) : (ctx.arc(x + ct0.cx, y + ct0.cy, cr0, mathATan2(ct0.y01, ct0.x01), mathATan2(ct0.y11, ct0.x11), !clockwise), ctx.arc(x, y, innerRadius, mathATan2(ct0.cy + ct0.y11, ct0.cx + ct0.x11), mathATan2(ct1.cy + ct1.y11, ct1.cx + ct1.x11), clockwise), ctx.arc(x + ct1.cx, y + ct1.cy, cr0, mathATan2(ct1.y11, ct1.x11), mathATan2(ct1.y01, ct1.x01), !clockwise));
                         } else ctx.lineTo(x + xire, y + yire), ctx.arc(x, y, innerRadius, endAngle, startAngle, clockwise);
-                        else ctx.lineTo(x + xire, y + yire);
                     }
                     else ctx.moveTo(x, y);
                     ctx.closePath();
@@ -10534,7 +10534,7 @@
         // FIXME: In some case (markpoint in geo (geo-map.html)),
         // dataItem is {coord: [...]}
         var value = getDataItemValue(dataItem);
-        return null != dimIndex && value instanceof Array ? value[dimIndex] : value;
+        return null == dimIndex || !(value instanceof Array) ? value : value[dimIndex];
     }, _c[SOURCE_FORMAT_TYPED_ARRAY] = getRawValueSimply, _c);
     function getRawSourceValueGetter(sourceFormat) {
         var method = rawSourceValueGetterMap[sourceFormat];
@@ -21342,9 +21342,7 @@
             }), this._polyline.onHoverStateChange = changePolyState, this._data = data, this._coordSys = coordSys, this._stackedOnPoints = stackedOnPoints, this._points = points, this._step = step, this._valueOrigin = valueOrigin;
         }, LineView.prototype.dispose = function() {}, LineView.prototype.highlight = function(seriesModel, ecModel, api, payload) {
             var data = seriesModel.getData(), dataIndex = queryDataIndex(data, payload);
-            if (this._changePolyState('emphasis'), dataIndex instanceof Array || null == dataIndex || !(dataIndex >= 0)) // Highlight whole series
-            ChartView.prototype.highlight.call(this, seriesModel, ecModel, api, payload);
-            else {
+            if (this._changePolyState('emphasis'), !(dataIndex instanceof Array) && null != dataIndex && dataIndex >= 0) {
                 var points = data.getLayout('points'), symbol = data.getItemGraphicEl(dataIndex);
                 if (!symbol) {
                     // Create a temporary symbol if it is not exists
@@ -21357,7 +21355,8 @@
                     symbolLabel && (symbolLabel.z2 = this._polyline.z2 + 1), symbol.__temp = !0, data.setItemGraphicEl(dataIndex, symbol), symbol.stopSymbolAnimation(!0), this.group.add(symbol);
                 }
                 symbol.highlight();
-            }
+            } else // Highlight whole series
+            ChartView.prototype.highlight.call(this, seriesModel, ecModel, api, payload);
         }, LineView.prototype.downplay = function(seriesModel, ecModel, api, payload) {
             var data = seriesModel.getData(), dataIndex = queryDataIndex(data, payload);
             if (this._changePolyState('normal'), null != dataIndex && dataIndex >= 0) {
@@ -25926,7 +25925,7 @@
             var source = geoSourceManager.getGeoResource(option.map);
             if (source && 'geoJSON' === source.type) {
                 var itemStyle = option.itemStyle = option.itemStyle || {};
-                !('color' in itemStyle) && (itemStyle.color = '#eee');
+                'color' in itemStyle || (itemStyle.color = '#eee');
             }
             this.mergeDefaultAndTheme(option, ecModel), defaultEmphasis(option, 'label', [
                 'show'
@@ -40902,7 +40901,17 @@
                 excludeComponents: model.get('excludeComponents'),
                 pixelRatio: model.get('pixelRatio')
             });
-            if ('function' != typeof MouseEvent || !env.browser.newEdge && (env.browser.ie || env.browser.edge)) if (window.navigator.msSaveOrOpenBlob || isSvg) {
+            if ('function' == typeof MouseEvent && (env.browser.newEdge || !env.browser.ie && !env.browser.edge)) {
+                var $a = document.createElement('a');
+                $a.download = title + '.' + type, $a.target = '_blank', $a.href = url;
+                var evt = new MouseEvent('click', {
+                    // some micro front-end framework， window maybe is a Proxy
+                    view: document.defaultView,
+                    bubbles: !0,
+                    cancelable: !1
+                });
+                $a.dispatchEvent(evt);
+            } else if (window.navigator.msSaveOrOpenBlob || isSvg) {
                 var parts = url.split(','), base64Encoded = parts[0].indexOf('base64') > -1, bstr = isSvg // should decode the svg data uri first
                  ? decodeURIComponent(parts[1]) : parts[1]; // data:[<mime type>][;charset=<charset>][;base64],<encoded data>
                 // otherwise, like `svg` data uri exported by zrender,
@@ -40925,17 +40934,6 @@
             } else {
                 var lang = model.get('lang'), html = '<body style="margin:0;"><img src="' + url + '" style="max-width:100%;" title="' + (lang && lang[0] || '') + '" /></body>', tab = window.open();
                 tab.document.write(html), tab.document.title = title;
-            }
-            else {
-                var $a = document.createElement('a');
-                $a.download = title + '.' + type, $a.target = '_blank', $a.href = url;
-                var evt = new MouseEvent('click', {
-                    // some micro front-end framework， window maybe is a Proxy
-                    view: document.defaultView,
-                    bubbles: !0,
-                    cancelable: !1
-                });
-                $a.dispatchEvent(evt);
             }
         }, SaveAsImage.getDefaultOption = function(ecModel) {
             return {
@@ -47477,7 +47475,7 @@
     function installCommon$1(registers) {
         !installed$1 && (installed$1 = !0, registers.registerSubTypeDefaulter('visualMap', function(option) {
             // Compatible with ec2, when splitNumber === 0, continuous visualMap will be used.
-            return option.categories || (option.pieces ? option.pieces.length > 0 : option.splitNumber > 0) && !option.calculable ? 'piecewise' : 'continuous';
+            return !option.categories && (!(option.pieces ? option.pieces.length > 0 : option.splitNumber > 0) || option.calculable) ? 'continuous' : 'piecewise';
         }), registers.registerAction(visualMapActionInfo, visualMapActionHander), each(visualMapEncodingHandlers, function(handler) {
             registers.registerVisual(registers.PRIORITY.VISUAL.COMPONENT, handler);
         }), registers.registerPreprocessor(visualMapPreprocessor));

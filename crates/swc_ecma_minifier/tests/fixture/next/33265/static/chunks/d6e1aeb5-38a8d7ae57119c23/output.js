@@ -4001,7 +4001,7 @@
                 return _proto.addCue = function(originalCue) {
                     var cue = originalCue;
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().vttjs && !(originalCue instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().vttjs.VTTCue)) {
-                        for(var prop in cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).vttjs.VTTCue(originalCue.startTime, originalCue.endTime, originalCue.text), originalCue)!(prop in cue) && (cue[prop] = originalCue[prop]);
+                        for(var prop in cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).vttjs.VTTCue(originalCue.startTime, originalCue.endTime, originalCue.text), originalCue)prop in cue || (cue[prop] = originalCue[prop]);
                          // make sure that `id` is copied over
                         cue.id = originalCue.id, cue.originalCue_ = originalCue;
                     }

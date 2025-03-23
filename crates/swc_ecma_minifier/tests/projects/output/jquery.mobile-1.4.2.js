@@ -631,7 +631,7 @@
             if (data = data || {}, (event1 = jQuery.Event(event1)).type = (type === this.widgetEventPrefix ? type : this.widgetEventPrefix + type).toLowerCase(), // the original event may come from any element
             // so we need to reset the target on the new event
             event1.target = this.element[0], // copy original event properties over to the new event
-            orig = event1.originalEvent) for(prop in orig)!(prop in event1) && (event1[prop] = orig[prop]);
+            orig = event1.originalEvent) for(prop in orig)prop in event1 || (event1[prop] = orig[prop]);
             return this.element.trigger(event1, data), !(jQuery.isFunction(callback) && !1 === callback.apply(this.element[0], [
                 event1
             ].concat(data)) || event1.isDefaultPrevented());

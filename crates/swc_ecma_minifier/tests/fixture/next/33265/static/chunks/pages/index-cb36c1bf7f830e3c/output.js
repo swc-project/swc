@@ -3378,7 +3378,7 @@
                                         entry.version && (this.manifest.version = entry.version);
                                     },
                                     "allow-cache": function() {
-                                        this.manifest.allowCache = entry.allowed, !("allowed" in entry) && (this.trigger("info", {
+                                        this.manifest.allowCache = entry.allowed, "allowed" in entry || (this.trigger("info", {
                                             message: "defaulting allowCache to YES"
                                         }), this.manifest.allowCache = !0);
                                     },

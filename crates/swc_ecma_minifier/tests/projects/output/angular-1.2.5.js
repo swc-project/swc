@@ -583,11 +583,11 @@
    * @returns {function()} Function that wraps the `fn` with all the specified bindings.
    */ /* jshint +W101 */ function bind(self, fn) {
         var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2) : [];
-        return !isFunction(fn) || fn instanceof RegExp ? fn : curryArgs.length ? function() {
+        return isFunction(fn) && !(fn instanceof RegExp) ? curryArgs.length ? function() {
             return arguments.length ? fn.apply(self, curryArgs.concat(slice.call(arguments, 0))) : fn.apply(self, curryArgs);
         } : function() {
             return arguments.length ? fn.apply(self, arguments) : fn.call(self);
-        };
+        } : fn;
     }
     function toJsonReplacer(key, value) {
         var val = value;
@@ -2073,8 +2073,6 @@
                     var list, result, elm, hash = $location.hash();
                     // empty hash, scroll to the top of the page
                     hash ? (elm = document1.getElementById(hash)) || (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
-                        result || "a" !== lowercase(element.nodeName) || (result = element);
-                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
                         !result && "a" === lowercase(element.nodeName) && (result = element);
                     }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }
@@ -5732,8 +5730,8 @@
                     var peekCh = this.peek();
                     if ("e" == ch && this.isExpOperator(peekCh)) number += ch;
                     else if (this.isExpOperator(ch) && peekCh && this.isNumber(peekCh) && "e" == number.charAt(number.length - 1)) number += ch;
-                    else if (!this.isExpOperator(ch) || peekCh && this.isNumber(peekCh) || "e" != number.charAt(number.length - 1)) break;
-                    else this.throwError("Invalid exponent");
+                    else if (this.isExpOperator(ch) && (!peekCh || !this.isNumber(peekCh)) && "e" == number.charAt(number.length - 1)) this.throwError("Invalid exponent");
+                    else break;
                 }
                 this.index++;
             }

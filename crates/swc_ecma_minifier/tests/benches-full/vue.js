@@ -2543,7 +2543,7 @@
     function updateDOMProps(oldVnode, vnode) {
         if (!(isUndef(oldVnode.data.domProps) && isUndef(vnode.data.domProps))) {
             var key, cur, elm = vnode.elm, oldProps = oldVnode.data.domProps || {}, props = vnode.data.domProps || {};
-            for(key in isDef(props.__ob__) && (props = vnode.data.domProps = extend({}, props)), oldProps)!(key in props) && (elm[key] = '');
+            for(key in isDef(props.__ob__) && (props = vnode.data.domProps = extend({}, props)), oldProps)key in props || (elm[key] = '');
             for(key in props){
                 // ignore children if the node has textContent or innerHTML,
                 // as these will throw away existing DOM nodes and cause removal errors
@@ -3169,7 +3169,7 @@
     }
     /*  */ // recursively search for possible transition defined inside the component root
     function locateNode(vnode) {
-        return !vnode.componentInstance || vnode.data && vnode.data.transition ? vnode : locateNode(vnode.componentInstance._vnode);
+        return vnode.componentInstance && (!vnode.data || !vnode.data.transition) ? locateNode(vnode.componentInstance._vnode) : vnode;
     }
     /*  */ var transitionProps = {
         name: String,

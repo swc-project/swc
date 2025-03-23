@@ -5253,10 +5253,9 @@
         for(// Update the child lanes of all the ancestors, including the alternates.
         var node = parent; null !== node;){
             var a, a1, alternate = node.alternate;
-            if ((node.childLanes & renderLanes) === renderLanes) {
-                if (null === alternate || (alternate.childLanes & renderLanes) === renderLanes) break;
-                a = alternate.childLanes, alternate.childLanes = a | renderLanes;
-            } else node.childLanes = node.childLanes | renderLanes, null !== alternate && (a1 = alternate.childLanes, alternate.childLanes = a1 | renderLanes);
+            if ((node.childLanes & renderLanes) === renderLanes) if (null !== alternate && (alternate.childLanes & renderLanes) !== renderLanes) a = alternate.childLanes, alternate.childLanes = a | renderLanes;
+            else break;
+            else node.childLanes = node.childLanes | renderLanes, null !== alternate && (a1 = alternate.childLanes, alternate.childLanes = a1 | renderLanes);
             node = node.return;
         }
     }
@@ -5506,7 +5505,7 @@
         var effects = finishedQueue.effects;
         if (finishedQueue.effects = null, null !== effects) for(var i = 0; i < effects.length; i++){
             var effect = effects[i], callback = effect.callback;
-            null !== callback && (effect.callback = null, function(callback, context) {
+            null === callback || (effect.callback = null, function(callback, context) {
                 if ("function" != typeof callback) throw Error("Invalid argument passed as callback. Expected a function. Instead received: " + callback);
                 callback.call(context);
             }(callback, instance));
@@ -10557,7 +10556,7 @@
             var flags = nextEffect.flags;
             if (16 & flags && setTextContent(nextEffect.stateNode, ""), 128 & flags) {
                 var current = nextEffect.alternate;
-                null !== current && function(current) {
+                null === current || function(current) {
                     var currentRef = current.ref;
                     null !== currentRef && ("function" == typeof currentRef ? currentRef(null) : currentRef.current = null);
                 } // User-originating errors (lifecycles and refs) should not interrupt

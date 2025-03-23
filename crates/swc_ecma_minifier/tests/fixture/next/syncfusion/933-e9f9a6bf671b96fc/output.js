@@ -6133,15 +6133,14 @@
                         if (-1 === ignoreList.indexOf(key)) {
                             // eslint-disable-next-line
                             var value = obj[key];
-                            if ('object' != typeof value || value instanceof Array) newObj[key] = value;
-                            else {
+                            if ('object' == typeof value && !(value instanceof Array)) {
                                 var newList = ignoreList.filter(function(str) {
                                     return RegExp(key + '.').test(str);
                                 }).map(function(str) {
                                     return str.replace(key + '.', '');
                                 });
                                 newObj[key] = this_1.iterateJsonProperties(this_1.getActualProperties(value), newList);
-                            }
+                            } else newObj[key] = value;
                         }
                     }, this_1 = this, _i = 0, _a = Object.keys(obj); _i < _a.length; _i++)_loop_1(_a[_i]);
                     return newObj;
@@ -11622,7 +11621,7 @@
                                     var nearBlockNode = void 0;
                                     nearBlockNode = isTableEnter && _this.parent.formatter.editorManager.domNode.isBlockNode(_this.startNode) ? _this.startNode : _this.parent.formatter.editorManager.domNode.blockParentNode(_this.startNode);
                                     var isImageNode = !1, isFocusedFirst = !1;
-                                    if (0 != _this.range.startOffset && 0 != _this.range.endOffset && _this.range.startContainer === _this.range.endContainer && ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) || 'IMG' !== nearBlockNode.childNodes[0].nodeName)) {
+                                    if (0 != _this.range.startOffset && 0 != _this.range.endOffset && _this.range.startContainer === _this.range.endContainer && !(!(0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) && 'IMG' === nearBlockNode.childNodes[0].nodeName)) {
                                         var splitFirstText = _this.range.startContainer.textContent.substring(0, _this.range.startOffset);
                                         160 != splitFirstText.charCodeAt(_this.range.startOffset - 1) && 0 === splitFirstText.trim().length && (isFocusedFirst = !0);
                                     } else 0 === _this.range.startOffset && 0 === _this.range.endOffset && (isFocusedFirst = !0);
@@ -11635,7 +11634,7 @@
                                             finalFocusElem.innerHTML = '<br>', !isImageNode && (0, ej2_base /* detach */ .og)(nearBlockNode);
                                         }
                                         _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem.nextElementSibling, 0);
-                                    } else if (0 === nearBlockNode.textContent.length && ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) || 'IMG' !== nearBlockNode.childNodes[0].nodeName)) if ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.children[0]) || 'BR' === nearBlockNode.children[0].tagName) {
+                                    } else if (0 === nearBlockNode.textContent.length && !(!(0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.childNodes[0]) && 'IMG' === nearBlockNode.childNodes[0].nodeName)) if ((0, ej2_base /* isNullOrUndefined */ .le)(nearBlockNode.children[0]) || 'BR' === nearBlockNode.children[0].tagName) {
                                         var insertElem = _this.createInsertElement(shiftKey_1);
                                         insertElem.innerHTML = '<br>', _this.parent.formatter.editorManager.domNode.insertAfter(insertElem, nearBlockNode), _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), insertElem, 0);
                                     } else {
@@ -13299,7 +13298,6 @@
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(closestLI) && endNode.textContent.length === range.endOffset && !range.collapsed && (0, ej2_base /* isNullOrUndefined */ .le)(endNode.nextElementSibling)) {
                         for(var i = 0; i < closestLI.childNodes.length; i++)"#text" === closestLI.childNodes[i].nodeName && 0 === closestLI.childNodes[i].textContent.trim().length && ((0, ej2_base /* detach */ .og)(closestLI.childNodes[i]), i--);
                         for(var currentLastElem = closestLI; null !== currentLastElem.lastChild && '#text' !== currentLastElem.nodeName;)currentLastElem = currentLastElem.lastChild;
-                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer || 'BR' !== currentLastElem.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
                         this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer ? currentStartContainer : 'BR' === currentLastElem.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentLastElem.previousSibling : currentStartContainer, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
                     }
                 }, /**
@@ -19048,13 +19046,13 @@
                     }
                     if (('space' === e.args.action || 'enter' === e.args.action || 13 === e.args.keyCode) && (this.spaceLink(e.args), 'HTML' === this.parent.editorMode && !this.parent.readonly)) {
                         var currentLength = this.parent.getText().trim().length, selectionLength = this.parent.getSelection().length;
-                        if (-1 === this.parent.maxLength || currentLength - selectionLength + 1 <= this.parent.maxLength || 13 !== e.args.keyCode) this.parent.notify(constant /* enterHandler */ .dp, {
-                            args: e.args
-                        });
-                        else {
+                        if (!(-1 === this.parent.maxLength || currentLength - selectionLength + 1 <= this.parent.maxLength) && 13 === e.args.keyCode) {
                             e.args.preventDefault();
                             return;
                         }
+                        this.parent.notify(constant /* enterHandler */ .dp, {
+                            args: e.args
+                        });
                     }
                     if ('space' === e.args.action) {
                         var currentRange_1 = this.parent.getRange(), editorValue = currentRange_1.startContainer.textContent.slice(0, currentRange_1.startOffset), orderedList_1 = this.isOrderedList(editorValue), unOrderedList = this.isUnOrderedList(editorValue);
@@ -24115,7 +24113,7 @@
                         enablePersistence: this.enablePersistence
                     }), this.button.createElement = this.createElement, this.button.appendTo(this.element), !this.element.id && (this.element.id = (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName())), this.appendArrowSpan(), this.setActiveElem([
                         this.element
-                    ]), (!this.target || this.isColorPicker()) && this.createPopupOnClick ? this.isPopupCreated = !1 : this.createPopup();
+                    ]), this.target && !this.isColorPicker() || !this.createPopupOnClick ? this.createPopup() : this.isPopupCreated = !1;
                 }, DropDownButton.prototype.isColorPicker = function() {
                     if (!this.element) return !1;
                     var prevElem = this.element.previousSibling;
@@ -24247,7 +24245,7 @@
                     this.isPopupCreated && !this.canOpen() && this.closePopup(e);
                 }, DropDownButton.prototype.clickHandler = function(e) {
                     var trgt = e.target;
-                    if ((0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.element.id + '"]')) this.createPopupOnClick && (!this.target || this.isColorPicker()) ? this.isPopupCreated ? this.closePopup(e, this.activeElem[0]) : (this.createPopup(), this.openPopUp(e)) : this.getPopUpElement().classList.contains('e-popup-close') ? this.openPopUp(e) : this.closePopup(e);
+                    if ((0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.element.id + '"]')) !this.createPopupOnClick || this.target && !this.isColorPicker() ? this.getPopUpElement().classList.contains('e-popup-close') ? this.openPopUp(e) : this.closePopup(e) : this.isPopupCreated ? this.closePopup(e, this.activeElem[0]) : (this.createPopup(), this.openPopUp(e));
                     else if ((0, ej2_base /* closest */ .oq)(trgt, '[id="' + this.getPopUpElement().id + '"]')) {
                         var eventArgs = void 0, liIdx = void 0, item = void 0, li = this.getLI(trgt);
                         li && (liIdx = Array.prototype.indexOf.call(this.getULElement().children, li), (item = this.items[liIdx]) && (eventArgs = {
@@ -31870,8 +31868,7 @@
                         var target = args.target;
                         target = this.getAnchorNode(target), this.contentModule = this.rendererFactory.getRenderer(base_enum /* RenderType.Content */ .y2.Content);
                         var isPopupOpen = this.quickToolObj.linkQTBar.element.classList.contains('e-rte-pop');
-                        if ('A' !== target.nodeName || !(target.childNodes.length > 0) || 'IMG' === target.childNodes[0].nodeName || 'IMG' === e.args.target.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.parent.getRange().startContainer.parentElement, 'A')) || (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.parent.getRange().endContainer.parentElement, 'A'))) this.hideLinkQuickToolbar();
-                        else {
+                        if ('A' === target.nodeName && target.childNodes.length > 0 && 'IMG' !== target.childNodes[0].nodeName && 'IMG' !== e.args.target.nodeName && !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.parent.getRange().startContainer.parentElement, 'A')) && !(0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.parent.getRange().endContainer.parentElement, 'A'))) {
                             if (isPopupOpen) return;
                             this.showLinkQuickToolbar({
                                 args: args,
@@ -31881,7 +31878,7 @@
                                     args.target
                                 ]
                             });
-                        }
+                        } else this.hideLinkQuickToolbar();
                     }
                 }, Link.prototype.onKeyDown = function(event) {
                     var originalEvent = event.args;

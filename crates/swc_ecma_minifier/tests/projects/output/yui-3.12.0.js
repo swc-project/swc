@@ -216,7 +216,7 @@ available.
                     }
                 }, (Env = Y.Env)._loaded[VERSION] = {}, G_ENV && Y !== YUI) Env._yidx = ++G_ENV._yidx, Env._guidp = ("yui_" + VERSION + "_" + Env._yidx + "_" + time).replace(/[^a-z0-9_]+/g, "_");
                 else if (YUI._YUI) {
-                    for(prop in G_ENV = YUI._YUI.Env, Env._yidx += G_ENV._yidx, Env._uidx += G_ENV._uidx, G_ENV)!(prop in Env) && (Env[prop] = G_ENV[prop]);
+                    for(prop in G_ENV = YUI._YUI.Env, Env._yidx += G_ENV._yidx, Env._uidx += G_ENV._uidx, G_ENV)prop in Env || (Env[prop] = G_ENV[prop]);
                     delete YUI._YUI;
                 }
                 Y.id = Y.stamp(Y), instances[Y.id] = Y;
@@ -3543,7 +3543,7 @@ Contains the core of YUI's feature test architecture.
      */ Y.log = function(msg, cat, src, silent) {
         var bail, excl, incl, m, f, minlevel, c = Y.config, publisher = Y.fire ? Y : YUI.Env.globalEvents;
         return c.debug && (void 0 !== // apply source filters
-        (src = src || "") && (excl = c.logExclude, !(incl = c.logInclude) || src in incl ? incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]) : bail = 1, // Determine the current minlevel as defined in configuration
+        (src = src || "") && (excl = c.logExclude, (incl = c.logInclude) && !(src in incl) ? bail = 1 : incl && src in incl ? bail = !incl[src] : excl && src in excl && (bail = excl[src]), // Determine the current minlevel as defined in configuration
         Y.config.logLevel = Y.config.logLevel || "debug", minlevel = LEVELS[Y.config.logLevel.toLowerCase()], cat in LEVELS && LEVELS[cat] < minlevel && // Skip this message if the we don't meet the defined minlevel
         (bail = 1)), !bail && (c.useBrowserConsole && (m = src ? src + ": " + msg : msg, Y.Lang.isFunction(c.logFn) ? c.logFn.call(Y, msg, cat, src) : typeof console !== UNDEFINED && console.log ? (f = cat && console[cat] && cat in LEVELS ? cat : "log", console[f](m)) : typeof opera !== UNDEFINED && opera.postError(m)), publisher && !silent && (publisher === Y && !publisher.getEvent(LOGEVENT) && publisher.publish(LOGEVENT, {
             broadcast: 2

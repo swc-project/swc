@@ -2952,15 +2952,15 @@
             get: function(elem, computed, extra) {
                 if (computed) // Certain elements can have dimension info if we invisibly show them
                 // but it must have a current display style that would benefit
-                return !rdisplayswap.test(jQuery.css(elem, "display")) || // Support: Safari 8+
+                return rdisplayswap.test(jQuery.css(elem, "display")) && // Support: Safari 8+
                 // Table columns in Safari have non-zero offsetWidth & zero
                 // getBoundingClientRect().width unless display is changed.
                 // Support: IE <=11 only
                 // Running getBoundingClientRect on a disconnected node
                 // in IE throws an error.
-                elem.getClientRects().length && elem.getBoundingClientRect().width ? getWidthOrHeight(elem, dimension, extra) : swap(elem, cssShow, function() {
+                (!elem.getClientRects().length || !elem.getBoundingClientRect().width) ? swap(elem, cssShow, function() {
                     return getWidthOrHeight(elem, dimension, extra);
-                });
+                }) : getWidthOrHeight(elem, dimension, extra);
             },
             set: function(elem, value, extra) {
                 var matches, styles = getStyles(elem), // Only read styles.position if the test has a chance to fail
@@ -3130,7 +3130,7 @@
             // camelCase, specialEasing and expand cssHook pass
             for(index in props)if (easing = specialEasing[name = camelCase(index)], Array.isArray(value = props[index]) && (easing = value[1], value = props[index] = value[0]), index !== name && (props[name] = value, delete props[index]), (hooks = jQuery.cssHooks[name]) && "expand" in hooks) // Not quite $.extend, this won't overwrite existing keys.
             // Reusing 'index' because we have the correct "name"
-            for(index in value = hooks.expand(value), delete props[name], value)!(index in props) && (props[index] = value[index], specialEasing[index] = easing);
+            for(index in value = hooks.expand(value), delete props[name], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name] = easing;
         }(props, animation.opts.specialEasing); index < length; index++)if (result = Animation.prefilters[index].call(animation, elem, props, animation.opts)) return isFunction(result.stop) && (jQuery._queueHooks(animation.elem, animation.opts.queue).stop = result.stop.bind(result)), result;
         return jQuery.map(props, createTween, animation), isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), // Attach callbacks from options
@@ -3299,7 +3299,7 @@
     }, jQuery.fx.timer = function(timer) {
         jQuery.timers.push(timer), jQuery.fx.start();
     }, jQuery.fx.interval = 13, jQuery.fx.start = function() {
-        !inProgress && (inProgress = !0, function schedule() {
+        inProgress || (inProgress = !0, function schedule() {
             inProgress && (!1 === document.hidden && window1.requestAnimationFrame ? window1.requestAnimationFrame(schedule) : window1.setTimeout(schedule, jQuery.fx.interval), jQuery.fx.tick());
         }());
     }, jQuery.fx.stop = function() {

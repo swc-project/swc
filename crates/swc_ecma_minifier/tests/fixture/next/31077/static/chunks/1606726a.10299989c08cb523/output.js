@@ -2374,7 +2374,7 @@
                     // Remaining children must be collected and rebuilt into the appropriate structure
                     if (mustRebuild) {
                         var built = buildTree(function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
-                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && // Gather all decorations from the remaining marked children
+                            for(var i = 0; i < children.length; i += 3)-1 != children[i + 1] || // Gather all decorations from the remaining marked children
                             function gather(set, oldOffset) {
                                 for(var i = 0; i < set.local.length; i++){
                                     var mapped = set.local[i].map(mapping, offset, oldOffset);

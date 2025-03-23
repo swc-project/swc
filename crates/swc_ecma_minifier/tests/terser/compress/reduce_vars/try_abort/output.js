@@ -1,4 +1,4 @@
-!(function () {
+(function() {
     try {
         var a = 1;
         throw "";

@@ -499,7 +499,14 @@
                 if (exports.getModifierString = function(e) {
                     return keys.KEY_MODS[getModifierHash(e)];
                 }, exports.addCommandKeyListener = function(el, callback, destroyer) {
-                    if (!useragent.isOldGecko && (!useragent.isOpera || "KeyboardEvent" in window)) {
+                    if (useragent.isOldGecko || useragent.isOpera && !("KeyboardEvent" in window)) {
+                        var lastKeyDownKeyCode = null;
+                        addListener(el, "keydown", function(e) {
+                            lastKeyDownKeyCode = e.keyCode;
+                        }, destroyer), addListener(el, "keypress", function(e) {
+                            return normalizeCommandKeys(callback, e, lastKeyDownKeyCode);
+                        }, destroyer);
+                    } else {
                         var lastDefaultPrevented = null;
                         addListener(el, "keydown", function(e) {
                             pressedKeys[e.keyCode] = (pressedKeys[e.keyCode] || 0) + 1;
@@ -510,13 +517,6 @@
                         }, destroyer), addListener(el, "keyup", function(e) {
                             pressedKeys[e.keyCode] = null;
                         }, destroyer), !pressedKeys && (resetPressedKeys(), addListener(window, "focus", resetPressedKeys));
-                    } else {
-                        var lastKeyDownKeyCode = null;
-                        addListener(el, "keydown", function(e) {
-                            lastKeyDownKeyCode = e.keyCode;
-                        }, destroyer), addListener(el, "keypress", function(e) {
-                            return normalizeCommandKeys(callback, e, lastKeyDownKeyCode);
-                        }, destroyer);
                     }
                 }, "object" == typeof window && window.postMessage && !useragent.isOldIE) {
                     var postMessageId = 1;

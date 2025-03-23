@@ -1,4 +1,4 @@
-!(function (a) {
+(function(a) {
     if (a) return;
     let b = 1;
     function g() {

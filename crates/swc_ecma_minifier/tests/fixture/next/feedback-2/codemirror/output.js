@@ -3130,7 +3130,7 @@ function(global, factory) {
     function movePos(doc, pos, dir, line) {
         if (dir < 0 && 0 == pos.ch) if (pos.line > doc.first) return clipPos(doc, Pos(pos.line - 1));
         else return null;
-        return dir > 0 && pos.ch == (line || getLine(doc, pos.line)).text.length ? pos.line < doc.first + doc.size - 1 ? Pos(pos.line + 1, 0) : null : new Pos(pos.line, pos.ch + dir);
+        return !(dir > 0) || pos.ch != (line || getLine(doc, pos.line)).text.length ? new Pos(pos.line, pos.ch + dir) : pos.line < doc.first + doc.size - 1 ? Pos(pos.line + 1, 0) : null;
     }
     function selectAll(cm) {
         cm.setSelection(Pos(cm.firstLine(), 0), Pos(cm.lastLine()), sel_dontScroll);

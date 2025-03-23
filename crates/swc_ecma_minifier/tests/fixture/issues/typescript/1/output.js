@@ -446,7 +446,7 @@ var ts, ts1, dynamicImportUMDHelper;
                 }(node);
                 break;
             case 220 /* BinaryExpression */ :
-                if (ts1.isDestructuringAssignment(node)) return !function destructuringNeedsFlattening(node) {
+                if (ts1.isDestructuringAssignment(node)) return function destructuringNeedsFlattening(node) {
                     if (ts1.isObjectLiteralExpression(node)) for(var _i = 0, _a = node.properties; _i < _a.length; _i++){
                         var elem = _a[_i];
                         switch(elem.kind){
@@ -475,7 +475,7 @@ var ts, ts1, dynamicImportUMDHelper;
                     }
                     else if (ts1.isIdentifier(node)) return ts1.length(getExports(node)) > +!!ts1.isExportName(node);
                     return !1;
-                }(node.left) ? ts1.visitEachChild(node, visitor, context) : ts1.flattenDestructuringAssignment(node, visitor, context, 0 /* All */ , !valueIsDiscarded, createAllExportExpressions);
+                }(node.left) ? ts1.flattenDestructuringAssignment(node, visitor, context, 0 /* All */ , !valueIsDiscarded, createAllExportExpressions) : ts1.visitEachChild(node, visitor, context);
                 break;
             case 218 /* PrefixUnaryExpression */ :
             case 219 /* PostfixUnaryExpression */ :

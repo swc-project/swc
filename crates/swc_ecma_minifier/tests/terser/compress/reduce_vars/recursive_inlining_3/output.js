@@ -1,4 +1,4 @@
-!function() {
+(function() {
     (function qux(x) {
         console.log("qux", x);
         if (x) (function(x) {
@@ -9,4 +9,4 @@
             })(x - 1);
         })(x - 1);
     })(4);
-}();
+})();

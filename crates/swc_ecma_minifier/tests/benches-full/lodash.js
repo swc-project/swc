@@ -4257,7 +4257,7 @@
             var length = paths.length, start = length ? paths[0] : 0, value = this.__wrapped__, interceptor = function(object) {
                 return baseAt(object, paths);
             };
-            return !(length > 1) && !this.__actions__.length && value instanceof LazyWrapper && isIndex(start) ? ((value = value.slice(start, +start + +!!length)).__actions__.push({
+            return length > 1 || this.__actions__.length || !(value instanceof LazyWrapper) || !isIndex(start) ? this.thru(interceptor) : ((value = value.slice(start, +start + +!!length)).__actions__.push({
                 func: thru,
                 args: [
                     interceptor
@@ -4265,7 +4265,7 @@
                 thisArg: undefined
             }), new LodashWrapper(value, this.__chain__).thru(function(array) {
                 return length && !array.length && array.push(undefined), array;
-            })) : this.thru(interceptor);
+            }));
         }), countBy = createAggregator(function(result, value, key) {
             hasOwnProperty.call(result, key) ? ++result[key] : baseAssignValue(result, key, 1);
         }), find = createFind(findIndex), findLast = createFind(findLastIndex);

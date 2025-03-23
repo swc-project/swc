@@ -690,7 +690,7 @@ exports.modules = {
                 var t = e.createReader();
                 return new Promise(function(e, n) {
                     var i = [];
-                    !function o() {
+                    (function o() {
                         var b = this;
                         t.readEntries(function(t) {
                             return v(b, void 0, void 0, function() {
@@ -740,7 +740,7 @@ exports.modules = {
                         }, function(e) {
                             n(e);
                         });
-                    }();
+                    })();
                 });
             }
             function z(e) {

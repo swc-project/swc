@@ -5232,7 +5232,7 @@ function(global, factory) {
                         x = Math.max(-1000000000, Math.min(1e9, x)),
                         y = Math.max(-1000000000, Math.min(1e9, y))
                     ];
-                    !function(a, b, x0, y0, x1, y1) {
+                    (function(a, b, x0, y0, x1, y1) {
                         var r, ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
                         if (r = x0 - ax, dx || !(r > 0)) {
                             if (r /= dx, dx < 0) {
@@ -5271,7 +5271,7 @@ function(global, factory) {
                                 }
                             }
                         }
-                    }(a, b, x0, y0, x1, y1) ? v && (activeStream.lineStart(), activeStream.point(x, y), clean = !1) : (!v_ && (activeStream.lineStart(), activeStream.point(a[0], a[1])), activeStream.point(b[0], b[1]), !v && activeStream.lineEnd(), clean = !1);
+                    })(a, b, x0, y0, x1, y1) ? (!v_ && (activeStream.lineStart(), activeStream.point(a[0], a[1])), activeStream.point(b[0], b[1]), !v && activeStream.lineEnd(), clean = !1) : v && (activeStream.lineStart(), activeStream.point(x, y), clean = !1);
                 }
                 x_ = x, y_ = y, v_ = v;
             }
@@ -9213,7 +9213,7 @@ function(global, factory) {
                         rc0 = min$2(rc, (r0 - lc) / (kc - 1)), rc1 = min$2(rc, (r1 - lc) / (kc + 1));
                     }
                 }
-                da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > 1e-12 && da0 > 1e-12 ? rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
+                da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), !(r0 > 1e-12) || !(da0 > 1e-12) ? context.lineTo(x10, y10) : rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw);
             }
             else context.moveTo(0, 0);
             if (context.closePath(), buffer) return context = null, buffer + "" || null;

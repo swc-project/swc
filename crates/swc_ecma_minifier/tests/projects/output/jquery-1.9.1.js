@@ -3708,7 +3708,7 @@
                                     // We normalize with Webkit giving an empty statusText
                                     statusText = "";
                                 }
-                                status || !s.isLocal || s.crossDomain ? 1223 === status && (status = 204) : status = responses.text ? 200 : 404;
+                                !status && s.isLocal && !s.crossDomain ? status = responses.text ? 200 : 404 : 1223 === status && (status = 204);
                             }
                         } catch (firefoxAccessException) {
                             !isAbort && complete(-1, firefoxAccessException);
@@ -3839,7 +3839,7 @@
             // camelCase, specialEasing and expand cssHook pass
             for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && "expand" in hooks) // not quite $.extend, this wont overwrite keys already present.
             // also - reusing 'index' from above because we have the correct "name"
-            for(index in value = hooks.expand(value), delete props[name1], value)!(index in props) && (props[index] = value[index], specialEasing[index] = easing);
+            for(index in value = hooks.expand(value), delete props[name1], value)index in props || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name1] = easing;
         }(props, animation.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation, elem, props, animation.opts)) return result;
         // attach callbacks from options

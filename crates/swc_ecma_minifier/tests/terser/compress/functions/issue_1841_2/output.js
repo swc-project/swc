@@ -1,5 +1,5 @@
 var b = 10;
-!function(arg) {
+(function(arg) {
     for(var key in "hi")b = 42;
-}(--b);
+})(--b);
 console.log(b);

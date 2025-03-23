@@ -1,17 +1,6 @@
 | File | Original Size | Compressed Size | Gzipped Size |
 | --- | --- | --- | --- |
-<<<<<<< HEAD
-| angular-1.2.5.js | 757.44 KiB | 101.94 KiB | 37.21 KiB |
-| backbone-1.1.0.js | 59.77 KiB | 18.33 KiB | 6.29 KiB |
-| jquery-1.9.1.js | 309.61 KiB | 90.77 KiB | 32.10 KiB |
-| jquery.mobile-1.4.2.js | 534.38 KiB | 191.28 KiB | 52.62 KiB |
-| mootools-1.4.5.js | 181.36 KiB | 88.54 KiB | 27.48 KiB |
-| react-17.0.1.js | 82.58 KiB | 22.44 KiB | 8.04 KiB |
-| react-dom-17.0.2.js | 959.53 KiB | 236.74 KiB | 73.07 KiB |
-| underscore-1.5.2.js | 43.49 KiB | 13.85 KiB | 4.69 KiB |
-| yui-3.12.0.js | 321.32 KiB | 86.05 KiB | 24.96 KiB |
-=======
-| angular-1.2.5.js | 757.44 KiB | 102.08 KiB | 37.24 KiB |
+| angular-1.2.5.js | 757.44 KiB | 102.04 KiB | 37.23 KiB |
 | backbone-1.1.0.js | 59.77 KiB | 18.35 KiB | 6.29 KiB |
 | jquery-1.9.1.js | 309.61 KiB | 90.86 KiB | 32.12 KiB |
 | jquery.mobile-1.4.2.js | 534.38 KiB | 191.42 KiB | 52.64 KiB |
@@ -20,4 +9,3 @@
 | react-dom-17.0.2.js | 959.53 KiB | 236.86 KiB | 73.05 KiB |
 | underscore-1.5.2.js | 43.49 KiB | 13.86 KiB | 4.69 KiB |
 | yui-3.12.0.js | 321.32 KiB | 86.10 KiB | 24.99 KiB |
->>>>>>> 759c298e85 (Update test refs)

@@ -6,7 +6,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ "use strict";
-"production" !== process.env.NODE_ENV && function() {
+"production" === process.env.NODE_ENV || function() {
     var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, propTypesMisspellWarningShown, _assign = require("object-assign"), REACT_ELEMENT_TYPE = 0xeac7, REACT_PORTAL_TYPE = 0xeaca;
     exports.Fragment = 0xeacb, exports.StrictMode = 0xeacc, exports.Profiler = 0xead2;
     var REACT_PROVIDER_TYPE = 0xeacd, REACT_CONTEXT_TYPE = 0xeace, REACT_FORWARD_REF_TYPE = 0xead0;

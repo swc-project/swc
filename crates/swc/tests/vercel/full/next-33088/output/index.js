@@ -30,7 +30,7 @@ export default function c() {
                 });
             })).apply(this, arguments);
         }
-        "" !== h && function() {
+        "" === h || function() {
             e.apply(this, arguments);
         }();
     }, [
