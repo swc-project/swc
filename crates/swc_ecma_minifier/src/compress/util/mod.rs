@@ -253,6 +253,14 @@ pub(crate) fn negate_cost(
 
     match e {
         Expr::Bin(BinExpr {
+            op: op!("===") | op!("!==") | op!("==") | op!("!="),
+            ..
+        }) => {
+            // We don't need to create or delete a token.
+            return 0;
+        }
+
+        Expr::Bin(BinExpr {
             op: op!("||") | op!("&&"),
             left,
             right,
