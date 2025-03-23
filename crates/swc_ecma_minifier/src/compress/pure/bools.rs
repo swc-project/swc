@@ -55,6 +55,13 @@ impl Pure<'_> {
                 return;
             }
 
+            Expr::Array(ArrayLit { elems, .. }) => {
+                for elem in elems.iter_mut().flatten() {
+                    self.make_bool_short(&mut elem.expr, false, false);
+                }
+                return;
+            }
+
             Expr::Call(CallExpr { callee, args, .. }) => {
                 if let Callee::Expr(callee) = callee {
                     self.make_bool_short(callee, false, false);
