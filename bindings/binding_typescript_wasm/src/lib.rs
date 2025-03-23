@@ -1,18 +1,19 @@
 use std::{
+    iter::once,
     mem::take,
     sync::{Arc, Mutex},
 };
 
 use anyhow::Error;
 use js_sys::Uint8Array;
-use miette::{GraphicalReportHandler, GraphicalTheme, ThemeCharacters, ThemeStyles};
+use miette::{GraphicalReportHandler, GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
-    SourceMap, GLOBALS,
+    SourceMap, Span, GLOBALS,
 };
-use swc_error_reporters::{to_miette_diagnostic, PrettyEmitterConfig};
+use swc_error_reporters::{to_miette_source_code, to_miette_span, PrettyEmitterConfig};
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
@@ -89,6 +90,9 @@ where
                 vbar: ' ',
                 xbar: ' ',
                 vbar_break: ' ',
+                error: "".into(),
+                warning: "".into(),
+                advice: "".into(),
                 ..ThemeCharacters::ascii()
             },
             styles: ThemeStyles::none(),
@@ -115,22 +119,24 @@ impl Emitter for JsonErrorWriter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
-        let snippet = {
+        let snippet = d.span.primary_span().and_then(|span| {
             let mut snippet = String::new();
             match self.reporter.render_report(
                 &mut snippet,
-                &to_miette_diagnostic(
-                    &self.cm,
-                    &PrettyEmitterConfig {
-                        skip_filename: true,
-                    },
-                    d,
-                ),
+                &Snippet {
+                    source_code: &to_miette_source_code(
+                        &self.cm,
+                        &PrettyEmitterConfig {
+                            skip_filename: true,
+                        },
+                    ),
+                    span,
+                },
             ) {
                 Ok(()) => Some(snippet),
                 Err(_) => None,
             }
-        };
+        });
 
         let children = d
             .children
@@ -212,4 +218,40 @@ struct JsonSubdiagnostic {
     snippet: Option<String>,
     filename: String,
     line: usize,
+}
+
+struct Snippet<'a> {
+    source_code: &'a dyn miette::SourceCode,
+    span: Span,
+}
+
+impl miette::Diagnostic for Snippet<'_> {
+    fn source_code(&self) -> Option<&dyn miette::SourceCode> {
+        if self.span.lo().is_dummy() || self.span.hi().is_dummy() {
+            return None;
+        }
+
+        Some(self.source_code)
+    }
+
+    fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
+        Some(Box::new(once(LabeledSpan::new_with_span(
+            None,
+            to_miette_span(self.span),
+        ))))
+    }
+}
+
+impl std::error::Error for Snippet<'_> {}
+
+impl std::fmt::Display for Snippet<'_> {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Ok(())
+    }
+}
+
+impl std::fmt::Debug for Snippet<'_> {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Ok(())
+    }
 }
