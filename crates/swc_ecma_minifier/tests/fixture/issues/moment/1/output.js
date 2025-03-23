@@ -1480,7 +1480,7 @@ function(global, factory) {
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
-        !inputString && (inputString = this.isUtc() ? hooks.defaultFormatUtc : hooks.defaultFormat);
+        inputString || (inputString = this.isUtc() ? hooks.defaultFormatUtc : hooks.defaultFormat);
         var output = formatMoment(this, inputString);
         return this.localeData().postformat(output);
     }, proto.from = function(time, withoutSuffix) {

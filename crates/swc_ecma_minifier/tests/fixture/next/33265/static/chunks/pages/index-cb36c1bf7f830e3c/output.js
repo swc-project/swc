@@ -5848,12 +5848,12 @@
                                             });
                                         }
                                     }
-                                }, /:/) : !line && // An empty line terminates the header and starts the body (cues).
+                                }, /:/) : line || // An empty line terminates the header and starts the body (cues).
                                 (self1.state = "ID");
                                 continue;
                             case "NOTE":
                                 // Ignore NOTE blocks.
-                                !line && (self1.state = "ID");
+                                line || (self1.state = "ID");
                                 continue;
                             case "ID":
                                 // Check for the start of NOTE blocks.
@@ -5997,7 +5997,7 @@
                                 continue;
                             case "BADCUE":
                                 // 54-62 - Collect and discard the remaining cue.
-                                !line && (self1.state = "ID");
+                                line || (self1.state = "ID");
                                 continue;
                         }
                     } catch (e) {
@@ -6754,7 +6754,7 @@
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                 var offset1, length1, offset2, length2, offset3, length3, offset4, length4, offset5, length5, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
-                !encoding && (encoding = "utf8");
+                encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
                         return function(buf, string, offset, length) {

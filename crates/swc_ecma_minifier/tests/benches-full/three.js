@@ -9366,7 +9366,7 @@ function(global, factory) {
     } // eliminate colinear or duplicate points
     function filterPoints(start, end) {
         if (!start) return start;
-        !end && (end = start);
+        end || (end = start);
         var again, p = start;
         do if (again = !1, !p.steiner && (equals(p, p.next) || 0 === area(p.prev, p, p.next))) {
             if (removeNode(p), (p = end = p.prev) === p.next) break;
@@ -9461,7 +9461,7 @@ function(global, factory) {
                 var extrudePts, extrudeByPath = !1;
                 extrudePath && (extrudePts = extrudePath.getSpacedPoints(steps), extrudeByPath = !0, bevelEnabled = !1, // SETUP TNB variables
                 // TODO1 - have a .isClosed in spline?
-                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), !bevelEnabled && (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
+                splineTube = extrudePath.computeFrenetFrames(steps, !1), binormal = new Vector3(), normal = new Vector3(), position2 = new Vector3()), bevelEnabled || (bevelSegments = 0, bevelThickness = 0, bevelSize = 0, bevelOffset = 0);
                 var shapePoints = shape.extractPoints(curveSegments), vertices = shapePoints.shape, holes = shapePoints.holes;
                 if (!ShapeUtils.isClockWise(vertices)) {
                     vertices = vertices.reverse(); // Maybe we should also check if holes are in the opposite direction, just to be safe ...

@@ -16403,7 +16403,7 @@
                     }
                     var a, u, l = {};
                     function s(e, t, r) {
-                        !r && (r = Error);
+                        r || (r = Error);
                         var a = function(r) {
                             if ("function" != typeof r && null !== r) throw TypeError("Super expression must either be null or a function");
                             function a(r, o, u) {
@@ -20717,7 +20717,7 @@
                         else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                         var i, o, a, u, l, s, c, f, d, p, h = this.length - t;
                         if ((void 0 === r || r > h) && (r = h), e.length > 0 && (r < 0 || t < 0) || t > this.length) throw RangeError("Attempt to write outside buffer bounds");
-                        !n && (n = "utf8");
+                        n || (n = "utf8");
                         for(var y = !1;;)switch(n){
                             case "hex":
                                 return function(e, t, r, n) {
@@ -21368,7 +21368,7 @@
                     "use strict";
                     const t = {};
                     function r(e, r, n) {
-                        !n && (n = Error);
+                        n || (n = Error);
                         class i extends n {
                             constructor(e, t, n){
                                 super("string" == typeof r ? r : r(e, t, n));
@@ -21595,7 +21595,7 @@
                     }, A.prototype.isPaused = function() {
                         return !1 === this._readableState.flowing;
                     }, A.prototype.setEncoding = function(e) {
-                        !u && (u = i(313).s);
+                        u || (u = i(313).s);
                         var t = new u(e);
                         this._readableState.decoder = t, this._readableState.encoding = this._readableState.decoder.encoding;
                         for(var r = this._readableState.buffer.head, n = ""; null !== r;)n += t.write(r.data), r = r.next;

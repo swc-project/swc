@@ -3492,7 +3492,7 @@
                                 finalDataType = type;
                                 break;
                             }
-                            !firstDataType && (firstDataType = type);
+                            firstDataType || (firstDataType = type);
                         }
                         // Or just use first one
                         finalDataType = finalDataType || firstDataType;
@@ -3758,7 +3758,7 @@
             }), anim.done(function() {
                 var prop;
                 for(prop in jQuery._removeData(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
-            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), !(prop in dataShow) && (dataShow[prop] = tween.start, hidden && (tween.end = tween.start, tween.start = +("width" === prop || "height" === prop)));
+            }), index = 0; index < length; index++)prop = handled[index], tween = anim.createTween(prop, hidden ? dataShow[prop] : 0), orig[prop] = dataShow[prop] || jQuery.style(elem, prop), prop in dataShow || (dataShow[prop] = tween.start, !hidden || (tween.end = tween.start, tween.start = +("width" === prop || "height" === prop)));
         }
     ], tweeners = {
         "*": [

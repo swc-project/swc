@@ -775,7 +775,7 @@ function(global, factory) {
             function compareNode(a, b) {
                 return a && b ? compare(a.__data__, b.__data__) : !a - !b;
             }
-            !compare && (compare = ascending$1);
+            compare || (compare = ascending$1);
             for(var groups = this._groups, m = groups.length, sortgroups = Array(m), j = 0; j < m; ++j){
                 for(var node, group = groups[j], n = group.length, sortgroup = sortgroups[j] = Array(n), i = 0; i < n; ++i)(node = group[i]) && (sortgroup[i] = node);
                 sortgroup.sort(compareNode);
@@ -1572,7 +1572,7 @@ function(global, factory) {
     }
     var rgbBasis = rgbSpline(basis$1), rgbBasisClosed = rgbSpline(basisClosed);
     function numberArray(a, b) {
-        !b && (b = []);
+        b || (b = []);
         var i, n = a ? Math.min(b.length, a.length) : 0, c = b.slice();
         return function(t) {
             for(i = 0; i < n; ++i)c[i] = a[i] * (1 - t) + b[i] * t;

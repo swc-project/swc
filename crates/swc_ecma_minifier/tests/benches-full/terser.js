@@ -8702,7 +8702,7 @@
                     return !1;
                 }(node))) && (stop_after = node, node instanceof AST_Scope && (abort = !0)), handle_custom_scan_order(node);
             }, function(node) {
-                !abort && (stop_after === node && (abort = !0), stop_if_hit === node && (stop_if_hit = null));
+                abort || (stop_after === node && (abort = !0), stop_if_hit !== node || (stop_if_hit = null));
             }), multi_replacer = new TreeTransformer(function(node) {
                 if (abort) return node;
                 // Skip nodes before `candidate` as quickly as possible

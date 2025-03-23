@@ -3558,7 +3558,7 @@
                 function createBoundTranscludeFn(scope, transcludeFn) {
                     return function(transcludedScope, cloneFn, controllers) {
                         var scopeCreated = !1;
-                        !transcludedScope && ((transcludedScope = scope.$new()).$$transcluded = !0, scopeCreated = !0);
+                        transcludedScope || ((transcludedScope = scope.$new()).$$transcluded = !0, scopeCreated = !0);
                         var clone = transcludeFn(transcludedScope, cloneFn, controllers);
                         return scopeCreated && clone.on("$destroy", bind(transcludedScope, transcludedScope.$destroy)), clone;
                     };

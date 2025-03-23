@@ -6560,7 +6560,7 @@
                     // eslint-disable-next-line func-names
                     onCanceled = function(cancel) {
                         request && (reject(!cancel || cancel && cancel.type ? new CanceledError() : cancel), request.abort(), request = null);
-                    }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), !requestData && (requestData = null);
+                    }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), requestData || (requestData = null);
                     var protocol = parseProtocol(fullPath);
                     if (protocol && -1 === [
                         'http',
@@ -11155,7 +11155,7 @@
                 else throw Error('Buffer.write(string, encoding, offset[, length]) is no longer supported');
                 const remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError('Attempt to write outside buffer bounds');
-                !encoding && (encoding = 'utf8');
+                encoding || (encoding = 'utf8');
                 let loweredCase = !1;
                 for(;;)switch(encoding){
                     case 'hex':
@@ -12663,7 +12663,7 @@
             }, EC.prototype.keyFromPublic = function(pub, enc) {
                 return KeyPair.fromPublic(this, pub, enc);
             }, EC.prototype.genKeyPair = function(options) {
-                !options && (options = {});
+                options || (options = {});
                 for(// Instantiate Hmac_DRBG
                 var drbg = new HmacDRBG({
                     hash: this.hash,
@@ -19351,7 +19351,7 @@
                             function getMessage(e, t, n) {
                                 return "string" == typeof r ? r : r(e, t, n);
                             }
-                            !n && (n = Error);
+                            n || (n = Error);
                             class NodeError extends n {
                                 constructor(e, t, r){
                                     super(getMessage(e, t, r));
@@ -19535,7 +19535,7 @@
                         }, Readable.prototype.isPaused = function() {
                             return !1 === this._readableState.flowing;
                         }, Readable.prototype.setEncoding = function(e) {
-                            !w && (w = r(862).s);
+                            w || (w = r(862).s);
                             var t = new w(e);
                             this._readableState.decoder = t, this._readableState.encoding = this._readableState.decoder.encoding;
                             for(var n = this._readableState.buffer.head, i = ""; null !== n;)i += t.write(n.data), n = n.next;

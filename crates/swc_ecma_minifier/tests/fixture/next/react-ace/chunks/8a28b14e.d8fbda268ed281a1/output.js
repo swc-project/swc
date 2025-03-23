@@ -763,13 +763,13 @@
                     var typingResetTimeout, typing, detectArrowKeys, closeTimeout, text = dom.createElement("textarea");
                     text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
-                    !isMobile && (text.style.fontSize = "1px");
+                    isMobile || (text.style.fontSize = "1px");
                     var commandMode = !1, ignoreFocusEvents = !1, lastValue = "", lastSelectionStart = 0, lastSelectionEnd = 0, lastRestoreEnd = 0;
                     try {
                         var isFocused = document.activeElement === text;
                     } catch (e) {}
                     event.addListener(text, "blur", function(e) {
-                        !ignoreFocusEvents && (host.onBlur(e), isFocused = !1);
+                        ignoreFocusEvents || (host.onBlur(e), isFocused = !1);
                     }, host), event.addListener(text, "focus", function(e) {
                         if (!ignoreFocusEvents) {
                             if (isFocused = !0, useragent.isEdge) try {
@@ -810,7 +810,7 @@
                     });
                     var resetSelection = isIOS ? function(value) {
                         if (isFocused && (!copied || value) && !sendingText) {
-                            !value && (value = "");
+                            value || (value = "");
                             var newValue = "\n ab" + value + "cde fg\n";
                             newValue != text.value && (text.value = lastValue = newValue);
                             var selectionEnd = 4 + (value.length || +!host.selection.isEmpty());
@@ -940,7 +940,7 @@
                     }, this.setCommandMode = function(value) {
                         commandMode = value, text.readOnly = !1;
                     }, this.setReadOnly = function(readOnly) {
-                        !commandMode && (text.readOnly = readOnly);
+                        commandMode || (text.readOnly = readOnly);
                     }, this.setCopyWithEmptySelection = function(value) {}, this.onContextMenu = function(e) {
                         afterContextMenu = !0, resetSelection(), host._emit("nativecontextmenu", {
                             target: host,
@@ -2844,7 +2844,7 @@
                         var fold = this.session.getFoldAt(row, column, 1);
                         fold && (row = fold.start.row, column = fold.start.column), this.$keepDesiredColumnOnChange = !0;
                         var line = this.session.getLine(row);
-                        /[\uDC00-\uDFFF]/.test(line.charAt(column)) && line.charAt(column - 1) && (this.lead.row == row && this.lead.column == column + 1 ? column -= 1 : column += 1), this.lead.setPosition(row, column), this.$keepDesiredColumnOnChange = !1, !keepDesiredColumn && (this.$desiredColumn = null);
+                        /[\uDC00-\uDFFF]/.test(line.charAt(column)) && line.charAt(column - 1) && (this.lead.row == row && this.lead.column == column + 1 ? column -= 1 : column += 1), this.lead.setPosition(row, column), this.$keepDesiredColumnOnChange = !1, keepDesiredColumn || (this.$desiredColumn = null);
                     }, this.moveCursorToScreen = function(row, column, keepDesiredColumn) {
                         var pos = this.session.screenToDocumentPosition(row, column);
                         this.moveCursorTo(pos.row, pos.column, keepDesiredColumn);
@@ -2965,7 +2965,7 @@
                             "#tmp" === (startState = stack[0]) && (stack.shift(), startState = stack.shift());
                         } else var stack = [];
                         var currentState = startState || "start", state = this.states[currentState];
-                        !state && (currentState = "start", state = this.states[currentState]);
+                        state || (currentState = "start", state = this.states[currentState]);
                         var mapping = this.matchMappings[currentState], re = this.regExps[currentState];
                         re.lastIndex = 0;
                         for(var match, tokens = [], lastIndex = 0, matchAttempts = 0, token = {
@@ -5747,7 +5747,7 @@
                         }
                         this.$searchHighlight.setRegexp(re);
                     }, this.highlightLines = function(startRow, endRow, clazz, inFront) {
-                        "number" != typeof endRow && (clazz = endRow, endRow = startRow), !clazz && (clazz = "ace_step");
+                        "number" != typeof endRow && (clazz = endRow, endRow = startRow), clazz || (clazz = "ace_step");
                         var range = new Range(startRow, 0, endRow, 1 / 0);
                         return range.id = this.addMarker(range, clazz, "fullLine", inFront), range;
                     }, this.setAnnotations = function(annotations) {
@@ -6515,7 +6515,7 @@
                         this.commands[command.name] && this.removeCommand(command), this.commands[command.name] = command, command.bindKey && this._buildKeyHash(command);
                     }, this.removeCommand = function(command, keepCommand) {
                         var name = command && ("string" == typeof command ? command : command.name);
-                        command = this.commands[name], !keepCommand && delete this.commands[name];
+                        command = this.commands[name], keepCommand || delete this.commands[name];
                         var ckb = this.commandKeyBinding;
                         for(var keyId in ckb){
                             var cmdGroup = ckb[keyId];
@@ -8553,7 +8553,7 @@
                                             depth[bracketType]--, -1 === depth[bracketType] && (matchType = "bracket", found = !0);
                                     }
                                 } else -1 !== token.type.indexOf("tag-name") && (isNaN(depth[token.value]) && (depth[token.value] = 0), "<" === prevToken.value ? depth[token.value]++ : "</" === prevToken.value && depth[token.value]--, -1 === depth[token.value] && (matchType = "tag", found = !0));
-                                !found && (prevToken = token, token = iterator.stepForward(), i = 0);
+                                found || (prevToken = token, token = iterator.stepForward(), i = 0);
                             }while (token && !found)
                             if (matchType) {
                                 if ("bracket" === matchType) !(range = this.session.getBracketRange(cursor)) && (pos = (range = new Range(iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1, iterator.getCurrentTokenRow(), iterator.getCurrentTokenColumn() + i - 1)).start, (expand || pos.row === cursor.row && 2 > Math.abs(pos.column - cursor.column)) && (range = this.session.getBracketRange(pos)));
@@ -9165,7 +9165,7 @@
                         this.$annotations = [];
                         for(var i = 0; i < annotations.length; i++){
                             var annotation = annotations[i], row = annotation.row, rowInfo = this.$annotations[row];
-                            !rowInfo && (rowInfo = this.$annotations[row] = {
+                            rowInfo || (rowInfo = this.$annotations[row] = {
                                 text: []
                             });
                             var annoText = annotation.text;
@@ -10472,7 +10472,7 @@ margin: 0 10px;\
                         if (!(this.resizing > 2)) {
                             this.resizing > 0 ? this.resizing++ : this.resizing = +!!force;
                             var el = this.container;
-                            !height && (height = el.clientHeight || el.scrollHeight), !width && (width = el.clientWidth || el.scrollWidth);
+                            !height && (height = el.clientHeight || el.scrollHeight), width || (width = el.clientWidth || el.scrollWidth);
                             var changes = this.$updateCachedSize(force, gutterWidth, width, height);
                             if (!this.$size.scrollerHeight || !width && !height) return this.resizing = 0;
                             force && (this.$gutterLayer.$padding = null), force ? this.$renderChanges(changes | this.$changes, !0) : this.$loop.schedule(changes | this.$changes), this.resizing && (this.resizing = 0), this.scrollBarH.scrollLeft = this.scrollBarV.scrollTop = null;

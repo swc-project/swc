@@ -1410,7 +1410,7 @@ function(global, factory) {
     // only done once.
     function prepareMeasureForLine(cm, line) {
         var line1, lineN, view, built, lineN1 = lineNo(line), view1 = findViewForLine(cm, lineN1);
-        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), !view1 && (lineN = lineNo(line1 = visualLine(line1 = line)), (view = cm.display.externalMeasured = new LineView(cm.doc, line1, lineN)).lineN = lineN, built = view.built = buildLineContent(cm, view), view.text = built.pre, removeChildrenAndAdd(cm.display.lineMeasure, built.pre), view1 = view);
+        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (lineN = lineNo(line1 = visualLine(line1 = line)), (view = cm.display.externalMeasured = new LineView(cm.doc, line1, lineN)).lineN = lineN, built = view.built = buildLineContent(cm, view), view.text = built.pre, removeChildrenAndAdd(cm.display.lineMeasure, built.pre), view1 = view);
         var info = mapFromLineView(view1, line, lineN1);
         return {
             line: line,
@@ -1558,7 +1558,7 @@ function(global, factory) {
             rect.top += height, rect.bottom += height;
         }
         if ("line" == context) return rect;
-        !context && (context = "local");
+        context || (context = "local");
         var yOff = heightAtLine(lineObj);
         if ("local" == context ? yOff += paddingTop(cm.display) : yOff -= cm.display.viewOffset, "page" == context || "window" == context) {
             var lOff = cm.display.lineSpace.getBoundingClientRect();
@@ -1866,7 +1866,7 @@ function(global, factory) {
     // lines are divided into visual lines. regLineChange (below)
     // registers single-line changes.
     function regChange(cm, from, to, lendiff) {
-        null == from && (from = cm.doc.first), null == to && (to = cm.doc.first + cm.doc.size), !lendiff && (lendiff = 0);
+        null == from && (from = cm.doc.first), null == to && (to = cm.doc.first + cm.doc.size), lendiff || (lendiff = 0);
         var display = cm.display;
         if (lendiff && to < display.viewTo && (null == display.updateLineNumbers || display.updateLineNumbers > from) && (display.updateLineNumbers = from), cm.curOp.viewChanged = !0, from >= display.viewTo) // Change after
         sawCollapsedSpans && visualLineNo(cm.doc, from) < display.viewTo && resetView(cm);
@@ -2786,7 +2786,7 @@ function(global, factory) {
         for(var i = 0; i < this.ranges.length; i++)if (!this.ranges[i].empty()) return !0;
         return !1;
     }, Selection.prototype.contains = function(pos, end) {
-        !end && (end = pos);
+        end || (end = pos);
         for(var i = 0; i < this.ranges.length; i++){
             var range = this.ranges[i];
             if (cmp(end, range.from()) >= 0 && 0 >= cmp(pos, range.to())) return i;
@@ -3385,7 +3385,7 @@ function(global, factory) {
                     break;
                 }
             }
-            !ok && (array.splice(0, i + 1), i = 0);
+            ok || (array.splice(0, i + 1), i = 0);
         }
     }
     function rebaseHist(hist, change) {
@@ -4052,7 +4052,7 @@ function(global, factory) {
             return doc.scrollTop = this.scrollTop, doc.scrollLeft = this.scrollLeft, doc.sel = this.sel, doc.extend = !1, copyHistory && (doc.history.undoDepth = this.history.undoDepth, doc.setHistory(this.getHistory())), doc;
         },
         linkedDoc: function(options) {
-            !options && (options = {});
+            options || (options = {});
             var from = this.first, to = this.first + this.size;
             null != options.from && options.from > from && (from = options.from), null != options.to && options.to < to && (to = options.to);
             var copy = new Doc(getLines(this, from, to), options.mode || this.modeOption, from, this.lineSep, this.direction);
@@ -5195,7 +5195,7 @@ function(global, factory) {
     var lastCopied = null;
     function applyTextInput(cm, inserted, deleted, sel, origin) {
         var doc = cm.doc;
-        cm.display.shift = !1, !sel && (sel = doc.sel);
+        cm.display.shift = !1, sel || (sel = doc.sel);
         var recent = +new Date() - 200, paste = "paste" == origin || cm.state.pasteIncoming > recent, textLines = splitLinesAuto(inserted), multiPaste = null;
         // When pasting N lines into N selections, insert one line per selection
         if (paste && sel.ranges.length > 1) if (lastCopied && lastCopied.text.join("\n") == inserted) {

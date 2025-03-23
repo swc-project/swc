@@ -292,7 +292,7 @@
                             0
                         ], max = (1 << bitsPerPixel) - 1;
                         hist = function(imageWrapper, bitsPerPixel) {
-                            !bitsPerPixel && // eslint-disable-next-line no-param-reassign
+                            bitsPerPixel || // eslint-disable-next-line no-param-reassign
                             (bitsPerPixel = 8);
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
@@ -301,14 +301,14 @@
                         return array_helper.a.maxIndex(vet);
                     }() << bitShift;
                 }(imageWrapper), targetWrapper1 = targetWrapper;
-                !targetWrapper1 && // eslint-disable-next-line no-param-reassign
+                targetWrapper1 || // eslint-disable-next-line no-param-reassign
                 (targetWrapper1 = imageWrapper);
                 for(var imageData = imageWrapper.data, length = imageData.length, targetData = targetWrapper1.data; length--;)targetData[length] = +(imageData[length] < threshold);
                 return threshold;
             } // local thresholding
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
-                for(!property && // eslint-disable-next-line no-param-reassign
+                for(property || // eslint-disable-next-line no-param-reassign
                 (property = "rad"), i = 0; i < points.length; i++)!function(newPoint) {
                     var found = !1;
                     for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
@@ -6474,7 +6474,7 @@
                                 start: start,
                                 end: start
                             }, isWhite = !this._row[start], counterPos = 0;
-                            !coderange && // console.warn('* decodeCode before length');
+                            coderange || // console.warn('* decodeCode before length');
                             (coderange = CODE_PATTERN.length);
                             for(var i = start; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
                             else {

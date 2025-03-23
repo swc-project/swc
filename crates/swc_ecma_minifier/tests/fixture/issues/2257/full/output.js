@@ -1632,7 +1632,7 @@
             if (!props && 0 !== childrenLength && (props = {
                 children: void 0
             }), props && defaultProps) for(var propName in defaultProps)void 0 === props[propName] && (props[propName] = defaultProps[propName]);
-            else !props && (props = defaultProps || {});
+            else props || (props = defaultProps || {});
             if (1 === childrenLength) props.children = children;
             else if (childrenLength > 1) {
                 for(var childArray = Array(childrenLength), i = 0; i < childrenLength; i++)childArray[i] = arguments[i + 3];
@@ -3308,7 +3308,7 @@
             setInternalState(this, {
                 bytes: arrayFill.call(Array(byteLength), 0),
                 byteLength: byteLength
-            }), !DESCRIPTORS && (this.byteLength = byteLength);
+            }), DESCRIPTORS || (this.byteLength = byteLength);
         }, $DataView = function(buffer, byteOffset, byteLength) {
             anInstance(this, $DataView, DATA_VIEW), anInstance(buffer, $ArrayBuffer, DATA_VIEW);
             var bufferLength = getInternalState(buffer).byteLength, offset = toInteger(byteOffset);
@@ -3318,7 +3318,7 @@
                 buffer: buffer,
                 byteLength: byteLength,
                 byteOffset: offset
-            }), !DESCRIPTORS && (this.buffer = buffer, this.byteLength = byteLength, this.byteOffset = offset);
+            }), DESCRIPTORS || (this.buffer = buffer, this.byteLength = byteLength, this.byteOffset = offset);
         }, DESCRIPTORS && (addGetter($ArrayBuffer, "byteLength"), addGetter($DataView, "buffer"), addGetter($DataView, "byteLength"), addGetter($DataView, "byteOffset")), redefineAll($DataView[PROTOTYPE], {
             getInt8: function(byteOffset) {
                 return get(this, 1, byteOffset)[0] << 24 >> 24;

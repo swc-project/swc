@@ -967,7 +967,7 @@
             window.attachEvent && !window.addEventListener && !supports_onhashchange && (// When the event is bound and polling starts in IE 6/7, create a hidden
             // Iframe for history handling.
             self.start = function() {
-                !iframe && (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), // Create hidden Iframe. Attempt to make Iframe as hidden as possible
+                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), // Create hidden Iframe. Attempt to make Iframe as hidden as possible
                 // by using techniques from http://www.paciellogroup.com/blog/?p=604.
                 iframe = $('<iframe tabindex="-1" title="empty"/>').hide()// When Iframe has completely loaded, initialize the history and
                 // start polling.
@@ -3606,7 +3606,7 @@
             !disabledInitially && (!jQuery.mobile.zoom.locked || !0 === unlock) && (meta.attr("content", enabledZoom), jQuery.mobile.zoom.enabled = !0, jQuery.mobile.zoom.locked = !1);
         },
         restore: function() {
-            !disabledInitially && (meta.attr("content", initialContent), jQuery.mobile.zoom.enabled = !0);
+            disabledInitially || (meta.attr("content", initialContent), jQuery.mobile.zoom.enabled = !0);
         }
     }), function($, undefined) {
         $.widget("mobile.textinput", {

@@ -2577,7 +2577,7 @@
                                     stillHasAdditiveAnimator = !0;
                                     break;
                                 }
-                                !stillHasAdditiveAnimator && (self1._additiveAnimators = null);
+                                stillHasAdditiveAnimator || (self1._additiveAnimators = null);
                             }
                             for(var i = 0; i < tracks.length; i++)tracks[i].step(self1._target, percent);
                             var onframeList = self1._onframeList;
@@ -2936,7 +2936,7 @@
             return this.__zr && this.__zr.isDarkMode() ? LIGHT_LABEL_COLOR : DARK_LABEL_COLOR;
         }, Element.prototype.getOutsideStroke = function(textFill) {
             var backgroundColor = this.__zr && this.__zr.getBackgroundColor(), colorArr = 'string' == typeof backgroundColor && parse(backgroundColor);
-            !colorArr && (colorArr = [
+            colorArr || (colorArr = [
                 255,
                 255,
                 255,
@@ -3315,7 +3315,7 @@
         return offset;
     }
     function sort(array, compare, lo, hi) {
-        !lo && (lo = 0), !hi && (hi = array.length);
+        !lo && (lo = 0), hi || (hi = array.length);
         var remaining = hi - lo;
         if (!(remaining < 2)) {
             var runLength = 0;
@@ -9357,7 +9357,7 @@
                 var isPureNumber = guessResult === BE_ORDINAL.Not; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
                 if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), (null == idxRes0.n || idxRes0.n === idxRes0.v || !isPureNumber && guessRecords[idxRes0.n] === BE_ORDINAL.Not) && (idxRes0.n = i), fulfilled(idxRes0) && guessRecords[idxRes0.n] !== BE_ORDINAL.Not) return idxRes0;
                  // [Strategy of idxRes1]: if idxRes0 not satisfied (that is, no BE_ORDINAL.Not),
-                !isPureNumber && (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
+                isPureNumber || (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), null != idxRes1.n && idxRes1.n !== idxRes1.v || (idxRes1.n = i));
             }
             function fulfilled(idxResult) {
                 return null != idxResult.v && null != idxResult.n;
@@ -12544,7 +12544,7 @@
                             'data' !== mainType && (cptQuery.mainType = mainType, cptQuery[propSuffix.toLowerCase()] = val, reserved = !0);
                         }
                     }
-                    dataKeys_1.hasOwnProperty(key) && (dataQuery[key] = val, reserved = !0), !reserved && (otherQuery[key] = val);
+                    dataKeys_1.hasOwnProperty(key) && (dataQuery[key] = val, reserved = !0), reserved || (otherQuery[key] = val);
                 });
             }
             return {
@@ -13532,7 +13532,7 @@
         var styleChanged = !1;
         if (!forceSetAll && style === (prevStyle = prevStyle || {})) return !1;
         if (forceSetAll || style.opacity !== prevStyle.opacity) {
-            !styleChanged && (flushPathDrawn(ctx, scope), styleChanged = !0);
+            styleChanged || (flushPathDrawn(ctx, scope), styleChanged = !0);
             var opacity = Math.max(Math.min(style.opacity, 1), 0);
             ctx.globalAlpha = isNaN(opacity) ? DEFAULT_COMMON_STYLE.opacity : opacity;
         }
@@ -13598,7 +13598,7 @@
         }
         el.beforeBrush && el.beforeBrush(), el.innerBeforeBrush();
         var prevEl = scope.prevEl;
-        !prevEl && (forceSetStyle = forceSetTransform = !0);
+        prevEl || (forceSetStyle = forceSetTransform = !0);
         var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
         !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : +(!m && !m1)) ? !canBatchPath && flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
@@ -17317,7 +17317,7 @@
              */ // TODO: use key to save visual to reduce memory.
         List.prototype.ensureUniqueItemVisual = function(idx, key) {
             var itemVisuals = this._itemVisuals, itemVisual = itemVisuals[idx];
-            !itemVisual && (itemVisual = itemVisuals[idx] = {});
+            itemVisual || (itemVisual = itemVisuals[idx] = {});
             var val = itemVisual[key];
             return null == val && (isArray(val = this.getVisual(key)) ? val = val.slice() : isObject$3(val) && (val = extend({}, val)), itemVisual[key] = val), val;
         }, List.prototype.setItemVisual = function(idx, key, value) {
@@ -19540,7 +19540,7 @@
             var style = el.style, text = style.text;
             if (null != text && (text += ''), !(!text || isNaN(style.x) || isNaN(style.y))) {
                 var y, lineHeight, textBaseline, textSvgEl = el.__svgEl;
-                !textSvgEl && (!function(el, key, val) {
+                textSvgEl || (!function(el, key, val) {
                     el.setAttributeNS('http://www.w3.org/XML/1998/namespace', key, val);
                 }(textSvgEl = createElement('text'), 'xml:space', 'preserve'), el.__svgEl = textSvgEl);
                 var font = style.font || DEFAULT_FONT;
@@ -20092,7 +20092,7 @@
                         var boundingRect = new BoundingRect(0, 0, 0, 0);
                         boundingRect.copy(rect), mergedRepaintRects.push(boundingRect);
                     }
-                    !full && (full = mergedRepaintRects.length >= maxRepaintRectCount);
+                    full || (full = mergedRepaintRects.length >= maxRepaintRectCount);
                 }
             }
             for(var i = this.__startIndex; i < this.__endIndex; ++i){
@@ -21429,7 +21429,7 @@
             var endLabelModel = seriesModel.getModel('endLabel');
             if (endLabelModel.get('show')) {
                 var baseAxis, isHorizontal, isBaseInversed, data_2 = seriesModel.getData(), polyline = this._polyline, endLabel = this._endLabel;
-                !endLabel && ((endLabel = this._endLabel = new ZRText({
+                endLabel || ((endLabel = this._endLabel = new ZRText({
                     z2: 200 // should be higher than item symbol
                 })).ignoreClip = !0, polyline.setTextContent(this._endLabel), polyline.disableLabelAnimation = !0); // Find last non-NaN data to display data
                 var dataIndex = function(points) {
@@ -27214,7 +27214,7 @@
                  * @private
                  * @type {Object}
                  */ var idIndexMap = this._idIndexMap;
-            !idIndexMap && (idIndexMap = this._idIndexMap = createHashMap(), /**
+            idIndexMap || (idIndexMap = this._idIndexMap = createHashMap(), /**
                      * @private
                      * @type {number}
                      */ this._idIndexMapCount = 0);
@@ -36363,7 +36363,7 @@
         if (attrOpt) {
             var elPropsInAttr = el[mainAttr], enterFrom = attrOpt.enterFrom;
             if (isInit && enterFrom) {
-                !transFromPropsInAttr && (transFromPropsInAttr = transFromProps[mainAttr] = {});
+                transFromPropsInAttr || (transFromPropsInAttr = transFromProps[mainAttr] = {});
                 for(var enterFromKeys = keys(enterFrom), i = 0; i < enterFromKeys.length; i++){
                     // `enterFrom` props are not necessarily also declared in `shape`/`style`/...,
                     // for example, `opacity` can only declared in `enterFrom` but not in `style`.
@@ -36374,13 +36374,13 @@
             if (!isInit && elPropsInAttr // Just ignore shape animation in morphing.
              && (null == morphFromEl || 'shape' !== mainAttr)) {
                 if (attrOpt.transition) {
-                    !transFromPropsInAttr && (transFromPropsInAttr = transFromProps[mainAttr] = {});
+                    transFromPropsInAttr || (transFromPropsInAttr = transFromProps[mainAttr] = {});
                     for(var transitionKeys = normalizeToArray(attrOpt.transition), i = 0; i < transitionKeys.length; i++){
                         var key = transitionKeys[i], elVal = elPropsInAttr[key];
                         checkNonStyleTansitionRefer(key, attrOpt[key], elVal), transFromPropsInAttr[key] = elVal;
                     }
                 } else if (indexOf(elOption.transition, mainAttr) >= 0) {
-                    !transFromPropsInAttr && (transFromPropsInAttr = transFromProps[mainAttr] = {});
+                    transFromPropsInAttr || (transFromPropsInAttr = transFromProps[mainAttr] = {});
                     for(var elPropsInAttrKeys = keys(elPropsInAttr), i = 0; i < elPropsInAttrKeys.length; i++){
                         var optVal, elVal1, key = elPropsInAttrKeys[i], elVal = elPropsInAttr[key];
                         optVal = attrOpt[key], elVal1 = elVal, (isArrayLike(optVal) ? optVal !== elVal1 : null != optVal && isFinite(optVal)) && (transFromPropsInAttr[key] = elVal);
@@ -36459,7 +36459,7 @@
             var transFromStyleProps, fromElStyle = (morphFromEl || el).style, enterFrom = styleOpt.enterFrom;
             if (isInit && enterFrom) {
                 var enterFromKeys = keys(enterFrom);
-                !transFromStyleProps && (transFromStyleProps = transFromProps.style = {});
+                transFromStyleProps || (transFromStyleProps = transFromProps.style = {});
                 for(var i = 0; i < enterFromKeys.length; i++){
                     var key = enterFromKeys[i]; // Do not clone, animator will perform that clone.
                     transFromStyleProps[key] = enterFrom[key];
@@ -36468,7 +36468,7 @@
             if (!isInit && fromElStyle) {
                 if (styleOpt.transition) {
                     var transitionKeys = normalizeToArray(styleOpt.transition);
-                    !transFromStyleProps && (transFromStyleProps = transFromProps.style = {});
+                    transFromStyleProps || (transFromStyleProps = transFromProps.style = {});
                     for(var i = 0; i < transitionKeys.length; i++){
                         var key = transitionKeys[i], elVal = fromElStyle[key];
                         transFromStyleProps[key] = elVal;
@@ -36476,7 +36476,7 @@
                 } else if (el.getAnimationStyleProps && indexOf(elOption.transition, 'style') >= 0) {
                     var animationProps = el.getAnimationStyleProps(), animationStyleProps = animationProps ? animationProps.style : null;
                     if (animationStyleProps) {
-                        !transFromStyleProps && (transFromStyleProps = transFromProps.style = {});
+                        transFromStyleProps || (transFromStyleProps = transFromProps.style = {});
                         for(var styleKeys = keys(styleOpt), i = 0; i < styleKeys.length; i++){
                             var key = styleKeys[i];
                             if (animationStyleProps[key]) {
@@ -39454,7 +39454,7 @@
             var yearLabel = calendarModel.getModel('yearLabel');
             if (yearLabel.get('show')) {
                 var margin = yearLabel.get('margin'), pos = yearLabel.get('position');
-                !pos && (pos = 'horizontal' !== orient ? 'top' : 'left');
+                pos || (pos = 'horizontal' !== orient ? 'top' : 'left');
                 var points = [
                     this._tlpoints[this._tlpoints.length - 1],
                     this._blpoints[0]
@@ -40218,7 +40218,7 @@
         }, DataZoomModel.prototype._makeAutoOrientByTargetAxis = function() {
             var dim; // Find the first axis
             return this.eachTargetAxis(function(axisDim) {
-                !dim && (dim = axisDim);
+                dim || (dim = axisDim);
             }, this), 'y' === dim ? 'vertical' : 'horizontal';
         }, DataZoomModel.prototype._setDefaultThrottle = function(inputRawOption) {
             if (inputRawOption.hasOwnProperty('throttle') && (this._autoThrottle = !1), this._autoThrottle) {
@@ -40322,7 +40322,7 @@
             for(var firstProxy, axisDimList = this._targetAxisInfoMap.keys(), i = 0; i < axisDimList.length; i++)for(var axisDim = axisDimList[i], axisInfo = this._targetAxisInfoMap.get(axisDim), j = 0; j < axisInfo.indexList.length; j++){
                 var proxy = this.getAxisProxy(axisDim, axisInfo.indexList[j]);
                 if (proxy.hostedBy(this)) return proxy;
-                !firstProxy && (firstProxy = proxy);
+                firstProxy || (firstProxy = proxy);
             }
              // If no hosted proxy found, still need to return a proxy.
             // This case always happens in toolbox dataZoom, where axes are all hosted by
@@ -42745,7 +42745,7 @@
             // for user to find by index.
             brushSelected.push(thisBrushSelected);
             var brushOption = brushModel.option, brushLink = brushOption.brushLink, linkedSeriesMap = [], selectedDataIndexForLink = [], rangeInfoBySeries = [], hasBrushExists = !1;
-            !brushIndex && (// Only the first throttle setting works.
+            brushIndex || (// Only the first throttle setting works.
             throttleType = brushOption.throttleType, throttleDelay = brushOption.throttleDelay);
             var areas = map(brushModel.areas, function(area) {
                 var brushType, selectors, builder = boundingRectBuilders[area.brushType], selectableArea = defaults({
@@ -45274,7 +45274,7 @@
                 -contentRect.x,
                 -contentRect.y
             ];
-            !isFirstRender && (contentPos[orientIdx] = contentGroup[xy]);
+            isFirstRender || (contentPos[orientIdx] = contentGroup[xy]);
             var containerPos = [
                 0,
                 0

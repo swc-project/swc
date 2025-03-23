@@ -1602,7 +1602,7 @@ requires: Slick.Parser
                     qsaFailExpCache[expression] = 1;
                     break querySelector;
                 } finally{
-                    !contextIsDocument && (currentId ? _context.setAttribute("id", currentId) : _context.removeAttribute("id"), context = _context);
+                    contextIsDocument || (currentId ? _context.setAttribute("id", currentId) : _context.removeAttribute("id"), context = _context);
                 }
                 if (this.starSelectsClosedQSA) for(i = 0; node = nodes[i++];)node.nodeName > "@" && !(hasOthers && uniques[this.getUID(node)]) && found.push(node);
                 else for(i = 0; node = nodes[i++];)!(hasOthers && uniques[this.getUID(node)]) && found.push(node);
@@ -3655,7 +3655,7 @@ provides: [Fx.Tween, Element.fade, Element.highlight]
         }), this;
     },
     highlight: function(start, end) {
-        !end && (end = "transparent" == (end = this.retrieve("highlight:original", this.getStyle("background-color"))) ? "#fff" : end);
+        end || (end = "transparent" == (end = this.retrieve("highlight:original", this.getStyle("background-color"))) ? "#fff" : end);
         var tween = this.get("tween");
         return tween.start("background-color", start || "#ffff88", end).chain((function() {
             this.setStyle("background-color", this.retrieve("highlight:original")), tween.callChain();
@@ -3954,7 +3954,7 @@ provides: Request
                 var encoding = this.options.encoding ? "; charset=" + this.options.encoding : "";
                 this.headers["Content-type"] = "application/x-www-form-urlencoded" + encoding;
             }
-            !url && (url = document.location.pathname);
+            url || (url = document.location.pathname);
             var trimPosition = url.lastIndexOf("/");
             trimPosition > -1 && (trimPosition = url.indexOf("#")) > -1 && (url = url.substr(0, trimPosition)), this.options.noCache && (url += (url.contains("?") ? "&" : "?") + String.uniqueID()), data && "get" == method && (url += (url.contains("?") ? "&" : "?") + data, data = null);
             var xhr = this.xhr;

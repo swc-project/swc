@@ -1787,7 +1787,7 @@
         }), shouldObserve = !0), this._watchers = [], (opts1 = this.$options).props && function(vm, propsOptions) {
             var propsData = vm.$options.propsData || {}, props = vm._props = {}, keys = vm.$options._propKeys = [], isRoot = !vm.$parent;
             // root instance props should be converted
-            !isRoot && (shouldObserve = !1);
+            isRoot || (shouldObserve = !1);
             var loop = function(key) {
                 keys.push(key);
                 var value = validateProp(key, propsOptions, propsData, vm), hyphenatedKey = hyphenate(key);
@@ -3146,7 +3146,7 @@
             el.selectedIndex !== i && (el.selectedIndex = i);
             return;
         }
-        !isMultiple && (el.selectedIndex = -1);
+        isMultiple || (el.selectedIndex = -1);
     }
     function hasNoMatchingOption(value, options) {
         return options.every(function(o) {
@@ -3261,7 +3261,7 @@
                 })) : el.style.display = value ? el.__vOriginalDisplay : 'none');
             },
             unbind: function(el, binding, vnode, oldVnode, isDestroy) {
-                !isDestroy && (el.style.display = el.__vOriginalDisplay);
+                isDestroy || (el.style.display = el.__vOriginalDisplay);
             }
         }
     }), extend(Vue.options.components, {

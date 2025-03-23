@@ -1001,7 +1001,7 @@
                     return context.displayName;
                 },
                 set: function(displayName) {
-                    !hasWarnedAboutDisplayNameOnConsumer && (warn("Setting `displayName` on Context.Consumer has no effect. You should set it directly on the context with Context.displayName = '%s'.", displayName), hasWarnedAboutDisplayNameOnConsumer = !0);
+                    hasWarnedAboutDisplayNameOnConsumer || (warn("Setting `displayName` on Context.Consumer has no effect. You should set it directly on the context with Context.displayName = '%s'.", displayName), hasWarnedAboutDisplayNameOnConsumer = !0);
                 }
             }
         }), context.Consumer = Consumer, context._currentRenderer = null, context._currentRenderer2 = null, context;

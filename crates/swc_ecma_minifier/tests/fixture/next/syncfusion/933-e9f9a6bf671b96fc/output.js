@@ -3467,7 +3467,7 @@
                         nend: ''
                     }, match = pattern.match(IntlBase.customRegex);
                     if (match) {
-                        !fractionOnly && (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
+                        fractionOnly || (nData.nlead = changeCurrencySymbol(match[1], cSymbol), nData.nend = changeCurrencySymbol(match[10], cSymbol), nData.groupPattern = match[4]);
                         var fraction = match[7];
                         if (fraction && needFraction) {
                             var fmatch = fraction.match(fractionRegex);

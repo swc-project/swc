@@ -2299,7 +2299,7 @@
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumberArray", function() {
                 return isNumberArray;
             }), /* harmony default export */ __webpack_exports__.default = function(a, b) {
-                !b && (b = []);
+                b || (b = []);
                 var i, n = a ? Math.min(b.length, a.length) : 0, c = b.slice();
                 return function(t) {
                     for(i = 0; i < n; ++i)c[i] = a[i] * (1 - t) + b[i] * t;
@@ -6689,7 +6689,7 @@
                                 before = node;
                                 break;
                             }
-                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), !before && (firstCircle = circle);
+                            _Diagram__WEBPACK_IMPORTED_MODULE_1__.circles.insert(before, circle), before || (firstCircle = circle);
                         }
                     }
                 }

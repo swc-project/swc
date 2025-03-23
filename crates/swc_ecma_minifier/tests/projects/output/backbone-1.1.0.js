@@ -824,7 +824,7 @@
         //     });
         //
         route: function(route, name, callback) {
-            !_.isRegExp(route) && (route = this._routeToRegExp(route)), _.isFunction(name) && (callback = name, name = ""), !callback && (callback = this[name]);
+            !_.isRegExp(route) && (route = this._routeToRegExp(route)), _.isFunction(name) && (callback = name, name = ""), callback || (callback = this[name]);
             var router = this;
             return Backbone.history.route(route, function(fragment) {
                 var args = router._extractParameters(route, fragment);

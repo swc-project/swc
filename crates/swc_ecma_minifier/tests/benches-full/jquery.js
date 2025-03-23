@@ -3202,7 +3202,7 @@
                         elem
                     ]), dataPriv.remove(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
                 })), // Per-property setup
-                propTween = createTween(hidden ? dataShow[prop] : 0, prop, anim), !(prop in dataShow) && (dataShow[prop] = propTween.start, hidden && (propTween.end = propTween.start, propTween.start = 0));
+                propTween = createTween(hidden ? dataShow[prop] : 0, prop, anim), prop in dataShow || (dataShow[prop] = propTween.start, !hidden || (propTween.end = propTween.start, propTween.start = 0));
             }
         ],
         prefilter: function(callback, prepend) {
@@ -3984,7 +3984,7 @@
                                 finalDataType = type;
                                 break;
                             }
-                            !firstDataType && (firstDataType = type);
+                            firstDataType || (firstDataType = type);
                         }
                         // Or just use first one
                         finalDataType = finalDataType || firstDataType;

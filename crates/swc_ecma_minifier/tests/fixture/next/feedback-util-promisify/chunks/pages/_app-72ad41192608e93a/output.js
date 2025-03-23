@@ -472,7 +472,7 @@
                         else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
                         var t1, f1, t2, f2, t3, f3, t4, f4, t5, f5, n = this.length - r;
                         if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
-                        !f && (f = "utf8");
+                        f || (f = "utf8");
                         for(var i = !1;;)switch(f){
                             case "hex":
                                 return function(e, r, t, f) {

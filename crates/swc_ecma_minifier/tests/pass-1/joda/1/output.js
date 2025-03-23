@@ -11,7 +11,7 @@
                 }
             });
             var isInit = !1;
-            !isInit && (isInit = !0);
+            isInit || (isInit = !0);
         }
     }
 ]);

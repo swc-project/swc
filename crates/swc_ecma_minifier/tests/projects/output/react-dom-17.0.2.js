@@ -2594,7 +2594,7 @@
         for(var styleProp in prefixMap)if (prefixMap.hasOwnProperty(styleProp) && styleProp in style) return prefixedEventNames[eventName] = prefixMap[styleProp];
         return eventName;
     }
-    canUseDOM && (style = document.createElement("div").style, !("AnimationEvent" in window) && (delete vendorPrefixes.animationend.animation, delete vendorPrefixes.animationiteration.animation, delete vendorPrefixes.animationstart.animation), !("TransitionEvent" in window) && delete vendorPrefixes.transitionend.transition);
+    !canUseDOM || (style = document.createElement("div").style, !("AnimationEvent" in window) && (delete vendorPrefixes.animationend.animation, delete vendorPrefixes.animationiteration.animation, delete vendorPrefixes.animationstart.animation), "TransitionEvent" in window || delete vendorPrefixes.transitionend.transition);
     var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map(), eventPriorities = new Map();
     /**
    * Turns
@@ -3799,7 +3799,7 @@
    */ function(name, func, context, a, b, c, d, e, f) {
             if (invokeGuardedCallback.apply(this, arguments), hasError) {
                 var error = clearCaughtError();
-                !hasRethrowError && (hasRethrowError = !0, rethrowError = error);
+                hasRethrowError || (hasRethrowError = !0, rethrowError = error);
             }
         }(type, listener, void 0, event), event.currentTarget = null;
     }
@@ -9625,7 +9625,7 @@
                     !didWarnAboutUpdateInRenderForAnotherComponent.has(renderingComponentName) && (didWarnAboutUpdateInRenderForAnotherComponent.add(renderingComponentName), error("Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render", getComponentName(fiber.type) || "Unknown", renderingComponentName, renderingComponentName));
                     break;
                 case 1:
-                    !didWarnAboutUpdateInRender && (error("Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state."), didWarnAboutUpdateInRender = !0);
+                    didWarnAboutUpdateInRender || (error("Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state."), didWarnAboutUpdateInRender = !0);
             }
         } // a 'shared' variable that changes when act() opens/closes in tests.
         (fiber);
@@ -10775,7 +10775,7 @@
         return null !== legacyErrorBoundariesThatAlreadyFailed && legacyErrorBoundariesThatAlreadyFailed.has(instance);
     }
     var onUncaughtError = function(error) {
-        !hasUncaughtError && (hasUncaughtError = !0, firstUncaughtError = error);
+        hasUncaughtError || (hasUncaughtError = !0, firstUncaughtError = error);
     };
     function captureCommitPhaseErrorOnRoot(rootFiber, sourceFiber, error) {
         var update = createRootErrorUpdate(rootFiber, createCapturedValue(error, sourceFiber), 1);
