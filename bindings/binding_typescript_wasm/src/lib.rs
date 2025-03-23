@@ -183,6 +183,7 @@ struct JsonDiagnostic {
 #[serde(rename_all = "camelCase")]
 struct JsonSubdiagnostic {
     message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     snippet: Option<String>,
     filename: String,
     line: usize,
