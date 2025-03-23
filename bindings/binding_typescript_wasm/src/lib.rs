@@ -5,12 +5,14 @@ use std::{
 
 use anyhow::Error;
 use js_sys::Uint8Array;
+use miette::{GraphicalReportHandler, GraphicalTheme, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
-    SourceMap, SourceMapper, GLOBALS,
+    SourceMap, GLOBALS,
 };
+use swc_error_reporters::{to_miette_diagnostic, PrettyEmitterConfig};
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
@@ -71,6 +73,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
 #[derive(Clone)]
 struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
+    reporter: GraphicalReportHandler,
     cm: Lrc<SourceMap>,
 }
 
@@ -80,6 +83,16 @@ where
 {
     let wr = JsonErrorWriter {
         errors: Default::default(),
+        reporter: GraphicalReportHandler::default().with_theme(GraphicalTheme {
+            characters: ThemeCharacters {
+                hbar: ' ',
+                vbar: ' ',
+                xbar: ' ',
+                vbar_break: ' ',
+                ..ThemeCharacters::ascii()
+            },
+            styles: ThemeStyles::none(),
+        }),
         cm,
     };
     let emitter: Box<dyn Emitter> = Box::new(wr.clone());
@@ -102,6 +115,23 @@ impl Emitter for JsonErrorWriter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
+        let snippet = {
+            let mut snippet = String::new();
+            match self.reporter.render_report(
+                &mut snippet,
+                &to_miette_diagnostic(
+                    &self.cm,
+                    &PrettyEmitterConfig {
+                        skip_filename: true,
+                    },
+                    d,
+                ),
+            ) {
+                Ok(()) => Some(snippet),
+                Err(_) => None,
+            }
+        };
+
         let children = d
             .children
             .iter()
@@ -123,11 +153,6 @@ impl Emitter for JsonErrorWriter {
             .span
             .primary_span()
             .and_then(|span| self.cm.try_lookup_char_pos(span.hi()).ok());
-
-        let snippet = d
-            .span
-            .primary_span()
-            .and_then(|span| self.cm.span_to_snippet(span).ok());
 
         let filename = start.as_ref().map(|loc| loc.file.name.to_string());
 
