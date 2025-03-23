@@ -894,7 +894,7 @@ impl VisitMut for Pure<'_> {
 
         self.merge_seq_call(e);
 
-        let can_drop_zero = !self.ctx.is_callee || !e.exprs.last().unwrap().directness_matters();
+        let can_change_this = !self.ctx.is_callee || !e.exprs.last().unwrap().directness_matters();
 
         let len = e.exprs.len();
         for (idx, e) in e.exprs.iter_mut().enumerate() {
@@ -914,7 +914,7 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
-        if !can_drop_zero && e.exprs.len() == 1 {
+        if !can_change_this && e.exprs.len() == 1 {
             e.exprs.insert(0, 0.into());
         }
 
