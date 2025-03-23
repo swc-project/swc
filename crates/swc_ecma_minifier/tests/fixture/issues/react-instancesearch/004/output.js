@@ -314,9 +314,9 @@ var _obj, isMultiIndexContext = function(widget) {
                 })
             });
         }) : [],
-        results: !resultsState ? null : Array.isArray(resultsState.results) ? resultsState.results.reduce(function(acc, result) {
+        results: resultsState ? Array.isArray(resultsState.results) ? resultsState.results.reduce(function(acc, result) {
             return swcHelpers.objectSpread({}, acc, swcHelpers.defineProperty({}, result._internalIndexId, new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(result.state), result.rawResults)));
-        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults),
+        }, {}) : new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(resultsState.state), resultsState.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

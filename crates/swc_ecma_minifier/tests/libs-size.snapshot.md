@@ -1,6 +1,6 @@
 | File | Original Size | Compressed Size | Gzipped Size |
 | --- | --- | --- | --- |
-| antd.js | 6.38 MiB | 2.06 MiB | 445.44 KiB |
+| antd.js | 6.38 MiB | 2.06 MiB | 445.43 KiB |
 | d3.js | 542.74 KiB | 261.65 KiB | 85.58 KiB |
 | echarts.js | 3.41 MiB | 978.02 KiB | 314.29 KiB |
 | jquery.js | 280.89 KiB | 87.83 KiB | 30.23 KiB |

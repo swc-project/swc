@@ -1294,7 +1294,7 @@
                 }) : "import" == (def = new AST_VarDef({
                     start: S.token,
                     name: as_symbol(sym_type),
-                    value: is("operator", "=") ? (next(), expression(!1, no_in)) : !no_in && "const" === kind ? croak("Missing initializer in const declaration") : null,
+                    value: is("operator", "=") ? (next(), expression(!1, no_in)) : no_in || "const" !== kind ? null : croak("Missing initializer in const declaration"),
                     end: prev()
                 })).name.name && croak("Unexpected token: import"), var_defs.push(def), !is("punc", ",")) break;
                 next();

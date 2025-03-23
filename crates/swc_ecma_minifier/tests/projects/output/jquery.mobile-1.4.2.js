@@ -6104,7 +6104,7 @@
             _getCreateEventData: function() {
                 return {
                     tab: this.active,
-                    panel: !this.active.length ? $() : this._getPanelForTab(this.active)
+                    panel: this.active.length ? this._getPanelForTab(this.active) : $()
                 };
             },
             _tabKeydown: function(event1) {

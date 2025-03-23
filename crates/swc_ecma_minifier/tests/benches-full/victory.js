@@ -18014,7 +18014,7 @@
                 }), tspans = text.map(function(line, i) {
                     var currentStyle = tspanValues[i].style, tspanProps = {
                         key: "".concat(id, "-key-").concat(i),
-                        x: !inline ? x : void 0,
+                        x: inline ? void 0 : x,
                         dx: inline ? dx + tspanValues[i].backgroundPadding.left : dx,
                         dy: getTSpanDy(tspanValues, calculatedProps, i),
                         textAnchor: currentStyle.textAnchor || textAnchor,
@@ -32162,7 +32162,7 @@
                             }) ? new Date(y0) : y0;
                         }(datum, i, datasets) || 0;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, datum, {
-                            _y0: !(datum._y instanceof Date) ? yOffset : yOffset ? new Date(yOffset) : datum._y,
+                            _y0: datum._y instanceof Date ? yOffset ? new Date(yOffset) : datum._y : yOffset,
                             _y1: null === datum._y ? null : datum._y instanceof Date ? new Date(+datum._y + +yOffset) : datum._y + yOffset,
                             _x1: null === datum._x ? null : datum._x instanceof Date ? new Date(+datum._x + +xOffset) : datum._x + xOffset
                         });

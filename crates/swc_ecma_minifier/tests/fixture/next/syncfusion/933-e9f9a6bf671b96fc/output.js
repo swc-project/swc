@@ -13517,7 +13517,7 @@
                         }
                         if (this.notify(constant /* destroy */ .ob, {}), this.destroyDependentModules(), (0, ej2_base /* isNullOrUndefined */ .le)(this.timeInterval) || (clearInterval(this.timeInterval), this.timeInterval = null), this.unWireEvents(), 'TEXTAREA' === this.originalElement.tagName) {
                             this.element.parentElement.insertBefore(this.valueContainer, this.element), this.valueContainer.id = this.getID(), this.valueContainer.removeAttribute('name'), (0, ej2_base /* detach */ .og)(this.element), '' !== this.originalElement.innerHTML.trim() ? (this.valueContainer.value = this.originalElement.innerHTML.trim(), this.setProperties({
-                                value: !(0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? this.initialValue : null
+                                value: (0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? null : this.initialValue
                             }, !0)) : this.valueContainer.value = this.valueContainer.defaultValue, this.element = this.valueContainer;
                             for(var i = 0; i < this.originalElement.classList.length; i++)(0, ej2_base /* addClass */ .cn)([
                                 this.element
@@ -13529,7 +13529,7 @@
                                 this.element
                             ], classes /* CLS_RTE_HIDDEN */ .je);
                         } else '' !== this.originalElement.innerHTML.trim() ? (this.element.innerHTML = this.originalElement.innerHTML.trim(), this.setProperties({
-                            value: !(0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? this.initialValue : null
+                            value: (0, ej2_base /* isNullOrUndefined */ .le)(this.initialValue) ? null : this.initialValue
                         }, !0)) : this.element.innerHTML = '';
                         if (this.placeholder && this.placeHolderWrapper && (this.placeHolderWrapper = null), !(0, ej2_base /* isNullOrUndefined */ .le)(this.cssClass)) for(var allClassName = this.cssClass.split(' '), i = 0; i < allClassName.length; i++)'' !== allClassName[i].trim() && (0, ej2_base /* removeClass */ .IV)([
                             this.element
@@ -22075,7 +22075,7 @@
                         type: extension
                     });
                     return (0, ej2_base /* extend */ .l7)(blob, {
-                        name: filename + '.' + (!(0, ej2_base /* isNullOrUndefined */ .le)(extension) ? extension : '')
+                        name: filename + '.' + ((0, ej2_base /* isNullOrUndefined */ .le)(extension) ? '' : extension)
                     }), blob;
                 }, /**
      * Method for image formatting when pasting
@@ -23117,7 +23117,7 @@
                         role: 'toolbar',
                         'aria-disabled': 'false',
                         'aria-haspopup': 'false',
-                        'aria-orientation': !this.isVertical ? 'horizontal' : 'vertical'
+                        'aria-orientation': this.isVertical ? 'vertical' : 'horizontal'
                     };
                     (0, ej2_base /* attributes */ .Y4)(this.element, ariaAttr), this.cssClass && (0, ej2_base /* addClass */ .cn)([
                         this.element
@@ -32844,7 +32844,7 @@
                         format: 'n0',
                         min: 0,
                         // eslint-disable-next-line
-                        value: '' !== brdSpcVal && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(brdSpcVal) ? parseInt(brdSpcVal, null) : 0,
+                        value: '' === brdSpcVal || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(brdSpcVal) ? 0 : parseInt(brdSpcVal, null),
                         placeholder: cellSpacing,
                         floatLabelType: 'Auto',
                         enableRtl: this.parent.enableRtl,

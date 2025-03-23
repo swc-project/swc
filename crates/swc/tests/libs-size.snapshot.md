@@ -1,6 +1,6 @@
 | File | Original Size | Compressed Size | Gzipped Size |
 | --- | --- | --- | --- |
-| antd.js | 6.38 MiB | 2.05 MiB | 444.50 KiB |
+| antd.js | 6.38 MiB | 2.05 MiB | 444.47 KiB |
 | d3.js | 542.74 KiB | 259.01 KiB | 85.06 KiB |
 | echarts.js | 3.41 MiB | 971.23 KiB | 313.32 KiB |
 | jquery.js | 280.89 KiB | 87.12 KiB | 30.15 KiB |
@@ -10,5 +10,5 @@
 | terser.js | 1.08 MiB | 444.89 KiB | 120.44 KiB |
 | three.js | 1.19 MiB | 627.93 KiB | 154.56 KiB |
 | typescript.js | 10.45 MiB | 3.17 MiB | 845.82 KiB |
-| victory.js | 2.30 MiB | 689.66 KiB | 153.66 KiB |
+| victory.js | 2.30 MiB | 689.66 KiB | 153.65 KiB |
 | vue.js | 334.13 KiB | 112.95 KiB | 41.69 KiB |
