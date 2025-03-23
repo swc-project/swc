@@ -29,6 +29,7 @@ impl Pure<'_> {
                 }
                 self.negate(&mut cond.test, true, false);
                 swap(&mut cond.cons, &mut cond.alt);
+                return;
             }
 
             Expr::Bin(BinExpr {
@@ -45,11 +46,34 @@ impl Pure<'_> {
                 op: op!("!"), arg, ..
             }) => {
                 self.make_bool_short(arg, true, ignore_return_value);
-
-                if in_bool_ctx {}
+                return;
             }
 
-            _ => (),
+            _ => return,
+        }
+
+        let cost = negate_cost(self.expr_ctx, e, in_bool_ctx, ignore_return_value);
+
+        if cost >= 0 {
+            return;
+        }
+
+        if let Expr::Bin(BinExpr {
+            op: op @ (op!("&&") | op!("||")),
+            left,
+            ..
+        }) = e
+        {
+            if ignore_return_value {
+                // Negate only left, and change operator
+                *op = match op {
+                    op!("&&") => op!("||"),
+                    op!("||") => op!("&&"),
+                    _ => unreachable!(),
+                };
+
+                self.negate(left, true, false);
+            }
         }
     }
 
