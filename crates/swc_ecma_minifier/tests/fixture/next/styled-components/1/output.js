@@ -6011,7 +6011,7 @@
                     return react.useEffect(()=>{
                         var _window, _window$matchMedia;
                         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        const media = null === (_window = window) || void 0 === _window ? void 0 : null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
+                        const media = null === (_window = window) || void 0 === _window || null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
                         function handleChange(event) {
                             setSystemColorMode(event.matches ? "night" : "day");
                         } // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

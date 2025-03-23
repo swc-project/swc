@@ -10493,7 +10493,7 @@ margin: 0 10px;\
                         return size.$dirty = !width || !height, changes && this._signal("resize", oldSize), changes;
                     }, this.onGutterResize = function(width) {
                         var gutterWidth = this.$showGutter ? width : 0;
-                        gutterWidth != this.gutterWidth && (this.$changes |= this.$updateCachedSize(!0, gutterWidth, this.$size.width, this.$size.height)), this.session.getUseWrapMode() && this.adjustWrapLimit() ? this.$loop.schedule(this.CHANGE_FULL) : this.$size.$dirty ? this.$loop.schedule(this.CHANGE_FULL) : this.$computeLayerConfig();
+                        gutterWidth != this.gutterWidth && (this.$changes |= this.$updateCachedSize(!0, gutterWidth, this.$size.width, this.$size.height)), this.session.getUseWrapMode() && this.adjustWrapLimit() || this.$size.$dirty ? this.$loop.schedule(this.CHANGE_FULL) : this.$computeLayerConfig();
                     }, this.adjustWrapLimit = function() {
                         var limit = Math.floor((this.$size.scrollerWidth - 2 * this.$padding) / this.characterWidth);
                         return this.session.adjustWrapLimit(limit, this.$showPrintMargin && this.$printMarginColumn);

@@ -735,9 +735,7 @@
                     // Since there is no way to tell _how_ a key was added, remove
                     // both plain key and camelCase key. #12786
                     // This will only penalize the array argument path.
-                    name1 = jQuery.isArray(name1) ? name1.concat(jQuery.map(name1, jQuery.camelCase)) : (name1 in thisCache) ? [
-                        name1
-                    ] : (// split the camel cased version by spaces unless a key with the spaces exists
+                    name1 = jQuery.isArray(name1) ? name1.concat(jQuery.map(name1, jQuery.camelCase)) : (name1 in thisCache) || (// split the camel cased version by spaces unless a key with the spaces exists
                     (name1 = jQuery.camelCase(name1)) in thisCache) ? [
                         name1
                     ] : name1.split(" ")).length; i < l; i++)delete thisCache[name1[i]];

@@ -6376,7 +6376,7 @@
                     for(let i = 0; i < str.length; i++)buf.writeUInt16BE(str.charCodeAt(i), 2 * i);
                     return this._createEncoderBuffer(buf);
                 }
-                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: numstr supports only digits and space") : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: printstr supports only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) ? this._createEncoderBuffer(str) : 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
+                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: numstr supports only digits and space") : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: printstr supports only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) || 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
             }, DERNode.prototype._encodeObjid = function(id, values, relative) {
                 if ('string' == typeof id) {
                     if (!values) return this.reporter.error('string objid given, but no values map found');

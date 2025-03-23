@@ -622,6 +622,26 @@ impl Optimizer<'_> {
                 )
             }
 
+            // a ? c() : b ? c() : d() => a || b ? c() : d()
+            (cons, Expr::Cond(alt)) if cons.eq_ignore_span(&*alt.cons) => {
+                report_change!("conditionals: a ? c() : b ? c() : d() => a || b ? c() : d()");
+                Some(
+                    CondExpr {
+                        span: DUMMY_SP,
+                        test: BinExpr {
+                            span: DUMMY_SP,
+                            left: test.take(),
+                            op: op!("||"),
+                            right: alt.test.take(),
+                        }
+                        .into(),
+                        cons: alt.cons.take(),
+                        alt: alt.alt.take(),
+                    }
+                    .into(),
+                )
+            }
+
             // z ? "fuji" : (condition(), "fuji");
             // =>
             // (z || condition(), "fuji");

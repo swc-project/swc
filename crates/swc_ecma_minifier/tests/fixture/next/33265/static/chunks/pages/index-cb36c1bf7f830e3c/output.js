@@ -4042,7 +4042,7 @@
                     return "$";
                     if (void 0 === values[identifier]) return match;
                     var value = "" + values[identifier];
-                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
+                    return "RepresentationID" === identifier || (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 });
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
                 var templateValues = {
