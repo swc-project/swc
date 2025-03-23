@@ -257,17 +257,32 @@ pub(crate) fn negate_cost(
             ..
         }) => {
             // We don't need to create or delete a token.
-            return 0;
+            0
         }
 
-        Expr::Bin(BinExpr {
-            op: op!("||") | op!("&&"),
-            left,
-            right,
-            ..
-        }) => {
-            negate_cost(expr_ctx, left, in_bool_ctx || is_ret_val_ignored, false)
-                + negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored)
+        Expr::Bin(expr) => {
+            let lc = negate_cost(expr_ctx, &expr.left, in_bool_ctx, is_ret_val_ignored);
+            let rc = negate_cost(expr_ctx, &expr.right, in_bool_ctx, is_ret_val_ignored);
+
+            match &*expr.right {
+                Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
+                    if *op_of_rhs == expr.op {
+                        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#precedence_and_associativity
+                        // `**` is the only right associative operator in js
+                        if !(expr.op.may_short_circuit() || expr.op == op!("**")) {
+                            return lc + rc + 2;
+                        }
+                    } else if op_of_rhs.precedence() <= expr.op.precedence()
+                        || (*op_of_rhs == op!("&&") && expr.op == op!("??"))
+                    {
+                        return lc + rc + 2;
+                    }
+
+                    lc + rc
+                }
+
+                _ => lc + rc,
+            }
         }
 
         Expr::Unary(UnaryExpr {
