@@ -232,6 +232,15 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
 
 /// This function calculates cost of negating an expression.
 ///
+/// ## Example input
+///
+/// ```js
+/// !a && foo();
+/// // is longer than (in_bool_ctx = false, is_ret_val_ignored = true)
+/// a || foo();
+/// // So it returns -1
+/// ```
+///
 /// A negative value means that it's efficient to negate the expression.
 #[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
 #[allow(clippy::let_and_return)]
