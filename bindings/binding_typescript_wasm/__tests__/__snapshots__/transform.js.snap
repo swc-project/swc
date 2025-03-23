@@ -3,12 +3,12 @@
 exports[`transform in strip-only mode should not emit 'Caused by: failed to parse' 1`] = `
 {
   "code": "InvalidSyntax",
-  "endColumn": 30,
+  "endColumn": 22,
   "endLine": 1,
   "filename": "test.ts",
   "message": "await isn't allowed in non-async function",
-  "snippet": "Promise",
-  "startColumn": 23,
+  "snippet": "await",
+  "startColumn": 17,
   "startLine": 1,
 }
 `;
