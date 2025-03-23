@@ -218,6 +218,10 @@ impl VisitMut for Pure<'_> {
         }
 
         self.optimize_arrow_body(body);
+
+        if let BlockStmtOrExpr::Expr(e) = body {
+            self.make_bool_short(e, false, false);
+        }
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
