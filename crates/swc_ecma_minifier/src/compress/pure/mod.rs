@@ -1167,6 +1167,14 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
+        v.visit_mut_children_with(self);
+
+        if let Some(init) = &mut v.init {
+            self.make_bool_short(init, false, false);
+        }
+    }
+
     fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
         self.visit_par(nodes);
     }
