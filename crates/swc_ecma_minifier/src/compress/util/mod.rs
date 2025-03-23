@@ -246,15 +246,42 @@ pub(crate) fn negate_cost(
     is_ret_val_ignored: bool,
 ) -> isize {
     if in_bool_ctx || is_ret_val_ignored {
-        if let Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) = e
-        {
+        if let Expr::Unary(UnaryExpr { op: op!("!"), .. }) = e {
             return -1;
         }
     }
 
-    match e {}
+    match e {
+        Expr::Bin(BinExpr {
+            op: op!("||") | op!("&&"),
+            left,
+            right,
+            ..
+        }) => {
+            negate_cost(
+                expr_ctx,
+                left,
+                in_bool_ctx || is_ret_val_ignored,
+                is_ret_val_ignored,
+            ) + negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored)
+        }
+
+        Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) => {
+            if let Value::Known(Type::Bool) = arg.get_type(expr_ctx) {
+                return -1;
+            }
+
+            // We need to create !!arg
+            1
+        }
+
+        _ => {
+            // We need to create !e
+            1
+        }
+    }
 }
 
 pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
