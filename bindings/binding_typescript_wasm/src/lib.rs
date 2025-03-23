@@ -139,7 +139,7 @@ impl Emitter for JsonErrorWriter {
                     span,
                 },
             ) {
-                Ok(()) => Some(snippet.trim().to_string()),
+                Ok(()) => Some(snippet),
                 Err(_) => None,
             }
         });
