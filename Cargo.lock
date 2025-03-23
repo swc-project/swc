@@ -4728,7 +4728,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "8.0.0"
+version = "8.0.1"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -4814,7 +4814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.9.0"
+version = "16.9.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5062,7 +5062,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "8.0.1"
+version = "8.0.2"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5448,7 +5448,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "10.0.1"
+version = "10.0.2"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5917,7 +5917,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "9.1.0"
+version = "9.1.1"
 dependencies = [
  "anyhow",
  "miette",
