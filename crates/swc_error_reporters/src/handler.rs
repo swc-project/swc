@@ -136,8 +136,6 @@ where
             },
         ))
     };
-    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
-    // true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, emitter);
 
     let ret = HANDLER.set(&handler, || op(&handler));
