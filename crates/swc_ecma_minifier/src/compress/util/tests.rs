@@ -265,3 +265,13 @@ fn next_31077_2() {
         -3,
     );
 }
+
+#[test]
+fn negate_cost_iterator_pattern() {
+    assert_negate_cost(
+        "!_iteratorNormalCompletion && null != _iterator.return && _iterator.return()",
+        false,
+        true,
+        -1,
+    );
+}
