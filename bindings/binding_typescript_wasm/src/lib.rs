@@ -114,25 +114,32 @@ impl Emitter for LockedWriter {
             None => None,
         };
 
-        let loc = d
+        let start = d
             .span
             .primary_span()
             .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
+
+        let end = d
+            .span
+            .primary_span()
+            .and_then(|span| self.cm.try_lookup_char_pos(span.hi()).ok());
 
         let snippet = d
             .span
             .primary_span()
             .and_then(|span| self.cm.span_to_snippet(span).ok());
 
-        let filename = loc.as_ref().map(|loc| loc.file.name.to_string());
+        let filename = start.as_ref().map(|loc| loc.file.name.to_string());
 
         let error = JsonDiagnostic {
             code: error_code.map(|s| s.to_string()),
             message: d.message[0].0.to_string(),
             snippet,
             filename,
-            line: loc.as_ref().map(|loc| loc.line),
-            column: loc.as_ref().map(|loc| loc.col_display),
+            start_line: start.as_ref().map(|loc| loc.line),
+            start_column: start.as_ref().map(|loc| loc.col_display),
+            end_line: end.as_ref().map(|loc| loc.line),
+            end_column: end.as_ref().map(|loc| loc.col_display),
             children,
         };
 
@@ -145,6 +152,7 @@ impl Emitter for LockedWriter {
 }
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 struct JsonDiagnostic {
     /// Error code
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -158,17 +166,24 @@ struct JsonDiagnostic {
     filename: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    line: Option<usize>,
+    start_line: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    column: Option<usize>,
+    start_column: Option<usize>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    end_line: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    end_column: Option<usize>,
 
     #[serde(skip_serializing_if = "Vec::is_empty")]
     children: Vec<JsonSubdiagnostic>,
 }
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 struct JsonSubdiagnostic {
     message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     snippet: Option<String>,
     filename: String,
     line: usize,
