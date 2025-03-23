@@ -280,6 +280,8 @@ impl VisitMut for Pure<'_> {
             };
             s.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
+
+        self.make_bool_short(&mut s.test, true, false);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -695,6 +697,8 @@ impl VisitMut for Pure<'_> {
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
         self.merge_else_if(s);
+
+        self.make_bool_short(&mut s.test, true, false);
     }
 
     fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
@@ -1171,5 +1175,7 @@ impl VisitMut for Pure<'_> {
         s.visit_mut_children_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
+
+        self.make_bool_short(&mut s.test, true, false);
     }
 }
