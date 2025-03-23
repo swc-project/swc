@@ -138,6 +138,8 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Convert string literals with escaped newline `'\n'` to template literal
+    /// with newline character.
     pub(super) fn reduce_escaped_newline_for_str_lit(&mut self, expr: &mut Expr) {
         if self.options.ecma < EsVersion::Es2015
             || !self.options.experimental.reduce_escaped_newline
