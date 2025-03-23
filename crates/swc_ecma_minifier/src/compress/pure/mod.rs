@@ -701,6 +701,12 @@ impl VisitMut for Pure<'_> {
         self.make_bool_short(&mut s.test, true, false);
     }
 
+    fn visit_mut_key_value_prop(&mut self, p: &mut KeyValueProp) {
+        p.visit_mut_children_with(self);
+
+        self.make_bool_short(&mut p.value, false, false);
+    }
+
     fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
         let ctx = Ctx {
             is_label_body: true,
