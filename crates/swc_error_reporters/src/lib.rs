@@ -8,7 +8,7 @@ use miette::{
     LabeledSpan, MietteError, Severity, SourceCode, SourceOffset, SourceSpan, SpanContents,
 };
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
+    errors::{Diagnostic, DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
     sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
@@ -31,6 +31,30 @@ pub struct PrettyEmitter {
 #[derive(Debug, Clone, Default)]
 pub struct PrettyEmitterConfig {
     pub skip_filename: bool,
+}
+
+pub fn to_miette_diagnostic<'a>(
+    cm: &'a SourceMap,
+    config: &'a PrettyEmitterConfig,
+    d: &'a Diagnostic,
+) -> impl 'a + miette::Diagnostic {
+    let source_code = MietteSourceCode {
+        cm,
+        skip_filename: config.skip_filename,
+    };
+
+    let children = d
+        .children
+        .iter()
+        .filter(|d| !matches!(d.level, Level::Help))
+        .map(|d| MietteSubdiagnostic { source_code, d })
+        .collect::<Vec<_>>();
+
+    MietteDiagnostic {
+        source_code,
+        d,
+        children,
+    }
 }
 
 impl PrettyEmitter {
@@ -167,23 +191,7 @@ impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
-        let source_code = MietteSourceCode {
-            cm: &self.cm,
-            skip_filename: self.config.skip_filename,
-        };
-
-        let children = d
-            .children
-            .iter()
-            .filter(|d| !matches!(d.level, Level::Help))
-            .map(|d| MietteSubdiagnostic { source_code, d })
-            .collect::<Vec<_>>();
-
-        let diagnostic = MietteDiagnostic {
-            source_code,
-            d,
-            children,
-        };
+        let diagnostic = to_miette_diagnostic(&self.cm, &self.config, d);
 
         let mut format_result = String::new();
 
@@ -203,7 +211,7 @@ impl Emitter for PrettyEmitter {
 
 struct MietteDiagnostic<'a> {
     source_code: MietteSourceCode<'a>,
-    d: &'a swc_common::errors::Diagnostic,
+    d: &'a Diagnostic,
 
     children: Vec<MietteSubdiagnostic<'a>>,
 }
