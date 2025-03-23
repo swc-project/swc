@@ -287,7 +287,7 @@ fn negate_cost_iterator_pattern_1() {
 fn negate_cost_iterator_pattern_2() {
     assert_negate_cost(
         "!_iteratorNormalCompletion && null != _iterator.return",
-        false,
+        true,
         false,
         -1,
     );
