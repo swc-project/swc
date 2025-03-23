@@ -220,11 +220,6 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
                 return true;
             }
 
-            #[cfg(feature = "debug")]
-            {
-                tracing::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(rhs, false));
-            }
-
             false
         }
     }
@@ -250,6 +245,16 @@ pub(crate) fn negate_cost(
     in_bool_ctx: bool,
     is_ret_val_ignored: bool,
 ) -> isize {
+    if in_bool_ctx || is_ret_val_ignored {
+        if let Expr::Unary(UnaryExpr {
+            op: op!("!"), arg, ..
+        }) = e
+        {
+            return -1;
+        }
+    }
+
+    match e {}
 }
 
 pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
