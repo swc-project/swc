@@ -20,3 +20,4 @@ plugin  = ["swc_cli_impl/plugin"]
 [dependencies]
 anyhow       = { workspace = true }
 swc_cli_impl = { workspace = true }
+swc_parallel = { workspace = true, features = ["chili"] }
