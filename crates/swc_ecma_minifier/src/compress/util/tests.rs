@@ -120,7 +120,7 @@ fn negate_cost_3() {
          cache[id] = null)",
         true,
         true,
-        4,
+        0,
     );
 }
 
@@ -133,6 +133,12 @@ fn negate_cost_4() {
         true,
         2,
     );
+}
+
+#[test]
+fn negate_cost_4_1() {
+    // "(!force && !this._isRebuildRequired()) && !self._buildList()",
+    assert_negate_cost("!(force || this._isRebuildRequired())", true, false, -1);
 }
 
 #[test]
@@ -257,7 +263,7 @@ fn next_31077_1() {
          this.addHackNode('BR')))",
         true,
         true,
-        0,
+        -3,
     );
 }
 
