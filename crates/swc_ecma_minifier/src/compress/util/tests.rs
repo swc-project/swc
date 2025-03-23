@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, FileName, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::ExprCtx;
+use swc_ecma_utils::{ExprCtx, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::{info, warn};
 
@@ -39,11 +39,18 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         e.visit_mut_with(&mut UnwrapParen);
 
-        let input = {
-            let mut e = e.clone();
-            e.visit_mut_with(&mut fixer(None));
-            dump(&e, true)
+        let print_expr = |mut e: Box<Expr>| {
+            if is_ret_val_ignored {
+                let mut e = e.into_stmt();
+                e.visit_mut_with(&mut fixer(None));
+                dump(&e, true)
+            } else {
+                e.visit_mut_with(&mut fixer(None));
+                dump(&e, true)
+            }
         };
+
+        let input = print_expr(e.clone());
 
         let expr_ctx = ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
@@ -55,8 +62,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
         let real = {
             let mut real = e.clone();
             negate(expr_ctx, &mut real, in_bool_ctx, is_ret_val_ignored);
-            real.visit_mut_with(&mut fixer(None));
-            dump(&real, true)
+            print_expr(real)
         };
 
         {
