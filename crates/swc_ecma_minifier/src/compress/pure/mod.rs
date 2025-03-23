@@ -633,6 +633,8 @@ impl VisitMut for Pure<'_> {
         if let Stmt::Block(body) = &mut *n.body {
             self.negate_if_terminate(&mut body.stmts, false, true);
         }
+
+        self.make_bool_short(&mut n.right, false, false);
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -645,6 +647,8 @@ impl VisitMut for Pure<'_> {
         if let Stmt::Block(body) = &mut *n.body {
             self.negate_if_terminate(&mut body.stmts, false, true);
         }
+
+        self.make_bool_short(&mut n.right, false, false);
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
