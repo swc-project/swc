@@ -2699,9 +2699,7 @@ function(global, factory) {
             }
             function ended(event) {
                 var extent;
-                if (!function(event) {
-                    event.stopImmediatePropagation();
-                }(event), event.touches) {
+                if (event.stopImmediatePropagation(), event.touches) {
                     if (event.touches.length) return;
                     touchending && clearTimeout(touchending), touchending = setTimeout(function() {
                         touchending = null;

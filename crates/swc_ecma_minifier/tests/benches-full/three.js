@@ -7121,27 +7121,14 @@ function(global, factory) {
                 depthNear: cameraVR.near,
                 depthFar: cameraVR.far
             }), _currentDepthNear = cameraVR.near, _currentDepthFar = cameraVR.far);
-            var parent = camera.parent, cameras = cameraVR.cameras;
+            var ipd, projL, projR, near, far, topFov, bottomFov, leftFov, rightFov, zOffset, xOffset, near2, far2, parent = camera.parent, cameras = cameraVR.cameras;
             updateCamera(cameraVR, parent);
             for(var i = 0; i < cameras.length; i++)updateCamera(cameras[i], parent);
              // update camera and its children
             camera.matrixWorld.copy(cameraVR.matrixWorld);
             for(var children = camera.children, _i3 = 0, l = children.length; _i3 < l; _i3++)children[_i3].updateMatrixWorld(!0);
              // update projection matrix for proper view frustum culling
-            return 2 === cameras.length ? !/**
-		 * Assumes 2 cameras that are parallel and share an X-axis, and that
-		 * the cameras' projection and world matrices have already been set.
-		 * And that near and far planes are identical for both cameras.
-		 * Visualization of this technique: https://computergraphics.stackexchange.com/a/4765
-		 */ function(camera, cameraL, cameraR) {
-                cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld);
-                var ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], rightFov = (projR[8] + 1) / projR[0], zOffset = ipd / (-leftFov + rightFov), xOffset = -(zOffset * leftFov);
-                cameraL.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale), camera.translateX(xOffset), camera.translateZ(zOffset), camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale), camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-                // the values so that the near plane's position does not change in world space,
-                // although must now be relative to the new union camera.
-                var near2 = near + zOffset, far2 = far + zOffset;
-                camera.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2);
-            }(cameraVR, cameraL, cameraR) : // assume single camera setup (AR)
+            return 2 === cameras.length ? (cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld), ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], xOffset = -((zOffset = ipd / (-(leftFov = (projL[8] - 1) / projL[0]) + (rightFov = (projR[8] + 1) / projR[0]))) * leftFov), cameraL.matrixWorld.decompose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.translateX(xOffset), cameraVR.translateZ(zOffset), cameraVR.matrixWorld.compose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.matrixWorldInverse.copy(cameraVR.matrixWorld).invert(), near2 = near + zOffset, far2 = far + zOffset, cameraVR.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2)) : // assume single camera setup (AR)
             cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -7389,11 +7376,9 @@ function(global, factory) {
         function renderObject(object, scene, camera, geometry, material, group) {
             if (object.onBeforeRender(_this, scene, camera, geometry, material, group), object.modelViewMatrix.multiplyMatrices(camera.matrixWorldInverse, object.matrixWorld), object.normalMatrix.getNormalMatrix(object.modelViewMatrix), object.isImmediateRenderObject) {
                 var program = setProgram(camera, scene, material, object);
-                state.setMaterial(material), bindingStates.reset(), function(object, program) {
-                    object.render(function(object) {
-                        _this.renderBufferImmediate(object, program);
-                    });
-                }(object, program);
+                state.setMaterial(material), bindingStates.reset(), object.render(function(object) {
+                    _this.renderBufferImmediate(object, program);
+                });
             } else _this.renderBufferDirect(camera, scene, geometry, material, object, group);
             object.onAfterRender(_this, scene, camera, geometry, material, group);
         }

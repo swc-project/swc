@@ -5,8 +5,6 @@ export class B {
     }
 }
 //// [2.ts]
-!function(x) {
-    x.then((value)=>{
-        new value.B().print();
-    });
-}(import("./0"));
+import("./0").then((value)=>{
+    new value.B().print();
+});

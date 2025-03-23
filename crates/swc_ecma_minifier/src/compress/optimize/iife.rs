@@ -12,7 +12,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
     program_data::{ProgramData, ScopeData},
-    util::{idents_captured_by, idents_used_by, make_number},
+    util::{idents_captured_by, make_number},
 };
 
 /// Methods related to the option `negate_iife`.
@@ -867,28 +867,6 @@ impl Optimizer<'_> {
 
                 Stmt::Expr(e) => match &*e.expr {
                     Expr::Await(..) => false,
-
-                    // TODO: Check if parameter is used and inline if call is not related to
-                    // parameters.
-                    Expr::Call(e) => {
-                        if e.callee.as_expr().and_then(|e| e.as_ident()).is_some() {
-                            return true;
-                        }
-
-                        let used = idents_used_by(&e.callee);
-
-                        if used.iter().all(|id| {
-                            self.data
-                                .vars
-                                .get(id)
-                                .map(|usage| usage.ref_count == 1 && usage.callee_count > 0)
-                                .unwrap_or(false)
-                        }) {
-                            return true;
-                        }
-
-                        param_ids.iter().all(|param| !used.contains(&param.to_id()))
-                    }
 
                     _ => !stmt.is_use_strict(),
                 },

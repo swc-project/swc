@@ -5506,10 +5506,11 @@
         var effects = finishedQueue.effects;
         if (finishedQueue.effects = null, null !== effects) for(var i = 0; i < effects.length; i++){
             var effect = effects[i], callback = effect.callback;
-            null !== callback && (effect.callback = null, function(callback, context) {
+            if (null !== callback) {
+                effect.callback = null;
                 if ("function" != typeof callback) throw Error("Invalid argument passed as callback. Expected a function. Instead received: " + callback);
-                callback.call(context);
-            }(callback, instance));
+                callback.call(instance);
+            }
         }
     }
     var fakeInternalInstance = {}, isArray = Array.isArray, emptyRefsObject = new React.Component().refs;
@@ -9069,10 +9070,8 @@
     appendAllChildren = function(parent, workInProgress, needsVisibilityToggle, isHidden) {
         for(// We only have the top Fiber that was created but we need recurse down its
         // children to find all the terminal nodes.
-        var node = workInProgress.child; null !== node;){
-            if (5 === node.tag || 6 === node.tag) !function(parentInstance, child) {
-                parentInstance.appendChild(child);
-            }(parent, node.stateNode);
+        var child, node = workInProgress.child; null !== node;){
+            if (5 === node.tag || 6 === node.tag) child = node.stateNode, parent.appendChild(child);
             else if (4 === node.tag) ;
             else if (null !== node.child) {
                 node.child.return = node, node = node.child;
@@ -9384,11 +9383,7 @@
             var tag = node.tag, isHost = 5 === tag || 6 === tag;
             if (isHost) {
                 var stateNode = isHost ? node.stateNode : node.stateNode.instance;
-                before ? function(parentInstance, child, beforeChild) {
-                    parentInstance.insertBefore(child, beforeChild);
-                }(parent, stateNode, before) : function(parentInstance, child) {
-                    parentInstance.appendChild(child);
-                }(parent, stateNode);
+                before ? parent.insertBefore(stateNode, before) : parent.appendChild(stateNode);
             } else if (4 === tag) ;
             else {
                 var child = node.child;
@@ -9404,7 +9399,7 @@
         // children to find all the terminal nodes.
         var currentParent, currentParentIsContainer, node = current, currentParentIsValid = !1;;){
             if (!currentParentIsValid) {
-                var container, child, parent = node.return;
+                var container, child, parentInstance, child1, parent = node.return;
                 findParent: for(;;){
                     if (null === parent) throw Error("Expected to find a host parent. This error is likely caused by a bug in React. Please file an issue.");
                     var parentStateNode = parent.stateNode;
@@ -9443,9 +9438,7 @@
                     }
                     node.sibling.return = node.return, node = node.sibling;
                 }
-            }(finishedRoot, node), currentParentIsContainer) ? (container = currentParent, child = node.stateNode, 8 === container.nodeType ? container.parentNode.removeChild(child) : container.removeChild(child)) : !function(parentInstance, child) {
-                parentInstance.removeChild(child);
-            }(currentParent, node.stateNode); // Don't visit children because we already visited them.
+            }(finishedRoot, node), currentParentIsContainer) ? (container = currentParent, child = node.stateNode, 8 === container.nodeType ? container.parentNode.removeChild(child) : container.removeChild(child)) : (parentInstance = currentParent, child1 = node.stateNode, parentInstance.removeChild(child1)); // Don't visit children because we already visited them.
             else if (4 === node.tag) {
                 if (null !== node.child) {
                     // When we go into a portal, it becomes the parent to remove from.

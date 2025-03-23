@@ -15336,7 +15336,7 @@
              */ ECharts.prototype.getViewOfSeriesModel = function(seriesModel) {
             return this._chartsMap[seriesModel.__viewId];
         }, ECharts.prototype._initEvents = function() {
-            var _this = this;
+            var messageCenter, ecIns, api, _this = this;
             each(MOUSE_EVENT_NAMES, function(eveName) {
                 var handler = function(e) {
                     var params, ecModel = _this.getModel(), el = e.target, isGlobalOut = 'globalout' === eveName;
@@ -15381,12 +15381,10 @@
                 _this._messageCenter.on(eventType, function(event) {
                     this.trigger(eventType, event);
                 }, _this);
-            }), function(messageCenter, ecIns, api) {
-                messageCenter.on('selectchanged', function(params) {
-                    var ecModel = api.getModel();
-                    params.isFromClick ? (handleSeriesLegacySelectEvents('map', 'selectchanged', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'selectchanged', ecIns, ecModel, params)) : 'select' === params.fromAction ? (handleSeriesLegacySelectEvents('map', 'selected', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'selected', ecIns, ecModel, params)) : 'unselect' === params.fromAction && (handleSeriesLegacySelectEvents('map', 'unselected', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'unselected', ecIns, ecModel, params));
-                });
-            }(this._messageCenter, this, this._api);
+            }), messageCenter = this._messageCenter, ecIns = this, api = this._api, messageCenter.on('selectchanged', function(params) {
+                var ecModel = api.getModel();
+                params.isFromClick ? (handleSeriesLegacySelectEvents('map', 'selectchanged', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'selectchanged', ecIns, ecModel, params)) : 'select' === params.fromAction ? (handleSeriesLegacySelectEvents('map', 'selected', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'selected', ecIns, ecModel, params)) : 'unselect' === params.fromAction && (handleSeriesLegacySelectEvents('map', 'unselected', ecIns, ecModel, params), handleSeriesLegacySelectEvents('pie', 'unselected', ecIns, ecModel, params));
+            });
         }, ECharts.prototype.isDisposed = function() {
             return this._disposed;
         }, ECharts.prototype.clear = function() {
@@ -19496,10 +19494,8 @@
         brush: function(el) {
             var style = el.style, image = style.image;
             if (image instanceof HTMLImageElement ? image = image.src : image instanceof HTMLCanvasElement && (image = image.toDataURL()), image) {
-                var x = style.x || 0, y = style.y || 0, dw = style.width, dh = style.height, svgEl = el.__svgEl;
-                svgEl || (el.__svgEl = svgEl = createElement('image')), image !== el.__imageSrc && (!function(el, key, val) {
-                    el.setAttributeNS('http://www.w3.org/1999/xlink', key, val);
-                }(svgEl, 'href', image), el.__imageSrc = image), attr(svgEl, 'width', dw + ''), attr(svgEl, 'height', dh + ''), attr(svgEl, 'x', x + ''), attr(svgEl, 'y', y + ''), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
+                var el1, val, x = style.x || 0, y = style.y || 0, dw = style.width, dh = style.height, svgEl = el.__svgEl;
+                svgEl || (el.__svgEl = svgEl = createElement('image')), image !== el.__imageSrc && (el1 = svgEl, val = image, el1.setAttributeNS('http://www.w3.org/1999/xlink', 'href', val), el.__imageSrc = image), attr(svgEl, 'width', dw + ''), attr(svgEl, 'height', dh + ''), attr(svgEl, 'x', x + ''), attr(svgEl, 'y', y + ''), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
             }
         }
     }, TEXT_ALIGN_TO_ANCHOR = {
@@ -19512,9 +19508,7 @@
             var style = el.style, text = style.text;
             if (null != text && (text += ''), !(!text || isNaN(style.x) || isNaN(style.y))) {
                 var y, lineHeight, textBaseline, textSvgEl = el.__svgEl;
-                textSvgEl || (!function(el, key, val) {
-                    el.setAttributeNS('http://www.w3.org/XML/1998/namespace', key, val);
-                }(textSvgEl = createElement('text'), 'xml:space', 'preserve'), el.__svgEl = textSvgEl);
+                textSvgEl || ((textSvgEl = createElement('text')).setAttributeNS('http://www.w3.org/XML/1998/namespace', 'xml:space', 'preserve'), el.__svgEl = textSvgEl);
                 var font = style.font || DEFAULT_FONT;
                 textSvgEl.style.font = font, textSvgEl.textContent = text, bindStyle(textSvgEl, style, el), setTransform(textSvgEl, el.transform);
                 var x = style.x || 0, y1 = (y = style.y || 0, lineHeight = getLineHeight(font), 'top' === (textBaseline = style.textBaseline) ? y += lineHeight / 2 : 'bottom' === textBaseline && (y -= lineHeight / 2), y), textAlign = TEXT_ALIGN_TO_ANCHOR[style.textAlign] || style.textAlign;
@@ -30648,10 +30642,10 @@
     }(SeriesModel);
     function funnelLayout(ecModel, api) {
         ecModel.eachSeriesByType('funnel', function(seriesModel) {
-            var data = seriesModel.getData(), valueDim = data.mapDimension('value'), sort = seriesModel.get('sort'), viewRect = getLayoutRect(seriesModel.getBoxLayoutParams(), {
+            var orient, data = seriesModel.getData(), valueDim = data.mapDimension('value'), sort = seriesModel.get('sort'), viewRect = getLayoutRect(seriesModel.getBoxLayoutParams(), {
                 width: api.getWidth(),
                 height: api.getHeight()
-            }), orient = seriesModel.get('orient'), viewWidth = viewRect.width, viewHeight = viewRect.height, indices = function(data, sort) {
+            }), orient1 = seriesModel.get('orient'), viewWidth = viewRect.width, viewHeight = viewRect.height, indices = function(data, sort) {
                 for(var valueDim = data.mapDimension('value'), valueArr = data.mapArray(valueDim, function(val) {
                     return val;
                 }), indices = [], isAscending = 'ascending' === sort, i = 0, len = data.count(); i < len; i++)indices[i] = i;
@@ -30659,7 +30653,7 @@
                 return 'function' == typeof sort ? indices.sort(sort) : 'none' !== sort && indices.sort(function(a, b) {
                     return isAscending ? valueArr[a] - valueArr[b] : valueArr[b] - valueArr[a];
                 }), indices;
-            }(data, sort), x = viewRect.x, y = viewRect.y, sizeExtent = 'horizontal' === orient ? [
+            }(data, sort), x = viewRect.x, y = viewRect.y, sizeExtent = 'horizontal' === orient1 ? [
                 parsePercent$1(seriesModel.get('minSize'), viewHeight),
                 parsePercent$1(seriesModel.get('maxSize'), viewHeight)
             ] : [
@@ -30667,9 +30661,9 @@
                 parsePercent$1(seriesModel.get('maxSize'), viewWidth)
             ], dataExtent = data.getDataExtent(valueDim), min = seriesModel.get('min'), max = seriesModel.get('max');
             null == min && (min = Math.min(dataExtent[0], 0)), null == max && (max = dataExtent[1]);
-            var funnelAlign = seriesModel.get('funnelAlign'), gap = seriesModel.get('gap'), itemSize = (('horizontal' === orient ? viewWidth : viewHeight) - gap * (data.count() - 1)) / data.count(), getLinePoints = function(idx, offset) {
+            var funnelAlign = seriesModel.get('funnelAlign'), gap = seriesModel.get('gap'), itemSize = (('horizontal' === orient1 ? viewWidth : viewHeight) - gap * (data.count() - 1)) / data.count(), getLinePoints = function(idx, offset) {
                 // End point index is data.count() and we assign it 0
-                if ('horizontal' === orient) {
+                if ('horizontal' === orient1) {
                     var x0, itemHeight = linearMap(data.get(valueDim, idx) || 0, [
                         min,
                         max
@@ -30721,10 +30715,10 @@
                 ];
             };
             'ascending' === sort && (// From bottom to top
-            itemSize = -itemSize, gap = -gap, 'horizontal' === orient ? x += viewWidth : y += viewHeight, indices = indices.reverse());
+            itemSize = -itemSize, gap = -gap, 'horizontal' === orient1 ? x += viewWidth : y += viewHeight, indices = indices.reverse());
             for(var i = 0; i < indices.length; i++){
                 var idx = indices[i], nextIdx = indices[i + 1], itemModel = data.getItemModel(idx);
-                if ('horizontal' === orient) {
+                if ('horizontal' === orient1) {
                     var width = itemModel.get([
                         'itemStyle',
                         'width'
@@ -30746,58 +30740,55 @@
                     });
                 }
             }
-            !function(data) {
-                var orient = data.hostModel.get('orient');
-                data.each(function(idx) {
-                    var textAlign, textX, textY, linePoints, itemModel = data.getItemModel(idx), labelPosition = itemModel.getModel('label').get('position'), labelLineModel = itemModel.getModel('labelLine'), layout = data.getItemLayout(idx), points = layout.points, isLabelInside = 'inner' === labelPosition || 'inside' === labelPosition || 'center' === labelPosition || 'insideLeft' === labelPosition || 'insideRight' === labelPosition;
-                    if (isLabelInside) 'insideLeft' === labelPosition ? (textX = (points[0][0] + points[3][0]) / 2 + 5, textY = (points[0][1] + points[3][1]) / 2, textAlign = 'left') : 'insideRight' === labelPosition ? (textX = (points[1][0] + points[2][0]) / 2 - 5, textY = (points[1][1] + points[2][1]) / 2, textAlign = 'right') : (textX = (points[0][0] + points[1][0] + points[2][0] + points[3][0]) / 4, textY = (points[0][1] + points[1][1] + points[2][1] + points[3][1]) / 4, textAlign = 'center'), linePoints = [
+            orient = data.hostModel.get('orient'), data.each(function(idx) {
+                var textAlign, textX, textY, linePoints, itemModel = data.getItemModel(idx), labelPosition = itemModel.getModel('label').get('position'), labelLineModel = itemModel.getModel('labelLine'), layout = data.getItemLayout(idx), points = layout.points, isLabelInside = 'inner' === labelPosition || 'inside' === labelPosition || 'center' === labelPosition || 'insideLeft' === labelPosition || 'insideRight' === labelPosition;
+                if (isLabelInside) 'insideLeft' === labelPosition ? (textX = (points[0][0] + points[3][0]) / 2 + 5, textY = (points[0][1] + points[3][1]) / 2, textAlign = 'left') : 'insideRight' === labelPosition ? (textX = (points[1][0] + points[2][0]) / 2 - 5, textY = (points[1][1] + points[2][1]) / 2, textAlign = 'right') : (textX = (points[0][0] + points[1][0] + points[2][0] + points[3][0]) / 4, textY = (points[0][1] + points[1][1] + points[2][1] + points[3][1]) / 4, textAlign = 'center'), linePoints = [
+                    [
+                        textX,
+                        textY
+                    ],
+                    [
+                        textX,
+                        textY
+                    ]
+                ];
+                else {
+                    var x1 = void 0, y1 = void 0, x2 = void 0, y2 = void 0, labelLineLen = labelLineModel.get('length');
+                    'vertical' === orient && [
+                        'top',
+                        'bottom'
+                    ].indexOf(labelPosition) > -1 && (labelPosition = 'left', console.warn('Position error: Funnel chart on vertical orient dose not support top and bottom.')), 'horizontal' === orient && [
+                        'left',
+                        'right'
+                    ].indexOf(labelPosition) > -1 && (labelPosition = 'bottom', console.warn('Position error: Funnel chart on horizontal orient dose not support left and right.')), 'left' === labelPosition ? (// Left side
+                    x1 = (points[3][0] + points[0][0]) / 2, y1 = (points[3][1] + points[0][1]) / 2, textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right') : 'right' === labelPosition ? (// Right side
+                    x1 = (points[1][0] + points[2][0]) / 2, y1 = (points[1][1] + points[2][1]) / 2, textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'left') : 'top' === labelPosition ? (// Top side
+                    x1 = (points[3][0] + points[0][0]) / 2, textY = (y2 = (y1 = (points[3][1] + points[0][1]) / 2) - labelLineLen) - 5, textAlign = 'center') : 'bottom' === labelPosition ? (// Bottom side
+                    x1 = (points[1][0] + points[2][0]) / 2, textY = (y2 = (y1 = (points[1][1] + points[2][1]) / 2) + labelLineLen) + 5, textAlign = 'center') : 'rightTop' === labelPosition ? (// RightTop side
+                    x1 = 'horizontal' === orient ? points[3][0] : points[1][0], y1 = 'horizontal' === orient ? points[3][1] : points[1][1], 'horizontal' === orient ? (textY = (y2 = y1 - labelLineLen) - 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'top')) : 'rightBottom' === labelPosition ? (// RightBottom side
+                    x1 = points[2][0], y1 = points[2][1], 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'bottom')) : 'leftTop' === labelPosition ? (// LeftTop side
+                    x1 = points[0][0], y1 = 'horizontal' === orient ? points[0][1] : points[1][1], 'horizontal' === orient ? (textY = (y2 = y1 - labelLineLen) - 5, textAlign = 'center') : (textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right')) : 'leftBottom' === labelPosition ? (// LeftBottom side
+                    x1 = 'horizontal' === orient ? points[1][0] : points[3][0], y1 = 'horizontal' === orient ? points[1][1] : points[2][1], 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right')) : (// Right side or Bottom side
+                    x1 = (points[1][0] + points[2][0]) / 2, y1 = (points[1][1] + points[2][1]) / 2, 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'left')), 'horizontal' === orient ? textX = x2 = x1 : textY = y2 = y1, linePoints = [
                         [
-                            textX,
-                            textY
+                            x1,
+                            y1
                         ],
                         [
-                            textX,
-                            textY
+                            x2,
+                            y2
                         ]
                     ];
-                    else {
-                        var x1 = void 0, y1 = void 0, x2 = void 0, y2 = void 0, labelLineLen = labelLineModel.get('length');
-                        'vertical' === orient && [
-                            'top',
-                            'bottom'
-                        ].indexOf(labelPosition) > -1 && (labelPosition = 'left', console.warn('Position error: Funnel chart on vertical orient dose not support top and bottom.')), 'horizontal' === orient && [
-                            'left',
-                            'right'
-                        ].indexOf(labelPosition) > -1 && (labelPosition = 'bottom', console.warn('Position error: Funnel chart on horizontal orient dose not support left and right.')), 'left' === labelPosition ? (// Left side
-                        x1 = (points[3][0] + points[0][0]) / 2, y1 = (points[3][1] + points[0][1]) / 2, textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right') : 'right' === labelPosition ? (// Right side
-                        x1 = (points[1][0] + points[2][0]) / 2, y1 = (points[1][1] + points[2][1]) / 2, textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'left') : 'top' === labelPosition ? (// Top side
-                        x1 = (points[3][0] + points[0][0]) / 2, textY = (y2 = (y1 = (points[3][1] + points[0][1]) / 2) - labelLineLen) - 5, textAlign = 'center') : 'bottom' === labelPosition ? (// Bottom side
-                        x1 = (points[1][0] + points[2][0]) / 2, textY = (y2 = (y1 = (points[1][1] + points[2][1]) / 2) + labelLineLen) + 5, textAlign = 'center') : 'rightTop' === labelPosition ? (// RightTop side
-                        x1 = 'horizontal' === orient ? points[3][0] : points[1][0], y1 = 'horizontal' === orient ? points[3][1] : points[1][1], 'horizontal' === orient ? (textY = (y2 = y1 - labelLineLen) - 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'top')) : 'rightBottom' === labelPosition ? (// RightBottom side
-                        x1 = points[2][0], y1 = points[2][1], 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'bottom')) : 'leftTop' === labelPosition ? (// LeftTop side
-                        x1 = points[0][0], y1 = 'horizontal' === orient ? points[0][1] : points[1][1], 'horizontal' === orient ? (textY = (y2 = y1 - labelLineLen) - 5, textAlign = 'center') : (textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right')) : 'leftBottom' === labelPosition ? (// LeftBottom side
-                        x1 = 'horizontal' === orient ? points[1][0] : points[3][0], y1 = 'horizontal' === orient ? points[1][1] : points[2][1], 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 - labelLineLen) - 5, textAlign = 'right')) : (// Right side or Bottom side
-                        x1 = (points[1][0] + points[2][0]) / 2, y1 = (points[1][1] + points[2][1]) / 2, 'horizontal' === orient ? (textY = (y2 = y1 + labelLineLen) + 5, textAlign = 'center') : (textX = (x2 = x1 + labelLineLen) + 5, textAlign = 'left')), 'horizontal' === orient ? textX = x2 = x1 : textY = y2 = y1, linePoints = [
-                            [
-                                x1,
-                                y1
-                            ],
-                            [
-                                x2,
-                                y2
-                            ]
-                        ];
-                    }
-                    layout.label = {
-                        linePoints: linePoints,
-                        x: textX,
-                        y: textY,
-                        verticalAlign: 'middle',
-                        textAlign: textAlign,
-                        inside: isLabelInside
-                    };
-                });
-            }(data);
+                }
+                layout.label = {
+                    linePoints: linePoints,
+                    x: textX,
+                    y: textY,
+                    verticalAlign: 'middle',
+                    textAlign: textAlign,
+                    inside: isLabelInside
+                };
+            });
         });
     }
     var ParallelView = /** @class */ function(_super) {
@@ -36818,12 +36809,10 @@
         // child (otherwise the total indicies of the children array have to be modified).
         // User can remove a single child by set its `ignore` as `true`.
         function(api, el, dataIndex, elOption, seriesModel, morphPreparation) {
-            var newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
+            var context, newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
             if (newLen || byName || notMerge) {
                 if (byName) {
-                    !function(context) {
-                        new DataDiffer(context.oldChildren, context.newChildren, getKey, getKey, context).add(processAddUpdate).update(processAddUpdate).remove(processRemove).execute();
-                    }({
+                    new DataDiffer((context = {
                         api: api,
                         oldChildren: el.children() || [],
                         newChildren: newChildren || [],
@@ -36831,7 +36820,7 @@
                         seriesModel: seriesModel,
                         group: el,
                         morphPreparation: morphPreparation
-                    });
+                    }).oldChildren, context.newChildren, getKey, getKey, context).add(processAddUpdate).update(processAddUpdate).remove(processRemove).execute();
                     return;
                 }
                 notMerge && el.removeAll(); // Mapping children of a group simply by index, which
@@ -37984,26 +37973,24 @@
                         }
                     }
                 }
-            }), result.seriesInvolved && function(result, ecModel) {
-                // Prepare data for axis trigger
-                ecModel.eachSeries(function(seriesModel) {
-                    // Notice this case: this coordSys is `cartesian2D` but not `grid`.
-                    var coordSys = seriesModel.coordinateSystem, seriesTooltipTrigger = seriesModel.get([
-                        'tooltip',
-                        'trigger'
-                    ], !0), seriesTooltipShow = seriesModel.get([
-                        'tooltip',
-                        'show'
-                    ], !0);
-                    coordSys && 'none' !== seriesTooltipTrigger && !1 !== seriesTooltipTrigger && 'item' !== seriesTooltipTrigger && !1 !== seriesTooltipShow && !1 !== seriesModel.get([
-                        'axisPointer',
-                        'show'
-                    ], !0) && each(result.coordSysAxesInfo[makeKey(coordSys.model)], function(axisInfo) {
-                        var axis = axisInfo.axis;
-                        coordSys.getAxis(axis.dim) === axis && (axisInfo.seriesModels.push(seriesModel), null == axisInfo.seriesDataCount && (axisInfo.seriesDataCount = 0), axisInfo.seriesDataCount += seriesModel.getData().count());
-                    });
+            }), result.seriesInvolved && // Prepare data for axis trigger
+            ecModel.eachSeries(function(seriesModel) {
+                // Notice this case: this coordSys is `cartesian2D` but not `grid`.
+                var coordSys = seriesModel.coordinateSystem, seriesTooltipTrigger = seriesModel.get([
+                    'tooltip',
+                    'trigger'
+                ], !0), seriesTooltipShow = seriesModel.get([
+                    'tooltip',
+                    'show'
+                ], !0);
+                coordSys && 'none' !== seriesTooltipTrigger && !1 !== seriesTooltipTrigger && 'item' !== seriesTooltipTrigger && !1 !== seriesTooltipShow && !1 !== seriesModel.get([
+                    'axisPointer',
+                    'show'
+                ], !0) && each(result.coordSysAxesInfo[makeKey(coordSys.model)], function(axisInfo) {
+                    var axis = axisInfo.axis;
+                    coordSys.getAxis(axis.dim) === axis && (axisInfo.seriesModels.push(seriesModel), null == axisInfo.seriesDataCount && (axisInfo.seriesDataCount = 0), axisInfo.seriesDataCount += seriesModel.getData().count());
                 });
-            }(result, ecModel), result);
+            }), result);
         }), registers.registerAction({
             type: 'updateAxisPointer',
             event: 'updateAxisPointer',
@@ -40589,47 +40576,43 @@
         }
     }, installed = !1;
     function installCommon(registers) {
-        installed || (installed = !0, registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, dataZoomProcessor), function(registers) {
-            registers.registerAction('dataZoom', function(payload, ecModel) {
-                each(/**
+        installed || (installed = !0, registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, dataZoomProcessor), registers.registerAction('dataZoom', function(payload, ecModel) {
+            each(/**
      * If two dataZoomModels has the same axis controlled, we say that they are 'linked'.
      * This function finds all linked dataZoomModels start from the given payload.
      */ function(ecModel, payload) {
-                    // Key: `DataZoomAxisDimension`
-                    var foundNewLink, axisRecords = createHashMap(), effectedModels = [], effectedModelMap = createHashMap();
-                    ecModel.eachComponent({
-                        mainType: 'dataZoom',
-                        query: payload
-                    }, function(dataZoomModel) {
-                        effectedModelMap.get(dataZoomModel.uid) || addToEffected(dataZoomModel);
-                    }); // Start from the given dataZoomModels, travel the graph to find
-                    do foundNewLink = !1, ecModel.eachComponent('dataZoom', processSingle);
-                    while (foundNewLink)
-                    function processSingle(dataZoomModel) {
-                        var isLink;
-                        !effectedModelMap.get(dataZoomModel.uid) && (isLink = !1, dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
-                            var axisIdxArr = axisRecords.get(axisDim);
-                            axisIdxArr && axisIdxArr[axisIndex] && (isLink = !0);
-                        }), isLink) && (addToEffected(dataZoomModel), foundNewLink = !0);
-                    }
-                    function addToEffected(dataZoom) {
-                        effectedModelMap.set(dataZoom.uid, !0), effectedModels.push(dataZoom), function(dataZoomModel) {
-                            dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
-                                (axisRecords.get(axisDim) || axisRecords.set(axisDim, []))[axisIndex] = !0;
-                            });
-                        }(dataZoom);
-                    }
-                    return effectedModels;
-                }(ecModel, payload), function(dataZoomModel) {
-                    dataZoomModel.setRawRange({
-                        start: payload.start,
-                        end: payload.end,
-                        startValue: payload.startValue,
-                        endValue: payload.endValue
+                // Key: `DataZoomAxisDimension`
+                var foundNewLink, axisRecords = createHashMap(), effectedModels = [], effectedModelMap = createHashMap();
+                ecModel.eachComponent({
+                    mainType: 'dataZoom',
+                    query: payload
+                }, function(dataZoomModel) {
+                    effectedModelMap.get(dataZoomModel.uid) || addToEffected(dataZoomModel);
+                }); // Start from the given dataZoomModels, travel the graph to find
+                do foundNewLink = !1, ecModel.eachComponent('dataZoom', processSingle);
+                while (foundNewLink)
+                function processSingle(dataZoomModel) {
+                    var isLink;
+                    !effectedModelMap.get(dataZoomModel.uid) && (isLink = !1, dataZoomModel.eachTargetAxis(function(axisDim, axisIndex) {
+                        var axisIdxArr = axisRecords.get(axisDim);
+                        axisIdxArr && axisIdxArr[axisIndex] && (isLink = !0);
+                    }), isLink) && (addToEffected(dataZoomModel), foundNewLink = !0);
+                }
+                function addToEffected(dataZoom) {
+                    effectedModelMap.set(dataZoom.uid, !0), effectedModels.push(dataZoom), dataZoom.eachTargetAxis(function(axisDim, axisIndex) {
+                        (axisRecords.get(axisDim) || axisRecords.set(axisDim, []))[axisIndex] = !0;
                     });
+                }
+                return effectedModels;
+            }(ecModel, payload), function(dataZoomModel) {
+                dataZoomModel.setRawRange({
+                    start: payload.start,
+                    end: payload.end,
+                    startValue: payload.startValue,
+                    endValue: payload.endValue
                 });
             });
-        }(registers), registers.registerSubTypeDefaulter('dataZoom', function() {
+        }), registers.registerSubTypeDefaulter('dataZoom', function() {
             // Default 'slider' when no type specified.
             return 'slider';
         }));
@@ -41598,23 +41581,17 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(DataZoomFeature, _super), DataZoomFeature.prototype.render = function(featureModel, ecModel, api, payload) {
-            this._brushController || (this._brushController = new BrushController(api.getZr()), this._brushController.on('brush', bind(this._onBrush, this)).mount()), function(featureModel, ecModel, view, payload, api) {
-                var zoomActive = view._isZoomActive;
-                payload && 'takeGlobalCursor' === payload.type && (zoomActive = 'dataZoomSelect' === payload.key && payload.dataZoomSelectActive), view._isZoomActive = zoomActive, featureModel.setIconStatus('zoom', zoomActive ? 'emphasis' : 'normal');
-                var panels = new BrushTargetManager(makeAxisFinder(featureModel), ecModel, {
-                    include: [
-                        'grid'
-                    ]
-                }).makePanelOpts(api, function(targetInfo) {
-                    return targetInfo.xAxisDeclared && !targetInfo.yAxisDeclared ? 'lineX' : !targetInfo.xAxisDeclared && targetInfo.yAxisDeclared ? 'lineY' : 'rect';
-                });
-                view._brushController.setPanels(panels).enableBrush(!!zoomActive && !!panels.length && {
-                    brushType: 'auto',
-                    brushStyle: featureModel.getModel('brushStyle').getItemStyle()
-                });
-            }(featureModel, ecModel, this, payload, api), function(featureModel, ecModel) {
-                featureModel.setIconStatus('back', getStoreSnapshots(ecModel).length > 1 ? 'emphasis' : 'normal');
-            }(featureModel, ecModel);
+            var zoomActive, panels;
+            this._brushController || (this._brushController = new BrushController(api.getZr()), this._brushController.on('brush', bind(this._onBrush, this)).mount()), zoomActive = this._isZoomActive, payload && 'takeGlobalCursor' === payload.type && (zoomActive = 'dataZoomSelect' === payload.key && payload.dataZoomSelectActive), this._isZoomActive = zoomActive, featureModel.setIconStatus('zoom', zoomActive ? 'emphasis' : 'normal'), panels = new BrushTargetManager(makeAxisFinder(featureModel), ecModel, {
+                include: [
+                    'grid'
+                ]
+            }).makePanelOpts(api, function(targetInfo) {
+                return targetInfo.xAxisDeclared && !targetInfo.yAxisDeclared ? 'lineX' : !targetInfo.xAxisDeclared && targetInfo.yAxisDeclared ? 'lineY' : 'rect';
+            }), this._brushController.setPanels(panels).enableBrush(!!zoomActive && !!panels.length && {
+                brushType: 'auto',
+                brushStyle: featureModel.getModel('brushStyle').getItemStyle()
+            }), featureModel.setIconStatus('back', getStoreSnapshots(ecModel).length > 1 ? 'emphasis' : 'normal');
         }, DataZoomFeature.prototype.onclick = function(ecModel, api, type) {
             handlers$1[type].call(this);
         }, DataZoomFeature.prototype.remove = function(ecModel, api) {
@@ -45354,59 +45331,21 @@
         }, ScrollableLegendView.type = 'legend.scroll', ScrollableLegendView;
     }(LegendView);
     function install$I(registers) {
-        use(install$H), registers.registerComponentModel(ScrollableLegendModel), registers.registerComponentView(ScrollableLegendView), /*
-    * Licensed to the Apache Software Foundation (ASF) under one
-    * or more contributor license agreements.  See the NOTICE file
-    * distributed with this work for additional information
-    * regarding copyright ownership.  The ASF licenses this file
-    * to you under the Apache License, Version 2.0 (the
-    * "License"); you may not use this file except in compliance
-    * with the License.  You may obtain a copy of the License at
-    *
-    *   http://www.apache.org/licenses/LICENSE-2.0
-    *
-    * Unless required by applicable law or agreed to in writing,
-    * software distributed under the License is distributed on an
-    * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    * KIND, either express or implied.  See the License for the
-    * specific language governing permissions and limitations
-    * under the License.
-    */ /**
-     * AUTO-GENERATED FILE. DO NOT MODIFY.
-     */ /*
-    * Licensed to the Apache Software Foundation (ASF) under one
-    * or more contributor license agreements.  See the NOTICE file
-    * distributed with this work for additional information
-    * regarding copyright ownership.  The ASF licenses this file
-    * to you under the Apache License, Version 2.0 (the
-    * "License"); you may not use this file except in compliance
-    * with the License.  You may obtain a copy of the License at
-    *
-    *   http://www.apache.org/licenses/LICENSE-2.0
-    *
-    * Unless required by applicable law or agreed to in writing,
-    * software distributed under the License is distributed on an
-    * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    * KIND, either express or implied.  See the License for the
-    * specific language governing permissions and limitations
-    * under the License.
-    */ function(registers) {
-            /**
+        use(install$H), registers.registerComponentModel(ScrollableLegendModel), registers.registerComponentView(ScrollableLegendView), /**
          * @event legendScroll
          * @type {Object}
          * @property {string} type 'legendScroll'
          * @property {string} scrollDataIndex
          */ registers.registerAction('legendScroll', 'legendscroll', function(payload, ecModel) {
-                var scrollDataIndex = payload.scrollDataIndex;
-                null != scrollDataIndex && ecModel.eachComponent({
-                    mainType: 'legend',
-                    subType: 'scroll',
-                    query: payload
-                }, function(legendModel) {
-                    legendModel.setScrollDataIndex(scrollDataIndex);
-                });
+            var scrollDataIndex = payload.scrollDataIndex;
+            null != scrollDataIndex && ecModel.eachComponent({
+                mainType: 'legend',
+                subType: 'scroll',
+                query: payload
+            }, function(legendModel) {
+                legendModel.setScrollDataIndex(scrollDataIndex);
             });
-        }(registers);
+        });
     }
     var InsideZoomModel = /** @class */ function(_super) {
         function InsideZoomModel() {
@@ -45453,21 +45392,20 @@
             return _this.type = 'dataZoom.inside', _this;
         }
         return __extends(InsideZoomView, _super), InsideZoomView.prototype.render = function(dataZoomModel, ecModel, api) {
+            var getRange;
             if (_super.prototype.render.apply(this, arguments), dataZoomModel.noTarget()) {
                 this._clear();
                 return;
             } // Hence the `throttle` util ensures to preserve command order,
             // here simply updating range all the time will not cause missing
             // any of the the roam change.
-            this.range = dataZoomModel.getPercentRange(), function(api, dataZoomModel, getRange) {
-                inner$k(api).coordSysRecordMap.each(function(coordSysRecord) {
-                    var dzInfo = coordSysRecord.dataZoomInfoMap.get(dataZoomModel.uid);
-                    dzInfo && (dzInfo.getRange = getRange);
-                });
-            }(api, dataZoomModel, {
+            this.range = dataZoomModel.getPercentRange(), getRange = {
                 pan: bind(getRangeHandlers.pan, this),
                 zoom: bind(getRangeHandlers.zoom, this),
                 scrollMove: bind(getRangeHandlers.scrollMove, this)
+            }, inner$k(api).coordSysRecordMap.each(function(coordSysRecord) {
+                var dzInfo = coordSysRecord.dataZoomInfoMap.get(dataZoomModel.uid);
+                dzInfo && (dzInfo.getRange = getRange);
             });
         }, InsideZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
@@ -45556,87 +45494,85 @@
         }
     };
     function install$K(registers) {
-        installCommon(registers), registers.registerComponentModel(InsideZoomModel), registers.registerComponentView(InsideZoomView), function(registers) {
-            registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, function(ecModel, api) {
-                var apiInner = inner$k(api), coordSysRecordMap = apiInner.coordSysRecordMap || (apiInner.coordSysRecordMap = createHashMap());
-                coordSysRecordMap.each(function(coordSysRecord) {
-                    // `coordSysRecordMap` always exists (becuase it hold the `roam controller`, which should
-                    // better not re-create each time), but clear `dataZoomInfoMap` each round of the workflow.
-                    coordSysRecord.dataZoomInfoMap = null;
-                }), ecModel.eachComponent({
-                    mainType: 'dataZoom',
-                    subType: 'inside'
-                }, function(dataZoomModel) {
-                    each(collectReferCoordSysModelInfo(dataZoomModel).infoList, function(dzCoordSysInfo) {
-                        var coordSysModel, coordSysRecord, controller, coordSysUid = dzCoordSysInfo.model.uid, coordSysRecord1 = coordSysRecordMap.get(coordSysUid) || coordSysRecordMap.set(coordSysUid, (controller = (coordSysRecord = {
-                            model: coordSysModel = dzCoordSysInfo.model,
-                            containsPoint: curry(containsPoint, coordSysModel),
-                            dispatchAction: curry(dispatchAction$1, api),
-                            dataZoomInfoMap: null,
-                            controller: null
-                        }).controller = new RoamController(api.getZr()), each([
-                            'pan',
-                            'zoom',
-                            'scrollMove'
-                        ], function(eventName) {
-                            controller.on(eventName, function(event) {
-                                var batch = [];
-                                coordSysRecord.dataZoomInfoMap.each(function(dzInfo) {
-                                    // Check whether the behaviors (zoomOnMouseWheel, moveOnMouseMove,
-                                    // moveOnMouseWheel, ...) enabled.
-                                    if (event.isAvailableBehavior(dzInfo.model.option)) {
-                                        var method = (dzInfo.getRange || {})[eventName], range = method && method(dzInfo.dzReferCoordSysInfo, coordSysRecord.model.mainType, coordSysRecord.controller, event);
-                                        !dzInfo.model.get('disabled', !0) && range && batch.push({
-                                            dataZoomId: dzInfo.model.id,
-                                            start: range[0],
-                                            end: range[1]
-                                        });
-                                    }
-                                }), batch.length && coordSysRecord.dispatchAction(batch);
-                            });
-                        }), coordSysRecord));
-                        (coordSysRecord1.dataZoomInfoMap || (coordSysRecord1.dataZoomInfoMap = createHashMap())).set(dataZoomModel.uid, {
-                            dzReferCoordSysInfo: dzCoordSysInfo,
-                            model: dataZoomModel,
-                            getRange: null
+        installCommon(registers), registers.registerComponentModel(InsideZoomModel), registers.registerComponentView(InsideZoomView), registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, function(ecModel, api) {
+            var apiInner = inner$k(api), coordSysRecordMap = apiInner.coordSysRecordMap || (apiInner.coordSysRecordMap = createHashMap());
+            coordSysRecordMap.each(function(coordSysRecord) {
+                // `coordSysRecordMap` always exists (becuase it hold the `roam controller`, which should
+                // better not re-create each time), but clear `dataZoomInfoMap` each round of the workflow.
+                coordSysRecord.dataZoomInfoMap = null;
+            }), ecModel.eachComponent({
+                mainType: 'dataZoom',
+                subType: 'inside'
+            }, function(dataZoomModel) {
+                each(collectReferCoordSysModelInfo(dataZoomModel).infoList, function(dzCoordSysInfo) {
+                    var coordSysModel, coordSysRecord, controller, coordSysUid = dzCoordSysInfo.model.uid, coordSysRecord1 = coordSysRecordMap.get(coordSysUid) || coordSysRecordMap.set(coordSysUid, (controller = (coordSysRecord = {
+                        model: coordSysModel = dzCoordSysInfo.model,
+                        containsPoint: curry(containsPoint, coordSysModel),
+                        dispatchAction: curry(dispatchAction$1, api),
+                        dataZoomInfoMap: null,
+                        controller: null
+                    }).controller = new RoamController(api.getZr()), each([
+                        'pan',
+                        'zoom',
+                        'scrollMove'
+                    ], function(eventName) {
+                        controller.on(eventName, function(event) {
+                            var batch = [];
+                            coordSysRecord.dataZoomInfoMap.each(function(dzInfo) {
+                                // Check whether the behaviors (zoomOnMouseWheel, moveOnMouseMove,
+                                // moveOnMouseWheel, ...) enabled.
+                                if (event.isAvailableBehavior(dzInfo.model.option)) {
+                                    var method = (dzInfo.getRange || {})[eventName], range = method && method(dzInfo.dzReferCoordSysInfo, coordSysRecord.model.mainType, coordSysRecord.controller, event);
+                                    !dzInfo.model.get('disabled', !0) && range && batch.push({
+                                        dataZoomId: dzInfo.model.id,
+                                        start: range[0],
+                                        end: range[1]
+                                    });
+                                }
+                            }), batch.length && coordSysRecord.dispatchAction(batch);
                         });
+                    }), coordSysRecord));
+                    (coordSysRecord1.dataZoomInfoMap || (coordSysRecord1.dataZoomInfoMap = createHashMap())).set(dataZoomModel.uid, {
+                        dzReferCoordSysInfo: dzCoordSysInfo,
+                        model: dataZoomModel,
+                        getRange: null
                     });
-                }), // (2) Clear coord sys if not refered by any dataZoom.
-                coordSysRecordMap.each(function(coordSysRecord) {
-                    var controlType, prefix, typePriority, preventDefaultMouseMove, firstDzInfo, controller = coordSysRecord.controller, dataZoomInfoMap = coordSysRecord.dataZoomInfoMap;
-                    if (dataZoomInfoMap) {
-                        var firstDzKey = dataZoomInfoMap.keys()[0];
-                        null != firstDzKey && (firstDzInfo = dataZoomInfoMap.get(firstDzKey));
-                    }
-                    if (!firstDzInfo) {
-                        disposeCoordSysRecord(coordSysRecordMap, coordSysRecord);
-                        return;
-                    }
-                    var controllerParams = (prefix = 'type_', typePriority = {
-                        type_true: 2,
-                        type_move: 1,
-                        type_false: 0,
-                        type_undefined: -1
-                    }, preventDefaultMouseMove = !0, dataZoomInfoMap.each(function(dataZoomInfo) {
-                        var dataZoomModel = dataZoomInfo.model, oneType = !dataZoomModel.get('disabled', !0) && (!dataZoomModel.get('zoomLock', !0) || 'move');
-                        typePriority[prefix + oneType] > typePriority[prefix + controlType] && (controlType = oneType), // users may be confused why it does not work when multiple insideZooms exist.
-                        preventDefaultMouseMove = preventDefaultMouseMove && dataZoomModel.get('preventDefaultMouseMove', !0);
-                    }), {
-                        controlType: controlType,
-                        opt: {
-                            // RoamController will enable all of these functionalities,
-                            // and the final behavior is determined by its event listener
-                            // provided by each inside zoom.
-                            zoomOnMouseWheel: !0,
-                            moveOnMouseMove: !0,
-                            moveOnMouseWheel: !0,
-                            preventDefaultMouseMove: !!preventDefaultMouseMove
-                        }
-                    });
-                    controller.enable(controllerParams.controlType, controllerParams.opt), controller.setPointerChecker(coordSysRecord.containsPoint), createOrUpdate(coordSysRecord, 'dispatchAction', firstDzInfo.model.get('throttle', !0), 'fixRate');
                 });
+            }), // (2) Clear coord sys if not refered by any dataZoom.
+            coordSysRecordMap.each(function(coordSysRecord) {
+                var controlType, prefix, typePriority, preventDefaultMouseMove, firstDzInfo, controller = coordSysRecord.controller, dataZoomInfoMap = coordSysRecord.dataZoomInfoMap;
+                if (dataZoomInfoMap) {
+                    var firstDzKey = dataZoomInfoMap.keys()[0];
+                    null != firstDzKey && (firstDzInfo = dataZoomInfoMap.get(firstDzKey));
+                }
+                if (!firstDzInfo) {
+                    disposeCoordSysRecord(coordSysRecordMap, coordSysRecord);
+                    return;
+                }
+                var controllerParams = (prefix = 'type_', typePriority = {
+                    type_true: 2,
+                    type_move: 1,
+                    type_false: 0,
+                    type_undefined: -1
+                }, preventDefaultMouseMove = !0, dataZoomInfoMap.each(function(dataZoomInfo) {
+                    var dataZoomModel = dataZoomInfo.model, oneType = !dataZoomModel.get('disabled', !0) && (!dataZoomModel.get('zoomLock', !0) || 'move');
+                    typePriority[prefix + oneType] > typePriority[prefix + controlType] && (controlType = oneType), // users may be confused why it does not work when multiple insideZooms exist.
+                    preventDefaultMouseMove = preventDefaultMouseMove && dataZoomModel.get('preventDefaultMouseMove', !0);
+                }), {
+                    controlType: controlType,
+                    opt: {
+                        // RoamController will enable all of these functionalities,
+                        // and the final behavior is determined by its event listener
+                        // provided by each inside zoom.
+                        zoomOnMouseWheel: !0,
+                        moveOnMouseMove: !0,
+                        moveOnMouseWheel: !0,
+                        preventDefaultMouseMove: !!preventDefaultMouseMove
+                    }
+                });
+                controller.enable(controllerParams.controlType, controllerParams.opt), controller.setPointerChecker(coordSysRecord.containsPoint), createOrUpdate(coordSysRecord, 'dispatchAction', firstDzInfo.model.get('throttle', !0), 'fixRate');
             });
-        }(registers);
+        });
     }
     var SliderZoomModel = /** @class */ function(_super) {
         function SliderZoomModel() {
@@ -48290,31 +48226,30 @@
             });
         },
         function(registers) {
-            registers.registerSeriesModel(TreemapSeriesModel), registers.registerChartView(TreemapView), registers.registerVisual(treemapVisual), registers.registerLayout(treemapLayout), function(registers) {
-                for(var i = 0; i < actionTypes.length; i++)registers.registerAction({
-                    type: actionTypes[i],
-                    update: 'updateView'
-                }, noop$1);
-                registers.registerAction({
-                    type: 'treemapRootToNode',
-                    update: 'updateView'
-                }, function(payload, ecModel) {
-                    ecModel.eachComponent({
-                        mainType: 'series',
-                        subType: 'treemap',
-                        query: payload
-                    }, function(model, index) {
-                        var targetInfo = retrieveTargetInfo(payload, [
-                            'treemapZoomToNode',
-                            'treemapRootToNode'
-                        ], model);
-                        if (targetInfo) {
-                            var originViewRoot = model.getViewRoot();
-                            originViewRoot && (payload.direction = aboveViewRoot(originViewRoot, targetInfo.node) ? 'rollUp' : 'drillDown'), model.resetViewRoot(targetInfo.node);
-                        }
-                    });
+            registers.registerSeriesModel(TreemapSeriesModel), registers.registerChartView(TreemapView), registers.registerVisual(treemapVisual), registers.registerLayout(treemapLayout);
+            for(var i = 0; i < actionTypes.length; i++)registers.registerAction({
+                type: actionTypes[i],
+                update: 'updateView'
+            }, noop$1);
+            registers.registerAction({
+                type: 'treemapRootToNode',
+                update: 'updateView'
+            }, function(payload, ecModel) {
+                ecModel.eachComponent({
+                    mainType: 'series',
+                    subType: 'treemap',
+                    query: payload
+                }, function(model, index) {
+                    var targetInfo = retrieveTargetInfo(payload, [
+                        'treemapZoomToNode',
+                        'treemapRootToNode'
+                    ], model);
+                    if (targetInfo) {
+                        var originViewRoot = model.getViewRoot();
+                        originViewRoot && (payload.direction = aboveViewRoot(originViewRoot, targetInfo.node) ? 'rollUp' : 'drillDown'), model.resetViewRoot(targetInfo.node);
+                    }
                 });
-            }(registers);
+            });
         },
         function(registers) {
             registers.registerChartView(GraphView), registers.registerSeriesModel(GraphSeriesModel), registers.registerProcessor(categoryFilter), registers.registerVisual(categoryVisual), registers.registerVisual(graphEdgeVisual), registers.registerLayout(graphSimpleLayout), registers.registerLayout(registers.PRIORITY.VISUAL.POST_CHART_LAYOUT, graphCircularLayout), registers.registerLayout(graphForceLayout), registers.registerCoordinateSystem('graphView', {
