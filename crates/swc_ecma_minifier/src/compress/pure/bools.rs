@@ -20,8 +20,14 @@ impl Pure<'_> {
                 op: op!("!"), arg, ..
             }) = e
             {
-                if arg.is_fn_expr() {
-                    return;
+                if let Expr::Call(CallExpr {
+                    callee: Callee::Expr(callee),
+                    ..
+                }) = &**arg
+                {
+                    if callee.is_fn_expr() {
+                        return;
+                    }
                 }
             }
         }
