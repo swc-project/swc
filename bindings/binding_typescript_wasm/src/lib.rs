@@ -69,7 +69,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
 }
 
 #[derive(Clone)]
-struct LockedWriter {
+struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
     cm: Lrc<SourceMap>,
 }
@@ -78,7 +78,7 @@ fn try_with_json_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Vec<J
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let wr = LockedWriter {
+    let wr = JsonErrorWriter {
         errors: Default::default(),
         cm,
     };
@@ -98,7 +98,7 @@ where
     }
 }
 
-impl Emitter for LockedWriter {
+impl Emitter for JsonErrorWriter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
