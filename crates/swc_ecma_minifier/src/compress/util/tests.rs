@@ -94,7 +94,6 @@ fn negate_cost_1() {
 }
 
 #[test]
-#[ignore]
 fn negate_cost_2() {
     assert_negate_cost(
         "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
@@ -119,7 +118,6 @@ fn negate_cost_3() {
 }
 
 #[test]
-#[ignore]
 fn negate_cost_4() {
     // "(!force && !this._isRebuildRequired()) && !self._buildList()",
     assert_negate_cost(
@@ -245,7 +243,6 @@ fn negate_cost_6_2() {
 }
 
 #[test]
-#[ignore]
 fn next_31077_1() {
     assert_negate_cost(
         "((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) && ((result1.safari \
@@ -258,7 +255,6 @@ fn next_31077_1() {
 }
 
 #[test]
-#[ignore]
 fn next_31077_2() {
     assert_negate_cost(
         "!((!a || !(a instanceof TextViewDesc1) || /\\n$/.test(a.node.text)) || ((result1.safari \
