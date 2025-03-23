@@ -347,6 +347,9 @@ pub(crate) fn negate_cost(
 
     let cost = cost(expr_ctx, e, in_bool_ctx, None, is_ret_val_ignored);
 
+    #[cfg(feature = "debug")]
+    trace_op!("negate_cost of `{}`: {}", dump(e, false), cost);
+
     cost
 }
 
