@@ -12324,7 +12324,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             }), ace.require([
                 "ace/ace"
             ], function(a) {
-                for(var key in a && (a.config.init(!0), a.define = ace.define), !window.ace && (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
+                for(var key in a && (a.config.init(!0), a.define = ace.define), window.ace || (window.ace = a), a)a.hasOwnProperty(key) && (window.ace[key] = a[key]);
                 window.ace.default = window.ace, module && (module.exports = window.ace);
             });
         /***/ }

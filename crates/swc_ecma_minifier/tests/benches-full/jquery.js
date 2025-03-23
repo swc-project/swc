@@ -3159,7 +3159,7 @@
             function(elem, props, opts) {
                 var prop, value, toggle, hooks, oldfire, propTween, restoreDisplay, display, isBox = "width" in props || "height" in props, anim = this, orig = {}, style = elem.style, hidden = elem.nodeType && isHiddenWithinTree(elem), dataShow = dataPriv.get(elem, "fxshow");
                 // Detect show/hide animations
-                for(prop in !opts.queue && (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
+                for(prop in opts.queue || (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
                     hooks.unqueued || oldfire();
                 }), hooks.unqueued++, anim.always(function() {
                     // Ensure the complete handler is called before this completes
@@ -3188,7 +3188,7 @@
                     elem
                 ], !0), restoreDisplay = elem.style.display || restoreDisplay, display = jQuery.css(elem, "display"), showHide([
                     elem
-                ]))), ("inline" === display || "inline-block" === display && null != restoreDisplay) && "none" === jQuery.css(elem, "float") && (!propTween && (anim.done(function() {
+                ]))), ("inline" === display || "inline-block" === display && null != restoreDisplay) && "none" === jQuery.css(elem, "float") && (propTween || (anim.done(function() {
                     style.display = restoreDisplay;
                 }), null == restoreDisplay && (restoreDisplay = "none" === (display = style.display) ? "" : display)), style.display = "inline-block")), opts.overflow && (style.overflow = "hidden", anim.always(function() {
                     style.overflow = opts.overflow[0], style.overflowX = opts.overflow[1], style.overflowY = opts.overflow[2];
@@ -3198,7 +3198,7 @@
                 }), toggle && (dataShow.hidden = !hidden), hidden && showHide([
                     elem
                 ], !0), /* eslint-disable no-loop-func */ anim.done(function() {
-                    for(prop in !hidden && showHide([
+                    for(prop in hidden || showHide([
                         elem
                     ]), dataPriv.remove(elem, "fxshow"), orig)jQuery.style(elem, prop, orig[prop]);
                 })), // Per-property setup
@@ -4155,7 +4155,7 @@
                 // Apply custom fields if provided
                 if (xhr.open(options.type, options.url, options.async, options.username, options.password), options.xhrFields) for(i in options.xhrFields)xhr[i] = options.xhrFields[i];
                 // Set headers
-                for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), !options.crossDomain && !headers["X-Requested-With"] && (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
+                for(i in options.mimeType && xhr.overrideMimeType && xhr.overrideMimeType(options.mimeType), options.crossDomain || headers["X-Requested-With"] || (headers["X-Requested-With"] = "XMLHttpRequest"), headers)xhr.setRequestHeader(i, headers[i]);
                 // Callback
                 callback = function(type) {
                     return function() {

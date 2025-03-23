@@ -24996,7 +24996,7 @@
                                 default: !0
                             }
                         }
-                    }, audioOnlyMaster && (mediaGroups[type].main.default.playlists = masterPlaylistLoader.master.playlists)), mediaGroups[type])for(var variantLabel in !groups[groupId] && (groups[groupId] = []), mediaGroups[type][groupId]){
+                    }, audioOnlyMaster && (mediaGroups[type].main.default.playlists = masterPlaylistLoader.master.playlists)), mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId]){
                         var properties = mediaGroups[type][groupId][variantLabel], playlistLoader = void 0;
                         if (audioOnlyMaster ? (logger_("AUDIO group '" + groupId + "' label '" + variantLabel + "' is a master playlist"), properties.isMasterPlaylist = !0, playlistLoader = null) : playlistLoader = "vhs-json" === sourceType && properties.playlists ? new PlaylistLoader(properties.playlists[0], vhs, requestOptions) : properties.resolvedUri ? new PlaylistLoader(properties.resolvedUri, vhs, requestOptions) : properties.playlists && "dash" === sourceType ? new DashPlaylistLoader(properties.playlists[0], vhs, requestOptions, masterPlaylistLoader) : null, properties = videojs.mergeOptions({
                             id: variantLabel,
@@ -25026,7 +25026,7 @@
                  * @function initialize.SUBTITLES
                  */ SUBTITLES: function(type, settings) {
                     var tech = settings.tech, vhs = settings.vhs, sourceType = settings.sourceType, segmentLoader = settings.segmentLoaders[type], requestOptions = settings.requestOptions, mediaGroups = settings.master.mediaGroups, _settings$mediaTypes$2 = settings.mediaTypes[type], groups = _settings$mediaTypes$2.groups, tracks = _settings$mediaTypes$2.tracks, masterPlaylistLoader = settings.masterPlaylistLoader;
-                    for(var groupId in mediaGroups[type])for(var variantLabel in !groups[groupId] && (groups[groupId] = []), mediaGroups[type][groupId])if (!mediaGroups[type][groupId][variantLabel].forced) {
+                    for(var groupId in mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId])if (!mediaGroups[type][groupId][variantLabel].forced) {
                         var properties = mediaGroups[type][groupId][variantLabel], playlistLoader = void 0;
                         if ("hls" === sourceType) playlistLoader = new PlaylistLoader(properties.resolvedUri, vhs, requestOptions);
                         else if ("dash" === sourceType) {
@@ -25063,7 +25063,7 @@
                  * @function initialize['CLOSED-CAPTIONS']
                  */ "CLOSED-CAPTIONS": function(type, settings) {
                     var tech = settings.tech, mediaGroups = settings.master.mediaGroups, _settings$mediaTypes$3 = settings.mediaTypes[type], groups = _settings$mediaTypes$3.groups, tracks = _settings$mediaTypes$3.tracks;
-                    for(var groupId in mediaGroups[type])for(var variantLabel in !groups[groupId] && (groups[groupId] = []), mediaGroups[type][groupId]){
+                    for(var groupId in mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId]){
                         var properties = mediaGroups[type][groupId][variantLabel]; // Look for either 608 (CCn) or 708 (SERVICEn) caption services
                         if (/^(?:CC|SERVICE)/.test(properties.instreamId)) {
                             var captionServices = tech.options_.vhs && tech.options_.vhs.captionServices || {}, newProps = {

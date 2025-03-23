@@ -3,7 +3,7 @@
 | antd.js | 6.38 MiB | 2.05 MiB | 444.47 KiB |
 | d3.js | 542.74 KiB | 259.01 KiB | 85.06 KiB |
 | echarts.js | 3.41 MiB | 971.23 KiB | 313.32 KiB |
-| jquery.js | 280.89 KiB | 87.12 KiB | 30.15 KiB |
+| jquery.js | 280.89 KiB | 87.11 KiB | 30.15 KiB |
 | lodash.js | 531.35 KiB | 68.18 KiB | 24.52 KiB |
 | moment.js | 169.83 KiB | 57.03 KiB | 18.21 KiB |
 | react.js | 70.45 KiB | 22.28 KiB | 8.00 KiB |

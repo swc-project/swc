@@ -92,7 +92,7 @@ function(global, factory) {
         };
     }
     function copyObj(obj, target, overwrite) {
-        for(var prop in !target && (target = {}), obj)obj.hasOwnProperty(prop) && (!1 !== overwrite || !target.hasOwnProperty(prop)) && (target[prop] = obj[prop]);
+        for(var prop in target || (target = {}), obj)obj.hasOwnProperty(prop) && (!1 !== overwrite || !target.hasOwnProperty(prop)) && (target[prop] = obj[prop]);
         return target;
     }
     // Counts the column offset in a string, taking tabs into account.
@@ -5136,7 +5136,7 @@ function(global, factory) {
             }), on(inp, "blur", function(e) {
                 return onBlur(cm, e);
             });
-        }(this), !globalsRegistered && (on(window, "resize", function() {
+        }(this), globalsRegistered || (on(window, "resize", function() {
             null == resizeTimer && (resizeTimer = setTimeout(function() {
                 resizeTimer = null, forEachCodeMirror(onResize);
             }, 100));

@@ -3063,7 +3063,7 @@ Id of the most recent transaction.
         // -- Protected Methods ----------------------------------------------------
         _createNode: function(name, attrs, doc) {
             var attr, testEl, node = doc.createElement(name);
-            for(attr in !CUSTOM_ATTRS && (// IE6 and IE7 expect property names rather than attribute names for
+            for(attr in CUSTOM_ATTRS || (// IE6 and IE7 expect property names rather than attribute names for
             // certain attributes. Rather than sniffing, we do a quick feature
             // test the first time _createNode() runs to determine whether we
             // need to provide a workaround.
@@ -4439,7 +4439,7 @@ Contains the core of YUI's feature test architecture.
             packName = this.getLangPackName("", name), this._addLangPack(null, m, packName)));
             // expand the list to include superseded modules
             for(j in //l = Y.merge(this.inserted);
-            l = {}, !this.ignoreRegistered && Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
+            l = {}, this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods), this.ignore && Y.mix(l, yArray.hash(this.ignore)), l)l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
             // remove modules on the force list from the loaded list
             if (this.force) for(i = 0; i < this.force.length; i++)this.force[i] in l && delete l[this.force[i]];
             Y.mix(this.loaded, l), this._init = !0;
