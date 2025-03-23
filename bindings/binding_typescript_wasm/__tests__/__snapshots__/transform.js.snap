@@ -9,7 +9,7 @@ exports[`transform in strip-only mode should not emit 'Caused by: failed to pars
   "message": "await isn't allowed in non-async function",
   "snippet": "   
         
- 1   function foo() { await Promise.resolve(1); }
+     function foo() { await Promise.resolve(1); }
                       ^^^^^
         
 ",
@@ -53,7 +53,7 @@ exports[`transform in strip-only mode should report correct error for syntax err
   "message": "Expected ';', '}' or <eof>",
   "snippet": "   
         
- 1   function foo() { invalid syntax }
+     function foo() { invalid syntax }
                               ^^^^^^
         
 ",
@@ -70,10 +70,10 @@ exports[`transform in strip-only mode should report correct error for unsupporte
   "filename": "test.ts",
   "message": "TypeScript enum is not supported in strip-only mode",
   "snippet": "   
-     [1:1]
- 1     > enum Foo {
- 2                           a, b    
- 3     >                     }
+          
+       > enum Foo {
+                             a, b    
+       >                     }
         
 ",
   "startColumn": 0,
@@ -143,7 +143,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
   "snippet": "   
         
- 1   module foo { }
+     module foo { }
      ^^^^^^^^^^
         
 ",
@@ -161,7 +161,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
   "snippet": "   
         
- 1   declare module foo { }
+     declare module foo { }
              ^^^^^^^^^^
         
 ",
@@ -179,7 +179,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "message": "TypeScript namespace declaration is not supported in strip-only mode",
   "snippet": "   
         
- 1   namespace Foo { export const m = 1; }
+     namespace Foo { export const m = 1; }
      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         
 ",
@@ -197,7 +197,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "message": "TypeScript enum is not supported in strip-only mode",
   "snippet": "   
         
- 1   enum Foo {}
+     enum Foo {}
      ^^^^^^^^^^^
         
 ",
@@ -215,7 +215,7 @@ exports[`transform in transform mode shoud throw an object even with deprecatedT
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
   "snippet": "   
         
- 1   module F { export type x = number }
+     module F { export type x = number }
      ^^^^^^^^
         
 ",
@@ -233,7 +233,7 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
   "snippet": "   
         
- 1   declare module foo { }
+     declare module foo { }
              ^^^^^^^^^^
         
 ",
@@ -251,7 +251,7 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
   "snippet": "   
         
- 1   module foo { }
+     module foo { }
      ^^^^^^^^^^
         
 ",
