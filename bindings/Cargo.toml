@@ -22,6 +22,7 @@ resolver = "2"
   getrandom            = "0.2.15"
   js-sys               = "0.3.77"
   lightningcss         = "1.0.0-alpha.58"
+  miette               = "7.5.0"
   napi                 = { version = "2", default-features = false }
   napi-build           = "2"
   napi-derive          = { version = "2", default-features = false }
