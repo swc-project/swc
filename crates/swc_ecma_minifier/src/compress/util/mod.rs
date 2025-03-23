@@ -300,7 +300,13 @@ pub(crate) fn negate_cost(
                     right,
                     ..
                 }) => {
-                    let l_cost = cost(expr_ctx, left, in_bool_ctx, Some(*op), false);
+                    let l_cost = cost(
+                        expr_ctx,
+                        left,
+                        in_bool_ctx || is_ret_val_ignored,
+                        Some(*op),
+                        false,
+                    );
 
                     if !is_ret_val_ignored && !is_ok_to_negate_rhs(expr_ctx, right) {
                         return l_cost + 3;
