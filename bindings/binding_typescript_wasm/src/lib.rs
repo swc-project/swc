@@ -90,6 +90,12 @@ where
                 vbar: ' ',
                 xbar: ' ',
                 vbar_break: ' ',
+                ltop: ' ',
+                rtop: ' ',
+                mtop: ' ',
+                lbot: ' ',
+                rbot: ' ',
+                mbot: ' ',
                 error: "".into(),
                 warning: "".into(),
                 advice: "".into(),
@@ -133,7 +139,7 @@ impl Emitter for JsonErrorWriter {
                     span,
                 },
             ) {
-                Ok(()) => Some(snippet),
+                Ok(()) => Some(snippet.trim().to_string()),
                 Err(_) => None,
             }
         });
