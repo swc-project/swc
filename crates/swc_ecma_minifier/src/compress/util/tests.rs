@@ -1,13 +1,14 @@
-use swc_common::{util::take::Take, FileName, Mark, SyntaxContext};
+use swc_common::{sync::Lrc, util::take::Take, FileName, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_transforms_base::fixer::fixer;
-use swc_ecma_utils::{ExprCtx, ExprFactory};
+use swc_ecma_utils::{drop_span, DropSpan, ExprCtx, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::{info, warn};
 
 use super::negate_cost;
-use crate::{compress::util::negate, debug::dump};
+use crate::compress::util::negate;
 
 struct UnwrapParen;
 impl VisitMut for UnwrapParen {
@@ -43,10 +44,10 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
             if is_ret_val_ignored {
                 let mut e = e.into_stmt();
                 e.visit_mut_with(&mut fixer(None));
-                dump(&e, true)
+                print_node(&e)
             } else {
                 e.visit_mut_with(&mut fixer(None));
-                dump(&e, true)
+                print_node(&e)
             }
         };
 
@@ -280,4 +281,27 @@ fn negate_cost_iterator_pattern() {
         true,
         -1,
     );
+}
+
+fn print_node<N>(node: &N) -> String
+where
+    N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan>,
+{
+    let mut node = node.clone();
+    node = drop_span(node);
+    let mut buf = Vec::new();
+    let cm = Lrc::new(SourceMap::default());
+
+    {
+        let mut emitter = Emitter {
+            cfg: swc_ecma_codegen::Config::default().with_minify(true),
+            cm: cm.clone(),
+            comments: None,
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+        };
+
+        node.emit_with(&mut emitter).unwrap();
+    }
+
+    String::from_utf8(buf).unwrap()
 }
