@@ -12527,7 +12527,7 @@
                             DLG_TARGET,
                             SCROLL_DISABLED
                         ]), this.isModal && (0, ej2_base /* removeClass */ .IV)([
-                            !(0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) ? this.targetEle : document.body
+                            (0, ej2_base /* isNullOrUndefined */ .le)(this.targetEle) ? document.body : this.targetEle
                         ], SCROLL_DISABLED), this.unWireEvents(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.btnObj)) for(var i = 0; i < this.btnObj.length; i++)this.btnObj[i].destroy();
                         if ((0, ej2_base /* isNullOrUndefined */ .le)(this.dragObj) || this.dragObj.destroy(), !(0, ej2_base /* isNullOrUndefined */ .le)(this.popupObj.element) && this.popupObj.element.classList.contains('e-popup') && this.popupObj.destroy(), (0, ej2_base /* removeClass */ .IV)([
                             this.element
