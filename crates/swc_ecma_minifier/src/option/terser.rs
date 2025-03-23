@@ -9,7 +9,9 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
-use super::{default_passes, true_by_default, CompressOptions, TopLevelOptions};
+use super::{
+    default_passes, true_by_default, CompressExperimentalOptions, CompressOptions, TopLevelOptions,
+};
 use crate::option::PureGetterOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -67,6 +69,22 @@ pub enum TerserSequenceOptions {
 pub enum TerserTopRetainOption {
     Str(String),
     Seq(Vec<Atom>),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[non_exhaustive]
+pub struct TerserExperimentalOptions {
+    #[serde(default = "true_by_default")]
+    pub reduce_escaped_newline: bool,
+}
+
+impl Default for TerserExperimentalOptions {
+    fn default() -> Self {
+        TerserExperimentalOptions {
+            reduce_escaped_newline: true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -240,10 +258,10 @@ pub struct TerserCompressorOptions {
     pub const_to_let: Option<bool>,
 
     #[serde(default)]
-    pub reduce_escaped_newline: Option<bool>,
+    pub pristine_globals: Option<bool>,
 
     #[serde(default)]
-    pub pristine_globals: Option<bool>,
+    pub experimental: Option<TerserExperimentalOptions>,
 }
 
 impl_default!(TerserCompressorOptions);
@@ -380,7 +398,6 @@ impl TerserCompressorOptions {
             unsafe_undefined: self.unsafe_undefined,
             unused: self.unused.unwrap_or(self.defaults),
             const_to_let: self.const_to_let.unwrap_or(self.defaults),
-            reduce_escaped_newline: self.reduce_escaped_newline.unwrap_or(self.defaults),
             pristine_globals: self.pristine_globals.unwrap_or(self.defaults),
             pure_funcs: self
                 .pure_funcs
@@ -404,6 +421,11 @@ impl TerserCompressorOptions {
                     })
                 })
                 .collect(),
+            experimental: self.experimental.map(From::from).unwrap_or(
+                CompressExperimentalOptions {
+                    reduce_escaped_newline: self.defaults,
+                },
+            ),
         }
     }
 }
@@ -455,6 +477,14 @@ impl From<TerserTopRetainOption> for Vec<Atom> {
                 .map(|v| v.into())
                 .collect(),
             TerserTopRetainOption::Seq(v) => v,
+        }
+    }
+}
+
+impl From<TerserExperimentalOptions> for CompressExperimentalOptions {
+    fn from(value: TerserExperimentalOptions) -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: value.reduce_escaped_newline,
         }
     }
 }

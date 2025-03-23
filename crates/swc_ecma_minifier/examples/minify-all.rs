@@ -9,6 +9,7 @@ use std::{
 };
 
 use anyhow::Result;
+#[cfg(feature = "concurrent")]
 use rayon::prelude::*;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
@@ -37,24 +38,49 @@ fn main() {
 
 /// Return the whole input files as abolute path.
 fn expand_dirs(dirs: Vec<String>) -> Vec<PathBuf> {
-    dirs.into_par_iter()
-        .map(PathBuf::from)
-        .map(|dir| dir.canonicalize().unwrap())
-        .flat_map(|dir| {
-            WalkDir::new(dir)
-                .into_iter()
-                .filter_map(Result::ok)
-                .filter_map(|entry| {
-                    if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
-                        Some(entry.into_path())
-                    } else {
-                        None
-                    }
-                })
-                .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
-                .collect::<Vec<_>>()
-        })
-        .collect()
+    #[cfg(feature = "concurrent")]
+    {
+        dirs.into_par_iter()
+            .map(PathBuf::from)
+            .map(|dir| dir.canonicalize().unwrap())
+            .flat_map(|dir| {
+                WalkDir::new(dir)
+                    .into_iter()
+                    .filter_map(Result::ok)
+                    .filter_map(|entry| {
+                        if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
+                            Some(entry.into_path())
+                        } else {
+                            None
+                        }
+                    })
+                    .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
+                    .collect::<Vec<_>>()
+            })
+            .collect()
+    }
+
+    #[cfg(not(feature = "concurrent"))]
+    {
+        dirs.into_iter()
+            .map(PathBuf::from)
+            .map(|dir| dir.canonicalize().unwrap())
+            .flat_map(|dir| {
+                WalkDir::new(dir)
+                    .into_iter()
+                    .filter_map(Result::ok)
+                    .filter_map(|entry| {
+                        if entry.metadata().map(|v| v.is_file()).unwrap_or(false) {
+                            Some(entry.into_path())
+                        } else {
+                            None
+                        }
+                    })
+                    .filter(|path| path.extension().map(|ext| ext == "js").unwrap_or(false))
+                    .collect::<Vec<_>>()
+            })
+            .collect()
+    }
 }
 
 #[derive(Default)]

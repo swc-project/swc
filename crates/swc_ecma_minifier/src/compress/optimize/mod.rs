@@ -2916,12 +2916,6 @@ impl VisitMut for Optimizer<'_> {
         n.exprs
             .iter_mut()
             .for_each(|expr| self.optimize_expr_in_str_ctx(expr));
-
-        if self.options.reduce_escaped_newline {
-            n.quasis
-                .iter_mut()
-                .for_each(|elm| self.reduce_escaped_newline_for_tpl_element(elm));
-        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
