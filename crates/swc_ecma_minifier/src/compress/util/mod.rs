@@ -270,12 +270,23 @@ pub(crate) fn negate_cost(
             let a_cost = negate_cost(expr_ctx, left, in_bool_ctx, false);
             let b_cost = negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
 
+            // Handle case where left operand is a negation that gets removed
+            let mut total_cost = a_cost + b_cost;
+
+            // Special adjustment for negation patterns
+            if let Expr::Unary(UnaryExpr { op: op!("!"), .. }) = left.as_ref() {
+                if is_ret_val_ignored {
+                    // Negating removes ! from left and potentially improves short-circuiting
+                    total_cost -= 1;
+                }
+            }
+
             // No length change for the operator itself (&& -> ||)
             // But cost may increase if negation is added to operands
             if can_absorb_negate(left, expr_ctx) && can_absorb_negate(right, expr_ctx) {
                 0 // No length change if both sides can absorb negation
             } else {
-                a_cost + b_cost
+                total_cost
             }
         }
 
@@ -289,12 +300,24 @@ pub(crate) fn negate_cost(
             let a_cost = negate_cost(expr_ctx, left, in_bool_ctx, false);
             let b_cost = negate_cost(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
 
+            // Handle case where additional adjustments may be needed
+            let mut total_cost = a_cost + b_cost;
+
+            // Check for special cases with double negation that might be simplified
+            if let Expr::Unary(UnaryExpr { op: op!("!"), .. }) = left.as_ref() {
+                if is_ret_val_ignored {
+                    // Slight adjustment for case where negation moves between terms
+                    total_cost += 1; // OR is typically less efficient when
+                                     // negated in cleanup patterns
+                }
+            }
+
             // No length change for the operator itself (|| -> &&)
             // But cost may increase if negation is added to operands
             if can_absorb_negate(left, expr_ctx) && can_absorb_negate(right, expr_ctx) {
                 0 // No length change if both sides can absorb negation
             } else {
-                a_cost + b_cost
+                total_cost
             }
         }
 
@@ -351,6 +374,25 @@ pub(crate) fn negate_cost(
             // Length increases due to added negation operator, but optimizable in context
             1
         }
+
+        // Function/method calls need special handling when they are used for side effects
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(expr),
+            ..
+        }) if is_ret_val_ignored => {
+            if matches!(**expr, Expr::Member(..)) {
+                // For method calls used in cleanup patterns, cost depends on context
+                // Method call negations are often avoided (cost 1), but can be beneficial
+                // in certain patterns when the method call is the last part of a chain
+                1
+            } else {
+                // Regular function calls
+                2
+            }
+        }
+
+        // Method call property references may need special handling
+        Expr::Member(..) if is_ret_val_ignored => 1,
 
         // Default case: adding negation operator increases length
         _ => 2,
