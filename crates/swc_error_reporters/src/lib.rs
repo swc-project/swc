@@ -33,7 +33,17 @@ pub struct PrettyEmitterConfig {
     pub skip_filename: bool,
 }
 
-pub fn to_miette_diagnostic<'a>(
+pub fn to_miette_source_code<'a>(
+    cm: &'a SourceMap,
+    config: &'a PrettyEmitterConfig,
+) -> impl 'a + SourceCode {
+    MietteSourceCode {
+        cm,
+        skip_filename: config.skip_filename,
+    }
+}
+
+fn to_miette_diagnostic<'a>(
     cm: &'a SourceMap,
     config: &'a PrettyEmitterConfig,
     d: &'a Diagnostic,
