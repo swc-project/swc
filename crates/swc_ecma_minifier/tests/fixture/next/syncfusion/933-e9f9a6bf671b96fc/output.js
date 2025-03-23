@@ -9861,7 +9861,7 @@
                             for(var propsClsName = this.props[propkey].split(' '), i = 0; i < propsClsName.length; i++)this.element.classList.remove(propsClsName[i]);
                             for(var dpropsClsName = dProps[propkey].split(' '), j = 0; j < dpropsClsName.length; j++)this.element.classList.add(dpropsClsName[j]);
                         } else 'disabled' !== propkey && delete dProps[propkey];
-                        else 'value' === propkey && nextProps[propkey] === this[propkey] ? delete dProps[propkey] : ('valueTemplate' === propkey || 'itemTemplate' === propkey || 'headerTemplate' === propkey) && nextProps[propkey].toString() === this[propkey].toString() ? delete dProps[propkey] : 'content' === propkey && 'function' == typeof dProps[propkey] && delete dProps[propkey];
+                        else 'value' === propkey && nextProps[propkey] === this[propkey] || ('valueTemplate' === propkey || 'itemTemplate' === propkey || 'headerTemplate' === propkey) && nextProps[propkey].toString() === this[propkey].toString() ? delete dProps[propkey] : 'content' === propkey && 'function' == typeof dProps[propkey] && delete dProps[propkey];
                     }
                     dProps.children && delete dProps.children, this.initRenderCalled && (this.canDelayUpdate || this.props.delayUpdate) ? setTimeout(function() {
                         _this.refreshProperties(dProps, nextProps, silent);
@@ -13299,7 +13299,7 @@
                     if (!(0, ej2_base /* isNullOrUndefined */ .le)(closestLI) && endNode.textContent.length === range.endOffset && !range.collapsed && (0, ej2_base /* isNullOrUndefined */ .le)(endNode.nextElementSibling)) {
                         for(var i = 0; i < closestLI.childNodes.length; i++)"#text" === closestLI.childNodes[i].nodeName && 0 === closestLI.childNodes[i].textContent.trim().length && ((0, ej2_base /* detach */ .og)(closestLI.childNodes[i]), i--);
                         for(var currentLastElem = closestLI; null !== currentLastElem.lastChild && '#text' !== currentLastElem.nodeName;)currentLastElem = currentLastElem.lastChild;
-                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer ? currentStartContainer : 'BR' !== currentLastElem.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
+                        this.formatter.editorManager.nodeSelection.setSelectionText(this.contentModule.getDocument(), isSameContainer || 'BR' !== currentLastElem.nodeName || (0, ej2_base /* isNullOrUndefined */ .le)(currentLastElem.previousSibling) ? currentStartContainer : currentLastElem.previousSibling, currentEndContainer, currentStartOffset, 'BR' === currentLastElem.nodeName ? 0 : currentEndOffset);
                     }
                 }, /**
      * For internal use only - keydown the event handler;
@@ -16813,8 +16813,8 @@
                                 tdElement.appendChild((0, ej2_base /* createElement */ .az)('br')), newRow.appendChild(tdElement), tdElement.setAttribute('style', allCells[isHeaderSelect && isBelow && allCells[minVal + 1] ? minVal + 1 : minVal][i].getAttribute('style'));
                             }
                             var selectedRow = void 0;
-                            selectedRow = isHeaderSelect && isBelow ? this.curTable.querySelector('tbody').childNodes[0] : this.curTable.rows[minVal], // eslint-disable-next-line
-                            'InsertRowBefore' === e.item.subCommand ? selectedRow.parentElement.insertBefore(newRow, selectedRow) : isHeaderSelect ? selectedRow.parentElement.insertBefore(newRow, selectedRow) : this.insertAfter(newRow, selectedRow);
+                            selectedRow = isHeaderSelect && isBelow ? this.curTable.querySelector('tbody').childNodes[0] : this.curTable.rows[minVal], 'InsertRowBefore' === // eslint-disable-next-line
+                            e.item.subCommand || isHeaderSelect ? selectedRow.parentElement.insertBefore(newRow, selectedRow) : this.insertAfter(newRow, selectedRow);
                         }
                         e.item.selection.setSelectionText(this.parent.currentDocument, e.item.selection.range.startContainer, e.item.selection.range.startContainer, 0, 0), e.callBack && e.callBack({
                             requestType: e.item.subCommand,
@@ -23235,7 +23235,7 @@
                 }, Toolbar.prototype.pushingPoppedEle = function(tbarObj, popupPri, ele, eleHeight, sepHeight) {
                     var element = tbarObj.element, poppedEle = [].slice.call((0, ej2_base /* selectAll */ .td)('.' + CLS_POPUP, element.querySelector('.' + CLS_ITEMS))), nodes = (0, ej2_base /* selectAll */ .td)('.' + CLS_TBAROVERFLOW, ele), nodeIndex = 0, nodePri = 0;
                     poppedEle.forEach(function(el, index) {
-                        nodes = (0, ej2_base /* selectAll */ .td)('.' + CLS_TBAROVERFLOW, ele), el.classList.contains(CLS_TBAROVERFLOW) && nodes.length > 0 ? (tbarObj.tbResize && nodes.length > index ? ele.insertBefore(el, nodes[index]) : ele.insertBefore(el, ele.children[nodes.length]), ++nodePri) : el.classList.contains(CLS_TBAROVERFLOW) ? (ele.insertBefore(el, ele.firstChild), ++nodePri) : tbarObj.tbResize && el.classList.contains(CLS_POPOVERFLOW) && ele.children.length > 0 && 0 === nodes.length ? (ele.insertBefore(el, ele.firstChild), ++nodePri) : el.classList.contains(CLS_POPOVERFLOW) ? popupPri.push(el) : tbarObj.tbResize ? (ele.insertBefore(el, ele.childNodes[nodeIndex + nodePri]), ++nodeIndex) : ele.appendChild(el), el.classList.contains(CLS_SEPARATOR) ? (0, ej2_base /* setStyleAttribute */ .V7)(el, {
+                        nodes = (0, ej2_base /* selectAll */ .td)('.' + CLS_TBAROVERFLOW, ele), el.classList.contains(CLS_TBAROVERFLOW) && nodes.length > 0 ? (tbarObj.tbResize && nodes.length > index ? ele.insertBefore(el, nodes[index]) : ele.insertBefore(el, ele.children[nodes.length]), ++nodePri) : el.classList.contains(CLS_TBAROVERFLOW) || tbarObj.tbResize && el.classList.contains(CLS_POPOVERFLOW) && ele.children.length > 0 && 0 === nodes.length ? (ele.insertBefore(el, ele.firstChild), ++nodePri) : el.classList.contains(CLS_POPOVERFLOW) ? popupPri.push(el) : tbarObj.tbResize ? (ele.insertBefore(el, ele.childNodes[nodeIndex + nodePri]), ++nodeIndex) : ele.appendChild(el), el.classList.contains(CLS_SEPARATOR) ? (0, ej2_base /* setStyleAttribute */ .V7)(el, {
                             display: '',
                             height: sepHeight + 'px'
                         }) : (0, ej2_base /* setStyleAttribute */ .V7)(el, {
@@ -23410,7 +23410,7 @@
                                     sepCheck++, itemCount = 0, itemPopCount = 0;
                                 }
                             } else itemCount++;
-                            inEle[i].classList.contains(CLS_TBAROVERFLOW) && pre ? eleWidth -= (this.isVertical ? inEle[i].offsetHeight : inEle[i].offsetWidth) + mrgn : checkClass(inEle[i], [
+                            inEle[i].classList.contains(CLS_TBAROVERFLOW) && pre || checkClass(inEle[i], [
                                 CLS_SEPARATOR,
                                 CLS_TBARIGNORE
                             ]) ? eleWidth -= (this.isVertical ? inEle[i].offsetHeight : inEle[i].offsetWidth) + mrgn : (inEle[i].classList.add(CLS_POPUP), this.isVertical ? (0, ej2_base /* setStyleAttribute */ .V7)(inEle[i], {
@@ -26023,7 +26023,7 @@
                 }, Slider.prototype.handleValueUpdate = function() {
                     return 'Range' === this.type ? 1 === this.activeHandle ? this.handleVal1 : this.handleVal2 : this.handleVal1;
                 }, Slider.prototype.getLimitCorrectedValues = function(value) {
-                    return value = 'MinRange' === this.type || 'Default' === this.type ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
+                    return value = 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
                 }, Slider.prototype.focusSliderElement = function() {
                     this.isElementFocused || (this.element.focus(), this.isElementFocused = !0);
                 }, Slider.prototype.buttonClick = function(args) {

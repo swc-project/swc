@@ -3237,7 +3237,7 @@
                 e.translate(r, 0);
             }, V = function(e, t, r, n) {
                 e.save();
-                var i, o, a, u, l, s = (null === (i = t.box) || void 0 === i ? void 0 : i.x) || 0, c = (null === (o = t.box) || void 0 === o ? void 0 : o.y) || 0, f = null === (a = t.runs[0]) || void 0 === a ? void 0 : a.attributes.font, d = (null === (u = t.runs[0]) || void 0 === u ? void 0 : null === (l = u.attributes) || void 0 === l ? void 0 : l.scale) || 1, p = (0, w.default)(t), h = f.ascent * d, y = f.xHeight * d, g = f.descent * d, v = f.capHeight * d, b = s, m = c;
+                var i, o, a, u, l, s = (null === (i = t.box) || void 0 === i ? void 0 : i.x) || 0, c = (null === (o = t.box) || void 0 === o ? void 0 : o.y) || 0, f = null === (a = t.runs[0]) || void 0 === a ? void 0 : a.attributes.font, d = (null === (u = t.runs[0]) || void 0 === u || null === (l = u.attributes) || void 0 === l ? void 0 : l.scale) || 1, p = (0, w.default)(t), h = f.ascent * d, y = f.xHeight * d, g = f.descent * d, v = f.capHeight * d, b = s, m = c;
                 switch(r){
                     case "middle":
                         b = s - p / 2;
@@ -3501,10 +3501,10 @@
                 n && e.dash(n.split(","));
             }, ep = function(e) {
                 var t, r;
-                return (null === (t = e.props) || void 0 === t ? void 0 : null === (r = t.fill) || void 0 === r ? void 0 : r.type) === l.LinearGradient;
+                return (null === (t = e.props) || void 0 === t || null === (r = t.fill) || void 0 === r ? void 0 : r.type) === l.LinearGradient;
             }, eh = function(e) {
                 var t, r;
-                return (null === (t = e.props) || void 0 === t ? void 0 : null === (r = t.fill) || void 0 === r ? void 0 : r.type) === l.RadialGradient;
+                return (null === (t = e.props) || void 0 === t || null === (r = t.fill) || void 0 === r ? void 0 : r.type) === l.RadialGradient;
             }, ey = function(e, t) {
                 var r, n = ei(t), i = (null === (r = t.props) || void 0 === r ? void 0 : r.fill) || null, o = i.props.x1 || 0, a = i.props.y1 || 0, u = i.props.x2 || 1, l = i.props.y2 || 0, s = n[2] - n[0], c = n[3] - n[1], f = n[0], d = n[1], p = e.linearGradient(s * o + f, c * a + d, s * u + f, c * l + d);
                 i.children.forEach(function(e) {
@@ -3999,7 +3999,7 @@
                     ej(e, t, {});
                 }), e.restore();
             }, o[l.Note] = function(e, t) {
-                var r, n, i, o = t.box, a = o.top, u = o.left, l = (null == t ? void 0 : null === (r = t.children) || void 0 === r ? void 0 : r[0].value) || "", s = (null === (n = t.style) || void 0 === n ? void 0 : n.backgroundColor) || null, c = (null === (i = t.style) || void 0 === i ? void 0 : i.borderWidth) || null;
+                var r, n, i, o = t.box, a = o.top, u = o.left, l = (null == t || null === (r = t.children) || void 0 === r ? void 0 : r[0].value) || "", s = (null === (n = t.style) || void 0 === n ? void 0 : n.backgroundColor) || null, c = (null === (i = t.style) || void 0 === i ? void 0 : i.borderWidth) || null;
                 e.note(u, a, 0, 0, l, {
                     color: s,
                     borderWidth: c
@@ -5377,7 +5377,7 @@
             t.__esModule = !0, t.default = void 0;
             var i = r(4354), o = n(r(4573)), a = n(r(9845)), u = String.fromCharCode(8230);
             t.default = function(e) {
-                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (l = (0, i.last)(t)) || void 0 === l ? void 0 : null === (s = l.attributes) || void 0 === s ? void 0 : s.font;
+                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (l = (0, i.last)(t)) || void 0 === l || null === (s = l.attributes) || void 0 === s ? void 0 : s.font;
                 if (r) {
                     var n, l, s, c, f = e.length - 1, d = r.encode ? parseInt(r.encode(u)[0][0], 16) : 8230, p = r.glyphForCodePoint(d), h = (0, a.default)(p, (0, o.default)(e[f]));
                     return Object.assign([], e, ((c = {})[f] = h, c));
@@ -5564,7 +5564,7 @@
                 return c.push(o.default.glue(0, null, o.default.infinity, 0)), c.push(o.default.penalty(0, -o.default.infinity, 1)), c;
             }, d = function(e) {
                 var t, r;
-                return (null === (t = e.runs) || void 0 === t ? void 0 : null === (r = t[0]) || void 0 === r ? void 0 : r.attributes) || {};
+                return (null === (t = e.runs) || void 0 === t || null === (r = t[0]) || void 0 === r ? void 0 : r.attributes) || {};
             };
             t.default = function(e) {
                 return function(t, r) {
@@ -5998,7 +5998,7 @@
             t.default = function(e, t) {
                 return function(r) {
                     var n, a = (void 0 === (n = e) && (n = {}), function(e, r, a) {
-                        var u, l, d, p = r === a.length - 1, h = (null === (l = e.runs) || void 0 === l ? void 0 : null === (d = l[0]) || void 0 === d ? void 0 : d.attributes) || {}, y = p ? h.alignLastLine : h.align;
+                        var u, l, d, p = r === a.length - 1, h = (null === (l = e.runs) || void 0 === l || null === (d = l[0]) || void 0 === d ? void 0 : d.attributes) || {}, y = p ? h.alignLastLine : h.align;
                         return (0, i.compose)(n.textDecoration(t), (u = n, function(e) {
                             var r = (0, o.default)(e), n = s[y] || 0, i = Math.max(0, e.box.width - r), a = "justify" === y || r > e.box.width, l = e.box.x + i * n, c = Object.assign({}, e.box, {
                                 x: l
@@ -6085,7 +6085,7 @@
             }, u = function(e, t, r) {
                 var n = e.y;
                 return t.map(function(t, i) {
-                    var u, l, s = 0 === i ? r : 0, c = (null === (u = t.runs) || void 0 === u ? void 0 : null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, f = Math.max((0, o.default)(t), c.lineHeight), d = Object.assign({}, t);
+                    var u, l, s = 0 === i ? r : 0, c = (null === (u = t.runs) || void 0 === u || null === (l = u[0]) || void 0 === l ? void 0 : l.attributes) || {}, f = Math.max((0, o.default)(t), c.lineHeight), d = Object.assign({}, t);
                     return delete d.syllables, d.box = {
                         x: e.x + s,
                         y: n,
@@ -6096,7 +6096,7 @@
             };
             t.default = function(e, t) {
                 return function(r, n) {
-                    var i, o, a, l = (null === (i = n.runs) || void 0 === i ? void 0 : null === (o = i[0]) || void 0 === o ? void 0 : null === (a = o.attributes) || void 0 === a ? void 0 : a.indent) || 0, s = [
+                    var i, o, a, l = (null === (i = n.runs) || void 0 === i || null === (o = i[0]) || void 0 === o || null === (a = o.attributes) || void 0 === a ? void 0 : a.indent) || 0, s = [
                         r.width - l,
                         r.width
                     ];
@@ -6166,7 +6166,7 @@
              * @return {Object} run
              */ var r = function(e) {
                 if (!e.positions) return e;
-                var t, r, n, i = (null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.unitsPerEm) || 0, o = ((null === (n = e.attributes) || void 0 === n ? void 0 : n.yOffset) || 0) * i, a = e.positions.map(function(e) {
+                var t, r, n, i = (null === (t = e.attributes) || void 0 === t || null === (r = t.font) || void 0 === r ? void 0 : r.unitsPerEm) || 0, o = ((null === (n = e.attributes) || void 0 === n ? void 0 : n.yOffset) || 0) * i, a = e.positions.map(function(e) {
                     return Object.assign({}, e, {
                         yOffset: o
                     });
@@ -6329,7 +6329,7 @@
             var i = n(r(3241));
             t.default = function(e) {
                 var t, r, n, o;
-                return Math.max((null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.attachment) || void 0 === r ? void 0 : r.height) || 0, ((null === (n = e.attributes) || void 0 === n ? void 0 : null === (o = n.font) || void 0 === o ? void 0 : o.ascent) || 0) * (0, i.default)(e));
+                return Math.max((null === (t = e.attributes) || void 0 === t || null === (r = t.attachment) || void 0 === r ? void 0 : r.height) || 0, ((null === (n = e.attributes) || void 0 === n || null === (o = n.font) || void 0 === o ? void 0 : o.ascent) || 0) * (0, i.default)(e));
             };
         /***/ },
         /***/ 8687: /***/ function(e, t, r) {
@@ -6356,7 +6356,7 @@
             t.__esModule = !0, t.default = void 0;
             var i = n(r(3241));
             t.default = function(e) {
-                var t, r, n = (null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.descent) || 0;
+                var t, r, n = (null === (t = e.attributes) || void 0 === t || null === (r = t.font) || void 0 === r ? void 0 : r.descent) || 0;
                 return (0, i.default)(e) * n;
             };
         /***/ },
@@ -6461,7 +6461,7 @@
             t.__esModule = !0, t.default = void 0;
             var n = r(4354);
             t.default = function(e, t) {
-                var r, i = null == t ? void 0 : null === (r = t.glyphIndices) || void 0 === r ? void 0 : r[e];
+                var r, i = null == t || null === (r = t.glyphIndices) || void 0 === r ? void 0 : r[e];
                 return (0, n.isNil)(i) ? e : i;
             };
         /***/ },
@@ -6524,7 +6524,7 @@
             var i = n(r(3241));
             t.default = function(e) {
                 var t, r;
-                return ((null === (t = e.attributes) || void 0 === t ? void 0 : null === (r = t.font) || void 0 === r ? void 0 : r.lineGap) || 0) * (0, i.default)(e);
+                return ((null === (t = e.attributes) || void 0 === t || null === (r = t.font) || void 0 === r ? void 0 : r.lineGap) || 0) * (0, i.default)(e);
             };
         /***/ },
         /***/ 4363: /***/ function(e, t) {

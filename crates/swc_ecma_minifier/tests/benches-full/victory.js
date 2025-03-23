@@ -20254,7 +20254,7 @@
          */ function(childComponents, type) {
                     var findComponents = function(children) {
                         return children.reduce(function(memo, child) {
-                            return child.type && "axis" === child.type.role && ("dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis) ? memo.concat(child) : child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
+                            return child.type && "axis" === child.type.role && ("dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis) || child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
                         }, []);
                     };
                     return findComponents(childComponents);

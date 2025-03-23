@@ -1939,7 +1939,7 @@
                             var invokeArgs = invokeQueue[i], provider = providerInjector.get(invokeArgs[0]);
                             provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
                         }
-                        else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
+                        else isFunction(module) || isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
                     } catch (e) {
                         throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && // Safari & FF's stack traces don't contain error.message content
                         // unlike those of Chrome and IE
@@ -2072,7 +2072,7 @@
                 function scroll() {
                     var list, result, elm, hash = $location.hash();
                     // empty hash, scroll to the top of the page
-                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
+                    hash ? (elm = document1.getElementById(hash)) || (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }

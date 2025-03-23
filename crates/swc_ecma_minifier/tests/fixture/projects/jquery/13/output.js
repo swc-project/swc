@@ -13,9 +13,7 @@ function internalRemoveData(elem, name, pvt) {
                 // Since there is no way to tell _how_ a key was added, remove
                 // both plain key and camelCase key. #12786
                 // This will only penalize the array argument path.
-                name = jQuery.isArray(name) ? name.concat(jQuery.map(name, jQuery.camelCase)) : (name in thisCache) ? [
-                    name
-                ] : (// split the camel cased version by spaces unless a key with the spaces exists
+                name = jQuery.isArray(name) ? name.concat(jQuery.map(name, jQuery.camelCase)) : (name in thisCache) || (// split the camel cased version by spaces unless a key with the spaces exists
                 (name = jQuery.camelCase(name)) in thisCache) ? [
                     name
                 ] : name.split(" ")).length; i < l; i++)delete thisCache[name[i]];

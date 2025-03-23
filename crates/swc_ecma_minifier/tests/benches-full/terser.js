@@ -8636,7 +8636,7 @@
                         stat.body = make_sequence(stat.body, exprs);
                     }
                     statements[++j] = stat;
-                } else stat instanceof AST_Switch ? stat.expression = extract_object_assignments(stat.expression) : stat instanceof AST_With ? stat.expression = extract_object_assignments(stat.expression) : statements[++j] = stat;
+                } else stat instanceof AST_Switch || stat instanceof AST_With ? stat.expression = extract_object_assignments(stat.expression) : statements[++j] = stat;
             }
             function extract_object_assignments(value) {
                 statements[++j] = stat;

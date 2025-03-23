@@ -192,7 +192,7 @@
                                 const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
                                 for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
                                     var ref;
-                                    (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
+                                    (null == j || null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 }
                                 const newTags = components.map(reactElementToDOM).filter((newTag)=>{
                                     for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
@@ -2067,7 +2067,7 @@
                                     }), "type" in routeInfo) throw Error("Unexpected middleware effect on /404");
                                 }
                             }
-                            Router.events.emit("beforeHistoryChange", as, routeProps), _this.changeState(method, url, as, options), isQueryUpdating && "/_error" === pathname && (null == (ref2 = self.__NEXT_DATA__.props) ? void 0 : null == (ref3 = ref2.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps) && // ensure statusCode is still correct for static 500 page
+                            Router.events.emit("beforeHistoryChange", as, routeProps), _this.changeState(method, url, as, options), isQueryUpdating && "/_error" === pathname && (null == (ref2 = self.__NEXT_DATA__.props) || null == (ref3 = ref2.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps) && // ensure statusCode is still correct for static 500 page
                             // when updating query information
                             (props.pageProps.statusCode = 500);
                             // shallow routing is only allowed for same page URL changes.
@@ -2278,8 +2278,8 @@
                                             text: data.text,
                                             effect
                                         }))).catch((_err)=>null) : null));
-                            if (isQueryUpdating && data && (data.json = self.__NEXT_DATA__.props), handleCancelled(), (null == data ? void 0 : null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data ? void 0 : null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return data.effect;
-                            if ((null == data ? void 0 : null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), // Check again the cache with the new destination.
+                            if (isQueryUpdating && data && (data.json = self.__NEXT_DATA__.props), handleCancelled(), (null == data || null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data || null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return data.effect;
+                            if ((null == data || null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), // Check again the cache with the new destination.
                             existingInfo = _this.components[route], routeProps.shallow && existingInfo && _this.route === route && !hasMiddleware)) // If we have a match with the current route due to rewrite,
                             // we can copy the existing information to the rewritten one.
                             // Then, we return the information along with the matched route.
