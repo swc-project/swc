@@ -25,7 +25,7 @@
                 });
                 return m;
             };
-            var M = (m, S, h)=>(h = null != m ? L(N(m)) : {}, D(S || !m || !m.__esModule ? j(h, "default", {}) : h, m));
+            var M = (m, S, h)=>(h = null != m ? L(N(m)) : {}, D(!S && m && m.__esModule ? h : j(h, "default", {}), m));
             var F = (E = ()=>{}, ()=>(k || E((k = {
                     exports: {}
                 }).exports, k), k.exports));
