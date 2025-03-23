@@ -26,6 +26,10 @@ impl Pure<'_> {
                 *init = None;
             }
         }
+
+        if let Some(VarDeclOrExpr::Expr(e)) = init {
+            self.make_bool_short(e, false, true);
+        }
     }
 
     pub(super) fn optimize_for_update(&mut self, update: &mut Option<Box<Expr>>) {
@@ -45,7 +49,10 @@ impl Pure<'_> {
 
             if e.is_invalid() {
                 *update = None;
+                return;
             }
+
+            self.make_bool_short(e, false, true);
         }
     }
 
