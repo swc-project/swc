@@ -4856,6 +4856,7 @@ dependencies = [
  "swc_malloc",
  "swc_node_bundler",
  "swc_nodejs_common",
+ "swc_parallel",
  "swc_plugin",
  "swc_plugin_macro",
  "swc_plugin_proxy",

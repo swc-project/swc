@@ -220,6 +220,12 @@ plugin_transform_host_native_filesystem_cache = [
 plugin_transform_host_native_shared_runtime = [
   "swc_plugin_runner/plugin_transform_host_native_shared_runtime",
 ]
+
+# Enable parallel execution of various modules, including minifier using chili
+parallel_chili = ["swc_parallel/chili"]
+# Enable parallel execution of various modules, including minifier using rayon
+parallel_rayon = ["swc_parallel/rayon"]
+
 ### Internal features that public features are relying on.
 ### This is not supposed to be used directly, and does not gaurantee
 ### stability across each versions.
@@ -339,6 +345,7 @@ once_cell = { workspace = true, optional = true }
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "16.0.0", path = "../binding_macros" }
 swc                              = { optional = true, version = "16.1.1", path = "../swc" }
+swc_allocator                    = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "5.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "11.0.0", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "2.0.0", path = "../swc_cached" }
@@ -374,16 +381,15 @@ swc_ecma_visit                   = { optional = true, version = "8.0.0", path = 
 swc_malloc                       = { optional = true, version = "1.2.2", path = "../swc_malloc" }
 swc_node_bundler                 = { optional = true, version = "16.0.0", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "1.0.0", path = "../swc_nodejs_common" }
+swc_parallel                     = { optional = true, version = "1.3.0", path = "../swc_parallel", default-features = false }
 swc_plugin                       = { optional = true, version = "1.0.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "1.0.0", path = "../swc_plugin_macro" }
 swc_plugin_proxy                 = { optional = true, version = "8.0.0", path = "../swc_plugin_proxy" }
+swc_plugin_runner                = { optional = true, version = "8.0.0", path = "../swc_plugin_runner", default-features = false }
 swc_trace_macro                  = { optional = true, version = "2.0.0", path = "../swc_trace_macro" }
 swc_transform_common             = { optional = true, version = "1.0.1", path = "../swc_transform_common" }
 swc_typescript                   = { optional = true, version = "10.0.1", path = "../swc_typescript" }
 testing                          = { optional = true, version = "8.0.0", path = "../testing" }
-# TODO: eventually swc_plugin_runner needs to remove default features
-swc_allocator     = { version = "4.0.0", path = "../swc_allocator", default-features = false }
-swc_plugin_runner = { optional = true, version = "8.0.0", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { workspace = true, features = ["cargo"] }
