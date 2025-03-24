@@ -122,7 +122,9 @@ impl Pure<'_> {
 
         if e.props.iter().any(|p| should_skip(p, self.expr_ctx))
             || !e.props.iter().any(|p| match p {
-                PropOrSpread::Spread(SpreadElement { expr, .. }) => expr.is_object(),
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
+                    expr.is_object() || expr.is_null()
+                }
                 _ => false,
             })
         {
@@ -133,11 +135,19 @@ impl Pure<'_> {
 
         for prop in e.props.take() {
             match prop {
-                PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
-                    if let Expr::Object(ObjectLit { props, .. }) = *expr {
-                        for p in props {
-                            new_props.push(p);
+                PropOrSpread::Spread(SpreadElement { expr, .. })
+                    if expr.is_object() || expr.is_null() =>
+                {
+                    match *expr {
+                        Expr::Object(ObjectLit { props, .. }) => {
+                            for p in props {
+                                new_props.push(p);
+                            }
                         }
+
+                        Expr::Lit(Lit::Null(_)) => {}
+
+                        _ => {}
                     }
                 }
 
