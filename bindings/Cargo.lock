@@ -249,7 +249,7 @@ dependencies = [
  "bitflags 2.9.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -285,7 +285,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.12"
+version = "1.11.13-nightly-20250324.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -373,7 +373,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.12"
+version = "1.11.13-nightly-20250324.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -386,7 +386,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.12"
+version = "1.11.13-nightly-20250324.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4233,7 +4233,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.511"
+version = "0.91.512"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -4352,9 +4352,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "16.9.1"
+version = "16.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "820dabb7f9755981cb7055dba64480daf9ca375a9c96243afb0457cae4814788"
+checksum = "f7453b2e6771d55f483903ed12fa9cf949ff7a3fefdfe4a63a5ea13b542e9eca"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4478,9 +4478,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "8.0.2"
+version = "8.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ebcf9d10c29e289e459e414e21ed8443d8a58625d98b7e716fe295f457f103b5"
+checksum = "01f80679b1afc52ae0663eed0a2539cc3c108d48c287b5601712f9850d9fa9c2"
 dependencies = [
  "bitflags 2.9.0",
  "bytecheck 0.8.1",
@@ -4790,9 +4790,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "12.3.0"
+version = "12.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a7866d3eea5cfafe9fc730f5d3bf1eba60d5d63e4823ec83dd15acfcce21cc8d"
+checksum = "7856c7095f57c0990ba9c22d18469d57b9f68e851cf27d8d99b5a0238648f0ce"
 dependencies = [
  "arrayvec",
  "indexmap 2.8.0",
@@ -5011,9 +5011,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "11.0.2"
+version = "11.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6815f07e48c8274ee5eee6331ede60169985b087e1b511819dddfefde4570f7"
+checksum = "83c0a8368b173d030aa2fb43688dcae11a98332239c902ccd97002327a1573f3"
 dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.8.0",
@@ -5031,6 +5031,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_fast_graph",
+ "swc_parallel",
  "tracing",
 ]
 
