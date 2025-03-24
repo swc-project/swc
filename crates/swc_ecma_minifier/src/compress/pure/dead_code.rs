@@ -682,10 +682,18 @@ impl Pure<'_> {
             return;
         };
 
-        if let Expr::Ident(i) = &**arg {
-            if matches!(&*i.sym, "undefined" | "NaN" | "Infinity") {
-                *e = make_bool(i.span, true);
+        match &**arg {
+            Expr::Ident(i) => {
+                if matches!(&*i.sym, "undefined" | "NaN" | "Infinity") {
+                    *e = make_bool(i.span, false);
+                }
             }
+
+            Expr::Unary(..) | Expr::Bin(..) => {
+                *e = make_bool(e.span(), true);
+            }
+
+            _ => (),
         }
     }
 }
