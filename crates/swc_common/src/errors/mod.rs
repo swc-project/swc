@@ -721,6 +721,14 @@ impl Handler {
         db.emit();
     }
 
+    pub fn err_with_code(&self, msg: &str, code: DiagnosticId) {
+        if self.flags.treat_err_as_bug {
+            self.bug(msg);
+        }
+        let mut db = DiagnosticBuilder::new_with_code(self, Error, Some(code), msg);
+        db.emit();
+    }
+
     pub fn warn(&self, msg: &str) {
         let mut db = DiagnosticBuilder::new(self, Warning, msg);
         db.emit();
