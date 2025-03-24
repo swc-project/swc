@@ -387,7 +387,11 @@ impl Pure<'_> {
     }
 
     /// This method converts `!1` to `0`.
-    pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr, is_ignore: bool) {
+    pub(super) fn optimize_expr_in_bool_ctx(
+        &mut self,
+        n: &mut Expr,
+        is_return_value_ignored: bool,
+    ) {
         match n {
             Expr::Bin(BinExpr {
                 op: op!("&&") | op!("||"),
@@ -397,14 +401,14 @@ impl Pure<'_> {
             }) => {
                 // Regardless if it's truthy or falsy, we can optimize it because it will be
                 // casted as bool anyway.
-                self.optimize_expr_in_bool_ctx(left, is_ignore);
-                self.optimize_expr_in_bool_ctx(right, is_ignore);
+                self.optimize_expr_in_bool_ctx(left, false);
+                self.optimize_expr_in_bool_ctx(right, is_return_value_ignored);
                 return;
             }
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last_mut() {
-                    self.optimize_expr_in_bool_ctx(last, is_ignore);
+                    self.optimize_expr_in_bool_ctx(last, is_return_value_ignored);
                 }
             }
 
@@ -478,7 +482,7 @@ impl Pure<'_> {
             }
 
             Expr::Lit(Lit::Str(s)) => {
-                if !is_ignore {
+                if !is_return_value_ignored {
                     report_change!("Converting string as boolean expressions");
                     self.changed = true;
                     *n = Lit::Num(Number {
