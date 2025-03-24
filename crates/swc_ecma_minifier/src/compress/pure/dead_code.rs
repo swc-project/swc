@@ -689,7 +689,7 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Unary(..) | Expr::Bin(..) => {
+            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..) => {
                 *e = make_bool(e.span(), true);
             }
 
