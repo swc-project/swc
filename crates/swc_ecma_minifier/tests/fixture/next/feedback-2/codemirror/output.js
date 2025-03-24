@@ -3071,18 +3071,15 @@ function(global, factory) {
         setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
-        if (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) {
-            var sel1, obj;
-            obj = {
-                ranges: (sel1 = sel).ranges,
-                update: function(ranges) {
-                    this.ranges = [];
-                    for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc, ranges[i].anchor), clipPos(doc, ranges[i].head));
-                },
-                origin: options && options.origin
-            }, signal(doc, "beforeSelectionChange", doc, obj), doc.cm && signal(doc.cm, "beforeSelectionChange", doc.cm, obj), sel = obj.ranges != sel1.ranges ? normalizeSelection(doc.cm, obj.ranges, obj.ranges.length - 1) : sel1;
-        }
-        var bias = options && options.bias || (0 > cmp(sel.primary().head, doc.sel.primary().head) ? -1 : 1);
+        (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) && (obj = {
+            ranges: (sel1 = sel).ranges,
+            update: function(ranges) {
+                this.ranges = [];
+                for(var i = 0; i < ranges.length; i++)this.ranges[i] = new Range(clipPos(doc, ranges[i].anchor), clipPos(doc, ranges[i].head));
+            },
+            origin: options && options.origin
+        }, signal(doc, "beforeSelectionChange", doc, obj), doc.cm && signal(doc.cm, "beforeSelectionChange", doc.cm, obj), sel = obj.ranges != sel1.ranges ? normalizeSelection(doc.cm, obj.ranges, obj.ranges.length - 1) : sel1);
+        var sel1, obj, bias = options && options.bias || (0 > cmp(sel.primary().head, doc.sel.primary().head) ? -1 : 1);
         setSelectionInner(doc, skipAtomicInSelection(doc, sel, bias, !0)), !(options && !1 === options.scroll) && doc.cm && "nocursor" != doc.cm.getOption("readOnly") && ensureCursorVisible(doc.cm);
     }
     function setSelectionInner(doc, sel) {
@@ -4121,11 +4118,11 @@ function(global, factory) {
             return this.lineSep || "\n";
         },
         setDirection: docMethodOp(function(dir) {
-            if ("rtl" != dir && (dir = "ltr"), dir != this.direction && (this.direction = dir, this.iter(function(line) {
-                return line.order = null;
-            }), this.cm)) {
+            if ("rtl" != dir && (dir = "ltr"), dir != this.direction) {
                 var cm;
-                runInOp(cm = this.cm, function() {
+                this.direction = dir, this.iter(function(line) {
+                    return line.order = null;
+                }), this.cm && runInOp(cm = this.cm, function() {
                     setDirectionClass(cm), regChange(cm);
                 });
             }
@@ -4985,7 +4982,7 @@ function(global, factory) {
     // textarea (making it as unobtrusive as possible) to let the
     // right-click take effect on it.
     function onContextMenu(cm, e) {
-        eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || !signalDOMEvent(cm, e, "contextmenu") && (captureRightClick || cm.display.input.onContextMenu(e));
+        eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || signalDOMEvent(cm, e, "contextmenu") || captureRightClick || cm.display.input.onContextMenu(e);
     }
     function themeChanged(cm) {
         cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-"), clearCaches(cm);

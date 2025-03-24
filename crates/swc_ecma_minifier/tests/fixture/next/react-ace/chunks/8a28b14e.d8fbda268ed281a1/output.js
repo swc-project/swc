@@ -393,7 +393,7 @@
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
                 function getListenerOptions() {
-                    if (void 0 == activeListenerOptions) {
+                    return void 0 == activeListenerOptions && function() {
                         activeListenerOptions = !1;
                         try {
                             document.createComment("").addEventListener("test", function() {}, {
@@ -404,8 +404,7 @@
                                 }
                             });
                         } catch (e) {}
-                    }
-                    return activeListenerOptions;
+                    }(), activeListenerOptions;
                 }
                 function EventListener(elem, type, callback) {
                     this.elem = elem, this.type = type, this.callback = callback;
@@ -1413,103 +1412,100 @@
                 exports.addTouchListeners = function(el, editor) {
                     var startX, startY, touchStartT, lastT, longTouchTimer, animationTimer, pos, pressed, contextMenu, mode = "scroll", animationSteps = 0, clickCount = 0, vX = 0, vY = 0;
                     function showContextMenu() {
-                        if (!contextMenu) {
-                            var clipboard, isOpen, updateMenu, handleClick;
-                            clipboard = window.navigator && window.navigator.clipboard, isOpen = !1, updateMenu = function() {
-                                var selected = editor.getCopyText(), hasUndo = editor.session.getUndoManager().hasUndo();
-                                contextMenu.replaceChild(dom.buildDom(isOpen ? [
+                        contextMenu || (clipboard = window.navigator && window.navigator.clipboard, isOpen = !1, updateMenu = function() {
+                            var selected = editor.getCopyText(), hasUndo = editor.session.getUndoManager().hasUndo();
+                            contextMenu.replaceChild(dom.buildDom(isOpen ? [
+                                "span",
+                                !selected && [
                                     "span",
-                                    !selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "selectall"
-                                        },
-                                        "Select All"
-                                    ],
-                                    selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "copy"
-                                        },
-                                        "Copy"
-                                    ],
-                                    selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "cut"
-                                        },
-                                        "Cut"
-                                    ],
-                                    clipboard && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "paste"
-                                        },
-                                        "Paste"
-                                    ],
-                                    hasUndo && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "undo"
-                                        },
-                                        "Undo"
-                                    ],
-                                    [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "find"
-                                        },
-                                        "Find"
-                                    ],
-                                    [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "openCommandPallete"
-                                        },
-                                        "Pallete"
-                                    ]
-                                ] : [
-                                    "span"
-                                ]), contextMenu.firstChild);
-                            }, handleClick = function(e) {
-                                var action = e.target.getAttribute("action");
-                                if ("more" == action || !isOpen) return isOpen = !isOpen, updateMenu();
-                                "paste" == action ? clipboard.readText().then(function(text) {
-                                    editor.execCommand(action, text);
-                                }) : action && (("cut" == action || "copy" == action) && (clipboard ? clipboard.writeText(editor.getCopyText()) : document.execCommand("copy")), editor.execCommand(action)), contextMenu.firstChild.style.display = "none", isOpen = !1, "openCommandPallete" != action && editor.focus();
-                            }, contextMenu = dom.buildDom([
-                                "div",
-                                {
-                                    class: "ace_mobile-menu",
-                                    ontouchstart: function(e) {
-                                        mode = "menu", e.stopPropagation(), e.preventDefault(), editor.textInput.focus();
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "selectall"
                                     },
-                                    ontouchend: function(e) {
-                                        e.stopPropagation(), e.preventDefault(), handleClick(e);
+                                    "Select All"
+                                ],
+                                selected && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "copy"
                                     },
-                                    onclick: handleClick
-                                },
-                                [
-                                    "span"
+                                    "Copy"
+                                ],
+                                selected && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "cut"
+                                    },
+                                    "Cut"
+                                ],
+                                clipboard && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "paste"
+                                    },
+                                    "Paste"
+                                ],
+                                hasUndo && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "undo"
+                                    },
+                                    "Undo"
                                 ],
                                 [
                                     "span",
                                     {
                                         class: "ace_mobile-button",
-                                        action: "more"
+                                        action: "find"
                                     },
-                                    "..."
+                                    "Find"
+                                ],
+                                [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "openCommandPallete"
+                                    },
+                                    "Pallete"
                                 ]
-                            ], editor.container);
-                        }
-                        var cursor = editor.selection.cursor, pagePos = editor.renderer.textToScreenCoordinates(cursor.row, cursor.column), leftOffset = editor.renderer.textToScreenCoordinates(0, 0).pageX, scrollLeft = editor.renderer.scrollLeft, rect = editor.container.getBoundingClientRect();
+                            ] : [
+                                "span"
+                            ]), contextMenu.firstChild);
+                        }, handleClick = function(e) {
+                            var action = e.target.getAttribute("action");
+                            if ("more" == action || !isOpen) return isOpen = !isOpen, updateMenu();
+                            "paste" == action ? clipboard.readText().then(function(text) {
+                                editor.execCommand(action, text);
+                            }) : action && (("cut" == action || "copy" == action) && (clipboard ? clipboard.writeText(editor.getCopyText()) : document.execCommand("copy")), editor.execCommand(action)), contextMenu.firstChild.style.display = "none", isOpen = !1, "openCommandPallete" != action && editor.focus();
+                        }, contextMenu = dom.buildDom([
+                            "div",
+                            {
+                                class: "ace_mobile-menu",
+                                ontouchstart: function(e) {
+                                    mode = "menu", e.stopPropagation(), e.preventDefault(), editor.textInput.focus();
+                                },
+                                ontouchend: function(e) {
+                                    e.stopPropagation(), e.preventDefault(), handleClick(e);
+                                },
+                                onclick: handleClick
+                            },
+                            [
+                                "span"
+                            ],
+                            [
+                                "span",
+                                {
+                                    class: "ace_mobile-button",
+                                    action: "more"
+                                },
+                                "..."
+                            ]
+                        ], editor.container));
+                        var clipboard, isOpen, updateMenu, handleClick, cursor = editor.selection.cursor, pagePos = editor.renderer.textToScreenCoordinates(cursor.row, cursor.column), leftOffset = editor.renderer.textToScreenCoordinates(0, 0).pageX, scrollLeft = editor.renderer.scrollLeft, rect = editor.container.getBoundingClientRect();
                         contextMenu.style.top = pagePos.pageY - rect.top - 3 + "px", pagePos.pageX - rect.left < rect.width - 70 ? (contextMenu.style.left = "", contextMenu.style.right = "10px") : (contextMenu.style.right = "", contextMenu.style.left = leftOffset + scrollLeft - rect.left + "px"), contextMenu.style.display = "", contextMenu.firstChild.style.display = "none", editor.on("input", hideContextMenu);
                     }
                     function hideContextMenu(e) {

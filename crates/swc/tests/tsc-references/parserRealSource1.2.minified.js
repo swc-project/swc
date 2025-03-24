@@ -7,7 +7,7 @@ function Alert(output) {
 CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
     CompilerDiagnostics.debug && Alert(s);
 }, CompilerDiagnostics.assert = function(condition, s) {
-    CompilerDiagnostics.debug && (condition || Alert(s));
+    CompilerDiagnostics.debug && !condition && Alert(s);
 }, TypeScript1.NullLogger = /*#__PURE__*/ function() {
     function NullLogger() {
         _class_call_check(this, NullLogger);

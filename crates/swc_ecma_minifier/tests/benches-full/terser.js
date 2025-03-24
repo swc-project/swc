@@ -1241,15 +1241,14 @@
         }
         function _function_body(block, generator, is_async, name, args) {
             var loop = S.in_loop, labels = S.labels, current_generator = S.in_generator, current_async = S.in_async;
-            if (++S.in_function, generator && (S.in_generator = S.in_function), is_async && (S.in_async = S.in_function), args) {
+            if (++S.in_function, generator && (S.in_generator = S.in_function), is_async && (S.in_async = S.in_function), args && function(params) {
                 var used_parameters = new UsedParametersTracker(!0, S.input.has_directive("use strict"));
                 for(expect("("); !is("punc", ")");){
                     var param = parameter(used_parameters);
-                    if (args.push(param), is("punc", ")") || expect(","), param instanceof AST_Expansion) break;
+                    if (params.push(param), is("punc", ")") || expect(","), param instanceof AST_Expansion) break;
                 }
                 next();
-            }
-            if (block && (S.in_directives = !0), S.in_loop = 0, S.labels = [], block) {
+            }(args), block && (S.in_directives = !0), S.in_loop = 0, S.labels = [], block) {
                 S.input.push_directives_stack();
                 var a = block_();
                 name && _verify_symbol(name), args && args.forEach(_verify_symbol), S.input.pop_directives_stack();
@@ -5240,10 +5239,8 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) {
-                var back;
-                print((back = 0.5 * !!half, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
-            }
+            var back;
+            options.beautify && print((back = 0.5 * !!half, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -5818,7 +5815,7 @@
             var expr = self1.expression;
             expr.print(output);
             var prop = self1.property, print_computed = ALL_RESERVED_WORDS.has(prop) ? output.option("ie8") : !is_identifier_string(prop, output.option("ecma") >= 2015 && !output.option("safari10"));
-            self1.optional && output.print("?."), print_computed ? (output.print("["), output.add_mapping(self1.end), output.print_string(prop), output.print("]")) : (expr instanceof AST_Number && expr.getValue() >= 0 && (/[xa-f.)]/i.test(output.last()) || output.print(".")), self1.optional || output.print("."), // the name after dot would be mapped about here.
+            self1.optional && output.print("?."), print_computed ? (output.print("["), output.add_mapping(self1.end), output.print_string(prop), output.print("]")) : (expr instanceof AST_Number && expr.getValue() >= 0 && !/[xa-f.)]/i.test(output.last()) && output.print("."), self1.optional || output.print("."), // the name after dot would be mapped about here.
             output.add_mapping(self1.end), output.print_name(prop));
         }), DEFPRINT(AST_DotHash, function(self1, output) {
             self1.expression.print(output);
@@ -10589,7 +10586,7 @@
                 self1.left = self1.right, self1.right = tmp;
             }
         }
-        if (compressor.option("lhs_constants") && commutativeOperators.has(self1.operator) && self1.right.is_constant() && !self1.left.is_constant() && (self1.left instanceof AST_Binary && PRECEDENCE[self1.left.operator] >= PRECEDENCE[self1.operator] || reverse()), self1 = self1.lift_sequences(compressor), compressor.option("comparisons")) switch(self1.operator){
+        if (compressor.option("lhs_constants") && commutativeOperators.has(self1.operator) && self1.right.is_constant() && !self1.left.is_constant() && !(self1.left instanceof AST_Binary && PRECEDENCE[self1.left.operator] >= PRECEDENCE[self1.operator]) && reverse(), self1 = self1.lift_sequences(compressor), compressor.option("comparisons")) switch(self1.operator){
             case "===":
             case "!==":
                 var is_strict_comparison = !0;
@@ -19806,16 +19803,14 @@
             if (null === options.parse.toplevel) throw Error("no source file given");
             toplevel = options.parse.toplevel;
         }
-        if (quoted_props && "strict" !== options.mangle.properties.keep_quoted) {
-            var reserved = quoted_props;
+        quoted_props && "strict" !== options.mangle.properties.keep_quoted && function(ast, reserved) {
             function add(name) {
                 push_uniq(reserved, name);
             }
-            toplevel.walk(new TreeWalker(function(node) {
+            ast.walk(new TreeWalker(function(node) {
                 node instanceof AST_ObjectKeyVal && node.quote ? add(node.key) : node instanceof AST_ObjectProperty && node.quote ? add(node.key.name) : node instanceof AST_Sub && addStrings(node.property, add);
             }));
-        }
-        options.mangle && options.mangle.properties && (annotated_props = find_annotated_props(toplevel)), options.wrap && (toplevel = toplevel.wrap_commonjs(options.wrap)), options.enclose && (toplevel = toplevel.wrap_enclose(options.enclose)), timings && (timings.rename = Date.now()), timings && (timings.compress = Date.now()), options.compress && (toplevel = new Compressor(options.compress, {
+        }(toplevel, quoted_props), options.mangle && options.mangle.properties && (annotated_props = find_annotated_props(toplevel)), options.wrap && (toplevel = toplevel.wrap_commonjs(options.wrap)), options.enclose && (toplevel = toplevel.wrap_enclose(options.enclose)), timings && (timings.rename = Date.now()), timings && (timings.compress = Date.now()), options.compress && (toplevel = new Compressor(options.compress, {
             mangle_options: options.mangle
         }).compress(toplevel)), timings && (timings.scope = Date.now()), options.mangle && toplevel.figure_out_scope(options.mangle), timings && (timings.mangle = Date.now()), options.mangle && (toplevel.compute_char_frequency(options.mangle), toplevel.mangle_names(options.mangle), toplevel = function(ast, options) {
             var cprivate = -1, private_cache = new Map(), nth_identifier = options.nth_identifier || base54;
@@ -19843,7 +19838,48 @@
                 reserved_option
             ]);
             var reserved = new Set(reserved_option);
-            if (!options.builtins) {
+            options.builtins || /***********************************************************************
+    
+      A JavaScript tokenizer / parser / beautifier / compressor.
+      https://github.com/mishoo/UglifyJS2
+    
+      -------------------------------- (C) ---------------------------------
+    
+                               Author: Mihai Bazon
+                             <mihai.bazon@gmail.com>
+                           http://mihai.bazon.net/blog
+    
+      Distributed under the BSD license:
+    
+        Copyright 2012 (c) Mihai Bazon <mihai.bazon@gmail.com>
+    
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions
+        are met:
+    
+            * Redistributions of source code must retain the above
+              copyright notice, this list of conditions and the following
+              disclaimer.
+    
+            * Redistributions in binary form must reproduce the above
+              copyright notice, this list of conditions and the following
+              disclaimer in the documentation and/or other materials
+              provided with the distribution.
+    
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER “AS IS” AND ANY
+        EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+        PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE
+        LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+        OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+        PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+        PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+        THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+        TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+        THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+        SUCH DAMAGE.
+    
+     ***********************************************************************/ function(reserved) {
                 domprops.forEach(add);
                 var objects = {}, global_ref = "object" == typeof global ? global : self;
                 function add(name) {
@@ -19917,7 +19953,7 @@
                 ].forEach(function(ctor) {
                     Object.getOwnPropertyNames(ctor).map(add), ctor.prototype && Object.getOwnPropertyNames(ctor.prototype).map(add);
                 });
-            }
+            }(reserved);
             var cname = -1;
             cache = options.cache ? options.cache.props : new Map();
             var only_annotated = options.only_annotated, regex = options.regex && new RegExp(options.regex), debug = !1 !== options.debug;
@@ -19931,17 +19967,17 @@
             return(// step 1: find candidates to mangle
             ast.walk(new TreeWalker(function(node) {
                 if (node instanceof AST_ClassPrivateProperty || node instanceof AST_PrivateMethod || node instanceof AST_PrivateGetter || node instanceof AST_PrivateSetter || node instanceof AST_DotHash) ;
-                else if (node instanceof AST_ObjectKeyVal) "string" != typeof node.key || keep_quoted && node.quote || add1(node.key);
+                else if (node instanceof AST_ObjectKeyVal) "string" != typeof node.key || keep_quoted && node.quote || add(node.key);
                 else if (node instanceof AST_ObjectProperty) // setter or getter, since KeyVal is handled above
-                keep_quoted && node.quote || add1(node.key.name);
+                keep_quoted && node.quote || add(node.key.name);
                 else if (node instanceof AST_Dot) {
                     var declared = !!options.undeclared;
                     if (!declared) {
                         for(var root = node; root.expression;)root = root.expression;
                         declared = !(root.thedef && root.thedef.undeclared);
                     }
-                    !declared || keep_quoted && node.quote || add1(node.property);
-                } else node instanceof AST_Sub ? keep_quoted || addStrings(node.property, add1) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? addStrings(node.args[1], add1) : node instanceof AST_Binary && "in" === node.operator ? addStrings(node.left, add1) : node instanceof AST_String && has_annotation(node, _KEY) && add1(node.value);
+                    !declared || keep_quoted && node.quote || add(node.property);
+                } else node instanceof AST_Sub ? keep_quoted || addStrings(node.property, add) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? addStrings(node.args[1], add) : node instanceof AST_Binary && "in" === node.operator ? addStrings(node.left, add) : node instanceof AST_String && has_annotation(node, _KEY) && add(node.value);
             })), ast.transform(new TreeTransformer(function(node) {
                 node instanceof AST_ClassPrivateProperty || node instanceof AST_PrivateMethod || node instanceof AST_PrivateGetter || node instanceof AST_PrivateSetter || node instanceof AST_DotHash || (node instanceof AST_ObjectKeyVal ? "string" != typeof node.key || keep_quoted && node.quote || (node.key = mangle(node.key)) : node instanceof AST_ObjectProperty ? keep_quoted && node.quote || (node.key.name = mangle(node.key.name)) : node instanceof AST_Dot ? keep_quoted && node.quote || (node.property = mangle(node.property)) : !keep_quoted && node instanceof AST_Sub ? node.property = mangleStrings(node.property) : node instanceof AST_Call && "Object.defineProperty" == node.expression.print_to_string() ? node.args[1] = mangleStrings(node.args[1]) : node instanceof AST_Binary && "in" === node.operator ? node.left = mangleStrings(node.left) : node instanceof AST_String && has_annotation(node, _KEY) && (// Clear _KEY annotation to prevent double mangling
                 clear_annotation(node, _KEY), node.value = mangle(node.value)));
@@ -19953,7 +19989,7 @@
             function should_mangle(name) {
                 return (!only_annotated || !!annotated_props.has(name)) && (regex && !regex.test(name) ? annotated_props.has(name) : !reserved.has(name) && (cache.has(name) || names_to_mangle.has(name)));
             }
-            function add1(name) {
+            function add(name) {
                 can_mangle(name) && names_to_mangle.add(name), should_mangle(name) || unmangleable.add(name);
             }
             function mangle(name) {

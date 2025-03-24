@@ -13194,7 +13194,7 @@ function(global, factory) {
                     hole_unassigned && betterShapeHoles[_sIdx].push(ho);
                 }
                  // console.log("ambiguous: ", ambiguous);
-                toChange.length > 0 && (ambiguous || (newShapeHoles = betterShapeHoles));
+                toChange.length > 0 && !ambiguous && (newShapeHoles = betterShapeHoles);
             }
             for(var _i = 0, il = newShapes.length; _i < il; _i++){
                 tmpShape = newShapes[_i].s, shapes.push(tmpShape), tmpHoles = newShapeHoles[_i];

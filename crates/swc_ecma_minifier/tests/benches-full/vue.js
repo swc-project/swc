@@ -777,7 +777,7 @@
                     return;
                 }
                 var validator = prop.validator;
-                validator && (validator(value) || warn('Invalid prop: custom validator check failed for prop "' + name + '".', vm));
+                validator && !validator(value) && warn('Invalid prop: custom validator check failed for prop "' + name + '".', vm);
             }
         }(prop, key, value, vm, absent), value);
     }

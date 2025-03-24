@@ -1063,7 +1063,7 @@
                     for(var key in event = {}, old)// Safari 6.0.3 warns you if you try to copy deprecated layerX/Y
                     // Chrome warns you if you try to copy deprecated keyboardEvent.keyLocation
                     // and webkitMovementX/Y
-                    "layerX" !== key && "layerY" !== key && "keyLocation" !== key && "webkitMovementX" !== key && "webkitMovementY" !== key && ("returnValue" === key && old.preventDefault || (event[key] = old[key]));
+                    "layerX" === key || "layerY" === key || "keyLocation" === key || "webkitMovementX" === key || "webkitMovementY" === key || "returnValue" === key && old.preventDefault || (event[key] = old[key]);
                      // The event occurred on this element
                     if (event.target || (event.target = event.srcElement || global_document__WEBPACK_IMPORTED_MODULE_1___default()), event.relatedTarget || (event.relatedTarget = event.fromElement === event.target ? event.toElement : event.fromElement), event.preventDefault = function() {
                         old.preventDefault && old.preventDefault(), event.returnValue = !1, old.returnValue = !1, event.defaultPrevented = !0;
@@ -11346,24 +11346,29 @@
                 if (el) {
                     for(el.parentNode && el.parentNode.removeChild(el); el.hasChildNodes();)el.removeChild(el.firstChild);
                      // remove any src reference. not setting `src=''` because that causes a warning
-                    // however IE on Windows 7N has a bug that throws an error so need a try/catch (#793)
-                    if (// in firefox
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // not supported
-                    }
+                    // in firefox
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // not supported
+                        }
+                    }();
                 }
             }, Html5.resetMediaElement = function(el) {
                 if (el) {
                     for(var sources = el.querySelectorAll("source"), i = sources.length; i--;)el.removeChild(sources[i]);
                      // remove any src reference.
-                    if (// not setting `src=''` because that throws an error
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // satisfy linter
-                    }
+                    // not setting `src=''` because that throws an error
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // satisfy linter
+                        }
+                    }();
                 }
             }, /* Native HTML5 element property wrapping ----------------------------------- */ // Wrap native boolean attributes with getters that check both property and attribute
             // The list is as followed:
@@ -12728,7 +12733,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), // in some cases this will be empty string
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), // in some cases this will be empty string
                         updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"

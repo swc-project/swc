@@ -7794,7 +7794,7 @@
         var textBorderType = retrieve2(textStyleModel.getShallow('textBorderType'), globalTextStyle.textBorderType);
         null != textBorderType && (textStyle.lineDash = textBorderType);
         var textBorderDashOffset = retrieve2(textStyleModel.getShallow('textBorderDashOffset'), globalTextStyle.textBorderDashOffset);
-        null != textBorderDashOffset && (textStyle.lineDashOffset = textBorderDashOffset), isNotNormal || null != opacity || inRich || (opacity = opt && opt.defaultOpacity), null != opacity && (textStyle.opacity = opacity), isNotNormal || isAttached || null == textStyle.fill && opt.inheritColor && (textStyle.fill = opt.inheritColor);
+        null != textBorderDashOffset && (textStyle.lineDashOffset = textBorderDashOffset), isNotNormal || null != opacity || inRich || (opacity = opt && opt.defaultOpacity), null != opacity && (textStyle.opacity = opacity), isNotNormal || isAttached || null != textStyle.fill || !opt.inheritColor || (textStyle.fill = opt.inheritColor);
         // part of these properties may be changed in emphasis style, and the
         // others should remain their original value got from normal style.
         for(var i = 0; i < TEXT_PROPS_WITH_GLOBAL.length; i++){
@@ -9043,6 +9043,7 @@
                 isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
             }
             each(targetNameSet, function() {
+                var errMsg = '';
                 throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
             });
         }
@@ -10225,7 +10226,7 @@
                     if (data && !isTypedArray(data)) for(var i = 0; i < data.length; i++)'object' == typeof data[i] && (compatBarItemStyle(data[i]), compatBarItemStyle(data[i] && data[i].emphasis));
                 } else if ('sunburst' === seriesType) {
                     var highlightPolicy = seriesOpt.highlightPolicy;
-                    highlightPolicy && (seriesOpt.emphasis = seriesOpt.emphasis || {}, !seriesOpt.emphasis.focus) && (seriesOpt.emphasis.focus = highlightPolicy, deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst')), compatSunburstState(seriesOpt), function traverseTree(data, cb) {
+                    highlightPolicy && (seriesOpt.emphasis = seriesOpt.emphasis || {}, seriesOpt.emphasis.focus || (seriesOpt.emphasis.focus = highlightPolicy, deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst'))), compatSunburstState(seriesOpt), function traverseTree(data, cb) {
                         if (data) for(var i = 0; i < data.length; i++)cb(data[i]), data[i] && traverseTree(data[i].children, cb);
                     }(seriesOpt.data, compatSunburstState);
                 } else 'graph' === seriesType || 'sankey' === seriesType ? seriesOpt && null != seriesOpt.focusNodeAdjacency && (seriesOpt.emphasis = seriesOpt.emphasis || {}, null == seriesOpt.emphasis.focus && (deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey'), seriesOpt.emphasis.focus = 'adjacency')) : 'map' === seriesType && (seriesOpt.mapType && !seriesOpt.map && (deprecateReplaceLog('mapType', 'map', 'map'), seriesOpt.map = seriesOpt.mapType), seriesOpt.mapLocation && (deprecateLog('`mapLocation` is not used anymore.'), defaults(seriesOpt, seriesOpt.mapLocation)));
@@ -10877,7 +10878,11 @@
         }
     }, FilterOrderComparator = /** @class */ function() {
         function FilterOrderComparator(op, rval) {
-            'number' != typeof rval && throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.'), this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
+            if ('number' != typeof rval) {
+                var errMsg = '';
+                throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.');
+            }
+            this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
         } // Performance sensitive.
         return FilterOrderComparator.prototype.evaluate = function(lval) {
             // Most cases is 'number', and typeof maybe 10 times faseter than parseFloat.
@@ -10943,11 +10948,19 @@
     }();
     function getRawData(upstream) {
         var sourceFormat = upstream.sourceFormat;
-        return isSupportedSourceFormat(sourceFormat) || throwError('`getRawData` is not supported in source format ' + sourceFormat), upstream.data;
+        if (!isSupportedSourceFormat(sourceFormat)) {
+            var errMsg = '';
+            throwError('`getRawData` is not supported in source format ' + sourceFormat);
+        }
+        return upstream.data;
     }
     function cloneRawData(upstream) {
         var sourceFormat = upstream.sourceFormat, data = upstream.data;
-        if (isSupportedSourceFormat(sourceFormat) || throwError('`cloneRawData` is not supported in source format ' + sourceFormat), sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
+        if (!isSupportedSourceFormat(sourceFormat)) {
+            var errMsg = '';
+            throwError('`cloneRawData` is not supported in source format ' + sourceFormat);
+        }
+        if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
             for(var result = [], i = 0, len = data.length; i < len; i++)// Not strictly clone for performance
             result.push(data[i].slice());
             return result;
@@ -11112,22 +11125,26 @@
             assert(resultSourceList && upstreamSignList), this._setLocalSource(resultSourceList, upstreamSignList);
         }, SourceManager.prototype._applyTransform = function(upMgrList) {
             var encodeDefine, source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
-            assert(null != fromTransformResult || null != transformOption), null != fromTransformResult && 1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
+            if (assert(null != fromTransformResult || null != transformOption), null != fromTransformResult) {
+                var errMsg = '';
+                1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
+            }
             var upSourceList = [], upstreamSignList = [];
             return (each(upMgrList, function(upMgr) {
                 upMgr.prepareSource();
-                var upSource = upMgr.getSource(fromTransformResult || 0);
+                var upSource = upMgr.getSource(fromTransformResult || 0), errMsg = '';
                 null == fromTransformResult || upSource || doThrow('Can not retrieve result by `fromTransformResult`: ' + fromTransformResult), upSourceList.push(upSource), upstreamSignList.push(upMgr._getVersionSign());
             }), transformOption) ? sourceList = function(rawTransOption, sourceList, infoForPrint) {
-                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length;
+                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length, errMsg = '';
                 pipeLen || throwError('If `transform` declared, it should at least contain one transform.');
                 for(var i = 0; i < pipeLen; i++)sourceList = function(transOption, upSourceList, infoForPrint, pipeIndex) {
+                    var errMsg = '';
                     upSourceList.length || throwError('Must have at least one upstream dataset.'), isObject(transOption) || throwError('transform declaration must be an object rather than ' + typeof transOption + '.');
                     var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
                     externalTransform || throwError('Can not find transform on type "' + transType + '".');
                     var extUpSourceList = map(upSourceList, function(upSource) {
                         return function(internalSource, externalTransform) {
-                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex;
+                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex, errMsg = '';
                             internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
                             // Create a new dimensions structure for exposing.
                             // Do not expose all dimension info to users directly.
@@ -11142,7 +11159,13 @@
                                     displayName: dimDef.displayName
                                 };
                                 // do not generate dimension name.
-                                dimensions.push(dimDefExt), null != name && (hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt);
+                                if (dimensions.push(dimDefExt), null != name) {
+                                    // Dimension name should not be duplicated.
+                                    // For simplicity, data transform forbid name duplication, do not generate
+                                    // new name like module `completeDimensions.ts` did, but just tell users.
+                                    var errMsg_1 = '';
+                                    hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt;
+                                }
                             });
                             else for(var i = 0; i < internalSource.dimensionsDetectedCount || 0; i++)// Do not generete name or anything others. The consequence process in
                             // `transform` or `series` probably have there own name generation strategry.
@@ -11173,7 +11196,7 @@
                     }));
                     return transOption.print && !function() {
                         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-                        /* eslint-disable no-console */ 'undefined' != typeof console && console.log && console.log.apply(console, args);
+                        'undefined' != typeof console && console.log && console.log.apply(console, args);
                     }(map(resultList, function(extSource) {
                         return [
                             '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
@@ -11183,8 +11206,9 @@
                             makePrintable(extSource.dimensions)
                         ].join('\n');
                     }).join('\n')), map(resultList, function(result, resultIndex) {
+                        var resultMetaRawOption, errMsg = '';
                         isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined'), isSupportedSourceFormat(detectSourceFormat(result.data)) || throwError('Transform result data should be array rows or object rows.');
-                        var resultMetaRawOption, firstUpSource = upSourceList[0];
+                        var firstUpSource = upSourceList[0];
                         /**
              * Intuitively, the end users known the content of the original `dataset.source`,
              * calucating the transform result in mind.
@@ -15538,13 +15562,9 @@
                 } : null;
                 view.group.traverse(function(el) {
                     if (el.states && el.states.emphasis && !isElementRemoved(el)) {
-                        if (el instanceof Path) {
-                            var store, selectState;
-                            (store = getSavedStates(el)).normalFill = el.style.fill, store.normalStroke = el.style.stroke, store.selectFill = (selectState = el.states.select || {}).style && selectState.style.fill || null, store.selectStroke = selectState.style && selectState.style.stroke || null;
-                        } // Only updated on changed element. In case element is incremental and don't wan't to rerender.
                         // TODO, a more proper way?
-                        if (el.__dirty) {
-                            var prevStates = el.prevStates; // Restore states without animation
+                        if (el instanceof Path && ((store = getSavedStates(el)).normalFill = el.style.fill, store.normalStroke = el.style.stroke, store.selectFill = (selectState = el.states.select || {}).style && selectState.style.fill || null, store.selectStroke = selectState.style && selectState.style.stroke || null), el.__dirty) {
+                            var store, selectState, prevStates = el.prevStates; // Restore states without animation
                             prevStates && el.useStates(prevStates);
                         } // Update state transition and enable animation again.
                         if (enableAnimation) {
@@ -15822,9 +15842,9 @@
                  * (5) no delayed setOption needs to be processed.
                  */ bindRenderedEvent = function(zr, ecIns) {
                 zr.on('rendered', function(params) {
-                    ecIns.trigger('rendered', params), !// and this checking is called on frame, we also check
+                    ecIns.trigger('rendered', params), // and this checking is called on frame, we also check
                     // animation finished for robustness.
-                    zr.animation.isFinished() || ecIns[OPTION_UPDATED_KEY] || ecIns._scheduler.unfinished || ecIns._pendingActions.length || ecIns.trigger('finished');
+                    !zr.animation.isFinished() || ecIns[OPTION_UPDATED_KEY] || ecIns._scheduler.unfinished || ecIns._pendingActions.length || ecIns.trigger('finished');
                 });
             }, bindMouseEvent = function(zr, ecIns) {
                 zr.on('mouseover', function(e) {
@@ -16101,7 +16121,7 @@
         geoSourceManager.registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
-        var type = (externalTransform = clone(externalTransform)).type;
+        var type = (externalTransform = clone(externalTransform)).type, errMsg = '';
         type || throwError('Must have a `type` when `registerTransform`.');
         var typeParsed = type.split(':');
         2 !== typeParsed.length && throwError('Name must include namespace like "ns:regression".');
@@ -33066,7 +33086,10 @@
         type: 'echarts:boxplot',
         transform: function(params) {
             var upstream = params.upstream;
-            upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS && throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
+            if (upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS) {
+                var errMsg = '';
+                throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
+            }
             var result = /**
      * See:
      *  <https://en.wikipedia.org/wiki/Box_plot#cite_note-frigge_hoaglin_iglewicz-2>
@@ -36178,7 +36201,10 @@
                 return data.getId(dataIndex);
             };
             var diffByDimName = data.getDimension(dimension), dimInfo = data.getDimensionInfo(diffByDimName);
-            dimInfo || throwError(dimension + " is not a valid dimension.");
+            if (!dimInfo) {
+                var errMsg = '';
+                throwError(dimension + " is not a valid dimension.");
+            }
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
                 var key = data.get(diffByDimName, dataIndex);
@@ -36203,7 +36229,11 @@
         else if ('compoundPath' === graphicType) throw Error('"compoundPath" is not supported yet.');
         else {
             var Clz = getShapeClass(graphicType);
-            Clz || throwError('graphic type "' + graphicType + '" can not be found.'), el = new Clz();
+            if (!Clz) {
+                var errMsg = '';
+                throwError('graphic type "' + graphicType + '" can not be found.');
+            }
+            el = new Clz();
         }
         return inner$9(el).customGraphicType = graphicType, el.name = elOption.name, // some cases probably be broken: hierarchy layout along z, like circle packing,
         // where emphasis only intending to modify color/border rather than lift z2.
@@ -36848,8 +36878,8 @@
         }
         if (!state && txConOpt) {
             var txConOptNormal_1 = txConOpt; // `textContent: {type: 'text'}`, the "type" is easy to be missing. So we tolerate it.
-            txConOptNormal_1.type || (txConOptNormal_1.type = 'text'), // Do not tolerate incorret type for forward compat.
-            'text' !== txConOptNormal_1.type && assert('text' === txConOptNormal_1.type, 'textContent.type must be "text"');
+            txConOptNormal_1.type || (txConOptNormal_1.type = 'text'), 'text' !== // Do not tolerate incorret type for forward compat.
+            txConOptNormal_1.type && assert('text' === txConOptNormal_1.type, 'textContent.type must be "text"');
         }
         var info = state ? attachedTxInfo[state] : attachedTxInfo.normal;
         info.cfg = txCfg, info.conOpt = txConOpt;
@@ -47967,7 +47997,10 @@
         '<>': 'ne' // Might mileading for sake of the different between '==' and '===',
     }, RegExpEvaluator = /** @class */ function() {
         function RegExpEvaluator(rVal) {
-            null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null) && throwError(makePrintable('Illegal regexp', rVal, 'in'));
+            if (null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null)) {
+                var errMsg = '';
+                throwError(makePrintable('Illegal regexp', rVal, 'in'));
+            }
         }
         return RegExpEvaluator.prototype.evaluate = function(lVal) {
             var type = typeof lVal;
@@ -48007,13 +48040,14 @@
             var val, subOption, errMsg, cond, cond1 = new ConstConditionInternal();
             return cond1.value = exprOption, cond1;
         }
+        var errMsg1 = '';
         if (isObject(exprOption) && !isArrayLike(exprOption) || throwError(makePrintable('Illegal config. Expect a plain object but actually', exprOption)), exprOption.and) return parseAndOrOption('and', exprOption, getters);
         if (exprOption.or) return parseAndOrOption('or', exprOption, getters);
         if (exprOption.not) {
             return subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObject(val = subOption) && !isArrayLike(val) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond;
         }
         return function(exprOption, getters) {
-            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
+            for(var errMsg = '', valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
                 var keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
                     var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
@@ -48049,7 +48083,7 @@
                     dimension: !0
                 }),
                 prepareGetValue: function(exprOption) {
-                    var dimLoose = exprOption.dimension;
+                    var errMsg = '', dimLoose = exprOption.dimension;
                     hasOwn(exprOption, 'dimension') || throwError(makePrintable('Relation condition must has prop "dimension" specified.', 'Illegal condition:', exprOption));
                     var dimInfo = upstream.getDimensionInfo(dimLoose);
                     return dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal condition:', exprOption, '.\n')), {
@@ -48069,12 +48103,19 @@
     var sortTransform = {
         type: 'echarts:sort',
         transform: function(params) {
-            var upstream = params.upstream, orderExprList = normalizeToArray(params.config);
+            var upstream = params.upstream, config = params.config, errMsg = '', orderExprList = normalizeToArray(config);
             orderExprList.length || throwError('Empty `config` in sort transform.');
             var orderDefList = [];
             each(orderExprList, function(orderExpr) {
                 var dimLoose = orderExpr.dimension, order = orderExpr.order, parserName = orderExpr.parser, incomparable = orderExpr.incomparable;
-                null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable && throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".'), 'asc' !== order && 'desc' !== order && throwError('order must be "asc" or "desc" rather than "' + order + '".');
+                if (null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable) {
+                    var errMsg_1 = '';
+                    throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".');
+                }
+                if ('asc' !== order && 'desc' !== order) {
+                    var errMsg_2 = '';
+                    throwError('order must be "asc" or "desc" rather than "' + order + '".');
+                }
                 var dimInfo = upstream.getDimensionInfo(dimLoose);
                 dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal config:', orderExpr, '.\n'));
                 var parser = parserName ? valueParserMap.get(parserName) : null;
