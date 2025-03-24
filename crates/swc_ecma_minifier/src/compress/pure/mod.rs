@@ -289,6 +289,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        self.handle_known_delete(e);
+
         e.visit_mut_children_with(self);
 
         // Expression simplifier
@@ -394,8 +396,6 @@ impl VisitMut for Pure<'_> {
         self.remove_invalid(e);
 
         self.drop_console(e);
-
-        self.handle_delete_global(e);
 
         self.remove_invalid(e);
 

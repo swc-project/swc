@@ -668,7 +668,11 @@ impl Pure<'_> {
         *stmts = new;
     }
 
-    pub(super) fn handle_delete_global(&mut self, e: &mut Expr) {
+    pub(super) fn handle_known_delete(&mut self, e: &mut Expr) {
+        if !self.options.conditionals && !self.options.evaluate && !self.options.sequences() {
+            return;
+        }
+
         let Expr::Unary(UnaryExpr {
             op: op!("delete"),
             arg,
