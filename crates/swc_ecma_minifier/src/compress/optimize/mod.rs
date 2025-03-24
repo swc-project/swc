@@ -2093,8 +2093,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-
-        self.with_ctx(ctx.clone()).optimize_init_of_for_stmt(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
