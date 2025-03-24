@@ -38,7 +38,7 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                self.make_bool_short(left, in_bool_ctx || ignore_return_value, false);
+                self.make_bool_short(left, in_bool_ctx, false);
                 self.make_bool_short(right, in_bool_ctx, ignore_return_value);
 
                 if in_bool_ctx {
@@ -110,11 +110,7 @@ impl Pure<'_> {
                 for (idx, expr) in exprs.iter_mut().enumerate() {
                     let is_last = idx == len - 1;
 
-                    self.make_bool_short(
-                        expr,
-                        !is_last || ignore_return_value,
-                        !is_last || ignore_return_value,
-                    );
+                    self.make_bool_short(expr, false, !is_last || ignore_return_value);
                 }
                 return;
             }
