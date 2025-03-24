@@ -1228,4 +1228,7 @@ impl VisitMut for Pure<'_> {
 
         self.make_bool_short(&mut s.test, true, false);
     }
+
+    /// Noop.
+    fn visit_mut_with_stmt(&mut self, _: &mut WithStmt) {}
 }
