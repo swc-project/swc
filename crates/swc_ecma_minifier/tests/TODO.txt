@@ -151,7 +151,6 @@ functions/issue_2107/input.js
 functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
 functions/issue_2601_2/input.js
-functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2630_2/input.js
 functions/issue_2630_5/input.js
@@ -172,7 +171,6 @@ harmony/class_name_can_be_preserved_with_reserved/input.js
 harmony/classes_extending_classes_out_of_pure_iifes/input.js
 harmony/default_assign/input.js
 harmony/expansion/input.js
-harmony/inline_arrow_using_arguments/input.js
 harmony/issue_2349b/input.js
 harmony/issue_2794_1/input.js
 harmony/issue_2794_2/input.js
@@ -301,13 +299,11 @@ reduce_vars/pure_getters_3/input.js
 reduce_vars/redefine_farg_1/input.js
 reduce_vars/reduce_vars/input.js
 return_undefined/return_undefined/input.js
-sequences/call/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/for_init_var/input.js
 sequences/for_sequences/input.js
 sequences/issue_2062/input.js
-sequences/side_effects_cascade_3/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
 template_string/template_evaluate_undefined/input.js
