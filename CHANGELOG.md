@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.13] - 2025-03-24
 
 ### Features
 
