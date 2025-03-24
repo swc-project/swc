@@ -1,10 +1,10 @@
 use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
-use anyhow::{anyhow, bail, Result};
+use anyhow::{bail, Result};
 use clap::{StructOpt, Subcommand};
 use es::EsCommand;
 use swc_common::{
-    errors::{to_pretty_string, ColorConfig, HANDLER},
+    errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
 };
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -104,11 +104,7 @@ fn main() -> Result<()> {
                     })
                 })
             },
-        )
-        .map_err(|e| {
-            let error_msg = to_pretty_string(e.iter(), &cm.clone(), ColorConfig::Always, false);
-            anyhow!(error_msg)
-        });
+        );
     }
 
     let args = AppArgs::parse();
@@ -127,8 +123,4 @@ fn main() -> Result<()> {
             })
         },
     )
-    .map_err(|e| {
-        let error_msg = to_pretty_string(e.iter(), &cm.clone(), ColorConfig::Always, false);
-        anyhow!(error_msg)
-    })
 }

@@ -40,7 +40,7 @@ mod diagnostic_builder;
 #[cfg(feature = "concurrent")]
 mod diagnostic_pretty;
 #[cfg(feature = "concurrent")]
-pub use diagnostic_pretty::{to_pretty_string, PrettyDiagnostic};
+pub use diagnostic_pretty::PrettyDiagnostic;
 
 pub mod emitter;
 mod lock;

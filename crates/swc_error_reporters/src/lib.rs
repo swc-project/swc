@@ -1,9 +1,4 @@
-use std::{
-    fmt::{self, Write},
-    intrinsics::transmute,
-};
-
-use handler::DiagnosticCollection;
+use handler::DiagnosticWriter;
 pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use miette::{
     LabeledSpan, MietteError, Severity, SourceCode, SourceOffset, SourceSpan, SpanContents,
@@ -417,9 +412,12 @@ fn level_to_severity(level: Level) -> Option<Severity> {
         Level::Cancelled => None,
     }
 }
+use swc_common::errors::{DiagnosticBuilder, Emitter};
+
+pub mod handler;
 
 pub struct ErrorEmitter {
-    diagnostics: DiagnosticCollection,
+    diagnostics: DiagnosticWriter,
 }
 
 impl Emitter for ErrorEmitter {
