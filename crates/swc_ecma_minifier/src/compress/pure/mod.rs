@@ -627,6 +627,14 @@ impl VisitMut for Pure<'_> {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_for_head(&mut self, head: &mut ForHead) {
+        let ctx = Ctx {
+            is_update_arg: true,
+            ..Default::default()
+        };
+        head.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.right.visit_mut_with(self);
 
