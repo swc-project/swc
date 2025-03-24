@@ -173,11 +173,11 @@ impl Pure<'_> {
     }
 
     /// Visit `nodes`, maybe in parallel.
-    fn visit_par<N>(&mut self, nodes: &mut Vec<N>)
+    fn visit_par<N>(&mut self, threshold_multiplier: usize, nodes: &mut Vec<N>)
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(cpu_count() * 2, nodes, |v, node| {
+        self.maybe_par(cpu_count() * threshold_multiplier, nodes, |v, node| {
             node.visit_mut_with(v);
         });
     }
@@ -257,7 +257,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
-        self.visit_par(m);
+        self.visit_par(2, m);
 
         m.retain(|m| {
             if let ClassMember::Empty(..) = m {
@@ -589,7 +589,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
-        self.visit_par(nodes);
+        self.visit_par(8, nodes);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -618,7 +618,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
-        self.visit_par(nodes);
+        self.visit_par(16, nodes);
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
@@ -769,7 +769,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        self.visit_par(items);
+        self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
     }
@@ -852,7 +852,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_par(nodes);
+        self.visit_par(4, nodes);
 
         self.eval_spread_array_in_array(nodes);
     }
@@ -882,7 +882,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
-        self.visit_par(exprs);
+        // Many bundlers use this pattern
+        self.visit_par(2, exprs);
     }
 
     fn visit_mut_return_stmt(&mut self, s: &mut ReturnStmt) {
@@ -1085,7 +1086,7 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        self.visit_par(items);
+        self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
 
@@ -1111,7 +1112,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        n.visit_mut_children_with(self);
+        self.visit_par(4, n);
 
         self.optimize_switch_cases(n);
     }
@@ -1218,7 +1219,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
-        self.visit_par(nodes);
+        self.visit_par(8, nodes);
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
