@@ -192,7 +192,7 @@ impl Expr {
         .into()
     }
 
-    pub const fn is_null(&self) -> bool {
+    pub fn is_null(&self) -> bool {
         matches!(self, Expr::Lit(Lit::Null(_)))
     }
 
