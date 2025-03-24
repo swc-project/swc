@@ -40,7 +40,7 @@
             function t(e, t) {
                 for(var r = 0; r < t.length; r++){
                     var n = t[r];
-                    n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                    n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                 }
             }
             e.exports = function(e, r, n) {
@@ -3636,7 +3636,7 @@
                 e.save();
                 for(var r = t.attributes.font, n = r.glyphForCodePoint(0x20), i = r.glyphForCodePoint(0xfffc), o = 0, a = 0; a < t.glyphs.length; a += 1){
                     var u = t.positions[a], l = t.glyphs[a];
-                    o += u.xAdvance || 0, l.id === i.id && t.attributes.attachment && (e.translate(o, u.yOffset || 0), eO(e, t.attributes.attachment), t.glyphs[a] = n, o = 0);
+                    o += u.xAdvance, l.id === i.id && t.attributes.attachment && (e.translate(o, u.yOffset || 0), eO(e, t.attributes.attachment), t.glyphs[a] = n, o = 0);
                 }
                 e.restore();
             }, eP = function(e, t, r) {
@@ -7124,7 +7124,7 @@
                 function e(e, t) {
                     for(var r = 0; r < t.length; r++){
                         var n = t[r];
-                        n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                        n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                     }
                 }
                 return function(t, r, n) {
@@ -8573,7 +8573,7 @@
                         if (e.bodyUsed) throw TypeError("Already read");
                         this.url = e.url, this.credentials = e.credentials, t.headers || (this.headers = new l(e.headers)), this.method = e.method, this.mode = e.mode, this.signal = e.signal, i || null == e._bodyInit || (i = e._bodyInit, e.bodyUsed = !0);
                     } else this.url = String(e);
-                    if (this.credentials = t.credentials || this.credentials || "same-origin", (t.headers || !this.headers) && (this.headers = new l(t.headers)), this.method = (n = (r = t.method || this.method || "GET").toUpperCase(), h.indexOf(n) > -1 ? n : r), this.mode = t.mode || this.mode || null, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && i) throw TypeError("Body not allowed for GET or HEAD requests");
+                    if (this.credentials = t.credentials || this.credentials || "same-origin", (t.headers || !this.headers) && (this.headers = new l(t.headers)), this.method = (n = (r = t.method || this.method || "GET").toUpperCase(), h.indexOf(n) > -1 ? n : r), this.mode = t.mode || this.mode, this.signal = t.signal || this.signal, this.referrer = null, ("GET" === this.method || "HEAD" === this.method) && i) throw TypeError("Body not allowed for GET or HEAD requests");
                     this._initBody(i);
                 }
                 function g(e) {
@@ -8586,7 +8586,7 @@
                     }), t;
                 }
                 function v(e, t) {
-                    t || (t = {}), this.type = "default", this.status = void 0 === t.status ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = "statusText" in t ? t.statusText : "OK", this.headers = new l(t.headers), this.url = t.url || "", this._initBody(e);
+                    t || (t = {}), this.type = "default", this.status = void 0 === t.status ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = "statusText" in t ? t.statusText : "OK", this.headers = new l(t.headers), this.url = t.url, this._initBody(e);
                 }
                 y.prototype.clone = function() {
                     return new y(this, {
@@ -8643,7 +8643,7 @@
                             var e, t, r = {
                                 status: u.status,
                                 statusText: u.statusText,
-                                headers: (e = u.getAllResponseHeaders() || "", t = new l(), e.replace(/\r?\n[\t ]+/g, " ").split(/\r?\n/).forEach(function(e) {
+                                headers: (e = u.getAllResponseHeaders(), t = new l(), e.replace(/\r?\n[\t ]+/g, " ").split(/\r?\n/).forEach(function(e) {
                                     var r = e.split(":"), n = r.shift().trim();
                                     if (n) {
                                         var i = r.join(":").trim();
@@ -16377,7 +16377,7 @@
                         ], function(e, t) {
                             for(var r = 0; r < t.length; r++){
                                 var n = t[r];
-                                n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                                n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                             }
                         }(r.prototype, t), r;
                     }(a(Error));
@@ -21108,7 +21108,7 @@
                                 a = e;
                             }
                         }), o.init = function() {
-                            (void 0 === this._events || this._events === Object.getPrototypeOf(this)._events) && (this._events = Object.create(null), this._eventsCount = 0), this._maxListeners = this._maxListeners || void 0;
+                            (void 0 === this._events || this._events === Object.getPrototypeOf(this)._events) && (this._events = Object.create(null), this._eventsCount = 0), this._maxListeners = this._maxListeners;
                         }, o.prototype.setMaxListeners = function(e) {
                             if ("number" != typeof e || e < 0 || i(e)) throw RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + e + ".");
                             return this._maxListeners = e, this;
@@ -22213,7 +22213,7 @@
                         ], function(e, t) {
                             for(var r = 0; r < t.length; r++){
                                 var n = t[r];
-                                n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                                n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                             }
                         }(t.prototype, e), t;
                     }();
@@ -24705,7 +24705,7 @@
             var n = r(5717), i = r(5293).EventEmitter;
             function o(e) {
                 if (!(this instanceof o)) return new o(e);
-                i.call(this), e = e || {}, this.concurrency = e.concurrency || 1 / 0, this.timeout = e.timeout || 0, this.autostart = e.autostart || !1, this.results = e.results || null, this.pending = 0, this.session = 0, this.running = !1, this.jobs = [], this.timers = {};
+                i.call(this), e = e || {}, this.concurrency = e.concurrency || 1 / 0, this.timeout = e.timeout, this.autostart = e.autostart, this.results = e.results, this.pending = 0, this.session = 0, this.running = !1, this.jobs = [], this.timers = {};
             }
             function a() {
                 for(var e in this.timers){
@@ -24829,7 +24829,7 @@
                             return "Context.Provider";
                         case _:
                             var t = e.render;
-                            return t = t.displayName || t.name || "", e.displayName || ("" !== t ? "ForwardRef(" + t + ")" : "ForwardRef");
+                            return t = t.displayName || t.name, e.displayName || ("" !== t ? "ForwardRef(" + t + ")" : "ForwardRef");
                         case A:
                             return C(e.type);
                         case k:
@@ -25350,15 +25350,15 @@
                         return null;
                     }
                     function h(e, t, r, n, i) {
-                        if ("string" == typeof n || "number" == typeof n) return u(t, e = e.get(r) || null, "" + n, i);
+                        if ("string" == typeof n || "number" == typeof n) return u(t, e = e.get(r), "" + n, i);
                         if ("object" == typeof n && null !== n) {
                             switch(n.$$typeof){
                                 case y:
-                                    return e = e.get(null === n.key ? r : n.key) || null, n.type === v ? c(t, e, n.props.children, i, n.key) : l(t, e, n, i);
+                                    return e = e.get(null === n.key ? r : n.key), n.type === v ? c(t, e, n.props.children, i, n.key) : l(t, e, n, i);
                                 case g:
-                                    return s(t, e = e.get(null === n.key ? r : n.key) || null, n, i);
+                                    return s(t, e = e.get(null === n.key ? r : n.key), n, i);
                             }
-                            if (tZ(n) || O(n)) return c(t, e = e.get(r) || null, n, i, null);
+                            if (tZ(n) || O(n)) return c(t, e = e.get(r), n, i, null);
                             tJ(t, n);
                         }
                         return null;
@@ -28749,7 +28749,7 @@
             function n(e, t) {
                 for(var r = 0; r < t.length; r++){
                     var n = t[r];
-                    n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                    n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                 }
             }
             function i(e, t, r) {

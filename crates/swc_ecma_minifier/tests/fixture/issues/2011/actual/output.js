@@ -18,7 +18,7 @@ module.exports = (obj = ClassB = /*#__PURE__*/ function() {
     ], function(target, props) {
         for(var i = 0; i < props.length; i++){
             var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
         }
     }(ClassB.prototype, protoProps), ClassB;
 }(), value = function ClassA() {

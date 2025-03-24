@@ -2359,7 +2359,7 @@
             function rgbSpline(spline) {
                 return function(colors) {
                     var i, color, n = colors.length, r = Array(n), g = Array(n), b = Array(n);
-                    for(i = 0; i < n; ++i)color = Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.rgb)(colors[i]), r[i] = color.r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
+                    for(i = 0; i < n; ++i)color = Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.rgb)(colors[i]), r[i] = color.r, g[i] = color.g, b[i] = color.b;
                     return r = spline(r), g = spline(g), b = spline(b), color.opacity = 1, function(t) {
                         return color.r = r(t), color.g = g(t), color.b = b(t), color + "";
                     };
@@ -9632,7 +9632,7 @@
                     }
                     return void 0 === timerId && (timerId = setTimeout(timerExpired, wait)), result;
                 }
-                return wait = toNumber(wait) || 0, isObject(options) && (leading = !!options.leading, maxWait = (maxing = 'maxWait' in options) ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait, trailing = 'trailing' in options ? !!options.trailing : trailing), debounced.cancel = function() {
+                return wait = toNumber(wait), isObject(options) && (leading = !!options.leading, maxWait = (maxing = 'maxWait' in options) ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait, trailing = 'trailing' in options ? !!options.trailing : trailing), debounced.cancel = function() {
                     void 0 !== timerId && clearTimeout(timerId), lastInvokeTime = 0, lastArgs = lastCallTime = lastThis = timerId = void 0;
                 }, debounced.flush = function() {
                     return void 0 === timerId ? result : trailingEdge(now());
@@ -11485,7 +11485,7 @@
                 function getPropType(propValue) {
                     var propType = typeof propValue;
                     return Array.isArray(propValue) ? 'array' : propValue instanceof RegExp ? 'object' : // Native Symbol.
-                    'symbol' === propType || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol || 0) ? 'symbol' : propType;
+                    'symbol' === propType || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol) ? 'symbol' : propType;
                 }
                 // This handles more types than `getPropType`. Only used for error messages.
                 // See `createPrimitiveTypeChecker`.
@@ -11939,7 +11939,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryArea.prototype, protoProps), VictoryArea;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -12586,7 +12586,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryAxis.prototype, protoProps), VictoryAxis;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
@@ -13484,7 +13484,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryBar.prototype, protoProps), VictoryBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -14077,7 +14077,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryBoxPlot.prototype, protoProps), VictoryBoxPlot;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
@@ -14931,7 +14931,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictoryBrushContainer.prototype, protoProps), VictoryBrushContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
@@ -15303,7 +15303,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryBrushLine.prototype, protoProps), VictoryBrushLine;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -16088,7 +16088,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryCandlestick.prototype, protoProps), VictoryCandlestick;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
@@ -16620,7 +16620,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryChart.prototype, protoProps), VictoryChart;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -16931,7 +16931,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryAccessibleGroup.prototype, protoProps), VictoryAccessibleGroup;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -17169,7 +17169,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryAnimation.prototype, protoProps), VictoryAnimation;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -17421,7 +17421,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryClipContainer.prototype, protoProps), VictoryClipContainer;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -17668,7 +17668,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryContainer.prototype, protoProps), VictoryContainer;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
@@ -18261,7 +18261,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(Portal.prototype, protoProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -18349,7 +18349,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryPortal.prototype, protoProps), VictoryPortal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -19776,7 +19776,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryTransition.prototype, protoProps), VictoryTransition;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -20066,7 +20066,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(addEvents.prototype, protoProps), addEvents;
             };
@@ -21825,7 +21825,7 @@
                             y: y
                         };
                         var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, {
-                            x: (padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0) * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
+                            x: (padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props)) * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
                         return {
@@ -21834,7 +21834,7 @@
                         };
                     }(props, datum3), x = _getPosition.x, y = _getPosition.y, _getOffset = function(props, datum) {
                         if (props.polar) return {};
-                        var datum1, horizontal, labelStyle, defaultPadding, sign, padding = (datum1 = (datum1 = datum) || {}, horizontal = props.horizontal, labelStyle = props.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, sign = datum1._y < 0 ? -1 : 1, {
+                        var datum1, horizontal, labelStyle, defaultPadding, sign, padding = (datum1 = (datum1 = datum) || {}, horizontal = props.horizontal, labelStyle = props.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props), sign = datum1._y < 0 ? -1 : 1, {
                             x: horizontal ? sign * defaultPadding : 0,
                             y: horizontal ? 0 : -1 * sign * defaultPadding
                         });
@@ -25880,7 +25880,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(Timer.prototype, protoProps), Timer;
             }();
@@ -26570,7 +26570,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictoryCombinedContainer.prototype, protoProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
@@ -26882,7 +26882,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictoryCursorContainer.prototype, protoProps), VictoryCursorContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
@@ -27299,7 +27299,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryErrorBar.prototype, protoProps), VictoryErrorBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -27665,7 +27665,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryGroup.prototype, protoProps), VictoryGroup;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -27995,7 +27995,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryHistogram.prototype, protoProps), VictoryHistogram;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -29361,7 +29361,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryLegend.prototype, protoProps), VictoryLegend;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -29778,7 +29778,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryLine.prototype, protoProps), VictoryLine;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -30233,7 +30233,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryPie.prototype, protoProps), VictoryPie;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -30879,7 +30879,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryPolarAxis.prototype, protoProps), VictoryPolarAxis;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
@@ -31253,7 +31253,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryScatter.prototype, protoProps), VictoryScatter;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
@@ -31660,7 +31660,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictorySelectionContainer.prototype, protoProps), VictorySelectionContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
@@ -32003,7 +32003,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictorySharedEvents.prototype, protoProps), VictorySharedEvents;
             }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
@@ -32143,7 +32143,7 @@
                     });
                 })).map(function(d, i) {
                     var xOffset;
-                    return xOffset = props1.xOffset || 0, datasets[i].map(function(datum) {
+                    return xOffset = props1.xOffset, datasets[i].map(function(datum) {
                         var yOffset = function(datum, index, datasets) {
                             if (datum.y0) return datum.y0;
                             var y = datum._y, group = datum._group, firstDatasetBaseline = datasets[0].map(function(d) {
@@ -32345,7 +32345,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryStack.prototype, protoProps), VictoryStack;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
@@ -32904,7 +32904,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryTooltip.prototype, protoProps), VictoryTooltip;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
@@ -33336,7 +33336,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictoryVoronoiContainer.prototype, protoProps), VictoryVoronoiContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
@@ -33757,7 +33757,7 @@
                 ], function(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }(VictoryVoronoi.prototype, protoProps), VictoryVoronoi;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
@@ -34113,7 +34113,7 @@
                     ], function(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }(VictoryZoomContainer.prototype, protoProps), VictoryZoomContainer;
                 }(base), Object.defineProperty(_class, "displayName", {

@@ -190,7 +190,7 @@
                         ].forEach((type)=>{
                             !function(type, components) {
                                 const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
-                                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
+                                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = null == j ? void 0 : j.previousElementSibling){
                                     var ref;
                                     (null == j || null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 }
@@ -223,7 +223,7 @@
                     "script" === type && ("async" === attr || "defer" === attr || "noModule" === attr) ? el[attr] = !!props[p] : el.setAttribute(attr, props[p]);
                 }
                 const { children, dangerouslySetInnerHTML } = props;
-                return dangerouslySetInnerHTML ? el.innerHTML = dangerouslySetInnerHTML.__html || "" : children && (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : ""), el;
+                return dangerouslySetInnerHTML ? el.innerHTML = dangerouslySetInnerHTML.__html : children && (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : ""), el;
             }
             function isEqualNode(oldTag, newTag) {
                 if (oldTag instanceof HTMLElement && newTag instanceof HTMLElement) {
@@ -1143,7 +1143,7 @@
                 }).catch(function(e) {
                     onError && onError(e);
                 });
-                for (const [k, value] of (dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html || "", afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, // do not add cacheKey into LoadCache for remote script here
+                for (const [k, value] of (dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html, afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, // do not add cacheKey into LoadCache for remote script here
                 // cacheKey will be added to LoadCache when it is actually loaded (see loadPromise above)
                 ScriptCache.set(src, loadPromise)), Object.entries(props))){
                     if (void 0 === value || ignoreProps.includes(k)) continue;
@@ -2165,7 +2165,7 @@
                             let existingInfo = _this.components[route];
                             if (routeProps.shallow && existingInfo && _this.route === route) return existingInfo;
                             hasMiddleware && (existingInfo = void 0);
-                            let cachedRouteInfo = !existingInfo || "initial" in existingInfo || 0 ? void 0 : existingInfo;
+                            let cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo;
                             const fetchNextDataParams = {
                                 dataHref: _this.pageLoader.getDataHref({
                                     href: _formatUrl.formatWithValidation({

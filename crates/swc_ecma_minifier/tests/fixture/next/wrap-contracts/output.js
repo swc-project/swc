@@ -5760,7 +5760,7 @@
             ];
             function Node(enc, parent, name) {
                 const state = {};
-                this._baseState = state, state.name = name, state.enc = enc, state.parent = parent || null, state.children = null, // State
+                this._baseState = state, state.name = name, state.enc = enc, state.parent = parent, state.children = null, // State
                 state.tag = null, state.args = null, state.reverseArgs = null, state.choice = null, state.optional = !1, state.any = !1, state.obj = !1, state.use = null, state.useDecoder = null, state.key = null, state.default = null, state.explicit = null, state.implicit = null, state.contains = null, state.parent || (state.children = [], this._wrap());
             }
             module.exports = Node;
@@ -8137,7 +8137,7 @@
                                 // of the digit at j, e.g. if n is 908714 and j is 2, the expression gives 714.
                                 null != xc[ni + 1] || (j < 0 ? n : n % pows10[d - j - 1]), r = rm < 4 ? (rd || r) && (0 == rm || rm == (x.s < 0 ? 3 : 2)) : rd > 5 || 5 == rd && (4 == rm || r || 6 == rm && (i > 0 ? j > 0 ? n / pows10[d - j] : 0 : xc[ni - 1]) % 10 & 1 || rm == (x.s < 0 ? 8 : 7)), sd < 1 || !xc[0]) return xc.length = 0, r ? (// Convert sd to decimal places.
                                 sd -= x.e + 1, // 1, 0.1, 0.01, 0.001, 0.0001 etc.
-                                xc[0] = pows10[(LOG_BASE - sd % LOG_BASE) % LOG_BASE], x.e = -sd || 0) : // Zero.
+                                xc[0] = pows10[(LOG_BASE - sd % LOG_BASE) % LOG_BASE], x.e = -sd) : // Zero.
                                 xc[0] = x.e = 0, x;
                                 // Round up?
                                 if (0 == i ? (xc.length = ni, k = 1, ni--) : (xc.length = ni + 1, k = pows10[LOG_BASE - i], // E.g. 56700 becomes 56000 if 7 is the rounding digit.
@@ -8502,7 +8502,7 @@
                                         0
                                     ]); // else cmp === 1 and n will be 0
                                     // Add the next digit, n, to the result array.
-                                    qc[i++] = n, rem[0] ? rem[remL++] = xc[xi] || 0 : (rem = [
+                                    qc[i++] = n, rem[0] ? rem[remL++] = xc[xi] : (rem = [
                                         xc[xi]
                                     ], remL = 1);
                                 }while ((xi++ < xL || null != rem[0]) && s--)
@@ -8836,7 +8836,7 @@
      * i.e. multiplied by -1.
      */ P.negated = function() {
                         var x = new BigNumber(this);
-                        return x.s = -x.s || null, x;
+                        return x.s = -x.s, x;
                     }, /*
      *  n + 0 = n
      *  n + N = N
@@ -13973,7 +13973,7 @@
                     defaultMaxListeners = arg;
                 }
             }), EventEmitter.init = function() {
-                (void 0 === this._events || this._events === Object.getPrototypeOf(this)._events) && (this._events = Object.create(null), this._eventsCount = 0), this._maxListeners = this._maxListeners || void 0;
+                (void 0 === this._events || this._events === Object.getPrototypeOf(this)._events) && (this._events = Object.create(null), this._eventsCount = 0), this._maxListeners = this._maxListeners;
             }, // Obviously not all Emitters should be limited to 10. This function allows
             // that to be increased. Set to zero for unlimited.
             EventEmitter.prototype.setMaxListeners = function(n) {
@@ -20166,7 +20166,7 @@
                         function _defineProperties(e, t) {
                             for(var r = 0; r < t.length; r++){
                                 var n = t[r];
-                                n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                                n.enumerable = n.enumerable, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
                             }
                         }
                         function _createClass(e, t, r) {

@@ -91,7 +91,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
     ], function(target, props) {
         for(var i = 0; i < props.length; i++){
             var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
         }
     }(ItemsList.prototype, protoProps), ItemsList;
 }(Component);

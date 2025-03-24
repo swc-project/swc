@@ -2083,7 +2083,7 @@
         var self_props = props = props ? props.split(/\s+/) : [];
         base && base.PROPS && (props = props.concat(base.PROPS));
         const proto = base && Object.create(base.prototype);
-        if (proto && (ctor.prototype = proto, ctor.BASE = base), base && base.SUBCLASSES.push(ctor), ctor.prototype.CTOR = ctor, ctor.prototype.constructor = ctor, ctor.PROPS = props || null, ctor.SELF_PROPS = self_props, ctor.SUBCLASSES = [], type && (ctor.prototype.TYPE = ctor.TYPE = type), methods) for(let i in methods)HOP(methods, i) && ("$" === i[0] ? ctor[i.substr(1)] = methods[i] : ctor.prototype[i] = methods[i]);
+        if (proto && (ctor.prototype = proto, ctor.BASE = base), base && base.SUBCLASSES.push(ctor), ctor.prototype.CTOR = ctor, ctor.prototype.constructor = ctor, ctor.PROPS = props, ctor.SELF_PROPS = self_props, ctor.SUBCLASSES = [], type && (ctor.prototype.TYPE = ctor.TYPE = type), methods) for(let i in methods)HOP(methods, i) && ("$" === i[0] ? ctor[i.substr(1)] = methods[i] : ctor.prototype[i] = methods[i]);
         return ctor.DEFMETHOD = function(name, method) {
             this.prototype[name] = method;
         }, ctor;

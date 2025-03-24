@@ -606,7 +606,7 @@
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
                 var innerType, wrapperName, functionName;
-                return innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name, type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:
@@ -5670,7 +5670,7 @@
         if (null !== mixedRef && "function" != typeof mixedRef && "object" != typeof mixedRef) {
             // TODO: Clean this up once we turn on the string ref warning for
             // everyone, because the strict mode case will no longer be relevant
-            if ((1 & returnFiber.mode || 0) && // We warn in ReactElement.js if owner and self are equal for string refs
+            if (1 & returnFiber.mode && // We warn in ReactElement.js if owner and self are equal for string refs
             // because these cannot be automatically converted to an arrow function
             // using a codemod. Therefore, we don't have to warn about string refs again.
             !(element._owner && element._self && element._owner.stateNode !== element._self)) {
@@ -9368,7 +9368,7 @@
         // children to find all the terminal nodes.
         isContainer ? function insertOrAppendPlacementNodeIntoContainer(node, before, parent) {
             var tag = node.tag, isHost = 5 === tag || 6 === tag;
-            if (isHost || 0) {
+            if (isHost) {
                 var parentNode, reactRootContainer, stateNode = isHost ? node.stateNode : node.stateNode.instance;
                 before ? 8 === parent.nodeType ? parent.parentNode.insertBefore(stateNode, before) : parent.insertBefore(stateNode, before) : (8 === parent.nodeType ? (parentNode = parent.parentNode).insertBefore(stateNode, parent) : (parentNode = parent).appendChild(stateNode), null == parent._reactRootContainer && null === parentNode.onclick && // TODO: This cast may not be sound for SVG, MathML or custom elements.
                 trapClickOnNonInteractiveElement(parentNode));
@@ -9382,7 +9382,7 @@
             }
         }(finishedWork, before, parent) : function insertOrAppendPlacementNode(node, before, parent) {
             var tag = node.tag, isHost = 5 === tag || 6 === tag;
-            if (isHost || 0) {
+            if (isHost) {
                 var stateNode = isHost ? node.stateNode : node.stateNode.instance;
                 before ? function(parentInstance, child, beforeChild) {
                     parentInstance.insertBefore(child, beforeChild);

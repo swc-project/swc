@@ -31,7 +31,7 @@
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
             function _createClass(Constructor, protoProps, staticProps) {
@@ -328,7 +328,7 @@
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
                                             if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, void 0);
                                         }
-                                    }(o)) || 0) {
+                                    }(o))) {
                                         it && (o = it);
                                         var i = 0, F = function() {};
                                         return {

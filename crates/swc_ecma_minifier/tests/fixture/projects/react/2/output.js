@@ -4,5 +4,5 @@ ReactDebugCurrentFrame.setExtraStackFrame = function(stack) {
     var stack = ""; // Add an extra top frame while an element is being validated
     currentExtraStackFrame && (stack += currentExtraStackFrame);
     var impl = ReactDebugCurrentFrame.getCurrentStack;
-    return impl && (stack += impl() || ""), stack;
+    return impl && (stack += impl()), stack;
 };

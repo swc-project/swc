@@ -98,7 +98,7 @@
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
             module1.exports = function(Constructor, protoProps, staticProps) {
@@ -7536,7 +7536,7 @@
                                 start: 0,
                                 end: 0
                             }, epsilon = this.AVG_CODE_ERROR;
-                            isWhite = isWhite || !1, tryHarder = tryHarder || !1, offset || (offset = this._nextSet(this._row));
+                            offset || (offset = this._nextSet(this._row));
                             for(var i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {

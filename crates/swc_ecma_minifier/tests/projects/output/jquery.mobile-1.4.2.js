@@ -245,7 +245,7 @@
             };
             function reduce(elem, size, border, margin) {
                 return $.each(side, function() {
-                    size -= parseFloat($.css(elem, "padding" + this)) || 0, border && (size -= parseFloat($.css(elem, "border" + this + "Width")) || 0), margin && (size -= parseFloat($.css(elem, "margin" + this)) || 0);
+                    size -= parseFloat($.css(elem, "padding" + this)), border && (size -= parseFloat($.css(elem, "border" + this + "Width"))), margin && (size -= parseFloat($.css(elem, "margin" + this)));
                 }), size;
             }
             $.fn["inner" + name] = function(size) {
@@ -340,7 +340,7 @@
         // method gets called quite a bit and we need it to be as fast
         // as possible.
         getInheritedTheme: function(el, defaultTheme) {
-            for(var c, m, e = el[0], ltr = "", re = /ui-(bar|body|overlay)-([a-z])\b/; e && (!((c = e.className || "") && (m = re.exec(c))) || !(ltr = m[2]));)e = e.parentNode;
+            for(var c, m, e = el[0], ltr = "", re = /ui-(bar|body|overlay)-([a-z])\b/; e && (!((c = e.className) && (m = re.exec(c))) || !(ltr = m[2]));)e = e.parentNode;
             // Return the theme letter we found, if none, return the
             // specified default.
             return ltr || defaultTheme || "a";
@@ -1238,7 +1238,7 @@
         makePathAbsolute: function(relPath, absPath) {
             var absStack, relStack, i, d;
             if (relPath && "/" === relPath.charAt(0)) return relPath;
-            for(i = 0, relPath = relPath || "", absStack = (absPath = absPath ? absPath.replace(/^\/|(\/[^\/]*|[^\/]+)$/g, "") : "") ? absPath.split("/") : [], relStack = relPath.split("/"); i < relStack.length; i++)switch(d = relStack[i]){
+            for(i = 0, absStack = (absPath = absPath ? absPath.replace(/^\/|(\/[^\/]*|[^\/]+)$/g, "") : "") ? absPath.split("/") : [], relStack = relPath.split("/"); i < relStack.length; i++)switch(d = relStack[i]){
                 case ".":
                     break;
                 case "..":
@@ -1390,7 +1390,7 @@
         //return the original document base url
         getDocumentBase: path.getDocumentBase
     }), jQuery.mobile.History = function(stack, index) {
-        this.stack = stack || [], this.activeIndex = index || 0;
+        this.stack = stack || [], this.activeIndex = index;
     }, jQuery.extend(jQuery.mobile.History.prototype, {
         getActive: function() {
             return this.stack[this.activeIndex];
@@ -2525,7 +2525,7 @@
         // TODO move into transition handlers?
         _triggerCssTransitionEvents: function(to, from, prefix) {
             var samePage = !1;
-            prefix = prefix || "", from && (to[0] === from[0] && (samePage = !0), //trigger before show/hide events
+            from && (to[0] === from[0] && (samePage = !0), //trigger before show/hide events
             // TODO deprecate nextPage in favor of next
             this._triggerWithDeprecated(prefix + "hide", {
                 nextPage: to,
@@ -2660,7 +2660,7 @@
                 // if so, do not add a new history entry and do not change the hash either
                 alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf(jQuery.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && jQuery.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), // Normally, we tack on a dialog hash key, but if this is the location
                 // of a stale dialog, we reuse the URL from the entry
-                url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += jQuery.mobile.dialogHashKey : url += "#" + jQuery.mobile.dialogHashKey, 0 === jQuery.mobile.navigate.history.activeIndex && url === jQuery.mobile.navigate.history.initialDst && (url += jQuery.mobile.dialogHashKey)), // if title element wasn't found, try the page div data attr too
+                url = active.url, !alreadyThere && url.indexOf("#") > -1 ? url += jQuery.mobile.dialogHashKey : url += "#" + jQuery.mobile.dialogHashKey, 0 === jQuery.mobile.navigate.history.activeIndex && url === jQuery.mobile.navigate.history.initialDst && (url += jQuery.mobile.dialogHashKey)), // if title element wasn't found, try the page div data attr too
                 // If this is a deep-link or a reload ( active === undefined ) then just
                 // use pageTitle
                 (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document1.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), // Make sure we have a transition defined.
@@ -3600,7 +3600,7 @@
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
-            disabledInitially || jQuery.mobile.zoom.locked || (meta.attr("content", disabledZoom), jQuery.mobile.zoom.enabled = !1, jQuery.mobile.zoom.locked = lock || !1);
+            disabledInitially || jQuery.mobile.zoom.locked || (meta.attr("content", disabledZoom), jQuery.mobile.zoom.enabled = !1, jQuery.mobile.zoom.locked = lock);
         },
         enable: function(unlock) {
             disabledInitially || jQuery.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), jQuery.mobile.zoom.enabled = !0, jQuery.mobile.zoom.locked = !1);
@@ -4848,7 +4848,7 @@
             },
             build: function() {
                 var selectId, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayTheme, overlayThemeAttr, dividerThemeAttr, menuPage, listbox, list, header, headerTitle, menuPageContent, menuPageClose, headerClose, self, o = this.options;
-                return o.nativeMenu ? this._super() : (self = this, popupId = (selectId = this.selectId) + "-listbox", dialogId = selectId + "-dialog", label = this.label, thisPage = this.element.closest(".ui-page"), isMultiple = this.element[0].multiple, menuId = selectId + "-menu", themeAttr = o.theme ? " data-" + $.mobile.ns + "theme='" + o.theme + "'" : "", overlayThemeAttr = (overlayTheme = o.overlayTheme || o.theme || null) ? " data-" + $.mobile.ns + "overlay-theme='" + overlayTheme + "'" : "", dividerThemeAttr = o.dividerTheme && isMultiple ? " data-" + $.mobile.ns + "divider-theme='" + o.dividerTheme + "'" : "", menuPage = $("<div data-" + $.mobile.ns + "role='dialog' class='ui-selectmenu' id='" + dialogId + "'" + themeAttr + overlayThemeAttr + "><div data-" + $.mobile.ns + "role='header'><div class='ui-title'>" + label.getEncodedText() + "</div></div><div data-" + $.mobile.ns + "role='content'></div></div>"), listbox = $("<div id='" + popupId + "' class='ui-selectmenu'></div>").insertAfter(this.select).popup({
+                return o.nativeMenu ? this._super() : (self = this, popupId = (selectId = this.selectId) + "-listbox", dialogId = selectId + "-dialog", label = this.label, thisPage = this.element.closest(".ui-page"), isMultiple = this.element[0].multiple, menuId = selectId + "-menu", themeAttr = o.theme ? " data-" + $.mobile.ns + "theme='" + o.theme + "'" : "", overlayThemeAttr = (overlayTheme = o.overlayTheme || o.theme) ? " data-" + $.mobile.ns + "overlay-theme='" + overlayTheme + "'" : "", dividerThemeAttr = o.dividerTheme && isMultiple ? " data-" + $.mobile.ns + "divider-theme='" + o.dividerTheme + "'" : "", menuPage = $("<div data-" + $.mobile.ns + "role='dialog' class='ui-selectmenu' id='" + dialogId + "'" + themeAttr + overlayThemeAttr + "><div data-" + $.mobile.ns + "role='header'><div class='ui-title'>" + label.getEncodedText() + "</div></div><div data-" + $.mobile.ns + "role='content'></div></div>"), listbox = $("<div id='" + popupId + "' class='ui-selectmenu'></div>").insertAfter(this.select).popup({
                     theme: o.overlayTheme
                 }), list = $("<ul class='ui-selectmenu-list' id='" + menuId + "' role='listbox' aria-labelledby='" + this.buttonId + "'" + themeAttr + dividerThemeAttr + "></ul>").appendTo(listbox), header = $("<div class='ui-header ui-bar-" + (o.theme ? o.theme : "inherit") + "'></div>").prependTo(listbox), headerTitle = $("<h1 class='ui-title'></h1>").appendTo(header), this.isMultiple && (headerClose = $("<a>", {
                     role: "button",

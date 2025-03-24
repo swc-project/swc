@@ -303,7 +303,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], 'i'));
     }
     function MobileDetect(userAgent, maxPhoneWidth) {
-        this.ua = userAgent || '', this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
+        this.ua = userAgent, this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
     }
     return impl.FALLBACK_PHONE = 'UnknownPhone', impl.FALLBACK_TABLET = 'UnknownTablet', impl.FALLBACK_MOBILE = 'UnknownMobile', isArray = 'isArray' in Array ? Array.isArray : function(value) {
         return '[object Array]' === Object.prototype.toString.call(value);

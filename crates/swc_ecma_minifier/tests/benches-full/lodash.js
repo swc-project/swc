@@ -4730,7 +4730,7 @@
                 }
                 return undefined === timerId && (timerId = setTimeout(timerExpired, wait)), result;
             }
-            return wait = toNumber(wait) || 0, isObject(options) && (leading = !!options.leading, maxWait = (maxing = 'maxWait' in options) ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait, trailing = 'trailing' in options ? !!options.trailing : trailing), debounced.cancel = function() {
+            return wait = toNumber(wait), isObject(options) && (leading = !!options.leading, maxWait = (maxing = 'maxWait' in options) ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait, trailing = 'trailing' in options ? !!options.trailing : trailing), debounced.cancel = function() {
                 undefined !== timerId && clearTimeout(timerId), lastInvokeTime = 0, lastArgs = lastCallTime = lastThis = timerId = undefined;
             }, debounced.flush = function() {
                 return undefined === timerId ? result : trailingEdge(now());

@@ -8321,7 +8321,7 @@
                 }
                 enterRestrictedMode(t) {
                     if (!this.gc) {
-                        this.gc = !0, this.Ic = t || !1;
+                        this.gc = !0, this.Ic = t;
                         const e = Jr();
                         e && "function" == typeof e.removeEventListener && e.removeEventListener("visibilitychange", this.Rc);
                     }
@@ -8384,7 +8384,7 @@
                                                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                                                  * See the License for the specific language governing permissions and
                                                  * limitations under the License.
-                                                 */ t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e)), t;
+                                                 */ t.message, t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e)), t;
                         }).then((t)=>(this.Ec = !1, t))));
                     return this._c = e, e;
                 }
@@ -8460,7 +8460,7 @@
             }
             function Ma(t) {
                 var e;
-                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
+                const n = t._freezeSettings(), s = new ua(t._databaseId, null === (e = t._app) || void 0 === e ? void 0 : e.options.appId, t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             /**

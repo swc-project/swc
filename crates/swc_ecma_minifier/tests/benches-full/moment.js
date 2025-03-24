@@ -1760,7 +1760,7 @@
         return locale[field](utc, format);
     }
     function listMonthsImpl(format, index, field) {
-        if (isNumber(format) && (index = format, format = void 0), format = format || '', null != index) return get$1(format, index, field, 'month');
+        if (isNumber(format) && (index = format, format = void 0), null != index) return get$1(format, index, field, 'month');
         var i, out = [];
         for(i = 0; i < 12; i++)out[i] = get$1(format, i, field, 'month');
         return out;
@@ -1774,7 +1774,7 @@
     // (true, fmt, 5)
     // (true, fmt)
     function listWeekdaysImpl(localeSorted, format, index, field) {
-        'boolean' == typeof localeSorted || (index = format = localeSorted, localeSorted = !1), isNumber(format) && (index = format, format = void 0), format = format || '';
+        'boolean' == typeof localeSorted || (index = format = localeSorted, localeSorted = !1), isNumber(format) && (index = format, format = void 0);
         var i, locale = getLocale(), shift = localeSorted ? locale._week.dow : 0, out = [];
         if (null != index) return get$1(format, (index + shift) % 7, field, 'day');
         for(i = 0; i < 7; i++)out[i] = get$1(format, (i + shift) % 7, field, 'day');

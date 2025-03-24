@@ -3138,7 +3138,7 @@
                             var directive = $injector.invoke(directiveFactory);
                             isFunction(directive) ? directive = {
                                 compile: valueFn(directive)
-                            } : !directive.compile && directive.link && (directive.compile = valueFn(directive.link)), directive.priority = directive.priority || 0, directive.index = index, directive.name = directive.name || name, directive.require = directive.require || directive.controller && directive.name, directive.restrict = directive.restrict || "A", directives.push(directive);
+                            } : !directive.compile && directive.link && (directive.compile = valueFn(directive.link)), directive.priority = directive.priority, directive.index = index, directive.name = directive.name || name, directive.require = directive.require || directive.controller && directive.name, directive.restrict = directive.restrict || "A", directives.push(directive);
                         } catch (e) {
                             $exceptionHandler(e);
                         }
@@ -5028,7 +5028,7 @@
     }
     function parseAbsoluteUrl(absoluteUrl, locationObj, appBase) {
         var parsedUrl = urlResolve(absoluteUrl, appBase);
-        locationObj.$$protocol = parsedUrl.protocol, locationObj.$$host = parsedUrl.hostname, locationObj.$$port = int(parsedUrl.port) || DEFAULT_PORTS[parsedUrl.protocol] || null;
+        locationObj.$$protocol = parsedUrl.protocol, locationObj.$$host = parsedUrl.hostname, locationObj.$$port = int(parsedUrl.port) || DEFAULT_PORTS[parsedUrl.protocol];
     }
     function parseAppUrl(relativeUrl, locationObj, appBase) {
         var prefixed = "/" !== relativeUrl.charAt(0);
@@ -5060,7 +5060,7 @@
    * @param {string} appBase application base URL
    * @param {string} basePrefix url path prefix
    */ function LocationHtml5Url(appBase, basePrefix) {
-        this.$$html5 = !0, basePrefix = basePrefix || "";
+        this.$$html5 = !0;
         var appBaseNoFile = stripFile(appBase);
         parseAbsoluteUrl(appBase, this, appBase), /**
      * Parse given html5 (regular) url string into properties
@@ -8897,7 +8897,7 @@
         return trim && (num = num.substr(num.length - digits)), neg + num;
     }
     function dateGetter(name, size, offset, trim) {
-        return offset = offset || 0, function(date) {
+        return function(date) {
             var value = date["get" + name]();
             return (offset > 0 || value > -offset) && (value += offset), 0 === value && -12 == offset && (value = 12), padNumber(value, size, trim);
         };

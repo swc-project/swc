@@ -98,7 +98,7 @@
                         var e = Object.prototype.hasOwnProperty, r = "~";
                         function o() {}
                         function n(t, e, r) {
-                            this.fn = t, this.context = e, this.once = r || !1;
+                            this.fn = t, this.context = e, this.once = r;
                         }
                         function i(t, e, o, i, a) {
                             if ("function" != typeof o) throw TypeError("The listener must be a function");
