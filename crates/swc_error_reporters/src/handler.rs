@@ -149,24 +149,6 @@ where
 {
     let writer = DiagnosticWriter::default();
 
-    let emitter: Box<dyn Emitter> = if json {
-        Box::new(JsonEmitter::new(
-            cm,
-            wr.clone(),
-            JsonEmitterConfig {
-                skip_filename: config.skip_filename,
-            },
-        ))
-    } else {
-        Box::new(PrettyEmitter::new(
-            cm,
-            wr.clone(),
-            to_miette_reporter(config.color),
-            PrettyEmitterConfig {
-                skip_filename: config.skip_filename,
-            },
-        ))
-    };
     let emitter: Box<dyn Emitter> = Box::new(ErrorEmitter {
         diagnostics: writer.clone(),
     });
