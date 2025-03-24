@@ -227,12 +227,16 @@ pub fn optimize(
 
         let preserved = idents_to_preserve(mangle, marks, &n);
 
-        let chars = CharFreq::compute(
-            &n,
-            &preserved,
-            SyntaxContext::empty().apply_mark(marks.unresolved_mark),
-        )
-        .compile();
+        let chars = if !mangle.disable_char_freq {
+            CharFreq::compute(
+                &n,
+                &preserved,
+                SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+            )
+            .compile()
+        } else {
+            CharFreq::default().compile()
+        };
 
         mangle_names(
             &mut n,
