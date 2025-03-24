@@ -1,4 +1,4 @@
-use std::{collections, env, fmt, io::Write, mem::take, sync::Arc};
+use std::{env, mem::take, sync::Arc};
 
 use anyhow::Error;
 use miette::{GraphicalReportHandler, GraphicalTheme};
@@ -10,41 +10,13 @@ use swc_common::{
     SourceMap,
 };
 
-use crate::{
-    json_emitter::{JsonEmitter, JsonEmitterConfig},
-    ErrorEmitter, PrettyEmitter, PrettyEmitterConfig,
-};
-
-#[derive(Clone, Default)]
-struct LockedWriter(Arc<Mutex<Vec<u8>>>);
-
-impl Write for LockedWriter {
-    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
-        let mut lock = self.0.lock();
-
-        lock.extend_from_slice(buf);
-
-        Ok(buf.len())
-    }
-
-    fn flush(&mut self) -> std::io::Result<()> {
-        Ok(())
-    }
-}
-
-impl fmt::Write for LockedWriter {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        self.write(s.as_bytes()).map_err(|_| fmt::Error)?;
-
-        Ok(())
-    }
-}
+use crate::ErrorEmitter;
 
 #[derive(Default)]
 /// Represents a collection of diagnostics.
-pub struct DiagnosticCollection(Arc<Mutex<Vec<Diagnostic>>>);
+pub struct DiagnosticWriter(Arc<Mutex<Vec<Diagnostic>>>);
 
-impl DiagnosticCollection {
+impl DiagnosticWriter {
     /// Adds a new diagnostic to the collection.
     pub fn push(&self, d: Diagnostic) {
         self.0.lock().push(d);
@@ -91,21 +63,23 @@ impl Default for HandlerOpts {
     }
 }
 
-// fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
-//     match color {
-//         ColorConfig::Auto => {
-//             if cfg!(target_arch = "wasm32") {
-//                 return
-// to_miette_reporter(ColorConfig::Always).with_context_lines(3);             }
+fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
+    match color {
+        ColorConfig::Auto => {
+            if cfg!(target_arch = "wasm32") {
+                return to_pretty_handler(ColorConfig::Always).with_context_lines(3);
+            }
 
-//             static ENABLE: Lazy<bool> =
-//                 Lazy::new(|| !env::var("NO_COLOR").map(|s| s ==
-// "1").unwrap_or(false));
+            static ENABLE: Lazy<bool> =
+                Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
 
             if *ENABLE {
                 to_miette_reporter(ColorConfig::Always)
             } else {
                 to_miette_reporter(ColorConfig::Never)
+                to_pretty_handler(ColorConfig::Always)
+            } else {
+                to_pretty_handler(ColorConfig::Never)
             }
         }
         ColorConfig::Always => GraphicalReportHandler::default(),
@@ -124,6 +98,17 @@ impl Default for HandlerOpts {
 // GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),     }
 //     .with_context_lines(3)
 // }
+}
+
+fn to_pretty_error(diagnostics: &Vec<Diagnostic>, cm: &SourceMap, config: &HandlerOpts) -> Error {
+    let handler = to_pretty_handler(config.color);
+    let error_msg = diagnostics
+        .iter()
+        .map(|d| d.to_pretty_diagnostic(cm, config.skip_filename))
+        .map(|d| d.to_pretty_string(&handler))
+        .collect::<String>();
+    anyhow::anyhow!(error_msg)
+}
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
@@ -131,38 +116,38 @@ pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
     op: F,
-) -> Result<Ret, Vec<Diagnostic>>
+) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler_inner(cm, config, op, false)
+    try_with_handler_inner(op).map_err(|d| to_pretty_error(&d, &cm, &config))
+}
+
+pub fn try_with_handler_diagnostic<F, Ret>(op: F) -> Result<Ret, Vec<Diagnostic>>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    try_with_handler_inner(op)
 }
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
-pub fn try_with_json_handler<F, Ret>(
-    cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-) -> Result<Ret, Vec<Diagnostic>>
-where
-    F: FnOnce(&Handler) -> Result<Ret, Error>,
-{
-    try_with_handler_inner(cm, config, op, true)
-}
+// pub fn try_with_json_handler<F, Ret>(
+//     cm: Lrc<SourceMap>,
+//     config: HandlerOpts,
+//     op: F,
+// ) -> Result<Ret, Vec<Diagnostic>>
+// where
+//     F: FnOnce(&Handler) -> Result<Ret, Error>,
+// {
+//     try_with_handler_inner(op)
+// }
 
-fn try_with_handler_inner<F, Ret>(
-    cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-    json: bool,
-) -> Result<Ret, Vec<Diagnostic>>
+fn try_with_handler_inner<F, Ret>(op: F) -> Result<Ret, Vec<Diagnostic>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let wr = Box::<LockedWriter>::default();
-    let diagnostic_collection = DiagnosticCollection::default();
-    config.color;
+    let writer = DiagnosticWriter::default();
 
     let emitter: Box<dyn Emitter> = if json {
         Box::new(JsonEmitter::new(
@@ -183,61 +168,27 @@ where
         ))
     };
     let emitter: Box<dyn Emitter> = Box::new(ErrorEmitter {
-        diagnostics: diagnostic_collection.clone(),
+        diagnostics: writer.clone(),
     });
-    // let emitter: Box<dyn Emitter> = if json {
-    //     Box::new(JsonEmitter::new(
-    //         cm,
-    //         wr.clone(),
-    //         JsonEmitterConfig {
-    //             skip_filename: config.skip_filename,
-    //         },
-    //     ))
-    // } else {
-    //     Box::new(PrettyEmitter::new(
-    //         cm,
-    //         wr.clone(),
-    //         to_miette_reporter(config.color),
-    //         PrettyEmitterConfig {
-    //             skip_filename: config.skip_filename,
-    //         },
-    //     ))
-    // };
-    // let e_wr = EmitterWriter::new(wr.clone(), Some(cm), false,
-    // true).skip_filename(skip_filename);
+
     let handler = Handler::with_emitter(true, false, emitter);
 
     let ret = HANDLER.set(&handler, || op(&handler));
 
     match ret {
         Ok(ret) => {
-            if diagnostic_collection.contains_error() {
-                return Err(diagnostic_collection.take());
+            if writer.contains_error() {
+                return Err(writer.take());
             }
 
             Ok(ret)
         }
         Err(err) => {
-            diagnostic_collection.push(err.to_diagnostic());
+            writer.push(err.to_diagnostic());
 
-            Err(diagnostic_collection.take())
+            Err(writer.take())
         }
     }
-
-    // if handler.has_errors() {
-    //     let mut lock = wr.0.lock();
-    //     let error = take(&mut *lock);
-
-    //     let msg = String::from_utf8(error).expect("error string should be
-    // utf8");
-
-    //     match ret {
-    //         Ok(_) => Err(anyhow::anyhow!(msg)),
-    //         Err(err) => Err(err.context(msg)),
-    //     }
-    // } else {
-    //     ret
-    // }
 }
 
 trait ToDiagnostic {

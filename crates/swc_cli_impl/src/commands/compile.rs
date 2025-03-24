@@ -17,9 +17,7 @@ use swc_core::{
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
-        errors::{to_pretty_string, ColorConfig},
-        sync::Lazy,
-        FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
+        errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
     },
     trace_macro::swc_trace,
 };
@@ -436,11 +434,6 @@ impl CompileOptions {
                     })
                 },
             )
-            .map_err(|e| {
-                let error_msg =
-                    to_pretty_string(e.iter(), &compiler.cm.clone(), color, skip_filename);
-                anyhow::anyhow!(error_msg)
-            })
         };
 
         if let Some(single_out_file) = self.out_file.as_ref() {

@@ -9,44 +9,6 @@ use once_cell::sync::Lazy;
 use super::{ColorConfig, Diagnostic, DiagnosticId, Level, SubDiagnostic};
 use crate::{sync::Lrc, BytePos, FileName, SourceMap, Span};
 
-fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
-    match color {
-        ColorConfig::Auto => {
-            if cfg!(target_arch = "wasm32") {
-                return to_miette_reporter(ColorConfig::Always).with_context_lines(3);
-            }
-
-            static ENABLE: Lazy<bool> =
-                Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
-
-            if *ENABLE {
-                to_miette_reporter(ColorConfig::Always)
-            } else {
-                to_miette_reporter(ColorConfig::Never)
-            }
-        }
-        ColorConfig::Always => GraphicalReportHandler::default(),
-        ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
-    }
-    .with_context_lines(3)
-}
-
-pub fn to_pretty_string<'a, I>(
-    diagnostics: I,
-    cm: &SourceMap,
-    color: ColorConfig,
-    skip_filename: bool,
-) -> String
-where
-    I: Iterator<Item = &'a Diagnostic>,
-{
-    let handler = to_pretty_handler(color);
-    diagnostics
-        .map(|d| d.to_pretty_diagnostic(cm, skip_filename))
-        .map(|d| d.to_pretty_string(&handler))
-        .collect::<String>()
-}
-
 pub struct PrettyDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
     d: &'a Diagnostic,
@@ -339,26 +301,4 @@ fn convert_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, len.0 as usize)
-}
-
-fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
-    match color {
-        ColorConfig::Auto => {
-            if cfg!(target_arch = "wasm32") {
-                return to_miette_reporter(ColorConfig::Always).with_context_lines(3);
-            }
-
-            static ENABLE: Lazy<bool> =
-                Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
-
-            if *ENABLE {
-                to_miette_reporter(ColorConfig::Always)
-            } else {
-                to_miette_reporter(ColorConfig::Never)
-            }
-        }
-        ColorConfig::Always => GraphicalReportHandler::default(),
-        ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
-    }
-    .with_context_lines(3)
 }
