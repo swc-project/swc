@@ -680,7 +680,7 @@ impl Pure<'_> {
 
         if let Expr::Ident(i) = &**arg {
             if matches!(&*i.sym, "undefined" | "NaN" | "Infinity") {
-                *e = make_bool(i.span, false);
+                *e = make_bool(i.span, true);
             }
         }
     }
