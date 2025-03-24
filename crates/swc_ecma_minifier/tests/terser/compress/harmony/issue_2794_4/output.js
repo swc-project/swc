@@ -1,7 +1,4 @@
-for (var x of ([
-    1,
-    2
-], [
+for (var x of [
     3,
     4
-]))console.log(x);
+])console.log(x);

@@ -1,1 +1,1 @@
-console.log(`${(1, 2)} ${/b/}`);
+console.log(`2 ${/b/}`);
