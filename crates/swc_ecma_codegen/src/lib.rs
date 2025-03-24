@@ -19,6 +19,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
+use text_writer::SpanStore;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -105,15 +106,26 @@ impl<N: Node> Node for &N {
     }
 }
 
-pub struct Emitter<'a, W, S: SourceMapper>
+pub struct Emitter<'a, W, S>
 where
     W: WriteJs,
-    S: SourceMapperExt,
+    S: SourceMapper + SourceMapperExt,
 {
-    pub cfg: config::Config,
-    pub cm: Lrc<S>,
-    pub comments: Option<&'a dyn Comments>,
-    pub wr: W,
+    cfg: config::Config,
+    cm: Lrc<S>,
+    comments: Option<&'a dyn Comments>,
+    wr: W,
+}
+
+pub struct SpanWriter<'a, W, S>
+where
+    W: WriteJs + SpanStore,
+    S: SourceMapper + SourceMapperExt,
+{
+    cfg: config::Config,
+    wr: W,
+    cm: Lrc<S>,
+    comments: Option<&'a dyn Comments>,
 }
 
 enum CowStr<'a> {
