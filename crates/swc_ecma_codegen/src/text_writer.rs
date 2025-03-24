@@ -54,4 +54,4 @@ pub trait WriteJs {
 }
 
 #[auto_impl(Box, &mut)]
-pub trait SpanStore {}
+pub trait SpannedWriteJs: WriteJs {}

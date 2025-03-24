@@ -19,7 +19,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
-use text_writer::SpanStore;
+use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -81,7 +81,7 @@ pub trait Node: Spanned {
     /// [`Node::emit_with`].
     fn adjust_span<W, S>(&mut self, wr: &mut SpanWriter<'_, W, S>) -> Result
     where
-        W: WriteJs + SpanStore,
+        W: SpannedWriteJs,
         S: SourceMapper + SourceMapperExt;
 }
 
@@ -119,7 +119,7 @@ where
 
 pub struct SpanWriter<'a, W, S>
 where
-    W: WriteJs + SpanStore,
+    W: SpannedWriteJs,
     S: SourceMapper + SourceMapperExt,
 {
     cfg: config::Config,
