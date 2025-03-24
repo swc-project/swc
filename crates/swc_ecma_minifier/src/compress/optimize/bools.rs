@@ -3,8 +3,6 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Optimizer;
-#[cfg(feature = "debug")]
-use crate::debug::dump;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
