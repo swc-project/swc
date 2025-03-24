@@ -23,11 +23,25 @@ impl Pure<'_> {
             if v {
                 self.changed = true;
                 report_change!("conditionals: `true ? foo : bar` => `foo` (pure test)");
-                *e = *cond.cons.take();
+                *e = if cond.cons.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.cons.take()],
+                    })
+                } else {
+                    *cond.cons.take()
+                };
             } else {
                 self.changed = true;
                 report_change!("conditionals: `false ? foo : bar` => `bar` (pure test)");
-                *e = *cond.alt.take();
+                *e = if cond.alt.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.alt.take()],
+                    })
+                } else {
+                    *cond.alt.take()
+                };
             }
         } else {
             self.ignore_return_value(
