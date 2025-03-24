@@ -696,6 +696,10 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_member_expr(&mut self, e: &mut Expr) {
+        if self.ctx.in_opt_chain {
+            return;
+        }
+
         let member_expr = match e {
             Expr::Member(x) => x,
             _ => return,
