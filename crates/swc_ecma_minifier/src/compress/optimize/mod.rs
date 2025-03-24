@@ -2606,12 +2606,6 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
-
-        self.compress_if_stmt_as_expr(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

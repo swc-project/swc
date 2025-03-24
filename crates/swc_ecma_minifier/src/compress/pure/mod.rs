@@ -1085,6 +1085,10 @@ impl VisitMut for Pure<'_> {
 
         debug_assert_valid(s);
 
+        self.compress_if_stmt_as_expr(s);
+
+        debug_assert_valid(s);
+
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
