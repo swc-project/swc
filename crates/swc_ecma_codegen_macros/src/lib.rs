@@ -53,12 +53,20 @@ fn (&mut self, node: Node) -> Result;
 
         parse_quote!({
             impl crate::Node for #node_type {
-                fn emit_with<W, S: swc_common::SourceMapper>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
+                fn emit_with<W, S>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
                 where
                     W: crate::text_writer::WriteJs,
-                    S: swc_ecma_ast::SourceMapperExt
+                    S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt
                 {
                     e.#mtd_name(self)
+                }
+
+                fn adjust_span<W, S>(&mut self, wr: &mut crate::SpanWriter<'_, W, S>) -> Result
+                where
+                    W: crate::text_writer::SpannedWriteJs,
+                    S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt
+                {
+                    wr.#mtd_name(self)
                 }
             }
 
