@@ -391,6 +391,19 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        if let Expr::Bin(bin) = e {
+            let expr = self.optimize_lit_cmp(bin);
+            if let Some(expr) = expr {
+                report_change!("Optimizing: Literal comparison");
+                self.changed = true;
+                *e = expr;
+            }
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_nested_tpl(e);
 
         if e.is_seq() {

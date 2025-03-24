@@ -4,10 +4,7 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
 use super::Optimizer;
-use crate::{
-    compress::util::negate,
-    util::{make_bool, ValueExt},
-};
+use crate::{compress::util::negate, util::make_bool};
 
 impl Optimizer<'_> {
     ///
@@ -107,54 +104,6 @@ impl Optimizer<'_> {
                 }
             }
         }
-    }
-
-    ///
-    /// - `1 == 1` => `true`
-    /// - `1 == 2` => `false`
-    pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
-        if n.op != op!("==") && n.op != op!("!=") {
-            return None;
-        }
-        let flag = n.op == op!("!=");
-        let mut make_lit_bool = |value: bool| {
-            self.changed = true;
-            Some(
-                Lit::Bool(Bool {
-                    span: n.span,
-                    value: flag ^ value,
-                })
-                .into(),
-            )
-        };
-        match (
-            n.left.get_type(self.ctx.expr_ctx).opt()?,
-            n.right.get_type(self.ctx.expr_ctx).opt()?,
-        ) {
-            // Abort if types differ, or one of them is unknown.
-            (lt, rt) if lt != rt => {}
-            (Type::Obj, Type::Obj) => {}
-            (Type::Num, Type::Num) => {
-                let l = n.left.as_pure_number(self.ctx.expr_ctx).opt()?;
-                let r = n.right.as_pure_number(self.ctx.expr_ctx).opt()?;
-                report_change!("Optimizing: literal comparison => num");
-                return make_lit_bool(l == r);
-            }
-            (Type::Str, Type::Str) => {
-                let l = &n.left.as_pure_string(self.ctx.expr_ctx).opt()?;
-                let r = &n.right.as_pure_string(self.ctx.expr_ctx).opt()?;
-                report_change!("Optimizing: literal comparison => str");
-                return make_lit_bool(l == r);
-            }
-            (_, _) => {
-                let l = n.left.as_pure_bool(self.ctx.expr_ctx).opt()?;
-                let r = n.right.as_pure_bool(self.ctx.expr_ctx).opt()?;
-                report_change!("Optimizing: literal comparison => bool");
-                return make_lit_bool(l == r);
-            }
-        };
-
-        None
     }
 
     ///

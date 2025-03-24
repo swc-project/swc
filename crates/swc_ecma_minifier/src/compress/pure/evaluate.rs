@@ -1,14 +1,65 @@
 use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
 
 use super::Pure;
-use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
+use crate::{
+    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    util::ValueExt,
+};
 
 impl Pure<'_> {
+    ///
+    /// - `1 == 1` => `true`
+    /// - `1 == 2` => `false`
+    pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
+        if n.op != op!("==") && n.op != op!("!=") {
+            return None;
+        }
+        let flag = n.op == op!("!=");
+        let mut make_lit_bool = |value: bool| {
+            self.changed = true;
+            Some(
+                Lit::Bool(Bool {
+                    span: n.span,
+                    value: flag ^ value,
+                })
+                .into(),
+            )
+        };
+        match (
+            n.left.get_type(self.expr_ctx).opt()?,
+            n.right.get_type(self.expr_ctx).opt()?,
+        ) {
+            // Abort if types differ, or one of them is unknown.
+            (lt, rt) if lt != rt => {}
+            (Type::Obj, Type::Obj) => {}
+            (Type::Num, Type::Num) => {
+                let l = n.left.as_pure_number(self.expr_ctx).opt()?;
+                let r = n.right.as_pure_number(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => num");
+                return make_lit_bool(l == r);
+            }
+            (Type::Str, Type::Str) => {
+                let l = &n.left.as_pure_string(self.expr_ctx).opt()?;
+                let r = &n.right.as_pure_string(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => str");
+                return make_lit_bool(l == r);
+            }
+            (_, _) => {
+                let l = n.left.as_pure_bool(self.expr_ctx).opt()?;
+                let r = n.right.as_pure_bool(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => bool");
+                return make_lit_bool(l == r);
+            }
+        };
+
+        None
+    }
+
     pub(super) fn eval_array_spread(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
