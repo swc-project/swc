@@ -33,13 +33,45 @@ impl Pure<'_> {
             }
 
             Expr::Bin(BinExpr {
-                op: op!("&&") | op!("||"),
+                op: op @ (op!("&&") | op!("||")),
                 left,
                 right,
                 ..
             }) => {
                 self.make_bool_short(left, in_bool_ctx || ignore_return_value, false);
                 self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+
+                if in_bool_ctx {
+                    match *op {
+                        op!("||") => {
+                            // `a || false` => `a` (as it will be casted to boolean anyway)
+
+                            if let Value::Known(false) = right.as_pure_bool(self.expr_ctx) {
+                                report_change!(
+                                    "bools: `expr || false` => `expr` (in bool context)"
+                                );
+                                self.changed = true;
+                                *e = *left.take();
+                                return;
+                            }
+                        }
+
+                        op!("&&") => {
+                            // false && foo => false (as it will be always false)
+
+                            if let (_, Value::Known(false)) = left.cast_to_bool(self.expr_ctx) {
+                                report_change!(
+                                    "bools: `false && foo` => `false` (in bool context)"
+                                );
+                                self.changed = true;
+                                *e = *left.take();
+                                return;
+                            }
+                        }
+
+                        _ => {}
+                    }
+                }
             }
 
             Expr::Bin(BinExpr { left, right, .. }) => {
