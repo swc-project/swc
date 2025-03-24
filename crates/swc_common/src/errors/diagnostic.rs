@@ -44,12 +44,21 @@ pub struct Message(pub String, pub Style);
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+/// Represents a diagnostic message with its level, message, unique identifier,
+/// span, children, and suggestions.
 pub struct Diagnostic {
+    /// The level of the diagnostic (e.g., error, warning, help)
     pub level: Level,
+    /// The message(s) associated with the diagnostic
     pub message: Vec<Message>,
+    /// A unique identifier for the diagnostic, which can be used to look up
+    /// more information
     pub code: Option<DiagnosticId>,
+    /// The span of the source code where the diagnostic is located
     pub span: MultiSpan,
+    /// Child diagnostics that are related to this diagnostic
     pub children: Vec<SubDiagnostic>,
+    /// Suggestions for how to fix the issue identified by the diagnostic
     pub suggestions: Vec<CodeSuggestion>,
 }
 

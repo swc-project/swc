@@ -11,7 +11,7 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 use common::FileName;
 use serde::{Deserialize, Serialize};
-use swc_common::errors::HANDLER;
+use swc_common::errors::{DiagnosticId, HANDLER};
 use swc_ecma_ast::Pass;
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
@@ -178,7 +178,7 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_module(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err(&err.to_string());
+                    handler.err_with_code(&err.to_string(), DiagnosticId::Error("plugin".into()));
                 });
                 Module::default()
             }
@@ -191,7 +191,7 @@ impl Fold for RustPlugins {
             Ok(program) => program.expect_script(),
             Err(err) => {
                 HANDLER.with(|handler| {
-                    handler.err(&err.to_string());
+                    handler.err_with_code(&err.to_string(), DiagnosticId::Error("plugin".into()));
                 });
                 Script::default()
             }
