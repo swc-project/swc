@@ -1063,7 +1063,7 @@
                     for(var key in event = {}, old)// Safari 6.0.3 warns you if you try to copy deprecated layerX/Y
                     // Chrome warns you if you try to copy deprecated keyboardEvent.keyLocation
                     // and webkitMovementX/Y
-                    "layerX" === key || "layerY" === key || "keyLocation" === key || "webkitMovementX" === key || "webkitMovementY" === key || "returnValue" === key && old.preventDefault || (event[key] = old[key]);
+                    "layerX" !== key && "layerY" !== key && "keyLocation" !== key && "webkitMovementX" !== key && "webkitMovementY" !== key && ("returnValue" === key && old.preventDefault || (event[key] = old[key]));
                      // The event occurred on this element
                     if (event.target || (event.target = event.srcElement || global_document__WEBPACK_IMPORTED_MODULE_1___default()), event.relatedTarget || (event.relatedTarget = event.fromElement === event.target ? event.toElement : event.fromElement), event.preventDefault = function() {
                         old.preventDefault && old.preventDefault(), event.returnValue = !1, old.returnValue = !1, event.defaultPrevented = !0;
@@ -6991,7 +6991,7 @@
                 }, _proto.enableInterval_ = function() {
                     this.updateInterval || (this.updateInterval = this.setInterval(this.update, 30));
                 }, _proto.disableInterval_ = function(e) {
-                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || !this.updateInterval || (this.clearInterval(this.updateInterval), this.updateInterval = null);
+                    this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || this.updateInterval && (this.clearInterval(this.updateInterval), this.updateInterval = null);
                 }, /**
                  * Create the `Component`'s DOM element
                  *
@@ -8405,7 +8405,7 @@
                  * @listens keydown
                  */ _proto.handleKeyDown = function(event) {
                     // Escape or Tab unpress the 'button'
-                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && !this.buttonPressed_ && (event.preventDefault(), this.pressButton());
+                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && (this.buttonPressed_ || (event.preventDefault(), this.pressButton()));
                 }, /**
                  * Handle a `keyup` event on a `MenuButton`. The listener for this is added in
                  * the constructor.
@@ -10073,13 +10073,13 @@
                  * @return {Object}
                  *         An object with config values parsed from the DOM or localStorage.
                  */ _proto.getValues = function() {
-                    var fn, _this3 = this;
+                    var fn, initial, _this3 = this;
                     return fn = function(accum, config, key) {
                         var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
+                    }, initial = {}, keys(selectConfigs).reduce(function(accum, key) {
                         return fn(accum, selectConfigs[key], key);
-                    }, {});
+                    }, initial);
                 }, /**
                  * Sets text track settings from an object of values.
                  *
@@ -12728,7 +12728,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), // in some cases this will be empty string
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), // in some cases this will be empty string
                         updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
@@ -12956,9 +12956,9 @@
                  * @listens Tech#dblclick
                  * @private
                  */ _proto.handleTechDoubleClick_ = function(event) {
-                    this.controls_ && !Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
+                    this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
-                    }) && (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()); // we do not want to toggle fullscreen state
+                    }) || (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen())); // we do not want to toggle fullscreen state
                 }, /**
                  * Handle a tap on the media element. It will toggle the user
                  * activity state, which hides and shows the controls.
@@ -13312,7 +13312,7 @@
                  */ _proto.duration = function(seconds) {
                     if (void 0 === seconds) // return NaN if the duration is not known
                     return void 0 !== this.cache_.duration ? this.cache_.duration : NaN;
-                    (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds === this.cache_.duration || (// Cache the last set value for optimized scrubbing (esp. Flash)
+                    (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds !== this.cache_.duration && (// Cache the last set value for optimized scrubbing (esp. Flash)
                     // TODO: Required for techs other than Flash?
                     this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || // Do not fire durationchange unless the duration value is known.
                     // @see [Spec]{@link https://www.w3.org/TR/2011/WD-html5-20110113/video.html#media-element-load-algorithm}
@@ -13521,7 +13521,7 @@
                     // 2. otherwise, if the tech supports fullscreen, call `enterFullScreen` on it.
                     //   This is particularly used for iPhone, older iPads, and non-safari browser on iOS.
                     // 3. otherwise, use "fullWindow" mode
-                    if (this.fsApi_.prefixed || (fsOptions = this.options_.fullscreen && this.options_.fullscreen.options || {}, void 0 === fullscreenOptions || (fsOptions = fullscreenOptions)), this.fsApi_.requestFullscreen) {
+                    if (this.fsApi_.prefixed || (fsOptions = this.options_.fullscreen && this.options_.fullscreen.options || {}, void 0 !== fullscreenOptions && (fsOptions = fullscreenOptions)), this.fsApi_.requestFullscreen) {
                         var promise = this.el_[this.fsApi_.requestFullscreen](fsOptions);
                         return promise && promise.then(function() {
                             return _this11.isFullscreen(!0);
@@ -13793,7 +13793,7 @@
                         }, 0);
                         return;
                     } // initial sources
-                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), /**
+                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), !/**
              * Asynchronously sets a source using middleware by recursing through any
              * matching middlewares and calling `setSource` on each, passing along the
              * previous returned value each time.
@@ -14099,7 +14099,7 @@
                  *         The current value of controls when getting
                  */ _proto.controls = function(bool) {
                     if (void 0 === bool) return !!this.controls_;
-                    bool = !!bool, this.controls_ === bool || (this.controls_ = bool, this.usingNativeControls() && this.techCall_("setControls", bool), this.controls_ ? (this.removeClass("vjs-controls-disabled"), this.addClass("vjs-controls-enabled"), /**
+                    bool = !!bool, this.controls_ !== bool && (this.controls_ = bool, this.usingNativeControls() && this.techCall_("setControls", bool), this.controls_ ? (this.removeClass("vjs-controls-disabled"), this.addClass("vjs-controls-enabled"), /**
                          * @event Player#controlsenabled
                          * @type {EventTarget~Event}
                          */ this.trigger("controlsenabled"), this.usingNativeControls() || this.addTechControlsListeners_()) : (this.removeClass("vjs-controls-enabled"), this.addClass("vjs-controls-disabled"), /**
@@ -16400,7 +16400,7 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                error || !reqResponse || (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                !error && reqResponse && (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     // Add a default timeout
@@ -23413,7 +23413,7 @@
                         this.logger_("Throwing away un-appended sync request " + segmentInfoString(segmentInfo));
                         return;
                     }
-                    this.logger_("Appended " + segmentInfoString(segmentInfo)), this.addSegmentMetadataCue_(segmentInfo), this.fetchAtBuffer_ = !0, this.currentTimeline_ === segmentInfo.timeline || (this.timelineChangeController_.lastTimelineChange({
+                    this.logger_("Appended " + segmentInfoString(segmentInfo)), this.addSegmentMetadataCue_(segmentInfo), this.fetchAtBuffer_ = !0, this.currentTimeline_ !== segmentInfo.timeline && (this.timelineChangeController_.lastTimelineChange({
                         type: this.loaderType_,
                         from: this.currentTimeline_,
                         to: segmentInfo.timeline
@@ -26740,7 +26740,7 @@
                     return /maybe|probably/i.test(video.canPlayType(canItPlay));
                 }) // HLS manifests can go by many mime-types
                 ;
-            }(), Vhs.supportsNativeDash = !!(global_document__WEBPACK_IMPORTED_MODULE_1___default() && global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement && videojs.getTech("Html5").isSupported()) && /maybe|probably/i.test(global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video").canPlayType("application/dash+xml")), Vhs.supportsTypeNatively = function(type) {
+            }(), Vhs.supportsNativeDash = !!global_document__WEBPACK_IMPORTED_MODULE_1___default() && !!global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement && !!videojs.getTech("Html5").isSupported() && /maybe|probably/i.test(global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video").canPlayType("application/dash+xml")), Vhs.supportsTypeNatively = function(type) {
                 return "hls" === type ? Vhs.supportsNativeHls : "dash" === type && Vhs.supportsNativeDash;
             }, /**
              * HLS is a source handler, not a tech. Make sure attempts to use it

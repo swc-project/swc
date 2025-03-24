@@ -4,9 +4,7 @@ use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{
-    iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
@@ -694,8 +692,6 @@ impl Optimizer<'_> {
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
-        self.optimize_bang_within_logical_ops(e, true);
-
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         self.drop_unused_update(e);
@@ -2080,18 +2076,6 @@ impl VisitMut for Optimizer<'_> {
                     Expr::undefined(DUMMY_SP)
                 });
             }
-        } else {
-            match &mut *n.expr {
-                Expr::Seq(e) => {
-                    // Non-last items are handled by visit_mut_seq_expr
-                    if let Some(e) = e.exprs.last_mut() {
-                        self.optimize_bang_within_logical_ops(e, true);
-                    }
-                }
-                _ => {
-                    self.optimize_bang_within_logical_ops(&mut n.expr, true);
-                }
-            }
         }
 
         self.normalize_expr(&mut n.expr);
@@ -2291,9 +2275,9 @@ impl VisitMut for Optimizer<'_> {
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        self.negate_if_stmt(n);
-
         self.merge_nested_if(n);
+
+        self.negate_if_stmt(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2486,56 +2470,7 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        let should_preserve_zero = n
-            .exprs
-            .last()
-            .map(|v| &**v)
-            .map_or(false, Expr::directness_matters);
-
-        let ctx = Ctx {
-            dont_use_negated_iife: true,
-            ..self.ctx.clone()
-        };
-
-        let exprs = n
-            .exprs
-            .iter_mut()
-            .enumerate()
-            .identify_last()
-            .filter_map(|(last, (idx, expr))| {
-                #[cfg(feature = "debug")]
-                let _span =
-                    tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
-
-                expr.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-                let is_injected_zero = match &**expr {
-                    Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
-                    _ => false,
-                };
-
-                #[cfg(feature = "debug")]
-                let _span = tracing::span!(tracing::Level::ERROR, "seq_expr").entered();
-
-                let can_remove = !last
-                    && (idx != 0
-                        || !is_injected_zero
-                        || !self.ctx.is_this_aware_callee
-                        || !should_preserve_zero);
-
-                if can_remove {
-                    // If negate_iife is true, it's already handled by
-                    // visit_mut_children_with(self) above.
-                    if !self.options.negate_iife {
-                        self.negate_iife_in_cond(expr);
-                    }
-
-                    self.ignore_return_value(expr).map(Box::new)
-                } else {
-                    Some(expr.take())
-                }
-            })
-            .collect::<Vec<_>>();
-        n.exprs = exprs;
+        n.visit_mut_children_with(self);
 
         self.shift_void(n);
 

@@ -1,18 +1,75 @@
-use std::mem::{swap, take};
+use std::mem::take;
 
 use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
-use super::Pure;
-#[cfg(feature = "debug")]
-use crate::debug::dump;
-use crate::{
-    compress::util::{can_absorb_negate, negate_cost},
-    util::make_bool,
-};
+use super::{DropOpts, Pure};
+use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
+    pub(super) fn optimize_const_cond(&mut self, e: &mut Expr) {
+        let Expr::Cond(cond) = e else {
+            return;
+        };
+
+        let (p, Value::Known(v)) = cond.test.cast_to_bool(self.expr_ctx) else {
+            return;
+        };
+
+        if p.is_pure() {
+            if v {
+                self.changed = true;
+                report_change!("conditionals: `true ? foo : bar` => `foo` (pure test)");
+                *e = if cond.cons.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.cons.take()],
+                    })
+                } else {
+                    *cond.cons.take()
+                };
+            } else {
+                self.changed = true;
+                report_change!("conditionals: `false ? foo : bar` => `bar` (pure test)");
+                *e = if cond.alt.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.alt.take()],
+                    })
+                } else {
+                    *cond.alt.take()
+                };
+            }
+        } else {
+            self.ignore_return_value(
+                &mut cond.test,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            self.changed = true;
+
+            let mut exprs = Vec::with_capacity(2);
+            if !cond.test.is_invalid() {
+                exprs.push(take(&mut cond.test));
+            }
+
+            if v {
+                report_change!("conditionals: `true ? foo : bar` => `true, foo`");
+                exprs.push(take(&mut cond.cons));
+            } else {
+                report_change!("conditionals: `false ? foo : bar` => `false, bar`");
+                exprs.push(take(&mut cond.alt));
+            }
+
+            *e = *Expr::from_exprs(exprs);
+        }
+    }
+
     ///
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`
@@ -188,25 +245,6 @@ impl Pure<'_> {
             }
             _ => (),
         }
-    }
-
-    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
-            return;
-        }
-
-        report_change!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        #[cfg(feature = "debug")]
-        let start_str = dump(&*cond, false);
-
-        self.negate(&mut cond.test, true, false);
-        swap(&mut cond.cons, &mut cond.alt);
-
-        dump_change_detail!(
-            "[Change] Negated cond: `{}` => `{}`",
-            start_str,
-            dump(&*cond, false)
-        );
     }
 
     /// Removes useless operands of an logical expressions.

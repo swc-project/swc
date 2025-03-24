@@ -856,7 +856,7 @@
                 // If this desc be updated to match the given node decoration,
                 // do so and return true.
                 NodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
-                    return !!(3 != this.dirty && node.sameMarkup(this.node)) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
+                    return 3 != this.dirty && !!node.sameMarkup(this.node) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
                 }, NodeViewDesc.prototype.updateInner = function(node, outerDeco, innerDeco, view) {
                     this.updateOuterDeco(outerDeco), this.node = node, this.innerDeco = innerDeco, this.contentDOM && this.updateChildren(view, this.posAtStart), this.dirty = 0;
                 }, NodeViewDesc.prototype.updateOuterDeco = function(outerDeco) {
@@ -895,7 +895,7 @@
                         skip: skip || !0
                     };
                 }, TextViewDesc.prototype.update = function(node, outerDeco, _, view) {
-                    return !!(3 != this.dirty && (0 == this.dirty || this.inParent()) && node.sameMarkup(this.node)) && (this.updateOuterDeco(outerDeco), (0 != this.dirty || node.text != this.node.text) && node.text != this.nodeDOM.nodeValue && (this.nodeDOM.nodeValue = node.text, view.trackWrites == this.nodeDOM && (view.trackWrites = null)), this.node = node, this.dirty = 0, !0);
+                    return 3 != this.dirty && (0 == this.dirty || !!this.inParent()) && !!node.sameMarkup(this.node) && (this.updateOuterDeco(outerDeco), (0 != this.dirty || node.text != this.node.text) && node.text != this.nodeDOM.nodeValue && (this.nodeDOM.nodeValue = node.text, view.trackWrites == this.nodeDOM && (view.trackWrites = null)), this.node = node, this.dirty = 0, !0);
                 }, TextViewDesc.prototype.inParent = function() {
                     for(var parentDOM = this.parent.contentDOM, n = this.nodeDOM; n; n = n.parentNode)if (n == parentDOM) return !0;
                     return !1;
@@ -1112,7 +1112,7 @@
                     if (view.domObserver.disconnectSelection(), view.cursorWrapper) domSel = view.root.getSelection(), range = document.createRange(), (img = "IMG" == (node = view.cursorWrapper.dom).nodeName) ? range.setEnd(node.parentNode, domIndex(node) + 1) : range.setEnd(node, 0), range.collapse(!1), domSel.removeAllRanges(), domSel.addRange(range), !img && !view.state.selection.visible && result.ie && result.ie_version <= 11 && (node.disabled = !0, node.disabled = !1);
                     else {
                         var domSel, range, node, img, doc, domSel1, node1, offset, resetEditableFrom, resetEditableTo, anchor = sel.anchor, head = sel.head;
-                        !brokenSelectBetweenUneditable || sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection || (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = view.dom.ownerDocument).removeEventListener("selectionchange", view.hideSelectionGuard), node1 = (domSel1 = view.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
+                        brokenSelectBetweenUneditable && !(sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && (sel.$from.parent.inlineContent || (resetEditableFrom = temporarilyEditableNear(view, sel.from)), sel.empty || sel.$from.parent.inlineContent || (resetEditableTo = temporarilyEditableNear(view, sel.to))), view.docView.setSelection(anchor, head, view.root, force), brokenSelectBetweenUneditable && (resetEditableFrom && resetEditable(resetEditableFrom), resetEditableTo && resetEditable(resetEditableTo)), sel.visible ? view.dom.classList.remove("ProseMirror-hideselection") : (view.dom.classList.add("ProseMirror-hideselection"), "onselectionchange" in document && ((doc = view.dom.ownerDocument).removeEventListener("selectionchange", view.hideSelectionGuard), node1 = (domSel1 = view.root.getSelection()).anchorNode, offset = domSel1.anchorOffset, doc.addEventListener("selectionchange", view.hideSelectionGuard = function() {
                             (domSel1.anchorNode != node1 || domSel1.anchorOffset != offset) && (doc.removeEventListener("selectionchange", view.hideSelectionGuard), setTimeout(function() {
                                 (!editorOwnsSelection(view) || view.state.selection.visible) && view.dom.classList.remove("ProseMirror-hideselection");
                             }, 20));
@@ -1213,8 +1213,8 @@
             // contentEditable.
             ViewTreeUpdater.prototype.addTextblockHacks = function() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
-                !(!lastChild || // Empty textblock
-                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
+                (!lastChild || // Empty textblock
+                !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) && ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
             }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {

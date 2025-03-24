@@ -1427,7 +1427,7 @@ function(global, factory) {
     function measureCharPrepared(cm, prepared, ch, bias, varHeight) {
         prepared.before && (ch = -1);
         var found, key = ch + (bias || "");
-        return prepared.cache.hasOwnProperty(key) ? found = prepared.cache[key] : (prepared.rect || (prepared.rect = prepared.view.text.getBoundingClientRect()), prepared.hasHeights || (// Ensure the lineView.wrapping.heights array is populated. This is
+        return prepared.cache.hasOwnProperty(key) ? found = prepared.cache[key] : (prepared.rect || (prepared.rect = prepared.view.text.getBoundingClientRect()), prepared.hasHeights || (!// Ensure the lineView.wrapping.heights array is populated. This is
         // an array of bottom offsets for the lines that make up a drawn
         // line. When lineWrapping is on, there might be more than one
         // height.
@@ -2031,7 +2031,7 @@ function(global, factory) {
         }
     }
     function ensureFocus(cm) {
-        cm.hasFocus() || (cm.display.input.focus(), cm.state.focused || onFocus(cm));
+        !cm.hasFocus() && (cm.display.input.focus(), cm.state.focused || onFocus(cm));
     }
     function delayBlurEvent(cm) {
         cm.state.delayingBlurEvent = !0, setTimeout(function() {
@@ -4065,7 +4065,7 @@ function(global, factory) {
                     isParent: !0,
                     sharedHist: options.sharedHist
                 }
-            ], function(doc, markers) {
+            ], !function(doc, markers) {
                 for(var i = 0; i < markers.length; i++){
                     var marker = markers[i], pos = marker.find(), mFrom = doc.clipPos(pos.from), mTo = doc.clipPos(pos.to);
                     if (cmp(mFrom, mTo)) {
@@ -4816,7 +4816,7 @@ function(global, factory) {
             if (!(presto && (!e.which || e.which < 10) && handleKeyBinding(this, e))) {
                 var ch = String.fromCharCode(null == charCode ? keyCode : charCode);
                 // Some browsers fire keypress events for backspace
-                "\x08" == ch || (cm = this, dispatchKey(cm, "'" + ch + "'", e, function(b) {
+                "\x08" != ch && (cm = this, dispatchKey(cm, "'" + ch + "'", e, function(b) {
                     return doHandleBinding(cm, b, !0);
                 }) || this.display.input.onKeyPress(e));
             }
@@ -4985,7 +4985,7 @@ function(global, factory) {
     // textarea (making it as unobtrusive as possible) to let the
     // right-click take effect on it.
     function onContextMenu(cm, e) {
-        !(eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1)) && (signalDOMEvent(cm, e, "contextmenu") || captureRightClick || cm.display.input.onContextMenu(e));
+        eventInWidget(cm.display, e) || hasHandler(cm, "gutterContextMenu") && gutterEvent(cm, e, "gutterContextMenu", !1) || !signalDOMEvent(cm, e, "contextmenu") && (captureRightClick || cm.display.input.onContextMenu(e));
     }
     function themeChanged(cm) {
         cm.display.wrapper.className = cm.display.wrapper.className.replace(/\s*cm-s-\S+/g, "") + cm.options.theme.replace(/(^|\s)\s*/g, " cm-s-"), clearCaches(cm);
@@ -5599,7 +5599,7 @@ function(global, factory) {
             function addText(str) {
                 str && (close(), text += str);
             }
-            for(; function walk(node) {
+            for(; !function walk(node) {
                 if (1 == node.nodeType) {
                     var cmText = node.getAttribute("cm-text");
                     if (cmText) {
@@ -5656,7 +5656,7 @@ function(global, factory) {
     }, ContentEditableInput.prototype.setUneditable = function(node) {
         node.contentEditable = "false";
     }, ContentEditableInput.prototype.onKeyPress = function(e) {
-        0 == e.charCode || this.composing || (e.preventDefault(), this.cm.isReadOnly() || operation(this.cm, applyTextInput)(this.cm, String.fromCharCode(null == e.charCode ? e.keyCode : e.charCode), 0));
+        0 != e.charCode && !this.composing && (e.preventDefault(), this.cm.isReadOnly() || operation(this.cm, applyTextInput)(this.cm, String.fromCharCode(null == e.charCode ? e.keyCode : e.charCode), 0));
     }, ContentEditableInput.prototype.readOnlyChanged = function(val) {
         this.div.contentEditable = String("nocursor" != val);
     }, ContentEditableInput.prototype.onContextMenu = function() {}, ContentEditableInput.prototype.resetPosition = function() {}, ContentEditableInput.prototype.needsContentAttribute = !0;
@@ -5961,10 +5961,10 @@ function(global, factory) {
         addOverlay: methodOp(function(spec, options) {
             var mode = spec.token ? spec : CodeMirror.getMode(this.options, spec);
             if (mode.startState) throw Error("Overlays may not be stateful.");
-            (function(array, value, score) {
+            !function(array, value, score) {
                 for(var pos = 0, priority = score(value); pos < array.length && score(array[pos]) <= priority;)pos++;
                 array.splice(pos, 0, value);
-            })(this.state.overlays, {
+            }(this.state.overlays, {
                 mode: mode,
                 modeSpec: spec,
                 opaque: options && options.opaque,

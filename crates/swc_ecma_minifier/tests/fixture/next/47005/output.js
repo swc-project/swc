@@ -426,7 +426,7 @@
                     n
                 ]);
                 let ee = d;
-                return r && r({}), E && (0, O.jsx)(ea, {}), (0, O.jsx)(ei, {});
+                return r ? r({}) : S && S, E && (0, O.jsx)(ea, {}), (0, O.jsx)(ei, {});
             };
         }
     }

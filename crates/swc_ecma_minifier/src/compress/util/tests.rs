@@ -89,7 +89,7 @@ fn negate_cost_1() {
         "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
         false,
         true,
-        2,
+        0,
     );
 }
 

@@ -1215,7 +1215,7 @@ function(global, factory) {
                 _f2.x,
                 0
             ];
-            return !!(satForAxes(axes, _v0, _v1, _v2, _extents) && satForAxes(axes = [
+            return !!satForAxes(axes, _v0, _v1, _v2, _extents) && !!satForAxes(axes = [
                 1,
                 0,
                 0,
@@ -1225,7 +1225,7 @@ function(global, factory) {
                 0,
                 0,
                 1
-            ], _v0, _v1, _v2, _extents)) && (// use already existing triangle edge vectors here
+            ], _v0, _v1, _v2, _extents) && (// use already existing triangle edge vectors here
             _triangleNormal.crossVectors(_f0, _f1), satForAxes(axes = [
                 _triangleNormal.x,
                 _triangleNormal.y,
@@ -7128,7 +7128,7 @@ function(global, factory) {
             camera.matrixWorld.copy(cameraVR.matrixWorld);
             for(var children = camera.children, _i3 = 0, l = children.length; _i3 < l; _i3++)children[_i3].updateMatrixWorld(!0);
              // update projection matrix for proper view frustum culling
-            return 2 === cameras.length ? /**
+            return 2 === cameras.length ? !/**
 		 * Assumes 2 cameras that are parallel and share an X-axis, and that
 		 * the cameras' projection and world matrices have already been set.
 		 * And that near and far planes are identical for both cameras.
@@ -13209,7 +13209,7 @@ function(global, factory) {
                     hole_unassigned && betterShapeHoles[_sIdx].push(ho);
                 }
                  // console.log("ambiguous: ", ambiguous);
-                toChange.length > 0 && !ambiguous && (newShapeHoles = betterShapeHoles);
+                toChange.length > 0 && (ambiguous || (newShapeHoles = betterShapeHoles));
             }
             for(var _i = 0, il = newShapes.length; _i < il; _i++){
                 tmpShape = newShapes[_i].s, shapes.push(tmpShape), tmpHoles = newShapeHoles[_i];
@@ -13681,7 +13681,7 @@ function(global, factory) {
         }
     });
     // Characters [].:/ are reserved for track binding syntax.
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp('^' + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp("^" + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'

@@ -2331,7 +2331,7 @@
             // page, use the special dialog handling
             jQuery.extend(changePageOptions, data, {
                 transition: (history1.getLast() || {}).transition || transition
-            }), (!(history1.activeIndex > 0 && to.indexOf(jQuery.mobile.dialogHashKey) > -1) || history1.initialDst === to || !1 !== (to = this._handleDialog(changePageOptions, data))) && this._changeContent(this._handleDestination(to), changePageOptions);
+            }), history1.activeIndex > 0 && to.indexOf(jQuery.mobile.dialogHashKey) > -1 && history1.initialDst !== to && !1 === (to = this._handleDialog(changePageOptions, data)) || this._changeContent(this._handleDestination(to), changePageOptions);
         },
         _changeContent: function(to, opts) {
             jQuery.mobile.changePage(to, opts);
@@ -2757,7 +2757,7 @@
                 $form.is(":jqmData(ajax='false')") || // test that $.mobile.ignoreContentEnabled is set and
                 // the form or one of it's parents is ajax=false
                 !$form.jqmHijackable().length || $form.attr("target")) && (url = $lastVClicked && $lastVClicked.attr("formaction") || $form.attr("action"), method = ($form.attr("method") || "get").toLowerCase(), url || (// Get the @data-url for the page containing the form.
-                url = $.mobile.getClosestBaseUrl($form), "get" === method && (url = $.mobile.path.parseUrl(url).hrefNoSearch), url !== $.mobile.path.documentBase.hrefNoHash || // The url we got back matches the document base,
+                url = $.mobile.getClosestBaseUrl($form), "get" === method && (url = $.mobile.path.parseUrl(url).hrefNoSearch), url === $.mobile.path.documentBase.hrefNoHash && // The url we got back matches the document base,
                 // which means the page must be an internal/embedded page,
                 // so default to using the actual document url as a browser
                 // would.
@@ -3918,7 +3918,7 @@
                 });
             },
             _setOption: function(key, value) {
-                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = (popup || (popup = $("<div></div>", {
+                this._super(key, value), "showValue" === key ? this.handle.html(value && !this.options.mini ? this._value() : "") : "popupEnabled" === key && value && !this._popup && (this._popup = (!popup && (popup = $("<div></div>", {
                     class: "ui-slider-popup ui-shadow ui-corner-all"
                 })), popup.clone()).addClass("ui-body-" + (this.options.theme || "a")).hide().insertBefore(this.element));
             },
@@ -4523,7 +4523,7 @@
         },
         _setOptions: function(newOptions) {
             var currentOptions = this.options, theElement = this.element, screen1 = this._ui.screen;
-            return void 0 !== newOptions.wrapperClass && this._ui.container.removeClass(currentOptions.wrapperClass).addClass(newOptions.wrapperClass), newOptions.theme !== undefined10 && theElement.removeClass(this._themeClassFromOption("ui-body-", currentOptions.theme)).addClass(this._themeClassFromOption("ui-body-", newOptions.theme)), newOptions.overlayTheme !== undefined10 && (screen1.removeClass(this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme)).addClass(this._themeClassFromOption("ui-overlay-", newOptions.overlayTheme)), this._isOpen && screen1.addClass("in")), newOptions.shadow !== undefined10 && theElement.toggleClass("ui-overlay-shadow", newOptions.shadow), newOptions.corners !== undefined10 && theElement.toggleClass("ui-corner-all", newOptions.corners), newOptions.transition === undefined10 || this._currentTransition || this._applyTransition(newOptions.transition), newOptions.tolerance !== undefined10 && this._setTolerance(newOptions.tolerance), newOptions.disabled !== undefined10 && newOptions.disabled && this.close(), this._super(newOptions);
+            return void 0 !== newOptions.wrapperClass && this._ui.container.removeClass(currentOptions.wrapperClass).addClass(newOptions.wrapperClass), newOptions.theme !== undefined10 && theElement.removeClass(this._themeClassFromOption("ui-body-", currentOptions.theme)).addClass(this._themeClassFromOption("ui-body-", newOptions.theme)), newOptions.overlayTheme !== undefined10 && (screen1.removeClass(this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme)).addClass(this._themeClassFromOption("ui-overlay-", newOptions.overlayTheme)), this._isOpen && screen1.addClass("in")), newOptions.shadow !== undefined10 && theElement.toggleClass("ui-overlay-shadow", newOptions.shadow), newOptions.corners !== undefined10 && theElement.toggleClass("ui-corner-all", newOptions.corners), newOptions.transition !== undefined10 && (this._currentTransition || this._applyTransition(newOptions.transition)), newOptions.tolerance !== undefined10 && this._setTolerance(newOptions.tolerance), newOptions.disabled !== undefined10 && newOptions.disabled && this.close(), this._super(newOptions);
         },
         _setTolerance: function(value) {
             var ar, tol = {
@@ -4800,7 +4800,7 @@
                 this._super(event1), this._handleButtonVclickKeydown(event1);
             },
             _handleButtonVclickKeydown: function(event1) {
-                this.options.disabled || this.isOpen || "vclick" !== event1.type && (!event1.keyCode || event1.keyCode !== $.mobile.keyCode.ENTER && event1.keyCode !== $.mobile.keyCode.SPACE) || (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
+                this.options.disabled || this.isOpen || ("vclick" === event1.type || event1.keyCode && (event1.keyCode === $.mobile.keyCode.ENTER || event1.keyCode === $.mobile.keyCode.SPACE)) && (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
             },
             _handleListFocus: function(e) {
                 var params = "focusin" === e.type ? {
@@ -5874,7 +5874,7 @@
                 })
             },
             _create: function() {
-                this._super(), "reflow" !== this.options.mode || this.options.enhanced || (this.element.addClass(this.options.classes.reflowTable), this._updateReflow());
+                this._super(), "reflow" === this.options.mode && (this.options.enhanced || (this.element.addClass(this.options.classes.reflowTable), this._updateReflow()));
             },
             rebuild: function() {
                 this._super(), "reflow" === this.options.mode && this._refresh(!1);
@@ -6171,7 +6171,7 @@
                     this._setupDisabled(value);
                     return;
                 }
-                this._super(key, value), "collapsible" !== key || (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value);
+                this._super(key, value), "collapsible" === key && (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value);
             },
             _tabId: function(tab) {
                 return tab.attr("aria-controls") || "ui-tabs-" + ++tabId;

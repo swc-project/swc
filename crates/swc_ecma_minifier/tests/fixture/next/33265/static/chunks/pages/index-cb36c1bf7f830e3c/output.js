@@ -4056,14 +4056,14 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? (0, attributes.duration) ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                return (!attributes.duration && !segmentTimeline ? [
                     {
                         number: attributes.startNumber || 1,
                         duration: attributes.sourceDuration,
                         time: 0,
                         timeline: attributes.periodIndex
                     }
-                ]).map(function(segment) {
+                ] : attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline)).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = // calculated in mpd-parser prior to this, so it's assumed to be available.
                     attributes.periodStart + (segment.time - presentationTimeOffset) / timescale; // See DASH spec section 5.3.9.2.2
@@ -4772,7 +4772,7 @@
                         builtParts.path = URLToolkit.normalizePath(newPath);
                     } else // 5) If the embedded URL path is empty (and not preceded by a
                     // slash), then the embedded URL inherits the base URL path
-                    builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
+                    builtParts.path = baseParts.path, !relativeParts.params && (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -5672,7 +5672,7 @@
                         if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                         if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
                         for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                        return -+ ++count;
+                        return -1 * ++count;
                     }(cue), axis = [];
                     // If we have a line number to align the cue to.
                     if (cue.snapToLines) {
@@ -6336,7 +6336,7 @@
             }
             // Support decoding URL-safe base64 strings, as Node.js does.
             // See: https://en.wikipedia.org/wiki/Base64#URL_applications
-            revLookup["-".charCodeAt(0)] = 62, revLookup["_".charCodeAt(0)] = 63;
+            revLookup[45] = 62, revLookup[95] = 63;
         /***/ },
         /***/ 816: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";

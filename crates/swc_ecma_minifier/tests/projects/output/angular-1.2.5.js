@@ -133,11 +133,11 @@
    * @description Converts the specified string to lowercase.
    * @param {string} string String to be converted to lowercase.
    * @returns {string} Lowercased string.
-   */ var promiseWarning, lowercase = function(string) {
+   */ var promiseWarning, /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, lowercase = function(string) {
         return isString(string) ? string.toLowerCase() : string;
     }, uppercase = function(string) {
         return isString(string) ? string.toUpperCase() : string;
-    }, /** holds major version number for IE or NaN for real browsers */ msie, jqLite, jQuery, angularModule, nodeName_, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
+    }, slice = [].slice, push = [].push, toString = Object.prototype.toString, ngMinErr = minErr("ng"), /** @name angular */ angular1 = (window1.angular, window1.angular || (window1.angular = {})), uid = [
         "0",
         "0",
         "0"
@@ -1207,7 +1207,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1; //ie
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -2310,7 +2310,7 @@
      * @returns {function()} the added function
      */ self.addPollFn = function(fn) {
             var interval, setTimeout2;
-            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
+            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, !function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
@@ -4532,7 +4532,7 @@
                                 var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = function(url, params) {
                                     if (!params) return url;
                                     var parts = [];
-                                    return function(obj, iterator, context) {
+                                    return !function(obj, iterator, context) {
                                         for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
                                     }(params, function(value, key) {
                                         null === value || isUndefined(value) || (isArray(value) || (value = [
@@ -6585,7 +6585,7 @@
                             var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
                             return forEach(promises, function(promise, key) {
                                 counter++, ref(promise).then(function(value) {
-                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                                    !results.hasOwnProperty(key) && (results[key] = value, --counter || deferred.resolve(results));
                                 }, function(reason) {
                                     results.hasOwnProperty(key) || deferred.reject(reason);
                                 });
@@ -11553,7 +11553,7 @@
                                     });
                                 }
                                 // Now we need to update the list of DOM nodes to match the optionGroups we computed above
-                                for(multiple || (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
+                                for(!multiple && (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
                                 optionGroups[""].unshift({
                                     id: "",
                                     label: "",

@@ -502,8 +502,10 @@
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
-                            var ref, id, observer, elements;
-                            return element && element.tagName && (id = (ref = function(options) {
+                            var callback, ref, id, observer, elements;
+                            return element && element.tagName && (callback = function(isVisible) {
+                                return isVisible && setVisible(isVisible);
+                            }, id = (ref = function(options) {
                                 var instance, id = {
                                     root: options.root || null,
                                     margin: options.rootMargin || ""
@@ -525,9 +527,7 @@
                             }({
                                 root: null == rootRef ? void 0 : rootRef.current,
                                 rootMargin: rootMargin
-                            })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
-                                return isVisible && setVisible(isVisible);
-                            }), observer.observe(element), unobserve.current = function() {
+                            })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), unobserve.current = function() {
                                 // Destroy observer when there's nothing left to watch:
                                 if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);

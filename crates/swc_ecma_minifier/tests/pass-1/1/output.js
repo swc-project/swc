@@ -6,6 +6,4 @@ var condString, array = [
     "2",
     "3"
 ];
-condString.toUpperCase, foo();
-foo(), condString.toUpperCase, foo();
-condString.toUpperCase;
+condString.toUpperCase, foo(), foo(), condString.toUpperCase, foo(), condString.toUpperCase;

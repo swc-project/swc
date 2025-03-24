@@ -4723,11 +4723,11 @@
                                 var e1 = 31 - nc(c1), f1 = 1 << e1;
                                 b1[e1] = 0, d1[e1] = -1, a1[e1] = -1, c1 &= ~f1;
                             }
-                            if (a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, $b(gc, function() {
+                            if (a === P && (X = P = null, Y = 0), 0 == (2064 & c.subtreeFlags) && 0 == (2064 & c.flags) || tk || (tk = !0, b2 = function() {
                                 return Gk(), null;
-                            })), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
+                            }, $b(gc, b2)), f = 0 != (15990 & c.flags), 0 != (15990 & c.subtreeFlags) || f) {
                                 f = mk.transition, mk.transition = null;
-                                var a2, b2, g = C;
+                                var b2, a2, b3, g = C;
                                 C = 1;
                                 var h = W;
                                 W |= 4, lk.current = null, function(a, b) {
@@ -4835,7 +4835,7 @@
                                         });
                                         for("function" == typeof c.focus && c.focus(), c = 0; c < b.length; c++)(a = b[c]).element.scrollLeft = a.left, a.element.scrollTop = a.top;
                                     }
-                                }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a2 = c, b2 = a, T = a2, function gk(a, b, c) {
+                                }(Cf), cd = !!Bf, Cf = Bf = null, a.current = c, a2 = c, b3 = a, T = a2, function gk(a, b, c) {
                                     for(var d = 0 != (1 & a.mode); null !== T;){
                                         var e = T, f = e.child;
                                         if (22 === e.tag && d) {
@@ -4851,7 +4851,7 @@
                                             ik(a, b, c);
                                         } else 0 != (8772 & e.subtreeFlags) && null !== f ? (f.return = e, T = f) : ik(a, b, c);
                                     }
-                                }(a2, b2, e), cc(), W = h, C = g, mk.transition = f;
+                                }(a2, b3, e), cc(), W = h, C = g, mk.transition = f;
                             } else a.current = c;
                             tk && (tk = !1, uk = a, vk = e), 0 === (f = a.pendingLanes) && (Oi = null);
                             var a3 = c.stateNode;

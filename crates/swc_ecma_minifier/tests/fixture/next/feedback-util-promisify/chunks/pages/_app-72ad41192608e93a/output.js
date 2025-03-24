@@ -36,13 +36,13 @@
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
                             try {
-                                // load Branch
-                                (function(b, r, a, n, c, h, _, s, d, k) {
+                                !// load Branch
+                                function(b, r, a, n, c, h, _, s, d, k) {
                                     if (!b[n] || !b[n]._q) {
                                         for(; s < _.length;)c(h, _[s++]);
                                         (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
                                     }
-                                })(window, document, "script", "branch", function(b, r) {
+                                }(window, document, "script", "branch", function(b, r) {
                                     b[r] = function() {
                                         b._q.push([
                                             r,
@@ -131,7 +131,7 @@
                             f
                         ];
                     }
-                    f["-".charCodeAt(0)] = 62, f["_".charCodeAt(0)] = 63;
+                    f[45] = 62, f[95] = 63;
                 },
                 293: function(e, r, t) {
                     "use strict";

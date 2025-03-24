@@ -188,7 +188,7 @@
                             "style",
                             "script"
                         ].forEach((type)=>{
-                            (function(type, components) {
+                            !function(type, components) {
                                 const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
                                 for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
                                     var ref;
@@ -202,7 +202,7 @@
                                     var ref;
                                     return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
                                 }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
-                            })(type, tags[type] || []);
+                            }(type, tags[type] || []);
                         });
                     }
                 };
@@ -1675,7 +1675,7 @@
                     // support single-level catch-all
                     // TODO: more robust handling for user-error (passing `/`)
                     let replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
-                    return optional && (replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
+                    return optional && (replaced = "".concat(!value ? "/" : "", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
                         value
                     ]), (optional || param in dynamicMatches) && // Interpolate group into data URL if present
                     (interpolatedRoute = interpolatedRoute.replace(replaced, repeat ? value.map(// into the URL and we expect URL encoded segments
@@ -1967,7 +1967,7 @@
                             locale: nextState.locale,
                             router: _this
                         });
-                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname === pathname || (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
+                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname !== pathname && (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
                             url: as,
                             router: _this
                         }), !1;
@@ -3429,11 +3429,11 @@
                     D();
                     var C, w = f("INP"), a = function(n) {
                         n.forEach(function(n) {
-                            n.interactionId && H(n), "first-input" !== n.entryType || V.some(function(y) {
+                            n.interactionId && H(n), "first-input" === n.entryType && (V.some(function(y) {
                                 return y.entries.some(function(y) {
                                     return n.duration === y.duration && n.startTime === y.startTime;
                                 });
-                            }) || H(n);
+                            }) || H(n));
                         });
                         var y, T = (y = Math.min(V.length - 1, Math.floor(R() / 50)), V[y]);
                         T && T.latency !== w.value && (w.value = T.latency, w.entries = T.entries, C());

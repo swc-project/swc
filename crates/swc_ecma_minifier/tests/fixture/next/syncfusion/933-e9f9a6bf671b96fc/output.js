@@ -2689,7 +2689,7 @@
                             fOptions.maximumFractionDigits = util_isUndefined(mval) && fOptions.isPercent ? 0 : mval;
                         }
                         var mfrac = fOptions.minimumFractionDigits, lfrac = fOptions.maximumFractionDigits;
-                        util_isUndefined(mfrac) || util_isUndefined(lfrac) || !(mfrac > lfrac) || (fOptions.maximumFractionDigits = mfrac);
+                        util_isUndefined(mfrac) || util_isUndefined(lfrac) || mfrac > lfrac && (fOptions.maximumFractionDigits = mfrac);
                     }
                     return util_extend(cOptions.nData, fOptions), util_extend(cOptions.pData, fOptions), function(value) {
                         return isNaN(value) ? symbols.nan : isFinite(value) ? _this.intNumberFormatter(value, cOptions, dOptions) : symbols.infinity;
@@ -2749,7 +2749,7 @@
      * @returns {string} ?
      */ NumberFormat.intNumberFormatter = function(value, fOptions, dOptions) {
                     if (!util_isUndefined(fOptions.nData.type)) {
-                        value < 0 ? (value = -+value, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
+                        value < 0 ? (value *= -1, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
                         var curData, fValue = '';
                         return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = (fValue = value.toExponential(curData.maximumFractionDigits)).replace('e', dOptions.numberMapper.numberSymbols.exponential)), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols.decimal), curData.useGrouping && /* eslint-disable  @typescript-eslint/no-explicit-any */ (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols.decimal || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
                     }
@@ -4224,9 +4224,9 @@
                         curObj.hasNegativePattern = split.length > 1, curObj.nData = getFormatData(split[1] || '-' + split[0], !0, curCode), curObj.pData = getFormatData(split[0], !1, curCode), curMatch[2] || options.minimumFractionDigits || options.maximumFractionDigits || (minFrac = getFormatData(symbolPattern.split(';')[0], !0, '', !0).minimumFraction);
                     }
                     if (IntlBase.formatRegex.test(options.format) || !options.format) {
-                        if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || (parseOptions.type, 0)) {
+                        if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || parseOptions.type && 0) {
                             var cPattern = actualPattern;
-                            actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, curObj.hasNegativePattern && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
+                            actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, (curObj.hasNegativePattern || 0) && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
                         }
                         'percent' === parseOptions.type && (actualPattern += ' %');
                     } else actualPattern = options.format.replace(/'/g, '"');
@@ -4933,7 +4933,7 @@
      * @param {string} element ?
      */ function Base(options, element) {
                     this.isRendered = !1, this.isComplexArraySetter = !1, this.isServerRendered = !1, this.allowServerDataBinding = !0, this.isProtectedOnChange = !0, this.properties = {}, this.changedProperties = {}, this.oldProperties = {}, this.bulkChanges = {}, this.refreshing = !1, this.ignoreCollectionWatch = !1, // eslint-disable-next-line
-                    this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), util_isUndefined(element) || ('string' == typeof element ? this.element = document.querySelector(element) : this.element = element, util_isNullOrUndefined(this.element) || (this.isProtectedOnChange = !1, this.addInstance())), util_isUndefined(options) || this.setProperties(options, !0), this.isDestroyed = !1;
+                    this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), !util_isUndefined(element) && ('string' == typeof element ? this.element = document.querySelector(element) : this.element = element, util_isNullOrUndefined(this.element) || (this.isProtectedOnChange = !1, this.addInstance())), util_isUndefined(options) || this.setProperties(options, !0), this.isDestroyed = !1;
                 }
                 return(/** Property base section */ /**
      * Function used to set bunch of property at a time.
@@ -6895,7 +6895,7 @@
          * @param {MouseEventArgs | TouchEventArgs} evt ?
          * @returns {void} ?
          */ _this.endEvent = function(evt) {
-                        _this.swipeFn(evt), _this.isTouchMoved || 'function' != typeof _this.tap || (_this.trigger('tap', {
+                        _this.swipeFn(evt), _this.isTouchMoved || 'function' == typeof _this.tap && (_this.trigger('tap', {
                             originalEvent: evt,
                             tapCount: ++_this.tapCount
                         }), _this.timeOutTap = setTimeout(function() {
@@ -11807,7 +11807,7 @@
  */ function onMouseMove(e) {
                 if (e.target.classList.contains(RESIZE_HANDLER) && e.target.classList.contains(FOCUSED_HANDLER) ? selectedHandler = e.target : (0, ej2_base /* isNullOrUndefined */ .le)(document.body.querySelector('.' + FOCUSED_HANDLER)) || (selectedHandler = document.body.querySelector('.' + FOCUSED_HANDLER)), !(0, ej2_base /* isNullOrUndefined */ .le)(selectedHandler)) {
                     for(var resizeTowards = '', i = 0; i < elementClass.length; i++)selectedHandler.classList.contains('e-' + elementClass[i]) && (resizeTowards = elementClass[i]);
-                    switch((0, ej2_base /* isNullOrUndefined */ .le)(resize) || (proxy = this, resize(e, proxy)), resizeTowards){
+                    switch(!(0, ej2_base /* isNullOrUndefined */ .le)(resize) && (proxy = this, resize(e, proxy)), resizeTowards){
                         case 'south':
                             resizeSouth(e);
                             break;
@@ -12061,11 +12061,11 @@
  * @returns {void}
  */ function(args) {
                                 resizeStart = args.resizeBegin, resize = args.resizing, resizeEnd = args.resizeComplete, targetElement = getDOMElement(args.element), containerElement = getDOMElement(args.boundary);
-                                for(var directions = args.direction.split(' '), i = 0; i < directions.length; i++)if (dialogBorderResize.indexOf(directions[i]) >= 0 && directions[i]) /**
+                                for(var directions = args.direction.split(' '), i = 0; i < directions.length; i++)if (dialogBorderResize.indexOf(directions[i]) >= 0 && directions[i]) !/**
  *
  * @param {string} direction - specifies the string
  * @returns {void}
- */ (function(direction) {
+ */ function(direction) {
                                     calculateValues();
                                     var borderBottom = (0, ej2_base /* createElement */ .az)('span', {
                                         attrs: {
@@ -12074,7 +12074,7 @@
                                         }
                                     });
                                     borderBottom.setAttribute('class', 'e-dialog-border-resize e-' + direction), 'south' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.bottom = '0px', borderBottom.style.left = '0px'), 'north' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.top = '0px', borderBottom.style.left = '0px'), 'east' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.right = '0px', borderBottom.style.top = '0px'), 'west' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.left = '0px', borderBottom.style.top = '0px'), targetElement.appendChild(borderBottom);
-                                })(directions[i]);
+                                }(directions[i]);
                                 else if ('' !== directions[i].trim()) {
                                     var resizeHandler = (0, ej2_base /* createElement */ .az)('div', {
                                         className: 'e-icons ' + RESIZE_HANDLER + " e-" + directions[i]
@@ -12140,7 +12140,7 @@
                     var _this = this;
                     if (this.initialRender = !0, this.isBlazorServerRender() || (0, ej2_base /* attributes */ .Y4)(this.element, {
                         role: 'dialog'
-                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), this.isBlazorServerRender() || (this.setTargetContent(), '' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header) || this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) && '' === this.footerTemplate && this.setButton(), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
+                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), !this.isBlazorServerRender() && (this.setTargetContent(), '' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header) || this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && ((0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || '' !== this.footerTemplate || this.setButton()), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
                         'aria-modal': this.isModal ? 'true' : 'false'
                     }), this.isModal && this.setIsModal()), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.dlgContainer)) {
                         this.dlgContainer = this.element.parentElement;
@@ -12205,7 +12205,7 @@
                     });
                 }, Dialog.prototype.setAllowDragging = function() {
                     var _this = this, handleContent = '.' + DLG_HEADER_CONTENT;
-                    this.element.classList.contains('e-draggable') || (this.dragObj = new ej2_base /* Draggable */ ._l(this.element, {
+                    !this.element.classList.contains('e-draggable') && (this.dragObj = new ej2_base /* Draggable */ ._l(this.element, {
                         clone: !1,
                         isDragScroll: !0,
                         abort: '.e-dlg-closeicon-btn',
@@ -12652,12 +12652,12 @@
                         };
                         this.closeArgs = eventArgs, this.trigger('beforeClose', eventArgs, function(beforeCloseArgs) {
                             if (!beforeCloseArgs.cancel) {
-                                _this.isModal && !(0, ej2_base /* isNullOrUndefined */ .le)(_this.targetEle) && (0, ej2_base /* removeClass */ .IV)([
+                                _this.isModal && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.targetEle) || (0, ej2_base /* removeClass */ .IV)([
                                     _this.targetEle
                                 ], [
                                     DLG_TARGET,
                                     SCROLL_DISABLED
-                                ]), document.body.classList.contains(DLG_TARGET) && document.body.classList.contains(SCROLL_DISABLED) && (0, ej2_base /* removeClass */ .IV)([
+                                ])), document.body.classList.contains(DLG_TARGET) && document.body.classList.contains(SCROLL_DISABLED) && (0, ej2_base /* removeClass */ .IV)([
                                     document.body
                                 ], [
                                     DLG_TARGET,
@@ -13350,7 +13350,7 @@
                     var allowedKeys = 32 === e.which || 13 === e.which || 8 === e.which || 46 === e.which;
                     ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys || 'Markdown' === this.editorMode && ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys) && !this.inlineMode.enable) && this.formatter.onKeyHandler(this, e), (this.inputElement && 0 !== this.inputElement.textContent.length || this.element.querySelectorAll('.e-toolbar-item.e-active').length > 0) && this.notify(constant /* toolbarRefresh */ .l0, {
                         args: e
-                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || 'Enter' === e.key && 13 === e.keyCode || '<p><br></p>' !== this.inputElement.innerHTML && '<div><br></div>' !== this.inputElement.innerHTML && '<br>' !== this.inputElement.innerHTML || this.setPlaceHolder();
+                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || ('Enter' !== e.key || 13 !== e.keyCode) && ('<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML) && this.setPlaceHolder();
                 }, /**
      * @param {string} value - specifies the value.
      * @returns {void}
@@ -14120,7 +14120,7 @@
      * @hidden
 
      */ RichTextEditor.prototype.contentChanged = function() {
-                    this.autoSaveOnIdle && !(0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) && (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval));
+                    this.autoSaveOnIdle && ((0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) || (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval)));
                 }, /**
      * invokeChangeEvent method
      *
@@ -18516,7 +18516,7 @@
                     while (node && node !== targetNode)
                     return formatCollection;
                 }, ToolbarStatus.isFormattedNode = function(docElement, formatCollection, node, formatNode, fontSize, fontName) {
-                    return formatCollection.bold || (formatCollection.bold = IsFormatted.isBold(node)), formatCollection.italic || (formatCollection.italic = IsFormatted.isItalic(node)), formatCollection.underline || (formatCollection.underline = IsFormatted.isUnderline(node)), formatCollection.strikethrough || (formatCollection.strikethrough = IsFormatted.isStrikethrough(node)), formatCollection.superscript || (formatCollection.superscript = IsFormatted.isSuperscript(node)), formatCollection.subscript || (formatCollection.subscript = IsFormatted.isSubscript(node)), formatCollection.fontcolor || (formatCollection.fontcolor = this.isFontColor(docElement, node)), formatCollection.fontname || (formatCollection.fontname = this.isFontName(docElement, node, fontName)), formatCollection.fontsize || (formatCollection.fontsize = this.isFontSize(node, fontSize)), formatCollection.backgroundcolor || (formatCollection.backgroundcolor = this.isBackgroundColor(node)), formatCollection.orderedlist || (formatCollection.orderedlist = this.isOrderedList(node)), formatCollection.unorderedlist || (formatCollection.unorderedlist = this.isUnorderedList(node)), formatCollection.alignments || (formatCollection.alignments = this.isAlignment(node)), formatCollection.formats || (formatCollection.formats = this.isFormats(node, formatNode), 'pre' !== formatCollection.formats || (formatCollection.insertcode = !0)), formatCollection.createlink || (formatCollection.createlink = this.isLink(node)), formatCollection.numberFormatList || (formatCollection.numberFormatList = this.isNumberFormatList(node)), formatCollection.bulletFormatList || (formatCollection.bulletFormatList = this.isBulletFormatList(node)), formatCollection;
+                    return formatCollection.bold || (formatCollection.bold = IsFormatted.isBold(node)), formatCollection.italic || (formatCollection.italic = IsFormatted.isItalic(node)), formatCollection.underline || (formatCollection.underline = IsFormatted.isUnderline(node)), formatCollection.strikethrough || (formatCollection.strikethrough = IsFormatted.isStrikethrough(node)), formatCollection.superscript || (formatCollection.superscript = IsFormatted.isSuperscript(node)), formatCollection.subscript || (formatCollection.subscript = IsFormatted.isSubscript(node)), formatCollection.fontcolor || (formatCollection.fontcolor = this.isFontColor(docElement, node)), formatCollection.fontname || (formatCollection.fontname = this.isFontName(docElement, node, fontName)), formatCollection.fontsize || (formatCollection.fontsize = this.isFontSize(node, fontSize)), formatCollection.backgroundcolor || (formatCollection.backgroundcolor = this.isBackgroundColor(node)), formatCollection.orderedlist || (formatCollection.orderedlist = this.isOrderedList(node)), formatCollection.unorderedlist || (formatCollection.unorderedlist = this.isUnorderedList(node)), formatCollection.alignments || (formatCollection.alignments = this.isAlignment(node)), formatCollection.formats || (formatCollection.formats = this.isFormats(node, formatNode), 'pre' === formatCollection.formats && (formatCollection.insertcode = !0)), formatCollection.createlink || (formatCollection.createlink = this.isLink(node)), formatCollection.numberFormatList || (formatCollection.numberFormatList = this.isNumberFormatList(node)), formatCollection.bulletFormatList || (formatCollection.bulletFormatList = this.isBulletFormatList(node)), formatCollection;
                 }, ToolbarStatus.isFontColor = function(docElement, node) {
                     var color = node.style && node.style.color;
                     return ((null == color || '' === color) && 3 !== node.nodeType && (color = this.getComputedStyle(docElement, node, 'color')), null !== color && '' !== color && void 0 !== color) ? color : null;
@@ -18799,7 +18799,7 @@
                                 case 'default':
                                     this.fontColorPicker.setProperties({
                                         value: newProp.fontColor.default
-                                    }), (0, this.fontColorDropDown.element).querySelector('.' + this.tools.fontcolor.icon).style.borderBottomColor = newProp.fontColor.default;
+                                    }), this.fontColorDropDown.element.querySelector('.' + this.tools.fontcolor.icon).style.borderBottomColor = newProp.fontColor.default;
                                     break;
                                 case 'mode':
                                     this.fontColorPicker.setProperties({
@@ -18827,7 +18827,7 @@
                                 case 'default':
                                     this.backgroundColorPicker.setProperties({
                                         value: newProp.backgroundColor.default
-                                    }), (0, this.backgroundColorDropDown.element).querySelector('.' + this.tools.backgroundcolor.icon).style.borderBottomColor = newProp.backgroundColor.default;
+                                    }), this.backgroundColorDropDown.element.querySelector('.' + this.tools.backgroundcolor.icon).style.borderBottomColor = newProp.backgroundColor.default;
                                     break;
                                 case 'mode':
                                     this.backgroundColorPicker.setProperties({
@@ -19697,7 +19697,7 @@
  * @returns {void}
  */ function(theme, container, radius, makeElement) {
                             var uniqueID, uniqueID1, uniqueID2, uniqueID3, uniqueID4, uniqueID5, uniqueID6, uniqueID7, innerContainer = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer.querySelector('svg');
-                            switch((0, ej2_base /* isNullOrUndefined */ .le)(svg) || innerContainer.removeChild(svg), theme){
+                            switch(!(0, ej2_base /* isNullOrUndefined */ .le)(svg) && innerContainer.removeChild(svg), theme){
                                 case 'Material':
                                     globalTimeOut[uniqueID1 = random_generator()] = {
                                         timeOut: 0,
@@ -19849,17 +19849,6 @@
             }
             /**
  *
- * @param {number} current - specifies the number
- * @param {number} start - specifies the stroke size
- * @param {number} change - specifies the value
- * @param {number} duration - specifies the max number
- * @returns {number} - returns the number
- */ function easeAnimation(current, start, change, duration) {
-                var timestamp = (current /= duration) * current, timecount = timestamp * current;
-                return start + change * (6 * timecount * timestamp + -15 * timestamp * timestamp + 10 * timecount);
-            }
-            /**
- *
  * @param {number} radius - specifies the number
  * @param {HTMLElement} innerConainer - specifies the element
  * @param {string} trgClass - specifies the class
@@ -19953,36 +19942,23 @@
  * @param {SpinnerInfo} spinnerInfo - specifies the spinner
  * @returns {void}
  */ function animateMaterial(spinnerInfo) {
-                                    /**
- *
- * @param {number} start - specifies the number
- * @param {number} end - specifies the end number
- * @param {Function} easing - specifies the function
- * @param {number} duration - specifies the duration
- * @param {number} count - specifies the count
- * @param {number} max - specifies the max number
- * @param {SpinnerInfo} spinnerInfo - specifies the spinner info
- * @returns {void}
- */ // eslint-disable-next-line
-                                    (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
-                                        // eslint-disable-next-line
-                                        (function mat_animation(spinnerInfo) {
-                                            var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, 1333));
-                                            /**
+                                    var id, startTime, diameter, strokeSize, rotate;
+                                    spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), strokeSize = 0.1 * (diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + '')), rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0), // eslint-disable-next-line
+                                    function mat_animation(spinnerInfo) {
+                                        var current, timestamp, timecount, currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, 1333));
+                                        /**
      *
      * @param {number} value - specifies the number value
      * @param {HTMLElement} container - specifies the container
      * @returns {void}
      */ (function(value, container) {
-                                                if (!(0, ej2_base /* isNullOrUndefined */ .le)(container.querySelector('svg.e-spin-material')) && !(0, ej2_base /* isNullOrUndefined */ .le)(container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle'))) {
-                                                    var path = container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle');
-                                                    path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, value, 75) + ''), path.setAttribute('transform', 'rotate(' + rotate + ' ' + diameter / 2 + ' ' + diameter / 2 + ')');
-                                                }
-                                            })(easing(currentTime, 1, 148, 1333), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < 1333 ? // eslint-disable-next-line
-                                            globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
-                                        })(spinnerInfo);
-                                    })(0, 0, easeAnimation, 0, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
+                                            if (!(0, ej2_base /* isNullOrUndefined */ .le)(container.querySelector('svg.e-spin-material')) && !(0, ej2_base /* isNullOrUndefined */ .le)(container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle'))) {
+                                                var path = container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle');
+                                                path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, value, 75) + ''), path.setAttribute('transform', 'rotate(' + rotate + ' ' + diameter / 2 + ' ' + diameter / 2 + ')');
+                                            }
+                                        })(1 + 148 * (6 * (timecount = (timestamp = (current = currentTime / 1333) * current) * current) * timestamp + -15 * timestamp * timestamp + 10 * timecount), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < 1333 ? // eslint-disable-next-line
+                                        globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
+                                    }(spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
                                     uniqueID: id,
                                     container: inner,
@@ -20979,7 +20955,7 @@
                 }, Uploader.prototype.updateStatus = function(files, status, statusCode, updateLiStatus) {
                     if (void 0 === updateLiStatus && (updateLiStatus = !0), '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || '' === statusCode || (0, ej2_base /* isNullOrUndefined */ .le)(statusCode) || (files.status = status, files.statusCode = statusCode), updateLiStatus) {
                         var li = this.getLiElement(files);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(li) || (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || (li.querySelector('.' + STATUS).textContent = status);
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(li) && ((0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || (li.querySelector('.' + STATUS).textContent = status));
                     }
                     return files;
                 }, Uploader.prototype.getLiElement = function(files) {
@@ -21057,7 +21033,7 @@
                     if (!((0, ej2_base /* isNullOrUndefined */ .le)(liElement) || liElement.querySelector('.' + RETRY_ICON) || (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.' + ABORT_ICON)))) {
                         this.updateStatus(file, this.localizedTexts('fileUploadCancel'), '5'), this.renderFailureState(e, file, liElement);
                         var spinnerTarget = liElement.querySelector('.' + REMOVE_ICON);
-                        (0, ej2_base /* isNullOrUndefined */ .le)(liElement) || (hideSpinner(spinnerTarget), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
+                        !(0, ej2_base /* isNullOrUndefined */ .le)(liElement) && (hideSpinner(spinnerTarget), (0, ej2_base /* isNullOrUndefined */ .le)(liElement.querySelector('.e-spinner-pane')) || (0, ej2_base /* detach */ .og)(liElement.querySelector('.e-spinner-pane')));
                         var requestResponse = e && e.currentTarget ? this.getResponse(e) : null;
                         this.trigger('success', {
                             event: e,
@@ -22090,7 +22066,7 @@
                     for(var baseStr = base64.split(','), extension = baseStr[0].match(/:(.*?);/)[1].split('/')[1], decodeStr = atob(baseStr[1]), strLen = decodeStr.length, decodeArr = new Uint8Array(strLen); strLen--;)decodeArr[strLen] = decodeStr.charCodeAt(strLen);
                     if (!(ej2_base /* Browser.isIE */ .AR.isIE || navigator.appVersion.indexOf('Edge') > -1)) return new File([
                         decodeArr
-                    ], filename + '.' + ((0, ej2_base /* isNullOrUndefined */ .le)(extension) ? '' : extension), {
+                    ], filename + '.' + (!(0, ej2_base /* isNullOrUndefined */ .le)(extension) ? extension : ''), {
                         type: extension
                     });
                     var blob = new Blob([
@@ -23721,7 +23697,7 @@
                     }
                     if (item.overflow) {
                         var overflow = item.overflow;
-                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' !== overflow || innerEle.classList.contains(CLS_SEPARATOR) || this.add(innerEle, CLS_POPOVERFLOW);
+                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' === overflow && (innerEle.classList.contains(CLS_SEPARATOR) || this.add(innerEle, CLS_POPOVERFLOW));
                     }
                     return 'Show' !== item.overflow && item.showAlwaysInPopup && !innerEle.classList.contains(CLS_SEPARATOR) && (this.add(innerEle, CLS_POPPRI), this.popupPriCount++), item.disabled && this.add(innerEle, toolbar_CLS_DISABLE), !1 === item.visible && this.add(innerEle, CLS_HIDDEN), innerEle;
                 }, Toolbar.prototype.itemClick = function(e) {
@@ -24236,7 +24212,7 @@
                         ], 'e-focused'), ul.children[liIdx].focus());
                     }(this.getULElement(), e.keyCode));
                 }, DropDownButton.prototype.keyEventHandler = function(e) {
-                    (!this.target || 13 !== e.keyCode && 9 !== e.keyCode) && (e.target && e.target.className.indexOf('e-edit-template') > -1 && 32 === e.keyCode || (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e)));
+                    this.target && (13 === e.keyCode || 9 === e.keyCode) || (!(e.target && e.target.className.indexOf('e-edit-template') > -1) || 32 !== e.keyCode) && (9 !== e.keyCode && e.preventDefault(), 27 === e.keyCode || 38 === e.keyCode || 9 === e.keyCode ? this.canOpen() || this.closePopup(e, this.element) : this.clickHandler(e));
                 }, DropDownButton.prototype.getLI = function(elem) {
                     return 'LI' === elem.tagName ? elem : (0, ej2_base /* closest */ .oq)(elem, 'li');
                 }, DropDownButton.prototype.mousedownHandler = function(e) {
@@ -24908,7 +24884,7 @@
                     }, 1500));
                 }, Tooltip.prototype.targetClick = function(e) {
                     var target;
-                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, (0, ej2_base /* isNullOrUndefined */ .le)(target) || (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
+                    target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
                 }, Tooltip.prototype.targetHover = function(e) {
                     if (target = this.target ? (0, ej2_base /* closest */ .oq)(e.target, this.target) : this.element, !(0, ej2_base /* isNullOrUndefined */ .le)(target) && (null === target.getAttribute('data-tooltip-id') || 0 !== this.closeDelay)) {
                         for(var target, targetList = [].slice.call((0, ej2_base /* selectAll */ .td)('[data-tooltip-id= "' + this.ctrlId + '_content"]', document)), _i = 0; _i < targetList.length; _i++){
@@ -25111,7 +25087,7 @@
                 }, Tooltip.prototype.touchEnd = function(e) {
                     this.tooltipEle && null === (0, ej2_base /* closest */ .oq)(e.target, '.' + ROOT) && !this.isSticky && this.close();
                 }, Tooltip.prototype.scrollHandler = function(e) {
-                    this.tooltipEle && !(0, ej2_base /* closest */ .oq)(e.target, "." + TOOLTIP_WRAP + "." + POPUP_LIB + "." + POPUP_ROOT) && this.close();
+                    this.tooltipEle && ((0, ej2_base /* closest */ .oq)(e.target, "." + TOOLTIP_WRAP + "." + POPUP_LIB + "." + POPUP_ROOT) || this.close());
                 }, /**
      * Core method that initializes the control rendering.
      *
@@ -26187,7 +26163,7 @@
                     }), this.refreshTooltip(this.tooltipTarget), this.setBarColor();
                 }, Slider.prototype.changeHandleValue = function(value) {
                     var position = null;
-                    1 === this.activeHandle ? this.limits.enabled && this.limits.startHandleFixed || (this.handleVal1 = this.checkHandleValue(value), this.handlePos1 = this.checkHandlePosition(this.handleVal1), 'Range' === this.type && this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.handlePos1 === this.preHandlePos1 || (position = this.preHandlePos1 = this.handlePos1)) : this.limits.enabled && this.limits.endHandleFixed || (this.handleVal2 = this.checkHandleValue(value), this.handlePos2 = this.checkHandlePosition(this.handleVal2), 'Range' === this.type && this.handlePos2 < this.handlePos1 && (this.handlePos2 = this.handlePos1, this.handleVal2 = this.handleVal1), this.handlePos2 === this.preHandlePos2 || (position = this.preHandlePos2 = this.handlePos2)), this.modifyZindex(), null !== position && ('Default' !== this.type && this.setRangeBar(), this.setHandlePosition(null));
+                    1 === this.activeHandle ? this.limits.enabled && this.limits.startHandleFixed || (this.handleVal1 = this.checkHandleValue(value), this.handlePos1 = this.checkHandlePosition(this.handleVal1), 'Range' === this.type && this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.handlePos1 !== this.preHandlePos1 && (position = this.preHandlePos1 = this.handlePos1)) : this.limits.enabled && this.limits.endHandleFixed || (this.handleVal2 = this.checkHandleValue(value), this.handlePos2 = this.checkHandlePosition(this.handleVal2), 'Range' === this.type && this.handlePos2 < this.handlePos1 && (this.handlePos2 = this.handlePos1, this.handleVal2 = this.handleVal1), this.handlePos2 !== this.preHandlePos2 && (position = this.preHandlePos2 = this.handlePos2)), this.modifyZindex(), null !== position && ('Default' !== this.type && this.setRangeBar(), this.setHandlePosition(null));
                 }, // eslint-disable-next-line
                 Slider.prototype.tempStartEnd = function() {
                     return this.min > this.max ? {
@@ -26400,7 +26376,7 @@
                 }, Slider.prototype.removeElement = function(element) {
                     element.parentNode && element.parentNode.removeChild(element);
                 }, Slider.prototype.changeSliderType = function(type, args) {
-                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames.materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), !this.limits.enabled || ('MinRange' === type || 'Default' === type ? (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
+                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames.materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), this.limits.enabled && ('MinRange' === type || 'Default' === type ? (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
                 }, Slider.prototype.changeRtl = function() {
                     if (this.enableRtl || 'Range' !== this.type || (this.value = [
                         this.handleVal2,
@@ -27146,7 +27122,7 @@
                     this.updatePreview(rgba), this.updateInput(cValue), this.triggerEvent(cValue, pValue, rgba, isKey);
                 }, ColorPicker.prototype.updateInput = function(value) {
                     var wrapper = this.getWrapper();
-                    wrapper.classList.contains(HIDEVALUE) || (wrapper.classList.contains(HIDEHEX) || input /* Input.setValue */ .I.setValue(value.substr(0, 7), (0, ej2_base /* select */ .Ys)('.' + HEX, this.container)), wrapper.classList.contains(HIDERGBA) || (this.isRgb ? this.updateValue(this.rgb, !1) : this.updateValue(this.hsv, !1)));
+                    !wrapper.classList.contains(HIDEVALUE) && (wrapper.classList.contains(HIDEHEX) || input /* Input.setValue */ .I.setValue(value.substr(0, 7), (0, ej2_base /* select */ .Ys)('.' + HEX, this.container)), wrapper.classList.contains(HIDERGBA) || (this.isRgb ? this.updateValue(this.rgb, !1) : this.updateValue(this.hsv, !1)));
                 }, ColorPicker.prototype.updatePreview = function(value) {
                     this.enableOpacity && this.updateOpacitySliderBg(), (0, ej2_base /* select */ .Ys)('.e-tip-transparent', this.tooltipEle).style.backgroundColor = value, (0, ej2_base /* select */ .Ys)('.' + PREVIEW + ' .' + CURRENT, this.container).style.backgroundColor = value, (0, ej2_base /* select */ .Ys)('.' + PREVIEW + ' .' + PREVIOUS, this.container).style.backgroundColor = this.convertToRgbString(this.hexToRgb(this.value));
                 }, ColorPicker.prototype.getDragHandler = function() {
@@ -28971,9 +28947,9 @@
                 }, Toolbar.prototype.unWireEvents = function() {
                     ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'focusin', this.tbFocusHandler), ej2_base /* EventHandler.remove */ .bi.remove(this.tbElement, 'keydown', this.tbKeydownHandler);
                 }, Toolbar.prototype.addEventListener = function() {
-                    this.parent.isDestroyed || (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
+                    !this.parent.isDestroyed && (this.dropDownModule = new DropDownButtons(this.parent, this.locator), this.toolbarActionModule = new ToolbarAction(this.parent), this.parent.on(constant /* initialEnd */ .Xr, this.renderToolbar, this), this.parent.on(constant /* scroll */ .AR, this.scrollHandler, this), this.parent.on(constant /* bindOnEnd */ .$d, this.toolbarBindEvent, this), this.parent.on(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* refreshBegin */ .Jz, this.onRefresh, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* enableFullScreen */ .ex, this.fullScreen, this), this.parent.on(constant /* disableFullScreen */ .Fx, this.hideScreen, this), this.parent.on(constant /* updateToolbarItem */ .W0, this.updateItem, this), this.parent.on(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler, this), this.parent.on(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight, this.parent), this.parent.on(constant /* focusChange */ .Z7, this.focusChangeHandler, this), this.parent.on(constant /* mouseDown */ .uG, this.mouseDownHandler, this), this.parent.on(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler, this), this.parent.on(constant /* bindCssClass */ ._8, this.setCssClass, this), this.parent.on(constant /* moduleDestroy */ .P0, this.moduleDestroy, this), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.on(constant /* toolbarClick */ .kE, this.toolbarClickHandler, this));
                 }, Toolbar.prototype.removeEventListener = function() {
-                    this.parent.isDestroyed || (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
+                    !this.parent.isDestroyed && (this.parent.off(constant /* initialEnd */ .Xr, this.renderToolbar), this.parent.off(constant /* scroll */ .AR, this.scrollHandler), this.parent.off(constant /* bindOnEnd */ .$d, this.toolbarBindEvent), this.parent.off(constant /* toolbarUpdated */ .ko, this.updateToolbarStatus), this.parent.off(constant /* modelChanged */ .CC, this.onPropertyChanged), this.parent.off(constant /* refreshBegin */ .Jz, this.onRefresh), this.parent.off(constant /* destroy */ .ob, this.destroy), this.parent.off(constant /* enableFullScreen */ .ex, this.parent.fullScreenModule.showFullScreen), this.parent.off(constant /* disableFullScreen */ .Fx, this.parent.fullScreenModule.hideFullScreen), this.parent.off(constant /* updateToolbarItem */ .W0, this.updateItem), this.parent.off(constant /* beforeDropDownOpen */ .rc, this.dropDownBeforeOpenHandler), this.parent.off(constant /* expandPopupClick */ .IJ, this.parent.setContentHeight), this.parent.off(constant /* focusChange */ .Z7, this.focusChangeHandler), this.parent.off(constant /* mouseDown */ .uG, this.mouseDownHandler), this.parent.off(constant /* sourceCodeMouseDown */ .tO, this.mouseDownHandler), this.parent.off(constant /* bindCssClass */ ._8, this.setCssClass), this.parent.off(constant /* moduleDestroy */ .P0, this.moduleDestroy), this.parent.inlineMode.enable || (0, util /* isIDevice */ .FA)() || this.parent.off(constant /* toolbarClick */ .kE, this.toolbarClickHandler));
                 }, Toolbar.prototype.setCssClass = function(e) {
                     this.toolbarObj && e.cssClass && ((0, ej2_base /* isNullOrUndefined */ .le)(e.oldCssClass) ? this.toolbarObj.setProperties({
                         cssClass: (this.toolbarObj.cssClass + ' ' + e.cssClass).trim()

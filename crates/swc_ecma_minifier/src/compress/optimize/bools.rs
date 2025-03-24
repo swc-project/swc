@@ -1,94 +1,11 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    ExprExt, Type,
-    Value::{self, Known},
-};
+use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Optimizer;
-use crate::compress::{optimize::Ctx, util::negate_cost};
-#[cfg(feature = "debug")]
-use crate::debug::dump;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    /// **This negates bool**.
-    ///
-    /// Returns true if it's negated.
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, expr)))]
-    pub(super) fn optimize_bang_within_logical_ops(
-        &mut self,
-        expr: &mut Expr,
-        is_ret_val_ignored: bool,
-    ) -> bool {
-        let cost = negate_cost(
-            self.ctx.expr_ctx,
-            expr,
-            is_ret_val_ignored,
-            is_ret_val_ignored,
-        );
-        if cost >= 0 {
-            return false;
-        }
-
-        let e = match expr {
-            Expr::Bin(b) => b,
-            _ => return false,
-        };
-
-        match e.op {
-            op!("&&") | op!("||") => {}
-            _ => return false,
-        }
-
-        if !is_ret_val_ignored {
-            if let Known(Type::Bool) = e.left.get_type(self.ctx.expr_ctx) {
-            } else {
-                // Don't change type.
-                return false;
-            }
-
-            if let Known(Type::Bool) = e.right.get_type(self.ctx.expr_ctx) {
-            } else {
-                // Don't change type.
-                return false;
-            }
-        }
-
-        // `!_ && 'undefined' !== typeof require`
-        //
-        //  =>
-        //
-        // `_ || 'undefined' == typeof require`
-        report_change!(
-            is_return_value_ignored = is_ret_val_ignored,
-            negate_cost = cost,
-            "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
-             negation)",
-        );
-        #[cfg(feature = "debug")]
-        let start = dump(&*e, false);
-
-        e.op = if e.op == op!("&&") {
-            op!("||")
-        } else {
-            op!("&&")
-        };
-
-        let ctx = Ctx {
-            in_bool_ctx: true,
-            ..self.ctx.clone()
-        };
-
-        self.with_ctx(ctx.clone()).negate(&mut e.left, false);
-        self.with_ctx(ctx.clone())
-            .negate(&mut e.right, is_ret_val_ignored);
-
-        dump_change_detail!("{} => {}", start, dump(&*e, false));
-
-        true
-    }
-
     pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
         if !self.options.conditionals && !self.options.bools {
             return;

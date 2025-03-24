@@ -1,4 +1,3 @@
-const w = 86400000 * 7;
 export default function(value, options) {
     try {
         if ("string" == typeof value && value.length > 0) {
@@ -17,7 +16,7 @@ export default function(value, options) {
                 case "weeks":
                 case "week":
                 case "w":
-                    return n * w;
+                    return 604800000 * n;
                 case "days":
                 case "day":
                 case "d":

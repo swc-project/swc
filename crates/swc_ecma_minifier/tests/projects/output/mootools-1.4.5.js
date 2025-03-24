@@ -1943,7 +1943,7 @@ requires: Slick.Parser
         return local.setDocument(node), local.hasAttribute(node, name);
     }, // Slick matcher
     Slick1.match = function(node, selector) {
-        return !!node && !!selector && (!selector || selector === node || (local.setDocument(node), local.matchNode(node, selector)));
+        return !!(node && selector) && (!selector || selector === node || (local.setDocument(node), local.matchNode(node, selector)));
     }, // Slick attribute accessor
     Slick1.defineAttributeGetter = function(name, fn) {
         return local.attributeGetters[name] = fn, this;
@@ -1988,7 +1988,7 @@ provides: [Element, Elements, $, $$, Iframe, Selectors]
         var parsed = Slick.parse(tag).expressions[0][0];
         tag = "*" == parsed.tag ? "div" : parsed.tag, parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
-        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null != props[(attr = attributes[i]).key] || (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
+        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null == props[(attr = attributes[i]).key] && (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList && null == props.class && (props.class = parsed.classList.join(" "));
     }
     return document.newElement(tag, props);

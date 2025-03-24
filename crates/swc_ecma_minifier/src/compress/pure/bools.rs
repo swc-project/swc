@@ -12,72 +12,149 @@ use crate::{
 };
 
 impl Pure<'_> {
+    pub(super) fn make_bool_short(
+        &mut self,
+        e: &mut Expr,
+        in_bool_ctx: bool,
+        ignore_return_value: bool,
+    ) {
+        match e {
+            Expr::Cond(cond) => {
+                self.make_bool_short(&mut cond.test, true, false);
+                self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
+                self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
+
+                if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
+                    return;
+                }
+                self.negate(&mut cond.test, true, false);
+                swap(&mut cond.cons, &mut cond.alt);
+                return;
+            }
+
+            Expr::Bin(BinExpr {
+                op: op @ (op!("&&") | op!("||")),
+                left,
+                right,
+                ..
+            }) => {
+                self.make_bool_short(left, in_bool_ctx, false);
+                self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+
+                if in_bool_ctx {
+                    match *op {
+                        op!("||") => {
+                            // `a || false` => `a` (as it will be casted to boolean anyway)
+
+                            if let Value::Known(false) = right.as_pure_bool(self.expr_ctx) {
+                                report_change!(
+                                    "bools: `expr || false` => `expr` (in bool context)"
+                                );
+                                self.changed = true;
+                                *e = *left.take();
+                                return;
+                            }
+                        }
+
+                        op!("&&") => {
+                            // false && foo => false (as it will be always false)
+
+                            if let (_, Value::Known(false)) = left.cast_to_bool(self.expr_ctx) {
+                                report_change!(
+                                    "bools: `false && foo` => `false` (in bool context)"
+                                );
+                                self.changed = true;
+                                *e = *left.take();
+                                return;
+                            }
+                        }
+
+                        _ => {}
+                    }
+                }
+            }
+
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.make_bool_short(left, false, false);
+                self.make_bool_short(right, false, false);
+                return;
+            }
+
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => {
+                self.make_bool_short(arg, true, ignore_return_value);
+                return;
+            }
+
+            Expr::Array(ArrayLit { elems, .. }) => {
+                for elem in elems.iter_mut().flatten() {
+                    self.make_bool_short(&mut elem.expr, false, false);
+                }
+                return;
+            }
+
+            Expr::Call(CallExpr { callee, args, .. }) => {
+                if let Callee::Expr(callee) = callee {
+                    self.make_bool_short(callee, false, false);
+                }
+
+                for arg in args {
+                    self.make_bool_short(&mut arg.expr, false, false);
+                }
+                return;
+            }
+
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                let len = exprs.len();
+                for (idx, expr) in exprs.iter_mut().enumerate() {
+                    let is_last = idx == len - 1;
+
+                    self.make_bool_short(expr, false, !is_last || ignore_return_value);
+                }
+                return;
+            }
+
+            Expr::Assign(AssignExpr { right, .. }) => {
+                self.make_bool_short(right, false, false);
+                return;
+            }
+
+            _ => return,
+        }
+
+        let cost = negate_cost(self.expr_ctx, e, in_bool_ctx, ignore_return_value);
+
+        if cost >= 0 {
+            return;
+        }
+
+        if let Expr::Bin(BinExpr {
+            op: op @ (op!("&&") | op!("||")),
+            left,
+            ..
+        }) = e
+        {
+            if ignore_return_value {
+                // Negate only left, and change operator
+                *op = match op {
+                    op!("&&") => op!("||"),
+                    op!("||") => op!("&&"),
+                    _ => unreachable!(),
+                };
+
+                self.negate(left, true, false);
+            }
+        }
+    }
+
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+        negate(self.expr_ctx, e, true, is_ret_val_ignored);
         negate(self.expr_ctx, e, false, is_ret_val_ignored);
     }
 
     pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
         negate(self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
-    }
-
-    /// `!(a && b)` => `!a || !b`
-    pub(super) fn optimize_bools(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        if !self.ctx.in_first_expr {
-            return;
-        }
-
-        if let Expr::Unary(UnaryExpr {
-            op: op!("!"), arg, ..
-        }) = e
-        {
-            match &mut **arg {
-                Expr::Bin(BinExpr {
-                    op: op!("&&"),
-                    left,
-                    right,
-                    ..
-                }) => {
-                    if negate_cost(self.expr_ctx, left, false, false) >= 0
-                        || negate_cost(self.expr_ctx, right, false, false) >= 0
-                    {
-                        return;
-                    }
-                    report_change!("bools: Optimizing `!(a && b)` as `!a || !b`");
-                    self.negate(arg, false, false);
-                    *e = *arg.take();
-                }
-
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"),
-                    arg: arg_of_arg,
-                    ..
-                }) => {
-                    if let Expr::Bin(BinExpr {
-                        op: op!("||"),
-                        left,
-                        right,
-                        ..
-                    }) = &mut **arg_of_arg
-                    {
-                        if negate_cost(self.expr_ctx, left, false, false) > 0
-                            || negate_cost(self.expr_ctx, right, false, false) > 0
-                        {
-                            return;
-                        }
-                        report_change!("bools: Optimizing `!!(a || b)` as `!a && !b`");
-                        self.negate(arg_of_arg, false, false);
-                        *e = *arg.take();
-                    }
-                }
-
-                _ => {}
-            }
-        }
     }
 
     pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
@@ -338,9 +415,11 @@ impl Pure<'_> {
     }
 
     /// This method converts `!1` to `0`.
-    pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr, is_ignore: bool) {
-        self.optmize_known_logical_expr(n);
-
+    pub(super) fn optimize_expr_in_bool_ctx(
+        &mut self,
+        n: &mut Expr,
+        is_return_value_ignored: bool,
+    ) {
         match n {
             Expr::Bin(BinExpr {
                 op: op!("&&") | op!("||"),
@@ -350,14 +429,14 @@ impl Pure<'_> {
             }) => {
                 // Regardless if it's truthy or falsy, we can optimize it because it will be
                 // casted as bool anyway.
-                self.optimize_expr_in_bool_ctx(left, is_ignore);
-                self.optimize_expr_in_bool_ctx(right, is_ignore);
+                self.optimize_expr_in_bool_ctx(left, false);
+                self.optimize_expr_in_bool_ctx(right, is_return_value_ignored);
                 return;
             }
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last_mut() {
-                    self.optimize_expr_in_bool_ctx(last, is_ignore);
+                    self.optimize_expr_in_bool_ctx(last, is_return_value_ignored);
                 }
             }
 
@@ -431,7 +510,7 @@ impl Pure<'_> {
             }
 
             Expr::Lit(Lit::Str(s)) => {
-                if !is_ignore {
+                if !is_return_value_ignored {
                     report_change!("Converting string as boolean expressions");
                     self.changed = true;
                     *n = Lit::Num(Number {

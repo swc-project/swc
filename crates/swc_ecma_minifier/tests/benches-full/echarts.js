@@ -4279,7 +4279,7 @@
      * @throws Error
      */ function makePrintable() {
         for(var hintInfo = [], _i = 0; _i < arguments.length; _i++)hintInfo[_i] = arguments[_i];
-        var msg = '', makePrintableStringIfPossible_1 = function(val) {
+        var makePrintableStringIfPossible_1 = function(val) {
             return void 0 === val ? 'undefined' : val === 1 / 0 ? 'Infinity' : val === -1 / 0 ? '-Infinity' : eqNaN(val) ? 'NaN' : val instanceof Date ? 'Date(' + val.toISOString() + ')' : isFunction(val) ? 'function () { ... }' : isRegExp(val) ? val + '' : null;
         };
         return map(hintInfo, function(arg) {
@@ -5366,7 +5366,7 @@
                         fromLine(xi, yi, data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.C:
-                        (function(x0, y0, x1, y1, x2, y2, x3, y3, min, max) {
+                        !function(x0, y0, x1, y1, x2, y2, x3, y3, min, max) {
                             var n = cubicExtrema(x0, x1, x2, x3, xDim);
                             min[0] = 1 / 0, min[1] = 1 / 0, max[0] = -1 / 0, max[1] = -1 / 0;
                             for(var i = 0; i < n; i++){
@@ -5379,13 +5379,13 @@
                                 min[1] = mathMin$1(y, min[1]), max[1] = mathMax$1(y, max[1]);
                             }
                             min[0] = mathMin$1(x0, min[0]), max[0] = mathMax$1(x0, max[0]), min[0] = mathMin$1(x3, min[0]), max[0] = mathMax$1(x3, max[0]), min[1] = mathMin$1(y0, min[1]), max[1] = mathMax$1(y0, max[1]), min[1] = mathMin$1(y3, min[1]), max[1] = mathMax$1(y3, max[1]);
-                        })(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
+                        }(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.Q:
-                        (function(x0, y0, x1, y1, x2, y2, min, max) {
+                        !function(x0, y0, x1, y1, x2, y2, min, max) {
                             var tx = mathMax$1(mathMin$1(quadraticExtremum(x0, x1, x2), 1), 0), ty = mathMax$1(mathMin$1(quadraticExtremum(y0, y1, y2), 1), 0), x = quadraticAt(x0, x1, x2, tx), y = quadraticAt(y0, y1, y2, ty);
                             min[0] = mathMin$1(x0, x2, x), min[1] = mathMin$1(y0, y2, y), max[0] = mathMax$1(x0, x2, x), max[1] = mathMax$1(y0, y2, y);
-                        })(xi, yi, data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
+                        }(xi, yi, data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], endAngle = data[i++] + startAngle;
@@ -6699,7 +6699,7 @@
                 pathProxy.rebuildPath(ctx, 1);
             }
         }, innerOpts.applyTransform = function(m) {
-            (function(path, m) {
+            !function(path, m) {
                 var cmd, nPoint, i, j, k, p, data = path.data, len = path.len(), M = CMD$2.M, C = CMD$2.C, L = CMD$2.L, R = CMD$2.R, A = CMD$2.A, Q = CMD$2.Q;
                 for(i = 0, j = 0; i < len;){
                     switch(cmd = data[i++], j = i, nPoint = 0, cmd){
@@ -6726,7 +6726,7 @@
                     }
                 }
                 path.increaseVersion();
-            })(pathProxy, m), this.dirtyShape();
+            }(pathProxy, m), this.dirtyShape();
         }, innerOpts;
     }
     var CircleShape = function() {
@@ -7794,7 +7794,7 @@
         var textBorderType = retrieve2(textStyleModel.getShallow('textBorderType'), globalTextStyle.textBorderType);
         null != textBorderType && (textStyle.lineDash = textBorderType);
         var textBorderDashOffset = retrieve2(textStyleModel.getShallow('textBorderDashOffset'), globalTextStyle.textBorderDashOffset);
-        null != textBorderDashOffset && (textStyle.lineDashOffset = textBorderDashOffset), isNotNormal || null != opacity || inRich || (opacity = opt && opt.defaultOpacity), null != opacity && (textStyle.opacity = opacity), isNotNormal || isAttached || null != textStyle.fill || !opt.inheritColor || (textStyle.fill = opt.inheritColor);
+        null != textBorderDashOffset && (textStyle.lineDashOffset = textBorderDashOffset), isNotNormal || null != opacity || inRich || (opacity = opt && opt.defaultOpacity), null != opacity && (textStyle.opacity = opacity), isNotNormal || isAttached || null == textStyle.fill && opt.inheritColor && (textStyle.fill = opt.inheritColor);
         // part of these properties may be changed in emphasis style, and the
         // others should remain their original value got from normal style.
         for(var i = 0; i < TEXT_PROPS_WITH_GLOBAL.length; i++){
@@ -9043,7 +9043,6 @@
                 isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
             }
             each(targetNameSet, function() {
-                var errMsg = '';
                 throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
             });
         }
@@ -9357,7 +9356,7 @@
                 var isPureNumber = guessResult === BE_ORDINAL.Not; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
                 if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), null != idxRes0.n && idxRes0.n !== idxRes0.v && (isPureNumber || guessRecords[idxRes0.n] !== BE_ORDINAL.Not) || (idxRes0.n = i), fulfilled(idxRes0) && guessRecords[idxRes0.n] !== BE_ORDINAL.Not) return idxRes0;
                  // [Strategy of idxRes1]: if idxRes0 not satisfied (that is, no BE_ORDINAL.Not),
-                isPureNumber || (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), null != idxRes1.n && idxRes1.n !== idxRes1.v || (idxRes1.n = i));
+                isPureNumber || (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
             }
             function fulfilled(idxResult) {
                 return null != idxResult.v && null != idxResult.n;
@@ -9789,8 +9788,6 @@
                 series && seriesIndices.push(series.componentIndex);
             }), ecModel._seriesIndicesMap = createHashMap(seriesIndices);
         }, assertSeriesInitialized = function(ecModel) {
-            // Components that use _seriesIndices should depends on series component,
-            // which make sure that their initialization is after series.
             if (!ecModel._seriesIndices) throw Error('Option should contains series.');
         }, initBase = function(ecModel, baseOption) {
             // Using OPTION_INNER_KEY to mark that this option can not be used outside,
@@ -9802,7 +9799,7 @@
             // performed before theme and globalDefault merge.
             var theme, notMergeColorLayer, airaOption = baseOption.aria;
             isObject(airaOption) && null == airaOption.enabled && (airaOption.enabled = !0), theme = ecModel._theme.option, notMergeColorLayer = baseOption.color && !baseOption.colorLayer, each(theme, function(themeItem, name) {
-                'colorLayer' === name && notMergeColorLayer || ComponentModel.hasClass(name) || ('object' == typeof themeItem ? baseOption[name] = baseOption[name] ? merge(baseOption[name], themeItem, !1) : clone(themeItem) : null != baseOption[name] || (baseOption[name] = themeItem)); // If it is component model mainType, the model handles that merge later.
+                ('colorLayer' !== name || !notMergeColorLayer) && (ComponentModel.hasClass(name) || ('object' == typeof themeItem ? baseOption[name] = baseOption[name] ? merge(baseOption[name], themeItem, !1) : clone(themeItem) : null == baseOption[name] && (baseOption[name] = themeItem))); // If it is component model mainType, the model handles that merge later.
             }), merge(baseOption, globalDefault, !1), ecModel._mergeOption(baseOption, null);
         }), GlobalModel;
     }(Model);
@@ -10228,7 +10225,7 @@
                     if (data && !isTypedArray(data)) for(var i = 0; i < data.length; i++)'object' == typeof data[i] && (compatBarItemStyle(data[i]), compatBarItemStyle(data[i] && data[i].emphasis));
                 } else if ('sunburst' === seriesType) {
                     var highlightPolicy = seriesOpt.highlightPolicy;
-                    highlightPolicy && (seriesOpt.emphasis = seriesOpt.emphasis || {}, seriesOpt.emphasis.focus || (seriesOpt.emphasis.focus = highlightPolicy, deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst'))), compatSunburstState(seriesOpt), function traverseTree(data, cb) {
+                    highlightPolicy && (seriesOpt.emphasis = seriesOpt.emphasis || {}, !seriesOpt.emphasis.focus) && (seriesOpt.emphasis.focus = highlightPolicy, deprecateReplaceLog('highlightPolicy', 'emphasis.focus', 'sunburst')), compatSunburstState(seriesOpt), function traverseTree(data, cb) {
                         if (data) for(var i = 0; i < data.length; i++)cb(data[i]), data[i] && traverseTree(data[i].children, cb);
                     }(seriesOpt.data, compatSunburstState);
                 } else 'graph' === seriesType || 'sankey' === seriesType ? seriesOpt && null != seriesOpt.focusNodeAdjacency && (seriesOpt.emphasis = seriesOpt.emphasis || {}, null == seriesOpt.emphasis.focus && (deprecateReplaceLog('focusNodeAdjacency', 'emphasis: { focus: \'adjacency\'}', 'graph/sankey'), seriesOpt.emphasis.focus = 'adjacency')) : 'map' === seriesType && (seriesOpt.mapType && !seriesOpt.map && (deprecateReplaceLog('mapType', 'map', 'map'), seriesOpt.map = seriesOpt.mapType), seriesOpt.mapLocation && (deprecateLog('`mapLocation` is not used anymore.'), defaults(seriesOpt, seriesOpt.mapLocation)));
@@ -10880,11 +10877,7 @@
         }
     }, FilterOrderComparator = /** @class */ function() {
         function FilterOrderComparator(op, rval) {
-            if ('number' != typeof rval) {
-                var errMsg = '';
-                throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.');
-            }
-            this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
+            'number' != typeof rval && throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.'), this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
         } // Performance sensitive.
         return FilterOrderComparator.prototype.evaluate = function(lval) {
             // Most cases is 'number', and typeof maybe 10 times faseter than parseFloat.
@@ -10950,19 +10943,11 @@
     }();
     function getRawData(upstream) {
         var sourceFormat = upstream.sourceFormat;
-        if (!isSupportedSourceFormat(sourceFormat)) {
-            var errMsg = '';
-            throwError('`getRawData` is not supported in source format ' + sourceFormat);
-        }
-        return upstream.data;
+        return isSupportedSourceFormat(sourceFormat) || throwError('`getRawData` is not supported in source format ' + sourceFormat), upstream.data;
     }
     function cloneRawData(upstream) {
         var sourceFormat = upstream.sourceFormat, data = upstream.data;
-        if (!isSupportedSourceFormat(sourceFormat)) {
-            var errMsg = '';
-            throwError('`cloneRawData` is not supported in source format ' + sourceFormat);
-        }
-        if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
+        if (isSupportedSourceFormat(sourceFormat) || throwError('`cloneRawData` is not supported in source format ' + sourceFormat), sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
             for(var result = [], i = 0, len = data.length; i < len; i++)// Not strictly clone for performance
             result.push(data[i].slice());
             return result;
@@ -11127,26 +11112,22 @@
             assert(resultSourceList && upstreamSignList), this._setLocalSource(resultSourceList, upstreamSignList);
         }, SourceManager.prototype._applyTransform = function(upMgrList) {
             var encodeDefine, source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
-            if (assert(null != fromTransformResult || null != transformOption), null != fromTransformResult) {
-                var errMsg = '';
-                1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
-            }
+            assert(null != fromTransformResult || null != transformOption), null != fromTransformResult && 1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
             var upSourceList = [], upstreamSignList = [];
             return (each(upMgrList, function(upMgr) {
                 upMgr.prepareSource();
-                var upSource = upMgr.getSource(fromTransformResult || 0), errMsg = '';
+                var upSource = upMgr.getSource(fromTransformResult || 0);
                 null == fromTransformResult || upSource || doThrow('Can not retrieve result by `fromTransformResult`: ' + fromTransformResult), upSourceList.push(upSource), upstreamSignList.push(upMgr._getVersionSign());
             }), transformOption) ? sourceList = function(rawTransOption, sourceList, infoForPrint) {
-                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length, errMsg = '';
+                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length;
                 pipeLen || throwError('If `transform` declared, it should at least contain one transform.');
                 for(var i = 0; i < pipeLen; i++)sourceList = function(transOption, upSourceList, infoForPrint, pipeIndex) {
-                    var errMsg = '';
                     upSourceList.length || throwError('Must have at least one upstream dataset.'), isObject(transOption) || throwError('transform declaration must be an object rather than ' + typeof transOption + '.');
                     var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
                     externalTransform || throwError('Can not find transform on type "' + transType + '".');
                     var extUpSourceList = map(upSourceList, function(upSource) {
                         return function(internalSource, externalTransform) {
-                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex, errMsg = '';
+                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex;
                             internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
                             // Create a new dimensions structure for exposing.
                             // Do not expose all dimension info to users directly.
@@ -11161,15 +11142,9 @@
                                     displayName: dimDef.displayName
                                 };
                                 // do not generate dimension name.
-                                if (dimensions.push(dimDefExt), null != name) {
-                                    // Dimension name should not be duplicated.
-                                    // For simplicity, data transform forbid name duplication, do not generate
-                                    // new name like module `completeDimensions.ts` did, but just tell users.
-                                    var errMsg_1 = '';
-                                    hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt;
-                                }
+                                dimensions.push(dimDefExt), null != name && (hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt);
                             });
-                            else for(var i = 0; i < internalSource.dimensionsDetectedCount; i++)// Do not generete name or anything others. The consequence process in
+                            else for(var i = 0; i < internalSource.dimensionsDetectedCount || 0; i++)// Do not generete name or anything others. The consequence process in
                             // `transform` or `series` probably have there own name generation strategry.
                             dimensions.push({
                                 index: i
@@ -11196,9 +11171,9 @@
                         upstreamList: extUpSourceList,
                         config: clone(transOption.config)
                     }));
-                    return transOption.print && function() {
+                    return transOption.print && !function() {
                         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-                        'undefined' != typeof console && console.log && console.log.apply(console, args);
+                        /* eslint-disable no-console */ 'undefined' != typeof console && console.log && console.log.apply(console, args);
                     }(map(resultList, function(extSource) {
                         return [
                             '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
@@ -11208,9 +11183,8 @@
                             makePrintable(extSource.dimensions)
                         ].join('\n');
                     }).join('\n')), map(resultList, function(result, resultIndex) {
-                        var resultMetaRawOption, errMsg = '';
                         isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined'), isSupportedSourceFormat(detectSourceFormat(result.data)) || throwError('Transform result data should be array rows or object rows.');
-                        var firstUpSource = upSourceList[0];
+                        var resultMetaRawOption, firstUpSource = upSourceList[0];
                         /**
              * Intuitively, the end users known the content of the original `dataset.source`,
              * calucating the transform result in mind.
@@ -13597,7 +13571,7 @@
         var prevEl = scope.prevEl;
         prevEl || (forceSetStyle = forceSetTransform = !0);
         var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
-        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : m || m1 ? 0 : 1) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
+        !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : +(!m && !m1)) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
         el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
             var hasStroke = styleHasStroke(style), hasFill = styleHasFill(style), strokePercent = style.strokePercent, strokePart = strokePercent < 1, firstDraw = !el.path;
@@ -13840,11 +13814,11 @@
                              // E.g., [15, 5, 20, 5] draws only for 15 and 20
                             if (xId1 % 2 == 0) {
                                 var size = (1 - decalOpt.symbolSize) * 0.5, left = x + dashArrayX[xId0][xId1] * size, top_1 = y + dashArrayY[yId] * size, width = dashArrayX[xId0][xId1] * decalOpt.symbolSize, height = dashArrayY[yId] * decalOpt.symbolSize, symbolXId = xId1Total / 2 % symbolArray[symbolYId].length;
-                                (function(x, y, width, height, symbolType) {
+                                !function(x, y, width, height, symbolType) {
                                     var scale = isSVG ? 1 : dpr, symbol = createSymbol(symbolType, x * scale, y * scale, width * scale, height * scale, decalOpt.color, decalOpt.symbolKeepAspect);
                                     isSVG ? svgRoot.appendChild(zr.painter.paintOne(symbol)) : // Paint to canvas for all other renderers.
                                     brushSingle(ctx, symbol);
-                                })(left, top_1, width, height, symbolArray[symbolYId][symbolXId]);
+                                }(left, top_1, width, height, symbolArray[symbolYId][symbolXId]);
                             }
                             x += dashArrayX[xId0][xId1], ++xId1Total, ++xId1 === dashArrayX[xId0].length && (xId1 = 0);
                         }
@@ -14137,7 +14111,7 @@
     }
     function parseAttributes(xmlNode, el, defsUsePending, onlyInlineStyle, isTextGroup) {
         var inheritedStyle = el.__inheritedStyle = el.__inheritedStyle || {}, selfStyle = {};
-        1 !== xmlNode.nodeType || (function(xmlNode, node) {
+        1 === xmlNode.nodeType && (function(xmlNode, node) {
             var transform = xmlNode.getAttribute('transform');
             if (transform) {
                 transform = transform.replace(/,/g, ' ');
@@ -14403,10 +14377,11 @@
             };
         }, GeoSVGResource.prototype._buildGraphic = function(svgXML) {
             try {
-                rootFromParse = (result = svgXML && new SVGParser().parse(svgXML, {
+                var opt;
+                rootFromParse = (result = svgXML && (opt = {
                     ignoreViewBox: !0,
                     ignoreRootClip: !0
-                }) || {}).root, assert(null != rootFromParse);
+                }, new SVGParser().parse(svgXML, opt)) || {}).root, assert(null != rootFromParse);
             } catch (e) {
                 throw Error('Invalid svg format\n' + e.message);
             } // Note: we keep the covenant that the root has no transform. So always add an extra root.
@@ -16128,7 +16103,7 @@
         geoSourceManager.registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
-        var type = (externalTransform = clone(externalTransform)).type, errMsg = '';
+        var type = (externalTransform = clone(externalTransform)).type;
         type || throwError('Must have a `type` when `registerTransform`.');
         var typeParsed = type.split(':');
         2 !== typeParsed.length && throwError('Name must include namespace like "ns:regression".');
@@ -17710,7 +17685,7 @@
         if (each(dimensionInfoList, function(dimensionInfo, index) {
             isString(dimensionInfo) && (dimensionInfoList[index] = dimensionInfo = {
                 name: dimensionInfo
-            }), !mayStack || dimensionInfo.isExtraCoord || (byIndex || stackedByDimInfo || !dimensionInfo.ordinalMeta || (stackedByDimInfo = dimensionInfo), stackedDimInfo || 'ordinal' === dimensionInfo.type || 'time' === dimensionInfo.type || stackedCoordDimension && stackedCoordDimension !== dimensionInfo.coordDim || (stackedDimInfo = dimensionInfo));
+            }), mayStack && !dimensionInfo.isExtraCoord && (byIndex || stackedByDimInfo || !dimensionInfo.ordinalMeta || (stackedByDimInfo = dimensionInfo), stackedDimInfo || 'ordinal' === dimensionInfo.type || 'time' === dimensionInfo.type || stackedCoordDimension && stackedCoordDimension !== dimensionInfo.coordDim || (stackedDimInfo = dimensionInfo));
         }), !stackedDimInfo || byIndex || stackedByDimInfo || // Compatible with previous design, value axis (time axis) only stack by index.
         // It may make sense if the user provides elaborately constructed data.
         (byIndex = !0), stackedDimInfo) {
@@ -18063,10 +18038,10 @@
             var extent = this._extent, span = extent[1] - extent[0];
             if (isFinite(span)) {
                 span < 0 && (span = -span, extent.reverse());
-                var niceTickExtent, splitNumber1, result, interval, precision, result1 = (splitNumber1 = splitNumber, interval = (result = {}).interval = nice((extent[1] - extent[0]) / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
+                var niceTickExtent, splitNumber1, result, interval, precision, result1 = (splitNumber1 = splitNumber, interval = (result = {}).interval = nice((extent[1] - extent[0]) / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, niceTickExtent = result.niceTickExtent = [
                     round(Math.ceil(extent[0] / interval) * interval, precision),
                     round(Math.floor(extent[1] / interval) * interval, precision)
-                ])[0]) || (niceTickExtent[0] = extent[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent[1]), clamp(niceTickExtent, 0, extent), clamp(niceTickExtent, 1, extent), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
+                ], isFinite(niceTickExtent[0]) || (niceTickExtent[0] = extent[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent[1]), clamp(niceTickExtent, 0, extent), clamp(niceTickExtent, 1, extent), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
                 this._intervalPrecision = result1.intervalPrecision, this._interval = result1.interval, this._niceExtent = result1.niceTickExtent;
             } // User may set axis min 0 and data are all negative
         }, IntervalScale.prototype.niceExtent = function(opt) {
@@ -18387,7 +18362,7 @@
             var useUTC = this.getSetting('useUTC'), innerTicks = function(bottomUnitName, approxInterval, isUTC, extent) {
                 for(var iter = 0, levelsTicks = [], currentLevelTicks = [], tickCount = 0, lastLevelTickCount = 0, i = 0; i < timeUnits.length && iter++ < 10000; ++i){
                     var timeUnit, primaryTimeUnit = getPrimaryTimeUnit(timeUnits[i]);
-                    if ((timeUnit = timeUnits[i]) === getPrimaryTimeUnit(timeUnit) && (function(unitName, lastLevelTicks, levelTicks) {
+                    if ((timeUnit = timeUnits[i]) === getPrimaryTimeUnit(timeUnit) && (!function(unitName, lastLevelTicks, levelTicks) {
                         var newAddedTicks = [], isFirstLevel = !lastLevelTicks.length;
                         if (!function(unit, valueA, valueB, isUTC) {
                             var dateA = parseDate(valueA), dateB = parseDate(valueB), isSame = function(unit) {
@@ -18482,7 +18457,7 @@
                                         case 'millisecond':
                                             interval = nice(approxInterval, !0), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
                                     }
-                                    (function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
+                                    !function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
                                         //     d -= 1; // Starts with 0;   PENDING
                                         // }
                                         for(var date = new Date(minTimestamp), dateTime = minTimestamp, d = date[getMethodName](); dateTime < maxTimestamp && dateTime <= extent[1];)out.push({
@@ -18493,7 +18468,7 @@
                                             value: dateTime,
                                             notAdd: !0
                                         });
-                                    })(interval, startTick, endTick, getterName, setterName, 0, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && // Add nearest years to the left extent.
+                                    }(interval, startTick, endTick, getterName, setterName, 0, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && // Add nearest years to the left extent.
                                     levelTicks.unshift({
                                         value: levelTicks[0].value - interval
                                     });
@@ -19522,7 +19497,7 @@
             var style = el.style, image = style.image;
             if (image instanceof HTMLImageElement ? image = image.src : image instanceof HTMLCanvasElement && (image = image.toDataURL()), image) {
                 var x = style.x || 0, y = style.y || 0, dw = style.width, dh = style.height, svgEl = el.__svgEl;
-                svgEl || (el.__svgEl = svgEl = createElement('image')), image !== el.__imageSrc && (function(el, key, val) {
+                svgEl || (el.__svgEl = svgEl = createElement('image')), image !== el.__imageSrc && (!function(el, key, val) {
                     el.setAttributeNS('http://www.w3.org/1999/xlink', key, val);
                 }(svgEl, 'href', image), el.__imageSrc = image), attr(svgEl, 'width', dw + ''), attr(svgEl, 'height', dh + ''), attr(svgEl, 'x', x + ''), attr(svgEl, 'y', y + ''), bindStyle(svgEl, style, el), setTransform(svgEl, el.transform);
             }
@@ -20303,7 +20278,7 @@
                 logError('ZLevel ' + zlevel + ' has been used already');
                 return;
             }
-            if (!(layer && (layer.__builtin__ || 'function' == typeof layer.resize && 'function' == typeof layer.refresh))) {
+            if (!(layer && (layer.__builtin__ || 'function' == typeof layer.resize && 'function' == typeof layer.refresh && 1))) {
                 logError('Layer of zlevel ' + zlevel + ' is not valid');
                 return;
             }
@@ -22102,13 +22077,13 @@
         // itemModel is only used to get borderWidth, which is not needed
         // when calculating bar background layout.
         cartesian2d: function(data, dataIndex, itemModel) {
-            var borderColor, layout = data.getItemLayout(dataIndex), fixedLineWidth = itemModel && (borderColor = itemModel.get([
+            var borderColor, layout = data.getItemLayout(dataIndex), fixedLineWidth = itemModel ? (borderColor = itemModel.get([
                 'itemStyle',
                 'borderColor'
             ])) && 'none' !== borderColor ? Math.min(itemModel.get([
                 'itemStyle',
                 'borderWidth'
-            ]) || 0, isNaN(layout.width) ? Number.MAX_VALUE : Math.abs(layout.width), isNaN(layout.height) ? Number.MAX_VALUE : Math.abs(layout.height)) : 0, signX = layout.width > 0 ? 1 : -1, signY = layout.height > 0 ? 1 : -1;
+            ]) || 0, isNaN(layout.width) ? Number.MAX_VALUE : Math.abs(layout.width), isNaN(layout.height) ? Number.MAX_VALUE : Math.abs(layout.height)) : 0 : 0, signX = layout.width > 0 ? 1 : -1, signY = layout.height > 0 ? 1 : -1;
             return {
                 x: layout.x + signX * fixedLineWidth / 2,
                 y: layout.y + signY * fixedLineWidth / 2,
@@ -26462,43 +26437,41 @@
             })), updateProps(edge, {
                 shape: getEdgeShape(layout, orient, curvature, sourceLayout, targetLayout)
             }, seriesModel));
-            else if ('polyline' === edgeShape) {
-                if ('orthogonal' === layout) {
-                    if (node !== virtualRoot && node.children && 0 !== node.children.length && !0 === node.isExpand) {
-                        for(var children = node.children, childPoints = [], i = 0; i < children.length; i++){
-                            var childLayout = children[i].getLayout();
-                            childPoints.push([
-                                childLayout.x,
-                                childLayout.y
-                            ]);
-                        }
-                        edge || (edge = symbolEl.__edge = new TreePath({
-                            shape: {
-                                parentPoint: [
-                                    targetLayout.x,
-                                    targetLayout.y
-                                ],
-                                childPoints: [
-                                    [
-                                        targetLayout.x,
-                                        targetLayout.y
-                                    ]
-                                ],
-                                orient: orient,
-                                forkPosition: edgeForkPosition
-                            }
-                        })), updateProps(edge, {
-                            shape: {
-                                parentPoint: [
-                                    targetLayout.x,
-                                    targetLayout.y
-                                ],
-                                childPoints: childPoints
-                            }
-                        }, seriesModel);
+            else if ('polyline' === edgeShape) if ('orthogonal' === layout) {
+                if (node !== virtualRoot && node.children && 0 !== node.children.length && !0 === node.isExpand) {
+                    for(var children = node.children, childPoints = [], i = 0; i < children.length; i++){
+                        var childLayout = children[i].getLayout();
+                        childPoints.push([
+                            childLayout.x,
+                            childLayout.y
+                        ]);
                     }
-                } else if (1) throw Error('The polyline edgeShape can only be used in orthogonal layout');
-            }
+                    edge || (edge = symbolEl.__edge = new TreePath({
+                        shape: {
+                            parentPoint: [
+                                targetLayout.x,
+                                targetLayout.y
+                            ],
+                            childPoints: [
+                                [
+                                    targetLayout.x,
+                                    targetLayout.y
+                                ]
+                            ],
+                            orient: orient,
+                            forkPosition: edgeForkPosition
+                        }
+                    })), updateProps(edge, {
+                        shape: {
+                            parentPoint: [
+                                targetLayout.x,
+                                targetLayout.y
+                            ],
+                            childPoints: childPoints
+                        }
+                    }, seriesModel);
+                }
+            } else throw Error('The polyline edgeShape can only be used in orthogonal layout');
             edge && (edge.useStyle(defaults({
                 strokeNoScale: !0,
                 fill: null
@@ -26803,14 +26776,14 @@
              * }
              */ Tree.createTree = function(dataRoot, hostModel, beforeLink) {
             var tree = new Tree(hostModel), listData = [], dimMax = 1;
-            (function buildHierarchy(dataNode, parentNode) {
+            !function buildHierarchy(dataNode, parentNode) {
                 var children, value = dataNode.value;
                 dimMax = Math.max(dimMax, isArray(value) ? value.length : 1), listData.push(dataNode);
                 var node = new TreeNode(convertOptionIdName(dataNode.name, ''), tree);
                 parentNode ? (children = parentNode.children, node.parentNode !== parentNode && (children.push(node), node.parentNode = parentNode)) : tree.root = node, tree._nodes.push(node);
                 var children1 = dataNode.children;
                 if (children1) for(var i = 0; i < children1.length; i++)buildHierarchy(children1[i], node);
-            })(dataRoot), tree.root.updateDepthAndHeight(0);
+            }(dataRoot), tree.root.updateDepthAndHeight(0);
             var list = new List(createDimensions(listData, {
                 coordDimensions: [
                     'value'
@@ -27116,9 +27089,9 @@
                 name: option.name,
                 children: option.data
             };
-            /**
+            !/**
      * @param {Object} dataNode
-     */ (function completeTreeValue(dataNode) {
+     */ function completeTreeValue(dataNode) {
                 // Postorder travel tree.
                 // If value of none-leaf node is not set,
                 // calculate it by suming up the value of all children.
@@ -27130,7 +27103,7 @@
                 });
                 var thisValue = dataNode.value;
                 isArray(thisValue) && (thisValue = thisValue[0]), (null == thisValue || isNaN(thisValue)) && (thisValue = sum), thisValue < 0 && (thisValue = 0), isArray(dataNode.value) ? dataNode.value[0] = thisValue : dataNode.value = thisValue;
-            })(root);
+            }(root);
             var levels = option.levels || [], designatedVisualModel = new Model({
                 itemStyle: this.designatedVisualItemStyle = {}
             }, this, ecModel), levelModels = map((levels = option.levels = /**
@@ -27543,10 +27516,10 @@
             containerGroup = this._containerGroup = new Group(), this._initEvents(containerGroup), this.group.add(containerGroup)), containerGroup.x = layoutInfo.x, containerGroup.y = layoutInfo.y, containerGroup;
         }, TreemapView.prototype._doRender = function(containerGroup, seriesModel, reRoot) {
             var willDeleteEls, thisTree = seriesModel.getData().tree, oldTree = this._oldTree, lastsForAnimation = createStorage(), thisStorage = createStorage(), oldStorage = this._storage, willInvisibleEls = [];
-            // the oldTree is actually losted, so we can not find all of the old graphic
+            !// the oldTree is actually losted, so we can not find all of the old graphic
             // elements from tree. So we use this stragegy: make element storage, move
             // from old storage to new storage, clear old storage.
-            (function dualTravel(thisViewChildren, oldViewChildren, parentGroup, sameTree, depth) {
+            function dualTravel(thisViewChildren, oldViewChildren, parentGroup, sameTree, depth) {
                 function getKey(node) {
                     // Identify by name or raw index.
                     return node.getId();
@@ -27709,7 +27682,7 @@
                 sameTree ? (oldViewChildren = thisViewChildren, each(thisViewChildren, function(child, index) {
                     child.isRemoved() || processNode(index, index);
                 })) : new DataDiffer(oldViewChildren, thisViewChildren, getKey, getKey).add(processNode).update(processNode).remove(curry(processNode, null)).execute();
-            })(thisTree.root ? [
+            }(thisTree.root ? [
                 thisTree.root
             ] : [], oldTree && oldTree.root ? [
                 oldTree.root
@@ -27879,12 +27852,12 @@
             }, this);
         }, TreemapView.prototype._renderBreadcrumb = function(seriesModel, api, targetInfo) {
             var _this = this;
-            targetInfo || (targetInfo = null != seriesModel.get('leafDepth', !0) ? {
+            !targetInfo && ((targetInfo = null != seriesModel.get('leafDepth', !0) ? {
                 node: seriesModel.getViewRoot()
             } // FIXME
              : this.findTarget(api.getWidth() / 2, api.getHeight() / 2)) || (targetInfo = {
                 node: seriesModel.getData().tree.root
-            }), (this._breadcrumb || (this._breadcrumb = new Breadcrumb(this.group))).render(seriesModel, api, targetInfo.node, function(node) {
+            })), (this._breadcrumb || (this._breadcrumb = new Breadcrumb(this.group))).render(seriesModel, api, targetInfo.node, function(node) {
                 'animating' !== _this._state && (aboveViewRoot(seriesModel.getViewRoot(), node) ? _this._rootToNode({
                     node: node
                 }) : _this._zoomToNode({
@@ -30853,7 +30826,12 @@
             } // First create
             ).execute(), !this._initialized) {
                 this._initialized = !0;
-                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rectEl = new Rect({
+                var cb, parallelModel, rect, rectEl, dim, clipPath = (cb = function() {
+                    // Callback will be invoked immediately if there is no animation
+                    setTimeout(function() {
+                        dataGroup.removeClipPath();
+                    });
+                }, parallelModel = coordSys.model, rectEl = new Rect({
                     shape: {
                         x: (rect = coordSys.getRect()).x,
                         y: rect.y,
@@ -30865,12 +30843,7 @@
                         width: rect.width,
                         height: rect.height
                     }
-                }, seriesModel, function() {
-                    // Callback will be invoked immediately if there is no animation
-                    setTimeout(function() {
-                        dataGroup.removeClipPath();
-                    });
-                }), rectEl);
+                }, seriesModel, cb), rectEl);
                 dataGroup.setClipPath(clipPath);
             }
             this._data = data;
@@ -32319,7 +32292,7 @@
             return _this.type = SankeyView.type, _this._focusAdjacencyDisabled = !1, _this;
         }
         return __extends(SankeyView, _super), SankeyView.prototype.render = function(seriesModel, ecModel, api) {
-            var rect, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
+            var rect, cb, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
             this._model = seriesModel, group.removeAll(), group.x = layoutInfo.x, group.y = layoutInfo.y, graph.eachEdge(function(edge) {
                 var x1, y1, x2, y2, cpx1, cpy1, cpx2, cpy2, curve = new SankeyPath(), ecData = getECData(curve);
                 ecData.dataIndex = edge.dataIndex, ecData.seriesIndex = seriesModel.seriesIndex, ecData.dataType = 'edge';
@@ -32389,9 +32362,11 @@
                 }, el.ondragend = function() {
                     sankeyView._focusAdjacencyDisabled = !1;
                 }, el.draggable = !0, el.cursor = 'move');
-            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((initProps(rectEl = new Rect({
+            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), cb = function() {
+                group.removeClipPath();
+            }, initProps(rectEl = new Rect({
                 shape: {
-                    x: (rect = group.getBoundingRect()).x - 10,
+                    x: rect.x - 10,
                     y: rect.y - 10,
                     width: 0,
                     height: rect.height + 20
@@ -32400,9 +32375,7 @@
                 shape: {
                     width: rect.width + 20
                 }
-            }, seriesModel, function() {
-                group.removeClipPath();
-            }), rectEl)), this._data = seriesModel.getData();
+            }, seriesModel, cb), rectEl)), this._data = seriesModel.getData();
         }, SankeyView.prototype.dispose = function() {}, SankeyView.type = 'sankey', SankeyView;
     }(ChartView), SankeySeriesModel = /** @class */ function(_super) {
         function SankeySeriesModel() {
@@ -32418,7 +32391,7 @@
             var links = option.edges || option.links, nodes = option.data || option.nodes, levels = option.levels;
             this.levelModels = [];
             for(var levelModels = this.levelModels, i = 0; i < levels.length; i++)if (null != levels[i].depth && levels[i].depth >= 0) levelModels[levels[i].depth] = new Model(levels[i], this, ecModel);
-            else if (1) throw Error('levels[i].depth is mandatory and should be natural number');
+            else throw Error('levels[i].depth is mandatory and should be natural number');
             if (nodes && links) return createGraphFromNodeEdge(nodes, links, this, !0, function(nodeData, edgeData) {
                 nodeData.wrapMethod('getItemModel', function(model, idx) {
                     var seriesModel = model.parentModel, layout = seriesModel.getData().getItemLayout(idx);
@@ -33065,9 +33038,9 @@
                     boxOffsetList.push(base), base += boxGap + boxWidth, boxWidthList.push(Math.min(Math.max(boxWidth, boundList[idx][0]), boundList[idx][1]));
                 });
             }(groupItem), each(seriesModels, function(seriesModel, idx) {
-                /**
+                !/**
      * Calculate points location for each series.
-     */ (function(seriesModel, offset, boxWidth) {
+     */ function(seriesModel, offset, boxWidth) {
                     var coordSys = seriesModel.coordinateSystem, data = seriesModel.getData(), halfWidth = boxWidth / 2, cDimIdx = +('horizontal' !== seriesModel.get('layout')), vDimIdx = 1 - cDimIdx, coordDims = [
                         'x',
                         'y'
@@ -33094,7 +33067,7 @@
                         var from = endCenter.slice(), to = endCenter.slice();
                         from[cDimIdx] -= halfWidth, to[cDimIdx] += halfWidth, ends.push(from, to);
                     }
-                })(seriesModel, groupItem.boxOffsetList[idx], groupItem.boxWidthList[idx]);
+                }(seriesModel, groupItem.boxOffsetList[idx], groupItem.boxWidthList[idx]);
             }));
         });
     }
@@ -33102,10 +33075,7 @@
         type: 'echarts:boxplot',
         transform: function(params) {
             var upstream = params.upstream;
-            if (upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS) {
-                var errMsg = '';
-                throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
-            }
+            upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS && throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
             var result = /**
      * See:
      *  <https://en.wikipedia.org/wiki/Box_plot#cite_note-frigge_hoaglin_iglewicz-2>
@@ -34838,7 +34808,7 @@
                 }
                 var textLayout = data.getItemLayout(indices[0]), margin = seriesModel.getModel('label').get('margin'), emphasisModel = seriesModel.getModel('emphasis');
                 if ('add' === status) {
-                    var rect, rectEl, layerGroup = newLayersGroups[idx] = new Group();
+                    var rect, cb, rectEl, layerGroup = newLayersGroups[idx] = new Group();
                     polygon = new ECPolygon({
                         shape: {
                             points: points0,
@@ -34848,9 +34818,11 @@
                             smoothConstraint: !1
                         },
                         z2: 0
-                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((initProps(rectEl = new Rect({
+                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), cb = function() {
+                        polygon.removeClipPath();
+                    }, initProps(rectEl = new Rect({
                         shape: {
-                            x: (rect = polygon.getBoundingRect()).x - 10,
+                            x: rect.x - 10,
                             y: rect.y - 10,
                             width: 0,
                             height: rect.height + 20
@@ -34861,9 +34833,7 @@
                             width: rect.width + 100,
                             height: rect.height + 20
                         }
-                    }, seriesModel, function() {
-                        polygon.removeClipPath();
-                    }), rectEl));
+                    }, seriesModel, cb), rectEl));
                 } else {
                     var layerGroup = oldLayersGroups[oldIdx];
                     polygon = layerGroup.childAt(0), group.add(layerGroup), newLayersGroups[idx] = layerGroup, updateProps(polygon, {
@@ -35173,7 +35143,7 @@
                     return node.getId();
                 }
                 function processNode(newIdx, oldIdx) {
-                    (function(newNode, oldNode) {
+                    !function(newNode, oldNode) {
                         if (renderLabelForZeroData || !newNode || newNode.getValue() || // Not render data with value 0
                         (newNode = null), newNode !== virtualRoot && oldNode !== virtualRoot) {
                             if (oldNode && oldNode.piece) newNode ? (// Update
@@ -35184,7 +35154,7 @@
                                 group.add(piece), data.setItemGraphicEl(newNode.dataIndex, piece);
                             }
                         }
-                    })(null == newIdx ? null : newChildren[newIdx], null == oldIdx ? null : oldChildren[oldIdx]);
+                    }(null == newIdx ? null : newChildren[newIdx], null == oldIdx ? null : oldChildren[oldIdx]);
                 }
                 (0 !== newChildren.length || 0 !== oldChildren.length) && new DataDiffer(oldChildren, newChildren, getKey, getKey).add(processNode).update(processNode).remove(curry(processNode, null)).execute();
             }(newChildren, this._oldChildren || []), newRoot.depth > 0 ? (self1.virtualPiece ? // Update
@@ -35240,7 +35210,7 @@
                 name: option.name,
                 children: option.data
             };
-            (function completeTreeValue$1(dataNode) {
+            !function completeTreeValue$1(dataNode) {
                 // Postorder travel tree.
                 // If value of none-leaf node is not set,
                 // calculate it by suming up the value of all children.
@@ -35252,7 +35222,7 @@
                 });
                 var thisValue = dataNode.value;
                 isArray(thisValue) && (thisValue = thisValue[0]), (null == thisValue || isNaN(thisValue)) && (thisValue = sum), thisValue < 0 && (thisValue = 0), isArray(dataNode.value) ? dataNode.value[0] = thisValue : dataNode.value = thisValue;
-            })(root);
+            }(root);
             var levelModels = map(option.levels || [], function(levelDefine) {
                 return new Model(levelDefine, this, ecModel);
             }, this), tree = Tree.createTree(root, this, function(nodeData) {
@@ -36217,10 +36187,7 @@
                 return data.getId(dataIndex);
             };
             var diffByDimName = data.getDimension(dimension), dimInfo = data.getDimensionInfo(diffByDimName);
-            if (!dimInfo) {
-                var errMsg = '';
-                throwError(dimension + " is not a valid dimension.");
-            }
+            dimInfo || throwError(dimension + " is not a valid dimension.");
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
                 var key = data.get(diffByDimName, dataIndex);
@@ -36245,11 +36212,7 @@
         else if ('compoundPath' === graphicType) throw Error('"compoundPath" is not supported yet.');
         else {
             var Clz = getShapeClass(graphicType);
-            if (!Clz) {
-                var errMsg = '';
-                throwError('graphic type "' + graphicType + '" can not be found.');
-            }
-            el = new Clz();
+            Clz || throwError('graphic type "' + graphicType + '" can not be found.'), el = new Clz();
         }
         return inner$9(el).customGraphicType = graphicType, el.name = elOption.name, // some cases probably be broken: hierarchy layout along z, like circle packing,
         // where emphasis only intending to modify color/border rather than lift z2.
@@ -36676,7 +36639,7 @@
      */ function(opt) {
                     var params = [], baseAxis = opt.axis, axisKey = 'axis0';
                     if ('category' === baseAxis.type) {
-                        for(var bandWidth = baseAxis.getBandWidth(), i = 0; i < opt.count; i++)params.push(defaults({
+                        for(var bandWidth = baseAxis.getBandWidth(), i = 0; i < opt.count || 0; i++)params.push(defaults({
                             bandWidth: bandWidth,
                             axisKey: axisKey,
                             stackId: STACK_PREFIX + i
@@ -36835,10 +36798,10 @@
                 el.z = currentZ, el.zlevel = currentZLevel;
                 var optZ2 = elOption.z2;
                 null != optZ2 && (el.z2 = optZ2 || 0);
-                for(var i = 0; i < STATES.length; i++)(function(elDisplayable, elOption, state) {
+                for(var i = 0; i < STATES.length; i++)!function(elDisplayable, elOption, state) {
                     var isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
                     null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
-                })(el, elOption, STATES[i]);
+                }(el, elOption, STATES[i]);
             }
         }(el, elOption, seriesModel), 'group' === elOption.type && // (1) By default, `elOption.$mergeChildren` is `'byIndex'`, which indicates that
         //     the existing children will not be removed, and enables the feature that
@@ -36858,9 +36821,9 @@
             var newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
             if (newLen || byName || notMerge) {
                 if (byName) {
-                    (function(context) {
+                    !function(context) {
                         new DataDiffer(context.oldChildren, context.newChildren, getKey, getKey, context).add(processAddUpdate).update(processAddUpdate).remove(processRemove).execute();
-                    })({
+                    }({
                         api: api,
                         oldChildren: el.children() || [],
                         newChildren: newChildren || [],
@@ -37611,7 +37574,7 @@
                         });
                         each(inner$b(zr).records, function(record) {
                             record && cb(record, e, dis.dispatchAction);
-                        }), showLen = (pendings1 = dis.pendings).showTip.length, hideLen = pendings1.hideTip.length, showLen ? actuallyPayload = pendings1.showTip[showLen - 1] : hideLen && (actuallyPayload = pendings1.hideTip[hideLen - 1]), actuallyPayload && (actuallyPayload.dispatchAction = null, api.dispatchAction(actuallyPayload));
+                        }), pendings1 = dis.pendings, showLen = pendings1.showTip.length, hideLen = pendings1.hideTip.length, showLen ? actuallyPayload = pendings1.showTip[showLen - 1] : hideLen && (actuallyPayload = pendings1.hideTip[hideLen - 1]), actuallyPayload && (actuallyPayload.dispatchAction = null, api.dispatchAction(actuallyPayload));
                     });
                 }
             }(zr, api), (inner$b(zr).records[key] || (inner$b(zr).records[key] = {})).handler = handler;
@@ -39865,7 +39828,7 @@
                     } else existList[index] = newElOptCopy;
                     else 'replace' === $action ? existList[index] = newElOptCopy : 'remove' === $action && // null will be cleaned later.
                     existElOption && (existList[index] = null);
-                }(existList, index, newElOption), (existItem = existList[index]) && (existItem.hv = newElOption.hv = [
+                }(existList, index, newElOption), existItem = existList[index], existItem && (existItem.hv = newElOption.hv = [
                     isSetLoc(newElOption, [
                         'left',
                         'right'
@@ -43144,7 +43107,7 @@
                     height: api.getHeight()
                 }, titleModel.get('padding')); // Adjust text align based on position
                 textAlign || ('middle' === // Align left if title is on the left. center and right is same
-                (textAlign = titleModel.get('left') || titleModel.get('right')) && (textAlign = 'center'), 'right' === textAlign ? layoutRect.x += layoutRect.width : 'center' !== textAlign || (layoutRect.x += layoutRect.width / 2)), textVerticalAlign || ('center' === (textVerticalAlign = titleModel.get('top') || titleModel.get('bottom')) && (textVerticalAlign = 'middle'), 'bottom' === textVerticalAlign ? layoutRect.y += layoutRect.height : 'middle' === textVerticalAlign && (layoutRect.y += layoutRect.height / 2), textVerticalAlign = textVerticalAlign || 'top'), group.x = layoutRect.x, group.y = layoutRect.y, group.markRedraw();
+                (textAlign = titleModel.get('left') || titleModel.get('right')) && (textAlign = 'center'), 'right' === textAlign ? layoutRect.x += layoutRect.width : 'center' === textAlign && (layoutRect.x += layoutRect.width / 2)), textVerticalAlign || ('center' === (textVerticalAlign = titleModel.get('top') || titleModel.get('bottom')) && (textVerticalAlign = 'middle'), 'bottom' === textVerticalAlign ? layoutRect.y += layoutRect.height : 'middle' === textVerticalAlign && (layoutRect.y += layoutRect.height / 2), textVerticalAlign = textVerticalAlign || 'top'), group.x = layoutRect.x, group.y = layoutRect.y, group.markRedraw();
                 var alignStyle = {
                     align: textAlign,
                     verticalAlign: textVerticalAlign
@@ -43677,10 +43640,10 @@
             ]).getItemStyle(), playState = timelineModel.getPlayState(), inverse = timelineModel.get('inverse', !0);
             function makeBtn(position, iconName, onclick, willRotate) {
                 if (position) {
-                    var rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
+                    var objPath, rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
                         'controlStyle',
                         iconName + 'BtnSize'
-                    ]), controlSize), controlSize), btn = (rect = [
+                    ]), controlSize), controlSize), btn = (objPath = iconName + 'Icon', rect = [
                         0,
                         -iconSize / 2,
                         iconSize,
@@ -43696,7 +43659,7 @@
                         onclick: onclick
                     }).style, icon = createIcon(timelineModel.get([
                         'controlStyle',
-                        iconName + 'Icon'
+                        objPath
                     ]), opts || {}, new BoundingRect(rect[0], rect[1], rect[2], rect[3])), style && icon.setStyle(style), icon);
                     btn.ensureState('emphasis').style = hoverStyle, group.add(btn), enableHoverEmphasis(btn);
                 }
@@ -45509,7 +45472,7 @@
         }, InsideZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, InsideZoomView.prototype._clear = function() {
-            (function(api, dataZoomModel) {
+            !function(api, dataZoomModel) {
                 for(var coordSysRecordMap = inner$k(api).coordSysRecordMap, coordSysKeyArr = coordSysRecordMap.keys(), i = 0; i < coordSysKeyArr.length; i++){
                     var coordSysKey = coordSysKeyArr[i], coordSysRecord = coordSysRecordMap.get(coordSysKey), dataZoomInfoMap = coordSysRecord.dataZoomInfoMap;
                     if (dataZoomInfoMap) {
@@ -45517,7 +45480,7 @@
                         dataZoomInfoMap.get(dzUid) && (dataZoomInfoMap.removeKey(dzUid), dataZoomInfoMap.keys().length || disposeCoordSysRecord(coordSysRecordMap, coordSysRecord));
                     }
                 }
-            })(this.api, this.dataZoomModel), this.range = null;
+            }(this.api, this.dataZoomModel), this.range = null;
         }, InsideZoomView.type = 'dataZoom.inside', InsideZoomView;
     }(DataZoomView), getRangeHandlers = {
         zoom: function(coordSysInfo, coordSysMainType, controller, e) {
@@ -46532,7 +46495,7 @@
                 optExist && !optAbsent && (optAbsent = base[stateAbsent] = {}, each(optExist, function(visualData, visualType) {
                     if (VisualMapping.isValidType(visualType)) {
                         var defa = visualDefault.get(visualType, 'inactive', isCategory);
-                        null == defa || (optAbsent[visualType] = defa, 'color' !== visualType || optAbsent.hasOwnProperty('opacity') || optAbsent.hasOwnProperty('colorAlpha') || (optAbsent.opacity = [
+                        null != defa && (optAbsent[visualType] = defa, 'color' !== visualType || optAbsent.hasOwnProperty('opacity') || optAbsent.hasOwnProperty('colorAlpha') || (optAbsent.opacity = [
                             0,
                             0
                         ]));
@@ -47110,17 +47073,17 @@
             ];
         }, ContinuousView.prototype._createBarGroup = function(itemAlign) {
             var orient = this._orient, inverse = this.visualMapModel.get('inverse');
-            return new Group('horizontal' !== orient || inverse ? 'horizontal' === orient && inverse ? {
+            return new Group('horizontal' === orient && !inverse ? {
+                scaleX: 'bottom' === itemAlign ? 1 : -1,
+                rotation: Math.PI / 2
+            } : 'horizontal' === orient && inverse ? {
                 scaleX: 'bottom' === itemAlign ? -1 : 1,
                 rotation: -Math.PI / 2
-            } : 'vertical' !== orient || inverse ? {
-                scaleX: 'left' === itemAlign ? 1 : -1
-            } : {
+            } : 'vertical' === orient && !inverse ? {
                 scaleX: 'left' === itemAlign ? 1 : -1,
                 scaleY: -1
             } : {
-                scaleX: 'bottom' === itemAlign ? 1 : -1,
-                rotation: Math.PI / 2
+                scaleX: 'left' === itemAlign ? 1 : -1
             });
         }, ContinuousView.prototype._updateHandle = function(handleEnds, visualInRange) {
             if (this._useHandle) {
@@ -48068,10 +48031,7 @@
         '<>': 'ne' // Might mileading for sake of the different between '==' and '===',
     }, RegExpEvaluator = /** @class */ function() {
         function RegExpEvaluator(rVal) {
-            if (null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null)) {
-                var errMsg = '';
-                throwError(makePrintable('Illegal regexp', rVal, 'in'));
-            }
+            null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null) && throwError(makePrintable('Illegal regexp', rVal, 'in'));
         }
         return RegExpEvaluator.prototype.evaluate = function(lVal) {
             var type = typeof lVal;
@@ -48111,14 +48071,13 @@
             var val, subOption, errMsg, cond, cond1 = new ConstConditionInternal();
             return cond1.value = exprOption, cond1;
         }
-        var errMsg1 = '';
         if (isObject(exprOption) && !isArrayLike(exprOption) || throwError(makePrintable('Illegal config. Expect a plain object but actually', exprOption)), exprOption.and) return parseAndOrOption('and', exprOption, getters);
         if (exprOption.or) return parseAndOrOption('or', exprOption, getters);
         if (exprOption.not) {
             return subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObject(val = subOption) && !isArrayLike(val) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond;
         }
         return function(exprOption, getters) {
-            for(var errMsg = '', valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
+            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
                 var keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
                     var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
@@ -48154,7 +48113,7 @@
                     dimension: !0
                 }),
                 prepareGetValue: function(exprOption) {
-                    var errMsg = '', dimLoose = exprOption.dimension;
+                    var dimLoose = exprOption.dimension;
                     hasOwn(exprOption, 'dimension') || throwError(makePrintable('Relation condition must has prop "dimension" specified.', 'Illegal condition:', exprOption));
                     var dimInfo = upstream.getDimensionInfo(dimLoose);
                     return dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal condition:', exprOption, '.\n')), {
@@ -48174,19 +48133,12 @@
     var sortTransform = {
         type: 'echarts:sort',
         transform: function(params) {
-            var upstream = params.upstream, config = params.config, errMsg = '', orderExprList = normalizeToArray(config);
+            var upstream = params.upstream, orderExprList = normalizeToArray(params.config);
             orderExprList.length || throwError('Empty `config` in sort transform.');
             var orderDefList = [];
             each(orderExprList, function(orderExpr) {
                 var dimLoose = orderExpr.dimension, order = orderExpr.order, parserName = orderExpr.parser, incomparable = orderExpr.incomparable;
-                if (null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable) {
-                    var errMsg_1 = '';
-                    throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".');
-                }
-                if ('asc' !== order && 'desc' !== order) {
-                    var errMsg_2 = '';
-                    throwError('order must be "asc" or "desc" rather than "' + order + '".');
-                }
+                null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable && throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".'), 'asc' !== order && 'desc' !== order && throwError('order must be "asc" or "desc" rather than "' + order + '".');
                 var dimInfo = upstream.getDimensionInfo(dimLoose);
                 dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal config:', orderExpr, '.\n'));
                 var parser = parserName ? valueParserMap.get(parserName) : null;

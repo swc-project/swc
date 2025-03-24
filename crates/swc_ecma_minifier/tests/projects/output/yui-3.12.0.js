@@ -3135,7 +3135,7 @@ Id of the most recent transaction.
             this._poll(req), this.nodes.push(node), insertBefore.parentNode.insertBefore(node, insertBefore);
         },
         _next: function() {
-            this._pending || (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
+            !this._pending && (this._queue.length ? this._insert(this._queue.shift()) : this._reqsWaiting || this._finish());
         },
         _poll: function(newReq) {
             var i, j, nodeHref, req, sheets, self = this, pendingCSS = self._pendingCSS, isWebKit = Y.UA.webkit;
@@ -4151,7 +4151,7 @@ Contains the core of YUI's feature test architecture.
        * @private
        */ _addSkin: function(skin, mod, parent) {
             var mdef, pkg, name, nmod, info = this.moduleInfo, sinf = this.skin, ext = info[mod] && info[mod].ext;
-            return mod && !info[name = this.formatSkin(skin, mod)] && (pkg = (mdef = info[mod]).pkg || mod, nmod = {
+            return mod && (info[name = this.formatSkin(skin, mod)] || (pkg = (mdef = info[mod]).pkg || mod, nmod = {
                 skin: !0,
                 name: name,
                 group: mdef.group,
@@ -4159,7 +4159,7 @@ Contains the core of YUI's feature test architecture.
                 after: sinf.after,
                 path: (parent || pkg) + "/" + sinf.base + skin + "/" + mod + ".css",
                 ext: ext
-            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name)), name;
+            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name))), name;
         },
         /**
        * Adds an alias module to the system
