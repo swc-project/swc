@@ -181,6 +181,15 @@ impl Pure<'_> {
             node.visit_mut_with(v);
         });
     }
+
+    fn visit_par_ref<N>(&mut self, nodes: &mut [&mut N])
+    where
+        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+    {
+        self.maybe_par(0, nodes, |v, node| {
+            node.visit_mut_with(v);
+        });
+    }
 }
 
 impl VisitMut for Pure<'_> {
@@ -706,15 +715,23 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.test.visit_mut_with(self);
 
-        {
-            let ctx = Ctx {
-                preserve_block: false,
-                ..self.ctx
-            };
-            s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+        match &mut s.alt {
+            Some(alt) => {
+                let ctx = Ctx {
+                    preserve_block: false,
+                    ..self.ctx
+                };
+                self.with_ctx(ctx)
+                    .visit_par_ref(&mut [&mut *s.cons, &mut **alt]);
+            }
+            None => {
+                let ctx = Ctx {
+                    preserve_block: false,
+                    ..self.ctx
+                };
+                s.cons.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
         }
-
-        s.alt.visit_mut_with(self);
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
