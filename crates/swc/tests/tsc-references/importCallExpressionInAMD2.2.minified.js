@@ -25,11 +25,9 @@ define([
 ], function(require, exports, _interop_require_wildcard) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(x) {
-        x.then((value)=>{
-            new value.B().print();
-        });
-    }(new Promise((resolve, reject)=>require([
+    }), new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)));
+        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)).then((value)=>{
+        new value.B().print();
+    });
 });

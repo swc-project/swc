@@ -13775,7 +13775,7 @@
                  *         If the `source` argument is missing, returns the current source
                  *         URL. Otherwise, returns nothing/undefined.
                  */ _proto.handleSrc_ = function(source, isRetry) {
-                    var _this14 = this;
+                    var player, src, next, _this14 = this;
                     // getter usage
                     if (void 0 === source) return this.cache_.src || "";
                      // Reset retry behavior for new source
@@ -13793,62 +13793,8 @@
                         }, 0);
                         return;
                     } // initial sources
-                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), !/**
-             * Asynchronously sets a source using middleware by recursing through any
-             * matching middlewares and calling `setSource` on each, passing along the
-             * previous returned value each time.
-             *
-             * @param  {Player} player
-             *         A {@link Player} instance.
-             *
-             * @param  {Tech~SourceObject} src
-             *         A source object.
-             *
-             * @param  {Function}
-             *         The next middleware to run.
-             */ function(player, src, next) {
-                        player.setTimeout(function() {
-                            return function setSourceHelper(src, middleware, next, player, acc, lastRun) {
-                                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
-                                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1); // if mwFactory is a string, then we're at a fork in the road
-                                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun); // if we have an mwFactory, call it with the player to get the mw,
-                                else if (mwFactory) {
-                                    var mw = /**
-             * {
-             *  [playerId]: [[mwFactory, mwInstance], ...]
-             * }
-             *
-             * @private
-             */ function(player, mwFactory) {
-                                        var mws = middlewareInstances[player.id()], mw = null;
-                                        if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
-                                            [
-                                                mwFactory,
-                                                mw
-                                            ]
-                                        ], mw;
-                                        for(var i = 0; i < mws.length; i++){
-                                            var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
-                                            mwf === mwFactory && (mw = mwi);
-                                        }
-                                        return null === mw && (mw = mwFactory(player), mws.push([
-                                            mwFactory,
-                                            mw
-                                        ])), mw;
-                                    }(player, mwFactory); // if setSource isn't present, implicitly select this middleware
-                                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                                    mw.setSource(assign({}, src), function(err, _src) {
-                                        // something happened, try the next middleware on the current level
-                                        // make sure to use the old src
-                                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                                         // we've succeeded, now we need to go deeper
-                                        acc.push(mw), // otherwise, we want to go down the new chain
-                                        setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
-                                    });
-                                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
-                            }(src, middlewares[src.type], next, player);
-                        }, 1);
-                    }(this, sources[0], function(middlewareSource, mws) {
+                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), player = this, src = sources[0], next = function(middlewareSource, mws) {
+                        var tech;
                         if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
@@ -13856,20 +13802,50 @@
                             });
                         }, 0), // this needs a better comment about why this is needed
                         _this14.triggerReady());
-                        !/**
-             * When the tech is set, passes the tech to each middleware's `setTech` method.
+                        tech = _this14.tech_, mws.forEach(function(mw) {
+                            return mw.setTech && mw.setTech(tech);
+                        });
+                    }, player.setTimeout(function() {
+                        return function setSourceHelper(src, middleware, next, player, acc, lastRun) {
+                            void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
+                            var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1); // if mwFactory is a string, then we're at a fork in the road
+                            if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun); // if we have an mwFactory, call it with the player to get the mw,
+                            else if (mwFactory) {
+                                var mw = /**
+             * {
+             *  [playerId]: [[mwFactory, mwInstance], ...]
+             * }
              *
-             * @param {Object[]} middleware
-             *        An array of middleware instances.
-             *
-             * @param {Tech} tech
-             *        A Video.js tech.
-             */ function(middleware, tech) {
-                            middleware.forEach(function(mw) {
-                                return mw.setTech && mw.setTech(tech);
-                            });
-                        }(mws, _this14.tech_);
-                    }), this.options_.retryOnError && sources.length > 1) {
+             * @private
+             */ function(player, mwFactory) {
+                                    var mws = middlewareInstances[player.id()], mw = null;
+                                    if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
+                                        [
+                                            mwFactory,
+                                            mw
+                                        ]
+                                    ], mw;
+                                    for(var i = 0; i < mws.length; i++){
+                                        var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
+                                        mwf === mwFactory && (mw = mwi);
+                                    }
+                                    return null === mw && (mw = mwFactory(player), mws.push([
+                                        mwFactory,
+                                        mw
+                                    ])), mw;
+                                }(player, mwFactory); // if setSource isn't present, implicitly select this middleware
+                                if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                mw.setSource(assign({}, src), function(err, _src) {
+                                    // something happened, try the next middleware on the current level
+                                    // make sure to use the old src
+                                    if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                     // we've succeeded, now we need to go deeper
+                                    acc.push(mw), // otherwise, we want to go down the new chain
+                                    setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
+                                });
+                            } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
+                        }(src, middlewares[src.type], next, player);
+                    }, 1), this.options_.retryOnError && sources.length > 1) {
                         var retry = function() {
                             // Remove the error modal
                             _this14.error(null), _this14.handleSrc_(sources.slice(1), !0);

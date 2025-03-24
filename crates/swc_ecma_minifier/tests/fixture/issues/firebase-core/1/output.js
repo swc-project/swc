@@ -705,25 +705,23 @@
             }
             function kc(a, b) {
                 a.F = Date.now(), lc(a), a.A = N(a.v);
-                var c = a.A, d = a.X;
-                Array.isArray(d) || (d = [
-                    String(d)
-                ]), mc(c.h, "t", d), a.C = 0, c = a.l.H, a.h = new fc(), a.g = nc(a.l, c ? b : null, !a.s), 0 < a.O && (a.L = new Ib(q(a.Ia, a, a.g), a.O)), Kb(a.V, a.g, "readystatechange", a.gb), b = a.H ? ya(a.H) : {}, a.s ? (a.u || (a.u = "POST"), b["Content-Type"] = "application/x-www-form-urlencoded", a.g.ea(a.A, a.u, a.s, b)) : (a.u = "GET", a.g.ea(a.A, a.u, null, b)), I(1), function(a, b, c, d, e, f) {
-                    a.info(function() {
-                        if (a.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
-                            var m = n[u].split("=");
-                            if (1 < m.length) {
-                                var r = m[0];
-                                m = m[1];
-                                var G = r.split("_");
-                                h = 2 <= G.length && "type" == G[1] ? h + (r + "=") + m + "&" : h + (r + "=redacted&");
-                            }
+                var a1, b1, c, d, e, f, c1 = a.A, d1 = a.X;
+                Array.isArray(d1) || (d1 = [
+                    String(d1)
+                ]), mc(c1.h, "t", d1), a.C = 0, c1 = a.l.H, a.h = new fc(), a.g = nc(a.l, c1 ? b : null, !a.s), 0 < a.O && (a.L = new Ib(q(a.Ia, a, a.g), a.O)), Kb(a.V, a.g, "readystatechange", a.gb), b = a.H ? ya(a.H) : {}, a.s ? (a.u || (a.u = "POST"), b["Content-Type"] = "application/x-www-form-urlencoded", a.g.ea(a.A, a.u, a.s, b)) : (a.u = "GET", a.g.ea(a.A, a.u, null, b)), I(1), a1 = a.j, b1 = a.u, c = a.A, d = a.m, e = a.X, f = a.s, a1.info(function() {
+                    if (a1.g) if (f) for(var h = "", n = f.split("&"), u = 0; u < n.length; u++){
+                        var m = n[u].split("=");
+                        if (1 < m.length) {
+                            var r = m[0];
+                            m = m[1];
+                            var G = r.split("_");
+                            h = 2 <= G.length && "type" == G[1] ? h + (r + "=") + m + "&" : h + (r + "=redacted&");
                         }
-                        else h = null;
-                        else h = f;
-                        return "XMLHTTP REQ (" + d + ") [attempt " + e + "]: " + b + "\n" + c + "\n" + h;
-                    });
-                }(a.j, a.u, a.A, a.m, a.X, a.s);
+                    }
+                    else h = null;
+                    else h = f;
+                    return "XMLHTTP REQ (" + d + ") [attempt " + e + "]: " + b1 + "\n" + c + "\n" + h;
+                });
             }
             function qc(a) {
                 return !!a.g && "GET" == a.u && 2 != a.K && a.l.Ba;
@@ -903,15 +901,13 @@
                                 });
                                 d.splice(0, e), this.h.g += a, this.C = 0, h = this.h.g;
                             } else h = this.g.ga();
-                            if (this.i = 200 == c, !function(a, b, c, d, e, f, h) {
-                                a.info(function() {
-                                    return "XMLHTTP RESP (" + d + ") [ attempt " + e + "]: " + b + "\n" + c + "\n" + f + " " + h;
-                                });
-                            }(this.j, this.u, this.A, this.m, this.X, r, c), this.i) {
+                            if (this.i = 200 == c, a1 = this.j, b1 = this.u, c1 = this.A, d1 = this.m, e1 = this.X, h1 = c, a1.info(function() {
+                                return "XMLHTTP RESP (" + d1 + ") [ attempt " + e1 + "]: " + b1 + "\n" + c1 + "\n" + r + " " + h1;
+                            }), this.i) {
                                 if (this.$ && !this.J) {
                                     b: {
                                         if (this.g) {
-                                            var n, u = this.g;
+                                            var a1, b1, c1, d1, e1, h1, n, u = this.g;
                                             if ((n = u.g ? u.g.getResponseHeader("X-HTTP-Initial-Response") : null) && !sa(n)) {
                                                 var m = n;
                                                 break b;
@@ -938,13 +934,12 @@
             }, k.cancel = function() {
                 this.I = !0, P(this);
             }, k.eb = function() {
+                var a, b;
                 this.B = null;
-                const a = Date.now();
-                0 <= a - this.Y ? (function(a, b) {
-                    a.info(function() {
-                        return "TIMEOUT: " + b;
-                    });
-                }(this.j, this.A), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a);
+                const a1 = Date.now();
+                0 <= a1 - this.Y ? (a = this.j, b = this.A, a.info(function() {
+                    return "TIMEOUT: " + b;
+                }), 2 != this.K && (I(3), J(17)), P(this), this.o = 2, rc(this)) : xc(this, this.Y - a1);
             }, (k = S.prototype).R = function() {
                 Lc(this);
                 for(var a = [], b = 0; b < this.g.length; b++)a.push(this.h[this.g[b]]);

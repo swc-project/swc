@@ -19806,14 +19806,16 @@
             if (null === options.parse.toplevel) throw Error("no source file given");
             toplevel = options.parse.toplevel;
         }
-        quoted_props && "strict" !== options.mangle.properties.keep_quoted && function(ast, reserved) {
+        if (quoted_props && "strict" !== options.mangle.properties.keep_quoted) {
+            var reserved = quoted_props;
             function add(name) {
                 push_uniq(reserved, name);
             }
-            ast.walk(new TreeWalker(function(node) {
+            toplevel.walk(new TreeWalker(function(node) {
                 node instanceof AST_ObjectKeyVal && node.quote ? add(node.key) : node instanceof AST_ObjectProperty && node.quote ? add(node.key.name) : node instanceof AST_Sub && addStrings(node.property, add);
             }));
-        }(toplevel, quoted_props), options.mangle && options.mangle.properties && (annotated_props = find_annotated_props(toplevel)), options.wrap && (toplevel = toplevel.wrap_commonjs(options.wrap)), options.enclose && (toplevel = toplevel.wrap_enclose(options.enclose)), timings && (timings.rename = Date.now()), timings && (timings.compress = Date.now()), options.compress && (toplevel = new Compressor(options.compress, {
+        }
+        options.mangle && options.mangle.properties && (annotated_props = find_annotated_props(toplevel)), options.wrap && (toplevel = toplevel.wrap_commonjs(options.wrap)), options.enclose && (toplevel = toplevel.wrap_enclose(options.enclose)), timings && (timings.rename = Date.now()), timings && (timings.compress = Date.now()), options.compress && (toplevel = new Compressor(options.compress, {
             mangle_options: options.mangle
         }).compress(toplevel)), timings && (timings.scope = Date.now()), options.mangle && toplevel.figure_out_scope(options.mangle), timings && (timings.mangle = Date.now()), options.mangle && (toplevel.compute_char_frequency(options.mangle), toplevel.mangle_names(options.mangle), toplevel = function(ast, options) {
             var cprivate = -1, private_cache = new Map(), nth_identifier = options.nth_identifier || base54;

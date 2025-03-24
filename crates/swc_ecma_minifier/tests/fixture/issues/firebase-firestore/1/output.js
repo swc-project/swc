@@ -3860,30 +3860,26 @@
                      */ applyToRemoteDocument(t, e) {
                     const n = e.mutationResults;
                     for(let e = 0; e < this.mutations.length; e++){
+                        var n1;
                         const s = this.mutations[e];
-                        if (s.key.isEqual(t.key)) {
-                            var n1;
-                            n1 = n[e], s instanceof en ? function(t, e, n) {
-                                // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
-                                // remote document the server has accepted the mutation so the precondition
-                                // must have held.
-                                const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
-                                s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                            }(s, t, n1) : s instanceof nn ? function(t, e, n) {
-                                if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
-                                // matched on the backend. We therefore must not have the expected version
-                                // of the document in our cache and convert to an UnknownDocument with a
-                                // known updateTime.
-                                return e.convertToUnknownDocument(n.version);
-                                const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
-                                i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                            }(s, t, n1) : function(t, e, n) {
-                                // Unlike applyToLocalView, if we're applying a mutation to a remote
-                                // document the server has accepted the mutation so the precondition must
-                                // have held.
-                                e.convertToNoDocument(n.version).setHasCommittedMutations();
-                            }(0, t, n1);
-                        }
+                        s.key.isEqual(t.key) && (n1 = n[e], s instanceof en ? function(t, e, n) {
+                            // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
+                            // remote document the server has accepted the mutation so the precondition
+                            // must have held.
+                            const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
+                            s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
+                        }(s, t, n1) : s instanceof nn ? function(t, e, n) {
+                            if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
+                            // matched on the backend. We therefore must not have the expected version
+                            // of the document in our cache and convert to an UnknownDocument with a
+                            // known updateTime.
+                            return e.convertToUnknownDocument(n.version);
+                            const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
+                            i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
+                        }(s, t, n1) : // Unlike applyToLocalView, if we're applying a mutation to a remote
+                        // document the server has accepted the mutation so the precondition must
+                        // have held.
+                        t.convertToNoDocument(n1.version).setHasCommittedMutations());
                     }
                 }
                 /**
