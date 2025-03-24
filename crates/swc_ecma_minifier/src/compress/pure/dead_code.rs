@@ -6,7 +6,11 @@ use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt};
+use crate::{
+    compress::util::is_fine_for_if_cons,
+    maybe_par,
+    util::{make_bool, ModuleItemExt},
+};
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -662,6 +666,23 @@ impl Pure<'_> {
             });
 
         *stmts = new;
+    }
+
+    pub(super) fn handle_delete_global(&mut self, e: &mut Expr) {
+        let Expr::Unary(UnaryExpr {
+            op: op!("delete"),
+            arg,
+            ..
+        }) = e
+        else {
+            return;
+        };
+
+        if let Expr::Ident(i) = &**arg {
+            if matches!(&*i.sym, "undefined" | "NaN" | "Infinity") {
+                *e = make_bool(i.span, false);
+            }
+        }
     }
 }
 

@@ -391,6 +391,8 @@ impl VisitMut for Pure<'_> {
 
         self.drop_console(e);
 
+        self.handle_delete_global(e);
+
         self.remove_invalid(e);
 
         if let Expr::Seq(seq) = e {
