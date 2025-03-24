@@ -9882,12 +9882,11 @@
         return (ensureRootIsScheduled(root, now()), root.callbackNode === originalCallbackNode) ? performConcurrentWorkOnRoot.bind(null, root) : null;
     }
     function markRootSuspended$1(root, suspendedLanes) {
-        // When suspending, we should always exclude lanes that were pinged or (more
+        var suspendedLanes1 = suspendedLanes = // When suspending, we should always exclude lanes that were pinged or (more
         // rarely, since we try to avoid it) updated during the render phase.
         // TODO: Lol maybe there's a better way to factor this besides this
         // obnoxiously named function :)
-        suspendedLanes &= ~workInProgressRootPingedLanes;
-        var suspendedLanes1 = suspendedLanes &= ~workInProgressRootUpdatedLanes;
+        (suspendedLanes &= ~workInProgressRootPingedLanes) & ~workInProgressRootUpdatedLanes;
         root.suspendedLanes |= suspendedLanes1, root.pingedLanes &= ~suspendedLanes1;
         for(var expirationTimes = root.expirationTimes, lanes = suspendedLanes1; lanes > 0;){
             var index = pickArbitraryLaneIndex(lanes), lane = 1 << index;
