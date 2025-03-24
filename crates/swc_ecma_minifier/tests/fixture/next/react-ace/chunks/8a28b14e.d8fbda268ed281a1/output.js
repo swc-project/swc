@@ -88,7 +88,7 @@
                 var _navigator = "object" == typeof navigator ? navigator : {}, os = (/mac|win|linux/i.exec(_navigator.platform) || [
                     "other"
                 ])[0].toLowerCase(), ua = _navigator.userAgent || "", appName = _navigator.appName || "";
-                exports.isWin = "win" == os, exports.isMac = "mac" == os, exports.isLinux = "linux" == os, exports.isIE = "Microsoft Internet Explorer" == appName || appName.indexOf("MSAppHost") >= 0 ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]), exports.isOldIE = exports.isIE && exports.isIE < 9, exports.isGecko = exports.isMozilla = ua.match(/ Gecko\/\d+/), exports.isOpera = "object" == typeof opera && "[object Opera]" == Object.prototype.toString.call(window.opera), exports.isWebKit = parseFloat(ua.split("WebKit/")[1]), exports.isChrome = parseFloat(ua.split(" Chrome/")[1]), exports.isEdge = parseFloat(ua.split(" Edge/")[1]), exports.isAIR = ua.indexOf("AdobeAIR") >= 0, exports.isAndroid = ua.indexOf("Android") >= 0, exports.isChromeOS = ua.indexOf(" CrOS ") >= 0, exports.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream, exports.isIOS && (exports.isMac = !0), exports.isMobile = exports.isIOS || exports.isAndroid;
+                exports.isWin = "win" == os, exports.isMac = "mac" == os, exports.isLinux = "linux" == os, exports.isIE = "Microsoft Internet Explorer" == appName || appName.indexOf("MSAppHost") >= 0 ? parseFloat((ua.match(/(?:MSIE |Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]) : parseFloat((ua.match(/(?:Trident\/[0-9]+[\.0-9]+;.*rv:)([0-9]+[\.0-9]+)/) || [])[1]), exports.isOldIE = exports.isIE && exports.isIE < 9, exports.isGecko = exports.isMozilla = ua.match(/ Gecko\/\d+/), exports.isOpera = "object" == typeof opera && "[object Opera]" == Object.prototype.toString.call(window.opera), exports.isWebKit = parseFloat(ua.split("WebKit/")[1]) || void 0, exports.isChrome = parseFloat(ua.split(" Chrome/")[1]) || void 0, exports.isEdge = parseFloat(ua.split(" Edge/")[1]) || void 0, exports.isAIR = ua.indexOf("AdobeAIR") >= 0, exports.isAndroid = ua.indexOf("Android") >= 0, exports.isChromeOS = ua.indexOf(" CrOS ") >= 0, exports.isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream, exports.isIOS && (exports.isMac = !0), exports.isMobile = exports.isIOS || exports.isAndroid;
             }), ace.define("ace/lib/dom", [
                 "require",
                 "exports",
@@ -438,7 +438,7 @@
                     }, destroyer) : "onwheel" in el ? addListener(el, "wheel", function(e) {
                         switch(e.deltaMode){
                             case e.DOM_DELTA_PIXEL:
-                                e.wheelX = 0.35 * e.deltaX, e.wheelY = 0.35 * e.deltaY;
+                                e.wheelX = 0.35 * e.deltaX || 0, e.wheelY = 0.35 * e.deltaY || 0;
                                 break;
                             case e.DOM_DELTA_LINE:
                             case e.DOM_DELTA_PAGE:
@@ -3082,7 +3082,7 @@
                                 var next = rule.next || rule.push;
                                 if (next && Array.isArray(next)) {
                                     var stateName = rule.stateName;
-                                    !stateName && ("string" != typeof (stateName = rule.token) && (stateName = stateName[0]), rules[stateName] && (stateName += id++)), rules[stateName] = next, rule.next = stateName, processState(stateName);
+                                    !stateName && ("string" != typeof (stateName = rule.token) && (stateName = stateName[0] || ""), rules[stateName] && (stateName += id++)), rules[stateName] = next, rule.next = stateName, processState(stateName);
                                 } else "pop" == next && (rule.next = popState);
                                 if (rule.push && (rule.nextState = rule.next || rule.push, rule.next = pushState, delete rule.push), rule.rules) for(var r in rule.rules)rules[r] ? rules[r].push && rules[r].push.apply(rules[r], rule.rules[r]) : rules[r] = rule.rules[r];
                                 var includeName = "string" == typeof rule ? rule : rule.include;
@@ -5382,7 +5382,7 @@
                         void 0 == depth && (depth = 100000); // JSON.stringify doesn't hanle Infinity
                         var foldWidgets = this.foldWidgets;
                         if (foldWidgets) {
-                            endRow = endRow || this.getLength();
+                            endRow = endRow || this.getLength(), startRow = startRow || 0;
                             for(var row = startRow; row < endRow; row++)if (null == foldWidgets[row] && (foldWidgets[row] = this.getFoldWidget(row)), "start" == foldWidgets[row] && (!test || test(row))) {
                                 var range = this.getFoldWidgetRange(row);
                                 range && range.isMultiLine() && range.end.row <= endRow && range.start.row >= startRow && (row = range.end.row, range.collapseChildren = depth, this.addFold("...", range));
@@ -6140,14 +6140,14 @@
                             0,
                             0
                         ];
-                        for(null == maxScreenColumn && (maxScreenColumn = 1 / 0), column = 0; column < str.length && (9 == (c = str.charCodeAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : c >= 0x1100 && isFullWidth(c) ? screenColumn += 2 : screenColumn += 1, !(screenColumn > maxScreenColumn)); column++);
+                        for(null == maxScreenColumn && (maxScreenColumn = 1 / 0), screenColumn = screenColumn || 0, column = 0; column < str.length && (9 == (c = str.charCodeAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : c >= 0x1100 && isFullWidth(c) ? screenColumn += 2 : screenColumn += 1, !(screenColumn > maxScreenColumn)); column++);
                         return [
                             screenColumn,
                             column
                         ];
                     }, this.lineWidgets = null, this.getRowLength = function(row) {
                         var h = 1;
-                        return (this.lineWidgets && (h += this.lineWidgets[row] && this.lineWidgets[row].rowCount), this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + h : h;
+                        return (this.lineWidgets && (h += this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0), this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + h : h;
                     }, this.getRowLineCount = function(row) {
                         return this.$useWrapMode && this.$wrapData[row] ? this.$wrapData[row].length + 1 : 1;
                     }, this.getRowWrapIndent = function(screenRow) {
@@ -6249,7 +6249,7 @@
                                 0,
                                 0
                             ];
-                            for(maxScreenColumn || (maxScreenColumn = 1 / 0), column = 0; column < str.length && ("\t" === (c = str.charAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : screenColumn += fm.getCharacterWidth(c), !(screenColumn > maxScreenColumn)); column++);
+                            for(maxScreenColumn || (maxScreenColumn = 1 / 0), screenColumn = screenColumn || 0, column = 0; column < str.length && ("\t" === (c = str.charAt(column)) ? screenColumn += this.getScreenTabSize(screenColumn) : screenColumn += fm.getCharacterWidth(c), !(screenColumn > maxScreenColumn)); column++);
                             return [
                                 screenColumn,
                                 column
@@ -6261,7 +6261,7 @@
                 }).call(EditSession.prototype), require("./edit_session/folding").Folding.call(EditSession.prototype), require("./edit_session/bracket_match").BracketMatch.call(EditSession.prototype), config.defineOptions(EditSession.prototype, "session", {
                     wrap: {
                         set: function(value) {
-                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10)) : value = !1, this.$wrap != value) if (this.$wrap = value, value) {
+                            if (value && "off" != value ? "free" == value ? value = !0 : "printMargin" == value ? value = -1 : "string" == typeof value && (value = parseInt(value, 10) || !1) : value = !1, this.$wrap != value) if (this.$wrap = value, value) {
                                 var col = "number" == typeof value ? value : null;
                                 this.setWrapLimitRange(col, col), this.setUseWrapMode(!0);
                             } else this.setUseWrapMode(!1);
@@ -8809,7 +8809,7 @@
                                 else {
                                     this.renderer.on("afterRender", this.$updatePlaceholder), dom.addCssClass(this.container, "ace_hasPlaceholder");
                                     var el = dom.createElement("div");
-                                    el.className = "ace_placeholder", el.textContent = this.$placeholder, this.renderer.placeholderNode = el, this.renderer.content.appendChild(this.renderer.placeholderNode);
+                                    el.className = "ace_placeholder", el.textContent = this.$placeholder || "", this.renderer.placeholderNode = el, this.renderer.content.appendChild(this.renderer.placeholderNode);
                                 }
                             }).bind(this), this.on("input", this.$updatePlaceholder)), this.$updatePlaceholder();
                         }
@@ -9169,7 +9169,7 @@
                                 text: []
                             });
                             var annoText = annotation.text;
-                            annoText = annoText ? lang.escapeHTML(annoText) : annotation.html, -1 === rowInfo.text.indexOf(annoText) && rowInfo.text.push(annoText);
+                            annoText = annoText ? lang.escapeHTML(annoText) : annotation.html || "", -1 === rowInfo.text.indexOf(annoText) && rowInfo.text.push(annoText);
                             var type = annotation.type;
                             "error" == type ? rowInfo.className = " ace_error" : "warning" == type && " ace_error" != rowInfo.className ? rowInfo.className = " ace_warning" : "info" != type || rowInfo.className || (rowInfo.className = " ace_info");
                         }
@@ -9327,7 +9327,7 @@
                         for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + (+!!(row == start || row == start + 1 && range.start.column) | 2 * (prev < curr) | 4 * (curr > next) | 8 * (row == end)), layerConfig, +(row != end), extraStyle);
                     }, this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
                         var padding = this.$padding, height = config.lineHeight, top = this.$getTop(range.start.row, config), left = padding + range.start.column * config.characterWidth;
-                        if (this.session.$bidiHandler.isBidiRow(range.start.row)) {
+                        if (extraStyle = extraStyle || "", this.session.$bidiHandler.isBidiRow(range.start.row)) {
                             var range1 = range.clone();
                             range1.end.row = range1.start.row, range1.end.column = this.session.getLine(range1.start.row).length, this.drawBidiSingleLineMarker(stringBuilder, range1, clazz + " ace_br1 ace_start", config, null, extraStyle);
                         } else this.elt(clazz + " ace_br1 ace_start", "height:" + height + "px;right:0;top:" + top + "px;left:" + left + "px;" + (extraStyle || ""));
@@ -10985,7 +10985,7 @@ margin: 0 10px;\
                     },
                     scrollPastEnd: {
                         set: function(val) {
-                            val *= 1, this.$scrollPastEnd != val && (this.$scrollPastEnd = val, this.$loop.schedule(this.CHANGE_SCROLL));
+                            val = +val || 0, this.$scrollPastEnd != val && (this.$scrollPastEnd = val, this.$loop.schedule(this.CHANGE_SCROLL));
                         },
                         initialValue: 0,
                         handlesSet: !0
@@ -12014,7 +12014,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 (function() {
                     this.getRowLength = function(row) {
                         var h;
-                        return (h = this.lineWidgets && this.lineWidgets[row] && this.lineWidgets[row].rowCount, this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + 1 + h : 1 + h;
+                        return (h = this.lineWidgets && this.lineWidgets[row] && this.lineWidgets[row].rowCount || 0, this.$useWrapMode && this.$wrapData[row]) ? this.$wrapData[row].length + 1 + h : 1 + h;
                     }, this.$getWidgetScreenLength = function() {
                         var screenRows = 0;
                         return this.lineWidgets.forEach(function(w) {
@@ -12209,7 +12209,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                     }(session, row, dir);
                     if (annotations) {
                         var annotation = annotations[0];
-                        pos.column = annotation.pos && "number" != typeof annotation.column ? annotation.pos.sc : annotation.column, pos.row = annotation.row, gutterAnno = editor.renderer.$gutterLayer.$annotations[pos.row];
+                        pos.column = (annotation.pos && "number" != typeof annotation.column ? annotation.pos.sc : annotation.column) || 0, pos.row = annotation.row, gutterAnno = editor.renderer.$gutterLayer.$annotations[pos.row];
                     } else {
                         if (oldWidget) return;
                         gutterAnno = {

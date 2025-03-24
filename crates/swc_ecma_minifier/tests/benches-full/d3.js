@@ -1564,7 +1564,7 @@ function(global, factory) {
     function rgbSpline(spline) {
         return function(colors) {
             var i, color, n = colors.length, r = Array(n), g = Array(n), b = Array(n);
-            for(i = 0; i < n; ++i)color = rgb(colors[i]), r[i] = color.r, g[i] = color.g, b[i] = color.b;
+            for(i = 0; i < n; ++i)color = rgb(colors[i]), r[i] = color.r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
             return r = spline(r), g = spline(g), b = spline(b), color.opacity = 1, function(t) {
                 return color.r = r(t), color.g = g(t), color.b = b(t), color + "";
             };
@@ -9528,7 +9528,7 @@ function(global, factory) {
                 dx: 0,
                 dy: 0,
                 dispatch
-            }), d))) return dx = s.x - p[0], dy = s.y - p[1], function gesture(type, event, touch) {
+            }), d))) return dx = s.x - p[0] || 0, dy = s.y - p[1] || 0, function gesture(type, event, touch) {
                 var n, p0 = p;
                 switch(type){
                     case "start":

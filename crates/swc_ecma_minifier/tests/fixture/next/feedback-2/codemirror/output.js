@@ -669,7 +669,7 @@ function(global, factory) {
     var SavedContext = function(state, lookAhead) {
         this.state = state, this.lookAhead = lookAhead;
     }, Context = function(doc, state, line, lookAhead) {
-        this.state = state, this.doc = doc, this.line = line, this.maxLookAhead = lookAhead, this.baseTokens = null, this.baseTokenPos = 1;
+        this.state = state, this.doc = doc, this.line = line, this.maxLookAhead = lookAhead || 0, this.baseTokens = null, this.baseTokenPos = 1;
     };
     // Compute a style array (an array starting with a mode generation
     // -- for invalidation -- followed by pairs of end positions and
@@ -742,7 +742,7 @@ function(global, factory) {
     // aren't currently visible.
     function processLine(cm, text, context, startAt) {
         var mode = cm.doc.mode, stream = new StringStream(text, cm.options.tabSize, context);
-        for(stream.start = stream.pos = startAt, "" == text && callBlankLine(mode, context.state); !stream.eol();)readToken(mode, stream, context.state), stream.start = stream.pos;
+        for(stream.start = stream.pos = startAt || 0, "" == text && callBlankLine(mode, context.state); !stream.eol();)readToken(mode, stream, context.state), stream.start = stream.pos;
     }
     function callBlankLine(mode, state) {
         if (mode.blankLine) return mode.blankLine(state);
@@ -779,7 +779,7 @@ function(global, factory) {
         return this.maxLookAhead > 0 ? new SavedContext(state, this.maxLookAhead) : state;
     };
     var Token = function(stream, type, state) {
-        this.start = stream.start, this.end = stream.pos, this.string = stream.current(), this.type = type, this.state = state;
+        this.start = stream.start, this.end = stream.pos, this.string = stream.current(), this.type = type || null, this.state = state;
     };
     // Utility for getTokenAt and getLineTokens
     function takeToken(cm, pos, precise, asArray) {
@@ -6206,7 +6206,7 @@ function(global, factory) {
             } : null == range.from && (range = {
                 from: range,
                 to: null
-            }), range.to || (range.to = range.from), range.margin = margin, null != range.from.line) {
+            }), range.to || (range.to = range.from), range.margin = margin || 0, null != range.from.line) {
                 var range1;
                 range1 = range, resolveScrollToPos(this), this.curOp.scrollToPos = range1;
             } else scrollToCoordsRange(this, range.from, range.to, range.margin);

@@ -775,7 +775,7 @@
                 },
                 PSEUDO: function(match) {
                     var excess, unquoted = !match[6] && match[2];
-                    return matchExpr.CHILD.test(match[0]) ? null : (match[3] ? match[2] = match[4] || match[5] : unquoted && rpseudo.test(unquoted) && // Get excess from tokenize (recursively)
+                    return matchExpr.CHILD.test(match[0]) ? null : (match[3] ? match[2] = match[4] || match[5] || "" : unquoted && rpseudo.test(unquoted) && // Get excess from tokenize (recursively)
                     (excess = tokenize(unquoted, !0)) && // advance to the next closing parenthesis
                     (excess = unquoted.indexOf(")", unquoted.length - excess) - unquoted.length) && (// excess is a negative index
                     match[0] = match[0].slice(0, excess), match[2] = unquoted.slice(0, excess)), match.slice(0, 3));
@@ -2042,13 +2042,13 @@
             initialInUnit *= 2, jQuery.style(elem, prop, initialInUnit + unit), // Make sure we update the tween properties later on
             valueParts = valueParts || [];
         }
-        return valueParts && (initialInUnit = +initialInUnit || +initial, // Apply relative offset (+=/-=) if specified
+        return valueParts && (initialInUnit = +initialInUnit || +initial || 0, // Apply relative offset (+=/-=) if specified
         adjusted = valueParts[1] ? initialInUnit + (valueParts[1] + 1) * valueParts[2] : +valueParts[2], tween && (tween.unit = unit, tween.start = initialInUnit, tween.end = adjusted)), adjusted;
     }
     var defaultDisplayMap = {};
     function showHide(elements, show) {
         // Determine new display value for elements that need to change
-        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" === display && (values[index] = dataPriv.get(elem, "display"), values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = function(elem) {
+        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" === display && (values[index] = dataPriv.get(elem, "display") || null, values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = function(elem) {
             var temp, doc = elem.ownerDocument, nodeName = elem.nodeName, display = defaultDisplayMap[nodeName];
             return display || (temp = doc.body.appendChild(doc.createElement(nodeName)), display = jQuery.css(temp, "display"), temp.parentNode.removeChild(temp), "none" === display && (display = "block"), defaultDisplayMap[nodeName] = display), display;
         }(elem))) : "none" !== display && (values[index] = "none", // Remember what we're overwriting
@@ -2852,7 +2852,7 @@
         delta += jQuery.css(elem, "padding" + cssExpand[i], !0, styles), "padding" !== box ? delta += jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles) : extra += jQuery.css(elem, "border" + cssExpand[i] + "Width", !0, styles));
         return !isBorderBox && computedVal >= 0 && // offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
         // Assuming integer scroll gutter, subtract the rest and round down
-        (delta += Math.max(0, Math.ceil(elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - computedVal - delta - extra - 0.5))), delta;
+        (delta += Math.max(0, Math.ceil(elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - computedVal - delta - extra - 0.5)) || 0), delta;
     }
     function getWidthOrHeight(elem, dimension, extra) {
         // Start with computed style
@@ -3960,7 +3960,7 @@
                 !completed && (completed = !0, timeoutTimer && window1.clearTimeout(timeoutTimer), // Dereference transport for early garbage collection
                 // (no matter how long the jqXHR object will be used)
                 transport = void 0, // Cache response headers
-                responseHeadersString = headers, // Set readyState
+                responseHeadersString = headers || "", // Set readyState
                 jqXHR.readyState = 4 * (status > 0), // Determine if successful
                 isSuccess = status >= 200 && status < 300 || 304 === status, responses && (response = /* Handles responses to an ajax request:
  * - finds the right dataType (mediates between content-type and expected dataType)
@@ -4317,7 +4317,7 @@
     }, jQuery.offset = {
         setOffset: function(elem, options, i) {
             var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, position = jQuery.css(elem, "position"), curElem = jQuery(elem), props = {};
-            "static" === position && (elem.style.position = "relative"), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), ("absolute" === position || "fixed" === position) && (curCSSTop + curCSSLeft).indexOf("auto") > -1 ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop), curLeft = parseFloat(curCSSLeft)), isFunction(options) && // Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
+            "static" === position && (elem.style.position = "relative"), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), ("absolute" === position || "fixed" === position) && (curCSSTop + curCSSLeft).indexOf("auto") > -1 ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop) || 0, curLeft = parseFloat(curCSSLeft) || 0), isFunction(options) && // Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
             (options = options.call(elem, i, jQuery.extend({}, curOffset))), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : ("number" == typeof props.top && (props.top += "px"), "number" == typeof props.left && (props.left += "px"), curElem.css(props));
         }
     }, jQuery.fn.extend({

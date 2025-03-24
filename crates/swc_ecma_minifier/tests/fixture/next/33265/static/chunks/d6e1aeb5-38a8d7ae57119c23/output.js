@@ -1818,7 +1818,7 @@
                         var id = player && player.id && player.id() || "no_player";
                         this.id_ = id + "_component_" + _guid++;
                     }
-                    this.name_ = options.name, options.el ? this.el_ = options.el : !1 !== options.createEl && (this.el_ = this.createEl()), !1 !== options.evented && (// Make this an evented object and use `el_`, if available, as its event bus
+                    this.name_ = options.name || null, options.el ? this.el_ = options.el : !1 !== options.createEl && (this.el_ = this.createEl()), !1 !== options.evented && (// Make this an evented object and use `el_`, if available, as its event bus
                     evented(this, {
                         eventBusKey: this.el_ ? "el_" : null
                     }), this.handleLanguagechange = this.handleLanguagechange.bind(this), this.on(this.player_, "languagechange", this.handleLanguagechange)), stateful(this, this.constructor.defaultState), this.children_ = [], this.childIndex_ = {}, this.childNameIndex_ = {}, this.setTimeoutIds_ = new Set(), this.setIntervalIds_ = new Set(), this.rafIds_ = new Set(), this.namedRafs_ = new Map$1(), this.clearingTimersOnDispose_ = !1, !1 !== options.initChildren && this.initChildren(), // finished for all children that run this constructor
@@ -2912,7 +2912,7 @@
                 // checks peppered around the code.
                 if (value instanceof MediaError) return value;
                 "number" == typeof value ? this.code = value : "string" == typeof value ? // default code is zero, so this is a custom error
-                this.message = value : isObject(value) && ("number" == typeof value.code && (this.code = value.code), assign(this, value)), this.message || (this.message = MediaError.defaultMessages[this.code]);
+                this.message = value : isObject(value) && ("number" == typeof value.code && (this.code = value.code), assign(this, value)), this.message || (this.message = MediaError.defaultMessages[this.code] || "");
             }
             /**
              * Whether or not this component supports `requestAnimationFrame`.
@@ -7783,7 +7783,7 @@
                  *        The key/value store of player options.
                  */ function VolumeControl(player, options) {
                     var _this;
-                    return void 0 === options && (options = {}), options.vertical = options.vertical, (void 0 === options.volumeBar || isPlain(options.volumeBar)) && (options.volumeBar = options.volumeBar || {}, options.volumeBar.vertical = options.vertical), _this = _Component.call(this, player, options) || this, checkVolumeSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), player), _this.throttledHandleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleMouseMove), 30), _this.handleMouseUpHandler_ = function(e) {
+                    return void 0 === options && (options = {}), options.vertical = options.vertical || !1, (void 0 === options.volumeBar || isPlain(options.volumeBar)) && (options.volumeBar = options.volumeBar || {}, options.volumeBar.vertical = options.vertical), _this = _Component.call(this, player, options) || this, checkVolumeSupport((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), player), _this.throttledHandleMouseMove = throttle(bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), _this.handleMouseMove), 30), _this.handleMouseUpHandler_ = function(e) {
                         return _this.handleMouseUp(e);
                     }, _this.on("mousedown", function(e) {
                         return _this.handleMouseDown(e);
@@ -8507,7 +8507,7 @@
                  *
                  */ function MenuItem(player, options) {
                     var _this;
-                    return (_this = _ClickableComponent.call(this, player, options) || this).selectable = options.selectable, _this.isSelected_ = options.selected, _this.multiSelectable = options.multiSelectable, _this.selected(_this.isSelected_), _this.selectable ? _this.multiSelectable ? _this.el_.setAttribute("role", "menuitemcheckbox") : _this.el_.setAttribute("role", "menuitemradio") : _this.el_.setAttribute("role", "menuitem"), _this;
+                    return (_this = _ClickableComponent.call(this, player, options) || this).selectable = options.selectable, _this.isSelected_ = options.selected || !1, _this.multiSelectable = options.multiSelectable, _this.selected(_this.isSelected_), _this.selectable ? _this.multiSelectable ? _this.el_.setAttribute("role", "menuitemcheckbox") : _this.el_.setAttribute("role", "menuitemradio") : _this.el_.setAttribute("role", "menuitem"), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(MenuItem, _ClickableComponent);
                 /**
@@ -12197,7 +12197,7 @@
                             languagesToLower[name.toLowerCase()] = options.languages[name];
                         }), _this.languages_ = languagesToLower;
                     } else _this.languages_ = Player.prototype.options_.languages;
-                    _this.resetCache_(), _this.poster_ = options.poster, _this.controls_ = !!options.controls, // now remove immediately so native controls don't flash.
+                    _this.resetCache_(), _this.poster_ = options.poster || "", _this.controls_ = !!options.controls, // now remove immediately so native controls don't flash.
                     // May be turned back on by HTML5 tech if nativeControlsForTouch is true
                     tag.controls = !1, tag.removeAttribute("controls"), _this.changingSrc_ = !1, _this.playCallbacks_ = [], _this.playTerminatedQueue_ = [], tag.hasAttribute("autoplay") ? _this.autoplay(!0) : // otherwise use the setter to validate and
                     // set the correct value.
@@ -13287,7 +13287,7 @@
                     // currentTime when scrubbing, but may not provide much performance benefit afterall.
                     // Should be tested. Also something has to read the actual current time or the cache will
                     // never get updated.
-                    this.cache_.currentTime = this.techGet_("currentTime"), this.cache_.currentTime);
+                    this.cache_.currentTime = this.techGet_("currentTime") || 0, this.cache_.currentTime);
                 }, /**
                  * Apply the value of initTime stored in cache as currentTime.
                  *
@@ -16139,7 +16139,7 @@
                     var _this, _options = options, _options$withCredenti = _options.withCredentials, _options$handleManife = _options.handleManifestRedirects;
                     _this.src = src, _this.vhs_ = vhs, _this.withCredentials = void 0 !== _options$withCredenti && _options$withCredenti, _this.handleManifestRedirects = void 0 !== _options$handleManife && _options$handleManife;
                     var vhsOptions = vhs.options_;
-                    return _this.customTagParsers = vhsOptions && vhsOptions.customTagParsers || [], _this.customTagMappers = vhsOptions && vhsOptions.customTagMappers || [], _this.experimentalLLHLS = vhsOptions && vhsOptions.experimentalLLHLS, videojs.browser.IE_VERSION && (_this.experimentalLLHLS = !1), _this.state = "HAVE_NOTHING", _this.handleMediaupdatetimeout_ = _this.handleMediaupdatetimeout_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.on("mediaupdatetimeout", _this.handleMediaupdatetimeout_), _this;
+                    return _this.customTagParsers = vhsOptions && vhsOptions.customTagParsers || [], _this.customTagMappers = vhsOptions && vhsOptions.customTagMappers || [], _this.experimentalLLHLS = vhsOptions && vhsOptions.experimentalLLHLS || !1, videojs.browser.IE_VERSION && (_this.experimentalLLHLS = !1), _this.state = "HAVE_NOTHING", _this.handleMediaupdatetimeout_ = _this.handleMediaupdatetimeout_.bind((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this)), _this.on("mediaupdatetimeout", _this.handleMediaupdatetimeout_), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__ /* ["default"] */ .Z)(PlaylistLoader, _EventTarget);
                 var _proto = PlaylistLoader.prototype;
@@ -19004,7 +19004,7 @@
                     for(var result = [], i = 15; i--;)result.push("");
                     return result;
                 }, Cea608Stream = function Cea608Stream(field, dataChannel) {
-                    Cea608Stream.prototype.init.call(this), this.field_ = field, this.dataChannel_ = dataChannel, this.name_ = "CC" + ((this.field_ << 1 | this.dataChannel_) + 1), this.setConstants(), this.reset(), this.push = function(packet) {
+                    Cea608Stream.prototype.init.call(this), this.field_ = field || 0, this.dataChannel_ = dataChannel || 0, this.name_ = "CC" + ((this.field_ << 1 | this.dataChannel_) + 1), this.setConstants(), this.reset(), this.push = function(packet) {
                         var data, swap, char0, char1, text; // remove the parity bits
                         if ((data = 0x7f7f & packet.ccData) === this.lastControlCode_) {
                             this.lastControlCode_ = null;
@@ -20202,7 +20202,7 @@
                      *        in the source; false to adjust the first segment to start at 0.
                      */ (_AudioSegmentStream = function(track, options) {
                     var sequenceNumber, adtsFrames = [], earliestAllowedDts = 0, audioAppendStartTs = 0, videoBaseMediaDecodeTime = 1 / 0;
-                    sequenceNumber = (options = options || {}).firstSequenceNumber, _AudioSegmentStream.prototype.init.call(this), this.push = function(data) {
+                    sequenceNumber = (options = options || {}).firstSequenceNumber || 0, _AudioSegmentStream.prototype.init.call(this), this.push = function(data) {
                         trackDecodeInfo.collectDtsInfo(track, data), track && audioProperties.forEach(function(prop) {
                             track[prop] = data[prop];
                         }), adtsFrames.push(data);
@@ -20246,7 +20246,7 @@
                      *        in the source; false to adjust the first segment to start at 0.
                      */ (_VideoSegmentStream = function(track, options) {
                     var sequenceNumber, config, pps, nalUnits = [], gopsToAlignWith = [];
-                    sequenceNumber = (options = options || {}).firstSequenceNumber, _VideoSegmentStream.prototype.init.call(this), delete track.minPTS, this.gopCache_ = [], /**
+                    sequenceNumber = (options = options || {}).firstSequenceNumber || 0, _VideoSegmentStream.prototype.init.call(this), delete track.minPTS, this.gopCache_ = [], /**
                          * Constructs a ISO BMFF segment given H264 nalUnits
                          * @param {Object} nalUnit A data event representing a nalUnit
                          * @param {String} nalUnit.nalUnitType
@@ -20449,7 +20449,7 @@
                      * stream format, like Chrome.
                      */ (_Transmuxer = function(options) {
                     var videoTrack, audioTrack, self1 = this, hasFlushed = !0;
-                    _Transmuxer.prototype.init.call(this), options = options || {}, this.baseMediaDecodeTime = options.baseMediaDecodeTime, this.transmuxPipeline_ = {}, this.setupAacPipeline = function() {
+                    _Transmuxer.prototype.init.call(this), options = options || {}, this.baseMediaDecodeTime = options.baseMediaDecodeTime || 0, this.transmuxPipeline_ = {}, this.setupAacPipeline = function() {
                         var pipeline = {};
                         this.transmuxPipeline_ = pipeline, pipeline.type = "aac", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.aacStream = new aac(), pipeline.audioTimestampRolloverStream = new m2ts.TimestampRolloverStream("audio"), pipeline.timedMetadataTimestampRolloverStream = new m2ts.TimestampRolloverStream("timed-metadata"), pipeline.adtsStream = new adts(), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.aacStream, pipeline.aacStream.pipe(pipeline.audioTimestampRolloverStream).pipe(pipeline.adtsStream), pipeline.aacStream.pipe(pipeline.timedMetadataTimestampRolloverStream).pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.metadataStream.on("timestamp", function(frame) {
                             pipeline.aacStream.setTimestamp(frame.timeStamp);
@@ -23126,7 +23126,7 @@
                 }, _proto.handleSegmentTimingInfo_ = function(type, requestId, segmentTimingInfo) {
                     if (this.pendingSegment_ && requestId === this.pendingSegment_.requestId) {
                         var segment = this.pendingSegment_.segment, timingInfoProperty = type + "TimingInfo";
-                        segment[timingInfoProperty] || (segment[timingInfoProperty] = {}), segment[timingInfoProperty].transmuxerPrependedSeconds = segmentTimingInfo.prependedContentDuration, segment[timingInfoProperty].transmuxedPresentationStart = segmentTimingInfo.start.presentation, segment[timingInfoProperty].transmuxedDecodeStart = segmentTimingInfo.start.decode, segment[timingInfoProperty].transmuxedPresentationEnd = segmentTimingInfo.end.presentation, segment[timingInfoProperty].transmuxedDecodeEnd = segmentTimingInfo.end.decode, segment[timingInfoProperty].baseMediaDecodeTime = segmentTimingInfo.baseMediaDecodeTime;
+                        segment[timingInfoProperty] || (segment[timingInfoProperty] = {}), segment[timingInfoProperty].transmuxerPrependedSeconds = segmentTimingInfo.prependedContentDuration || 0, segment[timingInfoProperty].transmuxedPresentationStart = segmentTimingInfo.start.presentation, segment[timingInfoProperty].transmuxedDecodeStart = segmentTimingInfo.start.decode, segment[timingInfoProperty].transmuxedPresentationEnd = segmentTimingInfo.end.presentation, segment[timingInfoProperty].transmuxedDecodeEnd = segmentTimingInfo.end.decode, segment[timingInfoProperty].baseMediaDecodeTime = segmentTimingInfo.baseMediaDecodeTime;
                     }
                 }, _proto.appendData_ = function(segmentInfo, result) {
                     var type = result.type, data = result.data;
@@ -24367,7 +24367,7 @@
                     name: "Discontinuity",
                     run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         var syncPoint = null;
-                        if (playlist.discontinuityStarts && playlist.discontinuityStarts.length) for(var lastDistance = null, i = 0; i < playlist.discontinuityStarts.length; i++){
+                        if (currentTime = currentTime || 0, playlist.discontinuityStarts && playlist.discontinuityStarts.length) for(var lastDistance = null, i = 0; i < playlist.discontinuityStarts.length; i++){
                             var segmentIndex = playlist.discontinuityStarts[i], discontinuity = playlist.discontinuitySequence + i + 1, discontinuitySync = syncController.discontinuities[discontinuity];
                             if (discontinuitySync) {
                                 var distance = Math.abs(currentTime - discontinuitySync.time); // Once the distance begins to increase, we have passed
@@ -24655,7 +24655,7 @@
                     function _defineProperties(target, props) {
                         for(var i = 0; i < props.length; i++){
                             var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
                     module.exports = function(Constructor, protoProps, staticProps) {
@@ -26547,7 +26547,7 @@
                  */ var loadedMetadataHandler = function() {
                     seekTo && player.currentTime(seekTo);
                 }, setSource = function(sourceObj) {
-                    null != sourceObj && (seekTo = player.duration() !== 1 / 0 && player.currentTime(), player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
+                    null != sourceObj && (seekTo = player.duration() !== 1 / 0 && player.currentTime() || 0, player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
                         type: "usage",
                         name: "vhs-error-reload"
                     }), player.trigger({
@@ -26819,7 +26819,7 @@
                 var _proto = VhsHandler.prototype;
                 return _proto.setOptions_ = function() {
                     var _this2 = this; // defaults
-                    if (this.options_.withCredentials = this.options_.withCredentials, this.options_.handleManifestRedirects = !1 !== this.options_.handleManifestRedirects, this.options_.limitRenditionByPlayerDimensions = !1 !== this.options_.limitRenditionByPlayerDimensions, this.options_.useDevicePixelRatio = this.options_.useDevicePixelRatio, this.options_.smoothQualityChange = this.options_.smoothQualityChange, this.options_.useBandwidthFromLocalStorage = void 0 !== this.source_.useBandwidthFromLocalStorage ? this.source_.useBandwidthFromLocalStorage : this.options_.useBandwidthFromLocalStorage, this.options_.useNetworkInformationApi = this.options_.useNetworkInformationApi, this.options_.customTagParsers = this.options_.customTagParsers || [], this.options_.customTagMappers = this.options_.customTagMappers || [], this.options_.cacheEncryptionKeys = this.options_.cacheEncryptionKeys, "number" != typeof this.options_.blacklistDuration && (this.options_.blacklistDuration = 300), "number" != typeof this.options_.bandwidth && this.options_.useBandwidthFromLocalStorage) {
+                    if (this.options_.withCredentials = this.options_.withCredentials || !1, this.options_.handleManifestRedirects = !1 !== this.options_.handleManifestRedirects, this.options_.limitRenditionByPlayerDimensions = !1 !== this.options_.limitRenditionByPlayerDimensions, this.options_.useDevicePixelRatio = this.options_.useDevicePixelRatio || !1, this.options_.smoothQualityChange = this.options_.smoothQualityChange || !1, this.options_.useBandwidthFromLocalStorage = void 0 !== this.source_.useBandwidthFromLocalStorage ? this.source_.useBandwidthFromLocalStorage : this.options_.useBandwidthFromLocalStorage || !1, this.options_.useNetworkInformationApi = this.options_.useNetworkInformationApi || !1, this.options_.customTagParsers = this.options_.customTagParsers || [], this.options_.customTagMappers = this.options_.customTagMappers || [], this.options_.cacheEncryptionKeys = this.options_.cacheEncryptionKeys || !1, "number" != typeof this.options_.blacklistDuration && (this.options_.blacklistDuration = 300), "number" != typeof this.options_.bandwidth && this.options_.useBandwidthFromLocalStorage) {
                         var storedObject = getVhsLocalStorage();
                         storedObject && storedObject.bandwidth && (this.options_.bandwidth = storedObject.bandwidth, this.tech_.trigger({
                             type: "usage",

@@ -1752,7 +1752,7 @@
                  * @see https://www.w3.org/TR/xml-names/#ns-qualnames XML Namespaces: Qualified names
                  */ createDocument: function(namespaceURI, qualifiedName, doctype) {
                     var doc = new Document();
-                    if (doc.implementation = this, doc.childNodes = new NodeList(), doc.doctype = doctype, doctype && doc.appendChild(doctype), qualifiedName) {
+                    if (doc.implementation = this, doc.childNodes = new NodeList(), doc.doctype = doctype || null, doctype && doc.appendChild(doctype), qualifiedName) {
                         var root = doc.createElementNS(namespaceURI, qualifiedName);
                         doc.appendChild(root);
                     }
@@ -1780,7 +1780,7 @@
                  * @see https://www.w3.org/TR/xml-names/#ns-qualnames XML Namespaces: Qualified names
                  */ createDocumentType: function(qualifiedName, publicId, systemId) {
                     var node = new DocumentType();
-                    return node.name = qualifiedName, node.nodeName = qualifiedName, node.publicId = publicId, node.systemId = systemId, node;
+                    return node.name = qualifiedName, node.nodeName = qualifiedName, node.publicId = publicId || "", node.systemId = systemId || "", node;
                 }
             }, Node.prototype = {
                 firstChild: null,
@@ -4403,7 +4403,7 @@
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
-                mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
+                mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration || 0, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
                 var periods = []; // Since toAdaptationSets acts on individual periods right now, the simplest approach to
                 return(// adding properties that require looking at prior periods is to parse attributes and add
                 // missing ones before toAdaptationSets is called. If more such properties are added, it

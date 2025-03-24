@@ -2607,7 +2607,7 @@
                                 // eslint-disable-next-line
                                 var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
                                 util_isNullOrUndefined(retu) && // eslint-disable-next-line
-                                (retu = options.era[+!dec]), ret += retu;
+                                (retu = options.era[+!dec]), ret += retu || '';
                                 break;
                             case '\'':
                                 ret += '\'\'' === match ? '\'' : match.replace(/'/g, '');
@@ -4226,7 +4226,7 @@
                     if (IntlBase.formatRegex.test(options.format) || !options.format) {
                         if (util_extend(parseOptions, getProperNumericSkeleton(options.format || 'N')), parseOptions.custom = !1, actualPattern = '###0', (parseOptions.fractionDigits || options.minimumFractionDigits || options.maximumFractionDigits || minFrac) && (parseOptions.fractionDigits && (options.minimumFractionDigits = options.maximumFractionDigits = parseOptions.fractionDigits), actualPattern = fractionDigitsPattern(actualPattern, minFrac || parseOptions.fractionDigits || options.minimumFractionDigits || 0, options.maximumFractionDigits || 0)), options.minimumIntegerDigits && (actualPattern = minimumIntegerPattern(actualPattern, options.minimumIntegerDigits)), options.useGrouping && (actualPattern = groupingPattern(actualPattern)), 'currency' === parseOptions.type || parseOptions.type && 0) {
                             var cPattern = actualPattern;
-                            actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, curObj.hasNegativePattern && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
+                            actualPattern = curObj.pData.nlead + cPattern + curObj.pData.nend, (curObj.hasNegativePattern || 0) && (actualPattern += ';' + curObj.nData.nlead + cPattern + curObj.nData.nend);
                         }
                         'percent' === parseOptions.type && (actualPattern += ' %');
                     } else actualPattern = options.format.replace(/'/g, '"');

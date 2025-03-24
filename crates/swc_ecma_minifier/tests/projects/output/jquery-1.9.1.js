@@ -446,7 +446,7 @@
         list = [], // Stack of fire calls for repeatable lists
         stack = !options.once && [], // Fire callbacks
         fire = function(data) {
-            for(memory = options.memory && data, fired = !0, firingIndex = firingStart, firingStart = 0, firingLength = list.length, firing = !0; list && firingIndex < firingLength; firingIndex++)if (!1 === list[firingIndex].apply(data[0], data[1]) && options.stopOnFalse) {
+            for(memory = options.memory && data, fired = !0, firingIndex = firingStart || 0, firingStart = 0, firingLength = list.length, firing = !0; list && firingIndex < firingLength; firingIndex++)if (!1 === list[firingIndex].apply(data[0], data[1]) && options.stopOnFalse) {
                 memory = !1; // To prevent further calls using add
                 break;
             }
@@ -962,7 +962,7 @@
                 // then remove the whole classname (if there was one, the above saved it).
                 // Otherwise bring back whatever was previously saved (if anything),
                 // falling back to the empty string if nothing was stored.
-                this.className = this.className || !1 === value ? "" : jQuery._data(this, "__className__"));
+                this.className = this.className || !1 === value ? "" : jQuery._data(this, "__className__") || "");
             });
         },
         hasClass: function(selector) {
@@ -2400,7 +2400,9 @@
     }
     // Implement the identical functionality for filter and not
     function winnow(elements, qualifier, keep) {
-        if (jQuery.isFunction(qualifier)) return jQuery.grep(elements, function(elem, i) {
+        if (// Can't pass null or undefined to indexOf in Firefox 4
+        // Set to 0 to skip string check
+        qualifier = qualifier || 0, jQuery.isFunction(qualifier)) return jQuery.grep(elements, function(elem, i) {
             return !!qualifier.call(elem, i, elem) === keep;
         });
         if (qualifier.nodeType) return jQuery.grep(elements, function(elem) {
@@ -2901,7 +2903,7 @@
             // we need the check for style in case a browser which returns unreliable values
             // for getComputedStyle silently falls back to the reliable elem.style
             valueIsBorderBox = isBorderBox && (jQuery.support.boxSizingReliable || val === elem.style[name1]), // Normalize "", auto, and prepare for extra
-            val = parseFloat(val);
+            val = parseFloat(val) || 0;
         }
         // use the active box-sizing model to add/subtract irrelevant styles
         return val + augmentWidthOrHeight(elem, name1, extra || (isBorderBox ? "border" : "content"), valueIsBorderBox, styles) + "px";
@@ -3463,7 +3465,7 @@
                 state = 2, timeoutTimer && clearTimeout(timeoutTimer), // Dereference transport for early garbage collection
                 // (no matter how long the jqXHR object will be used)
                 transport = undefined, // Cache response headers
-                responseHeadersString = headers, // Set readyState
+                responseHeadersString = headers || "", // Set readyState
                 jqXHR.readyState = 4 * (status > 0), responses && (response = /* Handles responses to an ajax request:
    * - sets all responseXXX fields accordingly
    * - finds the right dataType (mediates between content-type and expected dataType)
@@ -4044,7 +4046,7 @@
                 curCSSTop,
                 curCSSLeft
             ]) > -1, props = {}, curPosition = {};
-            calculatePosition ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop), curLeft = parseFloat(curCSSLeft)), jQuery.isFunction(options) && (options = options.call(elem, i, curOffset)), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : curElem.css(props);
+            calculatePosition ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop) || 0, curLeft = parseFloat(curCSSLeft) || 0), jQuery.isFunction(options) && (options = options.call(elem, i, curOffset)), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : curElem.css(props);
         }
     }, jQuery.fn.extend({
         position: function() {

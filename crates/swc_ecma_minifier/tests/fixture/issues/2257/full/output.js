@@ -1244,7 +1244,7 @@
         function _defineProperties(target, props) {
             for(var i = 0; i < props.length; i++){
                 var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -12639,7 +12639,7 @@
                     return (a._context.displayName || "Context") + ".Provider";
                 case Aa:
                     var b = a.render;
-                    return b = b.displayName || b.name, a.displayName || ("" !== b ? "ForwardRef(" + b + ")" : "ForwardRef");
+                    return b = b.displayName || b.name || "", a.displayName || ("" !== b ? "ForwardRef(" + b + ")" : "ForwardRef");
                 case Da:
                     return Ra(a.type);
                 case Fa:
@@ -14680,15 +14680,15 @@
                 return null;
             }
             function C(a, b, c, d, e) {
-                if ("string" == typeof d || "number" == typeof d) return h(b, a = a.get(c), "" + d, e);
+                if ("string" == typeof d || "number" == typeof d) return h(b, a = a.get(c) || null, "" + d, e);
                 if ("object" == typeof d && null !== d) {
                     switch(d.$$typeof){
                         case sa:
-                            return a = a.get(null === d.key ? c : d.key), d.type === ua ? n(b, a, d.props.children, e, d.key) : k(b, a, d, e);
+                            return a = a.get(null === d.key ? c : d.key) || null, d.type === ua ? n(b, a, d.props.children, e, d.key) : k(b, a, d, e);
                         case ta:
-                            return l(b, a = a.get(null === d.key ? c : d.key), d, e);
+                            return l(b, a = a.get(null === d.key ? c : d.key) || null, d, e);
                     }
-                    if (Pg(d) || La(d)) return n(b, a = a.get(c), d, e, null);
+                    if (Pg(d) || La(d)) return n(b, a = a.get(c) || null, d, e, null);
                     Rg(b, d);
                 }
                 return null;
@@ -14802,7 +14802,7 @@
                     b = (b = b.documentElement) ? b.namespaceURI : mb(null, "");
                     break;
                 default:
-                    b = mb(b = (a = 8 === a ? b.parentNode : b).namespaceURI, a = a.tagName);
+                    b = mb(b = (a = 8 === a ? b.parentNode : b).namespaceURI || null, a = a.tagName);
             }
             H(ah), I(ah, b);
         }

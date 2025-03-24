@@ -2141,7 +2141,7 @@
                 return !0;
             }
             var WidgetType = function(toDOM, spec) {
-                this.spec = spec || noSpec, this.side = this.spec.side, this.toDOM = toDOM;
+                this.spec = spec || noSpec, this.side = this.spec.side || 0, this.toDOM = toDOM;
             };
             WidgetType.prototype.map = function(mapping, span, offset, oldOffset) {
                 var ref = mapping.mapResult(span.from + oldOffset, this.side < 0 ? -1 : 1), pos = ref.pos;

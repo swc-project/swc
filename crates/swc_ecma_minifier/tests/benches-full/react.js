@@ -41,7 +41,7 @@
         var stack = ''; // Add an extra top frame while an element is being validated
         currentExtraStackFrame && (stack += currentExtraStackFrame);
         var impl = ReactDebugCurrentFrame.getCurrentStack;
-        return impl && (stack += impl()), stack;
+        return impl && (stack += impl() || ''), stack;
     };
     var ReactSharedInternals = {
         ReactCurrentDispatcher: ReactCurrentDispatcher,
@@ -247,7 +247,7 @@
                 return getContextName(type._context) + '.Provider';
             case REACT_FORWARD_REF_TYPE:
                 var innerType, wrapperName, functionName;
-                return innerType = type.render, wrapperName = 'ForwardRef', functionName = innerType.displayName || innerType.name, type.displayName || ('' !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return innerType = type.render, wrapperName = 'ForwardRef', functionName = innerType.displayName || innerType.name || '', type.displayName || ('' !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:

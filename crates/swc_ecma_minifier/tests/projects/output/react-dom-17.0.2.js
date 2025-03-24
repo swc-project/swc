@@ -606,7 +606,7 @@
                 return getContextName(type._context) + ".Provider";
             case REACT_FORWARD_REF_TYPE:
                 var innerType, wrapperName, functionName;
-                return innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name, type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
+                return innerType = type.render, wrapperName = "ForwardRef", functionName = innerType.displayName || innerType.name || "", type.displayName || ("" !== functionName ? wrapperName + "(" + functionName + ")" : wrapperName);
             case REACT_MEMO_TYPE:
                 return getComponentName(type.type);
             case REACT_BLOCK_TYPE:

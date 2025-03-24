@@ -158,7 +158,7 @@ function(global, factory) {
     function _defineProperties(target, props) {
         for(var i = 0; i < props.length; i++){
             var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -11491,7 +11491,7 @@ function(global, factory) {
         this.type = 'Curve', this.arcLengthDivisions = 200;
     }
     function EllipseCurve(aX, aY, xRadius, yRadius, aStartAngle, aEndAngle, aClockwise, aRotation) {
-        Curve.call(this), this.type = 'EllipseCurve', this.aX = aX, this.aY = aY, this.xRadius = xRadius || 1, this.yRadius = yRadius || 1, this.aStartAngle = aStartAngle, this.aEndAngle = aEndAngle || 2 * Math.PI, this.aClockwise = aClockwise, this.aRotation = aRotation;
+        Curve.call(this), this.type = 'EllipseCurve', this.aX = aX || 0, this.aY = aY || 0, this.xRadius = xRadius || 1, this.yRadius = yRadius || 1, this.aStartAngle = aStartAngle || 0, this.aEndAngle = aEndAngle || 2 * Math.PI, this.aClockwise = aClockwise || !1, this.aRotation = aRotation || 0;
     }
     function ArcCurve(aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise) {
         EllipseCurve.call(this, aX, aY, aRadius, aRadius, aStartAngle, aEndAngle, aClockwise), this.type = 'ArcCurve';
@@ -14517,7 +14517,7 @@ function(global, factory) {
         this.buffer = buffer, this.type = type, this.itemSize = itemSize, this.elementSize = elementSize, this.count = count, this.version = 0;
     }
     function Raycaster(origin, direction, near, far) {
-        this.ray = new Ray(origin, direction), this.near = near, this.far = far || 1 / 0, this.camera = null, this.layers = new Layers(), this.params = {
+        this.ray = new Ray(origin, direction), this.near = near || 0, this.far = far || 1 / 0, this.camera = null, this.layers = new Layers(), this.params = {
             Mesh: {},
             Line: {
                 threshold: 1

@@ -334,7 +334,7 @@
     // the native Python `range()` function. See
     // [the Python documentation](http://docs.python.org/library/functions.html#range).
     _.range = function(start, stop, step) {
-        arguments.length <= 1 && (stop = start, start = 0), step = arguments[2] || 1;
+        arguments.length <= 1 && (stop = start || 0, start = 0), step = arguments[2] || 1;
         for(var length = Math.max(Math.ceil((stop - start) / step), 0), idx = 0, range = Array(length); idx < length;)range[idx++] = start, start += step;
         return range;
     };

@@ -3604,7 +3604,7 @@ Contains the core of YUI's feature test architecture.
      * @return {object} a timer object. Call the cancel() method on this
      * object to stop the timer.
      */ Y.later = function(when, o, fn, data, periodic) {
-        data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data);
+        when = when || 0, data = Y.Lang.isUndefined(data) ? NO_ARGS : Y.Array(data);
         var cancelled = !1, method = (o = o || Y.config.win || Y) && Y.Lang.isString(fn) ? o[fn] : fn, wrapper = function() {
             // IE 8- may execute a setInterval callback one last time
             // after clearInterval was called, so in order to preserve
@@ -4743,7 +4743,7 @@ Contains the core of YUI's feature test architecture.
        * @private
        */ _filter: function(u, name, group) {
             var f = this.filter, hasFilter = name && name in this.filters, modFilter = hasFilter && this.filters[name], groupName = group || (this.moduleInfo[name] ? this.moduleInfo[name].group : null);
-            return groupName && this.groups[groupName] && this.groups[groupName].filter && (modFilter = this.groups[groupName].filter, hasFilter = !0), u && (hasFilter && (f = L.isString(modFilter) ? this.FILTER_DEFS[modFilter.toUpperCase()] : modFilter), f && (u = u.replace(RegExp(f.searchExp, "g"), f.replaceStr))), u;
+            return groupName && this.groups[groupName] && this.groups[groupName].filter && (modFilter = this.groups[groupName].filter, hasFilter = !0), u && (hasFilter && (f = L.isString(modFilter) ? this.FILTER_DEFS[modFilter.toUpperCase()] || null : modFilter), f && (u = u.replace(RegExp(f.searchExp, "g"), f.replaceStr))), u;
         },
         /**
        * Generates the full url for a module

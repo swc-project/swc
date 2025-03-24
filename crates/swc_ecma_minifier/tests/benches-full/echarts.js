@@ -1211,7 +1211,7 @@
         }
     }, Clip = function() {
         function Clip(opts) {
-            this._initialized = !1, this._startTime = 0, this._pausedTime = 0, this._paused = !1, this._life = opts.life || 1000, this._delay = opts.delay, this.loop = null != opts.loop && opts.loop, this.gap = opts.gap, this.easing = opts.easing || 'linear', this.onframe = opts.onframe, this.ondestroy = opts.ondestroy, this.onrestart = opts.onrestart;
+            this._initialized = !1, this._startTime = 0, this._pausedTime = 0, this._paused = !1, this._life = opts.life || 1000, this._delay = opts.delay || 0, this.loop = null != opts.loop && opts.loop, this.gap = opts.gap || 0, this.easing = opts.easing || 'linear', this.onframe = opts.onframe, this.ondestroy = opts.ondestroy, this.onrestart = opts.onrestart;
         }
         return Clip.prototype.step = function(globalTime, deltaTime) {
             if (this._initialized || (this._startTime = globalTime + this._delay, this._initialized = !0), this._paused) {
@@ -2648,7 +2648,7 @@
         }, Animator;
     }(), Point = function() {
         function Point(x, y) {
-            this.x = x, this.y = y;
+            this.x = x || 0, this.y = y || 0;
         }
         return Point.prototype.copy = function(other) {
             return this.x = other.x, this.y = other.y, this;
@@ -4699,7 +4699,7 @@
         };
         if (componentType) {
             var typeArr = componentType.split('.');
-            ret.main = typeArr[0], ret.sub = typeArr[1];
+            ret.main = typeArr[0] || '', ret.sub = typeArr[1] || '';
         }
         return ret;
     }
@@ -4843,7 +4843,7 @@
     function makeStyleMapper(properties, ignoreParent) {
         // Normalize
         for(var i = 0; i < properties.length; i++)properties[i][1] || (properties[i][1] = properties[i][0]);
-        return function(model, excludes, includes) {
+        return ignoreParent = ignoreParent || !1, function(model, excludes, includes) {
             for(var style = {}, i = 0; i < properties.length; i++){
                 var propName = properties[i][1];
                 if (!(excludes && indexOf(excludes, propName) >= 0 || includes && 0 > indexOf(includes, propName))) {
@@ -5264,7 +5264,7 @@
         }, PathProxy.prototype.getVersion = function() {
             return this._version;
         }, PathProxy.prototype.setScale = function(sx, sy, segmentIgnoreThreshold) {
-            (segmentIgnoreThreshold = segmentIgnoreThreshold || 0) > 0 && (this._ux = mathAbs(segmentIgnoreThreshold / devicePixelRatio / sx), this._uy = mathAbs(segmentIgnoreThreshold / devicePixelRatio / sy));
+            (segmentIgnoreThreshold = segmentIgnoreThreshold || 0) > 0 && (this._ux = mathAbs(segmentIgnoreThreshold / devicePixelRatio / sx) || 0, this._uy = mathAbs(segmentIgnoreThreshold / devicePixelRatio / sy) || 0);
         }, PathProxy.prototype.setDPR = function(dpr) {
             this.dpr = dpr;
         }, PathProxy.prototype.setContext = function(ctx) {
@@ -5709,7 +5709,7 @@
                     xi = x0, yi = y0;
             }
         }
-        return isStroke || 1e-4 > Math.abs(yi - y0) || (w += windingLine(xi, yi, x0, y0, x, y)), 0 !== w;
+        return isStroke || 1e-4 > Math.abs(yi - y0) || (w += windingLine(xi, yi, x0, y0, x, y) || 0), 0 !== w;
     }
     var DEFAULT_PATH_STYLE = defaults({
         fill: '#000',
@@ -5931,7 +5931,7 @@
                 var text = style.text;
                 null != text ? text += '' : text = '';
                 var rect = getBoundingRect(text, style.font, style.textAlign, style.textBaseline);
-                if (rect.x += style.x, rect.y += style.y, this.hasStroke()) {
+                if (rect.x += style.x || 0, rect.y += style.y || 0, this.hasStroke()) {
                     var w = style.lineWidth;
                     rect.x -= w / 2, rect.y -= w / 2, rect.width += w, rect.height += w;
                 }
@@ -6137,7 +6137,7 @@
             textY += lineHeight / 2, textPadding && (textX = getTextXForPadding(baseX, textAlign, textPadding), 'top' === verticalAlign ? textY += textPadding[0] : 'bottom' === verticalAlign && (textY -= textPadding[2]));
             for(var defaultLineWidth = 0, useDefaultFill = !1, textFill = null == (fill = ('fill' in style) ? style.fill : (useDefaultFill = !0, defaultStyle.fill)) || 'none' === fill ? null : fill.image || fill.colorStops ? '#000' : fill, textStroke = getStroke('stroke' in style ? style.stroke : bgColorDrawn || defaultStyle.autoStroke && !useDefaultFill ? null : (defaultLineWidth = 2, defaultStyle.stroke)), hasShadow = style.textShadowBlur > 0, fixedBoundingRect = null != style.width && ('truncate' === style.overflow || 'break' === style.overflow || 'breakAll' === style.overflow), calculatedLineHeight = contentBlock.calculatedLineHeight, i = 0; i < textLines.length; i++){
                 var el = this._getOrCreateChild(TSpan), subElStyle = el.createStyle();
-                el.useStyle(subElStyle), subElStyle.text = textLines[i], subElStyle.x = textX, subElStyle.y = textY, textAlign && (subElStyle.textAlign = textAlign), subElStyle.textBaseline = 'middle', subElStyle.opacity = style.opacity, subElStyle.strokeFirst = !0, hasShadow && (subElStyle.shadowBlur = style.textShadowBlur, subElStyle.shadowColor = style.textShadowColor || 'transparent', subElStyle.shadowOffsetX = style.textShadowOffsetX, subElStyle.shadowOffsetY = style.textShadowOffsetY), textStroke && (subElStyle.stroke = textStroke, subElStyle.lineWidth = style.lineWidth || defaultLineWidth, subElStyle.lineDash = style.lineDash, subElStyle.lineDashOffset = style.lineDashOffset), textFill && (subElStyle.fill = textFill), subElStyle.font = textFont, textY += lineHeight, fixedBoundingRect && el.setBoundingRect(new BoundingRect(adjustTextX(subElStyle.x, style.width, subElStyle.textAlign), adjustTextY(subElStyle.y, calculatedLineHeight, subElStyle.textBaseline), style.width, calculatedLineHeight));
+                el.useStyle(subElStyle), subElStyle.text = textLines[i], subElStyle.x = textX, subElStyle.y = textY, textAlign && (subElStyle.textAlign = textAlign), subElStyle.textBaseline = 'middle', subElStyle.opacity = style.opacity, subElStyle.strokeFirst = !0, hasShadow && (subElStyle.shadowBlur = style.textShadowBlur || 0, subElStyle.shadowColor = style.textShadowColor || 'transparent', subElStyle.shadowOffsetX = style.textShadowOffsetX || 0, subElStyle.shadowOffsetY = style.textShadowOffsetY || 0), textStroke && (subElStyle.stroke = textStroke, subElStyle.lineWidth = style.lineWidth || defaultLineWidth, subElStyle.lineDash = style.lineDash, subElStyle.lineDashOffset = style.lineDashOffset || 0), textFill && (subElStyle.fill = textFill), subElStyle.font = textFont, textY += lineHeight, fixedBoundingRect && el.setBoundingRect(new BoundingRect(adjustTextX(subElStyle.x, style.width, subElStyle.textAlign), adjustTextY(subElStyle.y, calculatedLineHeight, subElStyle.textBaseline), style.width, calculatedLineHeight));
             }
         }, ZRText.prototype._updateRichTexts = function() {
             var style = this.style, contentBlock = function(text, style) {
@@ -6211,7 +6211,7 @@
             var el = this._getOrCreateChild(TSpan), subElStyle = el.createStyle();
             el.useStyle(subElStyle);
             var defaultStyle = this._defaultStyle, useDefaultFill = !1, defaultLineWidth = 0, textFill = getStroke('fill' in tokenStyle ? tokenStyle.fill : 'fill' in style ? style.fill : (useDefaultFill = !0, defaultStyle.fill)), textStroke = getStroke('stroke' in tokenStyle ? tokenStyle.stroke : 'stroke' in style ? style.stroke : bgColorDrawn || parentBgColorDrawn || defaultStyle.autoStroke && !useDefaultFill ? null : (defaultLineWidth = 2, defaultStyle.stroke)), hasShadow = tokenStyle.textShadowBlur > 0 || style.textShadowBlur > 0;
-            subElStyle.text = token.text, subElStyle.x = x, subElStyle.y = y, hasShadow && (subElStyle.shadowBlur = tokenStyle.textShadowBlur || style.textShadowBlur, subElStyle.shadowColor = tokenStyle.textShadowColor || style.textShadowColor || 'transparent', subElStyle.shadowOffsetX = tokenStyle.textShadowOffsetX || style.textShadowOffsetX, subElStyle.shadowOffsetY = tokenStyle.textShadowOffsetY || style.textShadowOffsetY), subElStyle.textAlign = textAlign, subElStyle.textBaseline = 'middle', subElStyle.font = token.font || DEFAULT_FONT, subElStyle.opacity = retrieve3(tokenStyle.opacity, style.opacity, 1), textStroke && (subElStyle.lineWidth = retrieve3(tokenStyle.lineWidth, style.lineWidth, defaultLineWidth), subElStyle.lineDash = retrieve2(tokenStyle.lineDash, style.lineDash), subElStyle.lineDashOffset = style.lineDashOffset, subElStyle.stroke = textStroke), textFill && (subElStyle.fill = textFill);
+            subElStyle.text = token.text, subElStyle.x = x, subElStyle.y = y, hasShadow && (subElStyle.shadowBlur = tokenStyle.textShadowBlur || style.textShadowBlur || 0, subElStyle.shadowColor = tokenStyle.textShadowColor || style.textShadowColor || 'transparent', subElStyle.shadowOffsetX = tokenStyle.textShadowOffsetX || style.textShadowOffsetX || 0, subElStyle.shadowOffsetY = tokenStyle.textShadowOffsetY || style.textShadowOffsetY || 0), subElStyle.textAlign = textAlign, subElStyle.textBaseline = 'middle', subElStyle.font = token.font || DEFAULT_FONT, subElStyle.opacity = retrieve3(tokenStyle.opacity, style.opacity, 1), textStroke && (subElStyle.lineWidth = retrieve3(tokenStyle.lineWidth, style.lineWidth, defaultLineWidth), subElStyle.lineDash = retrieve2(tokenStyle.lineDash, style.lineDash), subElStyle.lineDashOffset = style.lineDashOffset || 0, subElStyle.stroke = textStroke), textFill && (subElStyle.fill = textFill);
             var textWidth = token.contentWidth, textHeight = token.contentHeight;
             el.setBoundingRect(new BoundingRect(adjustTextX(subElStyle.x, textWidth, subElStyle.textAlign), adjustTextY(subElStyle.y, textHeight, subElStyle.textBaseline), textWidth, textHeight));
         }, ZRText.prototype._renderBackground = function(style, topStyle, x, y, width, height) {
@@ -6223,7 +6223,7 @@
             }
             if (isPlainBg) {
                 var rectStyle = rectEl.style;
-                rectStyle.fill = textBackgroundColor, rectStyle.fillOpacity = retrieve2(style.fillOpacity, 1);
+                rectStyle.fill = textBackgroundColor || null, rectStyle.fillOpacity = retrieve2(style.fillOpacity, 1);
             } else if (textBackgroundColor && textBackgroundColor.image) {
                 (imgEl = this._getOrCreateChild(ZRImage)).onload = function() {
                     self1.dirtyStyle();
@@ -6233,10 +6233,10 @@
             }
             if (textBorderWidth && textBorderColor) {
                 var rectStyle = rectEl.style;
-                rectStyle.lineWidth = textBorderWidth, rectStyle.stroke = textBorderColor, rectStyle.strokeOpacity = retrieve2(style.strokeOpacity, 1), rectStyle.lineDash = style.borderDash, rectStyle.lineDashOffset = style.borderDashOffset, rectEl.strokeContainThreshold = 0, rectEl.hasFill() && rectEl.hasStroke() && (rectStyle.strokeFirst = !0, rectStyle.lineWidth *= 2);
+                rectStyle.lineWidth = textBorderWidth, rectStyle.stroke = textBorderColor, rectStyle.strokeOpacity = retrieve2(style.strokeOpacity, 1), rectStyle.lineDash = style.borderDash, rectStyle.lineDashOffset = style.borderDashOffset || 0, rectEl.strokeContainThreshold = 0, rectEl.hasFill() && rectEl.hasStroke() && (rectStyle.strokeFirst = !0, rectStyle.lineWidth *= 2);
             }
             var commonStyle = (rectEl || imgEl).style;
-            commonStyle.shadowBlur = style.shadowBlur, commonStyle.shadowColor = style.shadowColor || 'transparent', commonStyle.shadowOffsetX = style.shadowOffsetX, commonStyle.shadowOffsetY = style.shadowOffsetY, commonStyle.opacity = retrieve3(style.opacity, topStyle.opacity, 1);
+            commonStyle.shadowBlur = style.shadowBlur || 0, commonStyle.shadowColor = style.shadowColor || 'transparent', commonStyle.shadowOffsetX = style.shadowOffsetX || 0, commonStyle.shadowOffsetY = style.shadowOffsetY || 0, commonStyle.opacity = retrieve3(style.opacity, topStyle.opacity, 1);
         }, ZRText.makeFont = function(style) {
             var font = '';
             if (style.fontSize || style.fontFamily || style.fontWeight) {
@@ -6561,7 +6561,7 @@
         el.highDownSilentOnTouch && (el.__highDownSilentOnTouch = el.highDownSilentOnTouch), (!disable || el.__highDownDispatcher) && (// Emphasis, normal can be triggered manually by API or other components like hover link.
         // el[method]('emphasis', onElementEmphasisEvent)[method]('normal', onElementNormalEvent);
         // Also keep previous record.
-        el.__highByOuter = el.__highByOuter, el.__highDownDispatcher = !disable);
+        el.__highByOuter = el.__highByOuter || 0, el.__highDownDispatcher = !disable);
     }
     function isHighDownDispatcher(el) {
         return !!(el && el.__highDownDispatcher);
@@ -7051,13 +7051,13 @@
     }(), LinearGradient = function(_super) {
         function LinearGradient(x, y, x2, y2, colorStops, globalCoord) {
             var _this = _super.call(this, colorStops) || this;
-            return _this.x = null == x ? 0 : x, _this.y = null == y ? 0 : y, _this.x2 = null == x2 ? 1 : x2, _this.y2 = null == y2 ? 0 : y2, _this.type = 'linear', _this.global = globalCoord, _this;
+            return _this.x = null == x ? 0 : x, _this.y = null == y ? 0 : y, _this.x2 = null == x2 ? 1 : x2, _this.y2 = null == y2 ? 0 : y2, _this.type = 'linear', _this.global = globalCoord || !1, _this;
         }
         return __extends(LinearGradient, _super), LinearGradient;
     }(Gradient), RadialGradient = function(_super) {
         function RadialGradient(x, y, r, colorStops, globalCoord) {
             var _this = _super.call(this, colorStops) || this;
-            return _this.x = null == x ? 0.5 : x, _this.y = null == y ? 0.5 : y, _this.r = null == r ? 0.5 : r, _this.type = 'radial', _this.global = globalCoord, _this;
+            return _this.x = null == x ? 0.5 : x, _this.y = null == y ? 0.5 : y, _this.r = null == r ? 0.5 : r, _this.type = 'radial', _this.global = globalCoord || !1, _this;
         }
         return __extends(RadialGradient, _super), RadialGradient;
     }(Gradient), extent = [
@@ -7319,7 +7319,7 @@
         if (isRemove || // Must stop the remove animation.
         el.stopAnimation('remove'), animationEnabled) {
             var duration = void 0, animationEasing = void 0, animationDelay = void 0;
-            animationPayload ? (duration = animationPayload.duration, animationEasing = animationPayload.easing || 'cubicOut', animationDelay = animationPayload.delay) : isRemove ? (duration = retrieve2((removeOpt = removeOpt || {}).duration, 200), animationEasing = retrieve2(removeOpt.easing, 'cubicOut'), animationDelay = 0) : (duration = animatableModel.getShallow(isUpdate ? 'animationDurationUpdate' : 'animationDuration'), animationEasing = animatableModel.getShallow(isUpdate ? 'animationEasingUpdate' : 'animationEasing'), animationDelay = animatableModel.getShallow(isUpdate ? 'animationDelayUpdate' : 'animationDelay')), 'function' == typeof animationDelay && (animationDelay = animationDelay(dataIndex, animatableModel.getAnimationDelayParams ? animatableModel.getAnimationDelayParams(el, dataIndex) : null)), 'function' == typeof duration && (duration = duration(dataIndex)), duration > 0 ? isFrom ? el.animateFrom(props, {
+            animationPayload ? (duration = animationPayload.duration || 0, animationEasing = animationPayload.easing || 'cubicOut', animationDelay = animationPayload.delay || 0) : isRemove ? (duration = retrieve2((removeOpt = removeOpt || {}).duration, 200), animationEasing = retrieve2(removeOpt.easing, 'cubicOut'), animationDelay = 0) : (duration = animatableModel.getShallow(isUpdate ? 'animationDurationUpdate' : 'animationDuration'), animationEasing = animatableModel.getShallow(isUpdate ? 'animationEasingUpdate' : 'animationEasing'), animationDelay = animatableModel.getShallow(isUpdate ? 'animationDelayUpdate' : 'animationDelay')), 'function' == typeof animationDelay && (animationDelay = animationDelay(dataIndex, animatableModel.getAnimationDelayParams ? animatableModel.getAnimationDelayParams(el, dataIndex) : null)), 'function' == typeof duration && (duration = duration(dataIndex)), duration > 0 ? isFrom ? el.animateFrom(props, {
                 duration: duration,
                 delay: animationDelay || 0,
                 easing: animationEasing,
@@ -7752,7 +7752,7 @@
         opt = opt || {};
         var labelPosition, textConfig = {}, labelRotate = textStyleModel.getShallow('rotate'), labelDistance = retrieve2(textStyleModel.getShallow('distance'), isNotNormal ? null : 5), labelOffset = textStyleModel.getShallow('offset');
         return(// in bar series, and magric type should be considered.
-        'outside' === (labelPosition = textStyleModel.getShallow('position') || (isNotNormal ? null : 'inside')) && (labelPosition = opt.defaultOutsidePosition || 'top'), null != labelPosition && (textConfig.position = labelPosition), null != labelOffset && (textConfig.offset = labelOffset), null != labelRotate && (textConfig.rotation = labelRotate *= Math.PI / 180), null != labelDistance && (textConfig.distance = labelDistance), textConfig.outsideFill = 'inherit' === textStyleModel.get('color') ? opt.inheritColor : 'auto', textConfig);
+        'outside' === (labelPosition = textStyleModel.getShallow('position') || (isNotNormal ? null : 'inside')) && (labelPosition = opt.defaultOutsidePosition || 'top'), null != labelPosition && (textConfig.position = labelPosition), null != labelOffset && (textConfig.offset = labelOffset), null != labelRotate && (textConfig.rotation = labelRotate *= Math.PI / 180), null != labelDistance && (textConfig.distance = labelDistance), textConfig.outsideFill = 'inherit' === textStyleModel.get('color') ? opt.inheritColor || null : 'auto', textConfig);
     }
     var TEXT_PROPS_WITH_GLOBAL = [
         'fontStyle',
@@ -7786,7 +7786,7 @@
         // In merge mode, default value should not be given.
         globalTextStyle = !isNotNormal && globalTextStyle || EMPTY_OBJ;
         var inheritColor = opt && opt.inheritColor, fillColor = textStyleModel.getShallow('color'), strokeColor = textStyleModel.getShallow('textBorderColor'), opacity = retrieve2(textStyleModel.getShallow('opacity'), globalTextStyle.opacity);
-        ('inherit' === fillColor || 'auto' === fillColor) && ('auto' === fillColor && deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\''), fillColor = inheritColor), ('inherit' === strokeColor || 'auto' === strokeColor) && ('auto' === strokeColor && deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\''), strokeColor = inheritColor), isAttached || (// Only use default global textStyle.color if text is individual.
+        ('inherit' === fillColor || 'auto' === fillColor) && ('auto' === fillColor && deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\''), fillColor = inheritColor || null), ('inherit' === strokeColor || 'auto' === strokeColor) && ('auto' === strokeColor && deprecateReplaceLog('color: \'auto\'', 'color: \'inherit\''), strokeColor = inheritColor || null), isAttached || (// Only use default global textStyle.color if text is individual.
         // Otherwise it will use the strategy of attached text color because text may be on a path.
         fillColor = fillColor || globalTextStyle.color, strokeColor = strokeColor || globalTextStyle.textBorderColor), null != fillColor && (textStyle.fill = fillColor), null != strokeColor && (textStyle.stroke = strokeColor);
         var textBorderWidth = retrieve2(textStyleModel.getShallow('textBorderWidth'), globalTextStyle.textBorderWidth);
@@ -8733,7 +8733,7 @@
             case 'bottom':
                 top = containerHeight - height - verticalMargin;
         } // If something is wrong and left, top, width, height are calculated as NaN
-        isNaN(width) && // Width may be NaN if only one value is given except width
+        left = left || 0, top = top || 0, isNaN(width) && // Width may be NaN if only one value is given except width
         (width = containerWidth - horizontalMargin - left - (right || 0)), isNaN(height) && // Height may be NaN if only one value is given except height
         (height = containerHeight - verticalMargin - top - (bottom || 0));
         var rect = new BoundingRect(left + margin[3], top + margin[0], width, height);
@@ -10272,7 +10272,7 @@
     }
     var SourceImpl = // readonly frozen: boolean;
     function(fields) {
-        this.data = fields.data || (fields.sourceFormat === SOURCE_FORMAT_KEYED_COLUMNS ? {} : []), this.sourceFormat = fields.sourceFormat || SOURCE_FORMAT_UNKNOWN, this.seriesLayoutBy = fields.seriesLayoutBy || SERIES_LAYOUT_BY_COLUMN, this.startIndex = fields.startIndex, this.dimensionsDefine = fields.dimensionsDefine, this.dimensionsDetectedCount = fields.dimensionsDetectedCount, this.encodeDefine = fields.encodeDefine, this.metaRawOption = fields.metaRawOption;
+        this.data = fields.data || (fields.sourceFormat === SOURCE_FORMAT_KEYED_COLUMNS ? {} : []), this.sourceFormat = fields.sourceFormat || SOURCE_FORMAT_UNKNOWN, this.seriesLayoutBy = fields.seriesLayoutBy || SERIES_LAYOUT_BY_COLUMN, this.startIndex = fields.startIndex || 0, this.dimensionsDefine = fields.dimensionsDefine, this.dimensionsDetectedCount = fields.dimensionsDetectedCount, this.encodeDefine = fields.encodeDefine, this.metaRawOption = fields.metaRawOption;
     };
     function isSourceInstance(val) {
         return val instanceof SourceImpl;
@@ -12494,7 +12494,7 @@
             var cptQuery = {}, dataQuery = {}, otherQuery = {};
             if (isString(query)) {
                 var condCptType = parseClassType(query); // `.main` and `.sub` may be ''.
-                cptQuery.mainType = condCptType.main, cptQuery.subType = condCptType.sub;
+                cptQuery.mainType = condCptType.main || null, cptQuery.subType = condCptType.sub || null;
             } else {
                 // `xxxIndex`, `xxxName`, `xxxId`, `name`, `dataIndex`, `dataType` is reserved,
                 // can not be used in `compomentModel.filterForExposedEvent`.
@@ -12819,7 +12819,7 @@
         if (labelLine) {
             defaults(labelLine.style, defaultStyle), labelLine.style.fill = null;
             var showAbove = normalModel.get('showAbove');
-            (targetEl.textGuideLineConfig = targetEl.textGuideLineConfig || {}).showAbove = showAbove, labelLine.buildPath = buildLabelLinePath;
+            (targetEl.textGuideLineConfig = targetEl.textGuideLineConfig || {}).showAbove = showAbove || !1, labelLine.buildPath = buildLabelLinePath;
         }
     }
     function getLabelLineStatesModels(itemModel, labelLineName) {
@@ -13590,7 +13590,7 @@
             }
             var needsRebuild = !0;
             (firstDraw || el.__dirty & Path.SHAPE_CHANGED_BIT || lineDash && !ctxLineDash && hasStroke) && (path.setDPR(ctx.dpr), strokePart ? path.setContext(null) : (path.setContext(ctx), needsRebuild = !1), path.reset(), lineDash && !ctxLineDash && (path.setLineDash(lineDash), path.setLineDashOffset(lineDashOffset)), el.buildPath(path, el.shape, inBatch), path.toStatic(), el.pathUpdated()), needsRebuild && path.rebuildPath(ctx, strokePart ? strokePercent : 1), lineDash && ctxLineDash && (ctx.setLineDash(lineDash), ctx.lineDashOffset = lineDashOffset), !inBatch && (style.strokeFirst ? (hasStroke && doStrokePath(ctx, style), hasFill && doFillPath(ctx, style)) : (hasFill && doFillPath(ctx, style), hasStroke && doStrokePath(ctx, style))), lineDash && ctxLineDash && ctx.setLineDash([]);
-        }(ctx, el, style1, canBatchPath), canBatchPath && (scope.batchFill = style1.fill, scope.batchStroke = style1.stroke)) : el instanceof TSpan ? (3 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 3), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), function(ctx, el, style) {
+        }(ctx, el, style1, canBatchPath), canBatchPath && (scope.batchFill = style1.fill || '', scope.batchStroke = style1.stroke || '')) : el instanceof TSpan ? (3 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 3), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), function(ctx, el, style) {
             var text = style.text;
             if (null != text && (text += ''), text) {
                 ctx.font = style.font || DEFAULT_FONT, ctx.textAlign = style.textAlign, ctx.textBaseline = style.textBaseline;
@@ -15542,7 +15542,7 @@
                     if (el.states && el.states.emphasis && !isElementRemoved(el)) {
                         if (el instanceof Path) {
                             var store, selectState;
-                            (store = getSavedStates(el)).normalFill = el.style.fill, store.normalStroke = el.style.stroke, store.selectFill = (selectState = el.states.select || {}).style && selectState.style.fill, store.selectStroke = selectState.style && selectState.style.stroke;
+                            (store = getSavedStates(el)).normalFill = el.style.fill, store.normalStroke = el.style.stroke, store.selectFill = (selectState = el.states.select || {}).style && selectState.style.fill || null, store.selectStroke = selectState.style && selectState.style.stroke || null;
                         } // Only updated on changed element. In case element is incremental and don't wan't to rerender.
                         // TODO, a more proper way?
                         if (el.__dirty) {
@@ -15884,7 +15884,7 @@
                     var blendMode, chartView = ecIns._chartsMap[seriesModel.__viewId];
                     chartView.__alive = !0;
                     var renderTask = chartView.renderTask;
-                    scheduler.updatePayload(renderTask, payload), clearStates(seriesModel, chartView), dirtyMap && dirtyMap.get(seriesModel.uid) && renderTask.dirty(), renderTask.perform(scheduler.getPerformArgs(renderTask)) && (unfinished = !0), seriesModel.__transientTransitionOpt = null, chartView.group.silent = !!seriesModel.get('silent'), blendMode = seriesModel.get('blendMode'), !env.canvasSupported && blendMode && 'source-over' !== blendMode && console.warn('Only canvas support blendMode'), chartView.group.traverse(function(el) {
+                    scheduler.updatePayload(renderTask, payload), clearStates(seriesModel, chartView), dirtyMap && dirtyMap.get(seriesModel.uid) && renderTask.dirty(), renderTask.perform(scheduler.getPerformArgs(renderTask)) && (unfinished = !0), seriesModel.__transientTransitionOpt = null, chartView.group.silent = !!seriesModel.get('silent'), blendMode = seriesModel.get('blendMode') || null, !env.canvasSupported && blendMode && 'source-over' !== blendMode && console.warn('Only canvas support blendMode'), chartView.group.traverse(function(el) {
                         el.isGroup || // DONT mark the element dirty. In case element is incremental and don't wan't to rerender.
                         (el.style.blend = blendMode), el.eachPendingDisplayable && el.eachPendingDisplayable(function(displayable) {
                             displayable.style.blend = blendMode;
@@ -18029,7 +18029,7 @@
              */ IntervalScale.prototype.getLabel = function(data, opt) {
             if (null == data) return '';
             var precision = opt && opt.precision;
-            return null == precision ? precision = getPrecisionSafe(data.value) : 'auto' === precision && // Should be more precise then tick.
+            return null == precision ? precision = getPrecisionSafe(data.value) || 0 : 'auto' === precision && // Should be more precise then tick.
             (precision = this._intervalPrecision), addCommas(round(data.value, precision, !0));
         }, /**
              * @param splitNumber By default `5`.
@@ -19517,7 +19517,7 @@
                 }(textSvgEl = createElement('text'), 'xml:space', 'preserve'), el.__svgEl = textSvgEl);
                 var font = style.font || DEFAULT_FONT;
                 textSvgEl.style.font = font, textSvgEl.textContent = text, bindStyle(textSvgEl, style, el), setTransform(textSvgEl, el.transform);
-                var x = style.x || 0, y1 = (y = style.y, lineHeight = getLineHeight(font), 'top' === (textBaseline = style.textBaseline) ? y += lineHeight / 2 : 'bottom' === textBaseline && (y -= lineHeight / 2), y), textAlign = TEXT_ALIGN_TO_ANCHOR[style.textAlign] || style.textAlign;
+                var x = style.x || 0, y1 = (y = style.y || 0, lineHeight = getLineHeight(font), 'top' === (textBaseline = style.textBaseline) ? y += lineHeight / 2 : 'bottom' === textBaseline && (y -= lineHeight / 2), y), textAlign = TEXT_ALIGN_TO_ANCHOR[style.textAlign] || style.textAlign;
                 attr(textSvgEl, 'dominant-baseline', 'central'), attr(textSvgEl, 'text-anchor', textAlign), attr(textSvgEl, 'x', x + ''), attr(textSvgEl, 'y', y1 + '');
             }
         }
@@ -19751,7 +19751,7 @@
                     }
                     return key.join(',');
                 }(clipPaths);
-                return isClipPathChanged(clipPaths, prevDisplayable && prevDisplayable.__clipPaths) && (keyDuplicateCount[clipPathKey] = keyDuplicateCount[clipPathKey], keyDuplicateCount[clipPathKey] && (clipPathKey += '-' + keyDuplicateCount[clipPathKey]), keyDuplicateCount[clipPathKey]++), this._refGroups[clipPathKey] || (this._refGroups[clipPathKey] = this.createElement('g'));
+                return isClipPathChanged(clipPaths, prevDisplayable && prevDisplayable.__clipPaths) && (keyDuplicateCount[clipPathKey] = keyDuplicateCount[clipPathKey] || 0, keyDuplicateCount[clipPathKey] && (clipPathKey += '-' + keyDuplicateCount[clipPathKey]), keyDuplicateCount[clipPathKey]++), this._refGroups[clipPathKey] || (this._refGroups[clipPathKey] = this.createElement('g'));
             }
         }, ClippathManager.prototype.update = function(displayable, prevDisplayable) {
             var clipGroup = this._getClipPathGroup(displayable, prevDisplayable);
@@ -20202,7 +20202,7 @@
             brushSingle(ctx, el);
         }, CanvasPainter.prototype._paintList = function(list, prevList, paintAll, redrawId) {
             if (this._redrawId === redrawId) {
-                this._updateLayerStatus(list);
+                paintAll = paintAll || !1, this._updateLayerStatus(list);
                 var _a = this._doPaintList(list, prevList, paintAll), finished = _a.finished, needsRefreshHover = _a.needsRefreshHover;
                 if (this._needsManuallyCompositing && this._compositeManually(), needsRefreshHover && this._paintHoverList(list), finished) this.eachLayer(function(layer) {
                     layer.afterBrush && layer.afterBrush();
@@ -22975,7 +22975,7 @@
             symbolEl.setShape('size', size instanceof Array ? size : [
                 size,
                 size
-            ]), symbolEl.softClipShape = opt.clipShape, symbolEl.symbolProxy = createSymbol(data.getVisual('symbol'), 0, 0, 0, 0), symbolEl.setColor = symbolEl.symbolProxy.setColor;
+            ]), symbolEl.softClipShape = opt.clipShape || null, symbolEl.symbolProxy = createSymbol(data.getVisual('symbol'), 0, 0, 0, 0), symbolEl.setColor = symbolEl.symbolProxy.setColor;
             var extrudeShadow = symbolEl.shape.size[0] < 4;
             symbolEl.useStyle(hostModel.getModel('itemStyle').getItemStyle(extrudeShadow ? [
                 'color',
@@ -23283,7 +23283,7 @@
     }
     var Cartesian = /** @class */ function() {
         function Cartesian(name) {
-            this.type = 'cartesian', this._dimList = [], this._axes = {}, this.name = name;
+            this.type = 'cartesian', this._dimList = [], this._axes = {}, this.name = name || '';
         }
         return Cartesian.prototype.getAxis = function(dim) {
             return this._axes[dim];
@@ -23945,7 +23945,7 @@
                     'start' === nameLocation ? extent[0] - gapSignal * gap : 'end' === nameLocation ? extent[1] + gapSignal * gap : (extent[0] + extent[1]) / 2,
                     isNameLocationCenter(nameLocation) ? opt.labelOffset + nameDirection * gap : 0
                 ], nameRotation = axisModel.get('nameRotate');
-                null != nameRotation && (nameRotation = nameRotation * PI$5 / 180), isNameLocationCenter(nameLocation) ? labelLayout = AxisBuilder.innerTextLayout(opt.rotation, null != nameRotation ? nameRotation : opt.rotation, nameDirection) : (rotation = opt.rotation, rotationDiff = remRadian(nameRotation - rotation), inverse = extent[0] > extent[1], onLeft = 'start' === nameLocation && !inverse || 'start' !== nameLocation && inverse, isRadianAroundZero(rotationDiff - PI$5 / 2) ? (textVerticalAlign = onLeft ? 'bottom' : 'top', textAlign = 'center') : isRadianAroundZero(rotationDiff - 1.5 * PI$5) ? (textVerticalAlign = onLeft ? 'top' : 'bottom', textAlign = 'center') : (textVerticalAlign = 'middle', textAlign = rotationDiff < 1.5 * PI$5 && rotationDiff > PI$5 / 2 ? onLeft ? 'left' : 'right' : onLeft ? 'right' : 'left'), labelLayout = {
+                null != nameRotation && (nameRotation = nameRotation * PI$5 / 180), isNameLocationCenter(nameLocation) ? labelLayout = AxisBuilder.innerTextLayout(opt.rotation, null != nameRotation ? nameRotation : opt.rotation, nameDirection) : (rotation = opt.rotation, rotationDiff = remRadian((nameRotation || 0) - rotation), inverse = extent[0] > extent[1], onLeft = 'start' === nameLocation && !inverse || 'start' !== nameLocation && inverse, isRadianAroundZero(rotationDiff - PI$5 / 2) ? (textVerticalAlign = onLeft ? 'bottom' : 'top', textAlign = 'center') : isRadianAroundZero(rotationDiff - 1.5 * PI$5) ? (textVerticalAlign = onLeft ? 'top' : 'bottom', textAlign = 'center') : (textVerticalAlign = 'middle', textAlign = rotationDiff < 1.5 * PI$5 && rotationDiff > PI$5 / 2 ? onLeft ? 'left' : 'right' : onLeft ? 'right' : 'left'), labelLayout = {
                     rotation: rotationDiff,
                     textAlign: textAlign,
                     textVerticalAlign: textVerticalAlign
@@ -26645,7 +26645,7 @@
                  * besause it may be changed by list.
                  * If dataIndex -1,
                  * this node is logical deleted (filtered) in list.
-                 */ this.dataIndex = -1, this.children = [], this.viewChildren = [], this.isExpand = !1, this.name = name, this.hostTree = hostTree;
+                 */ this.dataIndex = -1, this.children = [], this.viewChildren = [], this.isExpand = !1, this.name = name || '', this.hostTree = hostTree;
         }
         return(/**
              * The node is removed.
@@ -27546,7 +27546,7 @@
                                     'itemStyle'
                                 ]), borderRadius = itemStyleNormalModel.get('borderRadius') || 0, group = giveGraphic('nodeGroup', Group);
                                 if (group) {
-                                    if (parentGroup.add(group), group.x = thisLayout.x, group.y = thisLayout.y, group.markRedraw(), inner$7(group).nodeWidth = thisWidth, inner$7(group).nodeHeight = thisHeight, thisLayout.isAboveViewRoot) return group;
+                                    if (parentGroup.add(group), group.x = thisLayout.x || 0, group.y = thisLayout.y || 0, group.markRedraw(), inner$7(group).nodeWidth = thisWidth, inner$7(group).nodeHeight = thisHeight, thisLayout.isAboveViewRoot) return group;
                                      // Background
                                     var bg = giveGraphic('background', Rect, depth, 20);
                                     bg && // | Procedures in renderNode |
@@ -29175,7 +29175,7 @@
             ];
             symbolOffsetArr[0] = parsePercent$1(symbolOffsetArr[0], symbolSizeArr[0]), symbolOffsetArr[1] = parsePercent$1(retrieve2(symbolOffsetArr[1], symbolOffsetArr[0]), symbolSizeArr[1]);
             var symbolPath = createSymbol(symbolType, -symbolSizeArr[0] / 2 + symbolOffsetArr[0], -symbolSizeArr[1] / 2 + symbolOffsetArr[1], symbolSizeArr[0], symbolSizeArr[1], null, symbolKeepAspect);
-            return symbolPath.__specifiedRotation = null == symbolRotate || isNaN(symbolRotate) ? void 0 : +symbolRotate * Math.PI / 180, symbolPath.name = name, symbolPath;
+            return symbolPath.__specifiedRotation = null == symbolRotate || isNaN(symbolRotate) ? void 0 : +symbolRotate * Math.PI / 180 || 0, symbolPath.name = name, symbolPath;
         }
     }
     function setLinePoints(targetShape, points) {
@@ -29644,7 +29644,7 @@
             this.type = 'graph', this.nodes = [], this.edges = [], this._nodesMap = {}, /**
                  * @type {Object.<string, module:echarts/data/Graph.Edge>}
                  * @private
-                 */ this._edgesMap = {}, this._directed = directed;
+                 */ this._edgesMap = {}, this._directed = directed || !1;
         }
         return(/**
              * If is directed graph
@@ -33530,7 +33530,7 @@
             symbolOffset && (isArray(symbolOffset) || (symbolOffset = [
                 symbolOffset,
                 symbolOffset
-            ]), rippleGroup.x = parsePercent$1(symbolOffset[0], symbolSize1[0]), rippleGroup.y = parsePercent$1(retrieve2(symbolOffset[1], symbolOffset[0]) || 0, symbolSize1[1])), rippleGroup.rotation = (data.getItemVisual(idx, 'symbolRotate') || 0) * Math.PI / 180;
+            ]), rippleGroup.x = parsePercent$1(symbolOffset[0], symbolSize1[0]), rippleGroup.y = parsePercent$1(retrieve2(symbolOffset[1], symbolOffset[0]) || 0, symbolSize1[1])), rippleGroup.rotation = (data.getItemVisual(idx, 'symbolRotate') || 0) * Math.PI / 180 || 0;
             var effectCfg = {};
             effectCfg.showEffectOn = seriesModel.get('showEffectOn'), effectCfg.rippleScale = itemModel.get([
                 'rippleEffect',
@@ -33541,7 +33541,7 @@
             ]), effectCfg.period = 1000 * itemModel.get([
                 'rippleEffect',
                 'period'
-            ]), effectCfg.effectOffset = idx / data.count(), effectCfg.z = seriesModel.getShallow('z'), effectCfg.zlevel = seriesModel.getShallow('zlevel'), effectCfg.symbolType = symbolType, effectCfg.color = color, effectCfg.rippleEffectColor = itemModel.get([
+            ]), effectCfg.effectOffset = idx / data.count(), effectCfg.z = seriesModel.getShallow('z') || 0, effectCfg.zlevel = seriesModel.getShallow('zlevel') || 0, effectCfg.symbolType = symbolType, effectCfg.color = color, effectCfg.rippleEffectColor = itemModel.get([
                 'rippleEffect',
                 'color'
             ]), this.off('mouseover').off('mouseout').off('emphasis').off('normal'), 'render' === effectCfg.showEffectOn ? (this._effectCfg ? this.updateEffectAnimation(effectCfg) : this.startEffectAnimation(effectCfg), this._effectCfg = effectCfg) : (// Not keep old effect config
@@ -34530,7 +34530,7 @@
         ])[categoryDim.index] = parsePercent$1(parsedSymbolSize[categoryDim.index], categorySize), parsedSymbolSize[valueDim.index] = parsePercent$1(parsedSymbolSize[valueDim.index], symbolRepeat ? categorySize : Math.abs(boundingLength)), symbolMeta.symbolSize = parsedSymbolSize, symbolScale = symbolMeta.symbolScale = [
             parsedSymbolSize[0] / symbolPatternSize,
             parsedSymbolSize[1] / symbolPatternSize
-        ], symbolScale[valueDim.index] *= (opt.isHorizontal ? -1 : 1) * pxSign, symbolScale1 = symbolMeta.symbolScale, (valueLineWidth = itemModel.get(BAR_BORDER_WIDTH_QUERY)) && (pathForLineWidth.attr({
+        ], symbolScale[valueDim.index] *= (opt.isHorizontal ? -1 : 1) * pxSign, symbolScale1 = symbolMeta.symbolScale, (valueLineWidth = itemModel.get(BAR_BORDER_WIDTH_QUERY) || 0) && (pathForLineWidth.attr({
             scaleX: symbolScale1[0],
             scaleY: symbolScale1[1],
             rotation: rotation
@@ -37030,7 +37030,7 @@
                     var updatePayload = seriesModel.ecModel.getUpdatePayload();
                     animationPayload = updatePayload && updatePayload.animation;
                 }
-                if (animationPayload) duration = animationPayload.duration, easing = animationPayload.easing || 'cubicOut', delay = animationPayload.delay;
+                if (animationPayload) duration = animationPayload.duration || 0, easing = animationPayload.easing || 'cubicOut', delay = animationPayload.delay || 0;
                 else {
                     easing = seriesModel.get('animationEasingUpdate');
                     var delayOption = seriesModel.get('animationDelayUpdate');
@@ -38177,7 +38177,7 @@
                  * x of polar center
                  */ this.cx = 0, /**
                  * y of polar center
-                 */ this.cy = 0, this._radiusAxis = new RadiusAxis(), this._angleAxis = new AngleAxis(), this.axisPointerEnabled = !0, this.name = name, this._radiusAxis.polar = this._angleAxis.polar = this;
+                 */ this.cy = 0, this._radiusAxis = new RadiusAxis(), this._angleAxis = new AngleAxis(), this.axisPointerEnabled = !0, this.name = name || '', this._radiusAxis.polar = this._angleAxis.polar = this;
         }
         return(/**
              * If contain coord
@@ -39571,7 +39571,7 @@
         }, Calendar.prototype.getNextNDay = function(date, n) {
             return 0 === (n = n || 0) || (date = new Date(this.getDateInfo(date).time)).setDate(date.getDate() + n), this.getDateInfo(date);
         }, Calendar.prototype.update = function(ecModel, api) {
-            this._firstDayOfWeek = +this._model.getModel('dayLabel').get('firstDay'), this._orient = this._model.get('orient'), this._lineWidth = this._model.getModel('itemStyle').getItemStyle().lineWidth, this._rangeInfo = this._getRangeInfo(this._initRangeOption());
+            this._firstDayOfWeek = +this._model.getModel('dayLabel').get('firstDay'), this._orient = this._model.get('orient'), this._lineWidth = this._model.getModel('itemStyle').getItemStyle().lineWidth || 0, this._rangeInfo = this._getRangeInfo(this._initRangeOption());
             var weeks = this._rangeInfo.weeks || 1, whNames = [
                 'width',
                 'height'
@@ -39933,7 +39933,7 @@
                 var elOption = elOptions[i], id = convertOptionIdName(elOption.id, null), el = null != id ? elMap.get(id) : null;
                 if (el && el.isGroup) {
                     var parentEl = el.parent, isParentRoot = parentEl === rootGroup, elInner = inner$e(el), parentElInner = inner$e(parentEl);
-                    elInner.__ecGraphicWidth = parsePercent$1(elInner.__ecGraphicWidthOption, isParentRoot ? apiWidth : parentElInner.__ecGraphicWidth), elInner.__ecGraphicHeight = parsePercent$1(elInner.__ecGraphicHeightOption, isParentRoot ? apiHeight : parentElInner.__ecGraphicHeight);
+                    elInner.__ecGraphicWidth = parsePercent$1(elInner.__ecGraphicWidthOption, isParentRoot ? apiWidth : parentElInner.__ecGraphicWidth) || 0, elInner.__ecGraphicHeight = parsePercent$1(elInner.__ecGraphicHeightOption, isParentRoot ? apiHeight : parentElInner.__ecGraphicHeight) || 0;
                 }
             } // Bottom-up tranvese all elements (consider ec resize) to locate elements.
             for(var i = elOptions.length - 1; i >= 0; i--){
@@ -41945,7 +41945,7 @@
             // FIXME
             // Move this logic to ec main?
             var container = this._container, position = getComputedStyle(container, 'position'), domStyle = container.style;
-            'absolute' !== domStyle.position && 'absolute' !== position && (domStyle.position = 'relative'), tooltipModel.get('alwaysShowContent') && this._moveIfResized(), this.el.className = tooltipModel.get('className');
+            'absolute' !== domStyle.position && 'absolute' !== position && (domStyle.position = 'relative'), tooltipModel.get('alwaysShowContent') && this._moveIfResized(), this.el.className = tooltipModel.get('className') || '';
         // PENDING
         // this.hide();
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
@@ -41960,7 +41960,7 @@
                 var borderName = 'border-' + name, camelCase = toCamelCase(borderName), val = tooltipModel.get(camelCase);
                 null != val && cssText.push(borderName + ':' + val + ('color' === name ? '' : 'px'));
             }), cssText.push((cssText1 = [], fontSize = textStyleModel.get('fontSize'), (color = textStyleModel.getTextColor()) && cssText1.push('color:' + color), cssText1.push('font:' + textStyleModel.getFont()), fontSize // @ts-ignore, leave it to the tooltip refactor.
-             && cssText1.push('line-height:' + Math.round(3 * fontSize / 2) + 'px'), shadowColor1 = textStyleModel.get('textShadowColor'), shadowBlur1 = textStyleModel.get('textShadowBlur'), shadowOffsetX1 = textStyleModel.get('textShadowOffsetX'), shadowOffsetY1 = textStyleModel.get('textShadowOffsetY'), shadowColor1 && shadowBlur1 && cssText1.push('text-shadow:' + shadowOffsetX1 + 'px ' + shadowOffsetY1 + 'px ' + shadowBlur1 + 'px ' + shadowColor1), each([
+             && cssText1.push('line-height:' + Math.round(3 * fontSize / 2) + 'px'), shadowColor1 = textStyleModel.get('textShadowColor'), shadowBlur1 = textStyleModel.get('textShadowBlur') || 0, shadowOffsetX1 = textStyleModel.get('textShadowOffsetX') || 0, shadowOffsetY1 = textStyleModel.get('textShadowOffsetY') || 0, shadowColor1 && shadowBlur1 && cssText1.push('text-shadow:' + shadowOffsetX1 + 'px ' + shadowOffsetY1 + 'px ' + shadowBlur1 + 'px ' + shadowColor1), each([
                 'decoration',
                 'align'
             ], function(name) {
@@ -43747,9 +43747,9 @@
             +symbolSize
         ], opt.scaleX = symbolSize[0] / 2, opt.scaleY = symbolSize[1] / 2;
         var symbolOffset = hostModel.get('symbolOffset');
-        symbolOffset && (opt.x = opt.x, opt.y = opt.y, opt.x += parsePercent$1(symbolOffset[0], symbolSize[0]), opt.y += parsePercent$1(symbolOffset[1], symbolSize[1]));
+        symbolOffset && (opt.x = opt.x || 0, opt.y = opt.y || 0, opt.x += parsePercent$1(symbolOffset[0], symbolSize[0]), opt.y += parsePercent$1(symbolOffset[1], symbolSize[1]));
         var symbolRotate = hostModel.get('symbolRotate');
-        return opt.rotation = (symbolRotate || 0) * Math.PI / 180, symbol.attr(opt), // (1) When symbol.style.strokeNoScale is true and updateTransform is not performed,
+        return opt.rotation = (symbolRotate || 0) * Math.PI / 180 || 0, symbol.attr(opt), // (1) When symbol.style.strokeNoScale is true and updateTransform is not performed,
         // getBoundingRect will return wrong result.
         // (This is supposed to be resolved in zrender, but it is a little difficult to
         // leverage performance and auto updateTransform)
@@ -44201,7 +44201,7 @@
             dataTransform(seriesModel, itemArray[1]),
             extend({}, itemArray[2])
         ]; // Avoid line data type is extended by from(to) data type
-        return normalizedItem[2].type = normalizedItem[2].type, merge(normalizedItem[2], normalizedItem[0]), merge(normalizedItem[2], normalizedItem[1]), normalizedItem;
+        return normalizedItem[2].type = normalizedItem[2].type || null, merge(normalizedItem[2], normalizedItem[0]), merge(normalizedItem[2], normalizedItem[1]), normalizedItem;
     };
     function isInifinity(val) {
         return !isNaN(val) && !isFinite(val);
