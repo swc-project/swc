@@ -1110,6 +1110,10 @@ impl Pure<'_> {
             return;
         }
 
+        if self.ctx.in_delete {
+            return;
+        }
+
         debug_assert_valid(e);
 
         self.optimize_expr_in_bool_ctx(e, true);
