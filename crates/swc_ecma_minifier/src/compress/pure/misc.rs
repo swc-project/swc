@@ -1265,12 +1265,7 @@ impl Pure<'_> {
             }
         }
 
-        if opts.drop_number
-            && (self.options.unused
-                || self.options.dead_code
-                || self.options.collapse_vars
-                || self.options.expr)
-        {
+        if opts.drop_number {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
