@@ -19,6 +19,8 @@ pub(super) struct Ctx {
     pub preserve_block: bool,
 
     pub is_label_body: bool,
+
+    pub in_opt_chain: bool,
 }
 
 impl<'b> Pure<'b> {

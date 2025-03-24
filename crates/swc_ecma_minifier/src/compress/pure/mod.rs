@@ -294,7 +294,11 @@ impl VisitMut for Pure<'_> {
         // Expression simplifier
         match e {
             Expr::Member(..) => {
-                if !(self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign) {
+                if !(self.ctx.in_delete
+                    || self.ctx.is_update_arg
+                    || self.ctx.is_lhs_of_assign
+                    || self.ctx.in_opt_chain)
+                {
                     let mut changed = false;
                     simplify::expr::optimize_member_expr(
                         self.expr_ctx,
@@ -810,6 +814,14 @@ impl VisitMut for Pure<'_> {
         opt_call.args.visit_mut_with(self);
 
         self.eval_spread_array_in_args(&mut opt_call.args);
+    }
+
+    fn visit_mut_opt_chain_expr(&mut self, e: &mut OptChainExpr) {
+        let ctx = Ctx {
+            in_opt_chain: true,
+            ..Default::default()
+        };
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
