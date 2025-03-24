@@ -1879,12 +1879,6 @@
 
 ## [1.7.2] - 2024-07-25
 
-### Bug Fixes
-
-
-
-- **(es/ast)** Accept any case of EsVersion during deserialization ([#9329](https://github.com/swc-project/swc/issues/9329)) ([56da6be](https://github.com/swc-project/swc/commit/56da6be0e9ff9701f4e0dd5e2972539843cde1cf))
-
 ### Documentation
 
 
