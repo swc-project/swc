@@ -96,6 +96,161 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 }
 
 impl Pure<'_> {
+    /// `a = a + 1` => `a += 1`.
+    pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
+            _ => return,
+        };
+
+        // If left operand of a binary expression is not same as lhs, this method has
+        // nothing to do.
+        let (op, right) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**left {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
+                _ => return,
+            },
+            _ => return,
+        };
+
+        // Don't break code for old browsers.
+        match op {
+            BinaryOp::LogicalOr => return,
+            BinaryOp::LogicalAnd => return,
+            BinaryOp::Exp => return,
+            BinaryOp::NullishCoalescing => return,
+            _ => {}
+        }
+
+        let op = match op {
+            BinaryOp::In | BinaryOp::InstanceOf => return,
+
+            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
+                // TODO(kdy1): Check if this is optimizable.
+                return;
+            }
+
+            BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => return,
+
+            BinaryOp::LShift => op!("<<="),
+            BinaryOp::RShift => {
+                op!(">>=")
+            }
+            BinaryOp::ZeroFillRShift => {
+                op!(">>>=")
+            }
+            BinaryOp::Add => {
+                op!("+=")
+            }
+            BinaryOp::Sub => {
+                op!("-=")
+            }
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::Div => {
+                op!("/=")
+            }
+            BinaryOp::Mod => {
+                op!("%=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            BinaryOp::LogicalOr => {
+                op!("||=")
+            }
+            BinaryOp::LogicalAnd => {
+                op!("&&=")
+            }
+            BinaryOp::Exp => {
+                op!("**=")
+            }
+            BinaryOp::NullishCoalescing => {
+                op!("??=")
+            }
+        };
+
+        e.op = op;
+        e.right = right.take();
+        // Now we can compress it to an assignment
+    }
+
+    /// This method does
+    ///
+    /// - `x *= 3` => `x = 3 * x`
+    /// - `x = 3 | x` `x |= 3`
+    /// - `x = 3 & x` => `x &= 3;`
+    /// - `x ^= 3` => `x = 3 ^ x`
+    pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
+            _ => return,
+        };
+
+        let (op, left) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**right {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
+                    // We need this check because a function call like below can change value of
+                    // operand.
+                    //
+                    // x = g() * x;
+
+                    match &**left {
+                        Expr::This(..) | Expr::Ident(..) | Expr::Lit(..) => {}
+                        _ => return,
+                    }
+
+                    (op, left)
+                }
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let op = match op {
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            _ => return,
+        };
+
+        report_change!("Compressing: `e = 3 & e` => `e &= 3`");
+
+        self.changed = true;
+        e.op = op;
+        e.right = left.take();
+    }
+
     pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
         fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
             match p {

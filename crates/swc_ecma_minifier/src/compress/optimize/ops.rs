@@ -212,68 +212,6 @@ impl Optimizer<'_> {
         )
     }
 
-    /// This method does
-    ///
-    /// - `x *= 3` => `x = 3 * x`
-    /// - `x = 3 | x` `x |= 3`
-    /// - `x = 3 & x` => `x &= 3;`
-    /// - `x ^= 3` => `x = 3 ^ x`
-    pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
-        if e.op != op!("=") {
-            return;
-        }
-
-        // TODO: Handle pure properties.
-        let lhs = match &e.left {
-            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
-            _ => return,
-        };
-
-        let (op, left) = match &mut *e.right {
-            Expr::Bin(BinExpr {
-                left, op, right, ..
-            }) => match &**right {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
-                    // We need this check because a function call like below can change value of
-                    // operand.
-                    //
-                    // x = g() * x;
-
-                    match &**left {
-                        Expr::This(..) | Expr::Ident(..) | Expr::Lit(..) => {}
-                        _ => return,
-                    }
-
-                    (op, left)
-                }
-                _ => return,
-            },
-            _ => return,
-        };
-
-        let op = match op {
-            BinaryOp::Mul => {
-                op!("*=")
-            }
-            BinaryOp::BitOr => {
-                op!("|=")
-            }
-            BinaryOp::BitXor => {
-                op!("^=")
-            }
-            BinaryOp::BitAnd => {
-                op!("&=")
-            }
-            _ => return,
-        };
-
-        report_change!("Compressing: `e = 3 & e` => `e &= 3`");
-
-        self.changed = true;
-        e.op = op;
-        e.right = left.take();
-    }
-
     /// Remove meaningless literals in a binary expressions.
     ///
     /// # Parameters

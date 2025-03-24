@@ -205,6 +205,9 @@ impl VisitMut for Pure<'_> {
         }
 
         e.right.visit_mut_with(self);
+
+        self.compress_bin_assignment_to_left(e);
+        self.compress_bin_assignment_to_right(e);
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
