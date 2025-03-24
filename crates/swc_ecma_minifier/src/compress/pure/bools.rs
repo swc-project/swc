@@ -120,7 +120,7 @@ impl Pure<'_> {
             }
 
             Expr::Assign(AssignExpr { right, .. }) => {
-                self.make_bool_short(right, in_bool_ctx, false);
+                self.make_bool_short(right, false, false);
                 return;
             }
 
