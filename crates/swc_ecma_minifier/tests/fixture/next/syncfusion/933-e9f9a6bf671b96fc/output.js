@@ -2689,7 +2689,7 @@
                             fOptions.maximumFractionDigits = util_isUndefined(mval) && fOptions.isPercent ? 0 : mval;
                         }
                         var mfrac = fOptions.minimumFractionDigits, lfrac = fOptions.maximumFractionDigits;
-                        util_isUndefined(mfrac) || util_isUndefined(lfrac) || mfrac > lfrac && (fOptions.maximumFractionDigits = mfrac);
+                        util_isUndefined(mfrac) || util_isUndefined(lfrac) || !(mfrac > lfrac) || (fOptions.maximumFractionDigits = mfrac);
                     }
                     return util_extend(cOptions.nData, fOptions), util_extend(cOptions.pData, fOptions), function(value) {
                         return isNaN(value) ? symbols.nan : isFinite(value) ? _this.intNumberFormatter(value, cOptions, dOptions) : symbols.infinity;
@@ -6895,7 +6895,7 @@
          * @param {MouseEventArgs | TouchEventArgs} evt ?
          * @returns {void} ?
          */ _this.endEvent = function(evt) {
-                        _this.swipeFn(evt), _this.isTouchMoved || 'function' == typeof _this.tap && (_this.trigger('tap', {
+                        _this.swipeFn(evt), _this.isTouchMoved || 'function' != typeof _this.tap || (_this.trigger('tap', {
                             originalEvent: evt,
                             tapCount: ++_this.tapCount
                         }), _this.timeOutTap = setTimeout(function() {
@@ -12140,7 +12140,7 @@
                     var _this = this;
                     if (this.initialRender = !0, this.isBlazorServerRender() || (0, ej2_base /* attributes */ .Y4)(this.element, {
                         role: 'dialog'
-                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), !this.isBlazorServerRender() && (this.setTargetContent(), '' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header) || this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && ((0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || '' !== this.footerTemplate || this.setButton()), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
+                    }), 1000 === this.zIndex ? (this.setzIndex(this.element, !1), this.calculatezIndex = !0) : this.calculatezIndex = !1, this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && (this.headerContent = this.element.getElementsByClassName('e-dlg-header-content')[0]), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.contentEle) && (this.contentEle = this.element.querySelector('#' + this.element.id + '_dialog-content')), !this.isBlazorServerRender() && (this.setTargetContent(), '' === this.header || (0, ej2_base /* isNullOrUndefined */ .le)(this.header) || this.setHeader(), this.renderCloseIcon(), this.setContent(), '' === this.footerTemplate || (0, ej2_base /* isNullOrUndefined */ .le)(this.footerTemplate) ? (0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) || this.setButton() : this.setFooterTemplate()), this.isBlazorServerRender() && !(0, ej2_base /* isNullOrUndefined */ .le)(this.buttons[0].buttonModel) && '' === this.footerTemplate && this.setButton(), this.allowDragging && !(0, ej2_base /* isNullOrUndefined */ .le)(this.headerContent) && this.setAllowDragging(), !this.isBlazorServerRender() && ((0, ej2_base /* attributes */ .Y4)(this.element, {
                         'aria-modal': this.isModal ? 'true' : 'false'
                     }), this.isModal && this.setIsModal()), this.isBlazorServerRender() && (0, ej2_base /* isNullOrUndefined */ .le)(this.dlgContainer)) {
                         this.dlgContainer = this.element.parentElement;
@@ -12652,12 +12652,12 @@
                         };
                         this.closeArgs = eventArgs, this.trigger('beforeClose', eventArgs, function(beforeCloseArgs) {
                             if (!beforeCloseArgs.cancel) {
-                                _this.isModal && ((0, ej2_base /* isNullOrUndefined */ .le)(_this.targetEle) || (0, ej2_base /* removeClass */ .IV)([
+                                _this.isModal && !(0, ej2_base /* isNullOrUndefined */ .le)(_this.targetEle) && (0, ej2_base /* removeClass */ .IV)([
                                     _this.targetEle
                                 ], [
                                     DLG_TARGET,
                                     SCROLL_DISABLED
-                                ])), document.body.classList.contains(DLG_TARGET) && document.body.classList.contains(SCROLL_DISABLED) && (0, ej2_base /* removeClass */ .IV)([
+                                ]), document.body.classList.contains(DLG_TARGET) && document.body.classList.contains(SCROLL_DISABLED) && (0, ej2_base /* removeClass */ .IV)([
                                     document.body
                                 ], [
                                     DLG_TARGET,
@@ -13350,7 +13350,7 @@
                     var allowedKeys = 32 === e.which || 13 === e.which || 8 === e.which || 46 === e.which;
                     ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys || 'Markdown' === this.editorMode && ('shift' !== e.key && !e.ctrlKey && e.key && 1 === e.key.length || allowedKeys) && !this.inlineMode.enable) && this.formatter.onKeyHandler(this, e), (this.inputElement && 0 !== this.inputElement.textContent.length || this.element.querySelectorAll('.e-toolbar-item.e-active').length > 0) && this.notify(constant /* toolbarRefresh */ .l0, {
                         args: e
-                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || ('Enter' !== e.key || 13 !== e.keyCode) && ('<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML) && this.setPlaceHolder();
+                    }), (0, ej2_base /* isNullOrUndefined */ .le)(this.placeholder) || 'Enter' === e.key && 13 === e.keyCode || '<p><br></p>' !== this.inputElement.innerHTML && '<div><br></div>' !== this.inputElement.innerHTML && '<br>' !== this.inputElement.innerHTML || this.setPlaceHolder();
                 }, /**
      * @param {string} value - specifies the value.
      * @returns {void}
@@ -14120,7 +14120,7 @@
      * @hidden
 
      */ RichTextEditor.prototype.contentChanged = function() {
-                    this.autoSaveOnIdle && ((0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) || (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval)));
+                    this.autoSaveOnIdle && !(0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) && (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval));
                 }, /**
      * invokeChangeEvent method
      *
@@ -20955,7 +20955,7 @@
                 }, Uploader.prototype.updateStatus = function(files, status, statusCode, updateLiStatus) {
                     if (void 0 === updateLiStatus && (updateLiStatus = !0), '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || '' === statusCode || (0, ej2_base /* isNullOrUndefined */ .le)(statusCode) || (files.status = status, files.statusCode = statusCode), updateLiStatus) {
                         var li = this.getLiElement(files);
-                        !(0, ej2_base /* isNullOrUndefined */ .le)(li) && ((0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || (li.querySelector('.' + STATUS).textContent = status));
+                        (0, ej2_base /* isNullOrUndefined */ .le)(li) || (0, ej2_base /* isNullOrUndefined */ .le)(li.querySelector('.' + STATUS)) || '' === status || (0, ej2_base /* isNullOrUndefined */ .le)(status) || (li.querySelector('.' + STATUS).textContent = status);
                     }
                     return files;
                 }, Uploader.prototype.getLiElement = function(files) {
@@ -23697,7 +23697,7 @@
                     }
                     if (item.overflow) {
                         var overflow = item.overflow;
-                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' === overflow && (innerEle.classList.contains(CLS_SEPARATOR) || this.add(innerEle, CLS_POPOVERFLOW));
+                        'Show' === overflow ? this.add(innerEle, CLS_TBAROVERFLOW) : 'Hide' !== overflow || innerEle.classList.contains(CLS_SEPARATOR) || this.add(innerEle, CLS_POPOVERFLOW);
                     }
                     return 'Show' !== item.overflow && item.showAlwaysInPopup && !innerEle.classList.contains(CLS_SEPARATOR) && (this.add(innerEle, CLS_POPPRI), this.popupPriCount++), item.disabled && this.add(innerEle, toolbar_CLS_DISABLE), !1 === item.visible && this.add(innerEle, CLS_HIDDEN), innerEle;
                 }, Toolbar.prototype.itemClick = function(e) {
@@ -25087,7 +25087,7 @@
                 }, Tooltip.prototype.touchEnd = function(e) {
                     this.tooltipEle && null === (0, ej2_base /* closest */ .oq)(e.target, '.' + ROOT) && !this.isSticky && this.close();
                 }, Tooltip.prototype.scrollHandler = function(e) {
-                    this.tooltipEle && ((0, ej2_base /* closest */ .oq)(e.target, "." + TOOLTIP_WRAP + "." + POPUP_LIB + "." + POPUP_ROOT) || this.close());
+                    this.tooltipEle && !(0, ej2_base /* closest */ .oq)(e.target, "." + TOOLTIP_WRAP + "." + POPUP_LIB + "." + POPUP_ROOT) && this.close();
                 }, /**
      * Core method that initializes the control rendering.
      *
@@ -26293,7 +26293,7 @@
                                 }
                                 this.handlePos1 = this.preHandlePos1 = handlepos, this.handleVal1 = handleVal, this.activeHandle = 1;
                             }
-                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2))) {
+                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed)) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2)) {
                             if (this.limits.enabled) {
                                 var value = this.getLimitValueAndPosition(handleVal, this.limits.maxStart, this.limits.maxEnd);
                                 handleVal = value[0], handlepos = value[1];

@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
@@ -8,6 +8,36 @@ use super::{DropOpts, Pure};
 use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
+    pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
+        if !self.options.conditionals && !self.options.bools {
+            return;
+        }
+
+        if s.alt.is_some() {
+            return;
+        }
+
+        if let Stmt::If(IfStmt {
+            test,
+            cons,
+            alt: None,
+            ..
+        }) = &mut *s.cons
+        {
+            self.changed = true;
+            report_change!("if_return: Merging nested if statements");
+
+            s.test = BinExpr {
+                span: s.test.span(),
+                op: op!("&&"),
+                left: s.test.take(),
+                right: test.take(),
+            }
+            .into();
+            s.cons = cons.take();
+        }
+    }
+
     pub(super) fn optimize_const_cond(&mut self, e: &mut Expr) {
         let Expr::Cond(cond) = e else {
             return;

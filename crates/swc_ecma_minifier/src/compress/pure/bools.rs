@@ -12,6 +12,35 @@ use crate::{
 };
 
 impl Pure<'_> {
+    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
+        if !self.options.conditionals && !self.options.bools {
+            return;
+        }
+
+        let stmt = match s {
+            Stmt::If(v) => v,
+            _ => return,
+        };
+
+        if stmt.alt.is_none() {
+            if let Stmt::Expr(cons) = &mut *stmt.cons {
+                self.changed = true;
+                report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
+                *s = ExprStmt {
+                    span: stmt.span,
+                    expr: BinExpr {
+                        span: stmt.test.span(),
+                        op: op!("&&"),
+                        left: stmt.test.take(),
+                        right: cons.expr.take(),
+                    }
+                    .into(),
+                }
+                .into();
+            }
+        }
+    }
+
     pub(super) fn make_bool_short(
         &mut self,
         e: &mut Expr,

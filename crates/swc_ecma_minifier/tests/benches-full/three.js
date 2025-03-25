@@ -3211,8 +3211,7 @@ function(global, factory) {
         },
         raycast: function(raycaster, intersects) {
             var geometry = this.geometry, material = this.material, matrixWorld = this.matrixWorld;
-            if (void 0 !== material && (null === geometry.boundingSphere && geometry.computeBoundingSphere(), _sphere.copy(geometry.boundingSphere), _sphere.applyMatrix4(matrixWorld), !1 !== raycaster.ray.intersectsSphere(_sphere))) {
-                if (_inverseMatrix.copy(matrixWorld).invert(), _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix), null !== geometry.boundingBox && !1 === _ray.intersectsBox(geometry.boundingBox)) return;
+            if (void 0 !== material && (null === geometry.boundingSphere && geometry.computeBoundingSphere(), _sphere.copy(geometry.boundingSphere), _sphere.applyMatrix4(matrixWorld), !1 !== raycaster.ray.intersectsSphere(_sphere) && (_inverseMatrix.copy(matrixWorld).invert(), _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix), null === geometry.boundingBox || !1 !== _ray.intersectsBox(geometry.boundingBox)))) {
                 if (geometry.isBufferGeometry) {
                     var index = geometry.index, position = geometry.attributes.position, morphPosition = geometry.morphAttributes.position, morphTargetsRelative = geometry.morphTargetsRelative, uv = geometry.attributes.uv, uv2 = geometry.attributes.uv2, groups = geometry.groups, drawRange = geometry.drawRange;
                     if (null !== index) // indexed buffer geometry
@@ -13194,7 +13193,7 @@ function(global, factory) {
                     hole_unassigned && betterShapeHoles[_sIdx].push(ho);
                 }
                  // console.log("ambiguous: ", ambiguous);
-                toChange.length > 0 && (ambiguous || (newShapeHoles = betterShapeHoles));
+                toChange.length > 0 && !ambiguous && (newShapeHoles = betterShapeHoles);
             }
             for(var _i = 0, il = newShapes.length; _i < il; _i++){
                 tmpShape = newShapes[_i].s, shapes.push(tmpShape), tmpHoles = newShapeHoles[_i];

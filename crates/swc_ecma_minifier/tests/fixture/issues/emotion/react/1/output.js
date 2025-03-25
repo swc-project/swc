@@ -28,11 +28,8 @@
                     // the max length is how many rules we have per style tag, it's 65000 in speedy mode
                     // it's 1 in dev because we insert source maps that map a single rule to a location
                     // and you can only have one source map per style tag
-                    if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
-                        var tag;
-                        this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
-                    }
-                    var tag1 = this.tags[this.tags.length - 1];
+                    this.ctr % (this.isSpeedy ? 65000 : 1) == 0 && this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
+                    var tag, tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
                         var sheet = /*
 
@@ -1083,15 +1080,13 @@
                 var childProps = {
                     ref: setRef,
                     onClick: function(e) {
-                        if (child.props && "function" == typeof child.props.onClick && child.props.onClick(e), !e.defaultPrevented) {
-                            var target, scroll1 = scroll;
-                            "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
-                            router[replace ? "replace" : "push"](href, as, {
-                                shallow: shallow,
-                                locale: locale,
-                                scroll: scroll1
-                            }));
-                        }
+                        var scroll1, target;
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
+                        router[replace ? "replace" : "push"](href, as, {
+                            shallow: shallow,
+                            locale: locale,
+                            scroll: scroll1
+                        })));
                     }
                 };
                 // If child is an <a> tag and doesn't have a href attribute, or if the 'passHref' property is

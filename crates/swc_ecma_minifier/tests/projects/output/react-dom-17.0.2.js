@@ -781,7 +781,7 @@
             // default value provided by the browser. See: #12872
             if (("submit" === type || "reset" === type) && (void 0 === props.value || null === props.value)) return;
             var initialValue = "" + element._wrapperState.initialValue; // Do not assign value if it is already set. This prevents user text input
-            isHydrating || initialValue !== element.value && (element.value = initialValue), // Otherwise, the value attribute is synchronized to the property,
+            isHydrating || initialValue === element.value || (element.value = initialValue), // Otherwise, the value attribute is synchronized to the property,
             // so we assign defaultValue to the same thing as the value property
             // assignment step above.
             element.defaultValue = initialValue;
@@ -3318,9 +3318,9 @@
    * (For IE <=9) Handles a propertychange event, sending a `change` event if
    * the value of the active element has changed.
    */ function handlePropertyChange(nativeEvent) {
-        if ("value" === nativeEvent.propertyName && getInstIfValueChanged(activeElementInst)) {
+        if ("value" === nativeEvent.propertyName) {
             var dispatchQueue;
-            createAndAccumulateChangeEvent(dispatchQueue = [], activeElementInst, nativeEvent, getEventTarget(nativeEvent)), // other events and have it go through ReactBrowserEventEmitter. Since it
+            getInstIfValueChanged(activeElementInst) && (createAndAccumulateChangeEvent(dispatchQueue = [], activeElementInst, nativeEvent, getEventTarget(nativeEvent)), // other events and have it go through ReactBrowserEventEmitter. Since it
             // doesn't, we manually listen for the events and so we have to enqueue and
             // process the abstract event manually.
             //
@@ -3340,7 +3340,7 @@
                 } finally{
                     isInsideEventHandler = !1, finishEventHandler();
                 }
-            }(runEventInBatch, dispatchQueue);
+            }(runEventInBatch, dispatchQueue));
         }
     }
     function handleEventsForInputEventPolyfill(domEventName, target, targetInst) {
@@ -3962,7 +3962,7 @@
                 // could alter all these plugins to work in such ways, but
                 // that might cause other unknown side-effects that we
                 // can't forsee right now.
-                if (!// TODO: we should remove the concept of a "SimpleEventPlugin".
+                (!// TODO: we should remove the concept of a "SimpleEventPlugin".
                 // This is the basic functionality of the event system. All
                 // the other plugins are essentially polyfills. So the plugin
                 // should probably be inlined somewhere and have its logic
@@ -4079,7 +4079,7 @@
                             });
                         }
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) !/**
+                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) && (!/**
    * For almost every interaction we care about, there will be both a top-level
    * `mouseover` and `mouseout` event that occurs. Only use `mouseout` so that
    * we do not extract duplicate events. However, moving the mouse into the
@@ -4330,7 +4330,7 @@
                             }), event.data = chars;
                         }
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
+                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget));
             } // List of events that need to be individually attached to media elements.
             (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags));
         });
@@ -7624,7 +7624,7 @@
                 nextContext = getMaskedContext(workInProgress, nextLegacyUnmaskedContext);
             }
             var getDerivedStateFromProps = ctor.getDerivedStateFromProps, hasNewLifecycles = "function" == typeof getDerivedStateFromProps || "function" == typeof instance.getSnapshotBeforeUpdate;
-            hasNewLifecycles || "function" != typeof instance.UNSAFE_componentWillReceiveProps && "function" != typeof instance.componentWillReceiveProps || (oldProps !== newProps || oldContext !== nextContext) && callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext), hasForceUpdate = !1;
+            hasNewLifecycles || "function" != typeof instance.UNSAFE_componentWillReceiveProps && "function" != typeof instance.componentWillReceiveProps || oldProps === newProps && oldContext === nextContext || callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext), hasForceUpdate = !1;
             var oldState = workInProgress.memoizedState, newState = instance.state = oldState;
             if (processUpdateQueue(workInProgress, newProps, instance, renderLanes), newState = workInProgress.memoizedState, oldProps === newProps && oldState === newState && !hasContextChanged() && !hasForceUpdate) return "function" == typeof instance.componentDidMount && (workInProgress.flags |= 4), !1;
             "function" == typeof getDerivedStateFromProps && (applyDerivedStateFromProps(workInProgress, ctor, getDerivedStateFromProps, newProps), newState = workInProgress.memoizedState);
@@ -7645,7 +7645,7 @@
                 nextContext = getMaskedContext(workInProgress, nextUnmaskedContext);
             }
             var getDerivedStateFromProps = ctor.getDerivedStateFromProps, hasNewLifecycles = "function" == typeof getDerivedStateFromProps || "function" == typeof instance.getSnapshotBeforeUpdate;
-            hasNewLifecycles || "function" != typeof instance.UNSAFE_componentWillReceiveProps && "function" != typeof instance.componentWillReceiveProps || (unresolvedOldProps !== unresolvedNewProps || oldContext !== nextContext) && callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext), hasForceUpdate = !1;
+            hasNewLifecycles || "function" != typeof instance.UNSAFE_componentWillReceiveProps && "function" != typeof instance.componentWillReceiveProps || unresolvedOldProps === unresolvedNewProps && oldContext === nextContext || callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext), hasForceUpdate = !1;
             var oldState = workInProgress.memoizedState, newState = instance.state = oldState;
             if (processUpdateQueue(workInProgress, newProps, instance, renderLanes), newState = workInProgress.memoizedState, unresolvedOldProps === unresolvedNewProps && oldState === newState && !hasContextChanged() && !hasForceUpdate) return "function" == typeof instance.componentDidUpdate && (unresolvedOldProps !== current.memoizedProps || oldState !== current.memoizedState) && (workInProgress.flags |= 4), "function" == typeof instance.getSnapshotBeforeUpdate && (unresolvedOldProps !== current.memoizedProps || oldState !== current.memoizedState) && (workInProgress.flags |= /*                     */ 256), !1;
             "function" == typeof getDerivedStateFromProps && (applyDerivedStateFromProps(workInProgress, ctor, getDerivedStateFromProps, newProps), newState = workInProgress.memoizedState);
@@ -8348,7 +8348,7 @@
                     return reconcileChildren(current, workInProgress, newProps.children, renderLanes), workInProgress.child;
                 }(current, workInProgress, renderLanes);
             case 9:
-                return current1 = current, workInProgress1 = workInProgress, renderLanes1 = renderLanes, void 0 === (context = workInProgress1.type)._context ? context !== context.Consumer && (hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?"))) : context = context._context, "function" != typeof (render = (newProps = workInProgress1.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress1, renderLanes1), newValue1 = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress1, isRendering = !0, newChildren = render(newValue1), isRendering = !1, workInProgress1.flags |= 1, reconcileChildren(current1, workInProgress1, newChildren, renderLanes1), workInProgress1.child;
+                return current1 = current, workInProgress1 = workInProgress, renderLanes1 = renderLanes, void 0 === (context = workInProgress1.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps = workInProgress1.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress1, renderLanes1), newValue1 = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress1, isRendering = !0, newChildren = render(newValue1), isRendering = !1, workInProgress1.flags |= 1, reconcileChildren(current1, workInProgress1, newChildren, renderLanes1), workInProgress1.child;
             case 14:
                 var _type2 = workInProgress.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress.pendingProps);
                 if (workInProgress.type !== workInProgress.elementType) {
@@ -8458,7 +8458,7 @@
                     if (popHydrationState(workInProgress)) // TODO: Move this and createInstance step into the beginPhase
                     // to consolidate.
                     {
-                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                        instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -8658,7 +8658,7 @@
                                     trapClickOnNonInteractiveElement(domElement);
                             }
                             return updatePayload;
-                        }(instance, type1, props, hostContext.namespace), null !== updatePayload || 0) // If changes to the hydrated node need to be applied at the
+                        }(instance, type1, props, hostContext.namespace), (null !== updatePayload || 0) && // If changes to the hydrated node need to be applied at the
                         // commit-phase we mark this as such.
                         markUpdate(workInProgress);
                     } else {
@@ -8702,13 +8702,11 @@
                                         (node.size = props.size);
                                     }
                                 } else domElement = ownerDocument.createElementNS(namespaceURI, type);
-                                return namespaceURI === HTML_NAMESPACE && (isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type))), domElement;
+                                return namespaceURI !== HTML_NAMESPACE || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
                             }(type, props, rootContainerInstance, hostContext.namespace);
                             return hostInst = internalInstanceHandle, domElement[internalInstanceKey] = hostInst, node = domElement, props1 = props, node[internalPropsKey] = props1, domElement;
                         }(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
-                        // (eg DOM renderer supports auto-focus for certain elements).
-                        // Make sure such renderers get scheduled for later work.
-                        appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, !function(domElement, tag, rawProps, rootContainerElement) {
+                        appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, function(domElement, tag, rawProps, rootContainerElement) {
                             var value, props, isCustomComponentTag = isCustomComponent(tag, rawProps);
                             switch(validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
@@ -9214,7 +9212,7 @@
             var instance, error$1 = errorInfo.value, stack = errorInfo.stack;
             this.componentDidCatch(error$1, {
                 componentStack: null !== stack ? stack : ""
-            }), "function" != typeof getDerivedStateFromError && ((1 & fiber.lanes) != 0 || error("%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.", getComponentName(fiber.type) || "Unknown"));
+            }), "function" == typeof getDerivedStateFromError || (1 & fiber.lanes) != 0 || error("%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.", getComponentName(fiber.type) || "Unknown");
         } : update.callback = function() {
             markFailedErrorBoundaryForHotReloading(fiber);
         }, update;
@@ -9491,33 +9489,31 @@
                 if (null != instance) {
                     // Commit the work prepared earlier.
                     var node, props, newProps = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps, type = finishedWork.type, updatePayload = finishedWork.updateQueue; // For hydration we reuse the update path but we treat the oldProps
-                    if (finishedWork.updateQueue = null, null !== updatePayload) {
-                        node = instance, props = newProps, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
-                            "input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps), isCustomComponent(tag, lastRawProps);
-                            // TODO: Handle wasCustomComponentTag
-                            for(var wasMultiple, value, isCustomComponentTag = isCustomComponent(tag, nextRawProps), i = 0; i < updatePayload.length; i += 2){
-                                var propKey = updatePayload[i], propValue = updatePayload[i + 1];
-                                propKey === STYLE ? setValueForStyles(domElement, propValue) : propKey === DANGEROUSLY_SET_INNER_HTML ? setInnerHTML(domElement, propValue) : propKey === CHILDREN ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponentTag);
-                            }
-                            // changed.
-                            switch(tag){
-                                case "input":
-                                    // Update the wrapper around inputs *after* updating props. This has to
-                                    // happen after `updateDOMProperties`. Otherwise HTML5 input validations
-                                    // raise warnings and prevent the new value from being assigned.
-                                    updateWrapper(domElement, nextRawProps);
-                                    break;
-                                case "textarea":
-                                    updateWrapper$1(domElement, nextRawProps);
-                                    break;
-                                case "select":
-                                    // <select> value update needs to occur after <option> children
-                                    // reconciliation
-                                    wasMultiple = domElement._wrapperState.wasMultiple, domElement._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(domElement, !!nextRawProps.multiple, value, !1) : !!nextRawProps.multiple !== wasMultiple && (null != nextRawProps.defaultValue ? updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : // Revert the select back to its default unselected state.
-                                    updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.multiple ? [] : "", !1));
-                            }
-                        }(instance, updatePayload, type, oldProps, newProps);
-                    }
+                    finishedWork.updateQueue = null, null !== updatePayload && (node = instance, props = newProps, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
+                        "input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps), isCustomComponent(tag, lastRawProps);
+                        // TODO: Handle wasCustomComponentTag
+                        for(var wasMultiple, value, isCustomComponentTag = isCustomComponent(tag, nextRawProps), i = 0; i < updatePayload.length; i += 2){
+                            var propKey = updatePayload[i], propValue = updatePayload[i + 1];
+                            propKey === STYLE ? setValueForStyles(domElement, propValue) : propKey === DANGEROUSLY_SET_INNER_HTML ? setInnerHTML(domElement, propValue) : propKey === CHILDREN ? setTextContent(domElement, propValue) : setValueForProperty(domElement, propKey, propValue, isCustomComponentTag);
+                        }
+                        // changed.
+                        switch(tag){
+                            case "input":
+                                // Update the wrapper around inputs *after* updating props. This has to
+                                // happen after `updateDOMProperties`. Otherwise HTML5 input validations
+                                // raise warnings and prevent the new value from being assigned.
+                                updateWrapper(domElement, nextRawProps);
+                                break;
+                            case "textarea":
+                                updateWrapper$1(domElement, nextRawProps);
+                                break;
+                            case "select":
+                                // <select> value update needs to occur after <option> children
+                                // reconciliation
+                                wasMultiple = domElement._wrapperState.wasMultiple, domElement._wrapperState.wasMultiple = !!nextRawProps.multiple, null != (value = nextRawProps.value) ? updateOptions(domElement, !!nextRawProps.multiple, value, !1) : !!nextRawProps.multiple !== wasMultiple && (null != nextRawProps.defaultValue ? updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.defaultValue, !0) : // Revert the select back to its default unselected state.
+                                updateOptions(domElement, !!nextRawProps.multiple, nextRawProps.multiple ? [] : "", !1));
+                        }
+                    }(instance, updatePayload, type, oldProps, newProps));
                 }
                 return;
             case 6:
@@ -9882,12 +9878,11 @@
         return (ensureRootIsScheduled(root, now()), root.callbackNode === originalCallbackNode) ? performConcurrentWorkOnRoot.bind(null, root) : null;
     }
     function markRootSuspended$1(root, suspendedLanes) {
-        // When suspending, we should always exclude lanes that were pinged or (more
+        var suspendedLanes1 = suspendedLanes = // When suspending, we should always exclude lanes that were pinged or (more
         // rarely, since we try to avoid it) updated during the render phase.
         // TODO: Lol maybe there's a better way to factor this besides this
         // obnoxiously named function :)
-        suspendedLanes &= ~workInProgressRootPingedLanes;
-        var suspendedLanes1 = suspendedLanes &= ~workInProgressRootUpdatedLanes;
+        (suspendedLanes &= ~workInProgressRootPingedLanes) & ~workInProgressRootUpdatedLanes;
         root.suspendedLanes |= suspendedLanes1, root.pingedLanes &= ~suspendedLanes1;
         for(var expirationTimes = root.expirationTimes, lanes = suspendedLanes1; lanes > 0;){
             var index = pickArbitraryLaneIndex(lanes), lane = 1 << index;
@@ -10540,9 +10535,9 @@
                         return;
                 }
                 throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
-            }(current, nextEffect), resetCurrentFiber()), (/*                      */ 512 & flags) != 0 && (rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+            }(current, nextEffect), resetCurrentFiber()), (/*                      */ 512 & flags) == 0 || rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
                 return flushPassiveEffects(), null;
-            }))), nextEffect = nextEffect.nextEffect;
+            })), nextEffect = nextEffect.nextEffect;
         }
     }
     function commitMutationEffects(root, renderPriorityLevel) {
@@ -10665,7 +10660,7 @@
                         // (eg DOM renderer may schedule auto-focus for inputs and form controls).
                         // These effects should only be committed when components are first mounted,
                         // aka when there is no current/alternate.
-                        if (null === current && 4 & finishedWork.flags) shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && _instance2.focus();
+                        null === current && 4 & finishedWork.flags && shouldAutoFocusHostComponent(finishedWork.type, finishedWork.memoizedProps) && _instance2.focus();
                         return;
                     case 6:
                     case 4:

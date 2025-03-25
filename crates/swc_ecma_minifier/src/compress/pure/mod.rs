@@ -143,11 +143,12 @@ impl Pure<'_> {
         if self.config.enable_join_vars {
             self.join_vars(stmts);
 
-            #[cfg(debug_assertions)]
-            {
-                stmts.visit_with(&mut AssertValid);
-            }
+            debug_assert_valid(stmts);
         }
+
+        self.break_assignments_in_seqs(stmts);
+
+        debug_assert_valid(stmts);
 
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
@@ -205,6 +206,9 @@ impl VisitMut for Pure<'_> {
         }
 
         e.right.visit_mut_with(self);
+
+        self.compress_bin_assignment_to_left(e);
+        self.compress_bin_assignment_to_right(e);
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
@@ -386,6 +390,19 @@ impl VisitMut for Pure<'_> {
                     }
                 }
             }
+        }
+
+        if let Expr::Bin(bin) = e {
+            let expr = self.optimize_lit_cmp(bin);
+            if let Some(expr) = expr {
+                report_change!("Optimizing: Literal comparison");
+                self.changed = true;
+                *e = expr;
+            }
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
         }
 
         self.eval_nested_tpl(e);
@@ -735,6 +752,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
+        self.merge_nested_if(s);
+
         self.merge_else_if(s);
 
         self.make_bool_short(&mut s.test, true, false);
@@ -916,6 +935,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.exprs.visit_mut_with(self);
 
+        self.shift_void(e);
+
+        self.shift_assignment(e);
+
         let exprs = &e.exprs;
         if maybe_par!(
             exprs.iter().any(|e| e.is_seq()),
@@ -1079,6 +1102,10 @@ impl VisitMut for Pure<'_> {
         debug_assert_valid(s);
 
         self.optimize_switch_stmt(s);
+
+        debug_assert_valid(s);
+
+        self.compress_if_stmt_as_expr(s);
 
         debug_assert_valid(s);
 

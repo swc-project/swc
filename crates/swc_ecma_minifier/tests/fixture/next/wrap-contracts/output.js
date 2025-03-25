@@ -19695,7 +19695,7 @@
                             return -1 === o || (t.pipes.splice(o, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
                         }, Readable.prototype.on = function(e, t) {
                             var r = o.prototype.on.call(this, e, t), n = this._readableState;
-                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" === e && (n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this))), r;
+                            return "data" === e ? (n.readableListening = this.listenerCount("readable") > 0, !1 !== n.flowing && this.resume()) : "readable" !== e || n.endEmitted || n.readableListening || (n.readableListening = n.needReadable = !0, n.flowing = !1, n.emittedReadable = !1, u("on readable", n.length, n.reading), n.length ? emitReadable(this) : n.reading || process.nextTick(nReadingNextTick, this)), r;
                         }, Readable.prototype.addListener = Readable.prototype.on, Readable.prototype.removeListener = function(e, t) {
                             var r = o.prototype.removeListener.call(this, e, t);
                             return "readable" === e && process.nextTick(updateReadableListening, this), r;
@@ -19930,7 +19930,7 @@
                         }
                         function finishMaybe(e, t) {
                             var r = needFinish(t);
-                            if (r && (prefinish(e, t), 0 === t.pendingcb && (t.finished = !0, e.emit("finish"), t.autoDestroy))) {
+                            if (r && (prefinish(e, t), 0 === t.pendingcb) && (t.finished = !0, e.emit("finish"), t.autoDestroy)) {
                                 var n = e._readableState;
                                 (!n || n.autoDestroy && n.endEmitted) && e.destroy();
                             }
