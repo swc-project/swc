@@ -1079,13 +1079,15 @@ where
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
     }
+}
 
-    fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for TsInstantiation {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(n.expr);
-
-        emit!(n.type_args);
+        emit!(self.expr);
+        emit!(self.type_args);
     }
 }
 
