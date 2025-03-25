@@ -9,7 +9,6 @@ use std::{
 };
 
 use anyhow::Result;
-use rayon::prelude::*;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -23,6 +22,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_utils::parallel::Parallel;
+use swc_par_iter::prelude::*;
 use walkdir::WalkDir;
 
 fn main() {
