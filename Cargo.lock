@@ -5870,6 +5870,7 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "par-core",
+ "par-iter",
  "rayon",
  "rustc-hash 2.1.0",
  "ryu-js",
