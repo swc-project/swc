@@ -1,0 +1,9 @@
+[package]
+description = "Fork of rayon, with chili support"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_par_iter"
+repository  = { workspace = true }
+version     = "1.0.0"
+
+[dependencies]
