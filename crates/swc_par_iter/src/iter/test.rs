@@ -12,7 +12,6 @@ use std::{
 
 use rand::{distributions::Standard, Rng, SeedableRng};
 use rand_xorshift::XorShiftRng;
-use rayon_core::*;
 
 use super::*;
 use crate::prelude::*;

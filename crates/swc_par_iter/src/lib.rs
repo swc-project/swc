@@ -117,13 +117,6 @@ mod par_either;
 
 mod compile_fail;
 
-pub use rayon_core::{
-    broadcast, current_num_threads, current_thread_index, in_place_scope, in_place_scope_fifo,
-    join, join_context, max_num_threads, scope, scope_fifo, spawn, spawn_broadcast, spawn_fifo,
-    yield_local, yield_now, BroadcastContext, FnContext, Scope, ScopeFifo, ThreadBuilder,
-    ThreadPool, ThreadPoolBuildError, ThreadPoolBuilder, Yield,
-};
-
 /// We need to transmit raw pointers across threads. It is possible to do this
 /// without any unsafe code by converting pointers to usize or to AtomicPtr<T>
 /// then back to a raw pointer for use. We prefer this approach because code

@@ -21,6 +21,8 @@ use core::{
     ptr, slice,
 };
 
+use swc_parallel::join;
+
 use crate::{
     iter::{IndexedParallelIterator, ParallelIterator},
     slice::ParallelSliceMut,
@@ -645,7 +647,7 @@ where
         // SAFETY: The unsafety below involves indexing an array.
         // For the first one: We already do the bounds checking here with `l < r`.
         // For the second one: We initially have `l == 0` and `r == v.len()` and we
-        // checked that `l < r` at every indexing operation.                    
+        // checked that `l < r` at every indexing operation.
         // From here we know that `r` must be at least `r == l` which was shown to be
         // valid from the first one.
         unsafe {
@@ -713,7 +715,7 @@ where
         // SAFETY: The unsafety below involves indexing an array.
         // For the first one: We already do the bounds checking here with `l < r`.
         // For the second one: We initially have `l == 0` and `r == v.len()` and we
-        // checked that `l < r` at every indexing operation.                    
+        // checked that `l < r` at every indexing operation.
         // From here we know that `r` must be at least `r == l` which was shown to be
         // valid from the first one.
         unsafe {
@@ -981,7 +983,7 @@ where
             }
         } else {
             // Sort the left and right half in parallel.
-            rayon_core::join(
+            join(
                 || recurse(left, is_less, pred, limit),
                 || recurse(right, is_less, Some(pivot), limit),
             );
@@ -1472,7 +1474,7 @@ where
         // See the documentation of SendPtr for a full explanation
         let dest_l = SendPtr(dest);
         let dest_r = SendPtr(dest.add(left_l.len() + right_l.len()));
-        rayon_core::join(
+        join(
             move || par_merge(left_l, right_l, dest_l.get(), is_less),
             move || par_merge(left_r, right_r, dest_r.get(), is_less),
         );
@@ -1576,7 +1578,7 @@ unsafe fn merge_recurse<T, F>(
     // See the documentation of SendPtr for a full explanation
     let v = SendPtr(v);
     let buf = SendPtr(buf);
-    rayon_core::join(
+    join(
         move || merge_recurse(v.get(), buf.get(), left, !into_buf, is_less),
         move || merge_recurse(v.get(), buf.get(), right, !into_buf, is_less),
     );

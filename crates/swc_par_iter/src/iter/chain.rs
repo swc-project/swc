@@ -1,6 +1,6 @@
 use std::iter;
 
-use rayon_core::join;
+use swc_parallel::join;
 
 use super::{plumbing::*, *};
 

@@ -11,7 +11,7 @@ use std::{
     thread::Result as ThreadResult,
 };
 
-use rayon_core::join;
+use swc_parallel::join;
 
 use super::collect_with_consumer;
 use crate::iter::plumbing::*;
