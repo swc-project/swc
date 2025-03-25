@@ -172,5 +172,6 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Atom {
         .replace('\\', "\\\\")
         .replace('`', "\\`")
         .replace("${", "\\${")
-        .replace('\r', "\\r").into()
+        .replace('\r', "\\r")
+        .into()
 }
