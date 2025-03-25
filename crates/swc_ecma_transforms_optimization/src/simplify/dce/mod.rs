@@ -22,7 +22,8 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
-use swc_parallel::merge::{merge_in_parallel, Merge};
+use swc_par_iter::prelude::*;
+use swc_parallel::merge::Merge;
 use thread_local::ThreadLocal;
 use tracing::{debug, span, Level};
 
@@ -1009,53 +1010,10 @@ impl VisitMut for TreeShaker {
             };
             m.visit_with(&mut analyzer);
         }
-        let data = Arc::try_unwrap(data)
-            .map_err(|_| {})
-            .unwrap()
-            .into_iter()
-            .map(|d| d.into_inner())
-            .map(|mut data| {
-                data.subtract_cycles();
-                data
-            })
-            .collect::<Vec<_>>();
-        let mut merged = Data::default();
 
-        for data in data {
-            merged.used_names.extend(data.used_names);
-            merged.entry_ids.extend(data.entry_ids);
-        }
-
-        self.data = Arc::new(merged);
+        self.data = Arc::new(merge_data(data));
 
         m.visit_mut_children_with(self);
-        HELPERS.set(&Helpers::new(true), || {
-            debug_assert_valid(m);
-
-            let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-
-            if self.bindings.is_empty() {
-                self.bindings = Arc::new(collect_decls(&*m))
-            }
-
-            let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
-
-            {
-                let mut analyzer = Analyzer {
-                    config: &self.config,
-                    in_var_decl: false,
-                    scope: Default::default(),
-                    data: data.clone(),
-                    cur_class_id: Default::default(),
-                    cur_fn_id: Default::default(),
-                };
-                m.visit_with(&mut analyzer);
-            }
-
-            self.data = Arc::new(merge_data(data));
-
-            m.visit_mut_children_with(self);
-        })
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
@@ -1297,11 +1255,19 @@ fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
         .map(|d| d.into_inner())
         .collect::<Vec<_>>();
 
-    // merged.subtract_cycles();
-    let mut merged = merge_in_parallel(data);
+    let mut merged = data
+        .into_par_iter()
+        .with_min_len(1)
+        .reduce(Data::default, |mut a, b| {
+            for (k, v) in b.used_names {
+                a.used_names.entry(k).or_default().merge(v);
+            }
+
+            a.entry_ids.extend(b.entry_ids);
+            a
+        });
 
     merged.subtract_cycles();
-
     merged
 }
 
