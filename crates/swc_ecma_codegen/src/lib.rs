@@ -248,6 +248,23 @@ impl MacroNode for ModuleItem {
     }
 }
 
+#[node_impl]
+impl MacroNode for ModuleDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            ModuleDecl::Import(ref d) => emit!(d),
+            ModuleDecl::ExportDecl(ref d) => emit!(d),
+            ModuleDecl::ExportNamed(ref d) => emit!(d),
+            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
+            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
+            ModuleDecl::ExportAll(ref d) => emit!(d),
+            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
+            ModuleDecl::TsImportEquals(ref n) => emit!(n),
+            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+        }
+    }
+}
+
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
