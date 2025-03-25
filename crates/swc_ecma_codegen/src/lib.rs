@@ -1396,7 +1396,7 @@ where
                 if starts_with_alpha_num {
                     space!(self);
                 } else {
-                    formatting_space!()
+                    formatting_space!(self)
                 }
             }
             emit!(node.super_class);
@@ -1604,7 +1604,7 @@ where
                 if n.key.starts_with_alpha_num() {
                     space!(self);
                 } else {
-                    formatting_space!()
+                    formatting_space!(self)
                 }
 
                 emit!(n.key);
@@ -1615,7 +1615,7 @@ where
                 if n.key.starts_with_alpha_num() {
                     space!(self);
                 } else {
-                    formatting_space!()
+                    formatting_space!(self)
                 }
 
                 emit!(n.key);
@@ -2131,7 +2131,7 @@ where
             } else if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
-                formatting_space!()
+                formatting_space!(self)
             }
 
             emit!(node.arg);
@@ -3490,7 +3490,7 @@ where
         if node.body.starts_with_alpha_num() {
             space!(self);
         } else {
-            formatting_space!()
+            formatting_space!(self)
         }
         emit!(node.body);
 
@@ -3554,7 +3554,7 @@ where
             if starts_with_alpha_num {
                 space!(self);
             } else {
-                formatting_space!()
+                formatting_space!(self)
             }
             emit!(n.right);
         }
@@ -3593,7 +3593,7 @@ where
             if starts_with_alpha_num {
                 space!(self);
             } else {
-                formatting_space!()
+                formatting_space!(self)
             }
             emit!(n.right);
         }
