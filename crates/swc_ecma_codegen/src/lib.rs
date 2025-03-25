@@ -180,8 +180,8 @@ static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r
 impl MacroNode for Program {
     fn emit(&mut self, emitter: &mut Macro) {
         match self {
-            Program::Module(ref m) => emit!(m),
-            Program::Script(ref s) => emit!(s),
+            Program::Module(m) => emit!(m),
+            Program::Script(s) => emit!(s),
         }
     }
 }
