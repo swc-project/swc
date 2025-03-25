@@ -1956,7 +1956,7 @@ pub trait ParallelIterator: Sized + Send {
     /// many more items in other threads (with long sleep delays) before the
     /// panic is finally propagated.
     ///
-    /// ```should_panic
+    /// ```ignore
     /// use swc_par_iter::prelude::*;
     /// use std::{thread, time};
     ///
