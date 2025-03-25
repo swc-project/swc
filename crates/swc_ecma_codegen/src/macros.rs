@@ -20,12 +20,6 @@ macro_rules! opt {
     }};
 }
 
-macro_rules! emit {
-    ($emitter:expr, $e:expr) => {{
-        crate::Node::emit_with(&$e, $emitter)?;
-    }};
-}
-
 macro_rules! keyword {
     ($emitter:expr, $span:expr, $s:expr) => {
         $emitter.wr.write_keyword(Some($span), $s)?

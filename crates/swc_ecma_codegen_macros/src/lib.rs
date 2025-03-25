@@ -2,7 +2,7 @@ extern crate proc_macro;
 
 use proc_macro2::TokenStream;
 use swc_macros_common::prelude::*;
-use syn::*;
+use syn::{visit_mut::VisitMut, *};
 
 mod fold;
 
@@ -34,11 +34,14 @@ pub fn node_impl(
 
 /// Returns `(emitter_method, adjuster_method)`
 fn expand_method(src: ImplItemFn) -> ItemImpl {
-    let method_name = src.sig.ident.clone();
-    let block = src.block;
+    let mut emit_block = src.block.clone();
+    let mut adjust_block = src.block;
 
     let last_argument = src.sig.inputs.last().unwrap();
     let node_type = unref_type(fn_arg_to_type(last_argument));
+
+    ReplaceEmit { emit: true }.visit_block_mut(&mut emit_block);
+    ReplaceEmit { emit: false }.visit_block_mut(&mut adjust_block);
 
     parse_quote!(
         impl crate::Node for #node_type {
@@ -47,6 +50,7 @@ fn expand_method(src: ImplItemFn) -> ItemImpl {
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
+                #emit_block
             }
 
             fn adjust_span<W, S>(&mut self, wr: &mut crate::SpanWriter<'_, W, S>) -> Result
@@ -54,6 +58,7 @@ fn expand_method(src: ImplItemFn) -> ItemImpl {
                 W: crate::text_writer::SpannedWriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
+                #adjust_block
             }
         }
     )
@@ -74,3 +79,9 @@ fn unref_type(ty: &Type) -> Type {
         other => other.clone(),
     }
 }
+
+struct ReplaceEmit {
+    emit: bool,
+}
+
+impl VisitMut for ReplaceEmit {}
