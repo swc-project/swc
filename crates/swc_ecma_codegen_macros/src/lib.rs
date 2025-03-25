@@ -1,10 +1,15 @@
 extern crate proc_macro;
 
 use proc_macro2::TokenStream;
+use quote::quote;
 use swc_macros_common::prelude::*;
-use syn::{visit_mut::VisitMut, *};
+use syn::{
+    fold::Fold,
+    parse::{Parse, Parser},
+    token::Token,
+    *,
+};
 
-mod fold;
 ///
 ///
 /// # Example
@@ -58,8 +63,8 @@ fn expand_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
     let mut emit_block = src.block.clone();
     let mut adjust_block = src.block;
 
-    ReplaceEmit { emit: true }.visit_block_mut(&mut emit_block);
-    ReplaceEmit { emit: false }.visit_block_mut(&mut adjust_block);
+    ReplaceEmit { emit: true }.fold_block(&mut emit_block);
+    ReplaceEmit { emit: false }.fold_block(&mut adjust_block);
 
     parse_quote!(
         impl crate::Node for #node_type {
@@ -90,4 +95,31 @@ struct ReplaceEmit {
     emit: bool,
 }
 
-impl VisitMut for ReplaceEmit {}
+impl Fold for ReplaceEmit {
+    fn fold_macro(&mut self, mut i: Macro) -> Macro {
+        let name = i.path.clone().into_token_stream().to_string();
+
+        if "emit" == &*name {
+            let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
+            let args = args.into_pairs().flat_map(|arg| arg.into_token_stream());
+
+            let is_emit = self.emit;
+
+            i.tokens = quote!(emitter, #is_emit, )
+                .into_iter()
+                .chain(args)
+                .collect();
+        }
+
+        i
+    }
+}
+
+fn parse_args<T, P>(tokens: TokenStream) -> Punctuated<T, P>
+where
+    T: Parse,
+    P: Parse + Token,
+{
+    let parser = Punctuated::parse_separated_nonempty;
+    parser.parse2(tokens).expect("failed parse args")
+}
