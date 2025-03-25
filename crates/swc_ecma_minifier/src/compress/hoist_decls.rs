@@ -1,11 +1,10 @@
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_par_iter::prelude::*;
 
 use super::util::drop_invalid_stmts;
 use crate::{
@@ -77,20 +76,10 @@ impl Hoister<'_> {
             PartialOrd::partial_cmp,
         ) || (self.config.hoist_vars
             && if len >= *crate::LIGHT_TASK_PARALLELS {
-                #[cfg(feature = "concurrent")]
-                {
-                    stmts.par_chunks(2).any(|stmts| {
-                        is_hoisted_var_decl_without_init(&stmts[0])
-                            && is_hoisted_var_decl_without_init(&stmts[1])
-                    })
-                }
-                #[cfg(not(feature = "concurrent"))]
-                {
-                    stmts.chunks(2).any(|stmts| {
-                        is_hoisted_var_decl_without_init(&stmts[0])
-                            && is_hoisted_var_decl_without_init(&stmts[1])
-                    })
-                }
+                stmts.par_chunks(2).any(|stmts| {
+                    is_hoisted_var_decl_without_init(&stmts[0])
+                        && is_hoisted_var_decl_without_init(&stmts[1])
+                })
             } else {
                 stmts.windows(2).any(|stmts| {
                     is_hoisted_var_decl_without_init(&stmts[0])
