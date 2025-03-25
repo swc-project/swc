@@ -60,11 +60,8 @@ pub fn node_impl(
 
 /// Returns `(emitter_method, adjuster_method)`
 fn expand_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
-    let mut emit_block = src.block.clone();
-    let mut adjust_block = src.block;
-
-    ReplaceEmit { emit: true }.fold_block(&mut emit_block);
-    ReplaceEmit { emit: false }.fold_block(&mut adjust_block);
+    let emit_block = ReplaceEmit { emit: true }.fold_block(src.block.clone());
+    let adjust_block = ReplaceEmit { emit: false }.fold_block(src.block.clone());
 
     parse_quote!(
         impl crate::Node for #node_type {
