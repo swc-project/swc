@@ -18,7 +18,7 @@ use swc_common::{
     BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::{emitter, node_impl};
 use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
@@ -176,22 +176,19 @@ fn replace_close_inline_script(raw: &str) -> CowStr {
 
 static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
 
+#[node_impl]
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
-    pub fn emit_program(&mut self, node: &Program) -> Result {
+    fn emit_program(&mut self, node: &Program) -> Result {
         match *node {
             Program::Module(ref m) => emit!(m),
             Program::Script(ref s) => emit!(s),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
         }
     }
 
-    #[emitter]
     #[tracing::instrument(skip_all)]
     pub fn emit_module(&mut self, node: &Module) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -215,7 +212,6 @@ where
         }
     }
 
-    #[emitter]
     #[tracing::instrument(skip_all)]
     pub fn emit_script(&mut self, node: &Script) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -239,7 +235,7 @@ where
         }
     }
 
-    #[emitter]
+    #[tracing::instrument(skip_all)]
     pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
         match *node {
@@ -248,7 +244,13 @@ where
         }
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
+}
 
+impl<W, S: SourceMapper> Emitter<'_, W, S>
+where
+    W: WriteJs,
+    S: SourceMapperExt,
+{
     #[emitter]
     fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
