@@ -1,9 +1,7 @@
-use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
-#[cfg(not(feature = "web_spin_lock"))]
-use std::sync::Mutex;
-
-#[cfg(feature = "web_spin_lock")]
-use wasm_sync::Mutex;
+use std::sync::{
+    atomic::{AtomicBool, AtomicUsize, Ordering},
+    Mutex,
+};
 
 use crate::{
     current_num_threads, current_thread_index,
