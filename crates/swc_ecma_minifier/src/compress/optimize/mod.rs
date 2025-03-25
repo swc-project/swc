@@ -2356,10 +2356,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
 
-        self.shift_void(n);
-
-        self.shift_assignment(n);
-
         self.merge_sequences_in_seq_expr(n);
     }
 

@@ -534,63 +534,6 @@ impl Optimizer<'_> {
         self.append_stmts = old_append;
     }
 
-    ///
-    /// - `(path += 'foo', path)` => `(path += 'foo')`
-    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
-        if e.exprs.len() < 2 {
-            return;
-        }
-
-        if let Some(last) = e.exprs.last() {
-            let last_id = match &**last {
-                Expr::Ident(i) => i,
-                _ => return,
-            };
-
-            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) =
-                &*e.exprs[e.exprs.len() - 2]
-            {
-                if let Some(lhs) = assign.left.as_ident() {
-                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
-                        e.exprs.pop();
-                        self.changed = true;
-                        report_change!("sequences: Shifting assignment");
-                    }
-                };
-            }
-        }
-    }
-
-    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
-        if e.exprs.len() < 2 {
-            return;
-        }
-
-        if let Expr::Unary(UnaryExpr {
-            op: op!("void"), ..
-        }) = &*e.exprs[e.exprs.len() - 2]
-        {
-            return;
-        }
-
-        if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(self.ctx.expr_ctx, last) {
-                self.changed = true;
-                report_change!("sequences: Shifting void");
-
-                e.exprs.pop();
-                let last = e.exprs.last_mut().unwrap();
-
-                *last = UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("void"),
-                    arg: last.take(),
-                }
-                .into()
-            }
-        }
-    }
-
     fn seq_exprs_of<'a>(
         &mut self,
         s: &'a mut Stmt,

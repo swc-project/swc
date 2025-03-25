@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 
 use super::Pure;
+use crate::compress::util::is_pure_undefined;
 
 impl Pure<'_> {
     pub(super) fn drop_useless_ident_ref_in_seq(&mut self, seq: &mut SeqExpr) {
@@ -28,6 +29,63 @@ impl Pure<'_> {
                     self.changed = true;
                     seq.exprs.pop();
                 }
+            }
+        }
+    }
+
+    ///
+    /// - `(path += 'foo', path)` => `(path += 'foo')`
+    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+
+        if let Some(last) = e.exprs.last() {
+            let last_id = match &**last {
+                Expr::Ident(i) => i,
+                _ => return,
+            };
+
+            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) =
+                &*e.exprs[e.exprs.len() - 2]
+            {
+                if let Some(lhs) = assign.left.as_ident() {
+                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
+                        e.exprs.pop();
+                        self.changed = true;
+                        report_change!("sequences: Shifting assignment");
+                    }
+                };
+            }
+        }
+    }
+
+    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+
+        if let Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) = &*e.exprs[e.exprs.len() - 2]
+        {
+            return;
+        }
+
+        if let Some(last) = e.exprs.last() {
+            if is_pure_undefined(self.expr_ctx, last) {
+                self.changed = true;
+                report_change!("sequences: Shifting void");
+
+                e.exprs.pop();
+                let last = e.exprs.last_mut().unwrap();
+
+                *last = UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("void"),
+                    arg: last.take(),
+                }
+                .into()
             }
         }
     }

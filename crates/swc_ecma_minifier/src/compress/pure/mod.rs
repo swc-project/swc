@@ -932,6 +932,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
         e.exprs.visit_mut_with(self);
 
+        self.shift_void(e);
+
+        self.shift_assignment(e);
+
         let exprs = &e.exprs;
         if maybe_par!(
             exprs.iter().any(|e| e.is_seq()),
