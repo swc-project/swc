@@ -25,7 +25,7 @@ use crate::debug_assert_valid;
 
 /// Note: This becomes parallel if `concurrent` feature is enabled.
 pub fn dce(config: Config, unresolved_mark: Mark) -> impl Pass + VisitMut + Repeated {
-    crate::dce::dce()
+    crate::dce::dce(SyntaxContext::empty().apply_mark(unresolved_mark))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]

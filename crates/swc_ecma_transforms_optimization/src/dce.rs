@@ -22,13 +22,18 @@ type Id = (Atom, SyntaxContext);
 ///
 /// The algorithm uses a fast, single-pass approach with efficient data
 /// structures for maximum performance.
-pub fn dce() -> impl Pass + VisitMut + Repeated {
-    visit_mut_pass(DeadCodeEliminator::default())
+pub fn dce(unresolved_ctxt: SyntaxContext) -> impl Pass + VisitMut + Repeated {
+    visit_mut_pass(DeadCodeEliminator {
+        unresolved_ctxt,
+        ..Default::default()
+    })
 }
 
 /// Fast dead code eliminator that focuses on performance.
 #[derive(Default)]
 struct DeadCodeEliminator {
+    unresolved_ctxt: SyntaxContext,
+
     /// Tracks variable usage information
     vars: FxHashMap<Id, VarInfo>,
 
@@ -164,7 +169,7 @@ impl DeadCodeEliminator {
         match expr {
             Expr::Lit(..) => true,
             Expr::This(..) => true,
-            Expr::Ident(..) => true,
+            Expr::Ident(i) => i.ctxt == self.unresolved_ctxt,
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.is_pure_expr(left) && self.is_pure_expr(right)
             }
