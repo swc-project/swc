@@ -2,7 +2,12 @@
 #![deny(missing_docs)]
 #![deny(unreachable_pub)]
 #![warn(rust_2018_idioms)]
+#![allow(clippy::all)]
 
+//! Fork of `rayon` to use parallel iterators with chili.
+//!
+//! ---
+//!
 //! Rayon is a data-parallelism library that makes it easy to convert sequential
 //! computations into parallel.
 //!
