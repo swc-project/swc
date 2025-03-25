@@ -1,7 +1,6 @@
 extern crate proc_macro;
 
 use proc_macro2::TokenStream;
-use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{
     fold::Fold,
@@ -98,14 +97,18 @@ impl Fold for ReplaceEmit {
 
         if "emit" == &*name {
             let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
-            let args = args.into_pairs().flat_map(|arg| arg.into_token_stream());
+            let args: TokenStream = args
+                .into_pairs()
+                .flat_map(|arg| arg.into_token_stream())
+                .collect();
 
             let is_emit = self.emit;
 
-            i.tokens = quote!(emitter, #is_emit, )
-                .into_iter()
-                .chain(args)
-                .collect();
+            if is_emit {
+                i = parse_quote!(emit!(emitter, true, #args));
+            } else {
+                i = parse_quote!(emit!(emitter, false, #args));
+            }
         }
 
         i
