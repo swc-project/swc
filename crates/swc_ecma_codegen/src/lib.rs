@@ -236,18 +236,15 @@ impl MacroNode for Script {
     }
 }
 
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-        match *node {
+#[node_impl]
+impl MacroNode for ModuleItem {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        match self {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(ref decl) => emit!(decl),
         }
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
     }
 }
 
