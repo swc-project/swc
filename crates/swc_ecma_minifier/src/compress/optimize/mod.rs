@@ -525,13 +525,6 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.break_assignments_in_seqs(stmts);
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         // stmts.extend(self.append_stmts.drain(..).map(T::from));
 
         drop_invalid_stmts(stmts);

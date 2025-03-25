@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{ExprFactory, StmtLike};
 
 use super::Pure;
 use crate::compress::util::is_pure_undefined;
@@ -88,6 +88,81 @@ impl Pure<'_> {
                 .into()
             }
         }
+    }
+
+    /// Break assignments in sequences.
+    ///
+    /// This may result in less parenthesis.
+    pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        // TODO
+        if true {
+            return;
+        }
+        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(e)) => match &*e.expr {
+                Expr::Seq(seq) => {
+                    seq.exprs.len() > 1
+                        && seq.exprs.iter().all(|expr| {
+                            matches!(&**expr, Expr::Assign(AssignExpr { op: op!("="), .. }))
+                        })
+                }
+                _ => false,
+            },
+
+            _ => false,
+        });
+
+        if !need_work {
+            return;
+        }
+
+        let mut new_stmts = Vec::new();
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::Expr(es)
+                        if match &*es.expr {
+                            Expr::Seq(seq) => {
+                                seq.exprs.len() > 1
+                                    && seq.exprs.iter().all(|expr| {
+                                        matches!(
+                                            &**expr,
+                                            Expr::Assign(AssignExpr { op: op!("="), .. })
+                                        )
+                                    })
+                            }
+                            _ => false,
+                        } =>
+                    {
+                        let span = es.span;
+                        let seq = es.expr.seq().unwrap();
+                        new_stmts.extend(
+                            seq.exprs
+                                .into_iter()
+                                .map(|expr| ExprStmt { span, expr })
+                                .map(Stmt::Expr)
+                                .map(T::from),
+                        );
+                    }
+
+                    _ => {
+                        new_stmts.push(T::from(stmt));
+                    }
+                },
+                Err(stmt) => {
+                    new_stmts.push(stmt);
+                }
+            }
+        }
+        self.changed = true;
+        report_change!(
+            "sequences: Splitted a sequence expression to multiple expression statements"
+        );
+        *stmts = new_stmts;
     }
 
     ///

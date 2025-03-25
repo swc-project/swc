@@ -143,11 +143,12 @@ impl Pure<'_> {
         if self.config.enable_join_vars {
             self.join_vars(stmts);
 
-            #[cfg(debug_assertions)]
-            {
-                stmts.visit_with(&mut AssertValid);
-            }
+            debug_assert_valid(stmts);
         }
+
+        self.break_assignments_in_seqs(stmts);
+
+        debug_assert_valid(stmts);
 
         stmts.retain(|s| !matches!(s.as_stmt(), Some(Stmt::Empty(..))));
     }
