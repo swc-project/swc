@@ -6,6 +6,12 @@ use syn::{visit_mut::VisitMut, *};
 
 mod fold;
 
+/// # `emit!()`.
+///
+/// `emit!()` macro in `#[node_impl]` functions are special.
+///
+/// Those are replaced with `emit_with` and `adjust_span` methods, depending on
+/// the context.
 #[proc_macro_attribute]
 pub fn node_impl(
     _attr: proc_macro::TokenStream,
