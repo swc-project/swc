@@ -19038,7 +19038,7 @@
                                     if ((0 === c || u._offset >= u._chunkSize) && (o = u._chunkSize, u._offset = 0, u._buffer = n.allocUnsafe(u._chunkSize)), 0 === c) {
                                         if (a += i - s, i = s, !f) return !0;
                                         var g = u._handle.write(t, e, a, i, u._buffer, u._offset, u._chunkSize);
-                                        return void (g.callback = b, g.buffer = e);
+                                        return g.callback = b, void (g.buffer = e);
                                     }
                                     if (!f) return !1;
                                     r();

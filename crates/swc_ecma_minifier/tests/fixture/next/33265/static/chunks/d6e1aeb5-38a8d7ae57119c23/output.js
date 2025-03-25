@@ -13800,12 +13800,12 @@
                     } // initial sources
                     if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), player = this, src = sources[0], next = function(middlewareSource, mws) {
                         var tech;
-                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
+                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
-                        }, 0), // this needs a better comment about why this is needed
+                        }, 0), void // this needs a better comment about why this is needed
                         _this14.triggerReady());
                         tech = _this14.tech_, mws.forEach(function(mw) {
                             return mw.setTech && mw.setTech(tech);
@@ -16563,7 +16563,7 @@
                 if ("estimate" === matchedSegment.type) return(// we've run out of retries
                 0 === retryCount ? callback({
                     message: programTime + " is not buffered yet. Try again"
-                }) : void (seekTo(matchedSegment.estimatedStart + mediaOffset), tech.one("seeked", function() {
+                }) : (seekTo(matchedSegment.estimatedStart + mediaOffset), void tech.one("seeked", function() {
                     seekToProgramTime({
                         programTime: programTime,
                         playlist: playlist,
