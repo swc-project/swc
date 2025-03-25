@@ -6206,6 +6206,9 @@ dependencies = [
 [[package]]
 name = "swc_par_iter"
 version = "1.0.0"
+dependencies = [
+ "swc_parallel",
+]
 
 [[package]]
 name = "swc_parallel"
