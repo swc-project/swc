@@ -194,11 +194,11 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.body.is_empty() {
-            srcmap!(node, true);
+            srcmap!(self, node, true);
         }
 
         if let Some(ref shebang) = node.shebang {
-            punct!("#!");
+            punct!(self, "#!");
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
@@ -217,11 +217,11 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.body.is_empty() {
-            srcmap!(node, true);
+            srcmap!(self, node, true);
         }
 
         if let Some(ref shebang) = node.shebang {
-            punct!("#!");
+            punct!(self, "#!");
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
@@ -276,7 +276,7 @@ where
 
     #[emitter]
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         match &n.decl {
             Decl::Class(decl) => {
@@ -284,15 +284,15 @@ where
                     emit!(dec);
                 }
 
-                keyword!("export");
+                keyword!(self, "export");
 
-                space!();
+                space!(self);
                 self.emit_class_decl_inner(decl, true)?;
             }
             _ => {
-                keyword!("export");
+                keyword!(self, "export");
 
-                space!();
+                space!(self);
                 emit!(n.decl);
             }
         }
@@ -300,37 +300,37 @@ where
 
     #[emitter]
     fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("export");
+        keyword!(self, "export");
 
-        space!();
-        keyword!("default");
+        space!(self);
+        keyword!(self, "default");
         {
             let starts_with_alpha_num = n.expr.starts_with_alpha_num();
             if starts_with_alpha_num {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
             emit!(n.expr);
         }
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
     fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("export");
+        keyword!(self, "export");
 
-        space!();
-        keyword!("default");
-        space!();
+        space!(self);
+        keyword!(self, "default");
+        space!(self);
         match n.decl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
@@ -342,24 +342,24 @@ where
     fn emit_import(&mut self, n: &ImportDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("import");
+        keyword!(self, "import");
 
         if n.type_only {
-            space!();
-            keyword!("type");
+            space!(self);
+            keyword!(self, "type");
         }
 
         match n.phase {
             ImportPhase::Evaluation => {}
             ImportPhase::Source => {
-                space!();
-                keyword!("source");
+                space!(self);
+                keyword!(self, "source");
             }
             ImportPhase::Defer => {
-                space!();
-                keyword!("defer");
+                space!(self);
+                keyword!(self, "defer");
             }
         }
 
@@ -369,9 +369,9 @@ where
                 _ => false,
             };
         if starts_with_ident {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
 
         let mut specifiers = Vec::new();
@@ -388,17 +388,17 @@ where
                 }
                 ImportSpecifier::Namespace(ref ns) => {
                     if emitted_default {
-                        punct!(",");
-                        formatting_space!();
+                        punct!(self, ",");
+                        formatting_space!(self);
                     }
 
                     emitted_ns = true;
 
                     assert!(n.specifiers.len() <= 2);
-                    punct!("*");
-                    formatting_space!();
-                    keyword!("as");
-                    space!();
+                    punct!(self, "*");
+                    formatting_space!(self);
+                    keyword!(self, "as");
+                    space!(self);
                     emit!(ns.local);
                 }
             }
@@ -406,66 +406,66 @@ where
 
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
-                space!();
-                keyword!("from");
-                formatting_space!();
+                space!(self);
+                keyword!(self, "from");
+                formatting_space!(self);
             }
         } else {
             if emitted_default {
-                punct!(",");
-                formatting_space!();
+                punct!(self, ",");
+                formatting_space!(self);
             }
 
-            punct!("{");
+            punct!(self, "{");
             self.emit_list(
                 n.span(),
                 Some(&specifiers),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
-            punct!("}");
-            formatting_space!();
+            punct!(self, "}");
+            formatting_space!(self);
 
-            keyword!("from");
-            formatting_space!();
+            keyword!(self, "from");
+            formatting_space!(self);
         }
 
         emit!(n.src);
 
         if let Some(with) = &n.with {
-            formatting_space!();
+            formatting_space!(self);
             if self.cfg.emit_assert_for_import_attributes {
-                keyword!("assert");
+                keyword!(self, "assert");
             } else {
-                keyword!("with")
+                keyword!(self, "with")
             };
-            formatting_space!();
+            formatting_space!(self);
             emit!(with);
         }
 
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
     fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.is_type_only {
-            keyword!("type");
-            space!();
+            keyword!(self, "type");
+            space!(self);
         }
 
         if let Some(ref imported) = node.imported {
             emit!(imported);
-            space!();
-            keyword!("as");
-            space!();
+            space!(self);
+            keyword!(self, "as");
+            space!(self);
         }
 
         emit!(node.local);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -483,45 +483,45 @@ where
     fn emit_namespace_export_specifier(&mut self, node: &ExportNamespaceSpecifier) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("*");
-        formatting_space!();
-        keyword!("as");
-        space!();
+        punct!(self, "*");
+        formatting_space!(self);
+        keyword!(self, "as");
+        space!(self);
         emit!(node.name);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_named_export_specifier(&mut self, node: &ExportNamedSpecifier) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.is_type_only {
-            keyword!("type");
-            space!();
+            keyword!(self, "type");
+            space!(self);
         }
 
         if let Some(exported) = &node.exported {
             emit!(node.orig);
-            space!();
-            keyword!("as");
-            space!();
+            space!(self);
+            keyword!(self, "as");
+            space!(self);
             emit!(exported);
         } else {
             emit!(node.orig);
         }
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_named_export(&mut self, node: &NamedExport) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         struct Specifiers<'a> {
             has_namespace_spec: bool,
@@ -558,93 +558,93 @@ where
             },
         );
 
-        keyword!("export");
+        keyword!(self, "export");
 
         if node.type_only {
-            space!();
-            keyword!("type");
+            space!(self);
+            keyword!(self, "type");
         }
-        formatting_space!();
+        formatting_space!(self);
 
         if let Some(spec) = namespace_spec {
             emit!(spec);
             if has_named_specs {
-                punct!(",");
-                formatting_space!();
+                punct!(self, ",");
+                formatting_space!(self);
             }
         }
         if has_named_specs || !has_namespace_spec {
-            punct!("{");
+            punct!(self, "{");
             self.emit_list(
                 node.span,
                 Some(&named_specs),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
-            punct!("}");
+            punct!(self, "}");
         }
 
         if let Some(ref src) = node.src {
             if has_named_specs || !has_namespace_spec {
-                formatting_space!();
+                formatting_space!(self);
             } else if has_namespace_spec {
-                space!();
+                space!(self);
             }
-            keyword!("from");
-            formatting_space!();
+            keyword!(self, "from");
+            formatting_space!(self);
             emit!(src);
 
             if let Some(with) = &node.with {
-                formatting_space!();
+                formatting_space!(self);
                 if self.cfg.emit_assert_for_import_attributes {
-                    keyword!("assert");
+                    keyword!(self, "assert");
                 } else {
-                    keyword!("with")
+                    keyword!(self, "with")
                 };
-                formatting_space!();
+                formatting_space!(self);
                 emit!(with);
             }
         }
         semi!();
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_export_all(&mut self, node: &ExportAll) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("export");
+        keyword!(self, "export");
 
         if node.type_only {
-            space!();
-            keyword!("type");
-            space!();
+            space!(self);
+            keyword!(self, "type");
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
 
-        punct!("*");
-        formatting_space!();
-        keyword!("from");
-        formatting_space!();
+        punct!(self, "*");
+        formatting_space!(self);
+        keyword!(self, "from");
+        formatting_space!(self);
         emit!(node.src);
 
         if let Some(with) = &node.with {
-            formatting_space!();
+            formatting_space!(self);
             if self.cfg.emit_assert_for_import_attributes {
-                keyword!("assert");
+                keyword!(self, "assert");
             } else {
-                keyword!("with")
+                keyword!(self, "with")
             };
-            formatting_space!();
+            formatting_space!(self);
             emit!(with);
         }
 
         semi!();
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -652,24 +652,24 @@ where
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         match *node {
             Lit::Bool(Bool { value, .. }) => {
                 if value {
-                    keyword!("true")
+                    keyword!(self, "true")
                 } else {
-                    keyword!("false")
+                    keyword!(self, "false")
                 }
             }
-            Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Null(Null { .. }) => keyword!(self, "null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
-                punct!("/");
+                punct!(self, "/");
                 self.wr.write_str(&n.exp)?;
-                punct!("/");
+                punct!(self, "/");
                 self.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
@@ -689,7 +689,7 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if &*node.value == "use strict"
             && node.raw.is_some()
@@ -699,7 +699,7 @@ where
             self.wr
                 .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
 
-            srcmap!(node, false);
+            srcmap!(self, node, false);
 
             return Ok(());
         }
@@ -738,7 +738,7 @@ where
         self.wr.write_str_lit(DUMMY_SP, &value)?;
         self.wr.write_str(quote_str)?;
 
-        // srcmap!(node, false);
+        // srcmap!(self,node, false);
     }
 
     #[emitter]
@@ -771,7 +771,7 @@ where
         let mut striped_raw = None;
         let mut value = String::default();
 
-        srcmap!(self, num, true);
+        srcmap!(self, self, num, true);
 
         if self.cfg.minify {
             if num.value.is_infinite() && num.raw.is_some() {
@@ -921,20 +921,20 @@ where
 
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
-        keyword!(node.span, "super");
+        keyword!(self, node.span, "super");
     }
 
     #[emitter]
     fn emit_import_callee(&mut self, node: &Import) -> Result {
-        keyword!(node.span, "import");
+        keyword!(self, node.span, "import");
         match node.phase {
             ImportPhase::Source => {
-                punct!(".");
-                keyword!("source")
+                punct!(self, ".");
+                keyword!(self, "source")
             }
             ImportPhase::Defer => {
-                punct!(".");
-                keyword!("defer")
+                punct!(self, ".");
+                keyword!(self, "defer")
             }
             _ => {}
         }
@@ -1005,9 +1005,9 @@ where
                     emit!(e.obj);
                 }
                 if n.optional {
-                    punct!("?.");
+                    punct!(self, "?.");
                 } else if !e.prop.is_computed() {
-                    punct!(".");
+                    punct!(self, ".");
                 }
 
                 match &e.prop {
@@ -1021,12 +1021,12 @@ where
                 emit!(e.callee);
 
                 if n.optional {
-                    punct!("?.");
+                    punct!(self, "?.");
                 }
 
-                punct!("(");
+                punct!(self, "(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
-                punct!(")");
+                punct!(self, ")");
             }
         }
     }
@@ -1044,7 +1044,7 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.callee);
 
@@ -1052,11 +1052,11 @@ where
             emit!(type_args);
         }
 
-        punct!("(");
+        punct!(self, "(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
-        punct!(")");
+        punct!(self, ")");
 
-        // srcmap!(node, false);
+        // srcmap!(self,node, false);
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
@@ -1064,9 +1064,9 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(self, self, node, true);
 
-        keyword!(self, "new");
+        keyword!(self, self, "new");
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
@@ -1083,13 +1083,13 @@ where
 
         if let Some(ref args) = node.args {
             if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
-                punct!(self, "(");
+                punct!(self, self, "(");
                 self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-                punct!(self, ")");
+                punct!(self, self, ")");
             }
         }
 
-        // srcmap!(self, node, false);
+        // srcmap!(self,self, node, false);
 
         // if it's false, it means it doesn't come from emit_expr,
         // we need to compensate that
@@ -1109,7 +1109,7 @@ where
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         let mut needs_2dots_for_property_access = false;
 
@@ -1132,12 +1132,12 @@ where
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
-                    punct!(".");
+                    punct!(self, ".");
                 }
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(self, ".");
                 emit!(ident);
             }
             MemberProp::PrivateName(private) => {
@@ -1145,24 +1145,24 @@ where
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
-                    punct!(".");
+                    punct!(self, ".");
                 }
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(self, ".");
                 emit!(private);
             }
         }
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.obj);
 
@@ -1172,7 +1172,7 @@ where
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(self, ".");
                 emit!(i);
             }
         }
@@ -1182,7 +1182,7 @@ where
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         let space = !self.cfg.minify
             || match node.params.as_slice() {
@@ -1191,15 +1191,15 @@ where
             };
 
         if node.is_async {
-            keyword!("async");
+            keyword!(self, "async");
             if space {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
         }
         if node.is_generator {
-            punct!("*")
+            punct!(self, "*")
         }
 
         let parens = !self.cfg.minify
@@ -1211,22 +1211,22 @@ where
         emit!(node.type_params);
 
         if parens {
-            punct!("(");
+            punct!(self, "(");
         }
 
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
         if parens {
-            punct!(")");
+            punct!(self, ")");
         }
 
         if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(self, ":");
+            formatting_space!(self);
             emit!(ty);
-            formatting_space!();
+            formatting_space!(self);
         }
 
-        punct!("=>");
+        punct!(self, "=>");
         emit!(node.body);
     }
 
@@ -1236,12 +1236,12 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         match node.kind {
-            MetaPropKind::ImportMeta => keyword!("import.meta"),
+            MetaPropKind::ImportMeta => keyword!(self, "import.meta"),
 
-            MetaPropKind::NewTarget => keyword!("new.target"),
+            MetaPropKind::NewTarget => keyword!(self, "new.target"),
         }
     }
 
@@ -1249,7 +1249,7 @@ where
     fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         let mut first = true;
         //TODO: Indention
@@ -1257,8 +1257,8 @@ where
             if first {
                 first = false
             } else {
-                punct!(",");
-                formatting_space!();
+                punct!(self, ",");
+                formatting_space!(self);
             }
 
             emit!(e);
@@ -1270,9 +1270,9 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         emit!(node.left);
-        formatting_space!();
+        formatting_space!(self);
         operator!(node.op.as_str());
-        formatting_space!();
+        formatting_space!(self);
         emit!(node.right);
     }
 
@@ -1349,7 +1349,7 @@ where
     fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         {
             let mut left = Some(node);
@@ -1385,34 +1385,34 @@ where
     fn emit_decorator(&mut self, node: &Decorator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("@");
+        punct!(self, "@");
         emit!(node.expr);
         self.wr.write_line()?;
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         for dec in &node.class.decorators {
             emit!(dec);
         }
 
         if node.class.is_abstract {
-            keyword!("abstract");
-            space!();
+            keyword!(self, "abstract");
+            space!(self);
         }
 
-        keyword!("class");
+        keyword!(self, "class");
 
         if let Some(ref i) = node.ident {
-            space!();
+            space!(self);
             emit!(i);
             emit!(node.class.type_params);
         }
@@ -1423,15 +1423,15 @@ where
     #[emitter]
     fn emit_class_trailing(&mut self, node: &Class) -> Result {
         if node.super_class.is_some() {
-            space!();
-            keyword!("extends");
+            space!(self);
+            keyword!(self, "extends");
 
             {
                 let starts_with_alpha_num =
                     node.super_class.as_ref().unwrap().starts_with_alpha_num();
 
                 if starts_with_alpha_num {
-                    space!();
+                    space!(self);
                 } else {
                     formatting_space!()
                 }
@@ -1441,10 +1441,10 @@ where
         }
 
         if !node.implements.is_empty() {
-            space!();
-            keyword!("implements");
+            space!(self);
+            keyword!(self, "implements");
 
-            space!();
+            space!(self);
 
             self.emit_list(
                 node.span,
@@ -1453,14 +1453,14 @@ where
             )?;
         }
 
-        formatting_space!();
+        formatting_space!(self);
 
-        punct!("{");
+        punct!(self, "{");
 
         self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
 
-        srcmap!(node, false, true);
-        punct!("}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
     }
 
     #[emitter]
@@ -1486,38 +1486,38 @@ where
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
-            keyword!("static");
-            space!();
+            keyword!(self, "static");
+            space!(self);
         }
 
         if n.is_abstract {
-            keyword!("abstract");
-            space!();
+            keyword!(self, "abstract");
+            space!(self);
         }
 
         if n.is_override {
-            keyword!("override");
-            space!();
+            keyword!(self, "override");
+            space!(self);
         }
 
-        keyword!("accessor");
-        space!();
+        keyword!(self, "accessor");
+        space!(self);
 
         emit!(n.key);
 
         if let Some(type_ann) = &n.type_ann {
             if n.definite {
-                punct!("!");
+                punct!(self, "!");
             }
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             emit!(type_ann);
         }
 
         if let Some(init) = &n.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(self);
+            punct!(self, "=");
+            formatting_space!(self);
             emit!(init);
         }
 
@@ -1536,33 +1536,33 @@ where
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         if n.is_static {
-            keyword!("static");
-            space!();
+            keyword!(self, "static");
+            space!(self);
         }
         match n.kind {
             MethodKind::Method => {
                 if n.function.is_async {
-                    keyword!("async");
-                    space!();
+                    keyword!(self, "async");
+                    space!(self);
                 }
                 if n.function.is_generator {
-                    punct!("*");
+                    punct!(self, "*");
                 }
 
                 emit!(n.key);
             }
             MethodKind::Getter => {
-                keyword!("get");
-                space!();
+                keyword!(self, "get");
+                space!(self);
 
                 emit!(n.key);
             }
             MethodKind::Setter => {
-                keyword!("set");
-                space!();
+                keyword!(self, "set");
+                space!(self);
 
                 emit!(n.key);
             }
@@ -1576,9 +1576,9 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.value {
-            keyword!(n.span, "true")
+            keyword!(self, n.span, "true")
         } else {
-            keyword!(n.span, "false")
+            keyword!(self, n.span, "false")
         }
     }
 
@@ -1588,7 +1588,7 @@ where
 
         self.emit_leading_comments_of_span(n.key.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         for d in &n.function.decorators {
             emit!(d);
@@ -1597,7 +1597,7 @@ where
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
-            keyword!("static");
+            keyword!(self, "static");
 
             let starts_with_alpha_num = match n.kind {
                 MethodKind::Method => {
@@ -1614,39 +1614,39 @@ where
             };
 
             if starts_with_alpha_num {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
         }
 
         if n.is_abstract {
-            keyword!("abstract");
+            keyword!(self, "abstract");
             space!()
         }
 
         if n.is_override {
-            keyword!("override");
+            keyword!(self, "override");
             space!()
         }
 
         match n.kind {
             MethodKind::Method => {
                 if n.function.is_async {
-                    keyword!("async");
-                    space!();
+                    keyword!(self, "async");
+                    space!(self);
                 }
                 if n.function.is_generator {
-                    punct!("*");
+                    punct!(self, "*");
                 }
 
                 emit!(n.key);
             }
             MethodKind::Getter => {
-                keyword!("get");
+                keyword!(self, "get");
 
                 if n.key.starts_with_alpha_num() {
-                    space!();
+                    space!(self);
                 } else {
                     formatting_space!()
                 }
@@ -1654,10 +1654,10 @@ where
                 emit!(n.key);
             }
             MethodKind::Setter => {
-                keyword!("set");
+                keyword!(self, "set");
 
                 if n.key.starts_with_alpha_num() {
-                    space!();
+                    space!(self);
                 } else {
                     formatting_space!()
                 }
@@ -1667,30 +1667,30 @@ where
         }
 
         if n.is_optional {
-            punct!("?");
+            punct!(self, "?");
         }
 
         if let Some(type_params) = &n.function.type_params {
             emit!(type_params);
         }
 
-        punct!("(");
+        punct!(self, "(");
         self.emit_list(
             n.function.span,
             Some(&n.function.params),
             ListFormat::CommaListElements,
         )?;
 
-        punct!(")");
+        punct!(self, ")");
 
         if let Some(ty) = &n.function.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(self, ":");
+            formatting_space!(self);
             emit!(ty);
         }
 
         if let Some(body) = &n.function.body {
-            formatting_space!();
+            formatting_space!(self);
             emit!(body);
         } else {
             formatting_semi!()
@@ -1701,51 +1701,51 @@ where
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
-            keyword!("static");
-            space!();
+            keyword!(self, "static");
+            space!(self);
         }
 
         if n.is_override {
-            keyword!("override");
+            keyword!(self, "override");
             space!()
         }
 
         if n.readonly {
-            keyword!("readonly");
-            space!();
+            keyword!(self, "readonly");
+            space!(self);
         }
 
         emit!(n.key);
 
         if n.is_optional {
-            punct!("?");
+            punct!(self, "?");
         }
 
         if let Some(type_ann) = &n.type_ann {
             if n.definite {
-                punct!("!");
+                punct!(self, "!");
             }
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             emit!(type_ann);
         }
 
         if let Some(value) = &n.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(self);
+            punct!(self, "=");
+            formatting_space!(self);
 
             if value.is_seq() {
-                punct!("(");
+                punct!(self, "(");
                 emit!(value);
-                punct!(")");
+                punct!(self, ")");
             } else {
                 emit!(value);
             }
@@ -1753,69 +1753,69 @@ where
 
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         for dec in &n.decorators {
             emit!(dec)
         }
 
         if n.declare {
-            keyword!("declare");
-            space!();
+            keyword!(self, "declare");
+            space!(self);
         }
 
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
-            keyword!("static");
-            space!();
+            keyword!(self, "static");
+            space!(self);
         }
 
         if n.is_abstract {
-            keyword!("abstract");
+            keyword!(self, "abstract");
             space!()
         }
 
         if n.is_override {
-            keyword!("override");
+            keyword!(self, "override");
             space!()
         }
 
         if n.readonly {
-            keyword!("readonly");
+            keyword!(self, "readonly");
             space!()
         }
 
         emit!(n.key);
 
         if n.is_optional {
-            punct!("?");
+            punct!(self, "?");
         }
 
         if let Some(ty) = &n.type_ann {
             if n.definite {
-                punct!("!");
+                punct!(self, "!");
             }
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             emit!(ty);
         }
 
         if let Some(v) = &n.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(self);
+            punct!(self, "=");
+            formatting_space!(self);
 
             if v.is_seq() {
-                punct!("(");
+                punct!(self, "(");
                 emit!(v);
-                punct!(")");
+                punct!(self, ")");
             } else {
                 emit!(v);
             }
@@ -1823,15 +1823,15 @@ where
 
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     fn emit_accessibility(&mut self, n: Option<Accessibility>) -> Result {
         if let Some(a) = n {
             match a {
-                Accessibility::Public => keyword!(self, "public"),
-                Accessibility::Protected => keyword!(self, "protected"),
-                Accessibility::Private => keyword!(self, "private"),
+                Accessibility::Public => keyword!(self, self, "public"),
+                Accessibility::Protected => keyword!(self, self, "protected"),
+                Accessibility::Private => keyword!(self, self, "private"),
             }
             space!(self);
         }
@@ -1844,14 +1844,14 @@ where
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         self.emit_accessibility(n.accessibility)?;
 
-        keyword!("constructor");
-        punct!("(");
+        keyword!(self, "constructor");
+        punct!(self, "(");
         self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
+        punct!(self, ")");
 
         if let Some(body) = &n.body {
             emit!(body);
@@ -1864,12 +1864,12 @@ where
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("static");
+        keyword!(self, "static");
         emit!(n.body);
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
@@ -1882,7 +1882,7 @@ where
                 // Source map
                 self.wr.commit_pending_semi()?;
 
-                srcmap!(ident, true);
+                srcmap!(self, ident, true);
 
                 if self.cfg.ascii_only {
                     if self.wr.can_ignore_invalid_unicodes() {
@@ -1913,29 +1913,29 @@ where
 
     #[emitter]
     fn emit_computed_prop_name(&mut self, n: &ComputedPropName) -> Result {
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        punct!("[");
+        punct!(self, "[");
         emit!(n.expr);
-        punct!("]");
+        punct!(self, "]");
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
     fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.test);
-        formatting_space!();
-        punct!("?");
-        formatting_space!();
+        formatting_space!(self);
+        punct!(self, "?");
+        formatting_space!(self);
         emit!(node.cons);
-        formatting_space!();
-        punct!(":");
-        formatting_space!();
+        formatting_space!(self);
+        punct!(self, ":");
+        formatting_space!(self);
         emit!(node.alt);
     }
 
@@ -1945,21 +1945,21 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         if n.function.is_async {
-            keyword!("async");
-            space!();
-            keyword!("function");
+            keyword!(self, "async");
+            space!(self);
+            keyword!(self, "function");
         } else {
-            keyword!("function");
+            keyword!(self, "function");
         }
 
         if n.function.is_generator {
-            punct!("*");
+            punct!(self, "*");
         }
         if let Some(ref i) = n.ident {
-            space!();
+            space!(self);
             emit!(i);
         }
 
@@ -1973,24 +1973,24 @@ where
             emit!(type_params);
         }
 
-        punct!("(");
+        punct!(self, "(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(")");
+        punct!(self, ")");
 
         if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(self, ":");
+            formatting_space!(self);
             emit!(ty);
         }
 
         if let Some(body) = &node.body {
-            formatting_space!();
+            formatting_space!(self);
             self.emit_block_stmt_inner(body, true)?;
         } else {
             semi!();
         }
 
-        // srcmap!(node, false);
+        // srcmap!(self,node, false);
     }
 
     #[emitter]
@@ -2011,7 +2011,7 @@ where
     fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!(node.span, "this");
+        keyword!(self, node.span, "this");
     }
 
     #[emitter]
@@ -2020,23 +2020,23 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("`");
+        punct!(self, "`");
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 emit!(node.quasis[i / 2]);
             } else {
-                punct!("${");
+                punct!(self, "${");
                 emit!(node.exprs[i / 2]);
-                punct!("}");
+                punct!(self, "}");
             }
         }
 
-        punct!("`");
+        punct!(self, "`");
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -2077,7 +2077,7 @@ where
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if let Expr::New(new) = &*node.tag {
             self.emit_new(new, false)?;
@@ -2088,7 +2088,7 @@ where
         emit!(node.type_params);
         self.emit_template_for_tagged_template(&node.tpl)?;
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
@@ -2096,33 +2096,33 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(self, self, node, true);
 
-        punct!(self, "`");
+        punct!(self, self, "`");
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
-                punct!(self, "${");
+                punct!(self, self, "${");
                 emit!(self, node.exprs[i / 2]);
-                punct!(self, "}");
+                punct!(self, self, "}");
             }
         }
 
-        punct!(self, "`");
+        punct!(self, self, "`");
 
-        srcmap!(self, node, false);
+        srcmap!(self, self, node, false);
 
         Ok(())
     }
 
     fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
-        srcmap!(self, node, true);
+        srcmap!(self, self, node, true);
 
         self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
 
-        srcmap!(self, node, false);
+        srcmap!(self, self, node, false);
 
         Ok(())
     }
@@ -2131,24 +2131,24 @@ where
     fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         let need_formatting_space = match n.op {
             op!("typeof") | op!("void") | op!("delete") => {
-                keyword!(n.op.as_str());
+                keyword!(self, n.op.as_str());
 
                 true
             }
             op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
-                punct!(n.op.as_str());
+                punct!(self, n.op.as_str());
                 false
             }
         };
 
         if should_emit_whitespace_before_operand(n) {
-            space!();
+            space!(self);
         } else if need_formatting_space {
-            formatting_space!();
+            formatting_space!(self);
         }
 
         emit!(n.arg);
@@ -2158,7 +2158,7 @@ where
     fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.prefix {
             operator!(node.op.as_str());
@@ -2174,9 +2174,9 @@ where
     fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("yield");
+        keyword!(self, "yield");
         if node.delegate {
             operator!("*");
         }
@@ -2188,7 +2188,7 @@ where
                 .map(|expr| self.has_leading_comment(expr))
                 .unwrap_or(false);
             if need_paren {
-                punct!("(")
+                punct!(self, "(")
             } else if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
@@ -2197,7 +2197,7 @@ where
 
             emit!(node.arg);
             if need_paren {
-                punct!(")")
+                punct!(self, ")")
             }
         }
     }
@@ -2216,7 +2216,7 @@ where
         if let Some(span) = node.spread {
             self.emit_leading_comments_of_span(span, false)?;
 
-            punct!("...");
+            punct!(self, "...");
         }
 
         emit!(node.expr);
@@ -2226,10 +2226,10 @@ where
     fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("await");
-        space!();
+        keyword!(self, "await");
+        space!(self);
 
         emit!(&n.arg);
     }
@@ -2238,27 +2238,27 @@ where
     fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("[");
+        punct!(self, "[");
         let mut format = ListFormat::ArrayLiteralExpressionElements;
         if let Some(None) = node.elems.last() {
             format |= ListFormat::ForceTrailingComma;
         }
 
         self.emit_list(node.span(), Some(&node.elems), format)?;
-        punct!("]");
+        punct!(self, "]");
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("{");
+        punct!(self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.props.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -2280,8 +2280,8 @@ where
             self.wr.write_line()?;
         }
 
-        srcmap!(node, false, true);
-        punct!("}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
     }
 
     #[emitter]
@@ -2308,8 +2308,8 @@ where
         if !key_span.is_dummy() && value_span.is_dummy() {
             self.wr.add_srcmap(key_span.hi)?;
         }
-        punct!(":");
-        formatting_space!();
+        punct!(self, ":");
+        formatting_space!(self);
         if key_span.is_dummy() && !value_span.is_dummy() {
             self.wr.add_srcmap(value_span.lo)?;
         }
@@ -2320,10 +2320,10 @@ where
     fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.key);
-        punct!("=");
+        punct!(self, "=");
         emit!(node.value);
     }
 
@@ -2331,24 +2331,24 @@ where
     fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("get");
+        keyword!(self, "get");
 
         let starts_with_alpha_num = match node.key {
             PropName::Str(_) | PropName::Computed(_) => false,
             _ => true,
         };
         if starts_with_alpha_num {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
         emit!(node.key);
-        formatting_space!();
-        punct!("(");
-        punct!(")");
-        formatting_space!();
+        formatting_space!(self);
+        punct!(self, "(");
+        punct!(self, ")");
+        formatting_space!(self);
         emit!(node.body);
     }
 
@@ -2356,9 +2356,9 @@ where
     fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("set");
+        keyword!(self, "set");
 
         let starts_with_alpha_num = match node.key {
             PropName::Str(_) | PropName::Computed(_) => false,
@@ -2366,25 +2366,25 @@ where
         };
 
         if starts_with_alpha_num {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
 
         emit!(node.key);
-        formatting_space!();
+        formatting_space!(self);
 
-        punct!("(");
+        punct!(self, "(");
         if let Some(this) = &node.this_param {
             emit!(this);
-            punct!(",");
+            punct!(self, ",");
 
-            formatting_space!();
+            formatting_space!(self);
         }
 
         emit!(node.param);
 
-        punct!(")");
+        punct!(self, ")");
 
         emit!(node.body);
     }
@@ -2393,19 +2393,19 @@ where
     fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.function.is_async {
-            keyword!("async");
-            space!();
+            keyword!(self, "async");
+            space!(self);
         }
 
         if node.function.is_generator {
-            punct!("*");
+            punct!(self, "*");
         }
 
         emit!(node.key);
-        formatting_space!();
+        formatting_space!(self);
         // TODO
         self.emit_fn_trailing(&node.function)?;
     }
@@ -2416,25 +2416,25 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("(");
+        punct!(self, "(");
         emit!(node.expr);
 
-        srcmap!(node, false, true);
-        punct!(")");
+        srcmap!(self, node, false, true);
+        punct!(self, ")");
     }
 
     #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        punct!("#");
+        punct!(self, "#");
         self.emit_ident_like(n.span, &n.name, false)?;
 
-        srcmap!(n, false);
+        srcmap!(self, n, false);
     }
 
     #[emitter]
@@ -2442,8 +2442,8 @@ where
         self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
 
         if let Some(ty) = &ident.type_ann {
-            punct!(":");
-            formatting_space!();
+            punct!(self, ":");
+            formatting_space!(self);
             emit!(ty);
         }
 
@@ -2470,7 +2470,7 @@ where
         // Source map
         self.wr.commit_pending_semi()?;
 
-        srcmap!(self, span, true);
+        srcmap!(self, self, span, true);
         // TODO: span
 
         if self.cfg.ascii_only {
@@ -2491,7 +2491,7 @@ where
         }
 
         if optional {
-            punct!(self, "?");
+            punct!(self, self, "?");
         }
 
         // Call emitList directly since it could be an array of
@@ -2652,7 +2652,7 @@ where
             && format.contains(ListFormat::CommaDelimited)
             && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
         {
-            punct!(self, ",");
+            punct!(self, self, ",");
             formatting_space!(self);
         }
 
@@ -2844,13 +2844,13 @@ where
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         self.emit_list(node.span, Some(&node.decorators), ListFormat::Decorators)?;
 
         emit!(node.pat);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -2874,12 +2874,12 @@ where
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        punct!(node.dot3_token, "...");
+        punct!(self, node.dot3_token, "...");
         emit!(node.arg);
 
         if let Some(type_ann) = &node.type_ann {
-            punct!(":");
-            formatting_space!();
+            punct!(self, ":");
+            formatting_space!(self);
             emit!(type_ann);
         }
     }
@@ -2898,12 +2898,12 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("...");
+        punct!(self, "...");
         emit!(node.expr);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -2944,9 +2944,9 @@ where
     fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        punct!("[");
+        punct!(self, "[");
 
         let mut format = ListFormat::ArrayBindingPatternElements;
 
@@ -2955,41 +2955,41 @@ where
         }
 
         self.emit_list(node.span(), Some(&node.elems), format)?;
-        punct!("]");
+        punct!(self, "]");
         if node.optional {
-            punct!("?");
+            punct!(self, "?");
         }
 
         if let Some(type_ann) = &node.type_ann {
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             emit!(type_ann);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.left);
-        formatting_space!();
-        punct!("=");
-        formatting_space!();
+        formatting_space!(self);
+        punct!(self, "=");
+        formatting_space!(self);
         emit!(node.right);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-        punct!("{");
+        srcmap!(self, node, true);
+        punct!(self, "{");
 
         self.emit_list(
             node.span(),
@@ -2997,19 +2997,19 @@ where
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
-        punct!("}");
+        punct!(self, "}");
 
         if node.optional {
-            punct!("?");
+            punct!(self, "?");
         }
 
         if let Some(type_ann) = &node.type_ann {
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             emit!(type_ann);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -3025,31 +3025,31 @@ where
     fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.key);
-        punct!(":");
-        formatting_space!();
+        punct!(self, ":");
+        formatting_space!(self);
         emit!(node.value);
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
     fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.key);
         if let Some(value) = &node.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(self);
+            punct!(self, "=");
+            formatting_space!(self);
             emit!(value);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -3131,9 +3131,9 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if !skip_first_src_map {
-            srcmap!(self, node, true);
+            srcmap!(self, self, node, true);
         }
-        punct!(self, "{");
+        punct!(self, self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -3148,8 +3148,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(self, node, false, true);
-        punct!(self, "}");
+        srcmap!(self, self, node, false, true);
+        punct!(self, self, "}");
 
         Ok(())
     }
@@ -3167,7 +3167,7 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!(node.span, "debugger");
+        keyword!(self, node.span, "debugger");
         semi!();
     }
 
@@ -3175,14 +3175,14 @@ where
     fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("with");
-        formatting_space!();
+        keyword!(self, "with");
+        formatting_space!(self);
 
-        punct!("(");
+        punct!(self, "(");
         emit!(node.obj);
-        punct!(")");
+        punct!(self, ")");
 
         emit!(node.body);
     }
@@ -3327,9 +3327,9 @@ where
 
         self.emit_leading_comments_of_span(n.span, false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("return");
+        keyword!(self, "return");
 
         if let Some(arg) = n.arg.as_deref() {
             let need_paren = n
@@ -3338,16 +3338,16 @@ where
                 .map(|expr| self.has_leading_comment(expr))
                 .unwrap_or(false);
             if need_paren {
-                punct!("(");
+                punct!(self, "(");
             } else if arg.starts_with_alpha_num() {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
 
             emit!(arg);
             if need_paren {
-                punct!(")");
+                punct!(self, ")");
             }
         }
 
@@ -3361,8 +3361,8 @@ where
         emit!(node.label);
 
         // TODO: Comment
-        punct!(":");
-        formatting_space!();
+        punct!(self, ":");
+        formatting_space!(self);
 
         emit!(node.body);
     }
@@ -3371,12 +3371,12 @@ where
     fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("break");
+        keyword!(self, "break");
 
         if let Some(ref label) = n.label {
-            space!();
+            space!(self);
             emit!(label);
         }
 
@@ -3387,12 +3387,12 @@ where
     fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("continue");
+        keyword!(self, "continue");
 
         if let Some(ref label) = n.label {
-            space!();
+            space!(self);
             emit!(label);
         }
 
@@ -3405,15 +3405,15 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("if");
+        keyword!(self, "if");
 
-        formatting_space!();
-        punct!("(");
+        formatting_space!(self);
+        punct!(self, "(");
         emit!(n.test);
-        punct!(")");
-        formatting_space!();
+        punct!(self, ")");
+        formatting_space!(self);
 
         let is_cons_block = match *n.cons {
             Stmt::Block(..) => true,
@@ -3424,13 +3424,13 @@ where
 
         if let Some(ref alt) = n.alt {
             if is_cons_block {
-                formatting_space!();
+                formatting_space!(self);
             }
-            keyword!("else");
+            keyword!(self, "else");
             if alt.starts_with_alpha_num() {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
             emit!(alt);
         }
@@ -3442,38 +3442,38 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("switch");
+        keyword!(self, "switch");
 
-        punct!("(");
+        punct!(self, "(");
         emit!(n.discriminant);
-        punct!(")");
+        punct!(self, ")");
 
-        punct!("{");
+        punct!(self, "{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
 
-        srcmap!(n, false, true);
-        punct!("}");
+        srcmap!(self, n, false, true);
+        punct!(self, "}");
     }
 
     #[emitter]
     fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("catch");
+        keyword!(self, "catch");
 
-        formatting_space!();
+        formatting_space!(self);
 
         if let Some(param) = &n.param {
-            punct!("(");
+            punct!(self, "(");
             emit!(param);
-            punct!(")");
+            punct!(self, ")");
         }
 
-        formatting_space!();
+        formatting_space!(self);
 
         emit!(n.body);
     }
@@ -3482,22 +3482,22 @@ where
     fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
         if let Some(ref test) = n.test {
-            keyword!("case");
+            keyword!(self, "case");
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
 
             emit!(test);
         } else {
-            keyword!("default");
+            keyword!(self, "default");
         }
 
         let emit_as_single_stmt = n.cons.len() == 1 && {
@@ -3511,11 +3511,11 @@ where
 
         let mut format = ListFormat::CaseOrDefaultClauseStatements;
         if emit_as_single_stmt {
-            punct!(":");
-            space!();
+            punct!(self, ":");
+            space!(self);
             format &= !(ListFormat::MultiLine | ListFormat::Indented);
         } else {
-            punct!(":");
+            punct!(self, ":");
         }
         self.emit_list(n.span(), Some(&n.cons), format)?;
     }
@@ -3524,23 +3524,23 @@ where
     fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("throw");
+        keyword!(self, "throw");
 
         {
             let need_paren = self.has_leading_comment(&n.arg);
             if need_paren {
-                punct!("(");
+                punct!(self, "(");
             } else if n.arg.starts_with_alpha_num() {
-                space!();
+                space!(self);
             } else {
-                formatting_space!();
+                formatting_space!(self);
             }
 
             emit!(n.arg);
             if need_paren {
-                punct!(")");
+                punct!(self, ")");
             }
         }
         semi!();
@@ -3553,22 +3553,22 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("try");
+        keyword!(self, "try");
 
-        formatting_space!();
+        formatting_space!(self);
         emit!(n.block);
 
         if let Some(ref catch) = n.handler {
-            formatting_space!();
+            formatting_space!(self);
             emit!(catch);
         }
 
         if let Some(ref finally) = n.finalizer {
-            formatting_space!();
-            keyword!("finally");
-            // space!();
+            formatting_space!(self);
+            keyword!(self, "finally");
+            // space!(self);
             emit!(finally);
         }
     }
@@ -3579,13 +3579,13 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("while");
+        keyword!(self, "while");
 
-        punct!("(");
+        punct!(self, "(");
         emit!(node.test);
-        punct!(")");
+        punct!(self, ")");
 
         emit!(node.body);
     }
@@ -3596,29 +3596,29 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        keyword!("do");
+        keyword!(self, "do");
         if node.body.starts_with_alpha_num() {
-            space!();
+            space!(self);
         } else {
             formatting_space!()
         }
         emit!(node.body);
 
-        keyword!("while");
+        keyword!(self, "while");
 
-        formatting_space!();
+        formatting_space!(self);
 
-        punct!("(");
+        punct!(self, "(");
         emit!(node.test);
-        punct!(")");
+        punct!(self, ")");
 
         if self.cfg.target <= EsVersion::Es5 {
             semi!();
         }
 
-        srcmap!(node, false);
+        srcmap!(self, node, false);
     }
 
     #[emitter]
@@ -3627,17 +3627,17 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("for");
+        keyword!(self, "for");
 
-        punct!("(");
+        punct!(self, "(");
         opt!(n.init);
         self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.test);
         self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.update);
-        punct!(")");
+        punct!(self, ")");
 
         emit!(n.body);
     }
@@ -3648,32 +3648,32 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("for");
+        keyword!(self, "for");
 
-        punct!("(");
+        punct!(self, "(");
         emit!(n.left);
 
         if n.left.ends_with_alpha_num() {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        keyword!("in");
+        keyword!(self, "in");
 
         {
             let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(self);
             } else {
                 formatting_space!()
             }
             emit!(n.right);
         }
 
-        punct!(")");
+        punct!(self, ")");
 
         emit!(n.body);
     }
@@ -3684,35 +3684,35 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, n, true);
 
-        keyword!("for");
+        keyword!(self, "for");
 
         if n.is_await {
-            space!();
-            keyword!("await");
+            space!(self);
+            keyword!(self, "await");
         }
-        formatting_space!();
-        punct!("(");
+        formatting_space!(self);
+        punct!(self, "(");
         emit!(n.left);
         if n.left.ends_with_alpha_num() {
-            space!();
+            space!(self);
         } else {
-            formatting_space!();
+            formatting_space!(self);
         }
-        keyword!("of");
+        keyword!(self, "of");
 
         {
             let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(self);
             } else {
                 formatting_space!()
             }
             emit!(n.right);
         }
-        punct!(")");
+        punct!(self, ")");
         emit!(n.body);
     }
 

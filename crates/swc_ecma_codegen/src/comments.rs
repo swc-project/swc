@@ -16,12 +16,12 @@ macro_rules! write_comments {
                         $e.wr.write_comment(" ")?;
                     }
 
-                    srcmap!($e, cmt, true);
+                    srcmap!(self, $e, cmt, true);
 
                     $e.wr.write_comment("//")?;
                     $e.wr.write_comment(&cmt.text)?;
 
-                    srcmap!($e, cmt, false);
+                    srcmap!(self, $e, cmt, false);
 
                     $e.wr.write_line()?;
                 }
@@ -30,7 +30,7 @@ macro_rules! write_comments {
                         $e.wr.write_comment(" ")?;
                     }
 
-                    srcmap!($e, cmt, true);
+                    srcmap!(self, $e, cmt, true);
 
                     $e.wr.write_comment("/*")?;
                     $e.wr.write_comment(&cmt.text)?;

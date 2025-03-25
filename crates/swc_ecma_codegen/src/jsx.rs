@@ -25,7 +25,7 @@ where
 
     #[emitter]
     fn emit_jsx_opening_element(&mut self, node: &JSXOpeningElement) -> Result {
-        punct!("<");
+        punct!(self, "<");
         emit!(node.name);
 
         if let Some(type_args) = &node.type_args {
@@ -33,7 +33,7 @@ where
         }
 
         if !node.attrs.is_empty() {
-            space!();
+            space!(self);
 
             self.emit_list(
                 node.span(),
@@ -43,9 +43,9 @@ where
         }
 
         if node.self_closing {
-            punct!("/");
+            punct!(self, "/");
         }
-        punct!(">");
+        punct!(self, ">");
     }
 
     #[emitter]
@@ -62,7 +62,7 @@ where
         emit!(node.name);
 
         if let Some(ref value) = node.value {
-            punct!("=");
+            punct!(self, "=");
 
             emit!(value);
         }
@@ -91,9 +91,9 @@ where
         match *node {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
-                punct!("{");
+                punct!(self, "{");
                 emit!(n);
-                punct!("}");
+                punct!(self, "}");
             }
         }
     }
@@ -111,17 +111,17 @@ where
 
     #[emitter]
     fn emit_jsx_spread_child(&mut self, node: &JSXSpreadChild) -> Result {
-        punct!("{");
-        punct!("...");
+        punct!(self, "{");
+        punct!(self, "...");
         emit!(node.expr);
-        punct!("}");
+        punct!(self, "}");
     }
 
     #[emitter]
     fn emit_jsx_expr_container(&mut self, node: &JSXExprContainer) -> Result {
-        punct!("{");
+        punct!(self, "{");
         emit!(node.expr);
-        punct!("}");
+        punct!(self, "}");
     }
 
     #[emitter]
@@ -134,9 +134,9 @@ where
 
     #[emitter]
     fn emit_jsx_closing_element(&mut self, node: &JSXClosingElement) -> Result {
-        punct!("</");
+        punct!(self, "</");
         emit!(node.name);
-        punct!(">");
+        punct!(self, ">");
     }
 
     #[emitter]
@@ -154,18 +154,18 @@ where
 
     #[emitter]
     fn emit_jsx_opening_fragment(&mut self, _: &JSXOpeningFragment) -> Result {
-        punct!("<>")
+        punct!(self, "<>")
     }
 
     #[emitter]
     fn emit_jsx_closing_fragment(&mut self, _: &JSXClosingFragment) -> Result {
-        punct!("</>")
+        punct!(self, "</>")
     }
 
     #[emitter]
     fn emit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) -> Result {
         emit!(node.ns);
-        punct!(":");
+        punct!(self, ":");
         emit!(node.name);
     }
 
@@ -180,7 +180,7 @@ where
     #[emitter]
     fn emit_jsx_member_expr(&mut self, node: &JSXMemberExpr) -> Result {
         emit!(node.obj);
-        punct!(".");
+        punct!(self, ".");
         emit!(node.prop);
     }
 

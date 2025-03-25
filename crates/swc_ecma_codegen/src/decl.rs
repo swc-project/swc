@@ -19,7 +19,7 @@ where
             Decl::Var(ref n) => {
                 self.emit_var_decl_inner(n)?;
                 formatting_semi!();
-                srcmap!(n, false);
+                srcmap!(self, n, false);
             }
             Decl::Using(n) => emit!(n),
             Decl::TsEnum(ref n) => emit!(n),
@@ -39,12 +39,12 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.is_await {
-            keyword!("await");
-            space!();
+            keyword!(self, "await");
+            space!(self);
         }
 
-        keyword!("using");
-        space!();
+        keyword!(self, "using");
+        space!(self);
 
         self.emit_list(
             node.span,
@@ -60,10 +60,10 @@ where
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(self, self, node, true);
 
         if node.declare {
-            keyword!(self, "declare");
+            keyword!(self, self, "declare");
             space!(self);
         }
 
@@ -74,11 +74,11 @@ where
         }
 
         if node.class.is_abstract {
-            keyword!(self, "abstract");
+            keyword!(self, self, "abstract");
             space!(self);
         }
 
-        keyword!(self, "class");
+        keyword!(self, self, "class");
         space!(self);
         emit!(self, node.ident);
         emit!(self, node.class.type_params);
@@ -94,24 +94,24 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         if node.declare {
-            keyword!("declare");
-            space!();
+            keyword!(self, "declare");
+            space!(self);
         }
 
         if node.function.is_async {
-            keyword!("async");
-            space!();
+            keyword!(self, "async");
+            space!(self);
         }
 
-        keyword!("function");
+        keyword!(self, "function");
         if node.function.is_generator {
-            punct!("*");
-            formatting_space!();
+            punct!(self, "*");
+            formatting_space!(self);
         } else {
-            space!();
+            space!(self);
         }
 
         emit!(node.ident);
@@ -129,14 +129,14 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(self, node, true);
+        srcmap!(self, self, node, true);
 
         if node.declare {
-            keyword!(self, "declare");
+            keyword!(self, self, "declare");
             space!(self);
         }
 
-        keyword!(self, node.kind.as_str());
+        keyword!(self, self, node.kind.as_str());
 
         let starts_with_ident = match node.decls.first() {
             Some(VarDeclarator {
@@ -164,14 +164,14 @@ where
     fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
         emit!(node.name);
 
         if let Some(ref init) = node.init {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(self);
+            punct!(self, "=");
+            formatting_space!(self);
             emit!(init);
         }
     }
