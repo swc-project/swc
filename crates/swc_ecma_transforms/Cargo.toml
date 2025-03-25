@@ -33,7 +33,7 @@ stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
-par_core = { version = "1", default-features = false }
+par-core = { version = "1", default-features = false }
 
 swc_atoms                        = { version = "5.0.0", path = "../swc_atoms" }
 swc_common                       = { version = "8.0.1", path = "../swc_common" }
@@ -50,7 +50,7 @@ swc_ecma_visit                   = { version = "8.0.0", path = "../swc_ecma_visi
 
 
 [dev-dependencies]
-par_core          = { version = "1", features = ["chili"] }
+par-core          = { version = "1", features = ["chili"] }
 pretty_assertions = { workspace = true }
 sourcemap         = { workspace = true }
 tempfile          = { workspace = true }

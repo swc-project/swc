@@ -15,7 +15,7 @@ bench = false
 [dependencies]
 auto_impl   = { workspace = true }
 dashmap     = { workspace = true }
-par_core    = { version = "1", default-features = false }
+par-core    = { version = "1", default-features = false }
 parking_lot = { workspace = true }
 regex       = { workspace = true }
 rustc-hash  = { workspace = true }

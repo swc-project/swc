@@ -21,7 +21,7 @@ better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
 bitflags          = { workspace = true }
 indexmap          = { workspace = true }
 once_cell         = { workspace = true }
-par_core          = { version = "1", default-features = false }
+par-core          = { version = "1", default-features = false }
 phf               = { workspace = true, features = ["macros"] }
 rayon             = { workspace = true, optional = true }
 rustc-hash        = { workspace = true }
@@ -39,7 +39,7 @@ swc_ecma_visit  = { version = "8.0.0", path = "../swc_ecma_visit" }
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
-par_core                  = { version = "1", features = ["chili"] }
+par-core                  = { version = "1", features = ["chili"] }
 rayon                     = { workspace = true }
 
 swc_ecma_codegen           = { version = "8.0.2", path = "../swc_ecma_codegen" }

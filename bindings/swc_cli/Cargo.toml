@@ -19,5 +19,5 @@ plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
 anyhow       = { workspace = true }
-par_core     = { workspace = true, features = ["chili"] }
+par-core     = { workspace = true, features = ["chili"] }
 swc_cli_impl = { workspace = true }

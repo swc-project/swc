@@ -27,7 +27,7 @@ plugin = [
 anyhow             = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
-par_core           = { version = "1", features = ["chili"] }
+par-core           = { version = "1", features = ["chili"] }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
 rayon              = { workspace = true }
 relative-path      = { workspace = true }

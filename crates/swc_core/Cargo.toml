@@ -222,9 +222,9 @@ plugin_transform_host_native_shared_runtime = [
 ]
 
 # Enable parallel execution of various modules, including minifier using chili
-parallel_chili = ["par_core/chili"]
+parallel_chili = ["par-core/chili"]
 # Enable parallel execution of various modules, including minifier using rayon
-parallel_rayon = ["par_core/rayon"]
+parallel_rayon = ["par-core/rayon"]
 
 ### Internal features that public features are relying on.
 ### This is not supposed to be used directly, and does not gaurantee
@@ -341,7 +341,7 @@ __visit = ["__ecma", "swc_ecma_visit"]
 [dependencies]
 # 3rd party dependencies
 once_cell = { workspace = true, optional = true }
-par_core  = { optional = true, version = "1", default-features = false }
+par-core  = { optional = true, version = "1", default-features = false }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "16.0.0", path = "../binding_macros" }
