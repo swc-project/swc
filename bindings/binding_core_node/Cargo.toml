@@ -38,6 +38,7 @@ backtrace          = { workspace = true }
 napi               = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive        = { workspace = true, features = ["type-def"] }
 node_macro_deps    = { path = "../node_macro_deps" }
+par_core           = { workspace = true, features = ["chili"] }
 path-clean         = { workspace = true }
 rustc-hash         = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
@@ -62,4 +63,3 @@ swc_core = { workspace = true, features = [
   "base_concurrent",
 ] }
 swc_malloc = { workspace = true }
-swc_parallel = { workspace = true, features = ["chili"] }
