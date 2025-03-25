@@ -12,7 +12,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helpers::{Helpers, HELPERS},
-    perf::{cpu_count, ParVisit, Parallel},
+    perf::{cpu_count, Parallel},
 };
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
@@ -414,6 +414,13 @@ impl Analyzer<'_> {
         } else {
             data.used_names.entry(id).or_default().usage += 1;
         }
+    }
+
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>,
+    {
+        self.maybe_par(threshold, nodes, |v, n| n.visit_with(v));
     }
 }
 
