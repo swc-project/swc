@@ -5,8 +5,23 @@ use swc_macros_common::prelude::*;
 use syn::{visit_mut::VisitMut, *};
 
 mod fold;
-
-/// # `emit!()`.
+///
+///
+/// # Example
+///
+/// ```
+/// impl MacroNode for ParamOrTsParamProp {
+///     fn emit(&mut self, emitter: &mut Macro) -> Result {
+///         match self {
+///             ParamOrTsParamProp::Param(n) => emit!(n),
+///             ParamOrTsParamProp::TsParamProp(n) => emit!(n),
+///         }
+///     }
+/// }
+/// ```
+///
+///
+/// ## `emit!()`.
 ///
 /// `emit!()` macro in `#[node_impl]` functions are special.
 ///
@@ -24,7 +39,7 @@ pub fn node_impl(
     for i in item.items {
         match i {
             ImplItem::Fn(i) => {
-                let item = expand_method(i);
+                let item = expand_method(&item.self_ty, i);
 
                 output.extend(item.to_token_stream());
             }
@@ -39,24 +54,23 @@ pub fn node_impl(
 }
 
 /// Returns `(emitter_method, adjuster_method)`
-fn expand_method(src: ImplItemFn) -> ItemImpl {
+fn expand_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
     let mut emit_block = src.block.clone();
     let mut adjust_block = src.block;
-
-    let last_argument = src.sig.inputs.last().unwrap();
-    let node_type = unref_type(fn_arg_to_type(last_argument));
 
     ReplaceEmit { emit: true }.visit_block_mut(&mut emit_block);
     ReplaceEmit { emit: false }.visit_block_mut(&mut adjust_block);
 
     parse_quote!(
         impl crate::Node for #node_type {
-            fn emit_with<W, S>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
+            fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> Result
             where
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
                 #emit_block
+
+                return Ok(());
             }
 
             fn adjust_span<W, S>(&mut self, wr: &mut crate::SpanWriter<'_, W, S>) -> Result
@@ -65,25 +79,11 @@ fn expand_method(src: ImplItemFn) -> ItemImpl {
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
                 #adjust_block
+
+                return Ok(());
             }
         }
     )
-}
-
-fn fn_arg_to_type(arg: &FnArg) -> &Type {
-    match arg {
-        FnArg::Typed(ty) => ty.ty.as_ref(),
-        _ => panic!("Unexpected argument: {:?}", arg),
-    }
-}
-
-/// &T -> T;
-/// &mut T -> T;
-fn unref_type(ty: &Type) -> Type {
-    match ty {
-        Type::Reference(r) => unref_type(r.elem.as_ref()),
-        other => other.clone(),
-    }
 }
 
 struct ReplaceEmit {
