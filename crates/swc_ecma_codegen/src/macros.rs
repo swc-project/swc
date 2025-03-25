@@ -122,3 +122,12 @@ macro_rules! srcmap {
         }
     };
 }
+
+macro_rules! emit {
+    ($emitter:expr, true, $e:expr) => {
+        crate::Node::emit_with($e, $emitter)?
+    };
+    ($emitter:expr, false, $e:expr) => {
+        crate::Node::adjust_span($e, $emitter)?
+    };
+}
