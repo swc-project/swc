@@ -33,6 +33,8 @@ stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
+par_core = { version = "1", default-features = false }
+
 swc_atoms                        = { version = "5.0.0", path = "../swc_atoms" }
 swc_common                       = { version = "8.0.1", path = "../swc_common" }
 swc_ecma_ast                     = { version = "8.1.0", path = "../swc_ecma_ast" }
@@ -45,17 +47,15 @@ swc_ecma_transforms_react        = { version = "12.0.1", path = "../swc_ecma_tra
 swc_ecma_transforms_typescript   = { version = "12.0.1", path = "../swc_ecma_transforms_typescript", optional = true }
 swc_ecma_utils                   = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "8.0.0", path = "../swc_ecma_visit" }
-swc_parallel                     = { version = "1.3.0", path = "../swc_parallel", default-features = false }
+
 
 [dev-dependencies]
+par_core          = { version = "1", features = ["chili"] }
 pretty_assertions = { workspace = true }
 sourcemap         = { workspace = true }
 tempfile          = { workspace = true }
 
-swc_ecma_codegen = { version = "8.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "10.0.2", path = "../swc_ecma_parser" }
+swc_ecma_codegen            = { version = "8.0.2", path = "../swc_ecma_codegen" }
+swc_ecma_parser             = { version = "10.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "11.0.1", path = "../swc_ecma_transforms_testing" }
-swc_parallel = { version = "1.3.0", path = "../swc_parallel", features = [
-  "chili",
-] }
-testing = { version = "8.0.0", path = "../testing" }
+testing                     = { version = "8.0.0", path = "../testing" }
