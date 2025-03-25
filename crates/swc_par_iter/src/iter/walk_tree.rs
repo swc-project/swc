@@ -141,8 +141,8 @@ where
 /// ```
 ///
 /// ```
-/// use rayon::iter::walk_tree_prefix;
-/// use rayon::prelude::*;
+/// use swc_par_iter::iter::walk_tree_prefix;
+/// use swc_par_iter::prelude::*;
 ///
 /// let par_iter = walk_tree_prefix(4, |&e| {
 ///     if e <= 2 {
@@ -157,8 +157,8 @@ where
 /// # Example
 ///
 /// ```
-/// use rayon::prelude::*;
-/// use rayon::iter::walk_tree_prefix;
+/// use swc_par_iter::prelude::*;
+/// use swc_par_iter::iter::walk_tree_prefix;
 ///
 /// struct Node {
 ///     content: u32,
@@ -382,8 +382,8 @@ fn split_vec<T>(v: &mut Vec<T>) -> Option<Vec<T>> {
 /// ```
 ///
 /// ```
-/// use rayon::iter::walk_tree_postfix;
-/// use rayon::prelude::*;
+/// use swc_par_iter::iter::walk_tree_postfix;
+/// use swc_par_iter::prelude::*;
 ///
 /// let par_iter = walk_tree_postfix(4, |&e| {
 ///     if e <= 2 {
@@ -398,8 +398,8 @@ fn split_vec<T>(v: &mut Vec<T>) -> Option<Vec<T>> {
 /// # Example
 ///
 /// ```
-/// use rayon::prelude::*;
-/// use rayon::iter::walk_tree_postfix;
+/// use swc_par_iter::prelude::*;
+/// use swc_par_iter::iter::walk_tree_postfix;
 ///
 /// struct Node {
 ///     content: u32,
@@ -487,8 +487,8 @@ pub struct WalkTree<S, B>(WalkTreePostfix<S, B>);
 /// ```
 ///
 /// ```
-/// use rayon::iter::walk_tree;
-/// use rayon::prelude::*;
+/// use swc_par_iter::iter::walk_tree;
+/// use swc_par_iter::prelude::*;
 ///
 /// let par_iter = walk_tree(4, |&e| {
 ///     if e <= 2 {

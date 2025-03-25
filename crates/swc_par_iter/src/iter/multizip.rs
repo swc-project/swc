@@ -12,7 +12,7 @@ use super::{plumbing::*, *};
 /// # Examples
 ///
 /// ```
-/// use rayon::prelude::*;
+/// use swc_par_iter::prelude::*;
 ///
 /// // This will iterate `r` by mutable reference, like `par_iter_mut()`, while
 /// // ranges are all iterated by value like `into_par_iter()`.
@@ -28,7 +28,7 @@ use super::{plumbing::*, *};
 /// reference.
 ///
 /// ```
-/// use rayon::prelude::*;
+/// use swc_par_iter::prelude::*;
 ///
 /// let xs: Vec<_> = (1..10).collect();
 /// let ys: Vec<_> = (10..100).collect();
@@ -50,7 +50,7 @@ use super::{plumbing::*, *};
 /// Mutable references to a tuple will work similarly.
 ///
 /// ```
-/// use rayon::prelude::*;
+/// use swc_par_iter::prelude::*;
 ///
 /// let mut xs: Vec<_> = (1..4).collect();
 /// let mut ys: Vec<_> = (-4..-1).collect();

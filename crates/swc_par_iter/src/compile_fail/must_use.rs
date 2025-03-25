@@ -8,7 +8,7 @@ macro_rules! must_use {
         /// ```
         /// #![deny(unused_must_use)]
         ///
-        /// use rayon::prelude::*;
+        /// use swc_par_iter::prelude::*;
         ///
         /// let v: Vec<_> = (0..100).map(Some).collect();
         /// let _ =
@@ -20,7 +20,7 @@ macro_rules! must_use {
         /// ```compile_fail
         /// #![deny(unused_must_use)]
         ///
-        /// use rayon::prelude::*;
+        /// use swc_par_iter::prelude::*;
         ///
         /// let v: Vec<_> = (0..100).map(Some).collect();
         #[$expr]

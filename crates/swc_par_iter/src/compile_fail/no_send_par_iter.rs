@@ -2,7 +2,7 @@
 
 /** ```compile_fail,E0277
 
-use rayon::prelude::*;
+use swc_par_iter::prelude::*;
 use std::ptr::null;
 
 #[derive(Copy, Clone)]
@@ -21,7 +21,7 @@ mod map {}
 
 /** ```compile_fail,E0277
 
-use rayon::prelude::*;
+use swc_par_iter::prelude::*;
 use std::ptr::null;
 
 #[derive(Copy, Clone)]
@@ -40,7 +40,7 @@ mod filter_map {}
 
 /** ```compile_fail,E0277
 
-use rayon::prelude::*;
+use swc_par_iter::prelude::*;
 use std::ptr::null;
 
 #[derive(Copy, Clone)]

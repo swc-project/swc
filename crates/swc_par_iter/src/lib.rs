@@ -51,15 +51,15 @@
 //!
 //! Next, to use parallel iterators or the other high-level methods,
 //! you need to import several traits. Those traits are bundled into
-//! the module [`rayon::prelude`]. It is recommended that you import
-//! all of these traits at once by adding `use rayon::prelude::*` at
+//! the module [`swc_par_iter::prelude`]. It is recommended that you import
+//! all of these traits at once by adding `use swc_par_iter::prelude::*` at
 //! the top of each module that uses Rayon methods.
 //!
 //! These traits give you access to the `par_iter` method which provides
 //! parallel implementations of many iterative functions such as [`map`],
 //! [`for_each`], [`filter`], [`fold`], and [more].
 //!
-//! [`rayon::prelude`]: prelude/index.html
+//! [`swc_par_iter::prelude`]: prelude/index.html
 //! [`map`]: iter/trait.ParallelIterator.html#method.map
 //! [`for_each`]: iter/trait.ParallelIterator.html#method.for_each
 //! [`filter`]: iter/trait.ParallelIterator.html#method.filter

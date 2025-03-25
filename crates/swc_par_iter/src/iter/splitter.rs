@@ -10,8 +10,8 @@ use super::{plumbing::*, *};
 /// As a simple example, Rayon can recursively split ranges of indices
 ///
 /// ```
-/// use rayon::iter;
-/// use rayon::prelude::*;
+/// use swc_par_iter::iter;
+/// use swc_par_iter::prelude::*;
 /// use std::ops::Range;
 ///
 ///
@@ -43,8 +43,8 @@ use super::{plumbing::*, *};
 /// numerical simulations:
 ///
 /// ```
-/// # use rayon::iter;
-/// # use rayon::prelude::*;
+/// # use swc_par_iter::iter;
+/// # use swc_par_iter::prelude::*;
 /// # use std::ops::Range;
 /// # type Range1D = Range<usize>;
 /// # fn split_range1(r: Range1D) -> (Range1D, Option<Range1D>) {

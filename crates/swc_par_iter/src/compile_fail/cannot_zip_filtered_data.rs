@@ -1,6 +1,6 @@
 /*! ```compile_fail,E0277
 
-use rayon::prelude::*;
+use swc_par_iter::prelude::*;
 
 // zip requires data of exact size, but filter yields only bounded
 // size, so check that we cannot apply it.

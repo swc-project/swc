@@ -68,7 +68,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let max = "hello".par_chars().max_by_key(|c| *c as i32);
     /// assert_eq!(Some('o'), max);
     /// ```
@@ -84,7 +84,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let min = "hello".par_char_indices().min_by_key(|&(_i, c)| c as i32);
     /// assert_eq!(Some((1, 'e')), min);
     /// ```
@@ -104,7 +104,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let max = "hello".par_bytes().max();
     /// assert_eq!(Some(b'o'), max);
     /// ```
@@ -122,7 +122,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let max = "hello".par_encode_utf16().max();
     /// assert_eq!(Some(b'o' as u16), max);
@@ -148,7 +148,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let total = "1, 2, buckle, 3, 4, door"
     ///    .par_split(',')
     ///    .filter_map(|s| s.trim().parse::<i32>().ok())
@@ -170,7 +170,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let lines: Vec<_> = "Mary had a little lamb\nlittle lamb\nlittle lamb."
     ///    .par_split_inclusive('\n')
     ///    .collect();
@@ -192,7 +192,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let parts: Vec<_> = "((1 + 3) * 2)"
     ///     .par_split_terminator(|c| c == '(' || c == ')')
     ///     .collect();
@@ -210,7 +210,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let lengths: Vec<_> = "hello world\nfizbuzz"
     ///     .par_lines()
     ///     .map(|l| l.len())
@@ -232,7 +232,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let longest = "which is the longest word?"
     ///     .par_split_whitespace()
     ///     .max_by_key(|word| word.len());
@@ -242,7 +242,7 @@ pub trait ParallelString {
     /// All kinds of whitespace are considered:
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let words: Vec<&str> = " Mary   had\ta\u{2009}little  \n\t lamb"
     ///     .par_split_whitespace()
     ///     .collect();
@@ -253,7 +253,7 @@ pub trait ParallelString {
     /// slices:
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// assert_eq!("".par_split_whitespace().count(), 0);
     /// assert_eq!("   ".par_split_whitespace().count(), 0);
     /// ```
@@ -270,7 +270,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let longest = "which is the longest word?"
     ///     .par_split_ascii_whitespace()
     ///     .max_by_key(|word| word.len());
@@ -281,7 +281,7 @@ pub trait ParallelString {
     /// `White_Space`:
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let words: Vec<&str> = " Mary   had\ta\u{2009}little  \n\t lamb"
     ///     .par_split_ascii_whitespace()
     ///     .collect();
@@ -292,7 +292,7 @@ pub trait ParallelString {
     /// string slices:
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// assert_eq!("".par_split_whitespace().count(), 0);
     /// assert_eq!("   ".par_split_whitespace().count(), 0);
     /// ```
@@ -310,7 +310,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let total = "1, 2, buckle, 3, 4, door"
     ///    .par_matches(char::is_numeric)
     ///    .map(|s| s.parse::<i32>().expect("digit"))
@@ -334,7 +334,7 @@ pub trait ParallelString {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let digits: Vec<_> = "1, 2, buckle, 3, 4, door"
     ///    .par_match_indices(char::is_numeric)
     ///    .collect();

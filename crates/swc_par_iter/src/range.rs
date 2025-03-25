@@ -5,7 +5,7 @@
 //! need to name one of the iterator types.
 //!
 //! ```
-//! use rayon::prelude::*;
+//! use swc_par_iter::prelude::*;
 //!
 //! let r = (0..100u64).into_par_iter()
 //!                    .sum();
@@ -27,7 +27,7 @@ use crate::iter::{plumbing::*, *};
 /// which is not implemented for `u64`, `i64`, `u128`, or `i128`.
 ///
 /// ```
-/// use rayon::prelude::*;
+/// use swc_par_iter::prelude::*;
 ///
 /// let p = (0..25usize).into_par_iter()
 ///                   .zip(0..25usize)

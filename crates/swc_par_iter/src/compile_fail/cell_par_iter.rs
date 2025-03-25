@@ -2,7 +2,7 @@
 
 // Check that we can't use the par-iter API to access contents of a `Cell`.
 
-use rayon::prelude::*;
+use swc_par_iter::prelude::*;
 use std::cell::Cell;
 
 let c = Cell::new(42_i32);

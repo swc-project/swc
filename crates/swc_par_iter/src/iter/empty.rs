@@ -10,8 +10,8 @@ use crate::iter::{plumbing::*, *};
 /// # Examples
 ///
 /// ```
-/// use rayon::prelude::*;
-/// use rayon::iter::empty;
+/// use swc_par_iter::prelude::*;
+/// use swc_par_iter::iter::empty;
 ///
 /// let pi = (0..1234).into_par_iter()
 ///     .chain(empty())

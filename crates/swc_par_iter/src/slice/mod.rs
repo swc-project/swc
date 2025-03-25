@@ -41,7 +41,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let products: Vec<_> = [1, 2, 3, 0, 2, 4, 8, 0, 3, 6, 9]
     ///     .par_split(|i| *i == 0)
     ///     .map(|numbers| numbers.iter().product::<i32>())
@@ -64,7 +64,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let lengths: Vec<_> = [1, 2, 3, 0, 2, 4, 8, 0, 3, 6, 9]
     ///     .par_split_inclusive(|i| *i == 0)
     ///     .map(|numbers| numbers.len())
@@ -87,7 +87,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let windows: Vec<_> = [1, 2, 3].par_windows(2).collect();
     /// assert_eq!(vec![[1, 2], [2, 3]], windows);
     /// ```
@@ -108,7 +108,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let chunks: Vec<_> = [1, 2, 3, 4, 5].par_chunks(2).collect();
     /// assert_eq!(chunks, vec![&[1, 2][..], &[3, 4], &[5]]);
     /// ```
@@ -128,7 +128,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let chunks: Vec<_> = [1, 2, 3, 4, 5].par_chunks_exact(2).collect();
     /// assert_eq!(chunks, vec![&[1, 2][..], &[3, 4]]);
     /// ```
@@ -148,7 +148,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let chunks: Vec<_> = [1, 2, 3, 4, 5].par_rchunks(2).collect();
     /// assert_eq!(chunks, vec![&[4, 5][..], &[2, 3], &[1]]);
     /// ```
@@ -168,7 +168,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let chunks: Vec<_> = [1, 2, 3, 4, 5].par_rchunks_exact(2).collect();
     /// assert_eq!(chunks, vec![&[4, 5][..], &[2, 3]]);
     /// ```
@@ -188,7 +188,7 @@ pub trait ParallelSlice<T: Sync> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let chunks: Vec<_> = [1, 2, 2, 3, 3, 3].par_chunk_by(|&x, &y| x == y).collect();
     /// assert_eq!(chunks[0], &[1]);
     /// assert_eq!(chunks[1], &[2, 2]);
@@ -221,7 +221,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 0, 2, 4, 8, 0, 3, 6, 9];
     /// array.par_split_mut(|i| *i == 0)
     ///      .for_each(|slice| slice.reverse());
@@ -243,7 +243,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 0, 2, 4, 8, 0, 3, 6, 9];
     /// array.par_split_inclusive_mut(|i| *i == 0)
     ///      .for_each(|slice| slice.reverse());
@@ -269,7 +269,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 4, 5];
     /// array.par_chunks_mut(2)
     ///      .for_each(|slice| slice.reverse());
@@ -291,7 +291,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 4, 5];
     /// array.par_chunks_exact_mut(3)
     ///      .for_each(|slice| slice.reverse());
@@ -314,7 +314,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 4, 5];
     /// array.par_rchunks_mut(2)
     ///      .for_each(|slice| slice.reverse());
@@ -337,7 +337,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut array = [1, 2, 3, 4, 5];
     /// array.par_rchunks_exact_mut(3)
     ///      .for_each(|slice| slice.reverse());
@@ -378,7 +378,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [-5, 4, 1, -3, 2];
     ///
@@ -412,7 +412,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// slice doesn't contain a `NaN`.
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut floats = [5f64, 4.0, 1.0, 3.0, 2.0];
     /// floats.par_sort_by(|a, b| a.partial_cmp(b).unwrap());
@@ -443,7 +443,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [5, 4, 1, 3, 2];
     /// v.par_sort_by(|a, b| a.cmp(b));
@@ -496,7 +496,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [-5i32, 4, 1, -3, 2];
     ///
@@ -548,7 +548,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [-5i32, 4, 32, -3, 2];
     ///
@@ -635,7 +635,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [-5, 4, 1, -3, 2];
     ///
@@ -670,7 +670,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// slice doesn't contain a `NaN`.
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut floats = [5f64, 4.0, 1.0, 3.0, 2.0];
     /// floats.par_sort_unstable_by(|a, b| a.partial_cmp(b).unwrap());
@@ -699,7 +699,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [5, 4, 1, 3, 2];
     /// v.par_sort_unstable_by(|a, b| a.cmp(b));
@@ -748,7 +748,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     ///
     /// let mut v = [-5i32, 4, 1, -3, 2];
     ///
@@ -773,7 +773,7 @@ pub trait ParallelSliceMut<T: Send> {
     /// # Examples
     ///
     /// ```
-    /// use rayon::prelude::*;
+    /// use swc_par_iter::prelude::*;
     /// let mut xs = [1, 2, 2, 3, 3, 3];
     /// let chunks: Vec<_> = xs.par_chunk_by_mut(|&x, &y| x == y).collect();
     /// assert_eq!(chunks[0], &mut [1]);

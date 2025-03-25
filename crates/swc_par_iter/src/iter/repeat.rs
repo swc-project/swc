@@ -17,8 +17,8 @@ pub struct Repeat<T: Clone + Send> {
 /// # Examples
 ///
 /// ```
-/// use rayon::prelude::*;
-/// use rayon::iter::repeat;
+/// use swc_par_iter::prelude::*;
+/// use swc_par_iter::iter::repeat;
 /// let x: Vec<(i32, i32)> = repeat(22).zip(0..3).collect();
 /// assert_eq!(x, vec![(22, 0), (22, 1), (22, 2)]);
 /// ```
@@ -110,8 +110,8 @@ pub struct RepeatN<T: Clone + Send> {
 /// # Examples
 ///
 /// ```
-/// use rayon::prelude::*;
-/// use rayon::iter::repeatn;
+/// use swc_par_iter::prelude::*;
+/// use swc_par_iter::iter::repeatn;
 /// let x: Vec<(i32, i32)> = repeatn(22, 3).zip(0..3).collect();
 /// assert_eq!(x, vec![(22, 0), (22, 1), (22, 2)]);
 /// ```
