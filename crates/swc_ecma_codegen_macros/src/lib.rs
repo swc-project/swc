@@ -1,18 +1,49 @@
 extern crate proc_macro;
 
-use proc_macro::TokenStream;
+use proc_macro2::TokenStream;
 use swc_macros_common::prelude::*;
 use syn::{fold::Fold, *};
 
 mod fold;
 
 #[proc_macro_attribute]
-pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
-    let item: ImplItemFn = syn::parse(item).expect("failed to parse input as an item");
-    let item = fold::InjectSelf { parser: None }.fold_impl_item_fn(item);
-    let item = expand(item);
+pub fn node_impl(
+    _attr: proc_macro::TokenStream,
+    item: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let item: ItemImpl = syn::parse(item).expect("failed to parse input as an item");
 
-    print("emitter", item.into_token_stream())
+    let mut output = TokenStream::new();
+
+    for i in item.items {
+        match i {
+            ImplItem::Fn(i) => {
+                let (node_type, mtd_for_emitter, mtd_for_adjuster) = expand_method(i);
+
+                let item: ItemImpl = parse_quote! {
+                    impl crate::Node for #node_type {
+                        #mtd_for_emitter
+
+                        #mtd_for_adjuster
+                    }
+                };
+
+                output.extend(item.to_token_stream());
+            }
+
+            _ => {
+                panic!("Unexpected item: {:?}", i);
+            }
+        }
+    }
+
+    output.into()
+}
+
+/// Returns `(emitter_method, adjuster_method)`
+fn expand_method(src: ImplItemFn) -> (Type, ImplItemFn, ImplItemFn) {
+    let method_name = src.sig.ident.clone();
+    let block = src.block;
 }
 
 fn expand(i: ImplItemFn) -> ImplItemFn {
