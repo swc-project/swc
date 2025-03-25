@@ -1,3 +1,4 @@
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -155,7 +156,7 @@ impl Optimizer<'_> {
                     quasis: vec![TplElement {
                         span: s.span,
                         cooked: Some(s.value.clone()),
-                        raw: s.value.clone(),
+                        raw: convert_str_value_to_tpl_raw(&s.value),
                         tail: true,
                     }],
                 });
@@ -164,4 +165,12 @@ impl Optimizer<'_> {
             }
         }
     }
+}
+
+pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Atom {
+    value
+        .replace('\\', "\\\\")
+        .replace('`', "\\`")
+        .replace("${", "\\${")
+        .replace('\r', "\\r").into()
 }
