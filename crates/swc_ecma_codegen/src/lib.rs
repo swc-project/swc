@@ -251,6 +251,8 @@ impl MacroNode for ModuleItem {
 #[node_impl]
 impl MacroNode for ModuleDecl {
     fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
         match self {
             ModuleDecl::Import(ref d) => emit!(d),
             ModuleDecl::ExportDecl(ref d) => emit!(d),
@@ -262,6 +264,12 @@ impl MacroNode for ModuleDecl {
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
+
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+
+        if !emitter.cfg.minify {
+            emitter.wr.write_line()?;
+        }
     }
 }
 
@@ -270,28 +278,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        match *node {
-            ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => emit!(d),
-            ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
-            ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
-        }
-
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-
-        if !self.cfg.minify {
-            self.wr.write_line()?;
-        }
-    }
-
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
         srcmap!(self, n, true);
 
