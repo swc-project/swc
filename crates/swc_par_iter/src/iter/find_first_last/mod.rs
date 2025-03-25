@@ -1,7 +1,9 @@
-use super::plumbing::*;
-use super::*;
-use std::cell::Cell;
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::{
+    cell::Cell,
+    sync::atomic::{AtomicUsize, Ordering},
+};
+
+use super::{plumbing::*, *};
 
 #[cfg(test)]
 mod test;

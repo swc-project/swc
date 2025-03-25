@@ -1,8 +1,8 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
 /// `MinLen` is an iterator that imposes a minimum length on iterator splits.
-/// This struct is created by the [`with_min_len()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`with_min_len()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`with_min_len()`]: trait.IndexedParallelIterator.html#method.with_min_len
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -72,6 +72,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,
@@ -98,8 +99,8 @@ impl<P> Producer for MinLenProducer<P>
 where
     P: Producer,
 {
-    type Item = P::Item;
     type IntoIter = P::IntoIter;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter()
@@ -136,7 +137,8 @@ where
 }
 
 /// `MaxLen` is an iterator that imposes a maximum length on iterator splits.
-/// This struct is created by the [`with_max_len()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`with_max_len()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`with_max_len()`]: trait.IndexedParallelIterator.html#method.with_max_len
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -206,6 +208,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,
@@ -232,8 +235,8 @@ impl<P> Producer for MaxLenProducer<P>
 where
     P: Producer,
 {
-    type Item = P::Item;
     type IntoIter = P::IntoIter;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter()

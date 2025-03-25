@@ -1,8 +1,8 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
-/// `Flatten` turns each element to a parallel iterator, then flattens these iterators
-/// together. This struct is created by the [`flatten()`] method on [`ParallelIterator`].
+/// `Flatten` turns each element to a parallel iterator, then flattens these
+/// iterators together. This struct is created by the [`flatten()`] method on
+/// [`ParallelIterator`].
 ///
 /// [`flatten()`]: trait.ParallelIterator.html#method.flatten
 /// [`ParallelIterator`]: trait.ParallelIterator.html

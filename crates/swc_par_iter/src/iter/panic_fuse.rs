@@ -1,12 +1,15 @@
-use super::plumbing::*;
-use super::*;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::thread;
+use std::{
+    sync::atomic::{AtomicBool, Ordering},
+    thread,
+};
+
+use super::{plumbing::*, *};
 
 /// `PanicFuse` is an adaptor that wraps an iterator with a fuse in case
 /// of panics, to halt all threads as soon as possible.
 ///
-/// This struct is created by the [`panic_fuse()`] method on [`ParallelIterator`]
+/// This struct is created by the [`panic_fuse()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`panic_fuse()`]: trait.ParallelIterator.html#method.panic_fuse
 /// [`ParallelIterator`]: trait.ParallelIterator.html
@@ -132,8 +135,8 @@ impl<'a, P> Producer for PanicFuseProducer<'a, P>
 where
     P: Producer,
 {
-    type Item = P::Item;
     type IntoIter = PanicFuseIter<'a, P::IntoIter>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         PanicFuseIter {
@@ -145,6 +148,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

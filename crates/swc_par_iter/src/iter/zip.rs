@@ -1,6 +1,6 @@
-use super::plumbing::*;
-use super::*;
 use std::iter;
+
+use super::{plumbing::*, *};
 
 /// `Zip` is an iterator that zips up `a` and `b` into a single iterator
 /// of pairs. This struct is created by the [`zip()`] method on
@@ -126,8 +126,8 @@ struct ZipProducer<A: Producer, B: Producer> {
 }
 
 impl<A: Producer, B: Producer> Producer for ZipProducer<A, B> {
-    type Item = (A::Item, B::Item);
     type IntoIter = iter::Zip<A::IntoIter, B::IntoIter>;
+    type Item = (A::Item, B::Item);
 
     fn into_iter(self) -> Self::IntoIter {
         self.a.into_iter().zip(self.b.into_iter())

@@ -12,19 +12,22 @@ mod sort;
 
 mod test;
 
-use self::sort::par_mergesort;
-use self::sort::par_quicksort;
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::split_producer::*;
+use std::{
+    cmp::Ordering,
+    fmt::{self, Debug},
+    mem,
+};
 
-use std::cmp::Ordering;
-use std::fmt::{self, Debug};
-use std::mem;
-
-pub use self::chunk_by::{ChunkBy, ChunkByMut};
-pub use self::chunks::{Chunks, ChunksExact, ChunksExactMut, ChunksMut};
-pub use self::rchunks::{RChunks, RChunksExact, RChunksExactMut, RChunksMut};
+use self::sort::{par_mergesort, par_quicksort};
+pub use self::{
+    chunk_by::{ChunkBy, ChunkByMut},
+    chunks::{Chunks, ChunksExact, ChunksExactMut, ChunksMut},
+    rchunks::{RChunks, RChunksExact, RChunksExactMut, RChunksMut},
+};
+use crate::{
+    iter::{plumbing::*, *},
+    split_producer::*,
+};
 
 /// Parallel extensions for slices.
 pub trait ParallelSlice<T: Sync> {
@@ -135,8 +138,8 @@ pub trait ParallelSlice<T: Sync> {
         ChunksExact::new(chunk_size, self.as_parallel_slice())
     }
 
-    /// Returns a parallel iterator over at most `chunk_size` elements of `self` at a time,
-    /// starting at the end. The chunks do not overlap.
+    /// Returns a parallel iterator over at most `chunk_size` elements of `self`
+    /// at a time, starting at the end. The chunks do not overlap.
     ///
     /// If the number of elements in the iterator is not divisible by
     /// `chunk_size`, the last chunk may be shorter than `chunk_size`.  All
@@ -155,8 +158,8 @@ pub trait ParallelSlice<T: Sync> {
         RChunks::new(chunk_size, self.as_parallel_slice())
     }
 
-    /// Returns a parallel iterator over `chunk_size` elements of `self` at a time,
-    /// starting at the end. The chunks do not overlap.
+    /// Returns a parallel iterator over `chunk_size` elements of `self` at a
+    /// time, starting at the end. The chunks do not overlap.
     ///
     /// If `chunk_size` does not divide the length of the slice, then the
     /// last up to `chunk_size-1` elements will be omitted and can be
@@ -175,8 +178,8 @@ pub trait ParallelSlice<T: Sync> {
         RChunksExact::new(chunk_size, self.as_parallel_slice())
     }
 
-    /// Returns a parallel iterator over the slice producing non-overlapping runs
-    /// of elements using the predicate to separate them.
+    /// Returns a parallel iterator over the slice producing non-overlapping
+    /// runs of elements using the predicate to separate them.
     ///
     /// The predicate is called on two elements following themselves,
     /// it means the predicate is called on `slice[0]` and `slice[1]`
@@ -300,8 +303,9 @@ pub trait ParallelSliceMut<T: Send> {
         ChunksExactMut::new(chunk_size, self.as_parallel_slice_mut())
     }
 
-    /// Returns a parallel iterator over at most `chunk_size` elements of `self` at a time,
-    /// starting at the end. The chunks are mutable and do not overlap.
+    /// Returns a parallel iterator over at most `chunk_size` elements of `self`
+    /// at a time, starting at the end. The chunks are mutable and do not
+    /// overlap.
     ///
     /// If the number of elements in the iterator is not divisible by
     /// `chunk_size`, the last chunk may be shorter than `chunk_size`.  All
@@ -322,8 +326,9 @@ pub trait ParallelSliceMut<T: Send> {
         RChunksMut::new(chunk_size, self.as_parallel_slice_mut())
     }
 
-    /// Returns a parallel iterator over `chunk_size` elements of `self` at a time,
-    /// starting at the end. The chunks are mutable and do not overlap.
+    /// Returns a parallel iterator over `chunk_size` elements of `self` at a
+    /// time, starting at the end. The chunks are mutable and do not
+    /// overlap.
     ///
     /// If `chunk_size` does not divide the length of the slice, then the
     /// last up to `chunk_size-1` elements will be omitted and can be
@@ -346,25 +351,28 @@ pub trait ParallelSliceMut<T: Send> {
 
     /// Sorts the slice in parallel.
     ///
-    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*n* \* log(*n*)) worst-case.
+    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*n*
+    /// \* log(*n*)) worst-case.
     ///
-    /// When applicable, unstable sorting is preferred because it is generally faster than stable
-    /// sorting and it doesn't allocate auxiliary memory.
+    /// When applicable, unstable sorting is preferred because it is generally
+    /// faster than stable sorting and it doesn't allocate auxiliary memory.
     /// See [`par_sort_unstable`](#method.par_sort_unstable).
     ///
     /// # Current implementation
     ///
     /// The current algorithm is an adaptive merge sort inspired by
     /// [timsort](https://en.wikipedia.org/wiki/Timsort).
-    /// It is designed to be very fast in cases where the slice is nearly sorted, or consists of
-    /// two or more sorted sequences concatenated one after another.
+    /// It is designed to be very fast in cases where the slice is nearly
+    /// sorted, or consists of two or more sorted sequences concatenated one
+    /// after another.
     ///
-    /// Also, it allocates temporary storage the same size as `self`, but for very short slices a
-    /// non-allocating insertion sort is used instead.
+    /// Also, it allocates temporary storage the same size as `self`, but for
+    /// very short slices a non-allocating insertion sort is used instead.
     ///
-    /// In order to sort the slice in parallel, the slice is first divided into smaller chunks and
-    /// all chunks are sorted in parallel. Then, adjacent chunks that together form non-descending
-    /// or descending runs are concatenated. Finally, the remaining chunks are merged together using
+    /// In order to sort the slice in parallel, the slice is first divided into
+    /// smaller chunks and all chunks are sorted in parallel. Then, adjacent
+    /// chunks that together form non-descending or descending runs are
+    /// concatenated. Finally, the remaining chunks are merged together using
     /// parallel subdivision of chunks and parallel merge operation.
     ///
     /// # Examples
@@ -386,17 +394,22 @@ pub trait ParallelSliceMut<T: Send> {
 
     /// Sorts the slice in parallel with a comparator function.
     ///
-    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*n* \* log(*n*)) worst-case.
+    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*n*
+    /// \* log(*n*)) worst-case.
     ///
-    /// The comparator function must define a total ordering for the elements in the slice. If
-    /// the ordering is not total, the order of the elements is unspecified. An order is a
-    /// total order if it is (for all `a`, `b` and `c`):
+    /// The comparator function must define a total ordering for the elements in
+    /// the slice. If the ordering is not total, the order of the elements
+    /// is unspecified. An order is a total order if it is (for all `a`, `b`
+    /// and `c`):
     ///
-    /// * total and antisymmetric: exactly one of `a < b`, `a == b` or `a > b` is true, and
-    /// * transitive, `a < b` and `b < c` implies `a < c`. The same must hold for both `==` and `>`.
+    /// * total and antisymmetric: exactly one of `a < b`, `a == b` or `a > b`
+    ///   is true, and
+    /// * transitive, `a < b` and `b < c` implies `a < c`. The same must hold
+    ///   for both `==` and `>`.
     ///
-    /// For example, while [`f64`] doesn't implement [`Ord`] because `NaN != NaN`, we can use
-    /// `partial_cmp` as our sort function when we know the slice doesn't contain a `NaN`.
+    /// For example, while [`f64`] doesn't implement [`Ord`] because `NaN !=
+    /// NaN`, we can use `partial_cmp` as our sort function when we know the
+    /// slice doesn't contain a `NaN`.
     ///
     /// ```
     /// use rayon::prelude::*;
@@ -406,23 +419,25 @@ pub trait ParallelSliceMut<T: Send> {
     /// assert_eq!(floats, [1.0, 2.0, 3.0, 4.0, 5.0]);
     /// ```
     ///
-    /// When applicable, unstable sorting is preferred because it is generally faster than stable
-    /// sorting and it doesn't allocate auxiliary memory.
+    /// When applicable, unstable sorting is preferred because it is generally
+    /// faster than stable sorting and it doesn't allocate auxiliary memory.
     /// See [`par_sort_unstable_by`](#method.par_sort_unstable_by).
     ///
     /// # Current implementation
     ///
     /// The current algorithm is an adaptive merge sort inspired by
     /// [timsort](https://en.wikipedia.org/wiki/Timsort).
-    /// It is designed to be very fast in cases where the slice is nearly sorted, or consists of
-    /// two or more sorted sequences concatenated one after another.
+    /// It is designed to be very fast in cases where the slice is nearly
+    /// sorted, or consists of two or more sorted sequences concatenated one
+    /// after another.
     ///
-    /// Also, it allocates temporary storage the same size as `self`, but for very short slices a
-    /// non-allocating insertion sort is used instead.
+    /// Also, it allocates temporary storage the same size as `self`, but for
+    /// very short slices a non-allocating insertion sort is used instead.
     ///
-    /// In order to sort the slice in parallel, the slice is first divided into smaller chunks and
-    /// all chunks are sorted in parallel. Then, adjacent chunks that together form non-descending
-    /// or descending runs are concatenated. Finally, the remaining chunks are merged together using
+    /// In order to sort the slice in parallel, the slice is first divided into
+    /// smaller chunks and all chunks are sorted in parallel. Then, adjacent
+    /// chunks that together form non-descending or descending runs are
+    /// concatenated. Finally, the remaining chunks are merged together using
     /// parallel subdivision of chunks and parallel merge operation.
     ///
     /// # Examples
@@ -449,30 +464,33 @@ pub trait ParallelSliceMut<T: Send> {
 
     /// Sorts the slice in parallel with a key extraction function.
     ///
-    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*m* \* *n* \* log(*n*))
-    /// worst-case, where the key function is *O*(*m*).
+    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*m*
+    /// \* *n* \* log(*n*)) worst-case, where the key function is *O*(*m*).
     ///
-    /// For expensive key functions (e.g. functions that are not simple property accesses or
-    /// basic operations), [`par_sort_by_cached_key`](#method.par_sort_by_cached_key) is likely to
+    /// For expensive key functions (e.g. functions that are not simple property
+    /// accesses or basic operations),
+    /// [`par_sort_by_cached_key`](#method.par_sort_by_cached_key) is likely to
     /// be significantly faster, as it does not recompute element keys.
     ///
-    /// When applicable, unstable sorting is preferred because it is generally faster than stable
-    /// sorting and it doesn't allocate auxiliary memory.
+    /// When applicable, unstable sorting is preferred because it is generally
+    /// faster than stable sorting and it doesn't allocate auxiliary memory.
     /// See [`par_sort_unstable_by_key`](#method.par_sort_unstable_by_key).
     ///
     /// # Current implementation
     ///
     /// The current algorithm is an adaptive merge sort inspired by
     /// [timsort](https://en.wikipedia.org/wiki/Timsort).
-    /// It is designed to be very fast in cases where the slice is nearly sorted, or consists of
-    /// two or more sorted sequences concatenated one after another.
+    /// It is designed to be very fast in cases where the slice is nearly
+    /// sorted, or consists of two or more sorted sequences concatenated one
+    /// after another.
     ///
-    /// Also, it allocates temporary storage the same size as `self`, but for very short slices a
-    /// non-allocating insertion sort is used instead.
+    /// Also, it allocates temporary storage the same size as `self`, but for
+    /// very short slices a non-allocating insertion sort is used instead.
     ///
-    /// In order to sort the slice in parallel, the slice is first divided into smaller chunks and
-    /// all chunks are sorted in parallel. Then, adjacent chunks that together form non-descending
-    /// or descending runs are concatenated. Finally, the remaining chunks are merged together using
+    /// In order to sort the slice in parallel, the slice is first divided into
+    /// smaller chunks and all chunks are sorted in parallel. Then, adjacent
+    /// chunks that together form non-descending or descending runs are
+    /// concatenated. Finally, the remaining chunks are merged together using
     /// parallel subdivision of chunks and parallel merge operation.
     ///
     /// # Examples
@@ -495,31 +513,35 @@ pub trait ParallelSliceMut<T: Send> {
 
     /// Sorts the slice in parallel with a key extraction function.
     ///
-    /// During sorting, the key function is called at most once per element, by using
-    /// temporary storage to remember the results of key evaluation.
-    /// The key function is called in parallel, so the order of calls is completely unspecified.
+    /// During sorting, the key function is called at most once per element, by
+    /// using temporary storage to remember the results of key evaluation.
+    /// The key function is called in parallel, so the order of calls is
+    /// completely unspecified.
     ///
-    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*m* \* *n* + *n* \* log(*n*))
-    /// worst-case, where the key function is *O*(*m*).
+    /// This sort is stable (i.e., does not reorder equal elements) and *O*(*m*
+    /// \* *n* + *n* \* log(*n*)) worst-case, where the key function is
+    /// *O*(*m*).
     ///
     /// For simple key functions (e.g., functions that are property accesses or
-    /// basic operations), [`par_sort_by_key`](#method.par_sort_by_key) is likely to be
-    /// faster.
+    /// basic operations), [`par_sort_by_key`](#method.par_sort_by_key) is
+    /// likely to be faster.
     ///
     /// # Current implementation
     ///
-    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort] by Orson Peters,
-    /// which combines the fast average case of randomized quicksort with the fast worst case of
-    /// heapsort, while achieving linear time on slices with certain patterns. It uses some
-    /// randomization to avoid degenerate cases, but with a fixed seed to always provide
-    /// deterministic behavior.
+    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort]
+    /// by Orson Peters, which combines the fast average case of randomized
+    /// quicksort with the fast worst case of heapsort, while achieving
+    /// linear time on slices with certain patterns. It uses some
+    /// randomization to avoid degenerate cases, but with a fixed seed to always
+    /// provide deterministic behavior.
     ///
-    /// In the worst case, the algorithm allocates temporary storage in a `Vec<(K, usize)>` the
-    /// length of the slice.
+    /// In the worst case, the algorithm allocates temporary storage in a
+    /// `Vec<(K, usize)>` the length of the slice.
     ///
-    /// All quicksorts work in two stages: partitioning into two halves followed by recursive
-    /// calls. The partitioning phase is sequential, but the two recursive calls are performed in
-    /// parallel. Finally, after sorting the cached keys, the item positions are updated sequentially.
+    /// All quicksorts work in two stages: partitioning into two halves followed
+    /// by recursive calls. The partitioning phase is sequential, but the
+    /// two recursive calls are performed in parallel. Finally, after
+    /// sorting the cached keys, the item positions are updated sequentially.
     ///
     /// [pdqsort]: https://github.com/orlp/pdqsort
     ///
@@ -544,7 +566,8 @@ pub trait ParallelSliceMut<T: Send> {
             return;
         }
 
-        // Helper macro for indexing our vector by the smallest possible type, to reduce allocation.
+        // Helper macro for indexing our vector by the smallest possible type, to reduce
+        // allocation.
         macro_rules! sort_by_key {
             ($t:ty) => {{
                 let mut indices: Vec<_> = slice
@@ -552,9 +575,9 @@ pub trait ParallelSliceMut<T: Send> {
                     .enumerate()
                     .map(|(i, x)| (f(&*x), i as $t))
                     .collect();
-                // The elements of `indices` are unique, as they are indexed, so any sort will be
-                // stable with respect to the original slice. We use `sort_unstable` here because
-                // it requires less memory allocation.
+                // The elements of `indices` are unique, as they are indexed, so any sort will
+                // be stable with respect to the original slice. We use `sort_unstable`
+                // here because it requires less memory allocation.
                 indices.par_sort_unstable();
                 for i in 0..len {
                     let mut index = indices[i].1;
@@ -584,25 +607,28 @@ pub trait ParallelSliceMut<T: Send> {
         sort_by_key!(usize)
     }
 
-    /// Sorts the slice in parallel, but might not preserve the order of equal elements.
+    /// Sorts the slice in parallel, but might not preserve the order of equal
+    /// elements.
     ///
     /// This sort is unstable (i.e., may reorder equal elements), in-place
     /// (i.e., does not allocate), and *O*(*n* \* log(*n*)) worst-case.
     ///
     /// # Current implementation
     ///
-    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort] by Orson Peters,
-    /// which combines the fast average case of randomized quicksort with the fast worst case of
-    /// heapsort, while achieving linear time on slices with certain patterns. It uses some
-    /// randomization to avoid degenerate cases, but with a fixed seed to always provide
-    /// deterministic behavior.
+    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort]
+    /// by Orson Peters, which combines the fast average case of randomized
+    /// quicksort with the fast worst case of heapsort, while achieving
+    /// linear time on slices with certain patterns. It uses some
+    /// randomization to avoid degenerate cases, but with a fixed seed to always
+    /// provide deterministic behavior.
     ///
-    /// It is typically faster than stable sorting, except in a few special cases, e.g., when the
-    /// slice consists of several concatenated sorted sequences.
+    /// It is typically faster than stable sorting, except in a few special
+    /// cases, e.g., when the slice consists of several concatenated sorted
+    /// sequences.
     ///
-    /// All quicksorts work in two stages: partitioning into two halves followed by recursive
-    /// calls. The partitioning phase is sequential, but the two recursive calls are performed in
-    /// parallel.
+    /// All quicksorts work in two stages: partitioning into two halves followed
+    /// by recursive calls. The partitioning phase is sequential, but the
+    /// two recursive calls are performed in parallel.
     ///
     /// [pdqsort]: https://github.com/orlp/pdqsort
     ///
@@ -623,21 +649,25 @@ pub trait ParallelSliceMut<T: Send> {
         par_quicksort(self.as_parallel_slice_mut(), T::lt);
     }
 
-    /// Sorts the slice in parallel with a comparator function, but might not preserve the order of
-    /// equal elements.
+    /// Sorts the slice in parallel with a comparator function, but might not
+    /// preserve the order of equal elements.
     ///
     /// This sort is unstable (i.e., may reorder equal elements), in-place
     /// (i.e., does not allocate), and *O*(*n* \* log(*n*)) worst-case.
     ///
-    /// The comparator function must define a total ordering for the elements in the slice. If
-    /// the ordering is not total, the order of the elements is unspecified. An order is a
-    /// total order if it is (for all `a`, `b` and `c`):
+    /// The comparator function must define a total ordering for the elements in
+    /// the slice. If the ordering is not total, the order of the elements
+    /// is unspecified. An order is a total order if it is (for all `a`, `b`
+    /// and `c`):
     ///
-    /// * total and antisymmetric: exactly one of `a < b`, `a == b` or `a > b` is true, and
-    /// * transitive, `a < b` and `b < c` implies `a < c`. The same must hold for both `==` and `>`.
+    /// * total and antisymmetric: exactly one of `a < b`, `a == b` or `a > b`
+    ///   is true, and
+    /// * transitive, `a < b` and `b < c` implies `a < c`. The same must hold
+    ///   for both `==` and `>`.
     ///
-    /// For example, while [`f64`] doesn't implement [`Ord`] because `NaN != NaN`, we can use
-    /// `partial_cmp` as our sort function when we know the slice doesn't contain a `NaN`.
+    /// For example, while [`f64`] doesn't implement [`Ord`] because `NaN !=
+    /// NaN`, we can use `partial_cmp` as our sort function when we know the
+    /// slice doesn't contain a `NaN`.
     ///
     /// ```
     /// use rayon::prelude::*;
@@ -649,18 +679,20 @@ pub trait ParallelSliceMut<T: Send> {
     ///
     /// # Current implementation
     ///
-    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort] by Orson Peters,
-    /// which combines the fast average case of randomized quicksort with the fast worst case of
-    /// heapsort, while achieving linear time on slices with certain patterns. It uses some
-    /// randomization to avoid degenerate cases, but with a fixed seed to always provide
-    /// deterministic behavior.
+    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort]
+    /// by Orson Peters, which combines the fast average case of randomized
+    /// quicksort with the fast worst case of heapsort, while achieving
+    /// linear time on slices with certain patterns. It uses some
+    /// randomization to avoid degenerate cases, but with a fixed seed to always
+    /// provide deterministic behavior.
     ///
-    /// It is typically faster than stable sorting, except in a few special cases, e.g., when the
-    /// slice consists of several concatenated sorted sequences.
+    /// It is typically faster than stable sorting, except in a few special
+    /// cases, e.g., when the slice consists of several concatenated sorted
+    /// sequences.
     ///
-    /// All quicksorts work in two stages: partitioning into two halves followed by recursive
-    /// calls. The partitioning phase is sequential, but the two recursive calls are performed in
-    /// parallel.
+    /// All quicksorts work in two stages: partitioning into two halves followed
+    /// by recursive calls. The partitioning phase is sequential, but the
+    /// two recursive calls are performed in parallel.
     ///
     /// [pdqsort]: https://github.com/orlp/pdqsort
     ///
@@ -686,8 +718,8 @@ pub trait ParallelSliceMut<T: Send> {
         });
     }
 
-    /// Sorts the slice in parallel with a key extraction function, but might not preserve the order
-    /// of equal elements.
+    /// Sorts the slice in parallel with a key extraction function, but might
+    /// not preserve the order of equal elements.
     ///
     /// This sort is unstable (i.e., may reorder equal elements), in-place
     /// (i.e., does not allocate), and *O*(m \* *n* \* log(*n*)) worst-case,
@@ -695,19 +727,21 @@ pub trait ParallelSliceMut<T: Send> {
     ///
     /// # Current implementation
     ///
-    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort] by Orson Peters,
-    /// which combines the fast average case of randomized quicksort with the fast worst case of
-    /// heapsort, while achieving linear time on slices with certain patterns. It uses some
-    /// randomization to avoid degenerate cases, but with a fixed seed to always provide
-    /// deterministic behavior.
+    /// The current algorithm is based on [pattern-defeating quicksort][pdqsort]
+    /// by Orson Peters, which combines the fast average case of randomized
+    /// quicksort with the fast worst case of heapsort, while achieving
+    /// linear time on slices with certain patterns. It uses some
+    /// randomization to avoid degenerate cases, but with a fixed seed to always
+    /// provide deterministic behavior.
     ///
-    /// Due to its key calling strategy, `par_sort_unstable_by_key` is likely to be slower than
-    /// [`par_sort_by_cached_key`](#method.par_sort_by_cached_key) in cases where the key function
+    /// Due to its key calling strategy, `par_sort_unstable_by_key` is likely to
+    /// be slower than [`par_sort_by_cached_key`](#method.
+    /// par_sort_by_cached_key) in cases where the key function
     /// is expensive.
     ///
-    /// All quicksorts work in two stages: partitioning into two halves followed by recursive
-    /// calls. The partitioning phase is sequential, but the two recursive calls are performed in
-    /// parallel.
+    /// All quicksorts work in two stages: partitioning into two halves followed
+    /// by recursive calls. The partitioning phase is sequential, but the
+    /// two recursive calls are performed in parallel.
     ///
     /// [pdqsort]: https://github.com/orlp/pdqsort
     ///
@@ -729,8 +763,8 @@ pub trait ParallelSliceMut<T: Send> {
         par_quicksort(self.as_parallel_slice_mut(), |a, b| f(a).lt(&f(b)));
     }
 
-    /// Returns a parallel iterator over the slice producing non-overlapping mutable
-    /// runs of elements using the predicate to separate them.
+    /// Returns a parallel iterator over the slice producing non-overlapping
+    /// mutable runs of elements using the predicate to separate them.
     ///
     /// The predicate is called on two elements following themselves,
     /// it means the predicate is called on `slice[0]` and `slice[1]`
@@ -831,8 +865,8 @@ struct IterProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for IterProducer<'data, T> {
-    type Item = &'data T;
     type IntoIter = ::std::slice::Iter<'data, T>;
+    type Item = &'data T;
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.iter()
@@ -902,8 +936,8 @@ struct WindowsProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for WindowsProducer<'data, T> {
-    type Item = &'data [T];
     type IntoIter = ::std::slice::Windows<'data, T>;
+    type Item = &'data [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.windows(self.window_size)
@@ -972,8 +1006,8 @@ struct IterMutProducer<'data, T: Send> {
 }
 
 impl<'data, T: 'data + Send> Producer for IterMutProducer<'data, T> {
-    type Item = &'data mut T;
     type IntoIter = ::std::slice::IterMut<'data, T>;
+    type Item = &'data mut T;
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.iter_mut()

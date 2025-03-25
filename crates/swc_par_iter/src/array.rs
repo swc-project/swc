@@ -5,11 +5,13 @@
 //!
 //! [arrays]: https://doc.rust-lang.org/std/primitive.array.html
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::slice::{Iter, IterMut};
-use crate::vec::DrainProducer;
 use std::mem::ManuallyDrop;
+
+use crate::{
+    iter::{plumbing::*, *},
+    slice::{Iter, IterMut},
+    vec::DrainProducer,
+};
 
 impl<'data, T: Sync + 'data, const N: usize> IntoParallelIterator for &'data [T; N] {
     type Item = &'data T;

@@ -1,8 +1,9 @@
-use super::plumbing::*;
-use super::ParallelIterator;
+use std::{
+    iter::{self, Product},
+    marker::PhantomData,
+};
 
-use std::iter::{self, Product};
-use std::marker::PhantomData;
+use super::{plumbing::*, ParallelIterator};
 
 pub(super) fn product<PI, P>(pi: PI) -> P
 where

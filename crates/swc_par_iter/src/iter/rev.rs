@@ -1,6 +1,6 @@
-use super::plumbing::*;
-use super::*;
 use std::iter;
+
+use super::{plumbing::*, *};
 
 /// `Rev` is an iterator that produces elements in reverse order. This struct
 /// is created by the [`rev()`] method on [`IndexedParallelIterator`]
@@ -70,6 +70,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,
@@ -93,8 +94,8 @@ impl<P> Producer for RevProducer<P>
 where
     P: Producer,
 {
-    type Item = P::Item;
     type IntoIter = iter::Rev<P::IntoIter>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter().rev()
@@ -103,6 +104,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

@@ -1,7 +1,8 @@
-use super::plumbing::*;
-use super::*;
-use rayon_core::join;
 use std::iter;
+
+use rayon_core::join;
+
+use super::{plumbing::*, *};
 
 /// `Chain` is an iterator that joins `b` after `a` in one continuous iterator.
 /// This struct is created by the [`chain()`] method on [`ParallelIterator`]
@@ -43,9 +44,10 @@ where
     {
         let Chain { a, b } = self;
 
-        // If we returned a value from our own `opt_len`, then the collect consumer in particular
-        // will balk at being treated like an actual `UnindexedConsumer`.  But when we do know the
-        // length, we can use `Consumer::split_at` instead, and this is still harmless for other
+        // If we returned a value from our own `opt_len`, then the collect consumer in
+        // particular will balk at being treated like an actual
+        // `UnindexedConsumer`.  But when we do know the length, we can use
+        // `Consumer::split_at` instead, and this is still harmless for other
         // truly-unindexed consumers too.
         let (left, right, reducer) = if let Some(len) = a.opt_len() {
             consumer.split_at(len)
@@ -169,8 +171,8 @@ where
     A: Producer,
     B: Producer<Item = A::Item>,
 {
-    type Item = A::Item;
     type IntoIter = ChainSeq<A::IntoIter, B::IntoIter>;
+    type Item = A::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         ChainSeq::new(self.a.into_iter(), self.b.into_iter())

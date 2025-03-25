@@ -1,7 +1,6 @@
-use super::plumbing::*;
-use super::*;
-
 use std::iter;
+
+use super::{plumbing::*, *};
 
 /// `Copied` is an iterator that copies the elements of an underlying iterator.
 ///
@@ -101,8 +100,8 @@ where
     P: Producer<Item = &'a T>,
     T: 'a + Copy,
 {
-    type Item = T;
     type IntoIter = iter::Copied<P::IntoIter>;
+    type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter().copied()

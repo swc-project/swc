@@ -1,11 +1,13 @@
 #![cfg(test)]
 
+use std::{
+    cmp::Ordering::{Equal, Greater, Less},
+    sync::atomic::{AtomicUsize, Ordering::Relaxed},
+};
+
+use rand::{distributions::Uniform, seq::SliceRandom, thread_rng, Rng};
+
 use crate::prelude::*;
-use rand::distributions::Uniform;
-use rand::seq::SliceRandom;
-use rand::{thread_rng, Rng};
-use std::cmp::Ordering::{Equal, Greater, Less};
-use std::sync::atomic::{AtomicUsize, Ordering::Relaxed};
 
 macro_rules! sort {
     ($f:ident, $name:ident) => {
@@ -82,9 +84,9 @@ macro_rules! sort {
             [(); 10].$f(|a, b| a.cmp(b));
             [(); 100].$f(|a, b| a.cmp(b));
 
-            let mut v = [0xDEAD_BEEFu64];
+            let mut v = [0xdead_beefu64];
             v.$f(|a, b| a.cmp(b));
-            assert!(v == [0xDEAD_BEEF]);
+            assert!(v == [0xdead_beef]);
         }
     };
 }

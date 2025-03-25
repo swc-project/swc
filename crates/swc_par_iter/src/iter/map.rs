@@ -1,8 +1,9 @@
-use super::plumbing::*;
-use super::*;
+use std::{
+    fmt::{self, Debug},
+    iter,
+};
 
-use std::fmt::{self, Debug};
-use std::iter;
+use super::{plumbing::*, *};
 
 /// `Map` is an iterator that transforms the elements of an underlying iterator.
 ///
@@ -121,8 +122,8 @@ where
     F: Fn(P::Item) -> R + Sync,
     R: Send,
 {
-    type Item = F::Output;
     type IntoIter = iter::Map<P::IntoIter, &'f F>;
+    type Item = F::Output;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter().map(self.map_op)
@@ -131,6 +132,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

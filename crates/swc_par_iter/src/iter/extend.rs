@@ -1,14 +1,17 @@
-use super::noop::NoopConsumer;
-use super::plumbing::{Consumer, Folder, Reducer, UnindexedConsumer};
-use super::{IntoParallelIterator, ParallelExtend, ParallelIterator};
+use std::{
+    borrow::Cow,
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque},
+    ffi::{OsStr, OsString},
+    hash::{BuildHasher, Hash},
+};
 
 use either::Either;
-use std::borrow::Cow;
-use std::collections::LinkedList;
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-use std::collections::{BinaryHeap, VecDeque};
-use std::ffi::{OsStr, OsString};
-use std::hash::{BuildHasher, Hash};
+
+use super::{
+    noop::NoopConsumer,
+    plumbing::{Consumer, Folder, Reducer, UnindexedConsumer},
+    IntoParallelIterator, ParallelExtend, ParallelIterator,
+};
 
 /// Performs a generic `par_extend` by collecting to a `LinkedList<Vec<_>>` in
 /// parallel, then extending the collection sequentially.

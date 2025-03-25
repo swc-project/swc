@@ -1,5 +1,4 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
 /// This trait abstracts the different ways we can "unzip" one parallel
 /// iterator into two distinct consumers, which we can handle almost

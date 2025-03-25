@@ -1,11 +1,14 @@
-use super::plumbing::*;
-use super::*;
-use std::fmt;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    fmt,
+    sync::atomic::{AtomicBool, Ordering},
+};
+
+use super::{plumbing::*, *};
 
 /// `SkipAnyWhile` is an iterator that skips over elements from anywhere in `I`
 /// until the callback returns `false`.
-/// This struct is created by the [`skip_any_while()`] method on [`ParallelIterator`]
+/// This struct is created by the [`skip_any_while()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`skip_any_while()`]: trait.ParallelIterator.html#method.skip_any_while
 /// [`ParallelIterator`]: trait.ParallelIterator.html

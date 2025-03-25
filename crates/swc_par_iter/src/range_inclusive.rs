@@ -16,11 +16,12 @@
 //!
 //! [std::range]: https://doc.rust-lang.org/core/ops/struct.RangeInclusive.html
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
 use std::ops::RangeInclusive;
 
-/// Parallel iterator over an inclusive range, implemented for all integer types and `char`.
+use crate::iter::{plumbing::*, *};
+
+/// Parallel iterator over an inclusive range, implemented for all integer types
+/// and `char`.
 ///
 /// **Note:** The `zip` operation requires `IndexedParallelIterator`
 /// which is only implemented for `u8`, `i8`, `u16`, `i16`, and `char`.
@@ -51,11 +52,13 @@ where
     RangeInclusive<T>: Eq,
     T: Ord + Copy,
 {
-    /// Returns `Some((start, end))` for `start..=end`, or `None` if it is exhausted.
+    /// Returns `Some((start, end))` for `start..=end`, or `None` if it is
+    /// exhausted.
     ///
-    /// Note that `RangeInclusive` does not specify the bounds of an exhausted iterator,
-    /// so this is a way for us to figure out what we've got.  Thankfully, all of the
-    /// integer types we care about can be trivially cloned.
+    /// Note that `RangeInclusive` does not specify the bounds of an exhausted
+    /// iterator, so this is a way for us to figure out what we've got.
+    /// Thankfully, all of the integer types we care about can be trivially
+    /// cloned.
     fn bounds(&self) -> Option<(T, T)> {
         let start = *self.range.start();
         let end = *self.range.end();
@@ -83,13 +86,15 @@ where
     }
 }
 
-/// These traits help drive integer type inference. Without them, an unknown `{integer}` type only
-/// has constraints on `Iter<{integer}>`, which will probably give up and use `i32`. By adding
-/// these traits on the item type, the compiler can see a more direct constraint to infer like
-/// `{integer}: RangeInteger`, which works better. See `test_issue_833` for an example.
+/// These traits help drive integer type inference. Without them, an unknown
+/// `{integer}` type only has constraints on `Iter<{integer}>`, which will
+/// probably give up and use `i32`. By adding these traits on the item type, the
+/// compiler can see a more direct constraint to infer like `{integer}:
+/// RangeInteger`, which works better. See `test_issue_833` for an example.
 ///
-/// They have to be `pub` since they're seen in the public `impl ParallelIterator` constraints, but
-/// we put them in a private modules so they're not actually reachable in our public API.
+/// They have to be `pub` since they're seen in the public `impl
+/// ParallelIterator` constraints, but we put them in a private modules so
+/// they're not actually reachable in our public API.
 mod private {
     use super::*;
 
@@ -292,7 +297,7 @@ impl IndexedParallelIterator for Iter<char> {
             let start = start as u32;
             let end = end as u32;
             let mut count = end - start;
-            if start < 0xD800 && 0xE000 <= end {
+            if start < 0xd800 && 0xe000 <= end {
                 count -= 0x800
             }
             (count + 1) as usize // add one for inclusive

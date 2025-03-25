@@ -2,14 +2,16 @@
 //! (`HashMap<K, V>`). You will rarely need to interact with it directly
 //! unless you have need to name one of the iterator types.
 
-use std::collections::HashMap;
-use std::hash::{BuildHasher, Hash};
-use std::marker::PhantomData;
+use std::{
+    collections::HashMap,
+    hash::{BuildHasher, Hash},
+    marker::PhantomData,
+};
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-
-use crate::vec;
+use crate::{
+    iter::{plumbing::*, *},
+    vec,
+};
 
 /// Parallel iterator over a hash map
 #[derive(Debug)] // std doesn't Clone
@@ -78,8 +80,8 @@ pub struct Drain<'a, K: Hash + Eq + Send, V: Send> {
 impl<'a, K: Hash + Eq + Send, V: Send, S: BuildHasher> ParallelDrainFull
     for &'a mut HashMap<K, V, S>
 {
-    type Iter = Drain<'a, K, V>;
     type Item = (K, V);
+    type Iter = Drain<'a, K, V>;
 
     fn par_drain(self) -> Self::Iter {
         let vec: Vec<_> = self.drain().collect();

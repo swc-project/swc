@@ -1,8 +1,7 @@
 use super::{IndexedParallelIterator, ParallelIterator};
 
 mod consumer;
-use self::consumer::CollectConsumer;
-use self::consumer::CollectResult;
+use self::consumer::{CollectConsumer, CollectResult};
 use super::unzip::unzip_indexed;
 
 mod test;
@@ -22,8 +21,8 @@ where
 
 /// Collects the results of the iterator into the specified vector.
 ///
-/// Technically, this only works for `IndexedParallelIterator`, but we're faking a
-/// bit of specialization here until Rust can do that natively.  Callers are
+/// Technically, this only works for `IndexedParallelIterator`, but we're faking
+/// a bit of specialization here until Rust can do that natively.  Callers are
 /// using `opt_len` to find the length before calling this, and only exact
 /// iterators will return anything but `None` there.
 ///

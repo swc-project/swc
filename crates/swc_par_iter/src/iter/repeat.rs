@@ -1,6 +1,6 @@
-use super::plumbing::*;
-use super::*;
 use std::iter;
+
+use super::{plumbing::*, *};
 
 /// Iterator adaptor for [the `repeat()` function](fn.repeat.html).
 #[derive(Debug, Clone)]
@@ -173,8 +173,8 @@ struct RepeatNProducer<T: Clone + Send> {
 }
 
 impl<T: Clone + Send> Producer for RepeatNProducer<T> {
-    type Item = T;
     type IntoIter = Iter<T>;
+    type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
         Iter {

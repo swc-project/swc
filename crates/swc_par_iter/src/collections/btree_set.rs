@@ -4,10 +4,10 @@
 
 use std::collections::BTreeSet;
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-
-use crate::vec;
+use crate::{
+    iter::{plumbing::*, *},
+    vec,
+};
 
 /// Parallel iterator over a B-Tree set
 #[derive(Debug)] // std doesn't Clone

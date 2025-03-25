@@ -1,10 +1,10 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
 
-/// `FlatMapIter` maps each element to a serial iterator, then flattens these iterators together.
-/// This struct is created by the [`flat_map_iter()`] method on [`ParallelIterator`]
+use super::{plumbing::*, *};
+
+/// `FlatMapIter` maps each element to a serial iterator, then flattens these
+/// iterators together. This struct is created by the [`flat_map_iter()`] method
+/// on [`ParallelIterator`]
 ///
 /// [`flat_map_iter()`]: trait.ParallelIterator.html#method.flat_map_iter
 /// [`ParallelIterator`]: trait.ParallelIterator.html

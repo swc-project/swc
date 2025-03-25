@@ -1,7 +1,9 @@
-use super::plumbing::*;
-use super::*;
-use std::cell::Cell;
-use std::iter::{self, Fuse};
+use std::{
+    cell::Cell,
+    iter::{self, Fuse},
+};
+
+use super::{plumbing::*, *};
 
 /// `Intersperse` is an iterator that inserts a particular item between each
 /// item of the adapted iterator.  This struct is created by the
@@ -140,8 +142,8 @@ where
     P: Producer,
     P::Item: Clone + Send,
 {
-    type Item = P::Item;
     type IntoIter = IntersperseIter<P::IntoIter>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         IntersperseIter {
@@ -158,6 +160,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

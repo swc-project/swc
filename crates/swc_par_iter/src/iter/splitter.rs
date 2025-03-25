@@ -1,7 +1,6 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
+
+use super::{plumbing::*, *};
 
 /// The `split` function takes arbitrary data and a closure that knows how to
 /// split it, and turns this into a `ParallelIterator`.
@@ -102,7 +101,6 @@ use std::fmt::{self, Debug};
 ///     assert!((width / 2 <= height) && (height / 2 <= width));
 /// });
 /// ```
-///
 pub fn split<D, S>(data: D, splitter: S) -> Split<D, S>
 where
     D: Send,
@@ -111,8 +109,8 @@ where
     Split { data, splitter }
 }
 
-/// `Split` is a parallel iterator using arbitrary data and a splitting function.
-/// This struct is created by the [`split()`] function.
+/// `Split` is a parallel iterator using arbitrary data and a splitting
+/// function. This struct is created by the [`split()`] function.
 ///
 /// [`split()`]: fn.split.html
 #[derive(Clone)]

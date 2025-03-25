@@ -1,14 +1,16 @@
-use super::noop::NoopConsumer;
-use super::{FromParallelIterator, IntoParallelIterator, ParallelExtend, ParallelIterator};
+use std::{
+    borrow::Cow,
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque},
+    ffi::{OsStr, OsString},
+    hash::{BuildHasher, Hash},
+    rc::Rc,
+    sync::Arc,
+};
 
-use std::borrow::Cow;
-use std::collections::LinkedList;
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-use std::collections::{BinaryHeap, VecDeque};
-use std::ffi::{OsStr, OsString};
-use std::hash::{BuildHasher, Hash};
-use std::rc::Rc;
-use std::sync::Arc;
+use super::{
+    noop::NoopConsumer, FromParallelIterator, IntoParallelIterator, ParallelExtend,
+    ParallelIterator,
+};
 
 /// Creates an empty default collection and extends it.
 fn collect_extended<C, I>(par_iter: I) -> C
@@ -60,7 +62,8 @@ where
     }
 }
 
-/// Collects items from a parallel iterator into an atomically-reference-counted slice.
+/// Collects items from a parallel iterator into an atomically-reference-counted
+/// slice.
 impl<T> FromParallelIterator<T> for Arc<[T]>
 where
     T: Send,

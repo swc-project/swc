@@ -1,6 +1,6 @@
-use super::plumbing::*;
-use super::*;
 use std::iter::Fuse;
+
+use super::{plumbing::*, *};
 
 /// `Interleave` is an iterator that interleaves elements of iterators
 /// `i` and `j` in one continuous iterator. This struct is created by
@@ -172,8 +172,8 @@ where
     I: Producer,
     J: Producer<Item = I::Item>,
 {
-    type Item = I::Item;
     type IntoIter = InterleaveSeq<I::IntoIter, J::IntoIter>;
+    type Item = I::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         InterleaveSeq {

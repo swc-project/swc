@@ -2,15 +2,16 @@
 //! (`VecDeque<T>`). You will rarely need to interact with it directly
 //! unless you have need to name one of the iterator types.
 
-use std::collections::VecDeque;
-use std::ops::{Range, RangeBounds};
+use std::{
+    collections::VecDeque,
+    ops::{Range, RangeBounds},
+};
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::math::simplify_range;
-
-use crate::slice;
-use crate::vec;
+use crate::{
+    iter::{plumbing::*, *},
+    math::simplify_range,
+    slice, vec,
+};
 
 /// Parallel iterator over a double-ended queue
 #[derive(Debug, Clone)]
@@ -98,8 +99,8 @@ pub struct Drain<'a, T: Send> {
 }
 
 impl<'a, T: Send> ParallelDrainRange<usize> for &'a mut VecDeque<T> {
-    type Iter = Drain<'a, T>;
     type Item = T;
+    type Iter = Drain<'a, T>;
 
     fn par_drain<R: RangeBounds<usize>>(self, range: R) -> Self::Iter {
         Drain {

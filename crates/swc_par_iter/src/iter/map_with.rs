@@ -1,9 +1,9 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
 
-/// `MapWith` is an iterator that transforms the elements of an underlying iterator.
+use super::{plumbing::*, *};
+
+/// `MapWith` is an iterator that transforms the elements of an underlying
+/// iterator.
 ///
 /// This struct is created by the [`map_with()`] method on [`ParallelIterator`]
 ///
@@ -132,8 +132,8 @@ where
     F: Fn(&mut U, P::Item) -> R + Sync,
     R: Send,
 {
-    type Item = R;
     type IntoIter = MapWithIter<'f, P::IntoIter, U, F>;
+    type Item = R;
 
     fn into_iter(self) -> Self::IntoIter {
         MapWithIter {
@@ -146,6 +146,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }
@@ -335,7 +336,8 @@ where
 
 // ------------------------------------------------------------------------------------------------
 
-/// `MapInit` is an iterator that transforms the elements of an underlying iterator.
+/// `MapInit` is an iterator that transforms the elements of an underlying
+/// iterator.
 ///
 /// This struct is created by the [`map_init()`] method on [`ParallelIterator`]
 ///
@@ -461,8 +463,8 @@ where
     F: Fn(&mut U, P::Item) -> R + Sync,
     R: Send,
 {
-    type Item = R;
     type IntoIter = MapWithIter<'f, P::IntoIter, U, F>;
+    type Item = R;
 
     fn into_iter(self) -> Self::IntoIter {
         MapWithIter {
@@ -475,6 +477,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

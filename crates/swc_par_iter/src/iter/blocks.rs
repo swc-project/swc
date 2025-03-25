@@ -1,5 +1,4 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
 struct BlocksCallback<S, C> {
     sizes: S,
@@ -48,10 +47,11 @@ where
     }
 }
 
-/// `ExponentialBlocks` is a parallel iterator that consumes itself as a sequence
-/// of parallel blocks of increasing sizes (exponentially).
+/// `ExponentialBlocks` is a parallel iterator that consumes itself as a
+/// sequence of parallel blocks of increasing sizes (exponentially).
 ///
-/// This struct is created by the [`by_exponential_blocks()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`by_exponential_blocks()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`by_exponential_blocks()`]: trait.IndexedParallelIterator.html#method.by_exponential_blocks
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -94,7 +94,8 @@ fn exponential_size(size: &usize) -> Option<usize> {
 /// `UniformBlocks` is a parallel iterator that consumes itself as a sequence
 /// of parallel blocks of constant sizes.
 ///
-/// This struct is created by the [`by_uniform_blocks()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`by_uniform_blocks()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`by_uniform_blocks()`]: trait.IndexedParallelIterator.html#method.by_uniform_blocks
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html

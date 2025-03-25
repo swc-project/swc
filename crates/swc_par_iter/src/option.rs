@@ -5,13 +5,14 @@
 //!
 //! [std::option]: https://doc.rust-lang.org/stable/std/option/
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
 use std::sync::atomic::{AtomicBool, Ordering};
+
+use crate::iter::{plumbing::*, *};
 
 /// A parallel iterator over the value in [`Some`] variant of an [`Option`].
 ///
-/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise none.
+/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise
+/// none.
 ///
 /// This `struct` is created by the [`into_par_iter`] function.
 ///
@@ -74,9 +75,11 @@ impl<T: Send> IndexedParallelIterator for IntoIter<T> {
     }
 }
 
-/// A parallel iterator over a reference to the [`Some`] variant of an [`Option`].
+/// A parallel iterator over a reference to the [`Some`] variant of an
+/// [`Option`].
 ///
-/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise none.
+/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise
+/// none.
 ///
 /// This `struct` is created by the [`par_iter`] function.
 ///
@@ -112,9 +115,11 @@ delegate_indexed_iterator! {
     impl<'a, T: Sync + 'a>
 }
 
-/// A parallel iterator over a mutable reference to the [`Some`] variant of an [`Option`].
+/// A parallel iterator over a mutable reference to the [`Some`] variant of an
+/// [`Option`].
 ///
-/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise none.
+/// The iterator yields one value if the [`Option`] is a [`Some`], otherwise
+/// none.
 ///
 /// This `struct` is created by the [`par_iter_mut`] function.
 ///
@@ -148,8 +153,8 @@ struct OptionProducer<T: Send> {
 }
 
 impl<T: Send> Producer for OptionProducer<T> {
-    type Item = T;
     type IntoIter = std::option::IntoIter<T>;
+    type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
         self.opt.into_iter()

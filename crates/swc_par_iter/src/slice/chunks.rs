@@ -1,6 +1,7 @@
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::math::div_round_up;
+use crate::{
+    iter::{plumbing::*, *},
+    math::div_round_up,
+};
 
 /// Parallel iterator over immutable non-overlapping chunks of a slice
 #[derive(Debug)]
@@ -65,8 +66,8 @@ struct ChunksProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for ChunksProducer<'data, T> {
-    type Item = &'data [T];
     type IntoIter = ::std::slice::Chunks<'data, T>;
+    type Item = &'data [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.chunks(self.chunk_size)
@@ -166,8 +167,8 @@ struct ChunksExactProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for ChunksExactProducer<'data, T> {
-    type Item = &'data [T];
     type IntoIter = ::std::slice::ChunksExact<'data, T>;
+    type Item = &'data [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.chunks_exact(self.chunk_size)
@@ -246,8 +247,8 @@ struct ChunksMutProducer<'data, T: Send> {
 }
 
 impl<'data, T: 'data + Send> Producer for ChunksMutProducer<'data, T> {
-    type Item = &'data mut [T];
     type IntoIter = ::std::slice::ChunksMut<'data, T>;
+    type Item = &'data mut [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.chunks_mut(self.chunk_size)
@@ -364,8 +365,8 @@ struct ChunksExactMutProducer<'data, T: Send> {
 }
 
 impl<'data, T: 'data + Send> Producer for ChunksExactMutProducer<'data, T> {
-    type Item = &'data mut [T];
     type IntoIter = ::std::slice::ChunksExactMut<'data, T>;
+    type Item = &'data mut [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.chunks_exact_mut(self.chunk_size)

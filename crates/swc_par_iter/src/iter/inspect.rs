@@ -1,8 +1,9 @@
-use super::plumbing::*;
-use super::*;
+use std::{
+    fmt::{self, Debug},
+    iter,
+};
 
-use std::fmt::{self, Debug};
-use std::iter;
+use super::{plumbing::*, *};
 
 /// `Inspect` is an iterator that calls a function with a reference to each
 /// element before yielding it.
@@ -118,8 +119,8 @@ where
     P: Producer,
     F: Fn(&P::Item) + Sync,
 {
-    type Item = P::Item;
     type IntoIter = iter::Inspect<P::IntoIter, &'f F>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter().inspect(self.inspect_op)

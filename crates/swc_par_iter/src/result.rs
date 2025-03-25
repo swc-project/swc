@@ -5,11 +5,12 @@
 //!
 //! [std::result]: https://doc.rust-lang.org/stable/std/result/
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
 use std::sync::Mutex;
 
-use crate::option;
+use crate::{
+    iter::{plumbing::*, *},
+    option,
+};
 
 /// Parallel iterator over a result
 #[derive(Debug, Clone)]

@@ -1,10 +1,10 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 use crate::math::div_round_up;
 
 /// `Chunks` is an iterator that groups elements of an underlying iterator.
 ///
-/// This struct is created by the [`chunks()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`chunks()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`chunks()`]: trait.IndexedParallelIterator.html#method.chunks
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -118,8 +118,8 @@ where
     P: Producer,
     F: Fn(P::IntoIter) -> T + Send + Clone,
 {
-    type Item = T;
     type IntoIter = std::iter::Map<ChunkSeq<P>, F>;
+    type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
         let chunks = ChunkSeq {

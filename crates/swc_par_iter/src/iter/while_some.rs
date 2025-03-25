@@ -1,11 +1,12 @@
-use super::plumbing::*;
-use super::*;
 use std::sync::atomic::{AtomicBool, Ordering};
+
+use super::{plumbing::*, *};
 
 /// `WhileSome` is an iterator that yields the `Some` elements of an iterator,
 /// halting as soon as any `None` is produced.
 ///
-/// This struct is created by the [`while_some()`] method on [`ParallelIterator`]
+/// This struct is created by the [`while_some()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`while_some()`]: trait.ParallelIterator.html#method.while_some
 /// [`ParallelIterator`]: trait.ParallelIterator.html

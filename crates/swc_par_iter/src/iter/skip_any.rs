@@ -1,6 +1,6 @@
-use super::plumbing::*;
-use super::*;
 use std::sync::atomic::{AtomicUsize, Ordering};
+
+use super::{plumbing::*, *};
 
 /// `SkipAny` is an iterator that skips over `n` elements from anywhere in `I`.
 /// This struct is created by the [`skip_any()`] method on [`ParallelIterator`]

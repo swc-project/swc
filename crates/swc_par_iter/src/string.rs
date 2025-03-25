@@ -2,14 +2,13 @@
 //! (`String`). You will rarely need to interact with it directly
 //! unless you have need to name one of the iterator types.
 
-use crate::iter::plumbing::*;
-use crate::math::simplify_range;
-use crate::prelude::*;
 use std::ops::{Range, RangeBounds};
 
+use crate::{iter::plumbing::*, math::simplify_range, prelude::*};
+
 impl<'a> ParallelDrainRange<usize> for &'a mut String {
-    type Iter = Drain<'a>;
     type Item = char;
+    type Iter = Drain<'a>;
 
     fn par_drain<R: RangeBounds<usize>>(self, range: R) -> Self::Iter {
         Drain {

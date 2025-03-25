@@ -14,9 +14,10 @@
 //!
 //! [std::str]: https://doc.rust-lang.org/stable/std/str/
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::split_producer::*;
+use crate::{
+    iter::{plumbing::*, *},
+    split_producer::*,
+};
 
 /// Test if a byte is the start of a UTF-8 character.
 /// (extracted from `str::is_char_boundary`)
@@ -77,7 +78,8 @@ pub trait ParallelString {
         }
     }
 
-    /// Returns a parallel iterator over the characters of a string, with their positions.
+    /// Returns a parallel iterator over the characters of a string, with their
+    /// positions.
     ///
     /// # Examples
     ///
@@ -247,7 +249,8 @@ pub trait ParallelString {
     /// assert_eq!(words, ["Mary", "had", "a", "little", "lamb"]);
     /// ```
     ///
-    /// If the string is empty or all whitespace, the iterator yields no string slices:
+    /// If the string is empty or all whitespace, the iterator yields no string
+    /// slices:
     ///
     /// ```
     /// use rayon::prelude::*;
@@ -274,7 +277,8 @@ pub trait ParallelString {
     /// assert_eq!(Some("longest"), longest);
     /// ```
     ///
-    /// All kinds of ASCII whitespace are considered, but not Unicode `White_Space`:
+    /// All kinds of ASCII whitespace are considered, but not Unicode
+    /// `White_Space`:
     ///
     /// ```
     /// use rayon::prelude::*;
@@ -284,7 +288,8 @@ pub trait ParallelString {
     /// assert_eq!(words, ["Mary", "had", "a\u{2009}little", "lamb"]);
     /// ```
     ///
-    /// If the string is empty or all ASCII whitespace, the iterator yields no string slices:
+    /// If the string is empty or all ASCII whitespace, the iterator yields no
+    /// string slices:
     ///
     /// ```
     /// use rayon::prelude::*;

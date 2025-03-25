@@ -1,8 +1,7 @@
+use std::{marker::PhantomData, ptr, slice};
+
 use super::super::plumbing::*;
 use crate::SendPtr;
-use std::marker::PhantomData;
-use std::ptr;
-use std::slice;
 
 pub(super) struct CollectConsumer<'c, T: Send> {
     /// See `CollectResult` for explanation of why this is not a slice
@@ -49,8 +48,9 @@ pub(super) struct CollectResult<'c, T> {
     total_len: usize,
     /// The current initialized length after `start`
     initialized_len: usize,
-    /// Lifetime invariance guarantees that the data flows from consumer to result,
-    /// especially for the `scope_fn` callback in `Collect::with_consumer`.
+    /// Lifetime invariance guarantees that the data flows from consumer to
+    /// result, especially for the `scope_fn` callback in
+    /// `Collect::with_consumer`.
     invariant_lifetime: PhantomData<&'c mut &'c mut [T]>,
 }
 
@@ -156,6 +156,7 @@ impl<'c, T: Send + 'c> UnindexedConsumer<T> for CollectConsumer<'c, T> {
     fn split_off_left(&self) -> Self {
         unreachable!("CollectConsumer must be indexed!")
     }
+
     fn to_reducer(&self) -> Self::Reducer {
         CollectReducer
     }

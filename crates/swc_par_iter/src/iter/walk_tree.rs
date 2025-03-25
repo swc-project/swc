@@ -1,6 +1,9 @@
-use crate::iter::plumbing::{bridge_unindexed, Folder, UnindexedConsumer, UnindexedProducer};
-use crate::prelude::*;
 use std::iter::once;
+
+use crate::{
+    iter::plumbing::{bridge_unindexed, Folder, UnindexedConsumer, UnindexedProducer},
+    prelude::*,
+};
 
 #[derive(Debug)]
 struct WalkTreePrefixProducer<'b, S, B> {
@@ -102,9 +105,9 @@ where
 }
 
 /// Create a tree-like prefix parallel iterator from an initial root node.
-/// The `children_of` function should take a node and return an iterator over its child nodes.
-/// The best parallelization is obtained when the tree is balanced
-/// but we should also be able to handle harder cases.
+/// The `children_of` function should take a node and return an iterator over
+/// its child nodes. The best parallelization is obtained when the tree is
+/// balanced but we should also be able to handle harder cases.
 ///
 /// # Ordering
 ///
@@ -112,7 +115,8 @@ where
 /// which guarantees a postfix order.
 /// If you don't care about ordering, you should use [`walk_tree`],
 /// which will use whatever is believed to be fastest.
-/// For example a perfect binary tree of 7 nodes will reduced in the following order:
+/// For example a perfect binary tree of 7 nodes will reduced in the following
+/// order:
 ///
 /// ```text
 ///      a
@@ -123,7 +127,6 @@ where
 /// d   e f   g
 ///
 /// reduced as a,b,d,e,c,f,g
-///
 /// ```
 ///
 /// # Example
@@ -202,7 +205,6 @@ where
 /// .collect();
 /// assert_eq!(v, vec![10, 3, 14, 18]);
 /// ```
-///
 pub fn walk_tree_prefix<S, B, I>(root: S, children_of: B) -> WalkTreePrefix<S, B>
 where
     S: Send,
@@ -341,19 +343,21 @@ fn split_vec<T>(v: &mut Vec<T>) -> Option<Vec<T>> {
 }
 
 /// Create a tree like postfix parallel iterator from an initial root node.
-/// The `children_of` function should take a node and iterate on all of its child nodes.
-/// The best parallelization is obtained when the tree is balanced
+/// The `children_of` function should take a node and iterate on all of its
+/// child nodes. The best parallelization is obtained when the tree is balanced
 /// but we should also be able to handle harder cases.
 ///
 /// # Ordering
 ///
-/// This function guarantees a postfix ordering. See also [`walk_tree_prefix`] which guarantees a
-/// prefix order. If you don't care about ordering, you should use [`walk_tree`], which will use
-/// whatever is believed to be fastest.
+/// This function guarantees a postfix ordering. See also [`walk_tree_prefix`]
+/// which guarantees a prefix order. If you don't care about ordering, you
+/// should use [`walk_tree`], which will use whatever is believed to be fastest.
 ///
-/// Between siblings, children are reduced in order -- that is first children are reduced first.
+/// Between siblings, children are reduced in order -- that is first children
+/// are reduced first.
 ///
-/// For example a perfect binary tree of 7 nodes will reduced in the following order:
+/// For example a perfect binary tree of 7 nodes will reduced in the following
+/// order:
 ///
 /// ```text
 ///      a
@@ -364,7 +368,6 @@ fn split_vec<T>(v: &mut Vec<T>) -> Option<Vec<T>> {
 /// d   e f   g
 ///
 /// reduced as d,e,b,f,g,c,a
-///
 /// ```
 ///
 /// # Example
@@ -443,7 +446,6 @@ fn split_vec<T>(v: &mut Vec<T>) -> Option<Vec<T>> {
 /// .collect();
 /// assert_eq!(v, vec![3, 18, 14, 10]);
 /// ```
-///
 pub fn walk_tree_postfix<S, B, I>(root: S, children_of: B) -> WalkTreePostfix<S, B>
 where
     S: Send,
@@ -462,8 +464,8 @@ where
 pub struct WalkTree<S, B>(WalkTreePostfix<S, B>);
 
 /// Create a tree like parallel iterator from an initial root node.
-/// The `children_of` function should take a node and iterate on all of its child nodes.
-/// The best parallelization is obtained when the tree is balanced
+/// The `children_of` function should take a node and iterate on all of its
+/// child nodes. The best parallelization is obtained when the tree is balanced
 /// but we should also be able to handle harder cases.
 ///
 /// # Ordering

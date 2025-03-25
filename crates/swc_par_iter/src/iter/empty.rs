@@ -1,8 +1,6 @@
-use crate::iter::plumbing::*;
-use crate::iter::*;
+use std::{fmt, marker::PhantomData};
 
-use std::fmt;
-use std::marker::PhantomData;
+use crate::iter::{plumbing::*, *};
 
 /// Creates a parallel iterator that produces nothing.
 ///
@@ -83,8 +81,8 @@ impl<T: Send> IndexedParallelIterator for Empty<T> {
 struct EmptyProducer<T: Send>(PhantomData<T>);
 
 impl<T: Send> Producer for EmptyProducer<T> {
-    type Item = T;
     type IntoIter = std::iter::Empty<T>;
+    type Item = T;
 
     fn into_iter(self) -> Self::IntoIter {
         std::iter::empty()

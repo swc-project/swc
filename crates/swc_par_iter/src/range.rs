@@ -16,11 +16,12 @@
 //!
 //! [std::range]: https://doc.rust-lang.org/core/ops/struct.Range.html
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
 use std::ops::Range;
 
-/// Parallel iterator over a range, implemented for all integer types and `char`.
+use crate::iter::{plumbing::*, *};
+
+/// Parallel iterator over a range, implemented for all integer types and
+/// `char`.
 ///
 /// **Note:** The `zip` operation requires `IndexedParallelIterator`
 /// which is not implemented for `u64`, `i64`, `u128`, or `i128`.
@@ -67,21 +68,23 @@ impl<T> IntoIterator for IterProducer<T>
 where
     Range<T>: Iterator,
 {
-    type Item = <Range<T> as Iterator>::Item;
     type IntoIter = Range<T>;
+    type Item = <Range<T> as Iterator>::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.range
     }
 }
 
-/// These traits help drive integer type inference. Without them, an unknown `{integer}` type only
-/// has constraints on `Iter<{integer}>`, which will probably give up and use `i32`. By adding
-/// these traits on the item type, the compiler can see a more direct constraint to infer like
-/// `{integer}: RangeInteger`, which works better. See `test_issue_833` for an example.
+/// These traits help drive integer type inference. Without them, an unknown
+/// `{integer}` type only has constraints on `Iter<{integer}>`, which will
+/// probably give up and use `i32`. By adding these traits on the item type, the
+/// compiler can see a more direct constraint to infer like `{integer}:
+/// RangeInteger`, which works better. See `test_issue_833` for an example.
 ///
-/// They have to be `pub` since they're seen in the public `impl ParallelIterator` constraints, but
-/// we put them in a private modules so they're not actually reachable in our public API.
+/// They have to be `pub` since they're seen in the public `impl
+/// ParallelIterator` constraints, but we put them in a private modules so
+/// they're not actually reachable in our public API.
 mod private {
     use super::*;
 
@@ -190,16 +193,18 @@ macro_rules! indexed_range_impl {
         }
 
         impl Producer for IterProducer<$t> {
-            type Item = <Range<$t> as Iterator>::Item;
             type IntoIter = Range<$t>;
+            type Item = <Range<$t> as Iterator>::Item;
+
             fn into_iter(self) -> Self::IntoIter {
                 self.range
             }
 
             fn split_at(self, index: usize) -> (Self, Self) {
                 assert!(index <= self.range.len());
-                // For signed $t, the length and requested index could be greater than $t::MAX, and
-                // then `index as $t` could wrap to negative, so wrapping_add is necessary.
+                // For signed $t, the length and requested index could be greater than $t::MAX,
+                // and then `index as $t` could wrap to negative, so wrapping_add is
+                // necessary.
                 let mid = self.range.start.wrapping_add(index as $t);
                 let left = self.range.start..mid;
                 let right = mid..self.range.end;
@@ -347,7 +352,7 @@ impl IndexedParallelIterator for Iter<char> {
         let end = self.range.end as u32;
         if start < end {
             let mut count = end - start;
-            if start < 0xD800 && 0xE000 <= end {
+            if start < 0xd800 && 0xe000 <= end {
                 count -= 0x800
             }
             count as usize

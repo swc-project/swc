@@ -1,12 +1,12 @@
 //! Traits and functions used to implement parallel iteration.  These are
 //! low-level details -- users of parallel iterators should not need to
-//! interact with them directly.  See [the `plumbing` README][r] for a general overview.
+//! interact with them directly.  See [the `plumbing` README][r] for a general
+//! overview.
 //!
 //! [r]: https://github.com/rayon-rs/rayon/blob/main/src/iter/plumbing/README.md
 
-use crate::join_context;
-
 use super::IndexedParallelIterator;
+use crate::join_context;
 
 /// The `ProducerCallback` trait is a kind of generic closure,
 /// [analogous to `FnOnce`][FnOnce]. See [the corresponding section in
@@ -160,7 +160,8 @@ pub trait Folder<Item>: Sized {
     /// Consume next item and return new sequential state.
     fn consume(self, item: Item) -> Self;
 
-    /// Consume items from the iterator until full, and return new sequential state.
+    /// Consume items from the iterator until full, and return new sequential
+    /// state.
     ///
     /// This method is **optional**. The default simply iterates over
     /// `iter`, invoking `consume` and checking after each iteration
@@ -363,6 +364,7 @@ where
         C: Consumer<I>,
     {
         type Output = C::Result;
+
         fn callback<P>(self, producer: P) -> C::Result
         where
             P: Producer<Item = I>,
@@ -437,7 +439,8 @@ where
     }
 }
 
-/// A variant of [`bridge_producer_consumer`] where the producer is an unindexed producer.
+/// A variant of [`bridge_producer_consumer`] where the producer is an unindexed
+/// producer.
 ///
 /// [`bridge_producer_consumer`]: fn.bridge_producer_consumer.html
 pub fn bridge_unindexed<P, C>(producer: P, consumer: C) -> C::Result

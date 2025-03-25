@@ -1,5 +1,4 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
 /// `MultiZip` is an iterator that zips up a tuple of parallel iterators to
 /// produce tuples of their items.
@@ -25,7 +24,8 @@ use super::*;
 /// assert_eq!(&r, &[1 * 10 + 100, 2 * 11 + 101, 3 * 12 + 102]);
 /// ```
 ///
-/// For a group that should all be iterated by reference, you can use a tuple reference.
+/// For a group that should all be iterated by reference, you can use a tuple
+/// reference.
 ///
 /// ```
 /// use rayon::prelude::*;
@@ -80,8 +80,8 @@ pub struct MultiZip<T> {
     tuple: T,
 }
 
-// These macros greedily consume 4 or 2 items first to achieve log2 nesting depth.
-// For example, 5 => 4,1 => (2,2),1.
+// These macros greedily consume 4 or 2 items first to achieve log2 nesting
+// depth. For example, 5 => 4,1 => (2,2),1.
 //
 // The tuples go up to 12, so we might want to greedily consume 8 too, but
 // the depth works out the same if we let that expand on the right:

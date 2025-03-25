@@ -1,11 +1,14 @@
-use super::plumbing::*;
-use super::*;
-use std::fmt;
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::{
+    fmt,
+    sync::atomic::{AtomicBool, Ordering},
+};
 
-/// `TakeAnyWhile` is an iterator that iterates over elements from anywhere in `I`
-/// until the callback returns `false`.
-/// This struct is created by the [`take_any_while()`] method on [`ParallelIterator`]
+use super::{plumbing::*, *};
+
+/// `TakeAnyWhile` is an iterator that iterates over elements from anywhere in
+/// `I` until the callback returns `false`.
+/// This struct is created by the [`take_any_while()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`take_any_while()`]: trait.ParallelIterator.html#method.take_any_while
 /// [`ParallelIterator`]: trait.ParallelIterator.html

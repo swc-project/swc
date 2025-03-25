@@ -1,12 +1,12 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
 
-/// `Positions` takes a predicate `predicate` and filters out elements that match,
-/// yielding their indices.
+use super::{plumbing::*, *};
+
+/// `Positions` takes a predicate `predicate` and filters out elements that
+/// match, yielding their indices.
 ///
-/// This struct is created by the [`positions()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`positions()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`positions()`]: trait.IndexedParallelIterator.html#method.positions
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html

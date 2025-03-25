@@ -1,7 +1,6 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
+
+use super::{plumbing::*, *};
 
 impl<U, I, ID, F> Fold<I, ID, F>
 where
@@ -19,8 +18,9 @@ where
     }
 }
 
-/// `Fold` is an iterator that applies a function over an iterator producing a single value.
-/// This struct is created by the [`fold()`] method on [`ParallelIterator`]
+/// `Fold` is an iterator that applies a function over an iterator producing a
+/// single value. This struct is created by the [`fold()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`fold()`]: trait.ParallelIterator.html#method.fold
 /// [`ParallelIterator`]: trait.ParallelIterator.html
@@ -194,8 +194,9 @@ where
     }
 }
 
-/// `FoldWith` is an iterator that applies a function over an iterator producing a single value.
-/// This struct is created by the [`fold_with()`] method on [`ParallelIterator`]
+/// `FoldWith` is an iterator that applies a function over an iterator producing
+/// a single value. This struct is created by the [`fold_with()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`fold_with()`]: trait.ParallelIterator.html#method.fold_with
 /// [`ParallelIterator`]: trait.ParallelIterator.html

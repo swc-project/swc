@@ -1,7 +1,6 @@
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use std::marker::PhantomData;
-use std::{fmt, mem};
+use std::{fmt, marker::PhantomData, mem};
+
+use crate::iter::{plumbing::*, *};
 
 trait ChunkBySlice<T>: AsRef<[T]> + Default + Send {
     fn split(self, index: usize) -> (Self, Self);
@@ -139,7 +138,8 @@ where
     }
 }
 
-/// Parallel iterator over slice in (non-overlapping) chunks separated by a predicate.
+/// Parallel iterator over slice in (non-overlapping) chunks separated by a
+/// predicate.
 ///
 /// This struct is created by the [`par_chunk_by`] method on `&[T]`.
 ///

@@ -1,8 +1,10 @@
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::math::div_round_up;
+use crate::{
+    iter::{plumbing::*, *},
+    math::div_round_up,
+};
 
-/// Parallel iterator over immutable non-overlapping chunks of a slice, starting at the end.
+/// Parallel iterator over immutable non-overlapping chunks of a slice, starting
+/// at the end.
 #[derive(Debug)]
 pub struct RChunks<'data, T: Sync> {
     chunk_size: usize,
@@ -65,8 +67,8 @@ struct RChunksProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for RChunksProducer<'data, T> {
-    type Item = &'data [T];
     type IntoIter = ::std::slice::RChunks<'data, T>;
+    type Item = &'data [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.rchunks(self.chunk_size)
@@ -88,7 +90,8 @@ impl<'data, T: 'data + Sync> Producer for RChunksProducer<'data, T> {
     }
 }
 
-/// Parallel iterator over immutable non-overlapping chunks of a slice, starting at the end.
+/// Parallel iterator over immutable non-overlapping chunks of a slice, starting
+/// at the end.
 #[derive(Debug)]
 pub struct RChunksExact<'data, T: Sync> {
     chunk_size: usize,
@@ -165,8 +168,8 @@ struct RChunksExactProducer<'data, T: Sync> {
 }
 
 impl<'data, T: 'data + Sync> Producer for RChunksExactProducer<'data, T> {
-    type Item = &'data [T];
     type IntoIter = ::std::slice::RChunksExact<'data, T>;
+    type Item = &'data [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.rchunks_exact(self.chunk_size)
@@ -188,7 +191,8 @@ impl<'data, T: 'data + Sync> Producer for RChunksExactProducer<'data, T> {
     }
 }
 
-/// Parallel iterator over mutable non-overlapping chunks of a slice, starting at the end.
+/// Parallel iterator over mutable non-overlapping chunks of a slice, starting
+/// at the end.
 #[derive(Debug)]
 pub struct RChunksMut<'data, T: Send> {
     chunk_size: usize,
@@ -245,8 +249,8 @@ struct RChunksMutProducer<'data, T: Send> {
 }
 
 impl<'data, T: 'data + Send> Producer for RChunksMutProducer<'data, T> {
-    type Item = &'data mut [T];
     type IntoIter = ::std::slice::RChunksMut<'data, T>;
+    type Item = &'data mut [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.rchunks_mut(self.chunk_size)
@@ -268,7 +272,8 @@ impl<'data, T: 'data + Send> Producer for RChunksMutProducer<'data, T> {
     }
 }
 
-/// Parallel iterator over mutable non-overlapping chunks of a slice, starting at the end.
+/// Parallel iterator over mutable non-overlapping chunks of a slice, starting
+/// at the end.
 #[derive(Debug)]
 pub struct RChunksExactMut<'data, T: Send> {
     chunk_size: usize,
@@ -362,8 +367,8 @@ struct RChunksExactMutProducer<'data, T: Send> {
 }
 
 impl<'data, T: 'data + Send> Producer for RChunksExactMutProducer<'data, T> {
-    type Item = &'data mut [T];
     type IntoIter = ::std::slice::RChunksExactMut<'data, T>;
+    type Item = &'data mut [T];
 
     fn into_iter(self) -> Self::IntoIter {
         self.slice.rchunks_exact_mut(self.chunk_size)

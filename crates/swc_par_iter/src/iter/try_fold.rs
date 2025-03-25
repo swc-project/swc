@@ -1,10 +1,10 @@
-use super::plumbing::*;
-use super::ParallelIterator;
-use super::Try;
+use std::{
+    fmt::{self, Debug},
+    marker::PhantomData,
+    ops::ControlFlow::{self, Break, Continue},
+};
 
-use std::fmt::{self, Debug};
-use std::marker::PhantomData;
-use std::ops::ControlFlow::{self, Break, Continue};
+use super::{plumbing::*, ParallelIterator, Try};
 
 impl<U, I, ID, F> TryFold<I, U, ID, F>
 where
@@ -23,8 +23,9 @@ where
     }
 }
 
-/// `TryFold` is an iterator that applies a function over an iterator producing a single value.
-/// This struct is created by the [`try_fold()`] method on [`ParallelIterator`]
+/// `TryFold` is an iterator that applies a function over an iterator producing
+/// a single value. This struct is created by the [`try_fold()`] method on
+/// [`ParallelIterator`]
 ///
 /// [`try_fold()`]: trait.ParallelIterator.html#method.try_fold
 /// [`ParallelIterator`]: trait.ParallelIterator.html
@@ -184,8 +185,9 @@ where
     }
 }
 
-/// `TryFoldWith` is an iterator that applies a function over an iterator producing a single value.
-/// This struct is created by the [`try_fold_with()`] method on [`ParallelIterator`]
+/// `TryFoldWith` is an iterator that applies a function over an iterator
+/// producing a single value. This struct is created by the [`try_fold_with()`]
+/// method on [`ParallelIterator`]
 ///
 /// [`try_fold_with()`]: trait.ParallelIterator.html#method.try_fold_with
 /// [`ParallelIterator`]: trait.ParallelIterator.html

@@ -1,9 +1,8 @@
-use super::noop::NoopConsumer;
-use super::plumbing::*;
-use super::*;
+use super::{noop::NoopConsumer, plumbing::*, *};
 
 /// `Skip` is an iterator that skips over the first `n` elements.
-/// This struct is created by the [`skip()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`skip()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`skip()`]: trait.IndexedParallelIterator.html#method.skip
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -74,6 +73,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,

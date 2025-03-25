@@ -1,10 +1,11 @@
-use super::plumbing::*;
-use super::*;
-use crate::math::div_round_up;
 use std::iter;
 
-/// `StepBy` is an iterator that skips `n` elements between each yield, where `n` is the given step.
-/// This struct is created by the [`step_by()`] method on [`IndexedParallelIterator`]
+use super::{plumbing::*, *};
+use crate::math::div_round_up;
+
+/// `StepBy` is an iterator that skips `n` elements between each yield, where
+/// `n` is the given step. This struct is created by the [`step_by()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`step_by()`]: trait.IndexedParallelIterator.html#method.step_by
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -77,6 +78,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,
@@ -105,8 +107,8 @@ impl<P> Producer for StepByProducer<P>
 where
     P: Producer,
 {
-    type Item = P::Item;
     type IntoIter = iter::StepBy<P::IntoIter>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         self.base.into_iter().step_by(self.step)

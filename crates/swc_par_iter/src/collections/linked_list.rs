@@ -4,10 +4,10 @@
 
 use std::collections::LinkedList;
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-
-use crate::vec;
+use crate::{
+    iter::{plumbing::*, *},
+    vec,
+};
 
 /// Parallel iterator over a linked list
 #[derive(Debug, Clone)]

@@ -5,15 +5,17 @@
 //!
 //! [std::vec]: https://doc.rust-lang.org/stable/std/vec/
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-use crate::math::simplify_range;
-use crate::slice::{Iter, IterMut};
-use std::iter;
-use std::mem;
-use std::ops::{Range, RangeBounds};
-use std::ptr;
-use std::slice;
+use std::{
+    iter, mem,
+    ops::{Range, RangeBounds},
+    ptr, slice,
+};
+
+use crate::{
+    iter::{plumbing::*, *},
+    math::simplify_range,
+    slice::{Iter, IterMut},
+};
 
 impl<'data, T: Sync + 'data> IntoParallelIterator for &'data Vec<T> {
     type Item = &'data T;
@@ -85,8 +87,8 @@ impl<T: Send> IndexedParallelIterator for IntoIter<T> {
 }
 
 impl<'data, T: Send> ParallelDrainRange<usize> for &'data mut Vec<T> {
-    type Iter = Drain<'data, T>;
     type Item = T;
+    type Iter = Drain<'data, T>;
 
     fn par_drain<R: RangeBounds<usize>>(self, range: R) -> Self::Iter {
         Drain {
@@ -97,7 +99,8 @@ impl<'data, T: Send> ParallelDrainRange<usize> for &'data mut Vec<T> {
     }
 }
 
-/// Draining parallel iterator that moves a range out of a vector, but keeps the total capacity.
+/// Draining parallel iterator that moves a range out of a vector, but keeps the
+/// total capacity.
 #[derive(Debug)]
 pub struct Drain<'data, T: Send> {
     vec: &'data mut Vec<T>,
@@ -183,15 +186,18 @@ pub(crate) struct DrainProducer<'data, T: Send> {
 impl<T: Send> DrainProducer<'_, T> {
     /// Creates a draining producer, which *moves* items from the slice.
     ///
-    /// Unsafe because `!Copy` data must not be read after the borrow is released.
+    /// Unsafe because `!Copy` data must not be read after the borrow is
+    /// released.
     pub(crate) unsafe fn new(slice: &mut [T]) -> DrainProducer<'_, T> {
         DrainProducer { slice }
     }
 
-    /// Creates a draining producer, which *moves* items from the tail of the vector.
+    /// Creates a draining producer, which *moves* items from the tail of the
+    /// vector.
     ///
-    /// Unsafe because we're moving from beyond `vec.len()`, so the caller must ensure
-    /// that data is initialized and not read after the borrow is released.
+    /// Unsafe because we're moving from beyond `vec.len()`, so the caller must
+    /// ensure that data is initialized and not read after the borrow is
+    /// released.
     unsafe fn from_vec(vec: &mut Vec<T>, len: usize) -> DrainProducer<'_, T> {
         let start = vec.len();
         assert!(vec.capacity() - start >= len);
@@ -204,8 +210,8 @@ impl<T: Send> DrainProducer<'_, T> {
 }
 
 impl<'data, T: 'data + Send> Producer for DrainProducer<'data, T> {
-    type Item = T;
     type IntoIter = SliceDrain<'data, T>;
+    type Item = T;
 
     fn into_iter(mut self) -> Self::IntoIter {
         // replace the slice so we don't drop it twice

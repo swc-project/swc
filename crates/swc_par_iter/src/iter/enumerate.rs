@@ -1,10 +1,10 @@
-use super::plumbing::*;
-use super::*;
-use std::iter;
-use std::ops::Range;
+use std::{iter, ops::Range};
 
-/// `Enumerate` is an iterator that returns the current count along with the element.
-/// This struct is created by the [`enumerate()`] method on [`IndexedParallelIterator`]
+use super::{plumbing::*, *};
+
+/// `Enumerate` is an iterator that returns the current count along with the
+/// element. This struct is created by the [`enumerate()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`enumerate()`]: trait.IndexedParallelIterator.html#method.enumerate
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -69,6 +69,7 @@ where
             CB: ProducerCallback<(usize, I)>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = I>,
@@ -92,8 +93,8 @@ impl<P> Producer for EnumerateProducer<P>
 where
     P: Producer,
 {
-    type Item = (usize, P::Item);
     type IntoIter = iter::Zip<Range<usize>, P::IntoIter>;
+    type Item = (usize, P::Item);
 
     fn into_iter(self) -> Self::IntoIter {
         // Enumerate only works for IndexedParallelIterators. Since those
@@ -112,6 +113,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

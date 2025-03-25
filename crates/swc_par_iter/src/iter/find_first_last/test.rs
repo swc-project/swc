@@ -6,8 +6,9 @@ fn same_range_first_consumers_return_correct_answer() {
     let first_found = AtomicUsize::new(usize::max_value());
     let far_right_consumer = FindConsumer::new(&find_op, MatchPosition::Leftmost, &first_found);
 
-    // We save a consumer that will be far to the right of the main consumer (and therefore not
-    // sharing an index range with that consumer) for fullness testing
+    // We save a consumer that will be far to the right of the main consumer (and
+    // therefore not sharing an index range with that consumer) for fullness
+    // testing
     let consumer = far_right_consumer.split_off_left();
 
     // split until we have an indivisible range
@@ -42,8 +43,9 @@ fn same_range_last_consumers_return_correct_answer() {
     let last_found = AtomicUsize::new(0);
     let consumer = FindConsumer::new(&find_op, MatchPosition::Rightmost, &last_found);
 
-    // We save a consumer that will be far to the left of the main consumer (and therefore not
-    // sharing an index range with that consumer) for fullness testing
+    // We save a consumer that will be far to the left of the main consumer (and
+    // therefore not sharing an index range with that consumer) for fullness
+    // testing
     let far_left_consumer = consumer.split_off_left();
 
     // split until we have an indivisible range

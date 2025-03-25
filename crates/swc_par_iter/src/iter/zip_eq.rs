@@ -1,11 +1,10 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
-/// An [`IndexedParallelIterator`] that iterates over two parallel iterators of equal
-/// length simultaneously.
+/// An [`IndexedParallelIterator`] that iterates over two parallel iterators of
+/// equal length simultaneously.
 ///
-/// This struct is created by the [`zip_eq`] method on [`IndexedParallelIterator`],
-/// see its documentation for more information.
+/// This struct is created by the [`zip_eq`] method on
+/// [`IndexedParallelIterator`], see its documentation for more information.
 ///
 /// [`zip_eq`]: trait.IndexedParallelIterator.html#method.zip_eq
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html

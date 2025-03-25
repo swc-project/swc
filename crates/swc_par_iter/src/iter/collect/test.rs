@@ -5,14 +5,16 @@
 // try to drive the "collect consumer" incorrectly. These should
 // result in panics.
 
-use super::collect_with_consumer;
-use crate::iter::plumbing::*;
+use std::{
+    fmt, panic,
+    sync::atomic::{AtomicUsize, Ordering},
+    thread::Result as ThreadResult,
+};
+
 use rayon_core::join;
 
-use std::fmt;
-use std::panic;
-use std::sync::atomic::{AtomicUsize, Ordering};
-use std::thread::Result as ThreadResult;
+use super::collect_with_consumer;
+use crate::iter::plumbing::*;
 
 /// Promises to produce 2 items, but then produces 3.  Does not do any
 /// splits at all.
@@ -43,7 +45,8 @@ fn produce_fewer_items() {
     });
 }
 
-// Complete is not called by the consumer. Hence,the collection vector is not fully initialized.
+// Complete is not called by the consumer. Hence,the collection vector is not
+// fully initialized.
 #[test]
 #[should_panic(expected = "expected 4 total writes, but got 2")]
 fn left_produces_items_with_no_complete() {
@@ -74,7 +77,8 @@ fn right_produces_items_with_no_complete() {
     });
 }
 
-// Complete is not called by the consumer. Hence,the collection vector is not fully initialized.
+// Complete is not called by the consumer. Hence,the collection vector is not
+// fully initialized.
 #[test]
 #[cfg_attr(not(panic = "unwind"), ignore)]
 fn produces_items_with_no_complete() {
@@ -339,7 +343,8 @@ impl<'a> Drop for Element<'a> {
     }
 }
 
-/// Assert that the result from catch_unwind is a panic that contains expected message
+/// Assert that the result from catch_unwind is a panic that contains expected
+/// message
 fn assert_is_panic_with_message<T>(result: &ThreadResult<T>, expected: &str)
 where
     T: fmt::Debug,

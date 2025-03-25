@@ -62,11 +62,9 @@ macro_rules! delegate_indexed_iterator {
 
 #[test]
 fn unindexed_example() {
-    use crate::collections::btree_map::IntoIter;
-    use crate::iter::plumbing::*;
-    use crate::prelude::*;
-
     use std::collections::BTreeMap;
+
+    use crate::{collections::btree_map::IntoIter, iter::plumbing::*, prelude::*};
 
     struct MyIntoIter<T: Ord + Send, U: Send> {
         inner: IntoIter<T, U>,
@@ -87,9 +85,7 @@ fn unindexed_example() {
 
 #[test]
 fn indexed_example() {
-    use crate::iter::plumbing::*;
-    use crate::prelude::*;
-    use crate::vec::IntoIter;
+    use crate::{iter::plumbing::*, prelude::*, vec::IntoIter};
 
     struct MyIntoIter<T: Send> {
         inner: IntoIter<T>,

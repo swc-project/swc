@@ -1,19 +1,21 @@
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::{
+    collections::{BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque},
+    f64,
+    ffi::OsStr,
+    fmt::Debug,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        mpsc,
+    },
+    usize,
+};
+
+use rand::{distributions::Standard, Rng, SeedableRng};
+use rand_xorshift::XorShiftRng;
+use rayon_core::*;
 
 use super::*;
 use crate::prelude::*;
-use rayon_core::*;
-
-use rand::distributions::Standard;
-use rand::{Rng, SeedableRng};
-use rand_xorshift::XorShiftRng;
-use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-use std::collections::{BinaryHeap, VecDeque};
-use std::f64;
-use std::ffi::OsStr;
-use std::fmt::Debug;
-use std::sync::mpsc;
-use std::usize;
 
 fn is_indexed<T: IndexedParallelIterator>(_: T) {}
 
@@ -175,7 +177,8 @@ fn fold_is_full() {
         .fold(|| 0, |a, b| a + b)
         .find_any(|_| true);
     assert!(a.is_some());
-    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited every single one
+    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited
+                                                    // every single one
 }
 
 #[test]
@@ -235,6 +238,7 @@ fn check_indices_after_enumerate_split() {
     struct WithProducer;
     impl<'a> ProducerCallback<(usize, &'a i32)> for WithProducer {
         type Output = ();
+
         fn callback<P>(self, producer: P)
         where
             P: Producer<Item = (usize, &'a i32)>,
@@ -366,6 +370,7 @@ fn check_drops() {
     struct Partial;
     impl<'a> ProducerCallback<DropCounter<'a>> for Partial {
         type Output = ();
+
         fn callback<P>(self, producer: P)
         where
             P: Producer<Item = DropCounter<'a>>,
@@ -470,7 +475,8 @@ fn check_cmp_gt_to_seq() {
 #[test]
 #[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
 fn check_cmp_short_circuit() {
-    // We only use a single thread in order to make the short-circuit behavior deterministic.
+    // We only use a single thread in order to make the short-circuit behavior
+    // deterministic.
     let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
 
     let a = vec![0; 1024];
@@ -1402,7 +1408,8 @@ fn check_find_not_present() {
         p >= 2048
     });
     assert!(value.is_none());
-    assert!(counter.load(Ordering::SeqCst) == 2048); // should have visited every single one
+    assert!(counter.load(Ordering::SeqCst) == 2048); // should have visited
+                                                     // every single one
 }
 
 #[test]
@@ -1414,7 +1421,8 @@ fn check_find_is_present() {
     });
     let q = value.unwrap();
     assert!((1024..1096).contains(&q));
-    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited every single one
+    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited
+                                                    // every single one
 }
 
 #[test]
@@ -1436,7 +1444,8 @@ fn check_while_some() {
         .while_some()
         .max();
     assert!(value < Some(1024));
-    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited every single one
+    assert!(counter.load(Ordering::SeqCst) < 2048); // should not have visited
+                                                    // every single one
 }
 
 #[test]

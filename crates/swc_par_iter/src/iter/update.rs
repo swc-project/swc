@@ -1,7 +1,6 @@
-use super::plumbing::*;
-use super::*;
-
 use std::fmt::{self, Debug};
+
+use super::{plumbing::*, *};
 
 /// `Update` is an iterator that mutates the elements of an
 /// underlying iterator before they are yielded.
@@ -117,8 +116,8 @@ where
     P: Producer,
     F: Fn(&mut P::Item) + Send + Sync,
 {
-    type Item = P::Item;
     type IntoIter = UpdateSeq<P::IntoIter, &'f F>;
+    type Item = P::Item;
 
     fn into_iter(self) -> Self::IntoIter {
         UpdateSeq {
@@ -130,6 +129,7 @@ where
     fn min_len(&self) -> usize {
         self.base.min_len()
     }
+
     fn max_len(&self) -> usize {
         self.base.max_len()
     }

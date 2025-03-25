@@ -1,14 +1,13 @@
 use std::fmt::{self, Debug};
 
-use super::chunks::ChunkProducer;
-use super::plumbing::*;
-use super::*;
+use super::{chunks::ChunkProducer, plumbing::*, *};
 use crate::math::div_round_up;
 
-/// `FoldChunks` is an iterator that groups elements of an underlying iterator and applies a
-/// function over them, producing a single value for each group.
+/// `FoldChunks` is an iterator that groups elements of an underlying iterator
+/// and applies a function over them, producing a single value for each group.
 ///
-/// This struct is created by the [`fold_chunks()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`fold_chunks()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`fold_chunks()`]: trait.IndexedParallelIterator.html#method.fold_chunks
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -135,8 +134,9 @@ where
 
 #[cfg(test)]
 mod test {
-    use super::*;
     use std::ops::Add;
+
+    use super::*;
 
     #[test]
     fn check_fold_chunks() {

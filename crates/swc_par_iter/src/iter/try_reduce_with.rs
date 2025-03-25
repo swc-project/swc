@@ -1,9 +1,9 @@
-use super::plumbing::*;
-use super::ParallelIterator;
-use super::Try;
+use std::{
+    ops::ControlFlow::{self, Break, Continue},
+    sync::atomic::{AtomicBool, Ordering},
+};
 
-use std::ops::ControlFlow::{self, Break, Continue};
-use std::sync::atomic::{AtomicBool, Ordering};
+use super::{plumbing::*, ParallelIterator, Try};
 
 pub(super) fn try_reduce_with<PI, R, T>(pi: PI, reduce_op: R) -> Option<T>
 where

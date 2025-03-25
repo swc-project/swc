@@ -1,8 +1,8 @@
-use super::plumbing::*;
-use super::*;
+use super::{plumbing::*, *};
 
 /// `Take` is an iterator that iterates over the first `n` elements.
-/// This struct is created by the [`take()`] method on [`IndexedParallelIterator`]
+/// This struct is created by the [`take()`] method on
+/// [`IndexedParallelIterator`]
 ///
 /// [`take()`]: trait.IndexedParallelIterator.html#method.take
 /// [`IndexedParallelIterator`]: trait.IndexedParallelIterator.html
@@ -73,6 +73,7 @@ where
             CB: ProducerCallback<T>,
         {
             type Output = CB::Output;
+
             fn callback<P>(self, base: P) -> CB::Output
             where
                 P: Producer<Item = T>,

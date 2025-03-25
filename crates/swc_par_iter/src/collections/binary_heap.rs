@@ -4,10 +4,10 @@
 
 use std::collections::BinaryHeap;
 
-use crate::iter::plumbing::*;
-use crate::iter::*;
-
-use crate::vec;
+use crate::{
+    iter::{plumbing::*, *},
+    vec,
+};
 
 /// Parallel iterator over a binary heap
 #[derive(Debug, Clone)]
@@ -67,8 +67,8 @@ pub struct Drain<'a, T: Ord + Send> {
 }
 
 impl<'a, T: Ord + Send> ParallelDrainFull for &'a mut BinaryHeap<T> {
-    type Iter = Drain<'a, T>;
     type Item = T;
+    type Iter = Drain<'a, T>;
 
     fn par_drain(self) -> Self::Iter {
         Drain { heap: self }

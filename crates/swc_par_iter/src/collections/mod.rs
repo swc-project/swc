@@ -32,9 +32,9 @@ pub mod vec_deque;
 use self::drain_guard::DrainGuard;
 
 mod drain_guard {
+    use std::{mem, ops::RangeBounds};
+
     use crate::iter::ParallelDrainRange;
-    use std::mem;
-    use std::ops::RangeBounds;
 
     /// A proxy for draining a collection by converting to a `Vec` and back.
     ///
@@ -74,8 +74,8 @@ mod drain_guard {
         T: Send,
         C: From<Vec<T>>,
     {
-        type Iter = crate::vec::Drain<'a, T>;
         type Item = T;
+        type Iter = crate::vec::Drain<'a, T>;
 
         fn par_drain<R: RangeBounds<usize>>(self, range: R) -> Self::Iter {
             self.vec.par_drain(range)
