@@ -5,7 +5,6 @@ use swc_ecma_codegen_macros::node_impl;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
-#[node_impl]
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
