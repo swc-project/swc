@@ -10,10 +10,7 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    helpers::{Helpers, HELPERS},
-    perf::{cpu_count, Parallel},
-};
+use swc_ecma_transforms_base::perf::{cpu_count, Parallel};
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
     StmtLike, Value::Known,
@@ -996,31 +993,29 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        HELPERS.set(&Helpers::new(true), || {
-            let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-            if self.bindings.is_empty() {
-                self.bindings = Arc::new(collect_decls(&*m))
-            }
+        if self.bindings.is_empty() {
+            self.bindings = Arc::new(collect_decls(&*m))
+        }
 
-            let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
-            {
-                let mut analyzer = Analyzer {
-                    config: &self.config,
-                    in_var_decl: false,
-                    scope: Default::default(),
-                    data: data.clone(),
-                    cur_class_id: Default::default(),
-                    cur_fn_id: Default::default(),
-                };
-                m.visit_with(&mut analyzer);
-            }
+        {
+            let mut analyzer = Analyzer {
+                config: &self.config,
+                in_var_decl: false,
+                scope: Default::default(),
+                data: data.clone(),
+                cur_class_id: Default::default(),
+                cur_fn_id: Default::default(),
+            };
+            m.visit_with(&mut analyzer);
+        }
 
-            self.data = Arc::new(merge_data(data));
+        self.data = Arc::new(merge_data(data));
 
-            m.visit_mut_children_with(self);
-        })
+        m.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
@@ -1059,31 +1054,29 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
-        HELPERS.set(&Helpers::new(true), || {
-            let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
+        let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-            if self.bindings.is_empty() {
-                self.bindings = Arc::new(collect_decls(&*m))
-            }
+        if self.bindings.is_empty() {
+            self.bindings = Arc::new(collect_decls(&*m))
+        }
 
-            let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
-            {
-                let mut analyzer = Analyzer {
-                    config: &self.config,
-                    in_var_decl: false,
-                    scope: Default::default(),
-                    data: data.clone(),
-                    cur_class_id: Default::default(),
-                    cur_fn_id: Default::default(),
-                };
-                m.visit_with(&mut analyzer);
-            }
+        {
+            let mut analyzer = Analyzer {
+                config: &self.config,
+                in_var_decl: false,
+                scope: Default::default(),
+                data: data.clone(),
+                cur_class_id: Default::default(),
+                cur_fn_id: Default::default(),
+            };
+            m.visit_with(&mut analyzer);
+        }
 
-            self.data = Arc::new(merge_data(data));
+        self.data = Arc::new(merge_data(data));
 
-            m.visit_mut_children_with(self);
-        })
+        m.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
