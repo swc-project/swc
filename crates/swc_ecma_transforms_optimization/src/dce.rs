@@ -615,13 +615,6 @@ impl VisitMut for DeadCodeEliminator {
                     }
                     ImportSpecifier::Namespace(_) => true, // Always keep namespace imports
                 });
-
-                // Remove empty imports (but keep side-effect imports)
-                if import.specifiers.is_empty() && !import.src.value.is_empty() {
-                    self.changed = true;
-                    // Replace with empty statement to maintain AST structure
-                    module.body[i] = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-                }
             }
         }
 
