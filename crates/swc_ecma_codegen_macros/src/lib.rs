@@ -102,12 +102,10 @@ impl Fold for ReplaceEmit {
                 .flat_map(|arg| arg.into_token_stream())
                 .collect();
 
-            let is_emit = self.emit;
-
-            if is_emit {
-                i = parse_quote!(emit!(emitter, true, #args));
+            if self.emit {
+                i = parse_quote!(node_emit!(emitter, #args));
             } else {
-                i = parse_quote!(emit!(emitter, false, #args));
+                i = parse_quote!(node_adjust!(emitter, #args));
             }
         }
 
