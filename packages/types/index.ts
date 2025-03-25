@@ -1156,6 +1156,12 @@ export interface BaseModuleConfig {
      */
     importInterop?: "swc" | "babel" | "node" | "none";
     /**
+     * Output extension for generated files.
+     * 
+     * Defaults to `js`.
+     */
+    outFileExtension?: "js" | "mjs" | "cjs";
+    /**
      * Emits `cjs-module-lexer` annotation
      * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.
      * swc will emit `cjs-module-lexer` detectable annotation with this option enabled.
