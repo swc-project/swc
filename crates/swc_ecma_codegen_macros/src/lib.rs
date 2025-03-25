@@ -37,6 +37,9 @@ fn expand_method(src: ImplItemFn) -> ItemImpl {
     let method_name = src.sig.ident.clone();
     let block = src.block;
 
+    let last_argument = src.sig.inputs.last().unwrap();
+    let node_type = unref_type(fn_arg_to_type(last_argument));
+
     parse_quote!(
         impl crate::Node for #node_type {
             fn emit_with<W, S>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
@@ -54,4 +57,20 @@ fn expand_method(src: ImplItemFn) -> ItemImpl {
             }
         }
     )
+}
+
+fn fn_arg_to_type(arg: &FnArg) -> &Type {
+    match arg {
+        FnArg::Typed(ty) => ty.ty.as_ref(),
+        _ => panic!("Unexpected argument: {:?}", arg),
+    }
+}
+
+/// &T -> T;
+/// &mut T -> T;
+fn unref_type(ty: &Type) -> Type {
+    match ty {
+        Type::Reference(r) => unref_type(r.elem.as_ref()),
+        other => other.clone(),
+    }
 }
