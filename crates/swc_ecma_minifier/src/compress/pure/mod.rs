@@ -752,6 +752,8 @@ impl VisitMut for Pure<'_> {
 
         self.optimize_expr_in_bool_ctx(&mut s.test, false);
 
+        self.merge_nested_if(s);
+
         self.merge_else_if(s);
 
         self.make_bool_short(&mut s.test, true, false);

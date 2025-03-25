@@ -2152,8 +2152,6 @@ impl VisitMut for Optimizer<'_> {
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
-        self.merge_nested_if(n);
-
         self.negate_if_stmt(n);
     }
 
