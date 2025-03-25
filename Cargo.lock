@@ -6222,6 +6222,7 @@ dependencies = [
 name = "swc_par_iter"
 version = "1.0.0"
 dependencies = [
+ "chili",
  "either",
  "rand",
  "rand_xorshift",
