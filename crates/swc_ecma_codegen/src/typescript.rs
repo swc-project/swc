@@ -5,27 +5,31 @@ use swc_ecma_codegen_macros::node_impl;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
-impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S> where W: WriteJs {}
+#[node_impl]
+impl MacroNode for ParamOrTsParamProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            ParamOrTsParamProp::Param(n) => emit!(n),
+            ParamOrTsParamProp::TsParamProp(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsArrayType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.elem_type);
+        punct!(emitter, "[");
+        punct!(emitter, "]");
+    }
+}
 
 impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
 where
     W: WriteJs,
 {
-    fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
-        match *n {
-            ParamOrTsParamProp::Param(ref n) => emit!(n),
-            ParamOrTsParamProp::TsParamProp(ref n) => emit!(n),
-        }
-    }
-
-    fn emit_ts_array_type(&mut self, n: &TsArrayType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.elem_type);
-        punct!(self, "[");
-        punct!(self, "]");
-    }
-
     fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
