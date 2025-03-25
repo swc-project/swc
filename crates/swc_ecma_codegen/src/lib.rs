@@ -251,7 +251,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
     fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -274,7 +273,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
         srcmap!(self, n, true);
 
@@ -298,7 +296,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
         srcmap!(self, n, true);
 
@@ -315,12 +312,11 @@ where
             }
             emit!(n.expr);
         }
-        semi!();
+        semi!(self);
 
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -338,7 +334,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_import(&mut self, n: &ImportDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -442,12 +437,11 @@ where
             emit!(with);
         }
 
-        semi!();
+        semi!(self);
 
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
         srcmap!(self, node, true);
 
@@ -468,7 +462,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
         match node {
             ExportSpecifier::Default(..) => {
@@ -479,7 +472,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_namespace_export_specifier(&mut self, node: &ExportNamespaceSpecifier) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -494,7 +486,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_named_export_specifier(&mut self, node: &ExportNamedSpecifier) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -517,7 +508,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_named_export(&mut self, node: &NamedExport) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -604,12 +594,11 @@ where
                 emit!(with);
             }
         }
-        semi!();
+        semi!(self);
 
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_export_all(&mut self, node: &ExportAll) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -642,12 +631,10 @@ where
             emit!(with);
         }
 
-        semi!();
+        semi!(self);
 
         srcmap!(self, node, false);
     }
-
-    #[emitter]
 
     fn emit_lit(&mut self, node: &Lit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -681,8 +668,6 @@ where
 
         Ok(())
     }
-
-    #[emitter]
 
     fn emit_str_lit(&mut self, node: &Str) -> Result {
         self.wr.commit_pending_semi()?;
@@ -740,8 +725,6 @@ where
 
         // srcmap!(self,node, false);
     }
-
-    #[emitter]
 
     fn emit_num_lit(&mut self, num: &Number) -> Result {
         self.emit_num_lit_internal(num, false)?;
@@ -849,7 +832,6 @@ where
             }))
     }
 
-    #[emitter]
     fn emit_big_lit(&mut self, v: &BigInt) -> Result {
         self.emit_leading_comments_of_span(v.span, false)?;
 
@@ -904,7 +886,6 @@ where
     //     Ok(())
     // }
 
-    #[emitter]
     fn emit_callee(&mut self, node: &Callee) -> Result {
         match *node {
             Callee::Expr(ref e) => {
@@ -919,12 +900,10 @@ where
         }
     }
 
-    #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
         keyword!(self, node.span, "super");
     }
 
-    #[emitter]
     fn emit_import_callee(&mut self, node: &Import) -> Result {
         keyword!(self, node.span, "import");
         match node.phase {
@@ -939,8 +918,6 @@ where
             _ => {}
         }
     }
-
-    #[emitter]
 
     fn emit_expr(&mut self, node: &Expr) -> Result {
         match node {
@@ -993,7 +970,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1031,14 +1007,12 @@ where
         }
     }
 
-    #[emitter]
     fn emit_invalid(&mut self, n: &Invalid) -> Result {
         self.emit_leading_comments_of_span(n.span, false)?;
 
         self.wr.write_str_lit(n.span, "<invalid>")?;
     }
 
-    #[emitter]
     fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -1100,12 +1074,10 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
         self.emit_new(node, true)?;
     }
 
-    #[emitter]
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1158,7 +1130,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1178,7 +1149,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1230,7 +1200,6 @@ where
         emit!(node.body);
     }
 
-    #[emitter]
     fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
         if self.comments.is_some() {
             self.emit_leading_comments_of_span(node.span(), false)?;
@@ -1245,7 +1214,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1265,7 +1233,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1345,7 +1312,6 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1381,7 +1347,6 @@ where
         self.emit_bin_expr_trailing(node)?;
     }
 
-    #[emitter]
     fn emit_decorator(&mut self, node: &Decorator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1394,7 +1359,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1420,7 +1384,6 @@ where
         self.emit_class_trailing(&node.class)?;
     }
 
-    #[emitter]
     fn emit_class_trailing(&mut self, node: &Class) -> Result {
         if node.super_class.is_some() {
             space!(self);
@@ -1463,8 +1426,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
-
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
@@ -1479,7 +1440,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
@@ -1521,10 +1481,9 @@ where
             emit!(init);
         }
 
-        semi!();
+        semi!(self);
     }
 
-    #[emitter]
     fn emit_key(&mut self, n: &Key) -> Result {
         match n {
             Key::Private(n) => emit!(n),
@@ -1532,7 +1491,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1571,7 +1529,6 @@ where
         self.emit_fn_trailing(&n.function)?;
     }
 
-    #[emitter]
     fn emit_bool(&mut self, n: &Bool) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1582,7 +1539,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1697,7 +1653,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1751,12 +1706,11 @@ where
             }
         }
 
-        semi!();
+        semi!(self);
 
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
         srcmap!(self, n, true);
@@ -1821,7 +1775,7 @@ where
             }
         }
 
-        semi!();
+        semi!(self);
 
         srcmap!(self, n, false);
     }
@@ -1839,8 +1793,6 @@ where
         Ok(())
     }
 
-    #[emitter]
-
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1856,11 +1808,10 @@ where
         if let Some(body) = &n.body {
             emit!(body);
         } else {
-            formatting_semi!();
+            formatting_semi!(self);
         }
     }
 
-    #[emitter]
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1872,7 +1823,6 @@ where
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_prop_name(&mut self, node: &PropName) -> Result {
         match node {
             PropName::Ident(ident) => {
@@ -1911,7 +1861,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_computed_prop_name(&mut self, n: &ComputedPropName) -> Result {
         srcmap!(self, n, true);
 
@@ -1922,7 +1871,6 @@ where
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1939,7 +1887,6 @@ where
         emit!(node.alt);
     }
 
-    #[emitter]
     fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1967,7 +1914,7 @@ where
     }
 
     /// prints `(b){}` from `function a(b){}`
-    #[emitter]
+
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
             emit!(type_params);
@@ -1987,13 +1934,12 @@ where
             formatting_space!(self);
             self.emit_block_stmt_inner(body, true)?;
         } else {
-            semi!();
+            semi!(self);
         }
 
         // srcmap!(self,node, false);
     }
 
-    #[emitter]
     fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
         match node {
             BlockStmtOrExpr::BlockStmt(block) => {
@@ -2007,14 +1953,12 @@ where
         }
     }
 
-    #[emitter]
     fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(self, node.span, "this");
     }
 
-    #[emitter]
     fn emit_tpl_lit(&mut self, node: &Tpl) -> Result {
         debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
@@ -2039,7 +1983,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
@@ -2073,7 +2016,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2127,7 +2069,6 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -2154,7 +2095,6 @@ where
         emit!(n.arg);
     }
 
-    #[emitter]
     fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2170,7 +2110,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2211,7 +2150,6 @@ where
         self.emit_list(parent_node, Some(nodes), format)
     }
 
-    #[emitter]
     fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
         if let Some(span) = node.spread {
             self.emit_leading_comments_of_span(span, false)?;
@@ -2222,7 +2160,6 @@ where
         emit!(node.expr);
     }
 
-    #[emitter]
     fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -2234,7 +2171,6 @@ where
         emit!(&n.arg);
     }
 
-    #[emitter]
     fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2252,7 +2188,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2284,7 +2219,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_prop(&mut self, node: &Prop) -> Result {
         match *node {
             Prop::Shorthand(ref n) => emit!(n),
@@ -2296,7 +2230,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
         let key_span = node.key.span();
@@ -2316,7 +2249,6 @@ where
         emit!(node.value);
     }
 
-    #[emitter]
     fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2327,7 +2259,6 @@ where
         emit!(node.value);
     }
 
-    #[emitter]
     fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2352,7 +2283,6 @@ where
         emit!(node.body);
     }
 
-    #[emitter]
     fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2389,7 +2319,6 @@ where
         emit!(node.body);
     }
 
-    #[emitter]
     fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2410,7 +2339,6 @@ where
         self.emit_fn_trailing(&node.function)?;
     }
 
-    #[emitter]
     fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -2425,7 +2353,6 @@ where
         punct!(self, ")");
     }
 
-    #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -2437,7 +2364,6 @@ where
         srcmap!(self, n, false);
     }
 
-    #[emitter]
     fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
         self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
 
@@ -2453,12 +2379,10 @@ where
         // emitList(node, node.typeArguments, ListFormat::TypeParameters);
     }
 
-    #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
     }
 
-    #[emitter]
     fn emit_ident_name(&mut self, ident: &IdentName) -> Result {
         self.emit_ident_like(ident.span, &ident.sym, false)?;
     }
@@ -2840,7 +2764,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
     fn emit_param(&mut self, node: &Param) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2853,7 +2776,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_pat(&mut self, node: &Pat) -> Result {
         match node {
             Pat::Array(ref n) => emit!(n),
@@ -2870,7 +2792,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2884,7 +2805,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_prop_or_spread(&mut self, node: &PropOrSpread) -> Result {
         match *node {
             PropOrSpread::Prop(ref n) => emit!(n),
@@ -2892,7 +2812,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
         if self.comments.is_some() {
             self.emit_leading_comments_of_span(node.span(), false)?;
@@ -2906,7 +2825,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
         match *node {
             AssignTarget::Simple(ref n) => emit!(n),
@@ -2914,7 +2832,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
         match node {
             SimpleAssignTarget::Ident(n) => emit!(n),
@@ -2931,7 +2848,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
         match node {
             AssignTargetPat::Array(n) => emit!(n),
@@ -2940,7 +2856,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2969,7 +2884,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -2984,7 +2898,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -3012,7 +2925,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_object_pat_prop(&mut self, node: &ObjectPatProp) -> Result {
         match *node {
             ObjectPatProp::KeyValue(ref node) => emit!(node),
@@ -3021,7 +2933,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -3035,7 +2946,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -3052,7 +2962,6 @@ where
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_for_head(&mut self, node: &ForHead) -> Result {
         match node {
             ForHead::Pat(n) => emit!(n),
@@ -3068,7 +2977,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
         match node {
             Stmt::Expr(ref e) => emit!(e),
@@ -3094,11 +3002,11 @@ where
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(Decl::Var(e)) => {
                 emit!(e);
-                semi!();
+                semi!(self);
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
                 emit!(e);
-                semi!();
+                semi!(self);
             }
             Stmt::Decl(ref e) => emit!(e),
         }
@@ -3111,17 +3019,13 @@ where
         }
     }
 
-    #[emitter]
-
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         self.emit_leading_comments_of_span(e.span, false)?;
 
         emit!(e.expr);
 
-        semi!();
+        semi!(self);
     }
-
-    #[emitter]
 
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_block_stmt_inner(node, false)?;
@@ -3154,24 +3058,21 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         self.wr.write_punct(None, ";")?;
     }
 
-    #[emitter]
     fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(self, node.span, "debugger");
-        semi!();
+        semi!(self);
     }
 
-    #[emitter]
     fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3321,7 +3222,6 @@ where
         false
     }
 
-    #[emitter]
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3351,10 +3251,9 @@ where
             }
         }
 
-        semi!();
+        semi!(self);
     }
 
-    #[emitter]
     fn emit_labeled_stmt(&mut self, node: &LabeledStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3367,7 +3266,6 @@ where
         emit!(node.body);
     }
 
-    #[emitter]
     fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3380,10 +3278,9 @@ where
             emit!(label);
         }
 
-        semi!();
+        semi!(self);
     }
 
-    #[emitter]
     fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3396,10 +3293,9 @@ where
             emit!(label);
         }
 
-        semi!();
+        semi!(self);
     }
 
-    #[emitter]
     fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3436,7 +3332,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3457,7 +3352,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3478,7 +3372,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3520,7 +3413,6 @@ where
         self.emit_list(n.span(), Some(&n.cons), format)?;
     }
 
-    #[emitter]
     fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -3543,10 +3435,8 @@ where
                 punct!(self, ")");
             }
         }
-        semi!();
+        semi!(self);
     }
-
-    #[emitter]
 
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
@@ -3573,7 +3463,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3590,7 +3479,6 @@ where
         emit!(node.body);
     }
 
-    #[emitter]
     fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3615,13 +3503,12 @@ where
         punct!(self, ")");
 
         if self.cfg.target <= EsVersion::Es5 {
-            semi!();
+            semi!(self);
         }
 
         srcmap!(self, node, false);
     }
 
-    #[emitter]
     fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3642,7 +3529,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3678,7 +3564,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
@@ -3716,7 +3601,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
         match *node {
             ModuleExportName::Ident(ref ident) => emit!(ident),
@@ -3752,7 +3636,6 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) -> Result {
         match *node {
             VarDeclOrExpr::Expr(ref node) => emit!(node),

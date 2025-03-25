@@ -1,15 +1,15 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[node_impl]
 impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
 where
     W: WriteJs,
 {
-    #[emitter]
     fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
         match *n {
             ParamOrTsParamProp::Param(ref n) => emit!(n),
@@ -17,7 +17,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_array_type(&mut self, n: &TsArrayType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -26,7 +25,6 @@ where
         punct!(self, "]");
     }
 
-    #[emitter]
     fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -39,7 +37,6 @@ where
         emit!(n.type_ann);
     }
 
-    #[emitter]
     fn emit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -52,7 +49,6 @@ where
         emit!(n.type_ann);
     }
 
-    #[emitter]
     fn emit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -71,7 +67,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_cond_type(&mut self, n: &TsConditionalType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -95,7 +90,6 @@ where
         emit!(n.false_type);
     }
 
-    #[emitter]
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -116,7 +110,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -142,7 +135,6 @@ where
         emit!(n.type_ann)
     }
 
-    #[emitter]
     fn emit_ts_entity_name(&mut self, n: &TsEntityName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -154,7 +146,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_enum_decl(&mut self, n: &TsEnumDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -181,7 +172,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_enum_member(&mut self, n: &TsEnumMember) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -195,7 +185,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_enum_member_id(&mut self, n: &TsEnumMemberId) -> Result {
         match n {
             TsEnumMemberId::Ident(n) => emit!(n),
@@ -203,7 +192,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -214,7 +202,6 @@ where
         emit!(n.expr);
     }
 
-    #[emitter]
     fn emit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -223,7 +210,6 @@ where
         emit!(n.type_args);
     }
 
-    #[emitter]
     fn emit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -233,7 +219,6 @@ where
         punct!(self, ")");
     }
 
-    #[emitter]
     fn emit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -243,7 +228,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_fn_param(&mut self, n: &TsFnParam) -> Result {
         match n {
             TsFnParam::Ident(n) => emit!(n),
@@ -253,7 +237,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_fn_type(&mut self, n: &TsFnType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -270,7 +253,6 @@ where
         emit!(n.type_ann);
     }
 
-    #[emitter]
     fn emit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -295,10 +277,9 @@ where
         formatting_space!(self);
 
         emit!(n.module_ref);
-        formatting_semi!();
+        formatting_semi!(self);
     }
 
-    #[emitter]
     fn emit_ts_index_signature(&mut self, n: &TsIndexSignature) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -318,7 +299,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_index_accessed_type(&mut self, n: &TsIndexedAccessType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -329,7 +309,6 @@ where
         punct!(self, "]");
     }
 
-    #[emitter]
     fn emit_ts_infer_type(&mut self, n: &TsInferType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -338,7 +317,6 @@ where
         emit!(n.type_param);
     }
 
-    #[emitter]
     fn emit_ts_interface_body(&mut self, n: &TsInterfaceBody) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -349,7 +327,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -382,7 +359,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     fn emit_ts_intersection_type(&mut self, n: &TsIntersectionType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -393,7 +369,6 @@ where
         )?;
     }
 
-    #[emitter]
     fn emit_ts_keyword_type(&mut self, n: &TsKeywordType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -414,7 +389,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_lit(&mut self, n: &TsLit) -> Result {
         match n {
             TsLit::BigInt(n) => emit!(n),
@@ -425,7 +399,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
         debug_assert!(node.quasis.len() == node.types.len() + 1);
 
@@ -446,14 +419,12 @@ where
         punct!(self, "`");
     }
 
-    #[emitter]
     fn emit_ts_lit_type(&mut self, n: &TsLitType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.lit);
     }
 
-    #[emitter]
     fn emit_ts_mapped_type(&mut self, n: &TsMappedType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -531,14 +502,13 @@ where
             emit!(type_ann);
         }
 
-        formatting_semi!();
+        formatting_semi!(self);
 
         self.wr.write_line()?;
         self.wr.decrease_indent()?;
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_method_signature(&mut self, n: &TsMethodSignature) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -569,13 +539,11 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_module_block(&mut self, n: &TsModuleBlock) -> Result {
         self.emit_list(n.span, Some(&n.body), ListFormat::SourceFileStatements)?;
         self.emit_leading_comments_of_span(n.span(), false)?;
     }
 
-    #[emitter]
     fn emit_ts_module_decl(&mut self, n: &TsModuleDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -608,7 +576,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_module_name(&mut self, n: &TsModuleName) -> Result {
         match n {
             TsModuleName::Ident(n) => emit!(n),
@@ -616,7 +583,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_module_ref(&mut self, n: &TsModuleRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -626,7 +592,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_ns_body(&mut self, n: &TsNamespaceBody) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -640,7 +605,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_ns_decl(&mut self, n: &TsNamespaceDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -657,7 +621,6 @@ where
         emit!(n.body);
     }
 
-    #[emitter]
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -668,7 +631,6 @@ where
         emit!(n.id);
     }
 
-    #[emitter]
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -676,7 +638,6 @@ where
         punct!(self, "!")
     }
 
-    #[emitter]
     fn emit_ts_optional_type(&mut self, n: &TsOptionalType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -684,7 +645,6 @@ where
         punct!(self, "?");
     }
 
-    #[emitter]
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -705,7 +665,6 @@ where
         emit!(n.param);
     }
 
-    #[emitter]
     fn emit_ts_param_prop_param(&mut self, n: &TsParamPropParam) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -715,7 +674,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_paren_type(&mut self, n: &TsParenthesizedType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -724,7 +682,6 @@ where
         punct!(self, ")");
     }
 
-    #[emitter]
     fn emit_ts_property_signature(&mut self, n: &TsPropertySignature) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -756,7 +713,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_qualified_name(&mut self, n: &TsQualifiedName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -765,7 +721,6 @@ where
         emit!(n.right);
     }
 
-    #[emitter]
     fn emit_ts_rest_type(&mut self, n: &TsRestType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -773,14 +728,12 @@ where
         emit!(n.type_ann);
     }
 
-    #[emitter]
     fn emit_ts_this_type(&mut self, n: &TsThisType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!(self, n.span, "this");
     }
 
-    #[emitter]
     fn emit_ts_this_type_or_ident(&mut self, n: &TsThisTypeOrIdent) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -790,7 +743,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_tuple_type(&mut self, n: &TsTupleType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -799,7 +751,6 @@ where
         punct!(self, "]");
     }
 
-    #[emitter]
     fn emit_ts_tuple_element(&mut self, n: &TsTupleElement) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -812,7 +763,6 @@ where
         emit!(n.ty)
     }
 
-    #[emitter]
     fn emit_ts_type(&mut self, n: &TsType) -> Result {
         match n {
             TsType::TsKeywordType(n) => emit!(n),
@@ -838,7 +788,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_import_type(&mut self, n: &TsImportType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -860,7 +809,6 @@ where
         emit!(n.type_args);
     }
 
-    #[emitter]
     fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result {
         punct!(self, "{");
         if !self.cfg.minify {
@@ -880,7 +828,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -905,17 +852,15 @@ where
 
         emit!(n.type_ann);
 
-        formatting_semi!();
+        formatting_semi!(self);
     }
 
-    #[emitter]
     fn emit_ts_type_ann(&mut self, n: &TsTypeAnn) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_ann)
     }
 
-    #[emitter]
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -925,7 +870,6 @@ where
         emit!(n.expr);
     }
 
-    #[emitter]
     fn emit_ts_const_assertion(&mut self, n: &TsConstAssertion) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -937,7 +881,6 @@ where
         keyword!(self, "const");
     }
 
-    #[emitter]
     fn emit_ts_type_element(&mut self, n: &TsTypeElement) -> Result {
         match n {
             TsTypeElement::TsCallSignatureDecl(n) => emit!(n),
@@ -952,10 +895,9 @@ where
                 emit!(n)
             }
         }
-        formatting_semi!();
+        formatting_semi!(self);
     }
 
-    #[emitter]
     fn emit_ts_getter_signature(&mut self, n: &TsGetterSignature) -> Result {
         keyword!(self, "get");
         space!(self);
@@ -979,7 +921,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_setter_signature(&mut self, n: &TsSetterSignature) -> Result {
         keyword!(self, "set");
         space!(self);
@@ -997,7 +938,6 @@ where
         punct!(self, ")");
     }
 
-    #[emitter]
     fn emit_ts_type_lit(&mut self, n: &TsTypeLit) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1010,7 +950,6 @@ where
         punct!(self, "}");
     }
 
-    #[emitter]
     fn emit_ts_type_operator(&mut self, n: &TsTypeOperator) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1023,7 +962,6 @@ where
         emit!(n.type_ann);
     }
 
-    #[emitter]
     fn emit_ts_type_param(&mut self, n: &TsTypeParam) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1059,7 +997,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1070,7 +1007,6 @@ where
         punct!(self, ">");
     }
 
-    #[emitter]
     fn emit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1080,7 +1016,6 @@ where
         punct!(self, ">");
     }
 
-    #[emitter]
     fn emit_ts_type_predicate(&mut self, n: &TsTypePredicate) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1099,7 +1034,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_type_query(&mut self, n: &TsTypeQuery) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1109,7 +1043,6 @@ where
         emit!(n.type_args);
     }
 
-    #[emitter]
     fn emit_ts_type_query_expr(&mut self, n: &TsTypeQueryExpr) -> Result {
         match n {
             TsTypeQueryExpr::TsEntityName(n) => emit!(n),
@@ -1117,7 +1050,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_type_ref(&mut self, n: &TsTypeRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1130,7 +1062,6 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_union_or_intersection_type(&mut self, n: &TsUnionOrIntersectionType) -> Result {
         match n {
             TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
@@ -1138,14 +1069,12 @@ where
         }
     }
 
-    #[emitter]
     fn emit_ts_union_type(&mut self, n: &TsUnionType) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
     }
 
-    #[emitter]
     fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 

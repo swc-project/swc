@@ -1,16 +1,16 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[node_impl]
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {
         match node {
             Decl::Class(ref n) => emit!(n),
@@ -18,7 +18,7 @@ where
 
             Decl::Var(ref n) => {
                 self.emit_var_decl_inner(n)?;
-                formatting_semi!();
+                formatting_semi!(self);
                 srcmap!(self, n, false);
             }
             Decl::Using(n) => emit!(n),
@@ -29,12 +29,10 @@ where
         }
     }
 
-    #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
         self.emit_class_decl_inner(node, false)?;
     }
 
-    #[emitter]
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -88,7 +86,6 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -119,7 +116,6 @@ where
         self.emit_fn_trailing(&node.function)?;
     }
 
-    #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
         self.emit_var_decl_inner(node)?;
     }
@@ -160,7 +156,6 @@ where
         Ok(())
     }
 
-    #[emitter]
     fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
