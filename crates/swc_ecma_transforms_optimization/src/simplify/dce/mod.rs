@@ -1,6 +1,6 @@
-use std::{borrow::Cow, sync::Arc};
+use std::{borrow::Cow, cell::RefCell, mem::take, sync::Arc};
 
-use indexmap::IndexSet;
+use indexmap::{IndexMap, IndexSet};
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
@@ -19,6 +19,9 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 use swc_fast_graph::digraph::FastDiGraphMap;
+use swc_par_iter::prelude::*;
+use swc_parallel::merge::Merge;
+use thread_local::ThreadLocal;
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -35,7 +38,7 @@ pub fn dce(
             in_strict: false,
             remaining_depth: 2,
         },
-        config,
+        config: Arc::new(config),
         changed: false,
         pass: 0,
         in_fn: false,
@@ -81,7 +84,7 @@ impl Default for Config {
 struct TreeShaker {
     expr_ctx: ExprCtx,
 
-    config: Config,
+    config: Arc<Config>,
     changed: bool,
     pass: u16,
 
@@ -104,55 +107,65 @@ impl CompilerPass for TreeShaker {
 struct Data {
     used_names: FxHashMap<Id, VarInfo>,
 
-    /// Variable usage graph
-    ///
-    /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
-    /// we use u32 it fits into the cache line of cpu.
-    graph: FastDiGraphMap<u32, VarInfo>,
+    edges: Edges,
     /// Entrypoints.
-    entries: FxHashSet<u32>,
-
-    graph_ix: IndexSet<Id, FxBuildHasher>,
+    entry_ids: FxHashSet<Id>,
 }
 
+#[derive(Default)]
+struct Edges(IndexMap<(Id, Id), VarInfo, FxBuildHasher>);
+
 impl Data {
-    fn node(&mut self, id: &Id) -> u32 {
-        self.graph_ix.get_index_of(id).unwrap_or_else(|| {
-            let ix = self.graph_ix.len();
-            self.graph_ix.insert_full(id.clone());
-            ix
-        }) as _
-    }
-
     /// Add an edge to dependency graph
-    fn add_dep_edge(&mut self, from: &Id, to: &Id, assign: bool) {
-        let from = self.node(from);
-        let to = self.node(to);
-
-        match self.graph.edge_weight_mut(from, to) {
-            Some(info) => {
+    fn add_dep_edge(&mut self, from: Id, to: Id, assign: bool) {
+        match self.edges.0.entry((from, to)) {
+            indexmap::map::Entry::Occupied(mut info) => {
                 if assign {
-                    info.assign += 1;
+                    info.get_mut().assign += 1;
                 } else {
-                    info.usage += 1;
+                    info.get_mut().usage += 1;
                 }
             }
-            None => {
-                self.graph.add_edge(
-                    from,
-                    to,
-                    VarInfo {
-                        usage: u32::from(!assign),
-                        assign: u32::from(assign),
-                    },
-                );
+            indexmap::map::Entry::Vacant(info) => {
+                info.insert(VarInfo {
+                    usage: u32::from(!assign),
+                    assign: u32::from(assign),
+                });
             }
-        };
+        }
     }
 
     /// Traverse the graph and subtract usages from `used_names`.
+    #[allow(unused)]
     fn subtract_cycles(&mut self) {
-        let cycles = tarjan_scc(&self.graph);
+        let edges = take(&mut self.edges);
+
+        let mut graph = FastDiGraphMap::with_capacity(self.used_names.len(), edges.0.len());
+        let mut graph_ix: IndexMap<(Atom, SyntaxContext), u32, FxBuildHasher> =
+            IndexMap::with_capacity_and_hasher(self.used_names.len(), Default::default());
+
+        let mut get_node = |id: Id| -> u32 {
+            let len = graph_ix.len();
+
+            let id = *graph_ix.entry(id).or_insert(len as u32);
+
+            id as _
+        };
+
+        let entries = self
+            .entry_ids
+            .iter()
+            .map(|id| get_node(id.clone()))
+            .collect::<IndexSet<_, FxBuildHasher>>();
+
+        for ((src, dst), info) in edges.0 {
+            let src = get_node(src);
+            let dst = get_node(dst);
+
+            graph.add_edge(src, dst, info);
+        }
+
+        let cycles = tarjan_scc(&graph);
 
         'c: for cycle in cycles {
             if cycle.len() == 1 {
@@ -163,11 +176,11 @@ impl Data {
             // of cycle.
             for &node in &cycle {
                 // It's referenced by an outer node.
-                if self.entries.contains(&node) {
+                if entries.contains(&node) {
                     continue 'c;
                 }
 
-                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                if graph.neighbors_directed(node, Incoming).any(|node| {
                     // Node in cycle does not matter
                     !cycle.contains(&node)
                 }) {
@@ -177,17 +190,17 @@ impl Data {
 
             for &i in &cycle {
                 for &j in &cycle {
-                    if i == j {
+                    if i <= j {
                         continue;
                     }
 
-                    let id = self.graph_ix.get_index(j as _);
+                    let id = graph_ix.get_index(j as _);
                     let id = match id {
-                        Some(id) => id,
+                        Some(id) => id.0,
                         None => continue,
                     };
 
-                    if let Some(w) = self.graph.edge_weight(i, j) {
+                    if let Some(w) = graph.edge_weight(i, j) {
                         let e = self.used_names.entry(id.clone()).or_default();
                         e.usage -= w.usage;
                         e.assign -= w.assign;
@@ -211,9 +224,45 @@ struct Analyzer<'a> {
     config: &'a Config,
     in_var_decl: bool,
     scope: Scope<'a>,
-    data: &'a mut Data,
+    data: Arc<ThreadLocal<RefCell<Data>>>,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
+}
+
+impl Parallel for Analyzer<'_> {
+    fn create(&self) -> Self {
+        Self {
+            data: self.data.clone(),
+            scope: Scope {
+                parent: self.scope.parent,
+                ast_path: self.scope.ast_path.clone(),
+                bindings_affected_by_arguements: Default::default(),
+                bindings_affected_by_eval: Default::default(),
+                ..self.scope
+            },
+            cur_class_id: self.cur_class_id.clone(),
+            cur_fn_id: self.cur_fn_id.clone(),
+            ..*self
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.scope.ast_path = other.scope.ast_path;
+
+        self.scope
+            .bindings_affected_by_eval
+            .reserve(other.scope.bindings_affected_by_eval.len());
+        self.scope
+            .bindings_affected_by_eval
+            .extend(other.scope.bindings_affected_by_eval);
+
+        self.scope
+            .bindings_affected_by_arguements
+            .reserve(other.scope.bindings_affected_by_arguements.len());
+        self.scope
+            .bindings_affected_by_arguements
+            .extend(other.scope.bindings_affected_by_arguements);
+    }
 }
 
 #[derive(Debug, Default)]
@@ -233,7 +282,7 @@ struct Scope<'a> {
     ast_path: Vec<Id>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ScopeKind {
     Fn,
     ArrowFn,
@@ -271,7 +320,7 @@ impl Analyzer<'_> {
 
             let mut v = Analyzer {
                 scope: child,
-                data: self.data,
+                data: self.data.clone(),
                 cur_fn_id: self.cur_fn_id.clone(),
                 cur_class_id: self.cur_class_id.clone(),
                 ..*self
@@ -288,7 +337,13 @@ impl Analyzer<'_> {
         // If we found eval, mark all declarations in scope and upper as used
         if child_scope.found_direct_eval {
             for id in child_scope.bindings_affected_by_eval {
-                self.data.used_names.entry(id).or_default().usage += 1;
+                self.data
+                    .get_or_default()
+                    .borrow_mut()
+                    .used_names
+                    .entry(id)
+                    .or_default()
+                    .usage += 1;
             }
 
             self.scope.found_direct_eval = true;
@@ -298,7 +353,13 @@ impl Analyzer<'_> {
             // Parameters
 
             for id in child_scope.bindings_affected_by_arguements {
-                self.data.used_names.entry(id).or_default().usage += 1;
+                self.data
+                    .get_or_default()
+                    .borrow_mut()
+                    .used_names
+                    .entry(id)
+                    .or_default()
+                    .usage += 1;
             }
 
             if !matches!(kind, ScopeKind::Fn) {
@@ -324,16 +385,17 @@ impl Analyzer<'_> {
             }
         }
 
+        let mut data = self.data.get_or_default().borrow_mut();
+
         if self.scope.is_ast_path_empty() {
             // Add references from top level items into graph
-            let idx = self.data.node(&id);
-            self.data.entries.insert(idx);
+            data.entry_ids.insert(id.clone());
         } else {
             let mut scope = Some(&self.scope);
 
             while let Some(s) = scope {
                 for component in &s.ast_path {
-                    self.data.add_dep_edge(component, &id, assign);
+                    data.add_dep_edge(component.clone(), id.clone(), assign);
                 }
 
                 if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
@@ -345,10 +407,17 @@ impl Analyzer<'_> {
         }
 
         if assign {
-            self.data.used_names.entry(id).or_default().assign += 1;
+            data.used_names.entry(id).or_default().assign += 1;
         } else {
-            self.data.used_names.entry(id).or_default().usage += 1;
+            data.used_names.entry(id).or_default().usage += 1;
         }
+    }
+
+    fn visit_par<N>(&mut self, threshold: usize, nodes: &[N])
+    where
+        N: Send + Sync + VisitWith<Self>,
+    {
+        self.maybe_par(threshold, nodes, |v, n| n.visit_with(v));
     }
 }
 
@@ -545,6 +614,34 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = old;
     }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_exprs(&mut self, n: &[Box<Expr>]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.visit_par(cpu_count() * 8, n);
+    }
 }
 
 impl Repeated for TreeShaker {
@@ -633,11 +730,8 @@ impl TreeShaker {
             }
 
             // Abort if the variable is declared on top level scope.
-            let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
-                    return false;
-                }
+            if self.data.entry_ids.contains(&name) {
+                return false;
             }
         }
 
@@ -899,29 +993,27 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
-        debug_assert_valid(m);
-
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if self.bindings.is_empty() {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
                 scope: Default::default(),
-                data: &mut data,
+                data: data.clone(),
                 cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
+
+        self.data = Arc::new(merge_data(data));
 
         m.visit_mut_children_with(self);
     }
@@ -968,21 +1060,21 @@ impl VisitMut for TreeShaker {
             self.bindings = Arc::new(collect_decls(&*m))
         }
 
-        let mut data = Default::default();
+        let data: Arc<ThreadLocal<RefCell<Data>>> = Default::default();
 
         {
             let mut analyzer = Analyzer {
                 config: &self.config,
                 in_var_decl: false,
                 scope: Default::default(),
-                data: &mut data,
+                data: data.clone(),
                 cur_class_id: Default::default(),
                 cur_fn_id: Default::default(),
             };
             m.visit_with(&mut analyzer);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
+
+        self.data = Arc::new(merge_data(data));
 
         m.visit_mut_children_with(self);
     }
@@ -1113,6 +1205,45 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
+    }
+}
+
+fn merge_data(data: Arc<ThreadLocal<RefCell<Data>>>) -> Data {
+    let data = Arc::try_unwrap(data)
+        .map_err(|_| {})
+        .unwrap()
+        .into_iter()
+        .map(|d| d.into_inner())
+        .collect::<Vec<_>>();
+
+    let mut merged = data
+        .into_par_iter()
+        .with_min_len(1)
+        .reduce(Data::default, |mut a, b| {
+            for (k, v) in b.used_names {
+                a.used_names.entry(k).or_default().merge(v);
+            }
+
+            a.entry_ids.extend(b.entry_ids);
+            a
+        });
+
+    merged.subtract_cycles();
+    merged
+}
+
+impl Merge for VarInfo {
+    fn merge(&mut self, other: Self) {
+        self.usage += other.usage;
+        self.assign += other.assign;
+    }
+}
+
+impl Merge for Data {
+    fn merge(&mut self, other: Self) {
+        self.used_names.merge(other.used_names);
+        self.entry_ids.extend(other.entry_ids);
+        // self.edges.0.merge(other.edges.0);
     }
 }
 
