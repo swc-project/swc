@@ -488,44 +488,22 @@ impl Pure<'_> {
         let old_stmts = stmts.take();
 
         let new: Vec<T> = if old_stmts.len() >= *crate::LIGHT_TASK_PARALLELS {
-            #[cfg(feature = "concurrent")]
-            {
-                old_stmts
-                    .into_par_iter()
-                    .flat_map(|stmt| match stmt.try_into_stmt() {
-                        Ok(v) => match v {
-                            Stmt::Block(v) if is_ok(&v) => {
-                                let stmts = v.stmts;
-                                maybe_par!(
-                                    stmts.into_iter().map(T::from).collect(),
-                                    *crate::LIGHT_TASK_PARALLELS
-                                )
-                            }
-                            _ => vec![T::from(v)],
-                        },
-                        Err(v) => vec![v],
-                    })
-                    .collect()
-            }
-            #[cfg(not(feature = "concurrent"))]
-            {
-                old_stmts
-                    .into_iter()
-                    .flat_map(|stmt| match stmt.try_into_stmt() {
-                        Ok(v) => match v {
-                            Stmt::Block(v) if is_ok(&v) => {
-                                let stmts = v.stmts;
-                                maybe_par!(
-                                    stmts.into_iter().map(T::from).collect(),
-                                    *crate::LIGHT_TASK_PARALLELS
-                                )
-                            }
-                            _ => vec![T::from(v)],
-                        },
-                        Err(v) => vec![v],
-                    })
-                    .collect()
-            }
+            old_stmts
+                .into_par_iter()
+                .flat_map(|stmt| match stmt.try_into_stmt() {
+                    Ok(v) => match v {
+                        Stmt::Block(v) if is_ok(&v) => {
+                            let stmts = v.stmts;
+                            maybe_par!(
+                                stmts.into_iter().map(T::from).collect(),
+                                *crate::LIGHT_TASK_PARALLELS
+                            )
+                        }
+                        _ => vec![T::from(v)],
+                    },
+                    Err(v) => vec![v],
+                })
+                .collect()
         } else {
             let mut new = Vec::with_capacity(old_stmts.len() * 2);
             old_stmts
