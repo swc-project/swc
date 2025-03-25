@@ -14,6 +14,10 @@ pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
 
+pub enum TokenType {}
+
+pub enum TokenValue {}
+
 macro_rules! define_known_ident {
     (
         $(
