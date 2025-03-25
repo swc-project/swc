@@ -94,15 +94,13 @@ impl<N: Node> Node for Box<N> {
     {
         (**self).emit_with(e)
     }
-}
-impl<N: Node> Node for &N {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+
+    fn adjust_span<W, S>(&mut self, wr: &mut SpanWriter<'_, W, S>) -> Result
     where
-        W: WriteJs,
+        W: SpannedWriteJs,
         S: SourceMapper + SourceMapperExt,
     {
-        (**self).emit_with(e)
+        (**self).adjust_span(wr)
     }
 }
 
