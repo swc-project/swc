@@ -37,8 +37,8 @@ indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
 once_cell         = { workspace = true }
-par-core          = { version = "1", default-features = false }
-par-iter          = { version = "1" }
+par-core          = { workspace = true }
+par-iter          = { workspace = true }
 parking_lot       = { workspace = true }
 phf               = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
@@ -76,7 +76,7 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 flate2                    = { workspace = true }
 humansize                 = { workspace = true }
-par-core                  = { version = "1", features = ["chili"] }
+par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
 walkdir                   = { workspace = true }
 

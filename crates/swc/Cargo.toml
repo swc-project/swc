@@ -59,7 +59,7 @@ indexmap     = { workspace = true, features = ["serde"] }
 jsonc-parser = { workspace = true, features = ["serde"] }
 lru          = { workspace = true }
 once_cell    = { workspace = true }
-par-core     = { version = "1", default-features = false }
+par-core     = { workspace = true }
 parking_lot  = { workspace = true }
 pathdiff     = { workspace = true }
 regex        = { workspace = true }

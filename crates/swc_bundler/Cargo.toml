@@ -54,7 +54,7 @@ swc_graph_analyzer               = { version = "8.0.0", path = "../swc_graph_ana
 [dev-dependencies]
 hex        = { workspace = true }
 ntest      = { workspace = true }
-par-core   = { version = "1", features = ["chili"] }
+par-core   = { workspace = true, features = ["chili"] }
 path-clean = "1.0.1"
 reqwest    = { workspace = true, features = ["blocking"] }
 sha1       = { workspace = true }

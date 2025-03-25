@@ -24,7 +24,7 @@ arrayvec   = { workspace = true }
 indexmap   = { workspace = true }
 is-macro   = { workspace = true }
 num-bigint = { workspace = true }
-par-core   = { version = "1", default-features = false }
+par-core   = { workspace = true }
 rayon      = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive"] }
 smallvec   = { workspace = true }
@@ -53,7 +53,7 @@ swc_ecma_visit              = { version = "8.0.0", path = "../swc_ecma_visit" }
 swc_trace_macro             = { version = "2.0.0", path = "../swc_trace_macro" }
 
 [dev-dependencies]
-par-core   = { version = "1", features = ["chili"] }
+par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
 swc_ecma_parser             = { version = "10.0.2", path = "../swc_ecma_parser" }

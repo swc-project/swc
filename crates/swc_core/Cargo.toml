@@ -341,7 +341,7 @@ __visit = ["__ecma", "swc_ecma_visit"]
 [dependencies]
 # 3rd party dependencies
 once_cell = { workspace = true, optional = true }
-par-core  = { optional = true, version = "1", default-features = false }
+par-core  = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "16.0.0", path = "../binding_macros" }
