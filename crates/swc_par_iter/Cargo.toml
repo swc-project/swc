@@ -1,0 +1,19 @@
+[package]
+description = "Fork of rayon, with chili support"
+edition     = { workspace = true }
+license     = { workspace = true }
+name        = "swc_par_iter"
+repository  = { workspace = true }
+version     = "1.0.0"
+
+[dependencies]
+either       = { workspace = true }
+swc_parallel = { version = "1.3.0", path = "../swc_parallel", default-features = false }
+
+[dev-dependencies]
+chili = { workspace = true }
+rand = { workspace = true }
+rand_xorshift = "0.3"
+swc_parallel = { version = "1.3.0", path = "../swc_parallel", default-features = false, features = [
+    "chili",
+] }
