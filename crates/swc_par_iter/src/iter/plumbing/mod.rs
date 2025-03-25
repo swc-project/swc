@@ -5,8 +5,9 @@
 //!
 //! [r]: https://github.com/rayon-rs/rayon/blob/main/src/iter/plumbing/README.md
 
+use swc_parallel::join;
+
 use super::IndexedParallelIterator;
-use crate::join_context;
 
 /// The `ProducerCallback` trait is a kind of generic closure,
 /// [analogous to `FnOnce`][FnOnce]. See [the corresponding section in
@@ -412,25 +413,9 @@ where
             let mid = len / 2;
             let (left_producer, right_producer) = producer.split_at(mid);
             let (left_consumer, right_consumer, reducer) = consumer.split_at(mid);
-            let (left_result, right_result) = join_context(
-                |context| {
-                    helper(
-                        mid,
-                        context.migrated(),
-                        splitter,
-                        left_producer,
-                        left_consumer,
-                    )
-                },
-                |context| {
-                    helper(
-                        len - mid,
-                        context.migrated(),
-                        splitter,
-                        right_producer,
-                        right_consumer,
-                    )
-                },
+            let (left_result, right_result) = join(
+                || helper(mid, false, splitter, left_producer, left_consumer),
+                || helper(len - mid, false, splitter, right_producer, right_consumer),
             );
             reducer.reduce(left_result, right_result)
         } else {
@@ -470,9 +455,9 @@ where
                 let (reducer, left_consumer, right_consumer) =
                     (consumer.to_reducer(), consumer.split_off_left(), consumer);
                 let bridge = bridge_unindexed_producer_consumer;
-                let (left_result, right_result) = join_context(
-                    |context| bridge(context.migrated(), splitter, left_producer, left_consumer),
-                    |context| bridge(context.migrated(), splitter, right_producer, right_consumer),
+                let (left_result, right_result) = join(
+                    || bridge(false, splitter, left_producer, left_consumer),
+                    || bridge(false, splitter, right_producer, right_consumer),
                 );
                 reducer.reduce(left_result, right_result)
             }

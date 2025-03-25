@@ -5,8 +5,8 @@
 pub use crate::{
     iter::{
         FromParallelIterator, IndexedParallelIterator, IntoParallelIterator,
-        IntoParallelRefIterator, IntoParallelRefMutIterator, ParallelBridge, ParallelDrainFull,
-        ParallelDrainRange, ParallelExtend, ParallelIterator,
+        IntoParallelRefIterator, IntoParallelRefMutIterator, ParallelDrainFull, ParallelDrainRange,
+        ParallelExtend, ParallelIterator,
     },
     slice::{ParallelSlice, ParallelSliceMut},
     str::ParallelString,

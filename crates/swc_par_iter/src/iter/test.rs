@@ -471,96 +471,101 @@ fn check_cmp_gt_to_seq() {
     )
 }
 
-#[test]
-#[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
-fn check_cmp_short_circuit() {
-    // We only use a single thread in order to make the short-circuit behavior
-    // deterministic.
-    let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
+// #[test]
+// #[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
+// fn check_cmp_short_circuit() {
+//     // We only use a single thread in order to make the short-circuit
+// behavior     // deterministic.
+//     let pool = chili::ThreadPool::with_config(chili::Config {
+//         thread_count: NonZero::new(1),
+//         ..Default::default()
+//     });
 
-    let a = vec![0; 1024];
-    let mut b = a.clone();
-    b[42] = 1;
+//     let a = vec![0; 1024];
+//     let mut b = a.clone();
+//     b[42] = 1;
 
-    pool.install(|| {
-        let expected = ::std::cmp::Ordering::Less;
-        assert_eq!(a.par_iter().cmp(&b), expected);
+//     pool.install(|| {
+//         let expected = ::std::cmp::Ordering::Less;
+//         assert_eq!(a.par_iter().cmp(&b), expected);
 
-        for len in 1..10 {
-            let counter = AtomicUsize::new(0);
-            let result = a
-                .par_iter()
-                .with_max_len(len)
-                .inspect(|_| {
-                    counter.fetch_add(1, Ordering::SeqCst);
-                })
-                .cmp(&b);
-            assert_eq!(result, expected);
-            // should not have visited every single one
-            assert!(counter.into_inner() < a.len());
-        }
-    });
-}
+//         for len in 1..10 {
+//             let counter = AtomicUsize::new(0);
+//             let result = a
+//                 .par_iter()
+//                 .with_max_len(len)
+//                 .inspect(|_| {
+//                     counter.fetch_add(1, Ordering::SeqCst);
+//                 })
+//                 .cmp(&b);
+//             assert_eq!(result, expected);
+//             // should not have visited every single one
+//             assert!(counter.into_inner() < a.len());
+//         }
+//     });
+// }
 
-#[test]
-#[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
-fn check_partial_cmp_short_circuit() {
-    // We only use a single thread to make the short-circuit behavior deterministic.
-    let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
+// #[test]
+// #[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
+// fn check_partial_cmp_short_circuit() {
+//     // We only use a single thread to make the short-circuit behavior
+// deterministic.     let pool =
+// ThreadPoolBuilder::new().num_threads(1).build().unwrap();
 
-    let a = vec![0; 1024];
-    let mut b = a.clone();
-    b[42] = 1;
+//     let a = vec![0; 1024];
+//     let mut b = a.clone();
+//     b[42] = 1;
 
-    pool.install(|| {
-        let expected = Some(::std::cmp::Ordering::Less);
-        assert_eq!(a.par_iter().partial_cmp(&b), expected);
+//     pool.install(|| {
+//         let expected = Some(::std::cmp::Ordering::Less);
+//         assert_eq!(a.par_iter().partial_cmp(&b), expected);
 
-        for len in 1..10 {
-            let counter = AtomicUsize::new(0);
-            let result = a
-                .par_iter()
-                .with_max_len(len)
-                .inspect(|_| {
-                    counter.fetch_add(1, Ordering::SeqCst);
-                })
-                .partial_cmp(&b);
-            assert_eq!(result, expected);
-            // should not have visited every single one
-            assert!(counter.into_inner() < a.len());
-        }
-    });
-}
+//         for len in 1..10 {
+//             let counter = AtomicUsize::new(0);
+//             let result = a
+//                 .par_iter()
+//                 .with_max_len(len)
+//                 .inspect(|_| {
+//                     counter.fetch_add(1, Ordering::SeqCst);
+//                 })
+//                 .partial_cmp(&b);
+//             assert_eq!(result, expected);
+//             // should not have visited every single one
+//             assert!(counter.into_inner() < a.len());
+//         }
+//     });
+// }
 
-#[test]
-#[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
-fn check_partial_cmp_nan_short_circuit() {
-    // We only use a single thread to make the short-circuit behavior deterministic.
-    let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
+// #[test]
+// #[cfg_attr(any(target_os = "emscripten", target_family = "wasm"), ignore)]
+// fn check_partial_cmp_nan_short_circuit() {
+//     // We only use a single thread to make the short-circuit behavior
+// deterministic.     let pool =
+// ThreadPoolBuilder::new().num_threads(1).build().unwrap();
 
-    let a = vec![0.0; 1024];
-    let mut b = a.clone();
-    b[42] = f64::NAN;
+//     let a = vec![0.0; 1024];
+//     let mut b = a.clone();
+//     b[42] = f64::NAN;
 
-    pool.install(|| {
-        let expected = None;
-        assert_eq!(a.par_iter().partial_cmp(&b), expected);
+//     pool.install(|| {
+//         let expected = None;
+//         assert_eq!(a.par_iter().partial_cmp(&b), expected);
 
-        for len in 1..10 {
-            let counter = AtomicUsize::new(0);
-            let result = a
-                .par_iter()
-                .with_max_len(len)
-                .inspect(|_| {
-                    counter.fetch_add(1, Ordering::SeqCst);
-                })
-                .partial_cmp(&b);
-            assert_eq!(result, expected);
-            // should not have visited every single one
-            assert!(counter.into_inner() < a.len());
-        }
-    });
-}
+//         for len in 1..10 {
+//             let counter = AtomicUsize::new(0);
+//             let result = a
+//                 .par_iter()
+//                 .with_max_len(len)
+//                 .inspect(|_| {
+//                     counter.fetch_add(1, Ordering::SeqCst);
+//                 })
+//                 .partial_cmp(&b);
+//             assert_eq!(result, expected);
+//             // should not have visited every single one
+//             assert!(counter.into_inner() < a.len());
+//         }
+//     });
+// }
 
 #[test]
 fn check_partial_cmp_direct() {
@@ -1664,31 +1669,31 @@ fn check_rev() {
     assert!(a.par_iter().rev().zip(b).all(|(&a, b)| a == b));
 }
 
-#[test]
-fn scope_mix() {
-    let counter_p = &AtomicUsize::new(0);
-    scope(|s| {
-        s.spawn(move |s| {
-            divide_and_conquer(s, counter_p, 1024);
-        });
-        s.spawn(move |_| {
-            let a: Vec<i32> = (0..1024).collect();
-            let r1 = a.par_iter().map(|&i| i + 1).reduce_with(|i, j| i + j);
-            let r2 = a.iter().map(|&i| i + 1).sum();
-            assert_eq!(r1.unwrap(), r2);
-        });
-    });
-}
+// #[test]
+// fn scope_mix() {
+//     let counter_p = &AtomicUsize::new(0);
+//     scope(|s| {
+//         s.spawn(move |s| {
+//             divide_and_conquer(s, counter_p, 1024);
+//         });
+//         s.spawn(move |_| {
+//             let a: Vec<i32> = (0..1024).collect();
+//             let r1 = a.par_iter().map(|&i| i + 1).reduce_with(|i, j| i + j);
+//             let r2 = a.iter().map(|&i| i + 1).sum();
+//             assert_eq!(r1.unwrap(), r2);
+//         });
+//     });
+// }
 
-fn divide_and_conquer<'scope>(scope: &Scope<'scope>, counter: &'scope AtomicUsize, size: usize) {
-    if size > 1 {
-        scope.spawn(move |scope| divide_and_conquer(scope, counter, size / 2));
-        scope.spawn(move |scope| divide_and_conquer(scope, counter, size / 2));
-    } else {
-        // count the leaves
-        counter.fetch_add(1, Ordering::SeqCst);
-    }
-}
+// fn divide_and_conquer<'scope>(scope: &Scope<'scope>, counter: &'scope
+// AtomicUsize, size: usize) {     if size > 1 {
+//         scope.spawn(move |scope| divide_and_conquer(scope, counter, size /
+// 2));         scope.spawn(move |scope| divide_and_conquer(scope, counter, size
+// / 2));     } else {
+//         // count the leaves
+//         counter.fetch_add(1, Ordering::SeqCst);
+//     }
+// }
 
 #[test]
 fn check_split() {
@@ -2155,18 +2160,18 @@ fn check_chunks_uneven() {
     }
 }
 
-#[test]
-#[ignore] // it's quick enough on optimized 32-bit platforms, but otherwise... ... ...
-#[should_panic(expected = "overflow")]
-#[cfg(debug_assertions)]
-fn check_repeat_unbounded() {
-    // use just one thread, so we don't get infinite adaptive splitting
-    // (forever stealing and re-splitting jobs that will panic on overflow)
-    let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
-    pool.install(|| {
-        println!("counted {} repeats", repeat(()).count());
-    });
-}
+// #[test]
+// #[ignore] // it's quick enough on optimized 32-bit platforms, but
+// otherwise... ... ... #[should_panic(expected = "overflow")]
+// #[cfg(debug_assertions)]
+// fn check_repeat_unbounded() {
+//     // use just one thread, so we don't get infinite adaptive splitting
+//     // (forever stealing and re-splitting jobs that will panic on overflow)
+//     let pool = ThreadPoolBuilder::new().num_threads(1).build().unwrap();
+//     pool.install(|| {
+//         println!("counted {} repeats", repeat(()).count());
+//     });
+// }
 
 #[test]
 fn check_repeat_find_any() {

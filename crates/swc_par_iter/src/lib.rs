@@ -91,6 +91,8 @@
 //!
 //! [faq]: https://github.com/rayon-rs/rayon/blob/main/FAQ.md
 
+use std::{num::NonZero, sync::LazyLock};
+
 #[macro_use]
 mod delegate;
 
@@ -149,3 +151,13 @@ impl<T> Clone for SendPtr<T> {
 
 // Implement Copy without the T: Copy bound from the derive
 impl<T> Copy for SendPtr<T> {}
+
+fn current_num_threads() -> usize {
+    static CACHE: LazyLock<usize> = LazyLock::new(|| {
+        std::thread::available_parallelism()
+            .unwrap_or(NonZero::new(1).unwrap())
+            .into()
+    });
+
+    *CACHE
+}

@@ -138,7 +138,7 @@ mod multizip;
 mod noop;
 mod once;
 mod panic_fuse;
-mod par_bridge;
+// mod par_bridge;
 mod positions;
 mod product;
 mod reduce;
@@ -190,7 +190,7 @@ pub use self::{
     multizip::MultiZip,
     once::{once, Once},
     panic_fuse::PanicFuse,
-    par_bridge::{IterBridge, ParallelBridge},
+    // par_bridge::{IterBridge, ParallelBridge},
     positions::Positions,
     repeat::{repeat, repeatn, Repeat, RepeatN},
     rev::Rev,
