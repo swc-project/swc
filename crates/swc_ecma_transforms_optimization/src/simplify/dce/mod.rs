@@ -10,10 +10,9 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{cpu_count, Parallel};
 use swc_ecma_transforms_base::{
     helpers::{Helpers, HELPERS},
-    perf::{cpu_count, ParVisit, ParVisitMut, Parallel},
+    perf::{cpu_count, ParVisit, Parallel},
 };
 use swc_ecma_utils::{
     collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
@@ -144,7 +143,7 @@ impl Data {
         let edges = take(&mut self.edges);
 
         let mut graph = FastDiGraphMap::with_capacity(self.used_names.len(), edges.0.len());
-        let mut graph_ix: IndexMap<(JsWord, SyntaxContext), u32, FxBuildHasher> =
+        let mut graph_ix: IndexMap<(Atom, SyntaxContext), u32, FxBuildHasher> =
             IndexMap::with_capacity_and_hasher(self.used_names.len(), Default::default());
 
         let mut get_node = |id: Id| -> u32 {
