@@ -7,4 +7,9 @@ repository  = { workspace = true }
 version     = "1.0.0"
 
 [dependencies]
+either       = { workspace = true }
 swc_parallel = { version = "1.3.0", path = "../swc_parallel" }
+
+[dev-dependencies]
+rand          = { workspace = true }
+rand_xorshift = "0.4.0"
