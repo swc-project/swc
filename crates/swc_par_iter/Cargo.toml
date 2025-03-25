@@ -13,7 +13,7 @@ swc_parallel = { version = "1.3.0", path = "../swc_parallel", default-features =
 [dev-dependencies]
 chili = { workspace = true }
 rand = { workspace = true }
-rand_xorshift = "0.4.0"
+rand_xorshift = "0.3"
 swc_parallel = { version = "1.3.0", path = "../swc_parallel", default-features = false, features = [
     "chili",
 ] }
