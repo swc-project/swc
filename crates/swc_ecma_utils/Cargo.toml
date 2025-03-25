@@ -24,6 +24,7 @@ indexmap   = { workspace = true }
 num_cpus   = { workspace = true }
 once_cell  = { workspace = true }
 par-core   = { version = "1", default-features = false }
+par-iter   = { workspace = true }
 rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 ryu-js     = { workspace = true }
