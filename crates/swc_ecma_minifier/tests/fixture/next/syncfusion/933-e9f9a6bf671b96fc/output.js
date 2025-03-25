@@ -6895,7 +6895,7 @@
          * @param {MouseEventArgs | TouchEventArgs} evt ?
          * @returns {void} ?
          */ _this.endEvent = function(evt) {
-                        _this.swipeFn(evt), _this.isTouchMoved || 'function' == typeof _this.tap && (_this.trigger('tap', {
+                        _this.swipeFn(evt), _this.isTouchMoved || 'function' != typeof _this.tap || (_this.trigger('tap', {
                             originalEvent: evt,
                             tapCount: ++_this.tapCount
                         }), _this.timeOutTap = setTimeout(function() {
@@ -14120,7 +14120,7 @@
      * @hidden
 
      */ RichTextEditor.prototype.contentChanged = function() {
-                    this.autoSaveOnIdle && ((0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) || (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval)));
+                    this.autoSaveOnIdle && !(0, ej2_base /* isNullOrUndefined */ .le)(this.saveInterval) && (clearTimeout(this.timeInterval), this.timeInterval = setTimeout(this.updateIntervalValue.bind(this), this.saveInterval));
                 }, /**
      * invokeChangeEvent method
      *
@@ -26293,7 +26293,7 @@
                                 }
                                 this.handlePos1 = this.preHandlePos1 = handlepos, this.handleVal1 = handleVal, this.activeHandle = 1;
                             }
-                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2))) {
+                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed)) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2)) {
                             if (this.limits.enabled) {
                                 var value = this.getLimitValueAndPosition(handleVal, this.limits.maxStart, this.limits.maxEnd);
                                 handleVal = value[0], handlepos = value[1];

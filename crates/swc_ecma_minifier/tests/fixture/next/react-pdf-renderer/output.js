@@ -21677,7 +21677,7 @@
                         return -1 === a || (t.pipes.splice(a, 1), t.pipesCount -= 1, 1 === t.pipesCount && (t.pipes = t.pipes[0]), e.emit("unpipe", this, r)), this;
                     }, A.prototype.on = function(e, t) {
                         var r = f.prototype.on.call(this, e, t), i = this._readableState;
-                        return "data" === e ? (i.readableListening = this.listenerCount("readable") > 0, !1 !== i.flowing && this.resume()) : "readable" === e && (i.endEmitted || i.readableListening || (i.readableListening = i.needReadable = !0, i.flowing = !1, i.emittedReadable = !1, a("on readable", i.length, i.reading), i.length ? C(this) : i.reading || n.nextTick(j, this))), r;
+                        return "data" === e ? (i.readableListening = this.listenerCount("readable") > 0, !1 !== i.flowing && this.resume()) : "readable" !== e || i.endEmitted || i.readableListening || (i.readableListening = i.needReadable = !0, i.flowing = !1, i.emittedReadable = !1, a("on readable", i.length, i.reading), i.length ? C(this) : i.reading || n.nextTick(j, this)), r;
                     }, A.prototype.addListener = A.prototype.on, A.prototype.removeListener = function(e, t) {
                         var r = f.prototype.removeListener.call(this, e, t);
                         return "readable" === e && n.nextTick(I, this), r;

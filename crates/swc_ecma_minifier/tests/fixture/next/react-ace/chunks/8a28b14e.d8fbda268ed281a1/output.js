@@ -8061,7 +8061,7 @@
                         var session = this.session, mode = session.getMode(), cursor = this.getCursorPosition();
                         if (this.getBehavioursEnabled() && !pasted) {
                             var transform = mode.transformAction(session.getState(cursor.row), "insertion", this, session, text);
-                            transform && (text !== transform.text && (this.inVirtualSelectionMode || (this.session.mergeUndoDeltas = !1, this.mergeNextCommand = !1)), text = transform.text);
+                            transform && (text === transform.text || this.inVirtualSelectionMode || (this.session.mergeUndoDeltas = !1, this.mergeNextCommand = !1), text = transform.text);
                         }
                         if ("\t" == text && (text = this.session.getTabString()), this.selection.isEmpty()) {
                             if (this.session.getOverwrite() && -1 == text.indexOf("\n")) {
