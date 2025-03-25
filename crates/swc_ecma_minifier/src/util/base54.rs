@@ -229,7 +229,7 @@ impl CharFreq {
 
     pub fn compute(p: &Program, preserved: &FxHashSet<Id>, unresolved_ctxt: SyntaxContext) -> Self {
         let (mut a, b) = GLOBALS.with(|globals| {
-            swc_parallel::join(
+            par_core::join(
                 || {
                     GLOBALS.set(globals, || {
                         let cm = Lrc::new(DummySourceMap);

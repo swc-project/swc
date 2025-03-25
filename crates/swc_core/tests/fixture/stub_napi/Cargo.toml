@@ -39,6 +39,7 @@ napi = { version = "2", default-features = false, features = [
 napi-derive = { version = "2", default-features = false, features = [
   "type-def",
 ] }
+par-core = { version = "1", features = ["chili"] }
 path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
@@ -56,7 +57,4 @@ swc_core = { path = "../../../../swc_core", features = [
   "ecma_visit",
   "base_node",
   "base_concurrent",
-] }
-swc_parallel = { version = "1.2.0", path = "../../../../swc_parallel", features = [
-  "chili",
 ] }

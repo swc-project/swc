@@ -27,6 +27,7 @@ plugin = [
 anyhow             = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
+par-core           = { workspace = true, features = ["chili"] }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
 rayon              = { workspace = true }
 relative-path      = { workspace = true }
@@ -44,9 +45,6 @@ swc_core = { version = "16.10.0", features = [
   "common_concurrent",
   "base_concurrent",
 ], path = "../swc_core" }
-swc_parallel = { version = "1.3.0", path = "../swc_parallel", features = [
-  "chili",
-] }
 
 [dev-dependencies]
 assert_cmd = { workspace = true }

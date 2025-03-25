@@ -26,6 +26,7 @@ resolver = "2"
   napi                 = { version = "2", default-features = false }
   napi-build           = "2"
   napi-derive          = { version = "2", default-features = false }
+  par-core             = "1.0.0"
   path-clean           = "1.0"
   quote                = "1"
   rustc-hash           = "2"
@@ -51,7 +52,6 @@ resolver = "2"
   swc_html_minifier    = "12.0.0"
   swc_malloc           = "1.2.2"
   swc_nodejs_common    = "1.0.0"
-  swc_parallel         = "1.3.0"
   tracing              = "0.1.40"
   tracing-chrome       = "0.7.2"
   tracing-futures      = "0.2.5"
@@ -146,5 +146,5 @@ strip = "symbols"
     opt-level = "s"
 
 
-    [profile.dev.package."*"]
-    debug-assertions = false
+[profile.dev.package."*"]
+debug-assertions = false

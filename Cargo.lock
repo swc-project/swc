@@ -1273,6 +1273,7 @@ dependencies = [
  "clap 3.2.25",
  "dialoguer",
  "flate2",
+ "par-core",
  "rayon",
  "serde",
  "serde_json",
@@ -1286,7 +1287,6 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_visit",
  "swc_error_reporters",
- "swc_parallel",
  "swc_timer",
  "tempfile",
  "tracing",
@@ -3134,9 +3134,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.19.0"
+version = "1.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
+checksum = "d75b0bedcc4fe52caa0e03d9f1151a323e4aa5e2d78ba3580400cd3c9e2bc4bc"
 
 [[package]]
 name = "oorandom"
@@ -3211,6 +3211,27 @@ name = "owo-colors"
 version = "4.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "caff54706df99d2a78a5a4e3455ff45448d81ef1bb63c22cd14052ca0e993a3f"
+
+[[package]]
+name = "par-core"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "664ad734db961818c8d817a239053f9e6b9ad4487f6f236181c75d91573d8515"
+dependencies = [
+ "chili",
+ "once_cell",
+ "rayon",
+]
+
+[[package]]
+name = "par-iter"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "475a015a1cd1720f1a371c089c06dd50bbfbedf2e721ca23d180c18794180360"
+dependencies = [
+ "either",
+ "par-core",
+]
 
 [[package]]
 name = "parking_lot"
@@ -3681,15 +3702,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
 dependencies = [
  "getrandom",
-]
-
-[[package]]
-name = "rand_xorshift"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d25bf25ec5ae4a3f1b92f929810509a2f53d7dca2f50b794ff57e3face536c8f"
-dependencies = [
- "rand_core",
 ]
 
 [[package]]
@@ -4564,6 +4576,7 @@ dependencies = [
  "napi",
  "napi-derive",
  "once_cell",
+ "par-core",
  "parking_lot",
  "pathdiff",
  "rayon",
@@ -4595,7 +4608,6 @@ dependencies = [
  "swc_error_reporters",
  "swc_malloc",
  "swc_node_comments",
- "swc_parallel",
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_timer",
@@ -4666,6 +4678,7 @@ dependencies = [
  "is-macro",
  "ntest",
  "once_cell",
+ "par-core",
  "parking_lot",
  "path-clean 1.0.1",
  "petgraph",
@@ -4692,7 +4705,6 @@ dependencies = [
  "swc_fast_graph",
  "swc_graph_analyzer",
  "swc_malloc",
- "swc_parallel",
  "tempfile",
  "testing",
  "tracing",
@@ -4720,6 +4732,7 @@ dependencies = [
  "assert_fs",
  "clap 3.2.25",
  "glob",
+ "par-core",
  "path-absolutize",
  "rayon",
  "relative-path",
@@ -4727,7 +4740,6 @@ dependencies = [
  "serde_json",
  "sourcemap",
  "swc_core",
- "swc_parallel",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -4828,6 +4840,7 @@ dependencies = [
  "anyhow",
  "binding_macros",
  "once_cell",
+ "par-core",
  "swc",
  "swc_allocator",
  "swc_atoms",
@@ -4865,7 +4878,6 @@ dependencies = [
  "swc_malloc",
  "swc_node_bundler",
  "swc_nodejs_common",
- "swc_parallel",
  "swc_plugin",
  "swc_plugin_macro",
  "swc_plugin_proxy",
@@ -5366,6 +5378,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
+ "par-core",
  "parking_lot",
  "pretty_assertions",
  "regex",
@@ -5382,7 +5395,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
- "swc_parallel",
  "testing",
  "walkdir",
 ]
@@ -5425,6 +5437,8 @@ dependencies = [
  "num-bigint",
  "num_cpus",
  "once_cell",
+ "par-core",
+ "par-iter",
  "parking_lot",
  "phf",
  "pretty_assertions",
@@ -5448,8 +5462,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
- "swc_par_iter",
- "swc_parallel",
  "swc_timer",
  "testing",
  "tracing",
@@ -5556,6 +5568,7 @@ dependencies = [
 name = "swc_ecma_transforms"
 version = "14.0.0"
 dependencies = [
+ "par-core",
  "pretty_assertions",
  "sourcemap",
  "swc_atoms",
@@ -5573,7 +5586,6 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_parallel",
  "tempfile",
  "testing",
 ]
@@ -5588,6 +5600,7 @@ dependencies = [
  "criterion",
  "indexmap 2.7.1",
  "once_cell",
+ "par-core",
  "phf",
  "rayon",
  "rustc-hash 2.1.0",
@@ -5602,7 +5615,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
- "swc_parallel",
  "testing",
  "tracing",
 ]
@@ -5627,6 +5639,7 @@ dependencies = [
  "indexmap 2.7.1",
  "is-macro",
  "num-bigint",
+ "par-core",
  "rayon",
  "serde",
  "serde_json",
@@ -5653,7 +5666,6 @@ dependencies = [
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_parallel",
  "swc_trace_macro",
  "testing",
  "tracing",
@@ -5707,6 +5719,7 @@ dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
+ "par-core",
  "petgraph",
  "rayon",
  "rustc-hash 2.1.0",
@@ -5726,7 +5739,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_fast_graph",
- "swc_parallel",
  "testing",
  "tracing",
 ]
@@ -5857,6 +5869,8 @@ dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
  "once_cell",
+ "par-core",
+ "par-iter",
  "rayon",
  "rustc-hash 2.1.0",
  "ryu-js",
@@ -5866,7 +5880,6 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_parallel",
  "testing",
  "tracing",
  "unicode-id",
@@ -5904,6 +5917,7 @@ dependencies = [
 name = "swc_ecmascript"
 version = "15.0.0"
 dependencies = [
+ "par-core",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_minifier",
@@ -5913,7 +5927,6 @@ dependencies = [
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_parallel",
 ]
 
 [[package]]
@@ -6210,29 +6223,6 @@ dependencies = [
  "serde_json",
  "tracing",
  "tracing-subscriber",
-]
-
-[[package]]
-name = "swc_par_iter"
-version = "1.0.0"
-dependencies = [
- "chili",
- "either",
- "rand",
- "rand_xorshift",
- "swc_parallel",
-]
-
-[[package]]
-name = "swc_parallel"
-version = "1.3.0"
-dependencies = [
- "chili",
- "hstr",
- "indexmap 2.7.1",
- "once_cell",
- "rayon",
- "scoped-tls",
 ]
 
 [[package]]

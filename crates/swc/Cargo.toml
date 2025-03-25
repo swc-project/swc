@@ -59,6 +59,7 @@ indexmap     = { workspace = true, features = ["serde"] }
 jsonc-parser = { workspace = true, features = ["serde"] }
 lru          = { workspace = true }
 once_cell    = { workspace = true }
+par-core     = { workspace = true }
 parking_lot  = { workspace = true }
 pathdiff     = { workspace = true }
 regex        = { workspace = true }
@@ -104,7 +105,6 @@ swc_ecma_utils = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "9.1.1", path = "../swc_error_reporters" }
 swc_node_comments = { version = "8.0.0", path = "../swc_node_comments" }
-swc_parallel = { version = "1.3.0", path = "../swc_parallel", default-features = false }
 swc_plugin_proxy = { version = "8.0.0", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "8.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }

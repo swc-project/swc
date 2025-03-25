@@ -54,6 +54,7 @@ swc_graph_analyzer               = { version = "8.0.0", path = "../swc_graph_ana
 [dev-dependencies]
 hex        = { workspace = true }
 ntest      = { workspace = true }
+par-core   = { workspace = true, features = ["chili"] }
 path-clean = "1.0.1"
 reqwest    = { workspace = true, features = ["blocking"] }
 sha1       = { workspace = true }
@@ -71,7 +72,4 @@ swc_ecma_transforms_proposal = { version = "11.0.2", path = "../swc_ecma_transfo
 swc_ecma_transforms_react = { version = "12.0.1", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "12.0.1", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
-swc_parallel = { version = "1.3.0", path = "../swc_parallel", features = [
-  "chili",
-] }
 testing = { version = "8.0.0", path = "../testing" }

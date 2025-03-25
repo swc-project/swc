@@ -15,13 +15,11 @@ os:
     - swc_html_codegen
     - swc_html_parser
     - swc_node_bundler
-    - swc_parallel
     - swc_plugin
     - swc_plugin_runner
     - swc_plugin_testing
   macos:
     - swc_allocator
-    - swc_parallel
     - swc_plugin_runner
 
 # host:
@@ -30,7 +28,7 @@ os:
 check:
   swc:
     # plugin feature is verified by other tasks
-    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --features swc_parallel/chili"
+    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --features par-core/chili"
   swc_allocator:
     - "cargo hack check --feature-powerset"
   swc_bundler:
@@ -43,19 +41,19 @@ check:
     - "cargo hack check --feature-powerset"
   swc_ecma_transforms:
     # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features swc_parallel/chili"
+    - "cargo check --features concurrent --features par-core/chili"
   swc_ecma_transforms_base:
     # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features swc_parallel/chili"
+    - "cargo check --features concurrent --features par-core/chili"
   swc_ecma_transforms_compat:
     # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features swc_parallel/chili"
+    - "cargo check --features concurrent --features par-core/chili"
   swc_ecma_transforms_optimization:
     # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features swc_parallel/chili"
+    - "cargo check --features concurrent --features par-core/chili"
   swc_ecma_utils:
     # - "cargo hack check --feature-powerset"
-    - "cargo check --features concurrent --features swc_parallel/chili"
+    - "cargo check --features concurrent --features par-core/chili"
   swc_ecma_visit:
     - "cargo hack check --feature-powerset"
   swc_cli:
