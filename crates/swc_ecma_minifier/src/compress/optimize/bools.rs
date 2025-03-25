@@ -6,35 +6,6 @@ use super::Optimizer;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
-        if !self.options.conditionals && !self.options.bools {
-            return;
-        }
-
-        let stmt = match s {
-            Stmt::If(v) => v,
-            _ => return,
-        };
-
-        if stmt.alt.is_none() {
-            if let Stmt::Expr(cons) = &mut *stmt.cons {
-                self.changed = true;
-                report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
-                *s = ExprStmt {
-                    span: stmt.span,
-                    expr: BinExpr {
-                        span: stmt.test.span(),
-                        op: op!("&&"),
-                        left: stmt.test.take(),
-                        right: cons.expr.take(),
-                    }
-                    .into(),
-                }
-                .into();
-            }
-        }
-    }
-
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {

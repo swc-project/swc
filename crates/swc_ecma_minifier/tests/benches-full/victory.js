@@ -6652,7 +6652,7 @@
                     }
                 }
                 // Lastly delete any cells with no edges; these were entirely clipped.
-                for(iCell = 0; iCell < nCells; ++iCell)(cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]) && (cell.halfedges.length || delete _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]);
+                for(iCell = 0; iCell < nCells; ++iCell)(cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]) && !cell.halfedges.length && delete _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell];
             }
         /***/ },
         /***/ "../../../node_modules/d3-voronoi/src/Circle.js": /*!*********************************************************************************!*\
@@ -11570,7 +11570,14 @@
   !*** /Users/boygirl/formidable/v/victory/node_modules/react-is/cjs/react-is.development.js ***!
   \*********************************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             "use strict";
-            !function() {
+            /** @license React v16.13.1
+         * react-is.development.js
+         *
+         * Copyright (c) Facebook, Inc. and its affiliates.
+         *
+         * This source code is licensed under the MIT license found in the
+         * LICENSE file in the root directory of this source tree.
+         */ !function() {
                 // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
                 // nor polyfill, then a plain number is used for performance.
                 var hasSymbol = 'function' == typeof Symbol && Symbol.for, REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7, REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca, REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb, REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc, REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2, REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd, REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace, REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf, REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf, REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0, REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1, REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8, REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3, REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4, REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9, REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5, REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6, REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;

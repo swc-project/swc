@@ -4935,7 +4935,7 @@
                 },
                 // Accept a setting if its a valid percentage.
                 percent: function(k, v) {
-                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0 && v <= 100) && (this.set(k, v), !0);
+                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0) && v <= 100 && (this.set(k, v), !0);
                 }
             };
             // When evaluating this file as part of a Webpack bundle for server

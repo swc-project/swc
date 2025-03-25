@@ -37,7 +37,6 @@ use crate::{
 
 mod arguments;
 mod bools;
-mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
@@ -526,13 +525,6 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.break_assignments_in_seqs(stmts);
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         // stmts.extend(self.append_stmts.drain(..).map(T::from));
 
         drop_invalid_stmts(stmts);
@@ -540,99 +532,6 @@ impl Optimizer<'_> {
         // debug_assert_eq!(self.prepend_stmts, Vec::new());
         self.prepend_stmts = prepend_stmts;
         self.append_stmts = append_stmts;
-    }
-
-    /// `a = a + 1` => `a += 1`.
-    fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
-        if e.op != op!("=") {
-            return;
-        }
-
-        // TODO: Handle pure properties.
-        let lhs = match &e.left {
-            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
-            _ => return,
-        };
-
-        // If left operand of a binary expression is not same as lhs, this method has
-        // nothing to do.
-        let (op, right) = match &mut *e.right {
-            Expr::Bin(BinExpr {
-                left, op, right, ..
-            }) => match &**left {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
-                _ => return,
-            },
-            _ => return,
-        };
-
-        // Don't break code for old browsers.
-        match op {
-            BinaryOp::LogicalOr => return,
-            BinaryOp::LogicalAnd => return,
-            BinaryOp::Exp => return,
-            BinaryOp::NullishCoalescing => return,
-            _ => {}
-        }
-
-        let op = match op {
-            BinaryOp::In | BinaryOp::InstanceOf => return,
-
-            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
-                // TODO(kdy1): Check if this is optimizable.
-                return;
-            }
-
-            BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => return,
-
-            BinaryOp::LShift => op!("<<="),
-            BinaryOp::RShift => {
-                op!(">>=")
-            }
-            BinaryOp::ZeroFillRShift => {
-                op!(">>>=")
-            }
-            BinaryOp::Add => {
-                op!("+=")
-            }
-            BinaryOp::Sub => {
-                op!("-=")
-            }
-            BinaryOp::Mul => {
-                op!("*=")
-            }
-            BinaryOp::Div => {
-                op!("/=")
-            }
-            BinaryOp::Mod => {
-                op!("%=")
-            }
-            BinaryOp::BitOr => {
-                op!("|=")
-            }
-            BinaryOp::BitXor => {
-                op!("^=")
-            }
-            BinaryOp::BitAnd => {
-                op!("&=")
-            }
-            BinaryOp::LogicalOr => {
-                op!("||=")
-            }
-            BinaryOp::LogicalAnd => {
-                op!("&&=")
-            }
-            BinaryOp::Exp => {
-                op!("**=")
-            }
-            BinaryOp::NullishCoalescing => {
-                op!("??=")
-            }
-        };
-
-        e.op = op;
-        e.right = right.take();
-        // Now we can compress it to an assignment
     }
 
     ///
@@ -1578,15 +1477,8 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx.clone()
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
-
-            if is_left_access_to_arguments(&e.left) {
-                // self.ctx.can_inline_arguments = false;
-            }
         }
         e.right.visit_mut_with(self);
-
-        self.compress_bin_assignment_to_left(e);
-        self.compress_bin_assignment_to_right(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1937,19 +1829,6 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        if let Expr::Bin(bin) = e {
-            let expr = self.optimize_lit_cmp(bin);
-            if let Some(expr) = expr {
-                report_change!("Optimizing: Literal comparison");
-                self.changed = true;
-                *e = expr;
-            }
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
         self.compress_cond_expr_if_similar(e);
 
         if e.is_seq() {
@@ -2194,8 +2073,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-
-        self.with_ctx(ctx.clone()).optimize_init_of_for_stmt(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2274,8 +2151,6 @@ impl VisitMut for Optimizer<'_> {
         n.cons.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-
-        self.merge_nested_if(n);
 
         self.negate_if_stmt(n);
     }
@@ -2471,10 +2346,6 @@ impl VisitMut for Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
-
-        self.shift_void(n);
-
-        self.shift_assignment(n);
 
         self.merge_sequences_in_seq_expr(n);
     }
@@ -2703,12 +2574,6 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_valid(s);
 
         self.compress_if_stmt_as_cond(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        self.compress_if_stmt_as_expr(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);

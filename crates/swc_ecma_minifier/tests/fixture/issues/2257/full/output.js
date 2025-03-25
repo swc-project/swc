@@ -1042,7 +1042,7 @@
                         return loadedChunks.some(function(_ref2) {
                             return _ref2[0].indexOf(chunk) > -1;
                         });
-                    }) && (resolved || (resolved = !0, resolve()));
+                    }) && !resolved && (resolved = !0, resolve());
                 }
                 loadedChunks.push = function() {
                     originalPush.apply(void 0, arguments), checkReadyState();

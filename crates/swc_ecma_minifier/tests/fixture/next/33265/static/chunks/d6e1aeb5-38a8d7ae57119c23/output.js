@@ -1063,7 +1063,7 @@
                     for(var key in event = {}, old)// Safari 6.0.3 warns you if you try to copy deprecated layerX/Y
                     // Chrome warns you if you try to copy deprecated keyboardEvent.keyLocation
                     // and webkitMovementX/Y
-                    "layerX" !== key && "layerY" !== key && "keyLocation" !== key && "webkitMovementX" !== key && "webkitMovementY" !== key && ("returnValue" === key && old.preventDefault || (event[key] = old[key]));
+                    "layerX" === key || "layerY" === key || "keyLocation" === key || "webkitMovementX" === key || "webkitMovementY" === key || "returnValue" === key && old.preventDefault || (event[key] = old[key]);
                      // The event occurred on this element
                     if (event.target || (event.target = event.srcElement || global_document__WEBPACK_IMPORTED_MODULE_1___default()), event.relatedTarget || (event.relatedTarget = event.fromElement === event.target ? event.toElement : event.fromElement), event.preventDefault = function() {
                         old.preventDefault && old.preventDefault(), event.returnValue = !1, old.returnValue = !1, event.defaultPrevented = !0;
@@ -8405,7 +8405,7 @@
                  * @listens keydown
                  */ _proto.handleKeyDown = function(event) {
                     // Escape or Tab unpress the 'button'
-                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && (this.buttonPressed_ || (event.preventDefault(), this.pressButton()));
+                    keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && !this.buttonPressed_ && (event.preventDefault(), this.pressButton());
                 }, /**
                  * Handle a `keyup` event on a `MenuButton`. The listener for this is added in
                  * the constructor.
@@ -11346,24 +11346,29 @@
                 if (el) {
                     for(el.parentNode && el.parentNode.removeChild(el); el.hasChildNodes();)el.removeChild(el.firstChild);
                      // remove any src reference. not setting `src=''` because that causes a warning
-                    // however IE on Windows 7N has a bug that throws an error so need a try/catch (#793)
-                    if (// in firefox
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // not supported
-                    }
+                    // in firefox
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // not supported
+                        }
+                    }();
                 }
             }, Html5.resetMediaElement = function(el) {
                 if (el) {
                     for(var sources = el.querySelectorAll("source"), i = sources.length; i--;)el.removeChild(sources[i]);
                      // remove any src reference.
-                    if (// not setting `src=''` because that throws an error
-                    el.removeAttribute("src"), "function" == typeof el.load) try {
-                        el.load();
-                    } catch (e) {
-                    // satisfy linter
-                    }
+                    // not setting `src=''` because that throws an error
+                    el.removeAttribute("src"), "function" == typeof el.load && // wrapping in an iife so it's not deoptimized (#1060#discussion_r10324473)
+                    function() {
+                        try {
+                            el.load();
+                        } catch (e) {
+                        // satisfy linter
+                        }
+                    }();
                 }
             }, /* Native HTML5 element property wrapping ----------------------------------- */ // Wrap native boolean attributes with getters that check both property and attribute
             // The list is as followed:
@@ -12728,7 +12733,7 @@
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (this.lastSource_ && (this.lastSource_.tech === eventSrc || this.lastSource_.player === playerSrc) || (updateSourceCaches = function() {})), // in some cases this will be empty string
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), // in some cases this will be empty string
                         updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
@@ -12958,7 +12963,7 @@
                  */ _proto.handleTechDoubleClick_ = function(event) {
                     this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
-                    }) || (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.doubleClick || !1 !== this.options_.userActions.doubleClick) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen())); // we do not want to toggle fullscreen state
+                    }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen())); // we do not want to toggle fullscreen state
                 }, /**
                  * Handle a tap on the media element. It will toggle the user
                  * activity state, which hides and shows the controls.
@@ -13795,12 +13800,12 @@
                     } // initial sources
                     if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), player = this, src = sources[0], next = function(middlewareSource, mws) {
                         var tech;
-                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
+                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
-                        }, 0), // this needs a better comment about why this is needed
+                        }, 0), void // this needs a better comment about why this is needed
                         _this14.triggerReady());
                         tech = _this14.tech_, mws.forEach(function(mw) {
                             return mw.setTech && mw.setTech(tech);
@@ -16558,7 +16563,7 @@
                 if ("estimate" === matchedSegment.type) return(// we've run out of retries
                 0 === retryCount ? callback({
                     message: programTime + " is not buffered yet. Try again"
-                }) : void (seekTo(matchedSegment.estimatedStart + mediaOffset), tech.one("seeked", function() {
+                }) : (seekTo(matchedSegment.estimatedStart + mediaOffset), void tech.one("seeked", function() {
                     seekToProgramTime({
                         programTime: programTime,
                         playlist: playlist,
@@ -20985,7 +20990,7 @@
                         // Look for a pair of start and end sync bytes in the data..
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             if (// We found a packet
-                            packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0), !result.firstKeyFrame))) {
+                            packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType) && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0), !result.firstKeyFrame)) {
                                 if (pusi && 0 !== currentFrame.size) {
                                     for(frame = new Uint8Array(currentFrame.size), i = 0; currentFrame.data.length;)pes = currentFrame.data.shift(), frame.set(pes, i), i += pes.byteLength;
                                     if (probe.ts.videoPacketContainsKeyFrame(frame)) {
@@ -25946,18 +25951,15 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                if (0 !== mainSeekable.length) {
-                                    if (this.mediaTypes_.AUDIO.activePlaylistLoader && (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null === (expired = this.syncController_.getExpiredTime(media, this.duration())) || 0 === (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length) || (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
-                                    this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
-                                        [
-                                            audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
-                                            audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
-                                        ]
-                                    ]) : // seekable has been calculated based on buffering video data so it
-                                    // can be returned directly
-                                    this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart)) return;
-                                    this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged");
-                                }
+                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? // seekables are pretty far off, rely on main
+                                this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
+                                    [
+                                        audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
+                                        audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
+                                    ]
+                                ]) : // seekable has been calculated based on buffering video data so it
+                                // can be returned directly
+                                this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
                             }
                         }
                     }

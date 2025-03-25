@@ -823,7 +823,7 @@
     }
     // date and time from ref 2822 format
     function configFromRFC2822(config) {
-        var year, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, weekdayStr, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+        var year, weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
         if (match) {
             if (yearStr = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
                 (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year,
@@ -831,7 +831,7 @@
                 parseInt(dayStr, 10),
                 parseInt(hourStr, 10),
                 parseInt(minuteStr, 10)
-            ], secondStr && result.push(parseInt(secondStr, 10)), (weekdayStr = match[1]) && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(result[0], result[1], result[2]).getDay() && (getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, 1)) return;
+            ], secondStr && result.push(parseInt(secondStr, 10)), weekdayStr = match[1], weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(result[0], result[1], result[2]).getDay() && (getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, 1)) return;
             config._a = result, config._tzm = function(obsOffset, militaryOffset, numOffset) {
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) // the only allowed military tz is Z
