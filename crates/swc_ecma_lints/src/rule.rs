@@ -1,6 +1,7 @@
 use std::{fmt::Debug, mem::take, sync::Arc};
 
 use auto_impl::auto_impl;
+use par_core::join;
 use parking_lot::Mutex;
 use swc_common::{
     errors::{Diagnostic, DiagnosticBuilder, Emitter, Handler, HANDLER},
@@ -8,7 +9,6 @@ use swc_common::{
 };
 use swc_ecma_ast::{Module, Script};
 use swc_ecma_visit::{Visit, VisitWith};
-use swc_parallel::join;
 
 /// A lint rule.
 ///

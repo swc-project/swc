@@ -1,12 +1,12 @@
 //! Module for parallel processing
 
 use once_cell::sync::Lazy;
-use swc_common::GLOBALS;
-use swc_ecma_ast::*;
-use swc_parallel::{
+use par_core::{
     items::{IntoItems, Items},
     join,
 };
+use swc_common::GLOBALS;
+use swc_ecma_ast::*;
 
 static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
 
