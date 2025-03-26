@@ -1,6 +1,7 @@
 #![deny(warnings)]
 
 use std::{fmt, fmt::Write, fs, path::Path};
+use std::{fs, path::Path};
 
 use swc_common::{
     errors::{Handler, Level},
@@ -17,12 +18,21 @@ impl Write for Writer {
         self.0.lock().write_str(s)
     }
 }
+use swc_error_reporters::handler::try_with_handler;
+use swc_error_reporters::{
+    handler::{to_pretty_handler, ThreadSafetyDiagnostics},
+    ErrorEmitter, GraphicalReportHandler,
+};
 
 fn output<F>(file: &str, op: F)
 where
     F: FnOnce(Lrc<SourceMap>, &Handler),
 {
     let cm = Lrc::new(SourceMap::default());
+    let mut diagnostics = ThreadSafetyDiagnostics::default();
+    let emitter = ErrorEmitter {
+        diagnostics: diagnostics.clone(),
+    };
 
     let wr = Writer::default();
 
@@ -41,6 +51,23 @@ where
     let s = wr.0.lock().as_str().to_string();
     println!("{}", s);
     fs::write(output, &s).expect("failed to write");
+    let handler = Handler::with_emitter(true, false, Box::new(emitter));
+
+    op(cm.clone(), &handler);
+
+    let output = Path::new("tests").join("fixture").join(file);
+
+    let report_handler = GraphicalReportHandler::default();
+    let pretty_message = diagnostics
+        .take()
+        .iter()
+        .map(|d| d.to_pretty_diagnostic(&cm, false))
+        .map(|d| d.to_pretty_string(&report_handler))
+        .collect::<Vec<String>>()
+        .join("");
+
+    println!("{}", pretty_message);
+    fs::write(output, &pretty_message).expect("failed to write");
 }
 
 fn span(start: usize, end: usize) -> Span {

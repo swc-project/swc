@@ -1,11 +1,11 @@
-use handler::DiagnosticWriter;
+use handler::ThreadSafetyDiagnostics;
 pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use swc_common::errors::{DiagnosticBuilder, Emitter};
 
 pub mod handler;
 
 pub struct ErrorEmitter {
-    diagnostics: DiagnosticWriter,
+    pub diagnostics: ThreadSafetyDiagnostics,
 }
 
 impl Emitter for ErrorEmitter {

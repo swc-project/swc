@@ -1,9 +1,12 @@
-use std::{env, mem::take, sync::Arc};
+use std::{
+    env,
+    mem::take,
+    sync::{Arc, Mutex},
+};
 
 use anyhow::Error;
 use miette::{GraphicalReportHandler, GraphicalTheme};
 use once_cell::sync::Lazy;
-use parking_lot::Mutex;
 use swc_common::{
     errors::{ColorConfig, Diagnostic, Emitter, Handler, Message, Style, HANDLER},
     sync::Lrc,
@@ -12,24 +15,27 @@ use swc_common::{
 
 use crate::ErrorEmitter;
 
-#[derive(Default)]
+#[derive(Default, Clone)]
 /// Represents a collection of diagnostics.
-pub struct DiagnosticWriter(Arc<Mutex<Vec<Diagnostic>>>);
+pub struct ThreadSafetyDiagnostics(Arc<Mutex<Vec<Diagnostic>>>);
 
-impl DiagnosticWriter {
+impl ThreadSafetyDiagnostics {
     /// Adds a new diagnostic to the collection.
-    pub fn push(&self, d: Diagnostic) {
-        self.0.lock().push(d);
+    pub fn push(&mut self, d: Diagnostic) {
+        self.0
+            .lock()
+            .expect("Failed to access the diagnostics lock")
+            .push(d);
     }
 
     /// Removes and returns all diagnostics from the collection.
-    pub fn take(&self) -> Vec<Diagnostic> {
-        take(&mut *self.0.lock())
-    }
-
-    /// Creates a clone of the diagnostics collection.
-    pub fn clone(&self) -> Self {
-        Self(Arc::clone(&self.0))
+    pub fn take(&mut self) -> Vec<Diagnostic> {
+        take(
+            &mut *self
+                .0
+                .lock()
+                .expect("Failed to access the diagnostics lock"),
+        )
     }
 
     /// Checks if the diagnostics collection contains any errors.
@@ -39,6 +45,7 @@ impl DiagnosticWriter {
     pub fn contains_error(&self) -> bool {
         self.0
             .lock()
+            .expect("Failed to access the diagnostics lock")
             .iter()
             .any(|d| d.level == swc_common::errors::Level::Error)
     }
@@ -63,7 +70,7 @@ impl Default for HandlerOpts {
     }
 }
 
-fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
+pub fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
     match color {
         ColorConfig::Auto => {
             if cfg!(target_arch = "wasm32") {
@@ -100,7 +107,7 @@ fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
 // }
 }
 
-fn to_pretty_error(diagnostics: &Vec<Diagnostic>, cm: &SourceMap, config: &HandlerOpts) -> Error {
+fn to_pretty_error(diagnostics: &[Diagnostic], cm: &SourceMap, config: &HandlerOpts) -> Error {
     let handler = to_pretty_handler(config.color);
     let error_msg = diagnostics
         .iter()
@@ -130,8 +137,8 @@ where
     try_with_handler_inner(op)
 }
 
-/// Try operation with a [Handler] and prints the errors as a [String] wrapped
-/// by [Err].
+// Try operation with a [Handler] and prints the errors as a [String] wrapped
+// by [Err].
 // pub fn try_with_json_handler<F, Ret>(
 //     cm: Lrc<SourceMap>,
 //     config: HandlerOpts,
@@ -147,10 +154,10 @@ fn try_with_handler_inner<F, Ret>(op: F) -> Result<Ret, Vec<Diagnostic>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let writer = DiagnosticWriter::default();
+    let mut diagnostics = ThreadSafetyDiagnostics::default();
 
     let emitter: Box<dyn Emitter> = Box::new(ErrorEmitter {
-        diagnostics: writer.clone(),
+        diagnostics: diagnostics.clone(),
     });
 
     let handler = Handler::with_emitter(true, false, emitter);
@@ -159,16 +166,16 @@ where
 
     match ret {
         Ok(ret) => {
-            if writer.contains_error() {
-                return Err(writer.take());
+            if diagnostics.contains_error() {
+                return Err(diagnostics.take());
             }
 
             Ok(ret)
         }
         Err(err) => {
-            writer.push(err.to_diagnostic());
+            diagnostics.push(err.to_diagnostic());
 
-            Err(writer.take())
+            Err(diagnostics.take())
         }
     }
 }

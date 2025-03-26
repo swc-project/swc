@@ -10,13 +10,10 @@
 
 use std::fmt;
 
-use serde::Serialize;
-
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::{
-    sync::Lrc,
     syntax_pos::{MultiSpan, Span},
-    SourceMap, SourceMapper,
+    SourceMap,
 };
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]

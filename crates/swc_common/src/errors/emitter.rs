@@ -23,8 +23,7 @@ use super::{
     diagnostic::Message,
     snippet::{Annotation, AnnotationType, Line, MultilineAnnotation, Style, StyledString},
     styled_buffer::StyledBuffer,
-    CodeSuggestion, Diagnostic, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn,
-    SubDiagnostic,
+    CodeSuggestion, DiagnosticBuilder, DiagnosticId, Level, SourceMapperDyn, SubDiagnostic,
 };
 use crate::{
     sync::Lrc,
