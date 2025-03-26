@@ -269,60 +269,32 @@ where
     #[inline(never)]
     fn emit_bin_expr_trailing(&mut self, node: &BinExpr) -> Result {
         let is_kwd_op = match node.op {
-            op!("in") | op!("instanceof") => true,
+            BinaryOp::In | BinaryOp::InstanceOf => true,
             _ => false,
         };
 
-        let need_pre_space = if self.cfg.minify {
-            if is_kwd_op {
-                node.left.ends_with_alpha_num()
-            } else {
-                // space is mandatory to avoid outputting -->
-                match *node.left {
-                    Expr::Update(UpdateExpr {
-                        prefix: false, op, ..
-                    }) => matches!(
-                        (op, node.op),
-                        (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
-                    ),
-                    _ => false,
-                }
-            }
-        } else {
-            is_kwd_op
-                || match *node.left {
-                    Expr::Update(UpdateExpr { prefix: false, .. }) => true,
-                    _ => false,
-                }
-        };
-        if need_pre_space {
+        let formatting_before_op = if is_kwd_op {
             space!(self);
+            true
         } else {
-            formatting_space!(self);
-        }
-        operator!(self, node.op.as_str());
+            let is_close_to_right = false;
 
-        let need_post_space = if self.cfg.minify {
-            if is_kwd_op {
-                node.right.starts_with_alpha_num()
-            } else if node.op == op!("/") {
-                let span = node.right.span();
-
-                span.is_pure()
-                    || self
-                        .comments
-                        .map_or(false, |comments| comments.has_leading(node.right.span().lo))
+            if is_close_to_right {
+                formatting_space!(self);
+                false
             } else {
-                require_space_before_rhs(&node.right, &node.op)
+                formatting_space!(self);
+                true
             }
-        } else {
-            is_kwd_op
-                || match *node.right {
-                    Expr::Unary(..) | Expr::Update(UpdateExpr { prefix: true, .. }) => true,
-                    _ => false,
-                }
         };
-        if need_post_space {
+
+        if is_kwd_op {
+            keyword!(self, node.op.as_str());
+        } else {
+            operator!(self, node.op.as_str());
+        }
+
+        if formatting_before_op {
             space!(self);
         } else {
             formatting_space!(self);
@@ -788,40 +760,6 @@ where
         emit!(node.expr);
 
         srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
-        match *node {
-            AssignTarget::Simple(ref n) => emit!(n),
-            AssignTarget::Pat(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
-        match node {
-            SimpleAssignTarget::Ident(n) => emit!(n),
-            SimpleAssignTarget::Member(n) => emit!(n),
-            SimpleAssignTarget::Invalid(n) => emit!(n),
-            SimpleAssignTarget::SuperProp(n) => emit!(n),
-            SimpleAssignTarget::Paren(n) => emit!(n),
-            SimpleAssignTarget::OptChain(n) => emit!(n),
-            SimpleAssignTarget::TsAs(n) => emit!(n),
-            SimpleAssignTarget::TsNonNull(n) => emit!(n),
-            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
-            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
-            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
-        match node {
-            AssignTargetPat::Array(n) => emit!(n),
-            AssignTargetPat::Object(n) => emit!(n),
-            AssignTargetPat::Invalid(n) => emit!(n),
-        }
     }
 }
 
@@ -2400,5 +2338,84 @@ impl MacroNode for KeyValuePatProp {
         emit!(self.value);
 
         srcmap!(self, false);
+    }
+}
+
+#[node_impl]
+impl MacroNode for SimpleAssignTarget {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            SimpleAssignTarget::Ident(n) => emit!(n),
+            SimpleAssignTarget::Member(n) => emit!(n),
+            SimpleAssignTarget::Invalid(n) => emit!(n),
+            SimpleAssignTarget::SuperProp(n) => emit!(n),
+            SimpleAssignTarget::Paren(n) => emit!(n),
+            SimpleAssignTarget::OptChain(n) => emit!(n),
+            SimpleAssignTarget::TsAs(n) => emit!(n),
+            SimpleAssignTarget::TsNonNull(n) => emit!(n),
+            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
+            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
+            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for AssignTargetPat {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            AssignTargetPat::Array(n) => emit!(n),
+            AssignTargetPat::Object(n) => emit!(n),
+            AssignTargetPat::Invalid(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for AssignTarget {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match *self {
+            AssignTarget::Simple(ref n) => emit!(n),
+            AssignTarget::Pat(ref n) => emit!(n),
+        }
+    }
+}
+
+impl Macro {
+    fn emit_bin_expr_trailing(&mut self, node: &BinExpr) -> Result<(), anyhow::Error> {
+        let is_kwd_op = match node.op {
+            BinaryOp::In | BinaryOp::InstanceOf => true,
+            _ => false,
+        };
+
+        let formatting_before_op = if is_kwd_op {
+            space!();
+            true
+        } else {
+            let is_close_to_right = false;
+
+            if is_close_to_right {
+                formatting_space!();
+                false
+            } else {
+                formatting_space!();
+                true
+            }
+        };
+
+        if is_kwd_op {
+            keyword!(node.op.as_str());
+        } else {
+            operator!(node.op.as_str());
+        }
+
+        if formatting_before_op {
+            space!();
+        } else {
+            formatting_space!();
+        }
+        emit!(node.right);
+
+        Ok(())
     }
 }
