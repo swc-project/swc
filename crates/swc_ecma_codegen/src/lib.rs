@@ -4523,3 +4523,48 @@ impl MacroNode for Module {
         }
     }
 }
+
+#[node_impl]
+impl MacroNode for ModuleItem {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+        match self {
+            ModuleItem::Stmt(ref stmt) => emit!(stmt),
+            ModuleItem::ModuleDecl(ref decl) => emit!(decl),
+        }
+        emitter
+            .emit_trailing_comments_of_pos(self.span().hi, true, true)
+            .unwrap();
+    }
+}
+
+#[node_impl]
+impl MacroNode for ModuleDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        match self {
+            ModuleDecl::Import(ref d) => emit!(d),
+            ModuleDecl::ExportDecl(ref d) => emit!(d),
+            ModuleDecl::ExportNamed(ref d) => emit!(d),
+            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
+            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
+            ModuleDecl::ExportAll(ref d) => emit!(d),
+            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
+            ModuleDecl::TsImportEquals(ref n) => emit!(n),
+            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+        }
+
+        emitter
+            .emit_trailing_comments_of_pos(self.span().hi, true, true)
+            .unwrap();
+
+        if !emitter.cfg.minify {
+            emitter.wr.write_line().unwrap();
+        }
+    }
+}
