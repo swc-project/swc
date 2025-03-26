@@ -7,10 +7,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
-use swc_error_reporters::{
-    handler::{to_pretty_handler, ThreadSafetyDiagnostics},
-    ErrorEmitter, GraphicalReportHandler,
-};
+use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler};
 
 fn output<F>(file: &str, op: F)
 where
@@ -20,6 +17,8 @@ where
     let mut diagnostics = ThreadSafetyDiagnostics::default();
     let emitter = ErrorEmitter {
         diagnostics: diagnostics.clone(),
+        cm: cm.clone(),
+        opts: Default::default(),
     };
 
     let handler = Handler::with_emitter(true, false, Box::new(emitter));

@@ -10,6 +10,8 @@
 
 use std::fmt;
 
+use miette::GraphicalReportHandler;
+
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
 use crate::{
     syntax_pos::{MultiSpan, Span},
@@ -532,5 +534,17 @@ impl Diagnostic {
     ) -> super::diagnostic_pretty::PrettyDiagnostic<'a> {
         use super::diagnostic_pretty::PrettyDiagnostic;
         PrettyDiagnostic::new(self, cm, skip_filename)
+    }
+
+    #[cfg(feature = "concurrent")]
+    pub fn to_pretty_string<'a>(
+        &self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+        handler: &'a GraphicalReportHandler,
+    ) -> String {
+        use super::diagnostic_pretty::PrettyDiagnostic;
+        let pretty_diagnostic = PrettyDiagnostic::new(self, cm, skip_filename);
+        pretty_diagnostic.to_pretty_string(handler)
     }
 }

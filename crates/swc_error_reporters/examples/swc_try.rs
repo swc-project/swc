@@ -36,7 +36,6 @@ fn main() {
 
     // We can show other file.
     // This can be used to show configurable error with the config.
-
     handler
         .struct_span_err(span(&fm1, 6, 9), "constraint violation")
         .span_note(span(&fm2, 0, 1), "this is your config")
