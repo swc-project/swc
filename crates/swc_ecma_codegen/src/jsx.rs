@@ -186,14 +186,14 @@ impl MacroNode for JSXFragment {
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("<>")
+        punct!("<>");
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("</>")
+        punct!("</>");
     }
 }
 
@@ -208,7 +208,9 @@ impl MacroNode for JSXNamespacedName {
 
 #[node_impl]
 impl MacroNode for JSXEmptyExpr {
-    fn emit(&mut self, emitter: &mut Macro) {}
+    fn emit(&mut self, emitter: &mut Macro) {
+        // Empty implementation as per its nature
+    }
 }
 
 #[node_impl]

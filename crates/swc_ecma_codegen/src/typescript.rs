@@ -342,6 +342,95 @@ impl MacroNode for TsParenthesizedType {
     }
 }
 
+#[node_impl]
+impl MacroNode for TsConditionalType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.check_type);
+        space!();
+
+        keyword!("extends");
+        space!();
+
+        emit!(self.extends_type);
+        space!();
+        punct!("?");
+
+        space!();
+        emit!(self.true_type);
+        space!();
+
+        punct!(":");
+
+        space!();
+        emit!(self.false_type);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsInferType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        keyword!("infer");
+        space!();
+        emit!(self.type_param);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsOptionalType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.type_ann);
+        punct!("?");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsRestType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("...");
+        emit!(self.type_ann);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsLitType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.lit);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsLit {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        match self {
+            TsLit::BigInt(n) => n.emit(emitter),
+            TsLit::Number(n) => n.emit(emitter),
+            TsLit::Str(n) => n.emit(emitter),
+            TsLit::Bool(n) => n.emit(emitter),
+            TsLit::Tpl(n) => n.emit(emitter),
+        }
+    }
+}
+
 impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
 where
     W: WriteJs,
@@ -667,15 +756,6 @@ where
     }
 
     #[emitter]
-    fn emit_ts_infer_type(&mut self, n: &TsInferType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        keyword!("infer");
-        space!();
-        emit!(n.type_param);
-    }
-
-    #[emitter]
     fn emit_ts_interface_body(&mut self, n: &TsInterfaceBody) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -752,17 +832,6 @@ where
     }
 
     #[emitter]
-    fn emit_ts_lit(&mut self, n: &TsLit) -> Result {
-        match n {
-            TsLit::BigInt(n) => emit!(n),
-            TsLit::Number(n) => emit!(n),
-            TsLit::Str(n) => emit!(n),
-            TsLit::Bool(n) => emit!(n),
-            TsLit::Tpl(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
     fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
         debug_assert!(node.quasis.len() == node.types.len() + 1);
 
@@ -781,13 +850,6 @@ where
         }
 
         punct!("`");
-    }
-
-    #[emitter]
-    fn emit_ts_lit_type(&mut self, n: &TsLitType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.lit);
     }
 
     #[emitter]
@@ -1014,14 +1076,6 @@ where
     }
 
     #[emitter]
-    fn emit_ts_optional_type(&mut self, n: &TsOptionalType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.type_ann);
-        punct!("?");
-    }
-
-    #[emitter]
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1176,7 +1230,7 @@ where
     }
 
     #[emitter]
-    fn emit_ts_import_type(&mut self, n: &TsImportType) -> Result {
+    fn emit_ts_import_type(&mut self, n: &TsImportType) -> Result<(), Error> {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("import");
@@ -1195,14 +1249,18 @@ where
         }
 
         emit!(n.type_args);
+
+        Ok(())
     }
 
     #[emitter]
-    fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result {
+    fn emit_ts_import_call_options(&mut self, n: &TsImportCallOptions) -> Result<(), Error> {
         punct!("{");
-        if !self.cfg.minify {
-            self.wr.write_line()?;
-            self.wr.increase_indent()?;
+        if let Some(writer) = self.writer() {
+            if !writer.cfg.minify {
+                writer.wr.write_line()?;
+                writer.wr.increase_indent()?;
+            }
         }
 
         keyword!("with");
@@ -1210,11 +1268,15 @@ where
         formatting_space!();
         emit!(n.with);
 
-        if !self.cfg.minify {
-            self.wr.decrease_indent()?;
-            self.wr.write_line()?;
+        if let Some(writer) = self.writer() {
+            if !writer.cfg.minify {
+                writer.wr.decrease_indent()?;
+                writer.wr.write_line()?;
+            }
         }
         punct!("}");
+
+        Ok(())
     }
 
     #[emitter]
