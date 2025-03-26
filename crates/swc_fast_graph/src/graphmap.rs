@@ -16,7 +16,7 @@ use std::{
     slice::Iter,
 };
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 use indexmap::map::rayon::{ParIter, ParIterMut, ParKeys};
 use indexmap::{
     map::{Iter as IndexMapIter, IterMut as IndexMapIterMut, Keys},
@@ -26,7 +26,7 @@ use petgraph::{
     graph::{node_index, Graph},
     visit, Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 use rayon::prelude::*;
 
 /// A `GraphMap` with undirected edges.
@@ -426,7 +426,7 @@ where
     /// Return a parallel iterator over the nodes of the graph.
     ///
     /// Iterator element type is `N`.
-    #[cfg(feature = "rayon")]
+    #[cfg(feature = "par-iter")]
     pub fn par_nodes(&self) -> ParNodes<'_, N>
     where
         N: Send + Sync,
@@ -551,7 +551,7 @@ where
     /// in arbitrary order.
     ///
     /// Iterator element type is `(N, N, &E)`
-    #[cfg(feature = "rayon")]
+    #[cfg(feature = "par-iter")]
     pub fn par_all_edges(&self) -> ParAllEdges<N, E, Ty>
     where
         N: Send + Sync,
@@ -567,7 +567,7 @@ where
     /// order, with a mutable reference to their weight.
     ///
     /// Iterator element type is `(N, N, &mut E)`
-    #[cfg(feature = "rayon")]
+    #[cfg(feature = "par-iter")]
     pub fn par_all_edges_mut(&mut self) -> ParAllEdgesMut<N, E, Ty>
     where
         N: Send + Sync,
@@ -1373,7 +1373,7 @@ where
 }
 
 /// A [ParallelIterator] over this graph's nodes.
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 pub struct ParNodes<'a, N>
 where
     N: NodeTrait + Send + Sync,
@@ -1381,7 +1381,7 @@ where
     iter: ParKeys<'a, N, Vec<(N, CompactDirection)>>,
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N> ParallelIterator for ParNodes<'a, N>
 where
     N: NodeTrait + Send + Sync,
@@ -1400,7 +1400,7 @@ where
     }
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N> IndexedParallelIterator for ParNodes<'a, N>
 where
     N: NodeTrait + Send + Sync,
@@ -1425,7 +1425,7 @@ where
 }
 
 /// A [ParallelIterator] over this graph's edges.
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 pub struct ParAllEdges<'a, N, E, Ty>
 where
     N: NodeTrait + Send + Sync,
@@ -1435,7 +1435,7 @@ where
     ty: PhantomData<fn(Ty)>,
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N, E, Ty> ParallelIterator for ParAllEdges<'a, N, E, Ty>
 where
     N: NodeTrait + Send + Sync,
@@ -1455,7 +1455,7 @@ where
     }
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N, E, Ty> IndexedParallelIterator for ParAllEdges<'a, N, E, Ty>
 where
     N: NodeTrait + Send + Sync,
@@ -1483,7 +1483,7 @@ where
 }
 
 /// A [ParallelIterator] over this graph's edges by mutable reference.
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 pub struct ParAllEdgesMut<'a, N, E: 'a, Ty>
 where
     N: NodeTrait + Send + Sync,
@@ -1493,7 +1493,7 @@ where
     ty: PhantomData<fn(Ty)>,
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N, E, Ty> ParallelIterator for ParAllEdgesMut<'a, N, E, Ty>
 where
     N: NodeTrait + Send + Sync,
@@ -1513,7 +1513,7 @@ where
     }
 }
 
-#[cfg(feature = "rayon")]
+#[cfg(feature = "par-iter")]
 impl<'a, N, E, Ty> IndexedParallelIterator for ParAllEdgesMut<'a, N, E, Ty>
 where
     N: NodeTrait + Send + Sync,
