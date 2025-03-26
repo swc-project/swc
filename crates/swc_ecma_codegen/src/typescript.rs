@@ -6,6 +6,44 @@ use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
 #[node_impl]
+impl MacroNode for TsTypeParam {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.is_const {
+            keyword!("const");
+            space!();
+        }
+
+        if self.is_in {
+            keyword!("in");
+            space!();
+        }
+
+        if self.is_out {
+            keyword!("out");
+            space!();
+        }
+
+        emit!(self.name);
+
+        if let Some(constraints) = &self.constraint {
+            space!();
+            keyword!("extends");
+            space!();
+            emit!(constraints);
+        }
+
+        if let Some(default) = &self.default {
+            formatting_space!();
+            punct!("=");
+            formatting_space!();
+            emit!(default);
+        }
+    }
+}
+
+#[node_impl]
 impl MacroNode for TsTypePredicate {
     fn emit(&mut self, emitter: &mut Macro) {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
@@ -139,6 +177,157 @@ impl MacroNode for TsInstantiation {
 
         emit!(self.expr);
         emit!(self.type_args);
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeOperator {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        match self.op {
+            TsTypeOperatorOp::KeyOf => keyword!("keyof"),
+            TsTypeOperatorOp::Unique => keyword!("unique"),
+            TsTypeOperatorOp::ReadOnly => keyword!("readonly"),
+        }
+        space!();
+        emit!(self.type_ann);
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeLit {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("{");
+        emitter.emit_list(
+            self.span,
+            Some(&self.members),
+            ListFormat::MultiLineTypeLiteralMembers,
+        )?;
+        punct!("}");
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            TsType::TsKeywordType(n) => emit!(n),
+            TsType::TsThisType(n) => emit!(n),
+            TsType::TsFnOrConstructorType(n) => emit!(n),
+            TsType::TsTypeRef(n) => emit!(n),
+            TsType::TsTypeQuery(n) => emit!(n),
+            TsType::TsTypeLit(n) => emit!(n),
+            TsType::TsArrayType(n) => emit!(n),
+            TsType::TsTupleType(n) => emit!(n),
+            TsType::TsOptionalType(n) => emit!(n),
+            TsType::TsRestType(n) => emit!(n),
+            TsType::TsUnionOrIntersectionType(n) => emit!(n),
+            TsType::TsConditionalType(n) => emit!(n),
+            TsType::TsInferType(n) => emit!(n),
+            TsType::TsParenthesizedType(n) => emit!(n),
+            TsType::TsTypeOperator(n) => emit!(n),
+            TsType::TsIndexedAccessType(n) => emit!(n),
+            TsType::TsMappedType(n) => emit!(n),
+            TsType::TsLitType(n) => emit!(n),
+            TsType::TsTypePredicate(n) => emit!(n),
+            TsType::TsImportType(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsKeywordType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_pos(self.span().lo)
+            .unwrap();
+
+        let s = match self.kind {
+            TsKeywordTypeKind::TsAnyKeyword => "any",
+            TsKeywordTypeKind::TsUnknownKeyword => "unknown",
+            TsKeywordTypeKind::TsNumberKeyword => "number",
+            TsKeywordTypeKind::TsObjectKeyword => "object",
+            TsKeywordTypeKind::TsBooleanKeyword => "boolean",
+            TsKeywordTypeKind::TsBigIntKeyword => "bigint",
+            TsKeywordTypeKind::TsStringKeyword => "string",
+            TsKeywordTypeKind::TsSymbolKeyword => "symbol",
+            TsKeywordTypeKind::TsVoidKeyword => "void",
+            TsKeywordTypeKind::TsUndefinedKeyword => "undefined",
+            TsKeywordTypeKind::TsNullKeyword => "null",
+            TsKeywordTypeKind::TsNeverKeyword => "never",
+            TsKeywordTypeKind::TsIntrinsicKeyword => "intrinsic",
+        };
+
+        write!(emitter, "{}", s).unwrap();
+
+        emitter
+            .emit_trailing_comments_of_pos(self.span().hi)
+            .unwrap();
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsThisType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_pos(self.span.lo)?;
+
+        write!(emitter, "this")?;
+
+        emitter.emit_trailing_comments_of_pos(self.span.hi)?;
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTupleType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("[");
+        emitter.emit_list(
+            self.span,
+            Some(&self.elem_types),
+            ListFormat::TupleTypeElements,
+        )?;
+        punct!("]");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsFnOrConstructorType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        match self {
+            TsFnOrConstructorType::TsFnType(n) => n.emit(emitter),
+            TsFnOrConstructorType::TsConstructorType(n) => n.emit(emitter),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsFnType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+        }
+
+        punct!("(");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        space!();
+        punct!("=>");
+        space!();
+
+        emit!(self.type_ann);
+
+        Ok(())
     }
 }
 
