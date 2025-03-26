@@ -1,1 +1,1 @@
-pub mod digraph;
+pub mod graphmap;

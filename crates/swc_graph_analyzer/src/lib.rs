@@ -2,7 +2,7 @@ use std::{fmt::Debug, hash::Hash, marker::PhantomData};
 
 use auto_impl::auto_impl;
 use rustc_hash::FxHashSet;
-use swc_fast_graph::digraph::FastDiGraphMap;
+use swc_fast_graph::graphmap::FastDiGraphMap;
 
 #[auto_impl(&, Box, Rc, Arc)]
 pub trait DepGraph {

@@ -5,7 +5,7 @@ use petgraph::{
     EdgeDirection::{Incoming, Outgoing},
 };
 use rustc_hash::FxHashSet;
-use swc_fast_graph::digraph::FastDiGraphMap;
+use swc_fast_graph::graphmap::FastDiGraphMap;
 
 /// Is dependency between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]

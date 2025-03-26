@@ -1,4 +1,4 @@
-use swc_fast_graph::digraph::FastDiGraphMap;
+use swc_fast_graph::graphmap::FastDiGraphMap;
 
 use crate::ModuleId;
 
