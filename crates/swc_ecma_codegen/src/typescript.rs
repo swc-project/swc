@@ -1,6 +1,6 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::{emitter, node_impl};
+use swc_ecma_codegen_macros::node_impl;
 
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;

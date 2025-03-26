@@ -19,7 +19,7 @@ use swc_common::{
     BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::{emitter, node_impl};
+use swc_ecma_codegen_macros::node_impl;
 use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
