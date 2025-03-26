@@ -1,5 +1,6 @@
-use swc_fast_graph::graphmap::FastDiGraphMap;
+use petgraph::{prelude::GraphMap, Directed};
+use rustc_hash::FxBuildHasher;
 
 use crate::ModuleId;
 
-pub(crate) type ModuleGraph = FastDiGraphMap<ModuleId, ()>;
+pub(crate) type ModuleGraph = GraphMap<ModuleId, (), Directed, FxBuildHasher>;
