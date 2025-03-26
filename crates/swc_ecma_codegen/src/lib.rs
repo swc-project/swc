@@ -90,10 +90,21 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    pub cfg: config::Config,
-    pub cm: Lrc<S>,
-    pub comments: Option<&'a dyn Comments>,
-    pub wr: W,
+    cfg: config::Config,
+    cm: Lrc<S>,
+    comments: Option<&'a dyn Comments>,
+    wr: W,
+}
+
+pub struct SpanWriter<'a, W, S: SourceMapper>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    cfg: config::Config,
+    cm: Lrc<S>,
+    comments: Option<&'a dyn Comments>,
+    wr: W,
 }
 
 enum CowStr<'a> {
