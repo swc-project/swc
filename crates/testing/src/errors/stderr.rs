@@ -34,8 +34,8 @@ struct TestEmitter {
 
 impl Emitter for TestEmitter {
     fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
-        let d = db.take();
-        let pretty_dignostic = d.to_pretty_diagnostic(&self.cm, false);
+        let d = &**db;
+        let pretty_dignostic = &d.to_pretty_diagnostic(&self.cm, false);
 
         eprint!("{}", pretty_dignostic.to_pretty_string(&self.reporter));
     }
