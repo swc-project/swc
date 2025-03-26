@@ -178,7 +178,7 @@ static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r
 
 #[node_impl]
 impl MacroNode for Program {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Program::Module(m) => emit!(m),
             Program::Script(s) => emit!(s),
@@ -188,7 +188,7 @@ impl MacroNode for Program {
 
 #[node_impl]
 impl MacroNode for Module {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.body.is_empty() {
@@ -213,7 +213,7 @@ impl MacroNode for Module {
 
 #[node_impl]
 impl MacroNode for Script {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.body.is_empty() {
@@ -238,7 +238,7 @@ impl MacroNode for Script {
 
 #[node_impl]
 impl MacroNode for ModuleItem {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
         match self {
             ModuleItem::Stmt(ref stmt) => emit!(stmt),
@@ -250,7 +250,7 @@ impl MacroNode for ModuleItem {
 
 #[node_impl]
 impl MacroNode for ModuleDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
@@ -275,7 +275,7 @@ impl MacroNode for ModuleDecl {
 
 #[node_impl]
 impl MacroNode for ExportDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
         match &self.decl {
@@ -301,7 +301,7 @@ impl MacroNode for ExportDecl {
 
 #[node_impl]
 impl MacroNode for ExportDefaultExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
@@ -325,7 +325,7 @@ impl MacroNode for ExportDefaultExpr {
 
 #[node_impl]
 impl MacroNode for ExportDefaultDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -345,7 +345,7 @@ impl MacroNode for ExportDefaultDecl {
 
 #[node_impl]
 impl MacroNode for ImportDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -456,7 +456,7 @@ impl MacroNode for ImportDecl {
 
 #[node_impl]
 impl MacroNode for ImportNamedSpecifier {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
         if self.is_type_only {
@@ -479,7 +479,7 @@ impl MacroNode for ImportNamedSpecifier {
 
 #[node_impl]
 impl MacroNode for ExportSpecifier {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
@@ -492,7 +492,7 @@ impl MacroNode for ExportSpecifier {
 
 #[node_impl]
 impl MacroNode for ExportNamespaceSpecifier {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -509,7 +509,7 @@ impl MacroNode for ExportNamespaceSpecifier {
 
 #[node_impl]
 impl MacroNode for ExportNamedSpecifier {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -534,7 +534,7 @@ impl MacroNode for ExportNamedSpecifier {
 
 #[node_impl]
 impl MacroNode for NamedExport {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -628,7 +628,7 @@ impl MacroNode for NamedExport {
 
 #[node_impl]
 impl MacroNode for ExportAll {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -668,7 +668,7 @@ impl MacroNode for ExportAll {
 
 #[node_impl]
 impl MacroNode for TsExportAssignment {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -684,7 +684,7 @@ impl MacroNode for TsExportAssignment {
 
 #[node_impl]
 impl MacroNode for TsImportEquals {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -706,7 +706,7 @@ impl MacroNode for TsImportEquals {
 
 #[node_impl]
 impl MacroNode for TsNamespaceExportDeclaration {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -727,7 +727,7 @@ impl MacroNode for TsNamespaceExportDeclaration {
 
 #[node_impl]
 impl MacroNode for TsSatisfiesExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -744,7 +744,7 @@ impl MacroNode for TsSatisfiesExpr {
 
 #[node_impl]
 impl MacroNode for TsTypeAssertion {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -760,7 +760,7 @@ impl MacroNode for TsTypeAssertion {
 
 #[node_impl]
 impl MacroNode for TsConstAssertion {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -777,7 +777,7 @@ impl MacroNode for TsConstAssertion {
 
 #[node_impl]
 impl MacroNode for TsInstantiation {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -800,7 +800,7 @@ impl MacroNode for TsInstantiation {
 
 #[node_impl]
 impl MacroNode for TsNonNullExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -814,7 +814,7 @@ impl MacroNode for TsNonNullExpr {
 
 #[node_impl]
 impl MacroNode for OptChainExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -5001,7 +5001,7 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 
 #[node_impl]
 impl MacroNode for Lit {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -5031,7 +5031,7 @@ impl MacroNode for Lit {
 
 #[node_impl]
 impl MacroNode for Str {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
@@ -5122,7 +5122,7 @@ impl MacroNode for Str {
 
 #[node_impl]
 impl MacroNode for Number {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         let mut detect_dot = false;
 
         srcmap!(emitter, self, true);
@@ -5229,7 +5229,7 @@ impl MacroNode for Number {
 
 #[node_impl]
 impl MacroNode for BigInt {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
         if emitter.cfg.minify {
@@ -5263,7 +5263,7 @@ impl MacroNode for BigInt {
 
 #[node_impl]
 impl MacroNode for Callee {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
             Callee::Expr(ref e) => {
                 if let Expr::New(new) = &**e {
@@ -5280,14 +5280,14 @@ impl MacroNode for Callee {
 
 #[node_impl]
 impl MacroNode for Super {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         keyword!(emitter, self.span, "super");
     }
 }
 
 #[node_impl]
 impl MacroNode for Import {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         keyword!(emitter, self.span, "import");
 
         match self.phase {
@@ -5306,7 +5306,7 @@ impl MacroNode for Import {
 
 #[node_impl]
 impl MacroNode for Expr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Expr::Array(ref n) => emit!(n),
             Expr::Arrow(ref n) => emit!(n),
@@ -5360,7 +5360,7 @@ impl MacroNode for Expr {
 
 #[node_impl]
 impl MacroNode for OptChainExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match &*self.base {
             OptChainBase::Member(ref e) => {
                 if let Expr::New(new) = &*e.obj {
@@ -5402,7 +5402,7 @@ impl MacroNode for OptChainExpr {
 
 #[node_impl]
 impl MacroNode for Invalid {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
         emitter.wr.write_str_lit(self.span, "<invalid>")?;
@@ -5411,7 +5411,7 @@ impl MacroNode for Invalid {
 
 #[node_impl]
 impl MacroNode for CallExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
@@ -5436,7 +5436,7 @@ impl MacroNode for CallExpr {
 
 #[node_impl]
 impl MacroNode for NewExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
@@ -5473,7 +5473,7 @@ impl MacroNode for NewExpr {
 
 #[node_impl]
 impl MacroNode for MemberExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -5534,7 +5534,7 @@ impl MacroNode for MemberExpr {
 
 #[node_impl]
 impl MacroNode for SuperPropExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -5556,7 +5556,7 @@ impl MacroNode for SuperPropExpr {
 
 #[node_impl]
 impl MacroNode for ArrowExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
