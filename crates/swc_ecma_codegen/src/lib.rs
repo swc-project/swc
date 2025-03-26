@@ -5012,3 +5012,607 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 
     false
 }
+
+#[node_impl]
+impl MacroNode for Lit {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        match self {
+            Lit::Bool(b) => {
+                if b.value {
+                    keyword!(emitter, "true")
+                } else {
+                    keyword!(emitter, "false")
+                }
+            }
+            Lit::Null(Null { .. }) => keyword!(emitter, "null"),
+            Lit::Str(ref s) => emit!(s),
+            Lit::BigInt(ref s) => emit!(s),
+            Lit::Num(ref n) => emit!(n),
+            Lit::Regex(ref n) => {
+                punct!(emitter, "/");
+                emitter.wr.write_str(&n.exp)?;
+                punct!(emitter, "/");
+                emitter.wr.write_str(&n.flags)?;
+            }
+            Lit::JSXText(ref n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Str {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if !emitter.cfg.minify {
+            match &self.raw {
+                Some(raw) => {
+                    let first_char = raw.chars().next().unwrap();
+                    emitter.wr.write_str_lit(self.span, raw)?;
+                }
+                None => {
+                    let (delimiter, escaped) =
+                        get_quoted_utf16(&*self.value, emitter.cfg.ascii_only, emitter.cfg.target);
+                    match delimiter {
+                        AsciiChar::SingleQuote => punct!(emitter, "'"),
+                        AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                        AsciiChar::BackTick => punct!(emitter, "`"),
+                        _ => unreachable!(),
+                    }
+                    emitter.wr.write_str(&*escaped)?;
+                    match delimiter {
+                        AsciiChar::SingleQuote => punct!(emitter, "'"),
+                        AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                        AsciiChar::BackTick => punct!(emitter, "`"),
+                        _ => unreachable!(),
+                    }
+                }
+            }
+        } else {
+            // Minify
+            // Use quote that would result in smaller output
+            // See:
+            // https://github.com/terser/terser/blob/798bcb412949b1f2353134ace371192a36f3ec69/lib/output.js#L1094-L1106
+
+            match &self.raw {
+                Some(raw) => {
+                    let first_char = raw.chars().next().unwrap();
+                    if emitter.cfg.eval
+                        && first_char != '\''
+                        && first_char != '"'
+                        && first_char != '`'
+                    {
+                        let (delimiter, escaped) = get_quoted_utf16(
+                            &*self.value,
+                            emitter.cfg.ascii_only,
+                            emitter.cfg.target,
+                        );
+                        match delimiter {
+                            AsciiChar::SingleQuote => punct!(emitter, "'"),
+                            AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                            AsciiChar::BackTick => punct!(emitter, "`"),
+                            _ => unreachable!(),
+                        }
+                        emitter.wr.write_str(&*escaped)?;
+                        match delimiter {
+                            AsciiChar::SingleQuote => punct!(emitter, "'"),
+                            AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                            AsciiChar::BackTick => punct!(emitter, "`"),
+                            _ => unreachable!(),
+                        }
+                    } else {
+                        emitter.wr.write_str_lit(self.span, raw)?;
+                    }
+                }
+                None => {
+                    let (delimiter, escaped) =
+                        get_quoted_utf16(&*self.value, emitter.cfg.ascii_only, emitter.cfg.target);
+                    match delimiter {
+                        AsciiChar::SingleQuote => punct!(emitter, "'"),
+                        AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                        AsciiChar::BackTick => punct!(emitter, "`"),
+                        _ => unreachable!(),
+                    }
+                    emitter.wr.write_str(&*escaped)?;
+                    match delimiter {
+                        AsciiChar::SingleQuote => punct!(emitter, "'"),
+                        AsciiChar::DoubleQuote => punct!(emitter, "\""),
+                        AsciiChar::BackTick => punct!(emitter, "`"),
+                        _ => unreachable!(),
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Number {
+    fn emit(&mut self, emitter: &mut Macro) {
+        let mut detect_dot = false;
+
+        srcmap!(emitter, self, true);
+
+        if emitter.cfg.minify {
+            if self.value.is_infinite() && self.raw.is_some() {
+                emitter
+                    .wr
+                    .write_lit(self.span, &self.raw.as_ref().unwrap())?;
+                return;
+            }
+            // NaN is shorter than "NaN"
+            if self.value.is_nan()
+                && !self
+                    .raw
+                    .as_ref()
+                    .map(|v| v.starts_with("NaN"))
+                    .unwrap_or(false)
+            {
+                emitter.wr.write_lit(self.span, "NaN")?;
+                return;
+            }
+
+            let s = minify_number(self.value, &mut detect_dot);
+            emitter.wr.write_lit(self.span, &s)?;
+        } else {
+            // For non-minified output, use the raw string if provided
+            let s = match &self.raw {
+                Some(raw) => {
+                    if raw.len() > 2
+                        && emitter.cfg.target < EsVersion::Es2021
+                        && (raw.contains('_') || (raw.starts_with("0x") && raw.contains('_')))
+                    {
+                        let s = if raw.starts_with("0b") {
+                            raw.replace("_", "")
+                        } else if raw.starts_with("0o") {
+                            raw.replace("_", "")
+                        } else if raw.starts_with("0x") {
+                            raw.replace("_", "")
+                        } else {
+                            raw.replace("_", "")
+                        };
+                        s
+                    } else if raw == "null" {
+                        // work-around for raw value of null in flowtype
+                        "null".into()
+                    } else {
+                        raw.clone()
+                    }
+                }
+                None => {
+                    // If raw is not provided, format the number
+                    let s = if self.value.is_nan() {
+                        "NaN".into()
+                    } else if self.value.is_infinite() {
+                        if self.value.is_sign_negative() {
+                            "-Infinity".into()
+                        } else {
+                            "Infinity".into()
+                        }
+                    } else {
+                        // We prefer to emit floating point literals when minifying for readability
+                        // or the value is between 0 and 1 (e.g. 0.5).
+                        let abs = self.value.abs();
+                        if self.value == 0.0 {
+                            if self.value.is_sign_negative() {
+                                "-0".into()
+                            } else {
+                                "0".into()
+                            }
+                        } else if (abs < 1.0 && abs > 0.0)
+                            || abs >= 1.0e21
+                            || abs <= 1.0e-7
+                            || (abs != abs.floor())
+                        {
+                            detect_dot = true;
+                            let s = self.value.to_string();
+                            if s.contains('e') {
+                                // exponent notation
+                                s.to_lowercase()
+                            } else {
+                                // ensure that a number with a decimal point always has a digit on
+                                // the left side of the decimal point
+                                if s.starts_with('.') {
+                                    format!("0{}", s)
+                                } else if s.starts_with("-.") {
+                                    format!("-0{}", &s[1..])
+                                } else {
+                                    s
+                                }
+                            }
+                        } else {
+                            // Integer or large number
+                            format!("{}", self.value)
+                        }
+                    };
+                    s
+                }
+            };
+            emitter.wr.write_lit(self.span, &s)?;
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for BigInt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        if emitter.cfg.minify {
+            let value = if *self.value >= 10000000000000000_i64.into() {
+                format!("0x{}", self.value.to_str_radix(16))
+            } else if *self.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-*self.value.clone()).to_str_radix(16))
+            } else {
+                self.value.to_string()
+            };
+            emitter.wr.write_lit(self.span, &value)?;
+            emitter.wr.write_lit(self.span, "n")?;
+        } else {
+            match &self.raw {
+                Some(raw) => {
+                    if raw.len() > 2 && emitter.cfg.target < EsVersion::Es2021 && raw.contains('_')
+                    {
+                        emitter.wr.write_str_lit(self.span, &raw.replace('_', ""))?;
+                    } else {
+                        emitter.wr.write_str_lit(self.span, raw)?;
+                    }
+                }
+                _ => {
+                    emitter.wr.write_lit(self.span, &self.value.to_string())?;
+                    emitter.wr.write_lit(self.span, "n")?;
+                }
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Callee {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match *self {
+            Callee::Expr(ref e) => {
+                if let Expr::New(new) = &**e {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emit!(e);
+                }
+            }
+            Callee::Super(ref n) => emit!(n),
+            Callee::Import(ref n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Super {
+    fn emit(&mut self, emitter: &mut Macro) {
+        keyword!(emitter, self.span, "super");
+    }
+}
+
+#[node_impl]
+impl MacroNode for Import {
+    fn emit(&mut self, emitter: &mut Macro) {
+        keyword!(emitter, self.span, "import");
+
+        match self.phase {
+            ImportPhase::Source => {
+                space!(emitter);
+                keyword!(emitter, "source")
+            }
+            ImportPhase::Defer => {
+                space!(emitter);
+                keyword!(emitter, "defer")
+            }
+            _ => {}
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Expr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            Expr::Array(ref n) => emit!(n),
+            Expr::Arrow(ref n) => emit!(n),
+            Expr::Assign(ref n) => emit!(n),
+            Expr::Await(ref n) => emit!(n),
+            Expr::Bin(ref n) => emit!(n),
+            Expr::Call(ref n) => emit!(n),
+            Expr::Class(ref n) => emit!(n),
+            Expr::Cond(ref n) => emit!(n),
+            Expr::Fn(ref n) => emit!(n),
+            Expr::Ident(ref n) => emit!(n),
+            Expr::Lit(ref n) => emit!(n),
+            Expr::Member(ref n) => emit!(n),
+            Expr::SuperProp(ref n) => emit!(n),
+            Expr::MetaProp(ref n) => emit!(n),
+            Expr::New(ref n) => emit!(n),
+            Expr::Object(ref n) => emit!(n),
+            Expr::Paren(ref n) => emit!(n),
+            Expr::Seq(ref n) => emit!(n),
+            Expr::TaggedTpl(ref n) => emit!(n),
+            Expr::This(ref n) => emit!(n),
+            Expr::Tpl(ref n) => emit!(n),
+            Expr::Unary(ref n) => emit!(n),
+            Expr::Update(ref n) => emit!(n),
+            Expr::Yield(ref n) => emit!(n),
+            Expr::PrivateName(ref n) => emit!(n),
+
+            Expr::JSXMember(ref n) => emit!(n),
+            Expr::JSXNamespacedName(ref n) => emit!(n),
+            Expr::JSXEmpty(ref n) => emit!(n),
+            Expr::JSXElement(ref n) => emit!(n),
+            Expr::JSXFragment(ref n) => emit!(n),
+
+            Expr::TsAs(ref n) => emit!(n),
+            Expr::TsNonNull(ref n) => emit!(n),
+            Expr::TsTypeAssertion(ref n) => emit!(n),
+            Expr::TsConstAssertion(ref n) => emit!(n),
+            Expr::TsInstantiation(ref n) => emit!(n),
+            Expr::OptChain(ref n) => emit!(n),
+            Expr::Invalid(ref n) => emit!(n),
+            Expr::TsSatisfies(n) => {
+                emit!(n)
+            }
+        }
+
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for OptChainExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match &*self.base {
+            OptChainBase::Member(ref e) => {
+                if let Expr::New(new) = &*e.obj {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emit!(e.obj);
+                }
+                if self.optional {
+                    punct!(emitter, "?.");
+                } else if !e.prop.is_computed() {
+                    punct!(emitter, ".");
+                }
+
+                match &e.prop {
+                    MemberProp::Computed(computed) => emit!(computed),
+                    MemberProp::Ident(i) => emit!(i),
+                    MemberProp::PrivateName(p) => emit!(p),
+                }
+            }
+            OptChainBase::Call(ref e) => {
+                debug_assert!(!e.callee.is_new());
+                emit!(e.callee);
+
+                if self.optional {
+                    punct!(emitter, "?.");
+                }
+
+                punct!(emitter, "(");
+                emitter.emit_expr_or_spreads(
+                    self.span(),
+                    &e.args,
+                    ListFormat::CallExpressionArguments,
+                )?;
+                punct!(emitter, ")");
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Invalid {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        emitter.wr.write_str_lit(self.span, "<invalid>")?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for CallExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        emit!(self.callee);
+
+        if let Some(type_args) = &self.type_args {
+            emit!(type_args);
+        }
+
+        punct!(emitter, "(");
+        emitter.emit_expr_or_spreads(
+            self.span(),
+            &self.args,
+            ListFormat::CallExpressionArguments,
+        )?;
+        punct!(emitter, ")");
+    }
+}
+
+#[node_impl]
+impl MacroNode for NewExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "new");
+
+        let starts_with_alpha_num = self.callee.starts_with_alpha_num();
+        if starts_with_alpha_num {
+            space!(emitter);
+        } else {
+            formatting_space!(emitter);
+        }
+        emit!(self.callee);
+
+        if let Some(type_args) = &self.type_args {
+            emit!(type_args);
+        }
+
+        if let Some(ref args) = self.args {
+            if !(emitter.cfg.minify && args.is_empty()) {
+                punct!(emitter, "(");
+                emitter.emit_expr_or_spreads(
+                    self.span(),
+                    args,
+                    ListFormat::NewExpressionArguments,
+                )?;
+                punct!(emitter, ")");
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for MemberExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let mut needs_2dots_for_property_access = false;
+
+        match &*self.obj {
+            Expr::New(new) if new.args.is_none() => {
+                needs_2dots_for_property_access = true;
+                emitter.emit_new(new, false)?;
+            }
+            _ => {
+                emit!(self.obj);
+            }
+        }
+
+        match &self.prop {
+            MemberProp::Computed(computed) => emit!(computed),
+            MemberProp::Ident(ident) => {
+                if needs_2dots_for_property_access {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        let pos = self.prop.span().lo() - BytePos(1);
+                        emitter.emit_leading_comments(pos, false)?;
+                    }
+                    punct!(emitter, ".");
+                    punct!(emitter, ".");
+                } else if !self.obj.span().is_dummy() && !self.prop.span().is_dummy() {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        let pos = self.prop.span().lo() - BytePos(1);
+                        emitter.emit_leading_comments(pos, false)?;
+                    }
+                    punct!(emitter, ".");
+                }
+                emit!(ident);
+            }
+            MemberProp::PrivateName(private) => {
+                if needs_2dots_for_property_access {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        let pos = self.prop.span().lo() - BytePos(1);
+                        emitter.emit_leading_comments(pos, false)?;
+                    }
+                    punct!(emitter, ".");
+                    punct!(emitter, ".");
+                } else if !self.obj.span().is_dummy() && !self.prop.span().is_dummy() {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        let pos = self.prop.span().lo() - BytePos(1);
+                        emitter.emit_leading_comments(pos, false)?;
+                    }
+                    punct!(emitter, ".");
+                }
+                emit!(private);
+            }
+        }
+
+        srcmap!(emitter, self, false);
+    }
+}
+
+#[node_impl]
+impl MacroNode for SuperPropExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        emit!(self.obj);
+
+        match &self.prop {
+            SuperProp::Computed(computed) => emit!(computed),
+            SuperProp::Ident(i) => {
+                if self.prop.span().lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(emitter, ".");
+                emit!(i);
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for ArrowExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if self.is_async {
+            keyword!(emitter, "async");
+            formatting_space!(emitter);
+        }
+
+        let parens = match &self.params[..] {
+            [p] => {
+                matches!(p, Pat::Assign(_))
+                    || match p {
+                        Pat::Ident(i) => {
+                            i.id.sym.contains('\\')
+                                || (i.type_ann.is_some() && !self.return_type.is_some())
+                        }
+                        _ => true,
+                    }
+            }
+            _ => true,
+        };
+
+        emit!(self.type_params);
+
+        if parens {
+            punct!(emitter, "(");
+        }
+
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::CommaListElements)?;
+        if parens {
+            punct!(emitter, ")");
+        }
+
+        if let Some(ty) = &self.return_type {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(ty);
+            formatting_space!(emitter);
+        }
+
+        punct!(emitter, "=>");
+        emit!(self.body);
+    }
+}
