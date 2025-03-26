@@ -108,8 +108,8 @@ impl CompactDirection {
 impl From<Direction> for CompactDirection {
     fn from(d: Direction) -> Self {
         match d {
-            Outgoing => CompactDirection::Outgoing,
-            Incoming => CompactDirection::Incoming,
+            Direction::Outgoing => CompactDirection::Outgoing,
+            Direction::Incoming => CompactDirection::Incoming,
         }
     }
 }
