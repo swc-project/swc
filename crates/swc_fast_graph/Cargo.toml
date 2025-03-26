@@ -11,8 +11,12 @@ version     = "9.0.0"
 [lib]
 bench = false
 
+[features]
+par-iter = ["dep:par-iter"]
+
 [dependencies]
 indexmap   = { workspace = true }
+par-iter   = { workspace = true, optional = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
 
