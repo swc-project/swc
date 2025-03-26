@@ -10,6 +10,7 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
+    #[emitter]
     fn emit_jsx_element(&mut self, node: &JSXElement) -> Result {
         emit!(node.opening);
         self.emit_list(
@@ -22,8 +23,9 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_opening_element(&mut self, node: &JSXOpeningElement) -> Result {
-        punct!(self, "<");
+        punct!("<");
         emit!(node.name);
 
         if let Some(type_args) = &node.type_args {
@@ -31,7 +33,7 @@ where
         }
 
         if !node.attrs.is_empty() {
-            space!(self);
+            space!();
 
             self.emit_list(
                 node.span(),
@@ -41,11 +43,12 @@ where
         }
 
         if node.self_closing {
-            punct!(self, "/");
+            punct!("/");
         }
-        punct!(self, ">");
+        punct!(">");
     }
 
+    #[emitter]
     fn emit_jsx_element_name(&mut self, node: &JSXElementName) -> Result {
         match *node {
             JSXElementName::Ident(ref n) => emit!(n),
@@ -54,16 +57,18 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_attr(&mut self, node: &JSXAttr) -> Result {
         emit!(node.name);
 
         if let Some(ref value) = node.value {
-            punct!(self, "=");
+            punct!("=");
 
             emit!(value);
         }
     }
 
+    #[emitter]
     fn emit_jsx_attr_value(&mut self, node: &JSXAttrValue) -> Result {
         match *node {
             JSXAttrValue::Lit(ref n) => emit!(n),
@@ -73,6 +78,7 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_attr_name(&mut self, node: &JSXAttrName) -> Result {
         match *node {
             JSXAttrName::Ident(ref n) => emit!(n),
@@ -80,17 +86,19 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) -> Result {
         match *node {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
-                punct!(self, "{");
+                punct!("{");
                 emit!(n);
-                punct!(self, "}");
+                punct!("}");
             }
         }
     }
 
+    #[emitter]
     fn emit_jsx_element_child(&mut self, node: &JSXElementChild) -> Result {
         match *node {
             JSXElementChild::JSXElement(ref n) => emit!(n),
@@ -101,19 +109,22 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_spread_child(&mut self, node: &JSXSpreadChild) -> Result {
-        punct!(self, "{");
-        punct!(self, "...");
+        punct!("{");
+        punct!("...");
         emit!(node.expr);
-        punct!(self, "}");
+        punct!("}");
     }
 
+    #[emitter]
     fn emit_jsx_expr_container(&mut self, node: &JSXExprContainer) -> Result {
-        punct!(self, "{");
+        punct!("{");
         emit!(node.expr);
-        punct!(self, "}");
+        punct!("}");
     }
 
+    #[emitter]
     fn emit_jsx_expr(&mut self, node: &JSXExpr) -> Result {
         match *node {
             JSXExpr::Expr(ref n) => emit!(n),
@@ -121,12 +132,14 @@ where
         }
     }
 
+    #[emitter]
     fn emit_jsx_closing_element(&mut self, node: &JSXClosingElement) -> Result {
-        punct!(self, "</");
+        punct!("</");
         emit!(node.name);
-        punct!(self, ">");
+        punct!(">");
     }
 
+    #[emitter]
     fn emit_jsx_fragment(&mut self, node: &JSXFragment) -> Result {
         emit!(node.opening);
 
@@ -139,32 +152,39 @@ where
         emit!(node.closing);
     }
 
+    #[emitter]
     fn emit_jsx_opening_fragment(&mut self, _: &JSXOpeningFragment) -> Result {
-        punct!(self, "<>")
+        punct!("<>")
     }
 
+    #[emitter]
     fn emit_jsx_closing_fragment(&mut self, _: &JSXClosingFragment) -> Result {
-        punct!(self, "</>")
+        punct!("</>")
     }
 
+    #[emitter]
     fn emit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) -> Result {
         emit!(node.ns);
-        punct!(self, ":");
+        punct!(":");
         emit!(node.name);
     }
 
+    #[emitter]
     fn emit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) -> Result {}
 
+    #[emitter]
     fn emit_jsx_text(&mut self, node: &JSXText) -> Result {
         self.emit_atom(node.span(), &node.raw)?;
     }
 
+    #[emitter]
     fn emit_jsx_member_expr(&mut self, node: &JSXMemberExpr) -> Result {
         emit!(node.obj);
-        punct!(self, ".");
+        punct!(".");
         emit!(node.prop);
     }
 
+    #[emitter]
     fn emit_jsx_object(&mut self, node: &JSXObject) -> Result {
         match *node {
             JSXObject::Ident(ref n) => emit!(n),
