@@ -75,6 +75,10 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.fn_expr_name = old_fn_expr_name;
             self.destructured_id_span = old_span;
         } else {
+            // fn_expr_name assgin empty to express that it is a non-ident-function
+            // Otherwise, it will be treated as a function with an ident name due to the
+            // previous function
+            self.fn_expr_name = "".into();
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
@@ -133,6 +137,68 @@ mod tests {
         |_| tr(),
         avoid_collision_1,
         "(function a([a, _a]) { a + _a })"
+    );
+
+    test!(
+        Syntax::default(),
+        |_| tr(),
+        issue_10242_1,
+        r#"
+[
+  {
+    37287: function (e, t, n) {
+      !function (t, n) {
+      }(0, (function () {
+        return function (e) {}([
+          function (e, t, n) {
+          o.fromDer = function (e, t) {
+            var a = function e(t, n, r, a) {
+              var d, f, v = function (e, t) {}(t, n);
+            }(e, e.length(), 0, t);
+          }
+          }
+        ])
+      }))
+    },
+    31922: function (e, t, n) {
+      var L = (0, w.Z)(function () {
+        var e = (0, i.Z)((0, o.Z)().mark((function e(t) {
+          return (0, o.Z)().wrap((function (e) {
+
+          }), e)
+        })));
+
+      }(), 1e3);
+      var $ = function (e) {
+        var _e = ye[0],
+          $e = function () {
+            var e = (0, i.Z)((0, o.Z)().mark((function e() {
+              return (0, o.Z)().wrap((function (e) {
+
+              }), e)
+            })));
+
+          }();
+      },
+        ee = $,
+
+        _e = n(36750);
+
+      var zt = function () {
+        var e = (0, i.Z)((0, o.Z)().mark((
+          function e(t) {
+            return (0, o.Z)().wrap((function (e) {
+            console.log(e);
+            console.log(_e);
+          }), e)
+        })));
+       
+      }();
+
+    }
+  }
+];
+"#
     );
 
     test!(
