@@ -1,6 +1,6 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::{emitter, node_impl};
 
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
@@ -515,612 +515,6 @@ impl MacroNode for TsMappedType {
     }
 }
 
-impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
-where
-    W: WriteJs,
-{
-    #[emitter]
-    fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
-        match *n {
-            ParamOrTsParamProp::Param(ref n) => emit!(n),
-            ParamOrTsParamProp::TsParamProp(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_array_type(&mut self, n: &TsArrayType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.elem_type);
-        punct!("[");
-        punct!("]");
-    }
-
-    #[emitter]
-    fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.expr);
-
-        space!();
-        keyword!("as");
-        space!();
-
-        emit!(n.type_ann);
-    }
-
-    #[emitter]
-    fn emit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.expr);
-
-        space!();
-        keyword!("satisfies");
-        space!();
-
-        emit!(n.type_ann);
-    }
-
-    #[emitter]
-    fn emit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.type_params);
-
-        punct!("(");
-        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        if let Some(type_ann) = &n.type_ann {
-            space!();
-            punct!(":");
-            space!();
-
-            emit!(type_ann);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_cond_type(&mut self, n: &TsConditionalType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.check_type);
-        space!();
-
-        keyword!("extends");
-        space!();
-
-        emit!(n.extends_type);
-        space!();
-        punct!("?");
-
-        space!();
-        emit!(n.true_type);
-        space!();
-
-        punct!(":");
-
-        space!();
-        emit!(n.false_type);
-    }
-
-    #[emitter]
-    fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        keyword!("new");
-        if let Some(type_params) = &n.type_params {
-            space!();
-            emit!(type_params);
-        }
-
-        punct!("(");
-        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        if let Some(type_ann) = &n.type_ann {
-            punct!(":");
-            space!();
-            emit!(type_ann);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.is_abstract {
-            keyword!("abstract");
-            space!();
-        }
-
-        keyword!("new");
-        if let Some(type_params) = &n.type_params {
-            space!();
-            emit!(type_params);
-        }
-
-        punct!("(");
-        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        formatting_space!();
-        punct!("=>");
-        formatting_space!();
-
-        emit!(n.type_ann)
-    }
-
-    #[emitter]
-    fn emit_ts_entity_name(&mut self, n: &TsEntityName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match n {
-            TsEntityName::TsQualifiedName(n) => {
-                emit!(n);
-            }
-            TsEntityName::Ident(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_enum_decl(&mut self, n: &TsEnumDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.declare {
-            keyword!("declare");
-            space!();
-        }
-
-        if n.is_const {
-            keyword!("const");
-            space!();
-        }
-
-        keyword!("enum");
-        space!();
-
-        emit!(n.id);
-        formatting_space!();
-
-        punct!("{");
-
-        self.emit_list(n.span, Some(&n.members), ListFormat::EnumMembers)?;
-
-        punct!("}");
-    }
-
-    #[emitter]
-    fn emit_ts_enum_member(&mut self, n: &TsEnumMember) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.id);
-
-        if let Some(init) = &n.init {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
-            emit!(init);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_enum_member_id(&mut self, n: &TsEnumMemberId) -> Result {
-        match n {
-            TsEnumMemberId::Ident(n) => emit!(n),
-            TsEnumMemberId::Str(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        keyword!("export");
-        formatting_space!();
-        punct!("=");
-        formatting_space!();
-        emit!(n.expr);
-    }
-
-    #[emitter]
-    fn emit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.expr);
-
-        emit!(n.type_args);
-    }
-
-    #[emitter]
-    fn emit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        keyword!("require");
-        punct!("(");
-        emit!(n.expr);
-        punct!(")");
-    }
-
-    #[emitter]
-    fn emit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match n {
-            TsFnOrConstructorType::TsFnType(n) => emit!(n),
-            TsFnOrConstructorType::TsConstructorType(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_fn_param(&mut self, n: &TsFnParam) -> Result {
-        match n {
-            TsFnParam::Ident(n) => emit!(n),
-            TsFnParam::Array(n) => emit!(n),
-            TsFnParam::Rest(n) => emit!(n),
-            TsFnParam::Object(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_fn_type(&mut self, n: &TsFnType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.type_params);
-
-        punct!("(");
-        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        formatting_space!();
-        punct!("=>");
-        formatting_space!();
-
-        emit!(n.type_ann);
-    }
-
-    #[emitter]
-    fn emit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.is_export {
-            keyword!("export");
-            space!();
-        }
-
-        keyword!("import");
-        space!();
-
-        if n.is_type_only {
-            keyword!("type");
-            space!();
-        }
-
-        emit!(n.id);
-
-        formatting_space!();
-
-        punct!("=");
-        formatting_space!();
-
-        emit!(n.module_ref);
-        formatting_semi!();
-    }
-
-    #[emitter]
-    fn emit_ts_index_signature(&mut self, n: &TsIndexSignature) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.readonly {
-            keyword!("readonly");
-            formatting_space!();
-        }
-
-        punct!("[");
-        self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
-        punct!("]");
-
-        if let Some(type_ann) = &n.type_ann {
-            punct!(":");
-            formatting_space!();
-            emit!(type_ann);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_index_accessed_type(&mut self, n: &TsIndexedAccessType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.obj_type);
-
-        punct!("[");
-        emit!(n.index_type);
-        punct!("]");
-    }
-
-    #[emitter]
-    fn emit_ts_interface_body(&mut self, n: &TsInterfaceBody) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        punct!("{");
-
-        self.emit_list(n.span, Some(&n.body), ListFormat::InterfaceMembers)?;
-
-        punct!("}");
-    }
-
-    #[emitter]
-    fn emit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.declare {
-            keyword!("declare");
-            space!();
-        }
-
-        keyword!("interface");
-        space!();
-
-        emit!(n.id);
-
-        if let Some(type_params) = &n.type_params {
-            emit!(type_params);
-        }
-
-        if !n.extends.is_empty() {
-            space!();
-
-            keyword!("extends");
-
-            space!();
-
-            self.emit_list(n.span, Some(&n.extends), ListFormat::HeritageClauseTypes)?;
-        }
-
-        formatting_space!();
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_ts_intersection_type(&mut self, n: &TsIntersectionType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.emit_list(n.span, Some(&n.types), ListFormat::IntersectionTypeList)?;
-
-        Ok(())
-    }
-
-    #[emitter]
-    fn emit_ts_keyword_type(&mut self, n: &TsKeywordType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match n.kind {
-            TsKeywordTypeKind::TsAnyKeyword => keyword!(n.span, "any"),
-            TsKeywordTypeKind::TsUnknownKeyword => keyword!(n.span, "unknown"),
-            TsKeywordTypeKind::TsNumberKeyword => keyword!(n.span, "number"),
-            TsKeywordTypeKind::TsObjectKeyword => keyword!(n.span, "object"),
-            TsKeywordTypeKind::TsBooleanKeyword => keyword!(n.span, "boolean"),
-            TsKeywordTypeKind::TsBigIntKeyword => keyword!(n.span, "bigint"),
-            TsKeywordTypeKind::TsStringKeyword => keyword!(n.span, "string"),
-            TsKeywordTypeKind::TsSymbolKeyword => keyword!(n.span, "symbol"),
-            TsKeywordTypeKind::TsVoidKeyword => keyword!(n.span, "void"),
-            TsKeywordTypeKind::TsUndefinedKeyword => keyword!(n.span, "undefined"),
-            TsKeywordTypeKind::TsNullKeyword => keyword!(n.span, "null"),
-            TsKeywordTypeKind::TsNeverKeyword => keyword!(n.span, "never"),
-            TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(n.span, "intrinsic"),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
-        debug_assert!(node.quasis.len() == node.types.len() + 1);
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        punct!("`");
-
-        for i in 0..(node.quasis.len() + node.types.len()) {
-            if i % 2 == 0 {
-                emit!(node.quasis[i / 2]);
-            } else {
-                punct!("${");
-                emit!(node.types[i / 2]);
-                punct!("}");
-            }
-        }
-
-        punct!("`");
-    }
-
-    #[emitter]
-    fn emit_ts_type_element(&mut self, n: &TsTypeElement) -> Result {
-        match n {
-            TsTypeElement::TsCallSignatureDecl(n) => emit!(n),
-            TsTypeElement::TsConstructSignatureDecl(n) => emit!(n),
-            TsTypeElement::TsPropertySignature(n) => emit!(n),
-            TsTypeElement::TsMethodSignature(n) => emit!(n),
-            TsTypeElement::TsIndexSignature(n) => emit!(n),
-            TsTypeElement::TsGetterSignature(n) => {
-                emit!(n)
-            }
-            TsTypeElement::TsSetterSignature(n) => {
-                emit!(n)
-            }
-        }
-        formatting_semi!();
-    }
-
-    #[emitter]
-    fn emit_ts_getter_signature(&mut self, n: &TsGetterSignature) -> Result {
-        keyword!("get");
-        space!();
-
-        if n.computed {
-            punct!("[");
-            emit!(n.key);
-            punct!("]");
-        } else {
-            emit!(n.key)
-        }
-
-        punct!("(");
-        punct!(")");
-
-        if let Some(ty) = &n.type_ann {
-            punct!(":");
-            formatting_space!();
-
-            emit!(ty.type_ann);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_setter_signature(&mut self, n: &TsSetterSignature) -> Result {
-        keyword!("set");
-        space!();
-
-        if n.computed {
-            punct!("[");
-            emit!(n.key);
-            punct!("]");
-        } else {
-            emit!(n.key)
-        }
-
-        punct!("(");
-        emit!(n.param);
-        punct!(")");
-    }
-
-    #[emitter]
-    fn emit_ts_type_lit(&mut self, n: &TsTypeLit) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        punct!("{");
-        self.emit_list(
-            n.span,
-            Some(&n.members),
-            ListFormat::MultiLineTypeLiteralMembers,
-        )?;
-        punct!("}");
-    }
-
-    #[emitter]
-    fn emit_ts_type_operator(&mut self, n: &TsTypeOperator) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match n.op {
-            TsTypeOperatorOp::KeyOf => keyword!("keyof"),
-            TsTypeOperatorOp::Unique => keyword!("unique"),
-            TsTypeOperatorOp::ReadOnly => keyword!("readonly"),
-        }
-        space!();
-        emit!(n.type_ann);
-    }
-
-    #[emitter]
-    fn emit_ts_type_param(&mut self, n: &TsTypeParam) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.is_const {
-            keyword!("const");
-            space!();
-        }
-
-        if n.is_in {
-            keyword!("in");
-            space!();
-        }
-
-        if n.is_out {
-            keyword!("out");
-            space!();
-        }
-
-        emit!(n.name);
-
-        if let Some(constraints) = &n.constraint {
-            space!();
-            keyword!("extends");
-            space!();
-            emit!(constraints);
-        }
-
-        if let Some(default) = &n.default {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
-            emit!(default);
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        punct!("<");
-        self.emit_list(n.span, Some(&n.params), ListFormat::TypeParameters)?;
-
-        punct!(">");
-    }
-
-    #[emitter]
-    fn emit_ts_type_query(&mut self, n: &TsTypeQuery) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        keyword!("typeof");
-        space!();
-        emit!(n.expr_name);
-        emit!(n.type_args);
-    }
-
-    #[emitter]
-    fn emit_ts_type_query_expr(&mut self, n: &TsTypeQueryExpr) -> Result {
-        match n {
-            TsTypeQueryExpr::TsEntityName(n) => emit!(n),
-            TsTypeQueryExpr::Import(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_type_ref(&mut self, n: &TsTypeRef) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.type_name);
-
-        if let Some(n) = &n.type_params {
-            punct!("<");
-            self.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
-            punct!(">");
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_union_or_intersection_type(&mut self, n: &TsUnionOrIntersectionType) -> Result {
-        match n {
-            TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
-            TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_ts_union_type(&mut self, n: &TsUnionType) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
-    }
-
-    #[emitter]
-    fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        emit!(n.expr);
-        emit!(n.type_args);
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use crate::tests::assert_min_typescript;
@@ -1166,6 +560,346 @@ impl MacroNode for TsQualifiedName {
         emit!(self.left);
         punct!(".");
         emit!(self.right);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsConstructorType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.is_abstract {
+            keyword!("abstract");
+            space!();
+        }
+
+        keyword!("new");
+        if let Some(type_params) = &self.type_params {
+            space!();
+            emit!(type_params);
+        }
+
+        punct!("(");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        formatting_space!();
+        punct!("=>");
+        formatting_space!();
+
+        emit!(self.type_ann);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsIntersectionType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.emit_list(
+            self.span,
+            Some(&self.types),
+            ListFormat::IntersectionTypeConstituents,
+        )?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTplLitType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("`");
+
+        for i in 0..(self.quasis.len() + self.types.len()) {
+            if i % 2 == 0 {
+                emit!(self.quasis[i / 2]);
+            } else {
+                punct!("${");
+                emit!(self.types[i / 2]);
+                punct!("}");
+            }
+        }
+
+        punct!("`");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeAnn {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.type_ann);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeAliasDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.declare {
+            keyword!("declare");
+            space!();
+        }
+
+        keyword!("type");
+        space!();
+
+        emit!(self.id);
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+        }
+        formatting_space!();
+
+        punct!("=");
+        formatting_space!();
+
+        emit!(self.type_ann);
+        formatting_semi!();
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsMethodSignature {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.computed {
+            punct!("[");
+            emit!(self.key);
+            punct!("]");
+        } else {
+            emit!(self.key);
+        }
+
+        if self.optional {
+            punct!("?");
+        }
+
+        if let Some(type_params) = &self.type_params {
+            emit!(type_params);
+        }
+
+        punct!("(");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        if let Some(ref type_ann) = self.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(type_ann);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsModuleBlock {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_list(
+            self.span,
+            Some(&self.body),
+            ListFormat::SourceFileStatements,
+        )?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsPropertySignature {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.readonly {
+            keyword!("readonly");
+            space!();
+        }
+
+        if self.computed {
+            punct!("[");
+            emit!(self.key);
+            punct!("]");
+        } else {
+            emit!(self.key);
+        }
+
+        if self.optional {
+            punct!("?");
+        }
+
+        if let Some(type_ann) = &self.type_ann {
+            punct!(":");
+            formatting_space!();
+            emit!(type_ann);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsEnumMember {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.id);
+
+        if let Some(init) = &self.init {
+            formatting_space!();
+            punct!("=");
+            formatting_space!();
+            emit!(init);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsModuleDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.declare {
+            keyword!("declare");
+            space!();
+        }
+
+        if self.global {
+            keyword!("global");
+        } else {
+            match &self.id {
+                TsModuleName::Ident(_) => keyword!("namespace"),
+                TsModuleName::Str(_) => keyword!("module"),
+            }
+            space!();
+            emit!(self.id);
+        }
+
+        if let Some(mut body) = self.body.as_ref() {
+            while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
+                punct!(".");
+                emit!(decl.id);
+                body = &*decl.body;
+            }
+            formatting_space!();
+            emit!(body);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsNamespaceBody {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("{");
+        match self {
+            TsNamespaceBody::TsModuleBlock(n) => emit!(n),
+            TsNamespaceBody::TsNamespaceDecl(n) => emit!(n),
+        }
+        punct!("}");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsParamProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+
+        if let Some(accessibility) = self.accessibility {
+            match accessibility {
+                Accessibility::Public => keyword!("public"),
+                Accessibility::Protected => keyword!("protected"),
+                Accessibility::Private => keyword!("private"),
+            }
+            space!();
+        }
+
+        if self.is_override {
+            keyword!("override");
+            space!();
+        }
+
+        if self.readonly {
+            keyword!("readonly");
+            space!();
+        }
+
+        emit!(self.param);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsCallSignatureDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.type_params);
+
+        punct!("(");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        if let Some(type_ann) = &self.type_ann {
+            space!();
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsEnumDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.declare {
+            keyword!("declare");
+            space!();
+        }
+
+        if self.is_const {
+            keyword!("const");
+            space!();
+        }
+
+        keyword!("enum");
+        space!();
+
+        emit!(self.id);
+        formatting_space!();
+
+        punct!("{");
+        emitter.emit_list(self.span, Some(&self.members), ListFormat::EnumMembers)?;
+        punct!("}");
 
         Ok(())
     }

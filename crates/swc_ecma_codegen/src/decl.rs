@@ -1,6 +1,6 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::{emitter, node_impl};
 
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
@@ -116,49 +116,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
-    fn emit_decl(&mut self, node: &Decl) -> Result {
-        match node {
-            Decl::Class(ref n) => emit!(n),
-            Decl::Fn(ref n) => emit!(n),
-
-            Decl::Var(ref n) => {
-                self.emit_var_decl_inner(n)?;
-                formatting_semi!();
-                srcmap!(n, false);
-            }
-            Decl::Using(n) => emit!(n),
-            Decl::TsEnum(ref n) => emit!(n),
-            Decl::TsInterface(ref n) => emit!(n),
-            Decl::TsModule(ref n) => emit!(n),
-            Decl::TsTypeAlias(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
-        self.emit_class_decl_inner(node, false)?;
-    }
-
-    #[emitter]
-    fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if node.is_await {
-            keyword!("await");
-            space!();
-        }
-
-        keyword!("using");
-        space!();
-
-        self.emit_list(
-            node.span,
-            Some(&node.decls),
-            ListFormat::VariableDeclarationList,
-        )?;
-    }
-
     pub(super) fn emit_class_decl_inner(
         &mut self,
         node: &ClassDecl,
@@ -192,42 +149,6 @@ where
         self.emit_class_trailing(&node.class)?;
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(node, true);
-
-        if node.declare {
-            keyword!("declare");
-            space!();
-        }
-
-        if node.function.is_async {
-            keyword!("async");
-            space!();
-        }
-
-        keyword!("function");
-        if node.function.is_generator {
-            punct!("*");
-            formatting_space!();
-        } else {
-            space!();
-        }
-
-        emit!(node.ident);
-
-        self.emit_fn_trailing(&node.function)?;
-    }
-
-    #[emitter]
-    fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_var_decl_inner(node)?;
     }
 
     fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
@@ -264,22 +185,6 @@ where
         )?;
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        emit!(node.name);
-
-        if let Some(ref init) = node.init {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
-            emit!(init);
-        }
     }
 }
 
