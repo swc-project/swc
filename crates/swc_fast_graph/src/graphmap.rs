@@ -24,7 +24,6 @@ use indexmap::{
 };
 use petgraph::{
     graph::{node_index, Graph},
-    graphmap::Nodes,
     visit, Directed, Direction, EdgeType, Incoming, IntoWeightedEdge, Outgoing, Undirected,
 };
 #[cfg(feature = "rayon")]
