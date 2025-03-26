@@ -331,6 +331,17 @@ impl MacroNode for TsFnType {
     }
 }
 
+#[node_impl]
+impl MacroNode for TsParenthesizedType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("(");
+        emit!(self.type_ann);
+        punct!(")");
+    }
+}
+
 impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
 where
     W: WriteJs,
@@ -1446,7 +1457,6 @@ where
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
-
         emit!(n.type_args);
     }
 }
