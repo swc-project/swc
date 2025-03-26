@@ -46,7 +46,8 @@ impl Emitter for BufferedEmitter {
     fn emit(&mut self, db: &mut swc_common::errors::DiagnosticBuilder<'_>) {
         let d = db.take();
         let pretty_diagnostic = d.to_pretty_diagnostic(&self.cm, false);
-        self.buffer
+        let _ = self
+            .buffer
             .write(pretty_diagnostic.to_pretty_string(&self.report).as_bytes())
             .unwrap();
     }

@@ -1,13 +1,9 @@
-use std::{env, fmt, mem::transmute};
+use std::{fmt, mem::transmute};
 
-use miette::{
-    EyreContext, GraphicalReportHandler, GraphicalTheme, ReportHandler, Severity, SourceOffset,
-    SourceSpan,
-};
-use once_cell::sync::Lazy;
+use miette::{GraphicalReportHandler, Severity, SourceOffset, SourceSpan};
 
-use super::{ColorConfig, Diagnostic, DiagnosticId, Level, SubDiagnostic};
-use crate::{sync::Lrc, BytePos, FileName, SourceMap, Span};
+use super::{Diagnostic, DiagnosticId, Level, SubDiagnostic};
+use crate::{BytePos, FileName, SourceMap, Span};
 
 pub struct PrettyDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
@@ -23,10 +19,7 @@ impl<'a> PrettyDiagnostic<'a> {
         let children = d
             .children
             .iter()
-            .map(|d| PrettySubDiagnostic {
-                source_code: source_code.clone(),
-                d,
-            })
+            .map(|d| PrettySubDiagnostic { source_code, d })
             .collect();
         Self {
             source_code,
@@ -62,7 +55,15 @@ impl miette::Diagnostic for PrettyDiagnostic<'_> {
     }
 
     fn source_code(&self) -> Option<&dyn miette::SourceCode> {
-        None
+        if let Some(span) = self.d.span.primary_span() {
+            if span.lo.is_dummy() || span.hi.is_dummy() {
+                return None;
+            }
+        } else {
+            return None;
+        }
+
+        Some(&self.source_code as &dyn miette::SourceCode)
     }
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
@@ -87,7 +88,7 @@ impl miette::Diagnostic for PrettyDiagnostic<'_> {
 impl<'a> PrettyDiagnostic<'a> {
     pub fn to_pretty_string(&self, handler: &'a GraphicalReportHandler) -> String {
         let mut wr = String::new();
-        handler.render_report(&mut wr, self);
+        handler.render_report(&mut wr, self).unwrap();
         wr
     }
 }
