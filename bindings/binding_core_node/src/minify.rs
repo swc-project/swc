@@ -16,7 +16,7 @@ use swc_core::{
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
-use crate::{get_compiler, util::try_with};
+use crate::{get_fresh_compiler, util::try_with};
 
 #[napi(object)]
 pub struct NapiMinifyExtra {
@@ -102,7 +102,7 @@ fn minify(
     let extras = JsMinifyExtras::default()
         .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let task = MinifyTask {
         c,
@@ -126,7 +126,7 @@ pub fn minify_sync(
     let extras = JsMinifyExtras::default()
         .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let fm = code.to_file(c.cm.clone());
 
