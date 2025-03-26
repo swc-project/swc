@@ -17,7 +17,7 @@ use swc_core::{
 };
 use tracing::instrument;
 
-use crate::{get_compiler, util::try_with};
+use crate::{get_fresh_compiler, util::try_with};
 
 /// Input to transform
 #[derive(Debug)]
@@ -106,7 +106,7 @@ pub fn transform(
 ) -> napi::Result<AsyncTask<TransformTask>> {
     crate::util::init_default_trace_subscriber();
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let input = if is_module {
         Input::Program(src)
@@ -127,7 +127,7 @@ pub fn transform(
 pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let mut options: Options = get_deserialized(&opts)?;
 
@@ -174,7 +174,7 @@ pub fn transform_file(
 ) -> napi::Result<AsyncTask<TransformTask>> {
     crate::util::init_default_trace_subscriber();
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let path = clean(&src);
     let task = TransformTask {
@@ -193,7 +193,7 @@ pub fn transform_file_sync(
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
 
-    let c = get_compiler();
+    let c = get_fresh_compiler();
 
     let mut options: Options = get_deserialized(&opts)?;
 
