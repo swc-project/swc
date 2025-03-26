@@ -1545,3 +1545,17 @@ mod tests {
         assert_min_typescript("do_stuff()", "do_stuff()");
     }
 }
+
+#[node_impl]
+impl MacroNode for TsIndexedAccessType {
+    fn emit(&mut self, emitter: &mut Macro) -> Result<(), Error> {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.obj_type);
+        punct!("[");
+        emit!(self.index_type);
+        punct!("]");
+
+        Ok(())
+    }
+}
