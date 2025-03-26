@@ -38,10 +38,45 @@ impl ThreadSafetyDiagnostics {
         )
     }
 
-    /// Checks if the diagnostics collection contains any errors.
+    /// Returns a vector of diagnostics in the collection.
     ///
-    /// This method iterates over the diagnostics in the collection and returns
-    /// `true` if any of them have a level of `Error`.
+    /// # Panics
+    /// This method locks the mutex to ensure thread safety and returns a vector
+    /// of diagnostics. If the lock cannot be acquired, it will panic with the
+    /// message "Failed to access the diagnostics lock".
+    ///
+    /// # Arguments
+    ///
+    /// * `cm` - The source map.
+    /// * `skip_filename` - Whether to skip the filename in the output.
+    /// * `color` - The color configuration for the output.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// let diagnostics = ThreadSafetyDiagnostics::default();
+    /// let cm = SourceMap::default();
+    /// let pretty_diagnostics = diagnostics.to_pretty_string(&cm, false, ColorConfig::Auto);
+    /// ```
+    pub fn to_pretty_string(
+        &self,
+        cm: &SourceMap,
+        skip_filename: bool,
+        color: ColorConfig,
+    ) -> Vec<String> {
+        let handler = to_pretty_handler(color);
+        self.0
+            .lock()
+            .expect("Failed to access the diagnostics lock")
+            .iter()
+            .map(|d| d.to_pretty_string(cm, skip_filename, &handler))
+            .collect::<Vec<String>>()
+    }
+
+    /// Determines if the diagnostics collection includes any errors.
+    ///
+    /// Iterates through the diagnostics to find any with a level of `Error`,
+    /// returning `true` if found.
     pub fn contains_error(&self) -> bool {
         self.0
             .lock()
@@ -127,14 +162,19 @@ pub fn try_with_handler<F, Ret>(
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler_inner(op).map_err(|d| to_pretty_error(&d, &cm, &config))
+    try_with_handler_inner(cm.clone(), config.clone(), op)
+        .map_err(|d| to_pretty_error(&d, &cm, &config))
 }
 
-pub fn try_with_handler_diagnostic<F, Ret>(op: F) -> Result<Ret, Vec<Diagnostic>>
+pub fn try_with_handler_diagnostic<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Vec<Diagnostic>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    try_with_handler_inner(op)
+    try_with_handler_inner(cm, config, op)
 }
 
 // Try operation with a [Handler] and prints the errors as a [String] wrapped
@@ -150,7 +190,11 @@ where
 //     try_with_handler_inner(op)
 // }
 
-fn try_with_handler_inner<F, Ret>(op: F) -> Result<Ret, Vec<Diagnostic>>
+fn try_with_handler_inner<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Vec<Diagnostic>>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
@@ -158,6 +202,8 @@ where
 
     let emitter: Box<dyn Emitter> = Box::new(ErrorEmitter {
         diagnostics: diagnostics.clone(),
+        cm: cm.clone(),
+        opts: config,
     });
 
     let handler = Handler::with_emitter(true, false, emitter);
