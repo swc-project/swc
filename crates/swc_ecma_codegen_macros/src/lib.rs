@@ -69,9 +69,7 @@ fn expand_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
-                #emit_block;
-
-                return Ok(());
+                #emit_block
             }
 
             fn adjust_span<W, S>(&mut self, emitter: &mut crate::SpanWriter<'_, W, S>) -> Result
@@ -79,9 +77,7 @@ fn expand_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
                 W: crate::text_writer::SpannedWriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
             {
-                #adjust_block;
-
-                return Ok(());
+                #adjust_block
             }
         }
     )
