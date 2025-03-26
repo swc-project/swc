@@ -18,7 +18,7 @@ use swc_common::{
     BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::{emitter, node_impl};
+use swc_ecma_codegen_macros::node_impl;
 use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
@@ -852,15 +852,6 @@ impl MacroNode for OptChainExpr {
         }
 
         srcmap!(emitter, self, false);
-    }
-}
-
-#[node_impl]
-impl MacroNode for TsInvalid {
-    fn emit(&mut self, emitter: &mut Macro) {
-        self.emit_leading_comments_of_span(self.span(), false)?;
-
-        self.wr.write_str_lit(self.span, "<invalid>")?;
     }
 }
 
