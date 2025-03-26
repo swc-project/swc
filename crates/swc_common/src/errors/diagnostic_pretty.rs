@@ -19,6 +19,7 @@ impl<'a> PrettyDiagnostic<'a> {
         let children = d
             .children
             .iter()
+            .filter(|d| !matches!(d.level, Level::Help))
             .map(|d| PrettySubDiagnostic { source_code, d })
             .collect();
         Self {
@@ -104,7 +105,13 @@ impl fmt::Debug for PrettyDiagnostic<'_> {
 
 impl fmt::Display for PrettyDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Display::fmt(&self.d.message[0].0, f)
+        match self.d.message.get(0) {
+            Some(item) => fmt::Display::fmt(&item.0, f),
+            None => {
+                dbg!(&self.d);
+                unreachable!();
+            }
+        }
     }
 }
 

@@ -50,14 +50,6 @@ impl ThreadSafetyDiagnostics {
     /// * `cm` - The source map.
     /// * `skip_filename` - Whether to skip the filename in the output.
     /// * `color` - The color configuration for the output.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let diagnostics = ThreadSafetyDiagnostics::default();
-    /// let cm = SourceMap::default();
-    /// let pretty_diagnostics = diagnostics.to_pretty_string(&cm, false, ColorConfig::Auto);
-    /// ```
     pub fn to_pretty_string(
         &self,
         cm: &SourceMap,
