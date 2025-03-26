@@ -2679,210 +2679,6 @@ where
         }
         self.emit_list(n.span(), Some(&n.cons), format)?;
     }
-
-    #[emitter]
-    fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("throw");
-
-        {
-            let need_paren = self.has_leading_comment(&n.arg);
-            if need_paren {
-                punct!("(");
-            } else if n.arg.starts_with_alpha_num() {
-                space!();
-            } else {
-                formatting_space!();
-            }
-
-            emit!(n.arg);
-            if need_paren {
-                punct!(")")
-            }
-        }
-        semi!();
-    }
-
-    #[emitter]
-
-    fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        keyword!("try");
-
-        formatting_space!();
-        emit!(n.block);
-
-        if let Some(ref catch) = n.handler {
-            formatting_space!();
-            emit!(catch);
-        }
-
-        if let Some(ref finally) = n.finalizer {
-            formatting_space!();
-            keyword!("finally");
-            // space!();
-            emit!(finally);
-        }
-    }
-
-    #[emitter]
-    fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("while");
-
-        punct!("(");
-        emit!(node.test);
-        punct!(")");
-
-        emit!(node.body);
-    }
-
-    #[emitter]
-    fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("do");
-        if node.body.starts_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!()
-        }
-        emit!(node.body);
-
-        keyword!("while");
-
-        formatting_space!();
-
-        punct!("(");
-        emit!(node.test);
-        punct!(")");
-
-        if self.cfg.target <= EsVersion::Es5 {
-            semi!();
-        }
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        punct!("(");
-        opt!(n.init);
-        self.wr.write_punct(None, ";")?;
-        opt_leading_space!(n.test);
-        self.wr.write_punct(None, ";")?;
-        opt_leading_space!(n.update);
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        punct!("(");
-        emit!(n.left);
-
-        if n.left.ends_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!();
-        }
-        keyword!("in");
-
-        {
-            let starts_with_alpha_num = n.right.starts_with_alpha_num();
-
-            if starts_with_alpha_num {
-                space!();
-            } else {
-                formatting_space!()
-            }
-            emit!(n.right);
-        }
-
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        if n.is_await {
-            space!();
-            keyword!("await");
-        }
-        formatting_space!();
-        punct!("(");
-        emit!(n.left);
-        if n.left.ends_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!();
-        }
-        keyword!("of");
-
-        {
-            let starts_with_alpha_num = n.right.starts_with_alpha_num();
-
-            if starts_with_alpha_num {
-                space!();
-            } else {
-                formatting_space!()
-            }
-            emit!(n.right);
-        }
-        punct!(")");
-        emit!(n.body);
-    }
-
-    #[emitter]
-    pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
-        match *node {
-            ModuleExportName::Ident(ref ident) => emit!(ident),
-            ModuleExportName::Str(ref s) => emit!(s),
-        }
-    }
 }
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -3697,9 +3493,11 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 #[node_impl]
 impl MacroNode for Program {
     fn emit(&mut self, emitter: &mut Macro) {
-        match self {
-            Program::Module(m) => emit!(m),
-            Program::Script(s) => emit!(s),
+        match *self {
+            Program::Module(ref m) => emit!(m),
+            Program::Script(ref s) => emit!(s),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
         }
     }
 }
@@ -4511,5 +4309,238 @@ impl MacroNode for CallExpr {
 impl MacroNode for NewExpr {
     fn emit(&mut self, emitter: &mut Macro) {
         emitter.emit_new(self, true).unwrap();
+    }
+}
+
+#[node_impl]
+impl MacroNode for ThrowStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("throw");
+
+        {
+            let need_paren = emitter.has_leading_comment(&self.arg);
+            if need_paren {
+                punct!("(");
+            } else if self.arg.starts_with_alpha_num() {
+                space!();
+            } else {
+                formatting_space!();
+            }
+
+            emit!(self.arg);
+            if need_paren {
+                punct!(")")
+            }
+        }
+        semi!();
+    }
+}
+
+#[node_impl]
+impl MacroNode for TryStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        emitter.wr.commit_pending_semi().unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("try");
+
+        formatting_space!();
+        emit!(self.block);
+
+        if let Some(ref catch) = self.handler {
+            formatting_space!();
+            emit!(catch);
+        }
+
+        if let Some(ref finally) = self.finalizer {
+            formatting_space!();
+            keyword!("finally");
+            // space!();
+            emit!(finally);
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for WhileStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi().unwrap();
+
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("while");
+
+        punct!("(");
+        emit!(self.test);
+        punct!(")");
+
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for DoWhileStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi().unwrap();
+
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("do");
+        if self.body.starts_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!()
+        }
+        emit!(self.body);
+
+        keyword!("while");
+
+        formatting_space!();
+
+        punct!("(");
+        emit!(self.test);
+        punct!(")");
+
+        if emitter.cfg.target <= EsVersion::Es5 {
+            semi!();
+        }
+
+        srcmap!(self, false);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ForStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("for");
+
+        punct!("(");
+        opt!(self.init);
+        emitter.wr.write_punct(None, ";")?;
+        opt_leading_space!(self.test);
+        emitter.wr.write_punct(None, ";")?;
+        opt_leading_space!(self.update);
+        punct!(")");
+
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ForInStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi().unwrap();
+
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("for");
+
+        punct!("(");
+        emit!(self.left);
+
+        if self.left.ends_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!();
+        }
+        keyword!("in");
+
+        {
+            let starts_with_alpha_num = self.right.starts_with_alpha_num();
+
+            if starts_with_alpha_num {
+                space!();
+            } else {
+                formatting_space!()
+            }
+            emit!(self.right);
+        }
+
+        punct!(")");
+
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ForOfStmt {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.wr.commit_pending_semi().unwrap();
+
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        srcmap!(self, true);
+
+        keyword!("for");
+
+        if self.is_await {
+            space!();
+            keyword!("await");
+        }
+        formatting_space!();
+        punct!("(");
+        emit!(self.left);
+        if self.left.ends_with_alpha_num() {
+            space!();
+        } else {
+            formatting_space!();
+        }
+        keyword!("of");
+
+        {
+            let starts_with_alpha_num = self.right.starts_with_alpha_num();
+
+            if starts_with_alpha_num {
+                space!();
+            } else {
+                formatting_space!()
+            }
+            emit!(self.right);
+        }
+        punct!(")");
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ModuleExportName {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match *self {
+            ModuleExportName::Ident(ref ident) => emit!(ident),
+            ModuleExportName::Str(ref s) => emit!(s),
+        }
     }
 }
