@@ -5,6 +5,21 @@ use swc_ecma_codegen_macros::emitter;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[node_impl]
+impl MacroNode for JSXElement {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emit!(self.opening);
+        emitter.emit_list(
+            self.span(),
+            Some(&self.children),
+            ListFormat::JsxElementOrFragmentChildren,
+        )?;
+        if let Some(ref closing) = self.closing {
+            emit!(closing)
+        }
+    }
+}
+
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,

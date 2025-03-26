@@ -5,6 +5,27 @@ use swc_ecma_codegen_macros::emitter;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[node_impl]
+impl MacroNode for ParamOrTsParamProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            ParamOrTsParamProp::Param(n) => emit!(n),
+            ParamOrTsParamProp::TsParamProp(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsArrayType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.elem_type);
+        punct!("[");
+        punct!("]");
+    }
+}
+
 impl<W, S: SourceMapper + SourceMapperExt> Emitter<'_, W, S>
 where
     W: WriteJs,
