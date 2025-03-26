@@ -164,64 +164,6 @@ where
     S: SourceMapperExt,
 {
     #[emitter]
-    pub fn emit_program(&mut self, node: &Program) -> Result {
-        match *node {
-            Program::Module(ref m) => emit!(m),
-            Program::Script(ref s) => emit!(s),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
-        }
-    }
-
-    #[emitter]
-    #[tracing::instrument(skip_all)]
-    pub fn emit_module(&mut self, node: &Module) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if node.body.is_empty() {
-            srcmap!(node, true);
-        }
-
-        if let Some(ref shebang) = node.shebang {
-            punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, shebang)?;
-            self.wr.write_line()?;
-        }
-        for stmt in &node.body {
-            emit!(stmt);
-        }
-
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        if !self.cfg.omit_last_semi {
-            self.wr.commit_pending_semi()?;
-        }
-    }
-
-    #[emitter]
-    #[tracing::instrument(skip_all)]
-    pub fn emit_script(&mut self, node: &Script) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if node.body.is_empty() {
-            srcmap!(node, true);
-        }
-
-        if let Some(ref shebang) = node.shebang {
-            punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, shebang)?;
-            self.wr.write_line()?;
-        }
-        for stmt in &node.body {
-            emit!(stmt);
-        }
-
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        if !self.cfg.omit_last_semi {
-            self.wr.commit_pending_semi()?;
-        }
-    }
-
-    #[emitter]
     pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
         match *node {
@@ -4512,4 +4454,72 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
     }
 
     false
+}
+
+#[node_impl]
+impl MacroNode for Program {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            Program::Module(m) => emit!(m),
+            Program::Script(s) => emit!(s),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Script {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        if self.body.is_empty() {
+            srcmap!(self, true);
+        }
+
+        if let Some(ref shebang) = self.shebang {
+            punct!("#!");
+            emitter.wr.write_str_lit(DUMMY_SP, shebang).unwrap();
+            emitter.wr.write_line().unwrap();
+        }
+        for stmt in &self.body {
+            emit!(stmt);
+        }
+
+        emitter
+            .emit_trailing_comments_of_pos(self.span().hi, true, true)
+            .unwrap();
+        if !emitter.cfg.omit_last_semi {
+            emitter.wr.commit_pending_semi().unwrap();
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Module {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter
+            .emit_leading_comments_of_span(self.span(), false)
+            .unwrap();
+
+        if self.body.is_empty() {
+            srcmap!(self, true);
+        }
+
+        if let Some(ref shebang) = self.shebang {
+            punct!("#!");
+            emitter.wr.write_str_lit(DUMMY_SP, shebang).unwrap();
+            emitter.wr.write_line().unwrap();
+        }
+        for stmt in &self.body {
+            emit!(stmt);
+        }
+
+        emitter
+            .emit_trailing_comments_of_pos(self.span().hi, true, true)
+            .unwrap();
+        if !emitter.cfg.omit_last_semi {
+            emitter.wr.commit_pending_semi().unwrap();
+        }
+    }
 }
