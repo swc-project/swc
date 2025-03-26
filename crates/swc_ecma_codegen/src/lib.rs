@@ -1154,17 +1154,6 @@ where
     }
 
     #[emitter]
-    fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
-        if let Some(span) = node.spread {
-            self.emit_leading_comments_of_span(span, false)?;
-
-            punct!("...");
-        }
-
-        emit!(node.expr);
-    }
-
-    #[emitter]
     fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1174,182 +1163,6 @@ where
         space!();
 
         emit!(&n.arg);
-    }
-
-    #[emitter]
-    fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("[");
-        let mut format = ListFormat::ArrayLiteralExpressionElements;
-        if let Some(None) = node.elems.last() {
-            format |= ListFormat::ForceTrailingComma;
-        }
-
-        self.emit_list(node.span(), Some(&node.elems), format)?;
-        punct!("]");
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("{");
-
-        let emit_new_line = !self.cfg.minify
-            && !(node.props.is_empty() && is_empty_comments(&node.span(), &self.comments));
-
-        if emit_new_line {
-            self.wr.write_line()?;
-        }
-
-        let mut list_format =
-            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma;
-
-        if !emit_new_line {
-            list_format -= ListFormat::MultiLine | ListFormat::Indented;
-        }
-
-        self.emit_list(node.span(), Some(&node.props), list_format)?;
-
-        if emit_new_line {
-            self.wr.write_line()?;
-        }
-
-        srcmap!(node, false, true);
-        punct!("}");
-    }
-
-    #[emitter]
-    fn emit_prop(&mut self, node: &Prop) -> Result {
-        match *node {
-            Prop::Shorthand(ref n) => emit!(n),
-            Prop::KeyValue(ref n) => emit!(n),
-            Prop::Assign(ref n) => emit!(n),
-            Prop::Getter(ref n) => emit!(n),
-            Prop::Setter(ref n) => emit!(n),
-            Prop::Method(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-        let key_span = node.key.span();
-        let value_span = node.value.span();
-        if !key_span.is_dummy() {
-            self.wr.add_srcmap(key_span.lo)?;
-        }
-        emit!(node.key);
-        if !key_span.is_dummy() && value_span.is_dummy() {
-            self.wr.add_srcmap(key_span.hi)?;
-        }
-        punct!(":");
-        formatting_space!();
-        if key_span.is_dummy() && !value_span.is_dummy() {
-            self.wr.add_srcmap(value_span.lo)?;
-        }
-        emit!(node.value);
-    }
-
-    #[emitter]
-    fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        emit!(node.key);
-        punct!("=");
-        emit!(node.value);
-    }
-
-    #[emitter]
-    fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("get");
-
-        let starts_with_alpha_num = match node.key {
-            PropName::Str(_) | PropName::Computed(_) => false,
-            _ => true,
-        };
-        if starts_with_alpha_num {
-            space!();
-        } else {
-            formatting_space!();
-        }
-        emit!(node.key);
-        formatting_space!();
-        punct!("(");
-        punct!(")");
-        formatting_space!();
-        emit!(node.body);
-    }
-
-    #[emitter]
-    fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("set");
-
-        let starts_with_alpha_num = match node.key {
-            PropName::Str(_) | PropName::Computed(_) => false,
-            _ => true,
-        };
-
-        if starts_with_alpha_num {
-            space!();
-        } else {
-            formatting_space!();
-        }
-
-        emit!(node.key);
-        formatting_space!();
-
-        punct!("(");
-        if let Some(this) = &node.this_param {
-            emit!(this);
-            punct!(",");
-
-            formatting_space!();
-        }
-
-        emit!(node.param);
-
-        punct!(")");
-
-        emit!(node.body);
-    }
-
-    #[emitter]
-    fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        if node.function.is_async {
-            keyword!("async");
-            space!();
-        }
-
-        if node.function.is_generator {
-            punct!("*");
-        }
-
-        emit!(node.key);
-        formatting_space!();
-        // TODO
-        self.emit_fn_trailing(&node.function)?;
     }
 
     #[emitter]
@@ -2227,6 +2040,249 @@ impl MacroNode for Key {
         match self {
             Key::Private(n) => emit!(n),
             Key::Public(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Prop {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            Prop::Shorthand(ref n) => emit!(n),
+            Prop::KeyValue(ref n) => emit!(n),
+            Prop::Assign(ref n) => emit!(n),
+            Prop::Getter(ref n) => emit!(n),
+            Prop::Setter(ref n) => emit!(n),
+            Prop::Method(ref n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for KeyValueProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        let key_span = self.key.span();
+        let value_span = self.value.span();
+        if !key_span.is_dummy() {
+            emitter.wr.add_srcmap(key_span.lo)?;
+        }
+        emit!(self.key);
+        if !key_span.is_dummy() && value_span.is_dummy() {
+            emitter.wr.add_srcmap(key_span.hi)?;
+        }
+        punct!(":");
+        formatting_space!();
+        if key_span.is_dummy() && !value_span.is_dummy() {
+            emitter.wr.add_srcmap(value_span.lo)?;
+        }
+        emit!(self.value);
+    }
+}
+
+#[node_impl]
+impl MacroNode for AssignProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        emit!(self.key);
+        punct!("=");
+        emit!(self.value);
+    }
+}
+
+#[node_impl]
+impl MacroNode for GetterProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        keyword!("get");
+
+        let starts_with_alpha_num = match self.key {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            _ => self.key.starts_with_alpha_num(),
+        };
+        if starts_with_alpha_num {
+            space!();
+        } else {
+            formatting_space!();
+        }
+        emit!(self.key);
+        formatting_space!();
+        punct!("(");
+        punct!(")");
+        formatting_space!();
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for SetterProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        keyword!("set");
+
+        let starts_with_alpha_num = match self.key {
+            PropName::Str(_) | PropName::Computed(_) => false,
+            _ => self.key.starts_with_alpha_num(),
+        };
+
+        if starts_with_alpha_num {
+            space!();
+        } else {
+            formatting_space!();
+        }
+
+        emit!(self.key);
+        formatting_space!();
+
+        punct!("(");
+        if let Some(this) = &self.this_param {
+            emit!(this);
+            punct!(",");
+
+            formatting_space!();
+        }
+
+        emit!(self.param);
+
+        punct!(")");
+
+        emit!(self.body);
+    }
+}
+
+#[node_impl]
+impl MacroNode for MethodProp {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        if self.function.is_async {
+            keyword!("async");
+            space!();
+        }
+
+        if self.function.is_generator {
+            punct!("*");
+        }
+
+        emit!(self.key);
+        formatting_space!();
+        // TODO
+        emitter.emit_fn_trailing(&self.function)?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for ObjectLit {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        punct!("{");
+
+        let emit_new_line = !emitter.cfg.minify
+            && !(self.props.is_empty() && is_empty_comments(&self.span(), &emitter.comments));
+
+        if emit_new_line {
+            emitter.wr.write_line()?;
+        }
+
+        let mut list_format =
+            ListFormat::ObjectLiteralExpressionProperties | ListFormat::CanSkipTrailingComma;
+
+        if !emit_new_line {
+            list_format -= ListFormat::MultiLine | ListFormat::Indented;
+        }
+
+        emitter.emit_list(self.span(), Some(&self.props), list_format)?;
+
+        if emit_new_line {
+            emitter.wr.write_line()?;
+        }
+
+        srcmap!(self, false, true);
+        punct!("}");
+    }
+}
+
+#[node_impl]
+impl MacroNode for PropOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            PropOrSpread::Prop(ref n) => emit!(n),
+            PropOrSpread::Spread(ref n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for SpreadElement {
+    fn emit(&mut self, emitter: &mut Macro) {
+        if let Some(span) = self.dot3_token {
+            emitter.emit_leading_comments_of_span(span, false)?;
+        }
+
+        srcmap!(self, true);
+
+        punct!("...");
+        emit!(self.expr);
+
+        srcmap!(self, false);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ArrayLit {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        punct!("[");
+        let mut format = ListFormat::ArrayLiteralExpressionElements;
+        if let Some(None) = self.elems.last() {
+            format |= ListFormat::ForceTrailingComma;
+        }
+
+        emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        punct!("]");
+
+        srcmap!(self, false);
+    }
+}
+
+#[node_impl]
+impl MacroNode for ExprOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) {
+        if let Some(span) = self.spread {
+            emitter.emit_leading_comments_of_span(span, false)?;
+
+            punct!("...");
+        }
+
+        emit!(self.expr);
+    }
+}
+
+#[node_impl]
+impl MacroNode for Program {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            Program::Module(m) => emit!(m),
+            Program::Script(s) => emit!(s),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
         }
     }
 }
