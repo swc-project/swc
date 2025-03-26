@@ -5,6 +5,112 @@ use swc_ecma_codegen_macros::emitter;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[node_impl]
+impl MacroNode for ClassDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_class_decl_inner(self, false)?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for UsingDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.is_await {
+            keyword!("await");
+            space!();
+        }
+
+        keyword!("using");
+        space!();
+
+        emitter.emit_list(
+            self.span,
+            Some(&self.decls),
+            ListFormat::VariableDeclarationList,
+        )?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for FnDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(self, true);
+
+        if self.declare {
+            keyword!("declare");
+            space!();
+        }
+
+        if self.function.is_async {
+            keyword!("async");
+            space!();
+        }
+
+        keyword!("function");
+        if self.function.is_generator {
+            punct!("*");
+            formatting_space!();
+        } else {
+            space!();
+        }
+
+        emit!(self.ident);
+
+        emitter.emit_fn_trailing(&self.function)?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for VarDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_var_decl_inner(self)?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for VarDeclarator {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        emit!(self.name);
+
+        if let Some(ref init) = self.init {
+            formatting_space!();
+            punct!("=");
+            formatting_space!();
+            emit!(init);
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for Decl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            Decl::Class(n) => emit!(n),
+            Decl::Fn(n) => emit!(n),
+            Decl::Var(n) => {
+                emitter.emit_var_decl_inner(n)?;
+                formatting_semi!();
+                srcmap!(n, false);
+            }
+            Decl::Using(n) => emit!(n),
+            Decl::TsEnum(n) => emit!(n),
+            Decl::TsInterface(n) => emit!(n),
+            Decl::TsModule(n) => emit!(n),
+            Decl::TsTypeAlias(n) => emit!(n),
+        }
+    }
+}
+
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,

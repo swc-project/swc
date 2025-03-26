@@ -6,6 +6,40 @@ use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
 #[node_impl]
+impl MacroNode for TsTypePredicate {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.asserts {
+            keyword!("asserts");
+            space!();
+        }
+
+        emit!(self.param_name);
+
+        if let Some(type_ann) = &self.type_ann {
+            space!();
+            keyword!("is");
+            space!();
+            emit!(type_ann);
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeParamDecl {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("<");
+
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
+
+        punct!(">");
+    }
+}
+
+#[node_impl]
 impl MacroNode for ParamOrTsParamProp {
     fn emit(&mut self, emitter: &mut Macro) {
         match self {
@@ -23,6 +57,88 @@ impl MacroNode for TsArrayType {
         emit!(self.elem_type);
         punct!("[");
         punct!("]");
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeParamInstantiation {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        punct!("<");
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
+
+        punct!(">");
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeQuery {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        keyword!("typeof");
+        space!();
+        emit!(self.expr_name);
+        emit!(self.type_args);
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeQueryExpr {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            TsTypeQueryExpr::TsEntityName(n) => emit!(n),
+            TsTypeQueryExpr::Import(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsTypeRef {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.type_name);
+
+        if let Some(n) = &self.type_params {
+            punct!("<");
+            emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
+            punct!(">");
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsUnionOrIntersectionType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        match self {
+            TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
+            TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsUnionType {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.emit_list(
+            self.span,
+            Some(&self.types),
+            ListFormat::UnionTypeConstituents,
+        )?;
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsInstantiation {
+    fn emit(&mut self, emitter: &mut Macro) {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.expr);
+        emit!(self.type_args);
     }
 }
 
@@ -1081,17 +1197,6 @@ where
     }
 
     #[emitter]
-    fn emit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        punct!("<");
-
-        self.emit_list(n.span, Some(&n.params), ListFormat::TypeParameters)?;
-
-        punct!(">");
-    }
-
-    #[emitter]
     fn emit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -1099,25 +1204,6 @@ where
         self.emit_list(n.span, Some(&n.params), ListFormat::TypeParameters)?;
 
         punct!(">");
-    }
-
-    #[emitter]
-    fn emit_ts_type_predicate(&mut self, n: &TsTypePredicate) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.asserts {
-            keyword!("asserts");
-            space!();
-        }
-
-        emit!(n.param_name);
-
-        if let Some(type_ann) = &n.type_ann {
-            space!();
-            keyword!("is");
-            space!();
-            emit!(type_ann);
-        }
     }
 
     #[emitter]
