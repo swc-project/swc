@@ -16,7 +16,7 @@ use swc_common::{
 use crate::ErrorEmitter;
 
 #[derive(Default, Clone)]
-/// Represents a collection of diagnostics.
+/// A thread-safe container for managing a collection of diagnostics.
 pub struct ThreadSafetyDiagnostics(Arc<Mutex<Vec<Diagnostic>>>);
 
 impl ThreadSafetyDiagnostics {
