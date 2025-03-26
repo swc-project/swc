@@ -8,6 +8,7 @@
 use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
 
 use ascii::AsciiChar;
+use auto_impl::auto_impl;
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
@@ -19,6 +20,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::{emitter, node_impl};
+use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -70,31 +72,17 @@ pub fn to_code(node: &impl Node) -> String {
     to_code_with_comments(None, node)
 }
 
+#[auto_impl(Box)]
 pub trait Node: Spanned {
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
-}
-impl<N: Node> Node for Box<N> {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+
+    fn adjust_span<W, S>(&mut self, emitter: &mut SpanWriter<'_, W, S>) -> Result
     where
-        W: WriteJs,
-        S: SourceMapper + SourceMapperExt,
-    {
-        (**self).emit_with(e)
-    }
-}
-impl<N: Node> Node for &N {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
-    where
-        W: WriteJs,
-        S: SourceMapper + SourceMapperExt,
-    {
-        (**self).emit_with(e)
-    }
+        W: SpannedWriteJs,
+        S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt;
 }
 
 pub struct Emitter<'a, W, S: SourceMapper>
@@ -731,35 +719,6 @@ where
 
         self.emit_last_of_list5(parent_node, is_empty, format, start, count)?;
         Ok(())
-    }
-}
-
-/// Patterns
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    #[emitter]
-    fn emit_prop_or_spread(&mut self, node: &PropOrSpread) -> Result {
-        match *node {
-            PropOrSpread::Prop(ref n) => emit!(n),
-            PropOrSpread::Spread(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
-        if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
-        }
-
-        srcmap!(node, true);
-
-        punct!("...");
-        emit!(node.expr);
-
-        srcmap!(node, false);
     }
 }
 
