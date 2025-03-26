@@ -48,7 +48,6 @@ swc_ecma_transforms_base         = { version = "11.2.0", path = "../swc_ecma_tra
 swc_ecma_transforms_optimization = { version = "11.1.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils                   = { version = "11.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "8.0.0", path = "../swc_ecma_visit" }
-swc_fast_graph                   = { version = "9.0.0", path = "../swc_fast_graph/" }
 swc_graph_analyzer               = { version = "8.0.0", path = "../swc_graph_analyzer/" }
 
 [dev-dependencies]
