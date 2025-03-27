@@ -241,9 +241,7 @@ impl MacroNode for TsType {
 #[node_impl]
 impl MacroNode for TsKeywordType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter
-            .emit_leading_comments_of_pos(self.span().lo)
-            .unwrap();
+        emitter.emit_leading_comments_of_pos(self.span().lo)?;
 
         let s = match self.kind {
             TsKeywordTypeKind::TsAnyKeyword => "any",
@@ -261,11 +259,9 @@ impl MacroNode for TsKeywordType {
             TsKeywordTypeKind::TsIntrinsicKeyword => "intrinsic",
         };
 
-        write!(emitter, "{}", s).unwrap();
+        write!(emitter, "{}", s)?;
 
-        emitter
-            .emit_trailing_comments_of_pos(self.span().hi)
-            .unwrap();
+        emitter.emit_trailing_comments_of_pos(self.span().hi)?;
     }
 }
 

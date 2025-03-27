@@ -48,7 +48,7 @@ impl Builder {
 
         self.with(src, &mut buf, op);
 
-        String::from_utf8(buf).unwrap()
+        String::from_utf8(buf)?
     }
 }
 
@@ -74,10 +74,9 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
             res?
         };
 
-        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res)?);
         Ok(out)
-    })
-    .unwrap()
+    })?
 }
 
 #[track_caller]
@@ -1005,7 +1004,7 @@ fn run_node(code: &str) -> String {
 }
 
 fn test_str_lit_inner(input: PathBuf) {
-    let raw_str = std::fs::read_to_string(&*input).unwrap();
+    let raw_str = std::fs::read_to_string(&*input)?;
     let input_code = format!("console.log('{raw_str}')");
 
     let output_code = parse_then_emit(
