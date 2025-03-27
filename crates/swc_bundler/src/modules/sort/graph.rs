@@ -1,11 +1,11 @@
 use std::{collections::VecDeque, iter::repeat};
 
 use petgraph::{
-    EdgeDirection,
-    EdgeDirection::{Incoming, Outgoing},
+    prelude::GraphMap,
+    Directed,
+    EdgeDirection::{self, Incoming, Outgoing},
 };
-use rustc_hash::FxHashSet;
-use swc_fast_graph::digraph::FastDiGraphMap;
+use rustc_hash::{FxBuildHasher, FxHashSet};
 
 /// Is dependency between nodes hard?
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -20,7 +20,7 @@ pub(super) enum Required {
 /// Used to debug petgraph.
 #[derive(Debug, Default)]
 pub(super) struct StmtDepGraph {
-    inner: FastDiGraphMap<usize, Required>,
+    inner: GraphMap<usize, Required, Directed, FxBuildHasher>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
     paths: Vec<FxHashSet<usize>>,

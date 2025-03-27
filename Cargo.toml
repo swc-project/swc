@@ -34,7 +34,7 @@ resolver = "2"
   cargo_metadata            = "0.18.1"
   cfg-if                    = "1.0.0"
   changesets                = "0.2.2"
-  chili                     = "=0.2.0"
+  chili                     = "0.2.1"
   chrono                    = "0.4.38"
   codspeed-criterion-compat = "2.6.0"
   compact_str               = "0.7.1"
@@ -73,10 +73,12 @@ resolver = "2"
   num-traits                = "0.2.15"
   num_cpus                  = "1.13.1"
   once_cell                 = "1.19.0"
+  par-core                  = { version = "1.0.3", default-features = false }
+  par-iter                  = "1.0.2"
   parking_lot               = "0.12.1"
   path-absolutize           = "3.0.11"
   pathdiff                  = "0.2.1"
-  petgraph                  = "0.6.0"
+  petgraph                  = "0.7.1"
   phf                       = "0.11.2"
   pretty_assertions         = "1.3"
   proc-macro2               = "1.0.24"
@@ -130,8 +132,6 @@ resolver = "2"
   wasmer                    = { version = "=5.0.5-rc1", default-features = false }
   wasmer-wasix              = { version = "0.35.0", default-features = false }
   wide                      = "0.7.32"
-par-core = { version = "1", default-features = false }
-par-iter = "1"
 
 [profile.release]
 lto = true
