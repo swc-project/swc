@@ -7,7 +7,7 @@ use crate::text_writer::WriteJs;
 
 #[node_impl]
 impl MacroNode for TsTypeParam {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.is_const {
@@ -45,7 +45,7 @@ impl MacroNode for TsTypeParam {
 
 #[node_impl]
 impl MacroNode for TsTypePredicate {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.asserts {
@@ -66,7 +66,7 @@ impl MacroNode for TsTypePredicate {
 
 #[node_impl]
 impl MacroNode for TsTypeParamDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "<");
@@ -79,7 +79,7 @@ impl MacroNode for TsTypeParamDecl {
 
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             ParamOrTsParamProp::Param(n) => emit!(n),
             ParamOrTsParamProp::TsParamProp(n) => emit!(n),
@@ -89,7 +89,7 @@ impl MacroNode for ParamOrTsParamProp {
 
 #[node_impl]
 impl MacroNode for TsArrayType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.elem_type);
@@ -100,7 +100,7 @@ impl MacroNode for TsArrayType {
 
 #[node_impl]
 impl MacroNode for TsTypeParamInstantiation {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "<");
@@ -112,7 +112,7 @@ impl MacroNode for TsTypeParamInstantiation {
 
 #[node_impl]
 impl MacroNode for TsTypeQuery {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         keyword!(emitter, "typeof");
@@ -124,7 +124,7 @@ impl MacroNode for TsTypeQuery {
 
 #[node_impl]
 impl MacroNode for TsTypeQueryExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             TsTypeQueryExpr::TsEntityName(n) => emit!(n),
             TsTypeQueryExpr::Import(n) => emit!(n),
@@ -134,7 +134,7 @@ impl MacroNode for TsTypeQueryExpr {
 
 #[node_impl]
 impl MacroNode for TsTypeRef {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.type_name);
@@ -149,7 +149,7 @@ impl MacroNode for TsTypeRef {
 
 #[node_impl]
 impl MacroNode for TsUnionOrIntersectionType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
             TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
@@ -159,7 +159,7 @@ impl MacroNode for TsUnionOrIntersectionType {
 
 #[node_impl]
 impl MacroNode for TsUnionType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.emit_list(
@@ -172,7 +172,7 @@ impl MacroNode for TsUnionType {
 
 #[node_impl]
 impl MacroNode for TsInstantiation {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.expr);
@@ -182,7 +182,7 @@ impl MacroNode for TsInstantiation {
 
 #[node_impl]
 impl MacroNode for TsTypeOperator {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self.op {
@@ -197,7 +197,7 @@ impl MacroNode for TsTypeOperator {
 
 #[node_impl]
 impl MacroNode for TsTypeLit {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "{");
@@ -212,7 +212,7 @@ impl MacroNode for TsTypeLit {
 
 #[node_impl]
 impl MacroNode for TsType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             TsType::TsKeywordType(n) => emit!(n),
             TsType::TsThisType(n) => emit!(n),
@@ -240,7 +240,7 @@ impl MacroNode for TsType {
 
 #[node_impl]
 impl MacroNode for TsKeywordType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_pos(self.span().lo)
             .unwrap();
@@ -333,7 +333,7 @@ impl MacroNode for TsFnType {
 
 #[node_impl]
 impl MacroNode for TsParenthesizedType {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "(");

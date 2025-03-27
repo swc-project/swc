@@ -5,7 +5,13 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
+use std::{
+    borrow::Cow,
+    fmt::{self, Write},
+    io,
+    ops::Deref,
+    str,
+};
 
 use ascii::AsciiChar;
 use auto_impl::auto_impl;
@@ -40,7 +46,7 @@ pub mod text_writer;
 mod typescript;
 pub mod util;
 
-pub type Result = io::Result<()>;
+pub type Result = fmt::Result<()>;
 
 /// Generate a code from a syntax node using default options.
 pub fn to_code_default(
@@ -735,7 +741,7 @@ where
 
 #[node_impl]
 impl MacroNode for AssignExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -750,7 +756,7 @@ impl MacroNode for AssignExpr {
 
 #[node_impl]
 impl MacroNode for BinExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -790,7 +796,7 @@ impl MacroNode for BinExpr {
 
 #[node_impl]
 impl MacroNode for Decorator {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -807,7 +813,7 @@ impl MacroNode for Decorator {
 
 #[node_impl]
 impl MacroNode for ClassExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -837,7 +843,7 @@ impl MacroNode for ClassExpr {
 
 #[node_impl]
 impl MacroNode for Class {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         if self.super_class.is_some() {
             space!(emitter,);
             keyword!(emitter, "extends");
@@ -886,7 +892,7 @@ impl MacroNode for Class {
 
 #[node_impl]
 impl MacroNode for ClassMember {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
@@ -903,7 +909,7 @@ impl MacroNode for ClassMember {
 
 #[node_impl]
 impl MacroNode for AutoAccessor {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)
             .unwrap();
@@ -952,7 +958,7 @@ impl MacroNode for AutoAccessor {
 
 #[node_impl]
 impl MacroNode for Key {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Key::Private(n) => emit!(n),
             Key::Public(n) => emit!(n),
@@ -962,7 +968,7 @@ impl MacroNode for Key {
 
 #[node_impl]
 impl MacroNode for Prop {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Prop::Shorthand(ref n) => emit!(n),
             Prop::KeyValue(ref n) => emit!(n),
@@ -976,7 +982,7 @@ impl MacroNode for Prop {
 
 #[node_impl]
 impl MacroNode for KeyValueProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -994,7 +1000,7 @@ impl MacroNode for KeyValueProp {
 
 #[node_impl]
 impl MacroNode for AssignProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1007,7 +1013,7 @@ impl MacroNode for AssignProp {
 
 #[node_impl]
 impl MacroNode for GetterProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1034,7 +1040,7 @@ impl MacroNode for GetterProp {
 
 #[node_impl]
 impl MacroNode for SetterProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1073,7 +1079,7 @@ impl MacroNode for SetterProp {
 
 #[node_impl]
 impl MacroNode for MethodProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1096,7 +1102,7 @@ impl MacroNode for MethodProp {
 
 #[node_impl]
 impl MacroNode for ObjectLit {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1130,7 +1136,7 @@ impl MacroNode for ObjectLit {
 
 #[node_impl]
 impl MacroNode for PropOrSpread {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             PropOrSpread::Prop(ref n) => emit!(n),
             PropOrSpread::Spread(ref n) => emit!(n),
@@ -1140,7 +1146,7 @@ impl MacroNode for PropOrSpread {
 
 #[node_impl]
 impl MacroNode for SpreadElement {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         if let Some(span) = self.dot3_token {
             emitter.emit_leading_comments_of_span(span, false)?;
         }
@@ -1156,7 +1162,7 @@ impl MacroNode for SpreadElement {
 
 #[node_impl]
 impl MacroNode for ArrayLit {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1176,7 +1182,7 @@ impl MacroNode for ArrayLit {
 
 #[node_impl]
 impl MacroNode for ExprOrSpread {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         if let Some(span) = self.spread {
             emitter.emit_leading_comments_of_span(span, false)?;
 
@@ -1189,7 +1195,7 @@ impl MacroNode for ExprOrSpread {
 
 #[node_impl]
 impl MacroNode for Program {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Program::Module(m) => emit!(m),
             Program::Script(s) => emit!(s),
@@ -1201,7 +1207,7 @@ impl MacroNode for Program {
 
 #[node_impl]
 impl MacroNode for SuperPropExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1227,7 +1233,7 @@ impl MacroNode for SuperPropExpr {
 
 #[node_impl]
 impl MacroNode for ArrowExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1285,7 +1291,7 @@ impl MacroNode for ArrowExpr {
 
 #[node_impl]
 impl MacroNode for MetaPropExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         if emitter.comments.is_some() {
             emitter
                 .emit_leading_comments_of_span(self.span(), false)
@@ -1304,7 +1310,7 @@ impl MacroNode for MetaPropExpr {
 
 #[node_impl]
 impl MacroNode for PrivateMethod {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1347,7 +1353,7 @@ impl MacroNode for PrivateMethod {
 
 #[node_impl]
 impl MacroNode for Bool {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1360,7 +1366,7 @@ impl MacroNode for Bool {
 
 #[node_impl]
 impl MacroNode for ClassMethod {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.key.span(), false)
             .unwrap();
@@ -1478,7 +1484,7 @@ impl MacroNode for ClassMethod {
 
 #[node_impl]
 impl MacroNode for StaticBlock {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1494,7 +1500,7 @@ impl MacroNode for StaticBlock {
 
 #[node_impl]
 impl MacroNode for PropName {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             PropName::Ident(ident) => {
                 // TODO: Use write_symbol when ident is a symbol.
@@ -1543,7 +1549,7 @@ impl MacroNode for PropName {
 
 #[node_impl]
 impl MacroNode for ComputedPropName {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "[");
@@ -1556,7 +1562,7 @@ impl MacroNode for ComputedPropName {
 
 #[node_impl]
 impl MacroNode for CondExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1577,7 +1583,7 @@ impl MacroNode for CondExpr {
 
 #[node_impl]
 impl MacroNode for FnExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1608,7 +1614,7 @@ impl MacroNode for FnExpr {
 
 #[node_impl]
 impl MacroNode for BlockStmtOrExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             BlockStmtOrExpr::BlockStmt(block) => {
                 emitter.emit_block_stmt_inner(block, true).unwrap();
@@ -1624,7 +1630,7 @@ impl MacroNode for BlockStmtOrExpr {
 
 #[node_impl]
 impl MacroNode for ThisExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1635,7 +1641,7 @@ impl MacroNode for ThisExpr {
 
 #[node_impl]
 impl MacroNode for Tpl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1662,7 +1668,7 @@ impl MacroNode for Tpl {
 
 #[node_impl]
 impl MacroNode for TplElement {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(&raw, emitter.cfg.ascii_only);
@@ -1697,7 +1703,7 @@ impl MacroNode for TplElement {
 
 #[node_impl]
 impl MacroNode for TaggedTpl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1721,7 +1727,7 @@ impl MacroNode for TaggedTpl {
 
 #[node_impl]
 impl MacroNode for UnaryExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1752,7 +1758,7 @@ impl MacroNode for UnaryExpr {
 
 #[node_impl]
 impl MacroNode for UpdateExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1772,7 +1778,7 @@ impl MacroNode for UpdateExpr {
 
 #[node_impl]
 impl MacroNode for YieldExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1808,7 +1814,7 @@ impl MacroNode for YieldExpr {
 
 #[node_impl]
 impl MacroNode for AwaitExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1824,7 +1830,7 @@ impl MacroNode for AwaitExpr {
 
 #[node_impl]
 impl MacroNode for ParenExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.prevent_emit_paren().unwrap();
 
         emitter
@@ -1843,7 +1849,7 @@ impl MacroNode for ParenExpr {
 
 #[node_impl]
 impl MacroNode for PrivateName {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1861,7 +1867,7 @@ impl MacroNode for PrivateName {
 
 #[node_impl]
 impl MacroNode for BindingIdent {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_ident_like(self.span, &self.sym, self.optional)
             .unwrap();
@@ -1876,7 +1882,7 @@ impl MacroNode for BindingIdent {
 
 #[node_impl]
 impl MacroNode for Ident {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_ident_like(self.span, &self.sym, self.optional)
             .unwrap();
@@ -1885,7 +1891,7 @@ impl MacroNode for Ident {
 
 #[node_impl]
 impl MacroNode for IdentName {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_ident_like(self.span, &self.sym, false)
             .unwrap();
@@ -1894,7 +1900,7 @@ impl MacroNode for IdentName {
 
 #[node_impl]
 impl MacroNode for Param {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1913,7 +1919,7 @@ impl MacroNode for Param {
 
 #[node_impl]
 impl MacroNode for Pat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
@@ -1934,7 +1940,7 @@ impl MacroNode for Pat {
 
 #[node_impl]
 impl MacroNode for RestPat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         punct!(emitter, self.dot3_token, "...");
         emit!(self.arg);
 
@@ -1948,7 +1954,7 @@ impl MacroNode for RestPat {
 
 #[node_impl]
 impl MacroNode for AssignPatProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -1963,7 +1969,7 @@ impl MacroNode for AssignPatProp {
 
 #[node_impl]
 impl MacroNode for ForHead {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             ForHead::Pat(n) => emit!(n),
             ForHead::VarDecl(n) => emit!(n),
@@ -1974,7 +1980,7 @@ impl MacroNode for ForHead {
 
 #[node_impl]
 impl MacroNode for MemberExpr {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2036,7 +2042,7 @@ impl MacroNode for MemberExpr {
 
 #[node_impl]
 impl MacroNode for PrivateProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2097,7 +2103,7 @@ impl MacroNode for PrivateProp {
 
 #[node_impl]
 impl MacroNode for ClassProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2171,7 +2177,7 @@ impl MacroNode for ClassProp {
 
 #[node_impl]
 impl MacroNode for Constructor {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2197,7 +2203,7 @@ impl MacroNode for Constructor {
 
 #[node_impl]
 impl MacroNode for ArrayPat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2231,7 +2237,7 @@ impl MacroNode for ArrayPat {
 
 #[node_impl]
 impl MacroNode for AssignPat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2250,7 +2256,7 @@ impl MacroNode for AssignPat {
 
 #[node_impl]
 impl MacroNode for ObjectPat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2284,7 +2290,7 @@ impl MacroNode for ObjectPat {
 
 #[node_impl]
 impl MacroNode for ObjectPatProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             ObjectPatProp::KeyValue(ref node) => emit!(node),
             ObjectPatProp::Assign(ref node) => emit!(node),
@@ -2295,7 +2301,7 @@ impl MacroNode for ObjectPatProp {
 
 #[node_impl]
 impl MacroNode for KeyValuePatProp {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter
             .emit_leading_comments_of_span(self.span(), false)
             .unwrap();
@@ -2313,7 +2319,7 @@ impl MacroNode for KeyValuePatProp {
 
 #[node_impl]
 impl MacroNode for SimpleAssignTarget {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             SimpleAssignTarget::Ident(n) => emit!(n),
             SimpleAssignTarget::Member(n) => emit!(n),
@@ -2332,7 +2338,7 @@ impl MacroNode for SimpleAssignTarget {
 
 #[node_impl]
 impl MacroNode for AssignTargetPat {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             AssignTargetPat::Array(n) => emit!(n),
             AssignTargetPat::Object(n) => emit!(n),
@@ -2343,7 +2349,7 @@ impl MacroNode for AssignTargetPat {
 
 #[node_impl]
 impl MacroNode for AssignTarget {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
             AssignTarget::Simple(ref n) => emit!(n),
             AssignTarget::Pat(ref n) => emit!(n),

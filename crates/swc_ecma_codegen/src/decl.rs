@@ -7,14 +7,14 @@ use crate::text_writer::WriteJs;
 
 #[node_impl]
 impl MacroNode for ClassDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_class_decl_inner(self, false)?;
     }
 }
 
 #[node_impl]
 impl MacroNode for UsingDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.is_await {
@@ -35,7 +35,7 @@ impl MacroNode for UsingDecl {
 
 #[node_impl]
 impl MacroNode for FnDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
@@ -68,14 +68,14 @@ impl MacroNode for FnDecl {
 
 #[node_impl]
 impl MacroNode for VarDecl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_var_decl_inner(self)?;
     }
 }
 
 #[node_impl]
 impl MacroNode for VarDeclarator {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -93,7 +93,7 @@ impl MacroNode for VarDeclarator {
 
 #[node_impl]
 impl MacroNode for Decl {
-    fn emit(&mut self, emitter: &mut Macro) {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             Decl::Class(n) => emit!(n),
             Decl::Fn(n) => emit!(n),
