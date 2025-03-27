@@ -9505,10 +9505,7 @@
   \*************************************************************************/ /*! no static exports found */ /***/ function(module1, exports1, __webpack_require__) {
             var assignValue = __webpack_require__(/*! ./_assignValue */ "../../../node_modules/lodash/_assignValue.js"), copyObject = __webpack_require__(/*! ./_copyObject */ "../../../node_modules/lodash/_copyObject.js"), createAssigner = __webpack_require__(/*! ./_createAssigner */ "../../../node_modules/lodash/_createAssigner.js"), isArrayLike = __webpack_require__(/*! ./isArrayLike */ "../../../node_modules/lodash/isArrayLike.js"), isPrototype = __webpack_require__(/*! ./_isPrototype */ "../../../node_modules/lodash/_isPrototype.js"), keys = __webpack_require__(/*! ./keys */ "../../../node_modules/lodash/keys.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
             module1.exports = createAssigner(function(object, source) {
-                if (isPrototype(source) || isArrayLike(source)) {
-                    copyObject(source, keys(source), object);
-                    return;
-                }
+                if (isPrototype(source) || isArrayLike(source)) return void copyObject(source, keys(source), object);
                 for(var key in source)hasOwnProperty.call(source, key) && assignValue(object, key, source[key]);
             });
         /***/ },

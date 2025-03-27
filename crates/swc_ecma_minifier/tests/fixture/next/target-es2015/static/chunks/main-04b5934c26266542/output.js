@@ -547,10 +547,7 @@
             }
             function _render() {
                 return (_render = _async_to_generator(function*(renderingProps) {
-                    if (renderingProps.err) {
-                        yield renderError(renderingProps);
-                        return;
-                    }
+                    if (renderingProps.err) return void (yield renderError(renderingProps));
                     try {
                         yield doRender(renderingProps);
                     } catch (err) {
@@ -2360,16 +2357,10 @@
                     const [, hash = ""] = as.split("#");
                     // Scroll to top if the hash is just `#` with no value or `#top`
                     // To mirror browsers
-                    if ("" === hash || "top" === hash) {
-                        handleSmoothScroll(()=>window.scrollTo(0, 0));
-                        return;
-                    }
+                    if ("" === hash || "top" === hash) return void handleSmoothScroll(()=>window.scrollTo(0, 0));
                     // Decode hash to make non-latin anchor works.
                     const rawHash = decodeURIComponent(hash), idEl = document.getElementById(rawHash);
-                    if (idEl) {
-                        handleSmoothScroll(()=>idEl.scrollIntoView());
-                        return;
-                    }
+                    if (idEl) return void handleSmoothScroll(()=>idEl.scrollIntoView());
                     // If there's no element with the id, we check the `name` property
                     // To mirror browsers
                     const nameEl = document.getElementsByName(rawHash)[0];
@@ -2512,10 +2503,7 @@
                             return;
                         }
                         // __NA is used to identify if the history entry can be handled by the app-router.
-                        if (state.__NA) {
-                            window.location.reload();
-                            return;
-                        }
+                        if (state.__NA) return void window.location.reload();
                         if (!state.__N || isFirstPopStateEvent && this.locale === state.options.locale && state.as === this.asPath) return;
                         const { url, as, options, key } = state;
                         this._key = key;

@@ -3260,10 +3260,7 @@ function(global, factory) {
                         return contains;
                     }(ring, hole[i])) return c;
                     return 0;
-                }((polygon = polygons[i])[0], hole)) {
-                    polygon.push(hole);
-                    return;
-                }
+                }((polygon = polygons[i])[0], hole)) return void polygon.push(hole);
             }), {
                 type: "MultiPolygon",
                 value: value,

@@ -2746,14 +2746,9 @@
         // Define the hook, we'll check on the first run if it's really needed.
         return {
             get: function() {
-                if (conditionFn()) {
-                    // Hook not needed (or it's not possible to use it due
-                    // to missing dependency), remove it.
-                    delete this.get;
-                    return;
-                }
-                // Hook needed; redefine it so that the support test is not executed again.
-                return (this.get = hookFn).apply(this, arguments);
+                return conditionFn() ? void // Hook not needed (or it's not possible to use it due
+                // to missing dependency), remove it.
+                delete this.get : (this.get = hookFn).apply(this, arguments);
             }
         };
     }
@@ -3339,18 +3334,8 @@
         attr: function(elem, name, value) {
             var ret, hooks, nType = elem.nodeType;
             // Don't get/set attributes on text, comment and attribute nodes
-            if (3 !== nType && 8 !== nType && 2 !== nType) {
-                // Fallback to prop when attributes are not supported
-                if (void 0 === elem.getAttribute) return jQuery.prop(elem, name, value);
-                if (1 === nType && jQuery.isXMLDoc(elem) || (hooks = jQuery.attrHooks[name.toLowerCase()] || (jQuery.expr.match.bool.test(name) ? boolHook : void 0)), void 0 !== value) {
-                    if (null === value) {
-                        jQuery.removeAttr(elem, name);
-                        return;
-                    }
-                    return hooks && "set" in hooks && void 0 !== (ret = hooks.set(elem, value, name)) ? ret : (elem.setAttribute(name, value + ""), value);
-                }
-                return hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : null == (ret = jQuery.find.attr(elem, name)) ? void 0 : ret;
-            }
+            if (3 !== nType && 8 !== nType && 2 !== nType) return(// Fallback to prop when attributes are not supported
+            void 0 === elem.getAttribute ? jQuery.prop(elem, name, value) : (1 === nType && jQuery.isXMLDoc(elem) || (hooks = jQuery.attrHooks[name.toLowerCase()] || (jQuery.expr.match.bool.test(name) ? boolHook : void 0)), void 0 !== value) ? null === value ? void jQuery.removeAttr(elem, name) : hooks && "set" in hooks && void 0 !== (ret = hooks.set(elem, value, name)) ? ret : (elem.setAttribute(name, value + ""), value) : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name)) ? ret : null == (ret = jQuery.find.attr(elem, name)) ? void 0 : ret);
         },
         attrHooks: {
             type: {

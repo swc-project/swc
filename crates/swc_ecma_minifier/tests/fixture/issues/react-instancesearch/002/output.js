@@ -85,61 +85,53 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 };
             }
             if (Array.isArray(results.results)) {
-                !function(client, results) {
-                    // Algoliasearch API Client >= v4
-                    // Populate the cache with the data from the server
-                    if (client.transporter) {
-                        client.transporter.responsesCache.set({
-                            method: "search",
-                            args: [
-                                results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
-                                            indexName: request.index,
-                                            params: request.params
-                                        }))), [])
-                            ]
-                        }, {
-                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-                        });
-                        return;
-                    }
-                    // Algoliasearch API Client < v4
-                    // Prior to client v4 we didn't have a proper API to hydrate the client
-                    // cache from the outside. The following code populates the cache with
-                    // a single-index result. You can find more information about the
-                    // computation of the key inside the client (see link below).
-                    // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-                    const key = `/1/indexes/*/queries_body_${JSON.stringify({
-                        requests: results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                var results1 = results.results;
+                // Algoliasearch API Client >= v4
+                // Populate the cache with the data from the server
+                if (client.transporter) return client.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        results1.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                                     indexName: request.index,
                                     params: request.params
                                 }))), [])
-                    })}`;
-                    client.cache = {
-                        ...client.cache,
-                        [key]: JSON.stringify({
-                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-                        })
-                    };
-                }(client, results.results);
-                return;
+                    ]
+                }, {
+                    results: results1.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                });
+                // Algoliasearch API Client < v4
+                // Prior to client v4 we didn't have a proper API to hydrate the client
+                // cache from the outside. The following code populates the cache with
+                // a single-index result. You can find more information about the
+                // computation of the key inside the client (see link below).
+                // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+                const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                    requests: results1.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                                indexName: request.index,
+                                params: request.params
+                            }))), [])
+                })}`;
+                return client.cache = {
+                    ...client.cache,
+                    [key]: JSON.stringify({
+                        results: results1.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                    })
+                };
             }
             !function(client, results) {
                 // Algoliasearch API Client >= v4
                 // Populate the cache with the data from the server
-                if (client.transporter) {
-                    client.transporter.responsesCache.set({
-                        method: "search",
-                        args: [
-                            results.rawResults.map((request)=>({
-                                    indexName: request.index,
-                                    params: request.params
-                                }))
-                        ]
-                    }, {
-                        results: results.rawResults
-                    });
-                    return;
-                }
+                if (client.transporter) return client.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        results.rawResults.map((request)=>({
+                                indexName: request.index,
+                                params: request.params
+                            }))
+                    ]
+                }, {
+                    results: results.rawResults
+                });
                 // Algoliasearch API Client < v4
                 // Prior to client v4 we didn't have a proper API to hydrate the client
                 // cache from the outside. The following code populates the cache with

@@ -882,14 +882,8 @@ function(global, factory) {
     // date from string and format string
     function configFromStringAndFormat(config) {
         // TODO: Move this to another part of the creation flow to prevent circular deps
-        if (config._f === hooks.ISO_8601) {
-            configFromISO(config);
-            return;
-        }
-        if (config._f === hooks.RFC_2822) {
-            configFromRFC2822(config);
-            return;
-        }
+        if (config._f === hooks.ISO_8601) return void configFromISO(config);
+        if (config._f === hooks.RFC_2822) return void configFromRFC2822(config);
         config._a = [], getParsingFlags(config).empty = !0;
         // This array is used to make a Date, either with `new Date` or `Date.UTC`
         var locale, hour, meridiem, isPm, i, parsedInput, tokens1, token, skipped, era, string = "" + config._i, stringLength = string.length, totalParsedInputLength = 0;

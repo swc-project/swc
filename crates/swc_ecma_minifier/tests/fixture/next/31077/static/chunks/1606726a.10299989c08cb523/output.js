@@ -1843,10 +1843,7 @@
                 if (!inOrNearComposition(view, event) && event.charCode && (!event.ctrlKey || event.altKey) && (!result.mac || !event.metaKey)) {
                     if (view.someProp("handleKeyPress", function(f) {
                         return f(view, event);
-                    })) {
-                        event.preventDefault();
-                        return;
-                    }
+                    })) return void event.preventDefault();
                     var sel = view.state.selection;
                     if (!(sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) || !sel.$from.sameParent(sel.$to)) {
                         var text = String.fromCharCode(event.charCode);
@@ -2083,10 +2080,7 @@
                             var move = dragging && !e[dragCopyModifier];
                             if (view.someProp("handleDrop", function(f) {
                                 return f(view, e, slice || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.empty, move);
-                            })) {
-                                e.preventDefault();
-                                return;
-                            }
+                            })) return void e.preventDefault();
                             if (slice) {
                                 e.preventDefault();
                                 var insertPos = slice ? (0, prosemirror_transform__WEBPACK_IMPORTED_MODULE_2__ /* .dropPoint */ .nj)(view.state.doc, $mouse.pos, slice) : $mouse.pos;

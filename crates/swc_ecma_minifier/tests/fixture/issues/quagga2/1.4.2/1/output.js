@@ -2709,10 +2709,7 @@
                  *  counterparts.
                  */ function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
                 var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
-                if (stacked) {
-                    assignMergeValue(object, key, stacked);
-                    return;
-                }
+                if (stacked) return void assignMergeValue(object, key, stacked);
                 var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0, isCommon = void 0 === newValue;
                 if (isCommon) {
                     var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
@@ -8998,14 +8995,11 @@
             function workerInterface(factory) {
                 if (factory) {
                     var imageWrapper, Quagga = factory().default;
-                    if (!Quagga) {
-                        // @ts-ignore
-                        self.postMessage({
-                            event: "error",
-                            message: "Quagga could not be created"
-                        });
-                        return;
-                    }
+                    if (!Quagga) return void // @ts-ignore
+                    self.postMessage({
+                        event: "error",
+                        message: "Quagga could not be created"
+                    });
                 } // @ts-ignore
                 function onProcessed(result) {
                     self.postMessage({
@@ -9387,42 +9381,25 @@
                     quagga_context.stopped = !0;
                 },
                 onDetected: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
-                        return;
-                    }
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                     events.subscribe("detected", callback);
                 },
                 offDetected: function(callback) {
                     events.unsubscribe("detected", callback);
                 },
                 onProcessed: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
-                        return;
-                    }
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                     events.subscribe("processed", callback);
                 },
                 offProcessed: function(callback) {
                     events.unsubscribe("processed", callback);
                 },
                 setReaders: function(readers) {
-                    if (!readers) {
-                        console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
-                        return;
-                    }
+                    if (!readers) return void console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
                     instance.setReaders(readers);
                 },
                 registerReader: function(name, reader) {
-                    if (!name) {
-                        console.trace("* warning: Quagga.registerReader called with no name, ignoring");
-                        return;
-                    }
-                    if (!reader) {
-                        console.trace("* warning: Quagga.registerReader called with no reader, ignoring");
-                        return;
-                    }
-                    instance.registerReader(name, reader);
+                    return name ? reader ? void instance.registerReader(name, reader) : void console.trace("* warning: Quagga.registerReader called with no reader, ignoring") : void console.trace("* warning: Quagga.registerReader called with no name, ignoring");
                 },
                 registerResultCollector: function(resultCollector) {
                     resultCollector && "function" == typeof resultCollector.addResult && (quagga_context.resultCollector = resultCollector);

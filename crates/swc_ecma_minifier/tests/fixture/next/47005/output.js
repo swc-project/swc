@@ -327,10 +327,7 @@
                     r,
                     _
                 ]), (0, A.useEffect)(()=>{
-                    if (P) {
-                        en(P);
-                        return;
-                    }
+                    if (P) return void en(P);
                     if (g) {
                         F.current && en(F.current);
                         return;

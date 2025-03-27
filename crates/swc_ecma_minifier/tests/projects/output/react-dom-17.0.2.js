@@ -766,12 +766,9 @@
         if (null != value) "number" === type ? (0 === value && "" === element.value || // We explicitly want to coerce to number here if possible.
         // eslint-disable-next-line
         element.value != value) && (element.value = "" + value) : element.value !== "" + value && (element.value = "" + value);
-        else if ("submit" === type || "reset" === type) {
-            // Submit/reset inputs need the attribute removed completely to avoid
-            // blank-text buttons.
-            element.removeAttribute("value");
-            return;
-        }
+        else if ("submit" === type || "reset" === type) return void // Submit/reset inputs need the attribute removed completely to avoid
+        // blank-text buttons.
+        element.removeAttribute("value");
         props.hasOwnProperty("value") ? setDefaultValue(element, props.type, value) : props.hasOwnProperty("defaultValue") && setDefaultValue(element, props.type, getToStringValue(props.defaultValue)), null == props.checked && null != props.defaultChecked && (element.defaultChecked = !!props.defaultChecked);
     }
     function postMountWrapper(element, props, isHydrating) {
@@ -2820,13 +2817,10 @@
             // In eager mode, we attach capture listeners early, so we need
             // to filter them out until we fix the logic to handle them correctly.
             // This could've been outside the flag but I put it inside to reduce risk.
-            (allowReplay = (4 & eventSystemFlags) == 0) && queuedDiscreteEvents.length > 0 && isReplayableDiscreteEvent(domEventName)) {
-                // If we already have a queue of discrete events, and this is another discrete
-                // event, then we can't dispatch it regardless of its target, since they
-                // need to dispatch in order.
-                queueDiscreteEvent(null, domEventName, eventSystemFlags, targetContainer, nativeEvent);
-                return;
-            }
+            (allowReplay = (4 & eventSystemFlags) == 0) && queuedDiscreteEvents.length > 0 && isReplayableDiscreteEvent(domEventName)) return void // If we already have a queue of discrete events, and this is another discrete
+            // event, then we can't dispatch it regardless of its target, since they
+            // need to dispatch in order.
+            queueDiscreteEvent(null, domEventName, eventSystemFlags, targetContainer, nativeEvent);
             var blockedOn = attemptToDispatchEvent(domEventName, eventSystemFlags, targetContainer, nativeEvent);
             if (null === blockedOn) {
                 // We successfully dispatched this event.
@@ -2834,11 +2828,8 @@
                 return;
             }
             if (allowReplay) {
-                if (isReplayableDiscreteEvent(domEventName)) {
-                    // This this to be replayed later once the target is available.
-                    queueDiscreteEvent(blockedOn, domEventName, eventSystemFlags, targetContainer, nativeEvent);
-                    return;
-                }
+                if (isReplayableDiscreteEvent(domEventName)) return void // This this to be replayed later once the target is available.
+                queueDiscreteEvent(blockedOn, domEventName, eventSystemFlags, targetContainer, nativeEvent);
                 if (function(blockedOn, domEventName, eventSystemFlags, targetContainer, nativeEvent) {
                     // These set relatedTarget to null because the replayed event will be treated as if we
                     // moved from outside the window (no target) onto the target once it hydrates.
@@ -4153,10 +4144,7 @@
                     var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
                     if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
                         var inst = getTargetInstFunc(domEventName, targetInst);
-                        if (inst) {
-                            createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
-                            return;
-                        }
+                        if (inst) return createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
                     }
                     handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
                     setDefaultValue(targetNode, "number", targetNode.value);
@@ -4997,10 +4985,7 @@
         };
     }
     function pop(cursor, fiber) {
-        if (index < 0) {
-            error("Unexpected pop.");
-            return;
-        }
+        if (index < 0) return void error("Unexpected pop.");
         fiber !== fiberStack[index] && error("Unexpected Fiber popped."), cursor.current = valueStack[index], valueStack[index] = null, fiberStack[index] = null, index--;
     }
     function push(cursor, value, fiber) {
@@ -5206,10 +5191,7 @@
     }
     ReactStrictModeWarnings.recordLegacyContextWarning = function(fiber, instance) {
         var strictRoot = findStrictRoot(fiber);
-        if (null === strictRoot) {
-            error("Expected to find a StrictMode component in a strict mode tree. This error is likely caused by a bug in React. Please file an issue.");
-            return;
-        } // Dedup strategy: Warn once per component.
+        if (null === strictRoot) return void error("Expected to find a StrictMode component in a strict mode tree. This error is likely caused by a bug in React. Please file an issue."); // Dedup strategy: Warn once per component.
         if (!didWarnAboutLegacyContext.has(fiber.type)) {
             var warningsForRoot = pendingLegacyContextWarning.get(strictRoot);
             (null != fiber.type.contextTypes || null != fiber.type.childContextTypes || null !== instance && "function" == typeof instance.getChildContext) && (void 0 === warningsForRoot && (warningsForRoot = [], pendingLegacyContextWarning.set(strictRoot, warningsForRoot)), warningsForRoot.push(fiber));
@@ -6711,10 +6693,7 @@
         var hook = updateWorkInProgressHook(), nextDeps = void 0 === deps ? null : deps, destroy = void 0;
         if (null !== currentHook) {
             var prevEffect = currentHook.memoizedState;
-            if (destroy = prevEffect.destroy, null !== nextDeps && areHookInputsEqual(nextDeps, prevEffect.deps)) {
-                pushEffect(hookFlags, create, destroy, nextDeps);
-                return;
-            }
+            if (destroy = prevEffect.destroy, null !== nextDeps && areHookInputsEqual(nextDeps, prevEffect.deps)) return void pushEffect(hookFlags, create, destroy, nextDeps);
         }
         currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, destroy, nextDeps);
     }
@@ -9287,11 +9266,9 @@
                 "function" == typeof instance.componentWillUnmount && (invokeGuardedCallback(null, callComponentWillUnmountWithTimer, null, current, instance), hasError && captureCommitPhaseError(current, clearCaughtError()));
                 return;
             case 5:
-                safelyDetachRef(current);
-                return;
+                return void safelyDetachRef(current);
             case 4:
-                unmountHostComponents(finishedRoot, current);
-                return;
+                return void unmountHostComponents(finishedRoot, current);
             case 20:
             case 18:
             case 21:
@@ -9465,7 +9442,7 @@
             case 14:
             case 15:
             case 22:
-                !function(tag, finishedWork) {
+                return void function(tag, finishedWork) {
                     var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
@@ -9479,7 +9456,6 @@
                         }while (effect !== firstEffect)
                     }
                 }(3, finishedWork);
-                return;
             case 1:
             case 12:
             case 17:
@@ -9531,8 +9507,7 @@
                 null !== (finishedWork1 = finishedWork).memoizedState && (globalMostRecentFallbackTime = now(), hideOrUnhideAllChildren(finishedWork1.child, !0)), attachSuspenseRetryListeners(finishedWork);
                 return;
             case 19:
-                attachSuspenseRetryListeners(finishedWork);
-                return;
+                return void attachSuspenseRetryListeners(finishedWork);
             case 20:
             case 21:
                 break;
@@ -10775,17 +10750,11 @@
         null !== root && (markRootUpdated(root, 1, eventTime), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, 1));
     }
     function captureCommitPhaseError(sourceFiber, error) {
-        if (3 === sourceFiber.tag) {
-            // Error was thrown at the root. There is no parent, so the root
-            // itself should capture it.
-            captureCommitPhaseErrorOnRoot(sourceFiber, sourceFiber, error);
-            return;
-        }
+        if (3 === sourceFiber.tag) return void // Error was thrown at the root. There is no parent, so the root
+        // itself should capture it.
+        captureCommitPhaseErrorOnRoot(sourceFiber, sourceFiber, error);
         for(var fiber = sourceFiber.return; null !== fiber;){
-            if (3 === fiber.tag) {
-                captureCommitPhaseErrorOnRoot(fiber, sourceFiber, error);
-                return;
-            }
+            if (3 === fiber.tag) return void captureCommitPhaseErrorOnRoot(fiber, sourceFiber, error);
             if (1 === fiber.tag) {
                 var ctor = fiber.type, instance = fiber.stateNode;
                 if ("function" == typeof ctor.getDerivedStateFromError || "function" == typeof instance.componentDidCatch && !isAlreadyFailedLegacyErrorBoundary(instance)) {
@@ -11437,14 +11406,8 @@
         updated[oldKey] = copyWithRenameImpl(// $FlowFixMe number or string is fine here
         obj[oldKey], oldPath, newPath, index + 1), updated;
     }, copyWithRename = function(obj, oldPath, newPath) {
-        if (oldPath.length !== newPath.length) {
-            warn("copyWithRename() expects paths of the same length");
-            return;
-        }
-        for(var i = 0; i < newPath.length - 1; i++)if (oldPath[i] !== newPath[i]) {
-            warn("copyWithRename() expects paths to be the same except for the deepest key");
-            return;
-        }
+        if (oldPath.length !== newPath.length) return void warn("copyWithRename() expects paths of the same length");
+        for(var i = 0; i < newPath.length - 1; i++)if (oldPath[i] !== newPath[i]) return void warn("copyWithRename() expects paths to be the same except for the deepest key");
         return copyWithRenameImpl(obj, oldPath, newPath, 0);
     }, copyWithSetImpl = function(obj, path, index, value) {
         if (index >= path.length) return value;

@@ -18,10 +18,7 @@ export const defaultLoadScriptProps = {
 class LoadScript extends React.PureComponent {
     componentDidMount() {
         if (isBrowser) {
-            if (window.google && window.google.maps && !cleaningUp) {
-                console.error("google api is already presented");
-                return;
-            }
+            if (window.google && window.google.maps && !cleaningUp) return void console.error("google api is already presented");
             this.isCleaningUp().then(this.injectScript).catch(function(err) {
                 console.error("Error at injecting script after cleaning up: ", err);
             });

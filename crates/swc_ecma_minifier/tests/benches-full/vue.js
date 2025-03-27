@@ -518,15 +518,9 @@
     /**
    * Delete a property and trigger change if necessary.
    */ function del(target, key) {
-        if ((isUndef(target) || isPrimitive(target)) && warn("Cannot delete reactive property on undefined, null, or primitive value: " + target), Array.isArray(target) && isValidArrayIndex(key)) {
-            target.splice(key, 1);
-            return;
-        }
+        if ((isUndef(target) || isPrimitive(target)) && warn("Cannot delete reactive property on undefined, null, or primitive value: " + target), Array.isArray(target) && isValidArrayIndex(key)) return void target.splice(key, 1);
         var ob = target.__ob__;
-        if (target._isVue || ob && ob.vmCount) {
-            warn("Avoid deleting properties on a Vue instance or its root $data - just set it to null.");
-            return;
-        }
+        if (target._isVue || ob && ob.vmCount) return void warn("Avoid deleting properties on a Vue instance or its root $data - just set it to null.");
         hasOwn(target, key) && (delete target[key], ob && ob.dep.notify());
     }
     /**
@@ -741,10 +735,7 @@
         return(/**
    * Assert whether a prop is valid.
    */ function(prop, name, value, vm, absent) {
-            if (prop.required && absent) {
-                warn('Missing required prop: "' + name + '"', vm);
-                return;
-            }
+            if (prop.required && absent) return warn('Missing required prop: "' + name + '"', vm);
             if (null != value || prop.required) {
                 var message, expectedType, receivedType, expectedValue, receivedValue, type = prop.type, valid = !type || !0 === type, expectedTypes = [];
                 if (type) {
@@ -767,15 +758,12 @@
                         expectedTypes.push(assertedType.expectedType || ''), valid = assertedType.valid;
                     }
                 }
-                if (!valid) {
-                    warn((message = "Invalid prop: type check failed for prop \"" + name + '". Expected ' + expectedTypes.map(capitalize).join(', '), expectedType = expectedTypes[0], receivedType = toRawType(value), expectedValue = styleValue(value, expectedType), receivedValue = styleValue(value, receivedType), 1 === expectedTypes.length && isExplicable(expectedType) && !function() {
-                        for(var args = [], len = arguments.length; len--;)args[len] = arguments[len];
-                        return args.some(function(elem) {
-                            return 'boolean' === elem.toLowerCase();
-                        });
-                    }(expectedType, receivedType) && (message += " with value " + expectedValue), message += ", got " + receivedType + " ", isExplicable(receivedType) && (message += "with value " + receivedValue + "."), message), vm);
-                    return;
-                }
+                if (!valid) return warn((message = "Invalid prop: type check failed for prop \"" + name + '". Expected ' + expectedTypes.map(capitalize).join(', '), expectedType = expectedTypes[0], receivedType = toRawType(value), expectedValue = styleValue(value, expectedType), receivedValue = styleValue(value, receivedType), 1 === expectedTypes.length && isExplicable(expectedType) && !function() {
+                    for(var args = [], len = arguments.length; len--;)args[len] = arguments[len];
+                    return args.some(function(elem) {
+                        return 'boolean' === elem.toLowerCase();
+                    });
+                }(expectedType, receivedType) && (message += " with value " + expectedValue), message += ", got " + receivedType + " ", isExplicable(receivedType) && (message += "with value " + receivedValue + "."), message), vm);
                 var validator = prop.validator;
                 validator && !validator(value) && warn('Invalid prop: custom validator check failed for prop "' + name + '".', vm);
             }
@@ -1319,10 +1307,7 @@
             var factory, data1, node, options, data2, prop, event, on, existing, callback, asyncFactory, baseCtor = context.$options._base;
             // if at this stage it's not a constructor or an async component factory,
             // reject.
-            if (isObject(Ctor) && (Ctor = baseCtor.extend(Ctor)), 'function' != typeof Ctor) {
-                warn("Invalid Component definition: " + String(Ctor), context);
-                return;
-            }
+            if (isObject(Ctor) && (Ctor = baseCtor.extend(Ctor)), 'function' != typeof Ctor) return void warn("Invalid Component definition: " + String(Ctor), context);
             if (isUndef(Ctor.cid) && void 0 === (Ctor = function(factory, baseCtor) {
                 if (isTrue(factory.error) && isDef(factory.errorComp)) return factory.errorComp;
                 if (isDef(factory.resolved)) return factory.resolved;
@@ -1626,10 +1611,7 @@
                 } else queue.push(watcher);
                 // queue the flush
                 if (!waiting) {
-                    if (waiting = !0, !config.async) {
-                        flushSchedulerQueue();
-                        return;
-                    }
+                    if (waiting = !0, !config.async) return flushSchedulerQueue();
                     nextTick(flushSchedulerQueue);
                 }
             }
@@ -2996,10 +2978,7 @@
                         isDef(vnode.elm) && isDef(ownerArray) && // clone reused vnode
                         (vnode = ownerArray[index] = cloneVNode(vnode));
                         var i, elm = vnode.elm = oldVnode.elm;
-                        if (isTrue(oldVnode.isAsyncPlaceholder)) {
-                            isDef(vnode.asyncFactory.resolved) ? hydrate(oldVnode.elm, vnode, insertedVnodeQueue) : vnode.isAsyncPlaceholder = !0;
-                            return;
-                        }
+                        if (isTrue(oldVnode.isAsyncPlaceholder)) return void (isDef(vnode.asyncFactory.resolved) ? hydrate(oldVnode.elm, vnode, insertedVnodeQueue) : vnode.isAsyncPlaceholder = !0);
                         // reuse element for static trees.
                         // note we only do this if the vnode is cloned -
                         // if the new node is not cloned it means the render functions have been
@@ -3137,10 +3116,7 @@
     }
     function actuallySetSelected(el, binding, vm) {
         var selected, option, value = binding.value, isMultiple = el.multiple;
-        if (isMultiple && !Array.isArray(value)) {
-            warn("<select multiple v-model=\"" + binding.expression + '"> expects an Array value for its binding, but got ' + Object.prototype.toString.call(value).slice(8, -1), vm);
-            return;
-        }
+        if (isMultiple && !Array.isArray(value)) return void warn("<select multiple v-model=\"" + binding.expression + '"> expects an Array value for its binding, but got ' + Object.prototype.toString.call(value).slice(8, -1), vm);
         for(var i = 0, l = el.options.length; i < l; i++)if (option = el.options[i], isMultiple) selected = looseIndexOf(value, getValue(option)) > -1, option.selected !== selected && (option.selected = selected);
         else if (looseEqual(getValue(option), value)) {
             el.selectedIndex !== i && (el.selectedIndex = i);
@@ -4254,14 +4230,11 @@
                     stack.length -= 1, currentParent = stack[stack.length - 1], options.outputSourceRange && (element.end = end$1), closeElement(element);
                 },
                 chars: function(text, start, end) {
-                    if (!currentParent) {
-                        text === template ? warnOnce('Component template requires a root element, rather than just text.', {
-                            start: start
-                        }) : (text = text.trim()) && warnOnce("text \"" + text + "\" outside root element will be ignored.", {
-                            start: start
-                        });
-                        return;
-                    }
+                    if (!currentParent) return void (text === template ? warnOnce('Component template requires a root element, rather than just text.', {
+                        start: start
+                    }) : (text = text.trim()) && warnOnce("text \"" + text + "\" outside root element will be ignored.", {
+                        start: start
+                    }));
                     // IE textarea placeholder bug
                     /* istanbul ignore if */ if (!isIE || 'textarea' !== currentParent.tag || currentParent.attrsMap.placeholder !== text) {
                         var el, res, child, children = currentParent.children;

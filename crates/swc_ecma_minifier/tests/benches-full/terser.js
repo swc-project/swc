@@ -3135,10 +3135,7 @@
         },
         /** go through the bits that are executed instantly, not when the class is `new`'d. Doesn't walk the name. */ visit_nondeferred_class_parts (visitor) {
             this.extends && this.extends._walk(visitor), this.properties.forEach((prop)=>{
-                if (prop instanceof AST_ClassStaticBlock) {
-                    prop._walk(visitor);
-                    return;
-                }
+                if (prop instanceof AST_ClassStaticBlock) return void prop._walk(visitor);
                 prop.computed_key() && (visitor.push(prop), prop.key._walk(visitor), visitor.pop()), (prop instanceof AST_ClassPrivateProperty || prop instanceof AST_ClassProperty) && prop.static && prop.value && (visitor.push(prop), prop.value._walk(visitor), visitor.pop());
             });
         },
@@ -5715,10 +5712,7 @@
                 // adds the block braces if needed.
                 if (!b) return output.force_semicolon();
                 for(;;)if (b instanceof AST_If) {
-                    if (!b.alternative) {
-                        make_block(self1.body, output);
-                        return;
-                    }
+                    if (!b.alternative) return void make_block(self1.body, output);
                     b = b.alternative;
                 } else if (b instanceof AST_StatementWithBody) b = b.body;
                 else break;
@@ -6359,28 +6353,16 @@
                 var save_nesting = lname;
                 return descend(), lname = save_nesting, !0; // don't descend again in TreeWalker
             }
-            if (node instanceof AST_Defun && !(tw.parent() instanceof AST_Scope) && (scopes_with_block_defuns = scopes_with_block_defuns || new Set()).add(node.parent_scope.get_defun_scope()), node instanceof AST_Scope) {
-                node.variables.forEach(collect);
-                return;
-            }
-            if (node.is_block_scope()) {
-                node.block_scope.variables.forEach(collect);
-                return;
-            }
-            if (function_defs && node instanceof AST_VarDef && node.value instanceof AST_Lambda && !node.value.name && keep_name(options.keep_fnames, node.name.name)) {
-                function_defs.add(node.name.definition().id);
-                return;
-            }
+            if (node instanceof AST_Defun && !(tw.parent() instanceof AST_Scope) && (scopes_with_block_defuns = scopes_with_block_defuns || new Set()).add(node.parent_scope.get_defun_scope()), node instanceof AST_Scope) return void node.variables.forEach(collect);
+            if (node.is_block_scope()) return void node.block_scope.variables.forEach(collect);
+            if (function_defs && node instanceof AST_VarDef && node.value instanceof AST_Lambda && !node.value.name && keep_name(options.keep_fnames, node.name.name)) return void function_defs.add(node.name.definition().id);
             if (node instanceof AST_Label) {
                 let name;
                 do name = nth_identifier.get(++lname);
                 while (ALL_RESERVED_WORDS.has(name))
                 return node.mangled_name = name, !0;
             }
-            if (!(options.ie8 || options.safari10) && node instanceof AST_SymbolCatch) {
-                to_mangle.push(node.definition());
-                return;
-            }
+            if (!(options.ie8 || options.safari10) && node instanceof AST_SymbolCatch) return void to_mangle.push(node.definition());
         });
         function collect(symbol) {
             1 & symbol.export ? unmangleable_names.add(symbol.name) : options.reserved.has(symbol.name) || to_mangle.push(symbol);
@@ -9002,10 +8984,7 @@
         return push(tw), reset_variables(tw, compressor, this), descend(), pop(tw), !0;
     }), def_reduce_vars(AST_Assign, function(tw, descend, compressor) {
         var node = this;
-        if (node.left instanceof AST_Destructuring) {
-            suppress(node.left);
-            return;
-        }
+        if (node.left instanceof AST_Destructuring) return void suppress(node.left);
         const finish_walk = ()=>{
             if (node.logical) return node.left.walk(tw), push(tw), node.right.walk(tw), pop(tw), !0;
         };
@@ -9120,10 +9099,7 @@
         }
     }), def_reduce_vars(AST_VarDef, function(tw, descend) {
         var node = this;
-        if (node.name instanceof AST_Destructuring) {
-            suppress(node.name);
-            return;
-        }
+        if (node.name instanceof AST_Destructuring) return void suppress(node.name);
         var d = node.name.definition();
         if (node.value) if (safe_to_assign(tw, d, node.name.scope, node.value)) return d.fixed = function() {
             return node.value;
@@ -20106,15 +20082,12 @@
                                     line: orig_line,
                                     column: orig_col
                                 });
-                                if (null === info.source) {
-                                    generator.addMapping({
-                                        generated: generatedPos,
-                                        original: null,
-                                        source: null,
-                                        name: null
-                                    });
-                                    return;
-                                }
+                                if (null === info.source) return void generator.addMapping({
+                                    generated: generatedPos,
+                                    original: null,
+                                    source: null,
+                                    name: null
+                                });
                                 source = info.source, orig_line = info.line, orig_col = info.column, name = info.name || name;
                             }
                             generator.addMapping({

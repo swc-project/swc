@@ -3359,10 +3359,7 @@
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
                     if (delay > 0 && (// Jitter delay bcoz networks, subtract up to 30% from 40 seconds
-                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
-                        await this.postTransaction();
-                        return;
-                    }
+                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) return void await this.postTransaction();
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
                     if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
@@ -4925,10 +4922,7 @@
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
                     if (delay > 0 && (// Jitter delay bcoz networks, subtract up to 30% from 40 seconds
-                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
-                        await this.postTransaction();
-                        return;
-                    }
+                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) return void await this.postTransaction();
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
                     if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
@@ -5645,10 +5639,7 @@
             "use strict";
             const inherits = __webpack_require__(5717), Reporter = __webpack_require__(8465)/* .Reporter */ .b, Buffer = __webpack_require__(2399).Buffer;
             function DecoderBuffer(base, options) {
-                if (Reporter.call(this, options), !Buffer.isBuffer(base)) {
-                    this.error('Input not Buffer');
-                    return;
-                }
+                if (Reporter.call(this, options), !Buffer.isBuffer(base)) return void this.error('Input not Buffer');
                 this.base = base, this.offset = 0, this.length = base.length;
             }
             function EncoderBuffer(value, reporter) {
@@ -6566,10 +6557,7 @@
                         'http',
                         'https',
                         'file'
-                    ].indexOf(protocol)) {
-                        reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
-                        return;
-                    }
+                    ].indexOf(protocol)) return void reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
                     // Send the request
                     request.send(requestData);
                 });
@@ -6646,10 +6634,7 @@
             }, /**
  * Subscribe to the cancel signal
  */ CancelToken.prototype.subscribe = function(listener) {
-                if (this.reason) {
-                    listener(this.reason);
-                    return;
-                }
+                if (this.reason) return void listener(this.reason);
                 this._listeners ? this._listeners.push(listener) : this._listeners = [
                     listener
                 ];
@@ -7408,13 +7393,10 @@
                                 if (value && !parentKey && 'object' == typeof value) {
                                     if (utils.endsWith(key, '{}')) // eslint-disable-next-line no-param-reassign
                                     value = JSON.stringify(value);
-                                    else if (utils.endsWith(key, '[]') && (arr = utils.toArray(value))) {
-                                        // eslint-disable-next-line func-names
-                                        arr.forEach(function(el) {
-                                            utils.isUndefined(el) || formData.append(fullKey, convertValue(el));
-                                        });
-                                        return;
-                                    }
+                                    else if (utils.endsWith(key, '[]') && (arr = utils.toArray(value))) return void // eslint-disable-next-line func-names
+                                    arr.forEach(function(el) {
+                                        utils.isUndefined(el) || formData.append(fullKey, convertValue(el));
+                                    });
                                 }
                                 build(value, fullKey);
                             }
@@ -12821,10 +12803,7 @@
                 return 0 === i ? buf : buf.slice(i);
             }
             function constructLength(arr, len) {
-                if (len < 0x80) {
-                    arr.push(len);
-                    return;
-                }
+                if (len < 0x80) return void arr.push(len);
                 var octets = 1 + (Math.log(len) / Math.LN2 >>> 3);
                 for(arr.push(0x80 | octets); --octets;)arr.push(len >>> (octets << 3) & 0xff);
                 arr.push(len);
@@ -20051,10 +20030,7 @@
                         function wrapForNext(e, t) {
                             return function(r, n) {
                                 e.then(function() {
-                                    if (t[f]) {
-                                        r(createIterResult(void 0, !0));
-                                        return;
-                                    }
+                                    if (t[f]) return void r(createIterResult(void 0, !0));
                                     t[u](r, n);
                                 }, n);
                             };
@@ -20087,10 +20063,7 @@
                             var e = this;
                             return new Promise(function(t, r) {
                                 e[d].destroy(null, function(e) {
-                                    if (e) {
-                                        r(e);
-                                        return;
-                                    }
+                                    if (e) return void r(e);
                                     t(createIterResult(void 0, !0));
                                 });
                             });
@@ -21956,14 +21929,11 @@
                     const newSectionId = SECTION_IDS[name];
                     for(let index in module){
                         const sectionId = SECTION_IDS[module[index].name];
-                        if (sectionId && newSectionId < sectionId) {
-                            // inject a new section
-                            module.splice(index, 0, {
-                                name,
-                                entries: []
-                            });
-                            return;
-                        }
+                        if (sectionId && newSectionId < sectionId) return void // inject a new section
+                        module.splice(index, 0, {
+                            name,
+                            entries: []
+                        });
                     }
                 }
                 let funcIndex = 0, { costTable, moduleStr, fieldStr, meterType } = opts;
@@ -23301,11 +23271,8 @@ function _get9(dt, pos) {
                         // canUseWorkers might have been set out-of-band (need refactor)
                         if (canUseWorkers) {
                             if (worker) {
-                                if (0 === waitingForWorkerQueue.length) {
-                                    // the queue might be empty while we awaited for a worker.
-                                    makeWorkerAvailable(worker);
-                                    return;
-                                }
+                                if (0 === waitingForWorkerQueue.length) return void // the queue might be empty while we awaited for a worker.
+                                makeWorkerAvailable(worker);
                                 const { id, src, uncompressedSize, type, resolve, reject } = waitingForWorkerQueue.shift();
                                 currentlyProcessingIdToRequestMap.set(id, {
                                     id,
@@ -26154,18 +26121,11 @@ class Zip {
                         this.logger.debug('Interaction transaction is using multiple input tx tag format.');
                         const contractTagIndex = interactionTransaction.tags.findIndex((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID && tag.value === contractTxId);
                         // if "Contract" is the last tag
-                        if (interactionTransaction.tags.length - 1 === contractTagIndex) {
-                            this.logger.warn("Wrong tags format: 'Contract' is the last tag");
-                            return;
-                        }
+                        if (interactionTransaction.tags.length - 1 === contractTagIndex) return void this.logger.warn("Wrong tags format: 'Contract' is the last tag");
                         // in this case the "Input" tag MUST be right after the "Contract" tag
                         const inputTag = interactionTransaction.tags[contractTagIndex + 1];
-                        // if the tag after "Contract" tag has wrong name
-                        if (inputTag.name !== SmartWeaveTags_1.SmartWeaveTags.INPUT) {
-                            this.logger.warn(`No 'Input' tag found after 'Contract' tag. Instead ${inputTag.name} was found`);
-                            return;
-                        }
-                        return inputTag;
+                        return(// if the tag after "Contract" tag has wrong name
+                        inputTag.name !== SmartWeaveTags_1.SmartWeaveTags.INPUT ? void this.logger.warn(`No 'Input' tag found after 'Contract' tag. Instead ${inputTag.name} was found`) : inputTag);
                     }
                 }
                 isInteractWrite(interactionTransaction, contractTxId) {
@@ -27005,10 +26965,7 @@ class Zip {
                             'syscall/js.copyBytesToGo': (ret_addr, dest_addr, dest_len, dest_cap, source_addr)=>{
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadSlice(dest_addr, dest_len), src = loadValue(source_addr);
-                                if (!(src instanceof Uint8Array)) {
-                                    mem().setUint8(returned_status_addr, 0); // Return "not ok" status
-                                    return;
-                                }
+                                if (!(src instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
                                 const toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             },
@@ -27018,10 +26975,7 @@ class Zip {
                             'syscall/js.copyBytesToJS': (ret_addr, dest_addr, source_addr, source_len, source_cap)=>{
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadValue(dest_addr), src = loadSlice(source_addr, source_len);
-                                if (!(dst instanceof Uint8Array)) {
-                                    mem().setUint8(returned_status_addr, 0); // Return "not ok" status
-                                    return;
-                                }
+                                if (!(dst instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
                                 const toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             }

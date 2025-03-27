@@ -3017,10 +3017,7 @@ function(global, factory) {
             }
         },
         merge: function(geometry, offset) {
-            if (!(geometry && geometry.isBufferGeometry)) {
-                console.error('THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry);
-                return;
-            }
+            if (!(geometry && geometry.isBufferGeometry)) return void console.error('THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry);
             void 0 === offset && (offset = 0, console.warn("THREE.BufferGeometry.merge(): Overwriting original geometry, starting at offset=0. Use BufferGeometryUtils.mergeBufferGeometries() for lossless merge."));
             var attributes = this.attributes;
             for(var key in attributes)if (void 0 !== geometry.attributes[key]) for(var attributeArray1 = attributes[key].array, attribute2 = geometry.attributes[key], attributeArray2 = attribute2.array, attributeOffset = attribute2.itemSize * offset, length = Math.min(attributeArray2.length, attributeArray1.length - attributeOffset), i = 0, j = attributeOffset; i < length; i++, j++)attributeArray1[j] = attributeArray2[i];
@@ -3345,10 +3342,7 @@ function(global, factory) {
         void 0 === fov && (fov = 50), void 0 === aspect && (aspect = 1), void 0 === near && (near = 0.1), void 0 === far && (far = 2000), Camera.call(this), this.type = 'PerspectiveCamera', this.fov = fov, this.zoom = 1, this.near = near, this.far = far, this.focus = 10, this.aspect = aspect, this.view = null, this.filmGauge = 35, this.filmOffset = 0, this.updateProjectionMatrix();
     }
     function CubeCamera(near, far, renderTarget) {
-        if (Object3D.call(this), this.type = 'CubeCamera', !0 !== renderTarget.isWebGLCubeRenderTarget) {
-            console.error('THREE.CubeCamera: The constructor now expects an instance of WebGLCubeRenderTarget as third parameter.');
-            return;
-        }
+        if (Object3D.call(this), this.type = 'CubeCamera', !0 !== renderTarget.isWebGLCubeRenderTarget) return void console.error('THREE.CubeCamera: The constructor now expects an instance of WebGLCubeRenderTarget as third parameter.');
         this.renderTarget = renderTarget;
         var cameraPX = new PerspectiveCamera(90, 1, near, far);
         cameraPX.layers = this.layers, cameraPX.up.set(0, -1, 0), cameraPX.lookAt(new Vector3(1, 0, 0)), this.add(cameraPX);
@@ -4567,10 +4561,7 @@ function(global, factory) {
             var extension, methodName;
             if (0 !== primcount) {
                 if (isWebGL2) extension = gl, methodName = 'drawArraysInstanced';
-                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawArraysInstancedANGLE', null === extension) {
-                    console.error('THREE.WebGLBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
-                    return;
-                }
+                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawArraysInstancedANGLE', null === extension) return void console.error('THREE.WebGLBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
                 extension[methodName](mode, start, count, primcount), info.update(count, mode, primcount);
             }
         } //
@@ -4778,10 +4769,7 @@ function(global, factory) {
             var extension, methodName;
             if (0 !== primcount) {
                 if (isWebGL2) extension = gl, methodName = 'drawElementsInstanced';
-                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawElementsInstancedANGLE', null === extension) {
-                    console.error('THREE.WebGLIndexedBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
-                    return;
-                }
+                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawElementsInstancedANGLE', null === extension) return void console.error('THREE.WebGLIndexedBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
                 extension[methodName](mode, count, type, start * bytesPerElement, primcount), info.update(count, mode, primcount);
             }
         } //
@@ -6759,55 +6747,51 @@ function(global, factory) {
             if (texture.isVideoTexture && (frame = info.render.frame, _videoTextures.get(texture) !== frame && (_videoTextures.set(texture, frame), texture.update())), texture.version > 0 && textureProperties.__version !== texture.version) {
                 var image = texture.image;
                 if (void 0 === image) console.warn('THREE.WebGLRenderer: Texture marked for update but image is undefined');
-                else if (!1 === image.complete) console.warn('THREE.WebGLRenderer: Texture marked for update but image is incomplete');
                 else {
-                    uploadTexture(textureProperties, texture, slot);
-                    return;
+                    if (!1 !== image.complete) return void uploadTexture(textureProperties, texture, slot);
+                    console.warn('THREE.WebGLRenderer: Texture marked for update but image is incomplete');
                 }
             }
             state.activeTexture(33984 + slot), state.bindTexture(3553, textureProperties.__webglTexture);
         }
         function setTextureCube(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                !function(textureProperties, texture, slot) {
-                    if (6 === texture.image.length) {
-                        initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
-                        for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
-                        var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
-                        if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
-                            for(var _i3 = 0; _i3 < 6; _i3++){
-                                mipmaps = cubeImage[_i3].mipmaps;
-                                for(var j = 0; j < mipmaps.length; j++){
-                                    var mipmap = mipmaps[j];
-                                    1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
-                                }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void function(textureProperties, texture, slot) {
+                if (6 === texture.image.length) {
+                    initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
+                    for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
+                    var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
+                    if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
+                        for(var _i3 = 0; _i3 < 6; _i3++){
+                            mipmaps = cubeImage[_i3].mipmaps;
+                            for(var j = 0; j < mipmaps.length; j++){
+                                var mipmap = mipmaps[j];
+                                1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
                             }
-                            textureProperties.__maxMipLevel = mipmaps.length - 1;
-                        } else {
-                            mipmaps = texture.mipmaps;
-                            for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
-                                state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
-                                for(var _j = 0; _j < mipmaps.length; _j++){
-                                    var mipmapImage = mipmaps[_j].image[_i4].image;
-                                    state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
-                                }
-                            } else {
-                                state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
-                                for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
-                                    var _mipmap2 = mipmaps[_j2];
-                                    state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
-                                }
-                            }
-                            textureProperties.__maxMipLevel = mipmaps.length;
                         }
-                        textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
-                        generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
+                        textureProperties.__maxMipLevel = mipmaps.length - 1;
+                    } else {
+                        mipmaps = texture.mipmaps;
+                        for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
+                            state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
+                            for(var _j = 0; _j < mipmaps.length; _j++){
+                                var mipmapImage = mipmaps[_j].image[_i4].image;
+                                state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
+                            }
+                        } else {
+                            state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
+                            for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
+                                var _mipmap2 = mipmaps[_j2];
+                                state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
+                            }
+                        }
+                        textureProperties.__maxMipLevel = mipmaps.length;
                     }
-                } // Render targets
-                (textureProperties, texture, slot);
-                return;
-            }
+                    textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
+                    generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
+                }
+            } // Render targets
+            (textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture);
         }
         var wrappingToGL = ((_wrappingToGL = {})[1000] = 10497, _wrappingToGL[1001] = 33071, _wrappingToGL[1002] = 33648, _wrappingToGL), filterToGL = ((_filterToGL = {})[1003] = 9728, _filterToGL[1004] = 9984, _filterToGL[1005] = 9986, _filterToGL[1006] = 9729, _filterToGL[1007] = 9985, _filterToGL[1008] = 9987, _filterToGL);
@@ -6896,17 +6880,11 @@ function(global, factory) {
             textureUnits = 0;
         }, this.setTexture2D = setTexture2D, this.setTexture2DArray = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                uploadTexture(textureProperties, texture, slot);
-                return;
-            }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture);
         }, this.setTexture3D = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                uploadTexture(textureProperties, texture, slot);
-                return;
-            }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture);
         }, this.setTextureCube = setTextureCube, this.setupRenderTarget = function(renderTarget) {
             var renderTargetProperties = properties.get(renderTarget), textureProperties = properties.get(renderTarget.texture);
@@ -7269,10 +7247,7 @@ function(global, factory) {
         }, this.getSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getsize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width, _height);
         }, this.setSize = function(width, height, updateStyle) {
-            if (xr.isPresenting) {
-                console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
-                return;
-            }
+            if (xr.isPresenting) return void console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
             _width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height);
         }, this.getDrawingBufferSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getdrawingBufferSize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width * _pixelRatio, _height * _pixelRatio).floor();
@@ -7455,10 +7430,7 @@ function(global, factory) {
         }), 'undefined' != typeof window && animation.setContext(window), this.setAnimationLoop = function(callback) {
             onAnimationFrameCallback = callback, xr.setAnimationLoop(callback), null === callback ? animation.stop() : animation.start();
         }, this.render = function(scene, camera) {
-            if (void 0 !== arguments[2] && (console.warn('THREE.WebGLRenderer.render(): the renderTarget argument has been removed. Use .setRenderTarget() instead.'), renderTarget = arguments[2]), void 0 !== arguments[3] && (console.warn('THREE.WebGLRenderer.render(): the forceClear argument has been removed. Use .clear() instead.'), forceClear = arguments[3]), void 0 !== camera && !0 !== camera.isCamera) {
-                console.error('THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.');
-                return;
-            }
+            if (void 0 !== arguments[2] && (console.warn('THREE.WebGLRenderer.render(): the renderTarget argument has been removed. Use .setRenderTarget() instead.'), renderTarget = arguments[2]), void 0 !== arguments[3] && (console.warn('THREE.WebGLRenderer.render(): the forceClear argument has been removed. Use .clear() instead.'), forceClear = arguments[3]), void 0 !== camera && !0 !== camera.isCamera) return void console.error('THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.');
             if (!0 !== _isContextLost) {
                 bindingStates.resetDefaultState(), _currentMaterialId = -1, _currentCamera = null, !0 === scene.autoUpdate && scene.updateMatrixWorld(), null === camera.parent && camera.updateMatrixWorld(), !0 === xr.enabled && !0 === xr.isPresenting && (camera = xr.getCamera(camera)), !0 === scene.isScene && scene.onBeforeRender(_this, scene, camera, renderTarget || _currentRenderTarget), (currentRenderState = renderStates.get(scene, renderStateStack.length)).init(), renderStateStack.push(currentRenderState), _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse), _frustum.setFromProjectionMatrix(_projScreenMatrix), _localClippingEnabled = this.localClippingEnabled, _clippingEnabled = clipping.init(this.clippingPlanes, _localClippingEnabled, camera), (currentRenderList = renderLists.get(scene, camera)).init(), function projectObject(object, camera, groupOrder, sortObjects) {
                     if (!1 !== object.visible) {
@@ -7516,26 +7488,17 @@ function(global, factory) {
                 _gl.framebufferTexture2D(36160, 36064, 34069 + activeCubeFace, textureProperties.__webglTexture, activeMipmapLevel);
             }
         }, this.readRenderTargetPixels = function(renderTarget, x, y, width, height, buffer, activeCubeFaceIndex) {
-            if (!(renderTarget && renderTarget.isWebGLRenderTarget)) {
-                console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.');
-                return;
-            }
+            if (!(renderTarget && renderTarget.isWebGLRenderTarget)) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.');
             var framebuffer = properties.get(renderTarget).__webglFramebuffer;
             if (renderTarget.isWebGLCubeRenderTarget && void 0 !== activeCubeFaceIndex && (framebuffer = framebuffer[activeCubeFaceIndex]), framebuffer) {
                 var restore = !1;
                 framebuffer !== _currentFramebuffer && (_gl.bindFramebuffer(36160, framebuffer), restore = !0);
                 try {
                     var texture = renderTarget.texture, textureFormat = texture.format, textureType = texture.type;
-                    if (1023 !== textureFormat && utils.convert(textureFormat) !== _gl.getParameter(35739)) {
-                        console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
-                        return;
-                    }
+                    if (1023 !== textureFormat && utils.convert(textureFormat) !== _gl.getParameter(35739)) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
                     if (1009 !== textureType && utils.convert(textureType) !== _gl.getParameter(35738) && // IE11, Edge and Chrome Mac < 52 (#9513)
                     !(1015 === textureType && (capabilities.isWebGL2 || extensions.get('OES_texture_float') || extensions.get('WEBGL_color_buffer_float'))) && // Chrome Mac >= 52 and Firefox
-                    !(1016 === textureType && (capabilities.isWebGL2 ? extensions.get('EXT_color_buffer_float') : extensions.get('EXT_color_buffer_half_float')))) {
-                        console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in UnsignedByteType or implementation defined type.');
-                        return;
-                    }
+                    !(1016 === textureType && (capabilities.isWebGL2 ? extensions.get('EXT_color_buffer_float') : extensions.get('EXT_color_buffer_half_float')))) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in UnsignedByteType or implementation defined type.');
                     36053 === _gl.checkFramebufferStatus(36160) ? x >= 0 && x <= renderTarget.width - width && y >= 0 && y <= renderTarget.height - height && _gl.readPixels(x, y, width, height, utils.convert(textureFormat), utils.convert(textureType), buffer) : console.error('THREE.WebGLRenderer.readRenderTargetPixels: readPixels from renderTarget failed. Framebuffer not complete.');
                 } finally{
                     restore && _gl.bindFramebuffer(36160, _currentFramebuffer);
@@ -8535,10 +8498,7 @@ function(global, factory) {
             null === this.boundingSphere && (this.boundingSphere = new Sphere()), this.boundingSphere.setFromPoints(this.vertices);
         },
         merge: function(geometry, matrix, materialIndexOffset) {
-            if (void 0 === materialIndexOffset && (materialIndexOffset = 0), !(geometry && geometry.isGeometry)) {
-                console.error('THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry);
-                return;
-            }
+            if (void 0 === materialIndexOffset && (materialIndexOffset = 0), !(geometry && geometry.isGeometry)) return void console.error('THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry);
             var normalMatrix, vertexOffset = this.vertices.length, vertices1 = this.vertices, vertices2 = geometry.vertices, faces1 = this.faces, faces2 = geometry.faces, colors1 = this.colors, colors2 = geometry.colors;
             void 0 !== matrix && (normalMatrix = new Matrix3().getNormalMatrix(matrix));
             for(var i = 0, il = vertices2.length; i < il; i++){
@@ -8565,10 +8525,7 @@ function(global, factory) {
             }
         },
         mergeMesh: function(mesh) {
-            if (!(mesh && mesh.isMesh)) {
-                console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
-                return;
-            }
+            if (!(mesh && mesh.isMesh)) return void console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
             mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix);
         },
         /*
@@ -11531,14 +11488,11 @@ function(global, factory) {
                 onLoad && onLoad(cached), scope.manager.itemEnd(url);
             }, 0), cached;
              // Check if request is duplicate
-            if (void 0 !== loading[url]) {
-                loading[url].push({
-                    onLoad: onLoad,
-                    onProgress: onProgress,
-                    onError: onError
-                });
-                return;
-            } // Check for data: URI
+            if (void 0 !== loading[url]) return void loading[url].push({
+                onLoad: onLoad,
+                onProgress: onProgress,
+                onError: onError
+            }); // Check for data: URI
             var dataUriRegexResult = url.match(/^data:(.*?)(;base64)?,(.*)$/);
             if (dataUriRegexResult) {
                 var mimeType = dataUriRegexResult[1], isBase64 = !!dataUriRegexResult[2], data = dataUriRegexResult[3];
@@ -12745,10 +12699,7 @@ function(global, factory) {
                     return;
                 }
                 var metadata = json.metadata;
-                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) {
-                    console.error('THREE.ObjectLoader: Can\'t load ' + url);
-                    return;
-                }
+                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) return void console.error('THREE.ObjectLoader: Can\'t load ' + url);
                 scope.parse(json, onLoad);
             }, onProgress, onError);
         }, _proto.parse = function(json, onLoad) {
@@ -13212,10 +13163,7 @@ function(global, factory) {
                     else {
                         var ret = function(char, scale, offsetX, offsetY, data) {
                             var x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2, glyph = data.glyphs[char] || data.glyphs['?'];
-                            if (!glyph) {
-                                console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
-                                return;
-                            }
+                            if (!glyph) return void console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
                             var path = new ShapePath();
                             if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;)switch(outline[i++]){
                                 case 'm':
@@ -13417,31 +13365,17 @@ function(global, factory) {
         }, _proto.setBuffer = function(audioBuffer) {
             return this.buffer = audioBuffer, this.sourceType = 'buffer', this.autoplay && this.play(), this;
         }, _proto.play = function(delay) {
-            if (void 0 === delay && (delay = 0), !0 === this.isPlaying) {
-                console.warn('THREE.Audio: Audio is already playing.');
-                return;
-            }
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
+            if (void 0 === delay && (delay = 0), !0 === this.isPlaying) return void console.warn('THREE.Audio: Audio is already playing.');
+            if (!1 === this.hasPlaybackControl) return void console.warn('THREE.Audio: this Audio has no playback control.');
             this._startedAt = this.context.currentTime + delay;
             var source = this.context.createBufferSource();
             return source.buffer = this.buffer, source.loop = this.loop, source.loopStart = this.loopStart, source.loopEnd = this.loopEnd, source.onended = this.onEnded.bind(this), source.start(this._startedAt, this._progress + this.offset, this.duration), this.isPlaying = !0, this.source = source, this.setDetune(this.detune), this.setPlaybackRate(this.playbackRate), this.connect();
         }, _proto.pause = function() {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return !0 === this.isPlaying && (// update current progress
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (!0 === this.isPlaying && (// update current progress
             this._progress += Math.max(this.context.currentTime - this._startedAt, 0) * this.playbackRate, !0 === this.loop && // ensure _progress does not exceed duration with looped audios
-            (this._progress = this._progress % (this.duration || this.buffer.duration)), this.source.stop(), this.source.onended = null, this.isPlaying = !1), this;
+            (this._progress = this._progress % (this.duration || this.buffer.duration)), this.source.stop(), this.source.onended = null, this.isPlaying = !1), this);
         }, _proto.stop = function() {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this._progress = 0, this.source.stop(), this.source.onended = null, this.isPlaying = !1, this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this._progress = 0, this.source.stop(), this.source.onended = null, this.isPlaying = !1, this);
         }, _proto.connect = function() {
             if (this.filters.length > 0) {
                 this.source.connect(this.filters[0]);
@@ -13472,11 +13406,7 @@ function(global, factory) {
                 filter
             ] : []);
         }, _proto.setPlaybackRate = function(value) {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this.playbackRate = value, !0 === this.isPlaying && this.source.playbackRate.setTargetAtTime(this.playbackRate, this.context.currentTime, 0.01), this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this.playbackRate = value, !0 === this.isPlaying && this.source.playbackRate.setTargetAtTime(this.playbackRate, this.context.currentTime, 0.01), this);
         }, _proto.getPlaybackRate = function() {
             return this.playbackRate;
         }, _proto.onEnded = function() {
@@ -13484,11 +13414,7 @@ function(global, factory) {
         }, _proto.getLoop = function() {
             return !1 === this.hasPlaybackControl ? (console.warn('THREE.Audio: this Audio has no playback control.'), !1) : this.loop;
         }, _proto.setLoop = function(value) {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this.loop = value, !0 === this.isPlaying && (this.source.loop = this.loop), this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this.loop = value, !0 === this.isPlaying && (this.source.loop = this.loop), this);
         }, _proto.setLoopStart = function(value) {
             return this.loopStart = value, this;
         }, _proto.setLoopEnd = function(value) {
@@ -13889,29 +13815,17 @@ function(global, factory) {
         // create getter / setter pair for a property in the scene graph
         bind: function() {
             var targetObject = this.node, parsedPath = this.parsedPath, objectName = parsedPath.objectName, propertyName = parsedPath.propertyName, propertyIndex = parsedPath.propertyIndex;
-            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
-                console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
-                return;
-            }
+            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) return void console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
             if (objectName) {
                 var objectIndex = parsedPath.objectIndex; // special cases were we need to reach deeper into the hierarchy to get the face materials....
                 switch(objectName){
                     case 'materials':
-                        if (!targetObject.material) {
-                            console.error('THREE.PropertyBinding: Can not bind to material as node does not have a material.', this);
-                            return;
-                        }
-                        if (!targetObject.material.materials) {
-                            console.error('THREE.PropertyBinding: Can not bind to material.materials as node.material does not have a materials array.', this);
-                            return;
-                        }
+                        if (!targetObject.material) return void console.error('THREE.PropertyBinding: Can not bind to material as node does not have a material.', this);
+                        if (!targetObject.material.materials) return void console.error('THREE.PropertyBinding: Can not bind to material.materials as node.material does not have a materials array.', this);
                         targetObject = targetObject.material.materials;
                         break;
                     case 'bones':
-                        if (!targetObject.skeleton) {
-                            console.error('THREE.PropertyBinding: Can not bind to bones as node does not have a skeleton.', this);
-                            return;
-                        } // potential future optimization: skip this if propertyIndex is already an integer
+                        if (!targetObject.skeleton) return void console.error('THREE.PropertyBinding: Can not bind to bones as node does not have a skeleton.', this); // potential future optimization: skip this if propertyIndex is already an integer
                         // and convert the integer string to a true integer.
                         targetObject = targetObject.skeleton.bones; // support resolving morphTarget names into indices.
                         for(var i = 0; i < targetObject.length; i++)if (targetObject[i].name === objectIndex) {
@@ -13920,25 +13834,16 @@ function(global, factory) {
                         }
                         break;
                     default:
-                        if (void 0 === targetObject[objectName]) {
-                            console.error('THREE.PropertyBinding: Can not bind to objectName of node undefined.', this);
-                            return;
-                        }
+                        if (void 0 === targetObject[objectName]) return void console.error('THREE.PropertyBinding: Can not bind to objectName of node undefined.', this);
                         targetObject = targetObject[objectName];
                 }
                 if (void 0 !== objectIndex) {
-                    if (void 0 === targetObject[objectIndex]) {
-                        console.error('THREE.PropertyBinding: Trying to bind to objectIndex of objectName, but is undefined.', this, targetObject);
-                        return;
-                    }
+                    if (void 0 === targetObject[objectIndex]) return void console.error('THREE.PropertyBinding: Trying to bind to objectIndex of objectName, but is undefined.', this, targetObject);
                     targetObject = targetObject[objectIndex];
                 }
             } // resolve property
             var nodeProperty = targetObject[propertyName];
-            if (void 0 === nodeProperty) {
-                console.error('THREE.PropertyBinding: Trying to update property for track: ' + parsedPath.nodeName + '.' + propertyName + ' but it wasn\'t found.', targetObject);
-                return;
-            } // determine versioning scheme
+            if (void 0 === nodeProperty) return void console.error('THREE.PropertyBinding: Trying to update property for track: ' + parsedPath.nodeName + '.' + propertyName + ' but it wasn\'t found.', targetObject); // determine versioning scheme
             var versioning = this.Versioning.None;
             this.targetObject = targetObject, void 0 !== targetObject.needsUpdate ? // material
             versioning = this.Versioning.NeedsUpdate : void 0 !== targetObject.matrixWorldNeedsUpdate && // node transform
@@ -13949,20 +13854,10 @@ function(global, factory) {
                 if ('morphTargetInfluences' === propertyName) {
                     // potential optimization, skip this if propertyIndex is already an integer, and convert the integer string to a true integer.
                     // support resolving morphTarget names into indices.
-                    if (!targetObject.geometry) {
-                        console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.', this);
-                        return;
-                    }
-                    if (targetObject.geometry.isBufferGeometry) {
-                        if (!targetObject.geometry.morphAttributes) {
-                            console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.morphAttributes.', this);
-                            return;
-                        }
-                        void 0 !== targetObject.morphTargetDictionary[propertyIndex] && (propertyIndex = targetObject.morphTargetDictionary[propertyIndex]);
-                    } else {
-                        console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences on THREE.Geometry. Use THREE.BufferGeometry instead.', this);
-                        return;
-                    }
+                    if (!targetObject.geometry) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.', this);
+                    if (!targetObject.geometry.isBufferGeometry) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences on THREE.Geometry. Use THREE.BufferGeometry instead.', this);
+                    if (!targetObject.geometry.morphAttributes) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.morphAttributes.', this);
+                    void 0 !== targetObject.morphTargetDictionary[propertyIndex] && (propertyIndex = targetObject.morphTargetDictionary[propertyIndex]);
                 }
                 bindingType = this.BindingType.ArrayElement, this.resolvedProperty = nodeProperty, this.propertyIndex = propertyIndex;
             } else void 0 !== nodeProperty.fromArray && void 0 !== nodeProperty.toArray ? (// must use copy for Object3D.Euler/Quaternion
@@ -14147,11 +14042,8 @@ function(global, factory) {
         } // Interna
         , _proto._update = function(time, deltaTime, timeDirection, accuIndex) {
             // called by the mixer
-            if (!this.enabled) {
-                // call ._updateWeight() to update ._effectiveWeight
-                this._updateWeight(time);
-                return;
-            }
+            if (!this.enabled) return void // call ._updateWeight() to update ._effectiveWeight
+            this._updateWeight(time);
             var startTime = this._startTime;
             if (null !== startTime) {
                 // check for scheduled start of action

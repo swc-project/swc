@@ -62,14 +62,11 @@ export class FileLoader extends Loader {
             onLoad && onLoad(cached), this.manager.itemEnd(url);
         }, 0), cached;
         // Check if request is duplicate
-        if (void 0 !== loading[url]) {
-            loading[url].push({
-                onLoad: onLoad,
-                onProgress: onProgress,
-                onError: onError
-            });
-            return;
-        }
+        if (void 0 !== loading[url]) return void loading[url].push({
+            onLoad: onLoad,
+            onProgress: onProgress,
+            onError: onError
+        });
         // Initialise array for duplicate requests
         loading[url] = [], loading[url].push({
             onLoad: onLoad,
