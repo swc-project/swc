@@ -33,7 +33,7 @@ impl MacroNode for JSXElement {
 #[node_impl]
 impl MacroNode for JSXOpeningElement {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("<");
+        punct!(emitter, "<");
         emit!(self.name);
 
         if let Some(type_args) = &self.type_args {
@@ -41,7 +41,7 @@ impl MacroNode for JSXOpeningElement {
         }
 
         if !self.attrs.is_empty() {
-            space!();
+            space!(emitter,);
 
             emitter.emit_list(
                 self.span(),
@@ -51,9 +51,9 @@ impl MacroNode for JSXOpeningElement {
         }
 
         if self.self_closing {
-            punct!("/");
+            punct!(emitter, "/");
         }
-        punct!(">");
+        punct!(emitter, ">");
     }
 }
 
@@ -74,7 +74,7 @@ impl MacroNode for JSXAttr {
         emit!(self.name);
 
         if let Some(ref value) = self.value {
-            punct!("=");
+            punct!(emitter, "=");
 
             emit!(value);
         }
@@ -109,9 +109,9 @@ impl MacroNode for JSXAttrOrSpread {
         match self {
             JSXAttrOrSpread::JSXAttr(n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(n) => {
-                punct!("{");
+                punct!(emitter, "{");
                 emit!(n);
-                punct!("}");
+                punct!(emitter, "}");
             }
         }
     }
@@ -133,19 +133,19 @@ impl MacroNode for JSXElementChild {
 #[node_impl]
 impl MacroNode for JSXSpreadChild {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("{");
-        punct!("...");
+        punct!(emitter, "{");
+        punct!(emitter, "...");
         emit!(self.expr);
-        punct!("}");
+        punct!(emitter, "}");
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXExprContainer {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("{");
+        punct!(emitter, "{");
         emit!(self.expr);
-        punct!("}");
+        punct!(emitter, "}");
     }
 }
 
@@ -162,9 +162,9 @@ impl MacroNode for JSXExpr {
 #[node_impl]
 impl MacroNode for JSXClosingElement {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("</");
+        punct!(emitter, "</");
         emit!(self.name);
-        punct!(">");
+        punct!(emitter, ">");
     }
 }
 
@@ -186,14 +186,14 @@ impl MacroNode for JSXFragment {
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("<>");
+        punct!(emitter, "<>");
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) {
-        punct!("</>");
+        punct!(emitter, "</>");
     }
 }
 
@@ -201,7 +201,7 @@ impl MacroNode for JSXClosingFragment {
 impl MacroNode for JSXNamespacedName {
     fn emit(&mut self, emitter: &mut Macro) {
         emit!(self.ns);
-        punct!(":");
+        punct!(emitter, ":");
         emit!(self.name);
     }
 }
@@ -224,7 +224,7 @@ impl MacroNode for JSXText {
 impl MacroNode for JSXMemberExpr {
     fn emit(&mut self, emitter: &mut Macro) {
         emit!(self.obj);
-        punct!(".");
+        punct!(emitter, ".");
         emit!(self.prop);
     }
 }

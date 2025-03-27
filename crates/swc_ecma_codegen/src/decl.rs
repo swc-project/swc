@@ -18,12 +18,12 @@ impl MacroNode for UsingDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.is_await {
-            keyword!("await");
-            space!();
+            keyword!(emitter, "await");
+            space!(emitter,);
         }
 
-        keyword!("using");
-        space!();
+        keyword!(emitter, "using");
+        space!(emitter,);
 
         emitter.emit_list(
             self.span,
@@ -40,24 +40,24 @@ impl MacroNode for FnDecl {
 
         emitter.wr.commit_pending_semi()?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.declare {
-            keyword!("declare");
-            space!();
+            keyword!(emitter, "declare");
+            space!(emitter,);
         }
 
         if self.function.is_async {
-            keyword!("async");
-            space!();
+            keyword!(emitter, "async");
+            space!(emitter,);
         }
 
-        keyword!("function");
+        keyword!(emitter, "function");
         if self.function.is_generator {
-            punct!("*");
-            formatting_space!();
+            punct!(emitter, "*");
+            formatting_space!(emitter,);
         } else {
-            space!();
+            space!(emitter,);
         }
 
         emit!(self.ident);
@@ -78,14 +78,14 @@ impl MacroNode for VarDeclarator {
     fn emit(&mut self, emitter: &mut Macro) {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emit!(self.name);
 
         if let Some(ref init) = self.init {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(emitter,);
+            punct!(emitter, "=");
+            formatting_space!(emitter,);
             emit!(init);
         }
     }
@@ -100,7 +100,7 @@ impl MacroNode for Decl {
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!();
-                srcmap!(n, false);
+                srcmap!(emitter, n, false);
             }
             Decl::Using(n) => emit!(n),
             Decl::TsEnum(n) => emit!(n),
@@ -123,11 +123,11 @@ where
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(emitter, self, node, true);
 
         if node.declare {
-            keyword!(self, "declare");
-            space!(self);
+            keyword!(emitter, self, "declare");
+            space!(emitter);
         }
 
         if !skip_decorators {
@@ -137,12 +137,12 @@ where
         }
 
         if node.class.is_abstract {
-            keyword!(self, "abstract");
-            space!(self);
+            keyword!(emitter, self, "abstract");
+            space!(emitter);
         }
 
-        keyword!(self, "class");
-        space!(self);
+        keyword!(emitter, self, "class");
+        space!(emitter);
         emit!(self, node.ident);
         emit!(self, node.class.type_params);
 
@@ -156,14 +156,14 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(self, node, true);
+        srcmap!(emitter, self, node, true);
 
         if node.declare {
-            keyword!(self, "declare");
-            space!(self);
+            keyword!(emitter, self, "declare");
+            space!(emitter);
         }
 
-        keyword!(self, node.kind.as_str());
+        keyword!(emitter, self, node.kind.as_str());
 
         let starts_with_ident = match node.decls.first() {
             Some(VarDeclarator {
@@ -173,9 +173,9 @@ where
             _ => true,
         };
         if starts_with_ident {
-            space!(self);
+            space!(emitter);
         } else {
-            formatting_space!(self);
+            formatting_space!(emitter);
         }
 
         self.emit_list(
