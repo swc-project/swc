@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md; git cliff --output CHANGELOG-CORE.md --config cliff-core.toml",
-        "prepare": "husky install . && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
+        "postinstall": "husky install . && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
         "build": "cd ./packages/core && yarn build",
         "build:dev": "cd ./packages/core && yarn build:dev",
         "build:ts": "cd ./packages/core && yarn build:ts",
