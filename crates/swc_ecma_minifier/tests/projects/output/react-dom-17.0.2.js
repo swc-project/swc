@@ -2798,15 +2798,17 @@
     }, log = Math.log, LN2 = Math.LN2, _enabled = !0; // Count leading zeros. Only used on lanes, so assume input is an integer.
     function dispatchDiscreteEvent(domEventName, eventSystemFlags, container, nativeEvent) {
         var timeStamp;
-        nativeEvent.timeStamp, isInsideEventHandler || flushDiscreteUpdatesImpl(), function(fn, a, b, c, d) {
+        nativeEvent.timeStamp, isInsideEventHandler || flushDiscreteUpdatesImpl();
+        r: {
             var prevIsInsideEventHandler = isInsideEventHandler;
             isInsideEventHandler = !0;
             try {
-                return discreteUpdatesImpl(fn, a, b, c, d);
+                discreteUpdatesImpl(dispatchEvent, domEventName, eventSystemFlags, container, nativeEvent);
+                break r;
             } finally{
                 (isInsideEventHandler = prevIsInsideEventHandler) || finishEventHandler();
             }
-        }(dispatchEvent, domEventName, eventSystemFlags, container, nativeEvent);
+        }
     }
     function dispatchUserBlockingUpdate(domEventName, eventSystemFlags, container, nativeEvent) {
         unstable_runWithPriority(unstable_UserBlockingPriority, dispatchEvent.bind(null, domEventName, eventSystemFlags, container, nativeEvent));
@@ -3318,9 +3320,10 @@
    * (For IE <=9) Handles a propertychange event, sending a `change` event if
    * the value of the active element has changed.
    */ function handlePropertyChange(nativeEvent) {
-        if ("value" === nativeEvent.propertyName) {
-            var dispatchQueue;
-            getInstIfValueChanged(activeElementInst) && (createAndAccumulateChangeEvent(dispatchQueue = [], activeElementInst, nativeEvent, getEventTarget(nativeEvent)), // other events and have it go through ReactBrowserEventEmitter. Since it
+        "value" === nativeEvent.propertyName && getInstIfValueChanged(activeElementInst) && function(nativeEvent) {
+            var dispatchQueue = [];
+            createAndAccumulateChangeEvent(dispatchQueue, activeElementInst, nativeEvent, getEventTarget(nativeEvent)); // If change and propertychange bubbled, we'd just bind to it like all the
+            r: // other events and have it go through ReactBrowserEventEmitter. Since it
             // doesn't, we manually listen for the events and so we have to enqueue and
             // process the abstract event manually.
             //
@@ -3330,18 +3333,22 @@
             // components don't work properly in conjunction with event bubbling because
             // the component is rerendered and the value reverted before all the event
             // handlers can run. See https://github.com/facebook/react/issues/708.
-            function(fn, bookkeeping) {
+            {
                 if (isInsideEventHandler) // If we are currently inside another batch, we need to wait until it
                 // fully completes before restoring state.
-                return fn(bookkeeping);
+                {
+                    runEventInBatch(dispatchQueue);
+                    break r;
+                }
                 isInsideEventHandler = !0;
                 try {
-                    return batchedUpdatesImpl(fn, bookkeeping);
+                    batchedUpdatesImpl(runEventInBatch, dispatchQueue);
+                    break r;
                 } finally{
                     isInsideEventHandler = !1, finishEventHandler();
                 }
-            }(runEventInBatch, dispatchQueue));
-        }
+            }
+        }(nativeEvent);
     }
     function handleEventsForInputEventPolyfill(domEventName, target, targetInst) {
         if ("focusin" === domEventName) // In IE9, propertychange fires for most input events but is buggy and
@@ -3944,203 +3951,186 @@
                 isBatchingEventUpdates = !1, finishEventHandler();
             }
         }(function() {
-            var targetInst, nativeEventTarget, dispatchQueue;
-            return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (!function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                // event's native "bubble" phase, which means that we're
-                // not in the capture phase. That's because we emulate
-                // the capture phase here still. This is a trade-off,
-                // because in an ideal world we would not emulate and use
-                // the phases properly, like we do with the SimpleEvent
-                // plugin. However, the plugins below either expect
-                // emulation (EnterLeave) or use state localized to that
-                // plugin (BeforeInput, Change, Select). The state in
-                // these modules complicates things, as you'll essentially
-                // get the case where the capture phase event might change
-                // state, only for the following bubble event to come in
-                // later and not trigger anything as the state now
-                // invalidates the heuristics of the event plugin. We
-                // could alter all these plugins to work in such ways, but
-                // that might cause other unknown side-effects that we
-                // can't forsee right now.
-                (!// TODO: we should remove the concept of a "SimpleEventPlugin".
-                // This is the basic functionality of the event system. All
-                // the other plugins are essentially polyfills. So the plugin
-                // should probably be inlined somewhere and have its logic
-                // be core the to event system. This would potentially allow
-                // us to ship builds of React without the polyfilled plugins below.
-                function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var reactName = topLevelEventsToReactNames.get(domEventName);
-                    if (void 0 !== reactName) {
-                        var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
-                        switch(domEventName){
-                            case "keypress":
-                                // Firefox creates a keypress event for function keys too. This removes
-                                // the unwanted keypress events. Enter is however both printable and
-                                // non-printable. One would expect Tab to be as well (but it isn't).
-                                if (0 === getEventCharCode(nativeEvent)) return;
-                            /* falls through */ case "keydown":
-                            case "keyup":
-                                SyntheticEventCtor = SyntheticKeyboardEvent;
-                                break;
-                            case "focusin":
-                                reactEventType = "focus", SyntheticEventCtor = SyntheticFocusEvent;
-                                break;
-                            case "focusout":
-                                reactEventType = "blur", SyntheticEventCtor = SyntheticFocusEvent;
-                                break;
-                            case "beforeblur":
-                            case "afterblur":
-                                SyntheticEventCtor = SyntheticFocusEvent;
-                                break;
-                            case "click":
-                                // Firefox creates a click event on right mouse clicks. This removes the
-                                // unwanted click events.
-                                if (2 === nativeEvent.button) return;
-                            /* falls through */ case "auxclick":
-                            case "dblclick":
-                            case "mousedown":
-                            case "mousemove":
-                            case "mouseup":
-                            /* falls through */ case "mouseout":
-                            case "mouseover":
-                            case "contextmenu":
-                                SyntheticEventCtor = SyntheticMouseEvent;
-                                break;
-                            case "drag":
-                            case "dragend":
-                            case "dragenter":
-                            case "dragexit":
-                            case "dragleave":
-                            case "dragover":
-                            case "dragstart":
-                            case "drop":
-                                SyntheticEventCtor = SyntheticDragEvent;
-                                break;
-                            case "touchcancel":
-                            case "touchend":
-                            case "touchmove":
-                            case "touchstart":
-                                SyntheticEventCtor = SyntheticTouchEvent;
-                                break;
-                            case ANIMATION_END:
-                            case ANIMATION_ITERATION:
-                            case ANIMATION_START:
-                                SyntheticEventCtor = SyntheticAnimationEvent;
-                                break;
-                            case TRANSITION_END:
-                                SyntheticEventCtor = SyntheticTransitionEvent;
-                                break;
-                            case "scroll":
-                                SyntheticEventCtor = SyntheticUIEvent;
-                                break;
-                            case "wheel":
-                                SyntheticEventCtor = SyntheticWheelEvent;
-                                break;
-                            case "copy":
-                            case "cut":
-                            case "paste":
-                                SyntheticEventCtor = SyntheticClipboardEvent;
-                                break;
-                            case "gotpointercapture":
-                            case "lostpointercapture":
-                            case "pointercancel":
-                            case "pointerdown":
-                            case "pointermove":
-                            case "pointerout":
-                            case "pointerover":
-                            case "pointerup":
-                                SyntheticEventCtor = SyntheticPointerEvent;
-                        }
-                        var inCapturePhase = (4 & eventSystemFlags) != 0, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
-                            for(var reactEventName = inCapturePhase ? null !== reactName ? reactName + "Capture" : null : reactName, listeners = [], instance = targetFiber, lastHostComponent = null; null !== instance;){
-                                var _instance2 = instance, stateNode = _instance2.stateNode; // Handle listeners that are on HostComponents (i.e. <div>)
-                                if (5 === _instance2.tag && null !== stateNode && (lastHostComponent = stateNode, null !== reactEventName)) {
-                                    var listener = getListener(instance, reactEventName);
-                                    null != listener && listeners.push(createDispatchListener(instance, listener, lastHostComponent));
-                                } // If we are only accumulating events for the target, then we don't
-                                // continue to propagate through the React fiber tree to find other
-                                // listeners.
-                                if (accumulateTargetOnly) break;
-                                instance = instance.return;
-                            }
-                            return listeners;
-                        } // We should only use this function for:
-                        (targetInst, reactName, nativeEvent.type, inCapturePhase, !inCapturePhase && // TODO: ideally, we'd eventually add all events from
-                        // nonDelegatedEvents list in DOMPluginEventSystem.
-                        // Then we can remove this special list.
-                        // This is a breaking change that can wait until React 18.
-                        "scroll" === domEventName);
-                        if (_listeners.length > 0) {
-                            // Intentionally create event lazily.
-                            var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
-                            dispatchQueue.push({
-                                event: _event,
-                                listeners: _listeners
-                            });
-                        }
+            var targetInst, nativeEventTarget, dispatchQueue, dispatchQueue1;
+            return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (!// TODO: we should remove the concept of a "SimpleEventPlugin".
+            // This is the basic functionality of the event system. All
+            // the other plugins are essentially polyfills. So the plugin
+            // should probably be inlined somewhere and have its logic
+            // be core the to event system. This would potentially allow
+            // us to ship builds of React without the polyfilled plugins below.
+            function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                var reactName = topLevelEventsToReactNames.get(domEventName);
+                if (void 0 !== reactName) {
+                    var SyntheticEventCtor = SyntheticEvent, reactEventType = domEventName;
+                    switch(domEventName){
+                        case "keypress":
+                            // Firefox creates a keypress event for function keys too. This removes
+                            // the unwanted keypress events. Enter is however both printable and
+                            // non-printable. One would expect Tab to be as well (but it isn't).
+                            if (0 === getEventCharCode(nativeEvent)) return;
+                        /* falls through */ case "keydown":
+                        case "keyup":
+                            SyntheticEventCtor = SyntheticKeyboardEvent;
+                            break;
+                        case "focusin":
+                            reactEventType = "focus", SyntheticEventCtor = SyntheticFocusEvent;
+                            break;
+                        case "focusout":
+                            reactEventType = "blur", SyntheticEventCtor = SyntheticFocusEvent;
+                            break;
+                        case "beforeblur":
+                        case "afterblur":
+                            SyntheticEventCtor = SyntheticFocusEvent;
+                            break;
+                        case "click":
+                            // Firefox creates a click event on right mouse clicks. This removes the
+                            // unwanted click events.
+                            if (2 === nativeEvent.button) return;
+                        /* falls through */ case "auxclick":
+                        case "dblclick":
+                        case "mousedown":
+                        case "mousemove":
+                        case "mouseup":
+                        /* falls through */ case "mouseout":
+                        case "mouseover":
+                        case "contextmenu":
+                            SyntheticEventCtor = SyntheticMouseEvent;
+                            break;
+                        case "drag":
+                        case "dragend":
+                        case "dragenter":
+                        case "dragexit":
+                        case "dragleave":
+                        case "dragover":
+                        case "dragstart":
+                        case "drop":
+                            SyntheticEventCtor = SyntheticDragEvent;
+                            break;
+                        case "touchcancel":
+                        case "touchend":
+                        case "touchmove":
+                        case "touchstart":
+                            SyntheticEventCtor = SyntheticTouchEvent;
+                            break;
+                        case ANIMATION_END:
+                        case ANIMATION_ITERATION:
+                        case ANIMATION_START:
+                            SyntheticEventCtor = SyntheticAnimationEvent;
+                            break;
+                        case TRANSITION_END:
+                            SyntheticEventCtor = SyntheticTransitionEvent;
+                            break;
+                        case "scroll":
+                            SyntheticEventCtor = SyntheticUIEvent;
+                            break;
+                        case "wheel":
+                            SyntheticEventCtor = SyntheticWheelEvent;
+                            break;
+                        case "copy":
+                        case "cut":
+                        case "paste":
+                            SyntheticEventCtor = SyntheticClipboardEvent;
+                            break;
+                        case "gotpointercapture":
+                        case "lostpointercapture":
+                        case "pointercancel":
+                        case "pointerdown":
+                        case "pointermove":
+                        case "pointerout":
+                        case "pointerover":
+                        case "pointerup":
+                            SyntheticEventCtor = SyntheticPointerEvent;
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) && (!/**
+                    var inCapturePhase = (4 & eventSystemFlags) != 0, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
+                        for(var reactEventName = inCapturePhase ? null !== reactName ? reactName + "Capture" : null : reactName, listeners = [], instance = targetFiber, lastHostComponent = null; null !== instance;){
+                            var _instance2 = instance, stateNode = _instance2.stateNode; // Handle listeners that are on HostComponents (i.e. <div>)
+                            if (5 === _instance2.tag && null !== stateNode && (lastHostComponent = stateNode, null !== reactEventName)) {
+                                var listener = getListener(instance, reactEventName);
+                                null != listener && listeners.push(createDispatchListener(instance, listener, lastHostComponent));
+                            } // If we are only accumulating events for the target, then we don't
+                            // continue to propagate through the React fiber tree to find other
+                            // listeners.
+                            if (accumulateTargetOnly) break;
+                            instance = instance.return;
+                        }
+                        return listeners;
+                    } // We should only use this function for:
+                    (targetInst, reactName, nativeEvent.type, inCapturePhase, !inCapturePhase && // TODO: ideally, we'd eventually add all events from
+                    // nonDelegatedEvents list in DOMPluginEventSystem.
+                    // Then we can remove this special list.
+                    // This is a breaking change that can wait until React 18.
+                    "scroll" === domEventName);
+                    if (_listeners.length > 0) {
+                        // Intentionally create event lazily.
+                        var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
+                        dispatchQueue.push({
+                            event: _event,
+                            listeners: _listeners
+                        });
+                    }
+                }
+            }(dispatchQueue1 = dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0 && (!/**
    * For almost every interaction we care about, there will be both a top-level
    * `mouseover` and `mouseout` event that occurs. Only use `mouseout` so that
    * we do not extract duplicate events. However, moving the mouse into the
    * browser from outside will not fire a `mouseout` event. In this case, we use
    * the `mouseover` top-level event.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
-                    if (isOverEvent && (16 & eventSystemFlags) == 0) {
-                        // If this is an over event with a target, we might have already dispatched
-                        // the event in the out event of the other target. If this is replayed,
-                        // then it's because we couldn't dispatch against this target previously
-                        // so we have to do it now instead.
-                        var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
-                        if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
+                var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
+                if (isOverEvent && (16 & eventSystemFlags) == 0) {
+                    // If this is an over event with a target, we might have already dispatched
+                    // the event in the out event of the other target. If this is replayed,
+                    // then it's because we couldn't dispatch against this target previously
+                    // so we have to do it now instead.
+                    var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
+                    if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
+                }
+                if (isOutEvent || isOverEvent) {
+                    if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
+                    win = nativeEventTarget;
+                    else {
+                        // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
+                        var doc = nativeEventTarget.ownerDocument;
+                        win = doc ? doc.defaultView || doc.parentWindow : window;
                     }
-                    if (isOutEvent || isOverEvent) {
-                        if (nativeEventTarget.window === nativeEventTarget) // `nativeEventTarget` is probably a window object.
-                        win = nativeEventTarget;
-                        else {
-                            // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
-                            var doc = nativeEventTarget.ownerDocument;
-                            win = doc ? doc.defaultView || doc.parentWindow : window;
+                    if (isOutEvent) {
+                        var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
+                        if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
+                            var nearestMounted = getNearestMountedFiber(to);
+                            (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
                         }
-                        if (isOutEvent) {
-                            var _related = nativeEvent.relatedTarget || nativeEvent.toElement;
-                            if (from = targetInst, null !== (to = _related ? getClosestInstanceFromNode(_related) : null)) {
-                                var nearestMounted = getNearestMountedFiber(to);
-                                (to !== nearestMounted || 5 !== to.tag && 6 !== to.tag) && (to = null);
-                            }
-                        } else // Moving to a node from outside the window.
-                        from = null, to = targetInst;
-                        if (from !== to) {
-                            var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
-                            ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
-                            var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
-                            leave.target = fromNode, leave.relatedTarget = toNode;
-                            var enter = null; // We should only process this nativeEvent if we are processing
-                            if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
-                                var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
-                                enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
-                            }
-                            dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
+                    } else // Moving to a node from outside the window.
+                    from = null, to = targetInst;
+                    if (from !== to) {
+                        var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
+                        ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
+                        var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
+                        leave.target = fromNode, leave.relatedTarget = toNode;
+                        var enter = null; // We should only process this nativeEvent if we are processing
+                        if (getClosestInstanceFromNode(nativeEventTarget) === targetInst) {
+                            var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
+                            enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
+                        }
+                        dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
    * Return the lowest common ancestor of A and B, or null if they are in
    * different trees.
    */ function(instA, instB) {
-                                for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
-                                for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
-                                 // If A is deeper, crawl up.
-                                for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
-                                 // If B is deeper, crawl up.
-                                for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
-                                 // Walk in lockstep until we find a match.
-                                for(var depth = depthA; depth--;){
-                                    if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
-                                    nodeA = getParent(nodeA), nodeB = getParent(nodeB);
-                                }
-                                return null;
-                            }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
-                        }
+                            for(var nodeA = instA, nodeB = instB, depthA = 0, tempA = nodeA; tempA; tempA = getParent(tempA))depthA++;
+                            for(var depthB = 0, tempB = nodeB; tempB; tempB = getParent(tempB))depthB++;
+                             // If A is deeper, crawl up.
+                            for(; depthA - depthB > 0;)nodeA = getParent(nodeA), depthA--;
+                             // If B is deeper, crawl up.
+                            for(; depthB - depthA > 0;)nodeB = getParent(nodeB), depthB--;
+                             // Walk in lockstep until we find a match.
+                            for(var depth = depthA; depth--;){
+                                if (nodeA === nodeB || null !== nodeB && nodeA === nodeB.alternate) return nodeA;
+                                nodeA = getParent(nodeA), nodeB = getParent(nodeB);
+                            }
+                            return null;
+                        }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
+                }
+            }(dispatchQueue1, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
    * This plugin creates an `onChange` event that normalizes change events
    * across form elements. This event fires at a time when it's possible to
    * change the element's value without seeing a flicker.
@@ -4150,17 +4140,17 @@
    * - textarea
    * - select
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                    if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
-                        var inst = getTargetInstFunc(domEventName, targetInst);
-                        if (inst) {
-                            createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
-                            return;
-                        }
+                var nodeName, nodeName1, state, getTargetInstFunc, handleEventFunc, targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                if ("select" === (nodeName = targetNode.nodeName && targetNode.nodeName.toLowerCase()) || "input" === nodeName && "file" === targetNode.type ? getTargetInstFunc = getTargetInstForChangeEvent : isTextInputElement(targetNode) ? isInputEventSupported ? getTargetInstFunc = getTargetInstForInputOrChangeEvent : (getTargetInstFunc = getTargetInstForInputEventPolyfill, handleEventFunc = handleEventsForInputEventPolyfill) : (nodeName1 = targetNode.nodeName) && "input" === nodeName1.toLowerCase() && ("checkbox" === targetNode.type || "radio" === targetNode.type) && (getTargetInstFunc = getTargetInstForClickEvent), getTargetInstFunc) {
+                    var inst = getTargetInstFunc(domEventName, targetInst);
+                    if (inst) {
+                        createAndAccumulateChangeEvent(dispatchQueue, inst, nativeEvent, nativeEventTarget);
+                        return;
                     }
-                    handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
-                    setDefaultValue(targetNode, "number", targetNode.value);
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                }
+                handleEventFunc && handleEventFunc(domEventName, targetNode, targetInst), "focusout" === domEventName && (state = targetNode._wrapperState) && state.controlled && "number" === targetNode.type && // If controlled, assign the value attribute to the current value on blur
+                setDefaultValue(targetNode, "number", targetNode.value);
+            }(dispatchQueue1, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
    * This plugin creates an `onSelect` event that normalizes select events
    * across form elements.
    *
@@ -4174,42 +4164,60 @@
    * - Fires for collapsed selection.
    * - Fires after user input.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
-                    var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
-                    switch(domEventName){
-                        // Track the input node that has focus.
-                        case "focusin":
-                            (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
-                            break;
-                        case "focusout":
-                            activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
-                            break;
-                        // Don't fire the event while the user is dragging. This matches the
-                        // semantics of the native select event.
-                        case "mousedown":
-                            mouseDown = !0;
-                            break;
-                        case "contextmenu":
-                        case "mouseup":
-                        case "dragend":
-                            mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                            break;
-                        // Chrome and IE fire non-standard event when selection is changed (and
-                        // sometimes when it hasn't). IE's event fires out of order with respect
-                        // to key and input events on deletion, so we discard it.
-                        //
-                        // Firefox doesn't support selectionchange, so check selection status
-                        // after each key entry. The selection changes after keydown and before
-                        // keyup, but we check on keydown as well in the case of holding down a
-                        // key, when multiple keydown events are fired but only one keyup is.
-                        // This is also our approach for IE handling, for the reason above.
-                        case "selectionchange":
-                            if (skipSelectionChangeEvent) break;
-                        // falls through
-                        case "keydown":
-                        case "keyup":
-                            constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
-                    }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+                var targetNode = targetInst ? getNodeFromInstance(targetInst) : window;
+                switch(domEventName){
+                    // Track the input node that has focus.
+                    case "focusin":
+                        (isTextInputElement(targetNode) || "true" === targetNode.contentEditable) && (activeElement$1 = targetNode, activeElementInst$1 = targetInst, lastSelection = null);
+                        break;
+                    case "focusout":
+                        activeElement$1 = null, activeElementInst$1 = null, lastSelection = null;
+                        break;
+                    // Don't fire the event while the user is dragging. This matches the
+                    // semantics of the native select event.
+                    case "mousedown":
+                        mouseDown = !0;
+                        break;
+                    case "contextmenu":
+                    case "mouseup":
+                    case "dragend":
+                        mouseDown = !1, constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                        break;
+                    // Chrome and IE fire non-standard event when selection is changed (and
+                    // sometimes when it hasn't). IE's event fires out of order with respect
+                    // to key and input events on deletion, so we discard it.
+                    //
+                    // Firefox doesn't support selectionchange, so check selection status
+                    // after each key entry. The selection changes after keydown and before
+                    // keyup, but we check on keydown as well in the case of holding down a
+                    // key, when multiple keydown events are fired but only one keyup is.
+                    // This is also our approach for IE handling, for the reason above.
+                    case "selectionchange":
+                        if (skipSelectionChangeEvent) break;
+                    // falls through
+                    case "keydown":
+                    case "keyup":
+                        constructSelectEvent(dispatchQueue, nativeEvent, nativeEventTarget);
+                }
+            }(dispatchQueue1, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
+   * Create an `onBeforeInput` event to match
+   * http://www.w3.org/TR/2013/WD-DOM-Level-3-Events-20131105/#events-inputevents.
+   *
+   * This event plugin is based on the native `textInput` event
+   * available in Chrome, Safari, Opera, and IE. This event fires after
+   * `onKeyPress` and `onCompositionEnd`, but before `onInput`.
+   *
+   * `beforeInput` is spec'd but not implemented in any browsers, and
+   * the `input` event does not provide any useful information about what has
+   * actually been added, contrary to the spec. Thus, `textInput` is the best
+   * available event to identify the characters that have actually been inserted
+   * into the target node.
+   *
+   * This plugin is also responsible for emitting `composition` events, thus
+   * allowing us to share composition fallback code for both `beforeInput` and
+   * `composition` event types.
+   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
+                !/**
    * @return {?object} A SyntheticCompositionEvent.
    */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
                     if (canUseCompositionEvent) eventType = /**
@@ -4243,54 +4251,48 @@
                             }
                         }
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), /**
-   * Extract a SyntheticInputEvent for `beforeInput`, based on either native
-   * `textInput` or fallback behavior.
-   *
-   * @return {?object} A SyntheticInputEvent.
-   */ function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                    // be fired.
-                    if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
-                        switch(domEventName){
-                            case "compositionend":
-                                return getDataFromCustomEvent(nativeEvent);
-                            case "keypress":
-                                if (32 !== nativeEvent.which) return null;
-                                return hasSpaceKeypress = !0, " ";
-                            case "textInput":
-                                // Record the characters to be added to the DOM.
-                                var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
-                                // it at the keypress level and bail immediately. Android Chrome
-                                // doesn't give us keycodes, so we need to ignore it.
-                                if (" " === chars && hasSpaceKeypress) return null;
-                                return chars;
-                            default:
-                                // For other native event types, do nothing.
-                                return null;
-                        }
-                    }(domEventName, nativeEvent) : /**
+                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
+                r: if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
+                    switch(domEventName){
+                        case "compositionend":
+                            return getDataFromCustomEvent(nativeEvent);
+                        case "keypress":
+                            if (32 !== nativeEvent.which) return null;
+                            return hasSpaceKeypress = !0, " ";
+                        case "textInput":
+                            // Record the characters to be added to the DOM.
+                            var chars = nativeEvent.data; // If it's a spacebar character, assume that we have already handled
+                            // it at the keypress level and bail immediately. Android Chrome
+                            // doesn't give us keycodes, so we need to ignore it.
+                            if (" " === chars && hasSpaceKeypress) return null;
+                            return chars;
+                        default:
+                            // For other native event types, do nothing.
+                            return null;
+                    }
+                }(domEventName, nativeEvent) : /**
    * For browsers that do not provide the `textInput` event, extract the
    * appropriate string to use for SyntheticInputEvent.
    */ function(domEventName, nativeEvent) {
-                        // If we are currently composing (IME) and using a fallback to do so,
-                        // try to extract the composed characters from the fallback object.
-                        // If composition event is available, we extract a string only at
-                        // compositionevent, otherwise extract it at fallback events.
-                        if (isComposing) {
-                            if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
-                                var chars = getData();
-                                return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
-                            }
-                            return null;
+                    // If we are currently composing (IME) and using a fallback to do so,
+                    // try to extract the composed characters from the fallback object.
+                    // If composition event is available, we extract a string only at
+                    // compositionevent, otherwise extract it at fallback events.
+                    if (isComposing) {
+                        if ("compositionend" === domEventName || !canUseCompositionEvent && isFallbackCompositionEnd(domEventName, nativeEvent)) {
+                            var chars = getData();
+                            return root = null, startText = null, fallbackText = null, isComposing = !1, chars;
                         }
-                        switch(domEventName){
-                            case "paste":
-                            default:
-                                // If a paste event occurs after a keypress, throw out the input
-                                // chars. Paste events should not lead to BeforeInput events.
-                                return null;
-                            case "keypress":
-                                /**
+                        return null;
+                    }
+                    switch(domEventName){
+                        case "paste":
+                        default:
+                            // If a paste event occurs after a keypress, throw out the input
+                            // chars. Paste events should not lead to BeforeInput events.
+                            return null;
+                        case "keypress":
+                            /**
          * As of v27, Firefox may fire keypress events even when no character
          * will be inserted. A few possibilities:
          *
@@ -4306,33 +4308,31 @@
          *   being used. Ex: `Cmd+C`. No character is inserted, and no
          *   `input` event will occur.
          */ if (!((nativeEvent.ctrlKey || nativeEvent.altKey || nativeEvent.metaKey) && // ctrlKey && altKey is equivalent to AltGr, and is not a command.
-                                !(nativeEvent.ctrlKey && nativeEvent.altKey))) // IE fires the `keypress` event when a user types an emoji via
-                                // Touch keyboard of Windows.  In such a case, the `char` property
-                                // holds an emoji character like `\uD83D\uDE0A`.  Because its length
-                                // is 2, the property `which` does not represent an emoji correctly.
-                                // In such a case, we directly return the `char` property instead of
-                                // using `which`.
-                                {
-                                    if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
-                                    else if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
-                                }
-                                return null;
-                            case "compositionend":
-                                return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
-                        }
-                    }(domEventName, nativeEvent)) {
-                        var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
-                            dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), event.data = chars;
-                        }
+                            !(nativeEvent.ctrlKey && nativeEvent.altKey))) // IE fires the `keypress` event when a user types an emoji via
+                            // Touch keyboard of Windows.  In such a case, the `char` property
+                            // holds an emoji character like `\uD83D\uDE0A`.  Because its length
+                            // is 2, the property `which` does not represent an emoji correctly.
+                            // In such a case, we directly return the `char` property instead of
+                            // using `which`.
+                            {
+                                if (nativeEvent.char && nativeEvent.char.length > 1) return nativeEvent.char;
+                                else if (nativeEvent.which) return String.fromCharCode(nativeEvent.which);
+                            }
+                            return null;
+                        case "compositionend":
+                            return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
                     }
-                }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget));
-            } // List of events that need to be individually attached to media elements.
-            (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags));
+                }(domEventName, nativeEvent)) {
+                    var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                    if (listeners.length > 0) {
+                        var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
+                        dispatchQueue.push({
+                            event: event,
+                            listeners: listeners
+                        }), event.data = chars;
+                    }
+                }
+            }(dispatchQueue1, domEventName, targetInst, nativeEvent, nativeEventTarget)), processDispatchQueue(dispatchQueue, eventSystemFlags));
         });
     }
     function createDispatchListener(instance, listener, currentTarget) {

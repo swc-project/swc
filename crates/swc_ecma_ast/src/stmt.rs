@@ -259,6 +259,15 @@ pub struct ReturnStmt {
     pub arg: Option<Box<Expr>>,
 }
 
+impl Take for ReturnStmt {
+    fn dummy() -> Self {
+        ReturnStmt {
+            span: DUMMY_SP,
+            arg: None,
+        }
+    }
+}
+
 #[ast_node("LabeledStatement")]
 #[derive(Eq, Hash, EqIgnoreSpan, Default)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]

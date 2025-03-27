@@ -1611,29 +1611,27 @@
    * Subscriber interface.
    * Will be called when a dependency changes.
    */ Watcher.prototype.update = function() {
-        /* istanbul ignore else */ this.lazy ? this.dirty = !0 : this.sync ? this.run() : /**
-   * Push a watcher into the watcher queue.
-   * Jobs with duplicate IDs will be skipped unless it's
-   * pushed when the queue is being flushed.
-   */ function(watcher) {
-            var id = watcher.id;
+        /* istanbul ignore else */ if (this.lazy) this.dirty = !0;
+        else if (this.sync) this.run();
+        else r: {
+            var id = this.id;
             if (null == has[id]) {
                 if (has[id] = !0, flushing) {
                     for(// if already flushing, splice the watcher based on its id
                     // if already past its id, it will be run next immediately.
-                    var i = queue.length - 1; i > index && queue[i].id > watcher.id;)i--;
-                    queue.splice(i + 1, 0, watcher);
-                } else queue.push(watcher);
+                    var i = queue.length - 1; i > index && queue[i].id > this.id;)i--;
+                    queue.splice(i + 1, 0, this);
+                } else queue.push(this);
                 // queue the flush
                 if (!waiting) {
                     if (waiting = !0, !config.async) {
                         flushSchedulerQueue();
-                        return;
+                        break r;
                     }
                     nextTick(flushSchedulerQueue);
                 }
             }
-        }(this);
+        }
     }, /**
    * Scheduler job interface.
    * Will be called by the scheduler.

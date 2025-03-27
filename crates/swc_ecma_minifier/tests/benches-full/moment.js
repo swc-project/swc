@@ -922,16 +922,16 @@
             var input = config._i;
             if (isUndefined(input)) config._d = new Date(hooks.now());
             else if (isDate(input)) config._d = new Date(input.valueOf());
-            else if ('string' == typeof input) !// date from 1) ASP.NET, 2) ISO, 3) RFC 2822 formats, or 4) optional fallback if parsing isn't strict
-            function(config) {
+            else if ('string' == typeof input) r: {
                 var matched = aspNetJsonRegex.exec(config._i);
                 if (null !== matched) {
                     config._d = new Date(+matched[1]);
-                    return;
+                    break r;
                 }
-                configFromISO(config), !1 === config._isValid && (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : // Final attempt, use Input Fallback
-                hooks.createFromInputFallback(config)));
-            }(config);
+                if (configFromISO(config), !1 !== config._isValid || (delete config._isValid, configFromRFC2822(config), !1 !== config._isValid)) break r;
+                delete config._isValid, config._strict ? config._isValid = !1 : // Final attempt, use Input Fallback
+                hooks.createFromInputFallback(config);
+            }
             else if (isArray(input)) config._a = map(input.slice(0), function(obj) {
                 return parseInt(obj, 10);
             }), configFromArray(config);

@@ -57,8 +57,8 @@
     };
     function __spreadArrays() {
         for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
-        for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
-        return r;
+        for(var r1 = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r1[k] = a[j];
+        return r1;
     }
     var Browser = function() {
         this.firefox = !1, this.ie = !1, this.edge = !1, this.newEdge = !1, this.weChat = !1;
@@ -2179,8 +2179,8 @@
     function cssHueToRgb(m1, m2, h) {
         return (h < 0 ? h += 1 : h > 1 && (h -= 1), 6 * h < 1) ? m1 + (m2 - m1) * h * 6 : 2 * h < 1 ? m2 : 3 * h < 2 ? m1 + (m2 - m1) * (2 / 3 - h) * 6 : m1;
     }
-    function setRgba(out, r, g, b, a) {
-        return out[0] = r, out[1] = g, out[2] = b, out[3] = a, out;
+    function setRgba(out, r1, g, b, a) {
+        return out[0] = r1, out[1] = g, out[2] = b, out[3] = a, out;
     }
     function copyRgba(out, a) {
         return out[0] = a[0], out[1] = a[1], out[2] = a[2], out[3] = a[3], out;
@@ -3471,8 +3471,8 @@
                     }
                 };
             }(array, compare), minRun = function(n) {
-                for(var r = 0; n >= 32;)r |= 1 & n, n >>= 1;
-                return n + r;
+                for(var r1 = 0; n >= 32;)r1 |= 1 & n, n >>= 1;
+                return n + r1;
             }(remaining);
             do {
                 if ((runLength = makeAscendingRun(array, lo, hi, compare)) < minRun) {
@@ -5284,10 +5284,10 @@
             return this.addData(CMD.C, x1, y1, x2, y2, x3, y3), this._ctx && (this._needsDash ? this._dashedBezierTo(x1, y1, x2, y2, x3, y3) : this._ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3)), this._xi = x3, this._yi = y3, this;
         }, PathProxy.prototype.quadraticCurveTo = function(x1, y1, x2, y2) {
             return this.addData(CMD.Q, x1, y1, x2, y2), this._ctx && (this._needsDash ? this._dashedQuadraticTo(x1, y1, x2, y2) : this._ctx.quadraticCurveTo(x1, y1, x2, y2)), this._xi = x2, this._yi = y2, this;
-        }, PathProxy.prototype.arc = function(cx, cy, r, startAngle, endAngle, anticlockwise) {
+        }, PathProxy.prototype.arc = function(cx, cy, r1, startAngle, endAngle, anticlockwise) {
             tmpAngles[0] = startAngle, tmpAngles[1] = endAngle, normalizeArcAngles(tmpAngles, anticlockwise), startAngle = tmpAngles[0];
             var delta = (endAngle = tmpAngles[1]) - startAngle;
-            return this.addData(CMD.A, cx, cy, r, r, startAngle, delta, 0, +!anticlockwise), this._ctx && this._ctx.arc(cx, cy, r, startAngle, endAngle, anticlockwise), this._xi = mathCos$1(endAngle) * r + cx, this._yi = mathSin$1(endAngle) * r + cy, this;
+            return this.addData(CMD.A, cx, cy, r1, r1, startAngle, delta, 0, +!anticlockwise), this._ctx && this._ctx.arc(cx, cy, r1, startAngle, endAngle, anticlockwise), this._xi = mathCos$1(endAngle) * r1 + cx, this._yi = mathSin$1(endAngle) * r1 + cy, this;
         }, PathProxy.prototype.arcTo = function(x1, y1, x2, y2, radius) {
             return this._ctx && this._ctx.arcTo(x1, y1, x2, y2, radius), this;
         }, PathProxy.prototype.rect = function(x, y, w, h) {
@@ -5511,12 +5511,12 @@
                         ctx.quadraticCurveTo(x1, y1, x2, y2), xi = x2, yi = y2;
                         break;
                     case CMD.A:
-                        var cx = d[i++], cy = d[i++], rx = d[i++], ry = d[i++], startAngle = d[i++], delta = d[i++], psi = d[i++], anticlockwise = !d[i++], r = rx > ry ? rx : ry, isEllipse = mathAbs(rx - ry) > 1e-3, endAngle = startAngle + delta, breakBuild = !1;
+                        var cx = d[i++], cy = d[i++], rx = d[i++], ry = d[i++], startAngle = d[i++], delta = d[i++], psi = d[i++], anticlockwise = !d[i++], r1 = rx > ry ? rx : ry, isEllipse = mathAbs(rx - ry) > 1e-3, endAngle = startAngle + delta, breakBuild = !1;
                         if (drawPart) {
                             var l = pathSegLen[segCount++];
                             accumLength + l > displayedLength && (endAngle = startAngle + delta * (displayedLength - accumLength) / l, breakBuild = !0), accumLength += l;
                         }
-                        if (isEllipse && ctx.ellipse ? ctx.ellipse(cx, cy, rx, ry, psi, startAngle, endAngle, anticlockwise) : ctx.arc(cx, cy, r, startAngle, endAngle, anticlockwise), breakBuild) break lo;
+                        if (isEllipse && ctx.ellipse ? ctx.ellipse(cx, cy, rx, ry, psi, startAngle, endAngle, anticlockwise) : ctx.arc(cx, cy, r1, startAngle, endAngle, anticlockwise), breakBuild) break lo;
                         isFirst && (x0 = mathCos$1(startAngle) * rx + cx, y0 = mathSin$1(startAngle) * ry + cy), xi = mathCos$1(endAngle) * rx + cx, yi = mathSin$1(endAngle) * ry + cy;
                         break;
                     case CMD.R:
@@ -5655,10 +5655,10 @@
                     x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, isFirst ? (x0 = x1, y0 = y1) : w += windingLine(xi, yi, x1, y1, x, y);
                     var _x = (x - cx) * ry / rx + cx;
                     if (isStroke) {
-                        if (function(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
+                        if (function(cx, cy, r1, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
                             if (0 === lineWidth) return !1;
                             var d = Math.sqrt((x -= cx) * x + (y -= cy) * y);
-                            if (d - lineWidth > r || d + lineWidth < r) return !1;
+                            if (d - lineWidth > r1 || d + lineWidth < r1) return !1;
                             if (Math.abs(startAngle - endAngle) % PI2$3 < 1e-4) return !0;
                             if (anticlockwise) {
                                 var tmp = startAngle;
@@ -5668,9 +5668,9 @@
                             var angle = Math.atan2(y, x);
                             return angle < 0 && (angle += PI2$3), angle >= startAngle && angle <= endAngle || angle + PI2$3 >= startAngle && angle + PI2$3 <= endAngle;
                         }(cx, cy, ry, theta, theta + dTheta, anticlockwise, lineWidth, _x, y)) return !0;
-                    } else w += function(cx, cy, r, startAngle, endAngle, anticlockwise, x, y) {
-                        if ((y -= cy) > r || y < -r) return 0;
-                        var tmp = Math.sqrt(r * r - y * y);
+                    } else w += function(cx, cy, r1, startAngle, endAngle, anticlockwise, x, y) {
+                        if ((y -= cy) > r1 || y < -r1) return 0;
+                        var tmp = Math.sqrt(r1 * r1 - y * y);
                         roots[0] = -tmp, roots[1] = tmp;
                         var dTheta = Math.abs(startAngle - endAngle);
                         if (dTheta < 1e-4) return 0;
@@ -6012,10 +6012,10 @@
             return new RectShape();
         }, Rect.prototype.buildPath = function(ctx, shape) {
             if (this.subPixelOptimize) {
-                var shape1, r1, r2, r3, r4, total, x, y, width, height, r, x1, y1, width1, height1, optimizedShape = subPixelOptimizeRect(subPixelOptimizeOutputShape, shape, this.style);
+                var shape1, r1, r2, r3, r4, total, x, y, width, height, r5, x1, y1, width1, height1, optimizedShape = subPixelOptimizeRect(subPixelOptimizeOutputShape, shape, this.style);
                 x1 = optimizedShape.x, y1 = optimizedShape.y, width1 = optimizedShape.width, height1 = optimizedShape.height, optimizedShape.r = shape.r, shape = optimizedShape;
             } else x1 = shape.x, y1 = shape.y, width1 = shape.width, height1 = shape.height;
-            shape.r ? (x = (shape1 = shape).x, y = shape1.y, width = shape1.width, height = shape1.height, r = shape1.r, width < 0 && (x += width, width = -width), height < 0 && (y += height, height = -height), 'number' == typeof r ? r1 = r2 = r3 = r4 = r : r instanceof Array ? 1 === r.length ? r1 = r2 = r3 = r4 = r[0] : 2 === r.length ? (r1 = r3 = r[0], r2 = r4 = r[1]) : 3 === r.length ? (r1 = r[0], r2 = r4 = r[1], r3 = r[2]) : (r1 = r[0], r2 = r[1], r3 = r[2], r4 = r[3]) : r1 = r2 = r3 = r4 = 0, r1 + r2 > width && (total = r1 + r2, r1 *= width / total, r2 *= width / total), r3 + r4 > width && (total = r3 + r4, r3 *= width / total, r4 *= width / total), r2 + r3 > height && (total = r2 + r3, r2 *= height / total, r3 *= height / total), r1 + r4 > height && (total = r1 + r4, r1 *= height / total, r4 *= height / total), ctx.moveTo(x + r1, y), ctx.lineTo(x + width - r2, y), 0 !== r2 && ctx.arc(x + width - r2, y + r2, r2, -Math.PI / 2, 0), ctx.lineTo(x + width, y + height - r3), 0 !== r3 && ctx.arc(x + width - r3, y + height - r3, r3, 0, Math.PI / 2), ctx.lineTo(x + r4, y + height), 0 !== r4 && ctx.arc(x + r4, y + height - r4, r4, Math.PI / 2, Math.PI), ctx.lineTo(x, y + r1), 0 !== r1 && ctx.arc(x + r1, y + r1, r1, Math.PI, 1.5 * Math.PI)) : ctx.rect(x1, y1, width1, height1);
+            shape.r ? (x = (shape1 = shape).x, y = shape1.y, width = shape1.width, height = shape1.height, r5 = shape1.r, width < 0 && (x += width, width = -width), height < 0 && (y += height, height = -height), 'number' == typeof r5 ? r1 = r2 = r3 = r4 = r5 : r5 instanceof Array ? 1 === r5.length ? r1 = r2 = r3 = r4 = r5[0] : 2 === r5.length ? (r1 = r3 = r5[0], r2 = r4 = r5[1]) : 3 === r5.length ? (r1 = r5[0], r2 = r4 = r5[1], r3 = r5[2]) : (r1 = r5[0], r2 = r5[1], r3 = r5[2], r4 = r5[3]) : r1 = r2 = r3 = r4 = 0, r1 + r2 > width && (total = r1 + r2, r1 *= width / total, r2 *= width / total), r3 + r4 > width && (total = r3 + r4, r3 *= width / total, r4 *= width / total), r2 + r3 > height && (total = r2 + r3, r2 *= height / total, r3 *= height / total), r1 + r4 > height && (total = r1 + r4, r1 *= height / total, r4 *= height / total), ctx.moveTo(x + r1, y), ctx.lineTo(x + width - r2, y), 0 !== r2 && ctx.arc(x + width - r2, y + r2, r2, -Math.PI / 2, 0), ctx.lineTo(x + width, y + height - r3), 0 !== r3 && ctx.arc(x + width - r3, y + height - r3, r3, 0, Math.PI / 2), ctx.lineTo(x + r4, y + height), 0 !== r4 && ctx.arc(x + r4, y + height - r4, r4, Math.PI / 2, Math.PI), ctx.lineTo(x, y + r1), 0 !== r1 && ctx.arc(x + r1, y + r1, r1, Math.PI, 1.5 * Math.PI)) : ctx.rect(x1, y1, width1, height1);
         }, Rect.prototype.isZeroArea = function() {
             return !this.shape.width || !this.shape.height;
         }, Rect;
@@ -6758,14 +6758,14 @@
     Ellipse.prototype.type = 'ellipse';
     var PI$2 = Math.PI, PI2$5 = 2 * PI$2, mathSin$3 = Math.sin, mathCos$3 = Math.cos, mathACos = Math.acos, mathATan2 = Math.atan2, mathAbs$1 = Math.abs, mathSqrt$4 = Math.sqrt, mathMax$3 = Math.max, mathMin$3 = Math.min;
     function computeCornerTangents(x0, y0, x1, y1, radius, cr, clockwise) {
-        var x01 = x0 - x1, y01 = y0 - y1, lo = (clockwise ? cr : -cr) / mathSqrt$4(x01 * x01 + y01 * y01), ox = lo * y01, oy = -lo * x01, x11 = x0 + ox, y11 = y0 + oy, x10 = x1 + ox, y10 = y1 + oy, x00 = (x11 + x10) / 2, y00 = (y11 + y10) / 2, dx = x10 - x11, dy = y10 - y11, d2 = dx * dx + dy * dy, r = radius - cr, s = x11 * y10 - x10 * y11, d = (dy < 0 ? -1 : 1) * mathSqrt$4(mathMax$3(0, r * r * d2 - s * s)), cx0 = (s * dy - dx * d) / d2, cy0 = (-s * dx - dy * d) / d2, cx1 = (s * dy + dx * d) / d2, cy1 = (-s * dx + dy * d) / d2, dx0 = cx0 - x00, dy0 = cy0 - y00, dx1 = cx1 - x00, dy1 = cy1 - y00;
+        var x01 = x0 - x1, y01 = y0 - y1, lo = (clockwise ? cr : -cr) / mathSqrt$4(x01 * x01 + y01 * y01), ox = lo * y01, oy = -lo * x01, x11 = x0 + ox, y11 = y0 + oy, x10 = x1 + ox, y10 = y1 + oy, x00 = (x11 + x10) / 2, y00 = (y11 + y10) / 2, dx = x10 - x11, dy = y10 - y11, d2 = dx * dx + dy * dy, r1 = radius - cr, s = x11 * y10 - x10 * y11, d = (dy < 0 ? -1 : 1) * mathSqrt$4(mathMax$3(0, r1 * r1 * d2 - s * s)), cx0 = (s * dy - dx * d) / d2, cy0 = (-s * dx - dy * d) / d2, cx1 = (s * dy + dx * d) / d2, cy1 = (-s * dx + dy * d) / d2, dx0 = cx0 - x00, dy0 = cy0 - y00, dx1 = cx1 - x00, dy1 = cy1 - y00;
         return dx0 * dx0 + dy0 * dy0 > dx1 * dx1 + dy1 * dy1 && (cx0 = cx1, cy0 = cy1), {
             cx: cx0,
             cy: cy0,
             x01: -ox,
             y01: -oy,
-            x11: cx0 * (radius / r - 1),
-            y11: cy0 * (radius / r - 1)
+            x11: cx0 * (radius / r1 - 1),
+            y11: cy0 * (radius / r1 - 1)
         };
     }
     var SectorShape = function() {
@@ -7015,8 +7015,8 @@
         }, Arc.prototype.getDefaultShape = function() {
             return new ArcShape();
         }, Arc.prototype.buildPath = function(ctx, shape) {
-            var x = shape.cx, y = shape.cy, r = Math.max(shape.r, 0), startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise, unitX = Math.cos(startAngle), unitY = Math.sin(startAngle);
-            ctx.moveTo(unitX * r + x, unitY * r + y), ctx.arc(x, y, r, startAngle, endAngle, !clockwise);
+            var x = shape.cx, y = shape.cy, r1 = Math.max(shape.r, 0), startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise, unitX = Math.cos(startAngle), unitY = Math.sin(startAngle);
+            ctx.moveTo(unitX * r1 + x, unitY * r1 + y), ctx.arc(x, y, r1, startAngle, endAngle, !clockwise);
         }, Arc;
     }(Path);
     Arc.prototype.type = 'arc';
@@ -7055,9 +7055,9 @@
         }
         return __extends(LinearGradient, _super), LinearGradient;
     }(Gradient), RadialGradient = function(_super) {
-        function RadialGradient(x, y, r, colorStops, globalCoord) {
+        function RadialGradient(x, y, r1, colorStops, globalCoord) {
             var _this = _super.call(this, colorStops) || this;
-            return _this.x = null == x ? 0.5 : x, _this.y = null == y ? 0.5 : y, _this.r = null == r ? 0.5 : r, _this.type = 'radial', _this.global = globalCoord || !1, _this;
+            return _this.x = null == x ? 0.5 : x, _this.y = null == y ? 0.5 : y, _this.r = null == r1 ? 0.5 : r1, _this.type = 'radial', _this.global = globalCoord || !1, _this;
         }
         return __extends(RadialGradient, _super), RadialGradient;
     }(Gradient), extent = [
@@ -12739,10 +12739,10 @@
                                     x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, i <= 1 && (// 第一个命令起点还未定义
                                     x0 = x1, y0 = y1);
                                     var _x = (x - cx) * ry / rx + cx;
-                                    d = function(cx, cy, r, startAngle, endAngle, anticlockwise, x, y, out) {
-                                        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y), ox = (x /= d) * r + cx, oy = (y /= d) * r + cy;
+                                    d = function(cx, cy, r1, startAngle, endAngle, anticlockwise, x, y, out) {
+                                        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y), ox = (x /= d) * r1 + cx, oy = (y /= d) * r1 + cy;
                                         if (Math.abs(startAngle - endAngle) % PI2$6 < 1e-4) return(// Is a circle
-                                        out[0] = ox, out[1] = oy, d - r);
+                                        out[0] = ox, out[1] = oy, d - r1);
                                         if (anticlockwise) {
                                             var tmp = startAngle;
                                             startAngle = normalizeRadian(endAngle), endAngle = normalizeRadian(tmp);
@@ -12750,8 +12750,8 @@
                                         startAngle > endAngle && (endAngle += PI2$6);
                                         var angle = Math.atan2(y, x);
                                         if (angle < 0 && (angle += PI2$6), angle >= startAngle && angle <= endAngle || angle + PI2$6 >= startAngle && angle + PI2$6 <= endAngle) return(// Project point is on the arc.
-                                        out[0] = ox, out[1] = oy, d - r);
-                                        var x1 = r * Math.cos(startAngle) + cx, y1 = r * Math.sin(startAngle) + cy, x2 = r * Math.cos(endAngle) + cx, y2 = r * Math.sin(endAngle) + cy, d1 = (x1 - x) * (x1 - x) + (y1 - y) * (y1 - y), d2 = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
+                                        out[0] = ox, out[1] = oy, d - r1);
+                                        var x1 = r1 * Math.cos(startAngle) + cx, y1 = r1 * Math.sin(startAngle) + cy, x2 = r1 * Math.cos(endAngle) + cx, y2 = r1 * Math.sin(endAngle) + cy, d1 = (x1 - x) * (x1 - x) + (y1 - y) * (y1 - y), d2 = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
                                         return d1 < d2 ? (out[0] = x1, out[1] = y1, Math.sqrt(d1)) : (out[0] = x2, out[1] = y2, Math.sqrt(d2));
                                     }(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt), xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
                                     break;
@@ -13353,8 +13353,8 @@
             height: 0
         },
         buildPath: function(path, shape) {
-            var x = shape.x, y = shape.y, w = shape.width / 5 * 3, h = Math.max(w, shape.height), r = w / 2, dy = r * r / (h - r), cy = y - h + r + dy, angle = Math.asin(dy / r), dx = Math.cos(angle) * r, tanX = Math.sin(angle), tanY = Math.cos(angle), cpLen = 0.6 * r, cpLen2 = 0.7 * r;
-            path.moveTo(x - dx, cy + dy), path.arc(x, cy, r, Math.PI - angle, 2 * Math.PI + angle), path.bezierCurveTo(x + dx - tanX * cpLen, cy + dy + tanY * cpLen, x, y - cpLen2, x, y), path.bezierCurveTo(x, y - cpLen2, x - dx + tanX * cpLen, cy + dy + tanY * cpLen, x - dx, cy + dy), path.closePath();
+            var x = shape.x, y = shape.y, w = shape.width / 5 * 3, h = Math.max(w, shape.height), r1 = w / 2, dy = r1 * r1 / (h - r1), cy = y - h + r1 + dy, angle = Math.asin(dy / r1), dx = Math.cos(angle) * r1, tanX = Math.sin(angle), tanY = Math.cos(angle), cpLen = 0.6 * r1, cpLen2 = 0.7 * r1;
+            path.moveTo(x - dx, cy + dy), path.arc(x, cy, r1, Math.PI - angle, 2 * Math.PI + angle), path.bezierCurveTo(x + dx - tanX * cpLen, cy + dy + tanY * cpLen, x, y - cpLen2, x, y), path.bezierCurveTo(x, y - cpLen2, x - dx + tanX * cpLen, cy + dy + tanY * cpLen, x - dx, cy + dy), path.closePath();
         }
     }), Arrow = Path.extend({
         type: 'arrow',
@@ -13456,7 +13456,7 @@
         })).__isEmptyBrush = isEmpty, symbolPath.setColor = symbolPathSetColor, color && symbolPath.setColor(color), symbolPath;
     }
     function getCanvasGradient(ctx, obj, rect) {
-        for(var width, height, min, x, y, r, x1, x2, y1, y2, canvasGradient = 'radial' === obj.type ? (min = Math.min(width = rect.width, height = rect.height), x = null == obj.x ? 0.5 : obj.x, y = null == obj.y ? 0.5 : obj.y, r = null == obj.r ? 0.5 : obj.r, obj.global || (x = x * width + rect.x, y = y * height + rect.y, r *= min), ctx.createRadialGradient(x, y, 0, x, y, r)) : (x1 = null == obj.x ? 0 : obj.x, x2 = null == obj.x2 ? 1 : obj.x2, y1 = null == obj.y ? 0 : obj.y, y2 = null == obj.y2 ? 0 : obj.y2, obj.global || (x1 = x1 * rect.width + rect.x, x2 = x2 * rect.width + rect.x, y1 = y1 * rect.height + rect.y, y2 = y2 * rect.height + rect.y), x1 = isNaN(x1) ? 0 : x1, x2 = isNaN(x2) ? 1 : x2, y1 = isNaN(y1) ? 0 : y1, y2 = isNaN(y2) ? 0 : y2, ctx.createLinearGradient(x1, y1, x2, y2)), colorStops = obj.colorStops, i = 0; i < colorStops.length; i++)canvasGradient.addColorStop(colorStops[i].offset, colorStops[i].color);
+        for(var width, height, min, x, y, r1, x1, x2, y1, y2, canvasGradient = 'radial' === obj.type ? (min = Math.min(width = rect.width, height = rect.height), x = null == obj.x ? 0.5 : obj.x, y = null == obj.y ? 0.5 : obj.y, r1 = null == obj.r ? 0.5 : obj.r, obj.global || (x = x * width + rect.x, y = y * height + rect.y, r1 *= min), ctx.createRadialGradient(x, y, 0, x, y, r1)) : (x1 = null == obj.x ? 0 : obj.x, x2 = null == obj.x2 ? 1 : obj.x2, y1 = null == obj.y ? 0 : obj.y, y2 = null == obj.y2 ? 0 : obj.y2, obj.global || (x1 = x1 * rect.width + rect.x, x2 = x2 * rect.width + rect.x, y1 = y1 * rect.height + rect.y, y2 = y2 * rect.height + rect.y), x1 = isNaN(x1) ? 0 : x1, x2 = isNaN(x2) ? 1 : x2, y1 = isNaN(y1) ? 0 : y1, y2 = isNaN(y2) ? 0 : y2, ctx.createLinearGradient(x1, y1, x2, y2)), colorStops = obj.colorStops, i = 0; i < colorStops.length; i++)canvasGradient.addColorStop(colorStops[i].offset, colorStops[i].color);
         return canvasGradient;
     }
     function isClipPathChanged(clipPaths, prevClipPaths) {
@@ -16362,17 +16362,17 @@
         }).start('circularInOut'), arc.animateShape(!0).when(1000, {
             startAngle: 3 * PI$3 / 2
         }).delay(300).start('circularInOut'), group.add(arc)), group.resize = function() {
-            var textWidth = textContent.getBoundingRect().width, r = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r - (opts.showSpinner && textWidth ? 10 : 0) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
+            var textWidth = textContent.getBoundingRect().width, r1 = opts.showSpinner ? opts.spinnerRadius : 0, cx = (api.getWidth() - 2 * r1 - (opts.showSpinner && textWidth ? 10 : 0) - textWidth) / 2 - (opts.showSpinner && textWidth ? 0 : 5 + textWidth / 2 // only show the text
             ) + (opts.showSpinner ? 0 : textWidth / 2 // only show the spinner
-            ) + (textWidth ? 0 : r), cy = api.getHeight() / 2;
+            ) + (textWidth ? 0 : r1), cy = api.getHeight() / 2;
             opts.showSpinner && arc.setShape({
                 cx: cx,
                 cy: cy
             }), labelRect.setShape({
-                x: cx - r,
-                y: cy - r,
-                width: 2 * r,
-                height: 2 * r
+                x: cx - r1,
+                y: cy - r1,
+                width: 2 * r1,
+                height: 2 * r1
             }), mask.setShape({
                 x: 0,
                 y: 0,
@@ -19474,8 +19474,8 @@
             this._add('C', x, y, x2, y2, x3, y3);
         }, SVGPathRebuilder.prototype.quadraticCurveTo = function(x, y, x2, y2) {
             this._add('Q', x, y, x2, y2);
-        }, SVGPathRebuilder.prototype.arc = function(cx, cy, r, startAngle, endAngle, anticlockwise) {
-            this.ellipse(cx, cy, r, r, 0, startAngle, endAngle, anticlockwise);
+        }, SVGPathRebuilder.prototype.arc = function(cx, cy, r1, startAngle, endAngle, anticlockwise) {
+            this.ellipse(cx, cy, r1, r1, 0, startAngle, endAngle, anticlockwise);
         }, SVGPathRebuilder.prototype.ellipse = function(cx, cy, rx, ry, psi, startAngle, endAngle, anticlockwise) {
             var firstCmd = 0 === this._d.length, dTheta = endAngle - startAngle, clockwise = !anticlockwise, dThetaPositive = Math.abs(dTheta), isCircle = isAroundZero$1(dThetaPositive - PI2$7) || (clockwise ? dTheta >= PI2$7 : -dTheta >= PI2$7), unifiedTheta = dTheta > 0 ? dTheta % PI2$7 : dTheta % PI2$7 + PI2$7, large = !1;
             large = !!isCircle || !isAroundZero$1(dThetaPositive) && unifiedTheta >= PI$4 == !!clockwise;
@@ -20265,8 +20265,8 @@
                     scope.prevElClipPaths && ctx.restore();
                 };
                 if (repaintRects) if (0 === repaintRects.length) i = layer.__endIndex;
-                else for(var dpr = this_1.dpr, r = 0; r < repaintRects.length; ++r){
-                    var rect = repaintRects[r];
+                else for(var dpr = this_1.dpr, r1 = 0; r1 < repaintRects.length; ++r1){
+                    var rect = repaintRects[r1];
                     ctx.save(), ctx.beginPath(), ctx.rect(rect.x * dpr, rect.y * dpr, rect.width * dpr, rect.height * dpr), ctx.clip(), repaint(rect), ctx.restore();
                 }
                 else ctx.save(), repaint(), ctx.restore();
@@ -21023,12 +21023,12 @@
         return clipPath;
     }
     function createPolarClipPath(polar, hasAnimation, seriesModel) {
-        var sectorArea = polar.getArea(), r0 = round(sectorArea.r0, 1), r = round(sectorArea.r, 1), clipPath = new Sector({
+        var sectorArea = polar.getArea(), r0 = round(sectorArea.r0, 1), r1 = round(sectorArea.r, 1), clipPath = new Sector({
             shape: {
                 cx: round(polar.cx, 1),
                 cy: round(polar.cy, 1),
                 r0: r0,
-                r: r,
+                r: r1,
                 startAngle: sectorArea.startAngle,
                 endAngle: sectorArea.endAngle,
                 clockwise: sectorArea.clockwise
@@ -21037,7 +21037,7 @@
         return hasAnimation && ('angle' === polar.getBaseAxis().dim ? clipPath.shape.endAngle = sectorArea.startAngle : clipPath.shape.r = r0, initProps(clipPath, {
             shape: {
                 endAngle: sectorArea.endAngle,
-                r: r
+                r: r1
             }
         }, seriesModel)), clipPath;
     }
@@ -21818,8 +21818,8 @@
         return __extends(SausagePath, _super), SausagePath.prototype.getDefaultShape = function() {
             return new SausageShape();
         }, SausagePath.prototype.buildPath = function(ctx, shape) {
-            var x = shape.cx, y = shape.cy, r0 = Math.max(shape.r0 || 0, 0), r = Math.max(shape.r, 0), dr = (r - r0) * 0.5, rCenter = r0 + dr, startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise, unitStartX = Math.cos(startAngle), unitStartY = Math.sin(startAngle), unitEndX = Math.cos(endAngle), unitEndY = Math.sin(endAngle);
-            (clockwise ? endAngle - startAngle < 2 * Math.PI : startAngle - endAngle < 2 * Math.PI) && (ctx.moveTo(unitStartX * r0 + x, unitStartY * r0 + y), ctx.arc(unitStartX * rCenter + x, unitStartY * rCenter + y, dr, -Math.PI + startAngle, startAngle, !clockwise)), ctx.arc(x, y, r, startAngle, endAngle, !clockwise), ctx.moveTo(unitEndX * r + x, unitEndY * r + y), ctx.arc(unitEndX * rCenter + x, unitEndY * rCenter + y, dr, endAngle - 2 * Math.PI, endAngle - Math.PI, !clockwise), 0 !== r0 && (ctx.arc(x, y, r0, endAngle, startAngle, clockwise), ctx.moveTo(unitStartX * r0 + x, unitEndY * r0 + y)), ctx.closePath();
+            var x = shape.cx, y = shape.cy, r0 = Math.max(shape.r0 || 0, 0), r1 = Math.max(shape.r, 0), dr = (r1 - r0) * 0.5, rCenter = r0 + dr, startAngle = shape.startAngle, endAngle = shape.endAngle, clockwise = shape.clockwise, unitStartX = Math.cos(startAngle), unitStartY = Math.sin(startAngle), unitEndX = Math.cos(endAngle), unitEndY = Math.sin(endAngle);
+            (clockwise ? endAngle - startAngle < 2 * Math.PI : startAngle - endAngle < 2 * Math.PI) && (ctx.moveTo(unitStartX * r0 + x, unitStartY * r0 + y), ctx.arc(unitStartX * rCenter + x, unitStartY * rCenter + y, dr, -Math.PI + startAngle, startAngle, !clockwise)), ctx.arc(x, y, r1, startAngle, endAngle, !clockwise), ctx.moveTo(unitEndX * r1 + x, unitEndY * r1 + y), ctx.arc(unitEndX * rCenter + x, unitEndY * rCenter + y, dr, endAngle - 2 * Math.PI, endAngle - Math.PI, !clockwise), 0 !== r0 && (ctx.arc(x, y, r0, endAngle, startAngle, clockwise), ctx.moveTo(unitStartX * r0 + x, unitEndY * r0 + y)), ctx.closePath();
         }, SausagePath;
     }(Path), _eventPos = [
         0,
@@ -22034,9 +22034,9 @@
                 var tmp = layout.r;
                 layout.r = layout.r0, layout.r0 = tmp;
             }
-            var r = mathMin$6(layout.r, coordSysClipArea.r), r0 = mathMax$6(layout.r0, coordSysClipArea.r0);
-            layout.r = r, layout.r0 = r0;
-            var clipped = r - r0 < 0; // Reverse back
+            var r1 = mathMin$6(layout.r, coordSysClipArea.r), r0 = mathMax$6(layout.r0, coordSysClipArea.r0);
+            layout.r = r1, layout.r0 = r0;
+            var clipped = r1 - r0 < 0; // Reverse back
             if (signR < 0) {
                 var tmp = layout.r;
                 layout.r = layout.r0, layout.r0 = tmp;
@@ -22229,7 +22229,7 @@
                 center,
                 center
             ]);
-            var width = parsePercent$1(viewRect.width, api.getWidth()), height = parsePercent$1(viewRect.height, api.getHeight()), size = Math.min(width, height), cx = parsePercent$1(center[0], width) + viewRect.x, cy = parsePercent$1(center[1], height) + viewRect.y, r0 = parsePercent$1(radius[0], size / 2), r = parsePercent$1(radius[1], size / 2), startAngle = -seriesModel.get('startAngle') * RADIAN, minAngle = seriesModel.get('minAngle') * RADIAN, validDataCount = 0;
+            var width = parsePercent$1(viewRect.width, api.getWidth()), height = parsePercent$1(viewRect.height, api.getHeight()), size = Math.min(width, height), cx = parsePercent$1(center[0], width) + viewRect.x, cy = parsePercent$1(center[1], height) + viewRect.y, r0 = parsePercent$1(radius[0], size / 2), r1 = parsePercent$1(radius[1], size / 2), startAngle = -seriesModel.get('startAngle') * RADIAN, minAngle = seriesModel.get('minAngle') * RADIAN, validDataCount = 0;
             data.each(valueDim, function(value) {
                 !isNaN(value) && validDataCount++;
             });
@@ -22239,7 +22239,7 @@
             // Rest sectors needs recalculate angle
             if (data.setLayout({
                 viewRect: viewRect,
-                r: r
+                r: r1
             }), data.each(valueDim, function(value, idx) {
                 if (isNaN(value)) {
                     data.setItemLayout(idx, {
@@ -22250,7 +22250,7 @@
                         cx: cx,
                         cy: cy,
                         r0: r0,
-                        r: roseType ? NaN : r
+                        r: roseType ? NaN : r1
                     });
                     return;
                 } // FIXME 兼容 2.0 但是 roseType 是 area 的时候才是这样？
@@ -22266,8 +22266,8 @@
                     r0: r0,
                     r: roseType ? linearMap(value, extent, [
                         r0,
-                        r
-                    ]) : r
+                        r1
+                    ]) : r1
                 }), currentAngle = endAngle;
             }), restAngle < PI2$8 && validDataCount) // Average the angle if rest angle is not enough after all angles is
             // Constrained by minAngle
@@ -22342,7 +22342,7 @@
         };
     }
     var RADIAN$1 = Math.PI / 180;
-    function adjustSingleSide(list, cx, cy, r, dir, viewWidth, viewHeight, viewLeft, viewTop, farthestX) {
+    function adjustSingleSide(list, cx, cy, r1, dir, viewWidth, viewHeight, viewLeft, viewTop, farthestX) {
         if (!(list.length < 2)) {
             for(var len = list.length, i = 0; i < len; i++)if ('outer' === list[i].position && 'labelLine' === list[i].labelAlignTo) {
                 var dx = list[i].label.x - farthestX;
@@ -22358,7 +22358,7 @@
                 }, i = 0; i < items.length; i++)if ('none' === items[i].labelAlignTo) {
                     var item = items[i], semi = item.label.y > cy ? bottomSemi : topSemi, dy = Math.abs(item.label.y - cy);
                     if (dy > semi.maxY) {
-                        var dx = item.label.x - cx - item.len2 * dir, rA = r + item.len; // horizontal r is always same with original r because x is not changed.
+                        var dx = item.label.x - cx - item.len2 * dir, rA = r1 + item.len; // horizontal r is always same with original r because x is not changed.
                         semi.rB = Math.abs(dx) < rA ? Math.sqrt(dy * dy / (1 - dx * dx / rA / rA)) : rA, semi.maxY = dy;
                     }
                     semi.list.push(item);
@@ -22368,7 +22368,7 @@
         }
         function recalculateXOnSemiToAlignOnEllipseCurve(semi) {
             for(var rB = semi.rB, rB2 = rB * rB, i = 0; i < semi.list.length; i++){
-                var item = semi.list[i], dy = Math.abs(item.label.y - cy), rA = r + item.len, dx = Math.sqrt(rA * rA * (1 - Math.abs(dy * dy / rB2)));
+                var item = semi.list[i], dy = Math.abs(item.label.y - cy), rA = r1 + item.len, dx = Math.sqrt(rA * rA * (1 - Math.abs(dy * dy / rB2)));
                 item.label.x = cx + (dx + item.len2) * dir;
             }
         } // Adjust X based on the shifted y. Make tight labels aligned on an ellipse curve.
@@ -22504,7 +22504,7 @@
             }).remove(function(idx) {
                 removeElementWithFadeOut(oldData.getItemGraphicEl(idx), seriesModel, idx);
             }).execute(), function(seriesModel) {
-                var cx, cy, data = seriesModel.getData(), labelLayoutList = [], hasLabelRotate = !1, minShowLabelRadian = (seriesModel.get('minShowLabelAngle') || 0) * RADIAN$1, viewRect = data.getLayout('viewRect'), r = data.getLayout('r'), viewWidth = viewRect.width, viewLeft = viewRect.x, viewTop = viewRect.y, viewHeight = viewRect.height;
+                var cx, cy, data = seriesModel.getData(), labelLayoutList = [], hasLabelRotate = !1, minShowLabelRadian = (seriesModel.get('minShowLabelAngle') || 0) * RADIAN$1, viewRect = data.getLayout('viewRect'), r1 = data.getLayout('r'), viewWidth = viewRect.width, viewLeft = viewRect.x, viewTop = viewRect.y, viewHeight = viewRect.height;
                 function setNotShow(el) {
                     el.ignore = !0;
                 }
@@ -22533,7 +22533,7 @@
                             var x1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * nx : sectorShape.r * nx) + cx, y1 = (isLabelInside ? (sectorShape.r + sectorShape.r0) / 2 * ny : sectorShape.r * ny) + cy;
                             if (textX = x1 + 3 * nx, textY = y1 + 3 * ny, !isLabelInside) {
                                 // For roseType
-                                var x2 = x1 + nx * (labelLineLen + r - sectorShape.r), y2 = y1 + ny * (labelLineLen + r - sectorShape.r), x3 = x2 + (nx < 0 ? -1 : 1) * labelLineLen2;
+                                var x2 = x1 + nx * (labelLineLen + r1 - sectorShape.r), y2 = y1 + ny * (labelLineLen + r1 - sectorShape.r), x3 = x2 + (nx < 0 ? -1 : 1) * labelLineLen2;
                                 // Adjust textX because text align of edge is opposite
                                 textX = 'edge' === labelAlignTo ? nx < 0 ? viewLeft + edgeDistance : viewLeft + viewWidth - edgeDistance : x3 + (nx < 0 ? -labelDistance : labelDistance), textY = y2, linePoints = [
                                     [
@@ -22587,12 +22587,12 @@
                             inside: isLabelInside
                         });
                     }
-                }), !hasLabelRotate && seriesModel.get('avoidLabelOverlap') && function(labelLayoutList, cx, cy, r, viewWidth, viewHeight, viewLeft, viewTop) {
+                }), !hasLabelRotate && seriesModel.get('avoidLabelOverlap') && function(labelLayoutList, cx, cy, r1, viewWidth, viewHeight, viewLeft, viewTop) {
                     for(var leftList = [], rightList = [], leftmostX = Number.MAX_VALUE, rightmostX = -Number.MAX_VALUE, i = 0; i < labelLayoutList.length; i++){
                         var label = labelLayoutList[i].label;
                         isPositionCenter(labelLayoutList[i]) || (label.x < cx ? (leftmostX = Math.min(leftmostX, label.x), leftList.push(labelLayoutList[i])) : (rightmostX = Math.max(rightmostX, label.x), rightList.push(labelLayoutList[i])));
                     }
-                    adjustSingleSide(rightList, cx, cy, r, 1, viewWidth, viewHeight, viewLeft, viewTop, rightmostX), adjustSingleSide(leftList, cx, cy, r, -1, viewWidth, viewHeight, viewLeft, viewTop, leftmostX);
+                    adjustSingleSide(rightList, cx, cy, r1, 1, viewWidth, viewHeight, viewLeft, viewTop, rightmostX), adjustSingleSide(leftList, cx, cy, r1, -1, viewWidth, viewHeight, viewLeft, viewTop, leftmostX);
                     for(var i = 0; i < labelLayoutList.length; i++){
                         var layout = labelLayoutList[i], label = layout.label;
                         if (!isPositionCenter(layout)) {
@@ -22607,7 +22607,7 @@
                             }
                         }
                     }
-                }(labelLayoutList, cx, cy, r, viewWidth, viewHeight, viewLeft, viewTop);
+                }(labelLayoutList, cx, cy, r1, viewWidth, viewHeight, viewLeft, viewTop);
                 for(var i = 0; i < labelLayoutList.length; i++){
                     var layout = labelLayoutList[i], label = layout.label, labelLine = layout.labelLine, notShowLabel = isNaN(label.x) || isNaN(label.y);
                     if (label) {
@@ -23854,11 +23854,11 @@
                         }
                     ], function(point, index) {
                         if ('none' !== arrows[index] && null != arrows[index]) {
-                            var symbol = createSymbol(arrows[index], -symbolWidth_1 / 2, -symbolHeight_1 / 2, symbolWidth_1, symbolHeight_1, lineStyle.stroke, !0), r = point.r + point.offset; // Calculate arrow position with offset
+                            var symbol = createSymbol(arrows[index], -symbolWidth_1 / 2, -symbolHeight_1 / 2, symbolWidth_1, symbolHeight_1, lineStyle.stroke, !0), r1 = point.r + point.offset; // Calculate arrow position with offset
                             symbol.attr({
                                 rotation: point.rotate,
-                                x: pt1[0] + r * Math.cos(opt.rotation),
-                                y: pt1[1] - r * Math.sin(opt.rotation),
+                                x: pt1[0] + r1 * Math.cos(opt.rotation),
+                                y: pt1[1] - r1 * Math.sin(opt.rotation),
                                 silent: !0,
                                 z2: 11
                             }), group.add(symbol);
@@ -26247,10 +26247,10 @@
     }
     /**
      * Transform the common coordinate to radial coordinate.
-     */ function radialCoordinate(rad, r) {
+     */ function radialCoordinate(rad, r1) {
         return {
-            x: r * Math.cos(rad -= Math.PI / 2),
-            y: r * Math.sin(rad)
+            x: r1 * Math.cos(rad -= Math.PI / 2),
+            y: r1 * Math.sin(rad)
         };
     }
     /**
@@ -28902,11 +28902,11 @@
      */ function circularLayout(seriesModel, basedOn) {
         var coordSys = seriesModel.coordinateSystem;
         if (!coordSys || 'view' === coordSys.type) {
-            var rect = coordSys.getBoundingRect(), nodeData = seriesModel.getData(), graph = nodeData.graph, cx = rect.width / 2 + rect.x, cy = rect.height / 2 + rect.y, r = Math.min(rect.width, rect.height) / 2, count = nodeData.count();
+            var rect = coordSys.getBoundingRect(), nodeData = seriesModel.getData(), graph = nodeData.graph, cx = rect.width / 2 + rect.x, cy = rect.height / 2 + rect.y, r1 = Math.min(rect.width, rect.height) / 2, count = nodeData.count();
             nodeData.setLayout({
                 cx: cx,
                 cy: cy
-            }), count && (_layoutNodesBasedOn[basedOn](seriesModel, graph, nodeData, r, cx, cy, count), graph.eachEdge(function(edge, index) {
+            }), count && (_layoutNodesBasedOn[basedOn](seriesModel, graph, nodeData, r1, cx, cy, count), graph.eachEdge(function(edge, index) {
                 var cp1, curveness = retrieve3(edge.getModel().get([
                     'lineStyle',
                     'curveness'
@@ -28923,17 +28923,17 @@
         }
     }
     var _layoutNodesBasedOn = {
-        value: function(seriesModel, graph, nodeData, r, cx, cy, count) {
+        value: function(seriesModel, graph, nodeData, r1, cx, cy, count) {
             var angle = 0, sum = nodeData.getSum('value'), unitAngle = 2 * Math.PI / (sum || count);
             graph.eachNode(function(node) {
                 var value = node.getValue('value'), radianHalf = unitAngle * (sum ? value : 1) / 2;
                 angle += radianHalf, node.setLayout([
-                    r * Math.cos(angle) + cx,
-                    r * Math.sin(angle) + cy
+                    r1 * Math.cos(angle) + cx,
+                    r1 * Math.sin(angle) + cy
                 ]), angle += radianHalf;
             });
         },
-        symbolSize: function(seriesModel, graph, nodeData, r, cx, cy, count) {
+        symbolSize: function(seriesModel, graph, nodeData, r1, cx, cy, count) {
             var sumRadian = 0;
             _symbolRadiansHalf.length = count;
             var nodeScale = getNodeGlobalScale(seriesModel);
@@ -28941,15 +28941,15 @@
                 var symbolSize = getSymbolSize(node); // Normally this case will not happen, but we still add
                 // some the defensive code (2px is an arbitrary value).
                 isNaN(symbolSize) && (symbolSize = 2), symbolSize < 0 && (symbolSize = 0);
-                var symbolRadianHalf = Math.asin((symbolSize *= nodeScale) / 2 / r); // when `symbolSize / 2` is bigger than `r`.
+                var symbolRadianHalf = Math.asin((symbolSize *= nodeScale) / 2 / r1); // when `symbolSize / 2` is bigger than `r`.
                 isNaN(symbolRadianHalf) && (symbolRadianHalf = PI$6 / 2), _symbolRadiansHalf[node.dataIndex] = symbolRadianHalf, sumRadian += 2 * symbolRadianHalf;
             });
             var halfRemainRadian = (2 * PI$6 - sumRadian) / count / 2, angle = 0;
             graph.eachNode(function(node) {
                 var radianHalf = halfRemainRadian + _symbolRadiansHalf[node.dataIndex];
                 angle += radianHalf, node.setLayout([
-                    r * Math.cos(angle) + cx,
-                    r * Math.sin(angle) + cy
+                    r1 * Math.cos(angle) + cx,
+                    r1 * Math.sin(angle) + cy
                 ]), angle += radianHalf;
             });
         }
@@ -30071,8 +30071,8 @@
         return __extends(PointerPath, _super), PointerPath.prototype.getDefaultShape = function() {
             return new PointerShape();
         }, PointerPath.prototype.buildPath = function(ctx, shape) {
-            var mathCos = Math.cos, mathSin = Math.sin, r = shape.r, width = shape.width, angle = shape.angle, x = shape.x - mathCos(angle) * width * (width >= r / 3 ? 1 : 2), y = shape.y - mathSin(angle) * width * (width >= r / 3 ? 1 : 2);
-            angle = shape.angle - Math.PI / 2, ctx.moveTo(x, y), ctx.lineTo(shape.x + mathCos(angle) * width, shape.y + mathSin(angle) * width), ctx.lineTo(shape.x + mathCos(shape.angle) * r, shape.y + mathSin(shape.angle) * r), ctx.lineTo(shape.x - mathCos(angle) * width, shape.y - mathSin(angle) * width), ctx.lineTo(x, y);
+            var mathCos = Math.cos, mathSin = Math.sin, r1 = shape.r, width = shape.width, angle = shape.angle, x = shape.x - mathCos(angle) * width * (width >= r1 / 3 ? 1 : 2), y = shape.y - mathSin(angle) * width * (width >= r1 / 3 ? 1 : 2);
+            angle = shape.angle - Math.PI / 2, ctx.moveTo(x, y), ctx.lineTo(shape.x + mathCos(angle) * width, shape.y + mathSin(angle) * width), ctx.lineTo(shape.x + mathCos(shape.angle) * r1, shape.y + mathSin(shape.angle) * r1), ctx.lineTo(shape.x - mathCos(angle) * width, shape.y - mathSin(angle) * width), ctx.lineTo(x, y);
         }, PointerPath;
     }(Path);
     function formatLabel(value, labelFormatter) {
@@ -30132,14 +30132,14 @@
             }
             this._renderTicks(seriesModel, ecModel, api, getColor, posInfo, startAngle, endAngle, clockwise, axisLineWidth), this._renderTitleAndDetail(seriesModel, ecModel, api, getColor, posInfo), this._renderAnchor(seriesModel, posInfo), this._renderPointer(seriesModel, ecModel, api, getColor, posInfo, startAngle, endAngle, clockwise, axisLineWidth);
         }, GaugeView.prototype._renderTicks = function(seriesModel, ecModel, api, getColor, posInfo, startAngle, endAngle, clockwise, axisLineWidth) {
-            for(var unitX, unitY, group = this.group, cx = posInfo.cx, cy = posInfo.cy, r = posInfo.r, minVal = +seriesModel.get('min'), maxVal = +seriesModel.get('max'), splitLineModel = seriesModel.getModel('splitLine'), tickModel = seriesModel.getModel('axisTick'), labelModel = seriesModel.getModel('axisLabel'), splitNumber = seriesModel.get('splitNumber'), subSplitNumber = tickModel.get('splitNumber'), splitLineLen = parsePercent$1(splitLineModel.get('length'), r), tickLen = parsePercent$1(tickModel.get('length'), r), angle = startAngle, step = (endAngle - startAngle) / splitNumber, subStep = step / subSplitNumber, splitLineStyle = splitLineModel.getModel('lineStyle').getLineStyle(), tickLineStyle = tickModel.getModel('lineStyle').getLineStyle(), splitLineDistance = splitLineModel.get('distance'), i = 0; i <= splitNumber; i++){
+            for(var unitX, unitY, group = this.group, cx = posInfo.cx, cy = posInfo.cy, r1 = posInfo.r, minVal = +seriesModel.get('min'), maxVal = +seriesModel.get('max'), splitLineModel = seriesModel.getModel('splitLine'), tickModel = seriesModel.getModel('axisTick'), labelModel = seriesModel.getModel('axisLabel'), splitNumber = seriesModel.get('splitNumber'), subSplitNumber = tickModel.get('splitNumber'), splitLineLen = parsePercent$1(splitLineModel.get('length'), r1), tickLen = parsePercent$1(tickModel.get('length'), r1), angle = startAngle, step = (endAngle - startAngle) / splitNumber, subStep = step / subSplitNumber, splitLineStyle = splitLineModel.getModel('lineStyle').getLineStyle(), tickLineStyle = tickModel.getModel('lineStyle').getLineStyle(), splitLineDistance = splitLineModel.get('distance'), i = 0; i <= splitNumber; i++){
                 if (unitX = Math.cos(angle), unitY = Math.sin(angle), splitLineModel.get('show')) {
                     var distance = splitLineDistance ? splitLineDistance + axisLineWidth : axisLineWidth, splitLine = new Line({
                         shape: {
-                            x1: unitX * (r - distance) + cx,
-                            y1: unitY * (r - distance) + cy,
-                            x2: unitX * (r - splitLineLen - distance) + cx,
-                            y2: unitY * (r - splitLineLen - distance) + cy
+                            x1: unitX * (r1 - distance) + cx,
+                            y1: unitY * (r1 - distance) + cy,
+                            x2: unitX * (r1 - splitLineLen - distance) + cx,
+                            y2: unitY * (r1 - splitLineLen - distance) + cy
                         },
                         style: splitLineStyle,
                         silent: !0
@@ -30153,8 +30153,8 @@
                     group.add(new ZRText({
                         style: createTextStyle(labelModel, {
                             text: label,
-                            x: unitX * (r - splitLineLen - distance) + cx,
-                            y: unitY * (r - splitLineLen - distance) + cy,
+                            x: unitX * (r1 - splitLineLen - distance) + cx,
+                            y: unitY * (r1 - splitLineLen - distance) + cy,
                             verticalAlign: unitY < -0.8 ? 'top' : unitY > 0.8 ? 'bottom' : 'middle',
                             align: unitX < -0.4 ? 'left' : unitX > 0.4 ? 'right' : 'center'
                         }, {
@@ -30169,10 +30169,10 @@
                     for(var j = 0; j <= subSplitNumber; j++){
                         var tickLine = new Line({
                             shape: {
-                                x1: (unitX = Math.cos(angle)) * (r - distance) + cx,
-                                y1: (unitY = Math.sin(angle)) * (r - distance) + cy,
-                                x2: unitX * (r - tickLen - distance) + cx,
-                                y2: unitY * (r - tickLen - distance) + cy
+                                x1: (unitX = Math.cos(angle)) * (r1 - distance) + cx,
+                                y1: (unitY = Math.sin(angle)) * (r1 - distance) + cy,
+                                x2: unitX * (r1 - tickLen - distance) + cx,
+                                y2: unitY * (r1 - tickLen - distance) + cy
                             },
                             silent: !0,
                             style: tickLineStyle
@@ -30211,7 +30211,7 @@
                 })).rotation = -(angle + Math.PI / 2), pointer.x = posInfo.cx, pointer.y = posInfo.cy, pointer;
             }
             function createProgress(idx, endAngle) {
-                var ProgressPath = progressModel.get('roundCap') ? SausagePath : Sector, isOverlap = progressModel.get('overlap'), progressWidth = isOverlap ? progressModel.get('width') : axisLineWidth / data.count(), r0 = isOverlap ? posInfo.r - progressWidth : posInfo.r - (idx + 1) * progressWidth, r = isOverlap ? posInfo.r : posInfo.r - idx * progressWidth, progress = new ProgressPath({
+                var ProgressPath = progressModel.get('roundCap') ? SausagePath : Sector, isOverlap = progressModel.get('overlap'), progressWidth = isOverlap ? progressModel.get('width') : axisLineWidth / data.count(), r0 = isOverlap ? posInfo.r - progressWidth : posInfo.r - (idx + 1) * progressWidth, r1 = isOverlap ? posInfo.r : posInfo.r - idx * progressWidth, progress = new ProgressPath({
                     shape: {
                         startAngle: startAngle,
                         endAngle: endAngle,
@@ -30219,7 +30219,7 @@
                         cy: posInfo.cy,
                         clockwise: clockwise,
                         r0: r0,
-                        r: r
+                        r: r1
                     }
                 });
                 return isOverlap && (progress.z2 = maxVal - data.get(valueDim, idx) % maxVal), progress;
@@ -34189,11 +34189,11 @@
              * @param width canvas width
              * @param height canvas height
              */ HeatmapLayer.prototype.update = function(data, width, height, normalize, colorFunc, isInRange) {
-            var brush = this._getBrush(), gradientInRange = this._getGradient(colorFunc, 'inRange'), gradientOutOfRange = this._getGradient(colorFunc, 'outOfRange'), r = this.pointSize + this.blurSize, canvas = this.canvas, ctx = canvas.getContext('2d'), len = data.length;
+            var brush = this._getBrush(), gradientInRange = this._getGradient(colorFunc, 'inRange'), gradientOutOfRange = this._getGradient(colorFunc, 'outOfRange'), r1 = this.pointSize + this.blurSize, canvas = this.canvas, ctx = canvas.getContext('2d'), len = data.length;
             canvas.width = width, canvas.height = height;
             for(var i = 0; i < len; ++i){
                 var p = data[i], x = p[0], y = p[1], alpha = normalize(p[2]);
-                ctx.globalAlpha = alpha, ctx.drawImage(brush, x - r, y - r);
+                ctx.globalAlpha = alpha, ctx.drawImage(brush, x - r1, y - r1);
             }
             if (!canvas.width || !canvas.height) // Avoid "Uncaught DOMException: Failed to execute 'getImageData' on
             // 'CanvasRenderingContext2D': The source height is 0."
@@ -34210,13 +34210,13 @@
         }, /**
              * get canvas of a black circle brush used for canvas to draw later
              */ HeatmapLayer.prototype._getBrush = function() {
-            var brushCanvas = this._brushCanvas || (this._brushCanvas = createCanvas()), r = this.pointSize + this.blurSize, d = 2 * r; // set brush size
+            var brushCanvas = this._brushCanvas || (this._brushCanvas = createCanvas()), r1 = this.pointSize + this.blurSize, d = 2 * r1; // set brush size
             brushCanvas.width = d, brushCanvas.height = d;
             var ctx = brushCanvas.getContext('2d');
             return ctx.clearRect(0, 0, d, d), // draw the distinct circle in an invisible place,
             // and use shadowOffset to draw shadow in the center of the canvas
             ctx.shadowOffsetX = d, ctx.shadowBlur = this.blurSize, // color in color map
-            ctx.shadowColor = '#000', ctx.beginPath(), ctx.arc(-r, r, this.pointSize, 0, 2 * Math.PI, !0), ctx.closePath(), ctx.fill(), brushCanvas;
+            ctx.shadowColor = '#000', ctx.beginPath(), ctx.arc(-r1, r1, this.pointSize, 0, 2 * Math.PI, !0), ctx.closePath(), ctx.fill(), brushCanvas;
         }, /**
              * get gradient color map
              * @private
@@ -35125,7 +35125,7 @@
                 return null == stateAttr ? normalLabelModel.get(name) : stateAttr;
             }
             label.ignore = !(normalLabelModel.get('show') && !(null != labelMinAngle && Math.abs(angle) < labelMinAngle)), each(DISPLAY_STATES, function(stateName) {
-                var r, labelStateModel = 'normal' === stateName ? itemModel.getModel('label') : itemModel.getModel([
+                var r1, labelStateModel = 'normal' === stateName ? itemModel.getModel('label') : itemModel.getModel([
                     stateName,
                     'label'
                 ]), isNormal = 'normal' === stateName, state = isNormal ? label : label.ensureState(stateName), text = seriesModel.getFormattedLabel(dataIndex, stateName);
@@ -35138,7 +35138,7 @@
                     inside: 'outside' !== labelPosition
                 };
                 var labelPadding = getLabelAttr(labelStateModel, 'distance') || 0, textAlign = getLabelAttr(labelStateModel, 'align');
-                'outside' === labelPosition ? (r = layout.r + labelPadding, textAlign = midAngle > Math.PI / 2 ? 'right' : 'left') : textAlign && 'center' !== textAlign ? 'left' === textAlign ? (r = layout.r0 + labelPadding, midAngle > Math.PI / 2 && (textAlign = 'right')) : 'right' === textAlign && (r = layout.r - labelPadding, midAngle > Math.PI / 2 && (textAlign = 'left')) : (r = (layout.r + layout.r0) / 2, textAlign = 'center'), state.style.align = textAlign, state.style.verticalAlign = getLabelAttr(labelStateModel, 'verticalAlign') || 'middle', state.x = r * dx + layout.cx, state.y = r * dy + layout.cy;
+                'outside' === labelPosition ? (r1 = layout.r + labelPadding, textAlign = midAngle > Math.PI / 2 ? 'right' : 'left') : textAlign && 'center' !== textAlign ? 'left' === textAlign ? (r1 = layout.r0 + labelPadding, midAngle > Math.PI / 2 && (textAlign = 'right')) : 'right' === textAlign && (r1 = layout.r - labelPadding, midAngle > Math.PI / 2 && (textAlign = 'left')) : (r1 = (layout.r + layout.r0) / 2, textAlign = 'center'), state.style.align = textAlign, state.style.verticalAlign = getLabelAttr(labelStateModel, 'verticalAlign') || 'middle', state.x = r1 * dx + layout.cx, state.y = r1 * dy + layout.cy;
                 var rotateType = getLabelAttr(labelStateModel, 'rotate'), rotate = 0;
                 'radial' === rotateType ? (rotate = -midAngle) < -Math.PI / 2 && (rotate += Math.PI) : 'tangential' === rotateType ? (rotate = Math.PI / 2 - midAngle) > Math.PI / 2 ? rotate -= Math.PI : rotate < -Math.PI / 2 && (rotate += Math.PI) : 'number' == typeof rotateType && (rotate = rotateType * Math.PI / 180), state.rotation = rotate;
             }), label.dirtyStyle();
@@ -35347,7 +35347,7 @@
                 center,
                 center
             ]);
-            var width = api.getWidth(), height = api.getHeight(), size = Math.min(width, height), cx = parsePercent$1(center[0], width), cy = parsePercent$1(center[1], height), r0 = parsePercent$1(radius[0], size / 2), r = parsePercent$1(radius[1], size / 2), startAngle = -seriesModel.get('startAngle') * RADIAN$2, minAngle = seriesModel.get('minAngle') * RADIAN$2, virtualRoot = seriesModel.getData().tree.root, treeRoot = seriesModel.getViewRoot(), rootDepth = treeRoot.depth, sort = seriesModel.get('sort');
+            var width = api.getWidth(), height = api.getHeight(), size = Math.min(width, height), cx = parsePercent$1(center[0], width), cy = parsePercent$1(center[1], height), r0 = parsePercent$1(radius[0], size / 2), r1 = parsePercent$1(radius[1], size / 2), startAngle = -seriesModel.get('startAngle') * RADIAN$2, minAngle = seriesModel.get('minAngle') * RADIAN$2, virtualRoot = seriesModel.getData().tree.root, treeRoot = seriesModel.getViewRoot(), rootDepth = treeRoot.depth, sort = seriesModel.get('sort');
             null != sort && /**
      * Init node children by order and update visual
      */ function initChildren$1(node, sortOrder) {
@@ -35393,7 +35393,7 @@
             each(treeRoot.children, function(child) {
                 !isNaN(child.getValue()) && validDataCount++;
             });
-            var sum = treeRoot.getValue(), unitRadian = Math.PI / (sum || validDataCount) * 2, renderRollupNode = treeRoot.depth > 0, rPerLevel = (r - r0) / (treeRoot.height - (renderRollupNode ? -1 : 1) || 1), clockwise = seriesModel.get('clockwise'), stillShowZeroSum = seriesModel.get('stillShowZeroSum'), dir = clockwise ? 1 : -1, renderNode = function(node, startAngle) {
+            var sum = treeRoot.getValue(), unitRadian = Math.PI / (sum || validDataCount) * 2, renderRollupNode = treeRoot.depth > 0, rPerLevel = (r1 - r0) / (treeRoot.height - (renderRollupNode ? -1 : 1) || 1), clockwise = seriesModel.get('clockwise'), stillShowZeroSum = seriesModel.get('stillShowZeroSum'), dir = clockwise ? 1 : -1, renderNode = function(node, startAngle) {
                 if (node) {
                     var endAngle = startAngle; // Render self
                     if (node !== virtualRoot) {
@@ -35700,57 +35700,58 @@
                 newArray2
             ];
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
-        !function(path, morphingData, morphT) {
-            if (isIndividualMorphingPath(path)) {
-                updateIndividualMorphingPath(path, morphingData, 0);
-                return;
-            }
-            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, 0);
-        }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
-            for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
-                var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
-                null == fromNeedsReverse && (fromNeedsReverse = fromCp[2] < 0 != toCp[2] < 0);
-                var newFromSubpathBezier = [], newToSubpathBezier = [], bestAngle = 0, bestScore = 1 / 0, tmpArr_1 = [], len = fromSubpathBezier.length;
-                fromNeedsReverse && (fromSubpathBezier = function(array) {
-                    for(var newArr = [], len = array.length, i = 0; i < len; i += 2)newArr[i] = array[len - i - 2], newArr[i + 1] = array[len - i - 1];
-                    return newArr;
-                }(fromSubpathBezier));
-                for(var offset = 6 * function(fromSubBeziers, toSubBeziers, fromCp, toCp) {
-                    for(var bezierCount = (fromSubBeziers.length - 2) / 6, bestScore = 1 / 0, bestOffset = 0, len = fromSubBeziers.length, len2 = len - 2, offset = 0; offset < bezierCount; offset++){
-                        for(var cursorOffset = 6 * offset, score = 0, k = 0; k < len; k += 2){
-                            var idx = 0 === k ? cursorOffset : (cursorOffset + k - 2) % len2 + 2, x0 = fromSubBeziers[idx] - fromCp[0], y0 = fromSubBeziers[idx + 1] - fromCp[1], x1 = toSubBeziers[k] - toCp[0], y1 = toSubBeziers[k + 1] - toCp[1], dx = x1 - x0, dy = y1 - y0;
+        r: {
+            var morphingData = function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
+                for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
+                    var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
+                    null == fromNeedsReverse && (fromNeedsReverse = fromCp[2] < 0 != toCp[2] < 0);
+                    var newFromSubpathBezier = [], newToSubpathBezier = [], bestAngle = 0, bestScore = 1 / 0, tmpArr_1 = [], len = fromSubpathBezier.length;
+                    fromNeedsReverse && (fromSubpathBezier = function(array) {
+                        for(var newArr = [], len = array.length, i = 0; i < len; i += 2)newArr[i] = array[len - i - 2], newArr[i + 1] = array[len - i - 1];
+                        return newArr;
+                    }(fromSubpathBezier));
+                    for(var offset = 6 * function(fromSubBeziers, toSubBeziers, fromCp, toCp) {
+                        for(var bezierCount = (fromSubBeziers.length - 2) / 6, bestScore = 1 / 0, bestOffset = 0, len = fromSubBeziers.length, len2 = len - 2, offset = 0; offset < bezierCount; offset++){
+                            for(var cursorOffset = 6 * offset, score = 0, k = 0; k < len; k += 2){
+                                var idx = 0 === k ? cursorOffset : (cursorOffset + k - 2) % len2 + 2, x0 = fromSubBeziers[idx] - fromCp[0], y0 = fromSubBeziers[idx + 1] - fromCp[1], x1 = toSubBeziers[k] - toCp[0], y1 = toSubBeziers[k + 1] - toCp[1], dx = x1 - x0, dy = y1 - y0;
+                                score += dx * dx + dy * dy;
+                            }
+                            score < bestScore && (bestScore = score, bestOffset = offset);
+                        }
+                        return bestOffset;
+                    }(fromSubpathBezier, toSubpathBezier, fromCp, toCp), len2 = len - 2, k = 0; k < len2; k += 2){
+                        var idx = (offset + k) % len2 + 2;
+                        newFromSubpathBezier[k + 2] = fromSubpathBezier[idx] - fromCp[0], newFromSubpathBezier[k + 3] = fromSubpathBezier[idx + 1] - fromCp[1];
+                    }
+                    newFromSubpathBezier[0] = fromSubpathBezier[offset] - fromCp[0], newFromSubpathBezier[1] = fromSubpathBezier[offset + 1] - fromCp[1];
+                    for(var step = searchAngleRange / 10, angle = -searchAngleRange / 2; angle <= searchAngleRange / 2; angle += step){
+                        for(var sa = Math.sin(angle), ca = Math.cos(angle), score = 0, k = 0; k < fromSubpathBezier.length; k += 2){
+                            var x0 = newFromSubpathBezier[k], y0 = newFromSubpathBezier[k + 1], x1 = toSubpathBezier[k] - toCp[0], y1 = toSubpathBezier[k + 1] - toCp[1], newX1 = x1 * ca - y1 * sa, newY1 = x1 * sa + y1 * ca;
+                            tmpArr_1[k] = newX1, tmpArr_1[k + 1] = newY1;
+                            var dx = newX1 - x0, dy = newY1 - y0;
                             score += dx * dx + dy * dy;
                         }
-                        score < bestScore && (bestScore = score, bestOffset = offset);
+                        if (score < bestScore) {
+                            bestScore = score, bestAngle = angle;
+                            for(var m = 0; m < tmpArr_1.length; m++)newToSubpathBezier[m] = tmpArr_1[m];
+                        }
                     }
-                    return bestOffset;
-                }(fromSubpathBezier, toSubpathBezier, fromCp, toCp), len2 = len - 2, k = 0; k < len2; k += 2){
-                    var idx = (offset + k) % len2 + 2;
-                    newFromSubpathBezier[k + 2] = fromSubpathBezier[idx] - fromCp[0], newFromSubpathBezier[k + 3] = fromSubpathBezier[idx + 1] - fromCp[1];
+                    result.push({
+                        from: newFromSubpathBezier,
+                        to: newToSubpathBezier,
+                        fromCp: fromCp,
+                        toCp: toCp,
+                        rotation: -bestAngle
+                    });
                 }
-                newFromSubpathBezier[0] = fromSubpathBezier[offset] - fromCp[0], newFromSubpathBezier[1] = fromSubpathBezier[offset + 1] - fromCp[1];
-                for(var step = searchAngleRange / 10, angle = -searchAngleRange / 2; angle <= searchAngleRange / 2; angle += step){
-                    for(var sa = Math.sin(angle), ca = Math.cos(angle), score = 0, k = 0; k < fromSubpathBezier.length; k += 2){
-                        var x0 = newFromSubpathBezier[k], y0 = newFromSubpathBezier[k + 1], x1 = toSubpathBezier[k] - toCp[0], y1 = toSubpathBezier[k + 1] - toCp[1], newX1 = x1 * ca - y1 * sa, newY1 = x1 * sa + y1 * ca;
-                        tmpArr_1[k] = newX1, tmpArr_1[k + 1] = newY1;
-                        var dx = newX1 - x0, dy = newY1 - y0;
-                        score += dx * dx + dy * dy;
-                    }
-                    if (score < bestScore) {
-                        bestScore = score, bestAngle = angle;
-                        for(var m = 0; m < tmpArr_1.length; m++)newToSubpathBezier[m] = tmpArr_1[m];
-                    }
-                }
-                result.push({
-                    from: newFromSubpathBezier,
-                    to: newToSubpathBezier,
-                    fromCp: fromCp,
-                    toCp: toCp,
-                    rotation: -bestAngle
-                });
+                return result;
+            }(_a[0], _a[1], 0, Math.PI);
+            if (isIndividualMorphingPath(toPath)) {
+                updateIndividualMorphingPath(toPath, morphingData, 0);
+                break r;
             }
-            return result;
-        }(_a[0], _a[1], 0, Math.PI), 0);
+            toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(toPath, morphingData, 0);
+        }
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
         return toPath.animateTo({
             __morphT: 1
@@ -37401,12 +37402,12 @@
             height: wh[1 - xDimIndex]
         };
     }
-    function makeSectorShape(cx, cy, r0, r, startAngle, endAngle) {
+    function makeSectorShape(cx, cy, r0, r1, startAngle, endAngle) {
         return {
             cx: cx,
             cy: cy,
             r0: r0,
-            r: r,
+            r: r1,
             startAngle: startAngle,
             endAngle: endAngle,
             clockwise: !0
@@ -38060,13 +38061,13 @@
                     align = labelLayout.textAlign, verticalAlign = labelLayout.textVerticalAlign;
                 } else {
                     // angle axis
-                    var r = radiusExtent[1];
+                    var r1 = radiusExtent[1];
                     position = polar.coordToPoint([
-                        r + labelMargin,
+                        r1 + labelMargin,
                         coord
                     ]);
                     var cx = polar.cx, cy = polar.cy;
-                    align = Math.abs(position[0] - cx) / r < 0.3 ? 'center' : position[0] > cx ? 'left' : 'right', verticalAlign = Math.abs(position[1] - cy) / r < 0.3 ? 'middle' : position[1] > cy ? 'top' : 'bottom';
+                    align = Math.abs(position[0] - cx) / r1 < 0.3 ? 'center' : position[0] > cx ? 'left' : 'right', verticalAlign = Math.abs(position[1] - cy) / r1 < 0.3 ? 'middle' : position[1] > cy ? 'top' : 'bottom';
                 }
                 return {
                     position: position,
@@ -38296,8 +38297,8 @@
                 contain: function(x, y) {
                     // It's a ring shape.
                     // Start angle and end angle don't matter
-                    var dx = x - this.cx, dy = y - this.cy, d2 = dx * dx + dy * dy, r = this.r, r0 = this.r0;
-                    return d2 <= r * r && d2 >= r0 * r0;
+                    var dx = x - this.cx, dy = y - this.cy, d2 = dx * dx + dy * dy, r1 = this.r, r0 = this.r0;
+                    return d2 <= r1 * r1 && d2 >= r0 * r0;
                 }
             };
         }, Polar.prototype.convertToPixel = function(ecModel, finder, value) {
@@ -38485,10 +38486,10 @@
         axisLabel: function(group, angleAxisModel, polar, ticksAngles, minorTickAngles, radiusExtent, labels) {
             var rawCategoryData = angleAxisModel.getCategories(!0), commonLabelModel = angleAxisModel.getModel('axisLabel'), labelMargin = commonLabelModel.get('margin'), triggerEvent = angleAxisModel.get('triggerEvent');
             each(labels, function(labelItem, idx) {
-                var labelModel = commonLabelModel, tickValue = labelItem.tickValue, r = radiusExtent[getRadiusIdx(polar)], p = polar.coordToPoint([
-                    r + labelMargin,
+                var labelModel = commonLabelModel, tickValue = labelItem.tickValue, r1 = radiusExtent[getRadiusIdx(polar)], p = polar.coordToPoint([
+                    r1 + labelMargin,
                     labelItem.coord
-                ]), cx = polar.cx, cy = polar.cy, labelTextAlign = Math.abs(p[0] - cx) / r < 0.3 ? 'center' : p[0] > cx ? 'left' : 'right', labelTextVerticalAlign = Math.abs(p[1] - cy) / r < 0.3 ? 'middle' : p[1] > cy ? 'top' : 'bottom';
+                ]), cx = polar.cx, cy = polar.cy, labelTextAlign = Math.abs(p[0] - cx) / r1 < 0.3 ? 'center' : p[0] > cx ? 'left' : 'right', labelTextVerticalAlign = Math.abs(p[1] - cy) / r1 < 0.3 ? 'middle' : p[1] > cy ? 'top' : 'bottom';
                 if (rawCategoryData && rawCategoryData[tickValue]) {
                     var rawCategoryItem = rawCategoryData[tickValue];
                     isObject(rawCategoryItem) && rawCategoryItem.textStyle && (labelModel = new Model(rawCategoryItem.textStyle, commonLabelModel, commonLabelModel.ecModel));
@@ -38744,13 +38745,13 @@
                         p: valueAxisStart,
                         n: valueAxisStart // Negative stack
                     }), baseCoord = lastStackCoords[stackId][baseValue][sign]);
-                    var r0 = void 0, r = void 0, startAngle = void 0, endAngle = void 0;
+                    var r0 = void 0, r1 = void 0, startAngle = void 0, endAngle = void 0;
                     if ('radius' === valueAxis.dim) {
                         var radiusSpan = valueAxis.dataToCoord(value) - valueAxisStart, angle = baseAxis.dataToCoord(baseValue);
-                        Math.abs(radiusSpan) < barMinHeight && (radiusSpan = (radiusSpan < 0 ? -1 : 1) * barMinHeight), r0 = baseCoord, r = baseCoord + radiusSpan, endAngle = (startAngle = angle - columnOffset) - columnWidth, stacked && (lastStackCoords[stackId][baseValue][sign] = r);
+                        Math.abs(radiusSpan) < barMinHeight && (radiusSpan = (radiusSpan < 0 ? -1 : 1) * barMinHeight), r0 = baseCoord, r1 = baseCoord + radiusSpan, endAngle = (startAngle = angle - columnOffset) - columnWidth, stacked && (lastStackCoords[stackId][baseValue][sign] = r1);
                     } else {
                         var angleSpan = valueAxis.dataToCoord(value, clampLayout) - valueAxisStart, radius = baseAxis.dataToCoord(baseValue);
-                        Math.abs(angleSpan) < barMinAngle && (angleSpan = (angleSpan < 0 ? -1 : 1) * barMinAngle), r = (r0 = radius + columnOffset) + columnWidth, startAngle = baseCoord, endAngle = baseCoord + angleSpan, // add a round to differentiate it from origin
+                        Math.abs(angleSpan) < barMinAngle && (angleSpan = (angleSpan < 0 ? -1 : 1) * barMinAngle), r1 = (r0 = radius + columnOffset) + columnWidth, startAngle = baseCoord, endAngle = baseCoord + angleSpan, // add a round to differentiate it from origin
                         // let extent = angleAxis.getExtent();
                         // let stackCoord = angle;
                         // if (stackCoord === extent[0] && value > 0) {
@@ -38765,7 +38766,7 @@
                         cx: cx,
                         cy: cy,
                         r0: r0,
-                        r: r,
+                        r: r1,
                         // Consider that positive angle is anti-clockwise,
                         // while positive radian of sector is clockwise
                         startAngle: -startAngle * Math.PI / 180,

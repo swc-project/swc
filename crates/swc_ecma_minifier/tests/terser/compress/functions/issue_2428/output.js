@@ -1,5 +1,8 @@
 function baz(a) {
-    console.log(a);
+    r: {
+        console.log(a);
+        break r;
+    }
 }
 baz(42);
 baz("PASS");

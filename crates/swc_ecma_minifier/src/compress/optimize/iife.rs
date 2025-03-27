@@ -1,10 +1,14 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
-use swc_common::{pass::Either, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
+use swc_ecma_utils::{
+    contains_arguments, contains_this_expr, find_pat_ids, private_ident, ExprFactory, StmtExt,
+};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::{util::NormalMultiReplacer, Optimizer};
 #[cfg(feature = "debug")]
@@ -657,7 +661,7 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn invoke_iife_stmt(&mut self, e: &mut Expr, is_return: bool) -> Option<BlockStmt> {
+    pub(super) fn invoke_iife_stmt(&mut self, e: &mut Expr, is_return: bool) -> Option<Stmt> {
         trace_op!("iife: invoke_iife");
 
         let call = match e {
@@ -1116,7 +1120,7 @@ impl Optimizer<'_> {
         args: &mut [ExprOrSpread],
         is_return: bool,
         span: Span,
-    ) -> Option<BlockStmt> {
+    ) -> Option<Stmt> {
         if !self.can_inline_fn_like(&params, body, true) {
             return None;
         }
@@ -1142,18 +1146,28 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let mut has_return = ReturnVisitor { found: false };
-
-        if !is_return {
-            body.visit_with(&mut has_return);
-
-            if has_return.found {
-                return None;
-            }
-        }
-
         self.changed = true;
         report_change!("inline: Inlining a function call (params = {params:?})");
+
+        let label = if is_return {
+            if !body.stmts.last().map(|s| s.terminates()).unwrap_or(false) {
+                body.stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: None,
+                }))
+            }
+
+            None
+        } else {
+            let mut has_return = ReturnVisitor {
+                label: None,
+                fake_block: self.marks.fake_block,
+            };
+
+            body.visit_mut_with(&mut has_return);
+
+            has_return.label
+        };
 
         let mut stmts = Vec::with_capacity(body.stmts.len() + 2);
 
@@ -1190,11 +1204,23 @@ impl Optimizer<'_> {
 
         stmts.extend(body.stmts.take());
 
-        Some(BlockStmt {
+        let block = Stmt::Block(BlockStmt {
             span,
             ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
             stmts,
-        })
+        });
+
+        let res = if let Some(label) = label {
+            Stmt::Labeled(LabeledStmt {
+                span,
+                label,
+                body: Box::new(block),
+            })
+        } else {
+            block
+        };
+
+        Some(res)
     }
 
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
@@ -1305,45 +1331,73 @@ fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
 }
 
 pub struct ReturnVisitor {
-    found: bool,
+    label: Option<Ident>,
+    fake_block: Mark,
 }
 
-impl Visit for ReturnVisitor {
-    noop_visit_type!();
+impl VisitMut for ReturnVisitor {
+    noop_visit_mut_type!();
 
     /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 
     /// Don't recurse into fn
-    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+    fn visit_mut_fn_decl(&mut self, _: &mut FnDecl) {}
 
     /// Don't recurse into fn
-    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+    fn visit_mut_fn_expr(&mut self, _: &mut FnExpr) {}
 
     /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 
     /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
+    fn visit_mut_getter_prop(&mut self, n: &mut GetterProp) {
+        n.key.visit_mut_with(self);
     }
 
     /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
+    fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
+        n.key.visit_mut_with(self);
+        n.function.visit_mut_with(self);
     }
 
     /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+        n.param.visit_mut_with(self);
     }
 
-    fn visit_expr(&mut self, _: &Expr) {}
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
-    fn visit_return_stmt(&mut self, _: &ReturnStmt) {
-        self.found = true;
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        if let Stmt::Return(r) = s {
+            let r = r.take();
+
+            let mut stmts = Vec::new();
+
+            if let Some(expr) = r.arg {
+                stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr,
+                }));
+            }
+
+            stmts.push(Stmt::Break(BreakStmt {
+                span: DUMMY_SP,
+                label: Some(
+                    self.label
+                        .get_or_insert_with(|| private_ident!("r"))
+                        .clone(),
+                ),
+            }));
+            *s = Stmt::Block(BlockStmt {
+                span: r.span,
+                ctxt: SyntaxContext::empty().apply_mark(self.fake_block),
+                stmts,
+            })
+        } else {
+            s.visit_mut_children_with(self);
+        }
     }
 }
 
