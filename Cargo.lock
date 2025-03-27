@@ -629,9 +629,9 @@ checksum = "2cc9a2cd1dfcbaf58c5a8552616ee811323cc614ffa612857b0ff610b5335b0e"
 
 [[package]]
 name = "chili"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e72f874459a658df39dd1d99f7f62a9c421792efc26eaae8d497ae5d2e816a62"
+checksum = "1d001a06f3969c49af3bdf308e9aaa1a477e77d2460357ce9e1248c6a9dcc4c0"
 
 [[package]]
 name = "chrono"
@@ -3220,9 +3220,9 @@ checksum = "caff54706df99d2a78a5a4e3455ff45448d81ef1bb63c22cd14052ca0e993a3f"
 
 [[package]]
 name = "par-core"
-version = "1.0.0"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "664ad734db961818c8d817a239053f9e6b9ad4487f6f236181c75d91573d8515"
+checksum = "6b506ab63a8bd3cd38858c7bfc2d078a189dc3210c7f8c9be1bbaf50c082a0ae"
 dependencies = [
  "chili",
  "once_cell",
@@ -3231,9 +3231,9 @@ dependencies = [
 
 [[package]]
 name = "par-iter"
-version = "1.0.0"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "475a015a1cd1720f1a371c089c06dd50bbfbedf2e721ca23d180c18794180360"
+checksum = "8a5b20f31e9ba82bfcbbb54a67aa40be6cebec9f668ba5753be138f9523c531a"
 dependencies = [
  "either",
  "par-core",
