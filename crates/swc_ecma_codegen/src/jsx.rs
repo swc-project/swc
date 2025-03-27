@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -26,6 +26,8 @@ impl MacroNode for JSXElement {
         if let Some(ref closing) = self.closing {
             emit!(closing)
         }
+
+        Ok(())
     }
 }
 
