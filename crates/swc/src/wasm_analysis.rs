@@ -4,7 +4,7 @@ use anyhow::Error;
 use common::{comments::SingleThreadedComments, errors::Handler, SourceFile};
 use swc_ecma_ast::Program;
 
-use crate::Compiler;
+use crate::{plugin::PluginConfig, Compiler};
 
 impl Compiler {
     /// Run analysis using Wasm plugins.
@@ -20,4 +20,6 @@ impl Compiler {
     }
 }
 
-pub struct WasmAnalysisOptions {}
+pub struct WasmAnalysisOptions {
+    pub plugins: Option<Vec<PluginConfig>>,
+}
