@@ -6,3 +6,4 @@
 //!    :     ^^^^^^^^^
 //!  3 | var a = () => arguments;
 //!    `----
+//!   x Syntax Error

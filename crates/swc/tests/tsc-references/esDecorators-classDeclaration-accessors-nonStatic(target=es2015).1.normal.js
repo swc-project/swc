@@ -10,3 +10,4 @@
 //!   9 |     @dec(21) get ["method2"]() { return 0; }
 //!  10 |     @dec(22) set ["method2"](value) {}
 //!     `----
+//!   x Syntax Error

@@ -372,3 +372,4 @@
 //!  37 |     b: <T>(public x: T, private y: T) => { }
 //!  38 | }
 //!     `----
+//!   x Syntax Error

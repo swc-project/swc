@@ -7,3 +7,4 @@
 //!  9 | class C2 implements A?.B {}
 //!    :                     ^^^^
 //!    `----
+//!   x Syntax Error

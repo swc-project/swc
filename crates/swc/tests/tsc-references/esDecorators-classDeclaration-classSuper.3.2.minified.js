@@ -10,3 +10,4 @@
 //!  12 |     static {
 //!  13 |         super.x;
 //!     `----
+//!   x Syntax Error

@@ -4,3 +4,4 @@
 //!  1 | interface symbol { }
 //!    :           ^^^^^^
 //!    `----
+//!   x Syntax Error

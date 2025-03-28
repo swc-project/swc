@@ -10,3 +10,4 @@
 //!  8 | 
 //!  9 | // No NamedEvaluation, class name
 //!    `----
+//!   x Syntax Error

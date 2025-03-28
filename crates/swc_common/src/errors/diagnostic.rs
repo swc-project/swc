@@ -10,13 +10,8 @@
 
 use std::fmt;
 
-use miette::GraphicalReportHandler;
-
 use super::{snippet::Style, Applicability, CodeSuggestion, Level, Substitution, SubstitutionPart};
-use crate::{
-    syntax_pos::{MultiSpan, Span},
-    SourceMap,
-};
+use crate::syntax_pos::{MultiSpan, Span};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[cfg_attr(
@@ -510,6 +505,8 @@ impl Diagnostic {
     }
 }
 
+// impl From<>
+
 impl SubDiagnostic {
     pub fn message(&self) -> String {
         self.message
@@ -520,31 +517,5 @@ impl SubDiagnostic {
 
     pub fn styled_message(&self) -> &Vec<Message> {
         &self.message
-    }
-}
-
-// For readable diagnostic, then render by miette
-impl Diagnostic {
-    /// Returns a pretty-printed of the diagnostic.
-    #[cfg(feature = "concurrent")]
-    pub fn to_pretty_diagnostic<'a>(
-        &'a self,
-        cm: &'a SourceMap,
-        skip_filename: bool,
-    ) -> super::diagnostic_pretty::PrettyDiagnostic<'a> {
-        use super::diagnostic_pretty::PrettyDiagnostic;
-        PrettyDiagnostic::new(self, cm, skip_filename)
-    }
-
-    #[cfg(feature = "concurrent")]
-    pub fn to_pretty_string<'a>(
-        &self,
-        cm: &'a SourceMap,
-        skip_filename: bool,
-        handler: &'a GraphicalReportHandler,
-    ) -> String {
-        use super::diagnostic_pretty::PrettyDiagnostic;
-        let pretty_diagnostic = PrettyDiagnostic::new(self, cm, skip_filename);
-        pretty_diagnostic.to_pretty_string(handler)
     }
 }

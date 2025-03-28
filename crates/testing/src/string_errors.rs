@@ -44,7 +44,7 @@ pub struct BufferedEmitter {
 
 impl Emitter for BufferedEmitter {
     fn emit(&mut self, db: &mut swc_common::errors::DiagnosticBuilder<'_>) {
-        let d: &swc_common::errors::Diagnostic = &**db;
+        let d = &**db;
         let pretty_string = d.to_pretty_string(&self.cm, false, &self.report);
         let _ = self.buffer.write(pretty_string.as_bytes()).unwrap();
     }

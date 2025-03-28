@@ -9,3 +9,4 @@
 //!  5 | 
 //!  6 | { @new x class C {} }
 //!    `----
+//!   x Syntax Error

@@ -434,6 +434,7 @@ impl CompileOptions {
                     })
                 },
             )
+            .map_err(|e| e.to_pretty_error())
         };
 
         if let Some(single_out_file) = self.out_file.as_ref() {

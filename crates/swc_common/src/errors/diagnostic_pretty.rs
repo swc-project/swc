@@ -105,13 +105,7 @@ impl fmt::Debug for PrettyDiagnostic<'_> {
 
 impl fmt::Display for PrettyDiagnostic<'_> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self.d.message.get(0) {
-            Some(item) => fmt::Display::fmt(&item.0, f),
-            None => {
-                dbg!(&self.d);
-                unreachable!();
-            }
-        }
+        self.d.message[0].0.fmt(f)
     }
 }
 
@@ -309,4 +303,45 @@ fn convert_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, len.0 as usize)
+}
+
+// For readable diagnostic, then render by miette
+impl Diagnostic {
+    /// Returns a pretty-printed of the diagnostic.
+    pub fn to_pretty_diagnostic<'a>(
+        &'a self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+    ) -> PrettyDiagnostic<'a> {
+        PrettyDiagnostic::new(self, cm, skip_filename)
+    }
+
+    /// Converts the diagnostic into a pretty-printed string, suitable for
+    /// display.
+    ///
+    /// This method is used to generate a human-readable string representation
+    /// of the diagnostic. It utilizes the `PrettyDiagnostic` struct to
+    /// format the diagnostic information.
+    ///
+    /// # Parameters
+    ///
+    /// - `cm`: A reference to the `SourceMap` used for mapping source code
+    ///   locations.
+    /// - `skip_filename`: A boolean indicating whether to skip including
+    ///   filenames in the output.
+    /// - `handler`: A reference to the `GraphicalReportHandler` used for
+    ///   handling graphical reports.
+    ///
+    /// # Returns
+    ///
+    /// A `String` containing the pretty-printed diagnostic information.
+    pub fn to_pretty_string<'a>(
+        &self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+        handler: &'a GraphicalReportHandler,
+    ) -> String {
+        let pretty_diagnostic = PrettyDiagnostic::new(self, cm, skip_filename);
+        pretty_diagnostic.to_pretty_string(handler)
+    }
 }
