@@ -7,3 +7,4 @@
 //!  3 |     yield 0;
 //!  4 |     var v: typeof yield;
 //!    `----
+//!   x Syntax Error

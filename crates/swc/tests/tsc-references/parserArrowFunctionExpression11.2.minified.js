@@ -6,9 +6,11 @@
 //!    :                        ^
 //!  2 | 
 //!    `----
+//!   x Syntax Error
 //// [fileTs.ts]
 //!   x Expected ':', got '<eof>'
 //!    ,----
 //!  1 | a ? b ? c : (d) : e => f
 //!    :                        ^
 //!    `----
+//!   x Syntax Error

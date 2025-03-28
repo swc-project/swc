@@ -7,3 +7,4 @@
 //!  5 | import await = foo.await;
 //!    :        ^^^^^
 //!    `----
+//!   x Syntax Error

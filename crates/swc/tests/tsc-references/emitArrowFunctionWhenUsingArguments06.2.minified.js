@@ -7,3 +7,4 @@
 //!  3 |     var a = () => () => arguments;
 //!  4 | }
 //!    `----
+//!   x Syntax Error

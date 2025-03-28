@@ -9,3 +9,4 @@
 //!  6 | class C {
 //!  7 | }
 //!    `----
+//!   x Syntax Error

@@ -10,3 +10,4 @@
 //!  6 |     static foo() {}
 //!  7 | }
 //!    `----
+//!   x Syntax Error

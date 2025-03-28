@@ -4,3 +4,4 @@
 //!  1 | var v = { [yield]: foo }
 //!    :            ^^^^^
 //!    `----
+//!   x Syntax Error

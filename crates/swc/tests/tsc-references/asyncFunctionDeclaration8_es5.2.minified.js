@@ -4,3 +4,4 @@
 //!  1 | var v = { [await]: foo }
 //!    :            ^^^^^
 //!    `----
+//!   x Syntax Error

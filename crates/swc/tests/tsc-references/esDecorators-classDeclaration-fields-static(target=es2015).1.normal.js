@@ -10,3 +10,4 @@
 //!   9 |     @dec(3) static [field3] = 3;
 //!  10 | }
 //!     `----
+//!   x Syntax Error

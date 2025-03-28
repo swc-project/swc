@@ -12,6 +12,7 @@
 //!  7 | @dec
 //!  8 | /*3*/
 //!    `----
+//!   x Syntax Error
 //// [file2.ts]
 //!   x Expression expected
 //!    ,-[3:1]
@@ -23,6 +24,7 @@
 //!  5 | @dec
 //!  6 | /*36*/
 //!    `----
+//!   x Syntax Error
 //// [file3.ts]
 //!   x Expected '{', got '@'
 //!    ,-[5:1]
@@ -35,3 +37,4 @@
 //!  7 | @dec
 //!  8 | /*43*/
 //!    `----
+//!   x Syntax Error

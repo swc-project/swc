@@ -8,3 +8,4 @@
 //!  4 | declare     // This should be the identifier 'declare'
 //!  5 | interface   // This should be the identifier 'interface'
 //!    `----
+//!   x Syntax Error

@@ -10,3 +10,4 @@
 //!  12 |     static {
 //!  13 |         super.method();
 //!     `----
+//!   x Syntax Error

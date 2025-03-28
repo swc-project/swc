@@ -9,3 +9,4 @@
 //!  16 |     static [Symbol.dispose]() {}
 //!  17 | };
 //!     `----
+//!   x Syntax Error

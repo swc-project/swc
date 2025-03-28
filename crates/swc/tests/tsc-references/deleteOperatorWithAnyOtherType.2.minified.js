@@ -359,3 +359,4 @@
 //!  59 | delete obj1.y;
 //!  60 | delete objA.a;
 //!     `----
+//!   x Syntax Error

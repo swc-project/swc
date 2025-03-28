@@ -82,6 +82,7 @@ fn fixture(input: PathBuf) {
                 Ok(())
             },
         )
+        .map_err(|e| e.to_pretty_error())
         .expect_err("should fail")
     });
 

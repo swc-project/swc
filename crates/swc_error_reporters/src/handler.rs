@@ -1,10 +1,10 @@
 use std::{
     env,
+    fmt::Debug,
     mem::take,
     sync::{Arc, Mutex},
 };
 
-use anyhow::Error;
 use miette::{GraphicalReportHandler, GraphicalTheme};
 use once_cell::sync::Lazy;
 use swc_common::{
@@ -13,7 +13,7 @@ use swc_common::{
     SourceMap,
 };
 
-use crate::ErrorEmitter;
+use crate::{ErrorEmitter, WrapperDiagnostics};
 
 #[derive(Default, Clone)]
 /// A thread-safe container for managing a collection of diagnostics.
@@ -36,6 +36,16 @@ impl ThreadSafetyDiagnostics {
                 .lock()
                 .expect("Failed to access the diagnostics lock"),
         )
+    }
+
+    pub fn as_wrapper(mut self, cm: Lrc<SourceMap>, opts: HandlerOpts) -> WrapperDiagnostics {
+        let diagnostics = self.take();
+
+        WrapperDiagnostics {
+            diagnostics,
+            cm,
+            report_opts: opts,
+        }
     }
 
     /// Returns a vector of diagnostics in the collection.
@@ -78,7 +88,7 @@ impl ThreadSafetyDiagnostics {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct HandlerOpts {
     /// [ColorConfig::Auto] is the default, and it will print colors unless the
     /// environment variable `NO_COLOR` is not 1.
@@ -134,37 +144,15 @@ pub fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
 // }
 }
 
-fn to_pretty_error(diagnostics: &[Diagnostic], cm: &SourceMap, config: &HandlerOpts) -> Error {
-    let handler = to_pretty_handler(config.color);
-    let error_msg = diagnostics
-        .iter()
-        .map(|d| d.to_pretty_diagnostic(cm, config.skip_filename))
-        .map(|d| d.to_pretty_string(&handler))
-        .collect::<String>();
-    anyhow::anyhow!(error_msg)
-}
-
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
 pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
     op: F,
-) -> Result<Ret, Error>
+) -> Result<Ret, WrapperDiagnostics>
 where
-    F: FnOnce(&Handler) -> Result<Ret, Error>,
-{
-    try_with_handler_inner(cm.clone(), config.clone(), op)
-        .map_err(|d| to_pretty_error(&d, &cm, &config))
-}
-
-pub fn try_with_handler_diagnostic<F, Ret>(
-    cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-) -> Result<Ret, Vec<Diagnostic>>
-where
-    F: FnOnce(&Handler) -> Result<Ret, Error>,
+    F: FnOnce(&Handler) -> Result<Ret, anyhow::Error>,
 {
     try_with_handler_inner(cm, config, op)
 }
@@ -186,9 +174,9 @@ fn try_with_handler_inner<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
     op: F,
-) -> Result<Ret, Vec<Diagnostic>>
+) -> Result<Ret, WrapperDiagnostics>
 where
-    F: FnOnce(&Handler) -> Result<Ret, Error>,
+    F: FnOnce(&Handler) -> Result<Ret, anyhow::Error>,
 {
     let mut diagnostics = ThreadSafetyDiagnostics::default();
 
@@ -205,7 +193,7 @@ where
     match ret {
         Ok(ret) => {
             if diagnostics.contains_error() {
-                return Err(diagnostics.take());
+                return Err(diagnostics.as_wrapper(cm.clone(), config));
             }
 
             Ok(ret)
@@ -213,7 +201,7 @@ where
         Err(err) => {
             diagnostics.push(err.to_diagnostic());
 
-            Err(diagnostics.take())
+            Err(diagnostics.as_wrapper(cm.clone(), config))
         }
     }
 }

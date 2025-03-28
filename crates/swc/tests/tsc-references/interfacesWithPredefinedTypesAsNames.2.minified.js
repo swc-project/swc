@@ -64,3 +64,4 @@
 //!  7 | interface never {}
 //!    :           ^^^^^
 //!    `----
+//!   x Syntax Error

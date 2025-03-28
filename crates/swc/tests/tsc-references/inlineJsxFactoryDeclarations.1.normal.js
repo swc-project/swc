@@ -33,3 +33,4 @@ export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //!  5 | export * from "./othernoalias";
 //!  6 | export * from "./reacty";
 //!    `----
+//!   x Syntax Error

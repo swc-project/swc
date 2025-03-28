@@ -9,3 +9,4 @@
 //!  6 |     @dec(2) set #method1(value) {}
 //!  7 | }
 //!    `----
+//!   x Syntax Error

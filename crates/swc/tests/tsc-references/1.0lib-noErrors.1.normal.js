@@ -10,3 +10,4 @@
 //!  31 | /**
 //!  32 |   * Converts A string to an integer.
 //!     `----
+//!   x Syntax Error
