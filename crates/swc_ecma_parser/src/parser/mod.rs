@@ -77,6 +77,7 @@ impl<I: Tokens> Parser<I> {
         let in_declare = false;
         let ctx = Context {
             in_declare,
+            top_level: true,
             ..input.ctx()
         };
         input.set_ctx(ctx);
@@ -100,6 +101,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = Context {
             module: false,
+            top_level: true,
             ..self.ctx()
         };
         self.set_ctx(ctx);
@@ -108,7 +110,7 @@ impl<I: Tokens> Parser<I> {
 
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, true, None).map(|body| Script {
+        self.parse_block_body(true, None).map(|body| Script {
             span: span!(self, start),
             body,
             shebang,
@@ -124,6 +126,7 @@ impl<I: Tokens> Parser<I> {
         let ctx = Context {
             module: true,
             strict: false,
+            top_level: true,
             ..self.ctx()
         };
         // Module code is always in strict mode
@@ -132,7 +135,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, true, None).map(|body| Module {
+        self.parse_block_body(true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,
@@ -149,10 +152,11 @@ impl<I: Tokens> Parser<I> {
         let shebang = self.parse_shebang()?;
         let ctx = Context {
             can_be_module: true,
+            top_level: true,
             ..self.ctx()
         };
 
-        let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, true, None)?;
+        let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, None)?;
         let has_module_item = self.state.found_module_item
             || body
                 .iter()
@@ -162,6 +166,7 @@ impl<I: Tokens> Parser<I> {
                 module: true,
                 can_be_module: true,
                 strict: true,
+                top_level: true,
                 ..self.ctx()
             };
             // Emit buffered strict mode / module code violations
@@ -195,6 +200,7 @@ impl<I: Tokens> Parser<I> {
             module: true,
             can_be_module: true,
             strict: true,
+            top_level: true,
             ..self.ctx()
         };
         // Module code is always in strict mode
@@ -203,7 +209,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, true, None).map(|body| Module {
+        self.parse_block_body(true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,

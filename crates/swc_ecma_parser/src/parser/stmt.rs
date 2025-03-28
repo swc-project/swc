@@ -8,13 +8,16 @@ mod module_item;
 
 impl<'a, I: Tokens> Parser<I> {
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
-        self.parse_stmt_like(true, true)
+        self.with_ctx(Context {
+            top_level: true,
+            ..self.ctx()
+        })
+        .parse_stmt_like(true)
     }
 
     pub(super) fn parse_block_body<Type>(
         &mut self,
         mut allow_directives: bool,
-        top_level: bool,
         end: Option<&'static Token>,
     ) -> PResult<Vec<Type>>
     where
@@ -39,7 +42,7 @@ impl<'a, I: Tokens> Parser<I> {
                 c != end
             }
         } {
-            let stmt = self.parse_stmt_like(true, top_level)?;
+            let stmt = self.parse_stmt_like(true)?;
             if allow_directives {
                 allow_directives = false;
                 if stmt.is_use_strict() {
@@ -72,19 +75,19 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     /// Parse a statement but not a declaration.
-    pub fn parse_stmt(&mut self, top_level: bool) -> PResult<Stmt> {
+    pub fn parse_stmt(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt);
-        self.parse_stmt_like(false, top_level)
+        self.parse_stmt_like(false)
     }
 
     /// Parse a statement and maybe a declaration.
-    pub fn parse_stmt_list_item(&mut self, top_level: bool) -> PResult<Stmt> {
+    pub fn parse_stmt_list_item(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
-        self.parse_stmt_like(true, top_level)
+        self.parse_stmt_like(true)
     }
 
     /// Parse a statement, declaration or module item.
-    fn parse_stmt_like<Type>(&mut self, include_decl: bool, top_level: bool) -> PResult<Type>
+    fn parse_stmt_like<Type>(&mut self, include_decl: bool) -> PResult<Type>
     where
         Self: StmtLikeParser<'a, Type>,
         Type: IsDirective + From<Stmt>,
@@ -97,7 +100,7 @@ impl<'a, I: Tokens> Parser<I> {
         let decorators = self.parse_decorators(true)?;
 
         if is_one_of!(self, "import", "export") {
-            return self.handle_import_export(top_level, decorators);
+            return self.handle_import_export(decorators);
         }
 
         let ctx = Context {
@@ -106,7 +109,7 @@ impl<'a, I: Tokens> Parser<I> {
             ..self.ctx()
         };
         self.with_ctx(ctx)
-            .parse_stmt_internal(start, include_decl, top_level, decorators)
+            .parse_stmt_internal(start, include_decl, decorators)
             .map(From::from)
     }
 
@@ -115,7 +118,6 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         include_decl: bool,
-        top_level: bool,
         decorators: Vec<Decorator>,
     ) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_internal);
@@ -131,6 +133,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
+        let top_level = self.ctx().top_level;
         match cur!(self, true) {
             tok!("await") if include_decl || top_level => {
                 if top_level {
@@ -516,9 +519,10 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 let ctx = Context {
                     ignore_else_clause: false,
+                    top_level: false,
                     ..self.ctx()
                 };
-                self.with_ctx(ctx).parse_stmt(false).map(Box::new)
+                self.with_ctx(ctx).parse_stmt().map(Box::new)
             })?
         };
 
@@ -543,11 +547,12 @@ impl<'a, I: Tokens> Parser<I> {
                 if !is!(self, "if") {
                     let ctx = Context {
                         ignore_else_clause: false,
+                        top_level: false,
                         ..self.ctx()
                     };
 
                     // As we eat `else` above, we need to parse statement once.
-                    let last = self.with_ctx(ctx).parse_stmt(false)?;
+                    let last = self.with_ctx(ctx).parse_stmt()?;
                     break Some(last);
                 }
 
@@ -649,7 +654,13 @@ impl<'a, I: Tokens> Parser<I> {
                 expect!(p, ':');
 
                 while !eof!(p) && !is_one_of!(p, "case", "default", '}') {
-                    cons.push(p.parse_stmt_list_item(false)?);
+                    cons.push(
+                        p.with_ctx(Context {
+                            top_level: false,
+                            ..p.ctx()
+                        })
+                        .parse_stmt_list_item()?,
+                    );
                 }
 
                 cases.push(SwitchCase {
@@ -1043,9 +1054,10 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             is_break_allowed: true,
             is_continue_allowed: true,
+            top_level: false,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
         expect!(self, "while");
         expect!(self, '(');
         let test = self.include_in_expr(true).parse_expr()?;
@@ -1070,9 +1082,10 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             is_break_allowed: true,
             is_continue_allowed: true,
+            top_level: false,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
         Ok(WhileStmt { span, test, body }.into())
@@ -1099,9 +1112,10 @@ impl<'a, I: Tokens> Parser<I> {
 
         let ctx = Context {
             in_function: true,
+            top_level: false,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
         Ok(WithStmt { span, obj, body }.into())
@@ -1112,7 +1126,12 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '{');
 
-        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
+        let stmts = self
+            .with_ctx(Context {
+                top_level: false,
+                ..self.ctx()
+            })
+            .parse_block_body(allow_directives, Some(&tok!('}')))?;
 
         let span = span!(self, start);
         Ok(BlockStmt {
@@ -1155,7 +1174,11 @@ impl<'a, I: Tokens> Parser<I> {
 
                 f.into()
             } else {
-                p.parse_stmt(false)?
+                p.with_ctx(Context {
+                    top_level: false,
+                    ..p.ctx()
+                })
+                .parse_stmt()?
             });
 
             for err in errors {
@@ -1199,9 +1222,10 @@ impl<'a, I: Tokens> Parser<I> {
         let ctx = Context {
             is_break_allowed: true,
             is_continue_allowed: true,
+            top_level: false,
             ..self.ctx()
         };
-        let body = self.with_ctx(ctx).parse_stmt(false).map(Box::new)?;
+        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
         Ok(match head {
@@ -1442,11 +1466,7 @@ impl IsDirective for Stmt {
 }
 
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
-    fn handle_import_export(
-        &mut self,
-        top_level: bool,
-        decorators: Vec<Decorator>,
-    ) -> PResult<Type>;
+    fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<Type>;
 }
 
 impl<'a, I: Tokens, T> StmtLikeParser<'a, Box<T>> for Parser<I>
@@ -1454,17 +1474,13 @@ where
     T: IsDirective,
     Self: StmtLikeParser<'a, T>,
 {
-    fn handle_import_export(
-        &mut self,
-        top_level: bool,
-        decorators: Vec<Decorator>,
-    ) -> PResult<Box<T>> {
-        <Self as StmtLikeParser<T>>::handle_import_export(self, top_level, decorators).map(Box::new)
+    fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<Box<T>> {
+        <Self as StmtLikeParser<T>>::handle_import_export(self, decorators).map(Box::new)
     }
 }
 
 impl<I: Tokens> StmtLikeParser<'_, Stmt> for Parser<I> {
-    fn handle_import_export(&mut self, _: bool, _: Vec<Decorator>) -> PResult<Stmt> {
+    fn handle_import_export(&mut self, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
         if is!(self, "import") && peeked_is!(self, '(') {
             let expr = self.parse_expr()?;
@@ -1503,11 +1519,11 @@ mod tests {
     use crate::EsSyntax;
 
     fn stmt(s: &'static str) -> Stmt {
-        test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
+        test_parser(s, Syntax::default(), |p| p.parse_stmt())
     }
 
     fn module_item(s: &'static str) -> ModuleItem {
-        test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true, true))
+        test_parser(s, Syntax::default(), |p| p.parse_stmt_like(true))
     }
     fn expr(s: &'static str) -> Box<Expr> {
         test_parser(s, Syntax::default(), |p| p.parse_expr())
@@ -1643,7 +1659,7 @@ mod tests {
                     decorators: true,
                     ..Default::default()
                 }),
-                |p| p.parse_stmt_list_item(true),
+                |p| p.parse_stmt_list_item(),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
                 ident: Ident::new_no_ctxt("Foo".into(), span),
