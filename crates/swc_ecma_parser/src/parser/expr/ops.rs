@@ -337,6 +337,12 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "await") {
+            if self.ctx().top_level {
+                self.state.found_module_item = true;
+                if !self.ctx().can_be_module {
+                    self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
+                }
+            }
             return self.parse_await_expr(None);
         }
 

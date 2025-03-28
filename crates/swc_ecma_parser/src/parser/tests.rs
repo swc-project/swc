@@ -369,3 +369,12 @@ fn parse_program_take_script_module_errors() {
         Ok(program)
     });
 }
+
+#[test]
+fn parse_tla_in_non_expression_statement() {
+    test_parser(r#"const t = await test();"#, Default::default(), |p| {
+        let program = p.parse_program()?;
+        assert!(program.is_module());
+        Ok(program)
+    });
+}
