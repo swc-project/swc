@@ -133,8 +133,16 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
+        let top_level = self.ctx().top_level;
         match cur!(self, true) {
-            tok!("await") if include_decl => {
+            tok!("await") if include_decl || top_level => {
+                if top_level {
+                    self.state.found_module_item = true;
+                    if !self.ctx().can_be_module {
+                        self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
+                    }
+                }
+
                 if peeked_is!(self, "using") {
                     let eaten_await = Some(self.input.cur_pos());
                     assert_and_bump!(self, "await");
