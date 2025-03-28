@@ -1022,10 +1022,7 @@ impl Compiler {
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
                 if let Some(dts_code) = dts_code {
-                    emit(
-                        "__swc_isolated_declarations__".into(),
-                        serde_json::Value::String(dts_code),
-                    );
+                    emit("__swc_isolated_declarations__".into(), dts_code);
                 }
 
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {

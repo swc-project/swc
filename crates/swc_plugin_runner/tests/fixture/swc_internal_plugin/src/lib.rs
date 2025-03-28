@@ -8,6 +8,7 @@ use swc_core::{
     },
     quote,
 };
+use swc_transform_common::output::emit;
 
 struct ConsoleOutputReplacer {
     metadata: TransformPluginProgramMetadata,
@@ -131,6 +132,10 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
     if plugin_config != "{\"pluginConfig\":\"testValue\"}" {
         panic!("Plugin config should be testValue");
     }
+
+    dbg!();
+
+    emit("foo".into(), "bar".into());
 
     dbg!();
 
