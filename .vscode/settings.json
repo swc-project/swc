@@ -25,6 +25,6 @@
     "eslint.enable": false,
     "rust-analyzer.check.command": "clippy",
     "rust-analyzer.cargo.features": [
-        "__rkyv"
+        "plugin"
     ]
 }
