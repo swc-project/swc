@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Error;
 use common::{comments::SingleThreadedComments, errors::Handler, SourceFile};
+use serde::Deserialize;
 use swc_ecma_ast::Program;
 
 use crate::{plugin::PluginConfig, Compiler};
@@ -20,6 +21,7 @@ impl Compiler {
     }
 }
 
+#[derive(Debug, Deserialize)]
 pub struct WasmAnalysisOptions {
     pub plugins: Vec<PluginConfig>,
 }
