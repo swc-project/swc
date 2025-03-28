@@ -4596,7 +4596,6 @@ dependencies = [
  "par-iter",
  "parking_lot",
  "pathdiff",
- "rayon",
  "regex",
  "rustc-hash 2.1.0",
  "serde",
