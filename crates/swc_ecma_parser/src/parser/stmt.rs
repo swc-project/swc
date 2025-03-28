@@ -2257,6 +2257,15 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
+    fn top_level_await_in_decl() {
+        test_parser(r#"const t = await test();"#, Default::default(), |p| {
+            let program = p.parse_program()?;
+            assert!(program.is_module());
+            Ok(program)
+        });
+    }
+
+    #[test]
     fn class_static_blocks() {
         let src = "class Foo { static { 1 + 1; } }";
         assert_eq_ignore_span!(
