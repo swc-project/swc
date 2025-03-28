@@ -110,7 +110,7 @@ impl fmt::Display for PrettyDiagnostic<'_> {
 }
 
 #[derive(Clone, Copy)]
-struct PrettySourceCode<'a> {
+pub struct PrettySourceCode<'a> {
     cm: &'a SourceMap,
     skip_filename: bool,
 }
@@ -206,6 +206,9 @@ impl miette::SourceCode for PrettySourceCode<'_> {
     }
 }
 
+pub fn to_pretty_source_code<'a>(cm: &'a SourceMap, skip_filename: bool) -> PrettySourceCode<'a> {
+    PrettySourceCode { cm, skip_filename }
+}
 struct PrettySubDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
     d: &'a SubDiagnostic,
@@ -299,7 +302,7 @@ fn level_to_severity(level: Level) -> Option<Severity> {
     }
 }
 
-fn convert_span(span: Span) -> SourceSpan {
+pub fn convert_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, len.0 as usize)
