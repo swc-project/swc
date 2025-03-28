@@ -35,7 +35,7 @@ impl Compiler {
             let serialized = {
                 let _span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
                 let program = swc_common::plugin::serialized::VersionedSerializable::new(n);
-                let mut serialized = PluginSerializedBytes::try_serialize(&program)?;
+                PluginSerializedBytes::try_serialize(&program)?
             };
 
             let mut result = vec![];
