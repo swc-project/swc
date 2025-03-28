@@ -94,17 +94,20 @@ impl Compiler {
                 )
                 .entered();
 
-                transform_plugin_executor
-                    .transform(&serialized, Some(true))
-                    .with_context(|| {
-                        format!(
-                            "failed to invoke `{}` as js analysis plugin at {}",
-                            &p.0, plugin_name
-                        )
-                    })?;
+                let (result, output) = swc_transform_common::output::capture(|| {
+                    transform_plugin_executor
+                        .transform(&serialized, Some(true))
+                        .with_context(|| {
+                            format!(
+                                "failed to invoke `{}` as js analysis plugin at {}",
+                                &p.0, plugin_name
+                            )
+                        })
+                });
+                result?;
                 drop(span);
 
-                Ok(())
+                anyhow::Ok(output)
             });
 
             Ok(vec![])
