@@ -135,7 +135,6 @@ ansi_term = { workspace = true }
 criterion = { workspace = true }
 flate2    = { workspace = true }
 humansize = { workspace = true }
-rayon     = { workspace = true }
 walkdir   = { workspace = true }
 
 
