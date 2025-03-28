@@ -76,6 +76,10 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 <h2 align="center">Supporting swc</h2>
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=swc-project/swc&type=Timeline)](https://www.star-history.com/#swc-project/swc&Timeline)
+
 ## Powered by
 
 [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
