@@ -213,7 +213,7 @@ trait ToDiagnostic {
 impl ToDiagnostic for anyhow::Error {
     fn to_diagnostic(&self) -> Diagnostic {
         Diagnostic {
-            message: vec![Message(self.to_string(), Style::NoStyle)],
+            message: vec![Message(format!("{:?}", self), Style::NoStyle)],
             code: None,
             level: swc_common::errors::Level::Error,
             children: vec![],
