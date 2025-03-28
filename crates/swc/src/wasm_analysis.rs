@@ -2,7 +2,9 @@ use std::sync::Arc;
 
 use anyhow::{Context, Error};
 use common::{
-    comments::SingleThreadedComments, errors::Handler, plugin::serialized::PluginSerializedBytes,
+    comments::SingleThreadedComments,
+    errors::Handler,
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     Mark, SourceFile,
 };
 use par_iter::iter::{IntoParallelRefIterator, ParallelIterator};
@@ -44,9 +46,15 @@ impl Compiler {
 
             let serialized = {
                 let _span = tracing::span!(tracing::Level::INFO, "serialize_program").entered();
-                let program = swc_common::plugin::serialized::VersionedSerializable::new(n);
+                let program = swc_common::plugin::serialized::VersionedSerializable::new(program);
                 PluginSerializedBytes::try_serialize(&program)?
             };
+
+            let transform_metadata_context = Arc::new(TransformPluginMetadataContext::new(
+                Some(fm.name.to_string()),
+                crate::config::default_env_name(),
+                None,
+            ));
 
             let mut result = vec![];
 
@@ -73,7 +81,7 @@ impl Compiler {
                     swc_plugin_runner::create_plugin_transform_executor(
                         &self.cm,
                         &unresolved_mark,
-                        &self.metadata_context,
+                        &transform_metadata_context,
                         plugin_module_bytes,
                         Some(p.1),
                         runtime,

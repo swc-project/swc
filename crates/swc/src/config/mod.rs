@@ -1731,7 +1731,7 @@ impl GlobalPassOption {
     }
 }
 
-fn default_env_name() -> String {
+pub(crate) fn default_env_name() -> String {
     if let Ok(v) = env::var("SWC_ENV") {
         return v;
     }
