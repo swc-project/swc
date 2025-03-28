@@ -53,6 +53,8 @@ impl Display for WrapperDiagnostics {
 }
 
 impl WrapperDiagnostics {
+    /// Creates a new instance of WrapperDiagnostics with the given diagnostics,
+    /// source map, and options.
     pub fn new(
         diagnostics: Vec<Diagnostic>,
         cm: Lrc<swc_common::SourceMap>,
@@ -65,28 +67,26 @@ impl WrapperDiagnostics {
         }
     }
 
+    /// Returns a reference to the diagnostics vector.
     pub fn diagnostics(&self) -> &[Diagnostic] {
         &self.diagnostics
     }
 
+    /// Consumes the WrapperDiagnostics instance and returns the diagnostics
+    /// vector.
     pub fn take_diagnostics(self) -> Vec<Diagnostic> {
         self.diagnostics
     }
 
+    /// Converts the diagnostics to a pretty error string and wraps it in an
+    /// anyhow::Error.
     pub fn to_pretty_error(&self) -> anyhow::Error {
         let error_msg = self.to_pretty_string();
 
         anyhow::anyhow!(error_msg)
     }
 
-    // pub fn filter(&self, f: impl FnMut(&Diagnostic) -> bool) -> Self {
-    //     Self {
-    //         diagnostics: self.diagnostics.iter().filter(f).cloned().collect(),
-    //         cm: self.cm.clone(),
-    //         report_opts: self.report_opts,
-    //     }
-    // }
-
+    /// Converts the diagnostics to a pretty string representation.
     pub fn to_pretty_string(&self) -> String {
         let HandlerOpts {
             color,
