@@ -21,5 +21,5 @@ impl Compiler {
 }
 
 pub struct WasmAnalysisOptions {
-    pub plugins: Option<Vec<PluginConfig>>,
+    pub plugins: Vec<PluginConfig>,
 }
