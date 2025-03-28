@@ -206,7 +206,7 @@ impl miette::SourceCode for PrettySourceCode<'_> {
     }
 }
 
-pub fn to_pretty_source_code<'a>(cm: &'a SourceMap, skip_filename: bool) -> PrettySourceCode<'a> {
+pub fn to_pretty_source_code(cm: &SourceMap, skip_filename: bool) -> PrettySourceCode<'_> {
     PrettySourceCode { cm, skip_filename }
 }
 struct PrettySubDiagnostic<'a> {
