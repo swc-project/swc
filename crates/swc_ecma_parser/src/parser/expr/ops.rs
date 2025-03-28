@@ -397,9 +397,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(Ident::new_no_ctxt("await".into(), span).into());
         }
 
-        if ctx.top_level {
+        // This has been checked if start_of_await_token == true,
+        if start_of_await_token.is_none() && ctx.top_level {
             self.state.found_module_item = true;
-            if !self.ctx().can_be_module {
+            if !ctx.can_be_module {
                 self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
             }
         }
