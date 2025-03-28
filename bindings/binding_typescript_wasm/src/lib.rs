@@ -10,11 +10,13 @@ use js_sys::Uint8Array;
 use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
+    errors::{
+        convert_span, to_pretty_source_code, DiagnosticBuilder, DiagnosticId, Emitter, Handler,
+        HANDLER,
+    },
     sync::Lrc,
     SourceMap, Span, GLOBALS,
 };
-use swc_error_reporters::{to_miette_source_code, to_miette_span, PrettyEmitterConfig};
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
@@ -125,7 +127,7 @@ where
 }
 
 impl Emitter for JsonErrorWriter {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
+    fn emit(&mut self, db: &mut DiagnosticBuilder) {
         let d = &**db;
 
         let snippet = d.span.primary_span().and_then(|span| {
@@ -133,12 +135,7 @@ impl Emitter for JsonErrorWriter {
             match self.reporter.render_report(
                 &mut snippet,
                 &Snippet {
-                    source_code: &to_miette_source_code(
-                        &self.cm,
-                        &PrettyEmitterConfig {
-                            skip_filename: true,
-                        },
-                    ),
+                    source_code: &to_pretty_source_code(&self.cm, true),
                     span,
                 },
             ) {
@@ -246,7 +243,7 @@ impl miette::Diagnostic for Snippet<'_> {
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
         Some(Box::new(once(LabeledSpan::new_with_span(
             None,
-            to_miette_span(self.span),
+            convert_span(self.span),
         ))))
     }
 }

@@ -25,6 +25,7 @@ use self::Level::*;
 pub use self::{
     diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, Message, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
+    diagnostic_pretty::{convert_span, to_pretty_source_code, PrettyDiagnostic},
     emitter::{ColorConfig, Emitter, EmitterWriter},
     snippet::Style,
 };
@@ -39,8 +40,6 @@ mod diagnostic;
 mod diagnostic_builder;
 #[cfg(feature = "concurrent")]
 mod diagnostic_pretty;
-#[cfg(feature = "concurrent")]
-pub use diagnostic_pretty::PrettyDiagnostic;
 
 pub mod emitter;
 mod lock;

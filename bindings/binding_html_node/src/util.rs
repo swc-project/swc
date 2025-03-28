@@ -32,4 +32,5 @@ where
             }
         },
     )
+    .map_err(|e| e.to_pretty_error())
 }
