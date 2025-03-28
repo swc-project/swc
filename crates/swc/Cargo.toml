@@ -60,6 +60,7 @@ jsonc-parser = { workspace = true, features = ["serde"] }
 lru          = { workspace = true }
 once_cell    = { workspace = true }
 par-core     = { workspace = true }
+par-iter     = { workspace = true }
 parking_lot  = { workspace = true }
 pathdiff     = { workspace = true }
 regex        = { workspace = true }
@@ -69,6 +70,7 @@ serde_json   = { workspace = true }
 sourcemap    = { workspace = true }
 tracing      = { workspace = true }
 url          = { workspace = true }
+
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
 swc_cached = { version = "2.0.0", path = "../swc_cached" }
@@ -138,6 +140,8 @@ walkdir   = { workspace = true }
 
 
 codspeed-criterion-compat = { workspace = true }
+par-core                  = { workspace = true, features = ["chili"] }
+
 swc_ecma_ast = { version = "8.1.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
