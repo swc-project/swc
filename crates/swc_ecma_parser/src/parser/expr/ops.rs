@@ -337,12 +337,6 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "await") {
-            if self.ctx().top_level {
-                self.state.found_module_item = true;
-                if !self.ctx().can_be_module {
-                    self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
-                }
-            }
             return self.parse_await_expr(None);
         }
 
@@ -401,6 +395,13 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(Ident::new_no_ctxt("await".into(), span).into());
+        }
+
+        if ctx.top_level {
+            self.state.found_module_item = true;
+            if !self.ctx().can_be_module {
+                self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
+            }
         }
 
         if ctx.in_function && !ctx.in_async {
