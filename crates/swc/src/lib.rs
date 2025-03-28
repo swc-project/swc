@@ -657,6 +657,18 @@ impl Compiler {
         })
     }
 
+    /// Run analysis using Wasm plugins.
+    pub fn run_wasm_analysis(
+        &self,
+        fm: Arc<SourceFile>,
+        program: Option<Program>,
+        handler: &Handler,
+        opts: &WasmAnalysisOptions,
+        comments: SingleThreadedComments,
+    ) -> Result<(), Error> {
+        Ok(())
+    }
+
     /// `custom_after_pass` is applied after swc transforms are applied.
     ///
     /// `program`: If you already parsed `Program`, you can pass it.
