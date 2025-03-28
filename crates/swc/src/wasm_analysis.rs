@@ -24,7 +24,7 @@ impl Compiler {
         handler: &Handler,
         opts: &WasmAnalysisOptions,
         comments: SingleThreadedComments,
-    ) -> Result<Vec<String>> {
+    ) -> Result<String> {
         self.run(|| {
             GLOBALS.with(|globals| {
                 let unresolved_mark = Mark::new();
@@ -111,13 +111,13 @@ impl Compiler {
                             result?;
                             drop(span);
 
-                            serde_json::to_string(&output)
-                                .map_err(|e| anyhow::anyhow!("Failed to serialize output: {e}"))
+                            Ok(output)
                         })
                     })
                     .collect::<Result<Vec<_>>>()?;
 
-                Ok(result)
+                serde_json::to_string(&result)
+                    .map_err(|e| anyhow::anyhow!("Failed to serialize output: {e}"))
             })
         })
     }
