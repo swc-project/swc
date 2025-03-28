@@ -31,7 +31,7 @@ impl Compiler {
                 let top_level_mark = Mark::new();
 
                 let mut program = self.parse_js(
-                    fm,
+                    fm.clone(),
                     handler,
                     EsVersion::latest(),
                     opts.parser,
@@ -62,7 +62,7 @@ impl Compiler {
                     .plugins
                     .par_iter()
                     .map(|p| {
-                        GLOBALS.set(&globals, || {
+                        GLOBALS.set(globals, || {
                             let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
                                 .inner
                                 .get()
@@ -79,7 +79,7 @@ impl Compiler {
                                     .unwrap()
                                     .lock()
                                     .get_fs_cache_root()
-                                    .map(|v| std::path::PathBuf::from(v)),
+                                    .map(std::path::PathBuf::from),
                             );
                             let mut transform_plugin_executor =
                                 swc_plugin_runner::create_plugin_transform_executor(
@@ -87,7 +87,7 @@ impl Compiler {
                                     &unresolved_mark,
                                     &transform_metadata_context,
                                     plugin_module_bytes,
-                                    Some(p.1),
+                                    Some(p.1.clone()),
                                     runtime,
                                 );
 
@@ -111,7 +111,8 @@ impl Compiler {
                             result?;
                             drop(span);
 
-                            anyhow::Ok(output)
+                            serde_json::to_string(&output)
+                                .map_err(|e| anyhow::anyhow!("Failed to serialize output: {e}"))
                         })
                     })
                     .collect::<Result<Vec<_>>>()?;

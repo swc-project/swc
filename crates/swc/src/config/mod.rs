@@ -624,10 +624,10 @@ impl Options {
                     for plugin_config in plugins.iter() {
                         let plugin_name = &plugin_config.0;
 
-                        if !inner_cache.contains(&plugin_name) {
+                        if !inner_cache.contains(plugin_name) {
                             let resolved_path = plugin_resolver.resolve(
-                                &FileName::Real(PathBuf::from(&plugin_name)),
-                                &plugin_name,
+                                &FileName::Real(PathBuf::from(plugin_name)),
+                                plugin_name,
                             )?;
 
                             let path = if let FileName::Real(value) = resolved_path.filename {
@@ -636,7 +636,7 @@ impl Options {
                                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                             };
 
-                            inner_cache.store_bytes_from_path(&path, &plugin_name)?;
+                            inner_cache.store_bytes_from_path(&path, plugin_name)?;
                             tracing::debug!("Initialized WASM plugin {plugin_name}");
                         }
                     }
