@@ -170,6 +170,7 @@ mod builder;
 pub mod config;
 mod dropped_comments_preserver;
 mod plugin;
+mod wasm_analysis;
 pub mod resolver {
     use std::path::PathBuf;
 
@@ -655,18 +656,6 @@ impl Compiler {
             // Fold module
             program.fold_with(&mut pass)
         })
-    }
-
-    /// Run analysis using Wasm plugins.
-    pub fn run_wasm_analysis(
-        &self,
-        fm: Arc<SourceFile>,
-        program: Option<Program>,
-        handler: &Handler,
-        opts: &WasmAnalysisOptions,
-        comments: SingleThreadedComments,
-    ) -> Result<(), Error> {
-        Ok(())
     }
 
     /// `custom_after_pass` is applied after swc transforms are applied.

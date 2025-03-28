@@ -1,0 +1,23 @@
+use std::sync::Arc;
+
+use anyhow::Error;
+use common::{comments::SingleThreadedComments, errors::Handler, SourceFile};
+use swc_ecma_ast::Program;
+
+use crate::Compiler;
+
+impl Compiler {
+    /// Run analysis using Wasm plugins.
+    pub fn run_wasm_analysis(
+        &self,
+        fm: Arc<SourceFile>,
+        program: Option<Program>,
+        handler: &Handler,
+        opts: &WasmAnalysisOptions,
+        comments: SingleThreadedComments,
+    ) -> Result<Vec<String>, Error> {
+        Ok(())
+    }
+}
+
+pub struct WasmAnalysisOptions {}
