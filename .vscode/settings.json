@@ -23,5 +23,8 @@
         "crates/swc_ecma_transforms_proposal/tests/decorator-tests"
     ],
     "eslint.enable": false,
-    "rust-analyzer.check.command": "clippy"
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.cargo.features": [
+        "__rkyv"
+    ]
 }
