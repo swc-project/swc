@@ -24,7 +24,7 @@ impl Compiler {
                 handler,
                 EsVersion::latest(),
                 opts.parser,
-                opts.is_module,
+                opts.module,
                 Some(&comments),
             )?;
 
@@ -38,7 +38,7 @@ pub struct WasmAnalysisOptions {
     #[serde(default)]
     pub parser: Syntax,
     #[serde(default)]
-    pub is_module: IsModule,
+    pub module: IsModule,
 
     pub plugins: Vec<PluginConfig>,
 }
