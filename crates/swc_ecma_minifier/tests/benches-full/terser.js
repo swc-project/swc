@@ -121,8 +121,8 @@
             if (a.length <= 1) return a;
             var m = Math.floor(a.length / 2), left = a.slice(0, m), right = a.slice(m);
             left = _ms(left), right = _ms(right);
-            for(var a1 = left, b = right, r = [], ai = 0, bi = 0, i = 0; ai < a1.length && bi < b.length;)0 >= cmp(a1[ai], b[bi]) ? r[i++] = a1[ai++] : r[i++] = b[bi++];
-            return ai < a1.length && r.push.apply(r, a1.slice(ai)), bi < b.length && r.push.apply(r, b.slice(bi)), r;
+            for(var a1 = left, b = right, r1 = [], ai = 0, bi = 0, i = 0; ai < a1.length && bi < b.length;)0 >= cmp(a1[ai], b[bi]) ? r1[i++] = a1[ai++] : r1[i++] = b[bi++];
+            return ai < a1.length && r1.push.apply(r1, a1.slice(ai)), bi < b.length && r1.push.apply(r1, b.slice(bi)), r1;
         }(array);
     }
     function makePredicate(words) {
@@ -5701,29 +5701,38 @@
         }), DEFPRINT(AST_Continue, function(self1, output) {
             self1._do_print(output, "continue");
         }), DEFPRINT(AST_If, function(self1, output) {
-            output.print("if"), output.space(), output.with_parens(function() {
+            if (output.print("if"), output.space(), output.with_parens(function() {
                 self1.condition.print(output);
-            }), output.space(), self1.alternative ? (!/* -----[ if ]----- */ function(self1, output) {
-                var b = self1.body;
-                if (output.option("braces") || output.option("ie8") && b instanceof AST_Do) return make_block(b, output);
-                // The squeezer replaces "block"-s that contain only a single
-                // statement with the statement itself; technically, the AST
-                // is correct, but this can create problems when we output an
-                // IF having an ELSE clause where the THEN clause ends in an
-                // IF *without* an ELSE block (then the outer ELSE would refer
-                // to the inner IF).  This function checks for this case and
-                // adds the block braces if needed.
-                if (!b) return output.force_semicolon();
-                for(;;)if (b instanceof AST_If) {
-                    if (!b.alternative) {
-                        make_block(self1.body, output);
-                        return;
+            }), output.space(), self1.alternative) {
+                r: {
+                    var b = self1.body;
+                    if (output.option("braces") || output.option("ie8") && b instanceof AST_Do) {
+                        make_block(b, output);
+                        break r;
                     }
-                    b = b.alternative;
-                } else if (b instanceof AST_StatementWithBody) b = b.body;
-                else break;
-                print_maybe_braced_body(self1.body, output);
-            }(self1, output), output.space(), output.print("else"), output.space(), self1.alternative instanceof AST_If ? self1.alternative.print(output) : print_maybe_braced_body(self1.alternative, output)) : self1._do_print_body(output);
+                    // The squeezer replaces "block"-s that contain only a single
+                    // statement with the statement itself; technically, the AST
+                    // is correct, but this can create problems when we output an
+                    // IF having an ELSE clause where the THEN clause ends in an
+                    // IF *without* an ELSE block (then the outer ELSE would refer
+                    // to the inner IF).  This function checks for this case and
+                    // adds the block braces if needed.
+                    if (!b) {
+                        output.force_semicolon();
+                        break r;
+                    }
+                    for(;;)if (b instanceof AST_If) {
+                        if (!b.alternative) {
+                            make_block(self1.body, output);
+                            break r;
+                        }
+                        b = b.alternative;
+                    } else if (b instanceof AST_StatementWithBody) b = b.body;
+                    else break;
+                    print_maybe_braced_body(self1.body, output);
+                }
+                output.space(), output.print("else"), output.space(), self1.alternative instanceof AST_If ? self1.alternative.print(output) : print_maybe_braced_body(self1.alternative, output);
+            } else self1._do_print_body(output);
         }), /* -----[ switch ]----- */ DEFPRINT(AST_Switch, function(self1, output) {
             output.print("switch"), output.space(), output.with_parens(function() {
                 self1.expression.print(output);
@@ -10751,11 +10760,11 @@
                             operator: "+",
                             left: self1.left.right,
                             right: self1.right
-                        }), r = binary.optimize(compressor);
-                        binary !== r && (self1 = make_node(AST_Binary, self1, {
+                        }), r1 = binary.optimize(compressor);
+                        binary !== r1 && (self1 = make_node(AST_Binary, self1, {
                             operator: "+",
                             left: self1.left.left,
-                            right: r
+                            right: r1
                         }));
                     }
                     // (x + "foo") + ("bar" + y) => (x + "foobar") + y
@@ -10795,19 +10804,19 @@
                     }
                     // `foo${bar}baz` + 1 => `foo${bar}baz1`
                     if (self1.left instanceof AST_TemplateString) {
-                        var l = self1.left, r = self1.right.evaluate(compressor);
-                        if (r != self1.right) return l.segments[l.segments.length - 1].value += String(r), l;
+                        var l = self1.left, r1 = self1.right.evaluate(compressor);
+                        if (r1 != self1.right) return l.segments[l.segments.length - 1].value += String(r1), l;
                     }
                     // 1 + `foo${bar}baz` => `1foo${bar}baz`
                     if (self1.right instanceof AST_TemplateString) {
-                        var r = self1.right, l = self1.left.evaluate(compressor);
-                        if (l != self1.left) return r.segments[0].value = String(l) + r.segments[0].value, r;
+                        var r1 = self1.right, l = self1.left.evaluate(compressor);
+                        if (l != self1.left) return r1.segments[0].value = String(l) + r1.segments[0].value, r1;
                     }
                     // `1${bar}2` + `foo${bar}baz` => `1${bar}2foo${bar}baz`
                     if (self1.left instanceof AST_TemplateString && self1.right instanceof AST_TemplateString) {
-                        var l = self1.left, segments = l.segments, r = self1.right;
-                        segments[segments.length - 1].value += r.segments[0].value;
-                        for(var i = 1; i < r.segments.length; i++)segments.push(r.segments[i]);
+                        var l = self1.left, segments = l.segments, r1 = self1.right;
+                        segments[segments.length - 1].value += r1.segments[0].value;
+                        for(var i = 1; i < r1.segments.length; i++)segments.push(r1.segments[i]);
                         return l;
                     }
                 case "*":

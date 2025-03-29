@@ -139,86 +139,6 @@ var _obj, isMultiIndexContext = function(widget) {
             error: error,
             searching: !1
         }));
-    }, hydrateSearchClientWithMultiIndexRequest = function(client, results) {
-        // Algoliasearch API Client >= v4
-        // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.reduce(function(acc, result) {
-                        return acc.concat(result.rawResults.map(function(request) {
-                            return {
-                                indexName: request.index,
-                                params: request.params
-                            };
-                        }));
-                    }, [])
-                ]
-            }, {
-                results: results.reduce(function(acc, result) {
-                    return acc.concat(result.rawResults);
-                }, [])
-            });
-            return;
-        }
-        // Algoliasearch API Client < v4
-        // Prior to client v4 we didn't have a proper API to hydrate the client
-        // cache from the outside. The following code populates the cache with
-        // a single-index result. You can find more information about the
-        // computation of the key inside the client (see link below).
-        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-        var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
-            requests: results.reduce(function(acc, result) {
-                return acc.concat(result.rawResults.map(function(request) {
-                    return {
-                        indexName: request.index,
-                        params: request.params
-                    };
-                }));
-            }, [])
-        }));
-        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
-            results: results.reduce(function(acc, result) {
-                return acc.concat(result.rawResults);
-            }, [])
-        })));
-    }, hydrateSearchClientWithSingleIndexRequest = function(client, results) {
-        // Algoliasearch API Client >= v4
-        // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.rawResults.map(function(request) {
-                        return {
-                            indexName: request.index,
-                            params: request.params
-                        };
-                    })
-                ]
-            }, {
-                results: results.rawResults
-            });
-            return;
-        }
-        // Algoliasearch API Client < v4
-        // Prior to client v4 we didn't have a proper API to hydrate the client
-        // cache from the outside. The following code populates the cache with
-        // a single-index result. You can find more information about the
-        // computation of the key inside the client (see link below).
-        // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-        var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
-            requests: results.rawResults.map(function(request) {
-                return {
-                    indexName: request.index,
-                    params: request.params
-                };
-            })
-        }));
-        client.cache = swcHelpers.objectSpread({}, client.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
-            results: results.rawResults
-        })));
     }, helper = algoliasearchHelper(searchClient, indexName, swcHelpers.objectSpread({}, HIGHLIGHT_TAGS));
     addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(function() {
@@ -241,54 +161,133 @@ var _obj, isMultiIndexContext = function(widget) {
         // the result search parameters might have changed.
         search();
     });
-    !function(client, results) {
-        if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
-            // Algoliasearch API Client >= v4
-            // To hydrate the client we need to populate the cache with the data from
-            // the server (done in `hydrateSearchClientWithMultiIndexRequest` or
-            // `hydrateSearchClientWithSingleIndexRequest`). But since there is no way
-            // for us to compute the key the same way as `algoliasearch-client` we need
-            // to populate it on a custom key and override the `search` method to
-            // search on it first.
-            if (client.transporter && !client._cacheHydrated) {
-                client._cacheHydrated = !0;
-                var baseMethod = client.search;
-                client.search = function(requests) {
-                    for(var _len = arguments.length, methodArgs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)methodArgs[_key - 1] = arguments[_key];
-                    var requestsWithSerializedParams = requests.map(function(request) {
-                        var parameters, encode;
-                        return swcHelpers.objectSpread({}, request, {
-                            params: (parameters = request.params, encode = function(format) {
-                                for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
-                                var i = 0;
-                                return format.replace(/%s/g, function() {
-                                    return encodeURIComponent(args[i++]);
-                                });
-                            }, Object.keys(parameters).map(function(key) {
-                                var value;
-                                return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
-                            }).join("&"))
-                        });
+    r: if (resultsState && (searchClient.transporter && !searchClient._cacheHydrated || searchClient._useCache && "function" == typeof searchClient.addAlgoliaAgent)) {
+        // Algoliasearch API Client >= v4
+        // To hydrate the client we need to populate the cache with the data from
+        // the server (done in `hydrateSearchClientWithMultiIndexRequest` or
+        // `hydrateSearchClientWithSingleIndexRequest`). But since there is no way
+        // for us to compute the key the same way as `algoliasearch-client` we need
+        // to populate it on a custom key and override the `search` method to
+        // search on it first.
+        if (searchClient.transporter && !searchClient._cacheHydrated) {
+            searchClient._cacheHydrated = !0;
+            var baseMethod = searchClient.search;
+            searchClient.search = function(requests) {
+                for(var _len = arguments.length, methodArgs = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)methodArgs[_key - 1] = arguments[_key];
+                var requestsWithSerializedParams = requests.map(function(request) {
+                    var parameters, encode;
+                    return swcHelpers.objectSpread({}, request, {
+                        params: (parameters = request.params, encode = function(format) {
+                            for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+                            var i = 0;
+                            return format.replace(/%s/g, function() {
+                                return encodeURIComponent(args[i++]);
+                            });
+                        }, Object.keys(parameters).map(function(key) {
+                            var value;
+                            return encode("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                        }).join("&"))
                     });
-                    return client.transporter.responsesCache.get({
+                });
+                return searchClient.transporter.responsesCache.get({
+                    method: "search",
+                    args: [
+                        requestsWithSerializedParams
+                    ].concat(swcHelpers.toConsumableArray(methodArgs))
+                }, function() {
+                    return baseMethod.apply(void 0, [
+                        requests
+                    ].concat(swcHelpers.toConsumableArray(methodArgs)));
+                });
+            };
+        }
+        if (Array.isArray(resultsState.results)) {
+            r: {
+                var results = resultsState.results;
+                // Algoliasearch API Client >= v4
+                // Populate the cache with the data from the server
+                if (searchClient.transporter) {
+                    searchClient.transporter.responsesCache.set({
                         method: "search",
                         args: [
-                            requestsWithSerializedParams
-                        ].concat(swcHelpers.toConsumableArray(methodArgs))
-                    }, function() {
-                        return baseMethod.apply(void 0, [
-                            requests
-                        ].concat(swcHelpers.toConsumableArray(methodArgs)));
+                            results.reduce(function(acc, result) {
+                                return acc.concat(result.rawResults.map(function(request) {
+                                    return {
+                                        indexName: request.index,
+                                        params: request.params
+                                    };
+                                }));
+                            }, [])
+                        ]
+                    }, {
+                        results: results.reduce(function(acc, result) {
+                            return acc.concat(result.rawResults);
+                        }, [])
                     });
-                };
+                    break r;
+                }
+                // Algoliasearch API Client < v4
+                // Prior to client v4 we didn't have a proper API to hydrate the client
+                // cache from the outside. The following code populates the cache with
+                // a single-index result. You can find more information about the
+                // computation of the key inside the client (see link below).
+                // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+                var key = "/1/indexes/*/queries_body_".concat(JSON.stringify({
+                    requests: results.reduce(function(acc, result) {
+                        return acc.concat(result.rawResults.map(function(request) {
+                            return {
+                                indexName: request.index,
+                                params: request.params
+                            };
+                        }));
+                    }, [])
+                }));
+                searchClient.cache = swcHelpers.objectSpread({}, searchClient.cache, swcHelpers.defineProperty({}, key, JSON.stringify({
+                    results: results.reduce(function(acc, result) {
+                        return acc.concat(result.rawResults);
+                    }, [])
+                })));
             }
-            if (Array.isArray(results.results)) {
-                hydrateSearchClientWithMultiIndexRequest(client, results.results);
-                return;
-            }
-            hydrateSearchClientWithSingleIndexRequest(client, results);
+            break r;
         }
-    }(searchClient, resultsState);
+        r: {
+            // Algoliasearch API Client >= v4
+            // Populate the cache with the data from the server
+            if (searchClient.transporter) {
+                searchClient.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        resultsState.rawResults.map(function(request) {
+                            return {
+                                indexName: request.index,
+                                params: request.params
+                            };
+                        })
+                    ]
+                }, {
+                    results: resultsState.rawResults
+                });
+                break r;
+            }
+            // Algoliasearch API Client < v4
+            // Prior to client v4 we didn't have a proper API to hydrate the client
+            // cache from the outside. The following code populates the cache with
+            // a single-index result. You can find more information about the
+            // computation of the key inside the client (see link below).
+            // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+            var key1 = "/1/indexes/*/queries_body_".concat(JSON.stringify({
+                requests: resultsState.rawResults.map(function(request) {
+                    return {
+                        indexName: request.index,
+                        params: request.params
+                    };
+                })
+            }));
+            searchClient.cache = swcHelpers.objectSpread({}, searchClient.cache, swcHelpers.defineProperty({}, key1, JSON.stringify({
+                results: resultsState.rawResults
+            })));
+        }
+    }
     var store = (state = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: resultsState ? resultsState.metadata.map(function(datum) {

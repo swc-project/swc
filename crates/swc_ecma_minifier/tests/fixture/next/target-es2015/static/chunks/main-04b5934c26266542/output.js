@@ -93,25 +93,25 @@
                     var t = /\((.*)\)/.exec(this.toString());
                     return t ? t[1] : void 0;
                 }
-            }), Array.prototype.flat || (Array.prototype.flat = function(t, r) {
-                return r = this.concat.apply([], this), t > 1 && r.some(Array.isArray) ? r.flat(t - 1) : r;
-            }, Array.prototype.flatMap = function(t, r) {
-                return this.map(t, r).flat();
+            }), Array.prototype.flat || (Array.prototype.flat = function(t, r1) {
+                return r1 = this.concat.apply([], this), t > 1 && r1.some(Array.isArray) ? r1.flat(t - 1) : r1;
+            }, Array.prototype.flatMap = function(t, r1) {
+                return this.map(t, r1).flat();
             }), Promise.prototype.finally || (Promise.prototype.finally = function(t) {
                 if ("function" != typeof t) return this.then(t, t);
-                var r = this.constructor || Promise;
+                var r1 = this.constructor || Promise;
                 return this.then(function(o) {
-                    return r.resolve(t()).then(function() {
+                    return r1.resolve(t()).then(function() {
                         return o;
                     });
                 }, function(o) {
-                    return r.resolve(t()).then(function() {
+                    return r1.resolve(t()).then(function() {
                         throw o;
                     });
                 });
             }), Object.fromEntries || (Object.fromEntries = function(t) {
-                return Array.from(t).reduce(function(t, r) {
-                    return t[r[0]] = r[1], t;
+                return Array.from(t).reduce(function(t, r1) {
+                    return t[r1[0]] = r1[1], t;
                 }, {});
             });
         /***/ },
@@ -318,8 +318,8 @@
                     }
                     pageLoader = new _pageLoader.default(initialData.buildId, prefix);
                     const register = (param)=>{
-                        let [r, f] = param;
-                        return pageLoader.routeLoader.onEntrypoint(r, f);
+                        let [r1, f] = param;
+                        return pageLoader.routeLoader.onEntrypoint(r1, f);
                     };
                     return window.__NEXT_P && // Defer page registration for another tick. This will increase the overall
                     // latency in hydrating the page, but reduce the total blocking time.
@@ -485,10 +485,7 @@
                         error.cancelled = !0, reject(error);
                     };
                 });
-                !// This function has a return type to ensure it doesn't start returning a
-                // Promise. It should remain synchronous.
-                function() {
-                    if (!styleSheets) return;
+                r: if (styleSheets) {
                     const currentHrefs = new Set(looseToArray(document.querySelectorAll("style[data-n-href]")).map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
                     styleSheets.forEach((param)=>{
                         let { href, text } = param;
@@ -497,7 +494,8 @@
                             styleTag.setAttribute("data-n-href", href), styleTag.setAttribute("media", "x"), nonce && styleTag.setAttribute("nonce", nonce), document.head.appendChild(styleTag), styleTag.appendChild(document.createTextNode(text));
                         }
                     });
-                }();
+                    break r;
+                }
                 const elem = /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/ _react.default.createElement(Head, {
                     callback: function() {
                         if (// We can skip this during hydration. Running it wont cause any harm, but
@@ -957,9 +955,9 @@
             function resolvePromiseWithTimeout(p, ms, err) {
                 return new Promise((resolve, reject)=>{
                     let cancelled = !1;
-                    p.then((r)=>{
+                    p.then((r1)=>{
                         // Resolved, cancel the timeout
-                        cancelled = !0, resolve(r);
+                        cancelled = !0, resolve(r1);
                     }).catch(reject), _requestIdleCallback.requestIdleCallback(()=>setTimeout(()=>{
                             cancelled || reject(err);
                         }, ms));
@@ -2999,9 +2997,9 @@
                             ...curr
                         ], []);
                     if (null !== this.slugName && routes.push(...this.children.get("[]")._smoosh("".concat(prefix, "[").concat(this.slugName, "]/"))), !this.placeholder) {
-                        const r = "/" === prefix ? "/" : prefix.slice(0, -1);
-                        if (null != this.optionalRestSlugName) throw Error('You cannot define a route with the same specificity as a optional catch-all route ("'.concat(r, '" and "').concat(r, "[[...").concat(this.optionalRestSlugName, ']]").'));
-                        routes.unshift(r);
+                        const r1 = "/" === prefix ? "/" : prefix.slice(0, -1);
+                        if (null != this.optionalRestSlugName) throw Error('You cannot define a route with the same specificity as a optional catch-all route ("'.concat(r1, '" and "').concat(r1, "[[...").concat(this.optionalRestSlugName, ']]").'));
+                        routes.unshift(r1);
                     }
                     return null !== this.restSlugName && routes.push(...this.children.get("[...]")._smoosh("".concat(prefix, "[...").concat(this.restSlugName, "]/"))), null !== this.optionalRestSlugName && routes.push(...this.children.get("[[...]]")._smoosh("".concat(prefix, "[[...").concat(this.optionalRestSlugName, "]]/"))), routes;
                 }
@@ -3353,14 +3351,14 @@
                     }
                 }, b = function(n) {
                     if (n.cancelable) {
-                        var t, r, i, y = (n.timeStamp > 1e12 ? new Date : performance.now()) - n.timeStamp;
+                        var t, r1, i, y = (n.timeStamp > 1e12 ? new Date : performance.now()) - n.timeStamp;
                         "pointerdown" == n.type ? (t = function() {
                             L(y, n), i();
-                        }, r = function() {
+                        }, r1 = function() {
                             i();
                         }, i = function() {
-                            removeEventListener("pointerup", t, x), removeEventListener("pointercancel", r, x);
-                        }, addEventListener("pointerup", t, x), addEventListener("pointercancel", r, x)) : L(y, n);
+                            removeEventListener("pointerup", t, x), removeEventListener("pointercancel", r1, x);
+                        }, addEventListener("pointerup", t, x), addEventListener("pointercancel", r1, x)) : L(y, n);
                     }
                 }, A = function(n) {
                     [

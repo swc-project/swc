@@ -40,7 +40,7 @@
                     return /* binding */ bytesMatch;
                 }
             });
-            /* unused harmony exports countBits, countBytes, padStart, isTypedArray, toHexString, toBinaryString, ENDIANNESS, IS_BIG_ENDIAN, IS_LITTLE_ENDIAN, sliceBytes, reverseBytes */ /* harmony import */ var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
+            /* unused harmony exports countBits, countBytes, padStart, isTypedArray, toHexString, toBinaryString, ENDIANNESS, IS_BIG_ENDIAN, IS_LITTLE_ENDIAN, sliceBytes, reverseBytes */ /* harmony import */ var global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
                 return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
@@ -55,9 +55,12 @@
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
             ];
-            0xff === (b = new Uint8Array((a = new Uint16Array([
-                0xffcc
-            ])).buffer, a.byteOffset, a.byteLength))[0] || b[0];
+            r: {
+                var a = new Uint16Array([
+                    0xffcc
+                ]), b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength);
+                if (0xff === b[0] || 0xcc === b[0]) break r;
+            }
             var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
@@ -3580,8 +3583,8 @@
                                         this.warnOnMissingAttributes_("#EXT-X-PART #" + partIndex + " for segment #" + segmentIndex, entry.attributes, [
                                             "URI",
                                             "DURATION"
-                                        ]), this.manifest.renditionReports && this.manifest.renditionReports.forEach(function(r, i) {
-                                            r.hasOwnProperty("lastPart") || _this2.trigger("warn", {
+                                        ]), this.manifest.renditionReports && this.manifest.renditionReports.forEach(function(r1, i) {
+                                            r1.hasOwnProperty("lastPart") || _this2.trigger("warn", {
                                                 message: "#EXT-X-RENDITION-REPORT #" + i + " lacks required attribute(s): LAST-PART"
                                             });
                                         });
@@ -3821,8 +3824,8 @@
                     segment
                 ];
             }, addSidxSegmentsToPlaylist = function(playlist, sidx, baseUrl) {
-                for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sourceDuration = playlist.sidx.duration, timeline = playlist.timeline || 0, sidxByteRange = playlist.sidx.byterange, sidxEnd = sidxByteRange.offset + sidxByteRange.length, timescale = sidx.timescale, mediaReferences = sidx.references.filter(function(r) {
-                    return 1 !== r.referenceType;
+                for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sourceDuration = playlist.sidx.duration, timeline = playlist.timeline || 0, sidxByteRange = playlist.sidx.byterange, sidxEnd = sidxByteRange.offset + sidxByteRange.length, timescale = sidx.timescale, mediaReferences = sidx.references.filter(function(r1) {
+                    return 1 !== r1.referenceType;
                 }), segments = [], type = playlist.endList ? "static" : "dynamic", startIndex = sidxEnd + sidx.firstOffset, i = 0; i < mediaReferences.length; i++){
                     var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, segment = segmentsFromBase({
                         baseUrl: baseUrl,

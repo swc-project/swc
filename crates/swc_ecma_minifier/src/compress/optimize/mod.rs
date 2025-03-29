@@ -2436,24 +2436,13 @@ impl VisitMut for Optimizer<'_> {
 
         match s {
             Stmt::Expr(e) => {
-                if let Some(block) = self.invoke_iife_stmt(&mut e.expr, false) {
-                    *s = Stmt::Block(block)
+                if let Some(new_stmt) = self.invoke_iife_stmt(&mut e.expr, false) {
+                    *s = new_stmt
                 }
             }
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                if let Some(mut block) = self.invoke_iife_stmt(&mut *arg, true) {
-                    if !block
-                        .stmts
-                        .last()
-                        .map(swc_ecma_utils::StmtExt::terminates)
-                        .unwrap_or(false)
-                    {
-                        block.stmts.push(Stmt::Return(ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: None,
-                        }))
-                    }
-                    *s = Stmt::Block(block)
+                if let Some(new_stmt) = self.invoke_iife_stmt(&mut *arg, true) {
+                    *s = new_stmt
                 }
             }
             _ => (),
