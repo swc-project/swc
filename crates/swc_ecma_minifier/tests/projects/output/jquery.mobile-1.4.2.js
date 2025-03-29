@@ -1516,10 +1516,7 @@
                 // avoid it and set the one time flag to false.
                 // TODO: Do we really need all these conditions? Comparing location hrefs
                 // should be sufficient.
-                if (!event1.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref)) {
-                    event1.preventDefault();
-                    return;
-                }
+                if (!event1.originalEvent.state && 1 === this.history.stack.length && this.ignoreInitialHashChange && (this.ignoreInitialHashChange = !1, location.href === initialHref)) return void event1.preventDefault();
                 if (// account for direct manipulation of the hash. That is, we will receive a popstate
                 // when the hash is changed by assignment, and it won't have a state associated. We
                 // then need to squash the hash. See below for handling of hash assignment that
@@ -2455,10 +2452,7 @@
             // content within the same domain as the document base, it is the site
             // relative path. For cross-domain content (Phone Gap only) the entire
             // absolute Url is used to load the content.
-            dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && jQuery.mobile.path.isEmbeddedPage(fileUrl) && !jQuery.mobile.path.isFirstPageUrl(fileUrl)) {
-                deferred.reject(absUrl, settings);
-                return;
-            }
+            dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && jQuery.mobile.path.isEmbeddedPage(fileUrl) && !jQuery.mobile.path.isFirstPageUrl(fileUrl)) return void deferred.reject(absUrl, settings);
             // If the content we are interested in is already in the DOM,
             // and the caller did not indicate that we should force a
             // reload of the file, we are done. Resolve the deferrred so that
@@ -2478,10 +2472,7 @@
                 options: settings
             }, !(// Let listeners know we're about to load content.
             (pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented())) {
-                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), settings.prefetch === undefined15 && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) {
-                    deferred.reject(absUrl, settings);
-                    return;
-                }
+                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), settings.prefetch === undefined15 && this._getBase().reset(), !(jQuery.mobile.allowCrossDomainPages || jQuery.mobile.path.isSameDomain(jQuery.mobile.path.documentUrl, absUrl))) return void deferred.reject(absUrl, settings);
                 // Load the new content.
                 jQuery.ajax({
                     url: fileUrl,
@@ -2572,10 +2563,7 @@
             // If we are in the midst of a transition, queue the current request.
             // We'll call changePage() once we're done with the current transition
             // to service the request.
-            if (isPageTransitioning) {
-                pageTransitionQueue.unshift(arguments);
-                return;
-            }
+            if (isPageTransitioning) return void pageTransitionQueue.unshift(arguments);
             var settings = jQuery.extend({}, jQuery.mobile.changePage.defaults, options), triggerData = {};
             // Make sure we have a fromPage.
             settings.fromPage = settings.fromPage || this.activePage, this._triggerPageBeforeChange(to, triggerData, settings) && (// We allow "pagebeforechange" observers to modify the to in
@@ -2592,15 +2580,12 @@
             // If we are in the midst of a transition, queue the current request.
             // We'll call changePage() once we're done with the current transition
             // to service the request.
-            if (isPageTransitioning) {
-                // make sure to only queue the to and settings values so the arguments
-                // work with a call to the change method
-                pageTransitionQueue.unshift([
-                    toPage,
-                    settings
-                ]);
-                return;
-            }
+            if (isPageTransitioning) return void // make sure to only queue the to and settings values so the arguments
+            // work with a call to the change method
+            pageTransitionQueue.unshift([
+                toPage,
+                settings
+            ]);
             // DEPRECATED - this call only, in favor of the before transition
             // if the page beforechange default is prevented return early
             if (this._triggerPageBeforeChange(toPage, triggerData, settings) && !(// if the (content|page)beforetransition default is prevented return early
@@ -2715,10 +2700,7 @@
         }, // Direct focus to the page title, or otherwise first focusable element
         $.mobile.focusPage = function(page) {
             var autofocus = page.find("[autofocus]"), pageTitle = page.find(".ui-title:eq(0)");
-            if (autofocus.length) {
-                autofocus.focus();
-                return;
-            }
+            if (autofocus.length) return void autofocus.focus();
             pageTitle.length ? pageTitle.focus() : page.focus();
         }, // No-op implementation of transition degradation
         $.mobile._maybeDegradeTransition = $.mobile._maybeDegradeTransition || function(transition) {
@@ -2807,11 +2789,7 @@
                         if ($link.is(":jqmData(rel='back')")) return $.mobile.back(), !1;
                         //if ajax is disabled, exit early
                         if (baseUrl = $.mobile.getClosestBaseUrl($link), //get href, if defined, otherwise default to empty hash
-                        href = $.mobile.path.makeUrlAbsolute($link.attr("href") || "#", baseUrl), !$.mobile.ajaxEnabled && !$.mobile.path.isEmbeddedPage(href)) {
-                            httpCleanup();
-                            //use default click handling
-                            return;
-                        }
+                        href = $.mobile.path.makeUrlAbsolute($link.attr("href") || "#", baseUrl), !$.mobile.ajaxEnabled && !$.mobile.path.isEmbeddedPage(href)) return void httpCleanup();
                         // XXX_jblas: Ideally links to application pages should be specified as
                         //            an url to the application document with a hash that is either
                         //            the site relative path or id to the page. But some of the
@@ -2821,19 +2799,14 @@
                         //            the current value of the base tag is at the time this code
                         //            is called. For now we are just assuming that any url with a
                         //            hash in it is an application page reference.
-                        if (-1 !== href.search("#")) if (href = href.replace(/[^#]*#/, "")) //we have apath so make it the href we want to load.
-                        href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
-                        else {
-                            //link was an empty hash meant purely
+                        if (-1 !== href.search("#")) {
+                            if (!(href = href.replace(/[^#]*#/, ""))) return void //link was an empty hash meant purely
                             //for interaction, so we ignore it.
                             event1.preventDefault();
-                            return;
+                            //we have apath so make it the href we want to load.
+                            href = $.mobile.path.isPath(href) ? $.mobile.path.makeUrlAbsolute(href, baseUrl) : $.mobile.path.makeUrlAbsolute("#" + href, documentUrl.hrefNoHash);
                         }
-                        if ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $.mobile.path.isExternal(href) && !$.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) {
-                            httpCleanup();
-                            //use default click handling
-                            return;
-                        }
+                        if ($link.is("[rel='external']") || $link.is(":jqmData(ajax='false')") || $link.is("[target]") || $.mobile.path.isExternal(href) && !$.mobile.path.isPermittedCrossDomainRequest(documentUrl, href)) return void httpCleanup();
                         //use ajax
                         transition = $link.jqmData("transition"), reverse = "reverse" === $link.jqmData("direction") || // deprecated - remove by 1.0
                         $link.jqmData("back"), //this may need to be more specific as we use data-rel more
@@ -3445,11 +3418,7 @@
         },
         _handleLabelVClick: function(event1) {
             var input = this.element;
-            if (input.is(":disabled")) {
-                event1.preventDefault();
-                return;
-            }
-            return this._cacheVals(), input.prop("checked", "radio" === this.inputtype || !input.prop("checked")), // trigger click handler's bound directly to the input as a substitute for
+            return input.is(":disabled") ? void event1.preventDefault() : (this._cacheVals(), input.prop("checked", "radio" === this.inputtype || !input.prop("checked")), // trigger click handler's bound directly to the input as a substitute for
             // how label clicks behave normally in the browsers
             // TODO: it would be nice to let the browser's handle the clicks and pass them
             //       through to the associate input. we can swallow that click at the parent
@@ -3457,7 +3426,7 @@
             input.triggerHandler("click"), // Input set for common radio buttons will contain all the radio
             // buttons, but will not for checkboxes. clearing the checked status
             // of other radios ensures the active button state is applied properly
-            this._getInputSet().not(input).prop("checked", !1), this._updateAll(), !1;
+            this._getInputSet().not(input).prop("checked", !1), this._updateAll(), !1);
         },
         _cacheVals: function() {
             this._getInputSet().each(function() {
@@ -4561,10 +4530,7 @@
             //      this had an animate callback that would resolve the deferred
             //      now the deferred is resolved immediately
             // TODO remove the dependency on the screen deferred
-            this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) {
-                this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete(jQuery.proxy(args.prerequisites.container, "resolve"));
-                return;
-            }
+            this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) return void this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete(jQuery.proxy(args.prerequisites.container, "resolve"));
             this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
         },
         // The desired coordinates passed in will be returned untouched if no reference element can be identified via
@@ -6080,17 +6046,9 @@
                 return index = this._findNextTab(index, goingForward), this.tabs.eq(index).focus(), index;
             },
             _setOption: function(key, value) {
-                if ("active" === key) {
-                    // _activate() will handle invalid values and update this.options
-                    this._activate(value);
-                    return;
-                }
-                if ("disabled" === key) {
-                    // don't use the widget factory's disabled handling
-                    this._setupDisabled(value);
-                    return;
-                }
-                this._super(key, value), "collapsible" === key && (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value);
+                return "active" === key ? void // _activate() will handle invalid values and update this.options
+                this._activate(value) : "disabled" === key ? void // don't use the widget factory's disabled handling
+                this._setupDisabled(value) : void (this._super(key, value), "collapsible" === key && (this.element.toggleClass("ui-tabs-collapsible", value), !value && !1 === this.options.active && this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
             },
             _tabId: function(tab) {
                 return tab.attr("aria-controls") || "ui-tabs-" + ++tabId;

@@ -1087,10 +1087,7 @@
                 try {
                     var result = gen[key](arg), value = result.value, wrappedAwait = value instanceof _AwaitValue;
                     Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                        if (wrappedAwait) {
-                            resume("next", arg);
-                            return;
-                        }
+                        if (wrappedAwait) return void resume("next", arg);
                         settle(result.done ? "return" : "normal", arg);
                     }, function(err) {
                         resume("throw", err);
@@ -5252,10 +5249,7 @@
         var global = __webpack_require__(19514), isCallable = __webpack_require__(67106), has = __webpack_require__(1521), createNonEnumerableProperty = __webpack_require__(48181), setGlobal = __webpack_require__(65933), inspectSource = __webpack_require__(71975), InternalStateModule = __webpack_require__(44670), CONFIGURABLE_FUNCTION_NAME = __webpack_require__(25160).CONFIGURABLE, getInternalState = InternalStateModule.get, enforceInternalState = InternalStateModule.enforce, TEMPLATE = String(String).split("String");
         (module.exports = function(O, key, value, options) {
             var state, unsafe = !!options && !!options.unsafe, simple = !!options && !!options.enumerable, noTargetGet = !!options && !!options.noTargetGet, name = options && void 0 !== options.name ? options.name : key;
-            if (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) {
-                simple ? O[key] = value : setGlobal(key, value);
-                return;
-            }
+            if (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) return void (simple ? O[key] = value : setGlobal(key, value));
             unsafe ? !noTargetGet && O[key] && (simple = !0) : delete O[key], simple ? O[key] = value : createNonEnumerableProperty(O, key, value);
         // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
         })(Function.prototype, "toString", function() {
@@ -12736,10 +12730,7 @@
             $a(a, b);
             var c = Sa(b.value), d = b.type;
             if (null != c) "number" === d ? (0 === c && "" === a.value || a.value != c) && (a.value = "" + c) : a.value !== "" + c && (a.value = "" + c);
-            else if ("submit" === d || "reset" === d) {
-                a.removeAttribute("value");
-                return;
-            }
+            else if ("submit" === d || "reset" === d) return void a.removeAttribute("value");
             b.hasOwnProperty("value") ? bb(a, b.type, c) : b.hasOwnProperty("defaultValue") && bb(a, b.type, Sa(b.defaultValue)), null == b.checked && null != b.defaultChecked && (a.defaultChecked = !!b.defaultChecked);
         }
         function cb(a, b, c) {
@@ -15122,10 +15113,7 @@
             var f = void 0;
             if (null !== S) {
                 var g = S.memoizedState;
-                if (f = g.destroy, null !== d && Bh(d, g.deps)) {
-                    Rh(b, c, f, d);
-                    return;
-                }
+                if (f = g.destroy, null !== d && Bh(d, g.deps)) return void Rh(b, c, f, d);
             }
             R.flags |= a, e.memoizedState = Rh(1 | b, c, f, d);
         }

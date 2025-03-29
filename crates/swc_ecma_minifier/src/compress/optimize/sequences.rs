@@ -190,16 +190,8 @@ impl Optimizer<'_> {
                         }
 
                         Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
-                            match stmt.arg.as_deref_mut() {
-                                Some(e) => {
-                                    e.prepend_exprs(take(&mut exprs));
-                                }
-                                _ => {
-                                    let mut e = Expr::undefined(stmt.span);
-                                    e.prepend_exprs(take(&mut exprs));
-
-                                    stmt.arg = Some(e);
-                                }
+                            if let Some(e) = stmt.arg.as_deref_mut() {
+                                e.prepend_exprs(take(&mut exprs));
                             }
 
                             new_stmts.push(T::from(stmt.into()));

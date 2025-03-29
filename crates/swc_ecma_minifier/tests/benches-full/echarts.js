@@ -2200,19 +2200,11 @@
             if ('#' === str.charAt(0)) {
                 if (4 === strLen || 5 === strLen) {
                     var iv = parseInt(str.slice(1, 4), 16);
-                    if (!(iv >= 0 && iv <= 0xfff)) {
-                        setRgba(rgbaArr, 0, 0, 0, 1);
-                        return;
-                    }
-                    return setRgba(rgbaArr, (0xf00 & iv) >> 4 | (0xf00 & iv) >> 8, 0xf0 & iv | (0xf0 & iv) >> 4, 0xf & iv | (0xf & iv) << 4, 5 === strLen ? parseInt(str.slice(4), 16) / 0xf : 1), putToCache(colorStr, rgbaArr), rgbaArr;
+                    return iv >= 0 && iv <= 0xfff ? (setRgba(rgbaArr, (0xf00 & iv) >> 4 | (0xf00 & iv) >> 8, 0xf0 & iv | (0xf0 & iv) >> 4, 0xf & iv | (0xf & iv) << 4, 5 === strLen ? parseInt(str.slice(4), 16) / 0xf : 1), putToCache(colorStr, rgbaArr), rgbaArr) : void setRgba(rgbaArr, 0, 0, 0, 1);
                 }
                 if (7 === strLen || 9 === strLen) {
                     var iv = parseInt(str.slice(1, 7), 16);
-                    if (!(iv >= 0 && iv <= 0xffffff)) {
-                        setRgba(rgbaArr, 0, 0, 0, 1);
-                        return;
-                    }
-                    return setRgba(rgbaArr, (0xff0000 & iv) >> 16, (0xff00 & iv) >> 8, 0xff & iv, 9 === strLen ? parseInt(str.slice(7), 16) / 0xff : 1), putToCache(colorStr, rgbaArr), rgbaArr;
+                    return iv >= 0 && iv <= 0xffffff ? (setRgba(rgbaArr, (0xff0000 & iv) >> 16, (0xff00 & iv) >> 8, 0xff & iv, 9 === strLen ? parseInt(str.slice(7), 16) / 0xff : 1), putToCache(colorStr, rgbaArr), rgbaArr) : void setRgba(rgbaArr, 0, 0, 0, 1);
                 }
                 return;
             }
@@ -2224,22 +2216,13 @@
                         if (4 !== params.length) return 3 === params.length ? setRgba(rgbaArr, +params[0], +params[1], +params[2], 1) : setRgba(rgbaArr, 0, 0, 0, 1);
                         alpha = parseCssFloat(params.pop());
                     case 'rgb':
-                        if (3 !== params.length) {
-                            setRgba(rgbaArr, 0, 0, 0, 1);
-                            return;
-                        }
+                        if (3 !== params.length) return void setRgba(rgbaArr, 0, 0, 0, 1);
                         return setRgba(rgbaArr, parseCssInt(params[0]), parseCssInt(params[1]), parseCssInt(params[2]), alpha), putToCache(colorStr, rgbaArr), rgbaArr;
                     case 'hsla':
-                        if (4 !== params.length) {
-                            setRgba(rgbaArr, 0, 0, 0, 1);
-                            return;
-                        }
+                        if (4 !== params.length) return void setRgba(rgbaArr, 0, 0, 0, 1);
                         return params[3] = parseCssFloat(params[3]), hsla2rgba(params, rgbaArr), putToCache(colorStr, rgbaArr), rgbaArr;
                     case 'hsl':
-                        if (3 !== params.length) {
-                            setRgba(rgbaArr, 0, 0, 0, 1);
-                            return;
-                        }
+                        if (3 !== params.length) return void setRgba(rgbaArr, 0, 0, 0, 1);
                         return hsla2rgba(params, rgbaArr), putToCache(colorStr, rgbaArr), rgbaArr;
                     default:
                         return;
@@ -2502,10 +2485,7 @@
         }, Track;
     }(), Animator = function() {
         function Animator(target, loop, additiveTo) {
-            if (this._tracks = {}, this._trackKeys = [], this._delay = 0, this._maxTime = 0, this._paused = !1, this._started = 0, this._clip = null, this._target = target, this._loop = loop, loop && additiveTo) {
-                logError('Can\' use additive animation on looped animation.');
-                return;
-            }
+            if (this._tracks = {}, this._trackKeys = [], this._delay = 0, this._maxTime = 0, this._paused = !1, this._started = 0, this._clip = null, this._target = target, this._loop = loop, loop && additiveTo) return void logError('Can\' use additive animation on looped animation.');
             this._additiveAnimators = additiveTo;
         }
         return Animator.prototype.getTarget = function() {
@@ -2988,10 +2968,7 @@
             if (this.hasState() || !toNormalState) {
                 var currentStates = this.currentStates, animationCfg = this.stateTransition;
                 if (!(indexOf(currentStates, stateName) >= 0) || !keepCurrentStates && 1 !== currentStates.length) {
-                    if (this.stateProxy && !toNormalState && (state = this.stateProxy(stateName)), state || (state = this.states && this.states[stateName]), !state && !toNormalState) {
-                        logError("State " + stateName + " not exists.");
-                        return;
-                    }
+                    if (this.stateProxy && !toNormalState && (state = this.stateProxy(stateName)), state || (state = this.states && this.states[stateName]), !state && !toNormalState) return void logError("State " + stateName + " not exists.");
                     toNormalState || this.saveCurrentToNormalState(state);
                     var useHoverLayer = !!(state && state.hoverLayer);
                     return useHoverLayer && this._toggleHoverLayerFlag(!0), this._applyStateObj(stateName, state, this._normalState, keepCurrentStates, !noAnimation && !this.__inHover && animationCfg && animationCfg.duration > 0, animationCfg), this._textContent && this._textContent.useState(stateName, keepCurrentStates), this._textGuide && this._textGuide.useState(stateName, keepCurrentStates), toNormalState ? (this.currentStates = [], this._normalState = {}) : keepCurrentStates ? this.currentStates.push(stateName) : this.currentStates = [
@@ -3111,10 +3088,7 @@
             this._clipPath && this._clipPath.removeSelfFromZr(zr), this._textContent && this._textContent.removeSelfFromZr(zr), this._textGuide && this._textGuide.removeSelfFromZr(zr);
         }, Element.prototype.animate = function(key, loop) {
             var target = key ? this[key] : this;
-            if (!target) {
-                logError('Property "' + key + '" is not existed in element ' + this.id);
-                return;
-            }
+            if (!target) return void logError('Property "' + key + '" is not existed in element ' + this.id);
             var animator = new Animator(target, loop);
             return this.addAnimator(animator, key), animator;
         }, Element.prototype.addAnimator = function(animator, key) {
@@ -15076,11 +15050,7 @@
         },
         load: function(mapName, nameMap, nameProperty) {
             var resource = storage.get(mapName);
-            if (!resource) {
-                console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
-                return;
-            }
-            return resource.load(nameMap, nameProperty);
+            return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
         }
     }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
         PROCESSOR: {
@@ -15104,11 +15074,7 @@
     function createRegisterEventWithLowercaseECharts(method) {
         return function() {
             for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-            if (this.isDisposed()) {
-                disposedWarning(this.id);
-                return;
-            }
-            return toLowercaseNameAndCallEventful(this, method, args);
+            return this.isDisposed() ? void disposedWarning(this.id) : toLowercaseNameAndCallEventful(this, method, args);
         };
     }
     function createRegisterEventWithLowercaseMessageCenter(method) {
@@ -15192,10 +15158,7 @@
         }, ECharts.prototype.getZr = function() {
             return this._zr;
         }, /* eslint-disable-next-line */ ECharts.prototype.setOption = function(option, notMerge, lazyUpdate) {
-            if (assert(!this[IN_MAIN_PROCESS_KEY], '`setOption` should not be called during main process.'), this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (assert(!this[IN_MAIN_PROCESS_KEY], '`setOption` should not be called during main process.'), this._disposed) return void disposedWarning(this.id);
             if (isObject$2(notMerge) && (lazyUpdate = notMerge.lazyUpdate, silent = notMerge.silent, replaceMerge = notMerge.replaceMerge, transitionOpt = notMerge.transition, notMerge = notMerge.notMerge), this[IN_MAIN_PROCESS_KEY] = !0, !this._model || notMerge) {
                 var silent, replaceMerge, transitionOpt, optionManager = new OptionManager(this._api), theme = this._theme, ecModel = this._model = new GlobalModel();
                 ecModel.scheduler = this._scheduler, ecModel.init(null, null, null, theme, this._locale, optionManager);
@@ -15240,10 +15203,7 @@
                 }), zr.painter.toDataURL();
             }
         }, ECharts.prototype.getDataURL = function(opts) {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             var excludeComponents = (opts = opts || {}).excludeComponents, ecModel = this._model, excludesComponentViews = [], self1 = this;
             each(excludeComponents, function(componentType) {
                 ecModel.eachComponent({
@@ -15258,10 +15218,7 @@
                 view.group.ignore = !1;
             }), url;
         }, ECharts.prototype.getConnectedDataURL = function(opts) {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             if (env.canvasSupported) {
                 var isSvg = 'svg' === opts.type, groupId = this.group, mathMin = Math.min, mathMax = Math.max, MAX_NUMBER = 1 / 0;
                 if (!connectedGroups[groupId]) return this.getDataURL(opts);
@@ -15318,11 +15275,7 @@
              * @return {boolean} result
              */ ECharts.prototype.containPixel = function(finder, value) {
             var result;
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
-            return each(parseFinder(this._model, finder), function(models, key) {
+            return this._disposed ? void disposedWarning(this.id) : (each(parseFinder(this._model, finder), function(models, key) {
                 key.indexOf('Models') >= 0 && each(models, function(model) {
                     var coordSys = model.coordinateSystem;
                     if (coordSys && coordSys.containPoint) result = result || !!coordSys.containPoint(value);
@@ -15331,7 +15284,7 @@
                         view && view.containPoint ? result = result || view.containPoint(value, model) : console.warn(key + ': ' + (view ? 'The found component do not support containPoint.' : 'No view mapping to the found component.'));
                     } else console.warn(key + ': containPoint is not supported');
                 }, this);
-            }, this), !!result;
+            }, this), !!result);
         }, /**
              * Get visual from series or data.
              * @param finder
@@ -15414,18 +15367,12 @@
         }, ECharts.prototype.isDisposed = function() {
             return this._disposed;
         }, ECharts.prototype.clear = function() {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             this.setOption({
                 series: []
             }, !0);
         }, ECharts.prototype.dispose = function() {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             this._disposed = !0, setAttribute(this.getDom(), DOM_ATTRIBUTE_KEY, '');
             var api = this._api, ecModel = this._model;
             each(this._componentsViews, function(component) {
@@ -15436,10 +15383,7 @@
         }, /**
              * Resize the chart
              */ ECharts.prototype.resize = function(opts) {
-            if (assert(!this[IN_MAIN_PROCESS_KEY], '`resize` should not be called during main process.'), this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (assert(!this[IN_MAIN_PROCESS_KEY], '`resize` should not be called during main process.'), this._disposed) return void disposedWarning(this.id);
             this._zr.resize(opts);
             var ecModel = this._model; // Resize loading effect
             if (this._loadingFX && this._loadingFX.resize(), ecModel) {
@@ -15453,23 +15397,14 @@
                 }), this[IN_MAIN_PROCESS_KEY] = !1, flushPendingActions.call(this, silent), triggerUpdatedEvent.call(this, silent);
             }
         }, ECharts.prototype.showLoading = function(name, cfg) {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
-            if (isObject$2(name) && (cfg = name, name = ''), name = name || 'default', this.hideLoading(), !loadingEffects[name]) {
-                console.warn('Loading effects ' + name + ' not exists.');
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
+            if (isObject$2(name) && (cfg = name, name = ''), name = name || 'default', this.hideLoading(), !loadingEffects[name]) return void console.warn('Loading effects ' + name + ' not exists.');
             var el = loadingEffects[name](this._api, cfg), zr = this._zr;
             this._loadingFX = el, zr.add(el);
         }, /**
              * Hide loading effect
              */ ECharts.prototype.hideLoading = function() {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             this._loadingFX && this._zr.remove(this._loadingFX), this._loadingFX = null;
         }, ECharts.prototype.makeActionFromEvent = function(eventObj) {
             var payload = extend({}, eventObj);
@@ -15483,17 +15418,11 @@
              *        false: Not flush.
              *        undefined: Auto decide whether perform flush.
              */ ECharts.prototype.dispatchAction = function(payload, opt) {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             if (isObject$2(opt) || (opt = {
                 silent: !!opt
             }), actions[payload.type] && this._model) {
-                if (this[IN_MAIN_PROCESS_KEY]) {
-                    this._pendingActions.push(payload);
-                    return;
-                }
+                if (this[IN_MAIN_PROCESS_KEY]) return void this._pendingActions.push(payload);
                 var silent = opt.silent;
                 doDispatchAction.call(this, payload, silent);
                 var flush = opt.flush;
@@ -15508,10 +15437,7 @@
             var labelManager = this._labelManager;
             labelManager.updateLayoutConfig(this._api), labelManager.layout(this._api), labelManager.processLabelsOverall();
         }, ECharts.prototype.appendData = function(params) {
-            if (this._disposed) {
-                disposedWarning(this.id);
-                return;
-            }
+            if (this._disposed) return void disposedWarning(this.id);
             var seriesIndex = params.seriesIndex, seriesModel = this.getModel().getSeriesByIndex(seriesIndex);
             assert(params.data && seriesModel), seriesModel.appendData(params), // system, util some scenario require that. In the expected usage of
             // `appendData`, the initial extent of coordinate system should better
@@ -15617,13 +15543,10 @@
                 }
             }, updateDirectly = function(ecIns, method, payload, mainType, subType) {
                 var excludeSeriesIdMap, ecModel = ecIns._model;
-                if (ecModel.setUpdatePayload(payload), !mainType) {
-                    // FIXME
-                    // Chart will not be update directly here, except set dirty.
-                    // But there is no such scenario now.
-                    each([].concat(ecIns._componentsViews).concat(ecIns._chartsViews), callView);
-                    return;
-                }
+                if (ecModel.setUpdatePayload(payload), !mainType) return void // FIXME
+                // Chart will not be update directly here, except set dirty.
+                // But there is no such scenario now.
+                each([].concat(ecIns._componentsViews).concat(ecIns._chartsViews), callView);
                 var query = {};
                 query[mainType + 'Id'] = payload[mainType + 'Id'], query[mainType + 'Index'] = payload[mainType + 'Index'], query[mainType + 'Name'] = payload[mainType + 'Name'];
                 var condition = {
@@ -15762,10 +15685,7 @@
                     updateMethods.update.call(this, payload);
                 }
             }, doConvertPixel = function(ecIns, methodName, finder, value) {
-                if (ecIns._disposed) {
-                    disposedWarning(ecIns.id);
-                    return;
-                }
+                if (ecIns._disposed) return void disposedWarning(ecIns.id);
                 for(var result, ecModel = ecIns._model, coordSysList = ecIns._coordSysMgr.getCoordinateSystems(), parsedFinder = parseFinder(ecModel, finder), i = 0; i < coordSysList.length; i++){
                     var coordSys = coordSysList[i];
                     if (coordSys[methodName] && null != (result = coordSys[methodName](ecModel, parsedFinder, value))) return result;
@@ -16468,13 +16388,10 @@
         }
     };
     function use(ext) {
-        if (isArray(ext)) {
-            // use([ChartLine, ChartBar]);
-            each(ext, function(singleExt) {
-                use(singleExt);
-            });
-            return;
-        }
+        if (isArray(ext)) return void // use([ChartLine, ChartBar]);
+        each(ext, function(singleExt) {
+            use(singleExt);
+        });
         indexOf(extensions, ext) >= 0 || (extensions.push(ext), isFunction(ext) && (ext = {
             install: ext
         }), ext.install(extensionRegisters));
@@ -17556,10 +17473,7 @@
                 var dataDims = normalizeToArray(dataDimsRaw).slice(); // Note: It is allowed that `dataDims.length` is `0`, e.g., options is
                 // `{encode: {x: -1, y: 1}}`. Should not filter anything in
                 // this case.
-                if (1 === dataDims.length && !isString(dataDims[0]) && dataDims[0] < 0) {
-                    encodeDefMap.set(coordDim, !1);
-                    return;
-                }
+                if (1 === dataDims.length && !isString(dataDims[0]) && dataDims[0] < 0) return void encodeDefMap.set(coordDim, !1);
                 var validDataDims = encodeDefMap.set(coordDim, []);
                 each(dataDims, function(resultDimIdxOrName, idx) {
                     // The input resultDimIdx can be dim name or index.
@@ -19653,10 +19567,9 @@
             }
         }, GradientManager.prototype.updateDom = function(gradient, dom) {
             if (isLinearGradient(gradient)) dom.setAttribute('x1', gradient.x + ''), dom.setAttribute('y1', gradient.y + ''), dom.setAttribute('x2', gradient.x2 + ''), dom.setAttribute('y2', gradient.y2 + '');
-            else if (isRadialGradient(gradient)) dom.setAttribute('cx', gradient.x + ''), dom.setAttribute('cy', gradient.y + ''), dom.setAttribute('r', gradient.r + '');
             else {
-                logError('Illegal gradient type.');
-                return;
+                if (!isRadialGradient(gradient)) return void logError('Illegal gradient type.');
+                dom.setAttribute('cx', gradient.x + ''), dom.setAttribute('cy', gradient.y + ''), dom.setAttribute('r', gradient.r + '');
             }
             gradient.global ? dom.setAttribute('gradientUnits', 'userSpaceOnUse') : dom.setAttribute('gradientUnits', 'objectBoundingBox'), dom.innerHTML = '';
             for(var colors = gradient.colorStops, i = 0, len = colors.length; i < len; ++i){
@@ -19720,11 +19633,8 @@
             if (svgElement instanceof SVGElement) svgElement.parentNode !== patternDom && (patternDom.innerHTML = '', patternDom.appendChild(svgElement), patternDom.setAttribute('width', pattern.svgWidth + ''), patternDom.setAttribute('height', pattern.svgHeight + ''));
             else {
                 var img = void 0, prevImage = patternDom.getElementsByTagName('image');
-                if (prevImage.length) if (pattern.image) img = prevImage[0];
-                else {
-                    patternDom.removeChild(prevImage[0]);
-                    return;
-                }
+                if (prevImage.length) if (!pattern.image) return void patternDom.removeChild(prevImage[0]);
+                else img = prevImage[0];
                 else pattern.image && (img = this.createElement('image'));
                 if (img) {
                     var imageSrc = void 0;
@@ -20290,14 +20200,8 @@
             return layer || ((layer = new Layer('zr_' + zlevel, this, this.dpr)).zlevel = zlevel, layer.__builtin__ = !0, this._layerConfig[zlevel] ? merge(layer, this._layerConfig[zlevel], !0) : this._layerConfig[zlevel - 0.01] && merge(layer, this._layerConfig[zlevel - 0.01], !0), virtual && (layer.virtual = virtual), this.insertLayer(zlevel, layer), layer.initContext()), layer;
         }, CanvasPainter.prototype.insertLayer = function(zlevel, layer) {
             var layersMap = this._layers, zlevelList = this._zlevelList, len = zlevelList.length, domRoot = this._domRoot, prevLayer = null, i = -1;
-            if (layersMap[zlevel]) {
-                logError('ZLevel ' + zlevel + ' has been used already');
-                return;
-            }
-            if (!(layer && (layer.__builtin__ || 'function' == typeof layer.resize && 'function' == typeof layer.refresh && 1))) {
-                logError('Layer of zlevel ' + zlevel + ' is not valid');
-                return;
-            }
+            if (layersMap[zlevel]) return void logError('ZLevel ' + zlevel + ' has been used already');
+            if (!(layer && (layer.__builtin__ || 'function' == typeof layer.resize && 'function' == typeof layer.refresh && 1))) return void logError('Layer of zlevel ' + zlevel + ' is not valid');
             if (len > 0 && zlevel > zlevelList[0]) {
                 for(i = 0; i < len - 1 && (!(zlevelList[i] < zlevel) || !(zlevelList[i + 1] > zlevel)); i++);
                 prevLayer = layersMap[zlevelList[i]];
@@ -20774,10 +20678,7 @@
                 }
             }).update(function(newIdx, oldIdx) {
                 var symbolEl = oldData.getItemGraphicEl(oldIdx), point = getSymbolPoint(newIdx);
-                if (!symbolNeedsDraw(data, point, newIdx, opt)) {
-                    group.remove(symbolEl);
-                    return;
-                }
+                if (!symbolNeedsDraw(data, point, newIdx, opt)) return void group.remove(symbolEl);
                 if (symbolEl) {
                     symbolEl.updateData(data, newIdx, seriesScope, symbolUpdateOpt);
                     var target = {
@@ -21209,10 +21110,7 @@
             var visualColor = function(data, coordSys) {
                 var coordDim, visualMeta, visualMetaList = data.getVisual('visualMeta');
                 if (visualMetaList && visualMetaList.length && data.count()) {
-                    if ('cartesian2d' !== coordSys.type) {
-                        console.warn('Visual map on line style is only supported on cartesian2d.');
-                        return;
-                    }
+                    if ('cartesian2d' !== coordSys.type) return void console.warn('Visual map on line style is only supported on cartesian2d.');
                     for(var i = visualMetaList.length - 1; i >= 0; i--){
                         var dimIndex = visualMetaList[i].dimension, dimName = data.dimensions[dimIndex], dimInfo = data.getDimensionInfo(dimName);
                         if ('x' === (coordDim = dimInfo && dimInfo.coordDim) || 'y' === coordDim) {
@@ -21220,10 +21118,7 @@
                             break;
                         }
                     }
-                    if (!visualMeta) {
-                        console.warn('Visual map on line style only support x or y dimension.');
-                        return;
-                    } // If the area to be rendered is bigger than area defined by LinearGradient,
+                    if (!visualMeta) return void console.warn('Visual map on line style only support x or y dimension.'); // If the area to be rendered is bigger than area defined by LinearGradient,
                     // the canvas spec prescribes that the color of the first stop and the last
                     // stop should be used. But if two stops are added at offset 0, in effect
                     // browsers use the color of the second stop to render area outside
@@ -22241,19 +22136,16 @@
                 viewRect: viewRect,
                 r: r
             }), data.each(valueDim, function(value, idx) {
-                if (isNaN(value)) {
-                    data.setItemLayout(idx, {
-                        angle: NaN,
-                        startAngle: NaN,
-                        endAngle: NaN,
-                        clockwise: clockwise,
-                        cx: cx,
-                        cy: cy,
-                        r0: r0,
-                        r: roseType ? NaN : r
-                    });
-                    return;
-                } // FIXME 兼容 2.0 但是 roseType 是 area 的时候才是这样？
+                if (isNaN(value)) return void data.setItemLayout(idx, {
+                    angle: NaN,
+                    startAngle: NaN,
+                    endAngle: NaN,
+                    clockwise: clockwise,
+                    cx: cx,
+                    cy: cy,
+                    r0: r0,
+                    r: roseType ? NaN : r
+                }); // FIXME 兼容 2.0 但是 roseType 是 area 的时候才是这样？
                 (angle = 'area' !== roseType ? 0 === sum && stillShowZeroSum ? unitRadian : value * unitRadian : PI2$8 / validDataCount) < minAngle ? (angle = minAngle, restAngle -= minAngle) : valueSumLargerThanMinAngle += value;
                 var angle, endAngle = currentAngle + dir * angle;
                 data.setItemLayout(idx, {
@@ -22398,11 +22290,8 @@
         }
         return __extends(PiePiece, _super), PiePiece.prototype.updateData = function(data, idx, startAngle, firstCreate) {
             var seriesModel = data.hostModel, itemModel = data.getItemModel(idx), emphasisModel = itemModel.getModel('emphasis'), layout = data.getItemLayout(idx), sectorShape = extend(getSectorCornerRadius(itemModel.getModel('itemStyle'), layout) || {}, layout);
-            if (isNaN(sectorShape.startAngle)) {
-                // Use NaN shape to avoid drawing shape.
-                this.setShape(sectorShape);
-                return;
-            }
+            if (isNaN(sectorShape.startAngle)) return void // Use NaN shape to avoid drawing shape.
+            this.setShape(sectorShape);
             firstCreate ? (this.setShape(sectorShape), 'scale' === seriesModel.getShallow('animationType') ? (this.shape.r = layout.r0, initProps(this, {
                 shape: {
                     r: layout.r
@@ -29422,10 +29311,7 @@
             }
         }, LineDraw.prototype._doUpdate = function(oldLineData, newLineData, oldIdx, newIdx, seriesScope) {
             var itemEl = oldLineData.getItemGraphicEl(oldIdx);
-            if (!lineNeedsDraw(newLineData.getItemLayout(newIdx))) {
-                this.group.remove(itemEl);
-                return;
-            }
+            if (!lineNeedsDraw(newLineData.getItemLayout(newIdx))) return void this.group.remove(itemEl);
             itemEl ? itemEl.updateData(newLineData, newIdx, seriesScope) : itemEl = new this._LineCtor(newLineData, newIdx, seriesScope), newLineData.setItemGraphicEl(newIdx, itemEl), this.group.add(itemEl);
         }, LineDraw;
     }();
@@ -29621,10 +29507,7 @@
             if (controller.setPointerChecker(function(e, x, y) {
                 var rect = group.getBoundingRect();
                 return rect.applyTransform(group.transform), rect.contain(x, y) && !onIrrelevantElement(e, api, seriesModel);
-            }), !isViewCoordSys(seriesModel.coordinateSystem)) {
-                controller.disable();
-                return;
-            }
+            }), !isViewCoordSys(seriesModel.coordinateSystem)) return void controller.disable();
             controller.enable(seriesModel.get('roam')), controllerHost.zoomLimit = seriesModel.get('scaleLimit'), controllerHost.zoom = seriesModel.coordinateSystem.getZoom(), controller.off('pan').off('zoom').on('pan', function(e) {
                 updateViewOnPan(controllerHost, e.dx, e.dy), api.dispatchAction({
                     seriesId: seriesModel.id,
@@ -29671,10 +29554,7 @@
              */ Graph.prototype.addNode = function(id, dataIndex) {
             id = null == id ? '' + dataIndex : '' + id;
             var nodesMap = this._nodesMap;
-            if (nodesMap[generateNodeKey(id)]) {
-                console.error('Graph nodes have duplicate name or id');
-                return;
-            }
+            if (nodesMap[generateNodeKey(id)]) return void console.error('Graph nodes have duplicate name or id');
             var node = new GraphNode(id, dataIndex);
             return node.hostGraph = this, this.nodes.push(node), nodesMap[generateNodeKey(id)] = node, node;
         }, /**
@@ -32923,10 +32803,7 @@
                 }
             }).update(function(newIdx, oldIdx) {
                 var symbolEl = oldData.getItemGraphicEl(oldIdx); // Empty data
-                if (!data.hasValue(newIdx)) {
-                    group.remove(symbolEl);
-                    return;
-                }
+                if (!data.hasValue(newIdx)) return void group.remove(symbolEl);
                 var itemLayout = data.getItemLayout(newIdx);
                 symbolEl ? updateNormalBoxData(itemLayout, symbolEl, data, newIdx) : symbolEl = createNormalBox(itemLayout, data, newIdx, constDim), group.add(symbolEl), data.setItemGraphicEl(newIdx, symbolEl);
             }).remove(function(oldIdx) {
@@ -33188,15 +33065,9 @@
                 }
             }).update(function(newIdx, oldIdx) {
                 var el = oldData.getItemGraphicEl(oldIdx); // Empty data
-                if (!data.hasValue(newIdx)) {
-                    group.remove(el);
-                    return;
-                }
+                if (!data.hasValue(newIdx)) return void group.remove(el);
                 var itemLayout = data.getItemLayout(newIdx);
-                if (needsClip && isNormalBoxClipped(clipArea, itemLayout)) {
-                    group.remove(el);
-                    return;
-                }
+                if (needsClip && isNormalBoxClipped(clipArea, itemLayout)) return void group.remove(el);
                 el ? updateProps(el, {
                     shape: {
                         points: itemLayout.ends
@@ -34485,10 +34356,7 @@
                 }
             }).update(function(newIndex, oldIndex) {
                 var bar, animationModel, dataIndex, bar1 = oldData.getItemGraphicEl(oldIndex);
-                if (!data.hasValue(newIndex)) {
-                    group.remove(bar1);
-                    return;
-                }
+                if (!data.hasValue(newIndex)) return void group.remove(bar1);
                 var itemModel = getItemModel(data, newIndex), symbolMeta = getSymbolMeta(data, newIndex, itemModel, opt), pictorialShapeStr = getShapeStr(data, symbolMeta);
                 bar1 && pictorialShapeStr !== bar1.__pictorialShapeStr && (group.remove(bar1), data.setItemGraphicEl(newIndex, null), bar1 = null), bar1 ? (bar = bar1, animationModel = symbolMeta.animationModel, dataIndex = symbolMeta.dataIndex, updateProps(bar.__pictorialBundle, {
                     x: symbolMeta.bundlePosition[0],
@@ -34814,10 +34682,7 @@
             var dataDiffer = new DataDiffer(this._layersSeries || [], layersSeries, keyGetter, keyGetter), newLayersGroups = [];
             function process(status, idx, oldIdx) {
                 var style, polygon, oldLayersGroups = self1._layers;
-                if ('remove' === status) {
-                    group.remove(oldLayersGroups[idx]);
-                    return;
-                }
+                if ('remove' === status) return void group.remove(oldLayersGroups[idx]);
                 for(var points0 = [], points1 = [], indices = layersSeries[idx].indices, j = 0; j < indices.length; j++){
                     var layout = data.getItemLayout(indices[j]), x = layout.x, y0 = layout.y0, y = layout.y;
                     points0.push(x, y0), points1.push(x, y0 + y), style = data.getItemVisual(indices[j], 'style');
@@ -35701,10 +35566,7 @@
             ];
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
         !function(path, morphingData, morphT) {
-            if (isIndividualMorphingPath(path)) {
-                updateIndividualMorphingPath(path, morphingData, 0);
-                return;
-            }
+            if (isIndividualMorphingPath(path)) return updateIndividualMorphingPath(path, morphingData, 0);
             path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, 0);
         }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
@@ -35812,10 +35674,7 @@
                 copyPropsIfDivided && copyPropsIfDivided(toPath, to, !0), morphPath(from, to, morphAnimationOpts);
             }
             return function(path, combiningSubList) {
-                if (isCombiningPath(path)) {
-                    updateCombiningPathSubList(path, combiningSubList);
-                    return;
-                }
+                if (isCombiningPath(path)) return updateCombiningPathSubList(path, combiningSubList);
                 updateCombiningPathSubList(path, combiningSubList), path.__oldAddSelfToZr = path.addSelfToZr, path.__oldRemoveSelfFromZr = path.removeSelfFromZr, path.addSelfToZr = combiningAddSelfToZr, path.removeSelfFromZr = combiningRemoveSelfFromZr, path.__oldBuildPath = path.buildPath, path.buildPath = noop, path.childrenRef = combiningChildrenRef;
             }(toPath, toPathSplittedList), {
                 fromIndividuals: fromIndividuals,
@@ -36737,18 +36596,14 @@
         }
     }
     function createOrUpdateItem(api, el, dataIndex, elOption, seriesModel, group, data, morphPreparation) {
-        // [Rule]
+        return(// [Rule]
         // If `renderItem` returns `null`/`undefined`/`false`, remove the previous el if existing.
         //     (It seems that violate the "merge" principle, but most of users probably intuitively
         //     regard "return;" as "show nothing element whatever", so make a exception to meet the
         //     most cases.)
         // The rule or "merge" see [STRATEGY_MERGE].
         // If `elOption` is `null`/`undefined`/`false` (when `renderItem` returns nothing).
-        if (!elOption) {
-            removeElementDirectly(el, group);
-            return;
-        }
-        return (el = doCreateOrUpdateEl(api, el, dataIndex, elOption, seriesModel, group, !0, morphPreparation)) && data.setItemGraphicEl(dataIndex, el), enableHoverEmphasis(el, elOption.focus, elOption.blurScope), el;
+        elOption ? ((el = doCreateOrUpdateEl(api, el, dataIndex, elOption, seriesModel, group, !0, morphPreparation)) && data.setItemGraphicEl(dataIndex, el), enableHoverEmphasis(el, elOption.focus, elOption.blurScope), el) : void removeElementDirectly(el, group));
     }
     function doCreateOrUpdateEl(api, el, dataIndex, elOption, seriesModel, group, isRoot, morphPreparation) {
         assert(elOption, 'should not have an null/undefined element setting');
@@ -36843,18 +36698,15 @@
         function(api, el, dataIndex, elOption, seriesModel, morphPreparation) {
             var context, newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
             if (newLen || byName || notMerge) {
-                if (byName) {
-                    new DataDiffer((context = {
-                        api: api,
-                        oldChildren: el.children() || [],
-                        newChildren: newChildren || [],
-                        dataIndex: dataIndex,
-                        seriesModel: seriesModel,
-                        group: el,
-                        morphPreparation: morphPreparation
-                    }).oldChildren, context.newChildren, getKey, getKey, context).add(processAddUpdate).update(processAddUpdate).remove(processRemove).execute();
-                    return;
-                }
+                if (byName) return new DataDiffer((context = {
+                    api: api,
+                    oldChildren: el.children() || [],
+                    newChildren: newChildren || [],
+                    dataIndex: dataIndex,
+                    seriesModel: seriesModel,
+                    group: el,
+                    morphPreparation: morphPreparation
+                }).oldChildren, context.newChildren, getKey, getKey, context).add(processAddUpdate).update(processAddUpdate).remove(processRemove).execute();
                 notMerge && el.removeAll(); // Mapping children of a group simply by index, which
                 for(// might be better performance.
                 var index = 0; index < newLen; index++)newChildren[index] && doCreateOrUpdateEl(api, el.childAt(index), dataIndex, newChildren[index], seriesModel, el, !1, morphPreparation);
@@ -37737,12 +37589,9 @@
                 });
             }), function(dataByCoordSys, point, payload, dispatchAction) {
                 // Basic logic: If no showTip required, hideTip will be dispatched.
-                if (illegalPoint(point) || !dataByCoordSys.list.length) {
-                    dispatchAction({
-                        type: 'hideTip'
-                    });
-                    return;
-                } // In most case only one axis (or event one series is used). It is
+                if (illegalPoint(point) || !dataByCoordSys.list.length) return dispatchAction({
+                    type: 'hideTip'
+                }); // In most case only one axis (or event one series is used). It is
                 // convinient to fetch payload.seriesIndex and payload.dataIndex
                 // dirtectly. So put the first seriesIndex and dataIndex of the first
                 // axis on the payload.
@@ -37787,10 +37636,7 @@
     function processOnAxis(axisInfo, newValue, updaters, noSnap, outputFinder) {
         var axis = axisInfo.axis;
         if (!axis.scale.isBlank() && axis.containData(newValue)) {
-            if (!axisInfo.involveSeries) {
-                updaters.showPointer(axisInfo, newValue);
-                return;
-            } // Heavy calculation. So put it after axis.containData checking.
+            if (!axisInfo.involveSeries) return void updaters.showPointer(axisInfo, newValue); // Heavy calculation. So put it after axis.containData checking.
             var value, axis1, dim, snapToValue, payloadBatch, minDist, minDiff, payloadInfo = (value = newValue, dim = (axis1 = axisInfo.axis).dim, snapToValue = value, payloadBatch = [], minDist = Number.MAX_VALUE, minDiff = -1, each(axisInfo.seriesModels, function(series, idx) {
                 var seriesNestestValue, dataIndices, dataDim = series.getData().mapDimensionsAll(dim);
                 if (series.getAxisTooltipData) {
@@ -45425,10 +45271,7 @@
         }
         return __extends(InsideZoomView, _super), InsideZoomView.prototype.render = function(dataZoomModel, ecModel, api) {
             var getRange;
-            if (_super.prototype.render.apply(this, arguments), dataZoomModel.noTarget()) {
-                this._clear();
-                return;
-            } // Hence the `throttle` util ensures to preserve command order,
+            if (_super.prototype.render.apply(this, arguments), dataZoomModel.noTarget()) return void this._clear(); // Hence the `throttle` util ensures to preserve command order,
             // here simply updating range all the time will not cause missing
             // any of the the roam change.
             this.range = dataZoomModel.getPercentRange(), getRange = {
@@ -45577,10 +45420,7 @@
                     var firstDzKey = dataZoomInfoMap.keys()[0];
                     null != firstDzKey && (firstDzInfo = dataZoomInfoMap.get(firstDzKey));
                 }
-                if (!firstDzInfo) {
-                    disposeCoordSysRecord(coordSysRecordMap, coordSysRecord);
-                    return;
-                }
+                if (!firstDzInfo) return void disposeCoordSysRecord(coordSysRecordMap, coordSysRecord);
                 var controllerParams = (prefix = 'type_', typePriority = {
                     type_true: 2,
                     type_move: 1,
@@ -45695,10 +45535,7 @@
         return __extends(SliderZoomView, _super), SliderZoomView.prototype.init = function(ecModel, api) {
             this.api = api, this._onBrush = bind(this._onBrush, this), this._onBrushEnd = bind(this._onBrushEnd, this);
         }, SliderZoomView.prototype.render = function(dataZoomModel, ecModel, api, payload) {
-            if (_super.prototype.render.apply(this, arguments), createOrUpdate(this, '_dispatchZoomAction', dataZoomModel.get('throttle'), 'fixRate'), this._orient = dataZoomModel.getOrient(), !1 === dataZoomModel.get('show')) {
-                this.group.removeAll();
-                return;
-            }
+            if (_super.prototype.render.apply(this, arguments), createOrUpdate(this, '_dispatchZoomAction', dataZoomModel.get('throttle'), 'fixRate'), this._orient = dataZoomModel.getOrient(), !1 === dataZoomModel.get('show')) return void this.group.removeAll();
             if (dataZoomModel.noTarget()) {
                 this._clear(), this.group.removeAll();
                 return;
@@ -46693,10 +46530,7 @@
              * @protected
              */ VisualMapView.prototype.render = function(visualMapModel, ecModel, api, payload // TODO: TYPE
         ) {
-            if (this.visualMapModel = visualMapModel, !1 === visualMapModel.get('show')) {
-                this.group.removeAll();
-                return;
-            }
+            if (this.visualMapModel = visualMapModel, !1 === visualMapModel.get('show')) return void this.group.removeAll();
             this.doRender(visualMapModel, ecModel, api, payload);
         }, /**
              * @protected
@@ -47839,11 +47673,8 @@
                         }
                     }), ecModel.eachRawSeries(function(seriesModel) {
                         if (!ecModel.isSeriesFiltered(seriesModel)) {
-                            if ('function' == typeof seriesModel.enableAriaDecal) {
-                                // Let series define how to use decal palette on data
-                                seriesModel.enableAriaDecal();
-                                return;
-                            }
+                            if ('function' == typeof seriesModel.enableAriaDecal) return void // Let series define how to use decal palette on data
+                            seriesModel.enableAriaDecal();
                             var data = seriesModel.getData();
                             if (seriesModel.useColorPaletteOnData) {
                                 var dataAll_1 = seriesModel.getRawData(), idxMap_1 = {}, decalScope_1 = inner$l(seriesModel).scope;
@@ -47872,10 +47703,7 @@
                 var ariaLabel, labelLocale = ecModel.getLocaleModel().get('aria'), labelModel = ariaModel.getModel('label');
                 if (labelModel.option = defaults(labelModel.option, labelLocale), labelModel.get('enabled')) {
                     var title, dom = api.getZr().dom;
-                    if (labelModel.get('description')) {
-                        dom.setAttribute('aria-label', labelModel.get('description'));
-                        return;
-                    }
+                    if (labelModel.get('description')) return dom.setAttribute('aria-label', labelModel.get('description'));
                     var seriesCnt = ecModel.getSeriesCount(), maxDataCnt = labelModel.get([
                         'data',
                         'maxCount'

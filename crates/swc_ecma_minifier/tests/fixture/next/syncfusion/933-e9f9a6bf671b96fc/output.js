@@ -5623,10 +5623,7 @@
      * @param {Function[]} moduleList - Array of modules to be injected from sample side
      */ ModuleLoader.prototype.inject = function(requiredModules, moduleList) {
                     var reqLength = requiredModules.length;
-                    if (0 === reqLength) {
-                        this.clean();
-                        return;
-                    }
+                    if (0 === reqLength) return void this.clean();
                     this.loadedModules.length && this.clearUnusedModule(requiredModules);
                     for(var i = 0; i < reqLength; i++)for(var modl = requiredModules[i], _i = 0; _i < moduleList.length; _i++){
                         var module = moduleList[_i], modName = modl.member;
@@ -11611,10 +11608,7 @@
                                         else if (0 === focusElem.textContent.length) {
                                             for(var currentFocusElem = focusElem.previousSibling.lastChild; '#text' !== currentFocusElem.nodeName;)currentFocusElem = currentFocusElem.lastChild;
                                             _this.parent.formatter.editorManager.nodeSelection.setCursorPoint(_this.parent.contentModule.getDocument(), currentFocusElem, currentFocusElem.textContent.length), (0, ej2_base /* detach */ .og)(focusElem);
-                                        } else if ('BR' !== _this.parent.enterKey && 0 !== focusElem.previousSibling.textContent.length && 0 !== focusElem.textContent.length) {
-                                            e.args.preventDefault();
-                                            return;
-                                        }
+                                        } else if ('BR' !== _this.parent.enterKey && 0 !== focusElem.previousSibling.textContent.length && 0 !== focusElem.textContent.length) return void e.args.preventDefault();
                                         _this.getRangeNode();
                                     }
                                 }
@@ -14034,10 +14028,7 @@
                     'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? this.contentModule.getEditPanel().removeEventListener('mscontrolselect', this.preventImgResize) : 'mozilla' === ej2_base /* Browser.info.name */ .AR.info.name && (this.contentModule.getDocument().execCommand('enableObjectResizing', !0, 'true'), this.contentModule.getDocument().execCommand('enableInlineTableEditing', !0, 'true'));
                 }, RichTextEditor.prototype.resizeHandler = function() {
                     var isExpand = !1;
-                    if (!document.body.contains(this.element)) {
-                        document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
-                        return;
-                    }
+                    if (!document.body.contains(this.element)) return void document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
                     this.toolbarSettings.enable && !this.inlineMode.enable && (this.toolbarModule.refreshToolbarOverflow(), isExpand = this.toolbarModule.baseToolbar.toolbarObj.element.classList.contains(classes /* CLS_EXPAND_OPEN */ .Yi)), this.setContentHeight('windowResize', isExpand), this.notify(constant /* windowResize */ .Qr, null);
                 }, RichTextEditor.prototype.scrollHandler = function(e) {
                     this.notify(constant /* scroll */ .AR, {
@@ -16074,10 +16065,7 @@
                         nodeSelection.setSelectionText(docElement, range.startContainer.parentElement, range.startContainer.parentElement, currentIndex + 1, currentIndex + 1), range = nodeSelection.getRange(docElement);
                     }
                     var isCursor = range.startOffset === range.endOffset && 0 === range.startOffset && range.startContainer === range.endContainer, isCollapsed = range.collapsed, nodes = this.getNodeCollection(range, nodeSelection, node), closestParentNode = 'table' === node.nodeName.toLowerCase() ? this.closestEle(nodes[0].parentNode, editNode) : nodes[0];
-                    if (isExternal || !(0, ej2_base /* isNullOrUndefined */ .le)(node) && !(0, ej2_base /* isNullOrUndefined */ .le)(node.classList) && node.classList.contains('pasteContent')) {
-                        this.pasteInsertHTML(nodes, node, range, nodeSelection, nodeCutter, docElement, isCollapsed, closestParentNode, editNode);
-                        return;
-                    }
+                    if (isExternal || !(0, ej2_base /* isNullOrUndefined */ .le)(node) && !(0, ej2_base /* isNullOrUndefined */ .le)(node.classList) && node.classList.contains('pasteContent')) return void this.pasteInsertHTML(nodes, node, range, nodeSelection, nodeCutter, docElement, isCollapsed, closestParentNode, editNode);
                     if (editNode !== range.startContainer && (!isCollapsed && (closestParentNode.nodeType !== Node.ELEMENT_NODE || -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase())) || 'table' === node.nodeName.toLowerCase() && closestParentNode && -1 === TABLE_BLOCK_TAGS.indexOf(closestParentNode.tagName.toLocaleLowerCase()))) {
                         var preNode = nodeCutter.GetSpliceNode(range, closestParentNode), sibNode = preNode.previousSibling, parentNode = preNode.parentNode;
                         if (1 === nodes.length || 'table' === node.nodeName.toLowerCase() && 0 === preNode.childElementCount) nodeSelection.setSelectionContents(docElement, preNode), range = nodeSelection.getRange(docElement);
@@ -19047,13 +19035,10 @@
                     }
                     if (('space' === e.args.action || 'enter' === e.args.action || 13 === e.args.keyCode) && (this.spaceLink(e.args), 'HTML' === this.parent.editorMode && !this.parent.readonly)) {
                         var currentLength = this.parent.getText().trim().length, selectionLength = this.parent.getSelection().length;
-                        if (-1 === this.parent.maxLength || currentLength - selectionLength + 1 <= this.parent.maxLength || 13 !== e.args.keyCode) this.parent.notify(constant /* enterHandler */ .dp, {
+                        if (!(-1 === this.parent.maxLength || currentLength - selectionLength + 1 <= this.parent.maxLength) && 13 === e.args.keyCode) return void e.args.preventDefault();
+                        this.parent.notify(constant /* enterHandler */ .dp, {
                             args: e.args
                         });
-                        else {
-                            e.args.preventDefault();
-                            return;
-                        }
                     }
                     if ('space' === e.args.action) {
                         var currentRange_1 = this.parent.getRange(), editorValue = currentRange_1.startContainer.textContent.slice(0, currentRange_1.startOffset), orderedList_1 = this.isOrderedList(editorValue), unOrderedList = this.isUnOrderedList(editorValue);
@@ -20284,10 +20269,7 @@
                     }), this.dropAreaWrapper.parentElement.insertBefore(this.uploadWrapper, this.dropAreaWrapper), this.uploadWrapper.appendChild(this.dropAreaWrapper), this.setDropArea();
                 }, Uploader.prototype.renderPreLoadFiles = function() {
                     if (this.files.length) {
-                        if (this.enablePersistence && this.filesData.length) {
-                            this.createFileList(this.filesData);
-                            return;
-                        }
+                        if (this.enablePersistence && this.filesData.length) return void this.createFileList(this.filesData);
                         if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.files[0].size)) {
                             this.isPreloadFiles = !0;
                             var files = [].slice.call(this.files), filesData = [];
@@ -22508,10 +22490,7 @@
                     'add' === action ? this.scrollEle.scrollLeft += scrollVal : this.scrollEle.scrollLeft -= scrollVal;
                 }, HScroll.prototype.frameScrollRequest = function(scrollVal, action, isContinuous) {
                     var _this = this;
-                    if (isContinuous) {
-                        this.scrollUpdating(scrollVal, action);
-                        return;
-                    }
+                    if (isContinuous) return void this.scrollUpdating(scrollVal, action);
                     this.customStep || [].slice.call((0, ej2_base /* selectAll */ .td)('.' + CLS_OVERLAY, this.element)).forEach(function(el) {
                         scrollVal -= el.offsetWidth;
                     });
@@ -22760,10 +22739,7 @@
                     'add' === action ? this.scrollEle.scrollTop += scrollVal : this.scrollEle.scrollTop -= scrollVal;
                 }, VScroll.prototype.frameScrollRequest = function(scrollValue, action, isContinuous) {
                     var _this = this;
-                    if (isContinuous) {
-                        this.scrollUpdating(scrollValue, action);
-                        return;
-                    }
+                    if (isContinuous) return void this.scrollUpdating(scrollValue, action);
                     this.customStep || [].slice.call((0, ej2_base /* selectAll */ .td)('.' + v_scroll_CLS_OVERLAY, this.element)).forEach(function(el) {
                         scrollValue -= el.offsetHeight;
                     });
@@ -23052,10 +23028,7 @@
                 }, Toolbar.prototype.eleFocus = function(closest, pos) {
                     var sib = Object(closest)[pos + 'ElementSibling'];
                     if (sib) {
-                        if (this.eleContains(sib)) {
-                            this.eleFocus(sib, pos);
-                            return;
-                        }
+                        if (this.eleContains(sib)) return void this.eleFocus(sib, pos);
                         this.elementFocus(sib);
                     } else if (this.tbarAlign) {
                         var elem = Object(closest.parentElement)[pos + 'ElementSibling'];
@@ -23585,10 +23558,7 @@
      */ Toolbar.prototype.addItems = function(items, index) {
                     this.extendedOpen();
                     var innerItems, innerEle, itemsDiv = this.element.querySelector('.' + CLS_ITEMS);
-                    if ((0, ej2_base /* isNullOrUndefined */ .le)(itemsDiv)) {
-                        this.itemsRerender(items);
-                        return;
-                    }
+                    if ((0, ej2_base /* isNullOrUndefined */ .le)(itemsDiv)) return void this.itemsRerender(items);
                     var itemAgn = 'Left';
                     (0, ej2_base /* isNullOrUndefined */ .le)(index) && (index = 0), items.forEach(function(e) {
                         (0, ej2_base /* isNullOrUndefined */ .le)(e.align) || 'Left' === e.align || 'Left' !== itemAgn || (itemAgn = e.align);
@@ -31835,10 +31805,7 @@
                 }, Link.prototype.hideLinkQuickToolbar = function() {
                     this.quickToolObj && this.quickToolObj.linkQTBar && document.body.contains(this.quickToolObj.linkQTBar.element) && this.quickToolObj.linkQTBar.hidePopup();
                 }, Link.prototype.editAreaClickHandler = function(e) {
-                    if (this.parent.readonly) {
-                        this.hideLinkQuickToolbar();
-                        return;
-                    }
+                    if (this.parent.readonly) return void this.hideLinkQuickToolbar();
                     var args = e.args, showOnRightClick = this.parent.quickToolbarSettings.showOnRightClick;
                     if (2 !== args.which && (!showOnRightClick || 1 !== args.which) && (showOnRightClick || 3 !== args.which) && 'HTML' === this.parent.editorMode && this.parent.quickToolbarModule && this.parent.quickToolbarModule.linkQTBar) {
                         this.quickToolObj = this.parent.quickToolbarModule;
@@ -31910,16 +31877,10 @@
                     this.dialogObj && (this.dialogObj.destroy(), (0, ej2_base /* detach */ .og)(this.dialogObj.element), this.dialogObj = null);
                 }, Link.prototype.linkDialog = function(e, inputDetails) {
                     var _this = this;
-                    if (this.dialogObj) {
-                        this.dialogObj.hide({
-                            returnValue: !0
-                        });
-                        return;
-                    }
-                    if ('HTML' === this.parent.editorMode && e.selectParent.length > 0 && !(0, ej2_base /* isNullOrUndefined */ .le)(e.selectParent[0].classList) && e.selectParent[0].classList.contains('e-rte-anchor') && (0, ej2_base /* isNullOrUndefined */ .le)(inputDetails)) {
-                        this.editLink(e);
-                        return;
-                    }
+                    if (this.dialogObj) return void this.dialogObj.hide({
+                        returnValue: !0
+                    });
+                    if ('HTML' === this.parent.editorMode && e.selectParent.length > 0 && !(0, ej2_base /* isNullOrUndefined */ .le)(e.selectParent[0].classList) && e.selectParent[0].classList.contains('e-rte-anchor') && (0, ej2_base /* isNullOrUndefined */ .le)(inputDetails)) return void this.editLink(e);
                     var linkWebAddress = this.i10n.getConstant('linkWebUrl'), linkDisplayText = this.i10n.getConstant('linkText'), linkTooltip = this.i10n.getConstant('linkTooltipLabel'), urlPlace = this.i10n.getConstant('linkurl'), textPlace = this.i10n.getConstant('textPlaceholder'), title = this.i10n.getConstant('linkTitle'), linkDialogEle = this.parent.createElement('div', {
                         className: "e-rte-link-dialog " + this.parent.cssClass,
                         id: this.rteID + '_rtelink'
@@ -31988,10 +31949,7 @@
                     var linkTitle, argsValue, linkEle = this.selfLink.dialogObj.element, linkUrl = linkEle.querySelector('.e-rte-linkurl').value, linkText = linkEle.querySelector('.e-rte-linkText').value;
                     'HTML' === this.selfLink.parent.editorMode && (linkTitle = linkEle.querySelector('.e-rte-linkTitle').value);
                     var target = this.selfLink.checkBoxObj.checked ? '_blank' : null;
-                    if ('' === linkUrl) {
-                        this.selfLink.checkUrl(!0);
-                        return;
-                    }
+                    if ('' === linkUrl) return void this.selfLink.checkUrl(!0);
                     this.selfLink.isUrl(linkUrl) ? this.selfLink.checkUrl(!1) : (linkText = '' === linkText ? linkUrl : linkText, this.selfLink.parent.enableAutoUrl || (linkUrl = linkUrl.indexOf('http') > -1 ? linkUrl : 'http://' + linkUrl));
                     var proxy = this.selfLink;
                     if ('HTML' === proxy.parent.editorMode && (0, ej2_base /* isNullOrUndefined */ .le)((0, ej2_base /* closest */ .oq)(this.selection.range.startContainer.parentNode, "[id='" + proxy.parent.contentModule.getPanel().id + "']"))) {
@@ -32556,14 +32514,8 @@
                     this.parent.formatter.process(this.parent, delKey ? cmd : args, args.originalEvent, value), this.contentModule.getEditPanel().focus(), (null === this.parent.inputElement.innerHTML || '' === this.parent.inputElement.innerHTML) && ('DIV' === this.parent.enterKey ? this.contentModule.getEditPanel().innerHTML = '<div><br/></div>' : 'BR' === this.parent.enterKey ? this.contentModule.getEditPanel().innerHTML = '<br/>' : this.contentModule.getEditPanel().innerHTML = '<p><br/></p>'), this.removeResizeElement(), this.hideTableQuickToolbar();
                 }, Table.prototype.renderDlgContent = function(args) {
                     var _this = this;
-                    if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || this.parent.inlineMode.enable) {
-                        this.insertTableDialog(args);
-                        return;
-                    }
-                    if (this.popupObj) {
-                        this.popupObj.hide();
-                        return;
-                    }
+                    if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Browser.isDevice */ .AR.isDevice || this.parent.inlineMode.enable) return void this.insertTableDialog(args);
+                    if (this.popupObj) return void this.popupObj.hide();
                     this.hideTableQuickToolbar();
                     var insertbtn = this.l10n.getConstant('inserttablebtn');
                     this.dlgDiv = this.parent.createElement('div', {
@@ -32742,12 +32694,9 @@
                 }, // eslint-disable-next-line
                 Table.prototype.createDialog = function(args) {
                     var _this = this;
-                    if (this.editdlgObj) {
-                        this.editdlgObj.hide({
-                            returnValue: !0
-                        });
-                        return;
-                    }
+                    if (this.editdlgObj) return void this.editdlgObj.hide({
+                        returnValue: !0
+                    });
                     var tableDialog = this.parent.createElement('div', {
                         className: "e-rte-edit-table " + this.parent.cssClass,
                         id: this.rteID + '_tabledialog'

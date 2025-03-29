@@ -969,10 +969,7 @@
     function jqLiteRemoveData(element, name) {
         var expandoId = element[jqName], expandoStore = jqCache[expandoId];
         if (expandoStore) {
-            if (name) {
-                delete jqCache[expandoId].data[name];
-                return;
-            }
+            if (name) return void delete jqCache[expandoId].data[name];
             expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({}, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = undefined;
         }
     }
@@ -5237,10 +5234,7 @@
                 }), $location.absUrl() != initialUrl && $browser.url($location.absUrl(), !0), // update $location when $browser url changes
                 $browser.onUrlChange(function(newUrl) {
                     if ($location.absUrl() != newUrl) {
-                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) {
-                            $browser.url($location.absUrl());
-                            return;
-                        }
+                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) return void $browser.url($location.absUrl());
                         $rootScope.$evalAsync(function() {
                             var oldUrl = $location.absUrl();
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
@@ -10538,8 +10532,7 @@
                 if (ctrl) {
                     attr.required = !0;
                     var validator = function(value) {
-                        if (!(attr.required && ctrl.$isEmpty(value))) return ctrl.$setValidity("required", !0), value;
-                        ctrl.$setValidity("required", !1);
+                        return attr.required && ctrl.$isEmpty(value) ? void ctrl.$setValidity("required", !1) : (ctrl.$setValidity("required", !0), value);
                     };
                     ctrl.$formatters.push(validator), ctrl.$parsers.unshift(validator), attr.$observe("required", function() {
                         validator(ctrl.$viewValue);

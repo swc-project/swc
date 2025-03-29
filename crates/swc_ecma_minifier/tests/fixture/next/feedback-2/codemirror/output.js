@@ -3224,17 +3224,12 @@ function(global, factory) {
             for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || event.equals(doc.sel) : event.ranges); i++);
             if (i != source.length) {
                 for(hist.lastOrigin = hist.lastSelOrigin = null;;)if ((event = source.pop()).ranges) {
-                    if (pushSelectionToHistory(event, dest), allowSelectionOnly && !event.equals(doc.sel)) {
-                        setSelection(doc, event, {
-                            clearRedo: !1
-                        });
-                        return;
-                    }
+                    if (pushSelectionToHistory(event, dest), allowSelectionOnly && !event.equals(doc.sel)) return void setSelection(doc, event, {
+                        clearRedo: !1
+                    });
                     selAfter = event;
-                } else if (suppress) {
-                    source.push(event);
-                    return;
-                } else break;
+                } else if (suppress) return void source.push(event);
+                else break;
                 // Build up a reverse change object to add to the opposite history
                 // stack (redo when undoing, and vice versa).
                 var antiChanges = [];
@@ -3277,10 +3272,7 @@ function(global, factory) {
     // (not linked ones).
     function makeChangeSingleDoc(doc, change, selAfter, spans) {
         if (doc.cm && !doc.cm.curOp) return operation(doc.cm, makeChangeSingleDoc)(doc, change, selAfter, spans);
-        if (change.to.line < doc.first) {
-            shiftDoc(doc, change.text.length - 1 - (change.to.line - change.from.line));
-            return;
-        }
+        if (change.to.line < doc.first) return void shiftDoc(doc, change.text.length - 1 - (change.to.line - change.from.line));
         if (!(change.from.line > doc.lastLine())) {
             // Clip the change to the size of this doc
             if (change.from.line < doc.first) {
@@ -4152,19 +4144,13 @@ function(global, factory) {
                     makeChange(cm.doc, change), setSelectionReplaceHistory(cm.doc, simpleSelection(clipPos(cm.doc, pos), clipPos(cm.doc, changeEnd(change))));
                 })();
             }, readTextFromFile = function(file, i) {
-                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) {
-                    markAsReadAndPasteIfAllFilesAreRead();
-                    return;
-                }
+                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) return void markAsReadAndPasteIfAllFilesAreRead();
                 var reader = new FileReader();
                 reader.onerror = function() {
                     return markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.onload = function() {
                     var content = reader.result;
-                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(content)) {
-                        markAsReadAndPasteIfAllFilesAreRead();
-                        return;
-                    }
+                    if (/[\x00-\x08\x0e-\x1f]{2}/.test(content)) return void markAsReadAndPasteIfAllFilesAreRead();
                     text[i] = content, markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.readAsText(file);
             }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
@@ -5110,10 +5096,7 @@ function(global, factory) {
                 },
                 start: function(e) {
                     var cm1 = cm, e1 = e;
-                    if (ie && (!cm1.state.draggingText || +new Date() - lastDrop < 100)) {
-                        e_stop(e1);
-                        return;
-                    }
+                    if (ie && (!cm1.state.draggingText || +new Date() - lastDrop < 100)) return void e_stop(e1);
                     if (!(signalDOMEvent(cm1, e1) || eventInWidget(cm1.display, e1)) && (e1.dataTransfer.setData("Text", cm1.getSelection()), e1.dataTransfer.effectAllowed = "copyMove", e1.dataTransfer.setDragImage && !safari)) {
                         var img = elt("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm1.display.wrapper.appendChild(img), // Force a relayout, or Opera won't use our image for some obscure reason
@@ -5442,10 +5425,7 @@ function(global, factory) {
                     e.clipboardData.clearData();
                     var content = lastCopied.text.join("\n");
                     if (// iOS exposes the clipboard API, but seems to discard content inserted into it
-                    e.clipboardData.setData("Text", content), e.clipboardData.getData("Text") == content) {
-                        e.preventDefault();
-                        return;
-                    }
+                    e.clipboardData.setData("Text", content), e.clipboardData.getData("Text") == content) return void e.preventDefault();
                 }
                 // Old-fashioned briefly-focus-a-textarea hack
                 var kludge = hiddenTextarea(), te = kludge.firstChild;
@@ -5489,10 +5469,7 @@ function(global, factory) {
         return this.cm.display.wrapper.ownerDocument.getSelection();
     }, ContentEditableInput.prototype.showPrimarySelection = function() {
         var sel = this.getSelection(), cm = this.cm, prim = cm.doc.sel.primary(), from = prim.from(), to = prim.to();
-        if (cm.display.viewTo == cm.display.viewFrom || from.line >= cm.display.viewTo || to.line < cm.display.viewFrom) {
-            sel.removeAllRanges();
-            return;
-        }
+        if (cm.display.viewTo == cm.display.viewFrom || from.line >= cm.display.viewTo || to.line < cm.display.viewFrom) return void sel.removeAllRanges();
         var curAnchor = domToPos(cm, sel.anchorNode, sel.anchorOffset), curFocus = domToPos(cm, sel.focusNode, sel.focusOffset);
         if (!curAnchor || curAnchor.bad || !curFocus || curFocus.bad || 0 != cmp(minPos(curAnchor, curFocus), from) || 0 != cmp(maxPos(curAnchor, curFocus), to)) {
             var view = cm.display.view, start = from.line >= cm.display.viewFrom && posToDOM(cm, from) || {
@@ -5506,10 +5483,7 @@ function(global, factory) {
                     offset: map[map.length - 2] - map[map.length - 3]
                 };
             }
-            if (!start || !end) {
-                sel.removeAllRanges();
-                return;
-            }
+            if (!start || !end) return void sel.removeAllRanges();
             var rng, old = sel.rangeCount && sel.getRangeAt(0);
             try {
                 rng = range(start.node, start.offset, end.offset, end.node);
@@ -5599,10 +5573,7 @@ function(global, factory) {
             for(; !function walk(node) {
                 if (1 == node.nodeType) {
                     var cmText = node.getAttribute("cm-text");
-                    if (cmText) {
-                        addText(cmText);
-                        return;
-                    }
+                    if (cmText) return void addText(cmText);
                     var range, markerID = node.getAttribute("cm-marker");
                     if (markerID) {
                         var id, found = cm.findMarks(Pos(fromLine, 0), Pos(toLine + 1, 0), (id = +markerID, function(marker) {

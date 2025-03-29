@@ -1116,6 +1116,30 @@ impl VisitMut for Pure<'_> {
             }
         }
 
+        if let Stmt::Block(block) = s {
+            let span = block.span;
+            if let [Stmt::Expr(e), Stmt::Return(ReturnStmt { arg: None, .. })] =
+                &mut block.stmts[..]
+            {
+                // binary expression would need an extra paren
+                if !(e.expr.is_bin() || e.expr.is_assign() || e.expr.is_seq()) {
+                    self.changed = true;
+                    report_change!("sequences: Merge expression with return");
+
+                    let e = e.expr.take();
+
+                    *s = Stmt::Return(ReturnStmt {
+                        span,
+                        arg: Some(Box::new(Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("void"),
+                            arg: e,
+                        }))),
+                    })
+                }
+            }
+        }
+
         debug_assert_valid(s);
     }
 

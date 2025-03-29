@@ -880,10 +880,7 @@
             module.exports = function(callback, decodeResponseBody) {
                 return void 0 === decodeResponseBody && (decodeResponseBody = !1), function(err, response, responseBody) {
                     // if the XHR failed, return that error
-                    if (err) {
-                        callback(err);
-                        return;
-                    } // if the HTTP status code is 4xx or 5xx, the request also failed
+                    if (err) return void callback(err); // if the HTTP status code is 4xx or 5xx, the request also failed
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
                         if (decodeResponseBody) if (window1.TextDecoder) {
@@ -1527,10 +1524,7 @@
             function serializeToString(node, buf, isHTML, nodeFilter, visibleNamespaces) {
                 if (visibleNamespaces || (visibleNamespaces = []), nodeFilter) {
                     if (!(node = nodeFilter(node))) return;
-                    if ("string" == typeof node) {
-                        buf.push(node);
-                        return;
-                    }
+                    if ("string" == typeof node) return void buf.push(node);
                 //buf.sort.apply(attrs, attributeSorter);
                 }
                 switch(node.nodeType){
@@ -3032,13 +3026,10 @@
                 return _proto.push = function(line) {
                     var match, event, _this2 = this;
                     if (0 !== (line = line.trim()).length) {
-                        if ("#" !== line[0]) {
-                            this.trigger("data", {
-                                type: "uri",
-                                uri: line
-                            });
-                            return;
-                        } // map tags
+                        if ("#" !== line[0]) return void this.trigger("data", {
+                            type: "uri",
+                            uri: line
+                        }); // map tags
                         this.tagMappers.reduce(function(acc, mapper) {
                             var mappedLine = mapper(line); // skip if unchanged
                             return mappedLine === line ? acc : acc.concat([
@@ -3049,21 +3040,15 @@
                         ]).forEach(function(newLine) {
                             for(var i = 0; i < _this2.customParsers.length; i++)if (_this2.customParsers[i].call(_this2, newLine)) return;
                              // Comments
-                            if (0 !== newLine.indexOf("#EXT")) {
-                                _this2.trigger("data", {
-                                    type: "comment",
-                                    text: newLine.slice(1)
-                                });
-                                return;
-                            } // strip off any carriage returns here so the regex matching
+                            if (0 !== newLine.indexOf("#EXT")) return void _this2.trigger("data", {
+                                type: "comment",
+                                text: newLine.slice(1)
+                            }); // strip off any carriage returns here so the regex matching
                             if (// doesn't have to account for them.
-                            newLine = newLine.replace("\r", ""), match = /^#EXTM3U/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "m3u"
-                                });
-                                return;
-                            }
+                            newLine = newLine.replace("\r", ""), match = /^#EXTM3U/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "m3u"
+                            });
                             if (match = /^#EXTINF:?([0-9\.]*)?,?(.*)?$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
@@ -3152,20 +3137,14 @@
                                 }, match[1] && (event.attributes = parseAttributes(match[1])), _this2.trigger("data", event);
                                 return;
                             }
-                            if (match = /^#EXT-X-ENDLIST/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "endlist"
-                                });
-                                return;
-                            }
-                            if (match = /^#EXT-X-DISCONTINUITY/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "discontinuity"
-                                });
-                                return;
-                            }
+                            if (match = /^#EXT-X-ENDLIST/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "endlist"
+                            });
+                            if (match = /^#EXT-X-DISCONTINUITY/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "discontinuity"
+                            });
                             if (match = /^#EXT-X-PROGRAM-DATE-TIME:?(.*)$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
@@ -3408,22 +3387,16 @@
                                         })), this.manifest.segments = uris;
                                     },
                                     key: function() {
-                                        if (!entry.attributes) {
-                                            this.trigger("warn", {
-                                                message: "ignoring key declaration without attribute list"
-                                            });
-                                            return;
-                                        } // clear the active encryption key
+                                        if (!entry.attributes) return void this.trigger("warn", {
+                                            message: "ignoring key declaration without attribute list"
+                                        }); // clear the active encryption key
                                         if ("NONE" === entry.attributes.METHOD) {
                                             _key = null;
                                             return;
                                         }
-                                        if (!entry.attributes.URI) {
-                                            this.trigger("warn", {
-                                                message: "ignoring key declaration without URI"
-                                            });
-                                            return;
-                                        }
+                                        if (!entry.attributes.URI) return void this.trigger("warn", {
+                                            message: "ignoring key declaration without URI"
+                                        });
                                         if ("com.apple.streamingkeydelivery" === entry.attributes.KEYFORMAT) {
                                             this.manifest.contentProtection = this.manifest.contentProtection || {}, this.manifest.contentProtection["com.apple.fps.1_0"] = {
                                                 attributes: entry.attributes
@@ -3431,43 +3404,28 @@
                                             return;
                                         } // check if the content is encrypted for Widevine
                                         // Widevine/HLS spec: https://storage.googleapis.com/wvdocs/Widevine_DRM_HLS.pdf
-                                        if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) {
-                                            if (-1 === [
-                                                "SAMPLE-AES",
-                                                "SAMPLE-AES-CTR",
-                                                "SAMPLE-AES-CENC"
-                                            ].indexOf(entry.attributes.METHOD)) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key method provided for Widevine"
-                                                });
-                                                return;
-                                            }
-                                            if ("SAMPLE-AES-CENC" === entry.attributes.METHOD && this.trigger("warn", {
-                                                message: "SAMPLE-AES-CENC is deprecated, please use SAMPLE-AES-CTR instead"
-                                            }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key URI provided for Widevine"
-                                                });
-                                                return;
-                                            }
-                                            if (!(entry.attributes.KEYID && "0x" === entry.attributes.KEYID.substring(0, 2))) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key ID provided for Widevine"
-                                                });
-                                                return;
-                                            } // if Widevine key attributes are valid, store them as `contentProtection`
-                                            // on the manifest to emulate Widevine tag structure in a DASH mpd
-                                            this.manifest.contentProtection = this.manifest.contentProtection || {}, this.manifest.contentProtection["com.widevine.alpha"] = {
-                                                attributes: {
-                                                    schemeIdUri: entry.attributes.KEYFORMAT,
-                                                    // remove '0x' from the key id string
-                                                    keyId: entry.attributes.KEYID.substring(2)
-                                                },
-                                                // decode the base64-encoded PSSH box
-                                                pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
-                                            };
-                                            return;
-                                        }
+                                        if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) return -1 === [
+                                            "SAMPLE-AES",
+                                            "SAMPLE-AES-CTR",
+                                            "SAMPLE-AES-CENC"
+                                        ].indexOf(entry.attributes.METHOD) ? void this.trigger("warn", {
+                                            message: "invalid key method provided for Widevine"
+                                        }) : ("SAMPLE-AES-CENC" === entry.attributes.METHOD && this.trigger("warn", {
+                                            message: "SAMPLE-AES-CENC is deprecated, please use SAMPLE-AES-CTR instead"
+                                        }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) ? void this.trigger("warn", {
+                                            message: "invalid key URI provided for Widevine"
+                                        }) : entry.attributes.KEYID && "0x" === entry.attributes.KEYID.substring(0, 2) ? (// on the manifest to emulate Widevine tag structure in a DASH mpd
+                                        this.manifest.contentProtection = this.manifest.contentProtection || {}, void (this.manifest.contentProtection["com.widevine.alpha"] = {
+                                            attributes: {
+                                                schemeIdUri: entry.attributes.KEYFORMAT,
+                                                // remove '0x' from the key id string
+                                                keyId: entry.attributes.KEYID.substring(2)
+                                            },
+                                            // decode the base64-encoded PSSH box
+                                            pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
+                                        })) : void this.trigger("warn", {
+                                            message: "invalid key ID provided for Widevine"
+                                        });
                                         entry.attributes.METHOD || this.trigger("warn", {
                                             message: "defaulting key method to AES-128"
                                         }), _key = {
@@ -3476,51 +3434,36 @@
                                         }, void 0 !== entry.attributes.IV && (_key.iv = entry.attributes.IV);
                                     },
                                     "media-sequence": function() {
-                                        if (!isFinite(entry.number)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid media sequence: " + entry.number
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                            message: "ignoring invalid media sequence: " + entry.number
+                                        });
                                         this.manifest.mediaSequence = entry.number;
                                     },
                                     "discontinuity-sequence": function() {
-                                        if (!isFinite(entry.number)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid discontinuity sequence: " + entry.number
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                            message: "ignoring invalid discontinuity sequence: " + entry.number
+                                        });
                                         this.manifest.discontinuitySequence = entry.number, currentTimeline = entry.number;
                                     },
                                     "playlist-type": function() {
-                                        if (!/VOD|EVENT/.test(entry.playlistType)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring unknown playlist type: " + entry.playlist
-                                            });
-                                            return;
-                                        }
+                                        if (!/VOD|EVENT/.test(entry.playlistType)) return void this.trigger("warn", {
+                                            message: "ignoring unknown playlist type: " + entry.playlist
+                                        });
                                         this.manifest.playlistType = entry.playlistType;
                                     },
                                     map: function() {
                                         currentMap = {}, entry.uri && (currentMap.uri = entry.uri), entry.byterange && (currentMap.byterange = entry.byterange), _key && (currentMap.key = _key);
                                     },
                                     "stream-inf": function() {
-                                        if (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !entry.attributes) {
-                                            this.trigger("warn", {
-                                                message: "ignoring empty stream-inf attributes"
-                                            });
-                                            return;
-                                        }
+                                        if (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !entry.attributes) return void this.trigger("warn", {
+                                            message: "ignoring empty stream-inf attributes"
+                                        });
                                         currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
                                     },
                                     media: function() {
-                                        if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring incomplete or missing media group"
-                                            });
-                                            return;
-                                        } // find the media group, creating defaults as necessary
+                                        if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) return void this.trigger("warn", {
+                                            message: "ignoring incomplete or missing media group"
+                                        }); // find the media group, creating defaults as necessary
                                         var mediaGroupType = this.manifest.mediaGroups[entry.attributes.TYPE];
                                         mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], (rendition = {
                                             default: /yes/i.test(entry.attributes.DEFAULT)
@@ -3537,21 +3480,15 @@
                                         this.manifest.dateTimeString = entry.dateTimeString, this.manifest.dateTimeObject = entry.dateTimeObject), currentUri.dateTimeString = entry.dateTimeString, currentUri.dateTimeObject = entry.dateTimeObject;
                                     },
                                     targetduration: function() {
-                                        if (!isFinite(entry.duration) || entry.duration < 0) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid target duration: " + entry.duration
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.duration) || entry.duration < 0) return void this.trigger("warn", {
+                                            message: "ignoring invalid target duration: " + entry.duration
+                                        });
                                         this.manifest.targetDuration = entry.duration, setHoldBack.call(this, this.manifest);
                                     },
                                     start: function() {
-                                        if (!entry.attributes || isNaN(entry.attributes["TIME-OFFSET"])) {
-                                            this.trigger("warn", {
-                                                message: "ignoring start declaration without appropriate attribute list"
-                                            });
-                                            return;
-                                        }
+                                        if (!entry.attributes || isNaN(entry.attributes["TIME-OFFSET"])) return void this.trigger("warn", {
+                                            message: "ignoring start declaration without appropriate attribute list"
+                                        });
                                         this.manifest.start = {
                                             timeOffset: entry.attributes["TIME-OFFSET"],
                                             precise: entry.attributes.PRECISE

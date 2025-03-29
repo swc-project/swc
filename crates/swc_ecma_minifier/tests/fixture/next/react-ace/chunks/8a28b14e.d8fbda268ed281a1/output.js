@@ -8,10 +8,7 @@
             /* module decorator */ module = __webpack_require__.nmd(module), (global = function() {
                 return this;
             }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
-                if ("string" != typeof module) {
-                    define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
-                    return;
-                }
+                if ("string" != typeof module) return void (define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace()));
                 2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
             }).modules = {}, define.payloads = {}, _require = function(parentId, module, callback) {
                 if ("string" == typeof module) {
@@ -2405,10 +2402,7 @@
                 ];
                 function _invertLevel(lev, levels, _array) {
                     if (!(hiLevel < lev)) {
-                        if (1 == lev && 1 == dir && !hasUBAT_B) {
-                            _array.reverse();
-                            return;
-                        }
+                        if (1 == lev && 1 == dir && !hasUBAT_B) return void _array.reverse();
                         for(var end, lo, hi, tmp, len = _array.length, start = 0; start < len;){
                             if (levels[start] >= lev) {
                                 for(end = start + 1; end < len && levels[end] >= lev;)end++;
@@ -2761,10 +2755,7 @@
                         var row = this.lead.row, column = this.lead.column, line = this.doc.getLine(row), rightOfCursor = line.substring(column);
                         this.session.nonTokenRe.lastIndex = 0, this.session.tokenRe.lastIndex = 0;
                         var fold = this.session.getFoldAt(row, column, 1);
-                        if (fold) {
-                            this.moveCursorTo(fold.end.row, fold.end.column);
-                            return;
-                        }
+                        if (fold) return void this.moveCursorTo(fold.end.row, fold.end.column);
                         if (this.session.nonTokenRe.exec(rightOfCursor) && (column += this.session.nonTokenRe.lastIndex, this.session.nonTokenRe.lastIndex = 0, rightOfCursor = line.substring(column)), column >= line.length) {
                             this.moveCursorTo(row, line.length), this.moveCursorRight(), row < this.doc.getLength() - 1 && this.moveCursorWordRight();
                             return;
@@ -2772,10 +2763,7 @@
                         this.session.tokenRe.exec(rightOfCursor) && (column += this.session.tokenRe.lastIndex, this.session.tokenRe.lastIndex = 0), this.moveCursorTo(row, column);
                     }, this.moveCursorLongWordLeft = function() {
                         var fold, row = this.lead.row, column = this.lead.column;
-                        if (fold = this.session.getFoldAt(row, column, -1)) {
-                            this.moveCursorTo(fold.start.row, fold.start.column);
-                            return;
-                        }
+                        if (fold = this.session.getFoldAt(row, column, -1)) return void this.moveCursorTo(fold.start.row, fold.start.column);
                         var str = this.session.getFoldStringAt(row, column, -1);
                         null == str && (str = this.doc.getLine(row).substring(0, column));
                         var leftOfCursor = lang.stringReverse(str);
@@ -3286,11 +3274,8 @@
                                 }, "}");
                                 if (!openBracePos) return null;
                                 var next_indent = this.$getIndent(session.getLine(openBracePos.row));
-                            } else if (closing) var next_indent = this.$getIndent(line);
-                            else {
-                                CstyleBehaviour.clearMaybeInsertedClosing();
-                                return;
-                            }
+                            } else if (!closing) return void CstyleBehaviour.clearMaybeInsertedClosing();
+                            else var next_indent = this.$getIndent(line);
                             var indent = next_indent + session.getTabString();
                             return {
                                 text: "\n" + indent + "\n" + next_indent + closing,
@@ -4913,10 +4898,7 @@
                         var fold, cmp, lastEnd = 0, folds = this.folds, isNewRow = !0;
                         null == endRow && (endRow = this.end.row, endColumn = this.end.column);
                         for(var i = 0; i < folds.length; i++){
-                            if (-1 == (cmp = (fold = folds[i]).range.compareStart(endRow, endColumn))) {
-                                callback(null, endRow, endColumn, lastEnd, isNewRow);
-                                return;
-                            }
+                            if (-1 == (cmp = (fold = folds[i]).range.compareStart(endRow, endColumn))) return void callback(null, endRow, endColumn, lastEnd, isNewRow);
                             if (!callback(null, fold.start.row, fold.start.column, lastEnd, isNewRow) && callback(fold.placeholder, fold.start.row, fold.start.column, lastEnd) || 0 === cmp) return;
                             isNewRow = !fold.sameRow, lastEnd = fold.end.column;
                         }
@@ -5327,26 +5309,17 @@
                         var fold, bracketPos, range = this.selection.getRange();
                         if (range.isEmpty()) {
                             var cursor = range.start;
-                            if (fold = this.getFoldAt(cursor.row, cursor.column)) {
-                                this.expandFold(fold);
-                                return;
-                            }
+                            if (fold = this.getFoldAt(cursor.row, cursor.column)) return void this.expandFold(fold);
                             (bracketPos = this.findMatchingBracket(cursor)) ? 1 == range.comparePoint(bracketPos) ? range.end = bracketPos : (range.start = bracketPos, range.start.column++, range.end.column--) : (bracketPos = this.findMatchingBracket({
                                 row: cursor.row,
                                 column: cursor.column + 1
                             })) ? (1 == range.comparePoint(bracketPos) ? range.end = bracketPos : range.start = bracketPos, range.start.column++) : range = this.getCommentFoldRange(cursor.row, cursor.column) || range;
                         } else {
                             var folds = this.getFoldsInRange(range);
-                            if (tryToUnfold && folds.length) {
-                                this.expandFolds(folds);
-                                return;
-                            }
+                            if (tryToUnfold && folds.length) return void this.expandFolds(folds);
                             1 == folds.length && (fold = folds[0]);
                         }
-                        if (fold || (fold = this.getFoldAt(range.start.row, range.start.column)), fold && fold.range.toString() == range.toString()) {
-                            this.expandFold(fold);
-                            return;
-                        }
+                        if (fold || (fold = this.getFoldAt(range.start.row, range.start.column)), fold && fold.range.toString() == range.toString()) return void this.expandFold(fold);
                         var placeholder = "...";
                         if (!range.isMultiLine()) {
                             if ((placeholder = this.getTextRange(range)).length < 4) return;
@@ -9623,10 +9596,7 @@
                         this.isVisible = !0, dom.removeCssClass(this.element, "ace_hidden-cursors"), this.restartTimer();
                     }, this.restartTimer = function() {
                         var update = this.$updateCursors;
-                        if (clearInterval(this.intervalId), clearTimeout(this.timeoutId), this.$stopCssAnimation(), this.smoothBlinking && (this.$isSmoothBlinking = !1, dom.removeCssClass(this.element, "ace_smooth-blinking")), update(!0), !this.isBlinking || !this.blinkInterval || !this.isVisible) {
-                            this.$stopCssAnimation();
-                            return;
-                        }
+                        if (clearInterval(this.intervalId), clearTimeout(this.timeoutId), this.$stopCssAnimation(), this.smoothBlinking && (this.$isSmoothBlinking = !1, dom.removeCssClass(this.element, "ace_smooth-blinking")), update(!0), !this.isBlinking || !this.blinkInterval || !this.isVisible) return void this.$stopCssAnimation();
                         if (this.smoothBlinking && (this.$isSmoothBlinking = !0, setTimeout((function() {
                             this.$isSmoothBlinking && dom.addCssClass(this.element, "ace_smooth-blinking");
                         }).bind(this))), dom.HAS_CSS_ANIMATION) this.$startCssAnimation();
@@ -10543,20 +10513,14 @@ margin: 0 10px;\
                     }, this.$moveTextAreaToCursor = function() {
                         if (!this.$isMousePressed) {
                             var style = this.textarea.style, composition = this.$composition;
-                            if (!this.$keepTextAreaAtCursor && !composition) {
-                                dom.translate(this.textarea, -100, 0);
-                                return;
-                            }
+                            if (!this.$keepTextAreaAtCursor && !composition) return void dom.translate(this.textarea, -100, 0);
                             var pixelPos = this.$cursorLayer.$pixelPos;
                             if (pixelPos) {
                                 composition && composition.markerRange && (pixelPos = this.$cursorLayer.getPixelPosition(composition.markerRange.start, !0));
                                 var config = this.layerConfig, posTop = pixelPos.top, posLeft = pixelPos.left;
                                 posTop -= config.offset;
                                 var h = composition && composition.useTextareaForIME ? this.lineHeight : +!HIDE_TEXTAREA;
-                                if (posTop < 0 || posTop > config.height - h) {
-                                    dom.translate(this.textarea, 0, 0);
-                                    return;
-                                }
+                                if (posTop < 0 || posTop > config.height - h) return void dom.translate(this.textarea, 0, 0);
                                 var w = 1, maxTop = this.$size.height - h;
                                 if (composition) if (composition.useTextareaForIME) {
                                     var val = this.textarea.value;
@@ -11266,10 +11230,7 @@ margin: 0 10px;\
                 }
                 exports.onMouseDown = function(e) {
                     var ev = e.domEvent, alt = ev.altKey, shift = ev.shiftKey, ctrl = ev.ctrlKey, accel = e.getAccelKey(), button = e.getButton();
-                    if (ctrl && useragent.isMac && (button = ev.button), e.editor.inMultiSelectMode && 2 == button) {
-                        e.editor.textInput.onContextMenu(e.domEvent);
-                        return;
-                    }
+                    if (ctrl && useragent.isMac && (button = ev.button), e.editor.inMultiSelectMode && 2 == button) return void e.editor.textInput.onContextMenu(e.domEvent);
                     if (!ctrl && !alt && !accel) {
                         0 === button && e.editor.inMultiSelectMode && e.editor.exitMultiSelectMode();
                         return;

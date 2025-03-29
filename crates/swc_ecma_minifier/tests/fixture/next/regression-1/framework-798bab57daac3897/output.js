@@ -311,10 +311,7 @@
                 Za(a, b);
                 var c = Ra(b.value), d = b.type;
                 if (null != c) "number" === d ? (0 === c && "" === a.value || a.value != c) && (a.value = "" + c) : a.value !== "" + c && (a.value = "" + c);
-                else if ("submit" === d || "reset" === d) {
-                    a.removeAttribute("value");
-                    return;
-                }
+                else if ("submit" === d || "reset" === d) return void a.removeAttribute("value");
                 b.hasOwnProperty("value") ? bb(a, b.type, c) : b.hasOwnProperty("defaultValue") && bb(a, b.type, Ra(b.defaultValue)), null == b.checked && null != b.defaultChecked && (a.defaultChecked = !!b.defaultChecked);
             }
             function cb(a, b, c) {

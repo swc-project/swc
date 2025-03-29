@@ -57,7 +57,10 @@ use testing::assert_eq;
         "blocks/issue_1672_for",
         // parser error
         "arrow/async_identifiers",
-        "async/async_identifiers"
+        "async/async_identifiers",
+        // lint error
+        "sequences/delete_seq_4/input.js",
+        "sequences/delete_seq_5/input.js"
     )
 )]
 fn terser_exec(input: PathBuf) {

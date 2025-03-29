@@ -3548,10 +3548,7 @@
             }, i[l.Image] = function(e, t) {
                 if (t.image.data) {
                     var r = t.props, n = r.x, i = r.y, o = t.style, a = o.width, u = o.height, l = o.opacity, s = t.box.paddingLeft || 0, c = t.box.paddingLeft || 0;
-                    if (0 === a || 0 === u) {
-                        console.warn("Image with src '" + t.props.href + "' skipped due to invalid dimensions");
-                        return;
-                    }
+                    if (0 === a || 0 === u) return void console.warn("Image with src '" + t.props.href + "' skipped due to invalid dimensions");
                     e.save(), e.fillOpacity(l || 1).image(t.image.data, n + c, i + s, {
                         width: a,
                         height: u
@@ -19063,10 +19060,7 @@
                         };
                         var n = {
                             arraySet: function(e, t, r, n, i) {
-                                if (t.subarray && e.subarray) {
-                                    e.set(t.subarray(r, r + n), i);
-                                    return;
-                                }
+                                if (t.subarray && e.subarray) return void e.set(t.subarray(r, r + n), i);
                                 for(var o = 0; o < n; o++)e[i + o] = t[r + o];
                             },
                             flattenChunks: function(e) {
@@ -22006,10 +22000,7 @@
                             var o = this[f];
                             if (o) t = new Promise((e = this, function(t, r) {
                                 o.then(function() {
-                                    if (e[c]) {
-                                        t(h(void 0, !0));
-                                        return;
-                                    }
+                                    if (e[c]) return void t(h(void 0, !0));
                                     e[d](t, r);
                                 }, r);
                             }));
@@ -22026,10 +22017,7 @@
                         var e = this;
                         return new Promise(function(t, r) {
                             e[p].destroy(null, function(e) {
-                                if (e) {
-                                    r(e);
-                                    return;
-                                }
+                                if (e) return void r(e);
                                 t(h(void 0, !0));
                             });
                         });
@@ -25624,10 +25612,7 @@
                     var o = void 0;
                     if (null !== ro) {
                         var a = ro.memoizedState;
-                        if (o = a.destroy, null !== n && rv(n, a.deps)) {
-                            rA(0, r, o, n);
-                            return;
-                        }
+                        if (o = a.destroy, null !== n && rv(n, a.deps)) return void rA(0, r, o, n);
                     }
                     rd |= e, i.memoizedState = rA(t, r, o, n);
                 }
@@ -28361,10 +28346,7 @@
                         return e && t && (t.pointerSize += i.size(e, r)), this.offsetType.size();
                     }, e.prototype.encode = function(e, t, r) {
                         var i, o, a;
-                        if (i = r, null == t) {
-                            this.offsetType.encode(e, this.options.nullValue);
-                            return;
-                        }
+                        if (i = r, null == t) return void this.offsetType.encode(e, this.options.nullValue);
                         switch(this.options.type){
                             case "local":
                                 o = r.startOffset;
