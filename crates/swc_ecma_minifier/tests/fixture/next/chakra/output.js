@@ -730,7 +730,7 @@
                         b: Math.min(255, Math.max(rgb.b, 0)),
                         a: a
                     });
-                    this.originalInput = color, this.r = rgb1.r, this.g = rgb1.g, this.b = rgb1.b, this.a = rgb1.a, this.roundA = Math.round(100 * this.a) / 100, this.format = null !== (_a = opts.format) && void 0 !== _a ? _a : rgb1.format, this.gradientType = opts.gradientType, this.r < 1 && (this.r = Math.round(this.r)), this.g < 1 && (this.g = Math.round(this.g)), this.b < 1 && (this.b = Math.round(this.b)), this.isValid = rgb1.ok;
+                    this.originalInput = color, this.r = rgb1.r, this.g = rgb1.g, this.b = rgb1.b, this.a = rgb1.a, this.roundA = Math.round(100 * this.a) / 100, this.format = null != (_a = opts.format) ? _a : rgb1.format, this.gradientType = opts.gradientType, this.r < 1 && (this.r = Math.round(this.r)), this.g < 1 && (this.g = Math.round(this.g)), this.b < 1 && (this.b = Math.round(this.b)), this.isValid = rgb1.ok;
                 }
                 return TinyColor.prototype.isDark = function() {
                     return 128 > this.getBrightness();
