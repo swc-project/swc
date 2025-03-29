@@ -389,7 +389,7 @@
                         y: found
                     } : null;
                 }
-                return (optimalPatchSize = findPatchSizeForDivisors(common)) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches))), optimalPatchSize;
+                return !(optimalPatchSize = findPatchSizeForDivisors(common)) && ((optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(wideSide))) || (optimalPatchSize = findPatchSizeForDivisors(_computeDivisors(desiredPatchSize * nrOfPatches)))), optimalPatchSize;
             }
             var _dimensionsConverters = {
                 top: function(dimension, context) {
@@ -412,7 +412,7 @@
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
                     var value, parsed = {
                         value: parseFloat(value = area[key]),
-                        unit: (value.indexOf("%"), value.length, "%")
+                        unit: (value.indexOf("%") === value.length, "%")
                     }, calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
@@ -2010,15 +2010,14 @@
                         rasterize: function(depthlabel) {
                             var color, bc, lc, labelindex, cx, cy, vertex, p, cc, sc, pos, i, colorMap = [], connectedCount = 0;
                             for(i = 0; i < 400; i++)colorMap[i] = 0;
-                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) {
-                                if ((color = imageData[pos]) !== bc) {
-                                    if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
-                                    else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
-                                        for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
-                                        null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
-                                    }
-                                } else labelData[pos] = labelindex;
-                            } else labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? (labelindex = 0, bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0]) : bc = colorMap[labelindex = labelData[pos]];
+                            for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) if ((color = imageData[pos]) !== bc) {
+                                if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
+                                else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
+                                    for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
+                                    null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
+                                }
+                            } else labelData[pos] = labelindex;
+                            else labelData[pos] === Rasterizer.DIR.OUTSIDE_EDGE || labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? (labelindex = 0, bc = labelData[pos] === Rasterizer.DIR.INSIDE_EDGE ? imageData[pos] : colorMap[0]) : bc = colorMap[labelindex = labelData[pos]];
                             for(sc = cc; null !== sc;)sc.index = depthlabel, sc = sc.nextpeer;
                             return {
                                 cc: cc,
@@ -2077,8 +2076,11 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) == 5) images[outImagePtr + offset + u | 0] = 1;
-                            else images[outImagePtr + offset + u | 0] = 0;
+                            if ((sum | 0) == (5 | 0)) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
                         }
                     }
                 }
@@ -2144,8 +2146,11 @@
                             xStart1 = u - 1 | 0;
                             xStart2 = u + 1 | 0;
                             sum = (images[inImagePtr + yStart1 + xStart1 | 0] | 0) + (images[inImagePtr + yStart1 + xStart2 | 0] | 0) + (images[inImagePtr + offset + u | 0] | 0) + (images[inImagePtr + yStart2 + xStart1 | 0] | 0) + (images[inImagePtr + yStart2 + xStart2 | 0] | 0) | 0;
-                            if ((sum | 0) > 0) images[outImagePtr + offset + u | 0] = 1;
-                            else images[outImagePtr + offset + u | 0] = 0;
+                            if ((sum | 0) > (0 | 0)) {
+                                images[outImagePtr + offset + u | 0] = 1;
+                            } else {
+                                images[outImagePtr + offset + u | 0] = 0;
+                            }
                         }
                     }
                 }
@@ -2704,10 +2709,7 @@
                  *  counterparts.
                  */ function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
                 var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
-                if (stacked) {
-                    assignMergeValue(object, key, stacked);
-                    return;
-                }
+                if (stacked) return void assignMergeValue(object, key, stacked);
                 var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : void 0, isCommon = void 0 === newValue;
                 if (isCommon) {
                     var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
@@ -4294,7 +4296,7 @@
                                 var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
                                 if (hasCatch && hasFinally) {
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                                    if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+                                    else if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
                                 } else if (hasCatch) {
                                     if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
                                 } else if (hasFinally) {
@@ -4352,11 +4354,7 @@
                         (this.arg = undefined), ContinueSentinel;
                     }
                 }, exports1;
-            }(// If this script is executing as a CommonJS module, use module.exports
-            // as the regeneratorRuntime namespace. Otherwise create a new empty
-            // object. Either way, the resulting object will be used to initialize
-            // the regeneratorRuntime variable at the top of this file.
-            module1.exports);
+            }(module1.exports);
             try {
                 regeneratorRuntime = runtime;
             } catch (accidentalStrictMode) {
@@ -6798,7 +6796,10 @@
                         }
                     }
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = /*#__PURE__*/ __webpack_require__.n(get), patterns_IOQ = /[IOQ]/g, patterns_AZ09 = /[A-Z0-9]{17}/, code_39_vin_reader = /*#__PURE__*/ function(_Code39Reader) {
+            }(barcode_reader), get = __webpack_require__(13), get_default = /*#__PURE__*/ __webpack_require__.n(get), patterns = {
+                IOQ: /[IOQ]/g,
+                AZ09: /[A-Z0-9]{17}/
+            }, code_39_vin_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6834,7 +6835,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code39VINReader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            return code ? (code = code.replace(patterns_IOQ, "")).match(patterns_AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
+                            return code ? (code = code.replace(patterns.IOQ, "")).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
                     }
                 ]), Code39VINReader;
@@ -8102,7 +8103,9 @@
                         }
                     }
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader_patterns_AEIO = /[AEIO]/g, code_32_reader = /*#__PURE__*/ function(_Code39Reader) {
+            }(barcode_reader), code_32_reader_patterns = {
+                AEIO: /[AEIO]/g
+            }, code_32_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -8146,7 +8149,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code || (code = code.replace(code_32_reader_patterns_AEIO, ""), !this._checkChecksum(code))) return null;
+                            if (!code || (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code))) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
@@ -8256,7 +8259,7 @@
                             for(extendLine(ext); ext > 1 && (!inputImageWrapper.inImageWithBorder(line[0]) || !inputImageWrapper.inImageWithBorder(line[1]));)extendLine(-// eslint-disable-next-line no-param-reassign
                             (ext -= Math.ceil(ext / 2)));
                             return line;
-                        }(line1, lineAngle, Math.floor(0.1 * lineLength))) ? null : (null === (result = tryDecode(line1)) && (result = /**
+                        }(line1, lineAngle, Math.floor(0.1 * lineLength))) || (null === (result = tryDecode(line1)) && (result = /**
                          * This method slices the given area apart and tries to detect a barcode-pattern
                          * for each slice. It returns the decoded barcode, or null if nothing was found
                          * @param {Array} box
@@ -8992,14 +8995,11 @@
             function workerInterface(factory) {
                 if (factory) {
                     var imageWrapper, Quagga = factory().default;
-                    if (!Quagga) {
-                        // @ts-ignore
-                        self.postMessage({
-                            event: "error",
-                            message: "Quagga could not be created"
-                        });
-                        return;
-                    }
+                    if (!Quagga) return void // @ts-ignore
+                    self.postMessage({
+                        event: "error",
+                        message: "Quagga could not be created"
+                    });
                 } // @ts-ignore
                 function onProcessed(result) {
                     self.postMessage({
@@ -9157,7 +9157,7 @@
                         key: "initCanvas",
                         value: function() {
                             var container = function(context) {
-                                var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context ? void 0 : null === (_context$config = context.config) || void 0 === _context$config ? void 0 : null === (_context$config$input = _context$config.inputStream) || void 0 === _context$config$input ? void 0 : _context$config$input.target), type = null == context ? void 0 : null === (_context$config2 = context.config) || void 0 === _context$config2 ? void 0 : null === (_context$config2$inpu = _context$config2.inputStream) || void 0 === _context$config2$inpu ? void 0 : _context$config2$inpu.type;
+                                var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context || null === (_context$config = context.config) || void 0 === _context$config || null === (_context$config$input = _context$config.inputStream) || void 0 === _context$config$input ? void 0 : _context$config$input.target), type = null == context || null === (_context$config2 = context.config) || void 0 === _context$config2 || null === (_context$config2$inpu = _context$config2.inputStream) || void 0 === _context$config2$inpu ? void 0 : _context$config2$inpu.type;
                                 if (!type) return null;
                                 var container = function(canvasSize) {
                                     if ("undefined" != typeof document) {
@@ -9215,7 +9215,7 @@
                                             };
                                         case "LiveStream":
                                             var _video = null;
-                                            return !viewport || (_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video)), {
+                                            return viewport && ((_video = viewport.querySelector("video")) || (_video = document.createElement("video"), viewport.appendChild(_video))), {
                                                 video: _video,
                                                 inputStream: InputStream.createLiveStream(_video)
                                             };
@@ -9312,7 +9312,7 @@
                         key: "start",
                         value: function() {
                             var _this$context$config5, _this$context$config6;
-                            this.context.onUIThread && (null === (_this$context$config5 = this.context.config) || void 0 === _this$context$config5 ? void 0 : null === (_this$context$config6 = _this$context$config5.inputStream) || void 0 === _this$context$config6 ? void 0 : _this$context$config6.type) === "LiveStream" ? this.startContinuousUpdate() : this.update();
+                            this.context.onUIThread && (null === (_this$context$config5 = this.context.config) || void 0 === _this$context$config5 || null === (_this$context$config6 = _this$context$config5.inputStream) || void 0 === _this$context$config6 ? void 0 : _this$context$config6.type) === "LiveStream" ? this.startContinuousUpdate() : this.update();
                         }
                     },
                     {
@@ -9381,42 +9381,25 @@
                     quagga_context.stopped = !0;
                 },
                 onDetected: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
-                        return;
-                    }
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                     events.subscribe("detected", callback);
                 },
                 offDetected: function(callback) {
                     events.unsubscribe("detected", callback);
                 },
                 onProcessed: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) {
-                        console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
-                        return;
-                    }
+                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                     events.subscribe("processed", callback);
                 },
                 offProcessed: function(callback) {
                     events.unsubscribe("processed", callback);
                 },
                 setReaders: function(readers) {
-                    if (!readers) {
-                        console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
-                        return;
-                    }
+                    if (!readers) return void console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
                     instance.setReaders(readers);
                 },
                 registerReader: function(name, reader) {
-                    if (!name) {
-                        console.trace("* warning: Quagga.registerReader called with no name, ignoring");
-                        return;
-                    }
-                    if (!reader) {
-                        console.trace("* warning: Quagga.registerReader called with no reader, ignoring");
-                        return;
-                    }
-                    instance.registerReader(name, reader);
+                    return name ? reader ? void instance.registerReader(name, reader) : void console.trace("* warning: Quagga.registerReader called with no reader, ignoring") : void console.trace("* warning: Quagga.registerReader called with no name, ignoring");
                 },
                 registerResultCollector: function(resultCollector) {
                     resultCollector && "function" == typeof resultCollector.addResult && (quagga_context.resultCollector = resultCollector);

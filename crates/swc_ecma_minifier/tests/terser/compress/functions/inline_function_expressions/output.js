@@ -1,9 +1,7 @@
-(async () => 2)().catch((x) => null);
-(async function () {
+(async ()=>2)().catch((x)=>null);
+(async function() {
     return 3;
-})().catch((x) => null);
-4;
-5;
-(function* () {
+})().catch((x)=>null);
+(function*() {
     return 6;
 })();

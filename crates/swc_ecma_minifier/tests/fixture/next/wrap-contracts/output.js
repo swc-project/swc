@@ -3359,10 +3359,7 @@
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
                     if (delay > 0 && (// Jitter delay bcoz networks, subtract up to 30% from 40 seconds
-                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
-                        await this.postTransaction();
-                        return;
-                    }
+                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) return void await this.postTransaction();
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
                     if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
@@ -3968,33 +3965,32 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) {
-                        if (jwk && "use_wallet" !== jwk) {
-                            transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
-                            transaction.setSignature({
-                                id: ArweaveUtils.bufferTob64Url(id),
-                                owner: jwk.n,
-                                signature: ArweaveUtils.bufferTob64Url(rawSignature)
-                            });
-                        } else {
-                            try {
-                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
-                                    "SIGN_TRANSACTION"
-                                ]);
-                            } catch (_a) {
-                            // Permission is already granted
-                            }
-                            const signedTransaction = await window.arweaveWallet.sign(transaction, options);
-                            transaction.setSignature({
-                                id: signedTransaction.id,
-                                owner: signedTransaction.owner,
-                                reward: signedTransaction.reward,
-                                tags: signedTransaction.tags,
-                                signature: signedTransaction.signature
-                            });
+                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                        transaction.setOwner(jwk.n);
+                        let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                        transaction.setSignature({
+                            id: ArweaveUtils.bufferTob64Url(id),
+                            owner: jwk.n,
+                            signature: ArweaveUtils.bufferTob64Url(rawSignature)
+                        });
+                    } else {
+                        try {
+                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                "SIGN_TRANSACTION"
+                            ]);
+                        } catch (_a) {
+                        // Permission is already granted
                         }
-                    } else throw Error("A new Arweave transaction must provide the jwk parameter.");
+                        const signedTransaction = await window.arweaveWallet.sign(transaction, options);
+                        transaction.setSignature({
+                            id: signedTransaction.id,
+                            owner: signedTransaction.owner,
+                            reward: signedTransaction.reward,
+                            tags: signedTransaction.tags,
+                            signature: signedTransaction.signature
+                        });
+                    }
+                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     const signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -4926,10 +4922,7 @@
                     if ("" !== this.lastResponseError ? this.totalErrors++ : this.totalErrors = 0, 100 === this.totalErrors) throw Error(`Unable to complete upload: ${this.lastResponseStatus}: ${this.lastResponseError}`);
                     let delay = "" === this.lastResponseError ? 0 : Math.max(this.lastRequestTimeEnd + ERROR_DELAY - Date.now(), ERROR_DELAY);
                     if (delay > 0 && (// Jitter delay bcoz networks, subtract up to 30% from 40 seconds
-                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) {
-                        await this.postTransaction();
-                        return;
-                    }
+                    delay -= delay * Math.random() * 0.3, await new Promise((res)=>setTimeout(res, delay))), this.lastResponseError = "", !this.txPosted) return void await this.postTransaction();
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
                     const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
                     if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
@@ -5432,33 +5425,32 @@
                     return options && options.decode && !options.string ? data : options && options.decode && options.string ? ArweaveUtils.bufferToString(data) : ArweaveUtils.bufferTob64Url(data);
                 }
                 async sign(transaction, jwk, options) {
-                    if (jwk || "undefined" != typeof window && window.arweaveWallet) {
-                        if (jwk && "use_wallet" !== jwk) {
-                            transaction.setOwner(jwk.n);
-                            let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
-                            transaction.setSignature({
-                                id: ArweaveUtils.bufferTob64Url(id),
-                                owner: jwk.n,
-                                signature: ArweaveUtils.bufferTob64Url(rawSignature)
-                            });
-                        } else {
-                            try {
-                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
-                                    "SIGN_TRANSACTION"
-                                ]);
-                            } catch (_a) {
-                            // Permission is already granted
-                            }
-                            const signedTransaction = await window.arweaveWallet.sign(transaction, options);
-                            transaction.setSignature({
-                                id: signedTransaction.id,
-                                owner: signedTransaction.owner,
-                                reward: signedTransaction.reward,
-                                tags: signedTransaction.tags,
-                                signature: signedTransaction.signature
-                            });
+                    if (jwk || "undefined" != typeof window && window.arweaveWallet) if (jwk && "use_wallet" !== jwk) {
+                        transaction.setOwner(jwk.n);
+                        let dataToSign = await transaction.getSignatureData(), rawSignature = await this.crypto.sign(jwk, dataToSign, options), id = await this.crypto.hash(rawSignature);
+                        transaction.setSignature({
+                            id: ArweaveUtils.bufferTob64Url(id),
+                            owner: jwk.n,
+                            signature: ArweaveUtils.bufferTob64Url(rawSignature)
+                        });
+                    } else {
+                        try {
+                            (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                "SIGN_TRANSACTION"
+                            ]);
+                        } catch (_a) {
+                        // Permission is already granted
                         }
-                    } else throw Error("A new Arweave transaction must provide the jwk parameter.");
+                        const signedTransaction = await window.arweaveWallet.sign(transaction, options);
+                        transaction.setSignature({
+                            id: signedTransaction.id,
+                            owner: signedTransaction.owner,
+                            reward: signedTransaction.reward,
+                            tags: signedTransaction.tags,
+                            signature: signedTransaction.signature
+                        });
+                    }
+                    else throw Error("A new Arweave transaction must provide the jwk parameter.");
                 }
                 async verify(transaction) {
                     const signaturePayload = await transaction.getSignatureData(), rawSignature = transaction.get("signature", {
@@ -5647,10 +5639,7 @@
             "use strict";
             const inherits = __webpack_require__(5717), Reporter = __webpack_require__(8465)/* .Reporter */ .b, Buffer = __webpack_require__(2399).Buffer;
             function DecoderBuffer(base, options) {
-                if (Reporter.call(this, options), !Buffer.isBuffer(base)) {
-                    this.error('Input not Buffer');
-                    return;
-                }
+                if (Reporter.call(this, options), !Buffer.isBuffer(base)) return void this.error('Input not Buffer');
                 this.base = base, this.offset = 0, this.length = base.length;
             }
             function EncoderBuffer(value, reporter) {
@@ -5962,10 +5951,8 @@
                 let result = null;
                 // Check if data is there
                 if (// Set reporter to share it with a child class
-                this.reporter = reporter, state.optional && void 0 === data) {
-                    if (null === state.default) return;
-                    data = state.default;
-                }
+                this.reporter = reporter, state.optional && void 0 === data) if (null === state.default) return;
+                else data = state.default;
                 // Encode children first
                 let content = null, primitive = !1;
                 if (state.any) // Anything that was given is translated to buffer
@@ -6306,15 +6293,13 @@
                 let start = -1, end = -1;
                 for(let i = 0; i < lines.length; i++){
                     const match = lines[i].match(re);
-                    if (null !== match && match[2] === label) {
-                        if (-1 === start) {
-                            if ('BEGIN' !== match[1]) break;
-                            start = i;
-                        } else {
-                            if ('END' !== match[1]) break;
-                            end = i;
-                            break;
-                        }
+                    if (null !== match && match[2] === label) if (-1 === start) {
+                        if ('BEGIN' !== match[1]) break;
+                        start = i;
+                    } else {
+                        if ('END' !== match[1]) break;
+                        end = i;
+                        break;
                     }
                 }
                 if (-1 === start || -1 === end) throw Error('PEM section not found for: ' + label);
@@ -6382,7 +6367,7 @@
                     for(let i = 0; i < str.length; i++)buf.writeUInt16BE(str.charCodeAt(i), 2 * i);
                     return this._createEncoderBuffer(buf);
                 }
-                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: numstr supports only digits and space") : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: printstr supports only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) ? this._createEncoderBuffer(str) : 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
+                return 'numstr' === tag ? this._isNumstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: numstr supports only digits and space") : 'printstr' === tag ? this._isPrintstr(str) ? this._createEncoderBuffer(str) : this.reporter.error("Encoding of string type: printstr supports only latin upper and lower case letters, digits, space, apostrophe, left and rigth parenthesis, plus sign, comma, hyphen, dot, slash, colon, equal sign, question mark") : /str$/.test(tag) || 'objDesc' === tag ? this._createEncoderBuffer(str) : this.reporter.error('Encoding of string type: ' + tag + ' unsupported');
             }, DERNode.prototype._encodeObjid = function(id, values, relative) {
                 if ('string' == typeof id) {
                     if (!values) return this.reporter.error('string objid given, but no values map found');
@@ -6512,19 +6497,19 @@
                     function onloadend() {
                         if (request) {
                             // Prepare the response
-                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-                            settle(function(value) {
-                                resolve(value), done();
-                            }, function(err) {
-                                reject(err), done();
-                            }, {
-                                data: responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText,
+                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, responseData = responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText, response = {
+                                data: responseData,
                                 status: request.status,
                                 statusText: request.statusText,
                                 headers: responseHeaders,
                                 config: config,
                                 request: request
-                            }), // Clean up request
+                            };
+                            settle(function(value) {
+                                resolve(value), done();
+                            }, function(err) {
+                                reject(err), done();
+                            }, response), // Clean up request
                             request = null;
                         }
                     }
@@ -6572,10 +6557,7 @@
                         'http',
                         'https',
                         'file'
-                    ].indexOf(protocol)) {
-                        reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
-                        return;
-                    }
+                    ].indexOf(protocol)) return void reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
                     // Send the request
                     request.send(requestData);
                 });
@@ -6652,10 +6634,7 @@
             }, /**
  * Subscribe to the cancel signal
  */ CancelToken.prototype.subscribe = function(listener) {
-                if (this.reason) {
-                    listener(this.reason);
-                    return;
-                }
+                if (this.reason) return void listener(this.reason);
                 this._listeners ? this._listeners.push(listener) : this._listeners = [
                     listener
                 ];
@@ -7348,9 +7327,9 @@
  */ module.exports = function(headers) {
                 var key, val, i, parsed = {};
                 return headers && utils.forEach(headers.split('\n'), function(line) {
-                    i = line.indexOf(':'), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && !(parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0) && ('set-cookie' === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
+                    i = line.indexOf(':'), key = utils.trim(line.substr(0, i)).toLowerCase(), val = utils.trim(line.substr(i + 1)), key && (parsed[key] && ignoreDuplicateOf.indexOf(key) >= 0 || ('set-cookie' === key ? parsed[key] = (parsed[key] ? parsed[key] : []).concat([
                         val
-                    ]) : parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val);
+                    ]) : parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val));
                 }), parsed;
             };
         /***/ },
@@ -7414,13 +7393,10 @@
                                 if (value && !parentKey && 'object' == typeof value) {
                                     if (utils.endsWith(key, '{}')) // eslint-disable-next-line no-param-reassign
                                     value = JSON.stringify(value);
-                                    else if (utils.endsWith(key, '[]') && (arr = utils.toArray(value))) {
-                                        // eslint-disable-next-line func-names
-                                        arr.forEach(function(el) {
-                                            utils.isUndefined(el) || formData.append(fullKey, convertValue(el));
-                                        });
-                                        return;
-                                    }
+                                    else if (utils.endsWith(key, '[]') && (arr = utils.toArray(value))) return void // eslint-disable-next-line func-names
+                                    arr.forEach(function(el) {
+                                        utils.isUndefined(el) || formData.append(fullKey, convertValue(el));
+                                    });
                                 }
                                 build(value, fullKey);
                             }
@@ -7632,14 +7608,12 @@
  * @param {Function} fn The callback to invoke for each item
  */ function forEach(obj, fn) {
                 // Don't bother if no value provided
-                if (null != obj) {
-                    if ('object' != typeof obj && /*eslint no-param-reassign:0*/ (obj = [
-                        obj
-                    ]), isArray(obj)) // Iterate over array values
-                    for(var i = 0, l = obj.length; i < l; i++)fn.call(null, obj[i], i, obj);
-                    else // Iterate over object keys
-                    for(var key in obj)Object.prototype.hasOwnProperty.call(obj, key) && fn.call(null, obj[key], key, obj);
-                }
+                if (null != obj) if ('object' != typeof obj && /*eslint no-param-reassign:0*/ (obj = [
+                    obj
+                ]), isArray(obj)) // Iterate over array values
+                for(var i = 0, l = obj.length; i < l; i++)fn.call(null, obj[i], i, obj);
+                else // Iterate over object keys
+                for(var key in obj)Object.prototype.hasOwnProperty.call(obj, key) && fn.call(null, obj[key], key, obj);
             }
             /**
  * Accepts varargs expecting each argument to be an object, then
@@ -7823,7 +7797,7 @@
             }
             // Support decoding URL-safe base64 strings, as Node.js does.
             // See: https://en.wikipedia.org/wiki/Base64#URL_applications
-            revLookup['-'.charCodeAt(0)] = 62, revLookup['_'.charCodeAt(0)] = 63;
+            revLookup[45] = 62, revLookup[95] = 63;
         /***/ },
         /***/ 4431: /***/ function(module, exports, __webpack_require__) {
             var __WEBPACK_AMD_DEFINE_RESULT__;
@@ -8126,13 +8100,12 @@
                                 // If the rounding digit is in the first element of xc...
                                 if ((i = sd - d) < 0) i += LOG_BASE, j = sd, // Get the rounding digit at index j of n.
                                 rd = (n = xc[ni = 0]) / pows10[d - j - 1] % 10 | 0;
-                                else if ((ni = mathceil((i + 1) / LOG_BASE)) >= xc.length) {
-                                    if (r) {
-                                        // Needed by sqrt.
-                                        for(; xc.length <= ni; xc.push(0));
-                                        n = rd = 0, d = 1, i %= LOG_BASE, j = i - LOG_BASE + 1;
-                                    } else break out;
-                                } else {
+                                else if ((ni = mathceil((i + 1) / LOG_BASE)) >= xc.length) if (r) {
+                                    // Needed by sqrt.
+                                    for(; xc.length <= ni; xc.push(0));
+                                    n = rd = 0, d = 1, i %= LOG_BASE, j = i - LOG_BASE + 1;
+                                } else break out;
+                                else {
                                     // Get the number of digits of n.
                                     for(d = 1, n = k = xc[ni]; k >= 10; k /= 10, d++);
                                     // Get the index of rd within n.
@@ -8151,15 +8124,14 @@
                                 // Round up?
                                 if (0 == i ? (xc.length = ni, k = 1, ni--) : (xc.length = ni + 1, k = pows10[LOG_BASE - i], // E.g. 56700 becomes 56000 if 7 is the rounding digit.
                                 // j > 0 means i > number of leading zeros of n.
-                                xc[ni] = j > 0 ? mathfloor(n / pows10[d - j] % pows10[j]) * k : 0), r) for(;;){
-                                    // If the digit to be rounded up is in the first element of xc...
-                                    if (0 == ni) {
-                                        // i will be the length of xc[0] before k is added.
-                                        for(i = 1, j = xc[0]; j >= 10; j /= 10, i++);
-                                        for(j = xc[0] += k, k = 1; j >= 10; j /= 10, k++);
-                                        i != k && (x.e++, xc[0] == BASE && (xc[0] = 1));
-                                        break;
-                                    }
+                                xc[ni] = j > 0 ? mathfloor(n / pows10[d - j] % pows10[j]) * k : 0), r) for(;;)// If the digit to be rounded up is in the first element of xc...
+                                if (0 == ni) {
+                                    // i will be the length of xc[0] before k is added.
+                                    for(i = 1, j = xc[0]; j >= 10; j /= 10, i++);
+                                    for(j = xc[0] += k, k = 1; j >= 10; j /= 10, k++);
+                                    i != k && (x.e++, xc[0] == BASE && (xc[0] = 1));
+                                    break;
+                                } else {
                                     if (xc[ni] += k, xc[ni] != BASE) break;
                                     xc[ni--] = 0, k = 1;
                                 }
@@ -8213,44 +8185,34 @@
      * Return an object with the properties current values.
      */ BigNumber.config = BigNumber.set = function(obj) {
                         var p, v;
-                        if (null != obj) {
-                            if ('object' == typeof obj) {
-                                // RANGE {number|number[]} Non-zero integer, -MAX to MAX inclusive or
-                                // [integer -MAX to -1 inclusive, integer 1 to MAX inclusive].
-                                // '[BigNumber Error] RANGE {not a primitive number|not an integer|out of range|cannot be zero}: {v}'
-                                if (obj.hasOwnProperty(p = 'DECIMAL_PLACES') && (intCheck(v = obj[p], 0, MAX, p), DECIMAL_PLACES = v), obj.hasOwnProperty(p = 'ROUNDING_MODE') && (intCheck(v = obj[p], 0, 8, p), ROUNDING_MODE = v), obj.hasOwnProperty(p = 'EXPONENTIAL_AT') && ((v = obj[p]) && v.pop ? (intCheck(v[0], -MAX, 0, p), intCheck(v[1], 0, MAX, p), TO_EXP_NEG = v[0], TO_EXP_POS = v[1]) : (intCheck(v, -MAX, MAX, p), TO_EXP_NEG = -(TO_EXP_POS = v < 0 ? -v : v))), obj.hasOwnProperty(p = 'RANGE')) {
-                                    if ((v = obj[p]) && v.pop) intCheck(v[0], -MAX, -1, p), intCheck(v[1], 1, MAX, p), MIN_EXP = v[0], MAX_EXP = v[1];
-                                    else if (intCheck(v, -MAX, MAX, p), v) MIN_EXP = -(MAX_EXP = v < 0 ? -v : v);
-                                    else throw Error(bignumberError + p + ' cannot be zero: ' + v);
-                                }
-                                // CRYPTO {boolean} true or false.
-                                // '[BigNumber Error] CRYPTO not true or false: {v}'
-                                // '[BigNumber Error] crypto unavailable'
-                                if (obj.hasOwnProperty(p = 'CRYPTO')) {
-                                    if (!!(v = obj[p]) === v) {
-                                        if (v) {
-                                            if ('undefined' != typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
-                                            else throw CRYPTO = !v, Error(bignumberError + 'crypto unavailable');
-                                        } else CRYPTO = v;
-                                    } else throw Error(bignumberError + p + ' not true or false: ' + v);
-                                }
-                                // FORMAT {object}
-                                // '[BigNumber Error] FORMAT not an object: {v}'
-                                if (obj.hasOwnProperty(p = 'MODULO_MODE') && (intCheck(v = obj[p], 0, 9, p), MODULO_MODE = v), obj.hasOwnProperty(p = 'POW_PRECISION') && (intCheck(v = obj[p], 0, MAX, p), POW_PRECISION = v), obj.hasOwnProperty(p = 'FORMAT')) {
-                                    if ('object' == typeof (v = obj[p])) FORMAT = v;
-                                    else throw Error(bignumberError + p + ' not an object: ' + v);
-                                }
-                                // ALPHABET {string}
-                                // '[BigNumber Error] ALPHABET invalid: {v}'
-                                if (obj.hasOwnProperty(p = 'ALPHABET')) {
-                                    // Disallow if less than two characters,
-                                    // or if it contains '+', '-', '.', whitespace, or a repeated character.
-                                    if ('string' != typeof (v = obj[p]) || /^.?$|[+\-.\s]|(.).*\1/.test(v)) throw Error(bignumberError + p + ' invalid: ' + v);
-                                    alphabetHasNormalDecimalDigits = '0123456789' == v.slice(0, 10), ALPHABET = v;
-                                }
-                            } else // '[BigNumber Error] Object expected: {v}'
-                            throw Error(bignumberError + 'Object expected: ' + obj);
-                        }
+                        if (null != obj) if ('object' == typeof obj) {
+                            // RANGE {number|number[]} Non-zero integer, -MAX to MAX inclusive or
+                            // [integer -MAX to -1 inclusive, integer 1 to MAX inclusive].
+                            // '[BigNumber Error] RANGE {not a primitive number|not an integer|out of range|cannot be zero}: {v}'
+                            if (obj.hasOwnProperty(p = 'DECIMAL_PLACES') && (intCheck(v = obj[p], 0, MAX, p), DECIMAL_PLACES = v), obj.hasOwnProperty(p = 'ROUNDING_MODE') && (intCheck(v = obj[p], 0, 8, p), ROUNDING_MODE = v), obj.hasOwnProperty(p = 'EXPONENTIAL_AT') && ((v = obj[p]) && v.pop ? (intCheck(v[0], -MAX, 0, p), intCheck(v[1], 0, MAX, p), TO_EXP_NEG = v[0], TO_EXP_POS = v[1]) : (intCheck(v, -MAX, MAX, p), TO_EXP_NEG = -(TO_EXP_POS = v < 0 ? -v : v))), obj.hasOwnProperty(p = 'RANGE')) if ((v = obj[p]) && v.pop) intCheck(v[0], -MAX, -1, p), intCheck(v[1], 1, MAX, p), MIN_EXP = v[0], MAX_EXP = v[1];
+                            else if (intCheck(v, -MAX, MAX, p), v) MIN_EXP = -(MAX_EXP = v < 0 ? -v : v);
+                            else throw Error(bignumberError + p + ' cannot be zero: ' + v);
+                            // CRYPTO {boolean} true or false.
+                            // '[BigNumber Error] CRYPTO not true or false: {v}'
+                            // '[BigNumber Error] crypto unavailable'
+                            if (obj.hasOwnProperty(p = 'CRYPTO')) if (!!(v = obj[p]) === v) if (v) if ('undefined' != typeof crypto && crypto && (crypto.getRandomValues || crypto.randomBytes)) CRYPTO = v;
+                            else throw CRYPTO = !v, Error(bignumberError + 'crypto unavailable');
+                            else CRYPTO = v;
+                            else throw Error(bignumberError + p + ' not true or false: ' + v);
+                            // FORMAT {object}
+                            // '[BigNumber Error] FORMAT not an object: {v}'
+                            if (obj.hasOwnProperty(p = 'MODULO_MODE') && (intCheck(v = obj[p], 0, 9, p), MODULO_MODE = v), obj.hasOwnProperty(p = 'POW_PRECISION') && (intCheck(v = obj[p], 0, MAX, p), POW_PRECISION = v), obj.hasOwnProperty(p = 'FORMAT')) if ('object' == typeof (v = obj[p])) FORMAT = v;
+                            else throw Error(bignumberError + p + ' not an object: ' + v);
+                            // ALPHABET {string}
+                            // '[BigNumber Error] ALPHABET invalid: {v}'
+                            if (obj.hasOwnProperty(p = 'ALPHABET')) {
+                                // Disallow if less than two characters,
+                                // or if it contains '+', '-', '.', whitespace, or a repeated character.
+                                if ('string' != typeof (v = obj[p]) || /^.?$|[+\-.\s]|(.).*\1/.test(v)) throw Error(bignumberError + p + ' invalid: ' + v);
+                                alphabetHasNormalDecimalDigits = '0123456789' == v.slice(0, 10), ALPHABET = v;
+                            }
+                        } else // '[BigNumber Error] Object expected: {v}'
+                        throw Error(bignumberError + 'Object expected: ' + obj);
                         return {
                             DECIMAL_PLACES: DECIMAL_PLACES,
                             ROUNDING_MODE: ROUNDING_MODE,
@@ -8327,35 +8289,33 @@
                         };
                         return function(dp) {
                             var a, b, e, k, v, i = 0, c = [], rand = new BigNumber(ONE);
-                            if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) {
-                                // Browsers supporting crypto.getRandomValues.
-                                if (crypto.getRandomValues) {
-                                    for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)// Rejection sampling:
-                                    // 0 <= v < 9007199254740992
-                                    // Probability that v >= 9e15, is
-                                    // 7199254740992 / 9007199254740992 ~= 0.0008, i.e. 1 in 1251
-                                    // 53 bits:
-                                    // ((Math.pow(2, 32) - 1) * Math.pow(2, 21)).toString(2)
-                                    // 11111 11111111 11111111 11111111 11100000 00000000 00000000
-                                    // ((Math.pow(2, 32) - 1) >>> 11).toString(2)
-                                    //                                     11111 11111111 11111111
-                                    // 0x20000 is 2^21.
-                                    (v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (// 0 <= v <= 8999999999999999
-                                    // 0 <= (v % 1e14) <= 99999999999999
-                                    c.push(v % 1e14), i += 2);
-                                    i = k / 2;
-                                // Node.js supporting crypto.randomBytes.
-                                } else if (crypto.randomBytes) {
-                                    for(// buffer
-                                    a = crypto.randomBytes(k *= 7); i < k;)// 0x1000000000000 is 2^48, 0x10000000000 is 2^40
-                                    // 0x100000000 is 2^32, 0x1000000 is 2^24
-                                    // 11111 11111111 11111111 11111111 11111111 11111111 11111111
-                                    // 0 <= v < 9007199254740992
-                                    (v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (// 0 <= (v % 1e14) <= 99999999999999
-                                    c.push(v % 1e14), i += 7);
-                                    i = k / 7;
-                                } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
-                            }
+                            if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) // Browsers supporting crypto.getRandomValues.
+                            if (crypto.getRandomValues) {
+                                for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)// Rejection sampling:
+                                // 0 <= v < 9007199254740992
+                                // Probability that v >= 9e15, is
+                                // 7199254740992 / 9007199254740992 ~= 0.0008, i.e. 1 in 1251
+                                // 53 bits:
+                                // ((Math.pow(2, 32) - 1) * Math.pow(2, 21)).toString(2)
+                                // 11111 11111111 11111111 11111111 11100000 00000000 00000000
+                                // ((Math.pow(2, 32) - 1) >>> 11).toString(2)
+                                //                                     11111 11111111 11111111
+                                // 0x20000 is 2^21.
+                                (v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (// 0 <= v <= 8999999999999999
+                                // 0 <= (v % 1e14) <= 99999999999999
+                                c.push(v % 1e14), i += 2);
+                                i = k / 2;
+                            // Node.js supporting crypto.randomBytes.
+                            } else if (crypto.randomBytes) {
+                                for(// buffer
+                                a = crypto.randomBytes(k *= 7); i < k;)// 0x1000000000000 is 2^48, 0x10000000000 is 2^40
+                                // 0x100000000 is 2^32, 0x1000000 is 2^24
+                                // 11111 11111111 11111111 11111111 11111111 11111111 11111111
+                                // 0 <= v < 9007199254740992
+                                (v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (// 0 <= (v % 1e14) <= 99999999999999
+                                c.push(v % 1e14), i += 7);
+                                i = k / 7;
+                            } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
                             // Use Math.random.
                             if (!CRYPTO) for(; i < k;)(v = random53bitInt()) < 9e15 && (c[i++] = v % 1e14);
                             // Remove trailing elements which are zero.
@@ -8469,8 +8429,8 @@
                             var cmp, e, i, more, n, prod, prodL, q, qc, rem, remL, rem0, xi, xL, yc0, yL, yz, s = x.s == y.s ? 1 : -1, xc = x.c, yc = y.c;
                             // Either NaN, Infinity or 0?
                             if (!xc || !xc[0] || !yc || !yc[0]) return new BigNumber(// Return NaN if either NaN, or both Infinity or 0.
-                            x.s && y.s && (xc ? !yc || xc[0] != yc[0] : yc) ? // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
-                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0 : NaN);
+                            !x.s || !y.s || (xc ? yc && xc[0] == yc[0] : !yc) ? NaN : // Return ±0 if x is ±0 or y is ±Infinity, or return ±Infinity as y is ±0.
+                            xc && 0 == xc[0] || !yc ? 0 * s : s / 0);
                             // Result exponent may be one less then the current value of e.
                             // The coefficients of the BigNumbers from convertBase may have trailing zeros.
                             for(qc = (q = new BigNumber(s)).c = [], s = dp + (e = x.e - y.e) + 1, base || (base = BASE, e = bitFloor(x.e / LOG_BASE) - bitFloor(y.e / LOG_BASE), s = s / LOG_BASE | 0), i = 0; yc[i] == (xc[i] || 0); i++);
@@ -9166,9 +9126,9 @@
                     return str;
                 }
                 // EXPORT
-                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                (BigNumber = clone()).default = BigNumber.BigNumber = BigNumber, void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return BigNumber;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
             }(0);
         /***/ },
         /***/ 3550: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -10927,20 +10887,21 @@
                 if (0 === buffer.length) return -1;
                 if ('string' == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), numberIsNaN(byteOffset *= 1 // Coerce to Number.
                 ) && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
-                    if (dir) return -1;
-                    byteOffset = buffer.length - 1;
-                } else if (byteOffset < 0) {
-                    if (!dir) return -1;
-                    byteOffset = 0;
-                }
+                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) if (dir) return -1;
+                else byteOffset = buffer.length - 1;
+                else if (byteOffset < 0) if (!dir) return -1;
+                else byteOffset = 0;
                 // Finally, search either indexOf (if dir is true) or lastIndexOf
                 if ('string' == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return(// Special case: looking for empty string/buffer always fails
                 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir));
-                if ('number' == typeof val) return (val &= 0xFF // Search for a byte value [0-255]
-                , 'function' == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
-                    val
-                ], byteOffset, encoding, dir);
+                if ('number' == typeof val) {
+                    if (val &= 0xFF // Search for a byte value [0-255]
+                    , 'function' == typeof Uint8Array.prototype.indexOf) if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+                    else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+                    return arrayIndexOf(buffer, [
+                        val
+                    ], byteOffset, encoding, dir);
+                }
                 throw TypeError('val must be string, number or Buffer');
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
@@ -11897,7 +11858,7 @@
                 this.twisted = (0 | conf.a) != 1, this.mOneA = this.twisted && (0 | conf.a) == -1, this.extended = this.mOneA, Base.call(this, 'edwards', conf), this.a = new BN(conf.a, 16).umod(this.red.m), this.a = this.a.toRed(this.red), this.c = new BN(conf.c, 16).toRed(this.red), this.c2 = this.c.redSqr(), this.d = new BN(conf.d, 16).toRed(this.red), this.dd = this.d.redAdd(this.d), assert(!this.twisted || 0 === this.c.fromRed().cmpn(1)), this.oneC = (0 | conf.c) == 1;
             }
             function Point(curve, x, y, z, t) {
-                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, !this.curve.extended || this.t || (this.t = this.x.redMul(this.y), this.zOne || (this.t = this.t.redMul(this.z.redInvm()))));
+                Base.BasePoint.call(this, curve, 'projective'), null === x && null === y && null === z ? (this.x = this.curve.zero, this.y = this.curve.one, this.z = this.curve.one, this.t = this.curve.zero, this.zOne = !0) : (this.x = new BN(x, 16), this.y = new BN(y, 16), this.z = z ? new BN(z, 16) : this.curve.one, this.t = t && new BN(t, 16), this.x.red || (this.x = this.x.toRed(this.curve.red)), this.y.red || (this.y = this.y.toRed(this.curve.red)), this.z.red || (this.z = this.z.toRed(this.curve.red)), this.t && !this.t.red && (this.t = this.t.toRed(this.curve.red)), this.zOne = this.z === this.curve.one, this.curve.extended && !this.t && (this.t = this.x.redMul(this.y), this.zOne || (this.t = this.t.redMul(this.z.redInvm()))));
             }
             inherits(EdwardsCurve, Base), module.exports = EdwardsCurve, EdwardsCurve.prototype._mulA = function(num) {
                 return this.mOneA ? num.redNeg() : this.a.redMul(num);
@@ -11916,10 +11877,8 @@
                 (y = new BN(y, 16)).red || (y = y.toRed(this.red));
                 // x^2 = (y^2 - c^2) / (c^2 d y^2 - a)
                 var y2 = y.redSqr(), lhs = y2.redSub(this.c2), rhs = y2.redMul(this.d).redMul(this.c2).redSub(this.a), x2 = lhs.redMul(rhs.redInvm());
-                if (0 === x2.cmp(this.zero)) {
-                    if (!odd) return this.point(this.zero, y);
-                    throw Error('invalid point');
-                }
+                if (0 === x2.cmp(this.zero)) if (!odd) return this.point(this.zero, y);
+                else throw Error('invalid point');
                 var x = x2.redSqrt();
                 if (0 !== x.redSqr().redSub(x2).cmp(this.zero)) throw Error('invalid point');
                 return x.fromRed().isOdd() !== odd && (x = x.redNeg()), this.point(x, y);
@@ -12374,7 +12333,8 @@
                 if (p.isInfinity()) return this;
                 // 12M + 4S + 7A
                 var pz2 = p.z.redSqr(), z2 = this.z.redSqr(), u1 = this.x.redMul(pz2), u2 = p.x.redMul(z2), s1 = this.y.redMul(pz2.redMul(p.z)), s2 = p.y.redMul(z2.redMul(this.z)), h = u1.redSub(u2), r = s1.redSub(s2);
-                if (0 === h.cmpn(0)) return 0 !== r.cmpn(0) ? this.curve.jpoint(null, null, null) : this.dbl();
+                if (0 === h.cmpn(0)) if (0 !== r.cmpn(0)) return this.curve.jpoint(null, null, null);
+                else return this.dbl();
                 var h2 = h.redSqr(), h3 = h2.redMul(h), v = u1.redMul(h2), nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v), ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3)), nz = this.z.redMul(p.z).redMul(h);
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype.mixedAdd = function(p) {
@@ -12384,7 +12344,8 @@
                 if (p.isInfinity()) return this;
                 // 8M + 3S + 7A
                 var z2 = this.z.redSqr(), u1 = this.x, u2 = p.x.redMul(z2), s1 = this.y, s2 = p.y.redMul(z2).redMul(this.z), h = u1.redSub(u2), r = s1.redSub(s2);
-                if (0 === h.cmpn(0)) return 0 !== r.cmpn(0) ? this.curve.jpoint(null, null, null) : this.dbl();
+                if (0 === h.cmpn(0)) if (0 !== r.cmpn(0)) return this.curve.jpoint(null, null, null);
+                else return this.dbl();
                 var h2 = h.redSqr(), h3 = h2.redMul(h), v = u1.redMul(h2), nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v), ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3)), nz = this.z.redMul(h);
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype.dblp = function(pow) {
@@ -12842,10 +12803,7 @@
                 return 0 === i ? buf : buf.slice(i);
             }
             function constructLength(arr, len) {
-                if (len < 0x80) {
-                    arr.push(len);
-                    return;
-                }
+                if (len < 0x80) return void arr.push(len);
                 var octets = 1 + (Math.log(len) / Math.LN2 >>> 3);
                 for(arr.push(0x80 | octets); --octets;)arr.push(len >>> (octets << 3) & 0xff);
                 arr.push(len);
@@ -12863,16 +12821,12 @@
                 var slen = getLength(data, p);
                 if (!1 === slen || data.length !== slen + p.place) return !1;
                 var s = data.slice(p.place, slen + p.place);
-                if (0 === r[0]) {
-                    if (!(0x80 & r[1])) // Leading zeroes
-                    return !1;
-                    r = r.slice(1);
-                }
-                if (0 === s[0]) {
-                    if (!(0x80 & s[1])) // Leading zeroes
-                    return !1;
-                    s = s.slice(1);
-                }
+                if (0 === r[0]) if (!(0x80 & r[1])) // Leading zeroes
+                return !1;
+                else r = r.slice(1);
+                if (0 === s[0]) if (!(0x80 & s[1])) // Leading zeroes
+                return !1;
+                else s = s.slice(1);
                 return this.r = new BN(r), this.s = new BN(s), this.recoveryParam = null, !0;
             }, Signature.prototype.toDER = function(enc) {
                 var r = this.r.toArray(), s = this.s.toArray();
@@ -14115,20 +14069,18 @@
                     var clone = getCleanClone(object, realm);
                     // set in the cache immediately to be able to reuse the object recursively
                     cache.set(object, clone);
-                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) {
-                        if (descriptor = getOwnPropertyDescriptor(object, property)) {
-                            // Only clone the value if actually a value, not a getter / setter.
-                            descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
-                            try {
-                                defineProperty(clone, property, descriptor);
-                            } catch (error) {
-                                // Tee above can fail on node in edge cases, so fall back to the loose assignment.
-                                clone[property] = descriptor.value;
-                            }
-                        } else // In extra edge cases where the property descriptor cannot be retrived, fall back to
-                        // the loose assignment.
-                        clone[property] = handleCopy(object[property], cache);
-                    }
+                    for(var properties = SYMBOL_PROPERTIES ? getOwnPropertyNames(object).concat(getOwnPropertySymbols(object)) : getOwnPropertyNames(object), index = 0, length_2 = properties.length, property = void 0, descriptor = void 0; index < length_2; ++index)if ('callee' !== (property = properties[index]) && 'caller' !== property) if (descriptor = getOwnPropertyDescriptor(object, property)) {
+                        // Only clone the value if actually a value, not a getter / setter.
+                        descriptor.get || descriptor.set || (descriptor.value = handleCopy(object[property], cache));
+                        try {
+                            defineProperty(clone, property, descriptor);
+                        } catch (error) {
+                            // Tee above can fail on node in edge cases, so fall back to the loose assignment.
+                            clone[property] = descriptor.value;
+                        }
+                    } else // In extra edge cases where the property descriptor cannot be retrived, fall back to
+                    // the loose assignment.
+                    clone[property] = handleCopy(object[property], cache);
                     return clone;
                 }, getRegExpFlags = function(regExp) {
                     var flags = '';
@@ -14350,33 +14302,32 @@
                     var p = n_stack[s - 1], n = n_stack[s];
                     if (p._color === BLACK || n._color === BLACK) break;
                     var pp = n_stack[s - 2];
-                    if (pp.left === p) {
-                        if (p.left === n) {
-                            var y = pp.right;
-                            if (y && y._color === RED) //console.log("LLr")
-                            p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
-                            else {
-                                if (//console.log("LLb")
-                                pp._color = RED, pp.left = p.right, p._color = BLACK, p.right = pp, n_stack[s - 2] = p, n_stack[s - 1] = n, recount(pp), recount(p), s >= 3) {
-                                    var ppp = n_stack[s - 3];
-                                    ppp.left === pp ? ppp.left = p : ppp.right = p;
-                                }
-                                break;
+                    if (pp.left === p) if (p.left === n) {
+                        var y = pp.right;
+                        if (y && y._color === RED) //console.log("LLr")
+                        p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
+                        else {
+                            if (//console.log("LLb")
+                            pp._color = RED, pp.left = p.right, p._color = BLACK, p.right = pp, n_stack[s - 2] = p, n_stack[s - 1] = n, recount(pp), recount(p), s >= 3) {
+                                var ppp = n_stack[s - 3];
+                                ppp.left === pp ? ppp.left = p : ppp.right = p;
                             }
-                        } else {
-                            var y = pp.right;
-                            if (y && y._color === RED) //console.log("LRr")
-                            p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
-                            else {
-                                if (//console.log("LRb")
-                                p.right = n.left, pp._color = RED, pp.left = n.right, n._color = BLACK, n.left = p, n.right = pp, n_stack[s - 2] = n, n_stack[s - 1] = p, recount(pp), recount(p), recount(n), s >= 3) {
-                                    var ppp = n_stack[s - 3];
-                                    ppp.left === pp ? ppp.left = n : ppp.right = n;
-                                }
-                                break;
-                            }
+                            break;
                         }
-                    } else if (p.right === n) {
+                    } else {
+                        var y = pp.right;
+                        if (y && y._color === RED) //console.log("LRr")
+                        p._color = BLACK, pp.right = repaint(BLACK, y), pp._color = RED, s -= 1;
+                        else {
+                            if (//console.log("LRb")
+                            p.right = n.left, pp._color = RED, pp.left = n.right, n._color = BLACK, n.left = p, n.right = pp, n_stack[s - 2] = n, n_stack[s - 1] = p, recount(pp), recount(p), recount(n), s >= 3) {
+                                var ppp = n_stack[s - 3];
+                                ppp.left === pp ? ppp.left = n : ppp.right = n;
+                            }
+                            break;
+                        }
+                    }
+                    else if (p.right === n) {
                         var y = pp.left;
                         if (y && y._color === RED) //console.log("RRr", y.key)
                         p._color = BLACK, pp.left = repaint(BLACK, y), pp._color = RED, s -= 1;
@@ -14521,12 +14472,11 @@
                             stack[i - 1] = z;
                             return;
                         }
-                        if (s._color === BLACK) {
-                            if (p._color === RED) {
-                                //console.log("case 2: black sibling, red parent", p.right.value)
-                                p._color = BLACK, p.right = repaint(RED, s);
-                                return;
-                            }
+                        if (s._color === BLACK) if (p._color === RED) {
+                            //console.log("case 2: black sibling, red parent", p.right.value)
+                            p._color = BLACK, p.right = repaint(RED, s);
+                            return;
+                        } else {
                             //console.log("case 2: black sibling, black parent", p.right.value)
                             p.right = repaint(RED, s);
                             continue;
@@ -14557,12 +14507,11 @@
                             stack[i - 1] = z;
                             return;
                         }
-                        if (s._color === BLACK) {
-                            if (p._color === RED) {
-                                //console.log("case 2: black sibling, red parent")
-                                p._color = BLACK, p.left = repaint(RED, s);
-                                return;
-                            }
+                        if (s._color === BLACK) if (p._color === RED) {
+                            //console.log("case 2: black sibling, red parent")
+                            p._color = BLACK, p.left = repaint(RED, s);
+                            return;
+                        } else {
                             //console.log("case 2: black sibling, black parent")
                             p.left = repaint(RED, s);
                             continue;
@@ -16023,14 +15972,13 @@
                 if (Array.isArray(msg)) return msg.slice();
                 if (!msg) return [];
                 var res = [];
-                if ('string' == typeof msg) {
-                    if (enc) {
-                        if ('hex' === enc) for((msg = msg.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg = '0' + msg), i = 0; i < msg.length; i += 2)res.push(parseInt(msg[i] + msg[i + 1], 16));
-                    } else for(var p = 0, i = 0; i < msg.length; i++){
-                        var c = msg.charCodeAt(i);
-                        c < 128 ? res[p++] = c : (c < 2048 ? res[p++] = c >> 6 | 192 : (isSurrogatePair(msg, i) ? (c = 0x10000 + ((0x03FF & c) << 10) + (0x03FF & msg.charCodeAt(++i)), res[p++] = c >> 18 | 240, res[p++] = c >> 12 & 63 | 128) : res[p++] = c >> 12 | 224, res[p++] = c >> 6 & 63 | 128), res[p++] = 63 & c | 128);
-                    }
-                } else for(i = 0; i < msg.length; i++)res[i] = 0 | msg[i];
+                if ('string' == typeof msg) if (enc) {
+                    if ('hex' === enc) for((msg = msg.replace(/[^a-z0-9]+/ig, '')).length % 2 != 0 && (msg = '0' + msg), i = 0; i < msg.length; i += 2)res.push(parseInt(msg[i] + msg[i + 1], 16));
+                } else for(var p = 0, i = 0; i < msg.length; i++){
+                    var c = msg.charCodeAt(i);
+                    c < 128 ? res[p++] = c : (c < 2048 ? res[p++] = c >> 6 | 192 : (isSurrogatePair(msg, i) ? (c = 0x10000 + ((0x03FF & c) << 10) + (0x03FF & msg.charCodeAt(++i)), res[p++] = c >> 18 | 240, res[p++] = c >> 12 & 63 | 128) : res[p++] = c >> 12 | 224, res[p++] = c >> 6 & 63 | 128), res[p++] = 63 & c | 128);
+                }
+                else for(i = 0; i < msg.length; i++)res[i] = 0 | msg[i];
                 return res;
             }, exports.toHex = function(msg) {
                 for(var res = '', i = 0; i < msg.length; i++)res += zero2(msg[i].toString(16));
@@ -16432,7 +16380,7 @@
                         key = bytes;
                     } else if ('object' === type) {
                         if (null === key) throw Error(ERROR);
-                        if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
+                        else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
                         else if (!Array.isArray(key) && (!ARRAY_BUFFER || !ArrayBuffer.isView(key))) throw Error(ERROR);
                     } else throw Error(ERROR);
                     key.length > 64 && (key = new Sha256(is224, !0).update(key).array());
@@ -16449,7 +16397,7 @@
                         if ('string' !== type) {
                             if ('object' === type) {
                                 if (null === message) throw Error(ERROR);
-                                if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
+                                else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
                                 else if (!Array.isArray(message) && (!ARRAY_BUFFER || !ArrayBuffer.isView(message))) throw Error(ERROR);
                             } else throw Error(ERROR);
                             notString = !0;
@@ -16522,9 +16470,9 @@
                     }
                 };
                 var exports = createMethod();
-                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha256 = exports, exports.sha224 = createMethod(!0), exports.sha256.hmac = createHmacMethod(), exports.sha224.hmac = createHmacMethod(!0), COMMON_JS ? module.exports = exports : (root.sha256 = exports.sha256, root.sha224 = exports.sha224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
             }();
         /***/ },
         /***/ 3434: /***/ function(module, exports, __webpack_require__) {
@@ -16793,7 +16741,7 @@
                     if ('string' !== type) {
                         if ('object' === type) {
                             if (null === key) throw Error(INPUT_ERROR);
-                            if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
+                            else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) key = new Uint8Array(key);
                             else if (!Array.isArray(key) && (!ARRAY_BUFFER || !ArrayBuffer.isView(key))) throw Error(INPUT_ERROR);
                         } else throw Error(INPUT_ERROR);
                         notString = !0;
@@ -16816,7 +16764,7 @@
                     if ('string' !== type) {
                         if ('object' === type) {
                             if (null === message) throw Error(INPUT_ERROR);
-                            if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
+                            else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) message = new Uint8Array(message);
                             else if (!Array.isArray(message) && (!ARRAY_BUFFER || !ArrayBuffer.isView(message))) throw Error(INPUT_ERROR);
                         } else throw Error(INPUT_ERROR);
                         notString = !0;
@@ -16923,9 +16871,9 @@
                     return hash;
                 };
                 var exports = createMethod(512);
-                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+                exports.sha512 = exports, exports.sha384 = createMethod(384), exports.sha512_256 = createMethod(256), exports.sha512_224 = createMethod(224), exports.sha512.hmac = createHmacMethod(512), exports.sha384.hmac = createHmacMethod(384), exports.sha512_256.hmac = createHmacMethod(256), exports.sha512_224.hmac = createHmacMethod(224), COMMON_JS ? module.exports = exports : (root.sha512 = exports.sha512, root.sha384 = exports.sha384, root.sha512_256 = exports.sha512_256, root.sha512_224 = exports.sha512_224, AMD && (void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                     return exports;
-                }).call(exports, __webpack_require__, exports, module)) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+                }).call(exports, __webpack_require__, exports, module)) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)));
             }();
         /***/ },
         /***/ 5548: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -17098,14 +17046,12 @@
                         } else if ('object' != typeof encoding || null === encoding) throw TypeError("First argument 'encoding' must be a string or object");
                         else resolved = from(encoding);
                         const { name, format } = resolved;
-                        if (!this[kFormats].has(format)) {
-                            if (this[kFormats].has('view')) resolved = resolved.createViewTranscoder();
-                            else if (this[kFormats].has('buffer')) resolved = resolved.createBufferTranscoder();
-                            else if (this[kFormats].has('utf8')) resolved = resolved.createUTF8Transcoder();
-                            else throw new ModuleError(`Encoding '${name}' cannot be transcoded`, {
-                                code: 'LEVEL_ENCODING_NOT_SUPPORTED'
-                            });
-                        }
+                        if (!this[kFormats].has(format)) if (this[kFormats].has('view')) resolved = resolved.createViewTranscoder();
+                        else if (this[kFormats].has('buffer')) resolved = resolved.createBufferTranscoder();
+                        else if (this[kFormats].has('utf8')) resolved = resolved.createUTF8Transcoder();
+                        else throw new ModuleError(`Encoding '${name}' cannot be transcoded`, {
+                            code: 'LEVEL_ENCODING_NOT_SUPPORTED'
+                        });
                         for (const k of [
                             encoding,
                             name,
@@ -19105,7 +19051,11 @@
             }, Ctor.prototype[kTest] = function() {
                 return !0;
             }, Ctor.prototype[kOutOfRange] = function(target) {
-                return !this[kTest](target) || this[kLowerBound] !== kNone && (this[kReverse] ? 'lte' in this[kOptions] ? compare(target, this[kLowerBound]) > 0 : compare(target, this[kLowerBound]) >= 0 : 'gte' in this[kOptions] ? 0 > compare(target, this[kLowerBound]) : 0 >= compare(target, this[kLowerBound]));
+                if (!this[kTest](target)) return !0;
+                if (this[kLowerBound] === kNone) return !1;
+                if (this[kReverse]) if ('lte' in this[kOptions]) return compare(target, this[kLowerBound]) > 0;
+                else return compare(target, this[kLowerBound]) >= 0;
+                return 'gte' in this[kOptions] ? 0 > compare(target, this[kLowerBound]) : 0 >= compare(target, this[kLowerBound]);
             }, Ctor.prototype._seek = function(target, options) {
                 this[kOutOfRange](target) ? (this[kIterator] = this[kIterator].tree.end, this[kIterator].next()) : this[kReverse] ? this[kIterator] = this[kIterator].tree.le(target) : this[kIterator] = this[kIterator].tree.ge(target);
             };
@@ -19526,14 +19476,13 @@
                             var o, a = e._readableState;
                             if (null === t) a.reading = !1, onEofChunk(e, a);
                             else if (i || (o = chunkInvalid(a, t)), o) R(e, o);
-                            else if (a.objectMode || t && t.length > 0) {
-                                if ("string" == typeof t || a.objectMode || Object.getPrototypeOf(t) === s.prototype || (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
-                                else if (a.ended) R(e, new y);
-                                else {
-                                    if (a.destroyed) return !1;
-                                    a.reading = !1, a.decoder && !r ? (t = a.decoder.write(t), a.objectMode || 0 !== t.length ? addChunk(e, a, t, !1) : maybeReadMore(e, a)) : addChunk(e, a, t, !1);
-                                }
-                            } else n || (a.reading = !1, maybeReadMore(e, a));
+                            else if (a.objectMode || t && t.length > 0) if ("string" == typeof t || a.objectMode || Object.getPrototypeOf(t) === s.prototype || (t = _uint8ArrayToBuffer(t)), n) a.endEmitted ? R(e, new v) : addChunk(e, a, t, !0);
+                            else if (a.ended) R(e, new y);
+                            else {
+                                if (a.destroyed) return !1;
+                                a.reading = !1, a.decoder && !r ? (t = a.decoder.write(t), a.objectMode || 0 !== t.length ? addChunk(e, a, t, !1) : maybeReadMore(e, a)) : addChunk(e, a, t, !1);
+                            }
+                            else n || (a.reading = !1, maybeReadMore(e, a));
                             return !a.ended && (a.length < a.highWaterMark || 0 === a.length);
                         }
                         function addChunk(e, t, r, n) {
@@ -19576,7 +19525,11 @@
                             return e >= T ? e = T : (e--, e |= e >>> 1, e |= e >>> 2, e |= e >>> 4, e |= e >>> 8, e |= e >>> 16, e++), e;
                         }
                         function howMuchToRead(e, t) {
-                            return e <= 0 || 0 === t.length && t.ended ? 0 : t.objectMode ? 1 : e != e ? t.flowing && t.length ? t.buffer.head.data.length : t.length : (e > t.highWaterMark && (t.highWaterMark = computeNewHighWaterMark(e)), e <= t.length) ? e : t.ended ? t.length : (t.needReadable = !0, 0);
+                            if (e <= 0 || 0 === t.length && t.ended) return 0;
+                            if (t.objectMode) return 1;
+                            if (e != e) if (t.flowing && t.length) return t.buffer.head.data.length;
+                            else return t.length;
+                            return (e > t.highWaterMark && (t.highWaterMark = computeNewHighWaterMark(e)), e <= t.length) ? e : t.ended ? t.length : (t.needReadable = !0, 0);
                         }
                         function onEofChunk(e, t) {
                             if (u("onEofChunk"), !t.ended) {
@@ -19956,7 +19909,7 @@
                         }
                         function finishMaybe(e, t) {
                             var r = needFinish(t);
-                            if (r && (prefinish(e, t), 0 === t.pendingcb && (t.finished = !0, e.emit("finish"), t.autoDestroy))) {
+                            if (r && (prefinish(e, t), 0 === t.pendingcb) && (t.finished = !0, e.emit("finish"), t.autoDestroy)) {
                                 var n = e._readableState;
                                 (!n || n.autoDestroy && n.endEmitted) && e.destroy();
                             }
@@ -19999,7 +19952,7 @@
                             this._writableState.corked++;
                         }, Writable.prototype.uncork = function() {
                             var e = this._writableState;
-                            !e.corked || (e.corked--, e.writing || e.corked || e.bufferProcessing || !e.bufferedRequest || clearBuffer(this, e));
+                            e.corked && (e.corked--, e.writing || e.corked || e.bufferProcessing || !e.bufferedRequest || clearBuffer(this, e));
                         }, Writable.prototype.setDefaultEncoding = function(e) {
                             if ("string" == typeof e && (e = e.toLowerCase()), !([
                                 "hex",
@@ -20077,10 +20030,7 @@
                         function wrapForNext(e, t) {
                             return function(r, n) {
                                 e.then(function() {
-                                    if (t[f]) {
-                                        r(createIterResult(void 0, !0));
-                                        return;
-                                    }
+                                    if (t[f]) return void r(createIterResult(void 0, !0));
                                     t[u](r, n);
                                 }, n);
                             };
@@ -20113,10 +20063,7 @@
                             var e = this;
                             return new Promise(function(t, r) {
                                 e[d].destroy(null, function(e) {
-                                    if (e) {
-                                        r(e);
-                                        return;
-                                    }
+                                    if (e) return void r(e);
                                     t(createIterResult(void 0, !0));
                                 });
                             });
@@ -21982,14 +21929,11 @@
                     const newSectionId = SECTION_IDS[name];
                     for(let index in module){
                         const sectionId = SECTION_IDS[module[index].name];
-                        if (sectionId && newSectionId < sectionId) {
-                            // inject a new section
-                            module.splice(index, 0, {
-                                name,
-                                entries: []
-                            });
-                            return;
-                        }
+                        if (sectionId && newSectionId < sectionId) return void // inject a new section
+                        module.splice(index, 0, {
+                            name,
+                            entries: []
+                        });
                     }
                 }
                 let funcIndex = 0, { costTable, moduleStr, fieldStr, meterType } = opts;
@@ -23327,11 +23271,8 @@ function _get9(dt, pos) {
                         // canUseWorkers might have been set out-of-band (need refactor)
                         if (canUseWorkers) {
                             if (worker) {
-                                if (0 === waitingForWorkerQueue.length) {
-                                    // the queue might be empty while we awaited for a worker.
-                                    makeWorkerAvailable(worker);
-                                    return;
-                                }
+                                if (0 === waitingForWorkerQueue.length) return void // the queue might be empty while we awaited for a worker.
+                                makeWorkerAvailable(worker);
                                 const { id, src, uncompressedSize, type, resolve, reject } = waitingForWorkerQueue.shift();
                                 currentlyProcessingIdToRequestMap.set(id, {
                                     id,
@@ -24005,12 +23946,15 @@ class Zip {
                     '{',
                     '}'
                 ];
-                return (isArray(value) && (array = !0, braces = [
+                if (isArray(value) && (array = !0, braces = [
                     '[',
                     ']'
-                ]), isFunction(value) && (base = ' [Function' + (value.name ? ': ' + value.name : '') + ']'), isRegExp(value) && (base = ' ' + RegExp.prototype.toString.call(value)), isDate(value) && (base = ' ' + Date.prototype.toUTCString.call(value)), isError(value) && (base = ' ' + formatError(value)), 0 !== keys.length || array && 0 != value.length) ? recurseTimes < 0 ? isRegExp(value) ? ctx.stylize(RegExp.prototype.toString.call(value), 'regexp') : ctx.stylize('[Object]', 'special') : (ctx.seen.push(value), output = array ? formatArray(ctx, value, recurseTimes, visibleKeys, keys) : keys.map(function(key) {
+                ]), isFunction(value) && (base = ' [Function' + (value.name ? ': ' + value.name : '') + ']'), isRegExp(value) && (base = ' ' + RegExp.prototype.toString.call(value)), isDate(value) && (base = ' ' + Date.prototype.toUTCString.call(value)), isError(value) && (base = ' ' + formatError(value)), 0 === keys.length && (!array || 0 == value.length)) return braces[0] + base + braces[1];
+                if (recurseTimes < 0) if (isRegExp(value)) return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+                else return ctx.stylize('[Object]', 'special');
+                return ctx.seen.push(value), output = array ? formatArray(ctx, value, recurseTimes, visibleKeys, keys) : keys.map(function(key) {
                     return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-                }), ctx.seen.pop(), reduceToSingleString(output, base, braces)) : braces[0] + base + braces[1];
+                }), ctx.seen.pop(), reduceToSingleString(output, base, braces);
             }
             function formatPrimitive(ctx, value) {
                 if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
@@ -24089,15 +24033,13 @@ class Zip {
                 return n < 10 ? '0' + n.toString(10) : n.toString(10);
             }
             exports.debuglog = function(set) {
-                if (!debugs[set = set.toUpperCase()]) {
-                    if (debugEnvRegex.test(set)) {
-                        var pid = process.pid;
-                        debugs[set] = function() {
-                            var msg = exports.format.apply(exports, arguments);
-                            console.error('%s %d: %s', set, pid, msg);
-                        };
-                    } else debugs[set] = function() {};
-                }
+                if (!debugs[set = set.toUpperCase()]) if (debugEnvRegex.test(set)) {
+                    var pid = process.pid;
+                    debugs[set] = function() {
+                        var msg = exports.format.apply(exports, arguments);
+                        console.error('%s %d: %s', set, pid, msg);
+                    };
+                } else debugs[set] = function() {};
                 return debugs[set];
             }, exports.inspect = inspect, // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
             inspect.colors = {
@@ -26179,18 +26121,11 @@ class Zip {
                         this.logger.debug('Interaction transaction is using multiple input tx tag format.');
                         const contractTagIndex = interactionTransaction.tags.findIndex((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID && tag.value === contractTxId);
                         // if "Contract" is the last tag
-                        if (interactionTransaction.tags.length - 1 === contractTagIndex) {
-                            this.logger.warn("Wrong tags format: 'Contract' is the last tag");
-                            return;
-                        }
+                        if (interactionTransaction.tags.length - 1 === contractTagIndex) return void this.logger.warn("Wrong tags format: 'Contract' is the last tag");
                         // in this case the "Input" tag MUST be right after the "Contract" tag
                         const inputTag = interactionTransaction.tags[contractTagIndex + 1];
-                        // if the tag after "Contract" tag has wrong name
-                        if (inputTag.name !== SmartWeaveTags_1.SmartWeaveTags.INPUT) {
-                            this.logger.warn(`No 'Input' tag found after 'Contract' tag. Instead ${inputTag.name} was found`);
-                            return;
-                        }
-                        return inputTag;
+                        return(// if the tag after "Contract" tag has wrong name
+                        inputTag.name !== SmartWeaveTags_1.SmartWeaveTags.INPUT ? void this.logger.warn(`No 'Input' tag found after 'Contract' tag. Instead ${inputTag.name} was found`) : inputTag);
                     }
                 }
                 isInteractWrite(interactionTransaction, contractTxId) {
@@ -27030,10 +26965,7 @@ class Zip {
                             'syscall/js.copyBytesToGo': (ret_addr, dest_addr, dest_len, dest_cap, source_addr)=>{
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadSlice(dest_addr, dest_len), src = loadValue(source_addr);
-                                if (!(src instanceof Uint8Array)) {
-                                    mem().setUint8(returned_status_addr, 0); // Return "not ok" status
-                                    return;
-                                }
+                                if (!(src instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
                                 const toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             },
@@ -27043,10 +26975,7 @@ class Zip {
                             'syscall/js.copyBytesToJS': (ret_addr, dest_addr, source_addr, source_len, source_cap)=>{
                                 let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
                                 const dst = loadValue(dest_addr), src = loadSlice(source_addr, source_len);
-                                if (!(dst instanceof Uint8Array)) {
-                                    mem().setUint8(returned_status_addr, 0); // Return "not ok" status
-                                    return;
-                                }
+                                if (!(dst instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
                                 const toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             }
@@ -28494,9 +28423,9 @@ class Zip {
                     demangle
                 }, "default" in exports ? exports.default : exports);
             }({});
-            void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
+            void 0 === (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                 return loader;
-            }).apply(exports, [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+            }).apply(exports, [])) || (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
         /***/ },
         /***/ 3083: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

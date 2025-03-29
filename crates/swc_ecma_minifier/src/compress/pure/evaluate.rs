@@ -1,14 +1,182 @@
 use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
 
 use super::Pure;
-use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
+use crate::{
+    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    util::ValueExt,
+};
 
 impl Pure<'_> {
+    ///
+    /// - `1 == 1` => `true`
+    /// - `1 == 2` => `false`
+    pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
+        if n.op != op!("==") && n.op != op!("!=") {
+            return None;
+        }
+        let flag = n.op == op!("!=");
+        let mut make_lit_bool = |value: bool| {
+            self.changed = true;
+            Some(
+                Lit::Bool(Bool {
+                    span: n.span,
+                    value: flag ^ value,
+                })
+                .into(),
+            )
+        };
+        match (
+            n.left.get_type(self.expr_ctx).opt()?,
+            n.right.get_type(self.expr_ctx).opt()?,
+        ) {
+            // Abort if types differ, or one of them is unknown.
+            (lt, rt) if lt != rt => {}
+            (Type::Obj, Type::Obj) => {}
+            (Type::Num, Type::Num) => {
+                let l = n.left.as_pure_number(self.expr_ctx).opt()?;
+                let r = n.right.as_pure_number(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => num");
+                return make_lit_bool(l == r);
+            }
+            (Type::Str, Type::Str) => {
+                let l = &n.left.as_pure_string(self.expr_ctx).opt()?;
+                let r = &n.right.as_pure_string(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => str");
+                return make_lit_bool(l == r);
+            }
+            (_, _) => {
+                let l = n.left.as_pure_bool(self.expr_ctx).opt()?;
+                let r = n.right.as_pure_bool(self.expr_ctx).opt()?;
+                report_change!("Optimizing: literal comparison => bool");
+                return make_lit_bool(l == r);
+            }
+        };
+
+        None
+    }
+
+    pub(super) fn eval_array_spread(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        let Expr::Array(ArrayLit { elems, .. }) = e else {
+            return;
+        };
+
+        if !elems.iter().any(|elem| match elem {
+            Some(ExprOrSpread {
+                spread: Some(..),
+                expr,
+            }) => expr.is_array(),
+            _ => false,
+        }) {
+            return;
+        }
+
+        report_change!("evaluate: Evaluated array spread");
+        self.changed = true;
+
+        let mut new_elems = Vec::with_capacity(elems.len());
+
+        for elem in elems.take() {
+            match elem {
+                Some(ExprOrSpread {
+                    spread: Some(..),
+                    expr,
+                }) if expr.is_array() => {
+                    new_elems.extend(expr.expect_array().elems);
+                }
+                _ => {
+                    new_elems.push(elem);
+                }
+            }
+        }
+
+        *elems = new_elems;
+    }
+
+    pub(super) fn eval_logical_expr(&mut self, e: &mut Expr) {
+        let Expr::Bin(
+            b @ BinExpr {
+                op: op!("||") | op!("&&"),
+                ..
+            },
+        ) = e
+        else {
+            return;
+        };
+
+        let (purity, lv) = b.left.cast_to_bool(self.expr_ctx);
+
+        if purity.is_pure() {
+            if let Value::Known(lv) = lv {
+                match (lv, b.op) {
+                    (true, op!("||")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `true || foo` => `true`");
+
+                        *e = *b.left.take();
+                    }
+                    (false, op!("||")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `false || foo` => `foo`");
+
+                        *e = *b.right.take();
+                    }
+                    (true, op!("&&")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `true && foo` => `foo`");
+
+                        *e = *b.right.take();
+                    }
+                    (false, op!("&&")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `false && foo` => `false`");
+
+                        *e = *b.left.take();
+                    }
+                    _ => {}
+                }
+            }
+        } else {
+            if let Value::Known(lv) = lv {
+                match (lv, b.op) {
+                    (true, op!("||")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `truthy || foo` => `truthy`");
+                        *e = *b.left.take();
+                    }
+
+                    (false, op!("&&")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `falsy && foo` => `falsy`");
+                        *e = *b.left.take();
+                    }
+
+                    (true, op!("&&")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `truthy && foo` => `truthy, foo`");
+                        *e = *Expr::from_exprs(vec![b.left.take(), b.right.take()]);
+                    }
+
+                    (false, op!("||")) => {
+                        self.changed = true;
+                        report_change!("evaluate: `falsy || foo` => `falsy, foo`");
+                        *e = *Expr::from_exprs(vec![b.left.take(), b.right.take()]);
+                    }
+
+                    _ => {}
+                }
+            }
+        }
+    }
+
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
@@ -557,79 +725,6 @@ impl Pure<'_> {
         }
     }
 
-    /// Note: this method requires boolean context.
-    ///
-    /// - `foo || 1` => `foo, 1`
-    pub(super) fn optmize_known_logical_expr(&mut self, e: &mut Expr) {
-        let bin_expr = match e {
-            Expr::Bin(
-                e @ BinExpr {
-                    op: op!("||") | op!("&&"),
-                    ..
-                },
-            ) => e,
-            _ => return,
-        };
-
-        if bin_expr.op == op!("||") {
-            if let Value::Known(v) = bin_expr.right.as_pure_bool(self.expr_ctx) {
-                // foo || 1 => foo, 1
-                if v {
-                    self.changed = true;
-                    report_change!("evaluate: `foo || true` => `foo, 1`");
-
-                    *e = SeqExpr {
-                        span: bin_expr.span,
-                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
-                    }
-                    .into();
-                } else {
-                    self.changed = true;
-                    report_change!("evaluate: `foo || false` => `foo` (bool ctx)");
-
-                    *e = *bin_expr.left.take();
-                }
-                return;
-            }
-
-            // 1 || foo => foo
-            if let Value::Known(true) = bin_expr.left.as_pure_bool(self.expr_ctx) {
-                self.changed = true;
-                report_change!("evaluate: `true || foo` => `foo`");
-
-                *e = *bin_expr.right.take();
-            }
-        } else {
-            debug_assert_eq!(bin_expr.op, op!("&&"));
-
-            if let Value::Known(v) = bin_expr.right.as_pure_bool(self.expr_ctx) {
-                if v {
-                    self.changed = true;
-                    report_change!("evaluate: `foo && true` => `foo` (bool ctx)");
-
-                    *e = *bin_expr.left.take();
-                } else {
-                    self.changed = true;
-                    report_change!("evaluate: `foo && false` => `foo, false`");
-
-                    *e = SeqExpr {
-                        span: bin_expr.span,
-                        exprs: vec![bin_expr.left.clone(), bin_expr.right.clone()],
-                    }
-                    .into();
-                }
-                return;
-            }
-
-            if let Value::Known(true) = bin_expr.left.as_pure_bool(self.expr_ctx) {
-                self.changed = true;
-                report_change!("evaluate: `true && foo` => `foo`");
-
-                *e = *bin_expr.right.take();
-            }
-        }
-    }
-
     pub(super) fn eval_trivial_values_in_expr(&mut self, seq: &mut SeqExpr) {
         if seq.exprs.len() < 2 {
             return;
@@ -652,6 +747,10 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_member_expr(&mut self, e: &mut Expr) {
+        if self.ctx.in_opt_chain {
+            return;
+        }
+
         let member_expr = match e {
             Expr::Member(x) => x,
             _ => return,

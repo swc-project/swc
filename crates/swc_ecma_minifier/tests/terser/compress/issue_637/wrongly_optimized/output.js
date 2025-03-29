@@ -1,4 +1,4 @@
 function func() {
     foo();
 }
-func(), bar();
+func() || 1, bar();

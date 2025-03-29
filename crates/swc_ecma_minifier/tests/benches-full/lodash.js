@@ -2178,10 +2178,7 @@
      *  counterparts.
      */ function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
                     var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
-                    if (stacked) {
-                        assignMergeValue(object, key, stacked);
-                        return;
-                    }
+                    if (stacked) return assignMergeValue(object, key, stacked);
                     var newValue = customizer ? customizer(objValue, srcValue, key + '', object, source, stack) : undefined, isCommon = undefined === newValue;
                     if (isCommon) {
                         var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
@@ -5614,10 +5611,7 @@
      * _.assign({ 'a': 0 }, new Foo, new Bar);
      * // => { 'a': 1, 'c': 3 }
      */ var assign = createAssigner(function(object, source) {
-            if (isPrototype(source) || isArrayLike(source)) {
-                copyObject(source, keys(source), object);
-                return;
-            }
+            if (isPrototype(source) || isArrayLike(source)) return void copyObject(source, keys(source), object);
             for(var key in source)hasOwnProperty.call(source, key) && assignValue(object, key, source[key]);
         }), assignIn = createAssigner(function(object, source) {
             copyObject(source, keysIn(source), object);
@@ -10673,10 +10667,8 @@
                 for(var iterIndex = -1, value = array[index += dir]; ++iterIndex < iterLength;){
                     var data = iteratees[iterIndex], iteratee = data.iteratee, type = data.type, computed = iteratee(value);
                     if (2 == type) value = computed;
-                    else if (!computed) {
-                        if (1 == type) continue outer;
-                        break outer;
-                    }
+                    else if (!computed) if (1 == type) continue outer;
+                    else break outer;
                 }
                 result[resIndex++] = value;
             }

@@ -550,7 +550,7 @@ pub(crate) fn force_dump_program(p: &Program) -> String {
 macro_rules! maybe_par {
   ($prefix:ident.$name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $prefix.$name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $prefix.$name.par_iter().$operator($($rest)*)
       } else {
           $prefix.$name.iter().$operator($($rest)*)
@@ -559,7 +559,7 @@ macro_rules! maybe_par {
 
   ($prefix:ident.$name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $prefix.$name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $prefix.$name.into_par_iter().$operator($($rest)*)
       } else {
           $prefix.$name.into_iter().$operator($($rest)*)
@@ -568,7 +568,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*)
       } else {
           $name.iter().$operator($($rest)*)
@@ -577,7 +577,7 @@ macro_rules! maybe_par {
 
   ($name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.into_par_iter().$operator($($rest)*)
       } else {
           $name.into_iter().$operator($($rest)*)
@@ -586,7 +586,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter_mut().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter_mut().$operator($($rest)*)
       } else {
           $name.iter_mut().$operator($($rest)*)
@@ -595,7 +595,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2($($rest2)*)
@@ -604,7 +604,7 @@ macro_rules! maybe_par {
 
   ($name:ident.into_iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.into_par_iter().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.into_iter().$operator($($rest)*).$operator2($($rest2)*)
@@ -613,7 +613,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter_mut().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter_mut().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.iter_mut().$operator($($rest)*).$operator2($($rest2)*)
@@ -622,7 +622,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident::<$t:ty>($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
@@ -631,7 +631,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)

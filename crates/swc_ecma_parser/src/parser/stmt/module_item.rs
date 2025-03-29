@@ -880,12 +880,8 @@ impl IsDirective for ModuleItem {
 }
 
 impl<I: Tokens> StmtLikeParser<'_, ModuleItem> for Parser<I> {
-    fn handle_import_export(
-        &mut self,
-        top_level: bool,
-        decorators: Vec<Decorator>,
-    ) -> PResult<ModuleItem> {
-        if !top_level {
+    fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleItem> {
+        if !self.ctx().top_level {
             syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 

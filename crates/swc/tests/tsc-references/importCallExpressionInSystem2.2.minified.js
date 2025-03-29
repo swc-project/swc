@@ -16,11 +16,9 @@ System.register([], function(_export, _context) {
     return {
         setters: [],
         execute: function() {
-            !function(x) {
-                x.then((value)=>{
-                    new value.B().print();
-                });
-            }(_context.import("./0"));
+            _context.import("./0").then((value)=>{
+                new value.B().print();
+            });
         }
     };
 });

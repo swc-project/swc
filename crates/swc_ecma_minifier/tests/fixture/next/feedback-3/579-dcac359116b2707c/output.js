@@ -2081,10 +2081,13 @@
                             "{",
                             "}"
                         ];
-                        return (b(r) && (F = !0, k = [
+                        if (b(r) && (F = !0, k = [
                             "[",
                             "]"
-                        ]), x(r) && (E = " [Function" + (r.name ? ": " + r.name : "") + "]"), A(r) && (E = " " + RegExp.prototype.toString.call(r)), j(r) && (E = " " + Date.prototype.toUTCString.call(r)), P(r) && (E = " " + s(r)), 0 !== y.length || F && 0 != r.length) ? o < 0 ? A(r) ? t.stylize(RegExp.prototype.toString.call(r), "regexp") : t.stylize("[Object]", "special") : (t.seen.push(r), c = F ? function(t, e, r, o, n) {
+                        ]), x(r) && (E = " [Function" + (r.name ? ": " + r.name : "") + "]"), A(r) && (E = " " + RegExp.prototype.toString.call(r)), j(r) && (E = " " + Date.prototype.toUTCString.call(r)), P(r) && (E = " " + s(r)), 0 === y.length && (!F || 0 == r.length)) return k[0] + E + k[1];
+                        if (o < 0) if (A(r)) return t.stylize(RegExp.prototype.toString.call(r), "regexp");
+                        else return t.stylize("[Object]", "special");
+                        return t.seen.push(r), c = F ? function(t, e, r, o, n) {
                             for(var i = [], a = 0, p = e.length; a < p; ++a)I(e, String(a)) ? i.push(d(t, e, r, o, String(a), !0)) : i.push("");
                             return n.forEach(function(n) {
                                 n.match(/^\d+$/) || i.push(d(t, e, r, o, n, !0));
@@ -2093,7 +2096,7 @@
                             return d(t, r, o, O, e, F);
                         }), t.seen.pop(), n = E, i = k, a = 0, c.reduce(function(t, e) {
                             return a++, e.indexOf("\n") >= 0 && a++, t + e.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                        }, 0) > 60 ? i[0] + ("" === n ? "" : n + "\n ") + " " + c.join(",\n  ") + " " + i[1] : i[0] + n + " " + c.join(", ") + " " + i[1]) : k[0] + E + k[1];
+                        }, 0) > 60 ? i[0] + ("" === n ? "" : n + "\n ") + " " + c.join(",\n  ") + " " + i[1] : i[0] + n + " " + c.join(", ") + " " + i[1];
                     }
                     function s(t) {
                         return "[" + Error.prototype.toString.call(t) + "]";
@@ -2152,15 +2155,13 @@
                         return t < 10 ? "0" + t.toString(10) : t.toString(10);
                     }
                     e.debuglog = function(t) {
-                        if (!a[t = t.toUpperCase()]) {
-                            if (p.test(t)) {
-                                var r = n.pid;
-                                a[t] = function() {
-                                    var o = e.format.apply(e, arguments);
-                                    console.error("%s %d: %s", t, r, o);
-                                };
-                            } else a[t] = function() {};
-                        }
+                        if (!a[t = t.toUpperCase()]) if (p.test(t)) {
+                            var r = n.pid;
+                            a[t] = function() {
+                                var o = e.format.apply(e, arguments);
+                                console.error("%s %d: %s", t, r, o);
+                            };
+                        } else a[t] = function() {};
                         return a[t];
                     }, e.inspect = u, u.colors = {
                         bold: [

@@ -5,7 +5,6 @@ use rustc_hash::FxHashMap;
 use swc_atoms::atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::simplify::{expr_simplifier, ExprSimplifierConfig};
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::VisitMutWith;
@@ -210,9 +209,13 @@ impl Evaluator {
                 }
                 .into();
 
-                e.visit_mut_with(&mut expr_simplifier(
-                    self.marks.unresolved_mark,
-                    ExprSimplifierConfig {},
+                e.visit_mut_with(&mut pure_optimizer(
+                    &Default::default(),
+                    self.marks,
+                    PureOptimizerConfig {
+                        enable_join_vars: false,
+                        force_str_for_tpl: self.data.force_str_for_tpl(),
+                    },
                 ));
                 return Some(Box::new(e));
             }
@@ -249,8 +252,6 @@ impl Evaluator {
                 PureOptimizerConfig {
                     enable_join_vars: false,
                     force_str_for_tpl: self.data.force_str_for_tpl(),
-                    #[cfg(feature = "debug")]
-                    debug_infinite_loop: false,
                 },
             ));
         }

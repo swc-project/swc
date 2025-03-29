@@ -12,9 +12,7 @@
             /* Returns reverse(reverse(key, len) + 1, len), where reverse(key, len) is the
          bit-wise reversal of the len least significant bits of key. */ function GetNextKey(key, len) {
                 var step = 1 << len - 1;
-                while(key & step){
-                    step >>= 1;
-                }
+                while(key & step)step >>= 1;
                 return (key & step - 1) + step;
             }
             /* Stores code in table[0], table[step], table[2*step], ..., table[end] */ /* Assumes that end is an integer multiple of step */ function ReplicateValue(table, i, step, end, code) {

@@ -61,20 +61,18 @@
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
-                })().concat(nodeName).join("/"), function() {
+                })().concat(nodeName).join("/"), !function() {
                     try {
                         obj = _this3.options.validator(xpath, s && s[nodeName], obj);
                     } catch (error1) {
                         return _this3.emit("error", error1);
                     }
-                }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) {
-                    if (_this3.options.preserveChildrenOrder) {
-                        if (s) {
-                            for(key in s[_this3.options.childkey] = s[_this3.options.childkey] || [], objClone = {}, obj)hasProp.call(obj, key) && (objClone[key] = obj[key]);
-                            s[_this3.options.childkey].push(objClone), delete obj["#name"], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey]);
-                        }
-                    } else node = {}, _this3.options.attrkey in obj && (node[_this3.options.attrkey] = obj[_this3.options.attrkey], delete obj[_this3.options.attrkey]), !_this3.options.charsAsChildren && _this3.options.charkey in obj && (node[_this3.options.charkey] = obj[_this3.options.charkey], delete obj[_this3.options.charkey]), Object.getOwnPropertyNames(obj).length > 0 && (node[_this3.options.childkey] = obj), obj = node;
-                }
+                }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) if (_this3.options.preserveChildrenOrder) {
+                    if (s) {
+                        for(key in s[_this3.options.childkey] = s[_this3.options.childkey] || [], objClone = {}, obj)hasProp.call(obj, key) && (objClone[key] = obj[key]);
+                        s[_this3.options.childkey].push(objClone), delete obj["#name"], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey]);
+                    }
+                } else node = {}, _this3.options.attrkey in obj && (node[_this3.options.attrkey] = obj[_this3.options.attrkey], delete obj[_this3.options.attrkey]), !_this3.options.charsAsChildren && _this3.options.charkey in obj && (node[_this3.options.charkey] = obj[_this3.options.charkey], delete obj[_this3.options.charkey]), Object.getOwnPropertyNames(obj).length > 0 && (node[_this3.options.childkey] = obj), obj = node;
                 return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, (obj = {})[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
             }), _this4 = this, ontext = function(text) {
                 var charChild, s;

@@ -1,18 +1,105 @@
-use std::mem::swap;
+use std::mem::take;
 
-use swc_common::{util::take::Take, EqIgnoreSpan};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Type, Value};
+use swc_ecma_utils::{ExprExt, IsEmpty, StmtExt, Type, Value};
 
-use super::Pure;
-#[cfg(feature = "debug")]
-use crate::debug::dump;
-use crate::{
-    compress::util::{can_absorb_negate, negate_cost},
-    util::make_bool,
-};
+use super::{DropOpts, Pure};
+use crate::{compress::util::can_absorb_negate, util::make_bool};
 
 impl Pure<'_> {
+    pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
+        if !self.options.conditionals && !self.options.bools {
+            return;
+        }
+
+        if s.alt.is_some() {
+            return;
+        }
+
+        if let Stmt::If(IfStmt {
+            test,
+            cons,
+            alt: None,
+            ..
+        }) = &mut *s.cons
+        {
+            self.changed = true;
+            report_change!("if_return: Merging nested if statements");
+
+            s.test = BinExpr {
+                span: s.test.span(),
+                op: op!("&&"),
+                left: s.test.take(),
+                right: test.take(),
+            }
+            .into();
+            s.cons = cons.take();
+        }
+    }
+
+    pub(super) fn optimize_const_cond(&mut self, e: &mut Expr) {
+        let Expr::Cond(cond) = e else {
+            return;
+        };
+
+        let (p, Value::Known(v)) = cond.test.cast_to_bool(self.expr_ctx) else {
+            return;
+        };
+
+        if p.is_pure() {
+            if v {
+                self.changed = true;
+                report_change!("conditionals: `true ? foo : bar` => `foo` (pure test)");
+                *e = if cond.cons.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.cons.take()],
+                    })
+                } else {
+                    *cond.cons.take()
+                };
+            } else {
+                self.changed = true;
+                report_change!("conditionals: `false ? foo : bar` => `bar` (pure test)");
+                *e = if cond.alt.directness_matters() {
+                    Expr::Seq(SeqExpr {
+                        span: cond.span,
+                        exprs: vec![0.into(), cond.alt.take()],
+                    })
+                } else {
+                    *cond.alt.take()
+                };
+            }
+        } else {
+            self.ignore_return_value(
+                &mut cond.test,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            self.changed = true;
+
+            let mut exprs = Vec::with_capacity(2);
+            if !cond.test.is_invalid() {
+                exprs.push(take(&mut cond.test));
+            }
+
+            if v {
+                report_change!("conditionals: `true ? foo : bar` => `true, foo`");
+                exprs.push(take(&mut cond.cons));
+            } else {
+                report_change!("conditionals: `false ? foo : bar` => `false, bar`");
+                exprs.push(take(&mut cond.alt));
+            }
+
+            *e = *Expr::from_exprs(exprs);
+        }
+    }
+
     ///
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`
@@ -190,25 +277,6 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
-        if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
-            return;
-        }
-
-        report_change!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-        #[cfg(feature = "debug")]
-        let start_str = dump(&*cond, false);
-
-        self.negate(&mut cond.test, true, false);
-        swap(&mut cond.cons, &mut cond.alt);
-
-        dump_change_detail!(
-            "[Change] Negated cond: `{}` => `{}`",
-            start_str,
-            dump(&*cond, false)
-        );
-    }
-
     /// Removes useless operands of an logical expressions.
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
@@ -243,6 +311,75 @@ impl Pure<'_> {
                     *e = make_bool(bin.span, true);
                 }
             }
+        }
+    }
+
+    pub(super) fn optimize_empty_try_stmt(&mut self, s: &mut Stmt) {
+        if !self.options.dead_code {
+            return;
+        }
+
+        let Stmt::Try(ts) = s else {
+            return;
+        };
+
+        if !ts.block.stmts.is_empty() {
+            return;
+        }
+
+        report_change!("conditionals: Optimizing empty try block");
+        self.changed = true;
+
+        let mut vars = None;
+
+        if ts.handler.is_some() {
+            let vec = ts
+                .handler
+                .iter()
+                .flat_map(|c| c.body.stmts.iter())
+                .flat_map(|s| s.extract_var_ids())
+                .map(|i| VarDeclarator {
+                    span: DUMMY_SP,
+                    name: i.into(),
+                    init: None,
+                    definite: false,
+                })
+                .collect::<Vec<_>>();
+            if !vec.is_empty() {
+                vars = Some(vec);
+            }
+        }
+
+        *s = ts.finalizer.take().map(Stmt::from).unwrap_or_default();
+
+        if let Some(vars) = vars {
+            *s = Stmt::Block(BlockStmt {
+                stmts: vec![
+                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls: vars,
+                    }))),
+                    take(s),
+                ],
+                ..Default::default()
+            });
+        }
+    }
+
+    pub(super) fn optimize_meaningless_try(&mut self, s: &mut Stmt) {
+        let Stmt::Try(ts) = s else {
+            return;
+        };
+
+        // If catch block is not specified and finally block is empty, fold it to simple
+        // block.
+        if ts.handler.is_none() && ts.finalizer.is_empty() {
+            report_change!("conditionals: Optimizing meaningless try block");
+            self.changed = true;
+            *s = take(&mut ts.block).into();
         }
     }
 }

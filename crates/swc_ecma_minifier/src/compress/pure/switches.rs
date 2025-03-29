@@ -1,16 +1,70 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{extract_var_ids, prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::Optimizer;
-use crate::{compress::util::is_primitive, util::idents_used_by};
+use super::Pure;
+use crate::{
+    compress::{pure::DropOpts, util::is_primitive},
+    util::idents_used_by,
+};
 
 /// Methods related to option `switches`.
-impl Optimizer<'_> {
+impl Pure<'_> {
+    pub(super) fn optimize_switch_stmt(&mut self, s: &mut Stmt) {
+        if !self.options.switches {
+            return;
+        }
+
+        let Stmt::Switch(..) = s else {
+            return;
+        };
+
+        self.remove_empty_switch(s);
+
+        self.optimize_small_switch(s);
+
+        self.optimize_const_switches(s);
+
+        self.optimize_switch_with_default_on_last(s);
+    }
+
+    fn remove_empty_switch(&mut self, s: &mut Stmt) {
+        let Stmt::Switch(sw) = s else {
+            return;
+        };
+
+        // Remove empty switch
+        if sw.cases.is_empty() {
+            self.changed = true;
+            report_change!("switches: Removing empty switch");
+
+            self.ignore_return_value(
+                &mut sw.discriminant,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            let discriminant = sw.discriminant.take();
+            if discriminant.is_invalid() {
+                *s = Stmt::dummy();
+                return;
+            }
+
+            *s = ExprStmt {
+                span: sw.span,
+                expr: discriminant,
+            }
+            .into();
+        }
+    }
+
     /// Handle switches in the case where we can know which branch will be
     /// taken.
-    pub(super) fn optimize_const_switches(&mut self, s: &mut Stmt) {
+    fn optimize_const_switches(&mut self, s: &mut Stmt) {
         if !self.options.switches || !self.options.dead_code {
             return;
         }
@@ -30,7 +84,7 @@ impl Optimizer<'_> {
 
         let discriminant = &mut stmt.discriminant;
 
-        let tail = if let Some(e) = is_primitive(self.ctx.expr_ctx, tail_expr(discriminant)) {
+        let tail = if let Some(e) = is_primitive(self.expr_ctx, tail_expr(discriminant)) {
             e
         } else {
             return;
@@ -43,7 +97,7 @@ impl Optimizer<'_> {
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
             if let Some(test) = case.test.as_ref() {
-                if let Some(e) = is_primitive(self.ctx.expr_ctx, tail_expr(test)) {
+                if let Some(e) = is_primitive(self.expr_ctx, tail_expr(test)) {
                     if match (e, tail) {
                         (Expr::Lit(Lit::Num(e)), Expr::Lit(Lit::Num(tail))) => {
                             e.value == tail.value
@@ -148,12 +202,36 @@ impl Optimizer<'_> {
                 )
             }
 
-            stmts.push(discriminant.take().into_stmt());
+            self.ignore_return_value(
+                discriminant,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            if !discriminant.is_invalid() {
+                stmts.push(discriminant.take().into_stmt());
+            }
+
             let mut last = cases.pop().unwrap();
             remove_last_break(&mut last.cons);
 
-            if let Some(test) = last.test {
-                stmts.push(test.into_stmt());
+            if let Some(mut test) = last.test {
+                // We are creating ExprStmt, so we can ignore return value
+                self.ignore_return_value(
+                    &mut test,
+                    DropOpts {
+                        drop_number: true,
+                        drop_str_lit: true,
+                        ..Default::default()
+                    },
+                );
+
+                if !test.is_invalid() {
+                    stmts.push(test.into_stmt());
+                }
             }
 
             stmts.extend(last.cons);
@@ -161,29 +239,29 @@ impl Optimizer<'_> {
                 stmts,
                 ..Default::default()
             }
-            .into()
-        } else {
-            report_change!("switches: Removing unreachable cases from a constant switch");
+            .into();
+            return;
+        }
 
-            stmt.cases = cases;
+        report_change!("switches: Removing unreachable cases from a constant switch");
+        stmt.cases = cases;
 
-            if !var_ids.is_empty() {
-                *s = BlockStmt {
-                    stmts: vec![
-                        VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            declare: Default::default(),
-                            decls: var_ids,
-                            ..Default::default()
-                        }
-                        .into(),
-                        s.take(),
-                    ],
-                    ..Default::default()
-                }
-                .into()
+        if !var_ids.is_empty() {
+            *s = BlockStmt {
+                stmts: vec![
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: var_ids,
+                        ..Default::default()
+                    }
+                    .into(),
+                    s.take(),
+                ],
+                ..Default::default()
             }
+            .into()
         }
     }
 
@@ -210,7 +288,7 @@ impl Optimizer<'_> {
             if case
                 .cons
                 .iter()
-                .any(|stmt| stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates())
+                .any(|stmt| stmt.may_have_side_effects(self.expr_ctx) || stmt.terminates())
             {
                 last = idx + 1;
                 break;
@@ -220,7 +298,7 @@ impl Optimizer<'_> {
         let has_side_effect = cases.iter().skip(last).rposition(|case| {
             case.test
                 .as_deref()
-                .map(|test| test.may_have_side_effects(self.ctx.expr_ctx))
+                .map(|test| test.may_have_side_effects(self.expr_ctx))
                 .unwrap_or(false)
         });
 
@@ -246,9 +324,9 @@ impl Optimizer<'_> {
                 .iter()
                 .skip(default)
                 .position(|case| {
-                    case.cons.iter().any(|stmt| {
-                        stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates()
-                    })
+                    case.cons
+                        .iter()
+                        .any(|stmt| stmt.may_have_side_effects(self.expr_ctx) || stmt.terminates())
                 })
                 .unwrap_or(0)
                 + default;
@@ -259,11 +337,11 @@ impl Optimizer<'_> {
             let start = cases.iter().enumerate().rposition(|(idx, case)| {
                 case.test
                     .as_deref()
-                    .map(|test| test.may_have_side_effects(self.ctx.expr_ctx))
+                    .map(|test| test.may_have_side_effects(self.expr_ctx))
                     .unwrap_or(false)
                     || (idx != end
                         && case.cons.iter().any(|stmt| {
-                            stmt.may_have_side_effects(self.ctx.expr_ctx) || stmt.terminates()
+                            stmt.may_have_side_effects(self.expr_ctx) || stmt.terminates()
                         }))
             });
 
@@ -304,7 +382,7 @@ impl Optimizer<'_> {
                 cannot_cross_block |= cases[j]
                     .test
                     .as_deref()
-                    .map(|test| is_primitive(self.ctx.expr_ctx, test).is_none())
+                    .map(|test| is_primitive(self.expr_ctx, test).is_none())
                     .unwrap_or(false)
                     || !(cases[j].cons.is_empty()
                         || cases[j].cons.iter().rev().any(|s| s.terminates())
@@ -366,8 +444,8 @@ impl Optimizer<'_> {
     }
 
     /// Try turn switch into if and remove empty switch
-    pub(super) fn optimize_switches(&mut self, s: &mut Stmt) {
-        if !self.options.switches || !self.options.dead_code {
+    fn optimize_small_switch(&mut self, s: &mut Stmt) {
+        if self.ctx.is_label_body {
             return;
         }
 
@@ -388,10 +466,10 @@ impl Optimizer<'_> {
                     }
                     self.changed = true;
                     report_change!("switches: Turn one case switch into if");
-                    remove_last_break(&mut case.cons);
+                    drop_break_and_postfix(&mut case.cons);
 
                     let case = case.take();
-                    let discriminant = sw.discriminant.take();
+                    let mut discriminant = sw.discriminant.take();
 
                     if let Some(test) = case.test {
                         let test = BinExpr {
@@ -414,11 +492,19 @@ impl Optimizer<'_> {
                         }
                         .into()
                     } else {
-                        // is default
-                        let mut stmts = vec![Stmt::Expr(ExprStmt {
-                            span: discriminant.span(),
-                            expr: discriminant,
-                        })];
+                        self.ignore_return_value(
+                            &mut discriminant,
+                            DropOpts {
+                                drop_number: true,
+                                drop_str_lit: true,
+                                ..Default::default()
+                            },
+                        );
+
+                        let mut stmts = vec![];
+                        if !discriminant.is_invalid() {
+                            stmts.push(discriminant.take().into_stmt());
+                        }
                         stmts.extend(case.cons);
                         *s = BlockStmt {
                             span: sw.span,
@@ -507,6 +593,105 @@ impl Optimizer<'_> {
                 }
                 _ => (),
             }
+        }
+    }
+
+    fn optimize_switch_with_default_on_last(&mut self, stmt: &mut Stmt) {
+        let Stmt::Switch(s) = stmt else {
+            return;
+        };
+
+        let is_default_last = matches!(s.cases.last(), Some(SwitchCase { test: None, .. }));
+
+        // True if all cases except default is empty.
+        let is_all_case_empty = s
+            .cases
+            .iter()
+            .all(|case| case.test.is_none() || case.cons.is_empty());
+
+        let is_all_case_side_effect_free = s.cases.iter().all(|case| {
+            case.test
+                .as_ref()
+                .map(|e| e.is_ident() || !e.may_have_side_effects(self.expr_ctx))
+                .unwrap_or(true)
+        });
+
+        if is_default_last
+            && is_all_case_empty
+            && is_all_case_side_effect_free
+            && !contains_nested_break(s.cases.last().unwrap())
+        {
+            let mut exprs = Vec::new();
+            self.ignore_return_value(
+                &mut s.discriminant,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+            if !s.discriminant.is_invalid() {
+                exprs.push(s.discriminant.take());
+            }
+
+            exprs.extend(
+                s.cases
+                    .iter_mut()
+                    .filter_map(|case| case.test.take())
+                    .filter_map(|mut e| {
+                        self.ignore_return_value(
+                            &mut e,
+                            DropOpts {
+                                drop_number: true,
+                                drop_str_lit: true,
+                                ..Default::default()
+                            },
+                        );
+                        if e.is_invalid() {
+                            None
+                        } else {
+                            Some(e)
+                        }
+                    }),
+            );
+
+            let mut stmts = s.cases.pop().unwrap().cons;
+            drop_break_and_postfix(&mut stmts);
+
+            if !exprs.is_empty() {
+                prepend_stmt(
+                    &mut stmts,
+                    ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(exprs),
+                    }
+                    .into(),
+                );
+            }
+
+            report_change!("switches: Turn switch with default on last into block");
+            self.changed = true;
+            let block: Stmt = BlockStmt {
+                span: s.span,
+                stmts,
+                ..Default::default()
+            }
+            .into();
+            *stmt = block;
+        }
+    }
+}
+
+fn drop_break_and_postfix(cons: &mut Vec<Stmt>) {
+    let terminates_rpos = cons.iter().rposition(|s| s.terminates());
+
+    if let Some(terminates_rpos) = terminates_rpos {
+        cons.truncate(terminates_rpos + 1);
+    }
+
+    if let Some(last) = cons.last_mut() {
+        if let Stmt::Break(BreakStmt { label: None, .. }) = last {
+            *last = Stmt::dummy();
         }
     }
 }

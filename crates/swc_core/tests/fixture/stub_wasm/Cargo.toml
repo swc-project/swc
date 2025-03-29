@@ -15,10 +15,10 @@ plugin  = []
 swc_v1  = []
 
 [dependencies]
-anyhow = "1.0.66"
-browserslist-rs = { version = "0.16.0", features = ["wasm_bindgen"] }
+anyhow = "1.0.97"
+browserslist-rs = { version = "0.18.0", features = ["wasm_bindgen"] }
 serde = { version = "1", features = ["derive"] }
-serde-wasm-bindgen = "0.4.5"
+serde-wasm-bindgen = "0.6.5"
 swc_core = { path = "../../../../swc_core", features = [
   "ecma_ast_serde",
   "ecma_codegen",
@@ -29,5 +29,5 @@ swc_core = { path = "../../../../swc_core", features = [
   # for the detail.
   # "plugin_transform_host_js",
 ] }
-tracing = { version = "0.1.37", features = ["max_level_off"] }
-wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
+tracing = { version = "0.1.41", features = ["max_level_off"] }
+wasm-bindgen = { version = "0.2.100", features = ["enable-interning"] }

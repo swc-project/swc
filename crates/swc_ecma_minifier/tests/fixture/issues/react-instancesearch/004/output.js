@@ -142,26 +142,23 @@ var _obj, isMultiIndexContext = function(widget) {
     }, hydrateSearchClientWithMultiIndexRequest = function(client, results) {
         // Algoliasearch API Client >= v4
         // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.reduce(function(acc, result) {
-                        return acc.concat(result.rawResults.map(function(request) {
-                            return {
-                                indexName: request.index,
-                                params: request.params
-                            };
-                        }));
-                    }, [])
-                ]
-            }, {
-                results: results.reduce(function(acc, result) {
-                    return acc.concat(result.rawResults);
+        if (client.transporter) return void client.transporter.responsesCache.set({
+            method: "search",
+            args: [
+                results.reduce(function(acc, result) {
+                    return acc.concat(result.rawResults.map(function(request) {
+                        return {
+                            indexName: request.index,
+                            params: request.params
+                        };
+                    }));
                 }, [])
-            });
-            return;
-        }
+            ]
+        }, {
+            results: results.reduce(function(acc, result) {
+                return acc.concat(result.rawResults);
+            }, [])
+        });
         // Algoliasearch API Client < v4
         // Prior to client v4 we didn't have a proper API to hydrate the client
         // cache from the outside. The following code populates the cache with
@@ -186,22 +183,19 @@ var _obj, isMultiIndexContext = function(widget) {
     }, hydrateSearchClientWithSingleIndexRequest = function(client, results) {
         // Algoliasearch API Client >= v4
         // Populate the cache with the data from the server
-        if (client.transporter) {
-            client.transporter.responsesCache.set({
-                method: "search",
-                args: [
-                    results.rawResults.map(function(request) {
-                        return {
-                            indexName: request.index,
-                            params: request.params
-                        };
-                    })
-                ]
-            }, {
-                results: results.rawResults
-            });
-            return;
-        }
+        if (client.transporter) return void client.transporter.responsesCache.set({
+            method: "search",
+            args: [
+                results.rawResults.map(function(request) {
+                    return {
+                        indexName: request.index,
+                        params: request.params
+                    };
+                })
+            ]
+        }, {
+            results: results.rawResults
+        });
         // Algoliasearch API Client < v4
         // Prior to client v4 we didn't have a proper API to hydrate the client
         // cache from the outside. The following code populates the cache with
@@ -282,10 +276,7 @@ var _obj, isMultiIndexContext = function(widget) {
                     });
                 };
             }
-            if (Array.isArray(results.results)) {
-                hydrateSearchClientWithMultiIndexRequest(client, results.results);
-                return;
-            }
+            if (Array.isArray(results.results)) return hydrateSearchClientWithMultiIndexRequest(client, results.results);
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);

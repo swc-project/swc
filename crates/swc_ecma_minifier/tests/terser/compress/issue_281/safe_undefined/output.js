@@ -1,2 +1,2 @@
 var a, c;
-console.log(a ? b : c ? d : void 0);
+console.log(a ? b : (0, c) ? d : void 0);

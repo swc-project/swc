@@ -170,10 +170,8 @@
                     updateHead: (head)=>{
                         const tags = {};
                         head.forEach((h)=>{
-                            if ("link" === h.type && h.props["data-optimized-fonts"]) {
-                                if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
-                                h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
-                            }
+                            if ("link" === h.type && h.props["data-optimized-fonts"]) if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
+                            else h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
                             const components = tags[h.type] || [];
                             components.push(h), tags[h.type] = components;
                         });
@@ -190,11 +188,11 @@
                             "style",
                             "script"
                         ].forEach((type)=>{
-                            (function(type, components) {
+                            !function(type, components) {
                                 const headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [];
                                 for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
                                     var ref;
-                                    (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
+                                    (null == j || null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 }
                                 const newTags = components.map(reactElementToDOM).filter((newTag)=>{
                                     for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
@@ -204,7 +202,7 @@
                                     var ref;
                                     return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
                                 }), newTags.forEach((t)=>headEl.insertBefore(t, headCountEl)), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
-                            })(type, tags[type] || []);
+                            }(type, tags[type] || []);
                         });
                     }
                 };
@@ -311,8 +309,7 @@
                     if (// With dynamic assetPrefix it's no longer possible to set assetPrefix at the build time
                     // So, this is how we do it in the client side at runtime
                     __webpack_require__.p = "".concat(prefix, "/_next/") //eslint-disable-line
-                    , // Initialize next/config with the environment configuration
-                    _runtimeConfig.setConfig({
+                    , _runtimeConfig.setConfig({
                         serverRuntimeConfig: {},
                         publicRuntimeConfig: initialData.runtimeConfig || {}
                     }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader) {
@@ -550,10 +547,7 @@
             }
             function _render() {
                 return (_render = _async_to_generator(function*(renderingProps) {
-                    if (renderingProps.err) {
-                        yield renderError(renderingProps);
-                        return;
-                    }
+                    if (renderingProps.err) return void (yield renderError(renderingProps));
                     try {
                         yield doRender(renderingProps);
                     } catch (err) {
@@ -719,7 +713,6 @@
                 userReportHandler && userReportHandler(metric);
             }
             exports.default = (onPerfEntry)=>{
-                // Only register listeners once:
                 // Update function if it changes:
                 userReportHandler = onPerfEntry, isRegistered || (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
@@ -742,7 +735,7 @@
                     };
                 }, [
                     type
-                ]), portalNode ? /*#__PURE__*/ _reactDom.createPortal(children, portalNode) : null;
+                ]), portalNode ? _reactDom.createPortal(children, portalNode) : null;
             }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
@@ -815,13 +808,11 @@
                 // https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/
                 _react.default.useEffect(()=>{
                     // If the path hasn't change, we do nothing.
-                    if (previouslyLoadedPath.current !== asPath) {
-                        if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
-                        else {
-                            var ref;
-                            const pageHeader = document.querySelector("h1");
-                            setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
-                        }
+                    if (previouslyLoadedPath.current !== asPath) if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
+                    else {
+                        var ref;
+                        const pageHeader = document.querySelector("h1");
+                        setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
                     }
                 }, [
                     asPath
@@ -1457,12 +1448,10 @@ You should only use "next/router" on the client side of your app.
                             case "meta":
                                 for(let i = 0, len = METATYPES.length; i < len; i++){
                                     const metatype = METATYPES[i];
-                                    if (h.props.hasOwnProperty(metatype)) {
-                                        if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
-                                        else {
-                                            const category = h.props[metatype], categories = metaCategories[metatype] || new Set();
-                                            ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
-                                        }
+                                    if (h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
+                                    else {
+                                        const category = h.props[metatype], categories = metaCategories[metatype] || new Set();
+                                        ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
                                     }
                                 }
                         }
@@ -1700,7 +1689,7 @@ You should only use "next/router" on the client side of your app.
                     // support single-level catch-all
                     // TODO: more robust handling for user-error (passing `/`)
                     let replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
-                    return optional && (replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
+                    return optional && (replaced = "".concat(!value ? "/" : "", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
                         value
                     ]), (optional || param in dynamicMatches) && // Interpolate group into data URL if present
                     (interpolatedRoute = interpolatedRoute.replace(replaced, repeat ? value.map(// into the URL and we expect URL encoded segments
@@ -1992,7 +1981,7 @@ You should only use "next/router" on the client side of your app.
                             locale: nextState.locale,
                             router: _this
                         });
-                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname === pathname || (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
+                        if (options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname !== pathname && (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
                             url: as,
                             router: _this
                         }), !1;
@@ -2041,13 +2030,11 @@ You should only use "next/router" on the client side of your app.
                                 }
                             }
                             // If the routeInfo brings a redirect we simply apply it.
-                            if ("type" in routeInfo) {
-                                if ("redirect-internal" === routeInfo.type) return _this.change(method, routeInfo.newUrl, routeInfo.newAs, options);
-                                return handleHardNavigation({
-                                    url: routeInfo.destination,
-                                    router: _this
-                                }), new Promise(()=>{});
-                            }
+                            if ("type" in routeInfo) if ("redirect-internal" === routeInfo.type) return _this.change(method, routeInfo.newUrl, routeInfo.newAs, options);
+                            else return handleHardNavigation({
+                                url: routeInfo.destination,
+                                router: _this
+                            }), new Promise(()=>{});
                             let { error, props, __N_SSG, __N_SSP } = routeInfo;
                             const component = routeInfo.Component;
                             // handle redirect on client-transition
@@ -2094,7 +2081,7 @@ You should only use "next/router" on the client side of your app.
                                     }), "type" in routeInfo) throw Error("Unexpected middleware effect on /404");
                                 }
                             }
-                            Router.events.emit("beforeHistoryChange", as, routeProps), _this.changeState(method, url, as, options), isQueryUpdating && "/_error" === pathname && (null == (ref2 = self.__NEXT_DATA__.props) ? void 0 : null == (ref3 = ref2.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps) && // ensure statusCode is still correct for static 500 page
+                            Router.events.emit("beforeHistoryChange", as, routeProps), _this.changeState(method, url, as, options), isQueryUpdating && "/_error" === pathname && (null == (ref2 = self.__NEXT_DATA__.props) || null == (ref3 = ref2.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps) && // ensure statusCode is still correct for static 500 page
                             // when updating query information
                             (props.pageProps.statusCode = 500);
                             // shallow routing is only allowed for same page URL changes.
@@ -2305,8 +2292,8 @@ You should only use "next/router" on the client side of your app.
                                             text: data.text,
                                             effect
                                         }))).catch((_err)=>null) : null));
-                            if (isQueryUpdating && data && (data.json = self.__NEXT_DATA__.props), handleCancelled(), (null == data ? void 0 : null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data ? void 0 : null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return data.effect;
-                            if ((null == data ? void 0 : null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), // Check again the cache with the new destination.
+                            if (isQueryUpdating && data && (data.json = self.__NEXT_DATA__.props), handleCancelled(), (null == data || null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data || null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return data.effect;
+                            if ((null == data || null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), // Check again the cache with the new destination.
                             existingInfo = _this.components[route], routeProps.shallow && existingInfo && _this.route === route && !hasMiddleware)) // If we have a match with the current route due to rewrite,
                             // we can copy the existing information to the rewritten one.
                             // Then, we return the information along with the matched route.
@@ -2387,16 +2374,10 @@ You should only use "next/router" on the client side of your app.
                     const [, hash = ""] = as.split("#");
                     // Scroll to top if the hash is just `#` with no value or `#top`
                     // To mirror browsers
-                    if ("" === hash || "top" === hash) {
-                        handleSmoothScroll(()=>window.scrollTo(0, 0));
-                        return;
-                    }
+                    if ("" === hash || "top" === hash) return void handleSmoothScroll(()=>window.scrollTo(0, 0));
                     // Decode hash to make non-latin anchor works.
                     const rawHash = decodeURIComponent(hash), idEl = document.getElementById(rawHash);
-                    if (idEl) {
-                        handleSmoothScroll(()=>idEl.scrollIntoView());
-                        return;
-                    }
+                    if (idEl) return void handleSmoothScroll(()=>idEl.scrollIntoView());
                     // If there's no element with the id, we check the `name` property
                     // To mirror browsers
                     const nameEl = document.getElementsByName(rawHash)[0];
@@ -2539,10 +2520,7 @@ You should only use "next/router" on the client side of your app.
                             return;
                         }
                         // __NA is used to identify if the history entry can be handled by the app-router.
-                        if (state.__NA) {
-                            window.location.reload();
-                            return;
-                        }
+                        if (state.__NA) return void window.location.reload();
                         if (!state.__N || isFirstPopStateEvent && this.locale === state.options.locale && state.as === this.asPath) return;
                         const { url, as, options, key } = state;
                         this._key = key;
@@ -3056,19 +3034,18 @@ You should only use "next/router" on the client side of your app.
                                 if (slug.replace(/\W/g, "") === nextSegment.replace(/\W/g, "")) throw Error('You cannot have the slug names "'.concat(slug, '" and "').concat(nextSlug, '" differ only by non-word symbols within a single dynamic path'));
                             }), slugNames.push(nextSlug);
                         }
-                        if (isCatchAll) {
-                            if (isOptional) {
-                                if (null != this.restSlugName) throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
-                                handleSlug(this.optionalRestSlugName, segmentName), // slugName is kept as it can only be one particular slugName
-                                this.optionalRestSlugName = segmentName, // nextSegment is overwritten to [[...]] so that it can later be sorted specifically
-                                nextSegment = "[[...]]";
-                            } else {
-                                if (null != this.optionalRestSlugName) throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
-                                handleSlug(this.restSlugName, segmentName), // slugName is kept as it can only be one particular slugName
-                                this.restSlugName = segmentName, // nextSegment is overwritten to [...] so that it can later be sorted specifically
-                                nextSegment = "[...]";
-                            }
+                        if (isCatchAll) if (isOptional) {
+                            if (null != this.restSlugName) throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
+                            handleSlug(this.optionalRestSlugName, segmentName), // slugName is kept as it can only be one particular slugName
+                            this.optionalRestSlugName = segmentName, // nextSegment is overwritten to [[...]] so that it can later be sorted specifically
+                            nextSegment = "[[...]]";
                         } else {
+                            if (null != this.optionalRestSlugName) throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
+                            handleSlug(this.restSlugName, segmentName), // slugName is kept as it can only be one particular slugName
+                            this.restSlugName = segmentName, // nextSegment is overwritten to [...] so that it can later be sorted specifically
+                            nextSegment = "[...]";
+                        }
+                        else {
                             if (isOptional) throw Error('Optional route parameters are not yet supported ("'.concat(urlPaths[0], '").'));
                             handleSlug(this.slugName, segmentName), // slugName is kept as it can only be one particular slugName
                             this.slugName = segmentName, // nextSegment is overwritten to [] so that it can later be sorted specifically
@@ -3457,11 +3434,11 @@ You should only use "next/router" on the client side of your app.
                     D();
                     var C, w = f("INP"), a = function(n) {
                         n.forEach(function(n) {
-                            n.interactionId && H(n), "first-input" !== n.entryType || V.some(function(y) {
+                            n.interactionId && H(n), "first-input" === n.entryType && (V.some(function(y) {
                                 return y.entries.some(function(y) {
                                     return n.duration === y.duration && n.startTime === y.startTime;
                                 });
-                            }) || H(n);
+                            }) || H(n));
                         });
                         var y, T = (y = Math.min(V.length - 1, Math.floor(R() / 50)), V[y]);
                         T && T.latency !== w.value && (w.value = T.latency, w.entries = T.entries, C());

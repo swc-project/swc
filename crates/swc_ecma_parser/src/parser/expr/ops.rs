@@ -379,6 +379,8 @@ impl<I: Tokens> Parser<I> {
             assert_and_bump!(self, "await");
         }
 
+        let await_token = span!(self, start);
+
         if is!(self, '*') {
             syntax_error!(self, SyntaxError::AwaitStar);
         }
@@ -395,8 +397,16 @@ impl<I: Tokens> Parser<I> {
             return Ok(Ident::new_no_ctxt("await".into(), span).into());
         }
 
+        // This has been checked if start_of_await_token == true,
+        if start_of_await_token.is_none() && ctx.top_level {
+            self.state.found_module_item = true;
+            if !ctx.can_be_module {
+                self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
+            }
+        }
+
         if ctx.in_function && !ctx.in_async {
-            self.emit_err(self.input.cur_span(), SyntaxError::AwaitInFunction);
+            self.emit_err(await_token, SyntaxError::AwaitInFunction);
         }
 
         if ctx.in_parameters && !ctx.in_function {

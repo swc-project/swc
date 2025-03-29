@@ -180,12 +180,10 @@
  * @returns {Object|Array} Reference to `obj`.
  */ function forEach(obj, iterator, context) {
         var key;
-        if (obj) {
-            if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-            else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
-            else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
-            else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-        }
+        if (obj) if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
+        else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
+        else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
         return obj;
     }
     function sortedKeys(obj) {
@@ -540,24 +538,22 @@
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0; // NaN === NaN
         var length, key, keySet, t1 = typeof o1;
-        if (t1 == typeof o2 && "object" == t1) {
-            if (isArray(o1)) {
-                if (!isArray(o2)) return !1;
-                if ((length = o1.length) == o2.length) {
-                    for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
-                    return !0;
-                }
-            } else {
-                if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
-                if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
-                if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
-                for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
-                    if (!equals(o1[key], o2[key])) return !1;
-                    keySet[key] = !0;
-                }
-                for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+        if (t1 == typeof o2 && "object" == t1) if (isArray(o1)) {
+            if (!isArray(o2)) return !1;
+            if ((length = o1.length) == o2.length) {
+                for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
                 return !0;
             }
+        } else {
+            if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
+            if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
+            if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
+            for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
+                if (!equals(o1[key], o2[key])) return !1;
+                keySet[key] = !0;
+            }
+            for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+            return !0;
         }
         return !1;
     }
@@ -973,10 +969,7 @@
     function jqLiteRemoveData(element, name) {
         var expandoId = element[jqName], expandoStore = jqCache[expandoId];
         if (expandoStore) {
-            if (name) {
-                delete jqCache[expandoId].data[name];
-                return;
-            }
+            if (name) return void delete jqCache[expandoId].data[name];
             expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({}, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = undefined;
         }
     }
@@ -1131,10 +1124,9 @@
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
-            if (BOOLEAN_ATTR[lowercasedName]) {
-                if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
-                value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
-            } else if (isDefined(value)) element.setAttribute(name, value);
+            if (BOOLEAN_ATTR[lowercasedName]) if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
+            else value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
+            else if (isDefined(value)) element.setAttribute(name, value);
             else if (element.getAttribute) {
                 // the extra argument "2" is to get the right thing for a.href in IE, see jQuery code
                 // some elements (e.g. Document) don't have get attribute, so return undefined
@@ -1182,15 +1174,14 @@
             // jqLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
             // jqLiteEmpty takes no arguments but is a setter.
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) {
-                if (isObject(arg1)) {
-                    // we are a write, but the object properties are the key/values
-                    for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
-                    fn(this[i], arg1);
-                    else for(key in arg1)fn(this[i], key, arg1[key]);
-                    // return self for chaining
-                    return this;
-                }
+            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) if (isObject(arg1)) {
+                // we are a write, but the object properties are the key/values
+                for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
+                fn(this[i], arg1);
+                else for(key in arg1)fn(this[i], key, arg1[key]);
+                // return self for chaining
+                return this;
+            } else {
                 for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
                     var nodeValue = fn(this[j], arg1, arg2);
                     value = value ? value + nodeValue : nodeValue;
@@ -1213,7 +1204,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1; //ie
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -1945,7 +1936,7 @@
                             var invokeArgs = invokeQueue[i], provider = providerInjector.get(invokeArgs[0]);
                             provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
                         }
-                        else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
+                        else isFunction(module) || isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
                     } catch (e) {
                         throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && // Safari & FF's stack traces don't contain error.message content
                         // unlike those of Chrome and IE
@@ -2078,7 +2069,7 @@
                 function scroll() {
                     var list, result, elm, hash = $location.hash();
                     // empty hash, scroll to the top of the page
-                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
+                    hash ? (elm = document1.getElementById(hash)) || (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }
@@ -2316,7 +2307,7 @@
      * @returns {function()} the added function
      */ self.addPollFn = function(fn) {
             var interval, setTimeout2;
-            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
+            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, !function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
@@ -3398,16 +3389,14 @@
                                 // We need only nonTlbTranscludeDirective so that we prevent putting transclusion
                                 // on the same element more than once.
                                 nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) {
-                                if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
-                                    if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                                    replaceWith(jqCollection, $compileNode, compileNode);
-                                    var newTemplateAttrs = {
-                                        $attr: {}
-                                    }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
-                                    newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
-                                } else $compileNode.html(directiveValue);
-                            }
+                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
+                                if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                                replaceWith(jqCollection, $compileNode, compileNode);
+                                var newTemplateAttrs = {
+                                    $attr: {}
+                                }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
+                            } else $compileNode.html(directiveValue);
                             if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = function(directives, $compileNode, tAttrs, $rootElement, childTranscludeFn, preLinkFns, postLinkFns, previousCompileContext) {
                                 var afterTemplateNodeLinkFn, afterTemplateChildLinkFn, linkQueue = [], beforeTemplateCompileNode = $compileNode[0], origAsyncDirective = directives.shift(), // The fact that we have to copy and patch the directive seems wrong!
                                 derivedSyncDirective = extend({}, origAsyncDirective, {
@@ -4540,7 +4529,7 @@
                                 var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = function(url, params) {
                                     if (!params) return url;
                                     var parts = [];
-                                    return function(obj, iterator, context) {
+                                    return !function(obj, iterator, context) {
                                         for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
                                     }(params, function(value, key) {
                                         null === value || isUndefined(value) || (isArray(value) || (value = [
@@ -4550,15 +4539,12 @@
                                         }));
                                     }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
-                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
-                                    if (isDefined(cachedResp = cache.get(url))) {
-                                        if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
-                                        cachedResp.then(removePendingReq, removePendingReq), cachedResp);
-                                        // serving from cache
-                                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                                    } else // put the promise for the non-transformed response into cache as a placeholder
-                                    cache.put(url, promise);
-                                }
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
+                                cachedResp.then(removePendingReq, removePendingReq), cachedResp);
+                                else // serving from cache
+                                isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                else // put the promise for the non-transformed response into cache as a placeholder
+                                cache.put(url, promise);
                                 return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, /**
            * Callback registered to $httpBackend():
            *  - caches the response if desired
@@ -5248,10 +5234,7 @@
                 }), $location.absUrl() != initialUrl && $browser.url($location.absUrl(), !0), // update $location when $browser url changes
                 $browser.onUrlChange(function(newUrl) {
                     if ($location.absUrl() != newUrl) {
-                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) {
-                            $browser.url($location.absUrl());
-                            return;
-                        }
+                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) return void $browser.url($location.absUrl());
                         $rootScope.$evalAsync(function() {
                             var oldUrl = $location.absUrl();
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
@@ -5582,9 +5565,9 @@
         // nifty check if obj is Function that is fast and works across iframes and other contexts
         if (obj) {
             if (obj.constructor === obj) throw $parseMinErr("isecfn", "Referencing Function in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isWindow(obj)
+            else if (// isWindow(obj)
             obj.document && obj.location && obj.alert && obj.setInterval) throw $parseMinErr("isecwindow", "Referencing the Window in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isElement(obj)
+            else if (// isElement(obj)
             obj.children && (obj.nodeName || obj.on && obj.find)) throw $parseMinErr("isecdom", "Referencing DOM nodes in Angular expressions is disallowed! Expression: {0}", fullExpression);
         }
         return obj;
@@ -5927,10 +5910,8 @@
             };
         },
         filterChain: function() {
-            for(var token, left = this.expression();;){
-                if (!(token = this.expect("|"))) return left;
-                left = this.binaryFn(left, token.fn, this.filter());
-            }
+            for(var token, left = this.expression();;)if (!(token = this.expect("|"))) return left;
+            else left = this.binaryFn(left, token.fn, this.filter());
         },
         filter: function() {
             for(var token = this.expect(), fn = this.$filter(token.text), argsFn = [];;)if (token = this.expect(":")) argsFn.push(this.expression());
@@ -5960,10 +5941,8 @@
             return (token = this.expect("?")) ? (middle = this.ternary(), token = this.expect(":")) ? this.ternaryFn(left, middle, this.ternary()) : void this.throwError("expected :", token) : left;
         },
         logicalOR: function() {
-            for(var token, left = this.logicalAND();;){
-                if (!(token = this.expect("||"))) return left;
-                left = this.binaryFn(left, token.fn, this.logicalAND());
-            }
+            for(var token, left = this.logicalAND();;)if (!(token = this.expect("||"))) return left;
+            else left = this.binaryFn(left, token.fn, this.logicalAND());
         },
         logicalAND: function() {
             var token, left = this.equality();
@@ -6600,7 +6579,7 @@
                             var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
                             return forEach(promises, function(promise, key) {
                                 counter++, ref(promise).then(function(value) {
-                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                                    !results.hasOwnProperty(key) && (results[key] = value, --counter || deferred.resolve(results));
                                 }, function(reason) {
                                     results.hasOwnProperty(key) || deferred.reject(reason);
                                 });
@@ -6955,21 +6934,20 @@
        */ $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) {
-                                if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
-                                    (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
-                                    changeDetected++, oldValue.length = oldLength = newLength);
-                                    // copy the items to oldValue and look for changes.
-                                    for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
-                                } else {
-                                    for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
-                                    oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
-                                    newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
-                                    if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
-                                    changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
-                                }
-                            } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
+                            if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
+                                oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
+                                (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
+                                changeDetected++, oldValue.length = oldLength = newLength);
+                                // copy the items to oldValue and look for changes.
+                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                            } else {
+                                for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
+                                oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
+                                newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
+                                if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
+                                changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
+                            }
+                            else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
                         }, function() {
                             listener(newValue, oldValue, self);
@@ -7041,16 +7019,14 @@
                                 length = watchers.length; length--;)try {
                                     // Most common watches are on primitives, in which case we can short
                                     // circuit it with === operator, only when === fails do we use .equals
-                                    if (watch = watchers[length]) {
-                                        if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
-                                            if (watch === lastDirtyWatch) {
-                                                // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
-                                                // have already been tested.
-                                                dirty = !1;
-                                                break traverseScopesLoop;
-                                            }
-                                        } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
-                                    }
+                                    if (watch = watchers[length]) if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
+                                        if (watch === lastDirtyWatch) {
+                                            // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
+                                            // have already been tested.
+                                            dirty = !1;
+                                            break traverseScopesLoop;
+                                        }
+                                    } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
                                 } catch (e) {
                                     clearPhase(), $exceptionHandler(e);
                                 }
@@ -7671,25 +7647,23 @@
                         // If we get here, then we may only take one of two actions.
                         // 1. sanitize the value for the requested type, or
                         // 2. throw an exception.
-                        if (type === SCE_CONTEXTS.RESOURCE_URL) {
-                            if (function(url) {
-                                var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
-                                // Ensure that at least one item from the whitelist allows this url.
-                                for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
-                                    allowed = !0;
+                        if (type === SCE_CONTEXTS.RESOURCE_URL) if (function(url) {
+                            var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
+                            // Ensure that at least one item from the whitelist allows this url.
+                            for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
+                                allowed = !0;
+                                break;
+                            }
+                            if (allowed) // Ensure that no item from the blacklist blocked this url.
+                            {
+                                for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
+                                    allowed = !1;
                                     break;
                                 }
-                                if (allowed) // Ensure that no item from the blacklist blocked this url.
-                                {
-                                    for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
-                                        allowed = !1;
-                                        break;
-                                    }
-                                }
-                                return allowed;
-                            }(maybeTrusted)) return maybeTrusted;
-                            throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
-                        }
+                            }
+                            return allowed;
+                        }(maybeTrusted)) return maybeTrusted;
+                        else throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
                         if (type === SCE_CONTEXTS.HTML) return htmlSanitizer(maybeTrusted);
                         throw $sceMinErr("unsafe", "Attempting to use an unsafe value in a safe context.");
                     },
@@ -9328,8 +9302,9 @@
  */ function limitToFilter() {
         return function(input, limit) {
             if (!isArray(input) && !isString(input)) return input;
-            if (limit = int(limit), isString(input)) return(//NaN check on limit
-            limit ? limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length) : "");
+            if (limit = int(limit), isString(input)) //NaN check on limit
+            if (limit) return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length);
+            else return "";
             var i, n, out = [];
             for(limit > input.length ? limit = input.length : limit < -input.length && (limit = -input.length), limit > 0 ? (i = 0, n = limit) : (i = input.length + limit, n = input.length); i < n; i++)out.push(input[i]);
             return out;
@@ -10557,8 +10532,7 @@
                 if (ctrl) {
                     attr.required = !0;
                     var validator = function(value) {
-                        if (!(attr.required && ctrl.$isEmpty(value))) return ctrl.$setValidity("required", !0), value;
-                        ctrl.$setValidity("required", !1);
+                        return attr.required && ctrl.$isEmpty(value) ? void ctrl.$setValidity("required", !1) : (ctrl.$setValidity("required", !0), value);
                     };
                     ctrl.$formatters.push(validator), ctrl.$parsers.unshift(validator), attr.$observe("required", function() {
                         validator(ctrl.$viewValue);
@@ -11545,12 +11519,10 @@
                                 }, optionGroupNames = [
                                     ""
                                 ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {}, selectedSet = !1;
-                                if (multiple) {
-                                    if (trackFn && isArray(modelValue)) {
-                                        selectedSet = new HashMap([]);
-                                        for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
-                                    } else selectedSet = new HashMap(modelValue);
-                                }
+                                if (multiple) if (trackFn && isArray(modelValue)) {
+                                    selectedSet = new HashMap([]);
+                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
+                                } else selectedSet = new HashMap(modelValue);
                                 // We now build up the list of options we need (we merge later)
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {
@@ -11574,7 +11546,7 @@
                                     });
                                 }
                                 // Now we need to update the list of DOM nodes to match the optionGroups we computed above
-                                for(multiple || (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
+                                for(!multiple && (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
                                 optionGroups[""].unshift({
                                     id: "",
                                     label: "",

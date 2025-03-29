@@ -1,20 +1,15 @@
-#[cfg(feature = "debug")]
-use std::fmt::{self, Debug, Display, Formatter};
+use std::borrow::Cow;
 #[cfg(feature = "debug")]
 use std::thread;
-use std::{borrow::Cow, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
-use swc_common::pass::{CompilerPass, Optional, Repeated};
+use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::simplify::{
-    dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
-};
 use swc_ecma_usage_analyzer::marks::Marks;
+use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
 use swc_ecma_visit::VisitWith;
-use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_timer::timer;
 use tracing::debug;
 
@@ -28,7 +23,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
-    util::{force_dump_program, now},
+    util::force_dump_program,
 };
 
 mod hoist_decls;
@@ -45,25 +40,14 @@ pub(crate) fn compressor<'a, M>(
 where
     M: Mode,
 {
-    let compressor = Compressor {
+    Compressor {
         marks,
         options,
         mangle_options,
         changed: false,
         pass: 1,
         mode,
-    };
-
-    (
-        compressor,
-        Optional {
-            enabled: options.evaluate || options.side_effects,
-            visitor: visit_mut_pass(expr_simplifier(
-                marks.unresolved_mark,
-                ExprSimplifierConfig {},
-            )),
-        },
-    )
+    }
 }
 
 struct Compressor<'a> {
@@ -157,56 +141,6 @@ impl Compressor<'_> {
         };
 
         {
-            tracing::info!(
-                "compress: Running expression simplifier (pass = {})",
-                self.pass
-            );
-
-            let start_time = now();
-
-            #[cfg(feature = "debug")]
-            let start = force_dump_program(n);
-
-            let mut visitor = expr_simplifier(self.marks.unresolved_mark, ExprSimplifierConfig {});
-            n.visit_mut_with(&mut visitor);
-
-            self.changed |= visitor.changed();
-            if visitor.changed() {
-                debug!("compressor: Simplified expressions");
-                #[cfg(feature = "debug")]
-                {
-                    debug!(
-                        "===== Simplified =====\n{start}===== ===== ===== =====\n{}",
-                        force_dump_program(n)
-                    );
-                }
-            }
-
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                tracing::info!(
-                    "compress: expr_simplifier took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
-
-            #[cfg(feature = "debug")]
-            if !visitor.changed() {
-                let simplified = force_dump_program(n);
-                if start != simplified {
-                    assert_eq!(
-                        DebugUsingDisplay(&start),
-                        DebugUsingDisplay(&simplified),
-                        "Invalid state: expr_simplifier: The code is changed but changed is not \
-                         setted to true",
-                    )
-                }
-            }
-        }
-
-        {
             let _timer = timer!("apply pure optimizer");
 
             let mut visitor = pure_optimizer(
@@ -215,8 +149,6 @@ impl Compressor<'_> {
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                     force_str_for_tpl: self.mode.force_str_for_tpl(),
-                    #[cfg(feature = "debug")]
-                    debug_infinite_loop: self.pass >= 20,
                 },
             );
             n.visit_mut_with(&mut visitor);
@@ -261,50 +193,5 @@ impl Compressor<'_> {
             // let done = dump(&*n);
             // debug!("===== Result =====\n{}", done);
         }
-
-        if self.options.conditionals || self.options.dead_code {
-            #[cfg(feature = "debug")]
-            let start = dump(&*n, false);
-
-            let start_time = now();
-
-            let mut v = dead_branch_remover(self.marks.unresolved_mark);
-            n.visit_mut_with(&mut v);
-
-            if let Some(start_time) = start_time {
-                let end_time = Instant::now();
-
-                tracing::info!(
-                    "compress: dead_branch_remover took {:?} (pass = {})",
-                    end_time - start_time,
-                    self.pass
-                );
-            }
-
-            #[cfg(feature = "debug")]
-            {
-                let simplified = dump(&*n, false);
-
-                if start != simplified {
-                    debug!(
-                        "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
-                        start, simplified
-                    );
-                }
-            }
-
-            self.changed |= v.changed();
-        }
-    }
-}
-
-#[cfg(feature = "debug")]
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(pub &'a str);
-
-#[cfg(feature = "debug")]
-impl Debug for DebugUsingDisplay<'_> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
     }
 }

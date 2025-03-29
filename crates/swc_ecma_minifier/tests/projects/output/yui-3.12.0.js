@@ -369,13 +369,11 @@ with any configuration info required for the module.
                             break;
                         }
                     }
-                    if (mod.fn) {
-                        if (this.config.throwFail) mod.fn(this, name);
-                        else try {
-                            mod.fn(this, name);
-                        } catch (e) {
-                            return this.error("Attach error: " + name, e, name), !1;
-                        }
+                    if (mod.fn) if (this.config.throwFail) mod.fn(this, name);
+                    else try {
+                        mod.fn(this, name);
+                    } catch (e) {
+                        return this.error("Attach error: " + name, e, name), !1;
                     }
                     if (use) {
                         for(j = 0; j < use.length; j++)if (!done[use[j]]) {
@@ -500,13 +498,11 @@ with any configuration info required for the module.
     @private
     **/ _notify: function(callback, response, args) {
             if (!response.success && this.config.loadErrorFn) this.config.loadErrorFn.call(this, this, callback, response, args);
-            else if (callback) {
-                if (this.Env._missed && this.Env._missed.length && (response.msg = "Missing modules: " + this.Env._missed.join(), response.success = !1), this.config.throwFail) callback(this, response);
-                else try {
-                    callback(this, response);
-                } catch (e) {
-                    this.error("use callback error", e, args);
-                }
+            else if (callback) if (this.Env._missed && this.Env._missed.length && (response.msg = "Missing modules: " + this.Env._missed.join(), response.success = !1), this.config.throwFail) callback(this, response);
+            else try {
+                callback(this, response);
+            } catch (e) {
+                this.error("use callback error", e, args);
             }
         },
         /**
@@ -529,8 +525,7 @@ with any configuration info required for the module.
                         for(i = 0, len = names.length; i < len; i++)aliases[names[i]] && !mods[names[i]] ? a = [].concat(a, aliases[names[i]]) : a.push(names[i]);
                         names = a;
                     }
-                    for(i = 0, len = names.length; i < len; i++)// only attach a module once
-                    name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
+                    for(i = 0, len = names.length; i < len; i++)name = names[i], skip || r.push(name), !used[name] && (m = mods[name], req = null, use = null, m ? (used[name] = !0, req = m.details.requires, use = m.details.use) : G_ENV._loaded[VERSION][name] ? used[name] = !0 : missing.push(name), req && req.length && process1(req), use && use.length && process1(use, 1));
                 }
             }, handleLoader = function(fromLoader) {
                 var redo, origMissing, response = fromLoader || {
@@ -1609,12 +1604,7 @@ properties are not copied). The following copying modes are available:
         } else from = supplier, to = receiver;
         if (// If `overwrite` is truthy and `merge` is falsy, then we can skip a
         // property existence check on each iteration and save some time.
-        alwaysOverwrite = overwrite && !merge, whitelist) for(i = 0, len = whitelist.length; i < len; ++i)// We call `Object.prototype.hasOwnProperty` instead of calling
-        // `hasOwnProperty` on the object itself, since the object's
-        // `hasOwnProperty` method may have been overridden or removed.
-        // Also, some native objects don't implement a `hasOwnProperty`
-        // method.
-        key = whitelist[i], hasOwn.call(from, key) && (// The `key in to` check here is (sadly) intentional for backwards
+        alwaysOverwrite = overwrite && !merge, whitelist) for(i = 0, len = whitelist.length; i < len; ++i)key = whitelist[i], hasOwn.call(from, key) && (// The `key in to` check here is (sadly) intentional for backwards
         // compatibility reasons. It prevents undesired shadowing of
         // prototype members on `to`.
         exists = !alwaysOverwrite && key in to, merge && exists && isObject(to[key], !0) && isObject(from[key], !0) ? // If we're in merge mode, and the key is present on both
@@ -4118,19 +4108,17 @@ Contains the core of YUI's feature test architecture.
             var i, j, val, a, f, group, mod, self = this, mods = [];
             // apply config values
             if (o) {
-                for(i in o)if (o.hasOwnProperty(i)) {
-                    //TODO This should be a case
-                    if (val = o[i], "require" === i) self.require(val);
-                    else if ("skin" === i) "string" == typeof val && (self.skin.defaultSkin = o.skin, val = {
-                        defaultSkin: val
-                    }), Y.mix(self.skin, val, !0);
-                    else if ("groups" === i) {
-                        for(j in val)if (val.hasOwnProperty(j) && (group = val[j], self.addGroup(group, j), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
-                    } else if ("modules" === i) // add a hash of module definitions
-                    for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
-                    else if ("aliases" === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
-                    else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
-                }
+                for(i in o)if (o.hasOwnProperty(i)) //TODO This should be a case
+                if (val = o[i], "require" === i) self.require(val);
+                else if ("skin" === i) "string" == typeof val && (self.skin.defaultSkin = o.skin, val = {
+                    defaultSkin: val
+                }), Y.mix(self.skin, val, !0);
+                else if ("groups" === i) {
+                    for(j in val)if (val.hasOwnProperty(j) && (group = val[j], self.addGroup(group, j), group.aliases)) for(a in group.aliases)group.aliases.hasOwnProperty(a) && self.addAlias(group.aliases[a], a);
+                } else if ("modules" === i) // add a hash of module definitions
+                for(j in val)val.hasOwnProperty(j) && self.addModule(val[j], j);
+                else if ("aliases" === i) for(j in val)val.hasOwnProperty(j) && self.addAlias(val[j], j);
+                else "gallery" === i ? this.groups.gallery.update && this.groups.gallery.update(val, o) : "yui2" === i || "2in3" === i ? this.groups.yui2.update && this.groups.yui2.update(o["2in3"], o.yui2, o) : self[i] = val;
             }
             if (// fix filter
             f = self.filter, L.isString(f) && (self.filterName = f = f.toUpperCase(), self.filter = self.FILTER_DEFS[f], "DEBUG" === f && self.require("yui-log", "dump")), self.filterName && self.coverage && "COVERAGE" === self.filterName && L.isArray(self.coverage) && self.coverage.length) {
@@ -4163,7 +4151,7 @@ Contains the core of YUI's feature test architecture.
        * @private
        */ _addSkin: function(skin, mod, parent) {
             var mdef, pkg, name, nmod, info = this.moduleInfo, sinf = this.skin, ext = info[mod] && info[mod].ext;
-            return mod && !info[name = this.formatSkin(skin, mod)] && (pkg = (mdef = info[mod]).pkg || mod, nmod = {
+            return mod && (info[name = this.formatSkin(skin, mod)] || (pkg = (mdef = info[mod]).pkg || mod, nmod = {
                 skin: !0,
                 name: name,
                 group: mdef.group,
@@ -4171,7 +4159,7 @@ Contains the core of YUI's feature test architecture.
                 after: sinf.after,
                 path: (parent || pkg) + "/" + sinf.base + skin + "/" + mod + ".css",
                 ext: ext
-            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name)), name;
+            }, mdef.base && (nmod.base = mdef.base), mdef.configFn && (nmod.configFn = mdef.configFn), this.addModule(nmod, name))), name;
         },
         /**
        * Adds an alias module to the system
@@ -4822,12 +4810,10 @@ Contains the core of YUI's feature test architecture.
             }, url = j, len = (mods = comboSources[j]).length)) for(i = 0; i < len; i++)!inserted[mods[i]] && ((m = mods[i]) && (m.combine || !m.ext) ? (resCombos[j].comboSep = m.comboSep, resCombos[j].group = m.group, resCombos[j].maxURLLength = m.maxURLLength, frag = (L.isValue(m.root) ? m.root : self.root) + (m.path || m.fullpath), frag = self._filter(frag, m.name), resCombos[j][m.type].push(frag), resCombos[j][m.type + "Mods"].push(m)) : mods[i] && addSingle(mods[i]));
             for(j in resCombos)if (resCombos.hasOwnProperty(j)) {
                 for(type in comboSep = resCombos[j].comboSep || self.comboSep, maxURLLength = resCombos[j].maxURLLength || self.maxURLLength, resCombos[j])if ("js" === type || "css" === type) {
-                    if (urls = resCombos[j][type], mods = resCombos[j][type + "Mods"], len = urls.length, baseLen = (tmpBase = j + urls.join(comboSep)).length, maxURLLength <= j.length && (maxURLLength = 1024), len) {
-                        if (baseLen > maxURLLength) {
-                            for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = j + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)), u = [], m && u.push(m));
-                            u.length && (tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)));
-                        } else resolved[type].push(self._filter(tmpBase, null, resCombos[j].group));
-                    }
+                    if (urls = resCombos[j][type], mods = resCombos[j][type + "Mods"], len = urls.length, baseLen = (tmpBase = j + urls.join(comboSep)).length, maxURLLength <= j.length && (maxURLLength = 1024), len) if (baseLen > maxURLLength) {
+                        for(s = 0, u = []; s < len; s++)u.push(urls[s]), (tmpBase = j + u.join(comboSep)).length > maxURLLength && (m = u.pop(), tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)), u = [], m && u.push(m));
+                        u.length && (tmpBase = j + u.join(comboSep), resolved[type].push(self._filter(tmpBase, null, resCombos[j].group)));
+                    } else resolved[type].push(self._filter(tmpBase, null, resCombos[j].group));
                     resolved[type + "Mods"] = resolved[type + "Mods"].concat(mods);
                 }
             }

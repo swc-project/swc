@@ -101,7 +101,7 @@
                 isElement: Z,
                 getDimensions: function(m) {
                     var S, h;
-                    return (S = 0), m.getBoundingClientRect();
+                    return S = 0, m.getBoundingClientRect();
                 },
                 getOffsetParent: et,
                 getDocumentElement: function(m) {},
@@ -327,10 +327,7 @@
                     r,
                     _
                 ]), (0, A.useEffect)(()=>{
-                    if (P) {
-                        en(P);
-                        return;
-                    }
+                    if (P) return void en(P);
                     if (g) {
                         F.current && en(F.current);
                         return;
@@ -426,7 +423,7 @@
                     n
                 ]);
                 let ee = d;
-                return r && r({}), E && (0, O.jsx)(ea, {}), (0, O.jsx)(ei, {});
+                return r ? r({}) : S && S, E && (0, O.jsx)(ea, {}), (0, O.jsx)(ei, {});
             };
         }
     }

@@ -924,7 +924,7 @@ export interface GlobalPassOption {
   /**
    * Name of environment variables to inline.
    *
-   * Defaults to `["NODE_ENV", "SWC_ENV"]`
+   * Defaults to `[]`
    */
   envs?: string[] | Record<string, string>;
 }
@@ -1086,6 +1086,12 @@ export interface BaseModuleConfig {
    * ```
    */
   importInterop?: "swc" | "babel" | "node" | "none";
+  /**
+   * Output extension for generated files.
+   * 
+   * Defaults to `js`.
+  */
+  outFileExtension?: "js" | "mjs" | "cjs";
   /**
    * Emits `cjs-module-lexer` annotation
    * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.

@@ -1,7 +1,7 @@
 use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, Direction::Incoming};
+use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
 use swc_common::{
@@ -18,7 +18,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_fast_graph::digraph::FastDiGraphMap;
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -108,7 +107,7 @@ struct Data {
     ///
     /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
     /// we use u32 it fits into the cache line of cpu.
-    graph: FastDiGraphMap<u32, VarInfo>,
+    graph: DiGraphMap<u32, VarInfo>,
     /// Entrypoints.
     entries: FxHashSet<u32>,
 

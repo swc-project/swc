@@ -41,6 +41,12 @@ fn get_compiler() -> Arc<Compiler> {
     COMPILER.clone()
 }
 
+fn get_fresh_compiler() -> Arc<Compiler> {
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+
+    Arc::new(Compiler::new(cm))
+}
+
 #[napi(js_name = "Compiler")]
 pub struct JsCompiler {
     _compiler: Arc<Compiler>,

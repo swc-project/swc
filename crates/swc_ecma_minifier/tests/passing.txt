@@ -637,6 +637,7 @@ functions/issue_2604_1/input.js
 functions/issue_2604_2/input.js
 functions/issue_2616/input.js
 functions/issue_2620_1/input.js
+functions/issue_2620_2/input.js
 functions/issue_2620_4/input.js
 functions/issue_2630_1/input.js
 functions/issue_2630_3/input.js
@@ -710,6 +711,7 @@ harmony/import_all_statement/input.js
 harmony/import_meta/input.js
 harmony/import_statement/input.js
 harmony/import_statement_mangling/input.js
+harmony/inline_arrow_using_arguments/input.js
 harmony/issue_1613/input.js
 harmony/issue_1753/input.js
 harmony/issue_1753_disable/input.js
@@ -850,6 +852,8 @@ issue_1052/defun_else_if_return/input.js
 issue_1052/defun_if_return/input.js
 issue_1105/Infinity_in_with_scope/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
+issue_1105/compress_with_with_in_other_scope/input.js
+issue_1105/with_in_function_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/keep_name_of_setter/input.js
@@ -882,6 +886,7 @@ issue_1588/screw_ie8/input.js
 issue_1588/support_ie8/input.js
 issue_1609/chained_evaluation_1/input.js
 issue_1609/chained_evaluation_2/input.js
+issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
 issue_1639/issue_1639_3/input.js
 issue_1656/f7/input.js
@@ -1024,6 +1029,7 @@ issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
 issue_976/eval_collapse_vars/input.js
+issue_979/issue979_test_negated_is_best/input.js
 issue_t120/issue_t120_1/input.js
 issue_t120/issue_t120_2/input.js
 issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
@@ -1061,7 +1067,6 @@ loops/drop_if_break_1/input.js
 loops/drop_if_break_2/input.js
 loops/drop_if_break_3/input.js
 loops/drop_if_break_4/input.js
-loops/drop_if_else_break_2/input.js
 loops/drop_if_else_break_3/input.js
 loops/drop_if_else_break_4/input.js
 loops/evaluate/input.js
@@ -1080,6 +1085,7 @@ loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
 loops/issue_2740_1/input.js
 loops/issue_2740_2/input.js
+loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_6/input.js
 loops/issue_2740_7/input.js
@@ -1544,6 +1550,7 @@ sequences/reassign_const/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_2/input.js
+sequences/side_effects_cascade_3/input.js
 sequences/unsafe_undefined/input.js
 string_literal/issue_1929/input.js
 string_literal/octal_escape_sequence/input.js

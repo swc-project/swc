@@ -90,6 +90,10 @@ pub struct MangleOptions {
     /// mangle names visible in scopes where eval or with are used
     #[serde(default)]
     pub eval: bool,
+
+    /// Disable char frequency analysis.
+    #[serde(default)]
+    pub disable_char_freq: bool,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]

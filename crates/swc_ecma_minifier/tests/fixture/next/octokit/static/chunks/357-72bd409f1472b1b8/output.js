@@ -563,7 +563,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 _drainOne(capacity) {
                     return this._registerLock.schedule(()=>{
                         var args, index, next, options, queue;
-                        return 0 === this.queued() ? this.Promise.resolve(null) : (queue = this._queues.getFirst(), { options, args } = next = queue.first(), null != capacity && options.weight > capacity) ? this.Promise.resolve(null) : (this.Events.trigger("debug", `Draining ${options.id}`, {
+                        return 0 === this.queued() || (queue = this._queues.getFirst(), { options, args } = next = queue.first(), null != capacity && options.weight > capacity) ? this.Promise.resolve(null) : (this.Events.trigger("debug", `Draining ${options.id}`, {
                             args,
                             options
                         }), index = this._randomIndex(), this._store.__register__(index, options.weight, options.expiration).then(({ success, wait, reservoir })=>{

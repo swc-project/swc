@@ -192,6 +192,10 @@ impl Expr {
         .into()
     }
 
+    pub fn is_null(&self) -> bool {
+        matches!(self, Expr::Lit(Lit::Null(_)))
+    }
+
     pub fn leftmost(&self) -> Option<&Ident> {
         match self {
             Expr::Ident(i) => Some(i),

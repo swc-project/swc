@@ -1417,6 +1417,7 @@ impl<I: Tokens> Parser<I> {
             in_static_block: false,
             is_break_allowed: false,
             is_continue_allowed: false,
+            top_level: false,
             ..self.ctx()
         };
         let state = State {
