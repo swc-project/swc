@@ -914,7 +914,14 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             opts.format.emit_assert_for_import_attributes,
                         )
-                        .with_inline_script(opts.format.inline_script),
+                        .with_inline_script(opts.format.inline_script)
+                        .with_reduce_escaped_newline(
+                            min_opts
+                                .compress
+                                .unwrap_or_default()
+                                .experimental
+                                .reduce_escaped_newline,
+                        ),
                     output: None,
                 },
             );

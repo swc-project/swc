@@ -1872,6 +1872,8 @@ impl VisitMut for Optimizer<'_> {
             _ => {}
         }
 
+        self.reduce_escaped_newline_for_str_lit(e);
+
         #[cfg(feature = "trace-ast")]
         tracing::debug!("Output: {}", dump(e, true));
     }

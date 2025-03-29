@@ -123,6 +123,23 @@ impl Default for PureGetterOption {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+#[non_exhaustive]
+pub struct CompressExperimentalOptions {
+    #[serde(default = "true_by_default")]
+    pub reduce_escaped_newline: bool,
+}
+
+impl Default for CompressExperimentalOptions {
+    fn default() -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: true,
+        }
+    }
+}
+
 /// https://terser.org/docs/api-reference.html#compress-options
 #[derive(Debug, Clone)]
 #[cfg_attr(feature = "extra-serde", derive(Serialize, Deserialize))]
@@ -349,6 +366,9 @@ pub struct CompressOptions {
     /// Defaults to true.
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     pub pristine_globals: bool,
+
+    #[cfg_attr(feature = "extra-serde", serde(default))]
+    pub experimental: CompressExperimentalOptions,
 }
 
 impl CompressOptions {
@@ -442,6 +462,7 @@ impl Default for CompressOptions {
             unused: true,
             const_to_let: true,
             pristine_globals: true,
+            experimental: Default::default(),
         }
     }
 }
