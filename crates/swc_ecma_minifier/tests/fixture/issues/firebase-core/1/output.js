@@ -2392,7 +2392,7 @@
                 var _a;
                 // TODO: We can use this check to whitelist strings when/if we set up
                 // a good whitelist system.
-                let library = null !== (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) && void 0 !== _a ? _a : libraryKeyOrName;
+                let library = null != (_a = PLATFORM_LOG_STRING[libraryKeyOrName]) ? _a : libraryKeyOrName;
                 variant && (library += `-${variant}`);
                 const libraryMismatch = library.match(/\s|\//), versionMismatch = version.match(/\s|\//);
                 if (libraryMismatch || versionMismatch) {

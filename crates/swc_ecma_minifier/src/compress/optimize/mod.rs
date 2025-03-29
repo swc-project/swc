@@ -1509,7 +1509,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.remove_bin_paren(n);
 
-        self.optimize_cmp_with_null_or_undefined(n);
+        self.optimize_optional_chain_generated(n);
 
         self.optimize_bin_and_or(n);
 

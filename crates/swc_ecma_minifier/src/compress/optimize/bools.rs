@@ -56,10 +56,10 @@ impl Optimizer<'_> {
 
     ///
     /// - `a === undefined || a === null` => `a == null`
-    pub(super) fn optimize_cmp_with_null_or_undefined(&mut self, e: &mut BinExpr) {
+    pub(super) fn optimize_optional_chain_generated(&mut self, e: &mut BinExpr) {
         if e.op == op!("||") || e.op == op!("&&") {
             {
-                let res = self.optimize_cmp_with_null_or_undefined_inner(
+                let res = self.optimize_optional_chain_generated_inner(
                     e.span,
                     e.op,
                     &mut e.left,
@@ -75,7 +75,7 @@ impl Optimizer<'_> {
 
             if let (Expr::Bin(left), right) = (&mut *e.left, &mut *e.right) {
                 if e.op == left.op {
-                    let res = self.optimize_cmp_with_null_or_undefined_inner(
+                    let res = self.optimize_optional_chain_generated_inner(
                         right.span(),
                         e.op,
                         &mut left.right,
@@ -98,7 +98,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn optimize_cmp_with_null_or_undefined_inner(
+    fn optimize_optional_chain_generated_inner(
         &mut self,
         span: Span,
         top_op: BinaryOp,
@@ -120,6 +120,10 @@ impl Optimizer<'_> {
 
                 match &*left_bin.right {
                     Expr::Ident(..) | Expr::Lit(..) => {}
+                    Expr::Assign(AssignExpr {
+                        left: AssignTarget::Simple(SimpleAssignTarget::Ident(_)),
+                        ..
+                    }) => (),
                     Expr::Member(MemberExpr {
                         obj,
                         prop: MemberProp::Ident(..),
@@ -146,7 +150,20 @@ impl Optimizer<'_> {
                             return None;
                         }
 
-                        if !right_bin.right.eq_ignore_span(&left_bin.right) {
+                        let same_assign = if let (
+                            Expr::Assign(AssignExpr {
+                                left: AssignTarget::Simple(SimpleAssignTarget::Ident(l_id)),
+                                ..
+                            }),
+                            Expr::Ident(r_id),
+                        ) = (&*left_bin.right, &*right_bin.right)
+                        {
+                            l_id.id.eq_ignore_span(r_id)
+                        } else {
+                            false
+                        };
+
+                        if !(same_assign || right_bin.right.eq_ignore_span(&left_bin.right)) {
                             return None;
                         }
 
@@ -167,34 +184,25 @@ impl Optimizer<'_> {
 
         let lt = left.get_type(self.ctx.expr_ctx);
         let rt = right.get_type(self.ctx.expr_ctx);
-        if let Value::Known(lt) = lt {
-            if let Value::Known(rt) = rt {
-                match (lt, rt) {
-                    (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
-                        if op == op!("===") {
-                            report_change!(
-                                "Reducing `!== null || !== undefined` check to `!= null`"
-                            );
-                            return Some(BinExpr {
-                                span,
-                                op: op!("=="),
-                                left: cmp.take(),
-                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
-                            });
-                        } else {
-                            report_change!(
-                                "Reducing `=== null || === undefined` check to `== null`"
-                            );
-                            return Some(BinExpr {
-                                span,
-                                op: op!("!="),
-                                left: cmp.take(),
-                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
-                            });
-                        }
-                    }
-                    _ => {}
-                }
+        if let (Value::Known(Type::Undefined), Value::Known(Type::Null))
+        | (Value::Known(Type::Null), Value::Known(Type::Undefined)) = (lt, rt)
+        {
+            if op == op!("===") {
+                report_change!("Reducing `!== null || !== undefined` check to `!= null`");
+                return Some(BinExpr {
+                    span,
+                    op: op!("=="),
+                    left: cmp.take(),
+                    right: Lit::Null(Null { span: DUMMY_SP }).into(),
+                });
+            } else {
+                report_change!("Reducing `=== null || === undefined` check to `== null`");
+                return Some(BinExpr {
+                    span,
+                    op: op!("!="),
+                    left: cmp.take(),
+                    right: Lit::Null(Null { span: DUMMY_SP }).into(),
+                });
             }
         }
 
