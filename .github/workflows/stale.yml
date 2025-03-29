@@ -16,9 +16,9 @@ jobs:
         with:
           repo-token: ${{ secrets.GH_TOKEN }}
           only-labels: "Need more info"
-          close-issue-message: "This issue has been automatically closed because it received no activity for a month and had no reproduction to investigate. If you think this was closed by accident, please leave a comment. If you are running into a similar issue, please open a new issue with a reproduction. Thank you."
+          close-issue-message: "This issue has been automatically closed because it received no activity for 2 weeks and had no reproduction to investigate. If you think this was closed by accident, please leave a comment. If you are running into a similar issue, please open a new issue with a reproduction. Thank you."
           days-before-issue-close: 1
-          days-before-issue-stale: 30
+          days-before-issue-stale: 14
           days-before-pr-close: -1
           days-before-pr-stale: -1
           exempt-issue-labels: "blocked,must,should,keep"
