@@ -34,7 +34,7 @@ runs:
         version: "1.7"
         force: true
 
-    - uses: webfactory/ssh-agent@v0.9.0
+    - uses: webfactory/ssh-agent@v0.9.1
       with:
         ssh-private-key: ${{ inputs.ssh-private-key }}
 
