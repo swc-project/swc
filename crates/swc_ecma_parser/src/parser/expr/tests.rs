@@ -27,7 +27,7 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
-        p.parse_stmt(true).map(|stmt| match stmt {
+        p.parse_stmt().map(|stmt| match stmt {
             Stmt::Expr(expr) => expr.expr,
             _ => unreachable!(),
         })
@@ -368,7 +368,7 @@ fn issue_319_1() {
 fn issue_328() {
     assert_eq_ignore_span!(
         test_parser("import('test')", Syntax::Es(Default::default()), |p| {
-            p.parse_stmt(true)
+            p.parse_stmt()
         }),
         Stmt::Expr(ExprStmt {
             span,
