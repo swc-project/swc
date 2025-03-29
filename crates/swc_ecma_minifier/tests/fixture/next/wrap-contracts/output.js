@@ -24458,9 +24458,9 @@ class Zip {
                     if (this.maybeResetRootContract(), null != this._parentContract && null == sortKeyOrBlockHeight) throw Error('SortKey MUST be always set for non-root contract calls');
                     const { stateEvaluator } = this.warp, sortKey = 'number' == typeof sortKeyOrBlockHeight ? this._sorter.generateLastSortKey(sortKeyOrBlockHeight) : sortKeyOrBlockHeight, executionContext = await this.createExecutionContext(this._contractTxId, sortKey, !1, interactions);
                     this.logger.info('Execution Context', {
-                        srcTxId: null === (_a = executionContext.contractDefinition) || void 0 === _a ? void 0 : _a.srcTxId,
-                        missingInteractions: null === (_b = executionContext.sortedInteractions) || void 0 === _b ? void 0 : _b.length,
-                        cachedSortKey: null === (_c = executionContext.cachedState) || void 0 === _c ? void 0 : _c.sortKey
+                        srcTxId: null == (_a = executionContext.contractDefinition) ? void 0 : _a.srcTxId,
+                        missingInteractions: null == (_b = executionContext.sortedInteractions) ? void 0 : _b.length,
+                        cachedSortKey: null == (_c = executionContext.cachedState) ? void 0 : _c.sortKey
                     }), initBenchmark.stop();
                     const stateBenchmark = Benchmark_1.Benchmark.measure(), result = await stateEvaluator.eval(executionContext, currentTx || []);
                     stateBenchmark.stop();
@@ -24527,7 +24527,7 @@ class Zip {
                             }
                         }).then((res)=>(this.logger.debug(res), res.ok ? res.json() : Promise.reject(res))).catch((error)=>{
                             var _a;
-                            throw this.logger.error(error), (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to bundle interaction: ${JSON.stringify(error)}`);
+                            throw this.logger.error(error), (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to bundle interaction: ${JSON.stringify(error)}`);
                         }),
                         originalTxId: interactionTx.id
                     };
@@ -24585,7 +24585,7 @@ class Zip {
                     let handler, contractDefinition, sortedInteractions;
                     const { definitionLoader, interactionsLoader, executorFactory, stateEvaluator } = this.warp, benchmark = Benchmark_1.Benchmark.measure(), cachedState = await stateEvaluator.latestAvailableState(contractTxId, upToSortKey);
                     this.logger.debug('cache lookup', benchmark.elapsed()), benchmark.reset();
-                    const evolvedSrcTxId = Evolve_1.Evolve.evolvedSrcTxId(null === (_a = null == cachedState ? void 0 : cachedState.cachedValue) || void 0 === _a ? void 0 : _a.state);
+                    const evolvedSrcTxId = Evolve_1.Evolve.evolvedSrcTxId(null == (_a = null == cachedState ? void 0 : cachedState.cachedValue) ? void 0 : _a.state);
                     return this.logger.debug('Cached state', cachedState, upToSortKey), cachedState && cachedState.sortKey == upToSortKey ? (this.logger.debug('State fully cached, not loading interactions.'), (forceDefinitionLoad || evolvedSrcTxId) && (contractDefinition = await definitionLoader.load(contractTxId, evolvedSrcTxId), handler = await executorFactory.create(contractDefinition, this._evaluationOptions))) : ([contractDefinition, sortedInteractions] = await Promise.all([
                         definitionLoader.load(contractTxId, evolvedSrcTxId),
                         interactions ? Promise.resolve(interactions) : await interactionsLoader.load(contractTxId, null == cachedState ? void 0 : cachedState.sortKey, // (1) we want to eagerly load dependant contract interactions and put them
@@ -24607,7 +24607,7 @@ class Zip {
                 }
                 getToSortKey(upToSortKey) {
                     var _a;
-                    return null !== (_a = this._parentContract) && void 0 !== _a && _a.rootSortKey ? upToSortKey ? this._parentContract.rootSortKey.localeCompare(upToSortKey) > 0 ? this._parentContract.rootSortKey : upToSortKey : this._parentContract.rootSortKey : upToSortKey;
+                    return null != (_a = this._parentContract) && _a.rootSortKey ? upToSortKey ? this._parentContract.rootSortKey.localeCompare(upToSortKey) > 0 ? this._parentContract.rootSortKey : upToSortKey : this._parentContract.rootSortKey : upToSortKey;
                 }
                 async createExecutionContextFromTx(contractTxId, transaction) {
                     const caller = transaction.owner.address, sortKey = transaction.sortKey;
@@ -24714,7 +24714,7 @@ class Zip {
                         ...params
                     })}`).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                         var _a, _b;
-                        throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve state. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                        throw (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve state. ${error.status}: ${null == (_b = error.body) ? void 0 : _b.message}`);
                     });
                     return await stateEvaluator.syncState(this._contractTxId, response.sortKey, response.state, response.validity), this;
                 }
@@ -25381,7 +25381,7 @@ class Zip {
             const SmartWeaveTags_1 = __webpack_require__(7312), Benchmark_1 = __webpack_require__(9106), LoggerFactory_1 = __webpack_require__(5913), ArweaveWrapper_1 = __webpack_require__(9360), utils_1 = __webpack_require__(5082), LexicographicalInteractionsSorter_1 = __webpack_require__(1967), MAX_REQUEST = 100;
             function bundledTxsFilter(tx) {
                 var _a, _b;
-                return !(null === (_a = tx.node.parent) || void 0 === _a ? void 0 : _a.id) && !(null === (_b = tx.node.bundledIn) || void 0 === _b ? void 0 : _b.id);
+                return !(null == (_a = tx.node.parent) ? void 0 : _a.id) && !(null == (_b = tx.node.bundledIn) ? void 0 : _b.id);
             }
             exports.bundledTxsFilter = bundledTxsFilter;
             class ArweaveGatewayInteractionsLoader {
@@ -25569,7 +25569,7 @@ class Zip {
                 async eval(executionContext, currentTx) {
                     var _a, _b, _c, _d;
                     const cachedState = executionContext.cachedState;
-                    if (cachedState && cachedState.sortKey == executionContext.requestedSortKey) return this.cLogger.info(`Exact cache hit for sortKey ${null === (_a = null == executionContext ? void 0 : executionContext.contractDefinition) || void 0 === _a ? void 0 : _a.txId}:${cachedState.sortKey}`), null === (_b = executionContext.handler) || void 0 === _b || _b.initState(cachedState.cachedValue.state), cachedState;
+                    if (cachedState && cachedState.sortKey == executionContext.requestedSortKey) return this.cLogger.info(`Exact cache hit for sortKey ${null == (_a = null == executionContext ? void 0 : executionContext.contractDefinition) ? void 0 : _a.txId}:${cachedState.sortKey}`), null == (_b = executionContext.handler) || _b.initState(cachedState.cachedValue.state), cachedState;
                     const missingInteractions = executionContext.sortedInteractions, contractTxId = executionContext.contractDefinition.txId;
                     // sanity check...
                     if (!contractTxId) throw Error('Contract tx id not set in the execution context');
@@ -25583,9 +25583,9 @@ class Zip {
                         }), missingInteractions.splice(index));
                     }
                     if (0 == missingInteractions.length) {
-                        if (this.cLogger.info(`No missing interactions ${contractTxId}`), cachedState) return null === (_c = executionContext.handler) || void 0 === _c || _c.initState(cachedState.cachedValue.state), cachedState;
+                        if (this.cLogger.info(`No missing interactions ${contractTxId}`), cachedState) return null == (_c = executionContext.handler) || _c.initState(cachedState.cachedValue.state), cachedState;
                         {
-                            null === (_d = executionContext.handler) || void 0 === _d || _d.initState(executionContext.contractDefinition.initState), this.cLogger.debug('Inserting initial state into cache');
+                            null == (_d = executionContext.handler) || _d.initState(executionContext.contractDefinition.initState), this.cLogger.debug('Inserting initial state into cache');
                             const stateToCache = new StateEvaluator_1.EvalStateResult(executionContext.contractDefinition.initState, {}, {});
                             return(// no real sort-key - as we're returning the initial state
                             await this.cache.put(new SortKeyCache_1.CacheKey(contractTxId, LexicographicalInteractionsSorter_1.genesisSortKey), stateToCache), new SortKeyCache_1.SortKeyCacheResult(LexicographicalInteractionsSorter_1.genesisSortKey, stateToCache));
@@ -25628,7 +25628,7 @@ class Zip {
                 }
                 async onContractCall(transaction, executionContext, state) {
                     var _a;
-                    if ((null === (_a = executionContext.sortedInteractions) || void 0 === _a ? void 0 : _a.length) == 0) return;
+                    if ((null == (_a = executionContext.sortedInteractions) ? void 0 : _a.length) == 0) return;
                     const txIndex = executionContext.sortedInteractions.indexOf(transaction);
                     txIndex < 1 || await this.putInCache(executionContext.contractDefinition.txId, executionContext.sortedInteractions[txIndex - 1], state);
                 }
@@ -25683,9 +25683,9 @@ class Zip {
                 }
                 async load(contractTxId, evolvedSrcTxId) {
                     var _a, _b, _c;
-                    if (!evolvedSrcTxId && (null === (_a = this.cache) || void 0 === _a ? void 0 : _a.contains(contractTxId))) return this.logger.debug('ContractDefinitionLoader: Hit from cache!'), Promise.resolve(null === (_b = this.cache) || void 0 === _b ? void 0 : _b.get(contractTxId));
+                    if (!evolvedSrcTxId && (null == (_a = this.cache) ? void 0 : _a.contains(contractTxId))) return this.logger.debug('ContractDefinitionLoader: Hit from cache!'), Promise.resolve(null == (_b = this.cache) ? void 0 : _b.get(contractTxId));
                     const benchmark = Benchmark_1.Benchmark.measure(), contract = await this.doLoad(contractTxId, evolvedSrcTxId);
-                    return this.logger.info(`Contract definition loaded in: ${benchmark.elapsed()}`), null === (_c = this.cache) || void 0 === _c || _c.put(contractTxId, contract), contract;
+                    return this.logger.info(`Contract definition loaded in: ${benchmark.elapsed()}`), null == (_c = this.cache) || _c.put(contractTxId, contract), contract;
                 }
                 async doLoad(contractTxId, forcedSrcTxId) {
                     const benchmark = Benchmark_1.Benchmark.measure(), contractTx = await this.arweaveWrapper.tx(contractTxId), owner = await this.arweave.wallets.ownerToAddress(contractTx.owner);
@@ -25808,7 +25808,7 @@ class Zip {
                             const newState = await this.internalWriteState(contractDefinition.txId, missingInteraction.sortKey);
                             if (null !== newState) {
                                 currentState = newState.cachedValue.state, // we need to update the state in the wasm module
-                                null == executionContext || executionContext.handler.initState(currentState), validity[missingInteraction.id] = newState.cachedValue.validity[missingInteraction.id], (null === (_a = newState.cachedValue.errorMessages) || void 0 === _a ? void 0 : _a[missingInteraction.id]) && (errorMessages[missingInteraction.id] = newState.cachedValue.errorMessages[missingInteraction.id]);
+                                null == executionContext || executionContext.handler.initState(currentState), validity[missingInteraction.id] = newState.cachedValue.validity[missingInteraction.id], (null == (_a = newState.cachedValue.errorMessages) ? void 0 : _a[missingInteraction.id]) && (errorMessages[missingInteraction.id] = newState.cachedValue.errorMessages[missingInteraction.id]);
                                 const toCache = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
                                 await this.onStateUpdate(missingInteraction, executionContext, toCache), (0, StateCache_1.canBeCached)(missingInteraction) && (lastConfirmedTxState = {
                                     tx: missingInteraction,
@@ -26136,7 +26136,7 @@ class Zip {
                 }
                 getContractTag(interactionTransaction) {
                     var _a;
-                    return null === (_a = interactionTransaction.tags.find((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID)) || void 0 === _a ? void 0 : _a.value;
+                    return null == (_a = interactionTransaction.tags.find((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID)) ? void 0 : _a.value;
                 }
                 getContractsWithInputs(interactionTransaction) {
                     const result = new Map();
@@ -26177,15 +26177,15 @@ class Zip {
                 }
                 async load(contractTxId, evolvedSrcTxId) {
                     var _a, _b, _c;
-                    if (!evolvedSrcTxId && (null === (_a = this.cache) || void 0 === _a ? void 0 : _a.contains(contractTxId))) return this.rLogger.debug('WarpGatewayContractDefinitionLoader: Hit from cache!'), Promise.resolve(null === (_b = this.cache) || void 0 === _b ? void 0 : _b.get(contractTxId));
+                    if (!evolvedSrcTxId && (null == (_a = this.cache) ? void 0 : _a.contains(contractTxId))) return this.rLogger.debug('WarpGatewayContractDefinitionLoader: Hit from cache!'), Promise.resolve(null == (_b = this.cache) ? void 0 : _b.get(contractTxId));
                     const benchmark = Benchmark_1.Benchmark.measure(), contract = await this.doLoad(contractTxId, evolvedSrcTxId);
-                    return this.rLogger.info(`Contract definition loaded in: ${benchmark.elapsed()}`), null === (_c = this.cache) || void 0 === _c || _c.put(contractTxId, contract), contract;
+                    return this.rLogger.info(`Contract definition loaded in: ${benchmark.elapsed()}`), null == (_c = this.cache) || _c.put(contractTxId, contract), contract;
                 }
                 async doLoad(contractTxId, forcedSrcTxId) {
                     try {
                         const result = await fetch(`${this.baseUrl}/gateway/contract?txId=${contractTxId}${forcedSrcTxId ? `&srcTxId=${forcedSrcTxId}` : ''}`).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                             var _a, _b;
-                            throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.rLogger.error(error.body.message), Error(`Unable to retrieve contract data. Warp gateway responded with status ${error.status}:${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                            throw (null == (_a = error.body) ? void 0 : _a.message) && this.rLogger.error(error.body.message), Error(`Unable to retrieve contract data. Warp gateway responded with status ${error.status}:${null == (_b = error.body) ? void 0 : _b.message}`);
                         });
                         if (null == result.srcBinary || result.srcBinary instanceof Buffer || (result.srcBinary = Buffer.from(result.srcBinary.data)), result.srcBinary) {
                             let sourceTx;
@@ -26272,7 +26272,7 @@ class Zip {
                             } : ''
                         })}`).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                             var _a;
-                            throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve transactions. Warp gateway responded with status ${error.status}.`);
+                            throw (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve transactions. Warp gateway responded with status ${error.status}.`);
                         });
                         this.logger.debug(`Loading interactions: page ${page} loaded in ${benchmarkRequestTime.elapsed()}`), interactions.push(...response.interactions), limit = response.paging.limit, items = response.paging.items, this.logger.debug(`Loaded interactions length: ${interactions.length}, from: ${fromSortKey}, to: ${toSortKey}`);
                     }while (items == limit) // note: items < limit means that we're on the last page
@@ -27611,7 +27611,7 @@ class Zip {
                     // http://nyc-1.dev.arweave.net:1984/block/height/914387/wallet/M-mpNeJbg9h7mZ-uHaNsa5jwFFRAq0PsTkNWXJ-ojwI/balance
                     return await fetch(`${this.evaluationOptions.walletBalanceUrl}block/height/${effectiveHeight}/wallet/${address}/balance`).then((res)=>res.ok ? res.text() : Promise.reject(res)).catch((error)=>{
                         var _a;
-                        throw Error(`Unable to read wallet balance. ${error.status}. ${null === (_a = error.body) || void 0 === _a ? void 0 : _a.message}`);
+                        throw Error(`Unable to read wallet balance. ${error.status}. ${null == (_a = error.body) ? void 0 : _a.message}`);
                     });
                 }
             }
@@ -28048,7 +28048,7 @@ class Zip {
                                 }
                             }).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                                 var _a, _b;
-                                throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve gql page. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                                throw (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve gql page. ${error.status}: ${null == (_b = error.body) ? void 0 : _b.message}`);
                             }),
                             status: 200
                         };
@@ -28059,7 +28059,7 @@ class Zip {
                 async tx(id) {
                     const response = await fetch(`${this.baseUrl}/tx/${id}`).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                         var _a, _b;
-                        throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve tx ${id}. ${error.status}. ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                        throw (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve tx ${id}. ${error.status}. ${null == (_b = error.body) ? void 0 : _b.message}`);
                     });
                     return new transaction_1.default({
                         ...response
@@ -28090,7 +28090,7 @@ class Zip {
                     try {
                         return await fetch(url).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                             var _a, _b;
-                            throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve info. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                            throw (null == (_a = error.body) ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve info. ${error.status}: ${null == (_b = error.body) ? void 0 : _b.message}`);
                         });
                     } catch (e) {
                         throw this.logger.error('Error while loading info', e), e;

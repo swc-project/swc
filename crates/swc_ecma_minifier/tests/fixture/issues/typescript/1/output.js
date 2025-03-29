@@ -750,7 +750,7 @@ var ts, ts1, dynamicImportUMDHelper;
                 if (ts1.isImportClause(importDeclaration)) return ts1.setTextRange(factory.createPropertyAccessExpression(factory.getGeneratedNameForNode(importDeclaration.parent), factory.createIdentifier("default")), /*location*/ node);
                 else if (ts1.isImportSpecifier(importDeclaration)) {
                     var name = importDeclaration.propertyName || importDeclaration.name;
-                    return ts1.setTextRange(factory.createPropertyAccessExpression(factory.getGeneratedNameForNode((null === (_b = null === (_a = importDeclaration.parent) || void 0 === _a ? void 0 : _a.parent) || void 0 === _b ? void 0 : _b.parent) || importDeclaration), factory.cloneNode(name)), /*location*/ node);
+                    return ts1.setTextRange(factory.createPropertyAccessExpression(factory.getGeneratedNameForNode((null == (_b = null == (_a = importDeclaration.parent) ? void 0 : _a.parent) ? void 0 : _b.parent) || importDeclaration), factory.cloneNode(name)), /*location*/ node);
                 }
             }
         }

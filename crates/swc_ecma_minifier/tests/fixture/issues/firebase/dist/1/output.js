@@ -67,7 +67,7 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
         // Initialize instance if InstatiationMode is `EXPLICIT`.
         var _a, provider = this._delegate.container.getProvider(name);
         // getImmediate will always succeed because _getService is only called for registered components.
-        return provider.isInitialized() || (null === (_a = provider.getComponent()) || void 0 === _a ? void 0 : _a.instantiationMode) !== "EXPLICIT" /* EXPLICIT */  || provider.initialize(), provider.getImmediate({
+        return provider.isInitialized() || (null == (_a = provider.getComponent()) ? void 0 : _a.instantiationMode) !== "EXPLICIT" /* EXPLICIT */  || provider.initialize(), provider.getImmediate({
             identifier: instanceIdentifier
         });
     }, /**
