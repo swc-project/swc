@@ -68,9 +68,9 @@ checksum = "ace50bade8e6234aa140d9a2f552bbee1db4d353f69b8217bc503490fc1a9f26"
 
 [[package]]
 name = "base64"
-version = "0.21.7"
+version = "0.22.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
+checksum = "72b3254f16251a8381aa12e40e3c4d2f0199f8c6508fbecb9d91f575e0fbb8c6"
 
 [[package]]
 name = "base64-simd"
@@ -466,7 +466,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "0.3.1"
+version = "1.0.0"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -833,6 +833,25 @@ name = "owo-colors"
 version = "4.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fb37767f6569cd834a413442455e0f066d0d522de8630436e2a1761d9726ba56"
+
+[[package]]
+name = "par-core"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b506ab63a8bd3cd38858c7bfc2d078a189dc3210c7f8c9be1bbaf50c082a0ae"
+dependencies = [
+ "once_cell",
+]
+
+[[package]]
+name = "par-iter"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8a5b20f31e9ba82bfcbbb54a67aa40be6cebec9f668ba5753be138f9523c531a"
+dependencies = [
+ "either",
+ "par-core",
+]
 
 [[package]]
 name = "parking_lot"
@@ -1348,7 +1367,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc_allocator"
-version = "3.0.1"
+version = "4.0.0"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -1360,7 +1379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "4.0.0"
+version = "5.0.0"
 dependencies = [
  "bytecheck",
  "hstr",
@@ -1373,7 +1392,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "7.0.0"
+version = "8.0.1"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -1404,7 +1423,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "14.1.0"
+version = "17.0.0"
 dependencies = [
  "once_cell",
  "swc_allocator",
@@ -1423,7 +1442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "7.0.0"
+version = "8.1.0"
 dependencies = [
  "bitflags",
  "bytecheck",
@@ -1442,7 +1461,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "7.0.0"
+version = "8.0.2"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1463,7 +1482,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1473,7 +1492,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "9.0.0"
+version = "11.0.0"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -1494,7 +1513,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "9.0.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -1510,7 +1529,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1521,12 +1540,13 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "10.0.0"
+version = "12.0.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
  "indexmap",
  "once_cell",
+ "par-core",
  "phf",
  "rustc-hash 2.1.1",
  "serde",
@@ -1537,13 +1557,12 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_parallel",
  "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "10.0.0"
+version = "12.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1568,25 +1587,26 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "10.0.0"
+version = "12.0.0"
 dependencies = [
  "indexmap",
  "num_cpus",
  "once_cell",
+ "par-core",
+ "par-iter",
  "rustc-hash 2.1.1",
  "ryu-js",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
- "swc_parallel",
  "tracing",
  "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_visit"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -1608,12 +1628,15 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "8.0.0"
+version = "9.1.1"
 dependencies = [
  "anyhow",
  "miette",
  "once_cell",
  "parking_lot",
+ "serde",
+ "serde_derive",
+ "serde_json",
  "swc_common",
 ]
 
@@ -1635,13 +1658,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_parallel"
-version = "1.2.0"
-dependencies = [
- "once_cell",
-]
-
-[[package]]
 name = "swc_plugin"
 version = "1.0.0"
 dependencies = [
@@ -1659,7 +1675,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -1741,7 +1757,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "7.0.0"
+version = "8.0.0"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
