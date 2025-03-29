@@ -20,18 +20,12 @@ macro_rules! opt {
     }};
 }
 
-macro_rules! emit {
-    ($emitter:expr, $e:expr) => {{
-        crate::Node::emit_with(&$e, $emitter)?;
-    }};
-}
-
 macro_rules! keyword {
     ($emitter:expr, $span:expr, $s:expr) => {
-        $emitter.wr.write_keyword(Some($span), $s)?
+        $emitter.wr.write_keyword(Some($span), $s)?;
     };
     ($emitter:expr, $s:expr) => {
-        $emitter.wr.write_keyword(None, $s)?
+        $emitter.wr.write_keyword(None, $s)?;
     };
 }
 
@@ -47,7 +41,7 @@ macro_rules! punct {
         $emitter.wr.write_semi(None)?
     };
     ($emitter:expr, $s:expr) => {
-        $emitter.wr.write_punct(None, $s)?
+        $emitter.wr.write_punct(None, $s)?;
     };
 }
 
@@ -126,5 +120,17 @@ macro_rules! srcmap {
                 $emitter.wr.add_srcmap(hi)?;
             }
         }
+    };
+}
+
+macro_rules! node_emit {
+    ($emitter:expr, $e:expr) => {
+        crate::Node::emit_with(&$e, $emitter)?
+    };
+}
+
+macro_rules! node_adjust {
+    ($emitter:expr, $e:expr) => {
+        crate::Node::adjust_span(&mut $e, $emitter)?
     };
 }
