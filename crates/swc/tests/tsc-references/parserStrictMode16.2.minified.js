@@ -34,3 +34,4 @@
 //!  5 | delete "a";
 //!    :        ^^^
 //!    `----
+//!   x Syntax Error

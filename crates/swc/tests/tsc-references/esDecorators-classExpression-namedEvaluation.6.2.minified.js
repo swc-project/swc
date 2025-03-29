@@ -8,3 +8,4 @@
 //!    :           ^
 //!  7 | ({ y: x = class { @dec y: any; } } = obj);
 //!    `----
+//!   x Syntax Error

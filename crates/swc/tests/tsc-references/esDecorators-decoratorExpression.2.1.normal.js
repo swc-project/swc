@@ -9,3 +9,4 @@
 //!  7 | 
 //!  8 | { @x.y! class C {} }
 //!    `----
+//!   x Syntax Error

@@ -9,3 +9,4 @@
 //!  5 |         this.fooHelper();
 //!  6 |     }
 //!    `----
+//!   x Syntax Error

@@ -7,3 +7,4 @@
 //!  3 |   yield(foo);
 //!  4 | }
 //!    `----
+//!   x Syntax Error

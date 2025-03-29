@@ -4,3 +4,4 @@
 //!  1 | for (var let of []) {}
 //!    :          ^^^
 //!    `----
+//!   x Syntax Error

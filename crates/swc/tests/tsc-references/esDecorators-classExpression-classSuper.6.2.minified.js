@@ -10,3 +10,4 @@
 //!  12 |     static m() { super.method(); }
 //!  13 |     static get x() { return super.method(); }
 //!     `----
+//!   x Syntax Error

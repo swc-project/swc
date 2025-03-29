@@ -21,3 +21,4 @@
 //!  13 | 
 //!  14 | async function bar3() {
 //!     `----
+//!   x Syntax Error

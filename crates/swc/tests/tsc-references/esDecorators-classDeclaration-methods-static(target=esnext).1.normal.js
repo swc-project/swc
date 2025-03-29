@@ -10,3 +10,4 @@
 //!   9 |     @dec(3) static [method3]() {}
 //!  10 | }
 //!     `----
+//!   x Syntax Error

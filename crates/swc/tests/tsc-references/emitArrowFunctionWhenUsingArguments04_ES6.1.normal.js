@@ -8,3 +8,4 @@
 //!  4 |     var a = () => arguments;
 //!  5 | }
 //!    `----
+//!   x Syntax Error

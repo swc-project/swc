@@ -178,3 +178,4 @@
 //!  22 | delete ENUM, ENUM1;
 //!     :        ^^^^
 //!     `----
+//!   x Syntax Error

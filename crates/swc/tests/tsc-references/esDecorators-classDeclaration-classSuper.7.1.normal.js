@@ -9,3 +9,4 @@
 //!  12 |     public m(): void {}
 //!  13 | }
 //!     `----
+//!   x Syntax Error
