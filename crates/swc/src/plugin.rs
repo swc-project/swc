@@ -115,7 +115,7 @@ impl RustPlugins {
                                 .unwrap()
                                 .lock()
                                 .get_fs_cache_root()
-                                .map(|v| std::path::PathBuf::from(v)),
+                                .map(std::path::PathBuf::from),
                         );
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(

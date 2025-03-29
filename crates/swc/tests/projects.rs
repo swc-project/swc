@@ -5,7 +5,7 @@ use std::{
 };
 
 use anyhow::Context;
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use swc::{
     config::{
         Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, Paths,
