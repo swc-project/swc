@@ -432,6 +432,8 @@ pub struct Context {
     disallow_conditional_types: bool,
 
     allow_using_decl: bool,
+
+    top_level: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]

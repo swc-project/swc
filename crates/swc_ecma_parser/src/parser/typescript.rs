@@ -861,11 +861,14 @@ impl<I: Tokens> Parser<I> {
         expect!(self, '{');
         // Inside of a module block is considered "top-level", meaning it can have
         // imports and exports.
-        let body = self.parse_block_body(
-            /* directives */ false,
-            /* topLevel */ true,
-            /* end */ Some(&tok!('}')),
-        )?;
+        let body = self
+            .with_ctx(Context {
+                top_level: true,
+                ..self.ctx()
+            })
+            .parse_with(|p| {
+                p.parse_block_body(/* directives */ false, /* end */ Some(&tok!('}')))
+            })?;
 
         Ok(TsModuleBlock {
             span: span!(self, start),
