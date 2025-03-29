@@ -6283,6 +6283,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_malloc",
  "swc_plugin_proxy",
+ "swc_transform_common",
  "testing",
  "tokio",
  "tracing",

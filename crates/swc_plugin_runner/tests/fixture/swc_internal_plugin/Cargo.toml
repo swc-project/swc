@@ -15,3 +15,4 @@ swc_core = { path = "../../../../swc_core", features = [
   "ecma_plugin_transform",
   "ecma_quote",
 ] }
+swc_transform_common = { path = "../../../../swc_transform_common" }

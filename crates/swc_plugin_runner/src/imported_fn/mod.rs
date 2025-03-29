@@ -129,7 +129,7 @@ pub(crate) fn build_import_object(
     // handler
     let emit_diagnostics_fn_decl =
         Function::new_typed_with_env(wasmer_store, base_env, emit_diagnostics);
-
+    let emit_output_fn_decl = Function::new_typed_with_env(wasmer_store, base_env, emit_output);
     // hygiene
     let mark_fresh_fn_decl = Function::new_typed(wasmer_store, mark_fresh_proxy);
     let mark_parent_fn_decl = Function::new_typed(wasmer_store, mark_parent_proxy);
@@ -249,6 +249,7 @@ pub(crate) fn build_import_object(
             "__set_transform_result" => set_transform_result_fn_decl,
             // handler
             "__emit_diagnostics" => emit_diagnostics_fn_decl,
+            "__emit_output" => emit_output_fn_decl,
             // hygiene
             "__mark_fresh_proxy" => mark_fresh_fn_decl,
             "__mark_parent_proxy" => mark_parent_fn_decl,
