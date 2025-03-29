@@ -1,9 +1,9 @@
 //! Module for `browserslist` queries.
 #![deny(clippy::all)]
 
-use std::{collections::HashMap, sync::Arc};
+use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
-use anyhow::{Context, Error};
+use anyhow::{anyhow, Context, Error};
 use dashmap::DashMap;
 use from_variant::FromVariant;
 use once_cell::sync::Lazy;
@@ -96,8 +96,35 @@ impl Query {
     }
 }
 
-pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
+pub fn targets_to_versions(
+    v: Option<Targets>,
+    path: Option<PathBuf>,
+) -> Result<Arc<Versions>, Error> {
     match v {
+        #[cfg(not(target_arch = "wasm32"))]
+        None => {
+            let mut browserslist_opts = browserslist::Opts {
+                mobile_to_desktop: true,
+                ignore_unknown_versions: true,
+                ..Default::default()
+            };
+            if let Some(path) = path {
+                browserslist_opts.path = path
+                    .clone()
+                    .into_os_string()
+                    .into_string()
+                    .map_err(|_| anyhow!("Invalid path \"{:?}\"", path))?
+                    .into();
+            }
+            let distribs = browserslist::execute(&browserslist_opts)
+                .with_context(|| "failed to resolve browserslist query from browserslist config")?;
+
+            let versions = BrowserData::parse_versions(distribs)
+                .with_context(|| "failed to parse browser version")?;
+
+            Ok(Arc::new(versions))
+        }
+        #[cfg(target_arch = "wasm32")]
         None => Ok(Default::default()),
         Some(Targets::Versions(v)) => Ok(Arc::new(v)),
         Some(Targets::Query(q)) => q
