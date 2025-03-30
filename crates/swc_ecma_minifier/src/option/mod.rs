@@ -9,6 +9,7 @@ use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_config::{merge::Merge, CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr, Id};
+use terser::TerserExperimentalOptions;
 
 /// Implement default using serde.
 macro_rules! impl_default {
@@ -130,6 +131,20 @@ impl Default for PureGetterOption {
 pub struct CompressExperimentalOptions {
     #[serde(default = "true_by_default")]
     pub reduce_escaped_newline: bool,
+}
+
+impl CompressExperimentalOptions {
+    fn from_defaults(defaults: bool) -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: defaults,
+        }
+    }
+
+    fn from_terser_with_defaults(terser: TerserExperimentalOptions, defaults: bool) -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: terser.reduce_escaped_newline.unwrap_or(defaults),
+        }
+    }
 }
 
 impl Default for CompressExperimentalOptions {
