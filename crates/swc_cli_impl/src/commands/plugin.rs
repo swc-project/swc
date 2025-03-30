@@ -13,7 +13,7 @@ pub enum PluginTargetType {
     /// wasm32-unknown-unknown target.
     Wasm32UnknownUnknown,
     /// wasm32-wasip1 target.
-    Wasm32WasiP1,
+    Wasm32Wasip1,
 }
 
 #[derive(Parser, Debug)]
@@ -177,12 +177,12 @@ swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
 
         let build_target = match self.target_type {
             PluginTargetType::Wasm32UnknownUnknown => "wasm32-unknown-unknown",
-            PluginTargetType::Wasm32WasiP1 => "wasm32-wasip1",
+            PluginTargetType::Wasm32Wasip1 => "wasm32-wasip1",
         };
 
         let build_alias = match self.target_type {
             PluginTargetType::Wasm32UnknownUnknown => "build-wasm32",
-            PluginTargetType::Wasm32WasiP1 => "build-wasip1",
+            PluginTargetType::Wasm32Wasip1 => "build-wasip1",
         };
 
         // Create `.cargo/config.toml` file for build target
