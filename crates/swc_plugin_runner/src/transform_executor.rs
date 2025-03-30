@@ -269,9 +269,9 @@ impl TransformExecutor {
         );
 
         // Plugin binary can be either wasm32-wasip1 or wasm32-unknown-unknown.
-        // Wasi specific env need to be initialized if given module targets wasm32-wasip1.
-        // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
-        // first'
+        // Wasi specific env need to be initialized if given module targets
+        // wasm32-wasip1. TODO: wasm host native runtime throws 'Memory should
+        // be set on `WasiEnv` first'
         let (instance, wasi_env) = if is_wasi_module(&module) {
             let builder = WasiEnv::builder(self.module_bytes.get_module_name());
             let builder = if let Some(runtime) = &self.runtime {
