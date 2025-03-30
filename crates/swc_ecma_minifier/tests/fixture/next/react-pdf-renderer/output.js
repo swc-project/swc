@@ -9868,10 +9868,10 @@
                     return n;
                 }
                 return function(r, s) {
-                    var c = a(s = s || {}, "async", !1), f = {}, p = a(s, e, !1), d = {}, h = a(s, t, "\u00AD"), y = r.patterns.map(l), g = a(s, n, 5) >> 0, v = a(s, "html", !1), b = h + g;
+                    var c = a(s = s || {}, "async", !1), f = {}, p = a(s, e, !1), d = {}, h = a(s, t, "\u00AD"), y = r.patterns.map(l), g = 0 | a(s, n, 5), v = a(s, "html", !1), b = h + g;
                     if (d[b] = u(r, h), f[b] = o(d[b]), c && !("Promise" in i)) throw Error("Failed to create hyphenator: Could not find global Promise object, needed for hyphenator to work in async mode");
                     return function(i, l) {
-                        var s = a(l = l || {}, e, p), b = a(l, t, h), m = a(l, n, g) >> 0, D = b + m;
+                        var s = a(l = l || {}, e, p), b = a(l, t, h), m = 0 | a(l, n, g), D = b + m;
                         return d[D] || (d[D] = u(r, b)), f[D] || (f[D] = o(d[D])), function(e, t, r, n, i, o, a, u) {
                             var l, s, c, f, p, d, h = "", y = (l = RegExp.prototype.test.bind(/\s/), f = 0, [
                                 function() {
@@ -19083,13 +19083,13 @@
                     },
                     796: function(e) {
                         e.exports = function(e, t, r, n) {
-                            for(var i = 65535 & e | 0, o = e >>> 16 & 65535 | 0, a = 0; 0 !== r;){
+                            for(var i = 65535 & e, o = e >>> 16 & 65535, a = 0; 0 !== r;){
                                 a = r > 2e3 ? 2e3 : r, r -= a;
                                 do o = o + (i = i + t[n++] | 0) | 0;
                                 while (--a)
                                 i %= 65521, o %= 65521;
                             }
-                            return i | o << 16 | 0;
+                            return i | o << 16;
                         };
                     },
                     234: function(e) {
@@ -19851,7 +19851,7 @@
                                             if (0 === b) break t;
                                             b--, D += p[h++] << w, w += 8;
                                         }
-                                        if (D !== (4294967295 & f.total)) {
+                                        if (D !== (0 | f.total)) {
                                             e.msg = "incorrect length check", f.mode = 30;
                                             break;
                                         }
@@ -20028,7 +20028,7 @@
                             if (0 === e ? (R = M = f, b = 19) : 1 === e ? (R = i, I -= 257, M = o, N -= 257, b = 256) : (R = a, M = u, b = -1), F = 0, x = 0, _ = S, v = c, T = k, O = 0, y = -1, g = (P = 1 << k) - 1, 1 === e && P > 852 || 2 === e && P > 592) return 1;
                             for(;;){
                                 m = _ - O, f[x] < b ? (D = 0, w = f[x]) : f[x] > b ? (D = M[N + f[x]], w = R[I + f[x]]) : (D = 96, w = 0), d = 1 << _ - O, S = h = 1 << T;
-                                do s[v + (F >> O) + (h -= d)] = m << 24 | D << 16 | w | 0;
+                                do s[v + (F >> O) + (h -= d)] = m << 24 | D << 16 | w;
                                 while (0 !== h)
                                 for(d = 1 << _ - 1; F & d;)d >>= 1;
                                 if (0 !== d ? (F &= d - 1, F += d) : F = 0, x++, 0 == --j[_]) {
@@ -20038,7 +20038,7 @@
                                 if (_ > k && (F & g) !== y) {
                                     for(0 === O && (O = k), v += S, C = 1 << (T = _ - O); T + O < A && !((C -= j[T + O]) <= 0);)T++, C <<= 1;
                                     if (P += 1 << T, 1 === e && P > 852 || 2 === e && P > 592) return 1;
-                                    s[y = F & g] = k << 24 | T << 16 | v - c | 0;
+                                    s[y = F & g] = k << 24 | T << 16 | v - c;
                                 }
                             }
                             return 0 !== F && (s[v + F] = _ - O << 24 | 4194304), p.bits = k, 0;
@@ -20839,7 +20839,7 @@
                             D(this, e, t, r, i - 1, -i);
                         }
                         var o = 0, a = 1, u = 0;
-                        for(this[t] = 255 & e; ++o < r && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o - 1] && (u = 1), this[t + o] = (e / a >> 0) - u & 255;
+                        for(this[t] = 255 & e; ++o < r && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o - 1] && (u = 1), this[t + o] = (e / a | 0) - u & 255;
                         return t + r;
                     }, u.prototype.writeIntBE = function(e, t, r, n) {
                         if (e *= 1, t >>>= 0, !n) {
@@ -20847,7 +20847,7 @@
                             D(this, e, t, r, i - 1, -i);
                         }
                         var o = r - 1, a = 1, u = 0;
-                        for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o + 1] && (u = 1), this[t + o] = (e / a >> 0) - u & 255;
+                        for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)e < 0 && 0 === u && 0 !== this[t + o + 1] && (u = 1), this[t + o] = (e / a | 0) - u & 255;
                         return t + r;
                     }, u.prototype.writeInt8 = function(e, t, r) {
                         return e *= 1, t >>>= 0, r || D(this, e, t, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[t] = 255 & e, t + 1;

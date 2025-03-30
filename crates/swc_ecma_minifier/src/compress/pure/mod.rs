@@ -612,6 +612,8 @@ impl VisitMut for Pure<'_> {
         }
 
         self.eval_member_expr(e);
+
+        self.optimize_to_int(e);
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {

@@ -3207,7 +3207,7 @@ function(global, factory) {
                 for(// Special case for the first row (y = -1, t2 = t3 = 0).
                 x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)cases[(t0 = t1) | (t1 = values[x + 1] >= value) << 1].forEach(stitch);
                 // General case for the intermediate rows.
-                for(cases[t1 << 0].forEach(stitch); ++y < dy - 1;){
+                for(cases[0 | t1].forEach(stitch); ++y < dy - 1;){
                     for(x = -1, cases[(t1 = values[y * dx + dx] >= value) << 1 | (t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[y * dx + dx + x + 1] >= value, t3 = t2, cases[t0 | t1 << 1 | (t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
                     cases[t1 | t2 << 3].forEach(stitch);
                 }

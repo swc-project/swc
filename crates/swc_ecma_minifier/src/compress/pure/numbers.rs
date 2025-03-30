@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::num_from_str;
 
@@ -132,6 +132,111 @@ impl Pure<'_> {
                                 raw: None,
                             })))
                         }
+                    }
+                }
+            }
+            _ => (),
+        }
+    }
+
+    pub(super) fn optimize_to_int(&mut self, e: &mut Expr) {
+        let span = e.span();
+
+        match e {
+            Expr::Bin(bin) => match (bin.op, &mut *bin.left, &mut *bin.right) {
+                (op!("|"), Expr::Bin(bin_inner), Expr::Lit(Lit::Num(n)))
+                | (op!("|"), Expr::Lit(Lit::Num(n)), Expr::Bin(bin_inner))
+                    if matches!(
+                        bin_inner.op,
+                        op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&")
+                    ) && n.value == 0.0 =>
+                {
+                    report_change!("numbers: Turn '(a & b) | 0' into 'a & b'");
+                    self.changed = true;
+
+                    let value = bin_inner.take();
+
+                    *bin = BinExpr { span, ..value };
+                }
+
+                (
+                    op!("|"),
+                    Expr::Unary(u @ UnaryExpr { op: op!("~"), .. }),
+                    Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                )
+                | (
+                    op!("|"),
+                    Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                    Expr::Unary(u @ UnaryExpr { op: op!("~"), .. }),
+                ) => {
+                    report_change!("numbers: Turn '~a | 0' into '~a'");
+                    self.changed = true;
+
+                    let value = u.take();
+
+                    *e = Expr::Unary(value);
+                }
+
+                (
+                    op!("<<") | op!(">>") | op!("^"),
+                    _,
+                    Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
+                ) => {
+                    report_change!("numbers: Turn 'a << 0' into 'a | 0'");
+                    self.changed = true;
+                    bin.op = op!("|");
+                }
+                (
+                    op!("&"),
+                    _,
+                    Expr::Lit(Lit::Num(
+                        n @ Number {
+                            value: 4294967295.0, // 2^32 - 1
+                            ..
+                        },
+                    )),
+                )
+                | (
+                    op!("&"),
+                    Expr::Lit(Lit::Num(
+                        n @ Number {
+                            value: 4294967295.0, // 2^32 - 1
+                            ..
+                        },
+                    )),
+                    _,
+                ) => {
+                    report_change!("numbers: Turn 'a & 0XFFFFFFFF' into 'a | 0'");
+                    self.changed = true;
+                    bin.op = op!("|");
+                    n.value = 0.0;
+                    n.raw = None;
+                }
+
+                _ => (),
+            },
+
+            Expr::Assign(
+                a @ AssignExpr {
+                    op: op!("<<=") | op!(">>=") | op!(">>>=") | op!("|=") | op!("^=") | op!("&="),
+                    ..
+                },
+            ) => {
+                if let Expr::Bin(BinExpr {
+                    op: op!("|"),
+                    left,
+                    right,
+                    ..
+                }) = &mut *a.right
+                {
+                    if let (e, Expr::Lit(Lit::Num(Number { value: 0.0, .. })))
+                    | (Expr::Lit(Lit::Num(Number { value: 0.0, .. })), e) =
+                        (&mut **left, &mut **right)
+                    {
+                        report_change!("numbers: Turn 'a |= b | 0' into 'a |= b'");
+                        self.changed = true;
+                        let value = e.take();
+                        *a.right = value;
                     }
                 }
             }
