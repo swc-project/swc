@@ -104,9 +104,9 @@ For running all tests, take the following steps:
 
     See [official install guide of deno](https://docs.deno.com/runtime/manual/getting_started/installation/) to install it.
 
-5. Add wasm32-wasi target
+5. Add wasm32-wasip1 target
 
-    `rustup target add wasm32-wasi`
+    `rustup target add wasm32-wasip1`
 
 6. Ensure you're using Node.JS >= 16
 

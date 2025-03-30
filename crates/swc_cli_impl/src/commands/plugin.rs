@@ -12,8 +12,8 @@ use swc_core::diagnostics::get_core_engine_diagnostics;
 pub enum PluginTargetType {
     /// wasm32-unknown-unknown target.
     Wasm32UnknownUnknown,
-    /// wasm32-wasi target.
-    Wasm32Wasi,
+    /// wasm32-wasip1 target.
+    Wasm32Wasip1,
 }
 
 #[derive(Parser, Debug)]
@@ -24,7 +24,7 @@ pub struct PluginScaffoldOptions {
 
     /// Sets default build target type of the plugin.
     ///
-    /// "wasm32-wasi" enables wasi (https://github.com/WebAssembly/WASI) support for the generated
+    /// "wasm32-wasip1" enables wasi (https://github.com/WebAssembly/WASI) support for the generated
     /// binary which allows to use macros like 'println!' or 'dbg!' and other
     /// system-related calls.
     ///
@@ -166,7 +166,7 @@ serde = "1"
 swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
 
 # .cargo/config.toml defines few alias to build plugin.
-# cargo build-wasi generates wasm-wasi32 binary
+# cargo build-wasip1 generates wasm32-wasip1 binary
 # cargo build-wasm32 generates wasm32-unknown-unknown binary.
 "#,
                 name, swc_core_version
@@ -177,12 +177,12 @@ swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
 
         let build_target = match self.target_type {
             PluginTargetType::Wasm32UnknownUnknown => "wasm32-unknown-unknown",
-            PluginTargetType::Wasm32Wasi => "wasm32-wasi",
+            PluginTargetType::Wasm32Wasip1 => "wasm32-wasip1",
         };
 
         let build_alias = match self.target_type {
             PluginTargetType::Wasm32UnknownUnknown => "build-wasm32",
-            PluginTargetType::Wasm32Wasi => "build-wasi",
+            PluginTargetType::Wasm32Wasip1 => "build-wasip1",
         };
 
         // Create `.cargo/config.toml` file for build target
@@ -193,7 +193,7 @@ swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
             r#"# These command aliases are not final, may change
 [alias]
 # Alias to build actual plugin binary for the specified target.
-build-wasi = "build --target wasm32-wasi"
+build-wasip1 = "build --target wasm32-wasip1"
 build-wasm32 = "build --target wasm32-unknown-unknown"
 "#
             .as_bytes(),

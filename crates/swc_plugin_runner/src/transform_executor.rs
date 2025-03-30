@@ -268,10 +268,10 @@ impl TransformExecutor {
             &diagnostics_env,
         );
 
-        // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
-        // Wasi specific env need to be initialized if given module targets wasm32-wasi.
-        // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
-        // first'
+        // Plugin binary can be either wasm32-wasip1 or wasm32-unknown-unknown.
+        // Wasi specific env need to be initialized if given module targets
+        // wasm32-wasip1. TODO: wasm host native runtime throws 'Memory should
+        // be set on `WasiEnv` first'
         let (instance, wasi_env) = if is_wasi_module(&module) {
             let builder = WasiEnv::builder(self.module_bytes.get_module_name());
             let builder = if let Some(runtime) = &self.runtime {
@@ -397,19 +397,19 @@ impl TransformExecutor {
                      used by the plugin is compatible with the host runtime. See the \
                      documentation for compatibility information. If you are an author of the \
                      plugin, please update `swc_core` to the compatible version.
-                 
+
                 Note that if you want to use the os features like filesystem, you need to use \
                      `wasi`. Wasm itself does not have concept of filesystem.
-                 
+
                 https://swc.rs/docs/plugin/selecting-swc-core
 
                 See https://plugins.swc.rs/versions/from-plugin-runner/{PKG_VERSION} for the list of the compatible versions.
-                 
-                Build info: 
+
+                Build info:
                     Date: {BUILD_DATE}
                     Timestamp: {BUILD_TIMESTAMP}
-                    
-                Version info: 
+
+                Version info:
                     swc_plugin_runner: {PKG_VERSION}
                     Dependencies: {PKG_DEPS}
                 "

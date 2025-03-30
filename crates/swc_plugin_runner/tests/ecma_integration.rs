@@ -26,7 +26,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let mut cmd = Command::new("cargo");
         cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi"])
+        cmd.args(["build", "--target=wasm32-wasip1"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -39,7 +39,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("debug"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasip1").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
