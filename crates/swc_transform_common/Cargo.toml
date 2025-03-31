@@ -12,6 +12,9 @@ version       = "1.0.1"
   all-features = true
   rustdoc-args = ["--cfg", "docsrs"]
 
+[features]
+plugin-mode = []
+
 [dependencies]
 once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
@@ -19,3 +22,4 @@ serde      = { workspace = true }
 serde_json = { workspace = true }
 
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
+swc_common        = { version = "8.0.1", path = "../swc_common" }

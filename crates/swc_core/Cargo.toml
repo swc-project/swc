@@ -40,7 +40,7 @@ doctest = false
 
 nightly = ["swc_allocator/nightly"]
 
-transform_common = []
+transform_common = ["dep:swc_transform_common"]
 
 # swc_ecma_loader/cache*
 ecma_loader_lru         = ["swc_ecma_loader/lru"]
@@ -187,8 +187,13 @@ common_plugin_transform = [
   "__testing_transform",
 ]
 
-css_plugin_transform  = ["common_plugin_transform", "__css_plugin_transform"]
-ecma_plugin_transform = ["common_plugin_transform", "__ecma_plugin_transform"]
+css_plugin_transform = ["common_plugin_transform", "__css_plugin_transform"]
+ecma_plugin_transform = [
+  "common_plugin_transform",
+  "transform_common",
+  "swc_transform_common/plugin-mode",
+  "__ecma_plugin_transform",
+]
 
 # Use `stacker` to avoid stack overflow.
 stacker = ["swc_ecma_parser/stacker", "swc_ecma_utils/stacker"]

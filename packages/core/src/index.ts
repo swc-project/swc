@@ -8,6 +8,7 @@ import type {
     Script,
     Program,
     JsMinifyOptions,
+    WasmAnalysisOptions,
 } from "@swc/types";
 export type * from "@swc/types";
 // @ts-ignore
@@ -392,6 +393,14 @@ export class Compiler {
 }
 
 const compiler = new Compiler();
+
+
+export function experimental_analyze(
+    src: string,
+    options?: WasmAnalysisOptions
+): Promise<string> {
+    return bindings.analyze(src, toBuffer(options));
+}
 
 /**
  * @deprecated Use Rust instead.

@@ -14,6 +14,7 @@ use swc_core::{
     common::{sync::Lazy, FilePathMapping, SourceMap},
 };
 
+mod analyze;
 mod bundle;
 mod minify;
 mod parse;
