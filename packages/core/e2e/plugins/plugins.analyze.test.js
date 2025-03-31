@@ -124,7 +124,7 @@ describe("Analysis Plugins", () => {
 
                         // Consider test passes if plugin transform is successful.
                         expect(result).toMatchInlineSnapshot(
-                            `"[{"test":"test"}]"`
+                            `"{"test":"test"}"`
                         );
                     },
                     60000
