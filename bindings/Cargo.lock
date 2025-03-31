@@ -285,7 +285,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.14-nightly-20250331.1"
+version = "1.11.14-nightly-20250331.2"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -373,7 +373,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.14-nightly-20250331.1"
+version = "1.11.14-nightly-20250331.2"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -386,7 +386,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.14-nightly-20250331.1"
+version = "1.11.14-nightly-20250331.2"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4224,9 +4224,9 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "12.0.0"
+version = "13.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc98f234182cec63aa87375957d61feebe303eb83f4d75d7554f3717bf310d65"
+checksum = "be673e200f78a320003930fc9f27ee600f913188fa8804bf7fafc1ea70f420c7"
 dependencies = [
  "anyhow",
  "crc 2.1.0",
@@ -4270,7 +4270,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.514"
+version = "0.91.515"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4279,9 +4279,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "18.0.0"
+version = "19.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "739a8fc0a8b11574f52a0187016eb0da64a3740d40d6518a2bcc455591abcf4e"
+checksum = "ece3cdf4eb4cd7691bfd08d80dcbaff313d1707d1218c6d4dc138209eeeae4d9"
 dependencies = [
  "anyhow",
  "clap",
@@ -4390,9 +4390,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "18.0.0"
+version = "19.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6448a3f005d6cd35ae201595669421af9292397e29d04530fa753069c9cf3913"
+checksum = "daca62565e1ae2a6b840f624e7d4613a1b2feb8790c5b9ac3df0b3cd442e167d"
 dependencies = [
  "binding_macros",
  "swc",
@@ -5222,18 +5222,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_fast_graph"
-version = "9.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd24b9798b0538803d0a69cffa5f5e051087fa2bd0d23e5a2f05d32edf9ab671"
-dependencies = [
- "indexmap 2.8.0",
- "petgraph 0.6.5",
- "rustc-hash 2.1.1",
- "swc_common",
-]
-
-[[package]]
 name = "swc_fast_ts_strip"
 version = "13.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5254,15 +5242,14 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "8.0.0"
+version = "9.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed1b3b564c8316500be98cd8ba3dbd604070958d30494b31e8333a472d011f0b"
+checksum = "fc0f4e0f8aa5907f0070ab5d234b8efc2fb0542859421a0e155b401de1549d05"
 dependencies = [
  "auto_impl",
- "petgraph 0.6.5",
+ "petgraph 0.7.1",
  "rustc-hash 2.1.1",
  "swc_common",
- "swc_fast_graph",
  "tracing",
 ]
 
@@ -5412,9 +5399,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "18.0.0"
+version = "19.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4b77c264c2f0f4c2632ebe3db5072b4964a04b30ac02949f5a0c5a69139ca13c"
+checksum = "87566dcfbba7cca12179413b2ea77a892c0e5c44ac5c0a338e51813527842064"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
