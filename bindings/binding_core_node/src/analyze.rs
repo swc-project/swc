@@ -13,14 +13,14 @@ use tracing::instrument;
 
 use crate::{get_fresh_compiler, util::try_with};
 
-pub struct TransformTask {
+pub struct AnalyzeTask {
     pub c: Arc<Compiler>,
     pub input: Option<String>,
     pub options: Ref<JsBufferValue>,
 }
 
 #[napi]
-impl Task for TransformTask {
+impl Task for AnalyzeTask {
     type JsValue = String;
     type Output = String;
 
@@ -60,10 +60,10 @@ pub fn analyze(
     src: String,
     options: JsBuffer,
     signal: Option<AbortSignal>,
-) -> napi::Result<AsyncTask<TransformTask>> {
+) -> napi::Result<AsyncTask<AnalyzeTask>> {
     crate::util::init_default_trace_subscriber();
 
-    let task = TransformTask {
+    let task = AnalyzeTask {
         c: get_fresh_compiler(),
         input: Some(src),
         options: options.into_ref()?,
