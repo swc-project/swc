@@ -64,7 +64,7 @@ const buildPlugin = async (feature) => {
 };
 
 describe("Analysis Plugins", () => {
-    describe.skip("Emits output with plugin", () => {
+    describe("Emits output with plugin", () => {
         const versionMatrix = [
             {
                 host: "plugin_transform_schema_v1",
