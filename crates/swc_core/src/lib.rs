@@ -180,9 +180,7 @@ pub mod trace_macro {
 
 #[cfg(feature = "transform_common")]
 #[cfg_attr(docsrs, doc(cfg(feature = "transform_common")))]
-pub mod transform_common {
-    pub use swc_transform_common::*;
-}
+pub extern crate swc_transform_common as transform_common;
 
 #[cfg(feature = "typescript")]
 #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]

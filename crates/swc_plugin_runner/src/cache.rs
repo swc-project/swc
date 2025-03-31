@@ -196,11 +196,11 @@ pub struct PluginModuleCache {
 impl PluginModuleCache {
     pub fn create_inner(
         enable_fs_cache_store: bool,
-        fs_cache_store_root: &Option<String>,
+        fs_cache_store_root: Option<&str>,
     ) -> PluginModuleCacheInner {
         PluginModuleCacheInner {
             #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-            fs_cache_root: fs_cache_store_root.clone(),
+            fs_cache_root: fs_cache_store_root.map(|s| s.to_string()),
             #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
             fs_cache_store: if enable_fs_cache_store {
                 create_filesystem_cache(fs_cache_store_root)
@@ -217,7 +217,7 @@ impl PluginModuleCache {
 
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 #[tracing::instrument(level = "info", skip_all)]
-fn create_filesystem_cache(filesystem_cache_root: &Option<String>) -> Option<FileSystemCache> {
+fn create_filesystem_cache(filesystem_cache_root: Option<&str>) -> Option<FileSystemCache> {
     let mut root_path = if let Some(root) = filesystem_cache_root {
         Some(PathBuf::from(root))
     } else if let Ok(cwd) = current_dir() {

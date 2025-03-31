@@ -92,7 +92,7 @@ pub static PLUGIN_MODULE_CACHE: Lazy<swc_plugin_runner::cache::PluginModuleCache
 #[cfg(feature = "plugin")]
 pub fn init_plugin_module_cache_once(
     enable_fs_cache_store: bool,
-    fs_cache_store_root: &Option<String>,
+    fs_cache_store_root: Option<&str>,
 ) {
     PLUGIN_MODULE_CACHE.inner.get_or_init(|| {
         parking_lot::Mutex::new(swc_plugin_runner::cache::PluginModuleCache::create_inner(
@@ -598,48 +598,12 @@ impl Options {
             // 2. embedded runtime can compiles & execute wasm
             #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
             {
-                use swc_ecma_loader::resolve::Resolve;
-
-                let plugin_resolver = CachingResolver::new(
-                    40,
-                    NodeModulesResolver::new(
-                        swc_ecma_loader::TargetEnv::Node,
-                        Default::default(),
-                        true,
-                    ),
-                );
-
                 if let Some(plugins) = &experimental.plugins {
-                    // Currently swc enables filesystemcache by default on Embedded runtime plugin
-                    // target.
-                    init_plugin_module_cache_once(true, &experimental.cache_root);
-
-                    let mut inner_cache = PLUGIN_MODULE_CACHE
-                        .inner
-                        .get()
-                        .expect("Cache should be available")
-                        .lock();
-
-                    // Populate cache to the plugin modules if not loaded
-                    for plugin_config in plugins.iter() {
-                        let plugin_name = &plugin_config.0;
-
-                        if !inner_cache.contains(plugin_name) {
-                            let resolved_path = plugin_resolver.resolve(
-                                &FileName::Real(PathBuf::from(plugin_name)),
-                                plugin_name,
-                            )?;
-
-                            let path = if let FileName::Real(value) = resolved_path.filename {
-                                value
-                            } else {
-                                anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
-                            };
-
-                            inner_cache.store_bytes_from_path(&path, plugin_name)?;
-                            tracing::debug!("Initialized WASM plugin {plugin_name}");
-                        }
-                    }
+                    crate::plugin::compile_wasm_plugins(
+                        experimental.cache_root.as_deref(),
+                        plugins,
+                    )
+                    .context("Failed to compile wasm plugins")?;
                 }
 
                 Box::new(crate::plugin::plugins(

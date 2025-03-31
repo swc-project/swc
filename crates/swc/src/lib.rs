@@ -155,7 +155,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
-use swc_transform_common::output::emit;
+use swc_transform_common::output::experimental_emit;
 use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
@@ -170,7 +170,7 @@ mod builder;
 pub mod config;
 mod dropped_comments_preserver;
 mod plugin;
-mod wasm_analysis;
+pub mod wasm_analysis;
 pub mod resolver {
     use std::path::PathBuf;
 
@@ -1022,7 +1022,7 @@ impl Compiler {
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
                 if let Some(dts_code) = dts_code {
-                    emit("__swc_isolated_declarations__".into(), dts_code);
+                    experimental_emit("__swc_isolated_declarations__".into(), dts_code);
                 }
 
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
