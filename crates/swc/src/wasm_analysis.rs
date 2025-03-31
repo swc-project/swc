@@ -9,7 +9,7 @@ use common::{
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     Mark, SourceFile, GLOBALS,
 };
-use par_iter::iter::{IntoParallelRefIterator, ParallelIterator};
+use par_iter::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_config::IsModule;
@@ -92,6 +92,7 @@ impl Compiler {
                 let result = opts
                     .plugins
                     .par_iter()
+                    .with_min_len(1)
                     .map(|p| {
                         GLOBALS.set(globals, || {
                             self.inovke_wasm_analysis_plugin(
