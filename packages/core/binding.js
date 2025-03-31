@@ -127,15 +127,15 @@ function requireNative() {
     }
   } else if (process.platform === 'darwin') {
     try {
-      return require('./swc.darwin-universal.node')
-    } catch (e) {
-      loadErrors.push(e)
-    }
-    try {
-      return require('@swc/core-darwin-universal')
-    } catch (e) {
-      loadErrors.push(e)
-    }
+        return require('./swc.darwin-universal.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-darwin-universal')
+      } catch (e) {
+        loadErrors.push(e)
+      }
 
     if (process.arch === 'x64') {
       try {
@@ -196,53 +196,53 @@ function requireNative() {
     if (process.arch === 'x64') {
       if (isMusl()) {
         try {
-          return require('./swc.linux-x64-musl.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-x64-musl')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-x64-musl.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-x64-musl')
+      } catch (e) {
+        loadErrors.push(e)
+      }
 
       } else {
         try {
-          return require('./swc.linux-x64-gnu.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-x64-gnu')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-x64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-x64-gnu')
+      } catch (e) {
+        loadErrors.push(e)
+      }
 
       }
     } else if (process.arch === 'arm64') {
       if (isMusl()) {
         try {
-          return require('./swc.linux-arm64-musl.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-arm64-musl')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-arm64-musl.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-arm64-musl')
+      } catch (e) {
+        loadErrors.push(e)
+      }
 
       } else {
         try {
-          return require('./swc.linux-arm64-gnu.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-arm64-gnu')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-arm64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-arm64-gnu')
+      } catch (e) {
+        loadErrors.push(e)
+      }
 
       }
     } else if (process.arch === 'arm') {
@@ -256,29 +256,32 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
+
     } else if (process.arch === 'riscv64') {
       if (isMusl()) {
         try {
-          return require('./swc.linux-riscv64-musl.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-riscv64-musl')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-riscv64-musl.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-riscv64-musl')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
       } else {
         try {
-          return require('./swc.linux-riscv64-gnu.node')
-        } catch (e) {
-          loadErrors.push(e)
-        }
-        try {
-          return require('@swc/core-linux-riscv64-gnu')
-        } catch (e) {
-          loadErrors.push(e)
-        }
+        return require('./swc.linux-riscv64-gnu.node')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+      try {
+        return require('@swc/core-linux-riscv64-gnu')
+      } catch (e) {
+        loadErrors.push(e)
+      }
+
       }
     } else if (process.arch === 's390x') {
       try {
@@ -291,6 +294,7 @@ function requireNative() {
       } catch (e) {
         loadErrors.push(e)
       }
+
     } else {
       loadErrors.push(new Error(`Unsupported architecture on Linux: ${process.arch}`))
     }
@@ -333,6 +337,7 @@ if (!nativeBinding) {
 
 module.exports.Compiler = nativeBinding.Compiler
 module.exports.JsCompiler = nativeBinding.JsCompiler
+module.exports.analyze = nativeBinding.analyze
 module.exports.bundle = nativeBinding.bundle
 module.exports.getTargetTriple = nativeBinding.getTargetTriple
 module.exports.initCustomTraceSubscriber = nativeBinding.initCustomTraceSubscriber
