@@ -199,6 +199,7 @@ impl Fold for RustPlugins {
     }
 }
 
+#[cfg(feature = "plugin")]
 pub(crate) fn compile_wasm_plugins(
     cache_root: Option<&str>,
     plugins: &[PluginConfig],
