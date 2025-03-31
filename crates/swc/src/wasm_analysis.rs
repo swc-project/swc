@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use common::{
-    comments::SingleThreadedComments,
+    comments::Comments,
     errors::Handler,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     Mark, SourceFile, GLOBALS,
@@ -16,7 +16,7 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::resolver;
 
-use crate::{plugin::PluginConfig, Compiler};
+use crate::{config::ErrorFormat, plugin::PluginConfig, Compiler};
 
 impl Compiler {
     /// Run analysis using Wasm plugins.
@@ -25,7 +25,7 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &WasmAnalysisOptions,
-        comments: SingleThreadedComments,
+        comments: &dyn Comments,
     ) -> Result<String> {
         self.run(|| {
             GLOBALS.with(|globals| {
@@ -131,6 +131,12 @@ pub struct WasmAnalysisOptions {
     pub parser: Syntax,
     #[serde(default)]
     pub module: IsModule,
+
+    #[serde(default)]
+    pub filename: String,
+
+    #[serde(default)]
+    pub error_format: ErrorFormat,
 
     pub plugins: Vec<PluginConfig>,
 }

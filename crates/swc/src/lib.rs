@@ -170,7 +170,7 @@ mod builder;
 pub mod config;
 mod dropped_comments_preserver;
 mod plugin;
-mod wasm_analysis;
+pub mod wasm_analysis;
 pub mod resolver {
     use std::path::PathBuf;
 
