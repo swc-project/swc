@@ -4,18 +4,18 @@ use std::sync::Arc;
 
 use anyhow::{Context, Result};
 use common::{
-    comments::Comments,
+    comments::SingleThreadedComments,
     errors::Handler,
     plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
     Mark, SourceFile, GLOBALS,
 };
-use par_iter::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_config::IsModule;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::resolver;
+use swc_plugin_proxy::HostCommentsStorage;
 
 use crate::{
     config::ErrorFormat,
@@ -30,7 +30,7 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &WasmAnalysisOptions,
-        comments: &dyn Comments,
+        comments: &SingleThreadedComments,
     ) -> Result<String> {
         if cfg!(feature = "manual-tokio-runtime") {
             self.run_wasm_analysis_inner(fm.clone(), handler, opts, comments)
@@ -52,7 +52,7 @@ impl Compiler {
         fm: Arc<SourceFile>,
         handler: &Handler,
         opts: &WasmAnalysisOptions,
-        comments: &dyn Comments,
+        comments: &SingleThreadedComments,
     ) -> Result<String> {
         compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins)?;
 
@@ -91,8 +91,7 @@ impl Compiler {
 
                 let result = opts
                     .plugins
-                    .par_iter()
-                    .with_min_len(1)
+                    .iter()
                     .map(|p| {
                         GLOBALS.set(globals, || {
                             self.inovke_wasm_analysis_plugin(
@@ -100,6 +99,7 @@ impl Compiler {
                                 unresolved_mark,
                                 &transform_metadata_context,
                                 p,
+                                comments,
                             )
                         })
                     })
@@ -119,55 +119,64 @@ impl Compiler {
         unresolved_mark: Mark,
         transform_metadata_context: &Arc<TransformPluginMetadataContext>,
         p: &PluginConfig,
+        comments: &SingleThreadedComments,
     ) -> Result<FxHashMap<String, String>> {
-        let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
-            .inner
-            .get()
-            .unwrap()
-            .lock()
-            .get(&p.0)
-            .expect("plugin module should be loaded");
+        swc_plugin_proxy::COMMENTS.set(
+            &HostCommentsStorage {
+                inner: Some(comments.clone()),
+            },
+            || {
+                let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
+                    .inner
+                    .get()
+                    .unwrap()
+                    .lock()
+                    .get(&p.0)
+                    .expect("plugin module should be loaded");
 
-        let plugin_name = plugin_module_bytes.get_module_name().to_string();
-        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
-            crate::config::PLUGIN_MODULE_CACHE
-                .inner
-                .get()
-                .unwrap()
-                .lock()
-                .get_fs_cache_root()
-                .map(std::path::PathBuf::from),
-        );
-        let mut transform_plugin_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &self.cm,
-            &unresolved_mark,
-            transform_metadata_context,
-            plugin_module_bytes,
-            Some(p.1.clone()),
-            runtime,
-        );
+                let plugin_name = plugin_module_bytes.get_module_name().to_string();
+                let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
+                    crate::config::PLUGIN_MODULE_CACHE
+                        .inner
+                        .get()
+                        .unwrap()
+                        .lock()
+                        .get_fs_cache_root()
+                        .map(std::path::PathBuf::from),
+                );
+                let mut transform_plugin_executor =
+                    swc_plugin_runner::create_plugin_transform_executor(
+                        &self.cm,
+                        &unresolved_mark,
+                        transform_metadata_context,
+                        plugin_module_bytes,
+                        Some(p.1.clone()),
+                        runtime,
+                    );
 
-        let span = tracing::span!(
-            tracing::Level::INFO,
-            "execute_plugin_runner",
-            plugin_module = p.0.as_str()
+                let span = tracing::span!(
+                    tracing::Level::INFO,
+                    "execute_plugin_runner",
+                    plugin_module = p.0.as_str()
+                )
+                .entered();
+
+                let (result, output) = swc_transform_common::output::capture(|| {
+                    transform_plugin_executor
+                        .transform(serialized, Some(true))
+                        .with_context(|| {
+                            format!(
+                                "failed to invoke `{}` as js analysis plugin at {}",
+                                &p.0, plugin_name
+                            )
+                        })
+                });
+                result?;
+                drop(span);
+
+                Ok(output)
+            },
         )
-        .entered();
-
-        let (result, output) = swc_transform_common::output::capture(|| {
-            transform_plugin_executor
-                .transform(serialized, Some(true))
-                .with_context(|| {
-                    format!(
-                        "failed to invoke `{}` as js analysis plugin at {}",
-                        &p.0, plugin_name
-                    )
-                })
-        });
-        result?;
-        drop(span);
-
-        Ok(output)
     }
 }
 
