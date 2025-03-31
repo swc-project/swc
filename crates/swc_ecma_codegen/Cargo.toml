@@ -18,6 +18,7 @@ bench = false
 
 [dependencies]
 ascii       = { workspace = true }
+auto_impl   = { workspace = true }
 compact_str = { workspace = true }
 memchr      = { workspace = true }
 num-bigint  = { workspace = true, features = ["serde"] }
