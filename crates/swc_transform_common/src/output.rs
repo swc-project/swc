@@ -32,8 +32,8 @@ extern "C" {
 pub fn experimental_emit(key: String, value: String) {
     let output = (key, value);
 
-    let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(
-        &swc_core::common::plugin::serialized::VersionedSerializable::new(output),
+    let diag = swc_common::plugin::serialized::PluginSerializedBytes::try_serialize(
+        &swc_common::plugin::serialized::VersionedSerializable::new(output),
     )
     .expect("Should able to serialize String");
     let (ptr, len) = diag.as_ptr();
