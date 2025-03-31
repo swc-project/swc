@@ -957,7 +957,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b"
 
 [[package]]
-name = "plugin_transform_schema_v1"
+name = "plugin_analyze"
 version = "0.1.0"
 dependencies = [
  "serde",

@@ -17,7 +17,7 @@ const waitProcessAsync = async (proc) =>
 const getPluginAbsolutePath = (feature) =>
     path.join(
         getPkgRoot(),
-        `node-swc/e2e/fixtures/${feature}/target/wasm32-wasi/debug/${feature}.wasm`
+        `e2e/fixtures/${feature}/target/wasm32-wasi/debug/${feature}.wasm`
     );
 
 /**
