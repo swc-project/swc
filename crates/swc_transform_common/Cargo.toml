@@ -12,6 +12,9 @@ version       = "1.0.1"
   all-features = true
   rustdoc-args = ["--cfg", "docsrs"]
 
+[features]
+plugin-mode = []
+
 [dependencies]
 once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
