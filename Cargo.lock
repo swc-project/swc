@@ -352,7 +352,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1267,7 +1267,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -4575,7 +4575,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4740,7 +4740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4801,7 +4801,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "14.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5122,7 +5122,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "8.0.2"
+version = "8.1.0"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -5438,7 +5438,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5929,7 +5929,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -6037,7 +6037,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -6088,7 +6088,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -6178,7 +6178,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -6261,7 +6261,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "8.0.0"
+version = "9.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6318,7 +6318,7 @@ dependencies = [
 
 [[package]]
 name = "swc_transform_common"
-version = "1.0.1"
+version = "2.0.0"
 dependencies = [
  "better_scoped_tls",
  "once_cell",

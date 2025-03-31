@@ -55,7 +55,7 @@ pretty_assertions = { workspace = true }
 sourcemap         = { workspace = true }
 tempfile          = { workspace = true }
 
-swc_ecma_codegen            = { version = "8.0.2", path = "../swc_ecma_codegen" }
+swc_ecma_codegen            = { version = "8.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser             = { version = "11.0.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "12.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "8.0.0", path = "../testing" }
