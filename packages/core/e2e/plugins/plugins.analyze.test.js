@@ -98,9 +98,9 @@ describe("Analysis Plugins", () => {
                     };
 
                     if (shouldUsePrebuiltHost) {
-                        const { analyze } = require("@swc/core");
+                        const { experimental_analyze } = require("@swc/core");
 
-                        return await analyze(code, options);
+                        return await experimental_analyze(code, options);
                     } else {
                         const { transformSync } = require(path.resolve(
                             getPkgRoot(),
