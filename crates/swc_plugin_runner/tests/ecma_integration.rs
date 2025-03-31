@@ -219,9 +219,12 @@ fn internal() {
                         None,
                     );
 
-                plugin_transform_executor
-                    .transform(&program, Some(false))
-                    .expect("Plugin should apply transform")
+                capture(|| {
+                    plugin_transform_executor
+                        .transform(&program, Some(false))
+                        .expect("Plugin should apply transform")
+                })
+                .1
             });
 
             eprintln!("Second run retured");
