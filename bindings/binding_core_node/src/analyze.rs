@@ -1,0 +1,73 @@
+use std::sync::Arc;
+
+use napi::{
+    bindgen_prelude::{AbortSignal, AsyncTask},
+    Env, JsBuffer, JsBufferValue, Ref, Task,
+};
+use swc_core::{
+    base::{wasm_analysis::WasmAnalysisOptions, Compiler},
+    common::{comments::SingleThreadedComments, FileName},
+    node::MapErr,
+};
+use tracing::instrument;
+
+use crate::{get_fresh_compiler, util::try_with};
+
+pub struct TransformTask {
+    pub c: Arc<Compiler>,
+    pub input: Option<String>,
+    pub options: Ref<JsBufferValue>,
+}
+
+#[napi]
+impl Task for TransformTask {
+    type JsValue = String;
+    type Output = String;
+
+    #[instrument(level = "trace", skip_all)]
+    fn compute(&mut self) -> napi::Result<Self::Output> {
+        let options: WasmAnalysisOptions = serde_json::from_slice(self.options.as_ref())?;
+
+        try_with(self.c.cm.clone(), false, options.error_format, |handler| {
+            let comments = SingleThreadedComments::default();
+
+            let fm = self.c.cm.new_source_file(
+                if options.filename.is_empty() {
+                    FileName::Anon.into()
+                } else {
+                    FileName::Real(options.filename.clone().into()).into()
+                },
+                self.input.take().unwrap(),
+            );
+
+            self.c.run_wasm_analysis(fm, handler, &options, &comments)
+        })
+        .convert_err()
+    }
+
+    fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
+        Ok(result)
+    }
+
+    fn finally(&mut self, env: Env) -> napi::Result<()> {
+        self.options.unref(env)?;
+        Ok(())
+    }
+}
+
+#[napi]
+#[instrument(level = "trace", skip_all)]
+pub fn transform(
+    src: String,
+    options: JsBuffer,
+    signal: Option<AbortSignal>,
+) -> napi::Result<AsyncTask<TransformTask>> {
+    crate::util::init_default_trace_subscriber();
+
+    let task = TransformTask {
+        c: get_fresh_compiler(),
+        input: Some(src),
+        options: options.into_ref()?,
+    };
+    Ok(AsyncTask::with_optional_signal(task, signal))
+}
