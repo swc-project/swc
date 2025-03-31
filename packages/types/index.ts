@@ -665,7 +665,7 @@ export interface JscConfig {
          *
          * Second parameter of tuple is JSON based configuration for the plugin.
          */
-        plugins?: Array<[string, Record<string, any>]>;
+        plugins?: WasmPlugin[];
 
         /**
          * Run Wasm plugins before stripping TypeScript or decorators.
@@ -2926,4 +2926,4 @@ export type WasmAnalysisOptions = {
     plugins: WasmPlugin[]
 }
 
-export type WasmPlugin = [wasmPackage: string, config: object]
+export type WasmPlugin = [wasmPackage: string, config: Record<string, any>]
