@@ -5125,6 +5125,7 @@ name = "swc_ecma_codegen"
 version = "10.0.0"
 dependencies = [
  "ascii",
+ "auto_impl",
  "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
