@@ -27,6 +27,8 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &dyn Comments,
     ) -> Result<String> {
+        crate::config::init_plugin_module_cache_once(true, &opts.cache_root);
+
         self.run(|| {
             GLOBALS.with(|globals| {
                 let unresolved_mark = Mark::new();
@@ -133,10 +135,13 @@ pub struct WasmAnalysisOptions {
     pub module: IsModule,
 
     #[serde(default)]
-    pub filename: String,
+    pub filename: Option<String>,
 
     #[serde(default)]
     pub error_format: ErrorFormat,
 
     pub plugins: Vec<PluginConfig>,
+
+    #[serde(default)]
+    pub cache_root: Option<String>,
 }
