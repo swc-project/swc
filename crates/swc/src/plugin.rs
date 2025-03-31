@@ -8,7 +8,7 @@
 
 use std::path::PathBuf;
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use common::FileName;
 use serde::{Deserialize, Serialize};
 use swc_common::errors::HANDLER;
@@ -226,7 +226,8 @@ pub(crate) fn compile_wasm_plugins(
 
         if !inner_cache.contains(plugin_name) {
             let resolved_path = plugin_resolver
-                .resolve(&FileName::Real(PathBuf::from(plugin_name)), plugin_name)?;
+                .resolve(&FileName::Real(PathBuf::from(plugin_name)), plugin_name)
+                .with_context(|| format!("failed to resolve plugin path: {plugin_name}"))?;
 
             let path = if let FileName::Real(value) = resolved_path.filename {
                 value
