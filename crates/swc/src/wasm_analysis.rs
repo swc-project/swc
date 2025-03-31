@@ -10,6 +10,7 @@ use common::{
     Mark, SourceFile, GLOBALS,
 };
 use par_iter::iter::{IntoParallelRefIterator, ParallelIterator};
+use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_config::IsModule;
 use swc_ecma_ast::EsVersion;
@@ -71,55 +72,12 @@ impl Compiler {
                     .par_iter()
                     .map(|p| {
                         GLOBALS.set(globals, || {
-                            let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
-                                .inner
-                                .get()
-                                .unwrap()
-                                .lock()
-                                .get(&p.0)
-                                .expect("plugin module should be loaded");
-
-                            let plugin_name = plugin_module_bytes.get_module_name().to_string();
-                            let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
-                                crate::config::PLUGIN_MODULE_CACHE
-                                    .inner
-                                    .get()
-                                    .unwrap()
-                                    .lock()
-                                    .get_fs_cache_root()
-                                    .map(std::path::PathBuf::from),
-                            );
-                            let mut transform_plugin_executor =
-                                swc_plugin_runner::create_plugin_transform_executor(
-                                    &self.cm,
-                                    &unresolved_mark,
-                                    &transform_metadata_context,
-                                    plugin_module_bytes,
-                                    Some(p.1.clone()),
-                                    runtime,
-                                );
-
-                            let span = tracing::span!(
-                                tracing::Level::INFO,
-                                "execute_plugin_runner",
-                                plugin_module = p.0.as_str()
+                            self.inovke_wasm_analysis_plugin(
+                                &serialized,
+                                unresolved_mark,
+                                &transform_metadata_context,
+                                p,
                             )
-                            .entered();
-
-                            let (result, output) = swc_transform_common::output::capture(|| {
-                                transform_plugin_executor
-                                    .transform(&serialized, Some(true))
-                                    .with_context(|| {
-                                        format!(
-                                            "failed to invoke `{}` as js analysis plugin at {}",
-                                            &p.0, plugin_name
-                                        )
-                                    })
-                            });
-                            result?;
-                            drop(span);
-
-                            Ok(output)
                         })
                     })
                     .collect::<Result<Vec<_>>>()?;
@@ -128,6 +86,63 @@ impl Compiler {
                     .map_err(|e| anyhow::anyhow!("Failed to serialize output: {e}"))
             })
         })
+    }
+
+    fn inovke_wasm_analysis_plugin(
+        &self,
+        serialized: &PluginSerializedBytes,
+        unresolved_mark: Mark,
+        transform_metadata_context: &Arc<TransformPluginMetadataContext>,
+        p: &PluginConfig,
+    ) -> Result<FxHashMap<String, String>> {
+        let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
+            .inner
+            .get()
+            .unwrap()
+            .lock()
+            .get(&p.0)
+            .expect("plugin module should be loaded");
+
+        let plugin_name = plugin_module_bytes.get_module_name().to_string();
+        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
+            crate::config::PLUGIN_MODULE_CACHE
+                .inner
+                .get()
+                .unwrap()
+                .lock()
+                .get_fs_cache_root()
+                .map(std::path::PathBuf::from),
+        );
+        let mut transform_plugin_executor = swc_plugin_runner::create_plugin_transform_executor(
+            &self.cm,
+            &unresolved_mark,
+            transform_metadata_context,
+            plugin_module_bytes,
+            Some(p.1.clone()),
+            runtime,
+        );
+
+        let span = tracing::span!(
+            tracing::Level::INFO,
+            "execute_plugin_runner",
+            plugin_module = p.0.as_str()
+        )
+        .entered();
+
+        let (result, output) = swc_transform_common::output::capture(|| {
+            transform_plugin_executor
+                .transform(serialized, Some(true))
+                .with_context(|| {
+                    format!(
+                        "failed to invoke `{}` as js analysis plugin at {}",
+                        &p.0, plugin_name
+                    )
+                })
+        });
+        result?;
+        drop(span);
+
+        Ok(output)
     }
 }
 
