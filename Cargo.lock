@@ -4684,7 +4684,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "crc 2.1.0",
@@ -4740,7 +4740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "18.0.0"
+version = "19.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "18.0.0"
+version = "19.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6025,7 +6025,7 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "8.0.0"
+version = "9.0.0"
 dependencies = [
  "auto_impl",
  "petgraph 0.7.1",
@@ -6178,7 +6178,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "18.0.0"
+version = "19.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
