@@ -2023,7 +2023,11 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
-            let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
+            let v = get_template_element_from_raw(
+                &raw,
+                self.cfg.ascii_only,
+                self.cfg.reduce_escaped_newline,
+            );
             let span = node.span();
 
             let mut last_offset_gen = 0;
@@ -3811,7 +3815,11 @@ where
     }
 }
 
-fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
+fn get_template_element_from_raw(
+    s: &str,
+    ascii_only: bool,
+    reduce_escaped_newline: bool,
+) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -3884,7 +3892,16 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
         let unescape = match c {
             '\\' => match iter.next() {
                 Some(c) => match c {
-                    'n' => Some('\n'),
+                    'n' => {
+                        if reduce_escaped_newline {
+                            Some('\n')
+                        } else {
+                            buf.push('\\');
+                            buf.push('n');
+
+                            None
+                        }
+                    }
                     't' => Some('\t'),
                     'x' => {
                         read_escaped(16, Some(2), &mut buf, &mut iter);

@@ -1,0 +1,6 @@
+{
+    "ecma": 5,
+    "experimental": {
+        "reduce_escaped_newline": true
+    }
+}

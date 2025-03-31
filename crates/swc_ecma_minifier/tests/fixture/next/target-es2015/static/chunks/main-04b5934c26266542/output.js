@@ -914,7 +914,10 @@
                         return (cn = navigator.connection) && (cn.saveData || /2g/.test(cn.effectiveType)) ? Promise.resolve() : getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>{
                                 var href, as, link;
                                 return href = script.toString(), as = "script", new Promise((res, rej)=>{
-                                    const selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
+                                    const selector = `
+      link[rel="prefetch"][href^="`.concat(href, `"],
+      link[rel="preload"][href^="`).concat(href, `"],
+      script[src^="`).concat(href, '"]');
                                     if (document.querySelector(selector)) return res();
                                     link = document.createElement("link"), as && (link.as = as), link.rel = "prefetch", link.crossOrigin = void 0, link.onload = res, link.onerror = rej, // `href` should always be last:
                                     link.href = href, document.head.appendChild(link);
@@ -1054,7 +1057,9 @@
                 "beforePopState"
             ];
             function getRouter() {
-                if (!singletonRouter.router) throw Error('No router instance found.\nYou should only use "next/router" on the client side of your app.\n');
+                if (!singletonRouter.router) throw Error(`No router instance found.
+You should only use "next/router" on the client side of your app.
+`);
                 return singletonRouter.router;
             }
             // Events is a static property on the router, the router doesn't have to be initialized to use it
@@ -1088,7 +1093,8 @@
                         if (singletonRouter[eventField]) try {
                             singletonRouter[eventField](...args);
                         } catch (err) {
-                            console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
+                            console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, `
+`).concat(err.stack) : err + "");
                         }
                     });
                 });
@@ -1327,7 +1333,18 @@
                         style: styles.error
                     }, /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("title", null, statusCode ? "".concat(statusCode, ": ").concat(title) : "Application error: a client-side exception has occurred")), /*#__PURE__*/ _react.default.createElement("div", null, /*#__PURE__*/ _react.default.createElement("style", {
                         dangerouslySetInnerHTML: {
-                            __html: "\n                body { margin: 0; color: #000; background: #fff; }\n                .next-error-h1 {\n                  border-right: 1px solid rgba(0, 0, 0, .3);\n                }\n\n                ".concat(withDarkMode ? "@media (prefers-color-scheme: dark) {\n                  body { color: #fff; background: #000; }\n                  .next-error-h1 {\n                    border-right: 1px solid rgba(255, 255, 255, .3);\n                  }\n                }" : "")
+                            __html: `
+                body { margin: 0; color: #000; background: #fff; }
+                .next-error-h1 {
+                  border-right: 1px solid rgba(0, 0, 0, .3);
+                }
+
+                `.concat(withDarkMode ? `@media (prefers-color-scheme: dark) {
+                  body { color: #fff; background: #000; }
+                  .next-error-h1 {
+                    border-right: 1px solid rgba(255, 255, 255, .3);
+                  }
+                }` : "")
                         }
                     }), statusCode ? /*#__PURE__*/ _react.default.createElement("h1", {
                         className: "next-error-h1",

@@ -2,6 +2,11 @@
 use serde::{Deserialize, Serialize};
 use swc_ecma_ast::EsVersion;
 
+#[cfg(feature = "serde-impl")]
+const fn true_by_default() -> bool {
+    true
+}
+
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
@@ -39,6 +44,13 @@ pub struct Config {
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub inline_script: bool,
+
+    /// Transform escaped newline `'\n'` of `TplElement` to a newline character
+    /// to reduce text size of javascript code
+    ///
+    /// Defaults to `true`
+    #[cfg_attr(feature = "serde-impl", serde(default = "true_by_default"))]
+    pub reduce_escaped_newline: bool,
 }
 
 impl Default for Config {
@@ -50,6 +62,7 @@ impl Default for Config {
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
             inline_script: false,
+            reduce_escaped_newline: true,
         }
     }
 }
@@ -85,6 +98,15 @@ impl Config {
 
     pub fn with_inline_script(mut self, inline_script: bool) -> Self {
         self.inline_script = inline_script;
+        self
+    }
+
+    /// Transform escaped newline `'\n'` of `TplElement` to a newline character
+    /// to reduce text size of javascript code
+    ///
+    /// Defaults to `true`
+    pub fn with_reduce_escaped_newline(mut self, reduce_escaped_newline: bool) -> Self {
+        self.reduce_escaped_newline = reduce_escaped_newline;
         self
     }
 }
