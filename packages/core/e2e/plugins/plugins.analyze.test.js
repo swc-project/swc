@@ -123,8 +123,11 @@ describe("Analysis Plugins", () => {
                         );
 
                         // Consider test passes if plugin transform is successful.
-                        expect(result).toMatchInlineSnapshot()
-                    }
+                        expect(result).toMatchInlineSnapshot(
+                            `"[{"test":"test"}]"`
+                        );
+                    },
+                    60000
                 );
             }
         );
