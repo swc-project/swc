@@ -8,7 +8,7 @@ use swc_core::{
     },
     quote,
 };
-use swc_transform_common::output::emit;
+use swc_transform_common::output::experimental_emit;
 
 struct ConsoleOutputReplacer {
     metadata: TransformPluginProgramMetadata,
@@ -135,7 +135,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     dbg!();
 
-    emit("foo".into(), "bar".into());
+    experimental_emit("foo".into(), "bar".into());
 
     dbg!();
 
