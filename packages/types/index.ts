@@ -2921,7 +2921,9 @@ export type WasmAnalysisOptions = {
 
     filename?: string;
 
-    error_format?: 'json' | 'normal'
+    errorFormat?: 'json' | 'normal'
+
+    cacheRoot?: string;
 
     plugins: WasmPlugin[]
 }

@@ -128,6 +128,7 @@ impl Compiler {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct WasmAnalysisOptions {
     #[serde(default)]
     pub parser: Syntax,
