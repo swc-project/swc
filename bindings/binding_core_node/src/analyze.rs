@@ -32,10 +32,10 @@ impl Task for AnalyzeTask {
             let comments = SingleThreadedComments::default();
 
             let fm = self.c.cm.new_source_file(
-                if options.filename.is_empty() {
-                    FileName::Anon.into()
+                if let Some(filename) = options.filename.as_deref() {
+                    FileName::Real(filename.into()).into()
                 } else {
-                    FileName::Real(options.filename.clone().into()).into()
+                    FileName::Anon.into()
                 },
                 self.input.take().unwrap(),
             );
