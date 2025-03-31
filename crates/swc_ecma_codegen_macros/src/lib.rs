@@ -60,7 +60,6 @@ pub fn node_impl(
 /// Returns `(emitter_method, adjuster_method)`
 fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
     let emit_block = ReplaceEmit { emit: true }.fold_block(src.block.clone());
-    let adjust_block = ReplaceEmit { emit: false }.fold_block(src.block.clone());
 
     parse_quote!(
         impl crate::Node for #node_type {
@@ -72,13 +71,6 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
                 #emit_block
             }
 
-            fn adjust_span<W, S>(&mut self, emitter: &mut crate::SpanWriter<'_, W, S>) -> Result
-            where
-                W: crate::text_writer::SpannedWriteJs,
-                S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-            {
-                #adjust_block
-            }
         }
     )
 }
