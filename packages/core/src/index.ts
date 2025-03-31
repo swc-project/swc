@@ -395,7 +395,7 @@ export class Compiler {
 const compiler = new Compiler();
 
 
-export function analyze(
+export function experimental_analyze(
     src: string,
     options?: WasmAnalysisOptions
 ): Promise<string> {
