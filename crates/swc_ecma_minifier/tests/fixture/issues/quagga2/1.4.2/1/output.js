@@ -8534,7 +8534,7 @@
                 getActiveTrack: getActiveTrack
             }, camera_access = QuaggaJSCameraAccess, result_collector = {
                 create: function(config) {
-                    var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null !== (_config$capacity = config.capacity) && void 0 !== _config$capacity ? _config$capacity : 20, capture = !0 === config.capture;
+                    var _config$capacity, canvas = document.createElement("canvas"), ctx = canvas.getContext("2d"), results = [], capacity = null != (_config$capacity = config.capacity) ? _config$capacity : 20, capture = !0 === config.capture;
                     return {
                         addResult: function(data, imageSize, codeResult) {
                             var list, filter, result = {}; // this is 'any' to avoid having to construct a whole QuaggaJSCodeResult :|
@@ -8776,7 +8776,7 @@
                         },
                         setCurrentTime: function(time) {
                             var _config4;
-                            (null === (_config4 = _config) || void 0 === _config4 ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
+                            (null == (_config4 = _config) ? void 0 : _config4.type) !== "LiveStream" && this.setAttribute("currentTime", time.toString());
                         },
                         addEventListener: function(event, f, bool) {
                             -1 !== _eventNames.indexOf(event) ? (_eventHandlers[event] || (_eventHandlers[event] = []), _eventHandlers[event].push(f)) : video.addEventListener(event, f, bool);
@@ -8791,7 +8791,7 @@
                         },
                         trigger: function(eventName, args) {
                             var _config2, _config3, width, height, j, handlers = _eventHandlers[eventName];
-                            if ("canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null !== (_config2 = _config) && void 0 !== _config2 && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null !== (_config3 = _config) && void 0 !== _config3 && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
+                            if ("canrecord" === eventName && (width = video.videoWidth, height = video.videoHeight, _calculatedWidth = null != (_config2 = _config) && _config2.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, _calculatedHeight = null != (_config3 = _config) && _config3.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = _calculatedWidth, _canvasSize.y = _calculatedHeight), handlers && handlers.length > 0) for(j = 0; j < handlers.length; j++)handlers[j].apply(inputStream, args);
                         },
                         setTopRight: function(topRight) {
                             _topRight.x = topRight.x, _topRight.y = topRight.y;
@@ -8877,11 +8877,11 @@
                                 }
                                 else width = imgs[0].img.width, height = imgs[0].img.height;
                                  // eslint-disable-next-line no-nested-ternary
-                                calculatedWidth = null !== (_config5 = _config) && void 0 !== _config5 && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, calculatedHeight = null !== (_config6 = _config) && void 0 !== _config6 && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = calculatedWidth, _canvasSize.y = calculatedHeight, loaded = !0, frameIdx = 0, setTimeout(function() {
+                                calculatedWidth = null != (_config5 = _config) && _config5.size ? width / height > 1 ? _config.size : Math.floor(width / height * _config.size) : width, calculatedHeight = null != (_config6 = _config) && _config6.size ? width / height > 1 ? Math.floor(height / width * _config.size) : _config.size : height, _canvasSize.x = calculatedWidth, _canvasSize.y = calculatedHeight, loaded = !0, frameIdx = 0, setTimeout(function() {
                                     // eslint-disable-next-line @typescript-eslint/no-use-before-define
                                     publishEvent("canrecord", []);
                                 }, 0);
-                            }, 1, size, null === (_config7 = _config) || void 0 === _config7 ? void 0 : _config7.sequence);
+                            }, 1, size, null == (_config7 = _config) ? void 0 : _config7.sequence);
                         },
                         ended: function() {
                             return _ended;
@@ -8922,7 +8922,7 @@
                         getFrame: function() {
                             var frame, _imgArray;
                             return loaded ? (!paused && (// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                            frame = null === (_imgArray = imgArray) || void 0 === _imgArray ? void 0 : _imgArray[frameIdx], frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
+                            frame = null == (_imgArray = imgArray) ? void 0 : _imgArray[frameIdx], frameIdx < size - 1 ? frameIdx++ : setTimeout(function() {
                                 _ended = !0, publishEvent("ended", []);
                             }, 0)), frame) : null;
                         }
@@ -9083,9 +9083,9 @@
                     var _this = this;
                     classCallCheck_default()(this, Quagga), defineProperty_default()(this, "context", new QuaggaContext_QuaggaContext()), defineProperty_default()(this, "canRecord", function(callback) {
                         var _this$context$config;
-                        _this.context.config && (barcode_locator.a.checkImageConstraints(_this.context.inputStream, null === (_this$context$config = _this.context.config) || void 0 === _this$context$config ? void 0 : _this$context$config.locator), _this.initCanvas(), _this.context.framegrabber = FrameGrabber.create(_this.context.inputStream, _this.context.canvasContainer.dom.image), void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0), adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
+                        _this.context.config && (barcode_locator.a.checkImageConstraints(_this.context.inputStream, null == (_this$context$config = _this.context.config) ? void 0 : _this$context$config.locator), _this.initCanvas(), _this.context.framegrabber = FrameGrabber.create(_this.context.inputStream, _this.context.canvasContainer.dom.image), void 0 === _this.context.config.numOfWorkers && (_this.context.config.numOfWorkers = 0), adjustWorkerPool(_this.context.config.numOfWorkers, _this.context.config, _this.context.inputStream, function() {
                             var _this$context$config2;
-                            (null === (_this$context$config2 = _this.context.config) || void 0 === _this$context$config2 ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData(), _this.ready(callback);
+                            (null == (_this$context$config2 = _this.context.config) ? void 0 : _this$context$config2.numOfWorkers) === 0 && _this.initializeData(), _this.ready(callback);
                         }));
                     }), defineProperty_default()(this, "update", function() {
                         if (_this.context.onUIThread) {
@@ -9097,8 +9097,8 @@
                             }, [
                                 availableWorker.imageData.buffer
                             ])), !0) : null);
-                            workersUpdated || (_this.context.framegrabber.attachData(null === (_this$context$inputIm = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
-                        } else _this.context.framegrabber.attachData(null === (_this$context$inputIm2 = _this.context.inputImageWrapper) || void 0 === _this$context$inputIm2 ? void 0 : _this$context$inputIm2.data), _this.context.framegrabber.grab(), _this.locateAndDecode();
+                            workersUpdated || (_this.context.framegrabber.attachData(null == (_this$context$inputIm = _this.context.inputImageWrapper) ? void 0 : _this$context$inputIm.data), _this.context.framegrabber.grab() && !workersUpdated && _this.locateAndDecode());
+                        } else _this.context.framegrabber.attachData(null == (_this$context$inputIm2 = _this.context.inputImageWrapper) ? void 0 : _this$context$inputIm2.data), _this.context.framegrabber.grab(), _this.locateAndDecode();
                     });
                 }
                 return createClass_default()(Quagga, [
@@ -9157,7 +9157,7 @@
                         key: "initCanvas",
                         value: function() {
                             var container = function(context) {
-                                var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context || null === (_context$config = context.config) || void 0 === _context$config || null === (_context$config$input = _context$config.inputStream) || void 0 === _context$config$input ? void 0 : _context$config$input.target), type = null == context || null === (_context$config2 = context.config) || void 0 === _context$config2 || null === (_context$config2$inpu = _context$config2.inputStream) || void 0 === _context$config2$inpu ? void 0 : _context$config2$inpu.type;
+                                var _context$config, _context$config$input, _context$config2, _context$config2$inpu, viewport = getViewPort_getViewPort(null == context || null == (_context$config = context.config) || null == (_context$config$input = _context$config.inputStream) ? void 0 : _context$config$input.target), type = null == context || null == (_context$config2 = context.config) || null == (_context$config2$inpu = _context$config2.inputStream) ? void 0 : _context$config2$inpu.type;
                                 if (!type) return null;
                                 var container = function(canvasSize) {
                                     if ("undefined" != typeof document) {
@@ -9238,7 +9238,7 @@
                         key: "getBoundingBoxes",
                         value: function() {
                             var _this$context$config3;
-                            return null !== (_this$context$config3 = this.context.config) && void 0 !== _this$context$config3 && _this$context$config3.locate ? barcode_locator.a.locate() : [
+                            return null != (_this$context$config3 = this.context.config) && _this$context$config3.locate ? barcode_locator.a.locate() : [
                                 [
                                     Object(gl_vec2.clone)(this.context.boxSize[0]),
                                     Object(gl_vec2.clone)(this.context.boxSize[1]),
@@ -9290,17 +9290,17 @@
                             var boxes = this.getBoundingBoxes();
                             if (boxes) {
                                 var _this$context$inputIm3, decodeResult = this.context.decoder.decodeFromBoundingBoxes(boxes) || {};
-                                decodeResult.boxes = boxes, this.publishResult(decodeResult, null === (_this$context$inputIm3 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm3 ? void 0 : _this$context$inputIm3.data);
+                                decodeResult.boxes = boxes, this.publishResult(decodeResult, null == (_this$context$inputIm3 = this.context.inputImageWrapper) ? void 0 : _this$context$inputIm3.data);
                             } else {
                                 var _this$context$inputIm4, imageResult = this.context.decoder.decodeFromImage(this.context.inputImageWrapper);
-                                imageResult ? this.publishResult(imageResult, null === (_this$context$inputIm4 = this.context.inputImageWrapper) || void 0 === _this$context$inputIm4 ? void 0 : _this$context$inputIm4.data) : this.publishResult();
+                                imageResult ? this.publishResult(imageResult, null == (_this$context$inputIm4 = this.context.inputImageWrapper) ? void 0 : _this$context$inputIm4.data) : this.publishResult();
                             }
                         }
                     },
                     {
                         key: "startContinuousUpdate",
                         value: function() {
-                            var _this$context$config4, _this4 = this, next = null, delay = 1000 / ((null === (_this$context$config4 = this.context.config) || void 0 === _this$context$config4 ? void 0 : _this$context$config4.frequency) || 60);
+                            var _this$context$config4, _this4 = this, next = null, delay = 1000 / ((null == (_this$context$config4 = this.context.config) ? void 0 : _this$context$config4.frequency) || 60);
                             this.context.stopped = !1;
                             var context = this.context;
                             !function newFrame(timestamp) {
@@ -9312,7 +9312,7 @@
                         key: "start",
                         value: function() {
                             var _this$context$config5, _this$context$config6;
-                            this.context.onUIThread && (null === (_this$context$config5 = this.context.config) || void 0 === _this$context$config5 || null === (_this$context$config6 = _this$context$config5.inputStream) || void 0 === _this$context$config6 ? void 0 : _this$context$config6.type) === "LiveStream" ? this.startContinuousUpdate() : this.update();
+                            this.context.onUIThread && (null == (_this$context$config5 = this.context.config) || null == (_this$context$config6 = _this$context$config5.inputStream) ? void 0 : _this$context$config6.type) === "LiveStream" ? this.startContinuousUpdate() : this.update();
                         }
                     },
                     {
@@ -9322,7 +9322,7 @@
                             return regenerator_default.a.wrap(function(_context) {
                                 for(;;)switch(_context.prev = _context.next){
                                     case 0:
-                                        if (this.context.stopped = !0, adjustWorkerPool(0), !(null !== (_this$context$config7 = this.context.config) && void 0 !== _this$context$config7 && _this$context$config7.inputStream && "LiveStream" === this.context.config.inputStream.type)) {
+                                        if (this.context.stopped = !0, adjustWorkerPool(0), !(null != (_this$context$config7 = this.context.config) && _this$context$config7.inputStream && "LiveStream" === this.context.config.inputStream.type)) {
                                             _context.next = 6;
                                             break;
                                         }

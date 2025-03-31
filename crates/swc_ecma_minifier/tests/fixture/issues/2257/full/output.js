@@ -10725,8 +10725,8 @@
                 }
                 return __extends(Wrapper, _super), Wrapper.prototype.componentWillUnmount = function() {
                     var _a;
-                    null === // eslint-disable-next-line no-unused-expressions
-                    (_a = _super.prototype.componentWillUnmount) || void 0 === _a || _a.call(this), visibleListeners[this.pathname] = null;
+                    null == // eslint-disable-next-line no-unused-expressions
+                    (_a = _super.prototype.componentWillUnmount) || _a.call(this), visibleListeners[this.pathname] = null;
                 }, Wrapper;
             }(Component);
             return Wrapper.displayName = "withPageLifeCycle(" + (Component.displayName || Component.name) + ")", Wrapper;
@@ -12315,7 +12315,7 @@
         }), exports.reactAppRenderer = exports.getRenderApp = exports.getInitialData = exports.setInitialData = void 0;
         var React = __webpack_require__(59301), ReactDOM = __webpack_require__(4676), queryString = __webpack_require__(20386), component_1 = __webpack_require__(9347);
         function getRenderApp(runtime, options) {
-            var _a, _b, ErrorBoundary = options.ErrorBoundary, _c = options.appConfig, AppProvider = null === (_a = null == runtime ? void 0 : runtime.composeAppProvider) || void 0 === _a ? void 0 : _a.call(runtime), AppComponent = null === (_b = null == runtime ? void 0 : runtime.getAppComponent) || void 0 === _b ? void 0 : _b.call(runtime), rootApp = React.createElement(AppComponent, null);
+            var _a, _b, ErrorBoundary = options.ErrorBoundary, _c = options.appConfig, AppProvider = null == (_a = null == runtime ? void 0 : runtime.composeAppProvider) ? void 0 : _a.call(runtime), AppComponent = null == (_b = null == runtime ? void 0 : runtime.getAppComponent) ? void 0 : _b.call(runtime), rootApp = React.createElement(AppComponent, null);
             AppProvider && (rootApp = React.createElement(AppProvider, null, rootApp));
             var _d = (void 0 === _c ? {
                 app: {}
@@ -12347,7 +12347,7 @@
                                 3
                             ];
                         case 1:
-                            if (!(null === (_a = null == appConfig ? void 0 : appConfig.app) || void 0 === _a ? void 0 : _a.getInitialData)) return [
+                            if (!(null == (_a = null == appConfig ? void 0 : appConfig.app) ? void 0 : _a.getInitialData)) return [
                                 3 /*break*/ ,
                                 3
                             ];
@@ -12369,7 +12369,7 @@
                                 2 /*return*/ ,
                                 function(runtime, options) {
                                     var _a, _b = options.appConfig, _c = (void 0 === _b ? {} : _b).app, rootId = _c.rootId, mountNode = _c.mountNode, App = getRenderApp(runtime, options), appMountNode = mountNode || document.getElementById(rootId) || document.getElementById("ice-container");
-                                    if (null == runtime ? void 0 : runtime.modifyDOMRender) return null === (_a = null == runtime ? void 0 : runtime.modifyDOMRender) || void 0 === _a ? void 0 : _a.call(runtime, {
+                                    if (null == runtime ? void 0 : runtime.modifyDOMRender) return null == (_a = null == runtime ? void 0 : runtime.modifyDOMRender) ? void 0 : _a.call(runtime, {
                                         App: App,
                                         appMountNode: appMountNode
                                     });

@@ -3800,7 +3800,7 @@
         /***/ 3454: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
-            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
+            module.exports = (null == (ref = __webpack_require__.g.process) ? void 0 : ref.env) && "object" == typeof (null == (ref1 = __webpack_require__.g.process) ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
         //# sourceMappingURL=process.js.map
         /***/ },
         /***/ 1118: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -5999,7 +5999,7 @@
             }), getServerHandoff = ()=>{
                 try {
                     var _document$getElementB;
-                    const serverData = null === (_document$getElementB = document.getElementById("__PRIMER_DATA__")) || void 0 === _document$getElementB ? void 0 : _document$getElementB.textContent;
+                    const serverData = null == (_document$getElementB = document.getElementById("__PRIMER_DATA__")) ? void 0 : _document$getElementB.textContent;
                     if (serverData) return JSON.parse(serverData);
                 } catch (error) {
                 // if document/element does not exist or JSON is invalid, supress error
@@ -6008,12 +6008,12 @@
             }, ThemeProvider = ({ children, ...props })=>{
                 var _ref, _props$theme, _ref2, _props$colorMode, _ref3, _props$dayScheme, _ref4, _props$nightScheme;
                 // Get fallback values from parent ThemeProvider (if exists)
-                const { theme: fallbackTheme, colorMode: fallbackColorMode, dayScheme: fallbackDayScheme, nightScheme: fallbackNightScheme } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = function() {
+                const { theme: fallbackTheme, colorMode: fallbackColorMode, dayScheme: fallbackDayScheme, nightScheme: fallbackNightScheme } = useTheme(), theme = null != (_ref = null != (_props$theme = props.theme) ? _props$theme : fallbackTheme) ? _ref : lib_esm_theme, { resolvedServerColorMode } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null != (_ref2 = null != (_props$colorMode = props.colorMode) ? _props$colorMode : fallbackColorMode) ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null != (_ref3 = null != (_props$dayScheme = props.dayScheme) ? _props$dayScheme : fallbackDayScheme) ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null != (_ref4 = null != (_props$nightScheme = props.nightScheme) ? _props$nightScheme : fallbackNightScheme) ? _ref4 : defaultNightScheme), systemColorMode = function() {
                     const [systemColorMode, setSystemColorMode] = react.useState(getSystemColorMode);
                     return react.useEffect(()=>{
                         var _window, _window$matchMedia;
                         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        const media = null === (_window = window) || void 0 === _window || null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
+                        const media = null == (_window = window) || null == (_window$matchMedia = _window.matchMedia) ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
                         function handleChange(event) {
                             setSystemColorMode(event.matches ? "night" : "day");
                         } // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -6067,7 +6067,7 @@
                     systemColorMode
                 ]), react.useEffect(()=>{
                     var _ref5, _props$colorMode2;
-                    setColorMode(null !== (_ref5 = null !== (_props$colorMode2 = props.colorMode) && void 0 !== _props$colorMode2 ? _props$colorMode2 : fallbackColorMode) && void 0 !== _ref5 ? _ref5 : "day");
+                    setColorMode(null != (_ref5 = null != (_props$colorMode2 = props.colorMode) ? _props$colorMode2 : fallbackColorMode) ? _ref5 : "day");
                 }, [
                     props.colorMode,
                     fallbackColorMode
@@ -6077,13 +6077,13 @@
                     resolvedColorMode
                 ]), react.useEffect(()=>{
                     var _ref6, _props$dayScheme2;
-                    setDayScheme(null !== (_ref6 = null !== (_props$dayScheme2 = props.dayScheme) && void 0 !== _props$dayScheme2 ? _props$dayScheme2 : fallbackDayScheme) && void 0 !== _ref6 ? _ref6 : defaultDayScheme);
+                    setDayScheme(null != (_ref6 = null != (_props$dayScheme2 = props.dayScheme) ? _props$dayScheme2 : fallbackDayScheme) ? _ref6 : defaultDayScheme);
                 }, [
                     props.dayScheme,
                     fallbackDayScheme
                 ]), react.useEffect(()=>{
                     var _ref7, _props$nightScheme2;
-                    setNightScheme(null !== (_ref7 = null !== (_props$nightScheme2 = props.nightScheme) && void 0 !== _props$nightScheme2 ? _props$nightScheme2 : fallbackNightScheme) && void 0 !== _ref7 ? _ref7 : defaultNightScheme);
+                    setNightScheme(null != (_ref7 = null != (_props$nightScheme2 = props.nightScheme) ? _props$nightScheme2 : fallbackNightScheme) ? _ref7 : defaultNightScheme);
                 }, [
                     props.nightScheme,
                     fallbackNightScheme
@@ -6118,7 +6118,7 @@
             function getSystemColorMode() {
                 var _window$matchMedia2, _window2, _window$matchMedia2$c;
                 return(// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                "undefined" != typeof window && null !== (_window$matchMedia2 = (_window2 = window).matchMedia) && void 0 !== _window$matchMedia2 && null !== (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && void 0 !== _window$matchMedia2$c && _window$matchMedia2$c.matches ? "night" : "day");
+                "undefined" != typeof window && null != (_window$matchMedia2 = (_window2 = window).matchMedia) && null != (_window$matchMedia2$c = _window$matchMedia2.call(_window2, "(prefers-color-scheme: dark)")) && _window$matchMedia2$c.matches ? "night" : "day");
             }
             function resolveColorMode(colorMode, systemColorMode) {
                 return "auto" === colorMode ? systemColorMode : colorMode;

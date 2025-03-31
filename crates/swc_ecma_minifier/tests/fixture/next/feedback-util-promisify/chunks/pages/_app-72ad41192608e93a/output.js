@@ -6,7 +6,7 @@
         /***/ 3454: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var ref, ref1;
-            module.exports = (null === (ref = __webpack_require__.g.process) || void 0 === ref ? void 0 : ref.env) && "object" == typeof (null === (ref1 = __webpack_require__.g.process) || void 0 === ref1 ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
+            module.exports = (null == (ref = __webpack_require__.g.process) ? void 0 : ref.env) && "object" == typeof (null == (ref1 = __webpack_require__.g.process) ? void 0 : ref1.env) ? __webpack_require__.g.process : __webpack_require__(7663);
         //# sourceMappingURL=process.js.map
         /***/ },
         /***/ 1780: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {

@@ -1051,7 +1051,7 @@
                  *   localWriteTime.
                  */ function Tt(t) {
                 var e, n;
-                return "server_timestamp" === (null === (n = ((null === (e = null == t ? void 0 : t.mapValue) || void 0 === e ? void 0 : e.fields) || {}).__type__) || void 0 === n ? void 0 : n.stringValue);
+                return "server_timestamp" === (null == (n = ((null == (e = null == t ? void 0 : t.mapValue) ? void 0 : e.fields) || {}).__type__) ? void 0 : n.stringValue);
             }
             /**
                  * Returns the local time at which this timestamp was first set.
@@ -1667,7 +1667,7 @@
             }
             function ee(t, e) {
                 var n;
-                return ((null === (n = e.arrayValue) || void 0 === n ? void 0 : n.values) || []).map((t)=>Pt.fromName(t.referenceValue));
+                return ((null == (n = e.arrayValue) ? void 0 : n.values) || []).map((t)=>Pt.fromName(t.referenceValue));
             }
             /** A Filter that implements the array-contains operator. */ class ne extends Jt {
                 constructor(t, e){
@@ -5811,7 +5811,7 @@
                             // compatible with the bug we need to check either condition. The latter
                             // can be removed once the fix has been rolled out.
                             // Use any because msgData.error is not typed.
-                            const i = n.error || (null === (e = n[0]) || void 0 === e ? void 0 : e.error);
+                            const i = n.error || (null == (e = n[0]) ? void 0 : e.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
                                 // error.status will be a string like 'OK' or 'NOT_FOUND'.
@@ -8021,7 +8021,7 @@
                     if (void 0 === t.host) {
                         if (void 0 !== t.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
                         this.host = "firestore.googleapis.com", this.ssl = !0;
-                    } else this.host = t.host, this.ssl = null === (e = t.ssl) || void 0 === e || e;
+                    } else this.host = t.host, this.ssl = null == (e = t.ssl) || e;
                     if (this.credentials = t.credentials, this.ignoreUndefinedProperties = !!t.ignoreUndefinedProperties, void 0 === t.cacheSizeBytes) this.cacheSizeBytes = 41943040;
                     else {
                         if (-1 !== t.cacheSizeBytes && t.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
@@ -8456,7 +8456,7 @@
             }
             function Ma(t) {
                 var e;
-                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
+                const n = t._freezeSettings(), s = new ua(t._databaseId, (null == (e = t._app) ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             /**
