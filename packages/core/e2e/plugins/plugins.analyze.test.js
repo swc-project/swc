@@ -102,7 +102,7 @@ describe("Analysis Plugins", () => {
 
                         return await experimental_analyze(code, options);
                     } else {
-                        const { transformSync } = require(path.resolve(
+                        const { analyze } = require(path.resolve(
                             getPkgRoot(),
                             `swc_host_${host}.node`
                         ));
