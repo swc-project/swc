@@ -16,7 +16,11 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::resolver;
 
-use crate::{config::ErrorFormat, plugin::PluginConfig, Compiler};
+use crate::{
+    config::ErrorFormat,
+    plugin::{compile_wasm_plugins, PluginConfig},
+    Compiler,
+};
 
 impl Compiler {
     /// Run analysis using Wasm plugins.
@@ -27,7 +31,7 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &dyn Comments,
     ) -> Result<String> {
-        crate::config::init_plugin_module_cache_once(true, &opts.cache_root);
+        compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins)?;
 
         self.run(|| {
             GLOBALS.with(|globals| {

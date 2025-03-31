@@ -6,12 +6,22 @@
     allow(unused)
 )]
 
+use std::path::PathBuf;
+
+use anyhow::Result;
+use common::FileName;
 use serde::{Deserialize, Serialize};
 use swc_common::errors::HANDLER;
 use swc_ecma_ast::Pass;
 #[cfg(feature = "plugin")]
 use swc_ecma_ast::*;
+use swc_ecma_loader::{
+    resolve::Resolve,
+    resolvers::{lru::CachingResolver, node::NodeModulesResolver},
+};
 use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
+
+use crate::config::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
 
 /// A tuple represents a plugin.
 ///
@@ -189,4 +199,45 @@ impl Fold for RustPlugins {
             }
         }
     }
+}
+
+pub(crate) fn compile_wasm_plugins(
+    cache_root: Option<&str>,
+    plugins: &[PluginConfig],
+) -> Result<()> {
+    let plugin_resolver = CachingResolver::new(
+        40,
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+    );
+
+    // Currently swc enables filesystemcache by default on Embedded runtime plugin
+    // target.
+    init_plugin_module_cache_once(true, cache_root);
+
+    let mut inner_cache = PLUGIN_MODULE_CACHE
+        .inner
+        .get()
+        .expect("Cache should be available")
+        .lock();
+
+    // Populate cache to the plugin modules if not loaded
+    for plugin_config in plugins.iter() {
+        let plugin_name = &plugin_config.0;
+
+        if !inner_cache.contains(plugin_name) {
+            let resolved_path = plugin_resolver
+                .resolve(&FileName::Real(PathBuf::from(plugin_name)), plugin_name)?;
+
+            let path = if let FileName::Real(value) = resolved_path.filename {
+                value
+            } else {
+                anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
+            };
+
+            inner_cache.store_bytes_from_path(&path, plugin_name)?;
+            tracing::debug!("Initialized WASM plugin {plugin_name}");
+        }
+    }
+
+    Ok(())
 }
