@@ -56,8 +56,7 @@ impl Task for TransformTask {
 }
 
 #[napi]
-#[instrument(level = "trace", skip_all)]
-pub fn transform(
+pub fn analyze(
     src: String,
     options: JsBuffer,
     signal: Option<AbortSignal>,
