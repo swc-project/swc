@@ -105,6 +105,8 @@ impl Compiler {
                     })
                     .collect::<Result<Vec<_>>>()?;
 
+                let result = result.into_iter().flatten().collect::<FxHashMap<_, _>>();
+
                 serde_json::to_string(&result)
                     .map_err(|e| anyhow::anyhow!("Failed to serialize output: {e}"))
             })
