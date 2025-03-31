@@ -48,14 +48,14 @@ const buildPlugin = async (feature) => {
     const args = [
         "build",
         "--manifest-path",
-        `./node-swc/e2e/fixtures/${feature}/Cargo.toml`,
+        `./e2e/fixtures/${feature}/Cargo.toml`,
         "--target",
         "wasm32-wasi",
     ];
 
     const options = { cwd: getPkgRoot(), stdio: "inherit" };
 
-    console.log(`Building plugins: ${feature}`);
+    console.log(`Building plugins: ${feature}: ${args}`);
     const proc =
         process.platform == "win32"
             ? spawn("cmd", ["/s", "/c", "cargo", ...args], options)
