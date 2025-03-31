@@ -1476,6 +1476,7 @@ dependencies = [
  "swc_plugin",
  "swc_plugin_macro",
  "swc_plugin_proxy",
+ "swc_transform_common",
  "vergen",
 ]
 
@@ -1710,6 +1711,18 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "swc_transform_common"
+version = "1.0.1"
+dependencies = [
+ "better_scoped_tls",
+ "once_cell",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "swc_common",
 ]
 
 [[package]]

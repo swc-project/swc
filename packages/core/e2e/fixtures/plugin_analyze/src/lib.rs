@@ -1,6 +1,7 @@
 use swc_core::{
     ecma::ast::Program,
     plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+    transform_common::output::experimental_emit,
 };
 
 #[plugin_transform]
