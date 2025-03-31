@@ -191,6 +191,7 @@ css_plugin_transform = ["common_plugin_transform", "__css_plugin_transform"]
 ecma_plugin_transform = [
   "common_plugin_transform",
   "transform_common",
+  "transform_common/plugin-mode",
   "__ecma_plugin_transform",
 ]
 
