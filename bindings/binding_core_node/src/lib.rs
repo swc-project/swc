@@ -14,6 +14,7 @@ use swc_core::{
     common::{sync::Lazy, FilePathMapping, SourceMap},
 };
 
+#[cfg(feature = "plugin")]
 mod analyze;
 mod bundle;
 mod minify;
