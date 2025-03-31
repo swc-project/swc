@@ -1,3 +1,5 @@
+#![cfg(feature = "plugin")]
+
 use std::sync::Arc;
 
 use anyhow::{Context, Result};
