@@ -21,8 +21,6 @@ use swc_ecma_loader::{
 };
 use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
 
-use crate::config::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
-
 /// A tuple represents a plugin.
 ///
 /// First element is a resolvable name to the plugin, second is a JSON object
@@ -212,9 +210,9 @@ pub(crate) fn compile_wasm_plugins(
 
     // Currently swc enables filesystemcache by default on Embedded runtime plugin
     // target.
-    init_plugin_module_cache_once(true, cache_root);
+    crate::config::init_plugin_module_cache_once(true, cache_root);
 
-    let mut inner_cache = PLUGIN_MODULE_CACHE
+    let mut inner_cache = crate::config::PLUGIN_MODULE_CACHE
         .inner
         .get()
         .expect("Cache should be available")
