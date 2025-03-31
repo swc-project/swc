@@ -29,7 +29,7 @@ extern "C" {
 ///
 /// This is not stable and may be removed in the future.
 #[cfg(target_arch = "wasm32")]
-pub fn emit(key: String, value: String) {
+pub fn experimental_emit(key: String, value: String) {
     let output = (key, value);
 
     let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(
@@ -47,7 +47,7 @@ pub fn emit(key: String, value: String) {
 ///
 /// This is not stable and may be removed in the future.
 #[cfg(not(target_arch = "wasm32"))]
-pub fn emit(key: String, value: String) {
+pub fn experimental_emit(key: String, value: String) {
     OUTPUT.with(|output| {
         let previous = output.borrow_mut().insert(key, value);
 

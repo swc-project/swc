@@ -2,7 +2,7 @@ use swc_common::{
     errors::{Diagnostic, HANDLER},
     plugin::serialized::PluginSerializedBytes,
 };
-use swc_transform_common::output::emit;
+use swc_transform_common::output::experimental_emit;
 use wasmer::FunctionEnvMut;
 
 use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host};
@@ -48,5 +48,5 @@ pub fn emit_output(env: FunctionEnvMut<BaseHostEnvironment>, output_ptr: i32, ou
     let output = PluginSerializedBytes::deserialize::<(String, String)>(&serialized)
         .expect("Should able to be deserialized into string");
 
-    emit(output.0 .0, output.0 .1);
+    experimental_emit(output.0 .0, output.0 .1);
 }
