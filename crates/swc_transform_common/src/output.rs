@@ -20,7 +20,7 @@ pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, FxHashMap<String, String>)
     (ret, output.into_inner())
 }
 
-#[cfg(feature = "plugin-mode")]
+#[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
 extern "C" {
     fn __emit_output(output_ptr: u32, output_len: u32);
 }
@@ -28,7 +28,7 @@ extern "C" {
 /// (Experimental) Emits a value to the JS caller.
 ///
 /// This is not stable and may be removed in the future.
-#[cfg(feature = "plugin-mode")]
+#[cfg(all(feature = "plugin-mode", target_arch = "wasm32"))]
 pub fn experimental_emit(key: String, value: String) {
     let output = (key, value);
 
@@ -46,7 +46,7 @@ pub fn experimental_emit(key: String, value: String) {
 /// (Experimental) Emits a value to the JS caller.
 ///
 /// This is not stable and may be removed in the future.
-#[cfg(not(feature = "plugin-mode"))]
+#[cfg(not(all(feature = "plugin-mode", target_arch = "wasm32")))]
 pub fn experimental_emit(key: String, value: String) {
     OUTPUT.with(|output| {
         let previous = output.borrow_mut().insert(key, value);
