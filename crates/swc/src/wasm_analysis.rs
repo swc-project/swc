@@ -32,6 +32,28 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &dyn Comments,
     ) -> Result<String> {
+        if cfg!(feature = "manual-tokio-runtime") {
+            self.run_wasm_analysis_inner(fm.clone(), handler, opts, comments)
+        } else {
+            let fm = fm.clone();
+
+            let fut = async move { self.run_wasm_analysis_inner(fm, handler, opts, comments) };
+            if let Ok(handle) = tokio::runtime::Handle::try_current() {
+                handle.block_on(fut)
+            } else {
+                tokio::runtime::Runtime::new().unwrap().block_on(fut)
+            }
+        }
+        .with_context(|| format!("failed to analyze '{:?}'", fm.name))
+    }
+
+    fn run_wasm_analysis_inner(
+        &self,
+        fm: Arc<SourceFile>,
+        handler: &Handler,
+        opts: &WasmAnalysisOptions,
+        comments: &dyn Comments,
+    ) -> Result<String> {
         compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins)?;
 
         self.run(|| {
