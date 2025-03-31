@@ -6325,6 +6325,7 @@ dependencies = [
  "rustc-hash 2.1.0",
  "serde",
  "serde_json",
+ "swc_common",
 ]
 
 [[package]]
