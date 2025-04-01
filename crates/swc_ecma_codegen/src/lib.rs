@@ -233,35 +233,6 @@ where
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
-    #[emitter]
-
-    fn emit_lit(&mut self, node: &Lit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        match *node {
-            Lit::Bool(Bool { value, .. }) => {
-                if value {
-                    keyword!("true")
-                } else {
-                    keyword!("false")
-                }
-            }
-            Lit::Null(Null { .. }) => keyword!("null"),
-            Lit::Str(ref s) => emit!(s),
-            Lit::BigInt(ref s) => emit!(s),
-            Lit::Num(ref n) => emit!(n),
-            Lit::Regex(ref n) => {
-                punct!("/");
-                self.wr.write_str(&n.exp)?;
-                punct!("/");
-                self.wr.write_str(&n.flags)?;
-            }
-            Lit::JSXText(ref n) => emit!(n),
-        }
-    }
-
     fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
         self.wr.write_str_lit(span, value)?;
 
