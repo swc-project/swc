@@ -1,8 +1,7 @@
 use std::fmt::{self};
 
 use miette::{
-    Diagnostic, GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, SpanContents,
-    ThemeCharacters,
+    Diagnostic, GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, ThemeCharacters,
 };
 use owo_colors::{OwoColorize, Style};
 use unicode_width::UnicodeWidthChar;
@@ -159,7 +158,7 @@ impl SwcReportHandler {
         context: &LabeledSpan,
         labels: &[LabeledSpan],
     ) -> fmt::Result {
-        let (contents, lines) = self.get_lines(source, context.inner())?;
+        let lines = self.get_lines(source, context.inner())?;
 
         // sorting is your friend
         let labels = labels
@@ -181,10 +180,6 @@ impl SwcReportHandler {
             }
             max_gutter = std::cmp::max(max_gutter, num_highlights);
         }
-
-        // Oh and one more thing: We need to figure out how much room our line
-        // numbers need!
-        let linum_width = 0;
 
         writeln!(f)?;
 
@@ -696,7 +691,7 @@ impl SwcReportHandler {
         &'a self,
         source: &'a dyn SourceCode,
         context_span: &'a SourceSpan,
-    ) -> Result<(Box<dyn SpanContents<'a> + 'a>, Vec<Line>), fmt::Error> {
+    ) -> Result<Vec<Line>, fmt::Error> {
         let context_data = source
             .read_span(context_span, self.context_lines, self.context_lines)
             .map_err(|_| fmt::Error)?;
@@ -738,7 +733,7 @@ impl SwcReportHandler {
                 line_offset = offset;
             }
         }
-        Ok((context_data, lines))
+        Ok(lines)
     }
 }
 
