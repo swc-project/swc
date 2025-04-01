@@ -157,19 +157,6 @@ where
     try_with_handler_inner(cm, config, op)
 }
 
-// Try operation with a [Handler] and prints the errors as a [String] wrapped
-// by [Err].
-// pub fn try_with_json_handler<F, Ret>(
-//     cm: Lrc<SourceMap>,
-//     config: HandlerOpts,
-//     op: F,
-// ) -> Result<Ret, Vec<Diagnostic>>
-// where
-//     F: FnOnce(&Handler) -> Result<Ret, Error>,
-// {
-//     try_with_handler_inner(op)
-// }
-
 fn try_with_handler_inner<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
