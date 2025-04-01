@@ -5,8 +5,9 @@ use std::{
 };
 
 use anyhow::Error;
+use error_reporter::SwcReportHandler;
 use js_sys::Uint8Array;
-use miette::{GraphicalReportHandler, GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
+use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
@@ -17,6 +18,8 @@ use swc_error_reporters::{to_miette_source_code, to_miette_span, PrettyEmitterCo
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
+
+mod error_reporter;
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
 /// auto generated one, which is not reflecting most of types in detail.
@@ -74,7 +77,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
 #[derive(Clone)]
 struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
-    reporter: GraphicalReportHandler,
+    reporter: SwcReportHandler,
     cm: Lrc<SourceMap>,
 }
 
@@ -84,7 +87,7 @@ where
 {
     let wr = JsonErrorWriter {
         errors: Default::default(),
-        reporter: GraphicalReportHandler::default().with_theme(GraphicalTheme {
+        reporter: SwcReportHandler::default().with_theme(GraphicalTheme {
             characters: ThemeCharacters {
                 hbar: ' ',
                 vbar: ' ',
@@ -139,10 +142,7 @@ impl Emitter for JsonErrorWriter {
                     span,
                 },
             ) {
-                Ok(()) => Some({
-                    remove_line_number(&mut snippet);
-                    snippet
-                }),
+                Ok(()) => Some(snippet),
                 Err(_) => None,
             }
         });
@@ -263,89 +263,4 @@ impl std::fmt::Debug for Snippet<'_> {
     fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         Ok(())
     }
-}
-
-/// Finds for `[\d+\s+]` and `\[\d+:\d+\]` and remove them.
-fn remove_line_number(snippet: &mut String) {
-    let mut result = String::with_capacity(snippet.len());
-    let lines = snippet.lines();
-
-    for line in lines {
-        let mut new_line = String::with_capacity(line.len());
-
-        // Check for [n:m] pattern
-        if let Some(pos) = line.find('[') {
-            if let Some(end_pos) = line[pos..].find(']') {
-                let bracket_content = &line[pos + 1..pos + end_pos];
-                if bracket_content
-                    .chars()
-                    .all(|c| c.is_ascii_digit() || c == ':')
-                {
-                    // Replace [n:m] with spaces
-                    for _ in 0..pos {
-                        new_line.push(' ');
-                    }
-                    for _ in 0..(end_pos + 1) {
-                        new_line.push(' ');
-                    }
-                    new_line.push_str(&line[pos + end_pos + 1..]);
-                    result.push_str(&new_line);
-                    result.push('\n');
-                    continue;
-                }
-            }
-        }
-
-        // Check for digit-space pattern (e.g., " 1   ")
-        let trimmed = line.trim_start();
-
-        if !trimmed.is_empty() && trimmed.chars().next().unwrap().is_ascii_digit() {
-            let leading_space_count = line.len() - trimmed.len();
-            let mut digit_end = 0;
-
-            // Find where the digits end
-            for (i, c) in trimmed.char_indices() {
-                if !c.is_ascii_digit() {
-                    digit_end = i;
-                    break;
-                }
-            }
-
-            if digit_end == 0 && trimmed.chars().all(|c| c.is_ascii_digit()) {
-                digit_end = trimmed.len();
-            }
-
-            // Check if digits are followed by whitespace
-            if digit_end < trimmed.len()
-                && trimmed[digit_end..].starts_with(|c: char| c.is_whitespace())
-            {
-                // Count trailing whitespace
-                let trailing_space_end = trimmed[digit_end..]
-                    .chars()
-                    .take_while(|&c| c.is_whitespace())
-                    .count();
-
-                // Replace number and surrounding spaces with spaces
-                for _ in 0..(leading_space_count + digit_end + trailing_space_end) {
-                    new_line.push(' ');
-                }
-
-                new_line.push_str(&trimmed[digit_end + trailing_space_end..]);
-                result.push_str(&new_line);
-                result.push('\n');
-                continue;
-            }
-        }
-
-        // If no pattern matched, keep the line as is
-        result.push_str(line);
-        result.push('\n');
-    }
-
-    // Remove the trailing newline if the original didn't have one
-    if !snippet.ends_with('\n') && !result.is_empty() {
-        result.pop();
-    }
-
-    *snippet = result;
 }

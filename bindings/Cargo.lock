@@ -392,6 +392,7 @@ dependencies = [
  "getrandom 0.2.15",
  "js-sys",
  "miette",
+ "owo-colors",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "serde_json",
@@ -399,6 +400,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_fast_ts_strip",
  "tracing",
+ "unicode-width 0.1.14",
  "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
