@@ -115,7 +115,6 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               set -e &&
-              # set apk repositories to stable release branch
               rm /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
@@ -176,7 +175,6 @@ jobs:
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
-              # set apk repositories to stable release branch
               rm /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
               echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
