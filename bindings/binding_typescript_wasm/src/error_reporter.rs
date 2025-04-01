@@ -212,18 +212,11 @@ impl SwcReportHandler {
                     &labels,
                     LabelRenderMode::SingleLine,
                 )?;
-                self.render_single_line_highlights(
-                    f,
-                    line,
-                    linum_width,
-                    max_gutter,
-                    &single_line,
-                    &labels,
-                )?;
+                self.render_single_line_highlights(f, line, max_gutter, &single_line, &labels)?;
             }
             for hl in multi_line {
                 if hl.label().is_some() && line.span_ends(hl) && !line.span_starts(hl) {
-                    self.render_multi_line_end(f, &labels, max_gutter, linum_width, line, hl)?;
+                    self.render_multi_line_end(f, &labels, max_gutter, line, hl)?;
                 }
             }
         }
@@ -236,7 +229,6 @@ impl SwcReportHandler {
         f: &mut impl fmt::Write,
         labels: &[FancySpan],
         max_gutter: usize,
-        linum_width: usize,
         line: &Line,
         label: &FancySpan,
     ) -> fmt::Result {
@@ -537,7 +529,6 @@ impl SwcReportHandler {
         &self,
         f: &mut impl fmt::Write,
         line: &Line,
-        linum_width: usize,
         max_gutter: usize,
         single_liners: &[&FancySpan],
         all_highlights: &[FancySpan],
@@ -592,7 +583,6 @@ impl SwcReportHandler {
                     self.write_label_text(
                         f,
                         line,
-                        linum_width,
                         max_gutter,
                         all_highlights,
                         chars,
@@ -607,7 +597,6 @@ impl SwcReportHandler {
                         self.write_label_text(
                             f,
                             line,
-                            linum_width,
                             max_gutter,
                             all_highlights,
                             chars,
@@ -635,7 +624,6 @@ impl SwcReportHandler {
         &self,
         f: &mut impl fmt::Write,
         line: &Line,
-        linum_width: usize,
         max_gutter: usize,
         all_highlights: &[FancySpan],
         chars: &ThemeCharacters,
@@ -713,7 +701,6 @@ impl SwcReportHandler {
             .read_span(context_span, self.context_lines, self.context_lines)
             .map_err(|_| fmt::Error)?;
         let context = String::from_utf8_lossy(context_data.data());
-        let mut line = context_data.line();
         let mut column = context_data.column();
         let mut offset = context_data.span().offset();
         let mut line_offset = offset;
@@ -722,22 +709,17 @@ impl SwcReportHandler {
         let mut iter = context.chars().peekable();
         while let Some(ch) = iter.next() {
             offset += ch.len_utf8();
-            let mut at_end_of_file = false;
             match ch {
                 '\r' => {
                     if iter.next_if_eq(&'\n').is_some() {
                         offset += 1;
-                        line += 1;
                         column = 0;
                     } else {
                         line_str.push(ch);
                         column += 1;
                     }
-                    at_end_of_file = iter.peek().is_none();
                 }
                 '\n' => {
-                    at_end_of_file = iter.peek().is_none();
-                    line += 1;
                     column = 0;
                 }
                 _ => {
@@ -746,13 +728,8 @@ impl SwcReportHandler {
                 }
             }
 
-            if iter.peek().is_none() && !at_end_of_file {
-                line += 1;
-            }
-
             if column == 0 || iter.peek().is_none() {
                 lines.push(Line {
-                    line_number: line,
                     offset: line_offset,
                     length: offset - line_offset,
                     text: line_str.clone(),
@@ -792,7 +769,6 @@ enum LabelRenderMode {
 
 #[derive(Debug)]
 struct Line {
-    line_number: usize,
     offset: usize,
     length: usize,
     text: String,
