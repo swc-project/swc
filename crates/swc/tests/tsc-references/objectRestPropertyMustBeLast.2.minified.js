@@ -33,4 +33,3 @@
 //!  5 | ({...a, x, ...b } = { x: 1 });      // Error, rest must be last property
 //!    :   ^^^^
 //!    `----
-//!   x Syntax Error

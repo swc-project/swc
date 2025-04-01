@@ -4,4 +4,3 @@
 //!  1 | delete `abc${0}abc`;
 //!    :        ^^^^^^^^^^^^
 //!    `----
-//!   x Syntax Error

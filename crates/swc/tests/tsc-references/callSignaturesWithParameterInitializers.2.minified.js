@@ -9,4 +9,3 @@
 //!  25 |     foo(x: number, y = 1);
 //!  26 | }
 //!     `----
-//!   x Syntax Error

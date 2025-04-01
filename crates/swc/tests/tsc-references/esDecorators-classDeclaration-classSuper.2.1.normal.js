@@ -10,4 +10,3 @@
 //!  7 |     static {
 //!  8 |         super.name;
 //!    `----
-//!   x Syntax Error

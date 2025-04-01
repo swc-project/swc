@@ -10,4 +10,3 @@
 //!  8 | 
 //!  9 | // 14.3.3.3 RS: KeyedBindingInitialization
 //!    `----
-//!   x Syntax Error

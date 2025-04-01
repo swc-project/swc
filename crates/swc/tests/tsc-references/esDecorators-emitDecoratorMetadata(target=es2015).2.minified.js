@@ -9,4 +9,3 @@
 //!  5 | class C {
 //!  6 |     constructor(x: number) {}
 //!    `----
-//!   x Syntax Error

@@ -15,4 +15,3 @@ bar; // Error (used in emitting position)
 //!  9 | export type { type something as whatever }; // Error
 //!    :               ^^^^
 //!    `----
-//!   x Syntax Error

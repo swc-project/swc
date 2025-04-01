@@ -10,4 +10,3 @@
 //!  8 | 
 //!  9 | { const x = @dec class { }; }
 //!    `----
-//!   x Syntax Error

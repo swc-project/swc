@@ -36,4 +36,3 @@
 //!  6 | class string { }
 //!    :       ^^^^^^
 //!    `----
-//!   x Syntax Error

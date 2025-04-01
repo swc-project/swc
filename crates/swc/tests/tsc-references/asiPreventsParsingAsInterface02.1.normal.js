@@ -18,4 +18,3 @@
 //!  5 |     {}          // This should be a block body
 //!  6 | }
 //!    `----
-//!   x Syntax Error

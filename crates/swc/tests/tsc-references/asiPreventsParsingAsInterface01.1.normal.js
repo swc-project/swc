@@ -18,4 +18,3 @@
 //!  5 | I           // This should be the identifier 'I'
 //!  6 | {}          // This should be a block body
 //!    `----
-//!   x Syntax Error

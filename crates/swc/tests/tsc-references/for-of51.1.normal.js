@@ -4,4 +4,3 @@
 //!  1 | for (let let of []) {}
 //!    :          ^^^
 //!    `----
-//!   x Syntax Error

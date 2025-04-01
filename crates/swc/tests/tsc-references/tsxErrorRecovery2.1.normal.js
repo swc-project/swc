@@ -9,11 +9,9 @@
 //!  4 | <div></div>
 //!  5 | 
 //!    `----
-//!   x Syntax Error
 //// [file2.tsx]
 //!   x Unexpected token `div`. Expected jsx identifier
 //!    ,----
 //!  1 | var x = <div></div><div></div>
 //!    :          ^^^
 //!    `----
-//!   x Syntax Error

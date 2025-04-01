@@ -10,4 +10,3 @@
 //!  12 | function fn(): void { }
 //!  13 | for (var x in fn()) { }
 //!     `----
-//!   x Syntax Error

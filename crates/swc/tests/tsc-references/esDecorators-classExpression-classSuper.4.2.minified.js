@@ -10,4 +10,3 @@
 //!  12 |     static a = super.method();
 //!  13 |     static b = super["method"]();
 //!     `----
-//!   x Syntax Error

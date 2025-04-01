@@ -239,4 +239,3 @@
 //!  44 | delete M.n;
 //!  45 | delete objA.a, M.n;
 //!     `----
-//!   x Syntax Error

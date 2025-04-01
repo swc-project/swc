@@ -7,4 +7,3 @@
 //!  5 | interface C1 extends Foo?.Bar {}
 //!    :                      ^^^^^^^^
 //!    `----
-//!   x Syntax Error

@@ -4,4 +4,3 @@
 //!  1 | if (1) /regexp/a.foo();
 //!    :        ^^^^^^^^^
 //!    `----
-//!   x Syntax Error

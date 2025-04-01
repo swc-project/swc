@@ -17,4 +17,3 @@
 //!  4 |  constructor(public p3:any) {} // OK
 //!  5 | }
 //!    `----
-//!   x Syntax Error

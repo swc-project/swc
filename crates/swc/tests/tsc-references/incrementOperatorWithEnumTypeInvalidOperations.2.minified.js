@@ -21,4 +21,3 @@
 //!  17 | // miss assignment operator
 //!  18 | ++ENUM;
 //!     `----
-//!   x Syntax Error

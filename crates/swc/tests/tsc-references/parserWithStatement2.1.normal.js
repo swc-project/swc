@@ -11,4 +11,3 @@
 //!    : ^^^^
 //!  2 |   return;
 //!    `----
-//!   x Syntax Error

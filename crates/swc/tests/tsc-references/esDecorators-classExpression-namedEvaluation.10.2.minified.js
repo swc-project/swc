@@ -10,4 +10,3 @@
 //!   9 | { class C { static 0 = @dec class {}; } }
 //!  10 | { class C { static ["x"] = @dec class {}; } }
 //!     `----
-//!   x Syntax Error
