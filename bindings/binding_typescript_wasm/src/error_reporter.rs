@@ -190,9 +190,6 @@ impl SwcReportHandler {
 
         // Now it's time for the fun part--actually rendering everything!
         for line in &lines {
-            // Line number, appropriately padded.
-            self.write_linum(f, linum_width, line.line_number)?;
-
             // Then, we need to print the gutter, along with any fly-bys We
             // have separate gutters depending on whether we're on the actual
             // line, or on one of the "highlight lines" below it.
@@ -207,8 +204,6 @@ impl SwcReportHandler {
                 .filter(|hl| line.span_applies(hl))
                 .partition(|hl| line.span_line_only(hl));
             if !single_line.is_empty() {
-                // no line number!
-                self.write_no_linum(f, linum_width)?;
                 // gutter _again_
                 self.render_highlight_gutter(
                     f,
@@ -245,9 +240,6 @@ impl SwcReportHandler {
         line: &Line,
         label: &FancySpan,
     ) -> fmt::Result {
-        // no line number!
-        self.write_no_linum(f, linum_width)?;
-
         if let Some(label_parts) = label.label_parts() {
             // if it has a label, how long is it?
             let (first, rest) = label_parts.split_first().expect(
@@ -288,8 +280,6 @@ impl SwcReportHandler {
                     LabelRenderMode::MultiLineFirst,
                 )?;
                 for label_line in rest {
-                    // no line number!
-                    self.write_no_linum(f, linum_width)?;
                     // gutter _again_
                     self.render_highlight_gutter(
                         f,
@@ -462,14 +452,6 @@ impl SwcReportHandler {
         let num_spaces = (max_gutter + 3).saturating_sub(gutter_cols);
         // we then write the gutter and as many spaces as we need
         write!(f, "{}{:width$}", gutter, "", width = num_spaces)?;
-        Ok(())
-    }
-
-    fn write_linum(&self, f: &mut impl fmt::Write, width: usize, linum: usize) -> fmt::Result {
-        Ok(())
-    }
-
-    fn write_no_linum(&self, f: &mut impl fmt::Write, width: usize) -> fmt::Result {
         Ok(())
     }
 
@@ -662,7 +644,6 @@ impl SwcReportHandler {
         label: &str,
         render_mode: LabelRenderMode,
     ) -> fmt::Result {
-        self.write_no_linum(f, linum_width)?;
         self.render_highlight_gutter(
             f,
             max_gutter,
