@@ -62,7 +62,16 @@
 - **(es/minifier)** Support `reduce_escaped_newline` ([#10232](https://github.com/swc-project/swc/issues/10232)) ([64fb286](https://github.com/swc-project/swc/commit/64fb2864b11e5e615b6201dc70ece082fa975742))
 
 
+- **(ts/fast-strip)** Improve error message format ([#10298](https://github.com/swc-project/swc/issues/10298)) ([29c4afb](https://github.com/swc-project/swc/commit/29c4afb534d582f7411a2fa6be4f1416c517e83f))
+
+
 - Add parallel iterators ([#10075](https://github.com/swc-project/swc/issues/10075)) ([3b775bf](https://github.com/swc-project/swc/commit/3b775bf38dd76fabf2fc5fdb21a4431e959d02f3))
+
+### Miscellaneous Tasks
+
+
+
+- **(html)** Fix typing ([3ed8a7a](https://github.com/swc-project/swc/commit/3ed8a7a42f2973bdb0f626f0193d550a2bd790c5))
 
 ### Performance
 
@@ -1901,9 +1910,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/typescript)** Handle backtick in ASI issue ([#9367](https://github.com/swc-project/swc/issues/9367)) ([6f1716c](https://github.com/swc-project/swc/commit/6f1716c4aed447c3311e41603a6399d97540e1fb))
 
 
 - **(es/typescript)** Analyze import chain ([#9369](https://github.com/swc-project/swc/issues/9369)) ([4f9116f](https://github.com/swc-project/swc/commit/4f9116f9259150df3fb3947c809c304809bf5764))
