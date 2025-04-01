@@ -186,15 +186,6 @@ impl SwcReportHandler {
         // numbers need!
         let linum_width = 0;
 
-        // Header
-        write!(
-            f,
-            "{}{}{}",
-            " ".repeat(linum_width + 2),
-            self.theme.characters.ltop,
-            self.theme.characters.hbar,
-        )?;
-
         writeln!(f)?;
 
         // Now it's time for the fun part--actually rendering everything!
