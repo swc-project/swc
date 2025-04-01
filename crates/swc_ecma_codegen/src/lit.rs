@@ -1,0 +1,960 @@
+use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
+
+use ascii::AsciiChar;
+use compact_str::{format_compact, CompactString};
+use memchr::memmem::Finder;
+use once_cell::sync::Lazy;
+use swc_common::{Spanned, DUMMY_SP};
+use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::emitter;
+
+use crate::{text_writer::WriteJs, Emitter, Result, SourceMapperExt};
+
+#[derive(Debug)]
+pub(crate) enum CowStr<'a> {
+    Borrowed(&'a str),
+    Owned(CompactString),
+}
+
+impl Deref for CowStr<'_> {
+    type Target = str;
+
+    fn deref(&self) -> &str {
+        match self {
+            CowStr::Borrowed(s) => s,
+            CowStr::Owned(s) => s.as_str(),
+        }
+    }
+}
+
+pub fn replace_close_inline_script(raw: &str) -> CowStr {
+    let chars = raw.as_bytes();
+    let pattern_len = 8; // </script>
+
+    let mut matched_indexes = chars
+        .iter()
+        .enumerate()
+        .filter(|(index, byte)| {
+            byte == &&b'<'
+                && index + pattern_len < chars.len()
+                && chars[index + 1..index + pattern_len].eq_ignore_ascii_case(b"/script")
+                && matches!(
+                    chars[index + pattern_len],
+                    b'>' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
+                )
+        })
+        .map(|(index, _)| index)
+        .peekable();
+
+    if matched_indexes.peek().is_none() {
+        return CowStr::Borrowed(raw);
+    }
+
+    let mut result = CompactString::new(raw);
+
+    for (offset, i) in matched_indexes.enumerate() {
+        result.insert(i + 1 + offset, '\\');
+    }
+
+    CowStr::Owned(result)
+}
+
+static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
+
+impl<W, S: swc_common::SourceMapper> Emitter<'_, W, S>
+where
+    W: WriteJs,
+    S: SourceMapperExt,
+{
+    #[emitter]
+    pub fn emit_lit(&mut self, node: &Lit) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
+
+        match *node {
+            Lit::Bool(Bool { value, .. }) => {
+                if value {
+                    keyword!("true")
+                } else {
+                    keyword!("false")
+                }
+            }
+            Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Str(ref s) => emit!(s),
+            Lit::BigInt(ref s) => emit!(s),
+            Lit::Num(ref n) => emit!(n),
+            Lit::Regex(ref n) => {
+                punct!("/");
+                self.wr.write_str(&n.exp)?;
+                punct!("/");
+                self.wr.write_str(&n.flags)?;
+            }
+            Lit::JSXText(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    pub fn emit_str_lit(&mut self, node: &Str) -> Result {
+        self.wr.commit_pending_semi()?;
+
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(node, true);
+
+        if &*node.value == "use strict"
+            && node.raw.is_some()
+            && node.raw.as_ref().unwrap().contains('\\')
+            && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
+        {
+            self.wr
+                .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
+
+            srcmap!(node, false);
+
+            return Ok(());
+        }
+
+        let target = self.cfg.target;
+
+        if !self.cfg.minify {
+            if let Some(raw) = &node.raw {
+                if (!self.cfg.ascii_only || raw.is_ascii())
+                    && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
+                {
+                    self.wr.write_str_lit(DUMMY_SP, raw)?;
+                    return Ok(());
+                }
+            }
+        }
+
+        let (quote_char, mut value) = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+
+        if self.cfg.inline_script {
+            value = CowStr::Owned(
+                replace_close_inline_script(&value)
+                    .replace("\x3c!--", "\\x3c!--")
+                    .replace("--\x3e", "--\\x3e")
+                    .into(),
+            );
+        }
+
+        let quote_str = [quote_char.as_byte()];
+        let quote_str = unsafe {
+            // Safety: quote_char is valid ascii
+            str::from_utf8_unchecked(&quote_str)
+        };
+
+        self.wr.write_str(quote_str)?;
+        self.wr.write_str_lit(DUMMY_SP, &value)?;
+        self.wr.write_str(quote_str)?;
+
+        // srcmap!(node, false);
+    }
+
+    #[emitter]
+    pub fn emit_num_lit(&mut self, num: &Number) -> Result {
+        self.emit_num_lit_internal(num, false)?;
+    }
+
+    /// `1.toString` is an invalid property access,
+    /// should emit a dot after the literal if return true
+    pub fn emit_num_lit_internal(
+        &mut self,
+        num: &Number,
+        mut detect_dot: bool,
+    ) -> std::result::Result<bool, io::Error> {
+        self.wr.commit_pending_semi()?;
+
+        self.emit_leading_comments_of_span(num.span(), false)?;
+
+        // Handle infinity
+        if num.value.is_infinite() && num.raw.is_none() {
+            if num.value.is_sign_negative() {
+                self.wr.write_str_lit(num.span, "-")?;
+            }
+            self.wr.write_str_lit(num.span, "Infinity")?;
+
+            return Ok(false);
+        }
+
+        let mut striped_raw = None;
+        let mut value = String::default();
+
+        srcmap!(self, num, true);
+
+        if self.cfg.minify {
+            if num.value.is_infinite() && num.raw.is_some() {
+                self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+            } else {
+                value = minify_number(num.value, &mut detect_dot);
+                self.wr.write_str_lit(DUMMY_SP, &value)?;
+            }
+        } else {
+            match &num.raw {
+                Some(raw) => {
+                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2015 && {
+                        let slice = &raw.as_bytes()[..2];
+                        slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
+                    } {
+                        if num.value.is_infinite() && num.raw.is_some() {
+                            self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
+                        } else {
+                            value = num.value.to_string();
+                            self.wr.write_str_lit(DUMMY_SP, &value)?;
+                        }
+                    } else if raw.len() > 2
+                        && self.cfg.target < EsVersion::Es2021
+                        && raw.contains('_')
+                    {
+                        let value = raw.replace('_', "");
+                        self.wr.write_str_lit(DUMMY_SP, &value)?;
+
+                        striped_raw = Some(value);
+                    } else {
+                        self.wr.write_str_lit(DUMMY_SP, raw)?;
+
+                        if !detect_dot {
+                            return Ok(false);
+                        }
+
+                        striped_raw = Some(raw.replace('_', ""));
+                    }
+                }
+                _ => {
+                    value = num.value.to_string();
+                    self.wr.write_str_lit(DUMMY_SP, &value)?;
+                }
+            }
+        }
+
+        // fast return
+        if !detect_dot {
+            return Ok(false);
+        }
+
+        Ok(striped_raw
+            .map(|raw| {
+                if raw.bytes().all(|c| c.is_ascii_digit()) {
+                    // Maybe legacy octal
+                    // Do we really need to support pre es5?
+                    let slice = raw.as_bytes();
+                    if slice.len() >= 2 && slice[0] == b'0' {
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                false
+            })
+            .unwrap_or_else(|| {
+                let bytes = value.as_bytes();
+
+                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
+                    return true;
+                }
+
+                false
+            }))
+    }
+
+    #[emitter]
+    pub fn emit_big_lit(&mut self, v: &BigInt) -> Result {
+        self.emit_leading_comments_of_span(v.span, false)?;
+
+        if self.cfg.minify {
+            let value = if *v.value >= 10000000000000000_i64.into() {
+                format!("0x{}", v.value.to_str_radix(16))
+            } else if *v.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-*v.value.clone()).to_str_radix(16))
+            } else {
+                v.value.to_string()
+            };
+            self.wr.write_lit(v.span, &value)?;
+            self.wr.write_lit(v.span, "n")?;
+        } else {
+            match &v.raw {
+                Some(raw) => {
+                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
+                        self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
+                    } else {
+                        self.wr.write_str_lit(v.span, raw)?;
+                    }
+                }
+                _ => {
+                    self.wr.write_lit(v.span, &v.value.to_string())?;
+                    self.wr.write_lit(v.span, "n")?;
+                }
+            }
+        }
+    }
+
+    #[emitter]
+    pub fn emit_bool(&mut self, n: &Bool) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
+
+        if n.value {
+            keyword!(n.span, "true")
+        } else {
+            keyword!(n.span, "false")
+        }
+    }
+}
+
+pub fn get_template_element_from_raw(
+    s: &str,
+    ascii_only: bool,
+    reduce_escaped_newline: bool,
+) -> String {
+    fn read_escaped(
+        radix: u32,
+        len: Option<usize>,
+        buf: &mut String,
+        iter: impl Iterator<Item = char>,
+    ) {
+        let mut v = 0;
+        let mut pending = None;
+
+        for (i, c) in iter.enumerate() {
+            if let Some(len) = len {
+                if i == len {
+                    pending = Some(c);
+                    break;
+                }
+            }
+
+            match c.to_digit(radix) {
+                None => {
+                    pending = Some(c);
+                    break;
+                }
+                Some(d) => {
+                    v = v * radix + d;
+                }
+            }
+        }
+
+        match radix {
+            16 => {
+                match v {
+                    0 => match pending {
+                        Some('1'..='9') => write!(buf, "\\x00").unwrap(),
+                        _ => write!(buf, "\\0").unwrap(),
+                    },
+                    1..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
+                    // '\x20'..='\x7e'
+                    32..=126 => {
+                        let c = char::from_u32(v);
+
+                        match c {
+                            Some(c) => write!(buf, "{}", c).unwrap(),
+                            _ => {
+                                unreachable!()
+                            }
+                        }
+                    }
+                    // '\x10'..='\x1f'
+                    // '\u{7f}'..='\u{ff}'
+                    _ => {
+                        write!(buf, "\\x{:x}", v).unwrap();
+                    }
+                }
+            }
+
+            _ => unreachable!(),
+        }
+
+        if let Some(pending) = pending {
+            buf.push(pending);
+        }
+    }
+
+    let mut buf = String::with_capacity(s.len());
+    let mut iter = s.chars().peekable();
+
+    let mut is_dollar_prev = false;
+
+    while let Some(c) = iter.next() {
+        let unescape = match c {
+            '\\' => match iter.next() {
+                Some(c) => match c {
+                    'n' => {
+                        if reduce_escaped_newline {
+                            Some('\n')
+                        } else {
+                            buf.push('\\');
+                            buf.push('n');
+
+                            None
+                        }
+                    }
+                    't' => Some('\t'),
+                    'x' => {
+                        read_escaped(16, Some(2), &mut buf, &mut iter);
+
+                        None
+                    }
+                    // TODO handle `\u1111` and `\u{1111}` too
+                    // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
+                    '\u{2028}' | '\u{2029}' => None,
+                    // `\t` and `\h` are special cases, because they can be replaced on real
+                    // characters `\xXX` can be replaced on character
+                    '\\' | 'r' | 'v' | 'b' | 'f' | 'u' | '\r' | '\n' | '`' | '0'..='7' => {
+                        buf.push('\\');
+                        buf.push(c);
+
+                        None
+                    }
+                    '$' if iter.peek() == Some(&'{') => {
+                        buf.push('\\');
+                        buf.push('$');
+
+                        None
+                    }
+                    '{' if is_dollar_prev => {
+                        buf.push('\\');
+                        buf.push('{');
+
+                        is_dollar_prev = false;
+
+                        None
+                    }
+                    _ => Some(c),
+                },
+                None => Some('\\'),
+            },
+            _ => Some(c),
+        };
+
+        match unescape {
+            Some(c @ '$') => {
+                is_dollar_prev = true;
+
+                buf.push(c);
+            }
+            Some('\x00') => {
+                let next = iter.peek();
+
+                match next {
+                    Some('1'..='9') => buf.push_str("\\x00"),
+                    _ => buf.push_str("\\0"),
+                }
+            }
+            // Octal doesn't supported in template literals, except in tagged templates, but
+            // we don't use this for tagged templates, they are printing as is
+            Some('\u{0008}') => buf.push_str("\\b"),
+            Some('\u{000c}') => buf.push_str("\\f"),
+            Some('\n') => buf.push('\n'),
+            // `\r` is impossible here, because it was removed on parser stage
+            Some('\u{000b}') => buf.push_str("\\v"),
+            Some('\t') => buf.push('\t'),
+            // Print `"` and `'` without quotes
+            Some(c @ '\x20'..='\x7e') => {
+                buf.push(c);
+            }
+            Some(c @ '\u{7f}'..='\u{ff}') => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+            Some('\u{2028}') => {
+                buf.push_str("\\u2028");
+            }
+            Some('\u{2029}') => {
+                buf.push_str("\\u2029");
+            }
+            Some('\u{FEFF}') => {
+                buf.push_str("\\uFEFF");
+            }
+            // TODO(kdy1): Surrogate pairs
+            Some(c) => {
+                if !ascii_only || c.is_ascii() {
+                    buf.push(c);
+                } else {
+                    buf.extend(c.escape_unicode().map(|c| {
+                        if c == 'u' {
+                            c
+                        } else {
+                            c.to_ascii_uppercase()
+                        }
+                    }));
+                }
+            }
+            None => {}
+        }
+    }
+
+    buf
+}
+
+pub fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> CowStr {
+    if sym.is_ascii() {
+        return CowStr::Borrowed(sym);
+    }
+
+    let mut first = true;
+    let mut buf = CompactString::with_capacity(sym.len() + 8);
+    let mut iter = sym.chars().peekable();
+    let mut need_quote = false;
+
+    while let Some(c) = iter.next() {
+        match c {
+            '\x00' => {
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x00");
+                } else {
+                    let _ = write!(buf, "\\u0000");
+                }
+            }
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\t' => buf.push('\t'),
+            '\\' => {
+                let next = iter.peek();
+
+                match next {
+                    // TODO fix me - workaround for surrogate pairs
+                    Some('u') => {
+                        let mut inner_iter = iter.clone();
+
+                        inner_iter.next();
+
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
+
+                        if next == Some(&'{') {
+                            is_curly = true;
+
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        }
+
+                        if let Some(c @ 'D' | c @ 'd') = next {
+                            let mut inner_buf = String::new();
+
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+
+                            for _ in 0..3 {
+                                let c = inner_iter.next();
+
+                                match c {
+                                    Some('0'..='9') | Some('a'..='f') | Some('A'..='F') => {
+                                        inner_buf.push(c.unwrap());
+                                    }
+                                    _ => {
+                                        is_valid = false;
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
+                            if is_valid {
+                                buf.push_str(&inner_buf);
+
+                                let end = if is_curly { 7 } else { 5 };
+
+                                for _ in 0..end {
+                                    iter.next();
+                                }
+                            }
+                        } else {
+                            buf.push_str("\\\\");
+                        }
+                    }
+                    _ => {
+                        buf.push_str("\\\\");
+                    }
+                }
+            }
+            '\'' => {
+                buf.push('\'');
+            }
+            '"' => {
+                buf.push('"');
+            }
+            '\x01'..='\x0f' if !first => {
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
+                }
+            }
+            '\x10'..='\x1f' if !first => {
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
+                }
+            }
+            '\x20'..='\x7e' => {
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
+                }
+            }
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
+            '\u{FEFF}' => {
+                buf.push_str("\\uFEFF");
+            }
+            _ => {
+                if c.is_ascii() {
+                    buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    // if we've got this far the char isn't reserved and if the callee has specified
+                    // we should output unicode for non-ascii chars then we have
+                    // to make sure we output unicode that is safe for the target
+                    // Es5 does not support code point escapes and so surrograte formula must be
+                    // used
+                    if target <= EsVersion::Es5 {
+                        // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+
+                        let _ = write!(buf, r#""\u{:04X}\u{:04X}""#, h, l);
+                    } else {
+                        let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
+                    }
+                } else {
+                    let _ = write!(buf, "\\u{:04X}", c as u16);
+                }
+            }
+        }
+        first = false;
+    }
+
+    if need_quote {
+        CowStr::Owned(format_compact!("\"{}\"", buf))
+    } else {
+        CowStr::Owned(buf)
+    }
+}
+
+/// Returns `(quote_char, value)`
+pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
+    // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
+    // allocation
+    if v.is_ascii() {
+        let mut needs_escaping = false;
+        let mut single_quote_count = 0;
+        let mut double_quote_count = 0;
+
+        for &b in v.as_bytes() {
+            match b {
+                b'\'' => single_quote_count += 1,
+                b'"' => double_quote_count += 1,
+                // Control characters and backslash need escaping
+                0..=0x1f | b'\\' => {
+                    needs_escaping = true;
+                    break;
+                }
+                _ => {}
+            }
+        }
+
+        if !needs_escaping {
+            let quote_char = if double_quote_count > single_quote_count {
+                AsciiChar::Apostrophe
+            } else {
+                AsciiChar::Quotation
+            };
+
+            // If there are no quotes to escape, we can return the original string
+            if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
+                || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
+            {
+                return (quote_char, CowStr::Borrowed(v));
+            }
+        }
+    }
+
+    // Slow path: Original implementation for strings that need processing
+    // Count quotes first to determine which quote character to use
+    let (mut single_quote_count, mut double_quote_count) = (0, 0);
+    for c in v.chars() {
+        match c {
+            '\'' => single_quote_count += 1,
+            '"' => double_quote_count += 1,
+            _ => {}
+        }
+    }
+
+    // Pre-calculate capacity to avoid reallocations
+    let quote_char = if double_quote_count > single_quote_count {
+        AsciiChar::Apostrophe
+    } else {
+        AsciiChar::Quotation
+    };
+    let escape_char = if quote_char == AsciiChar::Apostrophe {
+        AsciiChar::Apostrophe
+    } else {
+        AsciiChar::Quotation
+    };
+    let escape_count = if quote_char == AsciiChar::Apostrophe {
+        single_quote_count
+    } else {
+        double_quote_count
+    };
+
+    // Add 1 for each escaped quote
+    let capacity = v.len() + escape_count;
+    let mut buf = CompactString::with_capacity(capacity);
+
+    let mut iter = v.chars().peekable();
+    while let Some(c) = iter.next() {
+        match c {
+            '\x00' => {
+                if target < EsVersion::Es5 || matches!(iter.peek(), Some('0'..='9')) {
+                    buf.push_str("\\x00");
+                } else {
+                    buf.push_str("\\0");
+                }
+            }
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\t' => buf.push('\t'),
+            '\\' => {
+                let next = iter.peek();
+                match next {
+                    Some('u') => {
+                        let mut inner_iter = iter.clone();
+                        inner_iter.next();
+
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
+
+                        if next == Some(&'{') {
+                            is_curly = true;
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        } else if next != Some(&'D') && next != Some(&'d') {
+                            buf.push('\\');
+                        }
+
+                        if let Some(c @ 'D' | c @ 'd') = next {
+                            let mut inner_buf = String::with_capacity(8);
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+                            for _ in 0..3 {
+                                match inner_iter.next() {
+                                    Some(c @ '0'..='9') | Some(c @ 'a'..='f')
+                                    | Some(c @ 'A'..='F') => {
+                                        inner_buf.push(c);
+                                    }
+                                    _ => {
+                                        is_valid = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
+                            let range = if is_curly {
+                                3..(inner_buf.len() - 1)
+                            } else {
+                                2..6
+                            };
+
+                            if is_valid {
+                                let val_str = &inner_buf[range];
+                                if let Ok(v) = u32::from_str_radix(val_str, 16) {
+                                    if v > 0xffff {
+                                        buf.push_str(&inner_buf);
+                                        let end = if is_curly { 7 } else { 5 };
+                                        for _ in 0..end {
+                                            iter.next();
+                                        }
+                                    } else if (0xd800..=0xdfff).contains(&v) {
+                                        buf.push('\\');
+                                    } else {
+                                        buf.push_str("\\\\");
+                                    }
+                                } else {
+                                    buf.push_str("\\\\");
+                                }
+                            } else {
+                                buf.push_str("\\\\");
+                            }
+                        } else if is_curly {
+                            buf.push_str("\\\\");
+                        } else {
+                            buf.push('\\');
+                        }
+                    }
+                    _ => buf.push_str("\\\\"),
+                }
+            }
+            c if c == escape_char => {
+                buf.push('\\');
+                buf.push(c);
+            }
+            '\x01'..='\x0f' => {
+                buf.push_str("\\x0");
+                write!(&mut buf, "{:x}", c as u8).unwrap();
+            }
+            '\x10'..='\x1f' => {
+                buf.push_str("\\x");
+                write!(&mut buf, "{:x}", c as u8).unwrap();
+            }
+            '\x20'..='\x7e' => buf.push(c),
+            '\u{7f}'..='\u{ff}' => {
+                if ascii_only || target <= EsVersion::Es5 {
+                    buf.push_str("\\x");
+                    write!(&mut buf, "{:x}", c as u8).unwrap();
+                } else {
+                    buf.push(c);
+                }
+            }
+            '\u{2028}' => buf.push_str("\\u2028"),
+            '\u{2029}' => buf.push_str("\\u2029"),
+            '\u{FEFF}' => buf.push_str("\\uFEFF"),
+            c => {
+                if c.is_ascii() {
+                    buf.push(c);
+                } else if c > '\u{FFFF}' {
+                    if target <= EsVersion::Es5 {
+                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
+                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+                        write!(&mut buf, "\\u{:04X}\\u{:04X}", h, l).unwrap();
+                    } else if ascii_only {
+                        write!(&mut buf, "\\u{{{:04X}}}", c as u32).unwrap();
+                    } else {
+                        buf.push(c);
+                    }
+                } else if ascii_only {
+                    write!(&mut buf, "\\u{:04X}", c as u16).unwrap();
+                } else {
+                    buf.push(c);
+                }
+            }
+        }
+    }
+
+    (quote_char, CowStr::Owned(buf))
+}
+
+pub fn handle_invalid_unicodes(s: &str) -> Cow<str> {
+    static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
+    if NEEDLE.find(s.as_bytes()).is_none() {
+        return Cow::Borrowed(s);
+    }
+
+    Cow::Owned(s.replace("\\\0", "\\"))
+}
+
+pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
+    // ddddd -> 0xhhhh
+    // len(0xhhhh) == len(ddddd)
+    // 10000000 <= num <= 0xffffff
+    'hex: {
+        if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
+            let int = num.abs() as u64;
+
+            if int < 10000000 {
+                break 'hex;
+            }
+
+            // use scientific notation
+            if int % 1000 == 0 {
+                break 'hex;
+            }
+
+            *detect_dot = false;
+            return format!(
+                "{}{:#x}",
+                if num.is_sign_negative() { "-" } else { "" },
+                int
+            );
+        }
+    }
+
+    let mut num = num.to_string();
+
+    if num.contains(".") {
+        *detect_dot = false;
+    }
+
+    if let Some(num) = num.strip_prefix("0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("{}e-{}", &num[cnt..], num.len());
+        }
+        return format!(".{}", num);
+    }
+
+    if let Some(num) = num.strip_prefix("-0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("-{}e-{}", &num[cnt..], num.len());
+        }
+        return format!("-.{}", num);
+    }
+
+    if num.ends_with("000") {
+        *detect_dot = false;
+
+        let cnt = num
+            .as_bytes()
+            .iter()
+            .rev()
+            .skip(3)
+            .take_while(|&&c| c == b'0')
+            .count()
+            + 3;
+
+        num.truncate(num.len() - cnt);
+        num.push('e');
+        num.push_str(&cnt.to_string());
+    }
+
+    num
+}
+
+fn clz(s: &str) -> usize {
+    s.as_bytes().iter().take_while(|&&c| c == b'0').count()
+}
