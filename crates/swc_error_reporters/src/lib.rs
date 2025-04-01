@@ -7,7 +7,9 @@ use swc_common::{
     sync::Lrc,
 };
 
+mod error;
 pub mod handler;
+pub use error::ParseSyntaxError;
 
 pub struct ErrorEmitter {
     pub diagnostics: ThreadSafetyDiagnostics,
