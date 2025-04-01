@@ -223,13 +223,7 @@ impl SwcReportHandler {
 
         // Oh and one more thing: We need to figure out how much room our line
         // numbers need!
-        let linum_width = lines[..]
-            .last()
-            .map(|line| line.line_number)
-            // It's possible for the source to be an empty string.
-            .unwrap_or(0)
-            .to_string()
-            .len();
+        let linum_width = 0;
 
         // Header
         write!(
@@ -555,13 +549,7 @@ impl SwcReportHandler {
     }
 
     fn write_linum(&self, f: &mut impl fmt::Write, width: usize, linum: usize) -> fmt::Result {
-        write!(
-            f,
-            " {:width$} {} ",
-            linum.style(self.theme.styles.linum),
-            self.theme.characters.vbar,
-            width = width
-        )?;
+        write!(f, "  {} ", self.theme.characters.vbar)?;
         Ok(())
     }
 

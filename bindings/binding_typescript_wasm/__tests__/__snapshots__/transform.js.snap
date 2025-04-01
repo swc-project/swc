@@ -7,11 +7,10 @@ exports[`transform in strip-only mode should not emit 'Caused by: failed to pars
   "endLine": 1,
   "filename": "test.ts",
   "message": "await isn't allowed in non-async function",
-  "snippet": "   
-        
-     function foo() { await Promise.resolve(1); }
-                      ^^^^^
-        
+  "snippet": "    
+    function foo() { await Promise.resolve(1); }
+                     ^^^^^
+       
 ",
   "startColumn": 17,
   "startLine": 1,
@@ -51,11 +50,10 @@ exports[`transform in strip-only mode should report correct error for syntax err
   "endLine": 1,
   "filename": "test.ts",
   "message": "Expected ';', '}' or <eof>",
-  "snippet": "   
-        
-     function foo() { invalid syntax }
-                              ^^^^^^
-        
+  "snippet": "    
+    function foo() { invalid syntax }
+                             ^^^^^^
+       
 ",
   "startColumn": 25,
   "startLine": 1,
@@ -69,12 +67,11 @@ exports[`transform in strip-only mode should report correct error for unsupporte
   "endLine": 3,
   "filename": "test.ts",
   "message": "TypeScript enum is not supported in strip-only mode",
-  "snippet": "   
-          
-       > enum Foo {
-                             a, b    
-       >                     }
-        
+  "snippet": "    
+      > enum Foo {
+                            a, b    
+      >                     }
+       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -141,11 +138,10 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "endLine": 1,
   "filename": "test.ts",
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
-  "snippet": "   
-        
-     module foo { }
-     ^^^^^^^^^^
-        
+  "snippet": "    
+    module foo { }
+    ^^^^^^^^^^
+       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -159,11 +155,10 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "endLine": 1,
   "filename": "test.ts",
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
-  "snippet": "   
-        
-     declare module foo { }
-             ^^^^^^^^^^
-        
+  "snippet": "    
+    declare module foo { }
+            ^^^^^^^^^^
+       
 ",
   "startColumn": 8,
   "startLine": 1,
@@ -177,11 +172,10 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "endLine": 1,
   "filename": "test.ts",
   "message": "TypeScript namespace declaration is not supported in strip-only mode",
-  "snippet": "   
-        
-     namespace Foo { export const m = 1; }
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        
+  "snippet": "    
+    namespace Foo { export const m = 1; }
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -195,11 +189,10 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "endLine": 1,
   "filename": "test.ts",
   "message": "TypeScript enum is not supported in strip-only mode",
-  "snippet": "   
-        
-     enum Foo {}
-     ^^^^^^^^^^^
-        
+  "snippet": "    
+    enum Foo {}
+    ^^^^^^^^^^^
+       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -213,11 +206,10 @@ exports[`transform in transform mode shoud throw an object even with deprecatedT
   "endLine": 1,
   "filename": "<anon>",
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
-  "snippet": "   
-        
-     module F { export type x = number }
-     ^^^^^^^^
-        
+  "snippet": "    
+    module F { export type x = number }
+    ^^^^^^^^
+       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -231,11 +223,10 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "endLine": 1,
   "filename": "test.ts",
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
-  "snippet": "   
-        
-     declare module foo { }
-             ^^^^^^^^^^
-        
+  "snippet": "    
+    declare module foo { }
+            ^^^^^^^^^^
+       
 ",
   "startColumn": 8,
   "startLine": 1,
@@ -249,11 +240,10 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "endLine": 1,
   "filename": "test.ts",
   "message": "\`module\` keyword is not supported. Use \`namespace\` instead.",
-  "snippet": "   
-        
-     module foo { }
-     ^^^^^^^^^^
-        
+  "snippet": "    
+    module foo { }
+    ^^^^^^^^^^
+       
 ",
   "startColumn": 0,
   "startLine": 1,
