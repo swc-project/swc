@@ -241,13 +241,7 @@ impl SwcReportHandler {
                 }
             }
         }
-        writeln!(
-            f,
-            "{}{}{}",
-            " ".repeat(linum_width + 2),
-            self.theme.characters.lbot,
-            self.theme.characters.hbar.to_string().repeat(4),
-        )?;
+
         Ok(())
     }
 

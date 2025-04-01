@@ -10,7 +10,6 @@ exports[`transform in strip-only mode should not emit 'Caused by: failed to pars
   "snippet": "    
     function foo() { await Promise.resolve(1); }
                      ^^^^^
-       
 ",
   "startColumn": 17,
   "startLine": 1,
@@ -53,7 +52,6 @@ exports[`transform in strip-only mode should report correct error for syntax err
   "snippet": "    
     function foo() { invalid syntax }
                              ^^^^^^
-       
 ",
   "startColumn": 25,
   "startLine": 1,
@@ -71,7 +69,6 @@ exports[`transform in strip-only mode should report correct error for unsupporte
       > enum Foo {
                             a, b    
       >                     }
-       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -141,7 +138,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "snippet": "    
     module foo { }
     ^^^^^^^^^^
-       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -158,7 +154,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "snippet": "    
     declare module foo { }
             ^^^^^^^^^^
-       
 ",
   "startColumn": 8,
   "startLine": 1,
@@ -175,7 +170,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "snippet": "    
     namespace Foo { export const m = 1; }
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -192,7 +186,6 @@ exports[`transform in strip-only mode should throw an error when it encounters a
   "snippet": "    
     enum Foo {}
     ^^^^^^^^^^^
-       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -209,7 +202,6 @@ exports[`transform in transform mode shoud throw an object even with deprecatedT
   "snippet": "    
     module F { export type x = number }
     ^^^^^^^^
-       
 ",
   "startColumn": 0,
   "startLine": 1,
@@ -226,7 +218,6 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "snippet": "    
     declare module foo { }
             ^^^^^^^^^^
-       
 ",
   "startColumn": 8,
   "startLine": 1,
@@ -243,7 +234,6 @@ exports[`transform in transform mode should throw an error when it encounters a 
   "snippet": "    
     module foo { }
     ^^^^^^^^^^
-       
 ",
   "startColumn": 0,
   "startLine": 1,
