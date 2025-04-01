@@ -1,11 +1,7 @@
 use std::fmt::{self, Write};
 
 use miette::{
-    diagnostic_chain::{DiagnosticChain, ErrorKind},
-    handlers::theme::*,
-    highlighters::{Highlighter, MietteHighlighter},
-    protocol::{Diagnostic, Severity},
-    GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, SpanContents,
+    Diagnostic, GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, SpanContents,
 };
 use owo_colors::{OwoColorize, Style, StyledList};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
@@ -36,7 +32,6 @@ pub struct GraphicalReportHandler {
     pub(crate) break_words: bool,
     pub(crate) word_separator: Option<textwrap::WordSeparator>,
     pub(crate) word_splitter: Option<textwrap::WordSplitter>,
-    pub(crate) highlighter: MietteHighlighter,
     pub(crate) link_display_text: Option<String>,
     pub(crate) show_related_as_nested: bool,
 }
@@ -64,7 +59,6 @@ impl GraphicalReportHandler {
             break_words: true,
             word_separator: None,
             word_splitter: None,
-            highlighter: MietteHighlighter::default(),
             link_display_text: None,
             show_related_as_nested: false,
         }
@@ -84,7 +78,6 @@ impl GraphicalReportHandler {
             break_words: true,
             word_separator: None,
             word_splitter: None,
-            highlighter: MietteHighlighter::default(),
             link_display_text: None,
             show_related_as_nested: false,
         }
@@ -187,24 +180,6 @@ impl GraphicalReportHandler {
         self
     }
 
-    /// Enable syntax highlighting for source code snippets, using the given
-    /// [`Highlighter`]. See the [highlighters](crate::highlighters) crate
-    /// for more details.
-    pub fn with_syntax_highlighting(
-        mut self,
-        highlighter: impl Highlighter + Send + Sync + 'static,
-    ) -> Self {
-        self.highlighter = MietteHighlighter::from(highlighter);
-        self
-    }
-
-    /// Disable syntax highlighting. This uses the
-    /// [`crate::highlighters::BlankHighlighter`] as a no-op highlighter.
-    pub fn without_syntax_highlighting(mut self) -> Self {
-        self.highlighter = MietteHighlighter::nocolor();
-        self
-    }
-
     /// Sets the display text for links.
     /// Miette displays `(link)` if this option is not set.
     pub fn with_link_display_text(mut self, text: impl Into<String>) -> Self {
@@ -238,282 +213,8 @@ impl GraphicalReportHandler {
         parent_src: Option<&dyn SourceCode>,
     ) -> fmt::Result {
         let src = diagnostic.source_code().or(parent_src);
-        self.render_header(f, diagnostic, false)?;
-        self.render_causes(f, diagnostic, src)?;
         self.render_snippets(f, diagnostic, src)?;
-        self.render_footer(f, diagnostic)?;
-        self.render_related(f, diagnostic, src)?;
-        if let Some(footer) = &self.footer {
-            writeln!(f)?;
-            let width = self.termwidth.saturating_sub(2);
-            let mut opts = textwrap::Options::new(width)
-                .initial_indent("  ")
-                .subsequent_indent("  ")
-                .break_words(self.break_words);
-            if let Some(word_separator) = self.word_separator {
-                opts = opts.word_separator(word_separator);
-            }
-            if let Some(word_splitter) = self.word_splitter.clone() {
-                opts = opts.word_splitter(word_splitter);
-            }
 
-            writeln!(f, "{}", self.wrap(footer, opts))?;
-        }
-        Ok(())
-    }
-
-    fn render_header(
-        &self,
-        f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
-        is_nested: bool,
-    ) -> fmt::Result {
-        let severity_style = match diagnostic.severity() {
-            Some(Severity::Error) | None => self.theme.styles.error,
-            Some(Severity::Warning) => self.theme.styles.warning,
-            Some(Severity::Advice) => self.theme.styles.advice,
-        };
-        let mut header = String::new();
-        let mut need_newline = is_nested;
-        if self.links == LinkStyle::Link && diagnostic.url().is_some() {
-            let url = diagnostic.url().unwrap(); // safe
-            let code = if let Some(code) = diagnostic.code() {
-                format!("{} ", code)
-            } else {
-                "".to_string()
-            };
-            let display_text = self.link_display_text.as_deref().unwrap_or("(link)");
-            let link = format!(
-                "\u{1b}]8;;{}\u{1b}\\{}{}\u{1b}]8;;\u{1b}\\",
-                url,
-                code.style(severity_style),
-                display_text.style(self.theme.styles.link)
-            );
-            write!(header, "{}", link)?;
-            writeln!(f, "{}", header)?;
-            need_newline = true;
-        } else if let Some(code) = diagnostic.code() {
-            write!(header, "{}", code.style(severity_style),)?;
-            if self.links == LinkStyle::Text && diagnostic.url().is_some() {
-                let url = diagnostic.url().unwrap(); // safe
-                write!(header, " ({})", url.style(self.theme.styles.link))?;
-            }
-            writeln!(f, "{}", header)?;
-            need_newline = true;
-        }
-        if need_newline {
-            writeln!(f)?;
-        }
-        Ok(())
-    }
-
-    fn render_causes(
-        &self,
-        f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
-        parent_src: Option<&dyn SourceCode>,
-    ) -> fmt::Result {
-        let src = diagnostic.source_code().or(parent_src);
-
-        let (severity_style, severity_icon) = match diagnostic.severity() {
-            Some(Severity::Error) | None => (self.theme.styles.error, &self.theme.characters.error),
-            Some(Severity::Warning) => (self.theme.styles.warning, &self.theme.characters.warning),
-            Some(Severity::Advice) => (self.theme.styles.advice, &self.theme.characters.advice),
-        };
-
-        let initial_indent = format!("  {} ", severity_icon.style(severity_style));
-        let rest_indent = format!("  {} ", self.theme.characters.vbar.style(severity_style));
-        let width = self.termwidth.saturating_sub(2);
-        let mut opts = textwrap::Options::new(width)
-            .initial_indent(&initial_indent)
-            .subsequent_indent(&rest_indent)
-            .break_words(self.break_words);
-        if let Some(word_separator) = self.word_separator {
-            opts = opts.word_separator(word_separator);
-        }
-        if let Some(word_splitter) = self.word_splitter.clone() {
-            opts = opts.word_splitter(word_splitter);
-        }
-
-        writeln!(f, "{}", self.wrap(&diagnostic.to_string(), opts))?;
-
-        if !self.with_cause_chain {
-            return Ok(());
-        }
-
-        if let Some(mut cause_iter) = diagnostic
-            .diagnostic_source()
-            .map(DiagnosticChain::from_diagnostic)
-            .or_else(|| diagnostic.source().map(DiagnosticChain::from_stderror))
-            .map(|it| it.peekable())
-        {
-            while let Some(error) = cause_iter.next() {
-                let is_last = cause_iter.peek().is_none();
-                let char = if !is_last {
-                    self.theme.characters.lcross
-                } else {
-                    self.theme.characters.lbot
-                };
-                let initial_indent = format!(
-                    "  {}{}{} ",
-                    char, self.theme.characters.hbar, self.theme.characters.rarrow
-                )
-                .style(severity_style)
-                .to_string();
-                let rest_indent = format!(
-                    "  {}   ",
-                    if is_last {
-                        ' '
-                    } else {
-                        self.theme.characters.vbar
-                    }
-                )
-                .style(severity_style)
-                .to_string();
-                let mut opts = textwrap::Options::new(width)
-                    .initial_indent(&initial_indent)
-                    .subsequent_indent(&rest_indent)
-                    .break_words(self.break_words);
-                if let Some(word_separator) = self.word_separator {
-                    opts = opts.word_separator(word_separator);
-                }
-                if let Some(word_splitter) = self.word_splitter.clone() {
-                    opts = opts.word_splitter(word_splitter);
-                }
-
-                match error {
-                    ErrorKind::Diagnostic(diag) => {
-                        let mut inner = String::new();
-
-                        let mut inner_renderer = self.clone();
-                        // Don't print footer for inner errors
-                        inner_renderer.footer = None;
-                        // Cause chains are already flattened, so don't double-print the nested
-                        // error
-                        inner_renderer.with_cause_chain = false;
-                        // Since everything from here on is indented, shrink the virtual terminal
-                        inner_renderer.termwidth -= rest_indent.width();
-                        inner_renderer.render_report_inner(&mut inner, diag, src)?;
-
-                        // If there was no header, remove the leading newline
-                        let inner = inner.trim_start_matches('\n');
-                        writeln!(f, "{}", self.wrap(inner, opts))?;
-                    }
-                    ErrorKind::StdError(err) => {
-                        writeln!(f, "{}", self.wrap(&err.to_string(), opts))?;
-                    }
-                }
-            }
-        }
-
-        Ok(())
-    }
-
-    fn render_footer(&self, f: &mut impl fmt::Write, diagnostic: &(dyn Diagnostic)) -> fmt::Result {
-        if let Some(help) = diagnostic.help() {
-            let width = self.termwidth.saturating_sub(2);
-            let initial_indent = "  help: ".style(self.theme.styles.help).to_string();
-            let mut opts = textwrap::Options::new(width)
-                .initial_indent(&initial_indent)
-                .subsequent_indent("        ")
-                .break_words(self.break_words);
-            if let Some(word_separator) = self.word_separator {
-                opts = opts.word_separator(word_separator);
-            }
-            if let Some(word_splitter) = self.word_splitter.clone() {
-                opts = opts.word_splitter(word_splitter);
-            }
-
-            writeln!(f, "{}", self.wrap(&help.to_string(), opts))?;
-        }
-        Ok(())
-    }
-
-    fn render_related(
-        &self,
-        f: &mut impl fmt::Write,
-        diagnostic: &(dyn Diagnostic),
-        parent_src: Option<&dyn SourceCode>,
-    ) -> fmt::Result {
-        let src = diagnostic.source_code().or(parent_src);
-
-        if let Some(related) = diagnostic.related() {
-            let severity_style = match diagnostic.severity() {
-                Some(Severity::Error) | None => self.theme.styles.error,
-                Some(Severity::Warning) => self.theme.styles.warning,
-                Some(Severity::Advice) => self.theme.styles.advice,
-            };
-
-            let mut inner_renderer = self.clone();
-            // Re-enable the printing of nested cause chains for related errors
-            inner_renderer.with_cause_chain = true;
-            if self.show_related_as_nested {
-                let width = self.termwidth.saturating_sub(2);
-                let mut related = related.peekable();
-                while let Some(rel) = related.next() {
-                    let is_last = related.peek().is_none();
-                    let char = if !is_last {
-                        self.theme.characters.lcross
-                    } else {
-                        self.theme.characters.lbot
-                    };
-                    let initial_indent = format!(
-                        "  {}{}{} ",
-                        char, self.theme.characters.hbar, self.theme.characters.rarrow
-                    )
-                    .style(severity_style)
-                    .to_string();
-                    let rest_indent = format!(
-                        "  {}   ",
-                        if is_last {
-                            ' '
-                        } else {
-                            self.theme.characters.vbar
-                        }
-                    )
-                    .style(severity_style)
-                    .to_string();
-
-                    let mut opts = textwrap::Options::new(width)
-                        .initial_indent(&initial_indent)
-                        .subsequent_indent(&rest_indent)
-                        .break_words(self.break_words);
-                    if let Some(word_separator) = self.word_separator {
-                        opts = opts.word_separator(word_separator);
-                    }
-                    if let Some(word_splitter) = self.word_splitter.clone() {
-                        opts = opts.word_splitter(word_splitter);
-                    }
-
-                    let mut inner = String::new();
-
-                    let mut inner_renderer = self.clone();
-                    inner_renderer.footer = None;
-                    inner_renderer.with_cause_chain = false;
-                    inner_renderer.termwidth -= rest_indent.width();
-                    inner_renderer.render_report_inner(&mut inner, rel, src)?;
-
-                    // If there was no header, remove the leading newline
-                    let inner = inner.trim_matches('\n');
-                    writeln!(f, "{}", self.wrap(inner, opts))?;
-                }
-            } else {
-                for rel in related {
-                    writeln!(f)?;
-                    match rel.severity() {
-                        Some(Severity::Error) | None => write!(f, "Error: ")?,
-                        Some(Severity::Warning) => write!(f, "Warning: ")?,
-                        Some(Severity::Advice) => write!(f, "Advice: ")?,
-                    };
-                    inner_renderer.render_header(f, rel, true)?;
-                    let src = rel.source_code().or(parent_src);
-                    inner_renderer.render_causes(f, rel, src)?;
-                    inner_renderer.render_snippets(f, rel, src)?;
-                    inner_renderer.render_footer(f, rel)?;
-                    inner_renderer.render_related(f, rel, src)?;
-                }
-            }
-        }
         Ok(())
     }
 
