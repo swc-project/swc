@@ -181,8 +181,6 @@ impl SwcReportHandler {
             max_gutter = std::cmp::max(max_gutter, num_highlights);
         }
 
-        writeln!(f)?;
-
         // Now it's time for the fun part--actually rendering everything!
         for line in &lines {
             // Then, we need to print the gutter, along with any fly-bys We
