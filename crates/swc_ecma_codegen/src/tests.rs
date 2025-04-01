@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use ascii::AsciiChar;
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -7,7 +8,7 @@ use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
 use super::*;
-use crate::text_writer::omit_trailing_semi;
+use crate::{lit::get_quoted_utf16, text_writer::omit_trailing_semi};
 
 struct Builder {
     cfg: Config,
@@ -595,7 +596,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es2020)),
             expected
         )
     }
@@ -603,7 +604,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es2020)),
             expected
         )
     }
@@ -611,7 +612,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es5)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es5)),
             expected
         )
     }
