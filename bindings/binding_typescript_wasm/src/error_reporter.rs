@@ -1,10 +1,11 @@
-use std::fmt::{self, Write};
+use std::fmt::{self};
 
 use miette::{
     Diagnostic, GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, SpanContents,
+    ThemeCharacters,
 };
 use owo_colors::{OwoColorize, Style, StyledList};
-use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
+use unicode_width::UnicodeWidthChar;
 
 /**
 A [`ReportHandler`] that displays a given [`Report`](crate::Report) in a
@@ -322,8 +323,6 @@ impl GraphicalReportHandler {
             .map(|(label, st)| FancySpan::new(label.label().map(String::from), *label.inner(), st))
             .collect::<Vec<_>>();
 
-        let mut highlighter_state = self.highlighter.start_highlighter_state(&*contents);
-
         // The max number of gutter-lines that will be active at any given
         // point. We need this to figure out indentation, so we do one loop
         // over the lines to see what the damage is gonna be.
@@ -400,9 +399,7 @@ impl GraphicalReportHandler {
             self.render_line_gutter(f, max_gutter, line, &labels)?;
 
             // And _now_ we can print out the line text itself!
-            let styled_text =
-                StyledList::from(highlighter_state.highlight_line(&line.text)).to_string();
-            self.render_line_text(f, &styled_text)?;
+            self.render_line_text(f, &line.text)?;
 
             // Next, we write all the highlights that apply to this particular line.
             let (single_line, multi_line): (Vec<_>, Vec<_>) = labels
