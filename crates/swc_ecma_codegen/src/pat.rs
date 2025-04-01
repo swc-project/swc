@@ -1,11 +1,8 @@
-use std::{borrow::Cow, io};
-
-use swc_atoms::Atom;
-use swc_common::{comments::Comments, BytePos, SourceMapper, Span, Spanned};
+use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
 
-use crate::{text_writer::WriteJs, Emitter, Node, Result, SourceMapperExt};
+use crate::{text_writer::WriteJs, Emitter, Result, SourceMapperExt};
 
 /// Patterns
 impl<W, S: SourceMapper> Emitter<'_, W, S>
