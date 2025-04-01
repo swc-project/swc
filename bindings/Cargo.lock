@@ -402,6 +402,7 @@ dependencies = [
  "terminal_size 0.4.2",
  "textwrap",
  "tracing",
+ "unicode-width 0.1.14",
  "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
