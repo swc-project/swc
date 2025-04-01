@@ -25,6 +25,7 @@ use crate::util::EndsWithAlphaNum;
 
 #[macro_use]
 pub mod macros;
+mod class;
 mod comments;
 mod config;
 mod decl;
@@ -32,6 +33,7 @@ mod expr;
 mod jsx;
 mod lit;
 mod module_decls;
+mod object;
 mod pat;
 mod stmt;
 #[cfg(test)]
