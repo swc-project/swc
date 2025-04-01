@@ -4,7 +4,7 @@ use miette::{
     Diagnostic, GraphicalTheme, LabeledSpan, ReportHandler, SourceCode, SourceSpan, SpanContents,
     ThemeCharacters,
 };
-use owo_colors::{OwoColorize, Style, StyledList};
+use owo_colors::{OwoColorize, Style};
 use unicode_width::UnicodeWidthChar;
 
 /**
@@ -22,19 +22,9 @@ printer.
 */
 #[derive(Debug, Clone)]
 pub struct SwcReportHandler {
-    pub(crate) links: LinkStyle,
-    pub(crate) termwidth: usize,
     pub(crate) theme: GraphicalTheme,
-    pub(crate) footer: Option<String>,
     pub(crate) context_lines: usize,
     pub(crate) tab_width: usize,
-    pub(crate) with_cause_chain: bool,
-    pub(crate) wrap_lines: bool,
-    pub(crate) break_words: bool,
-    pub(crate) word_separator: Option<textwrap::WordSeparator>,
-    pub(crate) word_splitter: Option<textwrap::WordSplitter>,
-    pub(crate) link_display_text: Option<String>,
-    pub(crate) show_related_as_nested: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -49,38 +39,18 @@ impl SwcReportHandler {
     /// [`GraphicalTheme`]. This will use both unicode characters and colors.
     pub fn new() -> Self {
         Self {
-            links: LinkStyle::Link,
-            termwidth: 200,
             theme: GraphicalTheme::default(),
-            footer: None,
             context_lines: 1,
             tab_width: 4,
-            with_cause_chain: true,
-            wrap_lines: true,
-            break_words: true,
-            word_separator: None,
-            word_splitter: None,
-            link_display_text: None,
-            show_related_as_nested: false,
         }
     }
 
     ///Create a new `GraphicalReportHandler` with a given [`GraphicalTheme`].
     pub fn new_themed(theme: GraphicalTheme) -> Self {
         Self {
-            links: LinkStyle::Link,
-            termwidth: 200,
             theme,
-            footer: None,
             context_lines: 1,
             tab_width: 4,
-            wrap_lines: true,
-            with_cause_chain: true,
-            break_words: true,
-            word_separator: None,
-            word_splitter: None,
-            link_display_text: None,
-            show_related_as_nested: false,
         }
     }
 
@@ -90,101 +60,15 @@ impl SwcReportHandler {
         self
     }
 
-    /// Whether to enable error code linkification using [`Diagnostic::url()`].
-    pub fn with_links(mut self, links: bool) -> Self {
-        self.links = if links {
-            LinkStyle::Link
-        } else {
-            LinkStyle::Text
-        };
-        self
-    }
-
-    /// Include the cause chain of the top-level error in the graphical output,
-    /// if available.
-    pub fn with_cause_chain(mut self) -> Self {
-        self.with_cause_chain = true;
-        self
-    }
-
-    /// Do not include the cause chain of the top-level error in the graphical
-    /// output.
-    pub fn without_cause_chain(mut self) -> Self {
-        self.with_cause_chain = false;
-        self
-    }
-
-    /// Whether to include [`Diagnostic::url()`] in the output.
-    ///
-    /// Disabling this is not recommended, but can be useful for more easily
-    /// reproducible tests, as `url(docsrs)` links are version-dependent.
-    pub fn with_urls(mut self, urls: bool) -> Self {
-        self.links = match (self.links, urls) {
-            (_, false) => LinkStyle::None,
-            (LinkStyle::None, true) => LinkStyle::Link,
-            (links, true) => links,
-        };
-        self
-    }
-
     /// Set a theme for this handler.
     pub fn with_theme(mut self, theme: GraphicalTheme) -> Self {
         self.theme = theme;
         self
     }
 
-    /// Sets the width to wrap the report at.
-    pub fn with_width(mut self, width: usize) -> Self {
-        self.termwidth = width;
-        self
-    }
-
-    /// Enables or disables wrapping of lines to fit the width.
-    pub fn with_wrap_lines(mut self, wrap_lines: bool) -> Self {
-        self.wrap_lines = wrap_lines;
-        self
-    }
-
-    /// Enables or disables breaking of words during wrapping.
-    pub fn with_break_words(mut self, break_words: bool) -> Self {
-        self.break_words = break_words;
-        self
-    }
-
-    /// Sets the word separator to use when wrapping.
-    pub fn with_word_separator(mut self, word_separator: textwrap::WordSeparator) -> Self {
-        self.word_separator = Some(word_separator);
-        self
-    }
-
-    /// Sets the word splitter to use when wrapping.
-    pub fn with_word_splitter(mut self, word_splitter: textwrap::WordSplitter) -> Self {
-        self.word_splitter = Some(word_splitter);
-        self
-    }
-
-    /// Sets the 'global' footer for this handler.
-    pub fn with_footer(mut self, footer: String) -> Self {
-        self.footer = Some(footer);
-        self
-    }
-
     /// Sets the number of lines of context to show around each error.
     pub fn with_context_lines(mut self, lines: usize) -> Self {
         self.context_lines = lines;
-        self
-    }
-
-    /// Sets whether to render related errors as nested errors.
-    pub fn with_show_related_as_nested(mut self, show_related_as_nested: bool) -> Self {
-        self.show_related_as_nested = show_related_as_nested;
-        self
-    }
-
-    /// Sets the display text for links.
-    /// Miette displays `(link)` if this option is not set.
-    pub fn with_link_display_text(mut self, text: impl Into<String>) -> Self {
-        self.link_display_text = Some(text.into());
         self
     }
 }
@@ -672,36 +556,32 @@ impl SwcReportHandler {
     }
 
     fn wrap(&self, text: &str, opts: textwrap::Options<'_>) -> String {
-        if self.wrap_lines {
-            textwrap::fill(text, opts)
-        } else {
-            // Format without wrapping, but retain the indentation options
-            // Implementation based on `textwrap::indent`
-            let mut result = String::with_capacity(2 * text.len());
-            let trimmed_indent = opts.subsequent_indent.trim_end();
-            for (idx, line) in text.split_terminator('\n').enumerate() {
-                if idx > 0 {
-                    result.push('\n');
-                }
-                if idx == 0 {
-                    if line.trim().is_empty() {
-                        result.push_str(opts.initial_indent.trim_end());
-                    } else {
-                        result.push_str(opts.initial_indent);
-                    }
-                } else if line.trim().is_empty() {
-                    result.push_str(trimmed_indent);
-                } else {
-                    result.push_str(opts.subsequent_indent);
-                }
-                result.push_str(line);
-            }
-            if text.ends_with('\n') {
-                // split_terminator will have eaten the final '\n'.
+        // Format without wrapping, but retain the indentation options
+        // Implementation based on `textwrap::indent`
+        let mut result = String::with_capacity(2 * text.len());
+        let trimmed_indent = opts.subsequent_indent.trim_end();
+        for (idx, line) in text.split_terminator('\n').enumerate() {
+            if idx > 0 {
                 result.push('\n');
             }
-            result
+            if idx == 0 {
+                if line.trim().is_empty() {
+                    result.push_str(opts.initial_indent.trim_end());
+                } else {
+                    result.push_str(opts.initial_indent);
+                }
+            } else if line.trim().is_empty() {
+                result.push_str(trimmed_indent);
+            } else {
+                result.push_str(opts.subsequent_indent);
+            }
+            result.push_str(line);
         }
+        if text.ends_with('\n') {
+            // split_terminator will have eaten the final '\n'.
+            result.push('\n');
+        }
+        result
     }
 
     fn write_linum(&self, f: &mut impl fmt::Write, width: usize, linum: usize) -> fmt::Result {

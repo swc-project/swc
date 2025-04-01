@@ -5,6 +5,7 @@ use std::{
 };
 
 use anyhow::Error;
+use error_reporter::SwcReportHandler;
 use js_sys::Uint8Array;
 use miette::{GraphicalReportHandler, GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
@@ -76,7 +77,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
 #[derive(Clone)]
 struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
-    reporter: GraphicalReportHandler,
+    reporter: SwcReportHandler,
     cm: Lrc<SourceMap>,
 }
 
@@ -86,7 +87,7 @@ where
 {
     let wr = JsonErrorWriter {
         errors: Default::default(),
-        reporter: GraphicalReportHandler::default().with_theme(GraphicalTheme {
+        reporter: SwcReportHandler::default().with_theme(GraphicalTheme {
             characters: ThemeCharacters {
                 hbar: ' ',
                 vbar: ' ',
