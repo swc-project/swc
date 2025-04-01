@@ -161,13 +161,6 @@ impl SwcReportHandler {
     ) -> fmt::Result {
         let (contents, lines) = self.get_lines(source, context.inner())?;
 
-        // only consider labels from the context as primary label
-        let ctx_labels = labels.iter().filter(|l| {
-            context.inner().offset() <= l.inner().offset()
-                && l.inner().offset() + l.inner().len()
-                    <= context.inner().offset() + context.inner().len()
-        });
-
         // sorting is your friend
         let labels = labels
             .iter()
