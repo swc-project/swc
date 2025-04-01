@@ -466,18 +466,10 @@ impl SwcReportHandler {
     }
 
     fn write_linum(&self, f: &mut impl fmt::Write, width: usize, linum: usize) -> fmt::Result {
-        write!(f, "  {} ", self.theme.characters.vbar)?;
         Ok(())
     }
 
     fn write_no_linum(&self, f: &mut impl fmt::Write, width: usize) -> fmt::Result {
-        write!(
-            f,
-            " {:width$} {} ",
-            "",
-            self.theme.characters.vbar_break,
-            width = width
-        )?;
         Ok(())
     }
 
