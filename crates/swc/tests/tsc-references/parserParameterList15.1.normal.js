@@ -5,4 +5,3 @@
 //!    :              ^^^^^
 //!  2 | function foo(a, b) {}
 //!    `----
-//!   x Syntax Error

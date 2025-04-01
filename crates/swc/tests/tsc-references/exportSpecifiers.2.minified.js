@@ -10,4 +10,3 @@ import { type, as, something, foo, bar } from "./exports.js";
 //!  9 | export type { type something as whatever }; // Error
 //!    :               ^^^^
 //!    `----
-//!   x Syntax Error

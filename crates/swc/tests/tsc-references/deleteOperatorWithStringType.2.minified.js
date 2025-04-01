@@ -246,4 +246,3 @@
 //!     :        ^^^^^
 //!  44 | delete objA.a,M.n;
 //!     `----
-//!   x Syntax Error

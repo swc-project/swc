@@ -10,4 +10,3 @@
 //!  6 |     static { this; }
 //!  7 |     static x: any = this;
 //!    `----
-//!   x Syntax Error

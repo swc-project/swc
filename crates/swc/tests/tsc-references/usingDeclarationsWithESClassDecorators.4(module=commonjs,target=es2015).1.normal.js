@@ -9,4 +9,3 @@
 //!  8 | export default class {
 //!  9 | }
 //!    `----
-//!   x Syntax Error

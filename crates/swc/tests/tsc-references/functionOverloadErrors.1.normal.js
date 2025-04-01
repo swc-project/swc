@@ -17,4 +17,3 @@
 //!      :                   ^^^^^^
 //!  117 | function initExpr() { }
 //!      `----
-//!   x Syntax Error

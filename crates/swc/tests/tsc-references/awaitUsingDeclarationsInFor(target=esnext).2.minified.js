@@ -8,4 +8,3 @@
 //!  4 |                     d3 = null,
 //!  5 |                     d4 = undefined;;) {
 //!    `----
-//!   x Syntax Error

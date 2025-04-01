@@ -4,4 +4,3 @@
 //!  1 | var v = (public x: string) => { };
 //!    :          ^^^^^^^^^^^^^^^^
 //!    `----
-//!   x Syntax Error

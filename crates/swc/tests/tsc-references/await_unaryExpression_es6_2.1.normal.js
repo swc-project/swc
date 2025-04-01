@@ -20,4 +20,3 @@
 //!   9 | 
 //!  10 | async function bar3() {
 //!     `----
-//!   x Syntax Error

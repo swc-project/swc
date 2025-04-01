@@ -9,4 +9,3 @@
 //!  6 | export class C {
 //!  7 | }
 //!    `----
-//!   x Syntax Error

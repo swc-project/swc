@@ -7,4 +7,3 @@
 //!  3 |    constructor(a, b) { }
 //!  4 | }
 //!    `----
-//!   x Syntax Error

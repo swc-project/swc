@@ -10,4 +10,3 @@
 //!  13 | 
 //!  14 |     @(instance["decorate"])
 //!     `----
-//!   x Syntax Error

@@ -9,7 +9,6 @@
 //!  7 |     static #foo() {}
 //!  8 | }
 //!    `----
-//!   x Syntax Error
 //// [tslib.d.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

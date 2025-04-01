@@ -10,4 +10,3 @@
 //!  6 | class C {
 //!  7 |     @dec
 //!    `----
-//!   x Syntax Error

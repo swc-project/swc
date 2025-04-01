@@ -9,7 +9,6 @@
 //!    :                 ^
 //!  7 | 
 //!    `----
-//!   x Syntax Error
 //// [b.ts]
 //!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
 //!    ,-[6:1]
@@ -19,4 +18,3 @@
 //!  6 | export default (class { @dec y: any });
 //!    :                         ^
 //!    `----
-//!   x Syntax Error

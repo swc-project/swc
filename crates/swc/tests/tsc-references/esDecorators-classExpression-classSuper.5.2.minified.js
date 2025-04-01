@@ -10,4 +10,3 @@
 //!  12 |     static a = super.x;
 //!  13 |     static b = super.x = 1;
 //!     `----
-//!   x Syntax Error

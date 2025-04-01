@@ -9,7 +9,6 @@
 //!  4 | 
 //!  5 | export {}
 //!    `----
-//!   x Syntax Error
 //// [b.ts]
 //!   x Expression expected
 //!    ,-[3:1]
@@ -19,7 +18,6 @@
 //!    : ^
 //!  4 | 
 //!    `----
-//!   x Syntax Error
 //// [c.ts]
 //!   x Expression expected
 //!    ,-[3:1]
@@ -29,7 +27,6 @@
 //!    : ^
 //!  4 | 
 //!    `----
-//!   x Syntax Error
 //// [c.ts]
 //!   x Expression expected
 //!    ,-[3:1]
@@ -38,4 +35,3 @@
 //!  3 | @dec export default class {}
 //!    : ^
 //!    `----
-//!   x Syntax Error

@@ -10,4 +10,3 @@
 //!  7 | 
 //!  8 |     // uses 'this'
 //!    `----
-//!   x Syntax Error

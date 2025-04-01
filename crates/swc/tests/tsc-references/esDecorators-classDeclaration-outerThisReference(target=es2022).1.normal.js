@@ -10,4 +10,3 @@
 //!   9 |     @dec(this)
 //!  10 |     b = 2;
 //!     `----
-//!   x Syntax Error

@@ -43,4 +43,3 @@
 //!  18 | // Valid according to spec
 //!  19 | a ?? (b || c);
 //!     `----
-//!   x Syntax Error
