@@ -27,13 +27,6 @@ pub struct SwcReportHandler {
     pub(crate) tab_width: usize,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum LinkStyle {
-    None,
-    Link,
-    Text,
-}
-
 impl SwcReportHandler {
     /// Create a new `GraphicalReportHandler` with the default
     /// [`GraphicalTheme`]. This will use both unicode characters and colors.
@@ -45,30 +38,9 @@ impl SwcReportHandler {
         }
     }
 
-    ///Create a new `GraphicalReportHandler` with a given [`GraphicalTheme`].
-    pub fn new_themed(theme: GraphicalTheme) -> Self {
-        Self {
-            theme,
-            context_lines: 1,
-            tab_width: 4,
-        }
-    }
-
-    /// Set the displayed tab width in spaces.
-    pub fn tab_width(mut self, width: usize) -> Self {
-        self.tab_width = width;
-        self
-    }
-
     /// Set a theme for this handler.
     pub fn with_theme(mut self, theme: GraphicalTheme) -> Self {
         self.theme = theme;
-        self
-    }
-
-    /// Sets the number of lines of context to show around each error.
-    pub fn with_context_lines(mut self, lines: usize) -> Self {
-        self.context_lines = lines;
         self
     }
 }
@@ -195,10 +167,6 @@ impl SwcReportHandler {
                 && l.inner().offset() + l.inner().len()
                     <= context.inner().offset() + context.inner().len()
         });
-        let primary_label = ctx_labels
-            .clone()
-            .find(|label| label.primary())
-            .or_else(|| ctx_labels.clone().next());
 
         // sorting is your friend
         let labels = labels
@@ -519,35 +487,6 @@ impl SwcReportHandler {
         Ok(())
     }
 
-    fn wrap(&self, text: &str, opts: textwrap::Options<'_>) -> String {
-        // Format without wrapping, but retain the indentation options
-        // Implementation based on `textwrap::indent`
-        let mut result = String::with_capacity(2 * text.len());
-        let trimmed_indent = opts.subsequent_indent.trim_end();
-        for (idx, line) in text.split_terminator('\n').enumerate() {
-            if idx > 0 {
-                result.push('\n');
-            }
-            if idx == 0 {
-                if line.trim().is_empty() {
-                    result.push_str(opts.initial_indent.trim_end());
-                } else {
-                    result.push_str(opts.initial_indent);
-                }
-            } else if line.trim().is_empty() {
-                result.push_str(trimmed_indent);
-            } else {
-                result.push_str(opts.subsequent_indent);
-            }
-            result.push_str(line);
-        }
-        if text.ends_with('\n') {
-            // split_terminator will have eaten the final '\n'.
-            result.push('\n');
-        }
-        result
-    }
-
     fn write_linum(&self, f: &mut impl fmt::Write, width: usize, linum: usize) -> fmt::Result {
         write!(f, "  {} ", self.theme.characters.vbar)?;
         Ok(())
@@ -830,17 +769,17 @@ impl SwcReportHandler {
         let mut line_str = String::with_capacity(context.len());
         let mut lines = Vec::with_capacity(1);
         let mut iter = context.chars().peekable();
-        while let Some(char) = iter.next() {
-            offset += char.len_utf8();
+        while let Some(ch) = iter.next() {
+            offset += ch.len_utf8();
             let mut at_end_of_file = false;
-            match char {
+            match ch {
                 '\r' => {
                     if iter.next_if_eq(&'\n').is_some() {
                         offset += 1;
                         line += 1;
                         column = 0;
                     } else {
-                        line_str.push(char);
+                        line_str.push(ch);
                         column += 1;
                     }
                     at_end_of_file = iter.peek().is_none();
@@ -851,7 +790,7 @@ impl SwcReportHandler {
                     column = 0;
                 }
                 _ => {
-                    line_str.push(char);
+                    line_str.push(ch);
                     column += 1;
                 }
             }
