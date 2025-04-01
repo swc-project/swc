@@ -186,7 +186,11 @@ where
             Ok(ret)
         }
         Err(err) => {
-            diagnostics.push(err.to_diagnostic());
+            if err.downcast_ref::<crate::ParseSyntaxError>().is_none() {
+                // only add err to diagnostics if it is not ParseSyntaxError.
+                // this is because ParseSyntaxError is handled in the js side.
+                diagnostics.push(err.to_diagnostic());
+            }
 
             Err(diagnostics.as_wrapper(cm.clone(), config))
         }
