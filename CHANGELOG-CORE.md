@@ -17,6 +17,9 @@
 
 
 
+- **(deps)** Update actions ([#10222](https://github.com/swc-project/swc/issues/10222)) ([cf33196](https://github.com/swc-project/swc/commit/cf33196160fdcd004e188c33f8f665a4c81263f2))
+
+
 - **(html)** Fix typing ([3ed8a7a](https://github.com/swc-project/swc/commit/3ed8a7a42f2973bdb0f626f0193d550a2bd790c5))
 
 ## [swc_core@v18.0.0] - 2025-03-31

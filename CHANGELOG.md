@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update actions ([#10222](https://github.com/swc-project/swc/issues/10222)) ([cf33196](https://github.com/swc-project/swc/commit/cf33196160fdcd004e188c33f8f665a4c81263f2))
+
 ## [1.11.15] - 2025-04-01
 
 ### Bug Fixes
