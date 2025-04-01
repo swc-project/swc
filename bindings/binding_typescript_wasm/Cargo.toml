@@ -29,6 +29,4 @@ tracing              = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen         = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }
 owo-colors = { version = "4.0.0"}
-textwrap = { version = "0.16.0", default-features = false, features = ["unicode-linebreak", "unicode-width"]}
-terminal_size = { version = "0.4.0"}
 unicode-width = "0.1.11"
