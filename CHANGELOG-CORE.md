@@ -1829,9 +1829,6 @@
 - **(es)** Preserve more comments ([#9449](https://github.com/swc-project/swc/issues/9449)) ([673655c](https://github.com/swc-project/swc/commit/673655c1697ff1d507f7acbfa937cbf1f58eb1d9))
 
 
-- **(es/codegen)** Print the missing `abstract` in class expression ([#9372](https://github.com/swc-project/swc/issues/9372)) ([c2e3021](https://github.com/swc-project/swc/commit/c2e302127fc80970d4b5096c93e29c9ce76a2fe4))
-
-
 - **(es/codegen)** Handle minify number ([#9541](https://github.com/swc-project/swc/issues/9541)) ([8b1e442](https://github.com/swc-project/swc/commit/8b1e4428a3324dea76ba480a6d4cddf3865e41e8))
 
 

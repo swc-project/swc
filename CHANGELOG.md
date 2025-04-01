@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.16] - 2025-04-01
 
 ### Miscellaneous Tasks
 
@@ -1904,9 +1904,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Print the missing `abstract` in class expression ([#9372](https://github.com/swc-project/swc/issues/9372)) ([c2e3021](https://github.com/swc-project/swc/commit/c2e302127fc80970d4b5096c93e29c9ce76a2fe4))
 
 
 - **(es/decorators)** Use correct class name reference ([#9375](https://github.com/swc-project/swc/issues/9375)) ([badd6a9](https://github.com/swc-project/swc/commit/badd6a9ede5bd511763515b3e62bd222f0860968))
