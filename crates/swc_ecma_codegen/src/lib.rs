@@ -31,6 +31,7 @@ mod config;
 mod decl;
 mod expr;
 mod jsx;
+mod pat;
 mod stmt;
 #[cfg(test)]
 mod tests;
