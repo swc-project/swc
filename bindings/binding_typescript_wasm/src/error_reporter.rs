@@ -240,37 +240,7 @@ impl SwcReportHandler {
             self.theme.characters.hbar,
         )?;
 
-        // If there is a primary label, then use its span
-        // as the reference point for line/column information.
-        let primary_contents = match primary_label {
-            Some(label) => source
-                .read_span(label.inner(), 0, 0)
-                .map_err(|_| fmt::Error)?,
-            None => contents,
-        };
-
-        if let Some(source_name) = primary_contents.name() {
-            writeln!(
-                f,
-                "[{}]",
-                format_args!(
-                    "{}:{}:{}",
-                    source_name,
-                    primary_contents.line() + 1,
-                    primary_contents.column() + 1
-                )
-                .style(self.theme.styles.link)
-            )?;
-        } else if lines.len() <= 1 {
-            writeln!(f, "{}", self.theme.characters.hbar.to_string().repeat(3))?;
-        } else {
-            writeln!(
-                f,
-                "[{}:{}]",
-                primary_contents.line() + 1,
-                primary_contents.column() + 1
-            )?;
-        }
+        writeln!(f)?;
 
         // Now it's time for the fun part--actually rendering everything!
         for line in &lines {
