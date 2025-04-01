@@ -21,7 +21,7 @@ See [`set_hook()`](crate::set_hook) for more details on customizing your global
 printer.
 */
 #[derive(Debug, Clone)]
-pub struct GraphicalReportHandler {
+pub struct SwcReportHandler {
     pub(crate) links: LinkStyle,
     pub(crate) termwidth: usize,
     pub(crate) theme: GraphicalTheme,
@@ -44,7 +44,7 @@ pub(crate) enum LinkStyle {
     Text,
 }
 
-impl GraphicalReportHandler {
+impl SwcReportHandler {
     /// Create a new `GraphicalReportHandler` with the default
     /// [`GraphicalTheme`]. This will use both unicode characters and colors.
     pub fn new() -> Self {
@@ -189,13 +189,13 @@ impl GraphicalReportHandler {
     }
 }
 
-impl Default for GraphicalReportHandler {
+impl Default for SwcReportHandler {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl GraphicalReportHandler {
+impl SwcReportHandler {
     /// Render a [`Diagnostic`]. This function is mostly internal and meant to
     /// be called by the toplevel [`ReportHandler`] handler, but is made public
     /// to make it easier (possible) to test in isolation from global state.
@@ -1037,7 +1037,7 @@ impl GraphicalReportHandler {
     }
 }
 
-impl ReportHandler for GraphicalReportHandler {
+impl ReportHandler for SwcReportHandler {
     fn debug(&self, diagnostic: &(dyn Diagnostic), f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if f.alternate() {
             return fmt::Debug::fmt(diagnostic, f);
