@@ -10,7 +10,7 @@ use swc_common::{
 mod diagnostic;
 mod error;
 pub mod handler;
-pub use diagnostic::{to_pretty_source_code, ToPrettyDiagnostic};
+pub use diagnostic::{convert_span, to_pretty_source_code, ToPrettyDiagnostic};
 pub use error::OnlyDiagnosticsError;
 
 pub struct ErrorEmitter {

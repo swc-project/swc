@@ -7,7 +7,9 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
-use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler};
+use swc_error_reporters::{
+    handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler, ToPrettyDiagnostic,
+};
 
 fn output<F>(file: &str, op: F)
 where
