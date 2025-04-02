@@ -213,25 +213,27 @@ where
     /// prints `(b){}` from `function a(b){}`
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
-            emit!(type_params);
+            emit!(self, type_params);
         }
 
-        punct!(emitter, "(");
+        punct!(self, "(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(emitter, ")");
+        punct!(self, ")");
 
         if let Some(ty) = &node.return_type {
-            punct!(emitter, ":");
-            formatting_space!(emitter);
-            emit!(ty);
+            punct!(self, ":");
+            formatting_space!(self);
+            emit!(self, ty);
         }
 
         if let Some(body) = &node.body {
-            formatting_space!(emitter);
+            formatting_space!(self);
             self.emit_block_stmt_inner(body, true)?;
         } else {
-            semi!(emitter);
+            semi!(self);
         }
+
+        Ok(())
 
         // srcmap!(emitter,node, false);
     }

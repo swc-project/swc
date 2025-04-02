@@ -92,7 +92,6 @@ impl MacroNode for Decl {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
                 srcmap!(emitter, self, false);
-                Ok(())
             }
             Decl::Using(n) => emit!(n),
             Decl::TsEnum(n) => emit!(n),
@@ -100,6 +99,8 @@ impl MacroNode for Decl {
             Decl::TsModule(n) => emit!(n),
             Decl::TsTypeAlias(n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 

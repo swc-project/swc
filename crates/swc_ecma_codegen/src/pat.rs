@@ -1,8 +1,8 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::{text_writer::WriteJs, Emitter, Result, SourceMapperExt};
+use crate::Result;
 
 #[node_impl]
 impl MacroNode for Param {

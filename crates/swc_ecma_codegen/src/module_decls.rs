@@ -96,6 +96,8 @@ impl MacroNode for ExportDefaultDecl {
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -207,6 +209,8 @@ impl MacroNode for ImportDecl {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -230,6 +234,8 @@ impl MacroNode for ImportNamedSpecifier {
         emit!(self.local);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -243,6 +249,8 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Namespace(ref node) => emit!(node),
             ExportSpecifier::Named(ref node) => emit!(node),
         }
+
+        Ok(())
     }
 }
 
@@ -260,6 +268,8 @@ impl MacroNode for ExportNamespaceSpecifier {
         emit!(self.name);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
