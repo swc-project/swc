@@ -4,28 +4,25 @@ use swc_ecma_codegen_macros::emitter;
 
 use crate::{text_writer::WriteJs, Emitter, Result, SourceMapperExt};
 
-/// Patterns
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    #[emitter]
-    fn emit_param(&mut self, node: &Param) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for Param {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        self.emit_list(node.span, Some(&node.decorators), ListFormat::Decorators)?;
+        emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
-        emit!(node.pat);
+        emit!(self.pat);
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_pat(&mut self, node: &Pat) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for Pat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             Pat::Array(ref n) => emit!(n),
             Pat::Assign(ref n) => emit!(n),
             Pat::Expr(ref n) => emit!(n),
@@ -35,58 +32,68 @@ where
             Pat::Invalid(n) => emit!(n),
         }
 
-        if self.comments.is_some() {
-            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
     }
+}
 
-    #[emitter]
-    fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for RestPat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        punct!(node.dot3_token, "...");
-        emit!(node.arg);
+        punct!(self.dot3_token, "...");
+        emit!(self.arg);
 
-        if let Some(type_ann) = &node.type_ann {
+        if let Some(type_ann) = &self.type_ann {
             punct!(":");
             formatting_space!();
             emit!(type_ann);
         }
     }
+}
 
-    #[emitter]
-    fn emit_prop_or_spread(&mut self, node: &PropOrSpread) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for PropOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             PropOrSpread::Prop(ref n) => emit!(n),
             PropOrSpread::Spread(ref n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    fn emit_spread_element(&mut self, node: &SpreadElement) -> Result {
-        if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for SpreadElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if emitter.comments.is_some() {
+            emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
         punct!("...");
-        emit!(node.expr);
+        emit!(self.expr);
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for AssignTarget {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             AssignTarget::Simple(ref n) => emit!(n),
             AssignTarget::Pat(ref n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for SimpleAssignTarget {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             SimpleAssignTarget::Ident(n) => emit!(n),
             SimpleAssignTarget::Member(n) => emit!(n),
             SimpleAssignTarget::Invalid(n) => emit!(n),
@@ -100,134 +107,159 @@ where
             SimpleAssignTarget::TsInstantiation(n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for AssignTargetPat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             AssignTargetPat::Array(n) => emit!(n),
             AssignTargetPat::Object(n) => emit!(n),
             AssignTargetPat::Invalid(n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ArrayPat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
         punct!("[");
 
         let mut format = ListFormat::ArrayBindingPatternElements;
 
-        if let Some(None) = node.elems.last() {
+        if let Some(None) = self.elems.last() {
             format |= ListFormat::ForceTrailingComma;
         }
 
-        self.emit_list(node.span(), Some(&node.elems), format)?;
+        emitter.emit_list(self.span(), Some(&self.elems), format)?;
         punct!("]");
-        if node.optional {
+        if self.optional {
             punct!("?");
         }
 
-        if let Some(type_ann) = &node.type_ann {
+        if let Some(type_ann) = &self.type_ann {
             punct!(":");
             space!();
             emit!(type_ann);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_assign_pat(&mut self, node: &AssignPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for AssignPat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        emit!(node.left);
+        emit!(self.left);
         formatting_space!();
         punct!("=");
         formatting_space!();
-        emit!(node.right);
+        emit!(self.right);
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ObjectPat {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
         punct!("{");
 
-        self.emit_list(
-            node.span(),
-            Some(&node.props),
+        emitter.emit_list(
+            self.span(),
+            Some(&self.props),
             ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
         punct!("}");
 
-        if node.optional {
+        if self.optional {
             punct!("?");
         }
 
-        if let Some(type_ann) = &node.type_ann {
+        if let Some(type_ann) = &self.type_ann {
             punct!(":");
             space!();
             emit!(type_ann);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_object_pat_prop(&mut self, node: &ObjectPatProp) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for ObjectPatProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             ObjectPatProp::KeyValue(ref node) => emit!(node),
             ObjectPatProp::Assign(ref node) => emit!(node),
             ObjectPatProp::Rest(ref node) => emit!(node),
         }
     }
+}
 
-    #[emitter]
-    fn emit_object_kv_pat(&mut self, node: &KeyValuePatProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for KeyValuePatProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        emit!(node.key);
+        emit!(self.key);
         punct!(":");
         formatting_space!();
-        emit!(node.value);
+        emit!(self.value);
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_object_assign_pat(&mut self, node: &AssignPatProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for AssignPatProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        emit!(node.key);
-        if let Some(value) = &node.value {
+        emit!(self.key);
+        if let Some(value) = &self.value {
             formatting_space!();
             punct!("=");
             formatting_space!();
             emit!(value);
         }
 
-        srcmap!(node, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    fn emit_for_head(&mut self, node: &ForHead) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for ForHead {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             ForHead::Pat(n) => emit!(n),
             ForHead::VarDecl(n) => emit!(n),
             ForHead::UsingDecl(n) => emit!(n),
         }
     }
+}
+
+/// Patterns
+impl<W, S: SourceMapper> Emitter<'_, W, S>
+where
+    W: WriteJs,
+    S: SourceMapperExt,
+{
+    // All emitter functions removed
 }

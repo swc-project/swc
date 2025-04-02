@@ -6,24 +6,20 @@ use crate::{
     is_empty_comments, text_writer::WriteJs, Emitter, ListFormat, Result, SourceMapperExt,
 };
 
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    #[emitter]
-    pub fn emit_object_lit(&mut self, node: &ObjectLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ObjectLit {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
         punct!("{");
 
-        let emit_new_line = !self.cfg.minify
-            && !(node.props.is_empty() && is_empty_comments(&node.span(), &self.comments));
+        let emit_new_line = !emitter.cfg.minify
+            && !(self.props.is_empty() && is_empty_comments(&self.span(), &emitter.comments));
 
         if emit_new_line {
-            self.wr.write_line()?;
+            emitter.wr.write_line()?;
         }
 
         let mut list_format =
@@ -33,19 +29,21 @@ where
             list_format -= ListFormat::MultiLine | ListFormat::Indented;
         }
 
-        self.emit_list(node.span(), Some(&node.props), list_format)?;
+        emitter.emit_list(self.span(), Some(&self.props), list_format)?;
 
         if emit_new_line {
-            self.wr.write_line()?;
+            emitter.wr.write_line()?;
         }
 
-        srcmap!(node, false, true);
+        srcmap!(self, false, true);
         punct!("}");
     }
+}
 
-    #[emitter]
-    pub fn emit_prop(&mut self, node: &Prop) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for Prop {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             Prop::Shorthand(ref n) => emit!(n),
             Prop::KeyValue(ref n) => emit!(n),
             Prop::Assign(ref n) => emit!(n),
@@ -54,47 +52,53 @@ where
             Prop::Method(ref n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    pub fn emit_kv_prop(&mut self, node: &KeyValueProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-        let key_span = node.key.span();
-        let value_span = node.value.span();
+#[node_impl]
+impl MacroNode for KeyValueProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        let key_span = self.key.span();
+        let value_span = self.value.span();
         if !key_span.is_dummy() {
-            self.wr.add_srcmap(key_span.lo)?;
+            emitter.wr.add_srcmap(key_span.lo)?;
         }
-        emit!(node.key);
+        emit!(self.key);
         if !key_span.is_dummy() && value_span.is_dummy() {
-            self.wr.add_srcmap(key_span.hi)?;
+            emitter.wr.add_srcmap(key_span.hi)?;
         }
         punct!(":");
         formatting_space!();
         if key_span.is_dummy() && !value_span.is_dummy() {
-            self.wr.add_srcmap(value_span.lo)?;
+            emitter.wr.add_srcmap(value_span.lo)?;
         }
-        emit!(node.value);
+        emit!(self.value);
     }
+}
 
-    #[emitter]
-    pub fn emit_assign_prop(&mut self, node: &AssignProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for AssignProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        emit!(node.key);
+        emit!(self.key);
         punct!("=");
-        emit!(node.value);
+        emit!(self.value);
     }
+}
 
-    #[emitter]
-    pub fn emit_getter_prop(&mut self, node: &GetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for GetterProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
         keyword!("get");
 
-        let starts_with_alpha_num = match node.key {
+        let starts_with_alpha_num = match self.key {
             PropName::Str(_) | PropName::Computed(_) => false,
             _ => true,
         };
@@ -103,23 +107,25 @@ where
         } else {
             formatting_space!();
         }
-        emit!(node.key);
+        emit!(self.key);
         formatting_space!();
         punct!("(");
         punct!(")");
         formatting_space!();
-        emit!(node.body);
+        emit!(self.body);
     }
+}
 
-    #[emitter]
-    pub fn emit_setter_prop(&mut self, node: &SetterProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for SetterProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
         keyword!("set");
 
-        let starts_with_alpha_num = match node.key {
+        let starts_with_alpha_num = match self.key {
             PropName::Str(_) | PropName::Computed(_) => false,
             _ => true,
         };
@@ -130,70 +136,74 @@ where
             formatting_space!();
         }
 
-        emit!(node.key);
+        emit!(self.key);
         formatting_space!();
 
         punct!("(");
-        if let Some(this) = &node.this_param {
+        if let Some(this) = &self.this_param {
             emit!(this);
             punct!(",");
 
             formatting_space!();
         }
 
-        emit!(node.param);
+        emit!(self.param);
 
         punct!(")");
 
-        emit!(node.body);
+        emit!(self.body);
     }
+}
 
-    #[emitter]
-    pub fn emit_method_prop(&mut self, node: &MethodProp) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for MethodProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        if node.function.is_async {
+        if self.function.is_async {
             keyword!("async");
             space!();
         }
 
-        if node.function.is_generator {
+        if self.function.is_generator {
             punct!("*");
         }
 
-        emit!(node.key);
+        emit!(self.key);
         formatting_space!();
         // TODO
-        self.emit_fn_trailing(&node.function)?;
+        emitter.emit_fn_trailing(&self.function)?;
     }
+}
 
-    #[emitter]
-    pub fn emit_prop_name(&mut self, node: &PropName) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for PropName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             PropName::Ident(ident) => {
                 // TODO: Use write_symbol when ident is a symbol.
-                self.emit_leading_comments_of_span(ident.span, false)?;
+                emitter.emit_leading_comments_of_span(ident.span, false)?;
 
                 // Source map
-                self.wr.commit_pending_semi()?;
+                emitter.wr.commit_pending_semi()?;
 
                 srcmap!(ident, true);
 
-                if self.cfg.ascii_only {
-                    if self.wr.can_ignore_invalid_unicodes() {
-                        self.wr.write_symbol(
+                if emitter.cfg.ascii_only {
+                    if emitter.wr.can_ignore_invalid_unicodes() {
+                        emitter.wr.write_symbol(
                             DUMMY_SP,
-                            &crate::get_ascii_only_ident(&ident.sym, true, self.cfg.target),
+                            &crate::get_ascii_only_ident(&ident.sym, true, emitter.cfg.target),
                         )?;
                     } else {
-                        self.wr.write_symbol(
+                        emitter.wr.write_symbol(
                             DUMMY_SP,
                             &crate::get_ascii_only_ident(
                                 &crate::handle_invalid_unicodes(&ident.sym),
                                 true,
-                                self.cfg.target,
+                                emitter.cfg.target,
                             ),
                         )?;
                     }
@@ -207,15 +217,17 @@ where
             PropName::Computed(ref n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    pub fn emit_computed_prop_name(&mut self, n: &ComputedPropName) -> Result {
-        srcmap!(n, true);
+#[node_impl]
+impl MacroNode for ComputedPropName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(self, true);
 
         punct!("[");
-        emit!(n.expr);
+        emit!(self.expr);
         punct!("]");
 
-        srcmap!(n, false);
+        srcmap!(self, false);
     }
 }
