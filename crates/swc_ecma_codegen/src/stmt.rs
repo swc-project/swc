@@ -584,6 +584,18 @@ impl MacroNode for ModuleExportName {
     }
 }
 
+#[node_impl]
+impl MacroNode for VarDeclOrExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            VarDeclOrExpr::Expr(node) => emit!(node),
+            VarDeclOrExpr::VarDecl(node) => emit!(node),
+        }
+
+        Ok(())
+    }
+}
+
 /// Copied from [ratel][]
 ///
 /// [ratel]:https://github.com/ratel-rust/ratel-core
