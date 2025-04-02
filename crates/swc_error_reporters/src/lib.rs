@@ -9,7 +9,7 @@ use swc_common::{
 
 mod error;
 pub mod handler;
-pub use error::ParseSyntaxError;
+pub use error::OnlyDiagnosticsError;
 
 pub struct ErrorEmitter {
     pub diagnostics: ThreadSafetyDiagnostics,

@@ -1,16 +1,15 @@
-/// ParseSyntaxError is a custom error type that represents a syntax error in
-/// swc parse
+/// OnlyDiagnosticsError represents a syntax error detected during the SWC
+/// parsing phase.
 ///
-/// We will return this error if swc parser occur syntax error, but we will
-/// ignore this error in rust side, because we will return this error in js
-/// side.
+/// Although a syntax error is reported by the SWC parser, this error is handled
+/// on the JavaScript side. The Rust side will ignore it during processing.
 #[derive(Debug)]
-pub struct ParseSyntaxError;
+pub struct OnlyDiagnosticsError;
 
-impl std::fmt::Display for ParseSyntaxError {
+impl std::fmt::Display for OnlyDiagnosticsError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "Syntax Error")
     }
 }
 
-impl std::error::Error for ParseSyntaxError {}
+impl std::error::Error for OnlyDiagnosticsError {}
