@@ -1,10 +1,8 @@
-use swc_common::{SourceMapper, Spanned, DUMMY_SP};
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
-use crate::{
-    is_empty_comments, text_writer::WriteJs, Emitter, ListFormat, Result, SourceMapperExt,
-};
+use crate::{is_empty_comments, ListFormat, Result};
 
 #[node_impl]
 impl MacroNode for ObjectLit {
