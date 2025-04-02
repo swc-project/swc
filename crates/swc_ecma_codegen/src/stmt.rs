@@ -2,10 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::{
-    text_writer::WriteJs,
-    util::{EndsWithAlphaNum, StartsWithAlphaNum},
-};
+use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 
 #[node_impl]
 impl MacroNode for Stmt {

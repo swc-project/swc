@@ -2,8 +2,6 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::Result;
-
 #[node_impl]
 impl MacroNode for Param {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
@@ -280,5 +278,7 @@ impl MacroNode for ForHead {
             ForHead::VarDecl(n) => emit!(n),
             ForHead::UsingDecl(n) => emit!(n),
         }
+
+        Ok(())
     }
 }

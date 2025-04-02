@@ -135,6 +135,73 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
+    fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
+        self.wr.commit_pending_semi()?;
+
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(self, node, true);
+
+        keyword!(self, "new");
+
+        let starts_with_alpha_num = node.callee.starts_with_alpha_num();
+
+        if starts_with_alpha_num {
+            space!(self);
+        } else {
+            formatting_space!(self);
+        }
+        emit!(self, node.callee);
+
+        if let Some(type_args) = &node.type_args {
+            emit!(self, type_args);
+        }
+
+        if let Some(ref args) = node.args {
+            if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
+                punct!(self, "(");
+                self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
+                punct!(self, ")");
+            }
+        }
+
+        // srcmap!(self, node, false);
+
+        // if it's false, it means it doesn't come from emit_expr,
+        // we need to compensate that
+        if !should_ignore_empty_args && self.comments.is_some() {
+            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        }
+
+        Ok(())
+    }
+
+    fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
+
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        srcmap!(self, node, true);
+
+        punct!(self, "`");
+
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
+            if i % 2 == 0 {
+                self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
+            } else {
+                punct!(self, "${");
+                emit!(self, node.exprs[i / 2]);
+                punct!(self, "}");
+            }
+        }
+
+        punct!(self, "`");
+
+        srcmap!(self, node, false);
+
+        Ok(())
+    }
+
     fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
         self.wr.write_str_lit(span, value)?;
 
@@ -1329,6 +1396,8 @@ impl MacroNode for Program {
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
         }
+
+        Ok(())
     }
 }
 

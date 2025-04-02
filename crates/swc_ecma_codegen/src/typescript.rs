@@ -2,8 +2,6 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use super::Result;
-
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
@@ -11,6 +9,8 @@ impl MacroNode for ParamOrTsParamProp {
             ParamOrTsParamProp::Param(n) => emit!(n),
             ParamOrTsParamProp::TsParamProp(n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 

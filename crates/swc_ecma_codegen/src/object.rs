@@ -2,7 +2,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::{is_empty_comments, ListFormat, Result};
+use crate::{is_empty_comments, ListFormat};
 
 #[node_impl]
 impl MacroNode for ObjectLit {
