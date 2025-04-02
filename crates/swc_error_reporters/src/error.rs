@@ -1,6 +1,8 @@
-/// This module defines the error types used in the SWC error reporters.
-/// if swc parser occur syntax error, we will return this error.
-/// We will ignore this error in rust side, then we will return this error in js
+/// ParseSyntaxError is a custom error type that represents a syntax error in
+/// swc parse
+///
+/// We will return this error if swc parser occur syntax error, but we will
+/// ignore this error in rust side, because we will return this error in js
 /// side.
 #[derive(Debug)]
 pub struct ParseSyntaxError;
