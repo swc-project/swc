@@ -6,6 +6,56 @@ use crate::{
     text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
 };
 
+impl<W, S: SourceMapper> Emitter<'_, W, S>
+where
+    W: WriteJs,
+    S: SourceMapperExt,
+{
+    pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
+        if node.super_class.is_some() {
+            space!(self);
+            keyword!(self, "extends");
+
+            {
+                let starts_with_alpha_num =
+                    node.super_class.as_ref().unwrap().starts_with_alpha_num();
+
+                if starts_with_alpha_num {
+                    space!(self);
+                } else {
+                    formatting_space!(self)
+                }
+            }
+            emit!(self, node.super_class);
+            emit!(self, node.super_type_params);
+        }
+
+        if !node.implements.is_empty() {
+            space!(self);
+            keyword!(self, "implements");
+
+            space!(self);
+
+            self.emit_list(
+                node.span,
+                Some(&node.implements),
+                ListFormat::ClassHeritageClauses,
+            )?;
+        }
+
+        formatting_space!(self);
+
+        punct!(self, "{");
+
+        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
+
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
+
+        Ok(())
+    }
+}
+
 #[node_impl]
 impl MacroNode for ClassExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
