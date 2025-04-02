@@ -44,7 +44,6 @@ arbitrary             = { workspace = true, features = ["derive"], optional = tr
 bytecheck             = { workspace = true, optional = true }
 cfg-if                = { workspace = true }
 either                = { workspace = true }
-miette                = { workspace = true, features = ["fancy-no-syscall"] }
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true }
 once_cell             = { workspace = true }

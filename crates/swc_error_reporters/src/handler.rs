@@ -13,7 +13,7 @@ use swc_common::{
     SourceMap,
 };
 
-use crate::{ErrorEmitter, WrapperDiagnostics};
+use crate::{diagnostic::ToPrettyDiagnostic, ErrorEmitter, WrapperDiagnostics};
 
 #[derive(Default, Clone)]
 /// A thread-safe container for managing a collection of diagnostics.

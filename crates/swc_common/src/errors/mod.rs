@@ -37,10 +37,6 @@ use crate::{
 
 mod diagnostic;
 mod diagnostic_builder;
-#[cfg(feature = "concurrent")]
-mod diagnostic_pretty;
-#[cfg(feature = "concurrent")]
-pub use diagnostic_pretty::{convert_span, to_pretty_source_code, PrettyDiagnostic};
 
 pub mod emitter;
 mod lock;

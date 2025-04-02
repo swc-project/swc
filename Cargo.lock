@@ -4776,7 +4776,6 @@ dependencies = [
  "criterion",
  "either",
  "from_variant",
- "miette",
  "new_debug_unreachable",
  "num-bigint",
  "once_cell",

@@ -9,7 +9,7 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_error_reporters::{GraphicalReportHandler, GraphicalTheme};
+use swc_error_reporters::{GraphicalReportHandler, GraphicalTheme, ToPrettyDiagnostic};
 
 use super::StdErr;
 use crate::errors::{multi_emitter, stderr::stderr_emitter};

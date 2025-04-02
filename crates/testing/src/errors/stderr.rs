@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     SourceMap,
 };
-use swc_error_reporters::GraphicalReportHandler;
+use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
 use tracing::{info, metadata::LevelFilter, Level};
 
 /// This emitter is controlled by the env var `RUST_LOG`.
