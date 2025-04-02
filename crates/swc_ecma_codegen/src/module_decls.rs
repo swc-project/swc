@@ -32,7 +32,7 @@ impl MacroNode for ModuleDecl {
 #[node_impl]
 impl MacroNode for ExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         match &self.decl {
             Decl::Class(decl) => {
@@ -58,7 +58,7 @@ impl MacroNode for ExportDecl {
 #[node_impl]
 impl MacroNode for ExportDefaultExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
 
@@ -75,7 +75,7 @@ impl MacroNode for ExportDefaultExpr {
         }
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -84,7 +84,7 @@ impl MacroNode for ExportDefaultDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
 
@@ -104,7 +104,7 @@ impl MacroNode for ImportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "import");
 
@@ -206,14 +206,14 @@ impl MacroNode for ImportDecl {
 
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
 #[node_impl]
 impl MacroNode for ImportNamedSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.is_type_only {
             keyword!(emitter, "type");
@@ -229,7 +229,7 @@ impl MacroNode for ImportNamedSpecifier {
 
         emit!(self.local);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -251,7 +251,7 @@ impl MacroNode for ExportNamespaceSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "*");
         formatting_space!(emitter);
@@ -259,7 +259,7 @@ impl MacroNode for ExportNamespaceSpecifier {
         space!(emitter);
         emit!(self.name);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -268,7 +268,7 @@ impl MacroNode for ExportNamedSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.is_type_only {
             keyword!(emitter, "type");
@@ -284,7 +284,7 @@ impl MacroNode for ExportNamedSpecifier {
         } else {
             emit!(self.orig);
         }
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -293,7 +293,7 @@ impl MacroNode for NamedExport {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         struct Specifiers<'a> {
             has_namespace_spec: bool,
@@ -378,7 +378,7 @@ impl MacroNode for NamedExport {
         }
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -387,7 +387,7 @@ impl MacroNode for ExportAll {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
 
@@ -418,6 +418,6 @@ impl MacroNode for ExportAll {
 
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }

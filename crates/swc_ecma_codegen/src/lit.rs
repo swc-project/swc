@@ -13,7 +13,7 @@ impl MacroNode for Lit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         match self {
             Lit::Bool(Bool { value, .. }) => {
@@ -45,7 +45,7 @@ impl MacroNode for Str {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if &*self.value == "use strict"
             && self.raw.is_some()
@@ -56,7 +56,7 @@ impl MacroNode for Str {
                 .wr
                 .write_str_lit(DUMMY_SP, self.raw.as_ref().unwrap())?;
 
-            srcmap!(self, false);
+            srcmap!(emitter, self, false);
 
             return Ok(());
         }

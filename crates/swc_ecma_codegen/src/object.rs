@@ -9,7 +9,7 @@ impl MacroNode for ObjectLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "{");
 
@@ -33,7 +33,7 @@ impl MacroNode for ObjectLit {
             emitter.wr.write_line()?;
         }
 
-        srcmap!(self, false, true);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
     }
 }
@@ -79,7 +79,7 @@ impl MacroNode for AssignProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emit!(self.key);
         punct!(emitter, "=");
@@ -92,7 +92,7 @@ impl MacroNode for GetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "get");
 
@@ -119,7 +119,7 @@ impl MacroNode for SetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "set");
 
@@ -158,7 +158,7 @@ impl MacroNode for MethodProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.function.is_async {
             keyword!(emitter, "async");
@@ -220,12 +220,12 @@ impl MacroNode for PropName {
 #[node_impl]
 impl MacroNode for ComputedPropName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         punct!(emitter, "[");
         emit!(self.expr);
         punct!(emitter, "]");
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }

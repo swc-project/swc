@@ -11,7 +11,7 @@ impl MacroNode for ClassExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for dec in &self.class.decorators {
             emit!(dec);
@@ -74,7 +74,7 @@ impl MacroNode for Class {
 
         emitter.emit_list(self.span, Some(&self.body), ListFormat::ClassMembers)?;
 
-        srcmap!(self, false, true);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
     }
 }
@@ -158,7 +158,7 @@ impl MacroNode for PrivateMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.is_static {
             keyword!(emitter, "static");
@@ -201,7 +201,7 @@ impl MacroNode for ClassMethod {
 
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for d in &self.function.decorators {
             emit!(d);
@@ -316,7 +316,7 @@ impl MacroNode for PrivateProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
@@ -368,7 +368,7 @@ impl MacroNode for PrivateProp {
 
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -376,7 +376,7 @@ impl MacroNode for PrivateProp {
 impl MacroNode for ClassProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for dec in &self.decorators {
             emit!(dec)
@@ -440,7 +440,7 @@ impl MacroNode for ClassProp {
 
         semi!(emitter);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -449,7 +449,7 @@ impl MacroNode for Constructor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -471,12 +471,12 @@ impl MacroNode for StaticBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
         emit!(self.body);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 

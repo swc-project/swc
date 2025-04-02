@@ -91,7 +91,7 @@ impl MacroNode for Decl {
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
-                srcmap!(self, false);
+                srcmap!(emitter, self, false);
                 Ok(())
             }
             Decl::Using(n) => emit!(n),
@@ -141,7 +141,7 @@ impl MacroNode for FnDecl {
 
         emitter.wr.commit_pending_semi()?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -182,7 +182,7 @@ impl MacroNode for VarDeclarator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emit!(self.name);
 
