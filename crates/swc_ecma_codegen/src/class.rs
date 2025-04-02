@@ -1,6 +1,6 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
 use crate::{
     text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
@@ -11,21 +11,21 @@ impl MacroNode for ClassExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for dec in &self.class.decorators {
             emit!(dec);
         }
 
         if self.class.is_abstract {
-            keyword!("abstract");
-            space!();
+            keyword!(emitter, "abstract");
+            space!(emitter);
         }
 
-        keyword!("class");
+        keyword!(emitter, "class");
 
         if let Some(ref i) = self.ident {
-            space!();
+            space!(emitter);
             emit!(i);
             emit!(self.class.type_params);
         }
@@ -38,17 +38,17 @@ impl MacroNode for ClassExpr {
 impl MacroNode for Class {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         if self.super_class.is_some() {
-            space!();
-            keyword!("extends");
+            space!(emitter);
+            keyword!(emitter, "extends");
 
             {
                 let starts_with_alpha_num =
                     self.super_class.as_ref().unwrap().starts_with_alpha_num();
 
                 if starts_with_alpha_num {
-                    space!();
+                    space!(emitter);
                 } else {
-                    formatting_space!()
+                    formatting_space!(emitter)
                 }
             }
             emit!(self.super_class);
@@ -56,10 +56,10 @@ impl MacroNode for Class {
         }
 
         if !self.implements.is_empty() {
-            space!();
-            keyword!("implements");
+            space!(emitter);
+            keyword!(emitter, "implements");
 
-            space!();
+            space!(emitter);
 
             emitter.emit_list(
                 self.span,
@@ -68,14 +68,14 @@ impl MacroNode for Class {
             )?;
         }
 
-        formatting_space!();
+        formatting_space!(emitter);
 
-        punct!("{");
+        punct!(emitter, "{");
 
         emitter.emit_list(self.span, Some(&self.body), ListFormat::ClassMembers)?;
 
-        srcmap!(self, false, true);
-        punct!("}");
+        srcmap!(emitter, self, false, true);
+        punct!(emitter, "}");
     }
 }
 
@@ -104,38 +104,38 @@ impl MacroNode for AutoAccessor {
         emitter.emit_accessibility(self.accessibility)?;
 
         if self.is_static {
-            keyword!("static");
-            space!();
+            keyword!(emitter, "static");
+            space!(emitter);
         }
 
         if self.is_abstract {
-            keyword!("abstract");
-            space!();
+            keyword!(emitter, "abstract");
+            space!(emitter);
         }
 
         if self.is_override {
-            keyword!("override");
-            space!();
+            keyword!(emitter, "override");
+            space!(emitter);
         }
 
-        keyword!("accessor");
-        space!();
+        keyword!(emitter, "accessor");
+        space!(emitter);
 
         emit!(self.key);
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
-                punct!("!");
+                punct!(emitter, "!");
             }
-            punct!(":");
-            space!();
+            punct!(emitter, ":");
+            space!(emitter);
             emit!(type_ann);
         }
 
         if let Some(init) = &self.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(emitter);
+            punct!(emitter, "=");
+            formatting_space!(emitter);
             emit!(init);
         }
 
@@ -158,33 +158,33 @@ impl MacroNode for PrivateMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.is_static {
-            keyword!("static");
-            space!();
+            keyword!(emitter, "static");
+            space!(emitter);
         }
         match self.kind {
             MethodKind::Method => {
                 if self.function.is_async {
-                    keyword!("async");
-                    space!();
+                    keyword!(emitter, "async");
+                    space!(emitter);
                 }
                 if self.function.is_generator {
-                    punct!("*");
+                    punct!(emitter, "*");
                 }
 
                 emit!(self.key);
             }
             MethodKind::Getter => {
-                keyword!("get");
-                space!();
+                keyword!(emitter, "get");
+                space!(emitter);
 
                 emit!(self.key);
             }
             MethodKind::Setter => {
-                keyword!("set");
-                space!();
+                keyword!(emitter, "set");
+                space!(emitter);
 
                 emit!(self.key);
             }
@@ -201,7 +201,7 @@ impl MacroNode for ClassMethod {
 
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for d in &self.function.decorators {
             emit!(d);
@@ -210,7 +210,7 @@ impl MacroNode for ClassMethod {
         emitter.emit_accessibility(self.accessibility)?;
 
         if self.is_static {
-            keyword!("static");
+            keyword!(emitter, "static");
 
             let starts_with_alpha_num = match self.kind {
                 MethodKind::Method => {
@@ -227,52 +227,52 @@ impl MacroNode for ClassMethod {
             };
 
             if starts_with_alpha_num {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
         }
 
         if self.is_abstract {
-            keyword!("abstract");
+            keyword!(emitter, "abstract");
             space!()
         }
 
         if self.is_override {
-            keyword!("override");
+            keyword!(emitter, "override");
             space!()
         }
 
         match self.kind {
             MethodKind::Method => {
                 if self.function.is_async {
-                    keyword!("async");
-                    space!();
+                    keyword!(emitter, "async");
+                    space!(emitter);
                 }
                 if self.function.is_generator {
-                    punct!("*");
+                    punct!(emitter, "*");
                 }
 
                 emit!(self.key);
             }
             MethodKind::Getter => {
-                keyword!("get");
+                keyword!(emitter, "get");
 
                 if self.key.starts_with_alpha_num() {
-                    space!();
+                    space!(emitter);
                 } else {
-                    formatting_space!()
+                    formatting_space!(emitter)
                 }
 
                 emit!(self.key);
             }
             MethodKind::Setter => {
-                keyword!("set");
+                keyword!(emitter, "set");
 
                 if self.key.starts_with_alpha_num() {
-                    space!();
+                    space!(emitter);
                 } else {
-                    formatting_space!()
+                    formatting_space!(emitter)
                 }
 
                 emit!(self.key);
@@ -280,30 +280,30 @@ impl MacroNode for ClassMethod {
         }
 
         if self.is_optional {
-            punct!("?");
+            punct!(emitter, "?");
         }
 
         if let Some(type_params) = &self.function.type_params {
             emit!(type_params);
         }
 
-        punct!("(");
+        punct!(emitter, "(");
         emitter.emit_list(
             self.function.span,
             Some(&self.function.params),
             ListFormat::CommaListElements,
         )?;
 
-        punct!(")");
+        punct!(emitter, ")");
 
         if let Some(ty) = &self.function.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(emitter, ":");
+            formatting_space!(emitter);
             emit!(ty);
         }
 
         if let Some(body) = &self.function.body {
-            formatting_space!();
+            formatting_space!(emitter);
             emit!(body);
         } else {
             formatting_semi!()
@@ -316,51 +316,51 @@ impl MacroNode for PrivateProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
         emitter.emit_accessibility(self.accessibility)?;
 
         if self.is_static {
-            keyword!("static");
-            space!();
+            keyword!(emitter, "static");
+            space!(emitter);
         }
 
         if self.is_override {
-            keyword!("override");
+            keyword!(emitter, "override");
             space!()
         }
 
         if self.readonly {
-            keyword!("readonly");
-            space!();
+            keyword!(emitter, "readonly");
+            space!(emitter);
         }
 
         emit!(self.key);
 
         if self.is_optional {
-            punct!("?");
+            punct!(emitter, "?");
         }
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
-                punct!("!");
+                punct!(emitter, "!");
             }
-            punct!(":");
-            space!();
+            punct!(emitter, ":");
+            space!(emitter);
             emit!(type_ann);
         }
 
         if let Some(value) = &self.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(emitter);
+            punct!(emitter, "=");
+            formatting_space!(emitter);
 
             if value.is_seq() {
-                punct!("(");
+                punct!(emitter, "(");
                 emit!(value);
-                punct!(")");
+                punct!(emitter, ")");
             } else {
                 emit!(value);
             }
@@ -368,7 +368,7 @@ impl MacroNode for PrivateProp {
 
         semi!();
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -376,63 +376,63 @@ impl MacroNode for PrivateProp {
 impl MacroNode for ClassProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         for dec in &self.decorators {
             emit!(dec)
         }
 
         if self.declare {
-            keyword!("declare");
-            space!();
+            keyword!(emitter, "declare");
+            space!(emitter);
         }
 
         emitter.emit_accessibility(self.accessibility)?;
 
         if self.is_static {
-            keyword!("static");
-            space!();
+            keyword!(emitter, "static");
+            space!(emitter);
         }
 
         if self.is_abstract {
-            keyword!("abstract");
+            keyword!(emitter, "abstract");
             space!()
         }
 
         if self.is_override {
-            keyword!("override");
+            keyword!(emitter, "override");
             space!()
         }
 
         if self.readonly {
-            keyword!("readonly");
+            keyword!(emitter, "readonly");
             space!()
         }
 
         emit!(self.key);
 
         if self.is_optional {
-            punct!("?");
+            punct!(emitter, "?");
         }
 
         if let Some(ty) = &self.type_ann {
             if self.definite {
-                punct!("!");
+                punct!(emitter, "!");
             }
-            punct!(":");
-            space!();
+            punct!(emitter, ":");
+            space!(emitter);
             emit!(ty);
         }
 
         if let Some(v) = &self.value {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
+            formatting_space!(emitter);
+            punct!(emitter, "=");
+            formatting_space!(emitter);
 
             if v.is_seq() {
-                punct!("(");
+                punct!(emitter, "(");
                 emit!(v);
-                punct!(")");
+                punct!(emitter, ")");
             } else {
                 emit!(v);
             }
@@ -440,7 +440,7 @@ impl MacroNode for ClassProp {
 
         semi!();
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -449,14 +449,14 @@ impl MacroNode for Constructor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emitter.emit_accessibility(self.accessibility)?;
 
-        keyword!("constructor");
-        punct!("(");
+        keyword!(emitter, "constructor");
+        punct!(emitter, "(");
         emitter.emit_list(self.span(), Some(&self.params), ListFormat::Parameters)?;
-        punct!(")");
+        punct!(emitter, ")");
 
         if let Some(body) = &self.body {
             emit!(body);
@@ -471,12 +471,12 @@ impl MacroNode for StaticBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("static");
+        keyword!(emitter, "static");
         emit!(self.body);
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }
 
@@ -488,9 +488,9 @@ where
     pub fn emit_accessibility(&mut self, n: Option<Accessibility>) -> Result {
         if let Some(a) = n {
             match a {
-                Accessibility::Public => keyword!(self, "public"),
-                Accessibility::Protected => keyword!(self, "protected"),
-                Accessibility::Private => keyword!(self, "private"),
+                Accessibility::Public => keyword!(emitter, self, "public"),
+                Accessibility::Protected => keyword!(emitter, self, "protected"),
+                Accessibility::Private => keyword!(emitter, self, "private"),
             }
             space!(self);
         }

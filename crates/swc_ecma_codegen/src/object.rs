@@ -11,9 +11,9 @@ impl MacroNode for ObjectLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
-        punct!("{");
+        punct!(emitter, "{");
 
         let emit_new_line = !emitter.cfg.minify
             && !(self.props.is_empty() && is_empty_comments(&self.span(), &emitter.comments));
@@ -35,8 +35,8 @@ impl MacroNode for ObjectLit {
             emitter.wr.write_line()?;
         }
 
-        srcmap!(self, false, true);
-        punct!("}");
+        srcmap!(emitter, self, false, true);
+        punct!(emitter, "}");
     }
 }
 
@@ -67,8 +67,8 @@ impl MacroNode for KeyValueProp {
         if !key_span.is_dummy() && value_span.is_dummy() {
             emitter.wr.add_srcmap(key_span.hi)?;
         }
-        punct!(":");
-        formatting_space!();
+        punct!(emitter, ":");
+        formatting_space!(emitter);
         if key_span.is_dummy() && !value_span.is_dummy() {
             emitter.wr.add_srcmap(value_span.lo)?;
         }
@@ -81,10 +81,10 @@ impl MacroNode for AssignProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         emit!(self.key);
-        punct!("=");
+        punct!(emitter, "=");
         emit!(self.value);
     }
 }
@@ -94,24 +94,24 @@ impl MacroNode for GetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("get");
+        keyword!(emitter, "get");
 
         let starts_with_alpha_num = match self.key {
             PropName::Str(_) | PropName::Computed(_) => false,
             _ => true,
         };
         if starts_with_alpha_num {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
         emit!(self.key);
-        formatting_space!();
-        punct!("(");
-        punct!(")");
-        formatting_space!();
+        formatting_space!(emitter);
+        punct!(emitter, "(");
+        punct!(emitter, ")");
+        formatting_space!(emitter);
         emit!(self.body);
     }
 }
@@ -121,9 +121,9 @@ impl MacroNode for SetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("set");
+        keyword!(emitter, "set");
 
         let starts_with_alpha_num = match self.key {
             PropName::Str(_) | PropName::Computed(_) => false,
@@ -131,25 +131,25 @@ impl MacroNode for SetterProp {
         };
 
         if starts_with_alpha_num {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
         emit!(self.key);
-        formatting_space!();
+        formatting_space!(emitter);
 
-        punct!("(");
+        punct!(emitter, "(");
         if let Some(this) = &self.this_param {
             emit!(this);
-            punct!(",");
+            punct!(emitter, ",");
 
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
         emit!(self.param);
 
-        punct!(")");
+        punct!(emitter, ")");
 
         emit!(self.body);
     }
@@ -160,19 +160,19 @@ impl MacroNode for MethodProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if self.function.is_async {
-            keyword!("async");
-            space!();
+            keyword!(emitter, "async");
+            space!(emitter);
         }
 
         if self.function.is_generator {
-            punct!("*");
+            punct!(emitter, "*");
         }
 
         emit!(self.key);
-        formatting_space!();
+        formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
     }
@@ -189,7 +189,7 @@ impl MacroNode for PropName {
                 // Source map
                 emitter.wr.commit_pending_semi()?;
 
-                srcmap!(ident, true);
+                srcmap!(emitter, ident, true);
 
                 if emitter.cfg.ascii_only {
                     if emitter.wr.can_ignore_invalid_unicodes() {
@@ -222,12 +222,12 @@ impl MacroNode for PropName {
 #[node_impl]
 impl MacroNode for ComputedPropName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
-        punct!("[");
+        punct!(emitter, "[");
         emit!(self.expr);
-        punct!("]");
+        punct!(emitter, "]");
 
-        srcmap!(self, false);
+        srcmap!(emitter, self, false);
     }
 }

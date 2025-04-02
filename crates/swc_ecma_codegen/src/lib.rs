@@ -151,11 +151,11 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.body.is_empty() {
-            srcmap!(node, true);
+            srcmap!(emitter, node, true);
         }
 
         if let Some(ref shebang) = node.shebang {
-            punct!("#!");
+            punct!(emitter, "#!");
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
@@ -175,11 +175,11 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.body.is_empty() {
-            srcmap!(node, true);
+            srcmap!(emitter, node, true);
         }
 
         if let Some(ref shebang) = node.shebang {
-            punct!("#!");
+            punct!(emitter, "#!");
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
@@ -226,20 +226,20 @@ where
 
     #[emitter]
     fn emit_super(&mut self, node: &Super) -> Result {
-        keyword!(node.span, "super");
+        keyword!(emitter, node.span, "super");
     }
 
     #[emitter]
     fn emit_import_callee(&mut self, node: &Import) -> Result {
-        keyword!(node.span, "import");
+        keyword!(emitter, node.span, "import");
         match node.phase {
             ImportPhase::Source => {
-                punct!(".");
-                keyword!("source")
+                punct!(emitter, ".");
+                keyword!(emitter, "source")
             }
             ImportPhase::Defer => {
-                punct!(".");
-                keyword!("defer")
+                punct!(emitter, ".");
+                keyword!(emitter, "defer")
             }
             _ => {}
         }
@@ -310,9 +310,9 @@ where
                     emit!(e.obj);
                 }
                 if n.optional {
-                    punct!("?.");
+                    punct!(emitter, "?.");
                 } else if !e.prop.is_computed() {
-                    punct!(".");
+                    punct!(emitter, ".");
                 }
 
                 match &e.prop {
@@ -326,12 +326,12 @@ where
                 emit!(e.callee);
 
                 if n.optional {
-                    punct!("?.");
+                    punct!(emitter, "?.");
                 }
 
-                punct!("(");
+                punct!(emitter, "(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
-                punct!(")");
+                punct!(emitter, ")");
             }
         }
     }
@@ -349,7 +349,7 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         emit!(node.callee);
 
@@ -357,11 +357,11 @@ where
             emit!(type_args);
         }
 
-        punct!("(");
+        punct!(emitter, "(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
-        punct!(")");
+        punct!(emitter, ")");
 
-        // srcmap!(node, false);
+        // srcmap!(emitter,node, false);
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
@@ -369,9 +369,9 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(emitter, self, node, true);
 
-        keyword!(self, "new");
+        keyword!(emitter, self, "new");
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
@@ -388,13 +388,13 @@ where
 
         if let Some(ref args) = node.args {
             if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
-                punct!(self, "(");
+                punct!(emitter, self, "(");
                 self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-                punct!(self, ")");
+                punct!(emitter, self, ")");
             }
         }
 
-        // srcmap!(self, node, false);
+        // srcmap!(emitter,self, node, false);
 
         // if it's false, it means it doesn't come from emit_expr,
         // we need to compensate that
@@ -414,7 +414,7 @@ where
     fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         let mut needs_2dots_for_property_access = false;
 
@@ -437,12 +437,12 @@ where
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
-                    punct!(".");
+                    punct!(emitter, ".");
                 }
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(emitter, ".");
                 emit!(ident);
             }
             MemberProp::PrivateName(private) => {
@@ -450,24 +450,24 @@ where
                     if node.prop.span().lo() >= BytePos(2) {
                         self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                     }
-                    punct!(".");
+                    punct!(emitter, ".");
                 }
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(emitter, ".");
                 emit!(private);
             }
         }
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     #[emitter]
     fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         emit!(node.obj);
 
@@ -477,7 +477,7 @@ where
                 if node.prop.span().lo() >= BytePos(1) {
                     self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
                 }
-                punct!(".");
+                punct!(emitter, ".");
                 emit!(i);
             }
         }
@@ -487,7 +487,7 @@ where
     fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         let space = !self.cfg.minify
             || match node.params.as_slice() {
@@ -496,15 +496,15 @@ where
             };
 
         if node.is_async {
-            keyword!("async");
+            keyword!(emitter, "async");
             if space {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
         }
         if node.is_generator {
-            punct!("*")
+            punct!(emitter, "*")
         }
 
         let parens = !self.cfg.minify
@@ -516,22 +516,22 @@ where
         emit!(node.type_params);
 
         if parens {
-            punct!("(");
+            punct!(emitter, "(");
         }
 
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
         if parens {
-            punct!(")");
+            punct!(emitter, ")");
         }
 
         if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(emitter, ":");
+            formatting_space!(emitter);
             emit!(ty);
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
-        punct!("=>");
+        punct!(emitter, "=>");
         emit!(node.body);
     }
 
@@ -541,12 +541,12 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         match node.kind {
-            MetaPropKind::ImportMeta => keyword!("import.meta"),
+            MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
 
-            MetaPropKind::NewTarget => keyword!("new.target"),
+            MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
         }
     }
 
@@ -554,7 +554,7 @@ where
     fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         let mut first = true;
         //TODO: Indention
@@ -562,8 +562,8 @@ where
             if first {
                 first = false
             } else {
-                punct!(",");
-                formatting_space!();
+                punct!(emitter, ",");
+                formatting_space!(emitter);
             }
 
             emit!(e);
@@ -575,9 +575,9 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         emit!(node.left);
-        formatting_space!();
+        formatting_space!(emitter);
         operator!(node.op.as_str());
-        formatting_space!();
+        formatting_space!(emitter);
         emit!(node.right);
     }
 
@@ -654,7 +654,7 @@ where
     fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         {
             let mut left = Some(node);
@@ -690,29 +690,29 @@ where
     fn emit_decorator(&mut self, node: &Decorator) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        punct!("@");
+        punct!(emitter, "@");
         emit!(node.expr);
         self.wr.write_line()?;
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     #[emitter]
     fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         emit!(node.test);
-        formatting_space!();
-        punct!("?");
-        formatting_space!();
+        formatting_space!(emitter);
+        punct!(emitter, "?");
+        formatting_space!(emitter);
         emit!(node.cons);
-        formatting_space!();
-        punct!(":");
-        formatting_space!();
+        formatting_space!(emitter);
+        punct!(emitter, ":");
+        formatting_space!(emitter);
         emit!(node.alt);
     }
 
@@ -722,21 +722,21 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
         if n.function.is_async {
-            keyword!("async");
-            space!();
-            keyword!("function");
+            keyword!(emitter, "async");
+            space!(emitter);
+            keyword!(emitter, "function");
         } else {
-            keyword!("function");
+            keyword!(emitter, "function");
         }
 
         if n.function.is_generator {
-            punct!("*");
+            punct!(emitter, "*");
         }
         if let Some(ref i) = n.ident {
-            space!();
+            space!(emitter);
             emit!(i);
         }
 
@@ -750,24 +750,24 @@ where
             emit!(type_params);
         }
 
-        punct!("(");
+        punct!(emitter, "(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(")");
+        punct!(emitter, ")");
 
         if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
+            punct!(emitter, ":");
+            formatting_space!(emitter);
             emit!(ty);
         }
 
         if let Some(body) = &node.body {
-            formatting_space!();
+            formatting_space!(emitter);
             self.emit_block_stmt_inner(body, true)?;
         } else {
             semi!();
         }
 
-        // srcmap!(node, false);
+        // srcmap!(emitter,node, false);
     }
 
     #[emitter]
@@ -788,7 +788,7 @@ where
     fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!(node.span, "this");
+        keyword!(emitter, node.span, "this");
     }
 
     #[emitter]
@@ -797,23 +797,23 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        punct!("`");
+        punct!(emitter, "`");
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 emit!(node.quasis[i / 2]);
             } else {
-                punct!("${");
+                punct!(emitter, "${");
                 emit!(node.exprs[i / 2]);
-                punct!("}");
+                punct!(emitter, "}");
             }
         }
 
-        punct!("`");
+        punct!(emitter, "`");
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     #[emitter]
@@ -858,7 +858,7 @@ where
     fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         if let Expr::New(new) = &*node.tag {
             self.emit_new(new, false)?;
@@ -869,7 +869,7 @@ where
         emit!(node.type_params);
         self.emit_template_for_tagged_template(&node.tpl)?;
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
@@ -877,33 +877,33 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(self, node, true);
+        srcmap!(emitter, self, node, true);
 
-        punct!(self, "`");
+        punct!(emitter, self, "`");
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
-                punct!(self, "${");
+                punct!(emitter, self, "${");
                 emit!(self, node.exprs[i / 2]);
-                punct!(self, "}");
+                punct!(emitter, self, "}");
             }
         }
 
-        punct!(self, "`");
+        punct!(emitter, self, "`");
 
-        srcmap!(self, node, false);
+        srcmap!(emitter, self, node, false);
 
         Ok(())
     }
 
     fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
-        srcmap!(self, node, true);
+        srcmap!(emitter, self, node, true);
 
         self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
 
-        srcmap!(self, node, false);
+        srcmap!(emitter, self, node, false);
 
         Ok(())
     }
@@ -912,24 +912,24 @@ where
     fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
         let need_formatting_space = match n.op {
             op!("typeof") | op!("void") | op!("delete") => {
-                keyword!(n.op.as_str());
+                keyword!(emitter, n.op.as_str());
 
                 true
             }
             op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
-                punct!(n.op.as_str());
+                punct!(emitter, n.op.as_str());
                 false
             }
         };
 
         if should_emit_whitespace_before_operand(n) {
-            space!();
+            space!(emitter);
         } else if need_formatting_space {
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
         emit!(n.arg);
@@ -939,7 +939,7 @@ where
     fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
         if node.prefix {
             operator!(node.op.as_str());
@@ -955,9 +955,9 @@ where
     fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        keyword!("yield");
+        keyword!(emitter, "yield");
         if node.delegate {
             operator!("*");
         }
@@ -969,16 +969,16 @@ where
                 .map(|expr| self.has_leading_comment(expr))
                 .unwrap_or(false);
             if need_paren {
-                punct!("(")
+                punct!(emitter, "(")
             } else if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
-                formatting_space!()
+                formatting_space!(emitter)
             }
 
             emit!(node.arg);
             if need_paren {
-                punct!(")")
+                punct!(emitter, ")")
             }
         }
     }
@@ -997,7 +997,7 @@ where
         if let Some(span) = node.spread {
             self.emit_leading_comments_of_span(span, false)?;
 
-            punct!("...");
+            punct!(emitter, "...");
         }
 
         emit!(node.expr);
@@ -1007,10 +1007,10 @@ where
     fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("await");
-        space!();
+        keyword!(emitter, "await");
+        space!(emitter);
 
         emit!(&n.arg);
     }
@@ -1019,18 +1019,18 @@ where
     fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        punct!("[");
+        punct!(emitter, "[");
         let mut format = ListFormat::ArrayLiteralExpressionElements;
         if let Some(None) = node.elems.last() {
             format |= ListFormat::ForceTrailingComma;
         }
 
         self.emit_list(node.span(), Some(&node.elems), format)?;
-        punct!("]");
+        punct!(emitter, "]");
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     #[emitter]
@@ -1039,25 +1039,25 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(node.expr);
 
-        srcmap!(node, false, true);
-        punct!(")");
+        srcmap!(emitter, node, false, true);
+        punct!(emitter, ")");
     }
 
     #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        punct!("#");
+        punct!(emitter, "#");
         self.emit_ident_like(n.span, &n.name, false)?;
 
-        srcmap!(n, false);
+        srcmap!(emitter, n, false);
     }
 
     #[emitter]
@@ -1065,8 +1065,8 @@ where
         self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
 
         if let Some(ty) = &ident.type_ann {
-            punct!(":");
-            formatting_space!();
+            punct!(emitter, ":");
+            formatting_space!(emitter);
             emit!(ty);
         }
 
@@ -1093,7 +1093,7 @@ where
         // Source map
         self.wr.commit_pending_semi()?;
 
-        srcmap!(self, span, true);
+        srcmap!(emitter, self, span, true);
         // TODO: span
 
         if self.cfg.ascii_only {
@@ -1114,7 +1114,7 @@ where
         }
 
         if optional {
-            punct!(self, "?");
+            punct!(emitter, self, "?");
         }
 
         // Call emitList directly since it could be an array of
@@ -1275,7 +1275,7 @@ where
             && format.contains(ListFormat::CommaDelimited)
             && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
         {
-            punct!(self, ",");
+            punct!(emitter, self, ",");
             formatting_space!(self);
         }
 
@@ -1526,9 +1526,9 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if !skip_first_src_map {
-            srcmap!(self, node, true);
+            srcmap!(emitter, self, node, true);
         }
-        punct!(self, "{");
+        punct!(emitter, self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -1543,8 +1543,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(self, node, false, true);
-        punct!(self, "}");
+        srcmap!(emitter, self, node, false, true);
+        punct!(emitter, self, "}");
 
         Ok(())
     }
@@ -1562,7 +1562,7 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!(node.span, "debugger");
+        keyword!(emitter, node.span, "debugger");
         semi!();
     }
 
@@ -1570,14 +1570,14 @@ where
     fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        keyword!("with");
-        formatting_space!();
+        keyword!(emitter, "with");
+        formatting_space!(emitter);
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(node.obj);
-        punct!(")");
+        punct!(emitter, ")");
 
         emit!(node.body);
     }
@@ -1722,9 +1722,9 @@ where
 
         self.emit_leading_comments_of_span(n.span, false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("return");
+        keyword!(emitter, "return");
 
         if let Some(arg) = n.arg.as_deref() {
             let need_paren = n
@@ -1733,16 +1733,16 @@ where
                 .map(|expr| self.has_leading_comment(expr))
                 .unwrap_or(false);
             if need_paren {
-                punct!("(");
+                punct!(emitter, "(");
             } else if arg.starts_with_alpha_num() {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
 
             emit!(arg);
             if need_paren {
-                punct!(")");
+                punct!(emitter, ")");
             }
         }
 
@@ -1756,8 +1756,8 @@ where
         emit!(node.label);
 
         // TODO: Comment
-        punct!(":");
-        formatting_space!();
+        punct!(emitter, ":");
+        formatting_space!(emitter);
 
         emit!(node.body);
     }
@@ -1766,12 +1766,12 @@ where
     fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("break");
+        keyword!(emitter, "break");
 
         if let Some(ref label) = n.label {
-            space!();
+            space!(emitter);
             emit!(label);
         }
 
@@ -1782,12 +1782,12 @@ where
     fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("continue");
+        keyword!(emitter, "continue");
 
         if let Some(ref label) = n.label {
-            space!();
+            space!(emitter);
             emit!(label);
         }
 
@@ -1800,15 +1800,15 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("if");
+        keyword!(emitter, "if");
 
-        formatting_space!();
-        punct!("(");
+        formatting_space!(emitter);
+        punct!(emitter, "(");
         emit!(n.test);
-        punct!(")");
-        formatting_space!();
+        punct!(emitter, ")");
+        formatting_space!(emitter);
 
         let is_cons_block = match *n.cons {
             Stmt::Block(..) => true,
@@ -1819,13 +1819,13 @@ where
 
         if let Some(ref alt) = n.alt {
             if is_cons_block {
-                formatting_space!();
+                formatting_space!(emitter);
             }
-            keyword!("else");
+            keyword!(emitter, "else");
             if alt.starts_with_alpha_num() {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
             emit!(alt);
         }
@@ -1837,38 +1837,38 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("switch");
+        keyword!(emitter, "switch");
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(n.discriminant);
-        punct!(")");
+        punct!(emitter, ")");
 
-        punct!("{");
+        punct!(emitter, "{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
 
-        srcmap!(n, false, true);
-        punct!("}");
+        srcmap!(emitter, n, false, true);
+        punct!(emitter, "}");
     }
 
     #[emitter]
     fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("catch");
+        keyword!(emitter, "catch");
 
-        formatting_space!();
+        formatting_space!(emitter);
 
         if let Some(param) = &n.param {
-            punct!("(");
+            punct!(emitter, "(");
             emit!(param);
-            punct!(")");
+            punct!(emitter, ")");
         }
 
-        formatting_space!();
+        formatting_space!(emitter);
 
         emit!(n.body);
     }
@@ -1877,22 +1877,22 @@ where
     fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
         if let Some(ref test) = n.test {
-            keyword!("case");
+            keyword!(emitter, "case");
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
 
             emit!(test);
         } else {
-            keyword!("default");
+            keyword!(emitter, "default");
         }
 
         let emit_as_single_stmt = n.cons.len() == 1 && {
@@ -1906,11 +1906,11 @@ where
 
         let mut format = ListFormat::CaseOrDefaultClauseStatements;
         if emit_as_single_stmt {
-            punct!(":");
-            space!();
+            punct!(emitter, ":");
+            space!(emitter);
             format &= !(ListFormat::MultiLine | ListFormat::Indented);
         } else {
-            punct!(":");
+            punct!(emitter, ":");
         }
         self.emit_list(n.span(), Some(&n.cons), format)?;
     }
@@ -1919,23 +1919,23 @@ where
     fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("throw");
+        keyword!(emitter, "throw");
 
         {
             let need_paren = self.has_leading_comment(&n.arg);
             if need_paren {
-                punct!("(");
+                punct!(emitter, "(");
             } else if n.arg.starts_with_alpha_num() {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
 
             emit!(n.arg);
             if need_paren {
-                punct!(")");
+                punct!(emitter, ")");
             }
         }
         semi!();
@@ -1948,22 +1948,22 @@ where
 
         self.wr.commit_pending_semi()?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("try");
+        keyword!(emitter, "try");
 
-        formatting_space!();
+        formatting_space!(emitter);
         emit!(n.block);
 
         if let Some(ref catch) = n.handler {
-            formatting_space!();
+            formatting_space!(emitter);
             emit!(catch);
         }
 
         if let Some(ref finally) = n.finalizer {
-            formatting_space!();
-            keyword!("finally");
-            // space!();
+            formatting_space!(emitter);
+            keyword!(emitter, "finally");
+            // space!(emitter);
             emit!(finally);
         }
     }
@@ -1974,13 +1974,13 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        keyword!("while");
+        keyword!(emitter, "while");
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(node.test);
-        punct!(")");
+        punct!(emitter, ")");
 
         emit!(node.body);
     }
@@ -1991,29 +1991,29 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, node, true);
 
-        keyword!("do");
+        keyword!(emitter, "do");
         if node.body.starts_with_alpha_num() {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!()
+            formatting_space!(emitter)
         }
         emit!(node.body);
 
-        keyword!("while");
+        keyword!(emitter, "while");
 
-        formatting_space!();
+        formatting_space!(emitter);
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(node.test);
-        punct!(")");
+        punct!(emitter, ")");
 
         if self.cfg.target <= EsVersion::Es5 {
             semi!();
         }
 
-        srcmap!(node, false);
+        srcmap!(emitter, node, false);
     }
 
     #[emitter]
@@ -2022,17 +2022,17 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("for");
+        keyword!(emitter, "for");
 
-        punct!("(");
+        punct!(emitter, "(");
         opt!(n.init);
         self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.test);
         self.wr.write_punct(None, ";")?;
         opt_leading_space!(n.update);
-        punct!(")");
+        punct!(emitter, ")");
 
         emit!(n.body);
     }
@@ -2043,32 +2043,32 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("for");
+        keyword!(emitter, "for");
 
-        punct!("(");
+        punct!(emitter, "(");
         emit!(n.left);
 
         if n.left.ends_with_alpha_num() {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
-        keyword!("in");
+        keyword!(emitter, "in");
 
         {
             let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!()
+                formatting_space!(emitter)
             }
             emit!(n.right);
         }
 
-        punct!(")");
+        punct!(emitter, ")");
 
         emit!(n.body);
     }
@@ -2079,35 +2079,35 @@ where
 
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, n, true);
 
-        keyword!("for");
+        keyword!(emitter, "for");
 
         if n.is_await {
-            space!();
-            keyword!("await");
+            space!(emitter);
+            keyword!(emitter, "await");
         }
-        formatting_space!();
-        punct!("(");
+        formatting_space!(emitter);
+        punct!(emitter, "(");
         emit!(n.left);
         if n.left.ends_with_alpha_num() {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
-        keyword!("of");
+        keyword!(emitter, "of");
 
         {
             let starts_with_alpha_num = n.right.starts_with_alpha_num();
 
             if starts_with_alpha_num {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!()
+                formatting_space!(emitter)
             }
             emit!(n.right);
         }
-        punct!(")");
+        punct!(emitter, ")");
         emit!(n.body);
     }
 

@@ -13,24 +13,24 @@ impl MacroNode for Lit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         match self {
             Lit::Bool(Bool { value, .. }) => {
                 if *value {
-                    keyword!("true")
+                    keyword!(emitter, "true")
                 } else {
-                    keyword!("false")
+                    keyword!(emitter, "false")
                 }
             }
-            Lit::Null(Null { .. }) => keyword!("null"),
+            Lit::Null(Null { .. }) => keyword!(emitter, "null"),
             Lit::Str(ref s) => emit!(s),
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
-                punct!("/");
+                punct!(emitter, "/");
                 emitter.wr.write_str(&n.exp)?;
-                punct!("/");
+                punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
@@ -45,7 +45,7 @@ impl MacroNode for Str {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(self, true);
+        srcmap!(emitter, self, true);
 
         if &*self.value == "use strict"
             && self.raw.is_some()
@@ -56,7 +56,7 @@ impl MacroNode for Str {
                 .wr
                 .write_str_lit(DUMMY_SP, self.raw.as_ref().unwrap())?;
 
-            srcmap!(self, false);
+            srcmap!(emitter, self, false);
 
             return Ok(());
         }
@@ -96,7 +96,7 @@ impl MacroNode for Str {
         emitter.wr.write_str_lit(DUMMY_SP, &value)?;
         emitter.wr.write_str(quote_str)?;
 
-        // srcmap!(self, false);
+        // srcmap!(emitter,self, false);
     }
 }
 
@@ -147,9 +147,9 @@ impl MacroNode for Bool {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.value {
-            keyword!(self.span, "true")
+            keyword!(emitter, self.span, "true")
         } else {
-            keyword!(self.span, "false")
+            keyword!(emitter, self.span, "false")
         }
     }
 }
@@ -215,7 +215,7 @@ where
         let mut striped_raw = None;
         let mut value = String::default();
 
-        srcmap!(self, num, true);
+        srcmap!(emitter, self, num, true);
 
         if self.cfg.minify {
             if num.value.is_infinite() && num.raw.is_some() {
