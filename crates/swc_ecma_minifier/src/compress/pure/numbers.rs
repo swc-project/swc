@@ -6,24 +6,37 @@ use super::Pure;
 
 impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
-        if let Expr::Lit(Lit::Str(Str { span, value, .. })) = e {
-            let value = if value.is_empty() {
-                0f64
-            } else {
-                match num_from_str(value).into_result() {
-                    Ok(f) if f.is_finite() => f,
-                    _ => return,
-                }
-            };
+        match e {
+            Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                let value = if value.is_empty() {
+                    0f64
+                } else {
+                    match num_from_str(value).into_result() {
+                        Ok(f) if f.is_finite() => f,
+                        _ => return,
+                    }
+                };
 
-            self.changed = true;
-            report_change!("numbers: Converting a string literal to {:?}", value);
-            *e = Lit::Num(Number {
-                span: *span,
-                value,
-                raw: None,
-            })
-            .into();
+                self.changed = true;
+                report_change!("numbers: Converting a string literal to {:?}", value);
+                *e = Lit::Num(Number {
+                    span: *span,
+                    value,
+                    raw: None,
+                })
+                .into();
+            }
+            Expr::Unary(UnaryExpr {
+                arg,
+                op: op!(unary, "+"),
+                ..
+            }) => {
+                self.changed = true;
+                report_change!("numbers: remove useless to number");
+                let new_expr = *arg.take();
+                *e = new_expr
+            }
+            _ => (),
         }
     }
 

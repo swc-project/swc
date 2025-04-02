@@ -3654,7 +3654,7 @@
             markTouch(event = normalizeEvent(this.dom, event)), this.handler.processGesture(event, 'change'), localDOMHandlers.mousemove.call(this, event);
         },
         touchend: function(event) {
-            markTouch(event = normalizeEvent(this.dom, event)), this.handler.processGesture(event, 'end'), localDOMHandlers.mouseup.call(this, event), +new Date() - +this.__lastTouchMoment < 300 && localDOMHandlers.click.call(this, event);
+            markTouch(event = normalizeEvent(this.dom, event)), this.handler.processGesture(event, 'end'), localDOMHandlers.mouseup.call(this, event), new Date() - this.__lastTouchMoment < 300 && localDOMHandlers.click.call(this, event);
         },
         pointerdown: function(event) {
             localDOMHandlers.mousedown.call(this, event);
@@ -3727,7 +3727,7 @@
         }, HandlerDomProxy.prototype.setCursor = function(cursorStyle) {
             this.dom.style && (this.dom.style.cursor = cursorStyle || 'default');
         }, HandlerDomProxy.prototype.__togglePointerCapture = function(isPointerCapturing) {
-            if (this.__mayPointerCapture = null, globalEventSupported && +this.__pointerCapturing ^ +isPointerCapturing) {
+            if (this.__mayPointerCapture = null, globalEventSupported && this.__pointerCapturing ^ isPointerCapturing) {
                 this.__pointerCapturing = isPointerCapturing;
                 var globalHandlerScope = this._globalHandlerScope;
                 isPointerCapturing ? function(instance, scope) {
@@ -4099,9 +4099,9 @@
              // Use local time when no timezone offset specifed.
             if (!match[8]) // match[n] can only be string or undefined.
             // But take care of '12' + 1 => '121'.
-            return new Date(+match[1], +(match[2] || 1) - 1, +match[3] || 1, +match[4] || 0, +(match[5] || 0), +match[6] || 0, +match[7] || 0);
+            return new Date(+match[1], (match[2] || 1) - 1, +match[3] || 1, +match[4] || 0, +(match[5] || 0), +match[6] || 0, +match[7] || 0);
             var hour = +match[4] || 0;
-            return 'Z' !== match[8].toUpperCase() && (hour -= +match[8].slice(0, 3)), new Date(Date.UTC(+match[1], +(match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, +match[7] || 0));
+            return 'Z' !== match[8].toUpperCase() && (hour -= match[8].slice(0, 3)), new Date(Date.UTC(+match[1], (match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, +match[7] || 0));
         }
         return new Date(null == value ? NaN : Math.round(value));
     }
@@ -13570,7 +13570,7 @@
         el.beforeBrush && el.beforeBrush(), el.innerBeforeBrush();
         var prevEl = scope.prevEl;
         prevEl || (forceSetStyle = forceSetTransform = !0);
-        var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
+        var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(hasFill ^ hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
         !forceSetTransform && (m1 = prevEl.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : +(!m && !m1)) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
         el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
@@ -15145,7 +15145,7 @@
                         // frame is executed immedietely after task reset.
                         // this._coordSysMgr.update(ecModel, api);
                         // console.log('--- ec frame visual ---', remainTime);
-                        scheduler.performVisualTasks(ecModel), renderSeries(this, this._model, api, 'remain'), remainTime -= +new Date() - startTime;
+                        scheduler.performVisualTasks(ecModel), renderSeries(this, this._model, api, 'remain'), remainTime -= new Date() - startTime;
                     }while (remainTime > 0 && scheduler.unfinished) // Call flush explicitly for trigger finished event.
                     scheduler.unfinished || this._zr.flush(); // Else, zr flushing be ensue within the same frame,
                 // because zr flushing is after onframe event.
@@ -15970,7 +15970,7 @@
     function disposedWarning(id) {
         console.warn('Instance ' + id + ' has been disposed');
     }
-    var actions = {}, eventActionMap = {}, dataProcessorFuncs = [], optionPreprocessorFuncs = [], postInitFuncs = [], postUpdateFuncs = [], visualFuncs = [], themeStorage = {}, loadingEffects = {}, instances$1 = {}, connectedGroups = {}, idBase = +new Date() - 0, groupIdBase = +new Date() - 0, DOM_ATTRIBUTE_KEY = '_echarts_instance_';
+    var actions = {}, eventActionMap = {}, dataProcessorFuncs = [], optionPreprocessorFuncs = [], postInitFuncs = [], postUpdateFuncs = [], visualFuncs = [], themeStorage = {}, loadingEffects = {}, instances$1 = {}, connectedGroups = {}, idBase = new Date() - 0, groupIdBase = new Date() - 0, DOM_ATTRIBUTE_KEY = '_echarts_instance_';
     /**
      * @deprecated
      */ function disConnect(groupId) {
@@ -23335,7 +23335,7 @@
         layout.position = [
             'y' === axisDim ? posBound[idx[axisPosition]] : rectBound[0],
             'x' === axisDim ? posBound[idx[axisPosition]] : rectBound[3]
-        ], layout.rotation = Math.PI / 2 * +('x' !== axisDim), layout.labelDirection = layout.tickDirection = layout.nameDirection = ({
+        ], layout.rotation = Math.PI / 2 * ('x' !== axisDim), layout.labelDirection = layout.tickDirection = layout.nameDirection = ({
             top: -1,
             bottom: 1,
             left: -1,
@@ -29080,7 +29080,7 @@
             ];
             symbolOffsetArr[0] = parsePercent$1(symbolOffsetArr[0], symbolSizeArr[0]), symbolOffsetArr[1] = parsePercent$1(retrieve2(symbolOffsetArr[1], symbolOffsetArr[0]), symbolSizeArr[1]);
             var symbolPath = createSymbol(symbolType, -symbolSizeArr[0] / 2 + symbolOffsetArr[0], -symbolSizeArr[1] / 2 + symbolOffsetArr[1], symbolSizeArr[0], symbolSizeArr[1], null, symbolKeepAspect);
-            return symbolPath.__specifiedRotation = null == symbolRotate || isNaN(symbolRotate) ? void 0 : +symbolRotate * Math.PI / 180 || 0, symbolPath.name = name, symbolPath;
+            return symbolPath.__specifiedRotation = null == symbolRotate || isNaN(symbolRotate) ? void 0 : symbolRotate * Math.PI / 180 || 0, symbolPath.name = name, symbolPath;
         }
     }
     function setLinePoints(targetShape, points) {
@@ -32503,7 +32503,7 @@
                         }, !0));
                     });
                 }), each(edges, function(edge) {
-                    var edgeDy = +edge.getValue() * minKy;
+                    var edgeDy = edge.getValue() * minKy;
                     edge.setLayout({
                         dy: edgeDy
                     }, !0);
@@ -34347,7 +34347,7 @@
                 ],
                 isHorizontal: isHorizontal,
                 valueDim: LAYOUT_ATTRS[+isHorizontal],
-                categoryDim: LAYOUT_ATTRS[1 - +isHorizontal]
+                categoryDim: LAYOUT_ATTRS[1 - isHorizontal]
             };
             return data.diff(oldData).add(function(dataIndex) {
                 if (data.hasValue(dataIndex)) {
@@ -34393,7 +34393,7 @@
             z2: itemModel.getShallow('z', !0) || 0
         };
         (function(itemModel, symbolRepeat, layout, opt, outputSymbolMeta) {
-            var boundingLength, valueDim = opt.valueDim, symbolBoundingData = itemModel.get('symbolBoundingData'), valueAxis = opt.coordSys.getOtherAxis(opt.coordSys.getBaseAxis()), zeroPx = valueAxis.toGlobalCoord(valueAxis.dataToCoord(0)), pxSignIdx = 1 - +(layout[valueDim.wh] <= 0);
+            var boundingLength, valueDim = opt.valueDim, symbolBoundingData = itemModel.get('symbolBoundingData'), valueAxis = opt.coordSys.getOtherAxis(opt.coordSys.getBaseAxis()), zeroPx = valueAxis.toGlobalCoord(valueAxis.dataToCoord(0)), pxSignIdx = 1 - (layout[valueDim.wh] <= 0);
             if (isArray(symbolBoundingData)) {
                 var symbolBoundingExtent = [
                     convertToCoordOnAxis(valueAxis, symbolBoundingData[0]) - zeroPx,
@@ -39339,7 +39339,7 @@
                         var firstDayPoints = this._firstDayPoints[i];
                         tmp[axis] = (firstDayPoints[axis] + termPoints[0][i + 1][axis]) / 2;
                     }
-                    var formatter = monthLabel.get('formatter'), name_1 = nameMap[+firstDay.m - 1], params = {
+                    var formatter = monthLabel.get('formatter'), name_1 = nameMap[firstDay.m - 1], params = {
                         yyyy: firstDay.y,
                         yy: (firstDay.y + '').slice(2),
                         MM: firstDay.m,
@@ -46007,7 +46007,7 @@
                 if (this._brushing = !1, brushRect) {
                     brushRect.attr('ignore', !0);
                     var brushShape = brushRect.shape;
-                    if (!(+new Date() - this._brushStartTime < 200 && 5 > Math.abs(brushShape.width))) {
+                    if (!(new Date() - this._brushStartTime < 200 && 5 > Math.abs(brushShape.width))) {
                         var viewExtend = this._getViewExtent(), percentExtent = [
                             0,
                             100

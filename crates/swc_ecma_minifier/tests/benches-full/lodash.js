@@ -1420,7 +1420,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = this.has(key) && delete this.__data__[key];
-            return this.size -= +!!result, result;
+            return this.size -= !!result, result;
         }, Hash.prototype.get = /**
      * Gets the hash value for `key`.
      *
@@ -1538,7 +1538,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = getMapData(this, key).delete(key);
-            return this.size -= +!!result, result;
+            return this.size -= !!result, result;
         }, MapCache.prototype.get = /**
      * Gets the map value for `key`.
      *
@@ -3130,7 +3130,7 @@
                     // Shift with exponential notation to avoid floating-point issues.
                     // See [MDN](https://mdn.io/round#Examples) for more details.
                     var pair = (toString(number) + 'e').split('e');
-                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
+                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (pair[1] - precision));
                 }
                 return func(number);
             };

@@ -466,5 +466,5 @@ function formatUnixTimestamp(d) {
     return +d;
 }
 function formatUnixTimestampSeconds(d) {
-    return Math.floor(+d / 1000);
+    return Math.floor(d / 1000);
 }

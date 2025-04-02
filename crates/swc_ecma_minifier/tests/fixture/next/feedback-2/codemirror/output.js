@@ -122,7 +122,7 @@ function(global, factory) {
         return -1;
     }
     Delayed.prototype.onTimeout = function(self1) {
-        self1.id = 0, self1.time <= +new Date() ? self1.f() : setTimeout(self1.handler, self1.time - +new Date());
+        self1.id = 0, self1.time <= +new Date() ? self1.f() : setTimeout(self1.handler, self1.time - new Date());
     }, Delayed.prototype.set = function(ms, f) {
         this.f = f;
         var time = +new Date() + ms;
@@ -1724,7 +1724,7 @@ function(global, factory) {
                     !ltr && (ch == end || ch == begin) && ch++, // To determine which side to associate with, get the box to the
                     // left of the character and compare it's vertical position to the
                     // coordinates
-                    sticky = 0 == ch ? "after" : ch == lineObj.text.length ? "before" : measureCharPrepared(cm, preparedMeasure, ch - +!!ltr).bottom + widgetHeight <= y == ltr ? "after" : "before";
+                    sticky = 0 == ch ? "after" : ch == lineObj.text.length ? "before" : measureCharPrepared(cm, preparedMeasure, ch - !!ltr).bottom + widgetHeight <= y == ltr ? "after" : "before";
                     // Now get accurate coordinates for this place, in order to get a
                     // base X position
                     var coords = cursorCoords(cm, Pos(lineNo, ch, sticky), "line", lineObj, preparedMeasure);
@@ -1923,7 +1923,7 @@ function(global, factory) {
         }
         for(; visualLineNo(cm.doc, newN) != newN;){
             if (index == (dir < 0 ? 0 : view.length - 1)) return null;
-            newN += dir * view[index - +(dir < 0)].size, index += dir;
+            newN += dir * view[index - (dir < 0)].size, index += dir;
         }
         return {
             index: index,
@@ -5096,7 +5096,7 @@ function(global, factory) {
                 },
                 start: function(e) {
                     var cm1 = cm, e1 = e;
-                    if (ie && (!cm1.state.draggingText || +new Date() - lastDrop < 100)) return void e_stop(e1);
+                    if (ie && (!cm1.state.draggingText || new Date() - lastDrop < 100)) return void e_stop(e1);
                     if (!(signalDOMEvent(cm1, e1) || eventInWidget(cm1.display, e1)) && (e1.dataTransfer.setData("Text", cm1.getSelection()), e1.dataTransfer.effectAllowed = "copyMove", e1.dataTransfer.setDragImage && !safari)) {
                         var img = elt("img", null, null, "position: fixed; left: 0; top: 0;");
                         img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==", presto && (img.width = img.height = 1, cm1.display.wrapper.appendChild(img), // Force a relayout, or Opera won't use our image for some obscure reason
@@ -5176,7 +5176,7 @@ function(global, factory) {
     function applyTextInput(cm, inserted, deleted, sel, origin) {
         var doc = cm.doc;
         cm.display.shift = !1, sel || (sel = doc.sel);
-        var recent = +new Date() - 200, paste = "paste" == origin || cm.state.pasteIncoming > recent, textLines = splitLinesAuto(inserted), multiPaste = null;
+        var recent = new Date() - 200, paste = "paste" == origin || cm.state.pasteIncoming > recent, textLines = splitLinesAuto(inserted), multiPaste = null;
         // When pasting N lines into N selections, insert one line per selection
         if (paste && sel.ranges.length > 1) if (lastCopied && lastCopied.text.join("\n") == inserted) {
             if (sel.ranges.length % lastCopied.text.length == 0) {
@@ -5959,7 +5959,7 @@ function(global, factory) {
                 if (range.empty()) range.head.line > end && (indentLine(this, range.head.line, how, !0), end = range.head.line, i == this.doc.sel.primIndex && ensureCursorVisible(this));
                 else {
                     var from = range.from(), to = range.to(), start = Math.max(end, from.line);
-                    end = Math.min(this.lastLine(), to.line - +!to.ch) + 1;
+                    end = Math.min(this.lastLine(), to.line - !to.ch) + 1;
                     for(var j = start; j < end; ++j)indentLine(this, j, how);
                     var newRanges = this.doc.sel.ranges;
                     0 == from.ch && ranges.length == newRanges.length && newRanges[i].from().ch > 0 && replaceOneSelection(this.doc, i, new Range(from, newRanges[i].to()), sel_dontScroll);

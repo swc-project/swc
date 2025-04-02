@@ -464,5 +464,5 @@ function nF(n) {
     return +n;
 }
 function nZ(n) {
-    return Math.floor(+n / 1000);
+    return Math.floor(n / 1000);
 }

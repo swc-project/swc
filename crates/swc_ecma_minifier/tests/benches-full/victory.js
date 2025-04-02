@@ -391,7 +391,7 @@
                     if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
                     var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
-                    return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
+                    return value0 + (valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             };
         /***/ },
@@ -5809,7 +5809,7 @@
                 return +d;
             }
             function formatUnixTimestampSeconds(d) {
-                return Math.floor(+d / 1000);
+                return Math.floor(d / 1000);
             }
         /***/ },
         /***/ "../../../node_modules/d3-time/src/day.js": /*!***************************************************************************!*\
@@ -21151,7 +21151,7 @@
          * @returns {Array} the minDomain based on props
          */ function getDomainFromMinMax(min, max) {
                 var verySmallNumber, minVal, maxVal;
-                return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
+                return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(max - 1) : max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
                     0,
                     maxVal
                 ] : [
@@ -28859,7 +28859,7 @@
                     if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
                     var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
-                    return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
+                    return value0 + (valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             }
         /***/ },
@@ -34268,7 +34268,7 @@
                     ] : domain;
                 },
                 getScaledDomain: function(currentDomain, factor, percent) {
-                    var _currentDomain2 = _slicedToArray(currentDomain, 2), from = _currentDomain2[0], to = _currentDomain2[1], range = Math.abs(to - from), diff = range - range * factor, newMin = +from + diff * percent, newMax = +to - diff * (1 - percent);
+                    var _currentDomain2 = _slicedToArray(currentDomain, 2), from = _currentDomain2[0], to = _currentDomain2[1], range = Math.abs(to - from), diff = range - range * factor, newMin = +from + diff * percent, newMax = to - diff * (1 - percent);
                     return [
                         Math.min(newMin, newMax),
                         Math.max(newMin, newMax)
