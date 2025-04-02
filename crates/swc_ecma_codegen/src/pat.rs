@@ -16,6 +16,8 @@ impl MacroNode for Param {
         emit!(self.pat);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -35,6 +37,8 @@ impl MacroNode for Pat {
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
+
+        Ok(())
     }
 }
 
@@ -51,6 +55,8 @@ impl MacroNode for RestPat {
             formatting_space!(emitter);
             emit!(type_ann);
         }
+
+        Ok(())
     }
 }
 
@@ -61,6 +67,8 @@ impl MacroNode for PropOrSpread {
             PropOrSpread::Prop(ref n) => emit!(n),
             PropOrSpread::Spread(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -77,6 +85,8 @@ impl MacroNode for SpreadElement {
         emit!(self.expr);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -87,6 +97,8 @@ impl MacroNode for AssignTarget {
             AssignTarget::Simple(ref n) => emit!(n),
             AssignTarget::Pat(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -106,6 +118,8 @@ impl MacroNode for SimpleAssignTarget {
             SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
             SimpleAssignTarget::TsInstantiation(n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -117,6 +131,8 @@ impl MacroNode for AssignTargetPat {
             AssignTargetPat::Object(n) => emit!(n),
             AssignTargetPat::Invalid(n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -148,6 +164,8 @@ impl MacroNode for ArrayPat {
         }
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -165,6 +183,8 @@ impl MacroNode for AssignPat {
         emit!(self.right);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -226,6 +246,8 @@ impl MacroNode for KeyValuePatProp {
         emit!(self.value);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -259,13 +281,4 @@ impl MacroNode for ForHead {
             ForHead::UsingDecl(n) => emit!(n),
         }
     }
-}
-
-/// Patterns
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    // All emitter functions removed
 }

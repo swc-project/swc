@@ -320,6 +320,8 @@ impl MacroNode for ClassMethod {
         } else {
             formatting_semi!(emitter)
         }
+
+        Ok(())
     }
 }
 
@@ -381,6 +383,8 @@ impl MacroNode for PrivateProp {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -453,6 +457,8 @@ impl MacroNode for ClassProp {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -475,6 +481,8 @@ impl MacroNode for Constructor {
         } else {
             formatting_semi!(emitter);
         }
+
+        Ok(())
     }
 }
 
@@ -489,6 +497,8 @@ impl MacroNode for StaticBlock {
         emit!(self.body);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
