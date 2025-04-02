@@ -99,6 +99,8 @@ impl MacroNode for Str {
         emitter.wr.write_str(quote_str)?;
 
         // srcmap!(emitter,self, false);
+
+        Ok(())
     }
 }
 
@@ -106,6 +108,8 @@ impl MacroNode for Str {
 impl MacroNode for Number {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_num_lit_internal(self, false)?;
+
+        Ok(())
     }
 }
 
@@ -140,6 +144,8 @@ impl MacroNode for BigInt {
                 }
             }
         }
+
+        Ok(())
     }
 }
 
@@ -153,6 +159,8 @@ impl MacroNode for Bool {
         } else {
             keyword!(emitter, self.span, "false")
         }
+
+        Ok(())
     }
 }
 
