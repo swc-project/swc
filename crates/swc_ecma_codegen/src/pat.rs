@@ -195,6 +195,8 @@ impl MacroNode for ObjectPat {
         }
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -206,6 +208,8 @@ impl MacroNode for ObjectPatProp {
             ObjectPatProp::Assign(ref node) => emit!(node),
             ObjectPatProp::Rest(ref node) => emit!(node),
         }
+
+        Ok(())
     }
 }
 
@@ -241,6 +245,8 @@ impl MacroNode for AssignPatProp {
         }
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 

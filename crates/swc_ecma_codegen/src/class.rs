@@ -31,6 +31,8 @@ impl MacroNode for ClassExpr {
         }
 
         emitter.emit_class_trailing(&self.class)?;
+
+        Ok(())
     }
 }
 
@@ -76,6 +78,8 @@ impl MacroNode for Class {
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
+
+        Ok(())
     }
 }
 
@@ -93,6 +97,8 @@ impl MacroNode for ClassMember {
             ClassMember::StaticBlock(ref n) => emit!(n),
             ClassMember::AutoAccessor(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -140,6 +146,8 @@ impl MacroNode for AutoAccessor {
         }
 
         semi!(emitter);
+
+        Ok(())
     }
 }
 
@@ -150,6 +158,8 @@ impl MacroNode for Key {
             Key::Private(n) => emit!(n),
             Key::Public(n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -191,6 +201,8 @@ impl MacroNode for PrivateMethod {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
+
+        Ok(())
     }
 }
 

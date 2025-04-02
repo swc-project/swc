@@ -35,6 +35,8 @@ impl MacroNode for Lit {
             }
             Lit::JSXText(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
