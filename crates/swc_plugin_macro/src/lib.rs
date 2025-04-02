@@ -59,7 +59,7 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
 
         impl swc_core::common::errors::Emitter for PluginDiagnosticsEmitter {
             #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-            fn emit(&mut self, db: &swc_core::common::errors::DiagnosticBuilder<'_>) {
+            fn emit(&mut self, db: &mut swc_core::common::errors::DiagnosticBuilder<'_>) {
                 let diag = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&swc_core::common::plugin::serialized::VersionedSerializable::new(*db.diagnostic.clone()))
                     .expect("Should able to serialize Diagnostic");
                 let (ptr, len) = diag.as_ptr();

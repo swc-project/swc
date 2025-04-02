@@ -327,5 +327,6 @@ impl Load for SwcLoader {
         try_with_handler(self.compiler.cm.clone(), Default::default(), |handler| {
             self.load_with_handler(handler, name)
         })
+        .map_err(|e| e.to_pretty_error())
     }
 }
