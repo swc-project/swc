@@ -10,11 +10,11 @@ use js_sys::Uint8Array;
 use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
-    errors::{convert_span, DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
+    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
     SourceMap, Span, GLOBALS,
 };
-use swc_error_reporters::to_pretty_source_code;
+use swc_error_reporters::{convert_span, to_pretty_source_code};
 use swc_fast_ts_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};

@@ -7,7 +7,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap, Span,
 };
-use swc_error_reporters::GraphicalReportHandler;
+use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
 
 fn main() {
     let cm = Lrc::<SourceMap>::default();
