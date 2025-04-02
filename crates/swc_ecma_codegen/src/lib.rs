@@ -237,106 +237,6 @@ where
     }
 
     #[emitter]
-    fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
-        match node {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.emit_block_stmt_inner(block, true)?;
-            }
-            BlockStmtOrExpr::Expr(expr) => {
-                self.wr.increase_indent()?;
-                emit!(expr);
-                self.wr.decrease_indent()?;
-            }
-        }
-    }
-
-    #[emitter]
-    fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        keyword!(emitter, node.span, "this");
-    }
-
-    #[emitter]
-    fn emit_tpl_lit(&mut self, node: &Tpl) -> Result {
-        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(emitter, node, true);
-
-        punct!(emitter, "`");
-
-        for i in 0..(node.quasis.len() + node.exprs.len()) {
-            if i % 2 == 0 {
-                emit!(node.quasis[i / 2]);
-            } else {
-                punct!(emitter, "${");
-                emit!(node.exprs[i / 2]);
-                punct!(emitter, "}");
-            }
-        }
-
-        punct!(emitter, "`");
-
-        srcmap!(emitter, node, false);
-    }
-
-    #[emitter]
-    fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
-        if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
-            let v = get_template_element_from_raw(
-                &raw,
-                self.cfg.ascii_only,
-                self.cfg.reduce_escaped_newline,
-            );
-            let span = node.span();
-
-            let mut last_offset_gen = 0;
-            let mut last_offset_origin = 0;
-            for ((offset_gen, _), mat) in v
-                .match_indices('\n')
-                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
-            {
-                // If the string starts with a newline char, then adding a mark is redundant.
-                // This catches both "no newlines" and "newline after several chars".
-                if offset_gen != 0 {
-                    self.wr
-                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-                }
-
-                self.wr
-                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
-                last_offset_gen = offset_gen + 1;
-                last_offset_origin = mat.end();
-            }
-            self.wr
-                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-            self.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
-            self.wr.add_srcmap(span.hi)?;
-        } else {
-            self.wr.write_str_lit(node.span(), &raw)?;
-        }
-    }
-
-    #[emitter]
-    fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(emitter, node, true);
-
-        if let Expr::New(new) = &*node.tag {
-            self.emit_new(new, false)?;
-        } else {
-            emit!(node.tag);
-        }
-
-        emit!(node.type_params);
-        self.emit_template_for_tagged_template(&node.tpl)?;
-
-        srcmap!(emitter, node, false);
-    }
 
     fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
         debug_assert!(node.quasis.len() == node.exprs.len() + 1);
@@ -372,49 +272,6 @@ where
         srcmap!(self, node, false);
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(emitter, n, true);
-
-        let need_formatting_space = match n.op {
-            op!("typeof") | op!("void") | op!("delete") => {
-                keyword!(emitter, n.op.as_str());
-
-                true
-            }
-            op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
-                punct!(emitter, n.op.as_str());
-                false
-            }
-        };
-
-        if should_emit_whitespace_before_operand(n) {
-            space!(emitter);
-        } else if need_formatting_space {
-            formatting_space!(emitter);
-        }
-
-        emit!(n.arg);
-    }
-
-    #[emitter]
-    fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(emitter, node, true);
-
-        if node.prefix {
-            operator!(node.op.as_str());
-            //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit!(node.arg);
-        } else {
-            emit!(node.arg);
-            operator!(node.op.as_str());
-        }
     }
 
     #[emitter]
@@ -2698,6 +2555,342 @@ impl MacroNode for FnExpr {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BlockStmtOrExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                emitter.emit_block_stmt_inner(block, true)?;
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                emitter.wr.increase_indent()?;
+                emit!(expr);
+                emitter.wr.decrease_indent()?;
+            }
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for ThisExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        keyword!(emitter, self.span, "this");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Tpl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        debug_assert!(self.quasis.len() == self.exprs.len() + 1);
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "`");
+
+        for i in 0..(self.quasis.len() + self.exprs.len()) {
+            if i % 2 == 0 {
+                emit!(self.quasis[i / 2]);
+            } else {
+                punct!(emitter, "${");
+                emit!(self.exprs[i / 2]);
+                punct!(emitter, "}");
+            }
+        }
+
+        punct!(emitter, "`");
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TplElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
+        if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
+            let v = get_template_element_from_raw(
+                &raw,
+                emitter.cfg.ascii_only,
+                emitter.cfg.reduce_escaped_newline,
+            );
+            let span = self.span();
+
+            let mut last_offset_gen = 0;
+            let mut last_offset_origin = 0;
+            for ((offset_gen, _), mat) in v
+                .match_indices('\n')
+                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
+            {
+                // If the string starts with a newline char, then adding a mark is redundant.
+                // This catches both "no newlines" and "newline after several chars".
+                if offset_gen != 0 {
+                    emitter
+                        .wr
+                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                }
+
+                emitter
+                    .wr
+                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
+                last_offset_gen = offset_gen + 1;
+                last_offset_origin = mat.end();
+            }
+            emitter
+                .wr
+                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+            emitter.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
+            emitter.wr.add_srcmap(span.hi)?;
+        } else {
+            emitter.wr.write_str_lit(self.span(), &raw)?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TaggedTpl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if let Expr::New(new) = &*self.tag {
+            emitter.emit_new(new, false)?;
+        } else {
+            emit!(self.tag);
+        }
+
+        emit!(self.type_params);
+        emitter.emit_template_for_tagged_template(&self.tpl)?;
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for UnaryExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let need_formatting_space = match self.op {
+            op!("typeof") | op!("void") | op!("delete") => {
+                keyword!(emitter, self.op.as_str());
+
+                true
+            }
+            op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
+                punct!(emitter, self.op.as_str());
+                false
+            }
+        };
+
+        if should_emit_whitespace_before_operand(self) {
+            space!(emitter);
+        } else if need_formatting_space {
+            formatting_space!(emitter);
+        }
+
+        emit!(self.arg);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for UpdateExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if self.prefix {
+            operator!(emitter, self.op.as_str());
+            //TODO: Check if we should use should_emit_whitespace_before_operand
+            emit!(self.arg);
+        } else {
+            emit!(self.arg);
+            operator!(emitter, self.op.as_str());
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for YieldExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "yield");
+        if self.delegate {
+            operator!(emitter, "*");
+        }
+
+        if let Some(ref arg) = self.arg {
+            let need_paren = self
+                .arg
+                .as_deref()
+                .map(|expr| emitter.has_leading_comment(expr))
+                .unwrap_or(false);
+            if need_paren {
+                punct!(emitter, "(")
+            } else if !self.delegate && arg.starts_with_alpha_num() {
+                space!(emitter)
+            } else {
+                formatting_space!(emitter)
+            }
+
+            emit!(self.arg);
+            if need_paren {
+                punct!(emitter, ")")
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ExprOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if let Some(span) = self.spread {
+            emitter.emit_leading_comments_of_span(span, false)?;
+
+            punct!(emitter, "...");
+        }
+
+        emit!(self.expr);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for AwaitExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "await");
+        space!(emitter);
+
+        emit!(self.arg);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ArrayLit {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "[");
+        let mut format = ListFormat::ArrayLiteralExpressionElements;
+        if let Some(None) = self.elems.last() {
+            format |= ListFormat::ForceTrailingComma;
+        }
+
+        emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        punct!(emitter, "]");
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ParenExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "(");
+        emit!(self.expr);
+
+        srcmap!(emitter, self, false, true);
+        punct!(emitter, ")");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for PrivateName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "#");
+        emitter.emit_ident_like(self.span, &self.name, false)?;
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BindingIdent {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
+
+        if let Some(ty) = &self.type_ann {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(ty);
+        }
+
+        // Call emitList directly since it could be an array of
+        // TypeParameterDeclarations _or_ type arguments
+
+        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Ident {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for IdentName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, false)?;
 
         Ok(())
     }
