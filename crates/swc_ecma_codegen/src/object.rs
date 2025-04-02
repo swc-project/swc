@@ -35,6 +35,8 @@ impl MacroNode for ObjectLit {
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
+
+        Ok(())
     }
 }
 
@@ -49,6 +51,8 @@ impl MacroNode for Prop {
             Prop::Setter(ref n) => emit!(n),
             Prop::Method(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -71,6 +75,8 @@ impl MacroNode for KeyValueProp {
             emitter.wr.add_srcmap(value_span.lo)?;
         }
         emit!(self.value);
+
+        Ok(())
     }
 }
 
@@ -84,6 +90,8 @@ impl MacroNode for AssignProp {
         emit!(self.key);
         punct!(emitter, "=");
         emit!(self.value);
+
+        Ok(())
     }
 }
 
@@ -111,6 +119,8 @@ impl MacroNode for GetterProp {
         punct!(emitter, ")");
         formatting_space!(emitter);
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -150,6 +160,8 @@ impl MacroNode for SetterProp {
         punct!(emitter, ")");
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -173,6 +185,8 @@ impl MacroNode for MethodProp {
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
+
+        Ok(())
     }
 }
 
@@ -214,6 +228,8 @@ impl MacroNode for PropName {
             PropName::BigInt(ref n) => emit!(n),
             PropName::Computed(ref n) => emit!(n),
         }
+
+        Ok(())
     }
 }
 
@@ -227,5 +243,7 @@ impl MacroNode for ComputedPropName {
         punct!(emitter, "]");
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
