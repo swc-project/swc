@@ -6,46 +6,44 @@ use crate::{
     text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
 };
 
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    #[emitter]
-    pub fn emit_class_expr(&mut self, node: &ClassExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ClassExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, true);
 
-        for dec in &node.class.decorators {
+        for dec in &self.class.decorators {
             emit!(dec);
         }
 
-        if node.class.is_abstract {
+        if self.class.is_abstract {
             keyword!("abstract");
             space!();
         }
 
         keyword!("class");
 
-        if let Some(ref i) = node.ident {
+        if let Some(ref i) = self.ident {
             space!();
             emit!(i);
-            emit!(node.class.type_params);
+            emit!(self.class.type_params);
         }
 
-        self.emit_class_trailing(&node.class)?;
+        emitter.emit_class_trailing(&self.class)?;
     }
+}
 
-    #[emitter]
-    pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
-        if node.super_class.is_some() {
+#[node_impl]
+impl MacroNode for Class {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if self.super_class.is_some() {
             space!();
             keyword!("extends");
 
             {
                 let starts_with_alpha_num =
-                    node.super_class.as_ref().unwrap().starts_with_alpha_num();
+                    self.super_class.as_ref().unwrap().starts_with_alpha_num();
 
                 if starts_with_alpha_num {
                     space!();
@@ -53,19 +51,19 @@ where
                     formatting_space!()
                 }
             }
-            emit!(node.super_class);
-            emit!(node.super_type_params);
+            emit!(self.super_class);
+            emit!(self.super_type_params);
         }
 
-        if !node.implements.is_empty() {
+        if !self.implements.is_empty() {
             space!();
             keyword!("implements");
 
             space!();
 
-            self.emit_list(
-                node.span,
-                Some(&node.implements),
+            emitter.emit_list(
+                self.span,
+                Some(&self.implements),
                 ListFormat::ClassHeritageClauses,
             )?;
         }
@@ -74,15 +72,17 @@ where
 
         punct!("{");
 
-        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
+        emitter.emit_list(self.span, Some(&self.body), ListFormat::ClassMembers)?;
 
-        srcmap!(node, false, true);
+        srcmap!(self, false, true);
         punct!("}");
     }
+}
 
-    #[emitter]
-    pub fn emit_class_member(&mut self, node: &ClassMember) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for ClassMember {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
             ClassMember::Method(ref n) => emit!(n),
@@ -94,24 +94,26 @@ where
             ClassMember::AutoAccessor(ref n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    pub fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
-        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
+#[node_impl]
+impl MacroNode for AutoAccessor {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
-        self.emit_accessibility(n.accessibility)?;
+        emitter.emit_accessibility(self.accessibility)?;
 
-        if n.is_static {
+        if self.is_static {
             keyword!("static");
             space!();
         }
 
-        if n.is_abstract {
+        if self.is_abstract {
             keyword!("abstract");
             space!();
         }
 
-        if n.is_override {
+        if self.is_override {
             keyword!("override");
             space!();
         }
@@ -119,10 +121,10 @@ where
         keyword!("accessor");
         space!();
 
-        emit!(n.key);
+        emit!(self.key);
 
-        if let Some(type_ann) = &n.type_ann {
-            if n.definite {
+        if let Some(type_ann) = &self.type_ann {
+            if self.definite {
                 punct!("!");
             }
             punct!(":");
@@ -130,7 +132,7 @@ where
             emit!(type_ann);
         }
 
-        if let Some(init) = &n.value {
+        if let Some(init) = &self.value {
             formatting_space!();
             punct!("=");
             formatting_space!();
@@ -139,79 +141,85 @@ where
 
         semi!();
     }
+}
 
-    #[emitter]
-    pub fn emit_key(&mut self, n: &Key) -> Result {
-        match n {
+#[node_impl]
+impl MacroNode for Key {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             Key::Private(n) => emit!(n),
             Key::Public(n) => emit!(n),
         }
     }
+}
 
-    #[emitter]
-    pub fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for PrivateMethod {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, true);
 
-        if n.is_static {
+        if self.is_static {
             keyword!("static");
             space!();
         }
-        match n.kind {
+        match self.kind {
             MethodKind::Method => {
-                if n.function.is_async {
+                if self.function.is_async {
                     keyword!("async");
                     space!();
                 }
-                if n.function.is_generator {
+                if self.function.is_generator {
                     punct!("*");
                 }
 
-                emit!(n.key);
+                emit!(self.key);
             }
             MethodKind::Getter => {
                 keyword!("get");
                 space!();
 
-                emit!(n.key);
+                emit!(self.key);
             }
             MethodKind::Setter => {
                 keyword!("set");
                 space!();
 
-                emit!(n.key);
+                emit!(self.key);
             }
         }
 
-        self.emit_fn_trailing(&n.function)?;
+        emitter.emit_fn_trailing(&self.function)?;
     }
+}
 
-    #[emitter]
-    pub fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for ClassMethod {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        self.emit_leading_comments_of_span(n.key.span(), false)?;
+        emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, true);
 
-        for d in &n.function.decorators {
+        for d in &self.function.decorators {
             emit!(d);
         }
 
-        self.emit_accessibility(n.accessibility)?;
+        emitter.emit_accessibility(self.accessibility)?;
 
-        if n.is_static {
+        if self.is_static {
             keyword!("static");
 
-            let starts_with_alpha_num = match n.kind {
+            let starts_with_alpha_num = match self.kind {
                 MethodKind::Method => {
-                    if n.function.is_async {
+                    if self.function.is_async {
                         true
-                    } else if n.function.is_generator {
+                    } else if self.function.is_generator {
                         false
                     } else {
-                        n.key.starts_with_alpha_num()
+                        self.key.starts_with_alpha_num()
                     }
                 }
                 MethodKind::Getter => true,
@@ -225,116 +233,118 @@ where
             }
         }
 
-        if n.is_abstract {
+        if self.is_abstract {
             keyword!("abstract");
             space!()
         }
 
-        if n.is_override {
+        if self.is_override {
             keyword!("override");
             space!()
         }
 
-        match n.kind {
+        match self.kind {
             MethodKind::Method => {
-                if n.function.is_async {
+                if self.function.is_async {
                     keyword!("async");
                     space!();
                 }
-                if n.function.is_generator {
+                if self.function.is_generator {
                     punct!("*");
                 }
 
-                emit!(n.key);
+                emit!(self.key);
             }
             MethodKind::Getter => {
                 keyword!("get");
 
-                if n.key.starts_with_alpha_num() {
+                if self.key.starts_with_alpha_num() {
                     space!();
                 } else {
                     formatting_space!()
                 }
 
-                emit!(n.key);
+                emit!(self.key);
             }
             MethodKind::Setter => {
                 keyword!("set");
 
-                if n.key.starts_with_alpha_num() {
+                if self.key.starts_with_alpha_num() {
                     space!();
                 } else {
                     formatting_space!()
                 }
 
-                emit!(n.key);
+                emit!(self.key);
             }
         }
 
-        if n.is_optional {
+        if self.is_optional {
             punct!("?");
         }
 
-        if let Some(type_params) = &n.function.type_params {
+        if let Some(type_params) = &self.function.type_params {
             emit!(type_params);
         }
 
         punct!("(");
-        self.emit_list(
-            n.function.span,
-            Some(&n.function.params),
+        emitter.emit_list(
+            self.function.span,
+            Some(&self.function.params),
             ListFormat::CommaListElements,
         )?;
 
         punct!(")");
 
-        if let Some(ty) = &n.function.return_type {
+        if let Some(ty) = &self.function.return_type {
             punct!(":");
             formatting_space!();
             emit!(ty);
         }
 
-        if let Some(body) = &n.function.body {
+        if let Some(body) = &self.function.body {
             formatting_space!();
             emit!(body);
         } else {
             formatting_semi!()
         }
     }
+}
 
-    #[emitter]
-    pub fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for PrivateProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(self, true);
 
-        self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
+        emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
-        self.emit_accessibility(n.accessibility)?;
+        emitter.emit_accessibility(self.accessibility)?;
 
-        if n.is_static {
+        if self.is_static {
             keyword!("static");
             space!();
         }
 
-        if n.is_override {
+        if self.is_override {
             keyword!("override");
             space!()
         }
 
-        if n.readonly {
+        if self.readonly {
             keyword!("readonly");
             space!();
         }
 
-        emit!(n.key);
+        emit!(self.key);
 
-        if n.is_optional {
+        if self.is_optional {
             punct!("?");
         }
 
-        if let Some(type_ann) = &n.type_ann {
-            if n.definite {
+        if let Some(type_ann) = &self.type_ann {
+            if self.definite {
                 punct!("!");
             }
             punct!(":");
@@ -342,7 +352,7 @@ where
             emit!(type_ann);
         }
 
-        if let Some(value) = &n.value {
+        if let Some(value) = &self.value {
             formatting_space!();
             punct!("=");
             formatting_space!();
@@ -358,53 +368,55 @@ where
 
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, false);
     }
+}
 
-    #[emitter]
-    pub fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-        srcmap!(n, true);
+#[node_impl]
+impl MacroNode for ClassProp {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        srcmap!(self, true);
 
-        for dec in &n.decorators {
+        for dec in &self.decorators {
             emit!(dec)
         }
 
-        if n.declare {
+        if self.declare {
             keyword!("declare");
             space!();
         }
 
-        self.emit_accessibility(n.accessibility)?;
+        emitter.emit_accessibility(self.accessibility)?;
 
-        if n.is_static {
+        if self.is_static {
             keyword!("static");
             space!();
         }
 
-        if n.is_abstract {
+        if self.is_abstract {
             keyword!("abstract");
             space!()
         }
 
-        if n.is_override {
+        if self.is_override {
             keyword!("override");
             space!()
         }
 
-        if n.readonly {
+        if self.readonly {
             keyword!("readonly");
             space!()
         }
 
-        emit!(n.key);
+        emit!(self.key);
 
-        if n.is_optional {
+        if self.is_optional {
             punct!("?");
         }
 
-        if let Some(ty) = &n.type_ann {
-            if n.definite {
+        if let Some(ty) = &self.type_ann {
+            if self.definite {
                 punct!("!");
             }
             punct!(":");
@@ -412,7 +424,7 @@ where
             emit!(ty);
         }
 
-        if let Some(v) = &n.value {
+        if let Some(v) = &self.value {
             formatting_space!();
             punct!("=");
             formatting_space!();
@@ -428,9 +440,51 @@ where
 
         semi!();
 
-        srcmap!(n, false);
+        srcmap!(self, false);
     }
+}
 
+#[node_impl]
+impl MacroNode for Constructor {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        emitter.emit_accessibility(self.accessibility)?;
+
+        keyword!("constructor");
+        punct!("(");
+        emitter.emit_list(self.span(), Some(&self.params), ListFormat::Parameters)?;
+        punct!(")");
+
+        if let Some(body) = &self.body {
+            emit!(body);
+        } else {
+            formatting_semi!();
+        }
+    }
+}
+
+#[node_impl]
+impl MacroNode for StaticBlock {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(self, true);
+
+        keyword!("static");
+        emit!(self.body);
+
+        srcmap!(self, false);
+    }
+}
+
+impl<W, S: SourceMapper> Emitter<'_, W, S>
+where
+    W: WriteJs,
+    S: SourceMapperExt,
+{
     pub fn emit_accessibility(&mut self, n: Option<Accessibility>) -> Result {
         if let Some(a) = n {
             match a {
@@ -442,37 +496,5 @@ where
         }
 
         Ok(())
-    }
-
-    #[emitter]
-    pub fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        self.emit_accessibility(n.accessibility)?;
-
-        keyword!("constructor");
-        punct!("(");
-        self.emit_list(n.span(), Some(&n.params), ListFormat::Parameters)?;
-        punct!(")");
-
-        if let Some(body) = &n.body {
-            emit!(body);
-        } else {
-            formatting_semi!();
-        }
-    }
-
-    #[emitter]
-    pub fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("static");
-        emit!(n.body);
-
-        srcmap!(n, false);
     }
 }
