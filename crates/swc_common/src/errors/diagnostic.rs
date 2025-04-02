@@ -505,7 +505,6 @@ impl Diagnostic {
     }
 }
 
-// impl From<>
 
 impl SubDiagnostic {
     pub fn message(&self) -> String {
