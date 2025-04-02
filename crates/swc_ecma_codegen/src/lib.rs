@@ -1788,7 +1788,7 @@ impl MacroNode for AssignExpr {
 
         emit!(self.left);
         formatting_space!(emitter);
-        operator!(self.op.as_str());
+        operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
         emit!(self.right);
 
@@ -1918,6 +1918,8 @@ impl MacroNode for BlockStmtOrExpr {
                 emitter.wr.decrease_indent()?;
             }
         }
+
+        Ok(())
     }
 }
 

@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::{text_writer::WriteJs, util::StartsWithAlphaNum, ListFormat, Result};
+use crate::{util::StartsWithAlphaNum, ListFormat, Result};
 
 #[node_impl]
 impl MacroNode for ModuleDecl {
@@ -26,6 +26,8 @@ impl MacroNode for ModuleDecl {
         if !emitter.cfg.minify {
             emitter.wr.write_line()?;
         }
+
+        Ok(())
     }
 }
 
@@ -52,6 +54,8 @@ impl MacroNode for ExportDecl {
                 emit!(self.decl);
             }
         }
+
+        Ok(())
     }
 }
 
@@ -76,6 +80,8 @@ impl MacroNode for ExportDefaultExpr {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -295,6 +301,8 @@ impl MacroNode for ExportNamedSpecifier {
             emit!(self.orig);
         }
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -389,6 +397,8 @@ impl MacroNode for NamedExport {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -429,5 +439,7 @@ impl MacroNode for ExportAll {
         semi!(emitter);
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }

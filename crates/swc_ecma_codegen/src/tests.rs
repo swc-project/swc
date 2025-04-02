@@ -75,7 +75,7 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
             res?
         };
 
-        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| res.emit_with(e).unwrap());
         Ok(out)
     })
     .unwrap()
