@@ -1,9 +1,10 @@
 use std::{fmt, mem::transmute};
 
 use miette::{GraphicalReportHandler, Severity, SourceOffset, SourceSpan};
-
-use super::{Diagnostic, DiagnosticId, Level, SubDiagnostic};
-use crate::{BytePos, FileName, SourceMap, Span};
+use swc_common::{
+    errors::{Diagnostic, DiagnosticId, Level, SubDiagnostic},
+    BytePos, FileName, SourceMap, Span,
+};
 
 pub struct PrettyDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
@@ -308,10 +309,25 @@ pub fn convert_span(span: Span) -> SourceSpan {
     SourceSpan::new(start, len.0 as usize)
 }
 
+pub trait ToPrettyDiagnostic {
+    fn to_pretty_diagnostic<'a>(
+        &'a self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+    ) -> PrettyDiagnostic<'a>;
+
+    fn to_pretty_string<'a>(
+        &self,
+        cm: &'a SourceMap,
+        skip_filename: bool,
+        handler: &'a GraphicalReportHandler,
+    ) -> String;
+}
+
 // For readable diagnostic, then render by miette
-impl Diagnostic {
+impl ToPrettyDiagnostic for Diagnostic {
     /// Returns a pretty-printed of the diagnostic.
-    pub fn to_pretty_diagnostic<'a>(
+    fn to_pretty_diagnostic<'a>(
         &'a self,
         cm: &'a SourceMap,
         skip_filename: bool,
@@ -338,7 +354,7 @@ impl Diagnostic {
     /// # Returns
     ///
     /// A `String` containing the pretty-printed diagnostic information.
-    pub fn to_pretty_string<'a>(
+    fn to_pretty_string<'a>(
         &self,
         cm: &'a SourceMap,
         skip_filename: bool,
