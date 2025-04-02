@@ -1,3 +1,74 @@
+use swc_common::Spanned;
+use swc_ecma_ast::*;
+use swc_ecma_codegen_macros::node_impl;
+
+#[node_impl]
+impl MacroNode for Stmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            Stmt::Expr(ref e) => emit!(e),
+            Stmt::Block(ref e) => {
+                emit!(e);
+                return Ok(());
+            }
+            Stmt::Empty(ref e) => emit!(e),
+            Stmt::Debugger(ref e) => emit!(e),
+            Stmt::With(ref e) => emit!(e),
+            Stmt::Return(ref e) => emit!(e),
+            Stmt::Labeled(ref e) => emit!(e),
+            Stmt::Break(ref e) => emit!(e),
+            Stmt::Continue(ref e) => emit!(e),
+            Stmt::If(ref e) => emit!(e),
+            Stmt::Switch(ref e) => emit!(e),
+            Stmt::Throw(ref e) => emit!(e),
+            Stmt::Try(ref e) => emit!(e),
+            Stmt::While(ref e) => emit!(e),
+            Stmt::DoWhile(ref e) => emit!(e),
+            Stmt::For(ref e) => emit!(e),
+            Stmt::ForIn(ref e) => emit!(e),
+            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Decl(Decl::Var(e)) => {
+                emit!(e);
+                semi!(emitter);
+            }
+            Stmt::Decl(e @ Decl::Using(..)) => {
+                emit!(e);
+                semi!(emitter);
+            }
+            Stmt::Decl(ref e) => emit!(e),
+        }
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
+        }
+
+        if !emitter.cfg.minify {
+            emitter.wr.write_line()?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for EmptyStmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.wr.write_punct(None, ";")?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BlockStmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_block_stmt_inner(self, false)?;
+
+        Ok(())
+    }
+}
+
 /// Copied from [ratel][]
 ///
 /// [ratel]:https://github.com/ratel-rust/ratel-core

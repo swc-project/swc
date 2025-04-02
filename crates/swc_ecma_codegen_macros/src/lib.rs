@@ -63,7 +63,7 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
 
     parse_quote!(
         impl crate::Node for #node_type {
-            fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> Result
+            fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> crate::Result
             where
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,

@@ -2,7 +2,7 @@ use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use super::{Emitter, Result};
+use super::Emitter;
 use crate::text_writer::WriteJs;
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
