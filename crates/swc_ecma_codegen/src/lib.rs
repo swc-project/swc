@@ -764,7 +764,7 @@ where
             formatting_space!(emitter);
             self.emit_block_stmt_inner(body, true)?;
         } else {
-            semi!();
+            semi!(emitter);
         }
 
         // srcmap!(emitter,node, false);
@@ -971,7 +971,7 @@ where
             if need_paren {
                 punct!(emitter, "(")
             } else if !node.delegate && arg.starts_with_alpha_num() {
-                space!()
+                space!(emitter)
             } else {
                 formatting_space!(emitter)
             }
@@ -1489,11 +1489,11 @@ where
             Stmt::ForOf(ref e) => emit!(e),
             Stmt::Decl(Decl::Var(e)) => {
                 emit!(e);
-                semi!();
+                semi!(emitter);
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
                 emit!(e);
-                semi!();
+                semi!(emitter);
             }
             Stmt::Decl(ref e) => emit!(e),
         }
@@ -1513,7 +1513,7 @@ where
 
         emit!(e.expr);
 
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -1563,7 +1563,7 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(emitter, node.span, "debugger");
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -1746,7 +1746,7 @@ where
             }
         }
 
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -1775,7 +1775,7 @@ where
             emit!(label);
         }
 
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -1791,7 +1791,7 @@ where
             emit!(label);
         }
 
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -1938,7 +1938,7 @@ where
                 punct!(emitter, ")");
             }
         }
-        semi!();
+        semi!(emitter);
     }
 
     #[emitter]
@@ -2010,7 +2010,7 @@ where
         punct!(emitter, ")");
 
         if self.cfg.target <= EsVersion::Es5 {
-            semi!();
+            semi!(emitter);
         }
 
         srcmap!(emitter, node, false);

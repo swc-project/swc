@@ -139,7 +139,7 @@ impl MacroNode for AutoAccessor {
             emit!(init);
         }
 
-        semi!();
+        semi!(emitter);
     }
 }
 
@@ -235,12 +235,12 @@ impl MacroNode for ClassMethod {
 
         if self.is_abstract {
             keyword!(emitter, "abstract");
-            space!()
+            space!(emitter)
         }
 
         if self.is_override {
             keyword!(emitter, "override");
-            space!()
+            space!(emitter)
         }
 
         match self.kind {
@@ -306,7 +306,7 @@ impl MacroNode for ClassMethod {
             formatting_space!(emitter);
             emit!(body);
         } else {
-            formatting_semi!()
+            formatting_semi!(emitter)
         }
     }
 }
@@ -329,7 +329,7 @@ impl MacroNode for PrivateProp {
 
         if self.is_override {
             keyword!(emitter, "override");
-            space!()
+            space!(emitter)
         }
 
         if self.readonly {
@@ -366,7 +366,7 @@ impl MacroNode for PrivateProp {
             }
         }
 
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
@@ -396,17 +396,17 @@ impl MacroNode for ClassProp {
 
         if self.is_abstract {
             keyword!(emitter, "abstract");
-            space!()
+            space!(emitter)
         }
 
         if self.is_override {
             keyword!(emitter, "override");
-            space!()
+            space!(emitter)
         }
 
         if self.readonly {
             keyword!(emitter, "readonly");
-            space!()
+            space!(emitter)
         }
 
         emit!(self.key);
@@ -438,7 +438,7 @@ impl MacroNode for ClassProp {
             }
         }
 
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
@@ -461,7 +461,7 @@ impl MacroNode for Constructor {
         if let Some(body) = &self.body {
             emit!(body);
         } else {
-            formatting_semi!();
+            formatting_semi!(emitter);
         }
     }
 }

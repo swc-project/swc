@@ -73,7 +73,7 @@ impl MacroNode for ExportDefaultExpr {
             }
             emit!(self.expr);
         }
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
@@ -204,7 +204,7 @@ impl MacroNode for ImportDecl {
             emit!(with);
         }
 
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
@@ -376,7 +376,7 @@ impl MacroNode for NamedExport {
                 emit!(with);
             }
         }
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
@@ -416,7 +416,7 @@ impl MacroNode for ExportAll {
             emit!(with);
         }
 
-        semi!();
+        semi!(emitter);
 
         srcmap!(emitter, self, false);
     }
