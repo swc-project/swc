@@ -9,13 +9,13 @@ impl MacroNode for Param {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
         emit!(self.pat);
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -71,12 +71,12 @@ impl MacroNode for SpreadElement {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         punct!(emitter, "...");
         emit!(self.expr);
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -125,7 +125,7 @@ impl MacroNode for ArrayPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         punct!(emitter, "[");
 
@@ -147,7 +147,7 @@ impl MacroNode for ArrayPat {
             emit!(type_ann);
         }
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -156,7 +156,7 @@ impl MacroNode for AssignPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.left);
         formatting_space!(emitter);
@@ -164,7 +164,7 @@ impl MacroNode for AssignPat {
         formatting_space!(emitter);
         emit!(self.right);
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -173,7 +173,7 @@ impl MacroNode for ObjectPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
         punct!(emitter, "{");
 
         emitter.emit_list(
@@ -194,7 +194,7 @@ impl MacroNode for ObjectPat {
             emit!(type_ann);
         }
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -214,14 +214,14 @@ impl MacroNode for KeyValuePatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.key);
         punct!(emitter, ":");
         formatting_space!(emitter);
         emit!(self.value);
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 
@@ -230,7 +230,7 @@ impl MacroNode for AssignPatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.key);
         if let Some(value) = &self.value {
@@ -240,7 +240,7 @@ impl MacroNode for AssignPatProp {
             emit!(value);
         }
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
     }
 }
 

@@ -372,6 +372,9 @@ where
         srcmap!(emitter, self, node, true);
 
         keyword!(emitter, self, "new");
+        srcmap!(self, node, true);
+
+        keyword!(self, "new");
 
         let starts_with_alpha_num = node.callee.starts_with_alpha_num();
 
@@ -388,9 +391,9 @@ where
 
         if let Some(ref args) = node.args {
             if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
-                punct!(emitter, self, "(");
+                punct!(self, "(");
                 self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-                punct!(emitter, self, ")");
+                punct!(self, ")");
             }
         }
 
@@ -877,33 +880,33 @@ where
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(emitter, self, node, true);
+        srcmap!(self, node, true);
 
-        punct!(emitter, self, "`");
+        punct!(self, "`");
 
         for i in 0..(node.quasis.len() + node.exprs.len()) {
             if i % 2 == 0 {
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
-                punct!(emitter, self, "${");
+                punct!(self, "${");
                 emit!(self, node.exprs[i / 2]);
-                punct!(emitter, self, "}");
+                punct!(self, "}");
             }
         }
 
-        punct!(emitter, self, "`");
+        punct!(self, "`");
 
-        srcmap!(emitter, self, node, false);
+        srcmap!(self, node, false);
 
         Ok(())
     }
 
     fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
-        srcmap!(emitter, self, node, true);
+        srcmap!(self, node, true);
 
         self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
 
-        srcmap!(emitter, self, node, false);
+        srcmap!(self, node, false);
 
         Ok(())
     }
@@ -1093,7 +1096,7 @@ where
         // Source map
         self.wr.commit_pending_semi()?;
 
-        srcmap!(emitter, self, span, true);
+        srcmap!(self, span, true);
         // TODO: span
 
         if self.cfg.ascii_only {
@@ -1114,7 +1117,7 @@ where
         }
 
         if optional {
-            punct!(emitter, self, "?");
+            punct!(self, "?");
         }
 
         // Call emitList directly since it could be an array of
@@ -1275,7 +1278,7 @@ where
             && format.contains(ListFormat::CommaDelimited)
             && (!self.cfg.minify || !format.contains(ListFormat::CanSkipTrailingComma))
         {
-            punct!(emitter, self, ",");
+            punct!(self, ",");
             formatting_space!(self);
         }
 
@@ -1526,9 +1529,9 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         if !skip_first_src_map {
-            srcmap!(emitter, self, node, true);
+            srcmap!(self, node, true);
         }
-        punct!(emitter, self, "{");
+        punct!(self, "{");
 
         let emit_new_line = !self.cfg.minify
             && !(node.stmts.is_empty() && is_empty_comments(&node.span(), &self.comments));
@@ -1543,8 +1546,8 @@ where
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        srcmap!(emitter, self, node, false, true);
-        punct!(emitter, self, "}");
+        srcmap!(self, node, false, true);
+        punct!(self, "}");
 
         Ok(())
     }
@@ -2671,7 +2674,7 @@ impl MacroNode for Module {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.body.is_empty() {
-            srcmap!(emitter, self, true);
+            srcmap!(self, true);
         }
 
         if let Some(ref shebang) = self.shebang {
@@ -2699,7 +2702,7 @@ impl MacroNode for Script {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if self.body.is_empty() {
-            srcmap!(emitter, self, true);
+            srcmap!(self, true);
         }
 
         if let Some(ref shebang) = self.shebang {
@@ -2902,7 +2905,7 @@ impl MacroNode for CallExpr {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.callee);
 
@@ -2918,7 +2921,7 @@ impl MacroNode for CallExpr {
         )?;
         punct!(emitter, ")");
 
-        // srcmap!(emitter, self, false);
+        // srcmap!(self, false);
 
         Ok(())
     }
@@ -2938,7 +2941,7 @@ impl MacroNode for MemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         let mut needs_2dots_for_property_access = false;
 
@@ -2984,7 +2987,7 @@ impl MacroNode for MemberExpr {
             }
         }
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
 
         Ok(())
     }
@@ -2995,7 +2998,7 @@ impl MacroNode for SuperPropExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.obj);
 
@@ -3019,7 +3022,7 @@ impl MacroNode for ArrowExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         let space = !emitter.cfg.minify
             || match self.params.as_slice() {
@@ -3077,7 +3080,7 @@ impl MacroNode for MetaPropExpr {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         match self.kind {
             MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
@@ -3094,7 +3097,7 @@ impl MacroNode for SeqExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         let mut first = true;
         //TODO: Indention
@@ -3133,7 +3136,7 @@ impl MacroNode for BinExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         {
             let mut left = Some(self);
@@ -3173,13 +3176,13 @@ impl MacroNode for Decorator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         punct!(emitter, "@");
         emit!(self.expr);
         emitter.wr.write_line()?;
 
-        srcmap!(emitter, self, false);
+        srcmap!(self, false);
 
         Ok(())
     }
@@ -3190,7 +3193,7 @@ impl MacroNode for CondExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         emit!(self.test);
         formatting_space!(emitter);
@@ -3213,7 +3216,7 @@ impl MacroNode for FnExpr {
 
         emitter.wr.commit_pending_semi()?;
 
-        srcmap!(emitter, self, true);
+        srcmap!(self, true);
 
         if self.function.is_async {
             keyword!(emitter, "async");
