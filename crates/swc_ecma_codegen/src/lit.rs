@@ -4,7 +4,7 @@ use ascii::AsciiChar;
 use compact_str::CompactString;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
 use crate::{text_writer::WriteJs, CowStr, Emitter, Result, SourceMapperExt};
 
