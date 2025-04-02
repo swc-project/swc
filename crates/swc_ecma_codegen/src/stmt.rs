@@ -2,7 +2,10 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::text_writer::WriteJs;
+use crate::{
+    text_writer::WriteJs,
+    util::{EndsWithAlphaNum, StartsWithAlphaNum},
+};
 
 #[node_impl]
 impl MacroNode for Stmt {
@@ -147,84 +150,11 @@ impl MacroNode for ReturnStmt {
             if need_paren {
                 punct!(emitter, ")");
             }
-
-            #[node_impl]
-            impl MacroNode for BreakStmt {
-                fn emit(&mut self, emitter: &mut Macro) -> Result {
-                    emitter.wr.commit_pending_semi()?;
-
-                    srcmap!(emitter, self, true);
-
-                    keyword!(emitter, "break");
-
-                    if let Some(ref label) = self.label {
-                        space!(emitter);
-                        emit!(label);
-                    }
-
-                    semi!(emitter);
-                }
-            }
-
-            #[node_impl]
-            impl MacroNode for ContinueStmt {
-                fn emit(&mut self, emitter: &mut Macro) -> Result {
-                    emitter.wr.commit_pending_semi()?;
-
-                    srcmap!(emitter, self, true);
-
-                    keyword!(emitter, "continue");
-
-                    if let Some(ref label) = self.label {
-                        space!(emitter);
-                        emit!(label);
-                    }
-
-                    semi!(emitter);
-                }
-            }
-
-            #[node_impl]
-            impl MacroNode for IfStmt {
-                fn emit(&mut self, emitter: &mut Macro) -> Result {
-                    emitter.emit_leading_comments_of_span(self.span(), false)?;
-
-                    emitter.wr.commit_pending_semi()?;
-
-                    srcmap!(emitter, self, true);
-
-                    keyword!(emitter, "if");
-
-                    formatting_space!(emitter);
-                    punct!(emitter, "(");
-                    emit!(self.test);
-                    punct!(emitter, ")");
-                    formatting_space!(emitter);
-
-                    let is_cons_block = match *self.cons {
-                        Stmt::Block(..) => true,
-                        _ => false,
-                    };
-
-                    emit!(self.cons);
-
-                    if let Some(ref alt) = self.alt {
-                        if is_cons_block {
-                            formatting_space!(emitter);
-                        }
-                        keyword!(emitter, "else");
-                        if alt.starts_with_alpha_num() {
-                            space!(emitter);
-                        } else {
-                            formatting_space!(emitter);
-                        }
-                        emit!(alt);
-                    }
-                }
-            }
         }
 
         semi!(emitter);
+
+        Ok(())
     }
 }
 
@@ -240,6 +170,8 @@ impl MacroNode for LabeledStmt {
         formatting_space!(emitter);
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -263,6 +195,8 @@ impl MacroNode for SwitchStmt {
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
+
+        Ok(())
     }
 }
 
@@ -286,6 +220,8 @@ impl MacroNode for CatchClause {
         formatting_space!(emitter);
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -330,6 +266,8 @@ impl MacroNode for SwitchCase {
             punct!(emitter, ":");
         }
         emitter.emit_list(self.span(), Some(&self.cons), format)?;
+
+        Ok(())
     }
 }
 
@@ -358,6 +296,8 @@ impl MacroNode for ThrowStmt {
             }
         }
         semi!(emitter);
+
+        Ok(())
     }
 }
 
@@ -386,6 +326,8 @@ impl MacroNode for TryStmt {
             // space!(emitter);
             emit!(finally);
         }
+
+        Ok(())
     }
 }
 
@@ -405,6 +347,8 @@ impl MacroNode for WhileStmt {
         punct!(emitter, ")");
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -438,6 +382,8 @@ impl MacroNode for DoWhileStmt {
         }
 
         srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }
 
@@ -461,6 +407,8 @@ impl MacroNode for ForStmt {
         punct!(emitter, ")");
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -499,6 +447,8 @@ impl MacroNode for ForInStmt {
         punct!(emitter, ")");
 
         emit!(self.body);
+
+        Ok(())
     }
 }
 
@@ -539,6 +489,89 @@ impl MacroNode for ForOfStmt {
         }
         punct!(emitter, ")");
         emit!(self.body);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BreakStmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "break");
+
+        if let Some(ref label) = self.label {
+            space!(emitter);
+            emit!(label);
+        }
+
+        semi!(emitter);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ContinueStmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "continue");
+
+        if let Some(ref label) = self.label {
+            space!(emitter);
+            emit!(label);
+        }
+
+        semi!(emitter);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for IfStmt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "if");
+
+        formatting_space!(emitter);
+        punct!(emitter, "(");
+        emit!(self.test);
+        punct!(emitter, ")");
+        formatting_space!(emitter);
+
+        let is_cons_block = match *self.cons {
+            Stmt::Block(..) => true,
+            _ => false,
+        };
+
+        emit!(self.cons);
+
+        if let Some(ref alt) = self.alt {
+            if is_cons_block {
+                formatting_space!(emitter);
+            }
+            keyword!(emitter, "else");
+            if alt.starts_with_alpha_num() {
+                space!(emitter);
+            } else {
+                formatting_space!(emitter);
+            }
+            emit!(alt);
+        }
+
+        Ok(())
     }
 }
 
@@ -549,6 +582,8 @@ impl MacroNode for ModuleExportName {
             ModuleExportName::Ident(ident) => emit!(ident),
             ModuleExportName::Str(s) => emit!(s),
         }
+
+        Ok(())
     }
 }
 
