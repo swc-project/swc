@@ -600,7 +600,7 @@
                             checkInt(this, e, r, t, n - 1, -n);
                         }
                         var i = 0, o = 1, u = 0;
-                        for(this[r] = 255 & e; ++i < t && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i - 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
+                        for(this[r] = 255 & e; ++i < t && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i - 1] && (u = 1), this[r + i] = (e / o | 0) - u & 255;
                         return r + t;
                     }, Buffer.prototype.writeIntBE = function(e, r, t, f) {
                         if (e *= 1, r >>>= 0, !f) {
@@ -608,7 +608,7 @@
                             checkInt(this, e, r, t, n - 1, -n);
                         }
                         var i = t - 1, o = 1, u = 0;
-                        for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i + 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
+                        for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i + 1] && (u = 1), this[r + i] = (e / o | 0) - u & 255;
                         return r + t;
                     }, Buffer.prototype.writeInt8 = function(e, r, t) {
                         return e *= 1, r >>>= 0, t || checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
