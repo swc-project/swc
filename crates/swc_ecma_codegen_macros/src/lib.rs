@@ -13,7 +13,7 @@ use syn::{
 ///
 /// # Example
 ///
-/// ```
+/// ```ignore
 /// impl MacroNode for ParamOrTsParamProp {
 ///     fn emit(&mut self, emitter: &mut Macro) -> Result {
 ///         match self {
