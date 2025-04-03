@@ -17,7 +17,7 @@ use swc_common::{
     BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -135,233 +135,16 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
     pub fn emit_program(&mut self, node: &Program) -> Result {
-        match *node {
-            Program::Module(ref m) => emit!(m),
-            Program::Script(ref s) => emit!(s),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
-        }
+        node.emit_with(self)
     }
 
-    #[emitter]
-    #[tracing::instrument(skip_all)]
     pub fn emit_module(&mut self, node: &Module) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if node.body.is_empty() {
-            srcmap!(node, true);
-        }
-
-        if let Some(ref shebang) = node.shebang {
-            punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, shebang)?;
-            self.wr.write_line()?;
-        }
-        for stmt in &node.body {
-            emit!(stmt);
-        }
-
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        if !self.cfg.omit_last_semi {
-            self.wr.commit_pending_semi()?;
-        }
+        node.emit_with(self)
     }
 
-    #[emitter]
-    #[tracing::instrument(skip_all)]
     pub fn emit_script(&mut self, node: &Script) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if node.body.is_empty() {
-            srcmap!(node, true);
-        }
-
-        if let Some(ref shebang) = node.shebang {
-            punct!("#!");
-            self.wr.write_str_lit(DUMMY_SP, shebang)?;
-            self.wr.write_line()?;
-        }
-        for stmt in &node.body {
-            emit!(stmt);
-        }
-
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        if !self.cfg.omit_last_semi {
-            self.wr.commit_pending_semi()?;
-        }
-    }
-
-    #[emitter]
-    pub fn emit_module_item(&mut self, node: &ModuleItem) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-        match *node {
-            ModuleItem::Stmt(ref stmt) => emit!(stmt),
-            ModuleItem::ModuleDecl(ref decl) => emit!(decl),
-        }
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-    }
-
-    fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
-        self.wr.write_str_lit(span, value)?;
-
-        Ok(())
-    }
-
-    #[emitter]
-    fn emit_callee(&mut self, node: &Callee) -> Result {
-        match *node {
-            Callee::Expr(ref e) => {
-                if let Expr::New(new) = &**e {
-                    self.emit_new(new, false)?;
-                } else {
-                    emit!(e);
-                }
-            }
-            Callee::Super(ref n) => emit!(n),
-            Callee::Import(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_super(&mut self, node: &Super) -> Result {
-        keyword!(node.span, "super");
-    }
-
-    #[emitter]
-    fn emit_import_callee(&mut self, node: &Import) -> Result {
-        keyword!(node.span, "import");
-        match node.phase {
-            ImportPhase::Source => {
-                punct!(".");
-                keyword!("source")
-            }
-            ImportPhase::Defer => {
-                punct!(".");
-                keyword!("defer")
-            }
-            _ => {}
-        }
-    }
-
-    #[emitter]
-
-    fn emit_expr(&mut self, node: &Expr) -> Result {
-        match node {
-            Expr::Array(ref n) => emit!(n),
-            Expr::Arrow(ref n) => emit!(n),
-            Expr::Assign(ref n) => emit!(n),
-            Expr::Await(ref n) => emit!(n),
-            Expr::Bin(ref n) => emit!(n),
-            Expr::Call(ref n) => emit!(n),
-            Expr::Class(ref n) => emit!(n),
-            Expr::Cond(ref n) => emit!(n),
-            Expr::Fn(ref n) => emit!(n),
-            Expr::Ident(ref n) => emit!(n),
-            Expr::Lit(ref n) => emit!(n),
-            Expr::Member(ref n) => emit!(n),
-            Expr::SuperProp(ref n) => emit!(n),
-            Expr::MetaProp(ref n) => emit!(n),
-            Expr::New(ref n) => emit!(n),
-            Expr::Object(ref n) => emit!(n),
-            Expr::Paren(ref n) => emit!(n),
-            Expr::Seq(ref n) => emit!(n),
-            Expr::TaggedTpl(ref n) => emit!(n),
-            Expr::This(ref n) => emit!(n),
-            Expr::Tpl(ref n) => emit!(n),
-            Expr::Unary(ref n) => emit!(n),
-            Expr::Update(ref n) => emit!(n),
-            Expr::Yield(ref n) => emit!(n),
-            Expr::PrivateName(ref n) => emit!(n),
-
-            Expr::JSXMember(ref n) => emit!(n),
-            Expr::JSXNamespacedName(ref n) => emit!(n),
-            Expr::JSXEmpty(ref n) => emit!(n),
-            Expr::JSXElement(ref n) => emit!(n),
-            Expr::JSXFragment(ref n) => emit!(n),
-
-            Expr::TsAs(ref n) => emit!(n),
-            Expr::TsNonNull(ref n) => emit!(n),
-            Expr::TsTypeAssertion(ref n) => emit!(n),
-            Expr::TsConstAssertion(ref n) => emit!(n),
-            Expr::TsInstantiation(ref n) => emit!(n),
-            Expr::OptChain(ref n) => emit!(n),
-            Expr::Invalid(ref n) => emit!(n),
-            Expr::TsSatisfies(n) => {
-                emit!(n)
-            }
-        }
-
-        if self.comments.is_some() {
-            self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
-        }
-    }
-
-    #[emitter]
-    fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        match &*n.base {
-            OptChainBase::Member(ref e) => {
-                if let Expr::New(new) = &*e.obj {
-                    self.emit_new(new, false)?;
-                } else {
-                    emit!(e.obj);
-                }
-                if n.optional {
-                    punct!("?.");
-                } else if !e.prop.is_computed() {
-                    punct!(".");
-                }
-
-                match &e.prop {
-                    MemberProp::Computed(computed) => emit!(computed),
-                    MemberProp::Ident(i) => emit!(i),
-                    MemberProp::PrivateName(p) => emit!(p),
-                }
-            }
-            OptChainBase::Call(ref e) => {
-                debug_assert!(!e.callee.is_new());
-                emit!(e.callee);
-
-                if n.optional {
-                    punct!("?.");
-                }
-
-                punct!("(");
-                self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
-                punct!(")");
-            }
-        }
-    }
-
-    #[emitter]
-    fn emit_invalid(&mut self, n: &Invalid) -> Result {
-        self.emit_leading_comments_of_span(n.span, false)?;
-
-        self.wr.write_str_lit(n.span, "<invalid>")?;
-    }
-
-    #[emitter]
-    fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        emit!(node.callee);
-
-        if let Some(type_args) = &node.type_args {
-            emit!(type_args);
-        }
-
-        punct!("(");
-        self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
-        punct!(")");
-
-        // srcmap!(node, false);
+        node.emit_with(self)
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
@@ -405,180 +188,36 @@ where
         Ok(())
     }
 
-    #[emitter]
-    fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
-        self.emit_new(node, true)?;
-    }
+    fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
+        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
 
-    #[emitter]
-    fn emit_member_expr(&mut self, node: &MemberExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(self, node, true);
 
-        let mut needs_2dots_for_property_access = false;
+        punct!(self, "`");
 
-        match &*node.obj {
-            Expr::New(new) => {
-                self.emit_new(new, false)?;
-            }
-            Expr::Lit(Lit::Num(num)) => {
-                needs_2dots_for_property_access = self.emit_num_lit_internal(num, true)?;
-            }
-            _ => {
-                emit!(node.obj);
-            }
-        }
-
-        match &node.prop {
-            MemberProp::Computed(computed) => emit!(computed),
-            MemberProp::Ident(ident) => {
-                if needs_2dots_for_property_access {
-                    if node.prop.span().lo() >= BytePos(2) {
-                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
-                    }
-                    punct!(".");
-                }
-                if node.prop.span().lo() >= BytePos(1) {
-                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
-                }
-                punct!(".");
-                emit!(ident);
-            }
-            MemberProp::PrivateName(private) => {
-                if needs_2dots_for_property_access {
-                    if node.prop.span().lo() >= BytePos(2) {
-                        self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
-                    }
-                    punct!(".");
-                }
-                if node.prop.span().lo() >= BytePos(1) {
-                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
-                }
-                punct!(".");
-                emit!(private);
-            }
-        }
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_super_expr(&mut self, node: &SuperPropExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        emit!(node.obj);
-
-        match &node.prop {
-            SuperProp::Computed(computed) => emit!(computed),
-            SuperProp::Ident(i) => {
-                if node.prop.span().lo() >= BytePos(1) {
-                    self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
-                }
-                punct!(".");
-                emit!(i);
-            }
-        }
-    }
-
-    #[emitter]
-    fn emit_arrow_expr(&mut self, node: &ArrowExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        let space = !self.cfg.minify
-            || match node.params.as_slice() {
-                [Pat::Ident(_)] => true,
-                _ => false,
-            };
-
-        if node.is_async {
-            keyword!("async");
-            if space {
-                space!();
+        for i in 0..(node.quasis.len() + node.exprs.len()) {
+            if i % 2 == 0 {
+                self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
-                formatting_space!();
+                punct!(self, "${");
+                emit!(self, node.exprs[i / 2]);
+                punct!(self, "}");
             }
         }
-        if node.is_generator {
-            punct!("*")
-        }
 
-        let parens = !self.cfg.minify
-            || match node.params.as_slice() {
-                [Pat::Ident(i)] => self.has_trailing_comment(i.span),
-                _ => true,
-            };
+        punct!(self, "`");
 
-        emit!(node.type_params);
+        srcmap!(self, node, false);
 
-        if parens {
-            punct!("(");
-        }
-
-        self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        if parens {
-            punct!(")");
-        }
-
-        if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
-            emit!(ty);
-            formatting_space!();
-        }
-
-        punct!("=>");
-        emit!(node.body);
+        Ok(())
     }
 
-    #[emitter]
-    fn emit_meta_prop_expr(&mut self, node: &MetaPropExpr) -> Result {
-        if self.comments.is_some() {
-            self.emit_leading_comments_of_span(node.span(), false)?;
-        }
+    fn emit_atom(&mut self, span: Span, value: &Atom) -> Result {
+        self.wr.write_str_lit(span, value)?;
 
-        srcmap!(node, true);
-
-        match node.kind {
-            MetaPropKind::ImportMeta => keyword!("import.meta"),
-
-            MetaPropKind::NewTarget => keyword!("new.target"),
-        }
-    }
-
-    #[emitter]
-    fn emit_seq_expr(&mut self, node: &SeqExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        let mut first = true;
-        //TODO: Indention
-        for e in &node.exprs {
-            if first {
-                first = false
-            } else {
-                punct!(",");
-                formatting_space!();
-            }
-
-            emit!(e);
-        }
-    }
-
-    #[emitter]
-    fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        emit!(node.left);
-        formatting_space!();
-        operator!(node.op.as_str());
-        formatting_space!();
-        emit!(node.right);
+        Ok(())
     }
 
     /// Prints operator and right node of a binary expression.
@@ -650,252 +289,32 @@ where
         Ok(())
     }
 
-    #[emitter]
-    fn emit_bin_expr(&mut self, node: &BinExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        {
-            let mut left = Some(node);
-            let mut lefts = Vec::new();
-            while let Some(l) = left {
-                lefts.push(l);
-
-                match &*l.left {
-                    Expr::Bin(b) => {
-                        left = Some(b);
-                    }
-                    _ => break,
-                }
-            }
-
-            let len = lefts.len();
-
-            for (i, left) in lefts.into_iter().rev().enumerate() {
-                if i == 0 {
-                    emit!(left.left);
-                }
-                // Check if it's last
-                if i + 1 != len {
-                    self.emit_bin_expr_trailing(left)?;
-                }
-            }
-        }
-
-        self.emit_bin_expr_trailing(node)?;
-    }
-
-    #[emitter]
-    fn emit_decorator(&mut self, node: &Decorator) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("@");
-        emit!(node.expr);
-        self.wr.write_line()?;
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_cond_expr(&mut self, node: &CondExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        emit!(node.test);
-        formatting_space!();
-        punct!("?");
-        formatting_space!();
-        emit!(node.cons);
-        formatting_space!();
-        punct!(":");
-        formatting_space!();
-        emit!(node.alt);
-    }
-
-    #[emitter]
-    fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        if n.function.is_async {
-            keyword!("async");
-            space!();
-            keyword!("function");
-        } else {
-            keyword!("function");
-        }
-
-        if n.function.is_generator {
-            punct!("*");
-        }
-        if let Some(ref i) = n.ident {
-            space!();
-            emit!(i);
-        }
-
-        self.emit_fn_trailing(&n.function)?;
-    }
-
     /// prints `(b){}` from `function a(b){}`
-    #[emitter]
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
-            emit!(type_params);
+            emit!(self, type_params);
         }
 
-        punct!("(");
+        punct!(self, "(");
         self.emit_list(node.span, Some(&node.params), ListFormat::CommaListElements)?;
-        punct!(")");
+        punct!(self, ")");
 
         if let Some(ty) = &node.return_type {
-            punct!(":");
-            formatting_space!();
-            emit!(ty);
+            punct!(self, ":");
+            formatting_space!(self);
+            emit!(self, ty);
         }
 
         if let Some(body) = &node.body {
-            formatting_space!();
+            formatting_space!(self);
             self.emit_block_stmt_inner(body, true)?;
         } else {
-            semi!();
+            semi!(self);
         }
-
-        // srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_block_stmt_or_expr(&mut self, node: &BlockStmtOrExpr) -> Result {
-        match node {
-            BlockStmtOrExpr::BlockStmt(block) => {
-                self.emit_block_stmt_inner(block, true)?;
-            }
-            BlockStmtOrExpr::Expr(expr) => {
-                self.wr.increase_indent()?;
-                emit!(expr);
-                self.wr.decrease_indent()?;
-            }
-        }
-    }
-
-    #[emitter]
-    fn emit_this_expr(&mut self, node: &ThisExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        keyword!(node.span, "this");
-    }
-
-    #[emitter]
-    fn emit_tpl_lit(&mut self, node: &Tpl) -> Result {
-        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("`");
-
-        for i in 0..(node.quasis.len() + node.exprs.len()) {
-            if i % 2 == 0 {
-                emit!(node.quasis[i / 2]);
-            } else {
-                punct!("${");
-                emit!(node.exprs[i / 2]);
-                punct!("}");
-            }
-        }
-
-        punct!("`");
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_quasi(&mut self, node: &TplElement) -> Result {
-        let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
-        if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
-            let v = get_template_element_from_raw(
-                &raw,
-                self.cfg.ascii_only,
-                self.cfg.reduce_escaped_newline,
-            );
-            let span = node.span();
-
-            let mut last_offset_gen = 0;
-            let mut last_offset_origin = 0;
-            for ((offset_gen, _), mat) in v
-                .match_indices('\n')
-                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
-            {
-                // If the string starts with a newline char, then adding a mark is redundant.
-                // This catches both "no newlines" and "newline after several chars".
-                if offset_gen != 0 {
-                    self.wr
-                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-                }
-
-                self.wr
-                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
-                last_offset_gen = offset_gen + 1;
-                last_offset_origin = mat.end();
-            }
-            self.wr
-                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
-            self.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
-            self.wr.add_srcmap(span.hi)?;
-        } else {
-            self.wr.write_str_lit(node.span(), &raw)?;
-        }
-    }
-
-    #[emitter]
-    fn emit_tagged_tpl_lit(&mut self, node: &TaggedTpl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        if let Expr::New(new) = &*node.tag {
-            self.emit_new(new, false)?;
-        } else {
-            emit!(node.tag);
-        }
-
-        emit!(node.type_params);
-        self.emit_template_for_tagged_template(&node.tpl)?;
-
-        srcmap!(node, false);
-    }
-
-    fn emit_template_for_tagged_template(&mut self, node: &Tpl) -> Result {
-        debug_assert!(node.quasis.len() == node.exprs.len() + 1);
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(self, node, true);
-
-        punct!(self, "`");
-
-        for i in 0..(node.quasis.len() + node.exprs.len()) {
-            if i % 2 == 0 {
-                self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
-            } else {
-                punct!(self, "${");
-                emit!(self, node.exprs[i / 2]);
-                punct!(self, "}");
-            }
-        }
-
-        punct!(self, "`");
-
-        srcmap!(self, node, false);
 
         Ok(())
+
+        // srcmap!(emitter,node, false);
     }
 
     fn emit_template_element_for_tagged_template(&mut self, node: &TplElement) -> Result {
@@ -908,81 +327,6 @@ where
         Ok(())
     }
 
-    #[emitter]
-    fn emit_unary_expr(&mut self, n: &UnaryExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        let need_formatting_space = match n.op {
-            op!("typeof") | op!("void") | op!("delete") => {
-                keyword!(n.op.as_str());
-
-                true
-            }
-            op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
-                punct!(n.op.as_str());
-                false
-            }
-        };
-
-        if should_emit_whitespace_before_operand(n) {
-            space!();
-        } else if need_formatting_space {
-            formatting_space!();
-        }
-
-        emit!(n.arg);
-    }
-
-    #[emitter]
-    fn emit_update_expr(&mut self, node: &UpdateExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        if node.prefix {
-            operator!(node.op.as_str());
-            //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit!(node.arg);
-        } else {
-            emit!(node.arg);
-            operator!(node.op.as_str());
-        }
-    }
-
-    #[emitter]
-    fn emit_yield_expr(&mut self, node: &YieldExpr) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("yield");
-        if node.delegate {
-            operator!("*");
-        }
-
-        if let Some(ref arg) = node.arg {
-            let need_paren = node
-                .arg
-                .as_deref()
-                .map(|expr| self.has_leading_comment(expr))
-                .unwrap_or(false);
-            if need_paren {
-                punct!("(")
-            } else if !node.delegate && arg.starts_with_alpha_num() {
-                space!()
-            } else {
-                formatting_space!()
-            }
-
-            emit!(node.arg);
-            if need_paren {
-                punct!(")")
-            }
-        }
-    }
-
     fn emit_expr_or_spreads(
         &mut self,
         parent_node: Span,
@@ -990,100 +334,6 @@ where
         format: ListFormat,
     ) -> Result {
         self.emit_list(parent_node, Some(nodes), format)
-    }
-
-    #[emitter]
-    fn emit_expr_or_spread(&mut self, node: &ExprOrSpread) -> Result {
-        if let Some(span) = node.spread {
-            self.emit_leading_comments_of_span(span, false)?;
-
-            punct!("...");
-        }
-
-        emit!(node.expr);
-    }
-
-    #[emitter]
-    fn emit_await_expr(&mut self, n: &AwaitExpr) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("await");
-        space!();
-
-        emit!(&n.arg);
-    }
-
-    #[emitter]
-    fn emit_array_lit(&mut self, node: &ArrayLit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("[");
-        let mut format = ListFormat::ArrayLiteralExpressionElements;
-        if let Some(None) = node.elems.last() {
-            format |= ListFormat::ForceTrailingComma;
-        }
-
-        self.emit_list(node.span(), Some(&node.elems), format)?;
-        punct!("]");
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        punct!("(");
-        emit!(node.expr);
-
-        srcmap!(node, false, true);
-        punct!(")");
-    }
-
-    #[emitter]
-    fn emit_private_name(&mut self, n: &PrivateName) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        punct!("#");
-        self.emit_ident_like(n.span, &n.name, false)?;
-
-        srcmap!(n, false);
-    }
-
-    #[emitter]
-    fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
-        self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
-
-        if let Some(ty) = &ident.type_ann {
-            punct!(":");
-            formatting_space!();
-            emit!(ty);
-        }
-
-        // Call emitList directly since it could be an array of
-        // TypeParameterDeclarations _or_ type arguments
-
-        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
-    }
-
-    #[emitter]
-    fn emit_ident(&mut self, ident: &Ident) -> Result {
-        self.emit_ident_like(ident.span, &ident.sym, ident.optional)?;
-    }
-
-    #[emitter]
-    fn emit_ident_name(&mut self, ident: &IdentName) -> Result {
-        self.emit_ident_like(ident.span, &ident.sym, false)?;
     }
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {
@@ -1463,65 +713,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
-    fn emit_stmt(&mut self, node: &Stmt) -> Result {
-        match node {
-            Stmt::Expr(ref e) => emit!(e),
-            Stmt::Block(ref e) => {
-                emit!(e);
-                return Ok(());
-            }
-            Stmt::Empty(ref e) => emit!(e),
-            Stmt::Debugger(ref e) => emit!(e),
-            Stmt::With(ref e) => emit!(e),
-            Stmt::Return(ref e) => emit!(e),
-            Stmt::Labeled(ref e) => emit!(e),
-            Stmt::Break(ref e) => emit!(e),
-            Stmt::Continue(ref e) => emit!(e),
-            Stmt::If(ref e) => emit!(e),
-            Stmt::Switch(ref e) => emit!(e),
-            Stmt::Throw(ref e) => emit!(e),
-            Stmt::Try(ref e) => emit!(e),
-            Stmt::While(ref e) => emit!(e),
-            Stmt::DoWhile(ref e) => emit!(e),
-            Stmt::For(ref e) => emit!(e),
-            Stmt::ForIn(ref e) => emit!(e),
-            Stmt::ForOf(ref e) => emit!(e),
-            Stmt::Decl(Decl::Var(e)) => {
-                emit!(e);
-                semi!();
-            }
-            Stmt::Decl(e @ Decl::Using(..)) => {
-                emit!(e);
-                semi!();
-            }
-            Stmt::Decl(ref e) => emit!(e),
-        }
-        if self.comments.is_some() {
-            self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
-        }
-
-        if !self.cfg.minify {
-            self.wr.write_line()?;
-        }
-    }
-
-    #[emitter]
-
-    fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
-        self.emit_leading_comments_of_span(e.span, false)?;
-
-        emit!(e.expr);
-
-        semi!();
-    }
-
-    #[emitter]
-
-    fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
-        self.emit_block_stmt_inner(node, false)?;
-    }
-
     fn emit_block_stmt_inner(&mut self, node: &BlockStmt, skip_first_src_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
@@ -1547,39 +738,6 @@ where
         punct!(self, "}");
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_empty_stmt(&mut self, node: &EmptyStmt) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        self.wr.write_punct(None, ";")?;
-    }
-
-    #[emitter]
-    fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        keyword!(node.span, "debugger");
-        semi!();
-    }
-
-    #[emitter]
-    fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(node, true);
-
-        keyword!("with");
-        formatting_space!();
-
-        punct!("(");
-        emit!(node.obj);
-        punct!(")");
-
-        emit!(node.body);
     }
 
     fn has_trailing_comment(&self, span: Span) -> bool {
@@ -1715,409 +873,6 @@ where
 
         false
     }
-
-    #[emitter]
-    fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span, false)?;
-
-        srcmap!(n, true);
-
-        keyword!("return");
-
-        if let Some(arg) = n.arg.as_deref() {
-            let need_paren = n
-                .arg
-                .as_deref()
-                .map(|expr| self.has_leading_comment(expr))
-                .unwrap_or(false);
-            if need_paren {
-                punct!("(");
-            } else if arg.starts_with_alpha_num() {
-                space!();
-            } else {
-                formatting_space!();
-            }
-
-            emit!(arg);
-            if need_paren {
-                punct!(")");
-            }
-        }
-
-        semi!();
-    }
-
-    #[emitter]
-    fn emit_labeled_stmt(&mut self, node: &LabeledStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        emit!(node.label);
-
-        // TODO: Comment
-        punct!(":");
-        formatting_space!();
-
-        emit!(node.body);
-    }
-
-    #[emitter]
-    fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        keyword!("break");
-
-        if let Some(ref label) = n.label {
-            space!();
-            emit!(label);
-        }
-
-        semi!();
-    }
-
-    #[emitter]
-    fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        keyword!("continue");
-
-        if let Some(ref label) = n.label {
-            space!();
-            emit!(label);
-        }
-
-        semi!();
-    }
-
-    #[emitter]
-    fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        keyword!("if");
-
-        formatting_space!();
-        punct!("(");
-        emit!(n.test);
-        punct!(")");
-        formatting_space!();
-
-        let is_cons_block = match *n.cons {
-            Stmt::Block(..) => true,
-            _ => false,
-        };
-
-        emit!(n.cons);
-
-        if let Some(ref alt) = n.alt {
-            if is_cons_block {
-                formatting_space!();
-            }
-            keyword!("else");
-            if alt.starts_with_alpha_num() {
-                space!();
-            } else {
-                formatting_space!();
-            }
-            emit!(alt);
-        }
-    }
-
-    #[emitter]
-    fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("switch");
-
-        punct!("(");
-        emit!(n.discriminant);
-        punct!(")");
-
-        punct!("{");
-        self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
-
-        srcmap!(n, false, true);
-        punct!("}");
-    }
-
-    #[emitter]
-    fn emit_catch_clause(&mut self, n: &CatchClause) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("catch");
-
-        formatting_space!();
-
-        if let Some(param) = &n.param {
-            punct!("(");
-            emit!(param);
-            punct!(")");
-        }
-
-        formatting_space!();
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_switch_case(&mut self, n: &SwitchCase) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        if let Some(ref test) = n.test {
-            keyword!("case");
-
-            let starts_with_alpha_num = test.starts_with_alpha_num();
-
-            if starts_with_alpha_num {
-                space!();
-            } else {
-                formatting_space!();
-            }
-
-            emit!(test);
-        } else {
-            keyword!("default");
-        }
-
-        let emit_as_single_stmt = n.cons.len() == 1 && {
-            // treat synthesized nodes as located on the same line for emit purposes
-            n.is_synthesized()
-                || n.cons[0].is_synthesized()
-                || self
-                    .cm
-                    .is_on_same_line(n.span().lo(), n.cons[0].span().lo())
-        };
-
-        let mut format = ListFormat::CaseOrDefaultClauseStatements;
-        if emit_as_single_stmt {
-            punct!(":");
-            space!();
-            format &= !(ListFormat::MultiLine | ListFormat::Indented);
-        } else {
-            punct!(":");
-        }
-        self.emit_list(n.span(), Some(&n.cons), format)?;
-    }
-
-    #[emitter]
-    fn emit_throw_stmt(&mut self, n: &ThrowStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("throw");
-
-        {
-            let need_paren = self.has_leading_comment(&n.arg);
-            if need_paren {
-                punct!("(");
-            } else if n.arg.starts_with_alpha_num() {
-                space!();
-            } else {
-                formatting_space!();
-            }
-
-            emit!(n.arg);
-            if need_paren {
-                punct!(")");
-            }
-        }
-        semi!();
-    }
-
-    #[emitter]
-
-    fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.wr.commit_pending_semi()?;
-
-        srcmap!(n, true);
-
-        keyword!("try");
-
-        formatting_space!();
-        emit!(n.block);
-
-        if let Some(ref catch) = n.handler {
-            formatting_space!();
-            emit!(catch);
-        }
-
-        if let Some(ref finally) = n.finalizer {
-            formatting_space!();
-            keyword!("finally");
-            // space!();
-            emit!(finally);
-        }
-    }
-
-    #[emitter]
-    fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("while");
-
-        punct!("(");
-        emit!(node.test);
-        punct!(")");
-
-        emit!(node.body);
-    }
-
-    #[emitter]
-    fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        keyword!("do");
-        if node.body.starts_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!()
-        }
-        emit!(node.body);
-
-        keyword!("while");
-
-        formatting_space!();
-
-        punct!("(");
-        emit!(node.test);
-        punct!(")");
-
-        if self.cfg.target <= EsVersion::Es5 {
-            semi!();
-        }
-
-        srcmap!(node, false);
-    }
-
-    #[emitter]
-    fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        punct!("(");
-        opt!(n.init);
-        self.wr.write_punct(None, ";")?;
-        opt_leading_space!(n.test);
-        self.wr.write_punct(None, ";")?;
-        opt_leading_space!(n.update);
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        punct!("(");
-        emit!(n.left);
-
-        if n.left.ends_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!();
-        }
-        keyword!("in");
-
-        {
-            let starts_with_alpha_num = n.right.starts_with_alpha_num();
-
-            if starts_with_alpha_num {
-                space!();
-            } else {
-                formatting_space!()
-            }
-            emit!(n.right);
-        }
-
-        punct!(")");
-
-        emit!(n.body);
-    }
-
-    #[emitter]
-    fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        srcmap!(n, true);
-
-        keyword!("for");
-
-        if n.is_await {
-            space!();
-            keyword!("await");
-        }
-        formatting_space!();
-        punct!("(");
-        emit!(n.left);
-        if n.left.ends_with_alpha_num() {
-            space!();
-        } else {
-            formatting_space!();
-        }
-        keyword!("of");
-
-        {
-            let starts_with_alpha_num = n.right.starts_with_alpha_num();
-
-            if starts_with_alpha_num {
-                space!();
-            } else {
-                formatting_space!()
-            }
-            emit!(n.right);
-        }
-        punct!(")");
-        emit!(n.body);
-    }
-
-    #[emitter]
-    pub fn emit_module_export_name(&mut self, node: &ModuleExportName) -> Result {
-        match *node {
-            ModuleExportName::Ident(ref ident) => emit!(ident),
-            ModuleExportName::Str(ref s) => emit!(s),
-        }
-    }
 }
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -2145,14 +900,6 @@ where
         }
 
         Ok(())
-    }
-
-    #[emitter]
-    fn emit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) -> Result {
-        match *node {
-            VarDeclOrExpr::Expr(ref node) => emit!(node),
-            VarDeclOrExpr::VarDecl(ref node) => emit!(node),
-        }
     }
 }
 
@@ -2650,4 +1397,929 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
     }
 
     false
+}
+
+#[node_impl]
+impl MacroNode for Program {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            Program::Module(m) => emit!(m),
+            Program::Script(s) => emit!(s),
+            // TODO: reenable once experimental_metadata breaking change is merged
+            // _ => unreachable!(),
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Module {
+    #[tracing::instrument(skip_all)]
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.body.is_empty() {
+            srcmap!(emitter, self, true);
+        }
+
+        if let Some(ref shebang) = self.shebang {
+            punct!(emitter, "#!");
+            emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
+            emitter.wr.write_line()?;
+        }
+        for stmt in &self.body {
+            emit!(stmt);
+        }
+
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+        if !emitter.cfg.omit_last_semi {
+            emitter.wr.commit_pending_semi()?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Script {
+    #[tracing::instrument(skip_all)]
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.body.is_empty() {
+            srcmap!(emitter, self, true);
+        }
+
+        if let Some(ref shebang) = self.shebang {
+            punct!(emitter, "#!");
+            emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
+            emitter.wr.write_line()?;
+        }
+        for stmt in &self.body {
+            emit!(stmt);
+        }
+
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+        if !emitter.cfg.omit_last_semi {
+            emitter.wr.commit_pending_semi()?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ModuleItem {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+        match self {
+            ModuleItem::Stmt(stmt) => emit!(stmt),
+            ModuleItem::ModuleDecl(decl) => emit!(decl),
+        }
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Callee {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            Callee::Expr(e) => {
+                if let Expr::New(new) = &**e {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emit!(e);
+                }
+            }
+            Callee::Super(n) => emit!(n),
+            Callee::Import(n) => emit!(n),
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Super {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        keyword!(emitter, self.span, "super");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Import {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        keyword!(emitter, self.span, "import");
+        match self.phase {
+            ImportPhase::Source => {
+                punct!(emitter, ".");
+                keyword!(emitter, "source")
+            }
+            ImportPhase::Defer => {
+                punct!(emitter, ".");
+                keyword!(emitter, "defer")
+            }
+            _ => {}
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Expr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            Expr::Array(n) => emit!(n),
+            Expr::Arrow(n) => emit!(n),
+            Expr::Assign(n) => emit!(n),
+            Expr::Await(n) => emit!(n),
+            Expr::Bin(n) => emit!(n),
+            Expr::Call(n) => emit!(n),
+            Expr::Class(n) => emit!(n),
+            Expr::Cond(n) => emit!(n),
+            Expr::Fn(n) => emit!(n),
+            Expr::Ident(n) => emit!(n),
+            Expr::Lit(n) => emit!(n),
+            Expr::Member(n) => emit!(n),
+            Expr::SuperProp(n) => emit!(n),
+            Expr::MetaProp(n) => emit!(n),
+            Expr::New(n) => emit!(n),
+            Expr::Object(n) => emit!(n),
+            Expr::Paren(n) => emit!(n),
+            Expr::Seq(n) => emit!(n),
+            Expr::TaggedTpl(n) => emit!(n),
+            Expr::This(n) => emit!(n),
+            Expr::Tpl(n) => emit!(n),
+            Expr::Unary(n) => emit!(n),
+            Expr::Update(n) => emit!(n),
+            Expr::Yield(n) => emit!(n),
+            Expr::PrivateName(n) => emit!(n),
+
+            Expr::JSXMember(n) => emit!(n),
+            Expr::JSXNamespacedName(n) => emit!(n),
+            Expr::JSXEmpty(n) => emit!(n),
+            Expr::JSXElement(n) => emit!(n),
+            Expr::JSXFragment(n) => emit!(n),
+
+            Expr::TsAs(n) => emit!(n),
+            Expr::TsNonNull(n) => emit!(n),
+            Expr::TsTypeAssertion(n) => emit!(n),
+            Expr::TsConstAssertion(n) => emit!(n),
+            Expr::TsInstantiation(n) => emit!(n),
+            Expr::OptChain(n) => emit!(n),
+            Expr::Invalid(n) => emit!(n),
+            Expr::TsSatisfies(n) => {
+                emit!(n)
+            }
+        }
+
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for OptChainExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        match &*self.base {
+            OptChainBase::Member(e) => {
+                if let Expr::New(new) = &*e.obj {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emit!(e.obj);
+                }
+                if self.optional {
+                    punct!(emitter, "?.");
+                } else if !e.prop.is_computed() {
+                    punct!(emitter, ".");
+                }
+
+                match &e.prop {
+                    MemberProp::Computed(computed) => emit!(computed),
+                    MemberProp::Ident(i) => emit!(i),
+                    MemberProp::PrivateName(p) => emit!(p),
+                }
+            }
+            OptChainBase::Call(e) => {
+                debug_assert!(!e.callee.is_new());
+                emit!(e.callee);
+
+                if self.optional {
+                    punct!(emitter, "?.");
+                }
+
+                punct!(emitter, "(");
+                emitter.emit_expr_or_spreads(
+                    self.span(),
+                    &e.args,
+                    ListFormat::CallExpressionArguments,
+                )?;
+                punct!(emitter, ")");
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Invalid {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        emitter.wr.write_str_lit(self.span, "<invalid>")?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for CallExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        emit!(self.callee);
+
+        if let Some(type_args) = &self.type_args {
+            emit!(type_args);
+        }
+
+        punct!(emitter, "(");
+        emitter.emit_expr_or_spreads(
+            self.span(),
+            &self.args,
+            ListFormat::CallExpressionArguments,
+        )?;
+        punct!(emitter, ")");
+
+        // srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for NewExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_new(self, true)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for MemberExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let mut needs_2dots_for_property_access = false;
+
+        match &*self.obj {
+            Expr::New(new) => {
+                emitter.emit_new(new, false)?;
+            }
+            Expr::Lit(Lit::Num(num)) => {
+                needs_2dots_for_property_access = emitter.emit_num_lit_internal(num, true)?;
+            }
+            _ => {
+                emit!(self.obj);
+            }
+        }
+
+        match &self.prop {
+            MemberProp::Computed(computed) => emit!(computed),
+            MemberProp::Ident(ident) => {
+                if needs_2dots_for_property_access {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        emitter.emit_leading_comments(self.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(emitter, ".");
+                }
+                if self.prop.span().lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(emitter, ".");
+                emit!(ident);
+            }
+            MemberProp::PrivateName(private) => {
+                if needs_2dots_for_property_access {
+                    if self.prop.span().lo() >= BytePos(2) {
+                        emitter.emit_leading_comments(self.prop.span().lo() - BytePos(2), false)?;
+                    }
+                    punct!(emitter, ".");
+                }
+                if self.prop.span().lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(emitter, ".");
+                emit!(private);
+            }
+        }
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for SuperPropExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        emit!(self.obj);
+
+        match &self.prop {
+            SuperProp::Computed(computed) => emit!(computed),
+            SuperProp::Ident(i) => {
+                if self.prop.span().lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                }
+                punct!(emitter, ".");
+                emit!(i);
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ArrowExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let space = !emitter.cfg.minify
+            || match self.params.as_slice() {
+                [Pat::Ident(_)] => true,
+                _ => false,
+            };
+
+        if self.is_async {
+            keyword!(emitter, "async");
+            if space {
+                space!(emitter);
+            } else {
+                formatting_space!(emitter);
+            }
+        }
+        if self.is_generator {
+            punct!(emitter, "*")
+        }
+
+        let parens = !emitter.cfg.minify
+            || match self.params.as_slice() {
+                [Pat::Ident(i)] => emitter.has_trailing_comment(i.span),
+                _ => true,
+            };
+
+        emit!(self.type_params);
+
+        if parens {
+            punct!(emitter, "(");
+        }
+
+        emitter.emit_list(self.span, Some(&self.params), ListFormat::CommaListElements)?;
+        if parens {
+            punct!(emitter, ")");
+        }
+
+        if let Some(ty) = &self.return_type {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(ty);
+            formatting_space!(emitter);
+        }
+
+        punct!(emitter, "=>");
+        emit!(self.body);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for MetaPropExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if emitter.comments.is_some() {
+            emitter.emit_leading_comments_of_span(self.span(), false)?;
+        }
+
+        srcmap!(emitter, self, true);
+
+        match self.kind {
+            MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
+
+            MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for SeqExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let mut first = true;
+        //TODO: Indention
+        for e in &self.exprs {
+            if first {
+                first = false
+            } else {
+                punct!(emitter, ",");
+                formatting_space!(emitter);
+            }
+
+            emit!(e);
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for AssignExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emit!(self.left);
+        formatting_space!(emitter);
+        operator!(emitter, self.op.as_str());
+        formatting_space!(emitter);
+        emit!(self.right);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BinExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        {
+            let mut left = Some(self);
+            let mut lefts = Vec::new();
+            while let Some(l) = left {
+                lefts.push(l);
+
+                match &*l.left {
+                    Expr::Bin(b) => {
+                        left = Some(b);
+                    }
+                    _ => break,
+                }
+            }
+
+            let len = lefts.len();
+
+            for (i, left) in lefts.into_iter().rev().enumerate() {
+                if i == 0 {
+                    emit!(left.left);
+                }
+                // Check if it's last
+                if i + 1 != len {
+                    emitter.emit_bin_expr_trailing(left)?;
+                }
+            }
+        }
+
+        emitter.emit_bin_expr_trailing(self)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Decorator {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "@");
+        emit!(self.expr);
+        emitter.wr.write_line()?;
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for CondExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        emit!(self.test);
+        formatting_space!(emitter);
+        punct!(emitter, "?");
+        formatting_space!(emitter);
+        emit!(self.cons);
+        formatting_space!(emitter);
+        punct!(emitter, ":");
+        formatting_space!(emitter);
+        emit!(self.alt);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for FnExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        emitter.wr.commit_pending_semi()?;
+
+        srcmap!(emitter, self, true);
+
+        if self.function.is_async {
+            keyword!(emitter, "async");
+            space!(emitter);
+            keyword!(emitter, "function");
+        } else {
+            keyword!(emitter, "function");
+        }
+
+        if self.function.is_generator {
+            punct!(emitter, "*");
+        }
+        if let Some(ref i) = self.ident {
+            space!(emitter);
+            emit!(i);
+        }
+
+        emitter.emit_fn_trailing(&self.function)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BlockStmtOrExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
+            BlockStmtOrExpr::BlockStmt(block) => {
+                emitter.emit_block_stmt_inner(block, true)?;
+            }
+            BlockStmtOrExpr::Expr(expr) => {
+                emitter.wr.increase_indent()?;
+                emit!(expr);
+                emitter.wr.decrease_indent()?;
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ThisExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        keyword!(emitter, self.span, "this");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Tpl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        debug_assert!(self.quasis.len() == self.exprs.len() + 1);
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "`");
+
+        for i in 0..(self.quasis.len() + self.exprs.len()) {
+            if i % 2 == 0 {
+                emit!(self.quasis[i / 2]);
+            } else {
+                punct!(emitter, "${");
+                emit!(self.exprs[i / 2]);
+                punct!(emitter, "}");
+            }
+        }
+
+        punct!(emitter, "`");
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TplElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
+        if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
+            let v = get_template_element_from_raw(
+                &raw,
+                emitter.cfg.ascii_only,
+                emitter.cfg.reduce_escaped_newline,
+            );
+            let span = self.span();
+
+            let mut last_offset_gen = 0;
+            let mut last_offset_origin = 0;
+            for ((offset_gen, _), mat) in v
+                .match_indices('\n')
+                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
+            {
+                // If the string starts with a newline char, then adding a mark is redundant.
+                // This catches both "no newlines" and "newline after several chars".
+                if offset_gen != 0 {
+                    emitter
+                        .wr
+                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                }
+
+                emitter
+                    .wr
+                    .write_str_lit(DUMMY_SP, &v[last_offset_gen..=offset_gen])?;
+                last_offset_gen = offset_gen + 1;
+                last_offset_origin = mat.end();
+            }
+            emitter
+                .wr
+                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+            emitter.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
+            emitter.wr.add_srcmap(span.hi)?;
+        } else {
+            emitter.wr.write_str_lit(self.span(), &raw)?;
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TaggedTpl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if let Expr::New(new) = &*self.tag {
+            emitter.emit_new(new, false)?;
+        } else {
+            emit!(self.tag);
+        }
+
+        emit!(self.type_params);
+        emitter.emit_template_for_tagged_template(&self.tpl)?;
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for UnaryExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        let need_formatting_space = match self.op {
+            op!("typeof") | op!("void") | op!("delete") => {
+                keyword!(emitter, self.op.as_str());
+
+                true
+            }
+            op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~") => {
+                punct!(emitter, self.op.as_str());
+                false
+            }
+        };
+
+        if should_emit_whitespace_before_operand(self) {
+            space!(emitter);
+        } else if need_formatting_space {
+            formatting_space!(emitter);
+        }
+
+        emit!(self.arg);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for UpdateExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if self.prefix {
+            operator!(emitter, self.op.as_str());
+            //TODO: Check if we should use should_emit_whitespace_before_operand
+            emit!(self.arg);
+        } else {
+            emit!(self.arg);
+            operator!(emitter, self.op.as_str());
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for YieldExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "yield");
+        if self.delegate {
+            operator!(emitter, "*");
+        }
+
+        if let Some(ref arg) = self.arg {
+            let need_paren = self
+                .arg
+                .as_deref()
+                .map(|expr| emitter.has_leading_comment(expr))
+                .unwrap_or(false);
+            if need_paren {
+                punct!(emitter, "(")
+            } else if !self.delegate && arg.starts_with_alpha_num() {
+                space!(emitter)
+            } else {
+                formatting_space!(emitter)
+            }
+
+            emit!(self.arg);
+            if need_paren {
+                punct!(emitter, ")")
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ExprOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        if let Some(span) = self.spread {
+            emitter.emit_leading_comments_of_span(span, false)?;
+
+            punct!(emitter, "...");
+        }
+
+        emit!(self.expr);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for AwaitExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        keyword!(emitter, "await");
+        space!(emitter);
+
+        emit!(self.arg);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ArrayLit {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "[");
+        let mut format = ListFormat::ArrayLiteralExpressionElements;
+        if let Some(None) = self.elems.last() {
+            format |= ListFormat::ForceTrailingComma;
+        }
+
+        emitter.emit_list(self.span(), Some(&self.elems), format)?;
+        punct!(emitter, "]");
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for ParenExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "(");
+        emit!(self.expr);
+
+        srcmap!(emitter, self, false, true);
+        punct!(emitter, ")");
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for PrivateName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        punct!(emitter, "#");
+        emitter.emit_ident_like(self.span, &self.name, false)?;
+
+        srcmap!(emitter, self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BindingIdent {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
+
+        if let Some(ty) = &self.type_ann {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(ty);
+        }
+
+        // Call emitList directly since it could be an array of
+        // TypeParameterDeclarations _or_ type arguments
+
+        // emitList(node, node.typeArguments, ListFormat::TypeParameters);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Ident {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for IdentName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_ident_like(self.span, &self.sym, false)?;
+
+        Ok(())
+    }
 }

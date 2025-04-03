@@ -1,21 +1,15 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::Spanned;
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
-use crate::{
-    text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
-};
+use crate::{util::StartsWithAlphaNum, ListFormat};
 
-impl<W, S: SourceMapper> Emitter<'_, W, S>
-where
-    W: WriteJs,
-    S: SourceMapperExt,
-{
-    #[emitter]
-    pub(crate) fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ModuleDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match *node {
+        match self {
             ModuleDecl::Import(ref d) => emit!(d),
             ModuleDecl::ExportDecl(ref d) => emit!(d),
             ModuleDecl::ExportNamed(ref d) => emit!(d),
@@ -27,117 +21,133 @@ where
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
 
-        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+        emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
-        if !self.cfg.minify {
-            self.wr.write_line()?;
+        if !emitter.cfg.minify {
+            emitter.wr.write_line()?;
         }
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_export_decl(&mut self, n: &ExportDecl) -> Result {
-        srcmap!(n, true);
+#[node_impl]
+impl MacroNode for ExportDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
 
-        match &n.decl {
+        match &self.decl {
             Decl::Class(decl) => {
                 for dec in &decl.class.decorators {
                     emit!(dec);
                 }
 
-                keyword!("export");
+                keyword!(emitter, "export");
 
-                space!();
-                self.emit_class_decl_inner(decl, true)?;
+                space!(emitter);
+                emitter.emit_class_decl_inner(decl, true)?;
             }
             _ => {
-                keyword!("export");
+                keyword!(emitter, "export");
 
-                space!();
-                emit!(n.decl);
+                space!(emitter);
+                emit!(self.decl);
             }
         }
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_export_default_expr(&mut self, n: &ExportDefaultExpr) -> Result {
-        srcmap!(n, true);
+#[node_impl]
+impl MacroNode for ExportDefaultExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
 
-        keyword!("export");
+        keyword!(emitter, "export");
 
-        space!();
-        keyword!("default");
+        space!(emitter);
+        keyword!(emitter, "default");
         {
-            let starts_with_alpha_num = n.expr.starts_with_alpha_num();
+            let starts_with_alpha_num = self.expr.starts_with_alpha_num();
             if starts_with_alpha_num {
-                space!();
+                space!(emitter);
             } else {
-                formatting_space!();
+                formatting_space!(emitter);
             }
-            emit!(n.expr);
+            emit!(self.expr);
         }
-        semi!();
+        semi!(emitter);
 
-        srcmap!(n, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_export_default_decl(&mut self, n: &ExportDefaultDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for ExportDefaultDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("export");
+        keyword!(emitter, "export");
 
-        space!();
-        keyword!("default");
-        space!();
-        match n.decl {
+        space!(emitter);
+        keyword!(emitter, "default");
+        space!(emitter);
+        match self.decl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
         }
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_import(&mut self, n: &ImportDecl) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
+#[node_impl]
+impl MacroNode for ImportDecl {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(n, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("import");
+        keyword!(emitter, "import");
 
-        if n.type_only {
-            space!();
-            keyword!("type");
+        if self.type_only {
+            space!(emitter);
+            keyword!(emitter, "type");
         }
 
-        match n.phase {
+        match self.phase {
             ImportPhase::Evaluation => {}
             ImportPhase::Source => {
-                space!();
-                keyword!("source");
+                space!(emitter);
+                keyword!(emitter, "source");
             }
             ImportPhase::Defer => {
-                space!();
-                keyword!("defer");
+                space!(emitter);
+                keyword!(emitter, "defer");
             }
         }
 
-        let starts_with_ident = !n.specifiers.is_empty()
-            && match &n.specifiers[0] {
+        let starts_with_ident = !self.specifiers.is_empty()
+            && match &self.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
                 _ => false,
             };
         if starts_with_ident {
-            space!();
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
         let mut specifiers = Vec::new();
         let mut emitted_default = false;
         let mut emitted_ns = false;
-        for specifier in &n.specifiers {
+        for specifier in &self.specifiers {
             match specifier {
                 ImportSpecifier::Named(ref s) => {
                     specifiers.push(s);
@@ -148,17 +158,17 @@ where
                 }
                 ImportSpecifier::Namespace(ref ns) => {
                     if emitted_default {
-                        punct!(",");
-                        formatting_space!();
+                        punct!(emitter, ",");
+                        formatting_space!(emitter);
                     }
 
                     emitted_ns = true;
 
-                    assert!(n.specifiers.len() <= 2);
-                    punct!("*");
-                    formatting_space!();
-                    keyword!("as");
-                    space!();
+                    assert!(self.specifiers.len() <= 2);
+                    punct!(emitter, "*");
+                    formatting_space!(emitter);
+                    keyword!(emitter, "as");
+                    space!(emitter);
                     emit!(ns.local);
                 }
             }
@@ -166,125 +176,142 @@ where
 
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
-                space!();
-                keyword!("from");
-                formatting_space!();
+                space!(emitter);
+                keyword!(emitter, "from");
+                formatting_space!(emitter);
             }
         } else {
             if emitted_default {
-                punct!(",");
-                formatting_space!();
+                punct!(emitter, ",");
+                formatting_space!(emitter);
             }
 
-            punct!("{");
-            self.emit_list(
-                n.span(),
+            punct!(emitter, "{");
+            emitter.emit_list(
+                self.span(),
                 Some(&specifiers),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
-            punct!("}");
-            formatting_space!();
+            punct!(emitter, "}");
+            formatting_space!(emitter);
 
-            keyword!("from");
-            formatting_space!();
+            keyword!(emitter, "from");
+            formatting_space!(emitter);
         }
 
-        emit!(n.src);
+        emit!(self.src);
 
-        if let Some(with) = &n.with {
-            formatting_space!();
-            if self.cfg.emit_assert_for_import_attributes {
-                keyword!("assert");
+        if let Some(with) = &self.with {
+            formatting_space!(emitter);
+            if emitter.cfg.emit_assert_for_import_attributes {
+                keyword!(emitter, "assert");
             } else {
-                keyword!("with")
+                keyword!(emitter, "with")
             };
-            formatting_space!();
+            formatting_space!(emitter);
             emit!(with);
         }
 
-        semi!();
+        semi!(emitter);
 
-        srcmap!(n, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
-        srcmap!(node, true);
+#[node_impl]
+impl MacroNode for ImportNamedSpecifier {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
 
-        if node.is_type_only {
-            keyword!("type");
-            space!();
+        if self.is_type_only {
+            keyword!(emitter, "type");
+            space!(emitter);
         }
 
-        if let Some(ref imported) = node.imported {
+        if let Some(ref imported) = self.imported {
             emit!(imported);
-            space!();
-            keyword!("as");
-            space!();
+            space!(emitter);
+            keyword!(emitter, "as");
+            space!(emitter);
         }
 
-        emit!(node.local);
+        emit!(self.local);
 
-        srcmap!(node, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_export_specifier(&mut self, node: &ExportSpecifier) -> Result {
-        match node {
+#[node_impl]
+impl MacroNode for ExportSpecifier {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match self {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
             ExportSpecifier::Named(ref node) => emit!(node),
         }
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_namespace_export_specifier(
-        &mut self,
-        node: &ExportNamespaceSpecifier,
-    ) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ExportNamespaceSpecifier {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, self, true);
 
-        punct!("*");
-        formatting_space!();
-        keyword!("as");
-        space!();
-        emit!(node.name);
+        punct!(emitter, "*");
+        formatting_space!(emitter);
+        keyword!(emitter, "as");
+        space!(emitter);
+        emit!(self.name);
 
-        srcmap!(node, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_named_export_specifier(&mut self, node: &ExportNamedSpecifier) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ExportNamedSpecifier {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, self, true);
 
-        if node.is_type_only {
-            keyword!("type");
-            space!();
+        if self.is_type_only {
+            keyword!(emitter, "type");
+            space!(emitter);
         }
 
-        if let Some(exported) = &node.exported {
-            emit!(node.orig);
-            space!();
-            keyword!("as");
-            space!();
+        if let Some(exported) = &self.exported {
+            emit!(self.orig);
+            space!(emitter);
+            keyword!(emitter, "as");
+            space!(emitter);
             emit!(exported);
         } else {
-            emit!(node.orig);
+            emit!(self.orig);
         }
-        srcmap!(node, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_named_export(&mut self, node: &NamedExport) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for NamedExport {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, self, true);
 
         struct Specifiers<'a> {
             has_namespace_spec: bool,
@@ -297,7 +324,7 @@ where
             namespace_spec,
             has_named_specs,
             named_specs,
-        } = node.specifiers.iter().fold(
+        } = self.specifiers.iter().fold(
             Specifiers {
                 has_namespace_spec: false,
                 namespace_spec: None,
@@ -321,92 +348,98 @@ where
             },
         );
 
-        keyword!("export");
+        keyword!(emitter, "export");
 
-        if node.type_only {
-            space!();
-            keyword!("type");
+        if self.type_only {
+            space!(emitter);
+            keyword!(emitter, "type");
         }
-        formatting_space!();
+        formatting_space!(emitter);
 
         if let Some(spec) = namespace_spec {
             emit!(spec);
             if has_named_specs {
-                punct!(",");
-                formatting_space!();
+                punct!(emitter, ",");
+                formatting_space!(emitter);
             }
         }
         if has_named_specs || !has_namespace_spec {
-            punct!("{");
-            self.emit_list(
-                node.span,
+            punct!(emitter, "{");
+            emitter.emit_list(
+                self.span,
                 Some(&named_specs),
                 ListFormat::NamedImportsOrExportsElements,
             )?;
-            punct!("}");
+            punct!(emitter, "}");
         }
 
-        if let Some(ref src) = node.src {
+        if let Some(ref src) = self.src {
             if has_named_specs || !has_namespace_spec {
-                formatting_space!();
+                formatting_space!(emitter);
             } else if has_namespace_spec {
-                space!();
+                space!(emitter);
             }
-            keyword!("from");
-            formatting_space!();
+            keyword!(emitter, "from");
+            formatting_space!(emitter);
             emit!(src);
 
-            if let Some(with) = &node.with {
-                formatting_space!();
-                if self.cfg.emit_assert_for_import_attributes {
-                    keyword!("assert");
+            if let Some(with) = &self.with {
+                formatting_space!(emitter);
+                if emitter.cfg.emit_assert_for_import_attributes {
+                    keyword!(emitter, "assert");
                 } else {
-                    keyword!("with")
+                    keyword!(emitter, "with")
                 };
-                formatting_space!();
+                formatting_space!(emitter);
                 emit!(with);
             }
         }
-        semi!();
+        semi!(emitter);
 
-        srcmap!(node, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
+}
 
-    #[emitter]
-    pub(crate) fn emit_export_all(&mut self, node: &ExportAll) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+#[node_impl]
+impl MacroNode for ExportAll {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        srcmap!(node, true);
+        srcmap!(emitter, self, true);
 
-        keyword!("export");
+        keyword!(emitter, "export");
 
-        if node.type_only {
-            space!();
-            keyword!("type");
-            space!();
+        if self.type_only {
+            space!(emitter);
+            keyword!(emitter, "type");
+            space!(emitter);
         } else {
-            formatting_space!();
+            formatting_space!(emitter);
         }
 
-        punct!("*");
-        formatting_space!();
-        keyword!("from");
-        formatting_space!();
-        emit!(node.src);
+        punct!(emitter, "*");
+        formatting_space!(emitter);
+        keyword!(emitter, "from");
+        formatting_space!(emitter);
+        emit!(self.src);
 
-        if let Some(with) = &node.with {
-            formatting_space!();
-            if self.cfg.emit_assert_for_import_attributes {
-                keyword!("assert");
+        if let Some(with) = &self.with {
+            formatting_space!(emitter);
+            if emitter.cfg.emit_assert_for_import_attributes {
+                keyword!(emitter, "assert");
             } else {
-                keyword!("with")
+                keyword!(emitter, "with")
             };
-            formatting_space!();
+            formatting_space!(emitter);
             emit!(with);
         }
 
-        semi!();
+        semi!(emitter);
 
-        srcmap!(node, false);
+        srcmap!(emitter, self, false);
+
+        Ok(())
     }
 }

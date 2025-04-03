@@ -4,9 +4,165 @@ use ascii::AsciiChar;
 use compact_str::CompactString;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
-use crate::{text_writer::WriteJs, CowStr, Emitter, Result, SourceMapperExt};
+use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
+
+#[node_impl]
+impl MacroNode for Lit {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        match self {
+            Lit::Bool(Bool { value, .. }) => {
+                if *value {
+                    keyword!(emitter, "true")
+                } else {
+                    keyword!(emitter, "false")
+                }
+            }
+            Lit::Null(Null { .. }) => keyword!(emitter, "null"),
+            Lit::Str(ref s) => emit!(s),
+            Lit::BigInt(ref s) => emit!(s),
+            Lit::Num(ref n) => emit!(n),
+            Lit::Regex(ref n) => {
+                punct!(emitter, "/");
+                emitter.wr.write_str(&n.exp)?;
+                punct!(emitter, "/");
+                emitter.wr.write_str(&n.flags)?;
+            }
+            Lit::JSXText(ref n) => emit!(n),
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Str {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.wr.commit_pending_semi()?;
+
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
+
+        if &*self.value == "use strict"
+            && self.raw.is_some()
+            && self.raw.as_ref().unwrap().contains('\\')
+            && (!emitter.cfg.inline_script || !self.raw.as_ref().unwrap().contains("script"))
+        {
+            emitter
+                .wr
+                .write_str_lit(DUMMY_SP, self.raw.as_ref().unwrap())?;
+
+            srcmap!(emitter, self, false);
+
+            return Ok(());
+        }
+
+        let target = emitter.cfg.target;
+
+        if !emitter.cfg.minify {
+            if let Some(raw) = &self.raw {
+                if (!emitter.cfg.ascii_only || raw.is_ascii())
+                    && (!emitter.cfg.inline_script
+                        || !self.raw.as_ref().unwrap().contains("script"))
+                {
+                    emitter.wr.write_str_lit(DUMMY_SP, raw)?;
+                    return Ok(());
+                }
+            }
+        }
+
+        let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
+
+        if emitter.cfg.inline_script {
+            value = CowStr::Owned(
+                replace_close_inline_script(&value)
+                    .replace("\x3c!--", "\\x3c!--")
+                    .replace("--\x3e", "--\\x3e")
+                    .into(),
+            );
+        }
+
+        let quote_str = [quote_char.as_byte()];
+        let quote_str = unsafe {
+            // Safety: quote_char is valid ascii
+            str::from_utf8_unchecked(&quote_str)
+        };
+
+        emitter.wr.write_str(quote_str)?;
+        emitter.wr.write_str_lit(DUMMY_SP, &value)?;
+        emitter.wr.write_str(quote_str)?;
+
+        // srcmap!(emitter,self, false);
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Number {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_num_lit_internal(self, false)?;
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for BigInt {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        if emitter.cfg.minify {
+            let value = if *self.value >= 10000000000000000_i64.into() {
+                format!("0x{}", self.value.to_str_radix(16))
+            } else if *self.value <= (-10000000000000000_i64).into() {
+                format!("-0x{}", (-*self.value.clone()).to_str_radix(16))
+            } else {
+                self.value.to_string()
+            };
+            emitter.wr.write_lit(self.span, &value)?;
+            emitter.wr.write_lit(self.span, "n")?;
+        } else {
+            match &self.raw {
+                Some(raw) => {
+                    if raw.len() > 2 && emitter.cfg.target < EsVersion::Es2021 && raw.contains('_')
+                    {
+                        emitter.wr.write_str_lit(self.span, &raw.replace('_', ""))?;
+                    } else {
+                        emitter.wr.write_str_lit(self.span, raw)?;
+                    }
+                }
+                _ => {
+                    emitter.wr.write_lit(self.span, &self.value.to_string())?;
+                    emitter.wr.write_lit(self.span, "n")?;
+                }
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for Bool {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        if self.value {
+            keyword!(emitter, self.span, "true")
+        } else {
+            keyword!(emitter, self.span, "false")
+        }
+
+        Ok(())
+    }
+}
 
 pub fn replace_close_inline_script(raw: &str) -> CowStr {
     let chars = raw.as_bytes();
@@ -45,97 +201,6 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
-    pub fn emit_lit(&mut self, node: &Lit) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        match *node {
-            Lit::Bool(Bool { value, .. }) => {
-                if value {
-                    keyword!("true")
-                } else {
-                    keyword!("false")
-                }
-            }
-            Lit::Null(Null { .. }) => keyword!("null"),
-            Lit::Str(ref s) => emit!(s),
-            Lit::BigInt(ref s) => emit!(s),
-            Lit::Num(ref n) => emit!(n),
-            Lit::Regex(ref n) => {
-                punct!("/");
-                self.wr.write_str(&n.exp)?;
-                punct!("/");
-                self.wr.write_str(&n.flags)?;
-            }
-            Lit::JSXText(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    pub fn emit_str_lit(&mut self, node: &Str) -> Result {
-        self.wr.commit_pending_semi()?;
-
-        self.emit_leading_comments_of_span(node.span(), false)?;
-
-        srcmap!(node, true);
-
-        if &*node.value == "use strict"
-            && node.raw.is_some()
-            && node.raw.as_ref().unwrap().contains('\\')
-            && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
-        {
-            self.wr
-                .write_str_lit(DUMMY_SP, node.raw.as_ref().unwrap())?;
-
-            srcmap!(node, false);
-
-            return Ok(());
-        }
-
-        let target = self.cfg.target;
-
-        if !self.cfg.minify {
-            if let Some(raw) = &node.raw {
-                if (!self.cfg.ascii_only || raw.is_ascii())
-                    && (!self.cfg.inline_script || !node.raw.as_ref().unwrap().contains("script"))
-                {
-                    self.wr.write_str_lit(DUMMY_SP, raw)?;
-                    return Ok(());
-                }
-            }
-        }
-
-        let (quote_char, mut value) = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
-
-        if self.cfg.inline_script {
-            value = CowStr::Owned(
-                replace_close_inline_script(&value)
-                    .replace("\x3c!--", "\\x3c!--")
-                    .replace("--\x3e", "--\\x3e")
-                    .into(),
-            );
-        }
-
-        let quote_str = [quote_char.as_byte()];
-        let quote_str = unsafe {
-            // Safety: quote_char is valid ascii
-            str::from_utf8_unchecked(&quote_str)
-        };
-
-        self.wr.write_str(quote_str)?;
-        self.wr.write_str_lit(DUMMY_SP, &value)?;
-        self.wr.write_str(quote_str)?;
-
-        // srcmap!(node, false);
-    }
-
-    #[emitter]
-    pub fn emit_num_lit(&mut self, num: &Number) -> Result {
-        self.emit_num_lit_internal(num, false)?;
-    }
-
     /// `1.toString` is an invalid property access,
     /// should emit a dot after the literal if return true
     pub fn emit_num_lit_internal(
@@ -236,48 +301,6 @@ where
 
                 false
             }))
-    }
-
-    #[emitter]
-    pub fn emit_big_lit(&mut self, v: &BigInt) -> Result {
-        self.emit_leading_comments_of_span(v.span, false)?;
-
-        if self.cfg.minify {
-            let value = if *v.value >= 10000000000000000_i64.into() {
-                format!("0x{}", v.value.to_str_radix(16))
-            } else if *v.value <= (-10000000000000000_i64).into() {
-                format!("-0x{}", (-*v.value.clone()).to_str_radix(16))
-            } else {
-                v.value.to_string()
-            };
-            self.wr.write_lit(v.span, &value)?;
-            self.wr.write_lit(v.span, "n")?;
-        } else {
-            match &v.raw {
-                Some(raw) => {
-                    if raw.len() > 2 && self.cfg.target < EsVersion::Es2021 && raw.contains('_') {
-                        self.wr.write_str_lit(v.span, &raw.replace('_', ""))?;
-                    } else {
-                        self.wr.write_str_lit(v.span, raw)?;
-                    }
-                }
-                _ => {
-                    self.wr.write_lit(v.span, &v.value.to_string())?;
-                    self.wr.write_lit(v.span, "n")?;
-                }
-            }
-        }
-    }
-
-    #[emitter]
-    pub fn emit_bool(&mut self, n: &Bool) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        if n.value {
-            keyword!(n.span, "true")
-        } else {
-            keyword!(n.span, "false")
-        }
     }
 }
 

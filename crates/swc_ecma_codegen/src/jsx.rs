@@ -1,8 +1,8 @@
 use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_codegen_macros::emitter;
+use swc_ecma_codegen_macros::node_impl;
 
-use super::{Emitter, Result};
+use super::Emitter;
 use crate::text_writer::WriteJs;
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -10,185 +10,246 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
-    #[emitter]
-    fn emit_jsx_element(&mut self, node: &JSXElement) -> Result {
-        emit!(node.opening);
-        self.emit_list(
-            node.span(),
-            Some(&node.children),
+}
+
+#[node_impl]
+impl MacroNode for JSXElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emit!(self.opening);
+        emitter.emit_list(
+            self.span(),
+            Some(&self.children),
             ListFormat::JsxElementOrFragmentChildren,
         )?;
-        if let Some(ref closing) = node.closing {
+        if let Some(ref closing) = self.closing {
             emit!(closing)
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_opening_element(&mut self, node: &JSXOpeningElement) -> Result {
-        punct!("<");
-        emit!(node.name);
+#[node_impl]
+impl MacroNode for JSXOpeningElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "<");
+        emit!(self.name);
 
-        if let Some(type_args) = &node.type_args {
+        if let Some(type_args) = &self.type_args {
             emit!(type_args);
         }
 
-        if !node.attrs.is_empty() {
-            space!();
+        if !self.attrs.is_empty() {
+            space!(emitter);
 
-            self.emit_list(
-                node.span(),
-                Some(&node.attrs),
+            emitter.emit_list(
+                self.span(),
+                Some(&self.attrs),
                 ListFormat::JsxElementAttributes,
             )?;
         }
 
-        if node.self_closing {
-            punct!("/");
+        if self.self_closing {
+            punct!(emitter, "/");
         }
-        punct!(">");
+        punct!(emitter, ">");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_element_name(&mut self, node: &JSXElementName) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXElementName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXElementName::Ident(ref n) => emit!(n),
             JSXElementName::JSXMemberExpr(ref n) => emit!(n),
             JSXElementName::JSXNamespacedName(ref n) => emit!(n),
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_attr(&mut self, node: &JSXAttr) -> Result {
-        emit!(node.name);
+#[node_impl]
+impl MacroNode for JSXAttr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emit!(self.name);
 
-        if let Some(ref value) = node.value {
-            punct!("=");
-
+        if let Some(ref value) = self.value {
+            punct!(emitter, "=");
             emit!(value);
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_attr_value(&mut self, node: &JSXAttrValue) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXAttrValue {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXAttrValue::Lit(ref n) => emit!(n),
             JSXAttrValue::JSXExprContainer(ref n) => emit!(n),
             JSXAttrValue::JSXElement(ref n) => emit!(n),
             JSXAttrValue::JSXFragment(ref n) => emit!(n),
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_attr_name(&mut self, node: &JSXAttrName) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXAttrName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXAttrName::Ident(ref n) => emit!(n),
             JSXAttrName::JSXNamespacedName(ref n) => emit!(n),
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_attr_or_spread(&mut self, node: &JSXAttrOrSpread) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXAttrOrSpread {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXAttrOrSpread::JSXAttr(ref n) => emit!(n),
             JSXAttrOrSpread::SpreadElement(ref n) => {
-                punct!("{");
+                punct!(emitter, "{");
                 emit!(n);
-                punct!("}");
+                punct!(emitter, "}");
             }
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_element_child(&mut self, node: &JSXElementChild) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXElementChild {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXElementChild::JSXElement(ref n) => emit!(n),
             JSXElementChild::JSXExprContainer(ref n) => emit!(n),
             JSXElementChild::JSXFragment(ref n) => emit!(n),
             JSXElementChild::JSXSpreadChild(ref n) => emit!(n),
             JSXElementChild::JSXText(ref n) => emit!(n),
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_spread_child(&mut self, node: &JSXSpreadChild) -> Result {
-        punct!("{");
-        punct!("...");
-        emit!(node.expr);
-        punct!("}");
+#[node_impl]
+impl MacroNode for JSXSpreadChild {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "{");
+        punct!(emitter, "...");
+        emit!(self.expr);
+        punct!(emitter, "}");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_expr_container(&mut self, node: &JSXExprContainer) -> Result {
-        punct!("{");
-        emit!(node.expr);
-        punct!("}");
+#[node_impl]
+impl MacroNode for JSXExprContainer {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "{");
+        emit!(self.expr);
+        punct!(emitter, "}");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_expr(&mut self, node: &JSXExpr) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXExpr::Expr(ref n) => emit!(n),
             JSXExpr::JSXEmptyExpr(ref n) => emit!(n),
         }
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_closing_element(&mut self, node: &JSXClosingElement) -> Result {
-        punct!("</");
-        emit!(node.name);
-        punct!(">");
+#[node_impl]
+impl MacroNode for JSXClosingElement {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "</");
+        emit!(self.name);
+        punct!(emitter, ">");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_fragment(&mut self, node: &JSXFragment) -> Result {
-        emit!(node.opening);
+#[node_impl]
+impl MacroNode for JSXFragment {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emit!(self.opening);
 
-        self.emit_list(
-            node.span(),
-            Some(&node.children),
+        emitter.emit_list(
+            self.span(),
+            Some(&self.children),
             ListFormat::JsxElementOrFragmentChildren,
         )?;
 
-        emit!(node.closing);
+        emit!(self.closing);
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_opening_fragment(&mut self, _: &JSXOpeningFragment) -> Result {
-        punct!("<>")
+#[node_impl]
+impl MacroNode for JSXOpeningFragment {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "<>");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_closing_fragment(&mut self, _: &JSXClosingFragment) -> Result {
-        punct!("</>")
+#[node_impl]
+impl MacroNode for JSXClosingFragment {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        punct!(emitter, "</>");
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_namespaced_name(&mut self, node: &JSXNamespacedName) -> Result {
-        emit!(node.ns);
-        punct!(":");
-        emit!(node.name);
+#[node_impl]
+impl MacroNode for JSXNamespacedName {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emit!(self.ns);
+        punct!(emitter, ":");
+        emit!(self.name);
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_empty_expr(&mut self, _: &JSXEmptyExpr) -> Result {}
-
-    #[emitter]
-    fn emit_jsx_text(&mut self, node: &JSXText) -> Result {
-        self.emit_atom(node.span(), &node.raw)?;
+#[node_impl]
+impl MacroNode for JSXEmptyExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_member_expr(&mut self, node: &JSXMemberExpr) -> Result {
-        emit!(node.obj);
-        punct!(".");
-        emit!(node.prop);
+#[node_impl]
+impl MacroNode for JSXText {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_atom(self.span(), &self.raw)?;
+        Ok(())
     }
+}
 
-    #[emitter]
-    fn emit_jsx_object(&mut self, node: &JSXObject) -> Result {
-        match *node {
+#[node_impl]
+impl MacroNode for JSXMemberExpr {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emit!(self.obj);
+        punct!(emitter, ".");
+        emit!(self.prop);
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for JSXObject {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        match *self {
             JSXObject::Ident(ref n) => emit!(n),
             JSXObject::JSXMemberExpr(ref n) => emit!(n),
         }
+        Ok(())
     }
 }
