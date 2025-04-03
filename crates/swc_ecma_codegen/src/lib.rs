@@ -135,6 +135,18 @@ where
     W: WriteJs,
     S: SourceMapperExt,
 {
+    pub fn emit_program(&mut self, node: &Program) -> Result {
+        node.emit_with(self)
+    }
+
+    pub fn emit_module(&mut self, node: &Module) -> Result {
+        node.emit_with(self)
+    }
+
+    pub fn emit_script(&mut self, node: &Script) -> Result {
+        node.emit_with(self)
+    }
+
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
         self.wr.commit_pending_semi()?;
 
