@@ -25,7 +25,7 @@ pub struct Config {
 
 /// Performs simplify-expr, inlining, remove-dead-branch and dce until nothing
 /// changes.
-pub fn simplifier(unresolved_mark: Mark, c: Config) -> impl CompilerPass + Pass + Repeated {
+pub fn simplifier(unresolved_mark: Mark, c: Config) -> impl Pass + Repeated {
     Repeat::new((
         expr_simplifier(unresolved_mark, c.expr),
         dead_branch_remover(unresolved_mark),
