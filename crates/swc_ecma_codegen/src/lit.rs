@@ -67,7 +67,17 @@ impl MacroNode for Str {
 
         if !emitter.cfg.minify {
             if let Some(raw) = &self.raw {
-                if (!emitter.cfg.ascii_only || raw.is_ascii())
+                let es5_safe = match emitter.cfg.target {
+                    EsVersion::Es3 | EsVersion::Es5 => {
+                        // Block raw strings containing ES6+ Unicode escapes (\u{...}) for ES3/ES5
+                        // targets
+                        !raw.contains("\\u{")
+                    }
+                    _ => true,
+                };
+
+                if es5_safe
+                    && (!emitter.cfg.ascii_only || raw.is_ascii())
                     && (!emitter.cfg.inline_script
                         || !self.raw.as_ref().unwrap().contains("script"))
                 {
