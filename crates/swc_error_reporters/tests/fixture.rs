@@ -1,22 +1,12 @@
-#![deny(warnings)]
+use std::{fs, path::Path};
 
-use std::{fmt, fmt::Write, fs, path::Path};
-
+use anyhow::bail;
 use swc_common::{
     errors::{Handler, Level},
-    sync::{Lock, Lrc},
+    sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
-use swc_error_reporters::PrettyEmitter;
-
-#[derive(Clone, Default)]
-struct Writer(Lrc<Lock<String>>);
-
-impl Write for Writer {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        self.0.lock().write_str(s)
-    }
-}
+use swc_error_reporters::handler::try_with_handler;
 
 fn output<F>(file: &str, op: F)
 where
@@ -24,21 +14,15 @@ where
 {
     let cm = Lrc::new(SourceMap::default());
 
-    let wr = Writer::default();
-
-    let emitter = PrettyEmitter::new(
-        cm.clone(),
-        Box::new(wr.clone()),
-        Default::default(),
-        Default::default(),
-    );
-    let handler = Handler::with_emitter(true, false, Box::new(emitter));
-
-    op(cm, &handler);
+    let result = try_with_handler(cm.clone(), Default::default(), |handler| -> Result<(), _> {
+        op(cm.clone(), handler);
+        bail!("should fail");
+    })
+    .expect_err("should fail");
 
     let output = Path::new("tests").join("fixture").join(file);
 
-    let s = wr.0.lock().as_str().to_string();
+    let s = result.to_string();
     println!("{}", s);
     fs::write(output, &s).expect("failed to write");
 }
