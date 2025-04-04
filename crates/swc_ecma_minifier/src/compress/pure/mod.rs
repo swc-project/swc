@@ -209,6 +209,23 @@ impl VisitMut for Pure<'_> {
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
+
+        if matches!(
+            e.op,
+            op!("-=")
+                | op!("*=")
+                | op!("/=")
+                | op!("%=")
+                | op!("**=")
+                | op!("&=")
+                | op!("|=")
+                | op!("^=")
+                | op!("<<=")
+                | op!(">>=")
+                | op!(">>>=")
+        ) {
+            self.optimize_expr_in_num_ctx(&mut e.right);
+        }
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
@@ -219,6 +236,24 @@ impl VisitMut for Pure<'_> {
 
         if e.op == op!(bin, "+") {
             self.concat_tpl(&mut e.left, &mut e.right);
+        }
+
+        if matches!(
+            e.op,
+            op!(bin, "-")
+                | op!("*")
+                | op!("/")
+                | op!("%")
+                | op!("**")
+                | op!("&")
+                | op!("|")
+                | op!("^")
+                | op!("<<")
+                | op!(">>")
+                | op!(">>>")
+        ) {
+            self.optimize_expr_in_num_ctx(&mut e.left);
+            self.optimize_expr_in_num_ctx(&mut e.right);
         }
     }
 
@@ -1256,7 +1291,7 @@ impl VisitMut for Pure<'_> {
                 self.optimize_expr_in_bool_ctx(&mut e.arg, false);
             }
 
-            op!(unary, "+") | op!(unary, "-") => {
+            op!(unary, "+") | op!(unary, "-") | op!("~") => {
                 self.optimize_expr_in_num_ctx(&mut e.arg);
             }
             _ => {}

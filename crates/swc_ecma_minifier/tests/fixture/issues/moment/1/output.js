@@ -1106,7 +1106,7 @@ function(global, factory) {
     }
     function positiveMomentsDifference(base, other) {
         var res = {};
-        return res.months = other.month() - base.month() + (other.year() - base.year()) * 12, base.clone().add(res.months, "M").isAfter(other) && --res.months, res.milliseconds = +other - +base.clone().add(res.months, "M"), res;
+        return res.months = other.month() - base.month() + (other.year() - base.year()) * 12, base.clone().add(res.months, "M").isAfter(other) && --res.months, res.milliseconds = other - base.clone().add(res.months, "M"), res;
     }
     // TODO: remove 'name' arg after deprecation is removed
     function createAdder(direction, name) {

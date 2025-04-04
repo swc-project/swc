@@ -1510,7 +1510,7 @@ function(global, factory) {
         }, _proto.determinant = function() {
             var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
             //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-            return te[3] * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
+            return te[3] * (n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
         }, _proto.transpose = function() {
             var tmp, te = this.elements;
             return tmp = te[1], te[1] = te[4], te[4] = tmp, tmp = te[2], te[2] = te[8], te[8] = tmp, tmp = te[6], te[6] = te[9], te[9] = tmp, tmp = te[3], te[3] = te[12], te[12] = tmp, tmp = te[7], te[7] = te[13], te[13] = tmp, tmp = te[11], te[11] = te[14], te[14] = tmp, this;
@@ -6087,7 +6087,7 @@ function(global, factory) {
     }
     var nextVersion = 0;
     function shadowCastingLightsFirst(lightA, lightB) {
-        return +!!lightB.castShadow - +!!lightA.castShadow;
+        return !!lightB.castShadow - !!lightA.castShadow;
     }
     function WebGLLights(extensions, capabilities) {
         for(var lights, cache = new UniformsCache(), shadowCache = (lights = {}, {
@@ -11857,7 +11857,7 @@ function(global, factory) {
     }
     CatmullRomCurve3.prototype = Object.create(Curve.prototype), CatmullRomCurve3.prototype.constructor = CatmullRomCurve3, CatmullRomCurve3.prototype.isCatmullRomCurve3 = !0, CatmullRomCurve3.prototype.getPoint = function(t, optionalTarget) {
         void 0 === optionalTarget && (optionalTarget = new Vector3());
-        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - +!this.closed) * t, intPoint = Math.floor(p), weight = p - intPoint;
+        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - !this.closed) * t, intPoint = Math.floor(p), weight = p - intPoint;
         this.closed ? intPoint += intPoint > 0 ? 0 : (Math.floor(Math.abs(intPoint) / l) + 1) * l : 0 === weight && intPoint === l - 1 && (intPoint = l - 2, weight = 1), this.closed || intPoint > 0 ? p0 = points[(intPoint - 1) % l] : (// extrapolate first point
         tmp.subVectors(points[0], points[1]).add(points[0]), p0 = tmp);
         var p1 = points[intPoint % l], p2 = points[(intPoint + 1) % l];

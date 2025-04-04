@@ -12678,7 +12678,7 @@
                             if (0 !== r.cmpn(0)) {
                                 var s = k.invm(this.n).mul(r.mul(key.getPrivate()).iadd(msg));
                                 if (0 !== (s = s.umod(this.n)).cmpn(0)) {
-                                    var recoveryParam = +!!kp.getY().isOdd() | 2 * (0 !== kpX.cmp(r));
+                                    var recoveryParam = !!kp.getY().isOdd() | 2 * (0 !== kpX.cmp(r));
                                     return options.canonical && s.cmp(this.nh) > 0 && (s = this.n.sub(s), recoveryParam ^= 1), new Signature({
                                         r: r,
                                         s: s,
@@ -18117,7 +18117,7 @@
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */ function(key) {
                 var result = this.has(key) && delete this.__data__[key];
-                return this.size -= +!!result, result;
+                return this.size -= !!result, result;
             };
         /***/ },
         /***/ 7667: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -18398,7 +18398,7 @@
  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
  */ function(key) {
                 var result = getMapData(this, key).delete(key);
-                return this.size -= +!!result, result;
+                return this.size -= !!result, result;
             };
         /***/ },
         /***/ 6000: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
@@ -28114,7 +28114,7 @@ class Zip {
             exports.sleep = (ms)=>new Promise((resolve)=>setTimeout(resolve, ms)), exports.deepCopy = (input, useFastCopy = !1)=>useFastCopy ? (0, fast_copy_1.default)(input) : (0, cloneDeep_1.default)(input), exports.mapReplacer = (key, value)=>value instanceof Map ? {
                     dataType: 'Map',
                     value: Array.from(value.entries())
-                } : value, exports.mapReviver = (key, value)=>'object' == typeof value && null !== value && 'Map' === value.dataType ? new Map(value.value) : value, exports.asc = (a, b)=>a - b, exports.ascS = (a, b)=>+a - +b, exports.desc = (a, b)=>b - a, exports.descS = (a, b)=>+b - +a, exports.timeout = function(s) {
+                } : value, exports.mapReviver = (key, value)=>'object' == typeof value && null !== value && 'Map' === value.dataType ? new Map(value.value) : value, exports.asc = (a, b)=>a - b, exports.ascS = (a, b)=>a - b, exports.desc = (a, b)=>b - a, exports.descS = (a, b)=>b - a, exports.timeout = function(s) {
                 let timeoutId = null;
                 const timeoutPromise = new Promise((resolve, reject)=>{
                     timeoutId = setTimeout(()=>{

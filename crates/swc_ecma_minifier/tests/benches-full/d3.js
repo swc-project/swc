@@ -268,7 +268,7 @@ function(global, factory) {
             if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
             if (p >= 1) return +valueof(values[n - 1], n - 1, values);
             var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
-            return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
+            return value0 + (valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
         }
     }
     function maxIndex(values, valueof) {
@@ -4285,7 +4285,7 @@ function(global, factory) {
             var xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
             quads.push(new Quad(node[3], xm, ym, x2, y2), new Quad(node[2], x1, ym, xm, y2), new Quad(node[1], xm, y1, x2, ym), new Quad(node[0], x1, y1, xm, ym)), (i = (y >= ym) << 1 | x >= xm) && (q = quads[quads.length - 1], quads[quads.length - 1] = quads[quads.length - 1 - i], quads[quads.length - 1 - i] = q);
         } else {
-            var dx = x - +this._x.call(null, node.data), dy = y - +this._y.call(null, node.data), d2 = dx * dx + dy * dy;
+            var dx = x - this._x.call(null, node.data), dy = y - this._y.call(null, node.data), d2 = dx * dx + dy * dy;
             if (d2 < radius) {
                 var d = Math.sqrt(radius = d2);
                 x0 = x - d, y0 = y - d, x3 = x + d, y3 = y + d, data = node.data;
@@ -7719,7 +7719,7 @@ function(global, factory) {
         return +d;
     }
     function formatUnixTimestampSeconds(d) {
-        return Math.floor(+d / 1000);
+        return Math.floor(d / 1000);
     }
     function defaultLocale$1(definition) {
         return exports1.timeFormat = (locale$1 = formatLocale$1(definition)).format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
@@ -9581,7 +9581,7 @@ function(global, factory) {
     }, exports1.easeCubicInOut = cubicInOut, exports1.easeCubicOut = function(t) {
         return --t * t * t + 1;
     }, exports1.easeElastic = elasticOut, exports1.easeElasticIn = elasticIn, exports1.easeElasticInOut = elasticInOut, exports1.easeElasticOut = elasticOut, exports1.easeExp = expInOut, exports1.easeExpIn = function(t) {
-        return tpmt(1 - +t);
+        return tpmt(1 - t);
     }, exports1.easeExpInOut = expInOut, exports1.easeExpOut = function(t) {
         return 1 - tpmt(t);
     }, exports1.easeLinear = (t)=>+t, exports1.easePoly = polyInOut, exports1.easePolyIn = polyIn, exports1.easePolyInOut = polyInOut, exports1.easePolyOut = polyOut, exports1.easeQuad = quadInOut, exports1.easeQuadIn = function(t) {

@@ -467,7 +467,7 @@
                     });
                 };
                 var getModifierHash = function(e) {
-                    return 0 | +!!e.ctrlKey | 2 * !!e.altKey | 4 * !!e.shiftKey | 8 * !!e.metaKey;
+                    return 0 | !!e.ctrlKey | 2 * !!e.altKey | 4 * !!e.shiftKey | 8 * !!e.metaKey;
                 };
                 function normalizeCommandKeys(callback, e, keyCode) {
                     var hashId = getModifierHash(e);
@@ -9293,7 +9293,7 @@
                     }, this.$getTop = function(row, layerConfig) {
                         return (row - layerConfig.firstRowScreen) * layerConfig.lineHeight;
                     }, this.drawTextMarker = function(stringBuilder, range, clazz, layerConfig, extraStyle) {
-                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + (+!!(row == start || row == start + 1 && range.start.column) | 2 * (prev < curr) | 4 * (curr > next) | 8 * (row == end)), layerConfig, +(row != end), extraStyle);
+                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + (!!(row == start || row == start + 1 && range.start.column) | 2 * (prev < curr) | 4 * (curr > next) | 8 * (row == end)), layerConfig, +(row != end), extraStyle);
                     }, this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
                         var padding = this.$padding, height = config.lineHeight, top = this.$getTop(range.start.row, config), left = padding + range.start.column * config.characterWidth;
                         if (extraStyle = extraStyle || "", this.session.$bidiHandler.isBidiRow(range.start.row)) {
@@ -9310,7 +9310,7 @@
                         }
                         if (!((height = (range.end.row - range.start.row - 1) * config.lineHeight) <= 0)) {
                             top = this.$getTop(range.start.row + 1, config);
-                            var radiusClass = +!!range.start.column | 8 * !range.end.column;
+                            var radiusClass = !!range.start.column | 8 * !range.end.column;
                             this.elt(clazz + (radiusClass ? " ace_br" + radiusClass : ""), "height:" + height + "px;right:0;top:" + top + "px;left:" + padding + "px;" + (extraStyle || ""));
                         }
                     }, this.drawSingleLineMarker = function(stringBuilder, range, clazz, config, extraLength, extraStyle) {
@@ -9811,7 +9811,7 @@
                             var det = l1[1] * l2[0] - l1[0] * l2[1];
                             return [
                                 (-l2[1] * r[0] + l2[0] * r[1]) / det,
-                                (+l1[1] * r[0] - l1[0] * r[1]) / det
+                                (l1[1] * r[0] - l1[0] * r[1]) / det
                             ];
                         }
                         function sub(a, b) {

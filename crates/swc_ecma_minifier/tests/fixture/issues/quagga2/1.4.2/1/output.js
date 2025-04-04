@@ -2547,7 +2547,7 @@
                  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
                  */ function(key) {
                 var result = this.has(key) && delete this.__data__[key];
-                return this.size -= +!!result, result;
+                return this.size -= !!result, result;
             };
         /***/ },
         /* 113 */ /***/ function(module1, exports1, __webpack_require__) {
@@ -2612,7 +2612,7 @@
                  * @returns {boolean} Returns `true` if the entry was removed, else `false`.
                  */ function(key) {
                 var result = getMapData(this, key).delete(key);
-                return this.size -= +!!result, result;
+                return this.size -= !!result, result;
             };
         /***/ },
         /* 117 */ /***/ function(module1, exports1) {
@@ -5115,7 +5115,7 @@
                         value: function() {
                             var offset = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this._nextUnset(this._row), end = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : this._row.length, isWhite = !(arguments.length > 2) || void 0 === arguments[2] || arguments[2], counters = [], counterPos = 0;
                             counters[0] = 0;
-                            for(var i = offset; i < end; i++)this._row[i] ^ +!!isWhite ? counters[counterPos]++ : (counters[++counterPos] = 1, isWhite = !isWhite);
+                            for(var i = offset; i < end; i++)!!isWhite ^ this._row[i] ? counters[counterPos]++ : (counters[++counterPos] = 1, isWhite = !isWhite);
                             return counters;
                         }
                     },
@@ -5124,7 +5124,7 @@
                         value: function(start, counters) {
                             var numCounters = counters.length, end = this._row.length, isWhite = !this._row[start], counterPos = 0;
                             array_helper.a.init(counters, 0);
-                            for(var i = start; i < end; i++)if (this._row[i] ^ +!!isWhite) counters[counterPos]++;
+                            for(var i = start; i < end; i++)if (!!isWhite ^ this._row[i]) counters[counterPos]++;
                             else {
                                 if (++counterPos === numCounters) break;
                                 counters[counterPos] = 1, isWhite = !isWhite;
@@ -6055,7 +6055,7 @@
                                 0,
                                 0,
                                 0
-                            ], isWhite = !this._row[start], counterPos = 0, i = start; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            ], isWhite = !this._row[start], counterPos = 0, i = start; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     correction && this._correct(counter, correction);
@@ -6097,7 +6097,7 @@
                                     bar: 1,
                                     space: 1
                                 }
-                            }, isWhite = !1, counterPos = 0, i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            }, isWhite = !1, counterPos = 0, i = offset; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     for(var sum = counter.reduce(function(prev, next) {
@@ -6435,7 +6435,7 @@
                             }, counterPos = 0;
                             offset || (offset = this._nextSet(this._row));
                             for(var found = !1, i = offset; i < this._row.length; i++)// console.warn(`* loop i=${offset} len=${this._row.length} isWhite=${isWhite} counterPos=${counterPos}`);
-                            if (this._row[i] ^ +!!isWhite) counter[counterPos] += 1;
+                            if (!!isWhite ^ this._row[i]) counter[counterPos] += 1;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     var error = this._matchPattern(counter, pattern); // console.warn('* matchPattern', error, counter, pattern);
@@ -6469,7 +6469,7 @@
                             }, isWhite = !this._row[start], counterPos = 0;
                             coderange || // console.warn('* decodeCode before length');
                             (coderange = CODE_PATTERN.length);
-                            for(var i = start; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            for(var i = start; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     for(var code = 0; code < coderange; code++){
@@ -6708,7 +6708,7 @@
                                 0,
                                 0,
                                 0
-                            ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     // find start pattern
@@ -7534,7 +7534,7 @@
                                 end: 0
                             }, epsilon = this.AVG_CODE_ERROR;
                             isWhite = isWhite || !1, tryHarder = tryHarder || !1, offset || (offset = this._nextSet(this._row));
-                            for(var i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            for(var i = offset; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     var sum = counter.reduce(function(prev, next) {
@@ -7779,7 +7779,7 @@
                             }, sum = 0, error = 0, epsilon = this.AVG_CODE_ERROR;
                             offset || (offset = this._nextSet(this._row));
                             for(var i = 0; i < pattern.length; i++)counter[i] = 0;
-                            for(var _i = offset; _i < this._row.length; _i++)if (this._row[_i] ^ +!!isWhite) counter[counterPos]++;
+                            for(var _i = offset; _i < this._row.length; _i++)if (!!isWhite ^ this._row[_i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     sum = 0;
@@ -7990,7 +7990,7 @@
                                 0,
                                 0,
                                 0
-                            ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (this._row[i] ^ +!!isWhite) counter[counterPos]++;
+                            ]), counterPos = 0, isWhite = !1, i = offset; i < this._row.length; i++)if (!!isWhite ^ this._row[i]) counter[counterPos]++;
                             else {
                                 if (counterPos === counter.length - 1) {
                                     // find start pattern
