@@ -79,6 +79,8 @@ fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
         ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
     }
     .with_context_lines(3)
+    .with_wrap_lines(false)
+    .with_break_words(false)
 }
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
