@@ -76,3 +76,14 @@ fn test_2() {
         d.emit();
     });
 }
+
+#[test]
+fn test_long_text_wrap() {
+    output("long_text_wrap.ans", |cm, h| {
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
+
+        let mut d = h.struct_span_err(span(1, 3), r##"You are attempting to export "metadata" from a component marked with "use client", which is disallowed. Either remove the export, or the "use client" directive. Read more: https://nextjs.org/docs/app/api-reference/directives/use-client"##);
+
+        d.emit();
+    });
+}
