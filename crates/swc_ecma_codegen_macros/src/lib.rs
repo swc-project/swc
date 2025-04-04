@@ -43,9 +43,10 @@ pub fn node_impl(
     for i in item.items {
         match i {
             ImplItem::Fn(i) => {
-                let item = expand_node_impl_method(&item.self_ty, i);
+                let (node_impl, node_mut_impl) = expand_node_impl_method(&item.self_ty, i);
 
-                output.extend(item.to_token_stream());
+                output.extend(node_impl.to_token_stream());
+                output.extend(node_mut_impl.to_token_stream());
             }
 
             _ => {
@@ -58,20 +59,32 @@ pub fn node_impl(
 }
 
 /// Returns `(emitter_method, adjuster_method)`
-fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
+fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> (ItemImpl, ItemImpl) {
     let emit_block = ReplaceEmit { emit: true }.fold_block(src.block.clone());
 
-    parse_quote!(
-        impl crate::Node for #node_type {
-            fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> crate::Result
-            where
-                W: crate::text_writer::WriteJs,
-                S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-            {
-                #emit_block
+    (
+        parse_quote!(
+            impl crate::Node for #node_type {
+                fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> crate::Result
+                where
+                    W: crate::text_writer::WriteJs,
+                    S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
+                {
+                    #emit_block
+                }
             }
-
-        }
+        ),
+        parse_quote!(
+            impl crate::NodeMut for #node_type {
+                fn rewrite_span<W, S>(&self, emitter: &mut crate::SpanRewriter<'_, W, S>) -> crate::Result
+                where
+                    W: crate::text_writer::SpannedWriteJs,
+                    S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
+                {
+                    #emit_block
+                }
+            }
+        ),
     )
 }
 
