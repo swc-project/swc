@@ -180,7 +180,7 @@ impl TypeUsageAnalyzer<'_> {
 impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
         if let Some(ident) = node.key.get_root_ident() {
-            self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
+            self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
         }
         node.visit_children_with(self);
     }
