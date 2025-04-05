@@ -1,17 +1,15 @@
-function _async_generator_delegate(inner, awaitWrap) {
+function _async_generator_delegate(inner) {
     var iter = {}, waiting = false;
     function pump(key, value) {
         waiting = true;
         value = new Promise(function(resolve) {
             resolve(inner[key](value));
         });
-        return { done: false, value: awaitWrap(value) };
+        return { done: false, value: new _overload_yield(value, /* kind: delegate */ 1) };
     }
-    if (typeof Symbol === "function" && Symbol.iterator) {
-        iter[Symbol.iterator] = function() {
-            return this;
-        };
-    }
+    iter[(typeof Symbol !== "undefined" && Symbol.iterator) || "@@iterator"] = function() {
+        return this;
+    };
     iter.next = function(value) {
         if (waiting) {
             waiting = false;
@@ -30,6 +28,10 @@ function _async_generator_delegate(inner, awaitWrap) {
     }
     if (typeof inner.return === "function") {
         iter.return = function(value) {
+            if (waiting) {
+                waiting = false;
+                return value;
+            }
             return pump("return", value);
         };
     }
