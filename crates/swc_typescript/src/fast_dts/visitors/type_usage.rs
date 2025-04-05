@@ -11,7 +11,7 @@ use swc_common::{BytePos, Spanned, SyntaxContext};
 use swc_ecma_ast::{
     Accessibility, ArrowExpr, Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl,
     ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem, NamedExport, TsEntityName,
-    TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement,
+    TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement, TsTypeQueryExpr,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
@@ -37,6 +37,13 @@ impl Symbol {
     }
 }
 
+bitflags! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub struct Context: u8 {
+        const InTypeQuery = 1 << 0;
+    }
+}
+
 pub struct TypeUsageAnalyzer<'a> {
     /// The graph may contain multiple symbol nodes with the same `Id` and
     /// different `SymbolFlags`. This is ok because they will be merged into the
@@ -51,6 +58,8 @@ pub struct TypeUsageAnalyzer<'a> {
     source: Option<NodeIndex>,
     /// Used for stripping those with @internal
     internal_annotations: Option<&'a FxHashSet<BytePos>>,
+    /// Used for analyzing usages without parameter drilling
+    ctx: Context,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -113,6 +122,7 @@ impl TypeUsageAnalyzer<'_> {
             references: FxHashSet::default(),
             source: None,
             internal_annotations,
+            ctx: Context::empty(),
         };
         module_items.visit_with(&mut analyzer);
 
@@ -192,13 +202,29 @@ impl Visit for TypeUsageAnalyzer<'_> {
         node.visit_children_with(self);
     }
 
+    fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
+        // In `typeof A.B.C`, A should be a value
+        if node.is_ts_entity_name() {
+            self.ctx.insert(Context::InTypeQuery);
+            node.visit_children_with(self);
+            self.ctx.remove(Context::InTypeQuery);
+        } else {
+            node.visit_children_with(self);
+        }
+    }
+
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
         match node {
             TsEntityName::TsQualifiedName(ts_qualified_name) => {
                 ts_qualified_name.left.visit_with(self);
             }
             TsEntityName::Ident(ident) => {
-                self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
+                let flag = if self.ctx.contains(Context::InTypeQuery) {
+                    SymbolFlags::Value
+                } else {
+                    SymbolFlags::Type
+                };
+                self.add_edge(Symbol::new(ident.to_id(), flag), true);
             }
         };
     }
