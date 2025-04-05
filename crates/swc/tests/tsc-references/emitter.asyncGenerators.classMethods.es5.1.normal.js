@@ -83,7 +83,6 @@ var C3 = /*#__PURE__*/ function() {
 //// [C4.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
@@ -104,7 +103,7 @@ var C4 = /*#__PURE__*/ function() {
                             5,
                             _ts_values(_async_generator_delegate(_async_iterator([
                                 1
-                            ]), _await_async_generator))
+                            ])))
                         ];
                     case 1:
                         x = _state.sent();
@@ -120,7 +119,6 @@ var C4 = /*#__PURE__*/ function() {
 //// [C5.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
@@ -154,7 +152,7 @@ var C5 = /*#__PURE__*/ function() {
                                             ];
                                     }
                                 });
-                            })()), _await_async_generator))
+                            })())))
                         ];
                     case 1:
                         x = _state.sent();
