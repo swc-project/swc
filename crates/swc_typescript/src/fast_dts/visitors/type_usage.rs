@@ -17,11 +17,13 @@ use crate::fast_dts::util::ast_ext::ExprExit;
 pub struct TypeUsageAnalyzer<'a> {
     graph: DiGraph<Id, ()>,
     nodes: FxHashMap<Id, NodeIndex>,
-    // Global scope + nested ts module block scope
+    /// Global scope + nested ts module block scope
     scope_entries: Vec<NodeIndex>,
-    // We will only consider referred nodes and ignore binding nodes
+    /// Dts will only consider referred nodes and ignore binding nodes
     references: FxHashSet<NodeIndex>,
+    /// Current source node that all the nested idents should depend on
     source: Option<NodeIndex>,
+    /// Used for stripping those with @internal
     internal_annotations: Option<&'a FxHashSet<BytePos>>,
 }
 
@@ -30,7 +32,7 @@ impl TypeUsageAnalyzer<'_> {
         module_items: &Vec<ModuleItem>,
         internal_annotations: Option<&FxHashSet<BytePos>>,
     ) -> FxHashSet<Id> {
-        // Create a fake entry
+        // Create a fake entry reprensting global scope
         let mut graph = Graph::default();
         let entry = graph.add_node(("".into(), SyntaxContext::empty()));
 
@@ -56,11 +58,8 @@ impl TypeUsageAnalyzer<'_> {
         used_refs
     }
 
-    pub fn with_source<F: FnMut(&mut TypeUsageAnalyzer)>(
-        &mut self,
-        id: Option<NodeIndex>,
-        mut f: F,
-    ) {
+    /// All the nested nodes may be connected by the passed id nodes
+    fn with_source<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, id: Option<NodeIndex>, mut f: F) {
         // If id is None, we use the nearest scope
         let old_source = self
             .source
@@ -69,7 +68,9 @@ impl TypeUsageAnalyzer<'_> {
         self.source = old_source;
     }
 
-    pub fn with_source_ident<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, ident: &Ident, f: F) {
+    /// All the nested idents will depend on the usage of the passed ident
+    /// This is usually called when meeting a binding ident
+    fn with_source_ident<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, ident: &Ident, f: F) {
         self.add_edge(ident.to_id(), false);
         let id = *self
             .nodes
@@ -78,7 +79,10 @@ impl TypeUsageAnalyzer<'_> {
         self.with_source(Some(id), f);
     }
 
-    pub fn add_edge(&mut self, reference: Id, is_ref: bool) {
+    /// Add a dependency edge from current source to the reference
+    /// If `is_ref` is false, the reference is a binding ident such as a
+    /// variable declaration, which means it is not a usage.
+    fn add_edge(&mut self, reference: Id, is_ref: bool) {
         if let Some(source) = self.source {
             let target_id = *self
                 .nodes
