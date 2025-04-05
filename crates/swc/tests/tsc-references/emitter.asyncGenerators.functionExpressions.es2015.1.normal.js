@@ -29,13 +29,12 @@ const f3 = /*#__PURE__*/ function() {
 //// [F4.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 const f4 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator([
             1
-        ]), _await_async_generator);
+        ]));
     });
     return function f4() {
         return _ref.apply(this, arguments);
@@ -44,13 +43,12 @@ const f4 = /*#__PURE__*/ function() {
 //// [F5.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 const f5 = /*#__PURE__*/ function() {
     var _ref = _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator(_wrap_async_generator(function*() {
             yield 1;
-        })()), _await_async_generator);
+        })()));
     });
     return function f5() {
         return _ref.apply(this, arguments);
