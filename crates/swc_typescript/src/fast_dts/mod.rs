@@ -7,7 +7,7 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::{
-    BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, Id, Ident, ImportSpecifier, ModuleDecl,
+    BindingIdent, Decl, DefaultDecl, ExportDefaultExpr, Ident, ImportSpecifier, ModuleDecl,
     ModuleItem, NamedExport, Pat, Program, Script, Stmt, TsExportAssignment, VarDecl, VarDeclKind,
     VarDeclarator,
 };
@@ -15,7 +15,7 @@ use type_usage::TypeUsageAnalyzer;
 use util::{
     ast_ext::MemberPropExt, expando_function_collector::ExpandoFunctionCollector, types::type_ann,
 };
-use visitors::type_usage;
+use visitors::type_usage::{self, SymbolFlags, UsedRefs};
 
 use crate::diagnostic::{DtsIssue, SourceRange};
 
@@ -44,7 +44,7 @@ pub struct FastDts {
     // states
     id_counter: u32,
     is_top_level: bool,
-    used_refs: FxHashSet<Id>,
+    used_refs: UsedRefs,
     internal_annotations: Option<FxHashSet<BytePos>>,
 }
 
@@ -63,7 +63,7 @@ impl FastDts {
             diagnostics: Vec::new(),
             id_counter: 0,
             is_top_level: true,
-            used_refs: FxHashSet::default(),
+            used_refs: UsedRefs::default(),
             internal_annotations,
         }
     }
@@ -241,7 +241,8 @@ impl FastDts {
 
                     let name_ident = Ident::new_no_ctxt(self.gen_unique_name("_default"), DUMMY_SP);
                     let type_ann = self.infer_type_from_expr(expr).map(type_ann);
-                    self.used_refs.insert(name_ident.to_id());
+                    self.used_refs
+                        .add_usage(name_ident.to_id(), SymbolFlags::Value);
 
                     if type_ann.is_none() {
                         self.default_export_inferred(expr.span());
@@ -460,12 +461,12 @@ impl FastDts {
         let used_refs = &self.used_refs;
         items.retain_mut(|node| match node {
             ModuleItem::Stmt(Stmt::Decl(decl)) if !in_global_or_lit_module => match decl {
-                Decl::Class(class_decl) => used_refs.contains(&class_decl.ident.to_id()),
-                Decl::Fn(fn_decl) => used_refs.contains(&fn_decl.ident.to_id()),
+                Decl::Class(class_decl) => used_refs.used(&class_decl.ident.to_id()),
+                Decl::Fn(fn_decl) => used_refs.used_as_value(&fn_decl.ident.to_id()),
                 Decl::Var(var_decl) => {
                     var_decl.decls.retain(|decl| {
                         if let Some(ident) = decl.name.as_ident() {
-                            used_refs.contains(&ident.to_id())
+                            used_refs.used_as_value(&ident.to_id())
                         } else {
                             false
                         }
@@ -475,7 +476,7 @@ impl FastDts {
                 Decl::Using(using_decl) => {
                     using_decl.decls.retain(|decl| {
                         if let Some(ident) = decl.name.as_ident() {
-                            used_refs.contains(&ident.to_id())
+                            used_refs.used_as_value(&ident.to_id())
                         } else {
                             false
                         }
@@ -483,19 +484,19 @@ impl FastDts {
                     !using_decl.decls.is_empty()
                 }
                 Decl::TsInterface(ts_interface_decl) => {
-                    used_refs.contains(&ts_interface_decl.id.to_id())
+                    used_refs.used_as_type(&ts_interface_decl.id.to_id())
                 }
                 Decl::TsTypeAlias(ts_type_alias_decl) => {
-                    used_refs.contains(&ts_type_alias_decl.id.to_id())
+                    used_refs.used_as_type(&ts_type_alias_decl.id.to_id())
                 }
-                Decl::TsEnum(ts_enum) => used_refs.contains(&ts_enum.id.to_id()),
+                Decl::TsEnum(ts_enum) => used_refs.used(&ts_enum.id.to_id()),
                 Decl::TsModule(ts_module_decl) => {
                     ts_module_decl.global
                         || ts_module_decl.id.is_str()
                         || ts_module_decl
                             .id
                             .as_ident()
-                            .map_or(true, |ident| used_refs.contains(&ident.to_id()))
+                            .map_or(true, |ident| used_refs.used_as_type(&ident.to_id()))
                 }
             },
             ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {
@@ -504,21 +505,17 @@ impl FastDts {
                 }
 
                 import_decl.specifiers.retain(|specifier| match specifier {
-                    ImportSpecifier::Named(specifier) => {
-                        used_refs.contains(&specifier.local.to_id())
-                    }
-                    ImportSpecifier::Default(specifier) => {
-                        used_refs.contains(&specifier.local.to_id())
-                    }
+                    ImportSpecifier::Named(specifier) => used_refs.used(&specifier.local.to_id()),
+                    ImportSpecifier::Default(specifier) => used_refs.used(&specifier.local.to_id()),
                     ImportSpecifier::Namespace(specifier) => {
-                        used_refs.contains(&specifier.local.to_id())
+                        used_refs.used(&specifier.local.to_id())
                     }
                 });
 
                 !import_decl.specifiers.is_empty()
             }
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals)) => {
-                used_refs.contains(&ts_import_equals.id.to_id())
+                used_refs.used(&ts_import_equals.id.to_id())
             }
             _ => true,
         });
