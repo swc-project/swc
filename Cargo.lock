@@ -6330,6 +6330,7 @@ dependencies = [
 name = "swc_typescript"
 version = "10.0.1"
 dependencies = [
+ "bitflags 2.6.0",
  "petgraph 0.7.1",
  "rustc-hash 2.1.0",
  "swc_atoms",
