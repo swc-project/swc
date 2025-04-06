@@ -95,6 +95,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                             "development".to_string(),
                             None,
                         )),
+                        None,
                         Box::new(plugin_module.clone()),
                         None,
                         None,

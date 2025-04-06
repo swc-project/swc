@@ -46,6 +46,7 @@ pub fn create_plugin_transform_executor(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_env_vars: Option<&'a [String]>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
     runtime: Option<()>,
