@@ -42,7 +42,7 @@ pub fn create_plugin_transform_executor<'a>(
 }
 
 #[cfg(not(feature = "__rkyv"))]
-pub fn create_plugin_transform_executor(
+pub fn create_plugin_transform_executor<'a>(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
@@ -50,6 +50,6 @@ pub fn create_plugin_transform_executor(
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
     runtime: Option<()>,
-) -> TransformExecutor {
+) -> TransformExecutor<'a> {
     unimplemented!("Transform plugin cannot be used without serialization support")
 }
