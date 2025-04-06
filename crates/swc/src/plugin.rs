@@ -34,6 +34,7 @@ pub struct PluginConfig(pub String, pub serde_json::Value);
 
 pub fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
+    plugin_env_vars: Option<Vec<String>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -41,6 +42,7 @@ pub fn plugins(
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
+        plugin_env_vars,
         metadata_context,
         comments,
         source_map,
@@ -50,6 +52,7 @@ pub fn plugins(
 
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
+    plugin_env_vars: Option<Vec<String>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -130,6 +133,7 @@ impl RustPlugins {
                                 &self.source_map,
                                 &self.unresolved_mark,
                                 &self.metadata_context,
+                                self.plugin_env_vars.as_deref(),
                                 plugin_module_bytes,
                                 Some(p.1),
                                 runtime,
