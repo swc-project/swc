@@ -133,4 +133,7 @@ macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
     };
+    ($emitter:expr, false, $n:expr) => {
+        crate::NodeMut::rewrite_span(&mut $n, $emitter)?
+    };
 }
