@@ -58,7 +58,7 @@
         "version": "napi version --npm-dir scripts/npm"
     },
     "peerDependencies": {
-        "@swc/helpers": "*"
+        "@swc/helpers": ">=0.5.17"
     },
     "peerDependenciesMeta": {
         "@swc/helpers": {
