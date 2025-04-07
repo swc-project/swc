@@ -540,23 +540,13 @@ impl VisitMut for AsyncFnBodyHandler {
                 arg: Some(arg),
                 delegate: true,
             }) => {
-                let callee = helper!(async_generator_delegate);
-                let arg = CallExpr {
-                    span: *span,
-                    callee,
-                    args: vec![
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: helper!(async_iterator),
-                            args: vec![arg.take().as_arg()],
-                            ..Default::default()
-                        }
-                        .as_arg(),
-                        helper_expr!(await_async_generator).as_arg(),
-                    ],
-                    ..Default::default()
-                }
-                .into();
+                let async_iter =
+                    helper_expr!(async_iterator).as_call(DUMMY_SP, vec![arg.take().as_arg()]);
+
+                let arg = helper_expr!(async_generator_delegate)
+                    .as_call(*span, vec![async_iter.as_arg()])
+                    .into();
+
                 *expr = YieldExpr {
                     span: *span,
                     delegate: true,

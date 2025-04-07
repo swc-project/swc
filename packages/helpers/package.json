@@ -493,6 +493,12 @@
             "import": "./esm/_object_without_properties_loose.js",
             "default": "./cjs/_object_without_properties_loose.cjs"
         },
+        "./_/_overload_yield": {
+            "module-sync": "./esm/_overload_yield.js",
+            "webpack": "./esm/_overload_yield.js",
+            "import": "./esm/_overload_yield.js",
+            "default": "./cjs/_overload_yield.cjs"
+        },
         "./_/_possible_constructor_return": {
             "module-sync": "./esm/_possible_constructor_return.js",
             "webpack": "./esm/_possible_constructor_return.js",

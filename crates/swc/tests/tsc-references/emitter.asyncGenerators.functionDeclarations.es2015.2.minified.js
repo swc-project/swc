@@ -7,12 +7,10 @@ import "@swc/helpers/_/_wrap_async_generator";
 //// [F4.ts]
 import "@swc/helpers/_/_async_generator_delegate";
 import "@swc/helpers/_/_async_iterator";
-import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 //// [F5.ts]
 import "@swc/helpers/_/_async_generator_delegate";
 import "@swc/helpers/_/_async_iterator";
-import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 //// [F6.ts]
 import "@swc/helpers/_/_await_async_generator";
