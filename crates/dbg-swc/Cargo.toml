@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "dbg-swc"
 repository  = { workspace = true }
-version     = "15.0.0"
+version     = "16.0.0"
 
 [[bin]]
 bench = false
@@ -32,8 +32,8 @@ swc_common = { version = "8.0.1", features = [
   "tty-emitter",
 ], path = "../swc_common" }
 swc_ecma_ast = { version = "8.1.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "9.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "15.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_codegen = { version = "10.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "16.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_parser = { version = "11.0.0", path = "../swc_ecma_parser" }
