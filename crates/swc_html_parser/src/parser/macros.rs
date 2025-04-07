@@ -1,7 +1,11 @@
 macro_rules! span {
     ($parser:expr, $start:expr) => {{
         let last_pos = $parser.input.last_pos()?;
-        swc_common::Span::new($start, last_pos)
+        if last_pos > $start {
+            swc_common::Span::new($start, last_pos)
+        } else {
+            swc_common::Span::new(last_pos, $start)
+        }
     }};
 }
 
