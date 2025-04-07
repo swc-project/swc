@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "21.0.0"
+version = "21.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6330,7 +6330,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "11.0.0"
+version = "11.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "petgraph 0.7.1",
