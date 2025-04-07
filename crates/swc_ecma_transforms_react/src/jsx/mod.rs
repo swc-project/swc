@@ -137,10 +137,8 @@ pub fn parse_expr_for_jsx(
     src: Lrc<String>,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    let fm = cm.new_source_file_from(
-        FileName::Internal(format!("jsx-config-{}.js", name)).into(),
-        src,
-    );
+
+    let fm = cm.new_source_file_from(cache_filename(name).into(), src);
 
     parse_file_as_expr(
         &fm,
@@ -393,6 +391,33 @@ impl JsxDirectives {
 
         res
     }
+}
+
+#[cfg(feature = "concurrent")]
+fn cache_filename(name: &str) -> FileName {
+       static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, FileName>>> =
+        Lazy::new(|| RwLock::new(FxHashMap::default()));
+
+    {
+        let cache = FILENAME_CACHE.read().unwrap();
+        if let Some(f) = cache.get(name) {
+            return f.clone();
+        }
+    }
+
+    let file = FileName::Internal(format!("jsx-config-{}.js", name));
+
+    {
+        let mut cache = FILENAME_CACHE.write().unwrap();
+        cache.insert(name.to_string(), file.clone());
+    }
+
+    file
+}
+
+#[cfg(not(feature = "concurrent"))]
+fn cache_filename(name: &str) -> FileName {
+    FileName::Internal(format!("jsx-config-{}.js", name))
 }
 
 #[cfg(feature = "concurrent")]
