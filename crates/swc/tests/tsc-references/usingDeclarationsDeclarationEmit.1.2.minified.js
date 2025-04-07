@@ -7,9 +7,9 @@ let env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, {
+    var r1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1), _ts_add_disposable_resource(env, {
+    }, !1), r2 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
     }, !0);
 } catch (e) {

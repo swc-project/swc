@@ -1,5 +1,3 @@
-(function (bar) {
-    for (; bar(); ) break;
-})(function qux() {
+for(; function qux() {
     return console.log("PASS"), qux;
-});
+}();)break;

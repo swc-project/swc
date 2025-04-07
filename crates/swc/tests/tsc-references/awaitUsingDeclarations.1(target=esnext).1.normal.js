@@ -7,49 +7,10 @@ const env = {
     hasError: false
 };
 try {
-    const d1 = _ts_add_disposable_resource(env, {
+    var d1 = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
     }, true);
-    async function af() {
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d3 = _ts_add_disposable_resource(env, {
-                async [Symbol.asyncDispose] () {}
-            }, true);
-            await null;
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            const result = _ts_dispose_resources(env);
-            if (result) await result;
-        }
-    }
-    async function* ag() {
-        const env = {
-            stack: [],
-            error: void 0,
-            hasError: false
-        };
-        try {
-            const d5 = _ts_add_disposable_resource(env, {
-                async [Symbol.asyncDispose] () {}
-            }, true);
-            yield;
-            await null;
-        } catch (e) {
-            env.error = e;
-            env.hasError = true;
-        } finally{
-            const result = _ts_dispose_resources(env);
-            if (result) await result;
-        }
-    }
-    const a = async ()=>{
+    var a = async ()=>{
         const env = {
             stack: [],
             error: void 0,
@@ -67,67 +28,6 @@ try {
             if (result) await result;
         }
     };
-    class C1 {
-        async am() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d13 = _ts_add_disposable_resource(env, {
-                    async [Symbol.asyncDispose] () {}
-                }, true);
-                await null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) await result;
-            }
-        }
-        async *ag() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d15 = _ts_add_disposable_resource(env, {
-                    async [Symbol.asyncDispose] () {}
-                }, true);
-                yield;
-                await null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) await result;
-            }
-        }
-        constructor(){
-            this.a = async ()=>{
-                const env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: false
-                };
-                try {
-                    const d7 = _ts_add_disposable_resource(env, {
-                        async [Symbol.asyncDispose] () {}
-                    }, true);
-                } catch (e) {
-                    env.error = e;
-                    env.hasError = true;
-                } finally{
-                    const result = _ts_dispose_resources(env);
-                    if (result) await result;
-                }
-            };
-        }
-    }
     {
         const env = {
             stack: [],
@@ -390,5 +290,105 @@ try {
 } finally{
     const result = _ts_dispose_resources(env);
     if (result) await result;
+}
+async function af() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const d3 = _ts_add_disposable_resource(env, {
+            async [Symbol.asyncDispose] () {}
+        }, true);
+        await null;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        const result = _ts_dispose_resources(env);
+        if (result) await result;
+    }
+}
+async function* ag() {
+    const env = {
+        stack: [],
+        error: void 0,
+        hasError: false
+    };
+    try {
+        const d5 = _ts_add_disposable_resource(env, {
+            async [Symbol.asyncDispose] () {}
+        }, true);
+        yield;
+        await null;
+    } catch (e) {
+        env.error = e;
+        env.hasError = true;
+    } finally{
+        const result = _ts_dispose_resources(env);
+        if (result) await result;
+    }
+}
+class C1 {
+    async am() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d13 = _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, true);
+            await null;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
+        }
+    }
+    async *ag() {
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const d15 = _ts_add_disposable_resource(env, {
+                async [Symbol.asyncDispose] () {}
+            }, true);
+            yield;
+            await null;
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
+        }
+    }
+    constructor(){
+        this.a = async ()=>{
+            const env = {
+                stack: [],
+                error: void 0,
+                hasError: false
+            };
+            try {
+                const d7 = _ts_add_disposable_resource(env, {
+                    async [Symbol.asyncDispose] () {}
+                }, true);
+            } catch (e) {
+                env.error = e;
+                env.hasError = true;
+            } finally{
+                const result = _ts_dispose_resources(env);
+                if (result) await result;
+            }
+        };
+    }
 }
 export { };

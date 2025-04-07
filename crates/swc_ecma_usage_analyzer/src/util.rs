@@ -63,17 +63,31 @@ pub fn can_end_conditionally(s: &Stmt) -> bool {
                 .iter()
                 .any(|case| case.cons.iter().any(|s| can_end(s, false))),
 
-            Stmt::DoWhile(s) => can_end(&s.body, false),
+            Stmt::Try(s) => {
+                s.block.stmts.iter().any(|s| can_end(s, ignore_always))
+                    || s.handler
+                        .as_ref()
+                        .map(|h| h.body.stmts.iter().any(|s| can_end(s, ignore_always)))
+                        .unwrap_or_default()
+                    || s.finalizer
+                        .as_ref()
+                        .map(|f| f.stmts.iter().any(|s| can_end(s, ignore_always)))
+                        .unwrap_or_default()
+            }
 
-            Stmt::While(s) => can_end(&s.body, false),
+            Stmt::DoWhile(s) => can_end(&s.body, ignore_always),
 
-            Stmt::For(s) => can_end(&s.body, false),
+            Stmt::While(s) => can_end(&s.body, ignore_always),
 
-            Stmt::ForOf(s) => can_end(&s.body, false),
+            Stmt::For(s) => can_end(&s.body, ignore_always),
 
-            Stmt::ForIn(s) => can_end(&s.body, false),
+            Stmt::ForOf(s) => can_end(&s.body, ignore_always),
+
+            Stmt::ForIn(s) => can_end(&s.body, ignore_always),
 
             Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => !ignore_always,
+
+            Stmt::Block(s) => s.stmts.iter().any(|s| can_end(s, ignore_always)),
 
             _ => false,
         }

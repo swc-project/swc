@@ -5,7 +5,6 @@ if (isNonBlank(value)) {
 } else {
     doThat(value);
 }
-;
 if (isNonBlank2(value)) {
     doThis2(value);
 } else {

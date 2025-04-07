@@ -1420,7 +1420,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = this.has(key) && delete this.__data__[key];
-            return this.size -= +!!result, result;
+            return this.size -= !!result, result;
         }, Hash.prototype.get = /**
      * Gets the hash value for `key`.
      *
@@ -1538,7 +1538,7 @@
      * @returns {boolean} Returns `true` if the entry was removed, else `false`.
      */ function(key) {
             var result = getMapData(this, key).delete(key);
-            return this.size -= +!!result, result;
+            return this.size -= !!result, result;
         }, MapCache.prototype.get = /**
      * Gets the map value for `key`.
      *
@@ -2178,10 +2178,7 @@
      *  counterparts.
      */ function(object, source, key, srcIndex, mergeFunc, customizer, stack) {
                     var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
-                    if (stacked) {
-                        assignMergeValue(object, key, stacked);
-                        return;
-                    }
+                    if (stacked) return assignMergeValue(object, key, stacked);
                     var newValue = customizer ? customizer(objValue, srcValue, key + '', object, source, stack) : undefined, isCommon = undefined === newValue;
                     if (isCommon) {
                         var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray(srcValue);
@@ -2224,20 +2221,8 @@
                 identity
             ];
             var index = -1;
-            return iteratees = arrayMap(iteratees, baseUnary(getIteratee())), /**
-   * The base implementation of `_.sortBy` which uses `comparer` to define the
-   * sort order of `array` and replaces criteria objects with their corresponding
-   * values.
-   *
-   * @private
-   * @param {Array} array The array to sort.
-   * @param {Function} comparer The function to define sort order.
-   * @returns {Array} Returns `array`.
-   */ function(array, comparer) {
-                var length = array.length;
-                for(array.sort(comparer); length--;)array[length] = array[length].value;
-                return array;
-            }(baseMap(collection, function(value, key, collection) {
+            iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
+            var array = baseMap(collection, function(value, key, collection) {
                 return {
                     criteria: arrayMap(iteratees, function(iteratee) {
                         return iteratee(value);
@@ -2245,7 +2230,8 @@
                     index: ++index,
                     value: value
                 };
-            }), function(object, other) {
+            }), length = array.length;
+            for(array.sort(function(object, other) {
                 return(/**
      * Used by `_.orderBy` to compare multiple properties of a value to another
      * and stable sort them.
@@ -2276,7 +2262,8 @@
                     // See https://bugs.chromium.org/p/v8/issues/detail?id=90 for more details.
                     return object.index - other.index;
                 }(object, other, orders));
-            });
+            }); length--;)array[length] = array[length].value;
+            return array;
         }
         /**
      * The base implementation of  `_.pickBy` without support for iteratee shorthands.
@@ -2972,7 +2959,7 @@
      * @returns {Function} Returns the new wrapped function.
      */ function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
             var isAry = 128 & bitmask, isBind = 1 & bitmask, isBindKey = 2 & bitmask, isCurried = 24 & bitmask, isFlip = 512 & bitmask, Ctor = isBindKey ? undefined : createCtor(func);
-            return function wrapper() {
+            function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length; index--;)args[index] = arguments[index];
                 if (isCurried) var placeholder = getHolder(wrapper), holdersCount = /**
    * Gets the number of `placeholder` occurrences in `array`.
@@ -3006,7 +2993,8 @@
                     }
                     return array;
                 }(args, argPos) : isFlip && length > 1 && args.reverse(), isAry && ary < length && (args.length = ary), this && this !== root && this instanceof wrapper && (fn = Ctor || createCtor(fn)), fn.apply(thisBinding, args);
-            };
+            }
+            return wrapper;
         }
         /**
      * Creates a function like `_.invertBy`.
@@ -3079,21 +3067,10 @@
      * @returns {Function} Returns the new range function.
      */ function createRange(fromRight) {
             return function(start, end, step) {
-                return step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = undefined), // Ensure the sign of `-0` is preserved.
-                start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), step = undefined === step ? start < end ? 1 : -1 : toFinite(step), /**
-     * The base implementation of `_.range` and `_.rangeRight` which doesn't
-     * coerce arguments.
-     *
-     * @private
-     * @param {number} start The start of the range.
-     * @param {number} end The end of the range.
-     * @param {number} step The value to increment or decrement by.
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Array} Returns the range of numbers.
-     */ function(start, end, step, fromRight) {
-                    for(var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array1(length); length--;)result[fromRight ? length : ++index] = start, start += step;
-                    return result;
-                }(start, end, step, fromRight);
+                step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = undefined), // Ensure the sign of `-0` is preserved.
+                start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), step = undefined === step ? start < end ? 1 : -1 : toFinite(step);
+                for(var start1 = start, end1 = end, step1 = step, index = -1, length = nativeMax(nativeCeil((end1 - start1) / (step1 || 1)), 0), result = Array1(length); length--;)result[fromRight ? length : ++index] = start1, start1 += step1;
+                return result;
             };
         }
         /**
@@ -3153,7 +3130,7 @@
                     // Shift with exponential notation to avoid floating-point issues.
                     // See [MDN](https://mdn.io/round#Examples) for more details.
                     var pair = (toString(number) + 'e').split('e');
-                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
+                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (pair[1] - precision));
                 }
                 return func(number);
             };
@@ -3268,17 +3245,29 @@
                     (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), // Use source `func` and merge bitmasks.
                     data[0] = source[0], data[1] = newBitmask;
                 }
-            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
-                for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
-                var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
-                return (length -= holders.length) < arity1 ? createRecurry(func1, bitmask1, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity1 - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func1, this, args);
-            }) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func2 = func, bitmask2 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask2, Ctor1 = createCtor(func2), result = function wrapper() {
-                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor1 : func2; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
+            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? result = /**
+     * Creates a function that wraps `func` to enable currying.
+     *
+     * @private
+     * @param {Function} func The function to wrap.
+     * @param {number} bitmask The bitmask flags. See `createWrap` for more details.
+     * @param {number} arity The arity of `func`.
+     * @returns {Function} Returns the new wrapped function.
+     */ function(func, bitmask, arity) {
+                var Ctor = createCtor(func);
+                function wrapper() {
+                    for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
+                    var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
+                    return (length -= holders.length) < arity ? createRecurry(func, bitmask, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func, this, args);
+                }
+                return wrapper;
+            }(func, bitmask, arity) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func1 = func, bitmask1 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask1, Ctor = createCtor(func1), result = function wrapper() {
+                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor : func1; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
                 for(; argsLength--;)args[leftIndex++] = arguments[++argsIndex];
                 return apply(fn, isBind ? thisArg1 : this, args);
             });
-            else var func1, bitmask1, arity1, Ctor, func2, bitmask2, thisArg1, partials1, isBind, Ctor1, func3, bitmask3, thisArg2, isBind1, Ctor2, result = (func3 = func, bitmask3 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask3, Ctor2 = createCtor(func3), function wrapper() {
-                return (this && this !== root && this instanceof wrapper ? Ctor2 : func3).apply(isBind1 ? thisArg2 : this, arguments);
+            else var func1, bitmask1, thisArg1, partials1, isBind, Ctor, func2, bitmask2, thisArg2, isBind1, Ctor1, result = (func2 = func, bitmask2 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask2, Ctor1 = createCtor(func2), function wrapper() {
+                return (this && this !== root && this instanceof wrapper ? Ctor1 : func2).apply(isBind1 ? thisArg2 : this, arguments);
             });
             return setWrapToString((data ? baseSetData : setData)(result, newData), func, bitmask);
         }
@@ -4563,6 +4552,93 @@
             return createWrap(key, bitmask, object, partials, holders);
         });
         /**
+     * Creates a function that accepts arguments of `func` and either invokes
+     * `func` returning its result, if at least `arity` number of arguments have
+     * been provided, or returns a function that accepts the remaining `func`
+     * arguments, and so on. The arity of `func` may be specified if `func.length`
+     * is not sufficient.
+     *
+     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
+     * may be used as a placeholder for provided arguments.
+     *
+     * **Note:** This method doesn't set the "length" property of curried functions.
+     *
+     * @static
+     * @memberOf _
+     * @since 2.0.0
+     * @category Function
+     * @param {Function} func The function to curry.
+     * @param {number} [arity=func.length] The arity of `func`.
+     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+     * @returns {Function} Returns the new curried function.
+     * @example
+     *
+     * var abc = function(a, b, c) {
+     *   return [a, b, c];
+     * };
+     *
+     * var curried = _.curry(abc);
+     *
+     * curried(1)(2)(3);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2)(3);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2, 3);
+     * // => [1, 2, 3]
+     *
+     * // Curried with placeholders.
+     * curried(1)(_, 3)(2);
+     * // => [1, 2, 3]
+     */ function curry(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curry.placeholder, result;
+        }
+        /**
+     * This method is like `_.curry` except that arguments are applied to `func`
+     * in the manner of `_.partialRight` instead of `_.partial`.
+     *
+     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
+     * builds, may be used as a placeholder for provided arguments.
+     *
+     * **Note:** This method doesn't set the "length" property of curried functions.
+     *
+     * @static
+     * @memberOf _
+     * @since 3.0.0
+     * @category Function
+     * @param {Function} func The function to curry.
+     * @param {number} [arity=func.length] The arity of `func`.
+     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
+     * @returns {Function} Returns the new curried function.
+     * @example
+     *
+     * var abc = function(a, b, c) {
+     *   return [a, b, c];
+     * };
+     *
+     * var curried = _.curryRight(abc);
+     *
+     * curried(3)(2)(1);
+     * // => [1, 2, 3]
+     *
+     * curried(2, 3)(1);
+     * // => [1, 2, 3]
+     *
+     * curried(1, 2, 3);
+     * // => [1, 2, 3]
+     *
+     * // Curried with placeholders.
+     * curried(3)(1, _)(2);
+     * // => [1, 2, 3]
+     */ function curryRight(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curryRight.placeholder, result;
+        }
+        /**
      * Creates a debounced function that delays invoking `func` until after `wait`
      * milliseconds have elapsed since the last time the debounced function was
      * invoked. The debounced function comes with a `cancel` method to cancel
@@ -5330,16 +5406,10 @@
      */ function toArray(value) {
             if (!value) return [];
             if (isArrayLike(value)) return isString(value) ? stringToArray(value) : copyArray(value);
-            if (symIterator && value[symIterator]) return(/**
-   * Converts `iterator` to an array.
-   *
-   * @private
-   * @param {Object} iterator The iterator to convert.
-   * @returns {Array} Returns the converted array.
-   */ function(iterator) {
-                for(var data, result = []; !(data = iterator.next()).done;)result.push(data.value);
+            if (symIterator && value[symIterator]) {
+                for(var data, iterator = value[symIterator](), result = []; !(data = iterator.next()).done;)result.push(data.value);
                 return result;
-            }(value[symIterator]()));
+            }
             var tag = getTag(value);
             return (tag == mapTag ? mapToArray : tag == setTag ? setToArray : values)(value);
         }
@@ -5541,10 +5611,7 @@
      * _.assign({ 'a': 0 }, new Foo, new Bar);
      * // => { 'a': 1, 'c': 3 }
      */ var assign = createAssigner(function(object, source) {
-            if (isPrototype(source) || isArrayLike(source)) {
-                copyObject(source, keys(source), object);
-                return;
-            }
+            if (isPrototype(source) || isArrayLike(source)) return void copyObject(source, keys(source), object);
             for(var key in source)hasOwnProperty.call(source, key) && assignValue(object, key, source[key]);
         }), assignIn = createAssigner(function(object, source) {
             copyObject(source, keysIn(source), object);
@@ -5703,22 +5770,14 @@
      * @param {Object} object The object to query.
      * @returns {Array} Returns the array of property names.
      */ function(object) {
-                if (!isObject(object)) return(/**
-     * This function is like
-     * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
-     * except that it includes inherited enumerable properties.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     */ function(object) {
+                if (!isObject(object)) {
                     var result = [];
                     if (null != object) for(var key in Object1(object))result.push(key);
                     return result;
-                }(object));
-                var isProto = isPrototype(object), result = [];
-                for(var key in object)'constructor' == key && (isProto || !hasOwnProperty.call(object, key)) || result.push(key);
-                return result;
+                }
+                var isProto = isPrototype(object), result1 = [];
+                for(var key1 in object)'constructor' == key1 && (isProto || !hasOwnProperty.call(object, key1)) || result1.push(key1);
+                return result1;
             }(object);
         }
         /**
@@ -6596,92 +6655,7 @@
      */ function(prototype, properties) {
             var result = baseCreate(prototype);
             return null == properties ? result : baseAssign(result, properties);
-        }, lodash.curry = /**
-     * Creates a function that accepts arguments of `func` and either invokes
-     * `func` returning its result, if at least `arity` number of arguments have
-     * been provided, or returns a function that accepts the remaining `func`
-     * arguments, and so on. The arity of `func` may be specified if `func.length`
-     * is not sufficient.
-     *
-     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
-     * may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method doesn't set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @since 2.0.0
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curry(abc);
-     *
-     * curried(1)(2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // Curried with placeholders.
-     * curried(1)(_, 3)(2);
-     * // => [1, 2, 3]
-     */ function curry(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curry.placeholder, result;
-        }, lodash.curryRight = /**
-     * This method is like `_.curry` except that arguments are applied to `func`
-     * in the manner of `_.partialRight` instead of `_.partial`.
-     *
-     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method doesn't set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @since 3.0.0
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curryRight(abc);
-     *
-     * curried(3)(2)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(2, 3)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // Curried with placeholders.
-     * curried(3)(1, _)(2);
-     * // => [1, 2, 3]
-     */ function curryRight(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curryRight.placeholder, result;
-        }, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = /**
+        }, lodash.curry = curry, lodash.curryRight = curryRight, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = /**
      * Creates a slice of `array` with `n` elements dropped from the beginning.
      *
      * @static
@@ -6837,20 +6811,11 @@
      * // => [4, '*', '*', 10]
      */ function(array, value, start, end) {
             var length = null == array ? 0 : array.length;
-            return length ? (start && 'number' != typeof start && isIterateeCall(array, value, start) && (start = 0, end = length), /**
-     * The base implementation of `_.fill` without an iteratee call guard.
-     *
-     * @private
-     * @param {Array} array The array to fill.
-     * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns `array`.
-     */ function(array, value, start, end) {
-                var length = array.length;
-                for((start = toInteger(start)) < 0 && (start = -start > length ? 0 : length + start), (end = undefined === end || end > length ? length : toInteger(end)) < 0 && (end += length), end = start > end ? 0 : toLength(end); start < end;)array[start++] = value;
-                return array;
-            }(array, value, start, end)) : [];
+            if (!length) return [];
+            start && 'number' != typeof start && isIterateeCall(array, value, start) && (start = 0, end = length);
+            var start1 = start, end1 = end, length1 = array.length;
+            for((start1 = toInteger(start1)) < 0 && (start1 = -start1 > length1 ? 0 : length1 + start1), (end1 = undefined === end1 || end1 > length1 ? length1 : toInteger(end1)) < 0 && (end1 += length1), end1 = start1 > end1 ? 0 : toLength(end1); start1 < end1;)array[start1++] = value;
+            return array;
         }, lodash.filter = /**
      * Iterates over elements of `collection`, returning an array of all elements
      * `predicate` returns truthy for. The predicate is invoked with three
@@ -10702,10 +10667,8 @@
                 for(var iterIndex = -1, value = array[index += dir]; ++iterIndex < iterLength;){
                     var data = iteratees[iterIndex], iteratee = data.iteratee, type = data.type, computed = iteratee(value);
                     if (2 == type) value = computed;
-                    else if (!computed) {
-                        if (1 == type) continue outer;
-                        break outer;
-                    }
+                    else if (!computed) if (1 == type) continue outer;
+                    else break outer;
                 }
                 result[resIndex++] = value;
             }

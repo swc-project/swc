@@ -180,12 +180,10 @@
  * @returns {Object|Array} Reference to `obj`.
  */ function forEach(obj, iterator, context) {
         var key;
-        if (obj) {
-            if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-            else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
-            else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
-            else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
-        }
+        if (obj) if (isFunction(obj)) for(key in obj)"prototype" != key && "length" != key && "name" != key && obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
+        else if (obj.forEach && obj.forEach !== forEach) obj.forEach(iterator, context);
+        else if (isArrayLike(obj)) for(key = 0; key < obj.length; key++)iterator.call(context, obj[key], key);
+        else for(key in obj)obj.hasOwnProperty(key) && iterator.call(context, obj[key], key);
         return obj;
     }
     function sortedKeys(obj) {
@@ -427,20 +425,6 @@
     } : function(value) {
         return isString(value) ? value.replace(/^\s\s*/, "").replace(/\s\s*$/, "") : value;
     };
-    /**
-   * @ngdoc function
-   * @name angular.isElement
-   * @function
-   *
-   * @description
-   * Determines if a reference is a DOM element (or wrapped jQuery element).
-   *
-   * @param {*} value Reference to check.
-   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
-   */ function isElement(node) {
-        return !!(node && (node.nodeName || // we are a direct element
-        node.on && node.find)); // we have an on and find method part of jQuery API
-    }
     function indexOf(array, obj) {
         if (array.indexOf) return array.indexOf(obj);
         for(var i = 0; i < array.length; i++)if (obj === array[i]) return i;
@@ -554,24 +538,22 @@
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0; // NaN === NaN
         var length, key, keySet, t1 = typeof o1;
-        if (t1 == typeof o2 && "object" == t1) {
-            if (isArray(o1)) {
-                if (!isArray(o2)) return !1;
-                if ((length = o1.length) == o2.length) {
-                    for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
-                    return !0;
-                }
-            } else {
-                if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
-                if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
-                if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
-                for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
-                    if (!equals(o1[key], o2[key])) return !1;
-                    keySet[key] = !0;
-                }
-                for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+        if (t1 == typeof o2 && "object" == t1) if (isArray(o1)) {
+            if (!isArray(o2)) return !1;
+            if ((length = o1.length) == o2.length) {
+                for(key = 0; key < length; key++)if (!equals(o1[key], o2[key])) return !1;
                 return !0;
             }
+        } else {
+            if (isDate(o1)) return isDate(o2) && o1.getTime() == o2.getTime();
+            if (isRegExp(o1) && isRegExp(o2)) return o1.toString() == o2.toString();
+            if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) || isArray(o2)) return !1;
+            for(key in keySet = {}, o1)if (!("$" === key.charAt(0) || isFunction(o1[key]))) {
+                if (!equals(o1[key], o2[key])) return !1;
+                keySet[key] = !0;
+            }
+            for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
+            return !0;
         }
         return !1;
     }
@@ -915,13 +897,7 @@
    * - `minor` – `{number}` – Minor version number, such as "9".
    * - `dot` – `{number}` – Dot version number, such as "18".
    * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
-   */ var version = {
-        full: "1.2.5",
-        major: 1,
-        minor: 2,
-        dot: 5,
-        codeName: "singularity-expansion"
-    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+   */ var jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);
@@ -993,10 +969,7 @@
     function jqLiteRemoveData(element, name) {
         var expandoId = element[jqName], expandoStore = jqCache[expandoId];
         if (expandoStore) {
-            if (name) {
-                delete jqCache[expandoId].data[name];
-                return;
-            }
+            if (name) return void delete jqCache[expandoId].data[name];
             expandoStore.handle && (expandoStore.events.$destroy && expandoStore.handle({}, "$destroy"), jqLiteOff(element)), delete jqCache[expandoId], element[jqName] = undefined;
         }
     }
@@ -1151,10 +1124,9 @@
         },
         attr: function(element, name, value) {
             var lowercasedName = lowercase(name);
-            if (BOOLEAN_ATTR[lowercasedName]) {
-                if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
-                value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
-            } else if (isDefined(value)) element.setAttribute(name, value);
+            if (BOOLEAN_ATTR[lowercasedName]) if (!isDefined(value)) return element[name] || (element.attributes.getNamedItem(name) || noop).specified ? lowercasedName : undefined;
+            else value ? (element[name] = !0, element.setAttribute(name, lowercasedName)) : (element[name] = !1, element.removeAttribute(lowercasedName));
+            else if (isDefined(value)) element.setAttribute(name, value);
             else if (element.getAttribute) {
                 // the extra argument "2" is to get the right thing for a.href in IE, see jQuery code
                 // some elements (e.g. Document) don't have get attribute, so return undefined
@@ -1202,15 +1174,14 @@
             // jqLiteHasClass has only two arguments, but is a getter-only fn, so we need to special-case it
             // in a way that survives minification.
             // jqLiteEmpty takes no arguments but is a setter.
-            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) {
-                if (isObject(arg1)) {
-                    // we are a write, but the object properties are the key/values
-                    for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
-                    fn(this[i], arg1);
-                    else for(key in arg1)fn(this[i], key, arg1[key]);
-                    // return self for chaining
-                    return this;
-                }
+            if (fn !== jqLiteEmpty && (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController ? arg1 : arg2) === undefined) if (isObject(arg1)) {
+                // we are a write, but the object properties are the key/values
+                for(i = 0; i < this.length; i++)if (fn === jqLiteData) // data() takes the whole object in jQuery
+                fn(this[i], arg1);
+                else for(key in arg1)fn(this[i], key, arg1[key]);
+                // return self for chaining
+                return this;
+            } else {
                 for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
                     var nodeValue = fn(this[j], arg1, arg2);
                     value = value ? value + nodeValue : nodeValue;
@@ -1233,7 +1204,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1; //ie
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -1965,7 +1936,7 @@
                             var invokeArgs = invokeQueue[i], provider = providerInjector.get(invokeArgs[0]);
                             provider[invokeArgs[1]].apply(provider, invokeArgs[2]);
                         }
-                        else isFunction(module) ? runBlocks.push(providerInjector.invoke(module)) : isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
+                        else isFunction(module) || isArray(module) ? runBlocks.push(providerInjector.invoke(module)) : assertArgFn(module, "module");
                     } catch (e) {
                         throw isArray(module) && (module = module[module.length - 1]), e.message && e.stack && -1 == e.stack.indexOf(e.message) && // Safari & FF's stack traces don't contain error.message content
                         // unlike those of Chrome and IE
@@ -2098,7 +2069,7 @@
                 function scroll() {
                     var list, result, elm, hash = $location.hash();
                     // empty hash, scroll to the top of the page
-                    hash ? (elm = document1.getElementById(hash)) ? elm.scrollIntoView() : (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
+                    hash ? (elm = document1.getElementById(hash)) || (list = document1.getElementsByName(hash), result = null, forEach(list, function(element) {
                         result || "a" !== lowercase(element.nodeName) || (result = element);
                     }), elm = result) ? elm.scrollIntoView() : "top" === hash && $window.scrollTo(0, 0) : $window.scrollTo(0, 0);
                 }
@@ -2336,7 +2307,7 @@
      * @returns {function()} the added function
      */ self.addPollFn = function(fn) {
             var interval, setTimeout2;
-            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
+            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, !function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
@@ -3418,16 +3389,14 @@
                                 // We need only nonTlbTranscludeDirective so that we prevent putting transclusion
                                 // on the same element more than once.
                                 nonTlbTranscludeDirective: nonTlbTranscludeDirective
-                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) {
-                                if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
-                                    if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
-                                    replaceWith(jqCollection, $compileNode, compileNode);
-                                    var newTemplateAttrs = {
-                                        $attr: {}
-                                    }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
-                                    newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
-                                } else $compileNode.html(directiveValue);
-                            }
+                            })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = denormalizeTemplate(directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template), directive.replace) {
+                                if (replaceDirective = directive, compileNode = ($template = jqLite("<div>" + trim(directiveValue) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", directiveName, "");
+                                replaceWith(jqCollection, $compileNode, compileNode);
+                                var newTemplateAttrs = {
+                                    $attr: {}
+                                }, templateDirectives = collectDirectives(compileNode, [], newTemplateAttrs), unprocessedDirectives = directives.splice(i + 1, directives.length - (i + 1));
+                                newIsolateScopeDirective && markDirectivesAsIsolate(templateDirectives), directives = directives.concat(templateDirectives).concat(unprocessedDirectives), mergeTemplateAttributes(templateAttrs, newTemplateAttrs), ii = directives.length;
+                            } else $compileNode.html(directiveValue);
                             if (directive.templateUrl) assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directive.replace && (replaceDirective = directive), nodeLinkFn = function(directives, $compileNode, tAttrs, $rootElement, childTranscludeFn, preLinkFns, postLinkFns, previousCompileContext) {
                                 var afterTemplateNodeLinkFn, afterTemplateChildLinkFn, linkQueue = [], beforeTemplateCompileNode = $compileNode[0], origAsyncDirective = directives.shift(), // The fact that we have to copy and patch the directive seems wrong!
                                 derivedSyncDirective = extend({}, origAsyncDirective, {
@@ -4560,7 +4529,7 @@
                                 var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = function(url, params) {
                                     if (!params) return url;
                                     var parts = [];
-                                    return function(obj, iterator, context) {
+                                    return !function(obj, iterator, context) {
                                         for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
                                     }(params, function(value, key) {
                                         null === value || isUndefined(value) || (isArray(value) || (value = [
@@ -4570,15 +4539,12 @@
                                         }));
                                     }), url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&");
                                 }(config.url, config.params);
-                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) {
-                                    if (isDefined(cachedResp = cache.get(url))) {
-                                        if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
-                                        cachedResp.then(removePendingReq, removePendingReq), cachedResp);
-                                        // serving from cache
-                                        isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
-                                    } else // put the promise for the non-transformed response into cache as a placeholder
-                                    cache.put(url, promise);
-                                }
+                                if ($http.pendingRequests.push(config), promise.then(removePendingReq, removePendingReq), (config.cache || defaults.cache) && !1 !== config.cache && "GET" == config.method && (cache = isObject(config.cache) ? config.cache : isObject(defaults.cache) ? defaults.cache : defaultCache), cache) if (isDefined(cachedResp = cache.get(url))) if (cachedResp.then) return(// cached request has already been sent, but there is no response yet
+                                cachedResp.then(removePendingReq, removePendingReq), cachedResp);
+                                else // serving from cache
+                                isArray(cachedResp) ? resolvePromise(cachedResp[1], cachedResp[0], copy(cachedResp[2])) : resolvePromise(cachedResp, 200, {});
+                                else // put the promise for the non-transformed response into cache as a placeholder
+                                cache.put(url, promise);
                                 return isUndefined(cachedResp) && $httpBackend(config.method, url, reqData, /**
            * Callback registered to $httpBackend():
            *  - caches the response if desired
@@ -5043,74 +5009,6 @@
             }
         ];
     }
-    /**
-   * @ngdoc object
-   * @name ng.$locale
-   *
-   * @description
-   * $locale service provides localization rules for various Angular components. As of right now the
-   * only public api is:
-   *
-   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
-   */ function $LocaleProvider() {
-        this.$get = function() {
-            return {
-                id: "en-us",
-                NUMBER_FORMATS: {
-                    DECIMAL_SEP: ".",
-                    GROUP_SEP: ",",
-                    PATTERNS: [
-                        {
-                            // Decimal Pattern
-                            minInt: 1,
-                            minFrac: 0,
-                            maxFrac: 3,
-                            posPre: "",
-                            posSuf: "",
-                            negPre: "-",
-                            negSuf: "",
-                            gSize: 3,
-                            lgSize: 3
-                        },
-                        {
-                            //Currency Pattern
-                            minInt: 1,
-                            minFrac: 2,
-                            maxFrac: 2,
-                            posPre: "\u00A4",
-                            posSuf: "",
-                            negPre: "(\u00A4",
-                            negSuf: ")",
-                            gSize: 3,
-                            lgSize: 3
-                        }
-                    ],
-                    CURRENCY_SYM: "$"
-                },
-                DATETIME_FORMATS: {
-                    MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
-                    SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
-                    DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
-                    SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
-                    AMPMS: [
-                        "AM",
-                        "PM"
-                    ],
-                    medium: "MMM d, y h:mm:ss a",
-                    short: "M/d/yy h:mm a",
-                    fullDate: "EEEE, MMMM d, y",
-                    longDate: "MMMM d, y",
-                    mediumDate: "MMM d, y",
-                    shortDate: "M/d/yy",
-                    mediumTime: "h:mm:ss a",
-                    shortTime: "h:mm a"
-                },
-                pluralCat: function(num) {
-                    return 1 === num ? "one" : "other";
-                }
-            };
-        };
-    }
     var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/, DEFAULT_PORTS = {
         http: 80,
         https: 443,
@@ -5336,10 +5234,7 @@
                 }), $location.absUrl() != initialUrl && $browser.url($location.absUrl(), !0), // update $location when $browser url changes
                 $browser.onUrlChange(function(newUrl) {
                     if ($location.absUrl() != newUrl) {
-                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) {
-                            $browser.url($location.absUrl());
-                            return;
-                        }
+                        if ($rootScope.$broadcast("$locationChangeStart", newUrl, $location.absUrl()).defaultPrevented) return void $browser.url($location.absUrl());
                         $rootScope.$evalAsync(function() {
                             var oldUrl = $location.absUrl();
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
@@ -5670,9 +5565,9 @@
         // nifty check if obj is Function that is fast and works across iframes and other contexts
         if (obj) {
             if (obj.constructor === obj) throw $parseMinErr("isecfn", "Referencing Function in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isWindow(obj)
+            else if (// isWindow(obj)
             obj.document && obj.location && obj.alert && obj.setInterval) throw $parseMinErr("isecwindow", "Referencing the Window in Angular expressions is disallowed! Expression: {0}", fullExpression);
-            if (// isElement(obj)
+            else if (// isElement(obj)
             obj.children && (obj.nodeName || obj.on && obj.find)) throw $parseMinErr("isecdom", "Referencing DOM nodes in Angular expressions is disallowed! Expression: {0}", fullExpression);
         }
         return obj;
@@ -6015,10 +5910,8 @@
             };
         },
         filterChain: function() {
-            for(var token, left = this.expression();;){
-                if (!(token = this.expect("|"))) return left;
-                left = this.binaryFn(left, token.fn, this.filter());
-            }
+            for(var token, left = this.expression();;)if (!(token = this.expect("|"))) return left;
+            else left = this.binaryFn(left, token.fn, this.filter());
         },
         filter: function() {
             for(var token = this.expect(), fn = this.$filter(token.text), argsFn = [];;)if (token = this.expect(":")) argsFn.push(this.expression());
@@ -6048,10 +5941,8 @@
             return (token = this.expect("?")) ? (middle = this.ternary(), token = this.expect(":")) ? this.ternaryFn(left, middle, this.ternary()) : void this.throwError("expected :", token) : left;
         },
         logicalOR: function() {
-            for(var token, left = this.logicalAND();;){
-                if (!(token = this.expect("||"))) return left;
-                left = this.binaryFn(left, token.fn, this.logicalAND());
-            }
+            for(var token, left = this.logicalAND();;)if (!(token = this.expect("||"))) return left;
+            else left = this.binaryFn(left, token.fn, this.logicalAND());
         },
         logicalAND: function() {
             var token, left = this.equality();
@@ -6688,7 +6579,7 @@
                             var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
                             return forEach(promises, function(promise, key) {
                                 counter++, ref(promise).then(function(value) {
-                                    results.hasOwnProperty(key) || (results[key] = value, --counter || deferred.resolve(results));
+                                    !results.hasOwnProperty(key) && (results[key] = value, --counter || deferred.resolve(results));
                                 }, function(reason) {
                                     results.hasOwnProperty(key) || deferred.reject(reason);
                                 });
@@ -7043,21 +6934,20 @@
        */ $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) {
-                                if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
-                                    (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
-                                    changeDetected++, oldValue.length = oldLength = newLength);
-                                    // copy the items to oldValue and look for changes.
-                                    for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
-                                } else {
-                                    for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
-                                    oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
-                                    newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
-                                    if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
-                                    changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
-                                }
-                            } else oldValue !== newValue && (oldValue = newValue, changeDetected++);
+                            if (isObject(newValue = objGetter(self))) if (isArrayLike(newValue)) {
+                                oldValue !== internalArray && (oldLength = // we are transitioning from something which was not an array into array.
+                                (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (// if lengths do not match we need to trigger change notification
+                                changeDetected++, oldValue.length = oldLength = newLength);
+                                // copy the items to oldValue and look for changes.
+                                for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
+                            } else {
+                                for(key in oldValue !== internalObject && (// we are transitioning from something which was not an object into object.
+                                oldValue = internalObject = {}, oldLength = 0, changeDetected++), // copy the items to oldValue and look for changes.
+                                newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
+                                if (oldLength > newLength) for(key in // we used to have more keys, need to find them and destroy them.
+                                changeDetected++, oldValue)oldValue.hasOwnProperty(key) && !newValue.hasOwnProperty(key) && (oldLength--, delete oldValue[key]);
+                            }
+                            else oldValue !== newValue && (oldValue = newValue, changeDetected++);
                             return changeDetected;
                         }, function() {
                             listener(newValue, oldValue, self);
@@ -7129,16 +7019,14 @@
                                 length = watchers.length; length--;)try {
                                     // Most common watches are on primitives, in which case we can short
                                     // circuit it with === operator, only when === fails do we use .equals
-                                    if (watch = watchers[length]) {
-                                        if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
-                                            if (watch === lastDirtyWatch) {
-                                                // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
-                                                // have already been tested.
-                                                dirty = !1;
-                                                break traverseScopesLoop;
-                                            }
-                                        } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
-                                    }
+                                    if (watch = watchers[length]) if ((value = watch.get(current)) === (last = watch.last) || (watch.eq ? equals(value, last) : "number" == typeof value && "number" == typeof last && isNaN(value) && isNaN(last))) {
+                                        if (watch === lastDirtyWatch) {
+                                            // If the most recently dirty watcher is now clean, short circuit since the remaining watchers
+                                            // have already been tested.
+                                            dirty = !1;
+                                            break traverseScopesLoop;
+                                        }
+                                    } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
                                 } catch (e) {
                                     clearPhase(), $exceptionHandler(e);
                                 }
@@ -7759,25 +7647,23 @@
                         // If we get here, then we may only take one of two actions.
                         // 1. sanitize the value for the requested type, or
                         // 2. throw an exception.
-                        if (type === SCE_CONTEXTS.RESOURCE_URL) {
-                            if (function(url) {
-                                var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
-                                // Ensure that at least one item from the whitelist allows this url.
-                                for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
-                                    allowed = !0;
+                        if (type === SCE_CONTEXTS.RESOURCE_URL) if (function(url) {
+                            var i, n, parsedUrl = urlResolve(url.toString()), allowed = !1;
+                            // Ensure that at least one item from the whitelist allows this url.
+                            for(i = 0, n = resourceUrlWhitelist.length; i < n; i++)if (matchUrl(resourceUrlWhitelist[i], parsedUrl)) {
+                                allowed = !0;
+                                break;
+                            }
+                            if (allowed) // Ensure that no item from the blacklist blocked this url.
+                            {
+                                for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
+                                    allowed = !1;
                                     break;
                                 }
-                                if (allowed) // Ensure that no item from the blacklist blocked this url.
-                                {
-                                    for(i = 0, n = resourceUrlBlacklist.length; i < n; i++)if (matchUrl(resourceUrlBlacklist[i], parsedUrl)) {
-                                        allowed = !1;
-                                        break;
-                                    }
-                                }
-                                return allowed;
-                            }(maybeTrusted)) return maybeTrusted;
-                            throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
-                        }
+                            }
+                            return allowed;
+                        }(maybeTrusted)) return maybeTrusted;
+                        else throw $sceMinErr("insecurl", "Blocked loading resource from url not allowed by $sceDelegate policy.  URL: {0}", maybeTrusted.toString());
                         if (type === SCE_CONTEXTS.HTML) return htmlSanitizer(maybeTrusted);
                         throw $sceMinErr("unsafe", "Attempting to use an unsafe value in a safe context.");
                     },
@@ -8611,7 +8497,7 @@
       </doc:example>
       */ function timeout(fn, delay, invokeApply) {
                     var timeoutId, deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply;
-                    return promise.$$timeoutId = timeoutId = $browser.defer(function() {
+                    return timeoutId = $browser.defer(function() {
                         try {
                             deferred.resolve(fn());
                         } catch (e) {
@@ -8620,7 +8506,7 @@
                             delete deferreds[promise.$$timeoutId];
                         }
                         skipApply || $rootScope.$apply();
-                    }, delay), deferreds[timeoutId] = deferred, promise;
+                    }, delay), promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
                 }
                 return(/**
          * @ngdoc function
@@ -9416,8 +9302,9 @@
  */ function limitToFilter() {
         return function(input, limit) {
             if (!isArray(input) && !isString(input)) return input;
-            if (limit = int(limit), isString(input)) return(//NaN check on limit
-            limit ? limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length) : "");
+            if (limit = int(limit), isString(input)) //NaN check on limit
+            if (limit) return limit >= 0 ? input.slice(0, limit) : input.slice(limit, input.length);
+            else return "";
             var i, n, out = [];
             for(limit > input.length ? limit = input.length : limit < -input.length && (limit = -input.length), limit > 0 ? (i = 0, n = limit) : (i = input.length + limit, n = input.length); i < n; i++)out.push(input[i]);
             return out;
@@ -10645,8 +10532,7 @@
                 if (ctrl) {
                     attr.required = !0;
                     var validator = function(value) {
-                        if (!(attr.required && ctrl.$isEmpty(value))) return ctrl.$setValidity("required", !0), value;
-                        ctrl.$setValidity("required", !1);
+                        return attr.required && ctrl.$isEmpty(value) ? void ctrl.$setValidity("required", !1) : (ctrl.$setValidity("required", !0), value);
                     };
                     ctrl.$formatters.push(validator), ctrl.$parsers.unshift(validator), attr.$observe("required", function() {
                         validator(ctrl.$viewValue);
@@ -11633,12 +11519,10 @@
                                 }, optionGroupNames = [
                                     ""
                                 ], modelValue = ctrl.$modelValue, values = valuesFn(scope) || [], keys = keyName ? sortedKeys(values) : values, locals = {}, selectedSet = !1;
-                                if (multiple) {
-                                    if (trackFn && isArray(modelValue)) {
-                                        selectedSet = new HashMap([]);
-                                        for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
-                                    } else selectedSet = new HashMap(modelValue);
-                                }
+                                if (multiple) if (trackFn && isArray(modelValue)) {
+                                    selectedSet = new HashMap([]);
+                                    for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
+                                } else selectedSet = new HashMap(modelValue);
                                 // We now build up the list of options we need (we merge later)
                                 for(index = 0; index < (length = keys.length); index++){
                                     if (key = index, keyName) {
@@ -11662,7 +11546,7 @@
                                     });
                                 }
                                 // Now we need to update the list of DOM nodes to match the optionGroups we computed above
-                                for(multiple || (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
+                                for(!multiple && (nullOption || null === modelValue ? // insert null option if we have a placeholder, or the model is null
                                 optionGroups[""].unshift({
                                     id: "",
                                     label: "",
@@ -11795,53 +11679,72 @@
         inheritedData: JQLitePrototype.inheritedData
     }), // Method signature:
     //     jqLitePatchJQueryRemove(name, dispatchThis, filterElems, getterIfNoArguments)
-    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite, function(angular1) {
-        extend(angular1, {
-            bootstrap: bootstrap,
-            copy: copy,
-            extend: extend,
-            equals: equals,
-            element: jqLite,
-            forEach: forEach,
-            injector: createInjector,
-            noop: noop,
-            bind: bind,
-            toJson: toJson,
-            fromJson: fromJson,
-            identity: identity,
-            isUndefined: isUndefined,
-            isDefined: isDefined,
-            isString: isString,
-            isFunction: isFunction,
-            isObject: isObject,
-            isNumber: isNumber,
-            isElement: isElement,
-            isArray: isArray,
-            version: version,
-            isDate: isDate,
-            lowercase: lowercase,
-            uppercase: uppercase,
-            callbacks: {
-                counter: 0
-            },
-            $$minErr: minErr,
-            $$csp: csp
-        }), angularModule = /**
+    jqLitePatchJQueryRemove("remove", !0, !0, !1), jqLitePatchJQueryRemove("empty", !1, !1, !1), jqLitePatchJQueryRemove("html", !1, !1, !0)) : jqLite = JQLite, angular1.element = jqLite;
+    extend(angular1, {
+        bootstrap: bootstrap,
+        copy: copy,
+        extend: extend,
+        equals: equals,
+        element: jqLite,
+        forEach: forEach,
+        injector: createInjector,
+        noop: noop,
+        bind: bind,
+        toJson: toJson,
+        fromJson: fromJson,
+        identity: identity,
+        isUndefined: isUndefined,
+        isDefined: isDefined,
+        isString: isString,
+        isFunction: isFunction,
+        isObject: isObject,
+        isNumber: isNumber,
+        isElement: /**
+   * @ngdoc function
+   * @name angular.isElement
+   * @function
+   *
+   * @description
+   * Determines if a reference is a DOM element (or wrapped jQuery element).
+   *
+   * @param {*} value Reference to check.
+   * @returns {boolean} True if `value` is a DOM element (or wrapped jQuery element).
+   */ function(node) {
+            return !!(node && (node.nodeName || // we are a direct element
+            node.on && node.find)); // we have an on and find method part of jQuery API
+        },
+        isArray: isArray,
+        version: {
+            full: "1.2.5",
+            major: 1,
+            minor: 2,
+            dot: 5,
+            codeName: "singularity-expansion"
+        },
+        isDate: isDate,
+        lowercase: lowercase,
+        uppercase: uppercase,
+        callbacks: {
+            counter: 0
+        },
+        $$minErr: minErr,
+        $$csp: csp
+    }), angularModule = /**
    * @ngdoc interface
    * @name angular.Module
    * @description
    *
    * Interface for configuring angular {@link angular.module modules}.
    */ function(window1) {
-            var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
-            function ensure(obj, name, factory) {
-                return obj[name] || (obj[name] = factory());
-            }
-            var angular1 = ensure(window1, "angular", Object);
-            return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
-            angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
-                /** @type {Object.<string, angular.Module>} */ var modules = {};
-                /**
+        var $injectorMinErr = minErr("$injector"), ngMinErr = minErr("ng");
+        function ensure(obj, name, factory) {
+            return obj[name] || (obj[name] = factory());
+        }
+        var angular1 = ensure(window1, "angular", Object);
+        return(// We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
+        angular1.$$minErr = angular1.$$minErr || minErr, ensure(angular1, "module", function() {
+            /** @type {Object.<string, angular.Module>} */ var modules = {};
+            /**
        * @ngdoc function
        * @name angular.module
        * @description
@@ -11891,15 +11794,14 @@
        *        {@link angular.Module#methods_config Module#config()}.
        * @returns {module} new module with the {@link angular.Module} api.
        */ return function(name, requires, configFn) {
-                    return function(name, context) {
-                        if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", context);
-                    }(name, "module"), requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
-                        if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
-                        /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
-                            // Private state
-                            _invokeQueue: invokeQueue,
-                            _runBlocks: runBlocks,
-                            /**
+                if ("hasOwnProperty" === name) throw ngMinErr("badname", "hasOwnProperty is not a valid {0} name", "module");
+                return requires && modules.hasOwnProperty(name) && (modules[name] = null), ensure(modules, name, function() {
+                    if (!requires) throw $injectorMinErr("nomod", "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.", name);
+                    /** @type {!Array.<Array.<*>>} */ var invokeQueue = [], runBlocks = [], config = invokeLater("$injector", "invoke"), moduleInstance = {
+                        // Private state
+                        _invokeQueue: invokeQueue,
+                        _runBlocks: runBlocks,
+                        /**
              * @ngdoc property
              * @name angular.Module#requires
              * @propertyOf angular.Module
@@ -11908,14 +11810,14 @@
              * Holds the list of modules which the injector will load before the current module is
              * loaded.
              */ requires: requires,
-                            /**
+                        /**
              * @ngdoc property
              * @name angular.Module#name
              * @propertyOf angular.Module
              * @returns {string} Name of the module.
              * @description
              */ name: name,
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#provider
              * @methodOf angular.Module
@@ -11925,7 +11827,7 @@
              * @description
              * See {@link AUTO.$provide#provider $provide.provider()}.
              */ provider: invokeLater("$provide", "provider"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#factory
              * @methodOf angular.Module
@@ -11934,7 +11836,7 @@
              * @description
              * See {@link AUTO.$provide#factory $provide.factory()}.
              */ factory: invokeLater("$provide", "factory"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#service
              * @methodOf angular.Module
@@ -11943,7 +11845,7 @@
              * @description
              * See {@link AUTO.$provide#service $provide.service()}.
              */ service: invokeLater("$provide", "service"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#value
              * @methodOf angular.Module
@@ -11952,7 +11854,7 @@
              * @description
              * See {@link AUTO.$provide#value $provide.value()}.
              */ value: invokeLater("$provide", "value"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#constant
              * @methodOf angular.Module
@@ -11962,7 +11864,7 @@
              * Because the constant are fixed, they get applied before other provide methods.
              * See {@link AUTO.$provide#constant $provide.constant()}.
              */ constant: invokeLater("$provide", "constant", "unshift"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#animation
              * @methodOf angular.Module
@@ -11994,7 +11896,7 @@
              * See {@link ngAnimate.$animateProvider#register $animateProvider.register()} and
              * {@link ngAnimate ngAnimate module} for more information.
              */ animation: invokeLater("$animateProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#filter
              * @methodOf angular.Module
@@ -12003,7 +11905,7 @@
              * @description
              * See {@link ng.$filterProvider#register $filterProvider.register()}.
              */ filter: invokeLater("$filterProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#controller
              * @methodOf angular.Module
@@ -12013,7 +11915,7 @@
              * @description
              * See {@link ng.$controllerProvider#register $controllerProvider.register()}.
              */ controller: invokeLater("$controllerProvider", "register"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#directive
              * @methodOf angular.Module
@@ -12024,7 +11926,7 @@
              * @description
              * See {@link ng.$compileProvider#methods_directive $compileProvider.directive()}.
              */ directive: invokeLater("$compileProvider", "directive"),
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#config
              * @methodOf angular.Module
@@ -12033,7 +11935,7 @@
              * @description
              * Use this method to register work which needs to be performed on module loading.
              */ config: config,
-                            /**
+                        /**
              * @ngdoc method
              * @name angular.Module#run
              * @methodOf angular.Module
@@ -12043,109 +11945,175 @@
              * Use this method to register work which should be performed when the injector is done
              * loading all modules.
              */ run: function(block) {
-                                return runBlocks.push(block), this;
-                            }
-                        };
-                        return configFn && config(configFn), moduleInstance;
-                        /**
+                            return runBlocks.push(block), this;
+                        }
+                    };
+                    return configFn && config(configFn), moduleInstance;
+                    /**
            * @param {string} provider
            * @param {string} method
            * @param {String=} insertMethod
            * @returns {angular.Module}
            */ function invokeLater(provider, method, insertMethod) {
-                            return function() {
-                                return invokeQueue[insertMethod || "push"]([
-                                    provider,
-                                    method,
-                                    arguments
-                                ]), moduleInstance;
-                            };
-                        }
-                    });
-                };
-            }));
-        }(window1);
-        try {
-            angularModule("ngLocale");
-        } catch (e) {
-            angularModule("ngLocale", []).provider("$locale", $LocaleProvider);
-        }
-        angularModule("ng", [
-            "ngLocale"
-        ], [
-            "$provide",
-            function($provide) {
-                // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
-                $provide.provider({
-                    $$sanitizeUri: $$SanitizeUriProvider
-                }), $provide.provider("$compile", $CompileProvider).directive({
-                    a: htmlAnchorDirective,
-                    input: inputDirective,
-                    textarea: inputDirective,
-                    form: formDirective,
-                    script: scriptDirective,
-                    select: selectDirective,
-                    style: styleDirective,
-                    option: optionDirective,
-                    ngBind: ngBindDirective,
-                    ngBindHtml: ngBindHtmlDirective,
-                    ngBindTemplate: ngBindTemplateDirective,
-                    ngClass: ngClassDirective,
-                    ngClassEven: ngClassEvenDirective,
-                    ngClassOdd: ngClassOddDirective,
-                    ngCloak: ngCloakDirective,
-                    ngController: ngControllerDirective,
-                    ngForm: ngFormDirective,
-                    ngHide: ngHideDirective,
-                    ngIf: ngIfDirective,
-                    ngInclude: ngIncludeDirective,
-                    ngInit: ngInitDirective,
-                    ngNonBindable: ngNonBindableDirective,
-                    ngPluralize: ngPluralizeDirective,
-                    ngRepeat: ngRepeatDirective,
-                    ngShow: ngShowDirective,
-                    ngStyle: ngStyleDirective,
-                    ngSwitch: ngSwitchDirective,
-                    ngSwitchWhen: ngSwitchWhenDirective,
-                    ngSwitchDefault: ngSwitchDefaultDirective,
-                    ngOptions: ngOptionsDirective,
-                    ngTransclude: ngTranscludeDirective,
-                    ngModel: ngModelDirective,
-                    ngList: ngListDirective,
-                    ngChange: ngChangeDirective,
-                    required: requiredDirective,
-                    ngRequired: requiredDirective,
-                    ngValue: ngValueDirective
-                }).directive({
-                    ngInclude: ngIncludeFillContentDirective
-                }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
-                    $anchorScroll: $AnchorScrollProvider,
-                    $animate: $AnimateProvider,
-                    $browser: $BrowserProvider,
-                    $cacheFactory: $CacheFactoryProvider,
-                    $controller: $ControllerProvider,
-                    $document: $DocumentProvider,
-                    $exceptionHandler: $ExceptionHandlerProvider,
-                    $filter: $FilterProvider,
-                    $interpolate: $InterpolateProvider,
-                    $interval: $IntervalProvider,
-                    $http: $HttpProvider,
-                    $httpBackend: $HttpBackendProvider,
-                    $location: $LocationProvider,
-                    $log: $LogProvider,
-                    $parse: $ParseProvider,
-                    $rootScope: $RootScopeProvider,
-                    $q: $QProvider,
-                    $sce: $SceProvider,
-                    $sceDelegate: $SceDelegateProvider,
-                    $sniffer: $SnifferProvider,
-                    $templateCache: $TemplateCacheProvider,
-                    $timeout: $TimeoutProvider,
-                    $window: $WindowProvider
+                        return function() {
+                            return invokeQueue[insertMethod || "push"]([
+                                provider,
+                                method,
+                                arguments
+                            ]), moduleInstance;
+                        };
+                    }
                 });
-            }
-        ]);
-    }(angular1), jqLite(document1).ready(function() {
+            };
+        }));
+    }(window1);
+    try {
+        angularModule("ngLocale");
+    } catch (e) {
+        angularModule("ngLocale", []).provider("$locale", /**
+   * @ngdoc object
+   * @name ng.$locale
+   *
+   * @description
+   * $locale service provides localization rules for various Angular components. As of right now the
+   * only public api is:
+   *
+   * * `id` – `{string}` – locale id formatted as `languageId-countryId` (e.g. `en-us`)
+   */ function() {
+            this.$get = function() {
+                return {
+                    id: "en-us",
+                    NUMBER_FORMATS: {
+                        DECIMAL_SEP: ".",
+                        GROUP_SEP: ",",
+                        PATTERNS: [
+                            {
+                                // Decimal Pattern
+                                minInt: 1,
+                                minFrac: 0,
+                                maxFrac: 3,
+                                posPre: "",
+                                posSuf: "",
+                                negPre: "-",
+                                negSuf: "",
+                                gSize: 3,
+                                lgSize: 3
+                            },
+                            {
+                                //Currency Pattern
+                                minInt: 1,
+                                minFrac: 2,
+                                maxFrac: 2,
+                                posPre: "\u00A4",
+                                posSuf: "",
+                                negPre: "(\u00A4",
+                                negSuf: ")",
+                                gSize: 3,
+                                lgSize: 3
+                            }
+                        ],
+                        CURRENCY_SYM: "$"
+                    },
+                    DATETIME_FORMATS: {
+                        MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(","),
+                        SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(","),
+                        DAY: "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday".split(","),
+                        SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
+                        AMPMS: [
+                            "AM",
+                            "PM"
+                        ],
+                        medium: "MMM d, y h:mm:ss a",
+                        short: "M/d/yy h:mm a",
+                        fullDate: "EEEE, MMMM d, y",
+                        longDate: "MMMM d, y",
+                        mediumDate: "MMM d, y",
+                        shortDate: "M/d/yy",
+                        mediumTime: "h:mm:ss a",
+                        shortTime: "h:mm a"
+                    },
+                    pluralCat: function(num) {
+                        return 1 === num ? "one" : "other";
+                    }
+                };
+            };
+        });
+    }
+    angularModule("ng", [
+        "ngLocale"
+    ], [
+        "$provide",
+        function($provide) {
+            // $$sanitizeUriProvider needs to be before $compileProvider as it is used by it.
+            $provide.provider({
+                $$sanitizeUri: $$SanitizeUriProvider
+            }), $provide.provider("$compile", $CompileProvider).directive({
+                a: htmlAnchorDirective,
+                input: inputDirective,
+                textarea: inputDirective,
+                form: formDirective,
+                script: scriptDirective,
+                select: selectDirective,
+                style: styleDirective,
+                option: optionDirective,
+                ngBind: ngBindDirective,
+                ngBindHtml: ngBindHtmlDirective,
+                ngBindTemplate: ngBindTemplateDirective,
+                ngClass: ngClassDirective,
+                ngClassEven: ngClassEvenDirective,
+                ngClassOdd: ngClassOddDirective,
+                ngCloak: ngCloakDirective,
+                ngController: ngControllerDirective,
+                ngForm: ngFormDirective,
+                ngHide: ngHideDirective,
+                ngIf: ngIfDirective,
+                ngInclude: ngIncludeDirective,
+                ngInit: ngInitDirective,
+                ngNonBindable: ngNonBindableDirective,
+                ngPluralize: ngPluralizeDirective,
+                ngRepeat: ngRepeatDirective,
+                ngShow: ngShowDirective,
+                ngStyle: ngStyleDirective,
+                ngSwitch: ngSwitchDirective,
+                ngSwitchWhen: ngSwitchWhenDirective,
+                ngSwitchDefault: ngSwitchDefaultDirective,
+                ngOptions: ngOptionsDirective,
+                ngTransclude: ngTranscludeDirective,
+                ngModel: ngModelDirective,
+                ngList: ngListDirective,
+                ngChange: ngChangeDirective,
+                required: requiredDirective,
+                ngRequired: requiredDirective,
+                ngValue: ngValueDirective
+            }).directive({
+                ngInclude: ngIncludeFillContentDirective
+            }).directive(ngAttributeAliasDirectives).directive(ngEventDirectives), $provide.provider({
+                $anchorScroll: $AnchorScrollProvider,
+                $animate: $AnimateProvider,
+                $browser: $BrowserProvider,
+                $cacheFactory: $CacheFactoryProvider,
+                $controller: $ControllerProvider,
+                $document: $DocumentProvider,
+                $exceptionHandler: $ExceptionHandlerProvider,
+                $filter: $FilterProvider,
+                $interpolate: $InterpolateProvider,
+                $interval: $IntervalProvider,
+                $http: $HttpProvider,
+                $httpBackend: $HttpBackendProvider,
+                $location: $LocationProvider,
+                $log: $LogProvider,
+                $parse: $ParseProvider,
+                $rootScope: $RootScopeProvider,
+                $q: $QProvider,
+                $sce: $SceProvider,
+                $sceDelegate: $SceDelegateProvider,
+                $sniffer: $SnifferProvider,
+                $templateCache: $TemplateCacheProvider,
+                $timeout: $TimeoutProvider,
+                $window: $WindowProvider
+            });
+        }
+    ]), jqLite(document1).ready(function() {
         !/**
  * @ngdoc directive
  * @name ng.directive:ngApp

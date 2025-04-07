@@ -37,26 +37,80 @@ const SPC: ByteHandler = Some(|_| 1);
 
 /// Unicode
 const UNI: ByteHandler = Some(|skip| {
+    // Check byte patterns directly for more efficient Unicode character processing
+    let bytes = skip.input.as_bytes();
+    let i = skip.offset as usize;
+
+    // Check available bytes
+    let remaining_bytes = bytes.len() - i;
+    if remaining_bytes < 1 {
+        return 0;
+    }
+
+    // Predict UTF-8 character length from the first byte
+    let first_byte = unsafe { *bytes.get_unchecked(i) };
+    let char_len = if first_byte < 128 {
+        1
+    } else if first_byte < 224 {
+        if remaining_bytes < 2 {
+            return 0;
+        }
+        2
+    } else if first_byte < 240 {
+        if remaining_bytes < 3 {
+            return 0;
+        }
+        3
+    } else {
+        if remaining_bytes < 4 {
+            return 0;
+        }
+        4
+    };
+
+    // Fast path for common Unicode whitespace characters
+    // Check UTF-8 byte patterns directly
+    if char_len == 3 {
+        // LSEP (U+2028) - Line Separator: E2 80 A8
+        if first_byte == 0xe2
+            && unsafe { *bytes.get_unchecked(i + 1) } == 0x80
+            && unsafe { *bytes.get_unchecked(i + 2) } == 0xa8
+        {
+            skip.newline = true;
+            return 3;
+        }
+
+        // PSEP (U+2029) - Paragraph Separator: E2 80 A9
+        if first_byte == 0xe2
+            && unsafe { *bytes.get_unchecked(i + 1) } == 0x80
+            && unsafe { *bytes.get_unchecked(i + 2) } == 0xa9
+        {
+            skip.newline = true;
+            return 3;
+        }
+    }
+
+    // Process with general method if not handled by fast path
     let s = unsafe {
         // Safety: `skip.offset` is always valid
         skip.input.get_unchecked(skip.offset as usize..)
     };
 
     let c = unsafe {
-        // Safety: Byte handlers are called only when `skip.input` is not empty
+        // Safety: byte handlers are only called when `skip.input` is not empty
         s.chars().next().unwrap_unchecked()
     };
 
     match c {
-        // white spaces
+        // Byte Order Mark (BOM)
         '\u{feff}' => {}
-        // line breaks
+        // Line break characters already handled above
         '\u{2028}' | '\u{2029}' => {
             skip.newline = true;
         }
-
+        // Other whitespace characters
         _ if c.is_whitespace() => {}
-
+        // Not a whitespace character
         _ => return 0,
     }
 
@@ -77,24 +131,105 @@ pub(super) struct SkipWhitespace<'a> {
 impl SkipWhitespace<'_> {
     #[inline(always)]
     pub fn scan(&mut self) {
-        let mut byte;
+        let bytes = self.input.as_bytes();
+        let len = bytes.len();
+        let mut pos = self.offset as usize;
+
+        // Optimization: return immediately if input is empty
+        if pos >= len {
+            return;
+        }
+
         loop {
-            byte = match self.input.as_bytes().get(self.offset as usize).copied() {
-                Some(v) => v,
-                None => return,
-            };
+            // Optimization 1: Process consecutive spaces (most common case) at once
+            let mut byte = unsafe { *bytes.get_unchecked(pos) };
 
-            let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
-
-            if let Some(handler) = handler {
-                let delta = handler(self);
-                if delta == 0 {
-                    return;
+            // Handle consecutive space characters (very common case)
+            if byte == b' ' {
+                pos += 1;
+                // Skip spaces repeatedly (process multiple spaces at once)
+                while pos < len && unsafe { *bytes.get_unchecked(pos) } == b' ' {
+                    pos += 1;
                 }
-                self.offset += delta;
-            } else {
-                return;
+
+                // Check if we've reached the end of input
+                if pos >= len {
+                    break;
+                }
+
+                // Get current byte again
+                byte = unsafe { *bytes.get_unchecked(pos) };
+            }
+
+            // Optimization 2: Handle other common whitespace characters
+            match byte {
+                b'\n' => {
+                    pos += 1;
+                    self.newline = true;
+
+                    if pos >= len {
+                        break;
+                    }
+                    continue;
+                }
+                b'\t' => {
+                    pos += 1;
+
+                    if pos >= len {
+                        break;
+                    }
+                    continue;
+                }
+                b'\r' => {
+                    pos += 1;
+
+                    // Handle CR+LF sequence (Windows line break)
+                    if pos < len && unsafe { *bytes.get_unchecked(pos) } == b'\n' {
+                        pos += 1;
+                        self.newline = true;
+                    } else {
+                        self.newline = true; // Treat standalone CR as line
+                                             // break too
+                    }
+
+                    if pos >= len {
+                        break;
+                    }
+                    continue;
+                }
+                // Case where handler is needed
+                _ => {
+                    // Temporarily update offset
+                    self.offset = pos as u32;
+
+                    // Use handler table
+                    let handler = unsafe { BYTE_HANDLERS.get_unchecked(byte as usize) };
+
+                    match handler {
+                        Some(handler) => {
+                            let delta = handler(self);
+                            if delta == 0 {
+                                // Non-whitespace character found
+                                // offset is already updated
+                                return;
+                            }
+                            pos = self.offset as usize + delta as usize;
+
+                            if pos >= len {
+                                break;
+                            }
+                        }
+                        None => {
+                            // Non-whitespace character found
+                            // offset is already updated
+                            return;
+                        }
+                    }
+                }
             }
         }
+
+        // Update offset to final position
+        self.offset = pos as u32;
     }
 }

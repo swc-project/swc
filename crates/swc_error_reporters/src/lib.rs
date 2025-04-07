@@ -8,12 +8,13 @@ use miette::{
     LabeledSpan, MietteError, Severity, SourceCode, SourceOffset, SourceSpan, SpanContents,
 };
 use swc_common::{
-    errors::{DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
+    errors::{Diagnostic, DiagnosticBuilder, DiagnosticId, Emitter, Level, SubDiagnostic},
     sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
 
 pub mod handler;
+pub mod json_emitter;
 
 pub struct PrettyEmitter {
     cm: Lrc<SourceMap>,
@@ -30,6 +31,40 @@ pub struct PrettyEmitter {
 #[derive(Debug, Clone, Default)]
 pub struct PrettyEmitterConfig {
     pub skip_filename: bool,
+}
+
+pub fn to_miette_source_code<'a>(
+    cm: &'a SourceMap,
+    config: &'a PrettyEmitterConfig,
+) -> impl 'a + SourceCode {
+    MietteSourceCode {
+        cm,
+        skip_filename: config.skip_filename,
+    }
+}
+
+fn to_miette_diagnostic<'a>(
+    cm: &'a SourceMap,
+    config: &'a PrettyEmitterConfig,
+    d: &'a Diagnostic,
+) -> impl 'a + miette::Diagnostic {
+    let source_code = MietteSourceCode {
+        cm,
+        skip_filename: config.skip_filename,
+    };
+
+    let children = d
+        .children
+        .iter()
+        .filter(|d| !matches!(d.level, Level::Help))
+        .map(|d| MietteSubdiagnostic { source_code, d })
+        .collect::<Vec<_>>();
+
+    MietteDiagnostic {
+        source_code,
+        d,
+        children,
+    }
 }
 
 impl PrettyEmitter {
@@ -66,7 +101,10 @@ impl Write for WriterWrapper {
 }
 
 #[derive(Clone, Copy)]
-struct MietteSourceCode<'a>(&'a SourceMap, &'a PrettyEmitterConfig);
+struct MietteSourceCode<'a> {
+    cm: &'a SourceMap,
+    skip_filename: bool,
+}
 
 impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
@@ -81,7 +119,7 @@ impl SourceCode for MietteSourceCode<'_> {
         let mut span = Span::new(BytePos(lo as _), BytePos(hi as _));
 
         span = self
-            .0
+            .cm
             .with_span_to_prev_source(span, |src| {
                 let len = src
                     .rsplit('\n')
@@ -95,7 +133,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         span = self
-            .0
+            .cm
             .with_span_to_next_source(span, |src| {
                 let len = src
                     .split('\n')
@@ -109,7 +147,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         span = self
-            .0
+            .cm
             .with_snippet_of_span(span, |src| {
                 if src.lines().next().is_some() {
                     return span;
@@ -125,7 +163,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .unwrap_or(span);
 
         let mut src = self
-            .0
+            .cm
             .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
             .unwrap_or(" ");
 
@@ -133,10 +171,10 @@ impl SourceCode for MietteSourceCode<'_> {
             src = " ";
         }
 
-        let loc = self.0.lookup_char_pos(span.lo());
+        let loc = self.cm.lookup_char_pos(span.lo());
         let line_count = loc.file.analyze().lines.len();
 
-        let name = if self.1.skip_filename {
+        let name = if self.skip_filename {
             None
         } else {
             match &*loc.file.name {
@@ -148,9 +186,9 @@ impl SourceCode for MietteSourceCode<'_> {
         };
 
         Ok(Box::new(SpanContentsImpl {
-            _cm: self.0,
+            _cm: self.cm,
             data: src,
-            span: convert_span(span),
+            span: to_miette_span(span),
             line: loc.line.saturating_sub(1),
             column: loc.col_display,
             line_count,
@@ -163,20 +201,7 @@ impl Emitter for PrettyEmitter {
     fn emit(&mut self, db: &DiagnosticBuilder) {
         let d = &**db;
 
-        let source_code = MietteSourceCode(&self.cm, &self.config);
-
-        let children = d
-            .children
-            .iter()
-            .filter(|d| !matches!(d.level, Level::Help))
-            .map(|d| MietteSubdiagnostic { source_code, d })
-            .collect::<Vec<_>>();
-
-        let diagnostic = MietteDiagnostic {
-            source_code,
-            d,
-            children,
-        };
+        let diagnostic = to_miette_diagnostic(&self.cm, &self.config, d);
 
         let mut format_result = String::new();
 
@@ -184,9 +209,9 @@ impl Emitter for PrettyEmitter {
             .render_report(&mut format_result, &diagnostic)
             .unwrap();
 
-        self.diagnostics.push(format_result.clone());
+        self.wr.write_str(&format_result).unwrap();
 
-        self.wr.write_str(&format_result).unwrap()
+        self.diagnostics.push(format_result);
     }
 
     fn take_diagnostics(&mut self) -> Vec<String> {
@@ -196,7 +221,7 @@ impl Emitter for PrettyEmitter {
 
 struct MietteDiagnostic<'a> {
     source_code: MietteSourceCode<'a>,
-    d: &'a swc_common::errors::Diagnostic,
+    d: &'a Diagnostic,
 
     children: Vec<MietteSubdiagnostic<'a>>,
 }
@@ -245,7 +270,7 @@ impl miette::Diagnostic for MietteDiagnostic<'_> {
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
         let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+            LabeledSpan::new_with_span(span_label.label, to_miette_span(span_label.span))
         });
 
         Some(Box::new(iter))
@@ -277,7 +302,7 @@ impl fmt::Display for MietteDiagnostic<'_> {
     }
 }
 
-fn convert_span(span: Span) -> SourceSpan {
+pub fn to_miette_span(span: Span) -> SourceSpan {
     let len = span.hi - span.lo;
     let start = SourceOffset::from(span.lo.0 as usize);
     SourceSpan::new(start, len.0 as usize)
@@ -311,7 +336,7 @@ impl miette::Diagnostic for MietteSubdiagnostic<'_> {
 
     fn labels(&self) -> Option<Box<dyn Iterator<Item = LabeledSpan> + '_>> {
         let iter = self.d.span.span_labels().into_iter().map(|span_label| {
-            LabeledSpan::new_with_span(span_label.label, convert_span(span_label.span))
+            LabeledSpan::new_with_span(span_label.label, to_miette_span(span_label.span))
         });
 
         Some(Box::new(iter))

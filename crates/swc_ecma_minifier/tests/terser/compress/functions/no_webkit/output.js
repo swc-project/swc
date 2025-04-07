@@ -1,3 +1,1 @@
-console.log((function() {
-    2;
-}).a = 1);
+console.log((function() {}).a = 1);

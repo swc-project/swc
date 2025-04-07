@@ -351,7 +351,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions {}
+export interface TerserManglePropertiesOptions { }
 
 /**
  * Programmatic options.
@@ -665,7 +665,7 @@ export interface JscConfig {
          *
          * Second parameter of tuple is JSON based configuration for the plugin.
          */
-        plugins?: Array<[string, Record<string, any>]>;
+        plugins?: WasmPlugin[];
 
         /**
          * Run Wasm plugins before stripping TypeScript or decorators.
@@ -909,7 +909,28 @@ export interface ReactConfig {
     /**
      * Enable fast refresh feature for React app
      */
-    refresh?: boolean;
+    refresh?:
+    | boolean
+    | {
+        /**
+         * Identifier for the `react-refresh` register function.
+         *
+         * Defaults to `$RefreshReg$`
+         */
+        refreshReg?: string;
+        /**
+         * Identifier for the `react-refresh` signature function.
+         *
+         * Defaults to `$RefreshSig$`
+         */
+        refreshSig?: string;
+        /**
+         * Flag to emit full signatures.
+         *
+         * Defaults to `false`
+         */
+        emitFullSignatures?: boolean;
+    };
 
     /**
      * jsx runtime
@@ -1135,6 +1156,12 @@ export interface BaseModuleConfig {
      */
     importInterop?: "swc" | "babel" | "node" | "none";
     /**
+     * Output extension for generated files.
+     * 
+     * Defaults to `js`.
+     */
+    outFileExtension?: "js" | "mjs" | "cjs";
+    /**
      * Emits `cjs-module-lexer` annotation
      * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.
      * swc will emit `cjs-module-lexer` detectable annotation with this option enabled.
@@ -1186,7 +1213,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern {}
+export interface MatchPattern { }
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1418,7 +1445,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan {}
+interface ExpressionBase extends Node, HasSpan { }
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";
@@ -2885,3 +2912,20 @@ export type Accessibility = "public" | "protected" | "private";
 export interface Invalid extends Node, HasSpan {
     type: "Invalid";
 }
+
+
+export type WasmAnalysisOptions = {
+    parser?: ParserConfig,
+
+    module?: true | false | 'unknown'
+
+    filename?: string;
+
+    errorFormat?: 'json' | 'normal'
+
+    cacheRoot?: string;
+
+    plugins: WasmPlugin[]
+}
+
+export type WasmPlugin = [wasmPackage: string, config: Record<string, any>]

@@ -10,10 +10,7 @@ class Toolbar extends Module {
             const container = document.createElement('div');
             addControls(container, this.options.container), quill.container.parentNode.insertBefore(container, quill.container), this.container = container;
         } else 'string' == typeof this.options.container ? this.container = document.querySelector(this.options.container) : this.container = this.options.container;
-        if (!(this.container instanceof HTMLElement)) {
-            debug.error('Container required for toolbar', this.options);
-            return;
-        }
+        if (!(this.container instanceof HTMLElement)) return void debug.error('Container required for toolbar', this.options);
         this.container.classList.add('ql-toolbar'), this.controls = [], this.handlers = {}, Object.keys(this.options.handlers).forEach((format)=>{
             this.addHandler(format, this.options.handlers[format]);
         }), Array.from(this.container.querySelectorAll('button, select')).forEach((input)=>{
@@ -31,10 +28,7 @@ class Toolbar extends Module {
     attach(input) {
         let format = Array.from(input.classList).find((className)=>0 === className.indexOf('ql-'));
         if (!format) return;
-        if (format = format.slice(3), 'BUTTON' === input.tagName && input.setAttribute('type', 'button'), null == this.handlers[format] && null == this.quill.scroll.query(format)) {
-            debug.warn('ignoring attaching to nonexistent format', format, input);
-            return;
-        }
+        if (format = format.slice(3), 'BUTTON' === input.tagName && input.setAttribute('type', 'button'), null == this.handlers[format] && null == this.quill.scroll.query(format)) return void debug.warn('ignoring attaching to nonexistent format', format, input);
         const eventName = 'SELECT' === input.tagName ? 'change' : 'click';
         input.addEventListener(eventName, (e)=>{
             let value;

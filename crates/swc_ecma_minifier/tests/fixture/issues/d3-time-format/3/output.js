@@ -37,12 +37,10 @@
                     return newInterval(function(date) {
                         if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
                     }, function(date, step) {
-                        if (date >= date) {
-                            if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
-                             // eslint-disable-line no-empty
-                            else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
-                             // eslint-disable-line no-empty
-                        }
+                        if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                         // eslint-disable-line no-empty
+                        else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                         // eslint-disable-line no-empty
                     });
                 }, count && (interval.count = function(start, end) {
                     return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
@@ -583,7 +581,7 @@
                 return +d;
             }
             function formatUnixTimestampSeconds(d) {
-                return Math.floor(+d / 1000);
+                return Math.floor(d / 1000);
             } // CONCATENATED MODULE: ../node_modules/d3-time-format/src/defaultLocale.js
             (locale = function(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats = {
@@ -748,7 +746,7 @@
                         // Convert day-of-week and week-of-year to day-of-year.
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
-                            "w" in d || (d.w = 1), "Z" in d ? (week = (day1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day1 ? utcMonday.ceil(week) : utcMonday(week), d.y = (week = utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day1 ? monday.ceil(week) : monday(week), d.y = (week = day.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                            "w" in d || (d.w = 1), "Z" in d ? (week = (day1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                         } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : +("W" in d)), day1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day1 + 5) % 7 : d.w + 7 * d.U - (day1 + 6) % 7);
                         return(// If a time zone is specified, all fields are interpreted as UTC and then
                         // offset according to the specified time zone.

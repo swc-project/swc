@@ -19,10 +19,10 @@ impl Optimizer<'_> {
         };
 
         // We only care about instant breaks.
-        let label = match &mut *f.body {
-            Stmt::Break(b) => b.label.take(),
+        match &mut *f.body {
+            Stmt::Break(BreakStmt { label: None, .. }) => {}
             _ => return,
-        };
+        }
 
         self.changed = true;
         report_change!("loops: Removing a for loop with instant break");
@@ -43,15 +43,6 @@ impl Optimizer<'_> {
             }
             .into()
         }));
-        if label.is_some() {
-            self.prepend_stmts.push(
-                BreakStmt {
-                    span: DUMMY_SP,
-                    label,
-                }
-                .into(),
-            );
-        }
 
         *s = EmptyStmt { span: DUMMY_SP }.into()
     }
@@ -126,32 +117,6 @@ impl Optimizer<'_> {
                 }
             }
             _ => {}
-        }
-    }
-
-    ///
-    /// - `for (a(), 5; b(); c())` => `for (a(); b(); c())`
-    pub(super) fn optimize_init_of_for_stmt(&mut self, s: &mut ForStmt) {
-        if !self.options.side_effects {
-            return;
-        }
-
-        if let Some(init) = &mut s.init {
-            match init {
-                VarDeclOrExpr::VarDecl(_) => {}
-                VarDeclOrExpr::Expr(init) => {
-                    let new = self.ignore_return_value(init);
-                    if let Some(new) = new {
-                        *init = Box::new(new);
-                    } else {
-                        s.init = None;
-                        self.changed = true;
-                        report_change!(
-                            "loops: Removed side-effect-free expressions in `init` of a for stmt"
-                        );
-                    }
-                }
-            }
         }
     }
 }

@@ -854,7 +854,28 @@ export interface ReactConfig {
   /**
    * Enable fast refresh feature for React app
    */
-  refresh?: boolean;
+  refresh?:
+    | boolean
+    | {
+          /**
+           * Identifier for the `react-refresh` register function.
+           *
+           * Defaults to `$RefreshReg$`
+           */
+          refreshReg?: string;
+          /**
+           * Identifier for the `react-refresh` signature function.
+           *
+           * Defaults to `$RefreshSig$`
+           */
+          refreshSig?: string;
+          /**
+           * Flag to emit full signatures.
+           *
+           * Defaults to `false`
+           */
+          emitFullSignatures?: boolean;
+      };
 
   /**
    * jsx runtime
@@ -904,7 +925,7 @@ export interface GlobalPassOption {
   /**
    * Name of environment variables to inline.
    *
-   * Defaults to `["NODE_ENV", "SWC_ENV"]`
+   * Defaults to `[]`
    */
   envs?: string[] | Record<string, string>;
 }
@@ -1066,6 +1087,12 @@ export interface BaseModuleConfig {
    * ```
    */
   importInterop?: "swc" | "babel" | "node" | "none";
+  /**
+   * Output extension for generated files.
+   * 
+   * Defaults to `js`.
+  */
+  outFileExtension?: "js" | "mjs" | "cjs";
   /**
    * Emits `cjs-module-lexer` annotation
    * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.

@@ -13,7 +13,7 @@
             });
             // UNUSED EXPORTS: CacheProvider, ClassNames, ThemeContext, ThemeProvider, __unsafe_useEmotionCache, createElement, css, jsx, keyframes, useTheme, withEmotionCache, withTheme
             // EXTERNAL MODULE: ./node_modules/react/index.js
-            var cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
+            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = /*#__PURE__*/ function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -28,11 +28,8 @@
                     // the max length is how many rules we have per style tag, it's 65000 in speedy mode
                     // it's 1 in dev because we insert source maps that map a single rule to a location
                     // and you can only have one source map per style tag
-                    if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
-                        var tag;
-                        this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
-                    }
-                    var tag1 = this.tags[this.tags.length - 1];
+                    this.ctr % (this.isSpeedy ? 65000 : 1) == 0 && this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
+                    var tag, tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
                         var sheet = /*
 
@@ -347,6 +344,7 @@
                  * @param {number} length
                  * @return {string}
                  */ function prefix(value, length) {
+                                var search, search1;
                                 switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     // color-adjust
                                     case 5103:
@@ -456,7 +454,7 @@
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             // (s)tretch
                                             case 115:
-                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~(search = "stretch", value.indexOf(search)) ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     // position: sticky
@@ -465,7 +463,7 @@
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     // display: (flex|inline-flex)
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~(search1 = "!important", value.indexOf(search1)) && 10))){
                                             // stic(k)y
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
@@ -498,25 +496,28 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) return element.props.map(function(value) {
-                                var value1;
-                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                    // :read-(only|write)
-                                    case ":read-only":
-                                    case ":read-write":
-                                        return serialize([
-                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
-                                        ], callback);
-                                    // :placeholder
-                                    case "::placeholder":
-                                        return serialize([
-                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
-                                        ], callback);
-                                }
-                                return "";
-                            }).join("");
+                            if (element.length) {
+                                var array, callback1;
+                                return array = element.props, callback1 = function(value) {
+                                    var value1;
+                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                        // :read-(only|write)
+                                        case ":read-only":
+                                        case ":read-write":
+                                            return serialize([
+                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
+                                            ], callback);
+                                        // :placeholder
+                                        case "::placeholder":
+                                            return serialize([
+                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
+                                            ], callback);
+                                    }
+                                    return "";
+                                }, array.map(callback1).join("");
+                            }
                     }
                 }
             ], hash_browser_esm = /* eslint-disable */ // Inspired by https://github.com/garycourt/murmurhash-js
@@ -590,8 +591,10 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = (cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
+            }, processStyleName = (fn = function(styleName) {
+                return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+            }, cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -802,20 +805,18 @@
                                         characters1 += ";";
                                     // { rule/at-rule
                                     default:
-                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) {
-                                            if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
-                                            else switch(atrule){
-                                                // d m s
-                                                case 100:
-                                                case 109:
-                                                case 115:
-                                                    parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
-                                                    break;
-                                                default:
-                                                    parse(characters1, reference, reference, reference, [
-                                                        ""
-                                                    ], children, length, points, children);
-                                            }
+                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
+                                        else switch(atrule){
+                                            // d m s
+                                            case 100:
+                                            case 109:
+                                            case 115:
+                                                parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
+                                                break;
+                                            default:
+                                                parse(characters1, reference, reference, reference, [
+                                                    ""
+                                                ], children, length, points, children);
                                         }
                                 }
                                 index = offset = property = 0, variable = ampersand = 1, type = characters1 = "", length = pseudo;
@@ -922,8 +923,13 @@
                         sheetRefCurrent[1] = !1;
                         return;
                     }
-                    void 0 !== serialized.next && // insert keyframes
-                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length && (sheet.before = sheet.tags[sheet.tags.length - 1].nextElementSibling, sheet.flush()), cache.insert("", serialized, sheet, !1);
+                    if (void 0 !== serialized.next && // insert keyframes
+                    emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length) {
+                        // if this doesn't exist then it will be null so the style element will be appended
+                        var element = sheet.tags[sheet.tags.length - 1].nextElementSibling;
+                        sheet.before = element, sheet.flush();
+                    }
+                    cache.insert("", serialized, sheet, !1);
                 }, [
                     cache,
                     serialized.name
@@ -1075,7 +1081,7 @@
                     ref: setRef,
                     onClick: function(e) {
                         var scroll1, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), // replace state instead of push if prop is present
                         router[replace ? "replace" : "push"](href, as, {
                             shallow: shallow,
                             locale: locale,

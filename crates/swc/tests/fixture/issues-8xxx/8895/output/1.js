@@ -16,14 +16,14 @@ function main() {
     };
     try {
         const file = _ts_add_disposable_resource._(env, new File(), false);
-        function readFile() {
-            file.read();
-        }
         readFile();
     } catch (e) {
         env.error = e;
         env.hasError = true;
     } finally{
         _ts_dispose_resources._(env);
+    }
+    function readFile() {
+        file.read();
     }
 }

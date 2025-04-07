@@ -1,5 +1,9 @@
-use std::path::{Path, PathBuf};
+use std::{
+    fs::read_to_string,
+    path::{Path, PathBuf},
+};
 
+use serde::Deserialize;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
@@ -7,6 +11,42 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use testing::{run_test2, NormalizedOutput};
+
+const fn true_by_default() -> bool {
+    true
+}
+
+#[derive(Deserialize)]
+struct TestConfig {
+    #[serde(default = "true_by_default")]
+    reduce_escaped_newline: bool,
+}
+
+impl Default for TestConfig {
+    fn default() -> Self {
+        TestConfig {
+            reduce_escaped_newline: true,
+        }
+    }
+}
+
+fn find_config(dir: &Path) -> TestConfig {
+    let mut cur = Some(dir);
+    while let Some(dir) = cur {
+        let config = dir.join("config.json");
+        if config.exists() {
+            let config = read_to_string(&config).expect("failed to read config.json");
+            let config: TestConfig = serde_json::from_str(&config)
+                .expect("failed to deserialize value into a codegen config");
+
+            return config;
+        }
+
+        cur = dir.parent();
+    }
+
+    Default::default()
+}
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
@@ -23,6 +63,7 @@ fn run(input: &Path, minify: bool) {
     };
 
     run_test2(false, |cm, _| {
+        let config = find_config(dir);
         let fm = cm.load_file(input).unwrap();
 
         let m = parse_file_as_module(
@@ -49,7 +90,9 @@ fn run(input: &Path, minify: bool) {
             }
 
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config::default().with_minify(minify),
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_minify(minify)
+                    .with_reduce_escaped_newline(config.reduce_escaped_newline),
                 cm,
                 comments: None,
                 wr,

@@ -31,7 +31,7 @@ napi-build = { version = "2" }
 [dependencies]
 anyhow = "1.0.66"
 backtrace = "0.3"
-munge_macro = "=0.4.1"
+munge_macro = "=0.4.3"
 napi = { version = "2", default-features = false, features = [
   "napi3",
   "serde-json",
@@ -39,6 +39,7 @@ napi = { version = "2", default-features = false, features = [
 napi-derive = { version = "2", default-features = false, features = [
   "type-def",
 ] }
+par-core = { version = "1", features = ["chili"] }
 path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }

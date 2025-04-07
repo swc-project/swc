@@ -7,14 +7,11 @@ const env = {
     hasError: false
 };
 try {
-    const z = _ts_add_disposable_resource(env, {
+    var z = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
     if (false) {
         var y = 1;
-    }
-    function f() {
-        console.log(y, z);
     }
 } catch (e) {
     env.error = e;
@@ -23,3 +20,6 @@ try {
     _ts_dispose_resources(env);
 }
 export { y };
+function f() {
+    console.log(y, z);
+}

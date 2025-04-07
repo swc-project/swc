@@ -1,10 +1,10 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
-use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use super::{util::NormalMultiReplacer, Optimizer};
 #[cfg(feature = "debug")]
@@ -12,7 +12,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
     program_data::{ProgramData, ScopeData},
-    util::{idents_captured_by, idents_used_by, make_number},
+    util::{idents_captured_by, make_number},
 };
 
 /// Methods related to the option `negate_iife`.
@@ -417,6 +417,112 @@ impl Optimizer<'_> {
         self.changed |= v.changed;
     }
 
+    fn may_invoke_iife(&self, call: &mut CallExpr) -> bool {
+        if self.options.inline == 0
+            && !(self.options.reduce_vars && self.options.reduce_fns && self.options.evaluate)
+        {
+            if !call.callee.span().is_dummy() {
+                log_abort!("skip");
+                return false;
+            }
+        }
+
+        trace_op!("iife: Checking noinline");
+
+        if self.has_noinline(call.ctxt) {
+            log_abort!("iife: Has no inline mark");
+            return false;
+        }
+
+        let callee = match &call.callee {
+            Callee::Super(_) | Callee::Import(_) => return false,
+            Callee::Expr(e) => &**e,
+        };
+
+        if self.ctx.dont_invoke_iife {
+            log_abort!("iife: Inline is prevented");
+            return false;
+        }
+
+        for arg in &call.args {
+            if arg.spread.is_some() {
+                log_abort!("iife: Found spread argument");
+                return false;
+            }
+        }
+
+        trace_op!("iife: Checking callee");
+
+        match callee {
+            Expr::Arrow(f) => {
+                if f.is_async {
+                    log_abort!("iife: Cannot inline async fn");
+                    return false;
+                }
+
+                if f.is_generator {
+                    log_abort!("iife: Cannot inline generator");
+                    return false;
+                }
+
+                if self.ctx.in_param && !f.params.is_empty() {
+                    log_abort!("iife: We don't invoke IIFE with params in function params");
+                    return false;
+                }
+
+                if f.params.iter().any(|param| !param.is_ident()) {
+                    return false;
+                }
+            }
+
+            Expr::Fn(f) => {
+                if f.function.is_async {
+                    log_abort!("iife: [x] Cannot inline async fn");
+                    return false;
+                }
+
+                if f.function.is_generator {
+                    log_abort!("iife: [x] Cannot inline generator");
+                    return false;
+                }
+
+                if self.ctx.in_param && !f.function.params.is_empty() {
+                    log_abort!("iife: We don't invoke IIFE with params in function params");
+                    return false;
+                }
+
+                // Abort if a parameter is complex
+                if f.function.params.iter().any(|param| !param.pat.is_ident()) {
+                    return false;
+                }
+
+                trace_op!("iife: Checking recursiveness");
+
+                if let Some(i) = &f.ident {
+                    if self
+                        .data
+                        .vars
+                        .get(&i.to_id())
+                        .filter(|usage| usage.used_recursively)
+                        .is_some()
+                    {
+                        log_abort!("iife: [x] Recursive?");
+                        return false;
+                    }
+                }
+
+                let body = f.function.body.as_ref().unwrap();
+                if contains_this_expr(body) || contains_arguments(body) {
+                    return false;
+                }
+            }
+
+            _ => return false,
+        };
+
+        true
+    }
+
     /// Fully inlines iife.
     ///
     /// # Example
@@ -438,29 +544,12 @@ impl Optimizer<'_> {
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
         trace_op!("iife: invoke_iife");
 
-        if self.options.inline == 0
-            && !(self.options.reduce_vars && self.options.reduce_fns && self.options.evaluate)
-        {
-            let skip = match e {
-                Expr::Call(v) => !v.callee.span().is_dummy(),
-                _ => true,
-            };
-
-            if skip {
-                log_abort!("skip");
-                return;
-            }
-        }
-
         let call = match e {
             Expr::Call(v) => v,
             _ => return,
         };
 
-        trace_op!("iife: Checking noinline");
-
-        if self.has_noinline(call.ctxt) {
-            log_abort!("iife: Has no inline mark");
+        if !self.may_invoke_iife(call) {
             return;
         }
 
@@ -469,47 +558,8 @@ impl Optimizer<'_> {
             Callee::Expr(e) => &mut **e,
         };
 
-        if self.ctx.dont_invoke_iife {
-            log_abort!("iife: Inline is prevented");
-            return;
-        }
-
-        trace_op!("iife: Checking callee");
-
         match callee {
             Expr::Arrow(f) => {
-                if f.is_async {
-                    log_abort!("iife: Cannot inline async fn");
-                    return;
-                }
-
-                if f.is_generator {
-                    log_abort!("iife: Cannot inline generator");
-                    return;
-                }
-
-                if self.ctx.in_param && !f.params.is_empty() {
-                    log_abort!("iife: We don't invoke IIFE with params in function params");
-                    return;
-                }
-
-                if !self.may_add_ident() {
-                    match &*f.body {
-                        BlockStmtOrExpr::BlockStmt(body) => {
-                            let has_decl =
-                                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
-                            if has_decl {
-                                return;
-                            }
-                        }
-                        BlockStmtOrExpr::Expr(_) => {}
-                    }
-                }
-
-                if f.params.iter().any(|param| !param.is_ident()) {
-                    return;
-                }
-
                 let param_ids = f
                     .params
                     .iter()
@@ -574,65 +624,6 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Fn(f) => {
-                trace_op!("iife: Expr::Fn(..)");
-
-                if !self.may_add_ident() {
-                    let body = f.function.body.as_ref().unwrap();
-                    let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
-                    if has_decl {
-                        log_abort!("iife: [x] Found decl");
-                        return;
-                    }
-                }
-
-                if f.function.is_async {
-                    log_abort!("iife: [x] Cannot inline async fn");
-                    return;
-                }
-
-                if f.function.is_generator {
-                    log_abort!("iife: [x] Cannot inline generator");
-                    return;
-                }
-
-                if self.ctx.in_param && !f.function.params.is_empty() {
-                    log_abort!("iife: We don't invoke IIFE with params in function params");
-                    return;
-                }
-
-                // Abort if a parameter is complex
-                if f.function.params.iter().any(|param| {
-                    matches!(
-                        param.pat,
-                        Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..)
-                    )
-                }) {
-                    log_abort!("iife: [x] Found complex pattern");
-                    return;
-                }
-
-                trace_op!("iife: Checking recursiveness");
-
-                if let Some(i) = &f.ident {
-                    if self
-                        .data
-                        .vars
-                        .get(&i.to_id())
-                        .filter(|usage| usage.used_recursively)
-                        .is_some()
-                    {
-                        log_abort!("iife: [x] Recursive?");
-                        return;
-                    }
-                }
-
-                for arg in &call.args {
-                    if arg.spread.is_some() {
-                        log_abort!("iife: Found spread argument");
-                        return;
-                    }
-                }
-
                 trace_op!("iife: Empty function");
 
                 let body = f.function.body.as_mut().unwrap();
@@ -650,11 +641,6 @@ impl Optimizer<'_> {
                     .map(|p| p.pat.clone().ident().unwrap().id)
                     .collect::<Vec<_>>();
 
-                if !self.can_inline_fn_like(&param_ids, body) {
-                    log_abort!("iife: [x] Body is not inlinable");
-                    return;
-                }
-
                 let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
@@ -668,6 +654,66 @@ impl Optimizer<'_> {
                 //
             }
             _ => {}
+        }
+    }
+
+    pub(super) fn invoke_iife_stmt(&mut self, e: &mut Expr, is_return: bool) -> Option<BlockStmt> {
+        trace_op!("iife: invoke_iife");
+
+        let call = match e {
+            Expr::Call(v) => v,
+            Expr::Unary(UnaryExpr { arg, .. }) if !is_return => {
+                if let Expr::Call(v) = &mut **arg {
+                    v
+                } else {
+                    return None;
+                }
+            }
+            _ => return None,
+        };
+
+        if !self.may_invoke_iife(call) {
+            return None;
+        }
+
+        let callee = match &mut call.callee {
+            Callee::Super(_) | Callee::Import(_) => return None,
+            Callee::Expr(e) => &mut **e,
+        };
+
+        match callee {
+            Expr::Arrow(f) => {
+                let param_ids = f
+                    .params
+                    .iter()
+                    .map(|p| p.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
+
+                match &mut *f.body {
+                    // it's very likely to be processed in invoke_iife
+                    BlockStmtOrExpr::Expr(_) => None,
+                    BlockStmtOrExpr::BlockStmt(block_stmt) => self.inline_fn_like_stmt(
+                        param_ids,
+                        block_stmt,
+                        &mut call.args,
+                        is_return,
+                        call.span,
+                    ),
+                }
+            }
+            Expr::Fn(f) => {
+                let body = f.function.body.as_mut().unwrap();
+
+                let param_ids = f
+                    .function
+                    .params
+                    .iter()
+                    .map(|p| p.pat.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
+
+                self.inline_fn_like_stmt(param_ids, body, &mut call.args, is_return, call.span)
+            }
+            _ => None,
         }
     }
 
@@ -718,12 +764,8 @@ impl Optimizer<'_> {
         true
     }
 
-    fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+    fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt, for_stmt: bool) -> bool {
         trace_op!("can_inline_fn_like");
-
-        if contains_this_expr(body) || contains_arguments(body) {
-            return false;
-        }
 
         if body.stmts.len() == 1 {
             if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &body.stmts[0] {
@@ -746,6 +788,19 @@ impl Optimizer<'_> {
         if self.data.top.has_eval_call {
             log_abort!("iife: [x] Aborting because of eval");
             return false;
+        }
+
+        if !self.may_add_ident() {
+            let has_decl = if for_stmt {
+                // we check it later
+                false
+            } else {
+                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)))
+            };
+            if has_decl {
+                log_abort!("iife: [x] Found decl");
+                return false;
+            }
         }
 
         if self.ctx.executed_multiple_time {
@@ -807,48 +862,24 @@ impl Optimizer<'_> {
                         return false;
                     }
 
-                    if !self.may_add_ident() {
-                        return false;
-                    }
-
                     true
                 }
 
                 Stmt::Expr(e) => match &*e.expr {
                     Expr::Await(..) => false,
 
-                    // TODO: Check if parameter is used and inline if call is not related to
-                    // parameters.
-                    Expr::Call(e) => {
-                        if e.callee.as_expr().and_then(|e| e.as_ident()).is_some() {
-                            return true;
-                        }
-
-                        let used = idents_used_by(&e.callee);
-
-                        if used.iter().all(|id| {
-                            self.data
-                                .vars
-                                .get(id)
-                                .map(|usage| usage.ref_count == 1 && usage.callee_count > 0)
-                                .unwrap_or(false)
-                        }) {
-                            return true;
-                        }
-
-                        param_ids.iter().all(|param| !used.contains(&param.to_id()))
-                    }
-
-                    _ => true,
+                    _ => !stmt.is_use_strict(),
                 },
 
                 Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
                     Some(Expr::Await(..)) => false,
 
-                    Some(Expr::Lit(Lit::Num(..))) => !self.ctx.in_obj_of_non_computed_member,
+                    Some(Expr::Lit(Lit::Num(..))) => {
+                        for_stmt || !self.ctx.in_obj_of_non_computed_member
+                    }
                     _ => true,
                 },
-                _ => false,
+                _ => for_stmt,
             }
         }) {
             return false;
@@ -916,17 +947,61 @@ impl Optimizer<'_> {
         vars
     }
 
+    fn inline_fn_param_stmt(
+        &mut self,
+        params: &[Ident],
+        args: &mut [ExprOrSpread],
+    ) -> Vec<VarDeclarator> {
+        let mut vars = Vec::with_capacity(params.len());
+
+        for (idx, param) in params.iter().enumerate() {
+            let mut arg = args.get_mut(idx).map(|arg| arg.expr.take());
+
+            if let Some(arg) = &mut arg {
+                if let Some(usage) = self.data.vars.get_mut(&params[idx].to_id()) {
+                    if usage.ref_count == 1
+                        && !usage.reassigned
+                        && usage.property_mutation_count == 0
+                        && matches!(
+                            &**arg,
+                            Expr::Lit(
+                                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
+                            )
+                        )
+                    {
+                        // We don't need to create a variable in this case
+                        self.vars
+                            .vars_for_inlining
+                            .insert(param.to_id(), arg.take());
+                        continue;
+                    }
+
+                    usage.ref_count += 1;
+                }
+            };
+
+            vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: param.clone().into(),
+                init: if self.ctx.executed_multiple_time && arg.is_none() {
+                    Some(Expr::undefined(DUMMY_SP))
+                } else {
+                    arg
+                },
+                definite: Default::default(),
+            });
+        }
+
+        vars
+    }
+
     fn inline_fn_like(
         &mut self,
         params: &[Ident],
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params, &*body) {
-            return None;
-        }
-
-        if args.iter().any(|arg| arg.spread.is_some()) {
+        if !self.can_inline_fn_like(params, &*body, false) {
             return None;
         }
 
@@ -1034,6 +1109,94 @@ impl Optimizer<'_> {
         Some(e)
     }
 
+    fn inline_fn_like_stmt(
+        &mut self,
+        params: Vec<Ident>,
+        body: &mut BlockStmt,
+        args: &mut [ExprOrSpread],
+        is_return: bool,
+        span: Span,
+    ) -> Option<BlockStmt> {
+        if !self.can_inline_fn_like(&params, body, true) {
+            return None;
+        }
+
+        let mut decl = DeclVisitor { count: 0 };
+
+        body.visit_with(&mut decl);
+
+        if !self.may_add_ident() && decl.count > 0 {
+            return None;
+        }
+
+        if decl.count
+            + (params.len().saturating_sub(
+                args.iter()
+                    .filter(|a| {
+                        a.expr.is_ident() || a.expr.as_lit().map(|l| !l.is_regex()).unwrap_or(false)
+                    })
+                    .count(),
+            )) * 2
+            > 4
+        {
+            return None;
+        }
+
+        let mut has_return = ReturnVisitor { found: false };
+
+        if !is_return {
+            body.visit_with(&mut has_return);
+
+            if has_return.found {
+                return None;
+            }
+        }
+
+        self.changed = true;
+        report_change!("inline: Inlining a function call (params = {params:?})");
+
+        let mut stmts = Vec::with_capacity(body.stmts.len() + 2);
+
+        let param_decl = self.inline_fn_param_stmt(&params, args);
+
+        if !param_decl.is_empty() {
+            let param_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span: DUMMY_SP,
+                ctxt: SyntaxContext::empty(),
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: param_decl,
+            })));
+
+            stmts.push(param_decl);
+        }
+
+        if args.len() > params.len() {
+            let mut exprs = Vec::new();
+            for arg in args[params.len()..].iter_mut() {
+                exprs.push(arg.expr.take())
+            }
+
+            let expr = Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                })),
+            });
+
+            stmts.push(expr);
+        }
+
+        stmts.extend(body.stmts.take());
+
+        Some(BlockStmt {
+            span,
+            ctxt: SyntaxContext::empty().apply_mark(self.marks.fake_block),
+            stmts,
+        })
+    }
+
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
         match arg {
             Expr::Lit(..) => true,
@@ -1138,5 +1301,102 @@ fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
         },
         Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
         _ => None,
+    }
+}
+
+pub struct ReturnVisitor {
+    found: bool,
+}
+
+impl Visit for ReturnVisitor {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into fn
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+        n.function.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
+    }
+
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_return_stmt(&mut self, _: &ReturnStmt) {
+        self.found = true;
+    }
+}
+
+pub struct DeclVisitor {
+    count: usize,
+}
+
+impl Visit for DeclVisitor {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    /// Don't recurse into fn
+    fn visit_fn_expr(&mut self, _: &FnExpr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into fn
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        n.key.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.key.visit_with(self);
+        n.function.visit_with(self);
+    }
+
+    /// Don't recurse into fn
+    fn visit_setter_prop(&mut self, n: &SetterProp) {
+        n.key.visit_with(self);
+        n.param.visit_with(self);
+    }
+
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_decl(&mut self, d: &Decl) {
+        self.count += match d {
+            Decl::Class(_) | Decl::Fn(_) => 1,
+            Decl::Var(var_decl) => var_decl.decls.len(),
+            Decl::Using(using_decl) => using_decl.decls.len(),
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
+        };
+    }
+
+    fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
+        if let VarDeclOrExpr::VarDecl(v) = node {
+            self.count += v.decls.len()
+        }
     }
 }

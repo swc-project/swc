@@ -1,8 +1,12 @@
+UnsupportedSyntax
+
   x TypeScript namespace declaration is not supported in strip-only mode
    ,----
  1 | namespace Foo { export const m = 1; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
+UnsupportedSyntax
+
   x TypeScript namespace declaration is not supported in strip-only mode
    ,-[3:1]
  2 | 

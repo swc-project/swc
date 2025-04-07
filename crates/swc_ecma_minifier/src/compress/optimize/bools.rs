@@ -1,123 +1,11 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    ExprExt, Type,
-    Value::{self, Known},
-};
+use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Optimizer;
-use crate::compress::{optimize::Ctx, util::negate_cost};
-#[cfg(feature = "debug")]
-use crate::debug::dump;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    /// **This negates bool**.
-    ///
-    /// Returns true if it's negated.
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, expr)))]
-    pub(super) fn optimize_bang_within_logical_ops(
-        &mut self,
-        expr: &mut Expr,
-        is_ret_val_ignored: bool,
-    ) -> bool {
-        let cost = negate_cost(
-            self.ctx.expr_ctx,
-            expr,
-            is_ret_val_ignored,
-            is_ret_val_ignored,
-        );
-        if cost >= 0 {
-            return false;
-        }
-
-        let e = match expr {
-            Expr::Bin(b) => b,
-            _ => return false,
-        };
-
-        match e.op {
-            op!("&&") | op!("||") => {}
-            _ => return false,
-        }
-
-        if !is_ret_val_ignored {
-            if let Known(Type::Bool) = e.left.get_type(self.ctx.expr_ctx) {
-            } else {
-                // Don't change type.
-                return false;
-            }
-
-            if let Known(Type::Bool) = e.right.get_type(self.ctx.expr_ctx) {
-            } else {
-                // Don't change type.
-                return false;
-            }
-        }
-
-        // `!_ && 'undefined' !== typeof require`
-        //
-        //  =>
-        //
-        // `_ || 'undefined' == typeof require`
-        report_change!(
-            is_return_value_ignored = is_ret_val_ignored,
-            negate_cost = cost,
-            "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
-             negation)",
-        );
-        #[cfg(feature = "debug")]
-        let start = dump(&*e, false);
-
-        e.op = if e.op == op!("&&") {
-            op!("||")
-        } else {
-            op!("&&")
-        };
-
-        let ctx = Ctx {
-            in_bool_ctx: true,
-            ..self.ctx.clone()
-        };
-
-        self.with_ctx(ctx.clone()).negate(&mut e.left, false);
-        self.with_ctx(ctx.clone())
-            .negate(&mut e.right, is_ret_val_ignored);
-
-        dump_change_detail!("{} => {}", start, dump(&*e, false));
-
-        true
-    }
-
-    pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
-        if !self.options.conditionals && !self.options.bools {
-            return;
-        }
-
-        let stmt = match s {
-            Stmt::If(v) => v,
-            _ => return,
-        };
-
-        if stmt.alt.is_none() {
-            if let Stmt::Expr(cons) = &mut *stmt.cons {
-                self.changed = true;
-                report_change!("conditionals: `if (foo) bar;` => `foo && bar`");
-                *s = ExprStmt {
-                    span: stmt.span,
-                    expr: BinExpr {
-                        span: stmt.test.span(),
-                        op: op!("&&"),
-                        left: stmt.test.take(),
-                        right: cons.expr.take(),
-                    }
-                    .into(),
-                }
-                .into();
-            }
-        }
-    }
-
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
@@ -168,10 +56,10 @@ impl Optimizer<'_> {
 
     ///
     /// - `a === undefined || a === null` => `a == null`
-    pub(super) fn optimize_cmp_with_null_or_undefined(&mut self, e: &mut BinExpr) {
+    pub(super) fn optimize_optional_chain_generated(&mut self, e: &mut BinExpr) {
         if e.op == op!("||") || e.op == op!("&&") {
             {
-                let res = self.optimize_cmp_with_null_or_undefined_inner(
+                let res = self.optimize_optional_chain_generated_inner(
                     e.span,
                     e.op,
                     &mut e.left,
@@ -187,7 +75,7 @@ impl Optimizer<'_> {
 
             if let (Expr::Bin(left), right) = (&mut *e.left, &mut *e.right) {
                 if e.op == left.op {
-                    let res = self.optimize_cmp_with_null_or_undefined_inner(
+                    let res = self.optimize_optional_chain_generated_inner(
                         right.span(),
                         e.op,
                         &mut left.right,
@@ -210,7 +98,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn optimize_cmp_with_null_or_undefined_inner(
+    fn optimize_optional_chain_generated_inner(
         &mut self,
         span: Span,
         top_op: BinaryOp,
@@ -232,6 +120,10 @@ impl Optimizer<'_> {
 
                 match &*left_bin.right {
                     Expr::Ident(..) | Expr::Lit(..) => {}
+                    Expr::Assign(AssignExpr {
+                        left: AssignTarget::Simple(SimpleAssignTarget::Ident(_)),
+                        ..
+                    }) => (),
                     Expr::Member(MemberExpr {
                         obj,
                         prop: MemberProp::Ident(..),
@@ -258,7 +150,20 @@ impl Optimizer<'_> {
                             return None;
                         }
 
-                        if !right_bin.right.eq_ignore_span(&left_bin.right) {
+                        let same_assign = if let (
+                            Expr::Assign(AssignExpr {
+                                left: AssignTarget::Simple(SimpleAssignTarget::Ident(l_id)),
+                                ..
+                            }),
+                            Expr::Ident(r_id),
+                        ) = (&*left_bin.right, &*right_bin.right)
+                        {
+                            l_id.id.eq_ignore_span(r_id)
+                        } else {
+                            false
+                        };
+
+                        if !(same_assign || right_bin.right.eq_ignore_span(&left_bin.right)) {
                             return None;
                         }
 
@@ -279,34 +184,25 @@ impl Optimizer<'_> {
 
         let lt = left.get_type(self.ctx.expr_ctx);
         let rt = right.get_type(self.ctx.expr_ctx);
-        if let Value::Known(lt) = lt {
-            if let Value::Known(rt) = rt {
-                match (lt, rt) {
-                    (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
-                        if op == op!("===") {
-                            report_change!(
-                                "Reducing `!== null || !== undefined` check to `!= null`"
-                            );
-                            return Some(BinExpr {
-                                span,
-                                op: op!("=="),
-                                left: cmp.take(),
-                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
-                            });
-                        } else {
-                            report_change!(
-                                "Reducing `=== null || === undefined` check to `== null`"
-                            );
-                            return Some(BinExpr {
-                                span,
-                                op: op!("!="),
-                                left: cmp.take(),
-                                right: Lit::Null(Null { span: DUMMY_SP }).into(),
-                            });
-                        }
-                    }
-                    _ => {}
-                }
+        if let (Value::Known(Type::Undefined), Value::Known(Type::Null))
+        | (Value::Known(Type::Null), Value::Known(Type::Undefined)) = (lt, rt)
+        {
+            if op == op!("===") {
+                report_change!("Reducing `!== null || !== undefined` check to `!= null`");
+                return Some(BinExpr {
+                    span,
+                    op: op!("=="),
+                    left: cmp.take(),
+                    right: Lit::Null(Null { span: DUMMY_SP }).into(),
+                });
+            } else {
+                report_change!("Reducing `=== null || === undefined` check to `== null`");
+                return Some(BinExpr {
+                    span,
+                    op: op!("!="),
+                    left: cmp.take(),
+                    right: Lit::Null(Null { span: DUMMY_SP }).into(),
+                });
             }
         }
 

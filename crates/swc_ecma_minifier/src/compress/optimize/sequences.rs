@@ -190,16 +190,8 @@ impl Optimizer<'_> {
                         }
 
                         Stmt::Return(mut stmt @ ReturnStmt { arg: Some(..), .. }) => {
-                            match stmt.arg.as_deref_mut() {
-                                Some(e) => {
-                                    e.prepend_exprs(take(&mut exprs));
-                                }
-                                _ => {
-                                    let mut e = Expr::undefined(stmt.span);
-                                    e.prepend_exprs(take(&mut exprs));
-
-                                    stmt.arg = Some(e);
-                                }
+                            if let Some(e) = stmt.arg.as_deref_mut() {
+                                e.prepend_exprs(take(&mut exprs));
                             }
 
                             new_stmts.push(T::from(stmt.into()));
@@ -370,81 +362,6 @@ impl Optimizer<'_> {
         *stmts = new_stmts;
     }
 
-    /// Break assignments in sequences.
-    ///
-    /// This may result in less parenthesis.
-    pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
-        // TODO
-        if true {
-            return;
-        }
-        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Expr(e)) => match &*e.expr {
-                Expr::Seq(seq) => {
-                    seq.exprs.len() > 1
-                        && seq.exprs.iter().all(|expr| {
-                            matches!(&**expr, Expr::Assign(AssignExpr { op: op!("="), .. }))
-                        })
-                }
-                _ => false,
-            },
-
-            _ => false,
-        });
-
-        if !need_work {
-            return;
-        }
-
-        let mut new_stmts = Vec::new();
-
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
-                    Stmt::Expr(es)
-                        if match &*es.expr {
-                            Expr::Seq(seq) => {
-                                seq.exprs.len() > 1
-                                    && seq.exprs.iter().all(|expr| {
-                                        matches!(
-                                            &**expr,
-                                            Expr::Assign(AssignExpr { op: op!("="), .. })
-                                        )
-                                    })
-                            }
-                            _ => false,
-                        } =>
-                    {
-                        let span = es.span;
-                        let seq = es.expr.seq().unwrap();
-                        new_stmts.extend(
-                            seq.exprs
-                                .into_iter()
-                                .map(|expr| ExprStmt { span, expr })
-                                .map(Stmt::Expr)
-                                .map(T::from),
-                        );
-                    }
-
-                    _ => {
-                        new_stmts.push(T::from(stmt));
-                    }
-                },
-                Err(stmt) => {
-                    new_stmts.push(stmt);
-                }
-            }
-        }
-        self.changed = true;
-        report_change!(
-            "sequences: Splitted a sequence expression to multiple expression statements"
-        );
-        *stmts = new_stmts;
-    }
-
     /// Lift sequence expressions in an assign expression.
     ///
     /// - `(a = (f, 4)) => (f, a = 4)`
@@ -532,63 +449,6 @@ impl Optimizer<'_> {
 
         self.prepend_stmts = old_prepend;
         self.append_stmts = old_append;
-    }
-
-    ///
-    /// - `(path += 'foo', path)` => `(path += 'foo')`
-    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
-        if e.exprs.len() < 2 {
-            return;
-        }
-
-        if let Some(last) = e.exprs.last() {
-            let last_id = match &**last {
-                Expr::Ident(i) => i,
-                _ => return,
-            };
-
-            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) =
-                &*e.exprs[e.exprs.len() - 2]
-            {
-                if let Some(lhs) = assign.left.as_ident() {
-                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
-                        e.exprs.pop();
-                        self.changed = true;
-                        report_change!("sequences: Shifting assignment");
-                    }
-                };
-            }
-        }
-    }
-
-    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
-        if e.exprs.len() < 2 {
-            return;
-        }
-
-        if let Expr::Unary(UnaryExpr {
-            op: op!("void"), ..
-        }) = &*e.exprs[e.exprs.len() - 2]
-        {
-            return;
-        }
-
-        if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(self.ctx.expr_ctx, last) {
-                self.changed = true;
-                report_change!("sequences: Shifting void");
-
-                e.exprs.pop();
-                let last = e.exprs.last_mut().unwrap();
-
-                *last = UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("void"),
-                    arg: last.take(),
-                }
-                .into()
-            }
-        }
     }
 
     fn seq_exprs_of<'a>(
@@ -1838,9 +1698,29 @@ impl Optimizer<'_> {
                             if let Some(left_obj) = b_left.obj.as_ident() {
                                 if let Some(usage) = self.data.vars.get(&left_obj.to_id()) {
                                     if left_obj.ctxt != self.ctx.expr_ctx.unresolved_ctxt
+                                        && !usage.inline_prevented
                                         && !usage.reassigned
                                         && !b_left.prop.is_computed()
                                     {
+                                        match &*a {
+                                            Mergable::Var(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::Expr(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::FnDecl(a) => {
+                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                    return Ok(false);
+                                                }
+                                            }
+                                            Mergable::Drop => return Ok(false),
+                                        }
+
                                         return self.merge_sequential_expr(a, &mut b_assign.right);
                                     }
                                 }

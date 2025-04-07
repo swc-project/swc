@@ -83,29 +83,11 @@ export default function S(u) {
                 };
             }
             if (Array.isArray(s.results)) {
-                !function(a, n) {
-                    if (a.transporter) {
-                        a.transporter.responsesCache.set({
-                            method: "search",
-                            args: [
-                                n.reduce(function(e, t) {
-                                    return e.concat(t.rawResults.map(function(e) {
-                                        return {
-                                            indexName: e.index,
-                                            params: e.params
-                                        };
-                                    }));
-                                }, [])
-                            ]
-                        }, {
-                            results: n.reduce(function(e, t) {
-                                return e.concat(t.rawResults);
-                            }, [])
-                        });
-                        return;
-                    }
-                    var s = "/1/indexes/*/queries_body_".concat(JSON.stringify({
-                        requests: n.reduce(function(e, t) {
+                var c = a, u = s.results;
+                if (c.transporter) return c.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        u.reduce(function(e, t) {
                             return e.concat(t.rawResults.map(function(e) {
                                 return {
                                     indexName: e.index,
@@ -113,32 +95,42 @@ export default function S(u) {
                                 };
                             }));
                         }, [])
-                    }));
-                    a.cache = r(t({}, a.cache), e({}, s, JSON.stringify({
-                        results: n.reduce(function(e, t) {
-                            return e.concat(t.rawResults);
-                        }, [])
-                    })));
-                }(a, s.results);
-                return;
+                    ]
+                }, {
+                    results: u.reduce(function(e, t) {
+                        return e.concat(t.rawResults);
+                    }, [])
+                });
+                var o = "/1/indexes/*/queries_body_".concat(JSON.stringify({
+                    requests: u.reduce(function(e, t) {
+                        return e.concat(t.rawResults.map(function(e) {
+                            return {
+                                indexName: e.index,
+                                params: e.params
+                            };
+                        }));
+                    }, [])
+                }));
+                return c.cache = r(t({}, c.cache), e({}, o, JSON.stringify({
+                    results: u.reduce(function(e, t) {
+                        return e.concat(t.rawResults);
+                    }, [])
+                })));
             }
             !function(a, n) {
-                if (a.transporter) {
-                    a.transporter.responsesCache.set({
-                        method: "search",
-                        args: [
-                            n.rawResults.map(function(e) {
-                                return {
-                                    indexName: e.index,
-                                    params: e.params
-                                };
-                            })
-                        ]
-                    }, {
-                        results: n.rawResults
-                    });
-                    return;
-                }
+                if (a.transporter) return a.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        n.rawResults.map(function(e) {
+                            return {
+                                indexName: e.index,
+                                params: e.params
+                            };
+                        })
+                    ]
+                }, {
+                    results: n.rawResults
+                });
                 var s = "/1/indexes/*/queries_body_".concat(JSON.stringify({
                     requests: n.rawResults.map(function(e) {
                         return {

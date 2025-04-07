@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "target": "esnext",
+        "parser": {
+            "syntax": "typescript"
+        }
+    }
+}

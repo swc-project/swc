@@ -601,7 +601,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            let type_args = if self.input.syntax().typescript() && is!(self, '<') {
+            let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
                 self.try_parse_ts(|p| {
                     let ctx = Context {
                         should_not_lex_lt_or_gt_as_type: false,

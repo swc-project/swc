@@ -1,6 +1,6 @@
 d(function() {
-    var obj_key = "some string", b = function() {
-        return a, obj_key;
+    var b = function() {
+        return a, "some string";
     };
     return function() {
         return b;

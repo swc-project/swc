@@ -880,23 +880,18 @@
             module.exports = function(callback, decodeResponseBody) {
                 return void 0 === decodeResponseBody && (decodeResponseBody = !1), function(err, response, responseBody) {
                     // if the XHR failed, return that error
-                    if (err) {
-                        callback(err);
-                        return;
-                    } // if the HTTP status code is 4xx or 5xx, the request also failed
+                    if (err) return void callback(err); // if the HTTP status code is 4xx or 5xx, the request also failed
                     if (response.statusCode >= 400 && response.statusCode <= 599) {
                         var cause = responseBody;
-                        if (decodeResponseBody) {
-                            if (window1.TextDecoder) {
-                                var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
-                                    var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
-                                    return "charset" === type.trim() ? value.trim() : charset;
-                                }, "utf-8"));
-                                try {
-                                    cause = new TextDecoder(charset).decode(responseBody);
-                                } catch (e) {}
-                            } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
-                        }
+                        if (decodeResponseBody) if (window1.TextDecoder) {
+                            var contentTypeHeader, charset = (void 0 === (contentTypeHeader = response.headers && response.headers["content-type"]) && (contentTypeHeader = ""), contentTypeHeader.toLowerCase().split(";").reduce(function(charset, contentType) {
+                                var _contentType$split = contentType.split("="), type = _contentType$split[0], value = _contentType$split[1];
+                                return "charset" === type.trim() ? value.trim() : charset;
+                            }, "utf-8"));
+                            try {
+                                cause = new TextDecoder(charset).decode(responseBody);
+                            } catch (e) {}
+                        } else cause = String.fromCharCode.apply(null, new Uint8Array(responseBody));
                         callback({
                             cause: cause
                         });
@@ -1529,10 +1524,7 @@
             function serializeToString(node, buf, isHTML, nodeFilter, visibleNamespaces) {
                 if (visibleNamespaces || (visibleNamespaces = []), nodeFilter) {
                     if (!(node = nodeFilter(node))) return;
-                    if ("string" == typeof node) {
-                        buf.push(node);
-                        return;
-                    }
+                    if ("string" == typeof node) return void buf.push(node);
                 //buf.sort.apply(attrs, attributeSorter);
                 }
                 switch(node.nodeType){
@@ -2517,9 +2509,9 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : // String.prototype.fromCharCode does not supports
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? // String.prototype.fromCharCode does not supports
                             // > 2 bytes unicode chars directly
-                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
+                            (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             //has some bugs
@@ -2624,11 +2616,10 @@
                                                     case "'":
                                                     case '"':
                                                         if (3 === s || 1 === s //|| s == S_ATTR_SPACE
-                                                        ) {
-                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
-                                                            else //fatalError: no end quot match
-                                                            throw Error("attribute value no end '" + c + "' match");
-                                                        } else if (4 == s) //console.log(attrName,value,start,p)
+                                                        ) if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                                        else //fatalError: no end quot match
+                                                        throw Error("attribute value no end '" + c + "' match");
+                                                        else if (4 == s) //console.log(attrName,value,start,p)
                                                         addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), //console.dir(el)
                                                         errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                                                         else //fatalError: no equal before
@@ -2980,13 +2971,12 @@
                  * @param {string} type the event name
                  */ _proto.trigger = function(type) {
                     var callbacks = this.listeners[type];
-                    if (callbacks) {
-                        // can add a significant amount of overhead. Avoid the
-                        // intermediate object creation for the common case of a
-                        // single callback argument
-                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
-                        else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
-                    } // Slicing the arguments on every invocation of this method
+                    if (callbacks) // can add a significant amount of overhead. Avoid the
+                    // intermediate object creation for the common case of a
+                    // single callback argument
+                    if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                    else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
+                     // Slicing the arguments on every invocation of this method
                 }, /**
                  * Destroys the stream and cleans up.
                  */ _proto.dispose = function() {
@@ -3036,13 +3026,10 @@
                 return _proto.push = function(line) {
                     var match, event, _this2 = this;
                     if (0 !== (line = line.trim()).length) {
-                        if ("#" !== line[0]) {
-                            this.trigger("data", {
-                                type: "uri",
-                                uri: line
-                            });
-                            return;
-                        } // map tags
+                        if ("#" !== line[0]) return void this.trigger("data", {
+                            type: "uri",
+                            uri: line
+                        }); // map tags
                         this.tagMappers.reduce(function(acc, mapper) {
                             var mappedLine = mapper(line); // skip if unchanged
                             return mappedLine === line ? acc : acc.concat([
@@ -3053,21 +3040,15 @@
                         ]).forEach(function(newLine) {
                             for(var i = 0; i < _this2.customParsers.length; i++)if (_this2.customParsers[i].call(_this2, newLine)) return;
                              // Comments
-                            if (0 !== newLine.indexOf("#EXT")) {
-                                _this2.trigger("data", {
-                                    type: "comment",
-                                    text: newLine.slice(1)
-                                });
-                                return;
-                            } // strip off any carriage returns here so the regex matching
+                            if (0 !== newLine.indexOf("#EXT")) return void _this2.trigger("data", {
+                                type: "comment",
+                                text: newLine.slice(1)
+                            }); // strip off any carriage returns here so the regex matching
                             if (// doesn't have to account for them.
-                            newLine = newLine.replace("\r", ""), match = /^#EXTM3U/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "m3u"
-                                });
-                                return;
-                            }
+                            newLine = newLine.replace("\r", ""), match = /^#EXTM3U/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "m3u"
+                            });
                             if (match = /^#EXTINF:?([0-9\.]*)?,?(.*)?$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
@@ -3156,20 +3137,14 @@
                                 }, match[1] && (event.attributes = parseAttributes(match[1])), _this2.trigger("data", event);
                                 return;
                             }
-                            if (match = /^#EXT-X-ENDLIST/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "endlist"
-                                });
-                                return;
-                            }
-                            if (match = /^#EXT-X-DISCONTINUITY/.exec(newLine)) {
-                                _this2.trigger("data", {
-                                    type: "tag",
-                                    tagType: "discontinuity"
-                                });
-                                return;
-                            }
+                            if (match = /^#EXT-X-ENDLIST/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "endlist"
+                            });
+                            if (match = /^#EXT-X-DISCONTINUITY/.exec(newLine)) return void _this2.trigger("data", {
+                                type: "tag",
+                                tagType: "discontinuity"
+                            });
                             if (match = /^#EXT-X-PROGRAM-DATE-TIME:?(.*)$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
@@ -3412,22 +3387,16 @@
                                         })), this.manifest.segments = uris;
                                     },
                                     key: function() {
-                                        if (!entry.attributes) {
-                                            this.trigger("warn", {
-                                                message: "ignoring key declaration without attribute list"
-                                            });
-                                            return;
-                                        } // clear the active encryption key
+                                        if (!entry.attributes) return void this.trigger("warn", {
+                                            message: "ignoring key declaration without attribute list"
+                                        }); // clear the active encryption key
                                         if ("NONE" === entry.attributes.METHOD) {
                                             _key = null;
                                             return;
                                         }
-                                        if (!entry.attributes.URI) {
-                                            this.trigger("warn", {
-                                                message: "ignoring key declaration without URI"
-                                            });
-                                            return;
-                                        }
+                                        if (!entry.attributes.URI) return void this.trigger("warn", {
+                                            message: "ignoring key declaration without URI"
+                                        });
                                         if ("com.apple.streamingkeydelivery" === entry.attributes.KEYFORMAT) {
                                             this.manifest.contentProtection = this.manifest.contentProtection || {}, this.manifest.contentProtection["com.apple.fps.1_0"] = {
                                                 attributes: entry.attributes
@@ -3435,43 +3404,28 @@
                                             return;
                                         } // check if the content is encrypted for Widevine
                                         // Widevine/HLS spec: https://storage.googleapis.com/wvdocs/Widevine_DRM_HLS.pdf
-                                        if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) {
-                                            if (-1 === [
-                                                "SAMPLE-AES",
-                                                "SAMPLE-AES-CTR",
-                                                "SAMPLE-AES-CENC"
-                                            ].indexOf(entry.attributes.METHOD)) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key method provided for Widevine"
-                                                });
-                                                return;
-                                            }
-                                            if ("SAMPLE-AES-CENC" === entry.attributes.METHOD && this.trigger("warn", {
-                                                message: "SAMPLE-AES-CENC is deprecated, please use SAMPLE-AES-CTR instead"
-                                            }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key URI provided for Widevine"
-                                                });
-                                                return;
-                                            }
-                                            if (!(entry.attributes.KEYID && "0x" === entry.attributes.KEYID.substring(0, 2))) {
-                                                this.trigger("warn", {
-                                                    message: "invalid key ID provided for Widevine"
-                                                });
-                                                return;
-                                            } // if Widevine key attributes are valid, store them as `contentProtection`
-                                            // on the manifest to emulate Widevine tag structure in a DASH mpd
-                                            this.manifest.contentProtection = this.manifest.contentProtection || {}, this.manifest.contentProtection["com.widevine.alpha"] = {
-                                                attributes: {
-                                                    schemeIdUri: entry.attributes.KEYFORMAT,
-                                                    // remove '0x' from the key id string
-                                                    keyId: entry.attributes.KEYID.substring(2)
-                                                },
-                                                // decode the base64-encoded PSSH box
-                                                pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
-                                            };
-                                            return;
-                                        }
+                                        if ("urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed" === entry.attributes.KEYFORMAT) return -1 === [
+                                            "SAMPLE-AES",
+                                            "SAMPLE-AES-CTR",
+                                            "SAMPLE-AES-CENC"
+                                        ].indexOf(entry.attributes.METHOD) ? void this.trigger("warn", {
+                                            message: "invalid key method provided for Widevine"
+                                        }) : ("SAMPLE-AES-CENC" === entry.attributes.METHOD && this.trigger("warn", {
+                                            message: "SAMPLE-AES-CENC is deprecated, please use SAMPLE-AES-CTR instead"
+                                        }), "data:text/plain;base64," !== entry.attributes.URI.substring(0, 23)) ? void this.trigger("warn", {
+                                            message: "invalid key URI provided for Widevine"
+                                        }) : entry.attributes.KEYID && "0x" === entry.attributes.KEYID.substring(0, 2) ? (// on the manifest to emulate Widevine tag structure in a DASH mpd
+                                        this.manifest.contentProtection = this.manifest.contentProtection || {}, void (this.manifest.contentProtection["com.widevine.alpha"] = {
+                                            attributes: {
+                                                schemeIdUri: entry.attributes.KEYFORMAT,
+                                                // remove '0x' from the key id string
+                                                keyId: entry.attributes.KEYID.substring(2)
+                                            },
+                                            // decode the base64-encoded PSSH box
+                                            pssh: (0, decode_b64_to_uint8_array /* default */ .Z)(entry.attributes.URI.split(",")[1])
+                                        })) : void this.trigger("warn", {
+                                            message: "invalid key ID provided for Widevine"
+                                        });
                                         entry.attributes.METHOD || this.trigger("warn", {
                                             message: "defaulting key method to AES-128"
                                         }), _key = {
@@ -3480,51 +3434,36 @@
                                         }, void 0 !== entry.attributes.IV && (_key.iv = entry.attributes.IV);
                                     },
                                     "media-sequence": function() {
-                                        if (!isFinite(entry.number)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid media sequence: " + entry.number
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                            message: "ignoring invalid media sequence: " + entry.number
+                                        });
                                         this.manifest.mediaSequence = entry.number;
                                     },
                                     "discontinuity-sequence": function() {
-                                        if (!isFinite(entry.number)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid discontinuity sequence: " + entry.number
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.number)) return void this.trigger("warn", {
+                                            message: "ignoring invalid discontinuity sequence: " + entry.number
+                                        });
                                         this.manifest.discontinuitySequence = entry.number, currentTimeline = entry.number;
                                     },
                                     "playlist-type": function() {
-                                        if (!/VOD|EVENT/.test(entry.playlistType)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring unknown playlist type: " + entry.playlist
-                                            });
-                                            return;
-                                        }
+                                        if (!/VOD|EVENT/.test(entry.playlistType)) return void this.trigger("warn", {
+                                            message: "ignoring unknown playlist type: " + entry.playlist
+                                        });
                                         this.manifest.playlistType = entry.playlistType;
                                     },
                                     map: function() {
                                         currentMap = {}, entry.uri && (currentMap.uri = entry.uri), entry.byterange && (currentMap.byterange = entry.byterange), _key && (currentMap.key = _key);
                                     },
                                     "stream-inf": function() {
-                                        if (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !entry.attributes) {
-                                            this.trigger("warn", {
-                                                message: "ignoring empty stream-inf attributes"
-                                            });
-                                            return;
-                                        }
+                                        if (this.manifest.playlists = uris, this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !entry.attributes) return void this.trigger("warn", {
+                                            message: "ignoring empty stream-inf attributes"
+                                        });
                                         currentUri.attributes || (currentUri.attributes = {}), (0, esm_extends /* default */ .Z)(currentUri.attributes, entry.attributes);
                                     },
                                     media: function() {
-                                        if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) {
-                                            this.trigger("warn", {
-                                                message: "ignoring incomplete or missing media group"
-                                            });
-                                            return;
-                                        } // find the media group, creating defaults as necessary
+                                        if (this.manifest.mediaGroups = this.manifest.mediaGroups || defaultMediaGroups, !(entry.attributes && entry.attributes.TYPE && entry.attributes["GROUP-ID"] && entry.attributes.NAME)) return void this.trigger("warn", {
+                                            message: "ignoring incomplete or missing media group"
+                                        }); // find the media group, creating defaults as necessary
                                         var mediaGroupType = this.manifest.mediaGroups[entry.attributes.TYPE];
                                         mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], (rendition = {
                                             default: /yes/i.test(entry.attributes.DEFAULT)
@@ -3541,21 +3480,15 @@
                                         this.manifest.dateTimeString = entry.dateTimeString, this.manifest.dateTimeObject = entry.dateTimeObject), currentUri.dateTimeString = entry.dateTimeString, currentUri.dateTimeObject = entry.dateTimeObject;
                                     },
                                     targetduration: function() {
-                                        if (!isFinite(entry.duration) || entry.duration < 0) {
-                                            this.trigger("warn", {
-                                                message: "ignoring invalid target duration: " + entry.duration
-                                            });
-                                            return;
-                                        }
+                                        if (!isFinite(entry.duration) || entry.duration < 0) return void this.trigger("warn", {
+                                            message: "ignoring invalid target duration: " + entry.duration
+                                        });
                                         this.manifest.targetDuration = entry.duration, setHoldBack.call(this, this.manifest);
                                     },
                                     start: function() {
-                                        if (!entry.attributes || isNaN(entry.attributes["TIME-OFFSET"])) {
-                                            this.trigger("warn", {
-                                                message: "ignoring start declaration without appropriate attribute list"
-                                            });
-                                            return;
-                                        }
+                                        if (!entry.attributes || isNaN(entry.attributes["TIME-OFFSET"])) return void this.trigger("warn", {
+                                            message: "ignoring start declaration without appropriate attribute list"
+                                        });
                                         this.manifest.start = {
                                             timeOffset: entry.attributes["TIME-OFFSET"],
                                             precise: entry.attributes.PRECISE
@@ -4046,7 +3979,7 @@
                     return "$";
                     if (void 0 === values[identifier]) return match;
                     var value = "" + values[identifier];
-                    return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
+                    return "RepresentationID" === identifier || (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 });
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
                 var templateValues = {
@@ -4060,14 +3993,14 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                return (!attributes.duration && !segmentTimeline ? [
                     {
                         number: attributes.startNumber || 1,
                         duration: attributes.sourceDuration,
                         time: 0,
                         timeline: attributes.periodIndex
                     }
-                ]).map(function(segment) {
+                ] : attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline)).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = // calculated in mpd-parser prior to this, so it's assumed to be available.
                     attributes.periodStart + (segment.time - presentationTimeOffset) / timescale; // See DASH spec section 5.3.9.2.2
@@ -4767,18 +4700,16 @@
                     if (!relativeParts.netLoc && (// 3) If the embedded URL's <net_loc> is non-empty, we skip to
                     // Step 7.  Otherwise, the embedded URL inherits the <net_loc>
                     // (if any) of the base URL.
-                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) {
-                        if (relativeParts.path) {
-                            // 6) The last segment of the base URL's path (anything
-                            // following the rightmost slash "/", or the entire path if no
-                            // slash is present) is removed and the embedded URL's path is
-                            // appended in its place.
-                            var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
-                            builtParts.path = URLToolkit.normalizePath(newPath);
-                        } else // 5) If the embedded URL path is empty (and not preceded by a
-                        // slash), then the embedded URL inherits the base URL path
-                        builtParts.path = baseParts.path, relativeParts.params || (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
-                    }
+                    builtParts.netLoc = baseParts.netLoc, "/" !== relativeParts.path[0])) if (relativeParts.path) {
+                        // 6) The last segment of the base URL's path (anything
+                        // following the rightmost slash "/", or the entire path if no
+                        // slash is present) is removed and the embedded URL's path is
+                        // appended in its place.
+                        var baseURLPath = baseParts.path, newPath = baseURLPath.substring(0, baseURLPath.lastIndexOf("/") + 1) + relativeParts.path;
+                        builtParts.path = URLToolkit.normalizePath(newPath);
+                    } else // 5) If the embedded URL path is empty (and not preceded by a
+                    // slash), then the embedded URL inherits the base URL path
+                    builtParts.path = baseParts.path, !relativeParts.params && (builtParts.params = baseParts.params, relativeParts.query || (builtParts.query = baseParts.query));
                     return null === builtParts.path && (builtParts.path = opts.alwaysNormalize ? URLToolkit.normalizePath(relativeParts.path) : relativeParts.path), URLToolkit.buildURLFromParts(builtParts);
                 },
                 parseURL: function(url) {
@@ -4941,7 +4872,7 @@
                 },
                 // Accept a setting if its a valid percentage.
                 percent: function(k, v) {
-                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0 && v <= 100) && (this.set(k, v), !0);
+                    return !!(v.match(/^([\d]{1,3})(\.[\d]*)?%$/) && (v = parseFloat(v)) >= 0) && v <= 100 && (this.set(k, v), !0);
                 }
             };
             // When evaluating this file as part of a Webpack bundle for server
@@ -5654,7 +5585,7 @@
                 if (!window1 || !cues || !overlay) return null;
                 // Remove all previous children.
                 for(; overlay.firstChild;)overlay.removeChild(overlay.firstChild);
-                var paddedOverlay = window1.document.createElement("div");
+                var styleBox, cue, paddedOverlay = window1.document.createElement("div");
                 // We don't need to recompute the cues' display states. Just reuse them.
                 if (paddedOverlay.style.position = "absolute", paddedOverlay.style.left = "0", paddedOverlay.style.right = "0", paddedOverlay.style.top = "0", paddedOverlay.style.bottom = "0", paddedOverlay.style.margin = "1.5%", overlay.appendChild(paddedOverlay), !// Determine if we need to compute the display states of the cues. This could
                 // be the case if a cue's state has been changed since the last computation or
@@ -5666,105 +5597,102 @@
                     for(var i = 0; i < cues.length; i++)paddedOverlay.appendChild(cues[i].displayState);
                     return;
                 }
-                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
-                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
-                };
-                !function() {
-                    for(var styleBox, cue, i = 0; i < cues.length; i++)// Compute the intial position and styles of the cue div.
-                    styleBox = new CueStyleBox(window1, cue = cues[i], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
-                    // Move a StyleBox to its specified, or next best, position. The containerBox
-                    // is the box that contains the StyleBox, such as a div. boxPositions are
-                    // a list of other boxes that the styleBox can't overlap with.
-                    function(window1, styleBox, containerBox, boxPositions) {
-                        var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
-                            if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
-                            if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
-                            for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                            return -1 * ++count;
-                        }(cue), axis = [];
-                        // If we have a line number to align the cue to.
-                        if (cue.snapToLines) {
-                            switch(cue.vertical){
-                                case "":
-                                    axis = [
-                                        "+y",
-                                        "-y"
-                                    ], size = "height";
-                                    break;
-                                case "rl":
-                                    axis = [
-                                        "+x",
-                                        "-x"
-                                    ], size = "width";
-                                    break;
-                                case "lr":
-                                    axis = [
-                                        "-x",
-                                        "+x"
-                                    ], size = "width";
-                            }
-                            var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                            Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), // Move the box to the specified position. This may not be its best
-                            // position.
-                            boxPosition.move(initialAxis, position);
-                        } else {
-                            // If we have a percentage line value for the cue.
-                            var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
-                            switch(cue.lineAlign){
-                                case "center":
-                                    linePos -= calculatedPercentage / 2;
-                                    break;
-                                case "end":
-                                    linePos -= calculatedPercentage;
-                            }
-                            // Apply initial line position to the cue box.
-                            switch(cue.vertical){
-                                case "":
-                                    styleBox.applyStyles({
-                                        top: styleBox.formatStyle(linePos, "%")
-                                    });
-                                    break;
-                                case "rl":
-                                    styleBox.applyStyles({
-                                        left: styleBox.formatStyle(linePos, "%")
-                                    });
-                                    break;
-                                case "lr":
-                                    styleBox.applyStyles({
-                                        right: styleBox.formatStyle(linePos, "%")
-                                    });
-                            }
-                            axis = [
-                                "+y",
-                                "-x",
-                                "+x",
-                                "-y"
-                            ], // Get the box position again after we've applied the specified positioning
-                            // to it.
-                            boxPosition = new BoxPosition(styleBox);
+                for(var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
+                    font: Math.round(0.05 * containerBox.height * 100) / 100 + "px sans-serif"
+                }, i1 = 0; i1 < cues.length; i1++)// Compute the intial position and styles of the cue div.
+                styleBox = new CueStyleBox(window1, cue = cues[i1], styleOptions), paddedOverlay.appendChild(styleBox.div), // Move the cue div to it's correct line position.
+                // Move a StyleBox to its specified, or next best, position. The containerBox
+                // is the box that contains the StyleBox, such as a div. boxPositions are
+                // a list of other boxes that the styleBox can't overlap with.
+                function(window1, styleBox, containerBox, boxPositions) {
+                    var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
+                        if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
+                        if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
+                        for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
+                        return -1 * ++count;
+                    }(cue), axis = [];
+                    // If we have a line number to align the cue to.
+                    if (cue.snapToLines) {
+                        switch(cue.vertical){
+                            case "":
+                                axis = [
+                                    "+y",
+                                    "-y"
+                                ], size = "height";
+                                break;
+                            case "rl":
+                                axis = [
+                                    "+x",
+                                    "-x"
+                                ], size = "width";
+                                break;
+                            case "lr":
+                                axis = [
+                                    "-x",
+                                    "+x"
+                                ], size = "width";
                         }
-                        var bestPosition = // Find the best position for a cue box, b, on the video. The axis parameter
-                        // is a list of axis, the order of which, it will move the box along. For example:
-                        // Passing ["+x", "-x"] will move the box first along the x axis in the positive
-                        // direction. If it doesn't find a good position for it there it will then move
-                        // it along the x axis in the negative direction.
-                        function(b, axis) {
-                            for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
-                                for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
-                                // We found a spot where we aren't overlapping anything. This is our
-                                // best position.
-                                if (b.within(containerBox)) return b;
-                                var p = b.intersectPercentage(containerBox);
-                                percentage > p && (bestPosition = new BoxPosition(b), percentage = p), // Reset the box position to the specified position.
-                                b = new BoxPosition(specifiedPosition);
-                            }
-                            return bestPosition || specifiedPosition;
-                        }(boxPosition, axis);
-                        styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-                    }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
-                    // if we don't have too.
-                    cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
-                }();
+                        var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
+                        Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), // Move the box to the specified position. This may not be its best
+                        // position.
+                        boxPosition.move(initialAxis, position);
+                    } else {
+                        // If we have a percentage line value for the cue.
+                        var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
+                        switch(cue.lineAlign){
+                            case "center":
+                                linePos -= calculatedPercentage / 2;
+                                break;
+                            case "end":
+                                linePos -= calculatedPercentage;
+                        }
+                        // Apply initial line position to the cue box.
+                        switch(cue.vertical){
+                            case "":
+                                styleBox.applyStyles({
+                                    top: styleBox.formatStyle(linePos, "%")
+                                });
+                                break;
+                            case "rl":
+                                styleBox.applyStyles({
+                                    left: styleBox.formatStyle(linePos, "%")
+                                });
+                                break;
+                            case "lr":
+                                styleBox.applyStyles({
+                                    right: styleBox.formatStyle(linePos, "%")
+                                });
+                        }
+                        axis = [
+                            "+y",
+                            "-x",
+                            "+x",
+                            "-y"
+                        ], // Get the box position again after we've applied the specified positioning
+                        // to it.
+                        boxPosition = new BoxPosition(styleBox);
+                    }
+                    var bestPosition = // Find the best position for a cue box, b, on the video. The axis parameter
+                    // is a list of axis, the order of which, it will move the box along. For example:
+                    // Passing ["+x", "-x"] will move the box first along the x axis in the positive
+                    // direction. If it doesn't find a good position for it there it will then move
+                    // it along the x axis in the negative direction.
+                    function(b, axis) {
+                        for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
+                            for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
+                            // We found a spot where we aren't overlapping anything. This is our
+                            // best position.
+                            if (b.within(containerBox)) return b;
+                            var p = b.intersectPercentage(containerBox);
+                            percentage > p && (bestPosition = new BoxPosition(b), percentage = p), // Reset the box position to the specified position.
+                            b = new BoxPosition(specifiedPosition);
+                        }
+                        return bestPosition || specifiedPosition;
+                    }(boxPosition, axis);
+                    styleBox.move(bestPosition.toCSSCompatValues(containerBox));
+                }(0, styleBox, containerBox, boxPositions), // Remember the computed div so that we don't have to recompute it later
+                // if we don't have too.
+                cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
                 decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
             }, WebVTT1.Parser.prototype = {
@@ -5816,13 +5744,11 @@
                                         });
                                     }
                                 }, /=/) : parseOptions(input, function(k, v) {
-                                    "Region" === k && // 3.3 WebVTT region metadata header syntax
-                                    // 3.4 WebVTT region and WebVTT region settings syntax
-                                    function(input) {
+                                    if ("Region" === k) {
                                         var settings = new Settings();
                                         // Create the region, using default values for any values that were not
                                         // specified.
-                                        if (parseOptions(input, function(k, v) {
+                                        if (parseOptions(v, function(k, v) {
                                             switch(k){
                                                 case "id":
                                                     settings.set(k, v);
@@ -5858,7 +5784,7 @@
                                                 region: region
                                             });
                                         }
-                                    }(v);
+                                    }
                                 }, /:/) : line || // An empty line terminates the header and starts the body (cues).
                                 (self1.state = "ID");
                                 continue;
@@ -5907,86 +5833,84 @@
                                         skipWhitespace(), cue.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input.substr(0, 3)) // (3) next characters must match "-->"
                                         throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
                                         input = input.substr(3), skipWhitespace(), cue.endTime = consumeTimeStamp(), // 4.1 WebVTT cue settings list.
-                                        skipWhitespace(), // 4.4.2 WebVTT cue settings
-                                        function(input, cue) {
-                                            var settings = new Settings();
-                                            parseOptions(input, function(k, v) {
-                                                switch(k){
-                                                    case "region":
-                                                        // Find the last region we parsed with the same region id.
-                                                        for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
-                                                            settings.set(k, regionList[i].region);
-                                                            break;
-                                                        }
+                                        skipWhitespace();
+                                        var input1 = input, settings = new Settings();
+                                        parseOptions(input1, function(k, v) {
+                                            switch(k){
+                                                case "region":
+                                                    // Find the last region we parsed with the same region id.
+                                                    for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
+                                                        settings.set(k, regionList[i].region);
                                                         break;
-                                                    case "vertical":
-                                                        settings.alt(k, v, [
-                                                            "rl",
-                                                            "lr"
-                                                        ]);
-                                                        break;
-                                                    case "line":
-                                                        var vals = v.split(","), vals0 = vals[0];
-                                                        settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
-                                                            "auto"
-                                                        ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
-                                                            "start",
-                                                            "center",
-                                                            "end"
-                                                        ]);
-                                                        break;
-                                                    case "position":
-                                                        vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
-                                                            "start",
-                                                            "center",
-                                                            "end"
-                                                        ]);
-                                                        break;
-                                                    case "size":
-                                                        settings.percent(k, v);
-                                                        break;
-                                                    case "align":
-                                                        settings.alt(k, v, [
-                                                            "start",
-                                                            "center",
-                                                            "end",
-                                                            "left",
-                                                            "right"
-                                                        ]);
-                                                }
-                                            }, /:/, /\s/), // Apply default values for any missing fields.
-                                            cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
-                                            try {
-                                                cue.line = settings.get("line", "auto");
-                                            } catch (e) {}
-                                            cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
-                                            // Safari still uses the old middle value and won't accept center
-                                            try {
-                                                cue.align = settings.get("align", "center");
-                                            } catch (e) {
-                                                cue.align = settings.get("align", "middle");
+                                                    }
+                                                    break;
+                                                case "vertical":
+                                                    settings.alt(k, v, [
+                                                        "rl",
+                                                        "lr"
+                                                    ]);
+                                                    break;
+                                                case "line":
+                                                    var vals = v.split(","), vals0 = vals[0];
+                                                    settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
+                                                        "auto"
+                                                    ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
+                                                        "start",
+                                                        "center",
+                                                        "end"
+                                                    ]);
+                                                    break;
+                                                case "position":
+                                                    vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
+                                                        "start",
+                                                        "center",
+                                                        "end"
+                                                    ]);
+                                                    break;
+                                                case "size":
+                                                    settings.percent(k, v);
+                                                    break;
+                                                case "align":
+                                                    settings.alt(k, v, [
+                                                        "start",
+                                                        "center",
+                                                        "end",
+                                                        "left",
+                                                        "right"
+                                                    ]);
                                             }
-                                            try {
-                                                cue.position = settings.get("position", "auto");
-                                            } catch (e) {
-                                                cue.position = settings.get("position", {
-                                                    start: 0,
-                                                    left: 0,
-                                                    center: 50,
-                                                    middle: 50,
-                                                    end: 100,
-                                                    right: 100
-                                                }, cue.align);
-                                            }
-                                            cue.positionAlign = settings.get("positionAlign", {
-                                                start: "start",
-                                                left: "start",
-                                                center: "center",
-                                                middle: "center",
-                                                end: "end",
-                                                right: "end"
+                                        }, /:/, /\s/), // Apply default values for any missing fields.
+                                        cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
+                                        try {
+                                            cue.line = settings.get("line", "auto");
+                                        } catch (e) {}
+                                        cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
+                                        // Safari still uses the old middle value and won't accept center
+                                        try {
+                                            cue.align = settings.get("align", "center");
+                                        } catch (e) {
+                                            cue.align = settings.get("align", "middle");
+                                        }
+                                        try {
+                                            cue.position = settings.get("position", "auto");
+                                        } catch (e) {
+                                            cue.position = settings.get("position", {
+                                                start: 0,
+                                                left: 0,
+                                                center: 50,
+                                                middle: 50,
+                                                end: 100,
+                                                right: 100
                                             }, cue.align);
-                                        }(input, cue);
+                                        }
+                                        cue.positionAlign = settings.get("positionAlign", {
+                                            start: "start",
+                                            left: "start",
+                                            center: "center",
+                                            middle: "center",
+                                            end: "end",
+                                            right: "end"
+                                        }, cue.align);
                                     }(line, self1.cue, self1.regionList);
                                 } catch (e) {
                                     self1.reportOrThrowError(e), // In case of an error ignore rest of the cue.
@@ -6349,7 +6273,7 @@
             }
             // Support decoding URL-safe base64 strings, as Node.js does.
             // See: https://en.wikipedia.org/wiki/Base64#URL_applications
-            revLookup["-".charCodeAt(0)] = 62, revLookup["_".charCodeAt(0)] = 63;
+            revLookup[45] = 62, revLookup[95] = 63;
         /***/ },
         /***/ 816: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -6382,23 +6306,23 @@
                 return from(arg, encodingOrOffset, length);
             }
             function from(value, encodingOrOffset, length) {
-                if ("string" == typeof value) return function(string, encoding) {
+                if ("string" == typeof value) {
+                    var buf, encoding = encodingOrOffset;
                     if (("string" != typeof encoding || "" === encoding) && (encoding = "utf8"), !Buffer.isEncoding(encoding)) throw TypeError("Unknown encoding: " + encoding);
-                    var length = 0 | byteLength(string, encoding), buf = createBuffer(length), actual = buf.write(string, encoding);
-                    return actual !== length && // Writing a hex string, for example, that contains invalid characters will
+                    var length1 = 0 | byteLength(value, encoding), buf1 = createBuffer(length1), actual = buf1.write(value, encoding);
+                    return actual !== length1 && // Writing a hex string, for example, that contains invalid characters will
                     // cause everything after the first invalid character to be ignored. (e.g.
                     // 'abxxcd' will be treated as 'ab')
-                    (buf = buf.slice(0, actual)), buf;
-                }(value, encodingOrOffset);
+                    (buf1 = buf1.slice(0, actual)), buf1;
+                }
                 if (ArrayBuffer.isView(value)) return fromArrayLike(value);
                 if (null == value) throw TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
-                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) return function(array, byteOffset, length) {
-                    var buf;
-                    if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
-                    if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
+                if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer) || "undefined" != typeof SharedArrayBuffer && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
+                    if (encodingOrOffset < 0 || value.byteLength < encodingOrOffset) throw RangeError('"offset" is outside of buffer bounds');
+                    if (value.byteLength < encodingOrOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
                     return(// Return an augmented `Uint8Array` instance
-                    Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf);
-                }(value, encodingOrOffset, length);
+                    Object.setPrototypeOf(buf = void 0 === encodingOrOffset && void 0 === length ? new Uint8Array(value) : void 0 === length ? new Uint8Array(value, encodingOrOffset) : new Uint8Array(value, encodingOrOffset, length), Buffer.prototype), buf);
+                }
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();
                 if (null != valueOf && valueOf !== value) return Buffer.from(valueOf, encodingOrOffset, length);
@@ -6524,19 +6448,20 @@
                 // Empty buffer means no match
                 if (0 === buffer.length) return -1;
                 if ("string" == typeof byteOffset ? (encoding = byteOffset, byteOffset = 0) : byteOffset > 0x7fffffff ? byteOffset = 0x7fffffff : byteOffset < -2147483648 && (byteOffset = -2147483648), (obj = byteOffset *= 1) != obj && // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
-                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) {
-                    if (dir) return -1;
-                    byteOffset = buffer.length - 1;
-                } else if (byteOffset < 0) {
-                    if (!dir) return -1;
-                    byteOffset = 0;
-                }
+                (byteOffset = dir ? 0 : buffer.length - 1), byteOffset < 0 && (byteOffset = buffer.length + byteOffset), byteOffset >= buffer.length) if (dir) return -1;
+                else byteOffset = buffer.length - 1;
+                else if (byteOffset < 0) if (!dir) return -1;
+                else byteOffset = 0;
                 // Finally, search either indexOf (if dir is true) or lastIndexOf
                 if ("string" == typeof val && (val = Buffer.from(val, encoding)), Buffer.isBuffer(val)) return(// Special case: looking for empty string/buffer always fails
                 0 === val.length ? -1 : arrayIndexOf(buffer, val, byteOffset, encoding, dir));
-                if ("number" == typeof val) return (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) ? dir ? Uint8Array.prototype.indexOf.call(buffer, val, byteOffset) : Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset) : arrayIndexOf(buffer, [
-                    val
-                ], byteOffset, encoding, dir);
+                if ("number" == typeof val) {
+                    if (val &= 0xff, "function" == typeof Uint8Array.prototype.indexOf) if (dir) return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
+                    else return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
+                    return arrayIndexOf(buffer, [
+                        val
+                    ], byteOffset, encoding, dir);
+                }
                 throw TypeError("val must be string, number or Buffer");
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
@@ -6584,13 +6509,11 @@
                     codePoint = 0xfffd, bytesPerSequence = 1) : codePoint > 0xffff && (// encode to utf16 (surrogate pair dance)
                     codePoint -= 0x10000, res.push(codePoint >>> 10 & 0x3ff | 0xd800), codePoint = 0xdc00 | 0x3ff & codePoint), res.push(codePoint), i += bytesPerSequence;
                 }
-                return function(codePoints) {
-                    var len = codePoints.length;
-                    if (len <= 0x1000) return String.fromCharCode.apply(String, codePoints); // avoid extra slice()
-                    for(// Decode in chunks to avoid "call stack size exceeded".
-                    var res = "", i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
-                    return res;
-                }(res);
+                var len = res.length;
+                if (len <= 0x1000) return String.fromCharCode.apply(String, res); // avoid extra slice()
+                for(// Decode in chunks to avoid "call stack size exceeded".
+                var res1 = "", i1 = 0; i1 < len;)res1 += String.fromCharCode.apply(String, res.slice(i1, i1 += 0x1000));
+                return res1;
             }
             /*
              * Need to make sure that buffer isn't trying to write out of bounds.
@@ -6898,7 +6821,7 @@
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
                 var i = 0, mul = 1, sub = 0;
-                for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
+                for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i - 1] && (sub = 1), this[offset + i] = (value / mul | 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeIntBE = function(value, offset, byteLength, noAssert) {
                 if (value *= 1, offset >>>= 0, !noAssert) {
@@ -6906,7 +6829,7 @@
                     checkInt(this, value, offset, byteLength, limit - 1, -limit);
                 }
                 var i = byteLength - 1, mul = 1, sub = 0;
-                for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul >> 0) - sub & 0xff;
+                for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)value < 0 && 0 === sub && 0 !== this[offset + i + 1] && (sub = 1), this[offset + i] = (value / mul | 0) - sub & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeInt8 = function(value, offset, noAssert) {
                 return value *= 1, offset >>>= 0, noAssert || checkInt(this, value, offset, 1, 0x7f, -128), value < 0 && (value = 0xff + value + 1), this[offset] = 0xff & value, offset + 1;

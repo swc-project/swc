@@ -1,10 +1,9 @@
 var c = "FAIL";
-(function(a, NaN) {
-    (function() {
-        switch(a){
-            case a:
-            case void (c = "PASS"):
-        }
-    })();
-})(0 / 0);
+(function() {
+    var a = 0 / 0;
+    switch(a){
+        case a:
+        case void (c = "PASS"):
+    }
+})();
 console.log(c);

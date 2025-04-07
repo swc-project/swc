@@ -177,8 +177,11 @@ impl VarUsageInfo {
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
-        self.callee_count > 0
-            || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn)
+        (self.callee_count > 0
+            || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn))
+            && !(self.used_recursively
+                && self.has_property_access
+                && self.property_mutation_count != 0)
     }
 
     fn initialized(&self) -> bool {

@@ -7,10 +7,10 @@ let env = {
     hasError: !1
 };
 try {
-    let z = _ts_add_disposable_resource(env, {
+    var z = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
-    }, !0);
-    console.log(w, x, 2, z);
+    }, !0), y = 2;
+    console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{

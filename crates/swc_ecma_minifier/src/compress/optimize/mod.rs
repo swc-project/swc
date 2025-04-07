@@ -4,9 +4,7 @@ use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{
-    iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP,
-};
+use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
@@ -15,7 +13,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
-use tracing::{debug, span, Level};
+use tracing::{span, Level};
 use Value::Known;
 
 use self::{
@@ -39,7 +37,6 @@ use crate::{
 
 mod arguments;
 mod bools;
-mod collapse_vars;
 mod conditionals;
 mod dead_code;
 mod evaluate;
@@ -51,7 +48,6 @@ mod ops;
 mod props;
 mod sequences;
 mod strings;
-mod switches;
 mod unused;
 mod util;
 
@@ -62,7 +58,6 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
-    debug_infinite_loop: bool,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -118,7 +113,6 @@ pub(super) fn optimizer<'a>(
         data,
         ctx,
         mode,
-        debug_infinite_loop,
         functions: Default::default(),
     }
 }
@@ -238,9 +232,6 @@ struct Optimizer<'a> {
     ctx: Ctx,
 
     mode: &'a dyn Mode,
-
-    #[allow(unused)]
-    debug_infinite_loop: bool,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
 }
@@ -534,13 +525,6 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
-        self.break_assignments_in_seqs(stmts);
-
-        #[cfg(debug_assertions)]
-        {
-            stmts.visit_with(&mut AssertValid);
-        }
-
         // stmts.extend(self.append_stmts.drain(..).map(T::from));
 
         drop_invalid_stmts(stmts);
@@ -548,99 +532,6 @@ impl Optimizer<'_> {
         // debug_assert_eq!(self.prepend_stmts, Vec::new());
         self.prepend_stmts = prepend_stmts;
         self.append_stmts = append_stmts;
-    }
-
-    /// `a = a + 1` => `a += 1`.
-    fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
-        if e.op != op!("=") {
-            return;
-        }
-
-        // TODO: Handle pure properties.
-        let lhs = match &e.left {
-            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
-            _ => return,
-        };
-
-        // If left operand of a binary expression is not same as lhs, this method has
-        // nothing to do.
-        let (op, right) = match &mut *e.right {
-            Expr::Bin(BinExpr {
-                left, op, right, ..
-            }) => match &**left {
-                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
-                _ => return,
-            },
-            _ => return,
-        };
-
-        // Don't break code for old browsers.
-        match op {
-            BinaryOp::LogicalOr => return,
-            BinaryOp::LogicalAnd => return,
-            BinaryOp::Exp => return,
-            BinaryOp::NullishCoalescing => return,
-            _ => {}
-        }
-
-        let op = match op {
-            BinaryOp::In | BinaryOp::InstanceOf => return,
-
-            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
-                // TODO(kdy1): Check if this is optimizable.
-                return;
-            }
-
-            BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => return,
-
-            BinaryOp::LShift => op!("<<="),
-            BinaryOp::RShift => {
-                op!(">>=")
-            }
-            BinaryOp::ZeroFillRShift => {
-                op!(">>>=")
-            }
-            BinaryOp::Add => {
-                op!("+=")
-            }
-            BinaryOp::Sub => {
-                op!("-=")
-            }
-            BinaryOp::Mul => {
-                op!("*=")
-            }
-            BinaryOp::Div => {
-                op!("/=")
-            }
-            BinaryOp::Mod => {
-                op!("%=")
-            }
-            BinaryOp::BitOr => {
-                op!("|=")
-            }
-            BinaryOp::BitXor => {
-                op!("^=")
-            }
-            BinaryOp::BitAnd => {
-                op!("&=")
-            }
-            BinaryOp::LogicalOr => {
-                op!("||=")
-            }
-            BinaryOp::LogicalAnd => {
-                op!("&&=")
-            }
-            BinaryOp::Exp => {
-                op!("**=")
-            }
-            BinaryOp::NullishCoalescing => {
-                op!("??=")
-            }
-        };
-
-        e.op = op;
-        e.right = right.take();
-        // Now we can compress it to an assignment
     }
 
     ///
@@ -700,8 +591,6 @@ impl Optimizer<'_> {
     /// If an expression has a side effect, only side effects are returned.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
-        self.optimize_bang_within_logical_ops(e, true);
-
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         self.drop_unused_update(e);
@@ -1588,15 +1477,8 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx.clone()
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
-
-            if is_left_access_to_arguments(&e.left) {
-                // self.ctx.can_inline_arguments = false;
-            }
         }
         e.right.visit_mut_with(self);
-
-        self.compress_bin_assignment_to_left(e);
-        self.compress_bin_assignment_to_right(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1627,7 +1509,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.remove_bin_paren(n);
 
-        self.optimize_cmp_with_null_or_undefined(n);
+        self.optimize_optional_chain_generated(n);
 
         self.optimize_bin_and_or(n);
 
@@ -1947,19 +1829,6 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        if let Expr::Bin(bin) = e {
-            let expr = self.optimize_lit_cmp(bin);
-            if let Some(expr) = expr {
-                report_change!("Optimizing: Literal comparison");
-                self.changed = true;
-                *e = expr;
-            }
-        }
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
         self.compress_cond_expr_if_similar(e);
 
         if e.is_seq() {
@@ -2002,6 +1871,8 @@ impl VisitMut for Optimizer<'_> {
             }
             _ => {}
         }
+
+        self.reduce_escaped_newline_for_str_lit(e);
 
         #[cfg(feature = "trace-ast")]
         tracing::debug!("Output: {}", dump(e, true));
@@ -2085,18 +1956,6 @@ impl VisitMut for Optimizer<'_> {
 
                     Expr::undefined(DUMMY_SP)
                 });
-            }
-        } else {
-            match &mut *n.expr {
-                Expr::Seq(e) => {
-                    // Non-last items are handled by visit_mut_seq_expr
-                    if let Some(e) = e.exprs.last_mut() {
-                        self.optimize_bang_within_logical_ops(e, true);
-                    }
-                }
-                _ => {
-                    self.optimize_bang_within_logical_ops(&mut n.expr, true);
-                }
             }
         }
 
@@ -2216,8 +2075,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         s.body.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-
-        self.with_ctx(ctx.clone()).optimize_init_of_for_stmt(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2298,8 +2155,6 @@ impl VisitMut for Optimizer<'_> {
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
 
         self.negate_if_stmt(n);
-
-        self.merge_nested_if(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2492,60 +2347,7 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        let should_preserve_zero = n
-            .exprs
-            .last()
-            .map(|v| &**v)
-            .map_or(false, Expr::directness_maters);
-
-        let ctx = Ctx {
-            dont_use_negated_iife: true,
-            ..self.ctx.clone()
-        };
-
-        let exprs = n
-            .exprs
-            .iter_mut()
-            .enumerate()
-            .identify_last()
-            .filter_map(|(last, (idx, expr))| {
-                #[cfg(feature = "debug")]
-                let _span =
-                    tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
-
-                expr.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
-                let is_injected_zero = match &**expr {
-                    Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
-                    _ => false,
-                };
-
-                #[cfg(feature = "debug")]
-                let _span = tracing::span!(tracing::Level::ERROR, "seq_expr").entered();
-
-                let can_remove = !last
-                    && (idx != 0
-                        || !is_injected_zero
-                        || !self.ctx.is_this_aware_callee
-                        || !should_preserve_zero);
-
-                if can_remove {
-                    // If negate_iife is true, it's already handled by
-                    // visit_mut_children_with(self) above.
-                    if !self.options.negate_iife {
-                        self.negate_iife_in_cond(expr);
-                    }
-
-                    self.ignore_return_value(expr).map(Box::new)
-                } else {
-                    Some(expr.take())
-                }
-            })
-            .collect::<Vec<_>>();
-        n.exprs = exprs;
-
-        self.shift_void(n);
-
-        self.shift_assignment(n);
+        n.visit_mut_children_with(self);
 
         self.merge_sequences_in_seq_expr(n);
     }
@@ -2634,6 +2436,31 @@ impl VisitMut for Optimizer<'_> {
 
         debug_assert_valid(s);
 
+        match s {
+            Stmt::Expr(e) => {
+                if let Some(block) = self.invoke_iife_stmt(&mut e.expr, false) {
+                    *s = Stmt::Block(block)
+                }
+            }
+            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                if let Some(mut block) = self.invoke_iife_stmt(&mut *arg, true) {
+                    if !block
+                        .stmts
+                        .last()
+                        .map(swc_ecma_utils::StmtExt::terminates)
+                        .unwrap_or(false)
+                    {
+                        block.stmts.push(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: None,
+                        }))
+                    }
+                    *s = Stmt::Block(block)
+                }
+            }
+            _ => (),
+        }
+
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
         self.try_removing_block(s, false, false);
@@ -2686,15 +2513,6 @@ impl VisitMut for Optimizer<'_> {
 
         let prepend_len = self.prepend_stmts.len();
         let append_len = self.append_stmts.len();
-
-        #[cfg(feature = "debug")]
-        if self.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_children_with: {}", text);
-            }
-        }
 
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
@@ -2762,37 +2580,6 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
-
-        self.compress_if_stmt_as_expr(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        self.optimize_const_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        self.optimize_switches(s);
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
-
-        #[cfg(feature = "debug")]
-        if self.debug_infinite_loop {
-            let text = dump(&*s, false);
-
-            if text.lines().count() < 10 {
-                debug!("after: visit_mut_stmt: {}", text);
-            }
-        }
-
-        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
-        debug_assert_eq!(self.append_stmts.len(), append_len);
-        debug_assert_valid(s);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2844,13 +2631,6 @@ impl VisitMut for Optimizer<'_> {
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        n.visit_mut_children_with(self);
-
-        self.optimize_switch_cases(n);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -2940,10 +2720,13 @@ impl VisitMut for Optimizer<'_> {
                 Expr::Lit(Lit::Num(..)) => {}
 
                 _ => {
-                    report_change!("Ignoring arg of `void`");
                     let arg = self.ignore_return_value(&mut n.arg);
 
-                    n.arg = Box::new(arg.unwrap_or_else(|| make_number(DUMMY_SP, 0.0)));
+                    n.arg = Box::new(arg.unwrap_or_else(|| {
+                        report_change!("Ignoring arg of `void`");
+
+                        make_number(DUMMY_SP, 0.0)
+                    }));
                 }
             }
         }

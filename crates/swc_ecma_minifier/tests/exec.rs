@@ -98,10 +98,6 @@ fn run(
     config: Option<&str>,
     mangle: Option<MangleOptions>,
 ) -> Option<Program> {
-    let _ = rayon::ThreadPoolBuilder::new()
-        .thread_name(|i| format!("rayon-{}", i + 1))
-        .build_global();
-
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
     let fm = cm.new_source_file(FileName::Anon.into(), input.into());
@@ -11374,4 +11370,110 @@ fn isssue_9498() {
         console.log(y.a);
 ",
     )
+}
+
+#[test]
+fn issue_10095() {
+    run_exec_test(
+        "
+    function module() {
+        function a() {
+            if (a.isInit) return;
+            a.isInit = true;
+
+            console.log('run')
+        }
+
+        function b() {
+            a();
+
+            console.log('after');
+        }
+
+        b();
+        b();
+    }
+
+    module();
+    ",
+        r#"{
+        "defaults": true,
+        "arguments": false,
+        "arrows": false,
+        "booleans": false,
+        "booleans_as_integers": false,
+        "collapse_vars": false,
+        "comparisons": false,
+        "computed_props": false,
+        "conditionals": false,
+        "dead_code": false,
+        "directives": false,
+        "drop_console": false,
+        "drop_debugger": false,
+        "evaluate": false,
+        "expression": false,
+        "hoist_funs": false,
+        "hoist_props": false,
+        "hoist_vars": false,
+        "if_return": false,
+        "join_vars": false,
+        "keep_classnames": false,
+        "keep_fargs": false,
+        "keep_fnames": false,
+        "keep_infinity": false,
+        "loops": false,
+        "negate_iife": false,
+        "properties": false,
+        "reduce_funcs": false,
+        "reduce_vars": false,
+        "side_effects": false,
+        "switches": false,
+        "typeofs": false,
+        "unsafe": false,
+        "unsafe_arrows": false,
+        "unsafe_comps": false,
+        "unsafe_Function": false,
+        "unsafe_math": false,
+        "unsafe_symbols": false,
+        "unsafe_methods": false,
+        "unsafe_proto": false,
+        "unsafe_regexp": false,
+        "unsafe_undefined": false,
+        "unused": false,
+        "const_to_let": false,
+        "pristine_globals": false
+      }"#,
+        false,
+    );
+}
+
+#[test]
+fn issue_10133() {
+    run_default_exec_test(
+        "
+    function splineCurve(firstPoint, middlePoint, afterPoint) {
+        const previous = firstPoint.skip ? middlePoint : firstPoint;
+        const current = middlePoint;
+        const next = afterPoint;
+        return {
+                x: current.x - (next.x - previous.x),
+                y: current.y - (next.y - previous.y)
+        };
+    }
+
+    function _updateBezierControlPoints(points) {
+        let i, ilen, point, controlPoints;
+            let prev = points[0];
+            for(i = 0, ilen = points.length; i < ilen; ++i){
+                point = points[i];
+                controlPoints = splineCurve(prev, point, points[Math.min(i + 1, ilen - 1)]);
+                point.cp1x = controlPoints.x;
+                prev = point;
+            }
+    }
+    let points = [{x: 1, y: 2}, {x: 2, y: 1}, {x: 3, y: 2}];
+    _updateBezierControlPoints(points);
+    console.log(points)
+    ",
+    );
 }

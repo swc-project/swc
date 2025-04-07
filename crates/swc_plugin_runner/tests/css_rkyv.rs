@@ -22,7 +22,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
 
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi", "--release"])
+        cmd.args(["build", "--target=wasm32-wasip1", "--release"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -35,7 +35,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("release"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasip1").join("release"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
@@ -80,7 +80,7 @@ fn invoke(input: PathBuf) {
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         // run single plugin
         testing::run_test(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.load_file(&input).unwrap();
 
             let parsed: Stylesheet =
                 swc_css_parser::parse_file(&fm, None, Default::default(), &mut Vec::new()).unwrap();

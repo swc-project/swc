@@ -11,21 +11,20 @@ Object.defineProperty(exports, "__esModule", {
 const _default = esmy;
 //// [/ambient.d.ts]
 //// [/main.ts]
-var Values;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
+});
+var Values, target = exports, all = {
     Values: function() {
         return Values;
     },
     x: function() {
         return x;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: all[name]
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 /*#__PURE__*/ require("./decl"), Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl")));

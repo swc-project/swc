@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{
-    ExprExt, ExprFactory, IdentUsageFinder, Type,
+    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
@@ -96,16 +96,235 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 }
 
 impl Pure<'_> {
-    /// `foo(...[1, 2])`` => `foo(1, 2)`
-    pub(super) fn eval_spread_array(&mut self, args: &mut Vec<ExprOrSpread>) {
-        if args
-            .iter()
-            .all(|arg| arg.spread.is_none() || !arg.expr.is_array())
+    /// `a = a + 1` => `a += 1`.
+    pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
+            _ => return,
+        };
+
+        // If left operand of a binary expression is not same as lhs, this method has
+        // nothing to do.
+        let (op, right) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**left {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => (op, right),
+                _ => return,
+            },
+            _ => return,
+        };
+
+        // Don't break code for old browsers.
+        match op {
+            BinaryOp::LogicalOr => return,
+            BinaryOp::LogicalAnd => return,
+            BinaryOp::Exp => return,
+            BinaryOp::NullishCoalescing => return,
+            _ => {}
+        }
+
+        let op = match op {
+            BinaryOp::In | BinaryOp::InstanceOf => return,
+
+            BinaryOp::EqEq | BinaryOp::NotEq | BinaryOp::EqEqEq | BinaryOp::NotEqEq => {
+                // TODO(kdy1): Check if this is optimizable.
+                return;
+            }
+
+            BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => return,
+
+            BinaryOp::LShift => op!("<<="),
+            BinaryOp::RShift => {
+                op!(">>=")
+            }
+            BinaryOp::ZeroFillRShift => {
+                op!(">>>=")
+            }
+            BinaryOp::Add => {
+                op!("+=")
+            }
+            BinaryOp::Sub => {
+                op!("-=")
+            }
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::Div => {
+                op!("/=")
+            }
+            BinaryOp::Mod => {
+                op!("%=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            BinaryOp::LogicalOr => {
+                op!("||=")
+            }
+            BinaryOp::LogicalAnd => {
+                op!("&&=")
+            }
+            BinaryOp::Exp => {
+                op!("**=")
+            }
+            BinaryOp::NullishCoalescing => {
+                op!("??=")
+            }
+        };
+
+        e.op = op;
+        e.right = right.take();
+        // Now we can compress it to an assignment
+    }
+
+    /// This method does
+    ///
+    /// - `x *= 3` => `x = 3 * x`
+    /// - `x = 3 | x` `x |= 3`
+    /// - `x = 3 & x` => `x &= 3;`
+    /// - `x ^= 3` => `x = 3 ^ x`
+    pub(super) fn compress_bin_assignment_to_right(&mut self, e: &mut AssignExpr) {
+        if e.op != op!("=") {
+            return;
+        }
+
+        // TODO: Handle pure properties.
+        let lhs = match &e.left {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
+            _ => return,
+        };
+
+        let (op, left) = match &mut *e.right {
+            Expr::Bin(BinExpr {
+                left, op, right, ..
+            }) => match &**right {
+                Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
+                    // We need this check because a function call like below can change value of
+                    // operand.
+                    //
+                    // x = g() * x;
+
+                    match &**left {
+                        Expr::This(..) | Expr::Ident(..) | Expr::Lit(..) => {}
+                        _ => return,
+                    }
+
+                    (op, left)
+                }
+                _ => return,
+            },
+            _ => return,
+        };
+
+        let op = match op {
+            BinaryOp::Mul => {
+                op!("*=")
+            }
+            BinaryOp::BitOr => {
+                op!("|=")
+            }
+            BinaryOp::BitXor => {
+                op!("^=")
+            }
+            BinaryOp::BitAnd => {
+                op!("&=")
+            }
+            _ => return,
+        };
+
+        report_change!("Compressing: `e = 3 & e` => `e &= 3`");
+
+        self.changed = true;
+        e.op = op;
+        e.right = left.take();
+    }
+
+    pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
+        fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+            match p {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp { key, value, .. }) => {
+                        key.is_computed() || value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Assign(AssignProp { value, .. }) => value.may_have_side_effects(expr_ctx),
+                    Prop::Method(method) => method.key.is_computed(),
+
+                    Prop::Getter(..) | Prop::Setter(..) => true,
+
+                    _ => false,
+                },
+
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
+                    Expr::Object(ObjectLit { props, .. }) => {
+                        props.iter().any(|p| should_skip(p, expr_ctx))
+                    }
+                    _ => false,
+                },
+            }
+        }
+
+        if e.props.iter().any(|p| should_skip(p, self.expr_ctx))
+            || !e.props.iter().any(|p| match p {
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
+                    expr.is_object() || expr.is_null()
+                }
+                _ => false,
+            })
         {
             return;
         }
 
-        let mut new_args = Vec::new();
+        let mut new_props = Vec::with_capacity(e.props.len());
+
+        for prop in e.props.take() {
+            match prop {
+                PropOrSpread::Spread(SpreadElement { expr, .. })
+                    if expr.is_object() || expr.is_null() =>
+                {
+                    match *expr {
+                        Expr::Object(ObjectLit { props, .. }) => {
+                            for p in props {
+                                new_props.push(p);
+                            }
+                        }
+
+                        Expr::Lit(Lit::Null(_)) => {}
+
+                        _ => {}
+                    }
+                }
+
+                _ => {
+                    new_props.push(prop);
+                }
+            }
+        }
+
+        e.props = new_props;
+    }
+
+    /// `foo(...[1, 2])`` => `foo(1, 2)`
+    pub(super) fn eval_spread_array_in_args(&mut self, args: &mut Vec<ExprOrSpread>) {
+        if !args
+            .iter()
+            .any(|arg| arg.spread.is_some() && arg.expr.is_array())
+        {
+            return;
+        }
+
+        let mut new_args = Vec::with_capacity(args.len());
         for arg in args.take() {
             match arg {
                 ExprOrSpread {
@@ -132,6 +351,54 @@ impl Pure<'_> {
                             spread: Some(spread),
                             expr,
                         });
+                    }
+                },
+                arg => new_args.push(arg),
+            }
+        }
+
+        self.changed = true;
+        report_change!("Compressing spread array");
+
+        *args = new_args;
+    }
+
+    /// `foo(...[1, 2])`` => `foo(1, 2)`
+    pub(super) fn eval_spread_array_in_array(&mut self, args: &mut Vec<Option<ExprOrSpread>>) {
+        if !args.iter().any(|arg| {
+            arg.as_ref()
+                .map_or(false, |arg| arg.spread.is_some() && arg.expr.is_array())
+        }) {
+            return;
+        }
+
+        let mut new_args = Vec::with_capacity(args.len());
+        for arg in args.take() {
+            match arg {
+                Some(ExprOrSpread {
+                    spread: Some(spread),
+                    expr,
+                }) => match *expr {
+                    Expr::Array(ArrayLit { elems, .. }) => {
+                        for elem in elems {
+                            match elem {
+                                Some(ExprOrSpread { expr, spread }) => {
+                                    new_args.push(Some(ExprOrSpread { spread, expr }));
+                                }
+                                None => {
+                                    new_args.push(Some(ExprOrSpread {
+                                        spread: None,
+                                        expr: Expr::undefined(DUMMY_SP),
+                                    }));
+                                }
+                            }
+                        }
+                    }
+                    _ => {
+                        new_args.push(Some(ExprOrSpread {
+                            spread: Some(spread),
+                            expr,
+                        }));
                     }
                 },
                 arg => new_args.push(arg),
@@ -749,7 +1016,7 @@ impl Pure<'_> {
                     arg.as_deref_mut().unwrap(),
                     DropOpts {
                         drop_global_refs_if_unused: true,
-                        drop_zero: true,
+                        drop_number: true,
                         drop_str_lit: true,
                         ..Default::default()
                     },
@@ -919,7 +1186,7 @@ impl Pure<'_> {
                     DropOpts {
                         drop_global_refs_if_unused: true,
                         drop_str_lit: true,
-                        drop_zero: true,
+                        drop_number: true,
                     },
                 );
 
@@ -998,12 +1265,22 @@ impl Pure<'_> {
             return;
         }
 
+        if self.ctx.in_delete {
+            return;
+        }
+
         debug_assert_valid(e);
 
         self.optimize_expr_in_bool_ctx(e, true);
 
         match e {
             Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last_mut() {
+                    self.ignore_return_value(last, opts);
+                }
+
+                seq.exprs.retain(|expr| !expr.is_invalid());
+
                 if seq.exprs.is_empty() {
                     e.take();
                     return;
@@ -1011,12 +1288,29 @@ impl Pure<'_> {
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.remove(0);
                 }
+                return;
             }
 
             Expr::Call(CallExpr {
                 span, ctxt, args, ..
             }) if ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new =
+                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
                 let new =
@@ -1039,8 +1333,12 @@ impl Pure<'_> {
             }
 
             Expr::New(NewExpr {
-                span, ctxt, args, ..
-            }) if ctxt.has_mark(self.marks.pure) => {
+                callee,
+                span,
+                ctxt,
+                args,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -1091,11 +1389,56 @@ impl Pure<'_> {
             _ => (),
         }
 
-        if self.options.unused {
+        if self.options.conditionals || self.options.expr {
+            if let Expr::Cond(CondExpr {
+                span,
+                test,
+                cons,
+                alt,
+                ..
+            }) = e
+            {
+                self.ignore_return_value(cons, opts);
+                self.ignore_return_value(alt, opts);
+
+                if cons.is_invalid() && alt.is_invalid() {
+                    report_change!("Dropping a conditional expression");
+                    *e = *test.take();
+                    self.changed = true;
+                    return;
+                }
+
+                if cons.is_invalid() {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("||"),
+                        left: test.take(),
+                        right: alt.take(),
+                    });
+                    report_change!("Dropping the `then` branch of a conditional expression");
+                    self.changed = true;
+                    return;
+                }
+
+                if alt.is_invalid() {
+                    *e = Expr::Bin(BinExpr {
+                        span: *span,
+                        op: op!("&&"),
+                        left: test.take(),
+                        right: cons.take(),
+                    });
+                    report_change!("Dropping the `else` branch of a conditional expression");
+                    self.changed = true;
+                    return;
+                }
+            }
+        }
+
+        if opts.drop_number {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
-                    self.changed = true;
+                    report_change!("Dropping a number");
                     *e = Invalid { span: DUMMY_SP }.into();
                     return;
                 }
@@ -1121,19 +1464,21 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.side_effects {
+        if self.options.side_effects
+            || self.options.dead_code
+            || self.options.collapse_vars
+            || self.options.expr
+        {
             match e {
                 Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!(unary, "+") | op!(unary, "-") | op!("!") | op!("~"),
-                    arg,
-                    ..
+                    op: op!("!"), arg, ..
                 }) => {
                     self.ignore_return_value(
                         arg,
                         DropOpts {
                             drop_str_lit: true,
                             drop_global_refs_if_unused: true,
-                            drop_zero: true,
+                            drop_number: true,
                             ..opts
                         },
                     );
@@ -1143,6 +1488,32 @@ impl Pure<'_> {
                         *e = Invalid { span: DUMMY_SP }.into();
                         return;
                     }
+                }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("void") | op!(unary, "+") | op!(unary, "-") | op!("~"),
+                    arg,
+                    ..
+                }) => {
+                    self.ignore_return_value(
+                        arg,
+                        DropOpts {
+                            drop_str_lit: true,
+                            drop_global_refs_if_unused: true,
+                            drop_number: true,
+                            ..opts
+                        },
+                    );
+
+                    if arg.is_invalid() {
+                        report_change!("Dropping an unary expression");
+                        *e = Invalid { span: DUMMY_SP }.into();
+                        return;
+                    }
+
+                    report_change!("Dropping an unary operator");
+                    *e = *arg.take();
+                    return;
                 }
 
                 Expr::Bin(
@@ -1203,116 +1574,194 @@ impl Pure<'_> {
             }
         }
 
-        if self.options.unused || self.options.side_effects {
-            match e {
-                Expr::Lit(Lit::Num(n)) => {
-                    if n.value == 0.0 && opts.drop_zero {
-                        self.changed = true;
-                        *e = Invalid { span: DUMMY_SP }.into();
-                        return;
-                    }
+        match e {
+            Expr::Lit(Lit::Num(n)) => {
+                if n.value == 0.0 && opts.drop_number {
+                    report_change!("Dropping a zero number");
+                    *e = Invalid { span: DUMMY_SP }.into();
+                    return;
                 }
+            }
 
-                Expr::Ident(i) => {
-                    if i.ctxt.outer() != self.marks.unresolved_mark {
-                        report_change!("Dropping an identifier as it's declared");
-
-                        self.changed = true;
-                        *e = Invalid { span: DUMMY_SP }.into();
-                        return;
-                    }
-                }
-
-                Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..)) => {
-                    report_change!("Dropping literals");
+            Expr::Ident(i) => {
+                if i.ctxt.outer() != self.marks.unresolved_mark {
+                    report_change!("Dropping an identifier as it's declared");
 
                     self.changed = true;
                     *e = Invalid { span: DUMMY_SP }.into();
                     return;
                 }
-
-                Expr::Bin(
-                    bin @ BinExpr {
-                        op:
-                            op!(bin, "+")
-                            | op!(bin, "-")
-                            | op!("*")
-                            | op!("%")
-                            | op!("**")
-                            | op!("^")
-                            | op!("&")
-                            | op!("|")
-                            | op!(">>")
-                            | op!("<<")
-                            | op!(">>>")
-                            | op!("===")
-                            | op!("!==")
-                            | op!("==")
-                            | op!("!=")
-                            | op!("<")
-                            | op!("<=")
-                            | op!(">")
-                            | op!(">="),
-                        ..
-                    },
-                ) => {
-                    self.ignore_return_value(
-                        &mut bin.left,
-                        DropOpts {
-                            drop_zero: true,
-                            drop_global_refs_if_unused: true,
-                            drop_str_lit: true,
-                            ..opts
-                        },
-                    );
-                    self.ignore_return_value(
-                        &mut bin.right,
-                        DropOpts {
-                            drop_zero: true,
-                            drop_global_refs_if_unused: true,
-                            drop_str_lit: true,
-                            ..opts
-                        },
-                    );
-                    let span = bin.span;
-
-                    if bin.left.is_invalid() && bin.right.is_invalid() {
-                        *e = Invalid { span: DUMMY_SP }.into();
-                        return;
-                    } else if bin.right.is_invalid() {
-                        *e = *bin.left.take();
-                        return;
-                    } else if bin.left.is_invalid() {
-                        *e = *bin.right.take();
-                        return;
-                    }
-
-                    if matches!(*bin.left, Expr::Await(..) | Expr::Update(..)) {
-                        self.changed = true;
-                        report_change!("ignore_return_value: Compressing binary as seq");
-                        *e = SeqExpr {
-                            span,
-                            exprs: vec![bin.left.take(), bin.right.take()],
-                        }
-                        .into();
-                        return;
-                    }
-                }
-
-                Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                    // Convert `a = a` to `a`.
-                    if let Some(l) = assign.left.as_ident() {
-                        if let Expr::Ident(r) = &*assign.right {
-                            if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
-                                self.changed = true;
-                                *e = *assign.right.take();
-                            }
-                        }
-                    }
-                }
-
-                _ => {}
             }
+
+            Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
+            | Expr::This(..) => {
+                report_change!("Dropping meaningless values");
+
+                self.changed = true;
+                *e = Expr::dummy();
+                return;
+            }
+
+            Expr::Bin(
+                bin @ BinExpr {
+                    op:
+                        op!(bin, "+")
+                        | op!(bin, "-")
+                        | op!("*")
+                        | op!("%")
+                        | op!("**")
+                        | op!("^")
+                        | op!("&")
+                        | op!("|")
+                        | op!(">>")
+                        | op!("<<")
+                        | op!(">>>")
+                        | op!("===")
+                        | op!("!==")
+                        | op!("==")
+                        | op!("!=")
+                        | op!("<")
+                        | op!("<=")
+                        | op!(">")
+                        | op!(">="),
+                    ..
+                },
+            ) => {
+                self.ignore_return_value(
+                    &mut bin.left,
+                    DropOpts {
+                        drop_number: true,
+                        drop_global_refs_if_unused: true,
+                        drop_str_lit: true,
+                        ..opts
+                    },
+                );
+                self.ignore_return_value(
+                    &mut bin.right,
+                    DropOpts {
+                        drop_number: true,
+                        drop_global_refs_if_unused: true,
+                        drop_str_lit: true,
+                        ..opts
+                    },
+                );
+                let span = bin.span;
+
+                if bin.left.is_invalid() && bin.right.is_invalid() {
+                    *e = Invalid { span: DUMMY_SP }.into();
+                    return;
+                } else if bin.right.is_invalid() {
+                    *e = *bin.left.take();
+                    return;
+                } else if bin.left.is_invalid() {
+                    *e = *bin.right.take();
+                    return;
+                }
+
+                if matches!(*bin.left, Expr::Await(..) | Expr::Update(..)) {
+                    self.changed = true;
+                    report_change!("ignore_return_value: Compressing binary as seq");
+                    *e = SeqExpr {
+                        span,
+                        exprs: vec![bin.left.take(), bin.right.take()],
+                    }
+                    .into();
+                    return;
+                }
+            }
+
+            Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
+                // Convert `a = a` to `a`.
+                if let Some(l) = assign.left.as_ident() {
+                    if let Expr::Ident(r) = &*assign.right {
+                        if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
+                            self.changed = true;
+                            *e = *assign.right.take();
+                        }
+                    }
+                }
+            }
+
+            Expr::Array(arr) => {
+                for elem in arr.elems.iter_mut().flatten() {
+                    if elem.spread.is_none() {
+                        self.ignore_return_value(
+                            &mut elem.expr,
+                            DropOpts {
+                                drop_number: true,
+                                drop_str_lit: true,
+                                ..Default::default()
+                            },
+                        );
+                    }
+                }
+
+                arr.elems
+                    .retain(|e| e.as_ref().map_or(false, |e| !e.expr.is_invalid()));
+
+                if arr.elems.is_empty() {
+                    *e = Expr::dummy();
+                    report_change!("Dropping an empty array literal");
+                    self.changed = true;
+                    return;
+                }
+            }
+
+            Expr::Object(obj) => {
+                let mut has_spread = false;
+                for prop in obj.props.iter_mut() {
+                    match prop {
+                        PropOrSpread::Spread(..) => {
+                            has_spread = true;
+                            break;
+                        }
+                        PropOrSpread::Prop(p) => match &mut **p {
+                            Prop::KeyValue(kv) => {
+                                if !kv.key.is_computed()
+                                    && !kv.value.may_have_side_effects(self.expr_ctx)
+                                {
+                                    **p = Prop::Shorthand(Ident::dummy());
+                                    self.changed = true;
+                                    report_change!(
+                                        "Dropping a key-value pair in an object literal"
+                                    );
+                                }
+                            }
+
+                            Prop::Shorthand(i) => {
+                                if i.ctxt.outer() != self.marks.unresolved_mark {
+                                    *i = Ident::dummy();
+                                    self.changed = true;
+                                    report_change!(
+                                        "Dropping a shorthand property in an object literal"
+                                    );
+                                }
+                            }
+
+                            _ => {}
+                        },
+                    }
+                }
+
+                obj.props.retain(|p| match p {
+                    PropOrSpread::Prop(prop) => match &**prop {
+                        Prop::Shorthand(i) => !i.is_dummy(),
+                        _ => true,
+                    },
+                    _ => true,
+                });
+
+                if !has_spread {
+                    if obj.props.is_empty() {
+                        *e = Expr::dummy();
+                        report_change!("Dropping an empty object literal");
+                        self.changed = true;
+                        return;
+                    }
+                }
+            }
+
+            _ => {}
         }
 
         match e {
@@ -1487,7 +1936,7 @@ impl Pure<'_> {
                                         &mut e.expr,
                                         DropOpts {
                                             drop_global_refs_if_unused: true,
-                                            drop_zero: true,
+                                            drop_number: true,
                                             drop_str_lit: true,
                                             ..opts
                                         },
@@ -1518,7 +1967,7 @@ impl Pure<'_> {
                             &mut expr,
                             DropOpts {
                                 drop_str_lit: true,
-                                drop_zero: true,
+                                drop_number: true,
                                 drop_global_refs_if_unused: true,
                                 ..opts
                             },
@@ -1667,6 +2116,18 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn drop_neeedless_pat(&mut self, p: &mut Pat) {
+        if let Pat::Assign(assign) = p {
+            if is_pure_undefined(self.expr_ctx, &assign.right) {
+                *p = *assign.left.take();
+                self.changed = true;
+                report_change!(
+                    "Converting an assignment pattern with undefined on RHS to a normal pattern"
+                );
+            }
+        }
+    }
+
     ///
     /// - `a ? true : false` => `!!a`
     pub(super) fn compress_useless_cond_expr(&mut self, expr: &mut Expr) {
@@ -1708,6 +2169,40 @@ impl Pure<'_> {
             *expr = *cond.test.take();
         }
     }
+
+    pub(super) fn drop_needless_block(&mut self, s: &mut Stmt) {
+        fn is_simple_stmt(s: &Stmt) -> bool {
+            !matches!(
+                s,
+                Stmt::Switch(..)
+                    | Stmt::For(..)
+                    | Stmt::With(..)
+                    | Stmt::ForIn(..)
+                    | Stmt::ForOf(..)
+                    | Stmt::While(..)
+                    | Stmt::DoWhile(..)
+                    | Stmt::Try(..)
+            )
+        }
+
+        if let Stmt::Block(bs) = s {
+            if bs.stmts.is_empty() {
+                self.changed = true;
+                report_change!("Dropping an empty block");
+                *s = Stmt::dummy();
+                return;
+            }
+
+            if bs.stmts.len() == 1
+                && !is_block_scoped_stmt(&bs.stmts[0])
+                && is_simple_stmt(&bs.stmts[0])
+            {
+                *s = bs.stmts.remove(0);
+                self.changed = true;
+                report_change!("Dropping a needless block");
+            }
+        }
+    }
 }
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -1715,7 +2210,7 @@ pub(super) struct DropOpts {
     /// If true and `unused` option is enabled, references to global variables
     /// will be dropped, even if `side_effects` is false.
     pub drop_global_refs_if_unused: bool,
-    pub drop_zero: bool,
+    pub drop_number: bool,
     pub drop_str_lit: bool,
 }
 
@@ -1771,4 +2266,14 @@ fn is_pure_member_access(obj: &Ident, prop: &MemberProp) -> bool {
     );
 
     false
+}
+
+fn is_block_scoped_stmt(s: &Stmt) -> bool {
+    match s {
+        Stmt::Decl(Decl::Var(v)) if v.kind == VarDeclKind::Const || v.kind == VarDeclKind::Let => {
+            true
+        }
+        Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
+        _ => false,
+    }
 }

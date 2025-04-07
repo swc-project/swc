@@ -24,12 +24,12 @@ function ExpandoMerge(n) {
 }
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
-}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
-    function ExpandoNamespace() {}
-    ExpandoNamespace.p6 = 42, Ns.foo = function() {
-        return ExpandoNamespace;
-    };
-}(Ns || (Ns = {}));
+}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1);
+var Ns1 = Ns || (Ns = {});
+function ExpandoNamespace() {}
+ExpandoNamespace.p6 = 42, Ns1.foo = function() {
+    return ExpandoNamespace;
+};
 var ExpandoExpr2 = function(n) {
     return n.toString();
 };

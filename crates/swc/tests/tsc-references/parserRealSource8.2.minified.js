@@ -33,7 +33,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var memberScope = null, aggScope = null;
         ast.name && ast.mod && (ast.name.sym = ast.mod.symbol);
         var mod = ast.mod;
-        mod && (mod.memberScope = memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
+        mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
     }
     function preAssignClassScopes(ast, context) {
         var memberScope = null, aggScope = null;
@@ -42,14 +42,14 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (classType) {
             classType.symbol, memberScope = context.typeFlow.checker.scopeOf(classType), (aggScope = new SymbolAggregateScope(classType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), classType.containedScope = aggScope, classType.memberScope = memberScope;
             var instanceType = classType.instanceType;
-            instanceType.memberScope = memberScope = context.typeFlow.checker.scopeOf(instanceType), (aggScope = new SymbolAggregateScope(instanceType.symbol)).addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
+            memberScope = context.typeFlow.checker.scopeOf(instanceType), instanceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(instanceType.symbol)).addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
         } else ast.type = context.typeFlow.anyType;
     }
     function preAssignInterfaceScopes(ast, context) {
         var memberScope = null, aggScope = null;
         ast.name && ast.type && (ast.name.sym = ast.type.symbol);
         var interfaceType = ast.type;
-        interfaceType.memberScope = memberScope = context.typeFlow.checker.scopeOf(interfaceType), (aggScope = new SymbolAggregateScope(interfaceType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
+        memberScope = context.typeFlow.checker.scopeOf(interfaceType), interfaceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(interfaceType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
     }
     function preAssignWithScopes(ast, context) {
         var withType = ast.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(ast.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);
@@ -101,6 +101,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
     }, TypeScript.postAssignScopes = function(ast, parent, walker) {
         var context = walker.state, go = !0;
-        return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.InterfaceDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
+        return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration || ast.nodeType == NodeType.InterfaceDeclaration || ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
     };
 }(TypeScript || (TypeScript = {}));

@@ -1,3 +1,6 @@
+use std::collections::hash_map::Entry;
+
+use bitflags::bitflags;
 use petgraph::{
     graph::{DiGraph, NodeIndex},
     visit::Bfs,
@@ -6,33 +9,111 @@ use petgraph::{
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Spanned, SyntaxContext};
 use swc_ecma_ast::{
-    Accessibility, Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    Function, Id, Ident, ModuleExportName, ModuleItem, NamedExport, TsEntityName,
-    TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement,
+    Accessibility, ArrowExpr, Class, ClassMember, Decl, ExportDecl, ExportDefaultDecl,
+    ExportDefaultExpr, Function, Id, ModuleExportName, ModuleItem, NamedExport, TsEntityName,
+    TsExportAssignment, TsExprWithTypeArgs, TsPropertySignature, TsTypeElement, TsTypeQueryExpr,
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
 use crate::fast_dts::util::ast_ext::ExprExit;
 
+bitflags! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub struct SymbolFlags: u8 {
+        const Value = 1 << 0;
+        const Type = 1 << 1;
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+struct Symbol {
+    id: Id,
+    kind: SymbolFlags,
+}
+
+impl Symbol {
+    fn new(id: Id, kind: SymbolFlags) -> Self {
+        Symbol { id, kind }
+    }
+}
+
+bitflags! {
+    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+    pub struct Context: u8 {
+        const InTypeQuery = 1 << 0;
+    }
+}
+
 pub struct TypeUsageAnalyzer<'a> {
-    graph: DiGraph<Id, ()>,
-    nodes: FxHashMap<Id, NodeIndex>,
-    // Global scope + nested ts module block scope
+    /// The graph may contain multiple symbol nodes with the same `Id` and
+    /// different `SymbolFlags`. This is ok because they will be merged into the
+    /// final result `UsedRefs`
+    graph: DiGraph<Symbol, ()>,
+    nodes: FxHashMap<Symbol, NodeIndex>,
+    /// Global scope + nested ts module block scope
     scope_entries: Vec<NodeIndex>,
-    // We will only consider referred nodes and ignore binding nodes
+    /// Dts will only consider referred nodes and ignore binding nodes
     references: FxHashSet<NodeIndex>,
+    /// Current source node that all the nested idents should depend on
     source: Option<NodeIndex>,
+    /// Used for stripping those with @internal
     internal_annotations: Option<&'a FxHashSet<BytePos>>,
+    /// Used for analyzing usages without parameter drilling
+    ctx: Context,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct UsedRefs(FxHashMap<Id, SymbolFlags>);
+
+impl UsedRefs {
+    pub fn add_usage(&mut self, id: Id, kind: SymbolFlags) {
+        match self.0.entry(id) {
+            Entry::Occupied(mut occupied_entry) => {
+                let value = occupied_entry.get_mut();
+                *value = value.union(kind);
+            }
+            Entry::Vacant(vacant_entry) => {
+                vacant_entry.insert(kind);
+            }
+        }
+    }
+
+    pub fn used_as_type(&self, id: &Id) -> bool {
+        self.0
+            .get(id)
+            .map_or(false, |ref_type| ref_type.contains(SymbolFlags::Type))
+    }
+
+    pub fn used_as_value(&self, id: &Id) -> bool {
+        self.0
+            .get(id)
+            .map_or(false, |ref_type| ref_type.contains(SymbolFlags::Value))
+    }
+
+    pub fn used(&self, id: &Id) -> bool {
+        self.0
+            .get(id)
+            .map_or(false, |ref_type| !ref_type.is_empty())
+    }
+
+    pub fn extend(&mut self, other: Self) {
+        for (id, kind) in other.0 {
+            self.add_usage(id, kind);
+        }
+    }
 }
 
 impl TypeUsageAnalyzer<'_> {
     pub fn analyze(
         module_items: &Vec<ModuleItem>,
         internal_annotations: Option<&FxHashSet<BytePos>>,
-    ) -> FxHashSet<Id> {
-        // Create a fake entry
+    ) -> UsedRefs {
+        // Create a fake entry reprensting global scope
         let mut graph = Graph::default();
-        let entry = graph.add_node(("".into(), SyntaxContext::empty()));
+        let entry = graph.add_node(Symbol::new(
+            ("".into(), SyntaxContext::empty()),
+            SymbolFlags::empty(),
+        ));
 
         let mut analyzer = TypeUsageAnalyzer {
             graph,
@@ -41,26 +122,28 @@ impl TypeUsageAnalyzer<'_> {
             references: FxHashSet::default(),
             source: None,
             internal_annotations,
+            ctx: Context::empty(),
         };
         module_items.visit_with(&mut analyzer);
 
-        // Reachability
-        let mut used_refs = FxHashSet::default();
+        // Reachability: used_refs = all references - unreachable references
+        let mut used_refs = UsedRefs::default();
         let mut bfs = Bfs::new(&analyzer.graph, entry);
         bfs.next(&analyzer.graph);
         while let Some(node_id) = bfs.next(&analyzer.graph) {
             if analyzer.references.contains(&node_id) {
-                used_refs.insert(analyzer.graph[node_id].clone());
+                let symbol = analyzer
+                    .graph
+                    .node_weight(node_id)
+                    .expect("unexpected invalid node id");
+                used_refs.add_usage(symbol.id.clone(), symbol.kind);
             }
         }
         used_refs
     }
 
-    pub fn with_source<F: FnMut(&mut TypeUsageAnalyzer)>(
-        &mut self,
-        id: Option<NodeIndex>,
-        mut f: F,
-    ) {
+    /// All the nested nodes may be connected by the passed id nodes
+    fn with_source<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, id: Option<NodeIndex>, mut f: F) {
         // If id is None, we use the nearest scope
         let old_source = self
             .source
@@ -69,16 +152,21 @@ impl TypeUsageAnalyzer<'_> {
         self.source = old_source;
     }
 
-    pub fn with_source_ident<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, ident: &Ident, f: F) {
-        self.add_edge(ident.to_id(), false);
+    /// All the nested idents will depend on the usage of the passed ident
+    /// This is usually called when meeting a binding ident
+    fn with_source_ident<F: FnMut(&mut TypeUsageAnalyzer)>(&mut self, symbol: Symbol, f: F) {
+        self.add_edge(symbol.clone(), false);
         let id = *self
             .nodes
-            .entry(ident.to_id())
-            .or_insert_with(|| self.graph.add_node(ident.to_id()));
+            .entry(symbol.clone())
+            .or_insert_with(|| self.graph.add_node(symbol));
         self.with_source(Some(id), f);
     }
 
-    pub fn add_edge(&mut self, reference: Id, is_ref: bool) {
+    /// Add a dependency edge from current source to the reference
+    /// If `is_ref` is false, the reference is a binding ident such as a
+    /// variable declaration, which means it is not a usage.
+    fn add_edge(&mut self, reference: Symbol, is_ref: bool) {
         if let Some(source) = self.source {
             let target_id = *self
                 .nodes
@@ -102,16 +190,27 @@ impl TypeUsageAnalyzer<'_> {
 impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_ts_property_signature(&mut self, node: &TsPropertySignature) {
         if let Some(ident) = node.key.get_root_ident() {
-            self.add_edge(ident.to_id(), true);
+            self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
         }
         node.visit_children_with(self);
     }
 
     fn visit_ts_expr_with_type_args(&mut self, node: &TsExprWithTypeArgs) {
         if let Some(ident) = node.expr.get_root_ident() {
-            self.add_edge(ident.to_id(), true);
+            self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
         }
         node.visit_children_with(self);
+    }
+
+    fn visit_ts_type_query_expr(&mut self, node: &TsTypeQueryExpr) {
+        // In `typeof A.B.C`, A should be a value
+        if node.is_ts_entity_name() {
+            self.ctx.insert(Context::InTypeQuery);
+            node.visit_children_with(self);
+            self.ctx.remove(Context::InTypeQuery);
+        } else {
+            node.visit_children_with(self);
+        }
     }
 
     fn visit_ts_entity_name(&mut self, node: &TsEntityName) {
@@ -120,7 +219,12 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 ts_qualified_name.left.visit_with(self);
             }
             TsEntityName::Ident(ident) => {
-                self.add_edge(ident.to_id(), true);
+                let flag = if self.ctx.contains(Context::InTypeQuery) {
+                    SymbolFlags::Value
+                } else {
+                    SymbolFlags::Type
+                };
+                self.add_edge(Symbol::new(ident.to_id(), flag), true);
             }
         };
     }
@@ -128,16 +232,25 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_decl(&mut self, node: &Decl) {
         match node {
             Decl::Class(class_decl) => {
-                self.with_source_ident(&class_decl.ident, |this| class_decl.class.visit_with(this));
+                self.with_source_ident(
+                    Symbol::new(class_decl.ident.to_id(), SymbolFlags::all()),
+                    |this| class_decl.class.visit_with(this),
+                );
             }
             Decl::Fn(fn_decl) => {
-                self.with_source_ident(&fn_decl.ident, |this| fn_decl.function.visit_with(this));
+                self.with_source_ident(
+                    Symbol::new(fn_decl.ident.to_id(), SymbolFlags::Value),
+                    |this| fn_decl.function.visit_with(this),
+                );
             }
             Decl::Var(var_decl) => {
                 for decl in &var_decl.decls {
                     decl.name.visit_with(self);
                     if let Some(name) = decl.name.as_ident() {
-                        self.with_source_ident(&name.id, |this| decl.init.visit_with(this));
+                        self.with_source_ident(
+                            Symbol::new(name.id.to_id(), SymbolFlags::Value),
+                            |this| decl.init.visit_with(this),
+                        );
                     }
                 }
             }
@@ -145,27 +258,39 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 for decl in &using_decl.decls {
                     decl.name.visit_with(self);
                     if let Some(name) = decl.name.as_ident() {
-                        self.with_source_ident(&name.id, |this| decl.init.visit_with(this));
+                        self.with_source_ident(
+                            Symbol::new(name.to_id(), SymbolFlags::Value),
+                            |this| decl.init.visit_with(this),
+                        );
                     }
                 }
             }
             Decl::TsInterface(ts_interface_decl) => {
-                self.with_source_ident(&ts_interface_decl.id, |this| {
-                    ts_interface_decl.body.visit_with(this);
-                    ts_interface_decl.extends.visit_with(this);
-                    ts_interface_decl.type_params.visit_with(this);
-                });
+                self.with_source_ident(
+                    Symbol::new(ts_interface_decl.id.to_id(), SymbolFlags::Type),
+                    |this| {
+                        ts_interface_decl.body.visit_with(this);
+                        ts_interface_decl.extends.visit_with(this);
+                        ts_interface_decl.type_params.visit_with(this);
+                    },
+                );
             }
             Decl::TsTypeAlias(ts_type_alias_decl) => {
-                self.with_source_ident(&ts_type_alias_decl.id, |this| {
-                    ts_type_alias_decl.type_ann.visit_with(this);
-                    ts_type_alias_decl.type_params.visit_with(this);
-                });
+                self.with_source_ident(
+                    Symbol::new(ts_type_alias_decl.id.to_id(), SymbolFlags::Type),
+                    |this| {
+                        ts_type_alias_decl.type_ann.visit_with(this);
+                        ts_type_alias_decl.type_params.visit_with(this);
+                    },
+                );
             }
             Decl::TsEnum(ts_enum_decl) => {
-                self.with_source_ident(&ts_enum_decl.id, |this| {
-                    ts_enum_decl.members.visit_with(this);
-                });
+                self.with_source_ident(
+                    Symbol::new(ts_enum_decl.id.to_id(), SymbolFlags::all()),
+                    |this| {
+                        ts_enum_decl.members.visit_with(this);
+                    },
+                );
             }
             Decl::TsModule(ts_module_decl) => {
                 if ts_module_decl.global || ts_module_decl.id.is_str() {
@@ -176,11 +301,12 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 } else if let Some(ident) = ts_module_decl.id.as_ident() {
                     // Push a new scope and set current scope to None, which indicates that
                     // non-exported elements in ts module block are unreachable
-                    self.add_edge(ident.to_id(), false);
+                    let symbol = Symbol::new(ident.to_id(), SymbolFlags::Type);
+                    self.add_edge(symbol.clone(), false);
                     let id = *self
                         .nodes
-                        .entry(ident.to_id())
-                        .or_insert_with(|| self.graph.add_node(ident.to_id()));
+                        .entry(symbol.clone())
+                        .or_insert_with(|| self.graph.add_node(symbol));
                     self.scope_entries.push(id);
                     let old_source = self.source.take();
                     ts_module_decl.body.visit_with(self);
@@ -202,7 +328,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
             for specifier in &node.specifiers {
                 if let Some(name) = specifier.as_named() {
                     if let ModuleExportName::Ident(ident) = &name.orig {
-                        this.add_edge(ident.to_id(), true);
+                        this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);
                     }
                 }
             }
@@ -218,7 +344,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         self.with_source(self.source, |this| {
             if let Some(ident) = node.expr.as_ident() {
-                this.add_edge(ident.to_id(), true);
+                this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);
             }
             node.visit_children_with(this);
         });
@@ -228,6 +354,13 @@ impl Visit for TypeUsageAnalyzer<'_> {
         self.with_source(self.source, |this| {
             node.visit_children_with(this);
         });
+    }
+
+    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
+        // Skip body
+        node.params.visit_with(self);
+        node.type_params.visit_with(self);
+        node.return_type.visit_with(self);
     }
 
     fn visit_function(&mut self, node: &Function) {
@@ -241,7 +374,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_class(&mut self, node: &Class) {
         if let Some(super_class) = &node.super_class {
             if let Some(ident) = super_class.get_root_ident() {
-                self.add_edge(ident.to_id(), true);
+                self.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
             }
         }
         node.visit_children_with(self);

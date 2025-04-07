@@ -252,7 +252,12 @@ impl VisitMut for Transform {
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         let var_list = self.var_list.take();
-        node.visit_mut_children_with(self);
+        node.retain_mut(|item| {
+            let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
+            item.visit_mut_with(self);
+            // Remove those folded into Empty
+            is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
+        });
         let var_list = mem::replace(&mut self.var_list, var_list);
 
         if !var_list.is_empty() {
@@ -347,7 +352,12 @@ impl VisitMut for Transform {
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
         let var_list = self.var_list.take();
-        node.visit_mut_children_with(self);
+        node.retain_mut(|stmt| {
+            let is_empty = stmt.is_empty();
+            stmt.visit_mut_with(self);
+            // Remove those folded into Empty
+            is_empty || !stmt.is_empty()
+        });
         let var_list = mem::replace(&mut self.var_list, var_list);
         if !var_list.is_empty() {
             let decls = var_list.into_iter().map(id_to_var_declarator).collect();

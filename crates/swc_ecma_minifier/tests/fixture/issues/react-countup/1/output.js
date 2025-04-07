@@ -253,26 +253,22 @@
                     "data-nimg": layout,
                     className: className,
                     ref: function(img) {
-                        setRef(img), // See https://stackoverflow.com/q/39777833/266535 for why we use this ref
-                        // handler instead of the img's onLoad attribute.
-                        function(img, src, layout, placeholder, onLoadingComplete) {
-                            if (img) {
-                                var handleLoad = function() {
-                                    img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && // Pass back read-only primitive values but not the
-                                        // underlying DOM element because it could be misused.
-                                        onLoadingComplete({
-                                            naturalWidth: img.naturalWidth,
-                                            naturalHeight: img.naturalHeight
-                                        });
+                        if (setRef(img), img) {
+                            var handleLoad = function() {
+                                img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
+                                    "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(srcString), onLoadingComplete && // Pass back read-only primitive values but not the
+                                    // underlying DOM element because it could be misused.
+                                    onLoadingComplete({
+                                        naturalWidth: img.naturalWidth,
+                                        naturalHeight: img.naturalHeight
                                     });
-                                };
-                                img.complete ? // If the real image fails to load, this will still remove the placeholder.
-                                // This is the desired behavior for now, and will be revisited when error
-                                // handling is worked on for the image component itself.
-                                handleLoad() : img.onload = handleLoad;
-                            }
-                        }(img, srcString, 0, placeholder, onLoadingComplete);
+                                });
+                            };
+                            img.complete ? // If the real image fails to load, this will still remove the placeholder.
+                            // This is the desired behavior for now, and will be revisited when error
+                            // handling is worked on for the image component itself.
+                            handleLoad() : img.onload = handleLoad;
+                        }
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
                 })), /*#__PURE__*/ _react.default.createElement("noscript", null, /*#__PURE__*/ _react.default.createElement("img", Object.assign({}, all, generateImgAttrs({
@@ -409,7 +405,7 @@
                 var ref = function(width, layout, sizes) {
                     if (sizes && ("fill" === layout || "responsive" === layout)) {
                         for(// Find all the "vw" percent sizes used in the sizes prop
-                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes);)percentSizes.push(parseInt(match[2]));
                         if (percentSizes.length) {
                             var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
                             return {
@@ -819,10 +815,8 @@
                 }), update = useEventCallback(function(end) {
                     props.preserveValue || reset(), updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
-                    if ("function" == typeof props.children && !(containerRef.current instanceof Element)) {
-                        console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
-                        return;
-                    } // unlike the hook, the CountUp component initializes on mount
+                    if ("function" == typeof props.children && !(containerRef.current instanceof Element)) return void console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
+                     // unlike the hook, the CountUp component initializes on mount
                     getCountUp();
                 });
                 React.useEffect(function() {

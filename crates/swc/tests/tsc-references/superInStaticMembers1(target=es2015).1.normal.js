@@ -2,7 +2,6 @@
 //// [external.ts]
 export class Reflect {
 }
-;
 export default class {
 }
 //// [locals.ts]
@@ -44,7 +43,6 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
@@ -96,10 +94,7 @@ C._ = [
     ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
-(()=>{
-    ;
-    _get(_get_prototype_of(C), "w", C).call(C);
-})();
+_get(_get_prototype_of(C), "w", C).call(C);
 _get(_get_prototype_of(C), "w", C).call(C);
 _get(_get_prototype_of(C), "w", C).call(C);
 (()=>{
@@ -243,7 +238,6 @@ export { };
 //// [constEnumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-;
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -251,7 +245,6 @@ export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-;
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);

@@ -14,6 +14,8 @@ use swc_core::{
     common::{sync::Lazy, FilePathMapping, SourceMap},
 };
 
+#[cfg(feature = "plugin")]
+mod analyze;
 mod bundle;
 mod minify;
 mod parse;
@@ -39,6 +41,12 @@ fn init() {
 
 fn get_compiler() -> Arc<Compiler> {
     COMPILER.clone()
+}
+
+fn get_fresh_compiler() -> Arc<Compiler> {
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+
+    Arc::new(Compiler::new(cm))
 }
 
 #[napi(js_name = "Compiler")]

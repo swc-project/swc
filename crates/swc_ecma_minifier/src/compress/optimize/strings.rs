@@ -1,3 +1,4 @@
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -137,4 +138,40 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    /// Convert string literals with escaped newline `'\n'` to template literal
+    /// with newline character.
+    pub(super) fn reduce_escaped_newline_for_str_lit(&mut self, expr: &mut Expr) {
+        if self.options.ecma < EsVersion::Es2015
+            || !self.options.experimental.reduce_escaped_newline
+        {
+            return;
+        }
+
+        if let Expr::Lit(Lit::Str(s)) = expr {
+            if s.value.contains('\n') {
+                *expr = Expr::Tpl(Tpl {
+                    span: s.span,
+                    exprs: Default::default(),
+                    quasis: vec![TplElement {
+                        span: s.span,
+                        cooked: Some(s.value.clone()),
+                        raw: convert_str_value_to_tpl_raw(&s.value),
+                        tail: true,
+                    }],
+                });
+                self.changed = true;
+                report_change!("strings: Reduced escaped newline for a string literal");
+            }
+        }
+    }
+}
+
+pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Atom {
+    value
+        .replace('\\', "\\\\")
+        .replace('`', "\\`")
+        .replace("${", "\\${")
+        .replace('\r', "\\r")
+        .into()
 }

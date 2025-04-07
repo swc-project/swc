@@ -1,6 +1,5 @@
 //// [intersectionOfUnionOfUnitTypes.ts]
 // @strict
-;
 var x0; // 'a' | 'b' | 'c'
 var x1; // 'b' | 'c'
 var x2; // 'c'

@@ -946,11 +946,7 @@
                     return btoa(this.binaryString);
                 }
                 toUint8Array() {
-                    return function(t) {
-                        const e = new Uint8Array(t.length);
-                        for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
-                        return e;
-                    }(/**
+                    var t = /**
                              * @license
                              * Copyright 2020 Google LLC
                              *
@@ -966,7 +962,10 @@
                              * See the License for the specific language governing permissions and
                              * limitations under the License.
                              */ // A RegExp matching ISO 8601 UTC timestamps with optional fraction.
-                    this.binaryString);
+                    this.binaryString;
+                    const e = new Uint8Array(t.length);
+                    for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
+                    return e;
                 }
                 approximateByteSize() {
                     return 2 * this.binaryString.length;
@@ -1052,7 +1051,7 @@
                  *   localWriteTime.
                  */ function Tt(t) {
                 var e, n;
-                return "server_timestamp" === (null === (n = ((null === (e = null == t ? void 0 : t.mapValue) || void 0 === e ? void 0 : e.fields) || {}).__type__) || void 0 === n ? void 0 : n.stringValue);
+                return "server_timestamp" === (null == (n = ((null == (e = null == t ? void 0 : t.mapValue) ? void 0 : e.fields) || {}).__type__) ? void 0 : n.stringValue);
             }
             /**
                  * Returns the local time at which this timestamp was first set.
@@ -1165,12 +1164,10 @@
                     case 4 /* ServerTimestampValue */ :
                         return It(t).isEqual(It(e));
                     case 3 /* TimestampValue */ :
-                        return function(t, e) {
-                            if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
-                            return t.timestampValue === e.timestampValue;
-                            const n = gt(t.timestampValue), s = gt(e.timestampValue);
-                            return n.seconds === s.seconds && n.nanos === s.nanos;
-                        }(t, e);
+                        if ("string" == typeof t.timestampValue && "string" == typeof e.timestampValue && t.timestampValue.length === e.timestampValue.length) // Use string equality for ISO 8601 timestamps
+                        return t.timestampValue === e.timestampValue;
+                        const n1 = gt(t.timestampValue), s = gt(e.timestampValue);
+                        return n1.seconds === s.seconds && n1.nanos === s.nanos;
                     case 5 /* StringValue */ :
                         return t.stringValue === e.stringValue;
                     case 6 /* BlobValue */ :
@@ -1180,23 +1177,19 @@
                     case 8 /* GeoPointValue */ :
                         return yt(t.geoPointValue.latitude) === yt(e.geoPointValue.latitude) && yt(t.geoPointValue.longitude) === yt(e.geoPointValue.longitude);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
-                            if ("doubleValue" in t && "doubleValue" in e) {
-                                const n = yt(t.doubleValue), s = yt(e.doubleValue);
-                                return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
-                            }
-                            return !1;
-                        }(t, e);
+                        if ("integerValue" in t && "integerValue" in e) return yt(t.integerValue) === yt(e.integerValue);
+                        if ("doubleValue" in t && "doubleValue" in e) {
+                            const n = yt(t.doubleValue), s = yt(e.doubleValue);
+                            return n === s ? Rt(n) === Rt(s) : isNaN(n) && isNaN(s);
+                        }
+                        return !1;
                     case 9 /* ArrayValue */ :
                         return nt(t.arrayValue.values || [], e.arrayValue.values || [], Vt);
                     case 10 /* ObjectValue */ :
-                        return function(t, e) {
-                            const n = t.mapValue.fields || {}, s = e.mapValue.fields || {};
-                            if (ot(n) !== ot(s)) return !1;
-                            for(const t in n)if (n.hasOwnProperty(t) && (void 0 === s[t] || !Vt(n[t], s[t]))) return !1;
-                            return !0;
-                        }(/** Returns true if the ArrayValue contains the specified element. */ t, e);
+                        const n2 = /** Returns true if the ArrayValue contains the specified element. */ t.mapValue.fields || {}, s1 = e.mapValue.fields || {};
+                        if (ot(n2) !== ot(s1)) return !1;
+                        for(const t in n2)if (n2.hasOwnProperty(t) && (void 0 === s1[t] || !Vt(n2[t], s1[t]))) return !1;
+                        return !0;
                     default:
                         return L();
                 }
@@ -1213,10 +1206,8 @@
                     case 1 /* BooleanValue */ :
                         return et(t.booleanValue, e.booleanValue);
                     case 2 /* NumberValue */ :
-                        return function(t, e) {
-                            const n = yt(t.integerValue || t.doubleValue), s = yt(e.integerValue || e.doubleValue);
-                            return n < s ? -1 : n > s ? 1 : n === s ? 0 : isNaN(n) ? isNaN(s) ? 0 : -1 : 1;
-                        }(t, e);
+                        const n1 = yt(t.integerValue || t.doubleValue), s1 = yt(e.integerValue || e.doubleValue);
+                        return n1 < s1 ? -1 : n1 > s1 ? 1 : n1 === s1 ? 0 : isNaN(n1) ? isNaN(s1) ? 0 : -1 : 1;
                     case 3 /* TimestampValue */ :
                         return Ct(t.timestampValue, e.timestampValue);
                     case 4 /* ServerTimestampValue */ :
@@ -1676,7 +1667,7 @@
             }
             function ee(t, e) {
                 var n;
-                return ((null === (n = e.arrayValue) || void 0 === n ? void 0 : n.values) || []).map((t)=>Pt.fromName(t.referenceValue));
+                return ((null == (n = e.arrayValue) ? void 0 : n.values) || []).map((t)=>Pt.fromName(t.referenceValue));
             }
             /** A Filter that implements the array-contains operator. */ class ne extends Jt {
                 constructor(t, e){
@@ -1835,20 +1826,18 @@
             /**
                  * Converts this `Query` instance to it's corresponding `Target` representation.
                  */ function Ee(t) {
-                if (!t.S) {
-                    if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
-                    else {
-                        // Flip the orderBy directions since we want the last results
-                        const t1 = [];
-                        for (const n of Te(t)){
-                            const e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
-                            t1.push(new ae(n.field, e));
-                        }
-                        // We need to swap the cursors to match the now-flipped query ordering.
-                        const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
-                        // Now return as a LimitType.First query.
-                        t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
+                if (!t.S) if ("F" /* First */  === t.limitType) t.S = Qt(t.path, t.collectionGroup, Te(t), t.filters, t.limit, t.startAt, t.endAt);
+                else {
+                    // Flip the orderBy directions since we want the last results
+                    const t1 = [];
+                    for (const n of Te(t)){
+                        const e = "desc" /* DESCENDING */  === n.dir ? "asc" /* ASCENDING */  : "desc"; /* DESCENDING */ 
+                        t1.push(new ae(n.field, e));
                     }
+                    // We need to swap the cursors to match the now-flipped query ordering.
+                    const n = t.endAt ? new oe(t.endAt.position, !t.endAt.before) : null, s = t.startAt ? new oe(t.startAt.position, !t.startAt.before) : null;
+                    // Now return as a LimitType.First query.
+                    t.S = Qt(t.path, t.collectionGroup, t1, t.filters, t.limit, n, s);
                 }
                 return t.S;
             }
@@ -3029,18 +3018,17 @@
                     const e = t.targetId, n = t.O.count, s = this.dt(e);
                     if (s) {
                         const t = s.target;
-                        if (Ht(t)) {
-                            if (0 === n) {
-                                // The existence filter told us the document does not exist. We deduce
-                                // that this document does not exist and apply a deleted document to
-                                // our updates. Without applying this deleted document there might be
-                                // another query that will raise this document as part of a snapshot
-                                // until it is resolved, essentially exposing inconsistency between
-                                // queries.
-                                const n = new Pt(t.path);
-                                this.ct(e, n, Kt.newNoDocument(n, rt.min()));
-                            } else 1 === n || L();
-                        } else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
+                        if (Ht(t)) if (0 === n) {
+                            // The existence filter told us the document does not exist. We deduce
+                            // that this document does not exist and apply a deleted document to
+                            // our updates. Without applying this deleted document there might be
+                            // another query that will raise this document as part of a snapshot
+                            // until it is resolved, essentially exposing inconsistency between
+                            // queries.
+                            const n = new Pt(t.path);
+                            this.ct(e, n, Kt.newNoDocument(n, rt.min()));
+                        } else 1 === n || L();
+                        else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
                         // snapshot with `isFromCache:true`.
                         (this.lt(e), this.it = this.it.add(e));
                     }
@@ -3872,30 +3860,26 @@
                      */ applyToRemoteDocument(t, e) {
                     const n = e.mutationResults;
                     for(let e = 0; e < this.mutations.length; e++){
+                        var n1;
                         const s = this.mutations[e];
-                        if (s.key.isEqual(t.key)) {
-                            var n1;
-                            n1 = n[e], s instanceof en ? function(t, e, n) {
-                                // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
-                                // remote document the server has accepted the mutation so the precondition
-                                // must have held.
-                                const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
-                                s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                            }(s, t, n1) : s instanceof nn ? function(t, e, n) {
-                                if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
-                                // matched on the backend. We therefore must not have the expected version
-                                // of the document in our cache and convert to an UnknownDocument with a
-                                // known updateTime.
-                                return void e.convertToUnknownDocument(n.version);
-                                const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
-                                i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                            }(s, t, n1) : function(t, e, n) {
-                                // Unlike applyToLocalView, if we're applying a mutation to a remote
-                                // document the server has accepted the mutation so the precondition must
-                                // have held.
-                                e.convertToNoDocument(n.version).setHasCommittedMutations();
-                            }(0, t, n1);
-                        }
+                        s.key.isEqual(t.key) && (n1 = n[e], s instanceof en ? function(t, e, n) {
+                            // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
+                            // remote document the server has accepted the mutation so the precondition
+                            // must have held.
+                            const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
+                            s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
+                        }(s, t, n1) : s instanceof nn ? function(t, e, n) {
+                            if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
+                            // matched on the backend. We therefore must not have the expected version
+                            // of the document in our cache and convert to an UnknownDocument with a
+                            // known updateTime.
+                            return e.convertToUnknownDocument(n.version);
+                            const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
+                            i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
+                        }(s, t, n1) : // Unlike applyToLocalView, if we're applying a mutation to a remote
+                        // document the server has accepted the mutation so the precondition must
+                        // have held.
+                        t.convertToNoDocument(n1.version).setHasCommittedMutations());
                     }
                 }
                 /**
@@ -4225,10 +4209,9 @@
                     });
                 }
                 isEmpty() {
-                    return function(t) {
-                        for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
-                        return !0;
-                    }(this.inner);
+                    var t = this.inner;
+                    for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                    return !0;
                 }
             }
             /**
@@ -5828,7 +5811,7 @@
                             // compatible with the bug we need to check either condition. The latter
                             // can be removed once the fix has been rolled out.
                             // Use any because msgData.error is not typed.
-                            const i = n.error || (null === (e = n[0]) || void 0 === e ? void 0 : e.error);
+                            const i = n.error || (null == (e = n[0]) ? void 0 : e.error);
                             if (i) {
                                 $("Connection", "WebChannel received error:", i);
                                 // error.status will be a string like 'OK' or 'NOT_FOUND'.
@@ -8038,7 +8021,7 @@
                     if (void 0 === t.host) {
                         if (void 0 !== t.ssl) throw new j(K.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
                         this.host = "firestore.googleapis.com", this.ssl = !0;
-                    } else this.host = t.host, this.ssl = null === (e = t.ssl) || void 0 === e || e;
+                    } else this.host = t.host, this.ssl = null == (e = t.ssl) || e;
                     if (this.credentials = t.credentials, this.ignoreUndefinedProperties = !!t.ignoreUndefinedProperties, void 0 === t.cacheSizeBytes) this.cacheSizeBytes = 41943040;
                     else {
                         if (-1 !== t.cacheSizeBytes && t.cacheSizeBytes < 1048576) throw new j(K.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
@@ -8473,7 +8456,7 @@
             }
             function Ma(t) {
                 var e;
-                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
+                const n = t._freezeSettings(), s = new ua(t._databaseId, (null == (e = t._app) ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             /**

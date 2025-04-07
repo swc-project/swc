@@ -5,7 +5,6 @@ export var Reflect = function Reflect() {
     "use strict";
     _class_call_check(this, Reflect);
 };
-;
 var _default = function _default() {
     "use strict";
     _class_call_check(this, _default);
@@ -62,7 +61,6 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
-        ;
         _get(_get_prototype_of(C), "w", C).call(C);
     }(),
     function() {
@@ -118,10 +116,7 @@ C._ = [
     ;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
-(function() {
-    ;
-    _get(_get_prototype_of(C), "w", C).call(C);
-})();
+_get(_get_prototype_of(C), "w", C).call(C);
 _get(_get_prototype_of(C), "w", C).call(C);
 _get(_get_prototype_of(C), "w", C).call(C);
 (function() {
@@ -412,7 +407,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -430,7 +424,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);

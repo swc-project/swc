@@ -1,8 +1,4 @@
 define(function() {
-    function fn() {
-    }
-    if (fn()) {
-        fn();
-        return;
-    }
+    function fn() {}
+    if (fn()) return void fn();
 });

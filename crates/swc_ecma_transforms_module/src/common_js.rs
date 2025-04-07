@@ -1,5 +1,7 @@
 use rustc_hash::FxHashSet;
-use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
@@ -200,20 +202,56 @@ impl VisitMut for Cjs {
                 );
             }
             Expr::Member(MemberExpr { span, obj, prop })
-                if prop.is_ident_with("url")
-                    && !self.config.preserve_import_meta
+                if !self.config.preserve_import_meta
                     && obj
                         .as_meta_prop()
                         .map(|p| p.kind == MetaPropKind::ImportMeta)
                         .unwrap_or_default() =>
             {
-                obj.visit_mut_with(self);
+                let p = match prop {
+                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        _ => return,
+                    },
+                    MemberProp::PrivateName(..) => return,
+                };
 
-                let require = quote_ident!(
-                    SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                    "require"
-                );
-                *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
+                match p {
+                    "url" => {
+                        let require = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            "require"
+                        );
+                        *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
+                    }
+                    "resolve" => {
+                        let require = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            obj.span(),
+                            "require"
+                        );
+
+                        *obj = Box::new(require.into());
+                    }
+                    "filename" => {
+                        *n = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            *span,
+                            "__filename"
+                        )
+                        .into();
+                    }
+                    "dirname" => {
+                        *n = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            *span,
+                            "__dirname"
+                        )
+                        .into();
+                    }
+                    _ => {}
+                }
             }
             _ => n.visit_mut_children_with(self),
         }

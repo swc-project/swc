@@ -118,7 +118,7 @@ pub struct PrintArgs<'a> {
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
-    pub output: Option<FxHashMap<String, serde_json::Value>>,
+    pub output: Option<FxHashMap<String, String>>,
 }
 
 impl Default for PrintArgs<'_> {

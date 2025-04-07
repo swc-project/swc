@@ -39,12 +39,8 @@ define([
 ], function(require, exports, _interop_require_wildcard, _t1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), function(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            enumerable: !0,
-            get: all[name]
-        });
-    }(exports, {
+    });
+    var all = {
         a: function() {
             return _t1;
         },
@@ -69,6 +65,10 @@ define([
         f2: function() {
             return _t11.default;
         }
+    };
+    for(var name in all)Object.defineProperty(exports, name, {
+        enumerable: !0,
+        get: all[name]
     });
     var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
     _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;

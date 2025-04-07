@@ -71,7 +71,6 @@ var E = /*#__PURE__*/ function(E) {
     E[E["b"] = 1] = "b";
     return E;
 }(E || {});
-;
 function foo1(...a) {}
 foo1(1, 2, 3, 0);
 foo1(1, 2, 3, 0, 1);

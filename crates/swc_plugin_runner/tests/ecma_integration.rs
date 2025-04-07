@@ -26,7 +26,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let mut cmd = Command::new("cargo");
         cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi"])
+        cmd.args(["build", "--target=wasm32-wasip1"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -39,7 +39,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("debug"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasip1").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
@@ -101,6 +101,7 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
 #[test]
 fn internal() {
     use swc_common::plugin::serialized::VersionedSerializable;
+    use swc_transform_common::output::capture;
 
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         // run single plugin
@@ -151,9 +152,13 @@ fn internal() {
                 .is_empty());
              */
 
-            let program_bytes = plugin_transform_executor
-                .transform(&program, Some(false))
-                .expect("Plugin should apply transform");
+            let (program_bytes, captured_output) = capture(|| {
+                plugin_transform_executor
+                    .transform(&program, Some(false))
+                    .expect("Plugin should apply transform")
+            });
+            let captured_output = serde_json::to_string(&captured_output).unwrap();
+            assert_eq!(captured_output, "{\"foo\":\"bar\"}");
 
             let program: Program = program_bytes
                 .deserialize()
@@ -214,9 +219,12 @@ fn internal() {
                         None,
                     );
 
-                plugin_transform_executor
-                    .transform(&program, Some(false))
-                    .expect("Plugin should apply transform")
+                capture(|| {
+                    plugin_transform_executor
+                        .transform(&program, Some(false))
+                        .expect("Plugin should apply transform")
+                })
+                .1
             });
 
             eprintln!("Second run retured");

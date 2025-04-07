@@ -9,6 +9,7 @@ use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_config::{merge::Merge, CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr, Id};
+use terser::TerserExperimentalOptions;
 
 /// Implement default using serde.
 macro_rules! impl_default {
@@ -90,6 +91,10 @@ pub struct MangleOptions {
     /// mangle names visible in scopes where eval or with are used
     #[serde(default)]
     pub eval: bool,
+
+    /// Disable char frequency analysis.
+    #[serde(default)]
+    pub disable_char_freq: bool,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize, Merge)]
@@ -116,6 +121,37 @@ pub enum PureGetterOption {
 impl Default for PureGetterOption {
     fn default() -> Self {
         Self::Strict
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[serde(deny_unknown_fields)]
+#[non_exhaustive]
+pub struct CompressExperimentalOptions {
+    #[serde(default = "true_by_default")]
+    pub reduce_escaped_newline: bool,
+}
+
+impl CompressExperimentalOptions {
+    fn from_defaults(defaults: bool) -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: defaults,
+        }
+    }
+
+    fn from_terser_with_defaults(terser: TerserExperimentalOptions, defaults: bool) -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: terser.reduce_escaped_newline.unwrap_or(defaults),
+        }
+    }
+}
+
+impl Default for CompressExperimentalOptions {
+    fn default() -> Self {
+        CompressExperimentalOptions {
+            reduce_escaped_newline: true,
+        }
     }
 }
 
@@ -345,6 +381,9 @@ pub struct CompressOptions {
     /// Defaults to true.
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     pub pristine_globals: bool,
+
+    #[cfg_attr(feature = "extra-serde", serde(default))]
+    pub experimental: CompressExperimentalOptions,
 }
 
 impl CompressOptions {
@@ -438,6 +477,7 @@ impl Default for CompressOptions {
             unused: true,
             const_to_let: true,
             pristine_globals: true,
+            experimental: Default::default(),
         }
     }
 }

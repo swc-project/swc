@@ -9,7 +9,9 @@ use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
 use swc_ecma_utils::drop_span;
 
-use super::{default_passes, true_by_default, CompressOptions, TopLevelOptions};
+use super::{
+    default_passes, true_by_default, CompressExperimentalOptions, CompressOptions, TopLevelOptions,
+};
 use crate::option::PureGetterOption;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -67,6 +69,14 @@ pub enum TerserSequenceOptions {
 pub enum TerserTopRetainOption {
     Str(String),
     Seq(Vec<Atom>),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[non_exhaustive]
+pub struct TerserExperimentalOptions {
+    #[serde(default)]
+    pub reduce_escaped_newline: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -241,6 +251,9 @@ pub struct TerserCompressorOptions {
 
     #[serde(default)]
     pub pristine_globals: Option<bool>,
+
+    #[serde(default)]
+    pub experimental: Option<TerserExperimentalOptions>,
 }
 
 impl_default!(TerserCompressorOptions);
@@ -400,6 +413,15 @@ impl TerserCompressorOptions {
                     })
                 })
                 .collect(),
+            experimental: self
+                .experimental
+                .map(|experimental| {
+                    CompressExperimentalOptions::from_terser_with_defaults(
+                        experimental,
+                        self.defaults,
+                    )
+                })
+                .unwrap_or(CompressExperimentalOptions::from_defaults(self.defaults)),
         }
     }
 }

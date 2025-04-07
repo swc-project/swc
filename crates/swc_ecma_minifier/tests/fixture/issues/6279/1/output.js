@@ -1,4 +1,2 @@
-!function(str, r) {
-    let m;
-    for(; m = r.exec(str);)console.log(m);
-}('abcda', /a/g);
+let m;
+for(var r = /a/g; m = r.exec('abcda');)console.log(m);
