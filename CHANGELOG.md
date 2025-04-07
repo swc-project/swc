@@ -1908,12 +1908,6 @@
 
 - **(visit)** Fix regression ([#9404](https://github.com/swc-project/swc/issues/9404)) ([041a7b7](https://github.com/swc-project/swc/commit/041a7b7ff756fcdac9cc1d25f5ee82b355e73246))
 
-### Features
-
-
-
-- **(visit)** Make `kind()` accessible without `swc_visit` ([#9382](https://github.com/swc-project/swc/issues/9382)) ([021e41d](https://github.com/swc-project/swc/commit/021e41d1534da5d9ba17b9d8f14da6652133f467))
-
 ### Miscellaneous Tasks
 
 
