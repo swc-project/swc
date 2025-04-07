@@ -172,18 +172,18 @@ impl PluginTransformState {
 }
 
 /// A struct encapsule executing a plugin's transform.
-pub struct TransformExecutor<'a> {
+pub struct TransformExecutor {
     source_map: Arc<SourceMap>,
     unresolved_mark: swc_common::Mark,
     metadata_context: Arc<TransformPluginMetadataContext>,
-    plugin_env_vars: Option<&'a [String]>,
+    plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
     runtime: Option<Arc<dyn Runtime + Send + Sync>>,
 }
 
 #[cfg(feature = "__rkyv")]
-impl<'a> TransformExecutor<'a> {
+impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
         skip(source_map, metadata_context, plugin_config, module_bytes)
@@ -193,7 +193,7 @@ impl<'a> TransformExecutor<'a> {
         source_map: &Arc<SourceMap>,
         unresolved_mark: &swc_common::Mark,
         metadata_context: &Arc<TransformPluginMetadataContext>,
-        plugin_env_vars: Option<&'a [String]>,
+        plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
         runtime: Option<Arc<dyn Runtime + Send + Sync>>,
     ) -> Self {
@@ -300,10 +300,10 @@ impl<'a> TransformExecutor<'a> {
                 builder
             };
 
-            if let Some(env_vars) = self.plugin_env_vars {
-                for env in env_vars {
-                    if let Ok(value) = env::var(env) {
-                        wasi_env_builder.add_env(env, value);
+            if let Some(env_vars) = self.plugin_env_vars.as_ref() {
+                for env in env_vars.iter() {
+                    if let Ok(value) = env::var(env.as_str()) {
+                        wasi_env_builder.add_env(env.as_str(), value);
                     }
                 }
             }

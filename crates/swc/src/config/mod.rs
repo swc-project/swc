@@ -1204,7 +1204,7 @@ pub struct JscExperimental {
     #[serde(default)]
     pub plugins: Option<Vec<PluginConfig>>,
     #[serde(default)]
-    pub plugin_env_vars: Option<Vec<String>>,
+    pub plugin_env_vars: Option<Vec<Atom>>,
     /// If true, keeps import assertions in the output.
     #[serde(default, alias = "keepImportAssertions")]
     pub keep_import_attributes: BoolConfig<false>,
