@@ -137,7 +137,6 @@ pub fn parse_expr_for_jsx(
     src: Lrc<String>,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-
     let fm = cm.new_source_file_from(cache_filename(name).into(), src);
 
     parse_file_as_expr(
@@ -395,7 +394,7 @@ impl JsxDirectives {
 
 #[cfg(feature = "concurrent")]
 fn cache_filename(name: &str) -> FileName {
-       static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, FileName>>> =
+    static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, FileName>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
 
     {
