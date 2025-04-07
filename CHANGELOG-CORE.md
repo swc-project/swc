@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v21.0.1] - 2025-04-07
 
 ### Features
 
