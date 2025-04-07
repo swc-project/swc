@@ -248,3 +248,7 @@ where
         (**self).can_ignore_invalid_unicodes()
     }
 }
+
+pub trait SpannedWriteJs: WriteJs {
+    fn get_pos(&self) -> BytePos;
+}

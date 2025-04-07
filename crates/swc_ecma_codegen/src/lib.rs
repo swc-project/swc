@@ -20,8 +20,10 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 pub use self::config::Config;
-use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
-use crate::util::EndsWithAlphaNum;
+use crate::{
+    text_writer::{SpannedWriteJs, WriteJs},
+    util::{EndsWithAlphaNum, StartsWithAlphaNum},
+};
 
 #[macro_use]
 pub mod macros;
@@ -80,6 +82,14 @@ pub trait Node: Spanned {
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
 }
+
+pub trait NodeMut: Node {
+    fn rewrite_span<W, S>(&self, e: &mut SpanRewriter<'_, W, S>) -> Result
+    where
+        W: WriteJs + SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt;
+}
+
 impl<N: Node> Node for Box<N> {
     #[inline]
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
@@ -104,6 +114,17 @@ impl<N: Node> Node for &N {
 pub struct Emitter<'a, W, S: SourceMapper>
 where
     W: WriteJs,
+    S: SourceMapperExt,
+{
+    pub cfg: config::Config,
+    pub cm: Lrc<S>,
+    pub comments: Option<&'a dyn Comments>,
+    pub wr: W,
+}
+
+pub struct SpanRewriter<'a, W, S: SourceMapper>
+where
+    W: WriteJs + SpannedWriteJs,
     S: SourceMapperExt,
 {
     pub cfg: config::Config,
