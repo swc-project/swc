@@ -193,6 +193,8 @@ impl MacroNode for MethodProp {
 #[node_impl]
 impl MacroNode for PropName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let target = emitter.cfg.target;
+
         match self {
             PropName::Ident(ident) => {
                 // TODO: Use write_symbol when ident is a symbol.
@@ -207,7 +209,7 @@ impl MacroNode for PropName {
                     if emitter.wr.can_ignore_invalid_unicodes() {
                         emitter.wr.write_symbol(
                             DUMMY_SP,
-                            &crate::get_ascii_only_ident(&ident.sym, true, emitter.cfg.target),
+                            &crate::get_ascii_only_ident(&ident.sym, true, target),
                         )?;
                     } else {
                         emitter.wr.write_symbol(
@@ -215,7 +217,7 @@ impl MacroNode for PropName {
                             &crate::get_ascii_only_ident(
                                 &crate::handle_invalid_unicodes(&ident.sym),
                                 true,
-                                emitter.cfg.target,
+                                target,
                             ),
                         )?;
                     }

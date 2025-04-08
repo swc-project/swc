@@ -555,7 +555,7 @@ impl MacroNode for IfStmt {
 
         emit!(self.cons);
 
-        if let Some(alt) = self.alt {
+        if let Some(alt) = ref_maybe_mut!(self.alt) {
             if is_cons_block {
                 formatting_space!(emitter);
             }
