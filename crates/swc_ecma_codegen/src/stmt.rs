@@ -229,7 +229,7 @@ impl MacroNode for SwitchCase {
 
         srcmap!(emitter, self, true);
 
-        if let Some(test) = self.test {
+        if let Some(test) = ref_maybe_mut!(self.test) {
             keyword!(emitter, "case");
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
@@ -312,12 +312,12 @@ impl MacroNode for TryStmt {
         formatting_space!(emitter);
         emit!(self.block);
 
-        if let Some(catch) = self.handler {
+        if let Some(catch) = ref_maybe_mut!(self.handler) {
             formatting_space!(emitter);
             emit!(catch);
         }
 
-        if let Some(finally) = self.finalizer {
+        if let Some(finally) = ref_maybe_mut!(self.finalizer) {
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);

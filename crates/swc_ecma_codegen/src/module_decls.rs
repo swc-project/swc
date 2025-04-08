@@ -425,7 +425,7 @@ impl MacroNode for ExportAll {
         formatting_space!(emitter);
         emit!(self.src);
 
-        if let Some(with) = &self.with {
+        if let Some(with) = ref_maybe_mut!(self.with) {
             formatting_space!(emitter);
             if emitter.cfg.emit_assert_for_import_attributes {
                 keyword!(emitter, "assert");
