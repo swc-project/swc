@@ -176,6 +176,7 @@ pub struct TransformExecutor {
     source_map: Arc<SourceMap>,
     unresolved_mark: swc_common::Mark,
     metadata_context: Arc<TransformPluginMetadataContext>,
+    plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
     runtime: Option<Arc<dyn Runtime + Send + Sync>>,
@@ -192,6 +193,7 @@ impl TransformExecutor {
         source_map: &Arc<SourceMap>,
         unresolved_mark: &swc_common::Mark,
         metadata_context: &Arc<TransformPluginMetadataContext>,
+        plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
         runtime: Option<Arc<dyn Runtime + Send + Sync>>,
     ) -> Self {
@@ -208,6 +210,7 @@ impl TransformExecutor {
             source_map: source_map.clone(),
             unresolved_mark: *unresolved_mark,
             metadata_context: metadata_context.clone(),
+            plugin_env_vars,
             plugin_config,
             module_bytes,
             runtime,
@@ -289,13 +292,21 @@ impl TransformExecutor {
             // - should we support this?
             // - can we limit to allowlisted input / output only?
             // - should there be a top-level config from .swcrc to manually override this?
-            let wasi_env_builder = if let Ok(cwd) = env::current_dir() {
+            let mut wasi_env_builder = if let Ok(cwd) = env::current_dir() {
                 builder
                     .fs(default_fs_backing())
                     .map_dirs(vec![("/cwd".to_string(), cwd)].drain(..))?
             } else {
                 builder
             };
+
+            if let Some(env_vars) = self.plugin_env_vars.as_ref() {
+                for env in env_vars.iter() {
+                    if let Ok(value) = env::var(env.as_str()) {
+                        wasi_env_builder.add_env(env.as_str(), value);
+                    }
+                }
+            }
 
             //create the `WasiEnv`
             let mut wasi_env = wasi_env_builder.finalize(&mut store)?;

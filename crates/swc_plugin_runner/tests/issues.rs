@@ -116,6 +116,7 @@ fn issue_6404() -> Result<(), Error> {
                     "development".to_string(),
                     Some(experimental_metadata),
                 )),
+                None,
                 Box::new(plugin_module),
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,

@@ -149,6 +149,7 @@ impl Compiler {
                         &self.cm,
                         &unresolved_mark,
                         transform_metadata_context,
+                        None,
                         plugin_module_bytes,
                         Some(p.1.clone()),
                         runtime,

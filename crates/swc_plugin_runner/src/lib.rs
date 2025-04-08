@@ -25,6 +25,7 @@ pub fn create_plugin_transform_executor(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
     runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
@@ -34,6 +35,7 @@ pub fn create_plugin_transform_executor(
         source_map,
         unresolved_mark,
         metadata_context,
+        plugin_env_vars,
         plugin_config,
         runtime,
     )
@@ -44,6 +46,7 @@ pub fn create_plugin_transform_executor(
     source_map: &Arc<SourceMap>,
     unresolved_mark: &swc_common::Mark,
     metadata_context: &Arc<TransformPluginMetadataContext>,
+    plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
     runtime: Option<()>,

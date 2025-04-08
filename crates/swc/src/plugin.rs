@@ -9,6 +9,7 @@
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
+use atoms::Atom;
 use common::FileName;
 use serde::{Deserialize, Serialize};
 use swc_common::errors::HANDLER;
@@ -34,6 +35,7 @@ pub struct PluginConfig(pub String, pub serde_json::Value);
 
 pub fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
+    plugin_env_vars: Option<Vec<Atom>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -41,6 +43,7 @@ pub fn plugins(
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
+        plugin_env_vars: plugin_env_vars.map(std::sync::Arc::new),
         metadata_context,
         comments,
         source_map,
@@ -50,6 +53,7 @@ pub fn plugins(
 
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
+    plugin_env_vars: Option<std::sync::Arc<Vec<Atom>>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
@@ -125,11 +129,13 @@ impl RustPlugins {
                                 .get_fs_cache_root()
                                 .map(std::path::PathBuf::from),
                         );
+
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
                                 &self.source_map,
                                 &self.unresolved_mark,
                                 &self.metadata_context,
+                                self.plugin_env_vars.clone(),
                                 plugin_module_bytes,
                                 Some(p.1),
                                 runtime,

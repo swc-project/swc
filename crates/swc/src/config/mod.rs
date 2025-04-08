@@ -608,6 +608,7 @@ impl Options {
 
                 Box::new(crate::plugin::plugins(
                     experimental.plugins,
+                    experimental.plugin_env_vars,
                     transform_metadata_context,
                     comments.cloned(),
                     cm.clone(),
@@ -1202,6 +1203,8 @@ pub struct JscExperimental {
     /// This requires cargo feature `plugin`.
     #[serde(default)]
     pub plugins: Option<Vec<PluginConfig>>,
+    #[serde(default)]
+    pub plugin_env_vars: Option<Vec<Atom>>,
     /// If true, keeps import assertions in the output.
     #[serde(default, alias = "keepImportAssertions")]
     pub keep_import_attributes: BoolConfig<false>,

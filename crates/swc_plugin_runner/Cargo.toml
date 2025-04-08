@@ -64,6 +64,7 @@ virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
+swc_atoms = { version = "5.0.0", path = '../swc_atoms' }
 swc_common = { version = "8.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
@@ -80,7 +81,6 @@ wasmer-compiler-cranelift = { version = "=5.0.5-rc1", default-features = false }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 
-swc_atoms = { version = "5.0.0", path = '../swc_atoms' }
 swc_css_ast = { version = "8.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
