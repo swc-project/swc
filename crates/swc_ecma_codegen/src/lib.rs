@@ -1475,7 +1475,7 @@ impl MacroNode for Module {
             emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
             emitter.wr.write_line()?;
         }
-        for stmt in &self.body {
+        for stmt in ref_maybe_mut!(self.body) {
             emit!(stmt);
         }
 
@@ -1894,7 +1894,7 @@ impl MacroNode for SeqExpr {
 
         let mut first = true;
         //TODO: Indention
-        for e in &self.exprs {
+        for e in ref_maybe_mut!(self.exprs) {
             if first {
                 first = false
             } else {
