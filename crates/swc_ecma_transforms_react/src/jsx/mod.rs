@@ -3,7 +3,7 @@
 use std::{
     borrow::Cow,
     iter::{self, once},
-    sync::RwLock,
+    sync::{Arc, RwLock},
 };
 
 use once_cell::sync::Lazy;
@@ -137,7 +137,7 @@ pub fn parse_expr_for_jsx(
     src: Lrc<String>,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    let fm = cm.new_source_file_from(cache_filename(name).into(), src);
+    let fm = cm.new_source_file_from(cache_filename(name), src);
 
     parse_file_as_expr(
         &fm,
@@ -393,21 +393,26 @@ impl JsxDirectives {
 }
 
 #[cfg(feature = "concurrent")]
-fn cache_filename(name: &str) -> FileName {
+fn cache_filename(name: &str) -> Arc<FileName> {
     static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, Arc<FileName>>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
 
     {
-        let cache = FILENAME_CACHE.read().unwrap();
+        let cache = FILENAME_CACHE
+            .read()
+            .expect("Failed to read FILENAME_CACHE");
         if let Some(f) = cache.get(name) {
-            return f.clone();
+            return f.clone(); // Cloning the Arc — cheap, just increases ref
+                              // count
         }
     }
 
-    let file = FileName::Internal(format!("jsx-config-{}.js", name));
+    let file = Arc::new(FileName::Internal(format!("jsx-config-{}.js", name)));
 
     {
-        let mut cache = FILENAME_CACHE.write().unwrap();
+        let mut cache = FILENAME_CACHE
+            .write()
+            .expect("Failed to write FILENAME_CACHE");
         cache.insert(name.to_string(), file.clone());
     }
 
@@ -415,8 +420,8 @@ fn cache_filename(name: &str) -> FileName {
 }
 
 #[cfg(not(feature = "concurrent"))]
-fn cache_filename(name: &str) -> FileName {
-    FileName::Internal(format!("jsx-config-{}.js", name))
+fn cache_filename(name: &str) -> Arc<FileName> {
+    Arc::new(FileName::Internal(format!("jsx-config-{}.js", name)))
 }
 
 #[cfg(feature = "concurrent")]
