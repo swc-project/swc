@@ -36,7 +36,7 @@ impl MacroNode for ExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
-        match &self.decl {
+        match ref_maybe_mut!(self.decl) {
             Decl::Class(decl) => {
                 for dec in ref_maybe_mut!(decl.class.decorators) {
                     emit!(dec);
@@ -383,7 +383,7 @@ impl MacroNode for NamedExport {
             formatting_space!(emitter);
             emit!(src);
 
-            if let Some(with) = &self.with {
+            if let Some(with) = ref_maybe_mut!(self.with) {
                 formatting_space!(emitter);
                 if emitter.cfg.emit_assert_for_import_attributes {
                     keyword!(emitter, "assert");

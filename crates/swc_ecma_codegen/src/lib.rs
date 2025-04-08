@@ -1750,7 +1750,7 @@ impl MacroNode for MemberExpr {
             }
         }
 
-        match &self.prop {
+        match ref_maybe_mut!(self.prop) {
             MemberProp::Computed(computed) => emit!(computed),
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {

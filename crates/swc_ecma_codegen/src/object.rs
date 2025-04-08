@@ -148,7 +148,7 @@ impl MacroNode for SetterProp {
         formatting_space!(emitter);
 
         punct!(emitter, "(");
-        if let Some(this) = &self.this_param {
+        if let Some(this) = ref_maybe_mut!(self.this_param) {
             emit!(this);
             punct!(emitter, ",");
 
