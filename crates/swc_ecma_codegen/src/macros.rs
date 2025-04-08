@@ -131,10 +131,10 @@ macro_rules! srcmap {
 
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:ident) => {
-        crate::Node::emit_with(&$n, $emitter)?
+        crate::Node::emit_with($n, $emitter)?
     };
     ($emitter:expr, true, $n:expr) => {
-        crate::Node::emit_with($n, $emitter)?
+        crate::Node::emit_with(&$n, $emitter)?
     };
     ($emitter:expr, false, $n:ident) => {
         crate::NodeMut::rewrite_span($n, $emitter)?
