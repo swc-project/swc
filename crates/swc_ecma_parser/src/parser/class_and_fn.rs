@@ -683,7 +683,7 @@ impl<I: Tokens> Parser<I> {
         let accessor_token = accessor_token.or_else(|| {
             if self.syntax().auto_accessors() && readonly.is_none() {
                 let start = cur_pos!(self);
-                if eat!(self, "accessor") {
+                if !peeked_is!(self, '(') && eat!(self, "accessor") {
                     Some(span!(self, start))
                 } else {
                     None
