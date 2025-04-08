@@ -147,16 +147,16 @@ impl MacroNode for ImportDecl {
         let mut specifiers = Vec::new();
         let mut emitted_default = false;
         let mut emitted_ns = false;
-        for specifier in &self.specifiers {
+        for specifier in ref_maybe_mut!(self.specifiers) {
             match specifier {
-                ImportSpecifier::Named(ref s) => {
+                ImportSpecifier::Named(s) => {
                     specifiers.push(s);
                 }
                 ImportSpecifier::Default(s) => {
                     emit!(s.local);
                     emitted_default = true;
                 }
-                ImportSpecifier::Namespace(ref ns) => {
+                ImportSpecifier::Namespace(ns) => {
                     if emitted_default {
                         punct!(emitter, ",");
                         formatting_space!(emitter);
@@ -373,7 +373,7 @@ impl MacroNode for NamedExport {
             punct!(emitter, "}");
         }
 
-        if let Some(ref src) = self.src {
+        if let Some(src) = ref_maybe_mut!(self.src) {
             if has_named_specs || !has_namespace_spec {
                 formatting_space!(emitter);
             } else if has_namespace_spec {

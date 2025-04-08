@@ -520,7 +520,7 @@ impl MacroNode for ContinueStmt {
 
         keyword!(emitter, "continue");
 
-        if let Some(label) = self.label {
+        if let Some(label) = ref_maybe_mut!(self.label) {
             space!(emitter);
             emit!(label);
         }

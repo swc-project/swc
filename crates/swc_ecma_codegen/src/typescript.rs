@@ -1153,7 +1153,7 @@ impl MacroNode for TsGetterSignature {
         punct!(emitter, "(");
         punct!(emitter, ")");
 
-        if let Some(ty) = &self.type_ann {
+        if let Some(ty) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
 
