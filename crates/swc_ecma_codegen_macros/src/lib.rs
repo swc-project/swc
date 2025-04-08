@@ -77,7 +77,7 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> (ItemImpl, Item
         ),
         parse_quote!(
             impl crate::NodeMut for #node_type {
-                fn rewrite_span<W, S>(&self, emitter: &mut crate::SpanRewriter<'_, W, S>) -> crate::Result
+                fn rewrite_span<W, S>(&mut self, emitter: &mut crate::SpanRewriter<'_, W, S>) -> crate::Result
                 where
                     W: crate::text_writer::SpannedWriteJs,
                     S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,

@@ -90,7 +90,7 @@ pub trait Node: Spanned {
 }
 
 pub trait NodeMut: Node {
-    fn rewrite_span<W, S>(&self, e: &mut SpanRewriter<'_, W, S>) -> Result
+    fn rewrite_span<W, S>(&mut self, e: &mut SpanRewriter<'_, W, S>) -> Result
     where
         W: WriteJs + SpannedWriteJs,
         S: SourceMapper + SourceMapperExt;
