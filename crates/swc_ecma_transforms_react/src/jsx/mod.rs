@@ -3,7 +3,7 @@
 use std::{
     borrow::Cow,
     iter::{self, once},
-    sync::{Arc, RwLock},
+    sync::RwLock,
 };
 
 use once_cell::sync::Lazy;
@@ -402,8 +402,7 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
             .read()
             .expect("Failed to read FILENAME_CACHE");
         if let Some(f) = cache.get(name) {
-            return f.clone(); // Cloning the Arc — cheap, just increases ref
-                              // count
+            return f.clone();
         }
     }
 
@@ -421,7 +420,7 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
 
 #[cfg(not(feature = "concurrent"))]
 fn cache_filename(name: &str) -> Lrc<FileName> {
-    Arc::new(FileName::Internal(format!("jsx-config-{}.js", name)))
+    Lrc::new(FileName::Internal(format!("jsx-config-{}.js", name)))
 }
 
 #[cfg(feature = "concurrent")]
