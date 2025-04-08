@@ -139,9 +139,6 @@ pub fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
                 Lazy::new(|| !env::var("NO_COLOR").map(|s| s == "1").unwrap_or(false));
 
             if *ENABLE {
-                to_miette_reporter(ColorConfig::Always)
-            } else {
-                to_miette_reporter(ColorConfig::Never)
                 to_pretty_handler(ColorConfig::Always)
             } else {
                 to_pretty_handler(ColorConfig::Never)
@@ -151,6 +148,8 @@ pub fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
         ColorConfig::Never => GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),
     }
     .with_context_lines(3)
+    .with_wrap_lines(false)
+    .with_break_words(false)
 }
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped

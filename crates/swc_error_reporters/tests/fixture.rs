@@ -1,15 +1,12 @@
 // #![deny(warnings)]
 
 use std::{fmt, fmt::Write, fs, path::Path};
-use std::{fs, path::Path};
 
 use swc_common::{
     errors::{Handler, Level},
     sync::{Lock, Lrc},
     BytePos, FileName, SourceMap, Span,
 };
-use swc_error_reporters::PrettyEmitter;
-
 #[derive(Clone, Default)]
 struct Writer(Lrc<Lock<String>>);
 
@@ -18,16 +15,10 @@ impl Write for Writer {
         self.0.lock().write_str(s)
     }
 }
-use swc_error_reporters::handler::try_with_handler;
 use swc_error_reporters::{
-    handler::{to_pretty_handler, ThreadSafetyDiagnostics},
-    ErrorEmitter, GraphicalReportHandler,
+    handler::{to_pretty_handler, try_with_handler, ThreadSafetyDiagnostics},
+    ErrorEmitter, GraphicalReportHandler, ToPrettyDiagnostic,
 };
-use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler};
-use swc_error_reporters::{
-    handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler, ToPrettyDiagnostic,
-};
-use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter};
 
 fn output<F>(file: &str, op: F)
 where
@@ -41,23 +32,6 @@ where
         opts: Default::default(),
     };
 
-    let wr = Writer::default();
-
-    let emitter = PrettyEmitter::new(
-        cm.clone(),
-        Box::new(wr.clone()),
-        Default::default(),
-        Default::default(),
-    );
-    let handler = Handler::with_emitter(true, false, Box::new(emitter));
-
-    op(cm, &handler);
-
-    let output = Path::new("tests").join("fixture").join(file);
-
-    let s = wr.0.lock().as_str().to_string();
-    println!("{}", s);
-    fs::write(output, &s).expect("failed to write");
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
     op(cm.clone(), &handler);
