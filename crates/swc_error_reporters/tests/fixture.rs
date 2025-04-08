@@ -1,24 +1,12 @@
 // #![deny(warnings)]
-
-use std::{fmt, fmt::Write, fs, path::Path};
+use std::{fs, path::Path};
 
 use swc_common::{
     errors::{Handler, Level},
-    sync::{Lock, Lrc},
+    sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
-#[derive(Clone, Default)]
-struct Writer(Lrc<Lock<String>>);
-
-impl Write for Writer {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        self.0.lock().write_str(s)
-    }
-}
-use swc_error_reporters::{
-    handler::{to_pretty_handler, try_with_handler, ThreadSafetyDiagnostics},
-    ErrorEmitter, GraphicalReportHandler, ToPrettyDiagnostic,
-};
+use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter};
 
 fn output<F>(file: &str, op: F)
 where
