@@ -62,7 +62,7 @@ where
 
     op(cm.clone(), &handler);
 
-    let _output = Path::new("tests").join("fixture").join(file);
+    let output = Path::new("tests").join("fixture").join(file);
 
     let errors = diagnostics.as_array(cm.clone(), Default::default());
     let pretty_message = errors.to_pretty_string();
