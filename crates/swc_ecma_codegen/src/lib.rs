@@ -1020,6 +1020,22 @@ where
     }
 }
 
+impl<N> NodeMut for Option<N>
+where
+    N: NodeMut,
+{
+    fn rewrite_span<W, S>(&mut self, e: &mut SpanRewriter<'_, W, S>) -> Result
+    where
+        W: WriteJs + SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        match self {
+            Some(ref mut n) => n.rewrite_span(e),
+            None => Ok(()),
+        }
+    }
+}
+
 fn get_template_element_from_raw(
     s: &str,
     ascii_only: bool,
