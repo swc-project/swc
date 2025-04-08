@@ -152,18 +152,6 @@ pub fn to_pretty_handler(color: ColorConfig) -> GraphicalReportHandler {
     }
     .with_context_lines(3)
 }
-//             if *ENABLE {
-//                 to_miette_reporter(ColorConfig::Always)
-//             } else {
-//                 to_miette_reporter(ColorConfig::Never)
-//             }
-//         }
-//         ColorConfig::Always => GraphicalReportHandler::default(),
-//         ColorConfig::Never =>
-// GraphicalReportHandler::default().with_theme(GraphicalTheme::none()),     }
-//     .with_context_lines(3)
-// }
-}
 
 /// Try operation with a [Handler] and prints the errors as a [String] wrapped
 /// by [Err].
