@@ -10,15 +10,15 @@ impl MacroNode for ModuleDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => emit!(d),
-            ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
-            ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+            ModuleDecl::Import(d) => emit!(d),
+            ModuleDecl::ExportDecl(d) => emit!(d),
+            ModuleDecl::ExportNamed(d) => emit!(d),
+            ModuleDecl::ExportDefaultDecl(d) => emit!(d),
+            ModuleDecl::ExportDefaultExpr(n) => emit!(n),
+            ModuleDecl::ExportAll(d) => emit!(d),
+            ModuleDecl::TsExportAssignment(n) => emit!(n),
+            ModuleDecl::TsImportEquals(n) => emit!(n),
+            ModuleDecl::TsNamespaceExport(n) => emit!(n),
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -38,7 +38,7 @@ impl MacroNode for ExportDecl {
 
         match &self.decl {
             Decl::Class(decl) => {
-                for dec in &decl.class.decorators {
+                for dec in ref_maybe_mut!(decl.class.decorators) {
                     emit!(dec);
                 }
 
@@ -51,7 +51,7 @@ impl MacroNode for ExportDecl {
                 keyword!(emitter, "export");
 
                 space!(emitter);
-                emit!(self.decl);
+                emit_ref!(emitter, self.decl);
             }
         }
 
@@ -75,7 +75,7 @@ impl MacroNode for ExportDefaultExpr {
             } else {
                 formatting_space!(emitter);
             }
-            emit!(self.expr);
+            emit_ref!(emitter, self.expr);
         }
         semi!(emitter);
 
@@ -97,10 +97,10 @@ impl MacroNode for ExportDefaultDecl {
         space!(emitter);
         keyword!(emitter, "default");
         space!(emitter);
-        match self.decl {
-            DefaultDecl::Class(ref n) => emit!(n),
-            DefaultDecl::Fn(ref n) => emit!(n),
-            DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
+        match ref_maybe_mut!(self.decl) {
+            DefaultDecl::Class(n) => emit!(n),
+            DefaultDecl::Fn(n) => emit!(n),
+            DefaultDecl::TsInterfaceDecl(n) => emit!(n),
         }
 
         Ok(())
@@ -152,8 +152,8 @@ impl MacroNode for ImportDecl {
                 ImportSpecifier::Named(ref s) => {
                     specifiers.push(s);
                 }
-                ImportSpecifier::Default(ref s) => {
-                    emit!(s.local);
+                ImportSpecifier::Default(s) => {
+                    emit_ref!(emitter, s.local);
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -169,7 +169,7 @@ impl MacroNode for ImportDecl {
                     formatting_space!(emitter);
                     keyword!(emitter, "as");
                     space!(emitter);
-                    emit!(ns.local);
+                    emit_ref!(emitter, ns.local);
                 }
             }
         }
@@ -199,9 +199,9 @@ impl MacroNode for ImportDecl {
             formatting_space!(emitter);
         }
 
-        emit!(self.src);
+        emit_ref!(emitter, self.src);
 
-        if let Some(with) = &self.with {
+        if let Some(with) = ref_maybe_mut!(self.with) {
             formatting_space!(emitter);
             if emitter.cfg.emit_assert_for_import_attributes {
                 keyword!(emitter, "assert");
@@ -230,14 +230,14 @@ impl MacroNode for ImportNamedSpecifier {
             space!(emitter);
         }
 
-        if let Some(ref imported) = self.imported {
+        if let Some(imported) = ref_maybe_mut!(self.imported) {
             emit!(imported);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
         }
 
-        emit!(self.local);
+        emit_ref!(emitter, self.local);
 
         srcmap!(emitter, self, false);
 
@@ -252,8 +252,8 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => emit!(node),
-            ExportSpecifier::Named(ref node) => emit!(node),
+            ExportSpecifier::Namespace(node) => emit!(node),
+            ExportSpecifier::Named(node) => emit!(node),
         }
 
         Ok(())
@@ -271,7 +271,7 @@ impl MacroNode for ExportNamespaceSpecifier {
         formatting_space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
-        emit!(self.name);
+        emit_ref!(emitter, self.name);
 
         srcmap!(emitter, self, false);
 
@@ -291,14 +291,14 @@ impl MacroNode for ExportNamedSpecifier {
             space!(emitter);
         }
 
-        if let Some(exported) = &self.exported {
-            emit!(self.orig);
+        if let Some(exported) = ref_maybe_mut!(self.exported) {
+            emit_ref!(emitter, self.orig);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
             emit!(exported);
         } else {
-            emit!(self.orig);
+            emit_ref!(emitter, self.orig);
         }
         srcmap!(emitter, self, false);
 
