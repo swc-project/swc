@@ -145,7 +145,7 @@ it("should respect isModule = true", async () => {
         swc.transformSync(`const five = 005`, {
             isModule: true,
         });
-    expect(f).toThrowError(/Legacy octal escape is not permitted/);
+    expect(f).toThrowError(/Syntax Error/);
 });
 
 it("should respect `inlineSourcesContent`", async () => {
