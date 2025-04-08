@@ -206,7 +206,7 @@ impl MacroNode for ObjectPat {
             punct!(emitter, "?");
         }
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);

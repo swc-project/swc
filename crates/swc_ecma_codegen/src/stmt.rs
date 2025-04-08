@@ -129,12 +129,8 @@ impl MacroNode for ReturnStmt {
 
         keyword!(emitter, "return");
 
-        if let Some(arg) = self.arg.as_deref() {
-            let need_paren = self
-                .arg
-                .as_deref()
-                .map(|expr| emitter.has_leading_comment(expr))
-                .unwrap_or(false);
+        if let Some(arg) = ref_maybe_mut!(self.arg) {
+            let need_paren = emitter.has_leading_comment(arg);
             if need_paren {
                 punct!(emitter, "(");
             } else if arg.starts_with_alpha_num() {

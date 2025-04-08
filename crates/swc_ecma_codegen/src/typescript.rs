@@ -569,21 +569,21 @@ impl MacroNode for TsMappedType {
 
         emit!(self.type_param.name);
 
-        if let Some(constraints) = &self.type_param.constraint {
+        if let Some(constraints) = ref_maybe_mut!(self.type_param.constraint) {
             space!(emitter);
             keyword!(emitter, "in");
             space!(emitter);
             emit!(constraints);
         }
 
-        if let Some(default) = &self.type_param.default {
+        if let Some(default) = ref_maybe_mut!(self.type_param.default) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(default);
         }
 
-        if let Some(name_type) = &self.name_type {
+        if let Some(name_type) = ref_maybe_mut!(self.name_type) {
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
