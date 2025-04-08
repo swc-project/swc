@@ -407,7 +407,7 @@ fn cache_filename(name: &str) -> Arc<FileName> {
         }
     }
 
-    let file = Arc::new(FileName::Internal(format!("jsx-config-{}.js", name)));
+    let file = Lrc::new(FileName::Internal(format!("jsx-config-{}.js", name)));
 
     {
         let mut cache = FILENAME_CACHE
