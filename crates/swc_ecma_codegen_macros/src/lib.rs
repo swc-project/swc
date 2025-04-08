@@ -94,10 +94,11 @@ struct ReplaceEmit {
 }
 
 impl Fold for ReplaceEmit {
-    fn fold_macro(&mut self, mut i: Macro) -> Macro {
+    fn fold_macro(&mut self, i: Macro) -> Macro {
+        let name_path = &i.path;
         let name = i.path.clone().into_token_stream().to_string();
 
-        if "emit" == &*name {
+        if matches!(&*name, "dispatch") {
             let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
             let args: TokenStream = args
                 .into_pairs()
@@ -105,7 +106,18 @@ impl Fold for ReplaceEmit {
                 .collect();
 
             let is_emit = self.emit;
-            i = parse_quote!(emit_node_inner!(emitter, #is_emit, #args));
+            return parse_quote!(#name_path!(#is_emit, #args));
+        }
+
+        if matches!(&*name, "emit") {
+            let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
+            let args: TokenStream = args
+                .into_pairs()
+                .flat_map(|arg| arg.into_token_stream())
+                .collect();
+
+            let is_emit = self.emit;
+            return parse_quote!(emit_node_inner!(emitter, #is_emit, #args));
         }
 
         i

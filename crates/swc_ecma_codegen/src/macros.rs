@@ -137,3 +137,14 @@ macro_rules! emit_node_inner {
         crate::NodeMut::rewrite_span(&mut $n, $emitter)?
     };
 }
+
+/// If `is_emit` is true, emit `a`.
+/// Otherwise, rewrite `b`
+macro_rules! dispatch {
+    (true, $a:expr, $b:expr) => {
+        $a
+    };
+    (false, $a:expr, $b:expr) => {
+        $b
+    };
+}
