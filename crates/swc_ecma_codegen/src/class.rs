@@ -265,7 +265,7 @@ impl MacroNode for ClassMethod {
 
         srcmap!(emitter, self, true);
 
-        for d in &self.function.decorators {
+        for d in ref_maybe_mut!(self.function.decorators) {
             emit!(d);
         }
 
@@ -315,7 +315,7 @@ impl MacroNode for ClassMethod {
                     punct!(emitter, "*");
                 }
 
-                emit!(self.key);
+                emit_ref!(emitter, self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
@@ -326,7 +326,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit_ref!(emitter, self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
@@ -337,7 +337,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit_ref!(emitter, self.key);
             }
         }
 
@@ -345,7 +345,7 @@ impl MacroNode for ClassMethod {
             punct!(emitter, "?");
         }
 
-        if let Some(type_params) = &self.function.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.function.type_params) {
             emit!(type_params);
         }
 
@@ -358,13 +358,13 @@ impl MacroNode for ClassMethod {
 
         punct!(emitter, ")");
 
-        if let Some(ty) = &self.function.return_type {
+        if let Some(ty) = ref_maybe_mut!(self.function.return_type) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);
         }
 
-        if let Some(body) = &self.function.body {
+        if let Some(body) = ref_maybe_mut!(self.function.body) {
             formatting_space!(emitter);
             emit!(body);
         } else {
@@ -401,13 +401,13 @@ impl MacroNode for PrivateProp {
             space!(emitter);
         }
 
-        emit!(self.key);
+        emit_ref!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
         }
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             if self.definite {
                 punct!(emitter, "!");
             }
@@ -416,7 +416,7 @@ impl MacroNode for PrivateProp {
             emit!(type_ann);
         }
 
-        if let Some(value) = &self.value {
+        if let Some(value) = ref_maybe_mut!(self.value) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
@@ -444,7 +444,7 @@ impl MacroNode for ClassProp {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
         srcmap!(emitter, self, true);
 
-        for dec in &self.decorators {
+        for dec in ref_maybe_mut!(self.decorators) {
             emit!(dec)
         }
 
@@ -475,13 +475,13 @@ impl MacroNode for ClassProp {
             space!(emitter)
         }
 
-        emit!(self.key);
+        emit_ref!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
         }
 
-        if let Some(ty) = &self.type_ann {
+        if let Some(ty) = ref_maybe_mut!(self.type_ann) {
             if self.definite {
                 punct!(emitter, "!");
             }
@@ -490,7 +490,7 @@ impl MacroNode for ClassProp {
             emit!(ty);
         }
 
-        if let Some(v) = &self.value {
+        if let Some(v) = ref_maybe_mut!(self.value) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
@@ -526,7 +526,7 @@ impl MacroNode for Constructor {
         emitter.emit_list(self.span(), Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, ")");
 
-        if let Some(body) = &self.body {
+        if let Some(body) = ref_maybe_mut!(self.body) {
             emit!(body);
         } else {
             formatting_semi!(emitter);
@@ -544,7 +544,7 @@ impl MacroNode for StaticBlock {
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
-        emit!(self.body);
+        emit_ref!(emitter, self.body);
 
         srcmap!(emitter, self, false);
 
