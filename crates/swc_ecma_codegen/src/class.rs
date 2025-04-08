@@ -63,7 +63,10 @@ impl MacroNode for ClassExpr {
 
         srcmap!(emitter, self, true);
 
-        for dec in &self.class.decorators {
+        for dec in dispatch!(
+            self.class.decorators.iter(),
+            self.class.decorators.iter_mut()
+        ) {
             emit!(dec);
         }
 
@@ -74,7 +77,7 @@ impl MacroNode for ClassExpr {
 
         keyword!(emitter, "class");
 
-        if let Some(ref i) = self.ident {
+        if let Some(i) = ref_maybe_mut!(self.ident) {
             space!(emitter);
             emit!(i);
             emit!(self.class.type_params);

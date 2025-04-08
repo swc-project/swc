@@ -1937,7 +1937,7 @@ impl MacroNode for BinExpr {
             while let Some(l) = left {
                 lefts.push(l);
 
-                match &*l.left {
+                match ref_maybe_mut!(*l.left) {
                     Expr::Bin(b) => {
                         left = Some(b);
                     }
@@ -2022,7 +2022,7 @@ impl MacroNode for FnExpr {
         if self.function.is_generator {
             punct!(emitter, "*");
         }
-        if let Some(i) = self.ident {
+        if let Some(i) = ref_maybe_mut!(self.ident) {
             space!(emitter);
             emit!(i);
         }

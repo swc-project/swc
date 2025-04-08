@@ -148,3 +148,13 @@ macro_rules! dispatch {
         $b
     };
 }
+
+macro_rules! ref_maybe_mut {
+    (true, $e:expr) => {
+        &$e
+    };
+
+    (false, $e:expr) => {
+        &mut $e
+    };
+}
