@@ -5,6 +5,7 @@ use swc_macros_common::prelude::*;
 use syn::{
     fold::Fold,
     parse::{Parse, Parser},
+    spanned::Spanned,
     token::Token,
     *,
 };
@@ -70,9 +71,7 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> (ItemImpl, Item
                 where
                     W: crate::text_writer::WriteJs,
                     S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-                {
-                    #emit_block
-                }
+                #emit_block
             }
         ),
         parse_quote!(
@@ -81,9 +80,7 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> (ItemImpl, Item
                 where
                     W: crate::text_writer::SpannedWriteJs,
                     S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-                {
-                    #adjust_block
-                }
+                #adjust_block
             }
         ),
     )
@@ -96,6 +93,7 @@ struct ReplaceEmit {
 impl Fold for ReplaceEmit {
     fn fold_macro(&mut self, i: Macro) -> Macro {
         let name_path = &i.path;
+        let span = name_path.span();
         let name = i.path.clone().into_token_stream().to_string();
 
         if matches!(&*name, "dispatch" | "ref_maybe_mut" | "emit_ref") {
@@ -106,7 +104,7 @@ impl Fold for ReplaceEmit {
                 .collect();
 
             let is_emit = self.emit;
-            return parse_quote!(#name_path!(#is_emit, #args));
+            return parse_quote_spanned!(span => #name_path!(#is_emit, #args));
         }
 
         if matches!(&*name, "emit") {
@@ -117,7 +115,7 @@ impl Fold for ReplaceEmit {
                 .collect();
 
             let is_emit = self.emit;
-            return parse_quote!(emit_node_inner!(emitter, #is_emit, #args));
+            return parse_quote_spanned!(span => emit_node_inner!(emitter, #is_emit, #args));
         }
 
         i
