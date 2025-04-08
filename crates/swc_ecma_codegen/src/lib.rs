@@ -13,6 +13,7 @@ use std::{
     str,
 };
 
+use auto_impl::auto_impl;
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
@@ -89,6 +90,7 @@ pub trait Node: Spanned {
         S: SourceMapper + SourceMapperExt;
 }
 
+#[auto_impl(&mut, Box)]
 pub trait NodeMut: Node {
     fn rewrite_span<W, S>(&mut self, e: &mut SpanRewriter<'_, W, S>) -> Result
     where
@@ -2020,7 +2022,7 @@ impl MacroNode for FnExpr {
         if self.function.is_generator {
             punct!(emitter, "*");
         }
-        if let Some(ref i) = self.ident {
+        if let Some(i) = self.ident {
             space!(emitter);
             emit!(i);
         }
