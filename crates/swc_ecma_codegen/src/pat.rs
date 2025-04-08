@@ -48,7 +48,7 @@ impl MacroNode for RestPat {
         punct!(emitter, self.dot3_token, "...");
         emit!(self.arg);
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(type_ann);
@@ -155,7 +155,7 @@ impl MacroNode for ArrayPat {
             punct!(emitter, "?");
         }
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
@@ -257,7 +257,7 @@ impl MacroNode for AssignPatProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
-        if let Some(value) = &self.value {
+        if let Some(value) = ref_maybe_mut!(self.value) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);

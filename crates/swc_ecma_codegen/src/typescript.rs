@@ -882,7 +882,7 @@ impl MacroNode for TsPropertySignature {
             punct!(emitter, "?");
         }
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(type_ann);
@@ -1006,14 +1006,14 @@ impl MacroNode for TsImportType {
         keyword!(emitter, "import");
         punct!(emitter, "(");
         emit!(self.arg);
-        if let Some(attributes) = &self.attributes {
+        if let Some(attributes) = ref_maybe_mut!(self.attributes) {
             punct!(emitter, ",");
             formatting_space!(emitter);
             emit!(attributes);
         }
         punct!(emitter, ")");
 
-        if let Some(n) = &self.qualifier {
+        if let Some(n) = ref_maybe_mut!(self.qualifier) {
             punct!(emitter, ".");
             emit!(n);
         }
