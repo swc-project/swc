@@ -420,7 +420,7 @@ fn cache_filename(name: &str) -> Arc<FileName> {
 }
 
 #[cfg(not(feature = "concurrent"))]
-fn cache_filename(name: &str) -> Arc<FileName> {
+fn cache_filename(name: &str) -> Lrc<FileName> {
     Arc::new(FileName::Internal(format!("jsx-config-{}.js", name)))
 }
 
