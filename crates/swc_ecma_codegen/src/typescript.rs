@@ -69,7 +69,7 @@ impl MacroNode for TsCallSignatureDecl {
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, ")");
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             space!(emitter);
             punct!(emitter, ":");
             space!(emitter);
@@ -113,7 +113,7 @@ impl MacroNode for TsConstructSignatureDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         keyword!(emitter, "new");
-        if let Some(type_params) = &self.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.type_params) {
             space!(emitter);
             emit!(type_params);
         }
@@ -122,7 +122,7 @@ impl MacroNode for TsConstructSignatureDecl {
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, ")");
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
@@ -142,7 +142,7 @@ impl MacroNode for TsConstructorType {
         }
 
         keyword!(emitter, "new");
-        if let Some(type_params) = &self.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.type_params) {
             space!(emitter);
             emit!(type_params);
         }
@@ -212,7 +212,7 @@ impl MacroNode for TsEnumMember {
 
         emit!(self.id);
 
-        if let Some(init) = &self.init {
+        if let Some(init) = ref_maybe_mut!(self.init) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
@@ -363,7 +363,7 @@ impl MacroNode for TsIndexSignature {
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, "]");
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(type_ann);
@@ -427,7 +427,7 @@ impl MacroNode for TsInterfaceDecl {
 
         emit!(self.id);
 
-        if let Some(type_params) = &self.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.type_params) {
             emit!(type_params);
         }
 
@@ -609,7 +609,7 @@ impl MacroNode for TsMappedType {
             },
         }
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
@@ -641,7 +641,7 @@ impl MacroNode for TsMethodSignature {
             punct!(emitter, "?");
         }
 
-        if let Some(type_params) = &self.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.type_params) {
             emit!(type_params);
         }
 
@@ -649,7 +649,7 @@ impl MacroNode for TsMethodSignature {
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
         punct!(emitter, ")");
 
-        if let Some(ref type_ann) = self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(type_ann);
@@ -694,11 +694,11 @@ impl MacroNode for TsModuleDecl {
             emit!(self.id);
         }
 
-        if let Some(mut body) = self.body.as_ref() {
+        if let Some(mut body) = ref_maybe_mut!(self.body) {
             while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
                 punct!(emitter, ".");
                 emit!(decl.id);
-                body = &*decl.body;
+                body = ref_maybe_mut!(*decl.body);
             }
             formatting_space!(emitter);
             emit!(body);
@@ -958,7 +958,7 @@ impl MacroNode for TsTupleElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        if let Some(label) = &self.label {
+        if let Some(label) = ref_maybe_mut!(self.label) {
             emit!(label);
             punct!(emitter, ":");
             formatting_space!(emitter);
@@ -1061,7 +1061,7 @@ impl MacroNode for TsTypeAliasDecl {
         space!(emitter);
 
         emit!(self.id);
-        if let Some(type_params) = &self.type_params {
+        if let Some(type_params) = ref_maybe_mut!(self.type_params) {
             emit!(type_params);
         }
         formatting_space!(emitter);
@@ -1238,14 +1238,14 @@ impl MacroNode for TsTypeParam {
 
         emit!(self.name);
 
-        if let Some(constraints) = &self.constraint {
+        if let Some(constraints) = ref_maybe_mut!(self.constraint) {
             space!(emitter);
             keyword!(emitter, "extends");
             space!(emitter);
             emit!(constraints);
         }
 
-        if let Some(default) = &self.default {
+        if let Some(default) = ref_maybe_mut!(self.default) {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
@@ -1294,7 +1294,7 @@ impl MacroNode for TsTypePredicate {
 
         emit!(self.param_name);
 
-        if let Some(type_ann) = &self.type_ann {
+        if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             space!(emitter);
             keyword!(emitter, "is");
             space!(emitter);
@@ -1335,7 +1335,7 @@ impl MacroNode for TsTypeRef {
 
         emit!(self.type_name);
 
-        if let Some(n) = &self.type_params {
+        if let Some(n) = ref_maybe_mut!(self.type_params) {
             punct!(emitter, "<");
             emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
             punct!(emitter, ">");

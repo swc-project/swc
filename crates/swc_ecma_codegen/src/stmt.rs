@@ -204,7 +204,7 @@ impl MacroNode for CatchClause {
 
         formatting_space!(emitter);
 
-        if let Some(param) = &self.param {
+        if let Some(param) = ref_maybe_mut!(self.param) {
             punct!(emitter, "(");
             emit!(param);
             punct!(emitter, ")");
