@@ -26,5 +26,7 @@
     "rust-analyzer.check.command": "clippy",
     "rust-analyzer.cargo.features": [
         "plugin"
-    ]
+    ],
+    // SWC project is too complex to use rust-analyzer
+    "rust-analyzer.diagnostics.enable": false
 }
