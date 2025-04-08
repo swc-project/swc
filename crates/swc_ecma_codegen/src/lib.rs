@@ -5,7 +5,13 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
+use std::{
+    borrow::Cow,
+    fmt::Write,
+    io,
+    ops::{Deref, DerefMut},
+    str,
+};
 
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
@@ -127,12 +133,30 @@ where
     W: WriteJs + SpannedWriteJs,
     S: SourceMapperExt,
 {
-    pub cfg: config::Config,
-    pub cm: Lrc<S>,
-    pub comments: Option<&'a dyn Comments>,
-    pub wr: W,
+    inner: Emitter<'a, W, S>,
 }
 
+impl<'a, W, S: SourceMapper> Deref for SpanRewriter<'a, W, S>
+where
+    W: WriteJs + SpannedWriteJs,
+    S: SourceMapperExt,
+{
+    type Target = Emitter<'a, W, S>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.inner
+    }
+}
+
+impl<'a, W, S: SourceMapper> DerefMut for SpanRewriter<'a, W, S>
+where
+    W: WriteJs + SpannedWriteJs,
+    S: SourceMapperExt,
+{
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.inner
+    }
+}
 enum CowStr<'a> {
     Borrowed(&'a str),
     Owned(CompactString),
