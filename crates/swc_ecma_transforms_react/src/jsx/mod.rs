@@ -393,7 +393,7 @@ impl JsxDirectives {
 }
 
 #[cfg(feature = "concurrent")]
-fn cache_filename(name: &str) -> Arc<FileName> {
+fn cache_filename(name: &str) -> Lrc<FileName> {
     static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, Lrc<FileName>>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
 
