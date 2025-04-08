@@ -162,7 +162,7 @@ impl MacroNode for FnDecl {
             space!(emitter);
         }
 
-        emit_ref!(emitter, self.ident);
+        emit!(self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
 
@@ -185,7 +185,7 @@ impl MacroNode for VarDeclarator {
 
         srcmap!(emitter, self, true);
 
-        emit_ref!(emitter, self.name);
+        emit!(self.name);
 
         if let Some(init) = ref_maybe_mut!(self.init) {
             formatting_space!(emitter);

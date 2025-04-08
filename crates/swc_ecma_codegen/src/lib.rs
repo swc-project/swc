@@ -1644,7 +1644,7 @@ impl MacroNode for OptChainExpr {
                 if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit_ref!(emitter, e.obj);
+                    emit!(e.obj);
                 }
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1660,7 +1660,7 @@ impl MacroNode for OptChainExpr {
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
-                emit_ref!(emitter, e.callee);
+                emit!(e.callee);
 
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1700,7 +1700,7 @@ impl MacroNode for CallExpr {
 
         srcmap!(emitter, self, true);
 
-        emit_ref!(emitter, self.callee);
+        emit!(self.callee);
 
         if let Some(type_args) = ref_maybe_mut!(self.type_args) {
             emit!(type_args);
@@ -1793,7 +1793,7 @@ impl MacroNode for SuperPropExpr {
 
         srcmap!(emitter, self, true);
 
-        emit_ref!(emitter, self.obj);
+        emit!(self.obj);
 
         match ref_maybe_mut!(self.prop) {
             SuperProp::Computed(computed) => emit!(computed),
@@ -1841,7 +1841,7 @@ impl MacroNode for ArrowExpr {
                 _ => true,
             };
 
-        emit_ref!(emitter, self.type_params);
+        emit!(self.type_params);
 
         if parens {
             punct!(emitter, "(");
@@ -1860,7 +1860,7 @@ impl MacroNode for ArrowExpr {
         }
 
         punct!(emitter, "=>");
-        emit_ref!(emitter, self.body);
+        emit!(self.body);
 
         Ok(())
     }
@@ -1914,11 +1914,11 @@ impl MacroNode for AssignExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit_ref!(emitter, self.left);
+        emit!(self.left);
         formatting_space!(emitter);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
-        emit_ref!(emitter, self.right);
+        emit!(self.right);
 
         Ok(())
     }
@@ -1949,7 +1949,7 @@ impl MacroNode for BinExpr {
 
             for (i, left) in lefts.into_iter().rev().enumerate() {
                 if i == 0 {
-                    emit_ref!(emitter, left.left);
+                    emit!(left.left);
                 }
                 // Check if it's last
                 if i + 1 != len {
@@ -1972,7 +1972,7 @@ impl MacroNode for Decorator {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "@");
-        emit_ref!(emitter, self.expr);
+        emit!(self.expr);
         emitter.wr.write_line()?;
 
         srcmap!(emitter, self, false);
@@ -1988,15 +1988,15 @@ impl MacroNode for CondExpr {
 
         srcmap!(emitter, self, true);
 
-        emit_ref!(emitter, self.test);
+        emit!(self.test);
         formatting_space!(emitter);
         punct!(emitter, "?");
         formatting_space!(emitter);
-        emit_ref!(emitter, self.cons);
+        emit!(self.cons);
         formatting_space!(emitter);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit_ref!(emitter, self.alt);
+        emit!(self.alt);
 
         Ok(())
     }
@@ -2075,10 +2075,10 @@ impl MacroNode for Tpl {
 
         for i in 0..(self.quasis.len() + self.exprs.len()) {
             if i % 2 == 0 {
-                emit_ref!(emitter, self.quasis[i / 2]);
+                emit!(self.quasis[i / 2]);
             } else {
                 punct!(emitter, "${");
-                emit_ref!(emitter, self.exprs[i / 2]);
+                emit!(self.exprs[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -2146,10 +2146,10 @@ impl MacroNode for TaggedTpl {
         if let Expr::New(new) = &*self.tag {
             emitter.emit_new(new, false)?;
         } else {
-            emit_ref!(emitter, self.tag);
+            emit!(self.tag);
         }
 
-        emit_ref!(emitter, self.type_params);
+        emit!(self.type_params);
         emitter.emit_template_for_tagged_template(&self.tpl)?;
 
         srcmap!(emitter, self, false);
@@ -2183,7 +2183,7 @@ impl MacroNode for UnaryExpr {
             formatting_space!(emitter);
         }
 
-        emit_ref!(emitter, self.arg);
+        emit!(self.arg);
 
         Ok(())
     }
@@ -2199,9 +2199,9 @@ impl MacroNode for UpdateExpr {
         if self.prefix {
             operator!(emitter, self.op.as_str());
             //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit_ref!(emitter, self.arg);
+            emit!(self.arg);
         } else {
-            emit_ref!(emitter, self.arg);
+            emit!(self.arg);
             operator!(emitter, self.op.as_str());
         }
 
@@ -2235,7 +2235,7 @@ impl MacroNode for YieldExpr {
                 formatting_space!(emitter)
             }
 
-            emit_ref!(emitter, self.arg);
+            emit!(self.arg);
             if need_paren {
                 punct!(emitter, ")")
             }
@@ -2254,7 +2254,7 @@ impl MacroNode for ExprOrSpread {
             punct!(emitter, "...");
         }
 
-        emit_ref!(emitter, self.expr);
+        emit!(self.expr);
 
         Ok(())
     }
@@ -2270,7 +2270,7 @@ impl MacroNode for AwaitExpr {
         keyword!(emitter, "await");
         space!(emitter);
 
-        emit_ref!(emitter, self.arg);
+        emit!(self.arg);
 
         Ok(())
     }
@@ -2308,7 +2308,7 @@ impl MacroNode for ParenExpr {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "(");
-        emit_ref!(emitter, self.expr);
+        emit!(self.expr);
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, ")");

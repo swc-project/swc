@@ -51,7 +51,7 @@ impl MacroNode for ExportDecl {
                 keyword!(emitter, "export");
 
                 space!(emitter);
-                emit_ref!(emitter, self.decl);
+                emit!(self.decl);
             }
         }
 
@@ -75,7 +75,7 @@ impl MacroNode for ExportDefaultExpr {
             } else {
                 formatting_space!(emitter);
             }
-            emit_ref!(emitter, self.expr);
+            emit!(self.expr);
         }
         semi!(emitter);
 
@@ -153,7 +153,7 @@ impl MacroNode for ImportDecl {
                     specifiers.push(s);
                 }
                 ImportSpecifier::Default(s) => {
-                    emit_ref!(emitter, s.local);
+                    emit!(s.local);
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -169,7 +169,7 @@ impl MacroNode for ImportDecl {
                     formatting_space!(emitter);
                     keyword!(emitter, "as");
                     space!(emitter);
-                    emit_ref!(emitter, ns.local);
+                    emit!(ns.local);
                 }
             }
         }
@@ -199,7 +199,7 @@ impl MacroNode for ImportDecl {
             formatting_space!(emitter);
         }
 
-        emit_ref!(emitter, self.src);
+        emit!(self.src);
 
         if let Some(with) = ref_maybe_mut!(self.with) {
             formatting_space!(emitter);
@@ -237,7 +237,7 @@ impl MacroNode for ImportNamedSpecifier {
             space!(emitter);
         }
 
-        emit_ref!(emitter, self.local);
+        emit!(self.local);
 
         srcmap!(emitter, self, false);
 
@@ -271,7 +271,7 @@ impl MacroNode for ExportNamespaceSpecifier {
         formatting_space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
-        emit_ref!(emitter, self.name);
+        emit!(self.name);
 
         srcmap!(emitter, self, false);
 
@@ -292,13 +292,13 @@ impl MacroNode for ExportNamedSpecifier {
         }
 
         if let Some(exported) = ref_maybe_mut!(self.exported) {
-            emit_ref!(emitter, self.orig);
+            emit!(self.orig);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
             emit!(exported);
         } else {
-            emit_ref!(emitter, self.orig);
+            emit!(self.orig);
         }
         srcmap!(emitter, self, false);
 

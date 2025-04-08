@@ -77,7 +77,7 @@ impl MacroNode for ClassExpr {
         if let Some(i) = ref_maybe_mut!(self.ident) {
             space!(emitter);
             emit!(i);
-            emit_ref!(emitter, self.class.type_params);
+            emit!(self.class.type_params);
         }
 
         emitter.emit_class_trailing(&self.class)?;
@@ -103,8 +103,8 @@ impl MacroNode for Class {
                     formatting_space!(emitter)
                 }
             }
-            emit_ref!(emitter, self.super_class);
-            emit_ref!(emitter, self.super_type_params);
+            emit!(self.super_class);
+            emit!(self.super_type_params);
         }
 
         if !self.implements.is_empty() {
@@ -177,7 +177,7 @@ impl MacroNode for AutoAccessor {
         keyword!(emitter, "accessor");
         space!(emitter);
 
-        emit_ref!(emitter, self.key);
+        emit!(self.key);
 
         if let Some(type_ann) = ref_maybe_mut!(self.type_ann) {
             if self.definite {
@@ -234,19 +234,19 @@ impl MacroNode for PrivateMethod {
                     punct!(emitter, "*");
                 }
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
                 space!(emitter);
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
                 space!(emitter);
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
         }
 
@@ -315,7 +315,7 @@ impl MacroNode for ClassMethod {
                     punct!(emitter, "*");
                 }
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
@@ -326,7 +326,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
@@ -337,7 +337,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit_ref!(emitter, self.key);
+                emit!(self.key);
             }
         }
 
@@ -401,7 +401,7 @@ impl MacroNode for PrivateProp {
             space!(emitter);
         }
 
-        emit_ref!(emitter, self.key);
+        emit!(self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -475,7 +475,7 @@ impl MacroNode for ClassProp {
             space!(emitter)
         }
 
-        emit_ref!(emitter, self.key);
+        emit!(self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -544,7 +544,7 @@ impl MacroNode for StaticBlock {
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
-        emit_ref!(emitter, self.body);
+        emit!(self.body);
 
         srcmap!(emitter, self, false);
 
