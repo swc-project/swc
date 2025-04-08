@@ -98,7 +98,7 @@ impl Fold for ReplaceEmit {
         let name_path = &i.path;
         let name = i.path.clone().into_token_stream().to_string();
 
-        if matches!(&*name, "dispatch" | "ref_maybe_mut") {
+        if matches!(&*name, "dispatch" | "ref_maybe_mut" | "emit_ref") {
             let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
             let args: TokenStream = args
                 .into_pairs()

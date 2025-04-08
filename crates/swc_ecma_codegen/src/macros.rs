@@ -131,10 +131,10 @@ macro_rules! srcmap {
 
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
-        crate::Node::emit_with(&$n, $emitter)?
+        crate::Node::emit_with($n, $emitter)?
     };
     ($emitter:expr, false, $n:expr) => {
-        crate::NodeMut::rewrite_span(&mut $n, $emitter)?
+        crate::NodeMut::rewrite_span($n, $emitter)?
     };
 }
 
@@ -156,5 +156,14 @@ macro_rules! ref_maybe_mut {
 
     (false, $e:expr) => {
         &mut $e
+    };
+}
+
+macro_rules! emit_ref {
+    (true, $emitter:expr, $n:expr) => {
+        crate::Node::emit_with(&$n, $emitter)?
+    };
+    (false, $emitter:expr, $n:expr) => {
+        crate::NodeMut::rewrite_span(&mut $n, $emitter)?
     };
 }

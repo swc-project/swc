@@ -1914,11 +1914,11 @@ impl MacroNode for AssignExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.left);
+        emit_ref!(emitter, self.left);
         formatting_space!(emitter);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
-        emit!(self.right);
+        emit_ref!(emitter, self.right);
 
         Ok(())
     }
@@ -1949,7 +1949,7 @@ impl MacroNode for BinExpr {
 
             for (i, left) in lefts.into_iter().rev().enumerate() {
                 if i == 0 {
-                    emit!(left.left);
+                    emit_ref!(emitter, left.left);
                 }
                 // Check if it's last
                 if i + 1 != len {
@@ -1972,7 +1972,7 @@ impl MacroNode for Decorator {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "@");
-        emit!(self.expr);
+        emit_ref!(emitter, self.expr);
         emitter.wr.write_line()?;
 
         srcmap!(emitter, self, false);
