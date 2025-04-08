@@ -1503,7 +1503,7 @@ impl MacroNode for Script {
             emitter.wr.write_str_lit(DUMMY_SP, shebang)?;
             emitter.wr.write_line()?;
         }
-        for stmt in &self.body {
+        for stmt in ref_maybe_mut!(self.body) {
             emit!(stmt);
         }
 
@@ -1644,7 +1644,7 @@ impl MacroNode for OptChainExpr {
                 if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit!(e.obj);
+                    emit_ref!(emitter, e.obj);
                 }
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1652,7 +1652,7 @@ impl MacroNode for OptChainExpr {
                     punct!(emitter, ".");
                 }
 
-                match &e.prop {
+                match ref_maybe_mut!(e.prop) {
                     MemberProp::Computed(computed) => emit!(computed),
                     MemberProp::Ident(i) => emit!(i),
                     MemberProp::PrivateName(p) => emit!(p),
@@ -1660,7 +1660,7 @@ impl MacroNode for OptChainExpr {
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
-                emit!(e.callee);
+                emit_ref!(emitter, e.callee);
 
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1700,9 +1700,9 @@ impl MacroNode for CallExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.callee);
+        emit_ref!(emitter, self.callee);
 
-        if let Some(type_args) = &self.type_args {
+        if let Some(type_args) = ref_maybe_mut!(self.type_args) {
             emit!(type_args);
         }
 
@@ -1793,9 +1793,9 @@ impl MacroNode for SuperPropExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.obj);
+        emit_ref!(emitter, self.obj);
 
-        match &self.prop {
+        match ref_maybe_mut!(self.prop) {
             SuperProp::Computed(computed) => emit!(computed),
             SuperProp::Ident(i) => {
                 if self.prop.span().lo() >= BytePos(1) {
@@ -1841,7 +1841,7 @@ impl MacroNode for ArrowExpr {
                 _ => true,
             };
 
-        emit!(self.type_params);
+        emit_ref!(emitter, self.type_params);
 
         if parens {
             punct!(emitter, "(");
@@ -1852,7 +1852,7 @@ impl MacroNode for ArrowExpr {
             punct!(emitter, ")");
         }
 
-        if let Some(ty) = &self.return_type {
+        if let Some(ty) = ref_maybe_mut!(self.return_type) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);
@@ -1860,7 +1860,7 @@ impl MacroNode for ArrowExpr {
         }
 
         punct!(emitter, "=>");
-        emit!(self.body);
+        emit_ref!(emitter, self.body);
 
         Ok(())
     }
@@ -1988,15 +1988,15 @@ impl MacroNode for CondExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.test);
+        emit_ref!(emitter, self.test);
         formatting_space!(emitter);
         punct!(emitter, "?");
         formatting_space!(emitter);
-        emit!(self.cons);
+        emit_ref!(emitter, self.cons);
         formatting_space!(emitter);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.alt);
+        emit_ref!(emitter, self.alt);
 
         Ok(())
     }
@@ -2075,10 +2075,10 @@ impl MacroNode for Tpl {
 
         for i in 0..(self.quasis.len() + self.exprs.len()) {
             if i % 2 == 0 {
-                emit!(self.quasis[i / 2]);
+                emit_ref!(emitter, self.quasis[i / 2]);
             } else {
                 punct!(emitter, "${");
-                emit!(self.exprs[i / 2]);
+                emit_ref!(emitter, self.exprs[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -2146,10 +2146,10 @@ impl MacroNode for TaggedTpl {
         if let Expr::New(new) = &*self.tag {
             emitter.emit_new(new, false)?;
         } else {
-            emit!(self.tag);
+            emit_ref!(emitter, self.tag);
         }
 
-        emit!(self.type_params);
+        emit_ref!(emitter, self.type_params);
         emitter.emit_template_for_tagged_template(&self.tpl)?;
 
         srcmap!(emitter, self, false);
@@ -2183,7 +2183,7 @@ impl MacroNode for UnaryExpr {
             formatting_space!(emitter);
         }
 
-        emit!(self.arg);
+        emit_ref!(emitter, self.arg);
 
         Ok(())
     }
@@ -2199,9 +2199,9 @@ impl MacroNode for UpdateExpr {
         if self.prefix {
             operator!(emitter, self.op.as_str());
             //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit!(self.arg);
+            emit_ref!(emitter, self.arg);
         } else {
-            emit!(self.arg);
+            emit_ref!(emitter, self.arg);
             operator!(emitter, self.op.as_str());
         }
 
@@ -2235,7 +2235,7 @@ impl MacroNode for YieldExpr {
                 formatting_space!(emitter)
             }
 
-            emit!(self.arg);
+            emit_ref!(emitter, self.arg);
             if need_paren {
                 punct!(emitter, ")")
             }
@@ -2254,7 +2254,7 @@ impl MacroNode for ExprOrSpread {
             punct!(emitter, "...");
         }
 
-        emit!(self.expr);
+        emit_ref!(emitter, self.expr);
 
         Ok(())
     }
@@ -2270,7 +2270,7 @@ impl MacroNode for AwaitExpr {
         keyword!(emitter, "await");
         space!(emitter);
 
-        emit!(self.arg);
+        emit_ref!(emitter, self.arg);
 
         Ok(())
     }
@@ -2308,7 +2308,7 @@ impl MacroNode for ParenExpr {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "(");
-        emit!(self.expr);
+        emit_ref!(emitter, self.expr);
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
@@ -2338,7 +2338,7 @@ impl MacroNode for BindingIdent {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
-        if let Some(ty) = &self.type_ann {
+        if let Some(ty) = ref_maybe_mut!(self.type_ann) {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);

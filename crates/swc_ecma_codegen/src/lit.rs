@@ -24,16 +24,16 @@ impl MacroNode for Lit {
                 }
             }
             Lit::Null(Null { .. }) => keyword!(emitter, "null"),
-            Lit::Str(ref s) => emit!(s),
-            Lit::BigInt(ref s) => emit!(s),
-            Lit::Num(ref n) => emit!(n),
-            Lit::Regex(ref n) => {
+            Lit::Str(s) => emit!(s),
+            Lit::BigInt(s) => emit!(s),
+            Lit::Num(n) => emit!(n),
+            Lit::Regex(n) => {
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
             }
-            Lit::JSXText(ref n) => emit!(n),
+            Lit::JSXText(n) => emit!(n),
         }
 
         Ok(())
