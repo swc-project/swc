@@ -44,12 +44,12 @@ impl MacroNode for ObjectLit {
 impl MacroNode for Prop {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Prop::Shorthand(ref n) => emit!(n),
-            Prop::KeyValue(ref n) => emit!(n),
-            Prop::Assign(ref n) => emit!(n),
-            Prop::Getter(ref n) => emit!(n),
-            Prop::Setter(ref n) => emit!(n),
-            Prop::Method(ref n) => emit!(n),
+            Prop::Shorthand(n) => emit!(n),
+            Prop::KeyValue(n) => emit!(n),
+            Prop::Assign(n) => emit!(n),
+            Prop::Getter(n) => emit!(n),
+            Prop::Setter(n) => emit!(n),
+            Prop::Method(n) => emit!(n),
         }
 
         Ok(())
@@ -223,10 +223,10 @@ impl MacroNode for PropName {
                     emit!(ident);
                 }
             }
-            PropName::Str(ref n) => emit!(n),
-            PropName::Num(ref n) => emit!(n),
-            PropName::BigInt(ref n) => emit!(n),
-            PropName::Computed(ref n) => emit!(n),
+            PropName::Str(n) => emit!(n),
+            PropName::Num(n) => emit!(n),
+            PropName::BigInt(n) => emit!(n),
+            PropName::Computed(n) => emit!(n),
         }
 
         Ok(())

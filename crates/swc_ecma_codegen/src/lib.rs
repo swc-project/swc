@@ -1639,7 +1639,7 @@ impl MacroNode for OptChainExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match &*self.base {
+        match ref_maybe_mut!(*self.base) {
             OptChainBase::Member(e) => {
                 if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;

@@ -8,27 +8,27 @@ use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 impl MacroNode for Stmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Stmt::Expr(ref e) => emit!(e),
-            Stmt::Block(ref e) => {
+            Stmt::Expr(e) => emit!(e),
+            Stmt::Block(e) => {
                 emit!(e);
                 return Ok(());
             }
-            Stmt::Empty(ref e) => emit!(e),
-            Stmt::Debugger(ref e) => emit!(e),
-            Stmt::With(ref e) => emit!(e),
-            Stmt::Return(ref e) => emit!(e),
-            Stmt::Labeled(ref e) => emit!(e),
-            Stmt::Break(ref e) => emit!(e),
-            Stmt::Continue(ref e) => emit!(e),
-            Stmt::If(ref e) => emit!(e),
-            Stmt::Switch(ref e) => emit!(e),
-            Stmt::Throw(ref e) => emit!(e),
-            Stmt::Try(ref e) => emit!(e),
-            Stmt::While(ref e) => emit!(e),
-            Stmt::DoWhile(ref e) => emit!(e),
-            Stmt::For(ref e) => emit!(e),
-            Stmt::ForIn(ref e) => emit!(e),
-            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Empty(e) => emit!(e),
+            Stmt::Debugger(e) => emit!(e),
+            Stmt::With(e) => emit!(e),
+            Stmt::Return(e) => emit!(e),
+            Stmt::Labeled(e) => emit!(e),
+            Stmt::Break(e) => emit!(e),
+            Stmt::Continue(e) => emit!(e),
+            Stmt::If(e) => emit!(e),
+            Stmt::Switch(e) => emit!(e),
+            Stmt::Throw(e) => emit!(e),
+            Stmt::Try(e) => emit!(e),
+            Stmt::While(e) => emit!(e),
+            Stmt::DoWhile(e) => emit!(e),
+            Stmt::For(e) => emit!(e),
+            Stmt::ForIn(e) => emit!(e),
+            Stmt::ForOf(e) => emit!(e),
             Stmt::Decl(Decl::Var(e)) => {
                 emit!(e);
                 semi!(emitter);
@@ -37,7 +37,7 @@ impl MacroNode for Stmt {
                 emit!(e);
                 semi!(emitter);
             }
-            Stmt::Decl(ref e) => emit!(e),
+            Stmt::Decl(e) => emit!(e),
         }
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
@@ -229,7 +229,7 @@ impl MacroNode for SwitchCase {
 
         srcmap!(emitter, self, true);
 
-        if let Some(ref test) = self.test {
+        if let Some(test) = self.test {
             keyword!(emitter, "case");
 
             let starts_with_alpha_num = test.starts_with_alpha_num();
@@ -312,12 +312,12 @@ impl MacroNode for TryStmt {
         formatting_space!(emitter);
         emit!(self.block);
 
-        if let Some(ref catch) = self.handler {
+        if let Some(catch) = self.handler {
             formatting_space!(emitter);
             emit!(catch);
         }
 
-        if let Some(ref finally) = self.finalizer {
+        if let Some(finally) = self.finalizer {
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);
@@ -500,7 +500,7 @@ impl MacroNode for BreakStmt {
 
         keyword!(emitter, "break");
 
-        if let Some(ref label) = self.label {
+        if let Some(label) = self.label {
             space!(emitter);
             emit!(label);
         }
@@ -520,7 +520,7 @@ impl MacroNode for ContinueStmt {
 
         keyword!(emitter, "continue");
 
-        if let Some(ref label) = self.label {
+        if let Some(label) = self.label {
             space!(emitter);
             emit!(label);
         }
@@ -555,7 +555,7 @@ impl MacroNode for IfStmt {
 
         emit!(self.cons);
 
-        if let Some(ref alt) = self.alt {
+        if let Some(alt) = self.alt {
             if is_cons_block {
                 formatting_space!(emitter);
             }
