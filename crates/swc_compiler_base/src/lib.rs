@@ -24,7 +24,6 @@ use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-use swc_error_reporters::OnlyDiagnosticsError;
 use swc_timer::timer;
 
 #[cfg(feature = "node")]
@@ -90,11 +89,11 @@ pub fn parse_js(
 
         let program = program_result.map_err(|e| {
             e.into_diagnostic(handler).emit();
-            anyhow::anyhow!(OnlyDiagnosticsError)
+            Error::msg("Syntax Error")
         })?;
 
         if error {
-            return Err(anyhow::anyhow!(OnlyDiagnosticsError));
+            return Err(anyhow::anyhow!("Syntax Error"));
         }
 
         Ok(program)

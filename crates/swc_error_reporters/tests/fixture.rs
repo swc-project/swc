@@ -1,4 +1,4 @@
-#![deny(warnings)]
+// #![deny(warnings)]
 
 use std::{fmt, fmt::Write, fs, path::Path};
 use std::{fs, path::Path};
@@ -27,13 +27,14 @@ use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter, Graphi
 use swc_error_reporters::{
     handler::ThreadSafetyDiagnostics, ErrorEmitter, GraphicalReportHandler, ToPrettyDiagnostic,
 };
+use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter};
 
 fn output<F>(file: &str, op: F)
 where
     F: FnOnce(Lrc<SourceMap>, &Handler),
 {
     let cm = Lrc::new(SourceMap::default());
-    let mut diagnostics = ThreadSafetyDiagnostics::default();
+    let diagnostics = ThreadSafetyDiagnostics::default();
     let emitter = ErrorEmitter {
         diagnostics: diagnostics.clone(),
         cm: cm.clone(),
@@ -61,17 +62,10 @@ where
 
     op(cm.clone(), &handler);
 
-    let output = Path::new("tests").join("fixture").join(file);
+    let _output = Path::new("tests").join("fixture").join(file);
 
-    let report_handler = GraphicalReportHandler::default();
-    let pretty_message = diagnostics
-        .take()
-        .iter()
-        .map(|d| d.to_pretty_diagnostic(&cm, false))
-        .map(|d| d.to_pretty_string(&report_handler))
-        .collect::<Vec<String>>()
-        .join("");
-
+    let errors = diagnostics.as_array(cm.clone(), Default::default());
+    let pretty_message = errors.to_pretty_string();
     println!("{}", pretty_message);
     fs::write(output, &pretty_message).expect("failed to write");
 }

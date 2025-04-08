@@ -1,5 +1,6 @@
 use std::fmt::{Debug, Display};
 
+use anyhow::anyhow;
 use handler::{to_pretty_handler, HandlerOpts, ThreadSafetyDiagnostics};
 pub use miette::{GraphicalReportHandler, GraphicalTheme};
 use swc_common::{
@@ -8,10 +9,8 @@ use swc_common::{
 };
 
 mod diagnostic;
-mod error;
 pub mod handler;
 pub use diagnostic::{convert_span, to_pretty_source_code, ToPrettyDiagnostic};
-pub use error::OnlyDiagnosticsError;
 
 pub struct ErrorEmitter {
     pub diagnostics: ThreadSafetyDiagnostics,
@@ -38,33 +37,44 @@ impl Emitter for ErrorEmitter {
 
 /// A wrapper around a value that also contains a list of diagnostics.
 /// It helps swc error system migrate to the new error reporting system.
-pub struct WrapperDiagnostics {
+pub struct TWithDiagnosticArray<T: Debug + Display> {
+    inner: Option<T>,
     diagnostics: Vec<Diagnostic>,
     cm: Lrc<swc_common::SourceMap>,
     report_opts: HandlerOpts,
 }
 
-impl Debug for WrapperDiagnostics {
+impl<T: Debug + Display> Debug for TWithDiagnosticArray<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.diagnostics)
+        f.debug_struct("TWithDiagnosticArray")
+            .field("inner", &self.inner)
+            .field("diagnostics", &self.diagnostics)
+            .finish()
     }
 }
 
-impl Display for WrapperDiagnostics {
+impl<T: Debug + Display> Display for TWithDiagnosticArray<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.to_pretty_string())
+        match self.inner.as_ref() {
+            Some(inner) => {
+                write!(f, "{}\n{}", self.take_pretty_diagnostics(), inner)
+            }
+            None => write!(f, "{}", self.take_pretty_diagnostics()),
+        }
     }
 }
 
-impl WrapperDiagnostics {
+impl<T: Debug + Display> TWithDiagnosticArray<T> {
     /// Creates a new instance of WrapperDiagnostics with the given diagnostics,
     /// source map, and options.
     pub fn new(
+        inner: Option<T>,
         diagnostics: Vec<Diagnostic>,
         cm: Lrc<swc_common::SourceMap>,
         opts: HandlerOpts,
     ) -> Self {
         Self {
+            inner,
             diagnostics,
             cm,
             report_opts: opts,
@@ -82,16 +92,8 @@ impl WrapperDiagnostics {
         self.diagnostics
     }
 
-    /// Converts the diagnostics to a pretty error string and wraps it in an
-    /// anyhow::Error.
-    pub fn to_pretty_error(&self) -> anyhow::Error {
-        let error_msg = self.to_pretty_string();
-
-        anyhow::anyhow!(error_msg)
-    }
-
     /// Converts the diagnostics to a pretty string representation.
-    pub fn to_pretty_string(&self) -> String {
+    fn take_pretty_diagnostics(&self) -> String {
         let HandlerOpts {
             color,
             skip_filename,
@@ -103,5 +105,27 @@ impl WrapperDiagnostics {
             .iter()
             .map(|d| d.to_pretty_string(&self.cm, skip_filename, &report_handler))
             .collect::<String>()
+    }
+}
+
+impl TWithDiagnosticArray<anyhow::Error> {
+    /// Converts the diagnostics to a pretty error string and wraps it in an
+    /// anyhow::Error.
+    pub fn to_pretty_error(self) -> anyhow::Error {
+        let pretty_diagnostics = self.take_pretty_diagnostics();
+
+        match self.inner {
+            Some(inner_error) => inner_error.context(pretty_diagnostics),
+            None => {
+                anyhow!(pretty_diagnostics)
+            }
+        }
+    }
+
+    /// Converts the diagnostics to a pretty string representation.
+    pub fn to_pretty_string(self) -> String {
+        let pretty_error = self.to_pretty_error();
+
+        pretty_error.to_string()
     }
 }

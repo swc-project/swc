@@ -4822,7 +4822,6 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_error_reporters",
  "swc_timer",
 ]
 

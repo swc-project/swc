@@ -8,12 +8,12 @@ use std::{
 use miette::{GraphicalReportHandler, GraphicalTheme};
 use once_cell::sync::Lazy;
 use swc_common::{
-    errors::{ColorConfig, Diagnostic, Emitter, Handler, Message, Style, HANDLER},
+    errors::{ColorConfig, Diagnostic, Emitter, Handler, HANDLER},
     sync::Lrc,
     SourceMap,
 };
 
-use crate::{diagnostic::ToPrettyDiagnostic, ErrorEmitter, WrapperDiagnostics};
+use crate::{diagnostic::ToPrettyDiagnostic, ErrorEmitter, TWithDiagnosticArray};
 
 #[derive(Default, Clone)]
 /// A thread-safe container for managing a collection of diagnostics.
@@ -38,10 +38,31 @@ impl ThreadSafetyDiagnostics {
         )
     }
 
-    pub fn as_wrapper(mut self, cm: Lrc<SourceMap>, opts: HandlerOpts) -> WrapperDiagnostics {
+    pub fn as_array(
+        mut self,
+        cm: Lrc<SourceMap>,
+        opts: HandlerOpts,
+    ) -> TWithDiagnosticArray<anyhow::Error> {
         let diagnostics = self.take();
 
-        WrapperDiagnostics {
+        TWithDiagnosticArray {
+            inner: None,
+            diagnostics,
+            cm,
+            report_opts: opts,
+        }
+    }
+
+    pub fn as_array_with_anyhow(
+        mut self,
+        inner: anyhow::Error,
+        cm: Lrc<SourceMap>,
+        opts: HandlerOpts,
+    ) -> TWithDiagnosticArray<anyhow::Error> {
+        let diagnostics = self.take();
+
+        TWithDiagnosticArray {
+            inner: Some(inner),
             diagnostics,
             cm,
             report_opts: opts,
@@ -150,7 +171,7 @@ pub fn try_with_handler<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
     op: F,
-) -> Result<Ret, WrapperDiagnostics>
+) -> Result<Ret, TWithDiagnosticArray<anyhow::Error>>
 where
     F: FnOnce(&Handler) -> Result<Ret, anyhow::Error>,
 {
@@ -161,11 +182,11 @@ fn try_with_handler_inner<F, Ret>(
     cm: Lrc<SourceMap>,
     config: HandlerOpts,
     op: F,
-) -> Result<Ret, WrapperDiagnostics>
+) -> Result<Ret, TWithDiagnosticArray<anyhow::Error>>
 where
     F: FnOnce(&Handler) -> Result<Ret, anyhow::Error>,
 {
-    let mut diagnostics = ThreadSafetyDiagnostics::default();
+    let diagnostics = ThreadSafetyDiagnostics::default();
 
     let emitter: Box<dyn Emitter> = Box::new(ErrorEmitter {
         diagnostics: diagnostics.clone(),
@@ -180,36 +201,11 @@ where
     match ret {
         Ok(ret) => {
             if diagnostics.contains_error() {
-                return Err(diagnostics.as_wrapper(cm.clone(), config));
+                Err(diagnostics.as_array(cm.clone(), config))
+            } else {
+                Ok(ret)
             }
-
-            Ok(ret)
         }
-        Err(err) => {
-            if err.downcast_ref::<crate::OnlyDiagnosticsError>().is_none() {
-                // only add err to diagnostics if it is not ParseSyntaxError.
-                // this is because ParseSyntaxError is handled in the js side.
-                diagnostics.push(err.to_diagnostic());
-            }
-
-            Err(diagnostics.as_wrapper(cm.clone(), config))
-        }
-    }
-}
-
-trait ToDiagnostic {
-    fn to_diagnostic(&self) -> Diagnostic;
-}
-
-impl ToDiagnostic for anyhow::Error {
-    fn to_diagnostic(&self) -> Diagnostic {
-        Diagnostic {
-            message: vec![Message(format!("{:?}", self), Style::NoStyle)],
-            code: None,
-            level: swc_common::errors::Level::Error,
-            children: vec![],
-            span: Default::default(),
-            suggestions: vec![],
-        }
+        Err(err) => Err(diagnostics.as_array_with_anyhow(err, cm.clone(), config)),
     }
 }
