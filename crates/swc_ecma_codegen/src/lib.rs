@@ -1639,6 +1639,8 @@ impl MacroNode for OptChainExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let span = self.span();
+
         match ref_maybe_mut!(*self.base) {
             OptChainBase::Member(e) => {
                 if let Expr::New(new) = &*e.obj {
@@ -1667,11 +1669,7 @@ impl MacroNode for OptChainExpr {
                 }
 
                 punct!(emitter, "(");
-                emitter.emit_expr_or_spreads(
-                    self.span(),
-                    &e.args,
-                    ListFormat::CallExpressionArguments,
-                )?;
+                emitter.emit_expr_or_spreads(span, &e.args, ListFormat::CallExpressionArguments)?;
                 punct!(emitter, ")");
             }
         }
@@ -1754,26 +1752,26 @@ impl MacroNode for MemberExpr {
             MemberProp::Computed(computed) => emit!(computed),
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {
-                    if self.prop.span().lo() >= BytePos(2) {
-                        emitter.emit_leading_comments(self.prop.span().lo() - BytePos(2), false)?;
+                    if ident.span.lo() >= BytePos(2) {
+                        emitter.emit_leading_comments(ident.span.lo() - BytePos(2), false)?;
                     }
                     punct!(emitter, ".");
                 }
-                if self.prop.span().lo() >= BytePos(1) {
-                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                if ident.span.lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(ident.span.lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
                 emit!(ident);
             }
             MemberProp::PrivateName(private) => {
                 if needs_2dots_for_property_access {
-                    if self.prop.span().lo() >= BytePos(2) {
-                        emitter.emit_leading_comments(self.prop.span().lo() - BytePos(2), false)?;
+                    if private.span().lo() >= BytePos(2) {
+                        emitter.emit_leading_comments(private.span().lo() - BytePos(2), false)?;
                     }
                     punct!(emitter, ".");
                 }
-                if self.prop.span().lo() >= BytePos(1) {
-                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                if private.span.lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(private.span.lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
                 emit!(private);
@@ -1798,8 +1796,8 @@ impl MacroNode for SuperPropExpr {
         match ref_maybe_mut!(self.prop) {
             SuperProp::Computed(computed) => emit!(computed),
             SuperProp::Ident(i) => {
-                if self.prop.span().lo() >= BytePos(1) {
-                    emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
+                if i.span.lo() >= BytePos(1) {
+                    emitter.emit_leading_comments(i.span.lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
                 emit!(i);
