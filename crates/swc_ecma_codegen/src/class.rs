@@ -140,15 +140,15 @@ impl MacroNode for Class {
 impl MacroNode for ClassMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ClassMember::Constructor(ref n) => emit!(n),
-            ClassMember::ClassProp(ref n) => emit!(n),
-            ClassMember::Method(ref n) => emit!(n),
-            ClassMember::PrivateMethod(ref n) => emit!(n),
-            ClassMember::PrivateProp(ref n) => emit!(n),
-            ClassMember::TsIndexSignature(ref n) => emit!(n),
-            ClassMember::Empty(ref n) => emit!(n),
-            ClassMember::StaticBlock(ref n) => emit!(n),
-            ClassMember::AutoAccessor(ref n) => emit!(n),
+            ClassMember::Constructor(n) => emit!(n),
+            ClassMember::ClassProp(n) => emit!(n),
+            ClassMember::Method(n) => emit!(n),
+            ClassMember::PrivateMethod(n) => emit!(n),
+            ClassMember::PrivateProp(n) => emit!(n),
+            ClassMember::TsIndexSignature(n) => emit!(n),
+            ClassMember::Empty(n) => emit!(n),
+            ClassMember::StaticBlock(n) => emit!(n),
+            ClassMember::AutoAccessor(n) => emit!(n),
         }
 
         Ok(())
