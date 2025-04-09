@@ -1,5 +1,6 @@
 use std::str;
 
+use bstr::ByteSlice;
 use debug_unreachable::debug_unreachable;
 
 use crate::syntax_pos::{BytePos, SourceFile};
@@ -11,11 +12,15 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
-    iter: str::Chars<'a>,
+    iter: bstr::Chars<'a>,
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
     orig_end: BytePos,
+}
+
+fn b_chars_as_str<'a>(s: &bstr::Chars<'a>) -> &'a str {
+    unsafe { std::str::from_utf8_unchecked(s.as_bytes()) }
 }
 
 impl<'a> StringInput<'a> {
@@ -33,7 +38,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            iter: src.chars(),
+            iter: bstr::BStr::new(src).chars(),
             orig_start: start,
             orig_end: end,
         }
@@ -41,7 +46,7 @@ impl<'a> StringInput<'a> {
 
     #[inline(always)]
     pub fn as_str(&self) -> &str {
-        self.iter.as_str()
+        b_chars_as_str(&self.iter)
     }
 
     #[inline]
@@ -137,7 +142,7 @@ impl Input for StringInput<'_> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.iter = bstr::BStr::new(unsafe { s.get_unchecked(end_idx..) }).chars();
         self.last_pos = end;
 
         ret
@@ -148,7 +153,7 @@ impl Input for StringInput<'_> {
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
+        let s = b_chars_as_str(&self.iter);
         let mut last = 0;
 
         for (i, c) in s.char_indices() {
@@ -162,7 +167,7 @@ impl Input for StringInput<'_> {
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.iter = bstr::BStr::new(unsafe { s.get_unchecked(last..) }).chars();
 
         ret
     }
@@ -171,7 +176,7 @@ impl Input for StringInput<'_> {
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
+        let s = b_chars_as_str(&self.iter);
         let mut last = 0;
 
         for (i, c) in s.char_indices() {
@@ -187,7 +192,7 @@ impl Input for StringInput<'_> {
         debug_assert!(last <= s.len());
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.iter = bstr::BStr::new(unsafe { s.get_unchecked(last..) }).chars();
 
         Some(self.last_pos)
     }
@@ -199,14 +204,13 @@ impl Input for StringInput<'_> {
 
         debug_assert!(idx <= orig.len());
         let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.chars();
+        self.iter = bstr::BStr::new(s).chars();
         self.last_pos = to;
     }
 
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
         self.iter
-            .as_str()
             .as_bytes()
             .first()
             .map(|b| *b == c)

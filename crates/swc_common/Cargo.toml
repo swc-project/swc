@@ -41,6 +41,7 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 [dependencies]
 anyhow                = { workspace = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
+bstr                  = { workspace = true }
 bytecheck             = { workspace = true, optional = true }
 cfg-if                = { workspace = true }
 either                = { workspace = true }

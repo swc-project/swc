@@ -434,9 +434,9 @@ dependencies = [
 
 [[package]]
 name = "bstr"
-version = "1.10.0"
+version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40723b8fb387abc38f4f4a37c09073622e41dd12327033091ef8950659e6dc0c"
+checksum = "234113d19d0d7d613b40e86fb654acf958910802bcceab913a4f9e7cda03b1a4"
 dependencies = [
  "memchr",
  "regex-automata 0.4.7",
@@ -4770,6 +4770,7 @@ dependencies = [
  "arbitrary",
  "ast_node",
  "better_scoped_tls",
+ "bstr",
  "bytecheck 0.8.1",
  "cfg-if",
  "codspeed-criterion-compat",
