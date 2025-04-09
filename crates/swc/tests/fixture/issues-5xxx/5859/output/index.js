@@ -4,10 +4,7 @@ var _wrap_async_generator = require("@swc/helpers/_/_wrap_async_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var result = [];
 function foo() {
-    return _foo.apply(this, arguments);
-}
-function _foo() {
-    _foo = _wrap_async_generator._(function() {
+    return /*#__PURE__*/ _wrap_async_generator._(function() {
         var input, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _, _tmp, _1, _tmp1, err;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -97,15 +94,11 @@ function _foo() {
                     ];
             }
         });
-    });
-    return _foo.apply(this, arguments);
+    })();
 }
 var iter = foo();
 function main() {
-    return _main.apply(this, arguments);
-}
-function _main() {
-    _main = _async_to_generator._(function() {
+    return /*#__PURE__*/ _async_to_generator._(function() {
         var state, x;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -142,7 +135,6 @@ function _main() {
                     ];
             }
         });
-    });
-    return _main.apply(this, arguments);
+    })();
 }
 main();

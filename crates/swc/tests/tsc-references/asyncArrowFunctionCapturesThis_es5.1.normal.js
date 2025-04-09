@@ -10,14 +10,14 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.method = function method() {
         var _this = this;
-        var fn = /*#__PURE__*/ function() {
-            var _ref = _async_to_generator(function() {
+        var fn = function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
                                 4,
-                                _this
+                                this
                             ];
                         case 1:
                             return [
@@ -26,11 +26,8 @@ var C = /*#__PURE__*/ function() {
                             ];
                     }
                 });
-            });
-            return function fn() {
-                return _ref.apply(this, arguments);
-            };
-        }();
+            }).call(_this);
+        };
     };
     return C;
 }();

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _ref, target = exports, all = {
+var target = exports, all = {
     cl1: function() {
         return cl1;
     },
@@ -25,10 +25,7 @@ for(var name in all)Object.defineProperty(target, name, {
 });
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _ts_generator = require("@swc/helpers/_/_ts_generator");
 function fn() {
-    return _fn.apply(this, arguments);
-}
-function _fn() {
-    return (_fn = _async_to_generator._(function() {
+    return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -44,14 +41,14 @@ function _fn() {
                     ];
             }
         });
-    })).apply(this, arguments);
+    })();
 }
 var cl1 = /*#__PURE__*/ function() {
     function cl1() {
         _class_call_check._(this, cl1);
     }
     return cl1.prototype.m = function() {
-        return _async_to_generator._(function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -70,26 +67,8 @@ var cl1 = /*#__PURE__*/ function() {
         })();
     }, cl1;
 }(), obj = {
-    m: /*#__PURE__*/ _async_to_generator._(function() {
-        return _ts_generator._(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        4,
-                        Promise.resolve().then(function() {
-                            return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
-                        })
-                    ];
-                case 1:
-                    return _state.sent(), [
-                        2
-                    ];
-            }
-        });
-    })
-}, cl2 = function cl2() {
-    _class_call_check._(this, cl2), this.p = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
+    m: function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -105,24 +84,46 @@ var cl1 = /*#__PURE__*/ function() {
                         ];
                 }
             });
-        })
-    };
-}, l = (_ref = _async_to_generator._(function() {
-    return _ts_generator._(this, function(_state) {
-        switch(_state.label){
-            case 0:
-                return [
-                    4,
-                    Promise.resolve().then(function() {
-                        return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
-                    })
-                ];
-            case 1:
-                return _state.sent(), [
-                    2
-                ];
+        })();
+    }
+}, cl2 = function cl2() {
+    _class_call_check._(this, cl2), this.p = {
+        m: function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                return _ts_generator._(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            return [
+                                4,
+                                Promise.resolve().then(function() {
+                                    return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
+                                })
+                            ];
+                        case 1:
+                            return _state.sent(), [
+                                2
+                            ];
+                    }
+                });
+            })();
         }
-    });
-}), function() {
-    return _ref.apply(this, arguments);
-});
+    };
+}, l = function() {
+    return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _ts_generator._(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    return [
+                        4,
+                        Promise.resolve().then(function() {
+                            return /*#__PURE__*/ _interop_require_wildcard._(require("./test"));
+                        })
+                    ];
+                case 1:
+                    return _state.sent(), [
+                        2
+                    ];
+            }
+        });
+    })();
+};

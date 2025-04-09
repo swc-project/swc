@@ -11,24 +11,22 @@ Object.defineProperty(exports, "Test", {
 const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 class Test {
     bad() {
-        var _this = this;
-        return _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             let foo = false;
             [foo] = yield Promise.all([
-                _this.foo()
+                this.foo()
             ]);
-        })();
+        }).call(this);
     }
     good() {
-        var _this = this;
-        return _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             let [foo] = yield Promise.all([
-                _this.foo()
+                this.foo()
             ]);
-        })();
+        }).call(this);
     }
     foo() {
-        return _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             return true;
         })();
     }

@@ -1,12 +1,7 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import "reflect-metadata";
-const v0 = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function*(v1) {
+const v0 = ((v1)=>/*#__PURE__*/ _async_to_generator(function*() {
         return v1;
-    });
-    return function(v1) {
-        return _ref.apply(this, arguments);
-    };
-}().constructor;
+    })()).constructor;
 const res = v0(()=>Reflect.get(v3, "a"));
 console.log(res);

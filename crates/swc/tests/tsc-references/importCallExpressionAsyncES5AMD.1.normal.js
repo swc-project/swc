@@ -35,10 +35,7 @@ define([
         }
     });
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        _fn = _async_to_generator._(function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -60,8 +57,7 @@ define([
                         ];
                 }
             });
-        });
-        return _fn.apply(this, arguments);
+        })();
     }
     var cl1 = /*#__PURE__*/ function() {
         "use strict";
@@ -70,7 +66,7 @@ define([
         }
         var _proto = cl1.prototype;
         _proto.m = function m() {
-            return _async_to_generator._(function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -97,35 +93,8 @@ define([
         return cl1;
     }();
     var obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
-            var req;
-            return _ts_generator._(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            new Promise(function(resolve, reject) {
-                                return require([
-                                    "./test"
-                                ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
-                                }, reject);
-                            }) // THREE
-                        ];
-                    case 1:
-                        req = _state.sent();
-                        return [
-                            2
-                        ];
-                }
-            });
-        })
-    };
-    var cl2 = function cl2() {
-        "use strict";
-        _class_call_check._(this, cl2);
-        this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -138,7 +107,7 @@ define([
                                     ], function(m) {
                                         return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
                                     }, reject);
-                                }) // FOUR
+                                }) // THREE
                             ];
                         case 1:
                             req = _state.sent();
@@ -147,11 +116,42 @@ define([
                             ];
                     }
                 });
-            })
+            })();
+        }
+    };
+    var cl2 = function cl2() {
+        "use strict";
+        _class_call_check._(this, cl2);
+        this.p = {
+            m: function() {
+                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                    var req;
+                    return _ts_generator._(this, function(_state) {
+                        switch(_state.label){
+                            case 0:
+                                return [
+                                    4,
+                                    new Promise(function(resolve, reject) {
+                                        return require([
+                                            "./test"
+                                        ], function(m) {
+                                            return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                        }, reject);
+                                    }) // FOUR
+                                ];
+                            case 1:
+                                req = _state.sent();
+                                return [
+                                    2
+                                ];
+                        }
+                    });
+                })();
+            }
         };
     };
-    var l = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator._(function() {
+    var l = function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -173,9 +173,6 @@ define([
                         ];
                 }
             });
-        });
-        return function l() {
-            return _ref.apply(this, arguments);
-        };
-    }();
+        })();
+    };
 });

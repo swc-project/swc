@@ -1,12 +1,8 @@
-const foo = /*#__PURE__*/ function() {
-    var _foo = _wrap_async_generator(function*(x, y, ...z) {
+const foo = function foo(x, y, ...z) {
+    return /*#__PURE__*/ _wrap_async_generator(function*() {
         if (x) {
             return foo(0, y);
         }
         return 0;
-    });
-    function foo(x, y) {
-        return _foo.apply(this, arguments);
-    }
-    return foo;
-}();
+    })();
+};

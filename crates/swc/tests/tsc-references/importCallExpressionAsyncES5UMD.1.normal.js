@@ -38,10 +38,7 @@
         }
     });
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        _fn = _async_to_generator._(function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -57,8 +54,7 @@
                         ];
                 }
             });
-        });
-        return _fn.apply(this, arguments);
+        })();
     }
     var cl1 = /*#__PURE__*/ function() {
         "use strict";
@@ -67,7 +63,7 @@
         }
         var _proto = cl1.prototype;
         _proto.m = function m() {
-            return _async_to_generator._(function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -88,36 +84,15 @@
         return cl1;
     }();
     var obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
-            var req;
-            return _ts_generator._(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            import('./test') // THREE
-                        ];
-                    case 1:
-                        req = _state.sent();
-                        return [
-                            2
-                        ];
-                }
-            });
-        })
-    };
-    var cl2 = function cl2() {
-        "use strict";
-        _class_call_check._(this, cl2);
-        this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
                                 4,
-                                import('./test') // FOUR
+                                import('./test') // THREE
                             ];
                         case 1:
                             req = _state.sent();
@@ -126,11 +101,36 @@
                             ];
                     }
                 });
-            })
+            })();
+        }
+    };
+    var cl2 = function cl2() {
+        "use strict";
+        _class_call_check._(this, cl2);
+        this.p = {
+            m: function() {
+                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                    var req;
+                    return _ts_generator._(this, function(_state) {
+                        switch(_state.label){
+                            case 0:
+                                return [
+                                    4,
+                                    import('./test') // FOUR
+                                ];
+                            case 1:
+                                req = _state.sent();
+                                return [
+                                    2
+                                ];
+                        }
+                    });
+                })();
+            }
         };
     };
-    var l = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator._(function() {
+    var l = function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -146,9 +146,6 @@
                         ];
                 }
             });
-        });
-        return function l() {
-            return _ref.apply(this, arguments);
-        };
-    }();
+        })();
+    };
 });

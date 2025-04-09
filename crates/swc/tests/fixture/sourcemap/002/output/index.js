@@ -5,10 +5,7 @@ export default function StaticPage(param) {
     return /*#__PURE__*/ React.createElement("div", null, data.foo);
 }
 export function getStaticProps() {
-    return _getStaticProps.apply(this, arguments);
-}
-function _getStaticProps() {
-    _getStaticProps = _async_to_generator(function() {
+    return /*#__PURE__*/ _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -21,6 +18,5 @@ function _getStaticProps() {
                 }
             ];
         });
-    });
-    return _getStaticProps.apply(this, arguments);
+    })();
 }

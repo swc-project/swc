@@ -5,29 +5,31 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 describe('AppController', function() {
     var app;
-    beforeAll(/*#__PURE__*/ _async_to_generator(function() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        4,
-                        Test.createTestingModule({
-                            controllers: [
-                                AppController
-                            ],
-                            providers: [
-                                AppService
-                            ]
-                        }).compile()
-                    ];
-                case 1:
-                    app = _state.sent();
-                    return [
-                        2
-                    ];
-            }
-        });
-    }));
+    beforeAll(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        return [
+                            4,
+                            Test.createTestingModule({
+                                controllers: [
+                                    AppController
+                                ],
+                                providers: [
+                                    AppService
+                                ]
+                            }).compile()
+                        ];
+                    case 1:
+                        app = _state.sent();
+                        return [
+                            2
+                        ];
+                }
+            });
+        })();
+    });
     describe('getHello', function() {
         it('should return "Hello World!"', function() {
             var appController = app.get(AppController);

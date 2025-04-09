@@ -2,10 +2,7 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f() {
-    return _f.apply(this, arguments);
-}
-function _f() {
-    _f = _async_to_generator(function() {
+    return /*#__PURE__*/ _async_to_generator(function() {
         var await_a, await_b, await_c, await_d, await_e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -45,6 +42,5 @@ function _f() {
                     ];
             }
         });
-    });
-    return _f.apply(this, arguments);
+    })();
 }

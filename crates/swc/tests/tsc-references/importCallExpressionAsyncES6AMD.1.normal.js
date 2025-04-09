@@ -33,20 +33,16 @@ define([
         }
     });
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        _fn = _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // ONE
             ;
-        });
-        return _fn.apply(this, arguments);
+        })();
     }
     class cl1 {
         m() {
-            return _async_to_generator._(function*() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
                 const req = yield new Promise((resolve, reject)=>require([
                         "./test"
                     ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // TWO
@@ -55,34 +51,29 @@ define([
         }
     }
     const obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function*() {
-            const req = yield new Promise((resolve, reject)=>require([
-                    "./test"
-                ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // THREE
-            ;
-        })
+        m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                const req = yield new Promise((resolve, reject)=>require([
+                        "./test"
+                    ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // THREE
+                ;
+            })()
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: /*#__PURE__*/ _async_to_generator._(function*() {
-                    const req = yield new Promise((resolve, reject)=>require([
-                            "./test"
-                        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FOUR
-                    ;
-                })
+                m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                        const req = yield new Promise((resolve, reject)=>require([
+                                "./test"
+                            ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FOUR
+                        ;
+                    })()
             };
         }
     }
-    const l = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator._(function*() {
+    const l = ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FIVE
             ;
-        });
-        return function l() {
-            return _ref.apply(this, arguments);
-        };
-    }();
+        })();
 });

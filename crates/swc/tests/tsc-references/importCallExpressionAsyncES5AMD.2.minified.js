@@ -10,7 +10,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var _ref, all = {
+    var all = {
         cl1: function() {
             return cl1;
         },
@@ -32,10 +32,7 @@ define([
         get: all[name]
     });
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        return (_fn = _async_to_generator._(function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -55,14 +52,14 @@ define([
                         ];
                 }
             });
-        })).apply(this, arguments);
+        })();
     }
     var cl1 = /*#__PURE__*/ function() {
         function cl1() {
             _class_call_check._(this, cl1);
         }
         return cl1.prototype.m = function() {
-            return _async_to_generator._(function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -85,30 +82,8 @@ define([
             })();
         }, cl1;
     }(), obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
-            return _ts_generator._(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            new Promise(function(resolve, reject) {
-                                return require([
-                                    "./test"
-                                ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
-                                }, reject);
-                            })
-                        ];
-                    case 1:
-                        return _state.sent(), [
-                            2
-                        ];
-                }
-            });
-        })
-    }, cl2 = function cl2() {
-        _class_call_check._(this, cl2), this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -128,29 +103,55 @@ define([
                             ];
                     }
                 });
-            })
-        };
-    }, l = (_ref = _async_to_generator._(function() {
-        return _ts_generator._(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        4,
-                        new Promise(function(resolve, reject) {
-                            return require([
-                                "./test"
-                            ], function(m) {
-                                return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
-                            }, reject);
-                        })
-                    ];
-                case 1:
-                    return _state.sent(), [
-                        2
-                    ];
+            })();
+        }
+    }, cl2 = function cl2() {
+        _class_call_check._(this, cl2), this.p = {
+            m: function() {
+                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                    return _ts_generator._(this, function(_state) {
+                        switch(_state.label){
+                            case 0:
+                                return [
+                                    4,
+                                    new Promise(function(resolve, reject) {
+                                        return require([
+                                            "./test"
+                                        ], function(m) {
+                                            return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                        }, reject);
+                                    })
+                                ];
+                            case 1:
+                                return _state.sent(), [
+                                    2
+                                ];
+                        }
+                    });
+                })();
             }
-        });
-    }), function() {
-        return _ref.apply(this, arguments);
-    });
+        };
+    }, l = function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _ts_generator._(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        return [
+                            4,
+                            new Promise(function(resolve, reject) {
+                                return require([
+                                    "./test"
+                                ], function(m) {
+                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                }, reject);
+                            })
+                        ];
+                    case 1:
+                        return _state.sent(), [
+                            2
+                        ];
+                }
+            });
+        })();
+    };
 });

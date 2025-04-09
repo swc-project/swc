@@ -14,7 +14,7 @@ var env = {
 };
 try {
     var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -22,8 +22,8 @@ try {
             });
         })();
     }), true);
-    var a = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function() {
+    var a = function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             var env, d6, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -42,7 +42,7 @@ try {
                             6
                         ]);
                         d6 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                            return _async_to_generator(function() {
+                            return /*#__PURE__*/ _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
                                         2
@@ -85,11 +85,8 @@ try {
                         ];
                 }
             });
-        });
-        return function a() {
-            return _ref.apply(this, arguments);
-        };
-    }();
+        })();
+    };
     {
         var env1 = {
             stack: [],
@@ -98,7 +95,7 @@ try {
         };
         try {
             var d19 = _ts_add_disposable_resource(env1, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -123,7 +120,7 @@ try {
             };
             try {
                 var d20 = _ts_add_disposable_resource(env2, _define_property({}, Symbol.asyncDispose, function() {
-                    return _async_to_generator(function() {
+                    return /*#__PURE__*/ _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
                                 2
@@ -147,7 +144,7 @@ try {
             };
             try {
                 var d21 = _ts_add_disposable_resource(env3, _define_property({}, Symbol.asyncDispose, function() {
-                    return _async_to_generator(function() {
+                    return /*#__PURE__*/ _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
                                 2
@@ -173,7 +170,7 @@ try {
             };
             try {
                 var d22 = _ts_add_disposable_resource(env4, _define_property({}, Symbol.asyncDispose, function() {
-                    return _async_to_generator(function() {
+                    return /*#__PURE__*/ _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
                                 2
@@ -198,7 +195,7 @@ try {
         };
         try {
             var d23 = _ts_add_disposable_resource(env5, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -221,7 +218,7 @@ try {
         };
         try {
             var d24 = _ts_add_disposable_resource(env6, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -244,7 +241,7 @@ try {
         };
         try {
             var d25 = _ts_add_disposable_resource(env7, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -268,7 +265,7 @@ try {
         };
         try {
             var d26 = _ts_add_disposable_resource(env8, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -291,7 +288,7 @@ try {
         };
         try {
             var d27 = _ts_add_disposable_resource(env9, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -315,7 +312,7 @@ try {
         };
         try {
             var d28 = _ts_add_disposable_resource(env10, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -340,7 +337,7 @@ try {
         };
         try {
             var d29 = _ts_add_disposable_resource(env11, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -365,7 +362,7 @@ try {
         };
         try {
             var d30 = _ts_add_disposable_resource(env12, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -390,7 +387,7 @@ try {
         };
         try {
             var d31 = _ts_add_disposable_resource(env13, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -415,7 +412,7 @@ try {
         };
         try {
             var d32 = _ts_add_disposable_resource(env14, _define_property({}, Symbol.asyncDispose, function() {
-                return _async_to_generator(function() {
+                return /*#__PURE__*/ _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2
@@ -439,10 +436,7 @@ try {
     if (result14) await result14;
 }
 function af() {
-    return _af.apply(this, arguments);
-}
-function _af() {
-    _af = _async_to_generator(function() {
+    return /*#__PURE__*/ _async_to_generator(function() {
         var env, d3, e, result;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -461,7 +455,7 @@ function _af() {
                         7
                     ]);
                     d3 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                        return _async_to_generator(function() {
+                        return /*#__PURE__*/ _async_to_generator(function() {
                             return _ts_generator(this, function(_state) {
                                 return [
                                     2
@@ -510,14 +504,10 @@ function _af() {
                     ];
             }
         });
-    });
-    return _af.apply(this, arguments);
+    })();
 }
 function ag() {
-    return _ag.apply(this, arguments);
-}
-function _ag() {
-    _ag = _wrap_async_generator(function() {
+    return /*#__PURE__*/ _wrap_async_generator(function() {
         var env, d5, e, result;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -536,7 +526,7 @@ function _ag() {
                         8
                     ]);
                     d5 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                        return _async_to_generator(function() {
+                        return /*#__PURE__*/ _async_to_generator(function() {
                             return _ts_generator(this, function(_state) {
                                 return [
                                     2
@@ -590,80 +580,81 @@ function _ag() {
                     ];
             }
         });
-    });
-    return _ag.apply(this, arguments);
+    })();
 }
 var C1 = /*#__PURE__*/ function() {
     "use strict";
     function C1() {
         _class_call_check(this, C1);
-        this.a = /*#__PURE__*/ _async_to_generator(function() {
-            var env, d7, e, result;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        env = {
-                            stack: [],
-                            error: void 0,
-                            hasError: false
-                        };
-                        _state.label = 1;
-                    case 1:
-                        _state.trys.push([
-                            1,
-                            2,
-                            3,
-                            6
-                        ]);
-                        d7 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                            return _async_to_generator(function() {
-                                return _ts_generator(this, function(_state) {
-                                    return [
-                                        2
-                                    ];
-                                });
-                            })();
-                        }), true);
-                        return [
-                            3,
-                            6
-                        ];
-                    case 2:
-                        e = _state.sent();
-                        env.error = e;
-                        env.hasError = true;
-                        return [
-                            3,
-                            6
-                        ];
-                    case 3:
-                        result = _ts_dispose_resources(env);
-                        if (!result) return [
-                            3,
-                            5
-                        ];
-                        return [
-                            4,
-                            result
-                        ];
-                    case 4:
-                        _state.sent();
-                        _state.label = 5;
-                    case 5:
-                        return [
-                            7
-                        ];
-                    case 6:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
+        this.a = function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
+                var env, d7, e, result;
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            env = {
+                                stack: [],
+                                error: void 0,
+                                hasError: false
+                            };
+                            _state.label = 1;
+                        case 1:
+                            _state.trys.push([
+                                1,
+                                2,
+                                3,
+                                6
+                            ]);
+                            d7 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
+                                return /*#__PURE__*/ _async_to_generator(function() {
+                                    return _ts_generator(this, function(_state) {
+                                        return [
+                                            2
+                                        ];
+                                    });
+                                })();
+                            }), true);
+                            return [
+                                3,
+                                6
+                            ];
+                        case 2:
+                            e = _state.sent();
+                            env.error = e;
+                            env.hasError = true;
+                            return [
+                                3,
+                                6
+                            ];
+                        case 3:
+                            result = _ts_dispose_resources(env);
+                            if (!result) return [
+                                3,
+                                5
+                            ];
+                            return [
+                                4,
+                                result
+                            ];
+                        case 4:
+                            _state.sent();
+                            _state.label = 5;
+                        case 5:
+                            return [
+                                7
+                            ];
+                        case 6:
+                            return [
+                                2
+                            ];
+                    }
+                });
+            })();
+        };
     }
     var _proto = C1.prototype;
     _proto.am = function am() {
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             var env, d13, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -682,7 +673,7 @@ var C1 = /*#__PURE__*/ function() {
                             7
                         ]);
                         d13 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                            return _async_to_generator(function() {
+                            return /*#__PURE__*/ _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
                                         2
@@ -734,7 +725,7 @@ var C1 = /*#__PURE__*/ function() {
         })();
     };
     _proto.ag = function ag() {
-        return _wrap_async_generator(function() {
+        return /*#__PURE__*/ _wrap_async_generator(function() {
             var env, d15, e, result;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -753,7 +744,7 @@ var C1 = /*#__PURE__*/ function() {
                             8
                         ]);
                         d15 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-                            return _async_to_generator(function() {
+                            return /*#__PURE__*/ _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
                                         2

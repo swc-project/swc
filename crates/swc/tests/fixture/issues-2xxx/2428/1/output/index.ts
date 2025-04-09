@@ -4,10 +4,10 @@ var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
 var _ts_param = require("@swc/helpers/_/_ts_param");
 class Foo {
     fnName1(argName) {
-        return _async_to_generator._(function*() {})();
+        return /*#__PURE__*/ _async_to_generator._(function*() {})();
     }
     fnName2(argName = false) {
-        return _async_to_generator._(function*() {})();
+        return /*#__PURE__*/ _async_to_generator._(function*() {})();
     }
 }
 _ts_decorate._([
