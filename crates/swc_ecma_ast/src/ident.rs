@@ -261,9 +261,9 @@ impl Ident {
         (self.sym.clone(), self.ctxt)
     }
 
-    /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
-    pub fn is_valid_start(c: char) -> bool {
+    pub fn is_valid_ascii_start(c: u8) -> bool {
+        debug_assert!(c.is_ascii());
         // This contains `$` (36) and `_` (95)
         const ASCII_START: Align64<[bool; 128]> = Align64([
             F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
@@ -272,18 +272,22 @@ impl Ident {
             T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
             T, T, T, T, T, T, T, F, F, F, F, F,
         ]);
-
-        if c.is_ascii() {
-            return ASCII_START.0[c as usize];
-        }
-
-        unicode_id_start::is_id_start_unicode(c)
+        ASCII_START.0[c as usize]
     }
 
-    /// Returns true if `c` is a valid character for an identifier part after
-    /// start.
+    /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
-    pub fn is_valid_continue(c: char) -> bool {
+    pub fn is_valid_start(c: char) -> bool {
+        if c.is_ascii() {
+            Self::is_valid_ascii_start(c as u8)
+        } else {
+            unicode_id_start::is_id_start_unicode(c)
+        }
+    }
+
+    #[inline]
+    pub fn is_valid_ascii_continue(c: u8) -> bool {
+        debug_assert!(c.is_ascii());
         // This contains `$` (36)
         const ASCII_CONTINUE: Align64<[bool; 128]> = Align64([
             F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
@@ -292,12 +296,18 @@ impl Ident {
             T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
             T, T, T, T, T, T, T, F, F, F, F, F,
         ]);
+        ASCII_CONTINUE.0[c as usize]
+    }
 
+    /// Returns true if `c` is a valid character for an identifier part after
+    /// start.
+    #[inline]
+    pub fn is_valid_continue(c: char) -> bool {
         if c.is_ascii() {
-            return ASCII_CONTINUE.0[c as usize];
+            Self::is_valid_ascii_continue(c as u8)
+        } else {
+            unicode_id_start::is_id_continue_unicode(c)
         }
-
-        unicode_id_start::is_id_continue_unicode(c)
     }
 
     /// Alternative for `toIdentifier` of babel.

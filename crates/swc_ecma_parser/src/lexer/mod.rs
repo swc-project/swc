@@ -803,10 +803,10 @@ impl Lexer<'_> {
                         can_be_keyword = false;
                     }
 
-                    if Ident::is_valid_continue(c as _) {
+                    if Ident::is_valid_ascii_continue(c) {
                         l.bump();
                         continue;
-                    } else if first && Ident::is_valid_start(c as _) {
+                    } else if first && Ident::is_valid_ascii_start(c) {
                         l.bump();
                         first = false;
                         continue;
@@ -862,9 +862,7 @@ impl Lexer<'_> {
                     // ASCII but not a valid identifier
 
                     break;
-                }
-
-                if let Some(c) = l.input.cur() {
+                } else if let Some(c) = l.input.cur() {
                     if Ident::is_valid_continue(c) {
                         l.bump();
                         continue;
