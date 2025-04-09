@@ -53,7 +53,7 @@ impl<'a> Lexer<'a> {
                 return Ok(Token::new(
                     TokenType::Dot,
                     self.span(),
-                    bool::from(self.had_line_break),
+                    self.had_line_break,
                     TokenValue::None,
                 ));
             }
@@ -96,7 +96,7 @@ impl<'a> Lexer<'a> {
             return Ok(Token::new(
                 TokenType::Num,
                 span,
-                bool::from(self.had_line_break),
+                self.had_line_break,
                 TokenValue::Num {
                     value,
                     raw: Atom::from(raw_str),
@@ -268,7 +268,7 @@ impl<'a> Lexer<'a> {
         Ok(Token::new(
             TokenType::Num,
             span,
-            bool::from(self.had_line_break),
+            self.had_line_break,
             TokenValue::Num {
                 value,
                 raw: Atom::from(raw_str),
@@ -442,7 +442,7 @@ impl<'a> Lexer<'a> {
             Ok(Token::new(
                 TokenType::BigInt,
                 span,
-                bool::from(self.had_line_break),
+                self.had_line_break,
                 TokenValue::BigInt {
                     value: Box::new(value),
                     raw: Atom::from(raw_str),

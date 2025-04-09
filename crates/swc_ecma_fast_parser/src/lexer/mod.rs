@@ -233,7 +233,7 @@ impl<'a> Lexer<'a> {
                 let token = Token::new(
                     TokenType::EOF,
                     self.span(),
-                    had_line_break.into(),
+                    had_line_break,
                     TokenValue::None,
                 );
                 return Ok(std::mem::replace(&mut self.current, token));

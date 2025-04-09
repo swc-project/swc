@@ -86,7 +86,7 @@ impl Lexer<'_> {
         } else {
             non_unicode_ident_str
         };
-        let had_line_break_bool: bool = self.had_line_break.into();
+        let had_line_break_bool = self.had_line_break;
         let span = self.span();
 
         // For non-keyword identifiers, we can directly return without checking keyword
@@ -113,7 +113,7 @@ impl Lexer<'_> {
         // Extract the identifier text
         let ident_start = start_pos.0;
         let ident_end = self.cursor.position();
-        let had_line_break_bool: bool = self.had_line_break.into();
+        let had_line_break_bool = self.had_line_break;
         let non_unicode_ident_str = unsafe {
             std::str::from_utf8_unchecked(self.cursor.slice_unchecked(ident_start, ident_end))
         };

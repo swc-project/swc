@@ -196,7 +196,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Str,
             span,
-            bool::from(self.had_line_break),
+            self.had_line_break,
             TokenValue::Str {
                 value: string_value,
                 raw: Atom::from(raw_str),

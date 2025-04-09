@@ -21,7 +21,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::DotDotDot,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -37,7 +37,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Dot,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -56,7 +56,7 @@ impl Lexer<'_> {
                 return Ok(Token::new(
                     TokenType::NullishEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ));
             }
@@ -65,7 +65,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::NullishCoalescing,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -76,7 +76,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::OptionalChain,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -85,7 +85,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::QuestionMark,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -104,7 +104,7 @@ impl Lexer<'_> {
                 return Ok(Token::new(
                     TokenType::NotEqEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ));
             }
@@ -113,7 +113,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::NotEq,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -122,7 +122,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Bang,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -138,7 +138,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::PlusPlus,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -149,7 +149,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::PlusEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -158,7 +158,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Plus,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -175,7 +175,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::MinusMinus,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -186,7 +186,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::MinusEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -195,7 +195,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Minus,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -215,7 +215,7 @@ impl Lexer<'_> {
                 return Ok(Token::new(
                     TokenType::ExpEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ));
             }
@@ -224,7 +224,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::Exp,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -235,7 +235,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::MulEq,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -244,7 +244,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Asterisk,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -288,7 +288,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::ModEq,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -297,7 +297,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Percent,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -310,7 +310,7 @@ impl Lexer<'_> {
         // Check for JSX mode
         if self.in_jsx_element {
             self.cursor.reset_to(start_pos);
-            return self.read_jsx_token(self.had_line_break.into());
+            return self.read_jsx_token(self.had_line_break);
         }
 
         match self.cursor.peek() {
@@ -320,7 +320,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::LtEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -335,7 +335,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::LShift,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -344,7 +344,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::LShift,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -353,7 +353,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Lt,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -370,7 +370,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::GtEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -389,7 +389,7 @@ impl Lexer<'_> {
                         return Ok(Token::new(
                             TokenType::ZeroFillRShift,
                             self.span(),
-                            self.had_line_break.into(),
+                            self.had_line_break,
                             TokenValue::None,
                         ));
                     }
@@ -398,7 +398,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::ZeroFillRShift,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -409,7 +409,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::RShift,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -418,7 +418,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::RShift,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -427,7 +427,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Gt,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -444,7 +444,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::Arrow,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -459,7 +459,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::EqEqEq,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -468,7 +468,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::EqEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -477,7 +477,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Eq,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -498,7 +498,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::LogicalOrEq,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -507,7 +507,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::LogicalOr,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -518,7 +518,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::BitOrEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -527,7 +527,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Pipe,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -548,7 +548,7 @@ impl Lexer<'_> {
                     return Ok(Token::new(
                         TokenType::LogicalAndEq,
                         self.span(),
-                        self.had_line_break.into(),
+                        self.had_line_break,
                         TokenValue::None,
                     ));
                 }
@@ -557,7 +557,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::LogicalAnd,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -568,7 +568,7 @@ impl Lexer<'_> {
                 Ok(Token::new(
                     TokenType::BitAndEq,
                     self.span(),
-                    self.had_line_break.into(),
+                    self.had_line_break,
                     TokenValue::None,
                 ))
             }
@@ -577,7 +577,7 @@ impl Lexer<'_> {
             _ => Ok(Token::new(
                 TokenType::Ampersand,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             )),
         }
@@ -593,7 +593,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::BitXorEq,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::None,
             ));
         }
@@ -602,7 +602,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Caret,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
@@ -629,7 +629,7 @@ impl Lexer<'_> {
             return Ok(Token::new(
                 TokenType::Shebang,
                 self.span(),
-                self.had_line_break.into(),
+                self.had_line_break,
                 TokenValue::Shebang(Atom::from(shebang_str)),
             ));
         }
@@ -638,7 +638,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::Hash,
             self.span(),
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::None,
         ))
     }
