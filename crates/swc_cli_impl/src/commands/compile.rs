@@ -419,11 +419,14 @@ impl CompileOptions {
         let inputs = self.collect_inputs()?;
 
         let execute = |compiler: Arc<Compiler>, fm: Arc<SourceFile>, options: Options| {
+            let color = ColorConfig::Always;
+            let skip_filename = false;
+
             try_with_handler(
                 compiler.cm.clone(),
                 HandlerOpts {
-                    color: ColorConfig::Always,
-                    skip_filename: false,
+                    color,
+                    skip_filename,
                 },
                 |handler| {
                     GLOBALS.set(&Default::default(), || {
@@ -431,6 +434,7 @@ impl CompileOptions {
                     })
                 },
             )
+            .map_err(|e| e.to_pretty_error())
         };
 
         if let Some(single_out_file) = self.out_file.as_ref() {

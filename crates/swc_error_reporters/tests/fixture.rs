@@ -1,3 +1,4 @@
+// #![deny(warnings)]
 use std::{fs, path::Path};
 
 use anyhow::bail;
@@ -7,12 +8,19 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span,
 };
 use swc_error_reporters::handler::try_with_handler;
+use swc_error_reporters::{handler::ThreadSafetyDiagnostics, ErrorEmitter};
 
 fn output<F>(file: &str, op: F)
 where
     F: FnOnce(Lrc<SourceMap>, &Handler),
 {
     let cm = Lrc::new(SourceMap::default());
+    let diagnostics = ThreadSafetyDiagnostics::default();
+    let emitter = ErrorEmitter {
+        diagnostics: diagnostics.clone(),
+        cm: cm.clone(),
+        opts: Default::default(),
+    };
 
     let result = try_with_handler(cm.clone(), Default::default(), |handler| -> Result<(), _> {
         op(cm.clone(), handler);
@@ -25,6 +33,16 @@ where
     let s = result.to_string();
     println!("{}", s);
     fs::write(output, &s).expect("failed to write");
+    let handler = Handler::with_emitter(true, false, Box::new(emitter));
+
+    op(cm.clone(), &handler);
+
+    let output = Path::new("tests").join("fixture").join(file);
+
+    let errors = diagnostics.as_array(cm.clone(), Default::default());
+    let pretty_message = errors.to_pretty_string();
+    println!("{}", pretty_message);
+    fs::write(output, &pretty_message).expect("failed to write");
 }
 
 fn span(start: usize, end: usize) -> Span {
