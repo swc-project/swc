@@ -7,22 +7,13 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceMap, Span,
 };
-use swc_error_reporters::{
-    handler::{try_with_handler, ThreadSafetyDiagnostics},
-    ErrorEmitter,
-};
+use swc_error_reporters::handler::try_with_handler;
 
 fn output<F>(file: &str, op: F)
 where
     F: FnOnce(Lrc<SourceMap>, &Handler),
 {
     let cm = Lrc::new(SourceMap::default());
-    let diagnostics = ThreadSafetyDiagnostics::default();
-    let emitter = ErrorEmitter {
-        diagnostics: diagnostics.clone(),
-        cm: cm.clone(),
-        opts: Default::default(),
-    };
 
     let result = try_with_handler(cm.clone(), Default::default(), |handler| -> Result<(), _> {
         op(cm.clone(), handler);
@@ -32,10 +23,9 @@ where
 
     let output = Path::new("tests").join("fixture").join(file);
 
-    let errors = diagnostics.as_array(cm.clone(), Default::default());
-    let pretty_message = errors.to_pretty_string();
-    println!("{}", pretty_message);
-    fs::write(output, &pretty_message).expect("failed to write");
+    let pretty_error = result.to_pretty_string();
+    println!("{}", pretty_error);
+    fs::write(output, &pretty_error).expect("failed to write");
 }
 
 fn span(start: usize, end: usize) -> Span {
