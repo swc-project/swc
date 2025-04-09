@@ -456,9 +456,9 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
                 Ok(res) => {
                     result += &res.code;
                 }
-                Err(ref err) => {
-                    for line in err.to_string().lines() {
-                        writeln!(result, "//! {}", line).unwrap();
+                Err(err) => {
+                    for e in err.to_pretty_error().to_string().lines() {
+                        writeln!(result, "//! {}", e).unwrap();
                     }
                 }
             }

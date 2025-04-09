@@ -23,9 +23,10 @@ use termcolor::{Color, ColorSpec};
 
 use self::Level::*;
 pub use self::{
-    diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, SubDiagnostic},
+    diagnostic::{Diagnostic, DiagnosticId, DiagnosticStyledString, Message, SubDiagnostic},
     diagnostic_builder::DiagnosticBuilder,
     emitter::{ColorConfig, Emitter, EmitterWriter},
+    snippet::Style,
 };
 use crate::{
     rustc_data_structures::stable_hasher::StableHasher,
@@ -36,6 +37,7 @@ use crate::{
 
 mod diagnostic;
 mod diagnostic_builder;
+
 pub mod emitter;
 mod lock;
 mod snippet;
@@ -715,6 +717,14 @@ impl Handler {
         db.emit();
     }
 
+    pub fn err_with_code(&self, msg: &str, code: DiagnosticId) {
+        if self.flags.treat_err_as_bug {
+            self.bug(msg);
+        }
+        let mut db = DiagnosticBuilder::new_with_code(self, Error, Some(code), msg);
+        db.emit();
+    }
+
     pub fn warn(&self, msg: &str) {
         let mut db = DiagnosticBuilder::new(self, Warning, msg);
         db.emit();
@@ -837,11 +847,11 @@ impl Handler {
     }
 
     pub fn force_print_db(&self, mut db: DiagnosticBuilder<'_>) {
-        self.emitter.borrow_mut().emit(&db);
+        self.emitter.borrow_mut().emit(&mut db);
         db.cancel();
     }
 
-    fn emit_db(&self, db: &DiagnosticBuilder<'_>) {
+    fn emit_db(&self, db: &mut DiagnosticBuilder<'_>) {
         let diagnostic = &**db;
 
         TRACK_DIAGNOSTICS.with(|track_diagnostics| {
@@ -880,7 +890,7 @@ impl Handler {
     }
 }
 
-#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug)]
+#[derive(Copy, PartialEq, Eq, Clone, Hash, Debug, Default)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -901,6 +911,7 @@ pub enum Level {
     Warning,
     Note,
     Help,
+    #[default]
     Cancelled,
     FailureNote,
 }

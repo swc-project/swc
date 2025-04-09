@@ -1,11 +1,9 @@
-use std::fmt;
-
 use swc_common::{
     errors::{DiagnosticBuilder, Emitter},
     sync::Lrc,
     SourceMap,
 };
-use swc_error_reporters::{GraphicalReportHandler, PrettyEmitter, PrettyEmitterConfig};
+use swc_error_reporters::{GraphicalReportHandler, ToPrettyDiagnostic};
 use tracing::{info, metadata::LevelFilter, Level};
 
 /// This emitter is controlled by the env var `RUST_LOG`.
@@ -17,14 +15,11 @@ pub(crate) fn stderr_emitter(cm: Lrc<SourceMap>) -> Box<dyn Emitter> {
         info!("Diagnostics will be printed to stderr as logging level is trace or debug");
 
         let reporter = GraphicalReportHandler::default();
-        let emitter = PrettyEmitter::new(
-            cm,
-            Box::new(TestStderr),
+
+        let emitter = TestEmitter {
+            cm: cm.clone(),
             reporter,
-            PrettyEmitterConfig {
-                skip_filename: false,
-            },
-        );
+        };
 
         Box::new(emitter)
     } else {
@@ -32,18 +27,22 @@ pub(crate) fn stderr_emitter(cm: Lrc<SourceMap>) -> Box<dyn Emitter> {
     }
 }
 
-struct TestStderr;
+struct TestEmitter {
+    cm: Lrc<SourceMap>,
+    reporter: GraphicalReportHandler,
+}
 
-impl fmt::Write for TestStderr {
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        eprint!("{}", s);
+impl Emitter for TestEmitter {
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
+        let d = &**db;
+        let pretty_dignostic = &d.to_pretty_diagnostic(&self.cm, false);
 
-        Ok(())
+        eprint!("{}", pretty_dignostic.to_pretty_string(&self.reporter));
     }
 }
 
 struct NoopEmitter;
 
 impl Emitter for NoopEmitter {
-    fn emit(&mut self, _: &DiagnosticBuilder<'_>) {}
+    fn emit(&mut self, _: &mut DiagnosticBuilder<'_>) {}
 }
