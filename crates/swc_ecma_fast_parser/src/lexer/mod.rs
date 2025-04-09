@@ -31,31 +31,6 @@ use crate::{
     JscTarget, SingleThreadedComments, Syntax,
 };
 
-/// Represents line break detection
-/// Optimized to fit in a single byte and provide performant conversions
-#[derive(Clone, Copy, PartialEq, Eq)]
-#[repr(u8)]
-enum LineBreak {
-    None = 0,
-    Present = 1,
-}
-
-impl From<bool> for LineBreak {
-    #[inline(always)]
-    fn from(b: bool) -> Self {
-        // Use direct transmute for faster conversion - avoid branching
-        unsafe { std::mem::transmute(b as u8) }
-    }
-}
-
-impl From<LineBreak> for bool {
-    #[inline(always)]
-    fn from(lb: LineBreak) -> Self {
-        // Direct conversion to boolean with no branching
-        lb as u8 != 0
-    }
-}
-
 /// High-performance lexer for ECMAScript/TypeScript
 ///
 /// This lexer processes input as UTF-8 bytes for maximum performance.
@@ -91,7 +66,7 @@ pub struct Lexer<'a> {
     pub in_template_expr: bool,
 
     /// Whether we had a line break before the current token
-    had_line_break: LineBreak,
+    had_line_break: bool,
 }
 
 // Bit flags for character classification - used in lookup tables
@@ -221,7 +196,7 @@ impl<'a> Lexer<'a> {
             in_template_expr: false,
             comments,
             start_pos: BytePos(0),
-            had_line_break: LineBreak::None,
+            had_line_break: false,
         };
 
         // Prime the lexer with the first token
@@ -240,14 +215,14 @@ impl<'a> Lexer<'a> {
 
         // Remember if there were line breaks before this token
         let had_line_break = self.had_line_break;
-        self.had_line_break = LineBreak::None;
+        self.had_line_break = false;
 
         // Remember the start position of this token
         self.start_pos = self.cursor.pos();
 
         // If we're in JSX mode, use the JSX tokenizer
         if unlikely(self.in_jsx_element) {
-            return self.read_jsx_token(had_line_break.into());
+            return self.read_jsx_token(had_line_break);
         }
 
         // Get the next character - fast path for EOF
@@ -266,7 +241,7 @@ impl<'a> Lexer<'a> {
         };
 
         // Process the character to determine the token type
-        let token = self.read_token(ch, had_line_break.into())?;
+        let token = self.read_token(ch, had_line_break)?;
 
         // Update the current token and return a clone of the previous one
         Ok(std::mem::replace(&mut self.current, token))
@@ -440,7 +415,7 @@ impl<'a> Lexer<'a> {
                     if unlikely(char_type & CHAR_LINEBREAK != 0) {
                         if ch == b'\n' {
                             self.cursor.advance();
-                            self.had_line_break = LineBreak::Present;
+                            self.had_line_break = true;
                             continue;
                         } else if ch == b'\r' {
                             self.cursor.advance();
@@ -448,7 +423,7 @@ impl<'a> Lexer<'a> {
                             if let Some(b'\n') = self.cursor.peek() {
                                 self.cursor.advance();
                             }
-                            self.had_line_break = LineBreak::Present;
+                            self.had_line_break = true;
                             continue;
                         }
                     } else {
@@ -490,7 +465,7 @@ impl<'a> Lexer<'a> {
                         && (bytes[2] == 0xa8 || bytes[2] == 0xa9)
                     {
                         self.cursor.advance_n(3);
-                        self.had_line_break = LineBreak::Present;
+                        self.had_line_break = true;
                         continue;
                     }
                 } else if ch == 0xef {
@@ -535,7 +510,7 @@ impl<'a> Lexer<'a> {
         match first_byte {
             b'\n' => {
                 self.cursor.advance();
-                self.had_line_break = LineBreak::Present;
+                self.had_line_break = true;
                 return true;
             }
             b'\r' => {
@@ -543,7 +518,7 @@ impl<'a> Lexer<'a> {
                 if let Some(b'\n') = self.cursor.peek() {
                     self.cursor.advance();
                 }
-                self.had_line_break = LineBreak::Present;
+                self.had_line_break = true;
                 return true;
             }
             b'/' => {
@@ -562,7 +537,7 @@ impl<'a> Lexer<'a> {
                     && (bytes[2] == 0xa8 || bytes[2] == 0xa9)
                 {
                     self.cursor.advance_n(3);
-                    self.had_line_break = LineBreak::Present;
+                    self.had_line_break = true;
                     return true;
                 }
                 return false;
@@ -615,14 +590,14 @@ impl<'a> Lexer<'a> {
             if ch == b'\n' {
                 // Simple newline
                 self.cursor.advance(); // Skip the newline
-                self.had_line_break = LineBreak::Present;
+                self.had_line_break = true;
             } else {
                 // Carriage return - check if followed by newline (CRLF)
                 self.cursor.advance(); // Skip the \r
                 if let Some(b'\n') = self.cursor.peek() {
                     self.cursor.advance(); // Skip the \n in CRLF
                 }
-                self.had_line_break = LineBreak::Present;
+                self.had_line_break = true;
             }
             return;
         }
@@ -635,7 +610,7 @@ impl<'a> Lexer<'a> {
                 let bytes = self.cursor.peek_n(2);
                 if bytes.len() == 2 && bytes[0] == 0x80 && (bytes[1] == 0xa8 || bytes[1] == 0xa9) {
                     self.cursor.advance_n(2); // Already advanced the first byte
-                    self.had_line_break = LineBreak::Present;
+                    self.had_line_break = true;
                     break;
                 }
             }
@@ -657,7 +632,7 @@ impl<'a> Lexer<'a> {
                     if let Some(b'/') = self.cursor.peek() {
                         self.cursor.advance();
                         if had_line_break {
-                            self.had_line_break = LineBreak::Present;
+                            self.had_line_break = true;
                         }
                         return;
                     }
@@ -714,7 +689,7 @@ impl<'a> Lexer<'a> {
 
         // If we reach here, the comment was not closed
         if had_line_break {
-            self.had_line_break = LineBreak::Present;
+            self.had_line_break = true;
         }
     }
 }

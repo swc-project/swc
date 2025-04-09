@@ -157,7 +157,7 @@ impl Lexer<'_> {
         Ok(Token::new(
             TokenType::JSXText,
             span,
-            self.had_line_break.into(),
+            self.had_line_break,
             TokenValue::Str {
                 value: Atom::from(text),
                 raw: Atom::from(raw_str),
