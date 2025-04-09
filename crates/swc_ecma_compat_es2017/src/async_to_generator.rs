@@ -3,9 +3,14 @@ use std::{mem, vec};
 use serde::Deserialize;
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{should_work, Check},
+};
 use swc_ecma_utils::{function::FnEnvHoister, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-async-to-generator`
@@ -222,7 +227,23 @@ impl VisitMut for AsyncToGenerator {
         .into()
     }
 
+    fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*exprs)
+        {
+            return;
+        }
+
+        exprs.visit_mut_children_with(self);
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*expr)
+        {
+            return;
+        }
+
         expr.visit_mut_children_with(self);
 
         let Some(fn_state @ FnState { is_async: true, .. }) = &mut self.fn_state else {
@@ -284,7 +305,23 @@ impl VisitMut for AsyncToGenerator {
         }
     }
 
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*stmts)
+        {
+            return;
+        }
+
+        stmts.visit_mut_children_with(self);
+    }
+
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*stmt)
+        {
+            return;
+        }
+
         stmt.visit_mut_children_with(self);
 
         if let Some(FnState {
@@ -374,6 +411,38 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
     }
 
     false
+}
+
+#[derive(Default)]
+struct ShouldWork {
+    found: bool,
+}
+
+#[swc_trace]
+impl Visit for ShouldWork {
+    noop_visit_type!(fail);
+
+    fn visit_function(&mut self, f: &Function) {
+        if f.is_async {
+            self.found = true;
+            return;
+        }
+        f.visit_children_with(self);
+    }
+
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
+        if f.is_async {
+            self.found = true;
+            return;
+        }
+        f.visit_children_with(self);
+    }
+}
+
+impl Check for ShouldWork {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
 
 #[tracing::instrument(level = "info", skip_all)]
