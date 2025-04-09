@@ -32,15 +32,6 @@ where
 
     let output = Path::new("tests").join("fixture").join(file);
 
-    let s = result.to_string();
-    println!("{}", s);
-    fs::write(output, &s).expect("failed to write");
-    let handler = Handler::with_emitter(true, false, Box::new(emitter));
-
-    op(cm.clone(), &handler);
-
-    let output = Path::new("tests").join("fixture").join(file);
-
     let errors = diagnostics.as_array(cm.clone(), Default::default());
     let pretty_message = errors.to_pretty_string();
     println!("{}", pretty_message);
