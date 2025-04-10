@@ -180,7 +180,7 @@ where
 
     let mut src_map_buf = Vec::new();
 
-    let src = {
+    let mut src = {
         let mut buf = std::vec::Vec::new();
         {
             let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
@@ -266,7 +266,6 @@ where
             }
         }
         SourceMapsConfig::Str(_) => {
-            let mut src = src;
             let mut buf = std::vec::Vec::new();
 
             map.unwrap()
