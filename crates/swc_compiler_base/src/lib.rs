@@ -250,7 +250,13 @@ where
                 map.unwrap()
                     .to_writer(&mut buf)
                     .context("failed to write source map")?;
-                let map = String::from_utf8(buf).context("source map is not utf-8")?;
+                let mut map = String::from_utf8(buf).context("source map is not utf-8")?;
+
+                if let Some(source_map_url) = source_map_url {
+                    map.push_str("\n//# sourceMappingURL=");
+                    map.push_str(source_map_url);
+                }
+
                 (src, Some(map))
             } else {
                 (src, None)
