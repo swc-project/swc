@@ -176,8 +176,8 @@ impl<'a> Lexer<'a> {
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
-        let byte = match self.input.as_str().as_bytes().first() {
-            Some(&v) => v,
+        let byte = match self.input.cur_byte() {
+            Some(v) => v,
             None => return Ok(None),
         };
 

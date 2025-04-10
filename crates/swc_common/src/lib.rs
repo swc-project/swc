@@ -62,6 +62,8 @@ pub mod iter;
 pub mod pass;
 pub mod plugin;
 mod pos;
+mod string_input_iter;
+
 #[doc(hidden)]
 pub mod private;
 mod rustc_data_structures;

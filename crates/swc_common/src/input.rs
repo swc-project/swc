@@ -2,6 +2,7 @@ use std::str;
 
 use debug_unreachable::debug_unreachable;
 
+use super::string_input_iter::StringInputIter;
 use crate::syntax_pos::{BytePos, SourceFile};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
@@ -11,7 +12,7 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
-    iter: str::Chars<'a>,
+    iter: StringInputIter<'a>,
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
@@ -33,7 +34,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            iter: src.chars(),
+            iter: StringInputIter::new(src),
             orig_start: start,
             orig_end: end,
         }
@@ -79,6 +80,11 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
+    fn cur_byte(&mut self) -> Option<u8> {
+        self.iter.cur_byte()
+    }
+
+    #[inline]
     fn peek(&mut self) -> Option<char> {
         self.iter.clone().nth(1)
     }
@@ -101,7 +107,7 @@ impl Input for StringInput<'_> {
 
     #[inline]
     fn cur_as_ascii(&mut self) -> Option<u8> {
-        let first_byte = *self.as_str().as_bytes().first()?;
+        let first_byte = self.cur_byte()?;
         if first_byte <= 0x7f {
             Some(first_byte)
         } else {
@@ -137,7 +143,7 @@ impl Input for StringInput<'_> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.iter = StringInputIter::new(unsafe { s.get_unchecked(end_idx..) });
         self.last_pos = end;
 
         ret
@@ -162,7 +168,7 @@ impl Input for StringInput<'_> {
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.iter = StringInputIter::new(unsafe { s.get_unchecked(last..) });
 
         ret
     }
@@ -187,7 +193,7 @@ impl Input for StringInput<'_> {
         debug_assert!(last <= s.len());
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
+        self.iter = StringInputIter::new(unsafe { s.get_unchecked(last..) });
 
         Some(self.last_pos)
     }
@@ -199,18 +205,13 @@ impl Input for StringInput<'_> {
 
         debug_assert!(idx <= orig.len());
         let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.chars();
+        self.iter = StringInputIter::new(s);
         self.last_pos = to;
     }
 
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
-        self.iter
-            .as_str()
-            .as_bytes()
-            .first()
-            .map(|b| *b == c)
-            .unwrap_or(false)
+        self.iter.cur_byte().map(|b| b == c).unwrap_or(false)
     }
 
     #[inline]
@@ -232,6 +233,7 @@ impl Input for StringInput<'_> {
 
 pub trait Input: Clone {
     fn cur(&mut self) -> Option<char>;
+    fn cur_byte(&mut self) -> Option<u8>;
     fn peek(&mut self) -> Option<char>;
     fn peek_ahead(&mut self) -> Option<char>;
 
