@@ -108,7 +108,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -156,7 +156,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -211,7 +211,7 @@ jobs:
       # Source map format
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       # We explicitly do this to cache properly.
