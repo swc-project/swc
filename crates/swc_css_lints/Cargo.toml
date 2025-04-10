@@ -22,7 +22,7 @@ thiserror   = { workspace = true }
 
 swc_atoms     = { version = "5.0.0", path = "../swc_atoms" }
 swc_cached    = { version = "2.0.0", path = "../swc_cached" }
-swc_common    = { version = "8.0.1", path = "../swc_common" }
+swc_common    = { version = "8.1.0", path = "../swc_common" }
 swc_css_ast   = { version = "8.0.0", path = "../swc_css_ast" }
 swc_css_visit = { version = "8.0.0", path = "../swc_css_visit" }
 
@@ -30,4 +30,4 @@ swc_css_visit = { version = "8.0.0", path = "../swc_css_visit" }
 serde_json = { workspace = true }
 
 swc_css_parser = { version = "8.0.0", path = "../swc_css_parser" }
-testing        = { version = "8.0.0", path = "../testing" }
+testing        = { version = "9.0.0", path = "../testing" }

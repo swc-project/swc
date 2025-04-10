@@ -20,7 +20,7 @@ lexical = { workspace = true }
 serde   = { workspace = true }
 
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
-swc_common  = { version = "8.0.1", path = "../swc_common" }
+swc_common  = { version = "8.1.0", path = "../swc_common" }
 swc_css_ast = { version = "8.0.0", path = "../swc_css_ast" }
 
 [dev-dependencies]
@@ -33,7 +33,7 @@ swc_css_ast = { version = "8.0.0", path = "../swc_css_ast", features = [
 ] }
 swc_css_visit = { version = "8.0.0", path = "../swc_css_visit" }
 swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
-testing = { version = "8.0.0", path = "../testing" }
+testing = { version = "9.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
