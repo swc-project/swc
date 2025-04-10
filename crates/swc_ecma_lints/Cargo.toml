@@ -22,11 +22,11 @@ rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "8.0.1", path = "../swc_common", features = [
+swc_common = { version = "8.1.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "2.0.0", path = "../swc_config" }
-swc_ecma_ast = { version = "8.1.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "8.1.1", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_utils = { version = "12.0.0", path = "../swc_ecma_utils" }
@@ -38,11 +38,11 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 swc_ecma_codegen          = { version = "10.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser           = { version = "11.0.0", path = "../swc_ecma_parser" }
-swc_ecma_testing          = { version = "8.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base  = { version = "12.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_parser           = { version = "11.0.1", path = "../swc_ecma_parser" }
+swc_ecma_testing          = { version = "9.0.0", path = "../swc_ecma_testing" }
+swc_ecma_transforms_base  = { version = "12.1.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.2", path = "../swc_malloc" }
-testing                   = { version = "8.0.0", path = "../testing" }
+testing                   = { version = "9.0.0", path = "../testing" }
 walkdir                   = { workspace = true }
 
 [features]

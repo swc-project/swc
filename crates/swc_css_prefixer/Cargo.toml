@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = { workspace = true }
 name          = "swc_css_prefixer"
 repository    = { workspace = true }
-version       = "9.0.0"
+version       = "10.0.0"
 
 [lib]
 bench = false
@@ -18,9 +18,9 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
-preset_env_base = { version = "2.0.1", path = "../preset_env_base" }
+preset_env_base = { version = "3.0.0", path = "../preset_env_base" }
 swc_atoms       = { version = "5.0.0", path = "../swc_atoms" }
-swc_common      = { version = "8.0.1", path = "../swc_common" }
+swc_common      = { version = "8.1.0", path = "../swc_common" }
 swc_css_ast     = { version = "8.0.0", path = "../swc_css_ast" }
 swc_css_utils   = { version = "8.0.0", path = "../swc_css_utils/" }
 swc_css_visit   = { version = "8.0.0", path = "../swc_css_visit" }
@@ -28,4 +28,4 @@ swc_css_visit   = { version = "8.0.0", path = "../swc_css_visit" }
 [dev-dependencies]
 swc_css_codegen = { version = "8.0.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "8.0.0", path = "../swc_css_parser" }
-testing         = { version = "8.0.0", path = "../testing" }
+testing         = { version = "9.0.0", path = "../testing" }

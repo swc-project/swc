@@ -22,7 +22,7 @@ debug = []
 rustc-hash = { workspace = true }
 
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
-swc_common  = { version = "8.0.1", path = "../swc_common" }
+swc_common  = { version = "8.1.0", path = "../swc_common" }
 swc_xml_ast = { version = "8.0.0", path = "../swc_xml_ast" }
 
 [dev-dependencies]
@@ -33,4 +33,4 @@ swc_xml_ast = { version = "8.0.0", path = "../swc_xml_ast", features = [
   "serde-impl",
 ] }
 swc_xml_visit = { version = "8.0.0", path = "../swc_xml_visit" }
-testing = { version = "8.0.0", path = "../testing" }
+testing = { version = "9.0.0", path = "../testing" }
