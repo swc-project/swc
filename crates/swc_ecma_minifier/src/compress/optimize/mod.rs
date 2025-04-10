@@ -1242,7 +1242,7 @@ impl Optimizer<'_> {
         Some(e.take())
     }
 
-    fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool, allow_fn_decl: bool) {
+    fn try_removing_block(&mut self, s: &mut Stmt, allow_fn_decl: bool) {
         match s {
             Stmt::Block(bs) => {
                 if bs.stmts.is_empty() {
@@ -1253,12 +1253,6 @@ impl Optimizer<'_> {
 
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
-                    if bs.ctxt.has_mark(self.marks.fake_block) {
-                        report_change!("Unwrapping a fake block");
-                        *s = bs.stmts.take().into_iter().next().unwrap();
-                        return;
-                    }
-
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
                         let stmts = &block.stmts;
                         if maybe_par!(
@@ -1272,31 +1266,6 @@ impl Optimizer<'_> {
                     }
                 }
 
-                // Unwrap a block with only `var`s.
-                //
-                // TODO: Support multiple statements.
-                if bs.stmts.len() == 1
-                    && bs.stmts.iter().all(|stmt| match stmt {
-                        Stmt::Decl(Decl::Var(v))
-                            if matches!(
-                                &**v,
-                                VarDecl {
-                                    kind: VarDeclKind::Var,
-                                    ..
-                                }
-                            ) =>
-                        {
-                            true
-                        }
-                        _ => false,
-                    })
-                {
-                    report_change!("optimizer: Unwrapping a block with variable statements");
-                    self.changed = true;
-                    *s = bs.stmts[0].take();
-                    return;
-                }
-
                 for stmt in &mut bs.stmts {
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
@@ -1308,27 +1277,44 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if unwrap_more && bs.stmts.len() == 1 {
+                if bs.stmts.len() == 1 {
                     match &bs.stmts[0] {
                         Stmt::Expr(..) | Stmt::If(..) => {
                             *s = bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
-                        Stmt::Decl(Decl::Fn(..))
-                            if allow_fn_decl && !self.ctx.expr_ctx.in_strict =>
+                        // Annex B the darkest part of JS
+                        Stmt::Decl(Decl::Fn(f))
+                            if allow_fn_decl
+                                && !self.ctx.expr_ctx.in_strict
+                                && !f.function.is_generator
+                                && !f.function.is_async =>
                         {
                             *s = bs.stmts[0].take();
                             report_change!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
-                        _ => {}
+                        Stmt::Decl(Decl::Var(v)) if v.kind == VarDeclKind::Var => {
+                            report_change!("optimizer: Unwrapping a block with var decl statement");
+                            self.changed = true;
+                            *s = bs.stmts[0].take();
+                            return;
+                        }
+                        Stmt::Decl(Decl::Class(_) | Decl::Var(_) | Decl::Fn(_)) => (),
+                        _ => {
+                            if bs.ctxt.has_mark(self.marks.fake_block) {
+                                report_change!("Unwrapping a fake block");
+                                *s = bs.stmts.take().into_iter().next().unwrap();
+                                return;
+                            }
+                        }
                     }
                 }
             }
 
             Stmt::If(s) => {
-                self.try_removing_block(&mut s.cons, true, true);
+                self.try_removing_block(&mut s.cons, true);
                 let can_remove_block_of_alt = match &*s.cons {
                     Stmt::Expr(..) | Stmt::If(..) => true,
                     Stmt::Block(bs) if bs.stmts.len() == 1 => matches!(&bs.stmts[0], Stmt::For(..)),
@@ -1336,21 +1322,29 @@ impl Optimizer<'_> {
                 };
                 if can_remove_block_of_alt {
                     if let Some(alt) = &mut s.alt {
-                        self.try_removing_block(alt, true, false);
+                        self.try_removing_block(alt, false);
                     }
                 }
             }
 
             Stmt::ForIn(s) => {
-                self.try_removing_block(&mut s.body, true, false);
+                self.try_removing_block(&mut s.body, false);
             }
 
             Stmt::For(s) => {
-                self.try_removing_block(&mut s.body, true, false);
+                self.try_removing_block(&mut s.body, false);
             }
 
             Stmt::ForOf(s) => {
-                self.try_removing_block(&mut s.body, true, false);
+                self.try_removing_block(&mut s.body, false);
+            }
+
+            Stmt::While(s) => {
+                self.try_removing_block(&mut s.body, false);
+            }
+
+            Stmt::DoWhile(s) => {
+                self.try_removing_block(&mut s.body, false);
             }
 
             _ => {}
@@ -2463,7 +2457,7 @@ impl VisitMut for Optimizer<'_> {
 
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
-        self.try_removing_block(s, false, false);
+        self.try_removing_block(s, false);
 
         debug_assert_valid(s);
 
@@ -2476,7 +2470,7 @@ impl VisitMut for Optimizer<'_> {
 
         debug_assert_valid(s);
 
-        self.try_removing_block(s, false, false);
+        self.try_removing_block(s, false);
 
         debug_assert_valid(s);
 
