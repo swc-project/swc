@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "22.0.0"
+version = "22.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6239,7 +6239,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "proc-macro2",
  "quote",
