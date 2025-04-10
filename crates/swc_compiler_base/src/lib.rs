@@ -119,6 +119,7 @@ pub struct PrintArgs<'a> {
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
+    pub source_map_url: Option<&'a str>,
 }
 
 impl Default for PrintArgs<'_> {
@@ -138,6 +139,7 @@ impl Default for PrintArgs<'_> {
             preamble: "",
             codegen_config: Default::default(),
             output: None,
+            source_map_url: None,
         }
     }
 }
@@ -168,6 +170,7 @@ pub fn print<T>(
         preamble,
         codegen_config,
         output,
+        source_map_url,
     }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
