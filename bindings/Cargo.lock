@@ -249,7 +249,7 @@ dependencies = [
  "bitflags 2.9.0",
  "cexpr",
  "clang-sys",
- "itertools 0.13.0",
+ "itertools 0.10.5",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -285,7 +285,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.19-nightly-20250410.1"
+version = "1.11.20-nightly-20250411.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -373,7 +373,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.19-nightly-20250410.1"
+version = "1.11.20-nightly-20250411.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -386,7 +386,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.19-nightly-20250410.1"
+version = "1.11.20-nightly-20250411.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4272,7 +4272,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.528"
+version = "0.91.529"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4392,9 +4392,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "22.1.0"
+version = "22.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "73802cbfc0fbcd72c5578a47b839d7f0a726ada1d8ef9b4693abbaa34fa4dd00"
+checksum = "2704508325f4e04ccfdda9839f352797a8689d6588b1554a5464e6b088b0d4ac"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4788,9 +4788,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "12.0.0"
+version = "12.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac89356dc7ab49dc30e9219fdb57cfc35a80aec3c0ae2e12c2a3488f9cfce7dd"
+checksum = "d86c9a647230352f00452699472e16fa76ec54a9e4acfe7fb8c0c93ec3d0ee07"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
@@ -4938,9 +4938,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "12.1.0"
+version = "12.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "da0206b1875c91eca6657db29ce5f78f69b9faa5ce900d56223cfedd6a041753"
+checksum = "e882b2bebaf060c352b42d2bf8ef09bf50a67739c7018755e0483b432ffb2b10"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.9.0",
