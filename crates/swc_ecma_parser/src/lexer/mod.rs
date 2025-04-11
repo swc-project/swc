@@ -803,10 +803,12 @@ impl Lexer<'_> {
                         can_be_keyword = false;
                     }
 
-                    if Ident::is_valid_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_ascii_start(c) {
+                    if !first {
+                        if Ident::is_valid_ascii_continue(c) {
+                            l.bump();
+                            continue;
+                        }
+                    } else if Ident::is_valid_ascii_start(c) {
                         l.bump();
                         first = false;
                         continue;
@@ -863,10 +865,12 @@ impl Lexer<'_> {
 
                     break;
                 } else if let Some(c) = l.input.cur() {
-                    if Ident::is_valid_non_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_non_ascii_start(c) {
+                    if !first {
+                        if Ident::is_valid_non_ascii_continue(c) {
+                            l.bump();
+                            continue;
+                        }
+                    } else if Ident::is_valid_non_ascii_start(c) {
                         l.bump();
                         first = false;
                         continue;
