@@ -101,7 +101,8 @@ impl Input for StringInput<'_> {
 
     #[inline]
     fn cur_as_ascii(&mut self) -> Option<u8> {
-        let first_byte = *self.as_str().as_bytes().first()?;
+        let pos = (self.last_pos - self.orig_start).0 as usize;
+        let first_byte = *self.orig.as_bytes().get(pos)?;
         if first_byte <= 0x7f {
             Some(first_byte)
         } else {
@@ -205,10 +206,10 @@ impl Input for StringInput<'_> {
 
     #[inline]
     fn is_byte(&mut self, c: u8) -> bool {
-        self.iter
-            .as_str()
+        let pos = (self.last_pos - self.orig_start).0 as usize;
+        self.orig
             .as_bytes()
-            .first()
+            .get(pos)
             .map(|b| *b == c)
             .unwrap_or(false)
     }
