@@ -863,10 +863,10 @@ impl Lexer<'_> {
 
                     break;
                 } else if let Some(c) = l.input.cur() {
-                    if Ident::is_valid_continue(c) {
+                    if Ident::is_valid_non_ascii_continue(c) {
                         l.bump();
                         continue;
-                    } else if first && Ident::is_valid_start(c) {
+                    } else if first && Ident::is_valid_non_ascii_start(c) {
                         l.bump();
                         first = false;
                         continue;

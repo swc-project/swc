@@ -275,14 +275,25 @@ impl Ident {
         ASCII_START.0[c as usize]
     }
 
+    pub fn is_valid_non_ascii_start(c: char) -> bool {
+        debug_assert!(!c.is_ascii());
+        unicode_id_start::is_id_start_unicode(c)
+    }
+
     /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
     pub fn is_valid_start(c: char) -> bool {
         if c.is_ascii() {
             Self::is_valid_ascii_start(c as u8)
         } else {
-            unicode_id_start::is_id_start_unicode(c)
+            Self::is_valid_non_ascii_start(c)
         }
+    }
+
+    #[inline]
+    pub fn is_valid_non_ascii_continue(c: char) -> bool {
+        debug_assert!(!c.is_ascii());
+        unicode_id_start::is_id_continue_unicode(c)
     }
 
     #[inline]
@@ -306,7 +317,7 @@ impl Ident {
         if c.is_ascii() {
             Self::is_valid_ascii_continue(c as u8)
         } else {
-            unicode_id_start::is_id_continue_unicode(c)
+            Self::is_valid_non_ascii_continue(c)
         }
     }
 
