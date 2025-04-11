@@ -159,8 +159,7 @@ impl<I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
                 Word::Keyword(Keyword::Let) => Ok(atom!("let")),
                 Word::Ident(ident) => {
-                    if matches!(&ident, IdentLike::Other(arguments) if &**arguments == "arguments")
-                        && p.ctx().in_class_field
+                    if p.ctx().in_class_field && matches!(&ident, IdentLike::Other(arguments) if atom!("arguments").eq(arguments))
                     {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
