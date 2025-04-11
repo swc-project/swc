@@ -20,4 +20,4 @@ mimalloc = { version = "0.1.43", features = [] }
 mimalloc = { version = "0.1.43", features = ["local_dynamic_tls"] }
 
 [target.'cfg(all(target_os = "linux", target_env = "gnu", any(target_arch = "aarch64", target_arch = "arm")))'.dependencies]
-tikv-jemallocator = { version = "0.5", features = ["disable_initial_exec_tls"] }
+tikv-jemallocator = { version = "0.6", features = ["disable_initial_exec_tls"] }
