@@ -1,5 +1,6 @@
 use either::Either;
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
@@ -407,7 +408,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if can_be_arrow
-                && id.sym == "async"
+                && id.sym == atom!("async")
                 && !self.input.had_line_break_before_cur()
                 && is!(self, BindingIdent)
             {
@@ -431,7 +432,8 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let ident = self.parse_binding_ident(false)?;
-                if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
+                if self.input.syntax().typescript() && ident.sym == atom!("as") && !is!(self, "=>")
+                {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(TsAsExpr {
@@ -1662,7 +1664,7 @@ impl<I: Tokens> Parser<I> {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
             let (callee, is_import) = match callee {
-                _ if callee.is_ident_ref_to("import") => (
+                _ if callee.is_ident_ref_to(&atom!("import")) => (
                     Callee::Import(Import {
                         span: callee.span(),
                         phase: Default::default(),
@@ -2045,7 +2047,7 @@ impl<I: Tokens> Parser<I> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span_lo())
-            && expr.is_ident_ref_to("async"))
+            && expr.is_ident_ref_to(&atom!("async")))
     }
 
     /// 12.2.5 Array Initializer

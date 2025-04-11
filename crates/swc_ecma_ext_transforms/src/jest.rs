@@ -1,4 +1,5 @@
 use phf::phf_set;
+use swc_atoms::atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, StmtLike};
@@ -128,7 +129,7 @@ impl VisitMut for Jest {
 
 fn is_global_jest(e: &Expr) -> bool {
     match e {
-        Expr::Ident(i) => i.sym == *"jest",
+        Expr::Ident(i) => i.sym == atom!("jest"),
         Expr::Member(MemberExpr { obj, .. }) => is_global_jest(obj),
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),

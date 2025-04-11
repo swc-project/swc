@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
@@ -56,7 +57,7 @@ impl SymbolDescription {
             return false;
         }
 
-        &*ident.sym == "Symbol"
+        ident.sym == atom!("Symbol")
     }
 
     fn check(&self, span: Span, first_arg: Option<&ExprOrSpread>) {

@@ -126,7 +126,7 @@ impl Evaluator {
                         prop: MemberProp::Ident(prop),
                         ..
                     }) if tag_obj.is_global_ref_to(self.expr_ctx, "String")
-                        && prop.sym == *"raw" =>
+                        && prop.sym == atom!("raw") =>
                     {
                         return self.eval_tpl(&t.tpl);
                     }

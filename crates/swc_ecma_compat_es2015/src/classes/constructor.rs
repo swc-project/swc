@@ -1,5 +1,6 @@
 use std::mem;
 
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -526,7 +527,7 @@ fn is_spread_arguements(args: &[ExprOrSpread]) -> bool {
 
     arg.expr
         .as_ident()
-        .filter(|ident| ident.sym == *"arguments")
+        .filter(|ident| ident.sym == atom!("arguments"))
         .is_some()
 }
 

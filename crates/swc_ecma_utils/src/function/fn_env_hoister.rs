@@ -2,7 +2,7 @@ use std::mem;
 
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -359,7 +359,7 @@ impl VisitMut for FnEnvHoister {
         match e {
             Expr::Ident(Ident { ctxt, sym, .. })
                 if !self.arguments_disabled
-                    && *sym == "arguments"
+                    && *sym == atom!("arguments")
                     && (*ctxt == self.unresolved_ctxt || *ctxt == SyntaxContext::empty()) =>
             {
                 let arguments = self

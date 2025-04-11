@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::Spanned;
 use typed_arena::Arena;
 
@@ -395,7 +396,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
+            if ident.sym == atom!("interface") && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
@@ -418,27 +419,23 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
-            match &**sym {
-                "enum" | "interface" => {
-                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
-                }
-                _ => {}
+            if *sym == atom!("enum") || *sym == atom!("interface") {
+                self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
             }
         }
 
         if self.syntax().typescript() {
             if let Expr::Ident(ref i) = *expr {
-                match &*i.sym {
-                    "public" | "static" | "abstract" => {
-                        if eat!(self, "interface") {
-                            self.emit_err(i.span, SyntaxError::TS2427);
-                            return self
-                                .parse_ts_interface_decl(start)
-                                .map(Decl::from)
-                                .map(Stmt::from);
-                        }
-                    }
-                    _ => {}
+                if (i.sym == atom!("public")
+                    || i.sym == atom!("static")
+                    || i.sym == atom!("abstract"))
+                    && eat!(self, "interface")
+                {
+                    self.emit_err(i.span, SyntaxError::TS2427);
+                    return self
+                        .parse_ts_interface_decl(start)
+                        .map(Decl::from)
+                        .map(Stmt::from);
                 }
             }
         }
@@ -1325,14 +1322,14 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().explicit_resource_management() {
             // using foo
-            let mut maybe_using_decl = init.is_ident_ref_to("using");
+            let mut maybe_using_decl = init.is_ident_ref_to(&atom!("using"));
             let mut maybe_await_using_decl = false;
 
             // await using foo
             if !maybe_using_decl
                 && init
                     .as_await_expr()
-                    .filter(|e| e.arg.is_ident_ref_to("using"))
+                    .filter(|e| e.arg.is_ident_ref_to(&atom!("using")))
                     .is_some()
             {
                 maybe_using_decl = true;

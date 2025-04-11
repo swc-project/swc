@@ -1,6 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
@@ -755,7 +756,9 @@ impl VisitMut for AssignFolder {
                                 right.take()
                             } else {
                                 match &mut **right {
-                                    Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                                    Expr::Ident(Ident { sym, .. })
+                                        if *sym == atom!("arguments") =>
+                                    {
                                         Box::new(
                                             CallExpr {
                                                 span: DUMMY_SP,

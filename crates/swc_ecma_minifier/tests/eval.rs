@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
@@ -177,7 +177,7 @@ impl VisitMut for PartialInliner {
         if let Some(evaluator) = self.eval.as_mut() {
             if let Expr::TaggedTpl(tt) = e {
                 if let Expr::Ident(ref tag) = &*tt.tag {
-                    if &*tag.sym == "css" {
+                    if tag.sym == atom!("css") {
                         let res = evaluator.eval_tpl(&tt.tpl);
 
                         let res = match res {

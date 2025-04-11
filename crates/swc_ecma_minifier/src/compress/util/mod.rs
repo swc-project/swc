@@ -1,5 +1,6 @@
 use std::{cmp::Ordering, f64};
 
+use swc_atoms::atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::JsNumber, ExprCtx, ExprExt, IdentUsageFinder, Type, Value};
@@ -442,7 +443,7 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             }) = &**callee
             {
                 match &**obj {
-                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                    Expr::Ident(obj) if obj.sym == atom!("Math") => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
 
@@ -513,7 +514,7 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             prop: MemberProp::Ident(prop),
             ..
         }) => match &**obj {
-            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+            Expr::Ident(obj) if obj.sym == atom!("Math") => match &*prop.sym {
                 "PI" => return Some(f64::consts::PI),
                 "E" => return Some(f64::consts::E),
                 "LN10" => return Some(f64::consts::LN_10),
@@ -572,7 +573,7 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
         Stmt::Decl(Decl::Fn(FnDecl {
             ident: Ident { sym, .. },
             ..
-        })) if &**sym == "undefined" => false,
+        })) if *sym == atom!("undefined") => false,
 
         Stmt::Decl(Decl::Var(v))
             if matches!(
@@ -731,7 +732,7 @@ impl Visit for SuperFinder {
         n.visit_children_with(self);
 
         if let Prop::Shorthand(Ident { sym, .. }) = n {
-            if &**sym == "arguments" {
+            if *sym == atom!("arguments") {
                 self.found = true;
             }
         }

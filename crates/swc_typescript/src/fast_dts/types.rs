@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, Expr, Function, Lit, ObjectLit, Param, Pat, Prop, PropName, PropOrSpread,
@@ -19,7 +20,7 @@ use super::{
 impl FastDts {
     pub(crate) fn transform_expr_to_ts_type(&mut self, expr: &Expr) -> Option<Box<TsType>> {
         match expr {
-            Expr::Ident(ident) if ident.sym == "undefined" => {
+            Expr::Ident(ident) if ident.sym == atom!("undefined") => {
                 Some(ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword))
             }
             Expr::Lit(lit) => match lit {

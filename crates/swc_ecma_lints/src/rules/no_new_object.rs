@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -56,7 +57,7 @@ impl Visit for NoNewObject {
 
     fn visit_new_expr(&mut self, new_expr: &NewExpr) {
         if let Expr::Ident(callee) = new_expr.callee.as_ref() {
-            if callee.sym == "Object" && callee.ctxt == self.unresolved_ctxt {
+            if callee.sym == atom!("Object") && callee.ctxt == self.unresolved_ctxt {
                 self.emit_report(new_expr.span);
             }
         }

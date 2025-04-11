@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
@@ -190,8 +190,8 @@ fn is_object_property_call(call: &CallExpr) -> bool {
                 obj,
                 prop: MemberProp::Ident(IdentName { sym, .. }),
                 ..
-            }) if *sym == *"defineProperty" => {
-                if obj.is_ident_ref_to("Object") {
+            }) if *sym == atom!("defineProperty") => {
+                if obj.is_ident_ref_to(&atom!("Object")) {
                     return true;
                 }
             }

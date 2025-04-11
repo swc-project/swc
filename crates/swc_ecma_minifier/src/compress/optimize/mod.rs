@@ -3,7 +3,7 @@
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -538,7 +538,7 @@ impl Optimizer<'_> {
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
-            if &**sym == "undefined" {
+            if *sym == atom!("undefined") {
                 *e = *Expr::undefined(*span);
             }
         }

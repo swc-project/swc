@@ -2,6 +2,7 @@ use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
+use swc_atoms::atom;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -497,7 +498,7 @@ impl VisitMut for Fixer<'_> {
                         Pat::Ident(BindingIdent {
                             id: Ident { sym, .. },
                             ..
-                        }) => &**sym == "async",
+                        }) => *sym == atom!("async"),
                         _ => false,
                     } =>
                 {

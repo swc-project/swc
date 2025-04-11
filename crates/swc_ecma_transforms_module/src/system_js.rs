@@ -1,7 +1,7 @@
 use anyhow::Context;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -81,7 +81,7 @@ impl SystemJs {
     }
 
     fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
-        if &*ident.sym == "__moduleName" && ident.ctxt.outer() == self.unresolved_mark {
+        if ident.sym == atom!("__moduleName") && ident.ctxt.outer() == self.unresolved_mark {
             return self
                 .context_ident
                 .clone()

@@ -16,7 +16,7 @@ use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -3355,7 +3355,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                                     PropName::Ident(IdentName { sym, .. })
                                     | PropName::Str(Str { value: sym, .. }),
                                 ..
-                            }) => &**sym == "__proto__",
+                            }) => *sym == atom!("__proto__"),
                             Prop::KeyValue(KeyValueProp {
                                 key: PropName::Computed(_),
                                 ..

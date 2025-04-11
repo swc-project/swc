@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -43,7 +44,7 @@ impl NoNewSymbol {
             return;
         }
 
-        if &*ident.sym == "Symbol" {
+        if ident.sym == atom!("Symbol") {
             HANDLER.with(|handler| match self.expected_reaction {
                 LintRuleReaction::Error => {
                     handler.struct_span_err(span, MESSAGE).emit();

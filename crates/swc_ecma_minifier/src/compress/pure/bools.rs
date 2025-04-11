@@ -1,5 +1,6 @@
 use std::mem::swap;
 
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
@@ -368,9 +369,9 @@ impl Pure<'_> {
             | Expr::Bin(BinExpr { op: op!("&&"), .. })
             | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
             // V8 and terser test ref have different opinion.
-            Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => false,
-            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => false,
-            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => false,
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("Infinity") => false,
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("undefined") => false,
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("NaN") => false,
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 

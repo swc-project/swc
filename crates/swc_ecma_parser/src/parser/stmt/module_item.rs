@@ -85,7 +85,7 @@ impl<I: Tokens> Parser<I> {
             if is!(self, BindingIdent) {
                 let mut local = self.parse_imported_default_binding()?;
 
-                if self.input.syntax().typescript() && local.sym == "type" {
+                if self.input.syntax().typescript() && local.sym == atom!("type") {
                     if is_one_of!(self, '*', '{') {
                         type_only = true;
                         break 'import_maybe_ident;
@@ -109,13 +109,15 @@ impl<I: Tokens> Parser<I> {
                         .map(ModuleItem::from);
                 }
 
-                if matches!(&*local.sym, "source" | "defer") {
-                    let new_phase = match &*local.sym {
-                        "source" => ImportPhase::Source,
-                        "defer" => ImportPhase::Defer,
-                        _ => unreachable!(),
-                    };
+                let new_phase = if local.sym == atom!("source") {
+                    Some(ImportPhase::Source)
+                } else if local.sym == atom!("defer") {
+                    Some(ImportPhase::Defer)
+                } else {
+                    None
+                };
 
+                if let Some(new_phase) = new_phase {
                     if is_one_of!(self, '*', '{') {
                         phase = new_phase;
                         break 'import_maybe_ident;
@@ -216,9 +218,12 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as } from 'mod'`
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
-                if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
+                if self.syntax().typescript()
+                    && orig_name.sym == atom!("type")
+                    && is!(self, IdentName)
+                {
                     let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
-                    if possibly_orig_name.sym == "as" {
+                    if possibly_orig_name.sym == atom!("as") {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
                             if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
@@ -242,7 +247,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         let maybe_as: Ident = self.parse_binding_ident(false)?.into();
-                        if maybe_as.sym == "as" {
+                        if maybe_as.sym == atom!("as") {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
@@ -754,9 +759,12 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as }`
                 // `export { type as as }`
                 // `export { type as as as }`
-                if self.syntax().typescript() && orig_ident.sym == "type" && is!(self, IdentName) {
+                if self.syntax().typescript()
+                    && orig_ident.sym == atom!("type")
+                    && is!(self, IdentName)
+                {
                     let possibly_orig = self.parse_ident_name().map(Ident::from)?;
-                    if possibly_orig.sym == "as" {
+                    if possibly_orig.sym == atom!("as") {
                         // `export { type as }`
                         if !is!(self, IdentName) {
                             if type_only {
@@ -772,7 +780,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         let maybe_as = self.parse_ident_name().map(Ident::from)?;
-                        if maybe_as.sym == "as" {
+                        if maybe_as.sym == atom!("as") {
                             if is!(self, IdentName) {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`

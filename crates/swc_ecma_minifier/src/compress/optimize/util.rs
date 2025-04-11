@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -275,7 +275,7 @@ impl Finalizer<'_> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("eval") => Some(
                 SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![0.into(), e],
@@ -475,7 +475,7 @@ impl<'a> NormalMultiReplacer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("eval") => Some(
                 SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![0.into(), e],
@@ -568,7 +568,7 @@ impl ExprReplacer {
         let e = self.to.take()?;
 
         match &*e {
-            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("eval") => Some(
                 SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![0.into(), e],

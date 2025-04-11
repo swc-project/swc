@@ -1,4 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
@@ -39,7 +40,7 @@ impl Optimizer<'_> {
         }
 
         // We will inline if possible.
-        if ident.sym == "arguments" {
+        if ident.sym == atom!("arguments") {
             return;
         }
 
@@ -184,7 +185,7 @@ impl Optimizer<'_> {
                 && !usage.reassigned
                 && (usage.property_mutation_count == 0 || !usage.reassigned)
                 && match init {
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("eval") => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.assigned_fn_local {
@@ -572,7 +573,7 @@ impl Optimizer<'_> {
             Decl::Fn(f) => f.ident.clone(),
             _ => return,
         };
-        if i.sym == *"arguments" {
+        if i.sym == atom!("arguments") {
             return;
         }
 

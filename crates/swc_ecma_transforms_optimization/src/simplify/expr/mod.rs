@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -716,7 +716,7 @@ pub fn optimize_member_expr(
         IndexStr(Atom),
     }
     let op = match prop {
-        MemberProp::Ident(IdentName { sym, .. }) if &**sym == "length" && !obj.is_object() => {
+        MemberProp::Ident(IdentName { sym, .. }) if *sym == atom!("length") && !obj.is_object() => {
             KnownOp::Len
         }
         MemberProp::Ident(IdentName { sym, .. }) => {
@@ -1147,9 +1147,9 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                     | Expr::Lit(Lit::Num(..))
                     | Expr::Lit(Lit::Null(..))
                     | Expr::Lit(Lit::Bool(..)) => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("length") => true,
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("length") => true,
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("length") => true,
 
                     Expr::Unary(UnaryExpr {
                         op: op!("!"),
@@ -1338,9 +1338,9 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
             }
         }
         op!(unary, "-") => match &**arg {
-            Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => {}
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("Infinity") => {}
             // "-NaN" is "NaN"
-            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => {
+            Expr::Ident(Ident { sym, .. }) if *sym == atom!("NaN") => {
                 *changed = true;
                 *expr = *(arg.take());
             }
@@ -1418,7 +1418,7 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
             op: op!("void"), ..
         }) => "undefined",
 
-        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => {
+        Expr::Ident(Ident { sym, .. }) if *sym == atom!("undefined") => {
             // We can assume `undefined` is `undefined`,
             // because overriding `undefined` is always hard error in swc.
             "undefined"

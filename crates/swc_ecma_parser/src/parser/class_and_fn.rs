@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::*;
@@ -894,9 +895,9 @@ impl<I: Tokens> Parser<I> {
         let getter_or_setter_ident = match key {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
             Key::Public(PropName::Ident(ref i))
-                if (i.sym == "get" || i.sym == "set")
-                    && !self.is_class_property(/* asi */ false)
-                    && !is_next_line_generator =>
+                if !is_next_line_generator
+                    && (i.sym == atom!("get") || i.sym == atom!("set"))
+                    && !self.is_class_property(/* asi */ false) =>
             {
                 Some(i)
             }
@@ -920,7 +921,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if match key {
-            Key::Public(PropName::Ident(ref i)) => i.sym == "async",
+            Key::Public(PropName::Ident(ref i)) => i.sym == atom!("async"),
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {

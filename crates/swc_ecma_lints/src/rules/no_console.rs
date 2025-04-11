@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -49,7 +49,7 @@ impl NoConsole {
     }
 
     fn check(&self, span: Span, ident: &Ident, method: &Atom) {
-        if &*ident.sym == "console" && ident.ctxt == self.unresolved_ctxt {
+        if ident.sym == atom!("console") && ident.ctxt == self.unresolved_ctxt {
             if let Some(allow) = &self.allow {
                 if allow.contains(method) {
                     return;

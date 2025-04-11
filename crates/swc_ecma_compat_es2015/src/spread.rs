@@ -1,6 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
@@ -343,7 +344,7 @@ impl Spread {
                         make_arr!();
 
                         buf.push(match *expr {
-                            Expr::Ident(Ident { ref sym, .. }) if &**sym == "arguments" => {
+                            Expr::Ident(Ident { ref sym, .. }) if *sym == atom!("arguments") => {
                                 if args_len == 1 {
                                     if need_array {
                                         return CallExpr {

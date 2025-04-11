@@ -1,5 +1,6 @@
 //! 13.3.3 Destructuring Binding Patterns
 
+use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
@@ -43,10 +44,10 @@ impl<I: Tokens> Parser<I> {
         if ident.is_reserved_in_strict_bind() {
             self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
-        if (self.ctx().in_async || self.ctx().in_static_block) && ident.sym == "await" {
+        if (self.ctx().in_async || self.ctx().in_static_block) && ident.sym == atom!("await") {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
-        if self.ctx().in_generator && ident.sym == "yield" {
+        if self.ctx().in_generator && ident.sym == atom!("yield") {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 

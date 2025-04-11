@@ -1,7 +1,7 @@
 use core::f64;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
@@ -109,9 +109,9 @@ impl FastDts {
                 self.evaluate_unary_expr(unary_expr, enum_name, prev_members)
             }
             Expr::Ident(ident) => {
-                if ident.sym == "Infinity" {
+                if ident.sym == atom!("Infinity") {
                     Some(ConstantValue::Number(f64::INFINITY))
-                } else if ident.sym == "NaN" {
+                } else if ident.sym == atom!("NaN") {
                     Some(ConstantValue::Number(f64::NAN))
                 } else {
                     prev_members.get(&ident.sym).cloned()

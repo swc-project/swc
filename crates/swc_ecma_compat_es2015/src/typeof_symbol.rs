@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -115,7 +116,7 @@ impl VisitMut for TypeOfSymbol {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        if &f.ident.sym == "_type_of" {
+        if f.ident.sym == atom!("_type_of") {
             return;
         }
 

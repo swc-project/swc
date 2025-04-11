@@ -3,6 +3,7 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use swc_atoms::atom;
 use swc_common::{sync::Lrc, util::take::Take, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -407,7 +408,7 @@ impl Visit for FieldInitFinder {
                     if callee.obj.is_ident_ref_to("Object") {
                         match &callee.prop {
                             MemberProp::Ident(IdentName { sym: prop_sym, .. })
-                                if *prop_sym == *"assign" =>
+                                if *prop_sym == atom!("assign") =>
                             {
                                 let old = self.in_object_assign;
                                 self.in_object_assign = true;
@@ -438,7 +439,7 @@ impl Visit for FieldInitFinder {
             if let Expr::Ident(obj) = &*e.obj {
                 match &e.prop {
                     MemberProp::Ident(IdentName { sym: prop_sym, .. })
-                        if *prop_sym == *"prototype" =>
+                        if *prop_sym == atom!("prototype") =>
                     {
                         self.accessed.insert(obj.into());
                     }

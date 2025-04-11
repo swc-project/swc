@@ -3,7 +3,7 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
@@ -506,7 +506,7 @@ impl Visit for EvalFinder {
     }
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == "eval" {
+        if i.sym == atom!("eval") {
             self.found = true;
         }
     }

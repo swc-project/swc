@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -198,7 +199,7 @@ where
         if let Callee::Expr(e) = &node.callee {
             if let Expr::Ident(i) = &**e {
                 // TODO: Check for global mark
-                if i.sym == *"require" && node.args.len() == 1 {
+                if i.sym == atom!("require") && node.args.len() == 1 {
                     if let Expr::Lit(Lit::Str(module_name)) = &*node.args[0].expr {
                         if self.bundler.is_external(&module_name.value) {
                             return;
@@ -359,7 +360,7 @@ impl VisitMut for DefaultHandler {
         e.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = e {
-            if i.sym == "default" {
+            if i.sym == atom!("default") {
                 *e = MemberExpr {
                     span: i.span,
                     obj: Ident::new("module".into(), DUMMY_SP, self.local_ctxt).into(),

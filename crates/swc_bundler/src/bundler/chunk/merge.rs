@@ -4,6 +4,7 @@ use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use swc_atoms::atom;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::Helpers;
@@ -519,7 +520,7 @@ where
                             }
                         };
                         // Default is not exported via `export *`
-                        if &*exported.sym == "default" {
+                        if exported.sym == atom!("default") {
                             exported.ctxt == info.export_ctxt()
                         } else {
                             ctx.is_exported_ctxt(exported.ctxt, info.export_ctxt())

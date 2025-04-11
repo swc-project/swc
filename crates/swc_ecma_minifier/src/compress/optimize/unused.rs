@@ -1,5 +1,5 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
@@ -256,7 +256,7 @@ impl Optimizer<'_> {
                         Prop::Shorthand(p) => {
                             // Check if `p` is __proto__
 
-                            if p.sym == "__proto__" {
+                            if p.sym == atom!("undefined") {
                                 return true;
                             }
 
@@ -266,7 +266,7 @@ impl Optimizer<'_> {
                             // Check if `k` is __proto__
 
                             if let PropName::Ident(i) = &k.key {
-                                if i.sym == "__proto__" {
+                                if i.sym == atom!("undefined") {
                                     return true;
                                 }
                             }
@@ -461,7 +461,7 @@ impl Optimizer<'_> {
 
         match decl {
             Decl::Class(ClassDecl { ident, class, .. }) => {
-                if ident.sym == "arguments" {
+                if ident.sym == atom!("arguments") {
                     return;
                 }
 
@@ -527,7 +527,7 @@ impl Optimizer<'_> {
             }
             Decl::Fn(FnDecl { ident, .. }) => {
                 // We should skip if the name of decl is arguments.
-                if ident.sym == "arguments" {
+                if ident.sym == atom!("arguments") {
                     return;
                 }
 

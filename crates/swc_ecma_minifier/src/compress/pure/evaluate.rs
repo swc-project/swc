@@ -1,4 +1,5 @@
 use radix_fmt::Radix;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
@@ -231,7 +232,7 @@ impl Pure<'_> {
 
             // Ignore array
 
-            if &*method_name.sym == "slice" {
+            if method_name.sym == atom!("slice") {
                 if has_spread || has_spread_elem {
                     return;
                 }
@@ -316,7 +317,7 @@ impl Pure<'_> {
             }
 
             if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
+                && method_name.sym == atom!("toString")
                 && arr.elems.len() == 1
                 && arr.elems[0].is_some()
             {
@@ -372,7 +373,7 @@ impl Pure<'_> {
                 _ => return,
             };
 
-            if &*method_name.sym == "valueOf" {
+            if method_name.sym == atom!("valueOf") {
                 if has_spread {
                     return;
                 }
@@ -385,7 +386,7 @@ impl Pure<'_> {
             }
 
             if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
+                && method_name.sym == atom!("toString")
                 && f.function.params.is_empty()
                 && f.function.body.is_empty()
             {
@@ -495,7 +496,7 @@ impl Pure<'_> {
             return;
         }
 
-        if &*method.sym == "toFixed" {
+        if method.sym == atom!("toFixed") {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
             //
             // Note 1: This method returns a String containing this Number value represented
@@ -549,7 +550,7 @@ impl Pure<'_> {
             return;
         }
 
-        if &*method.sym == "toPrecision" {
+        if method.sym == atom!("toPrecision") {
             // TODO: handle num.toPrecision(undefined)
             if args.is_empty() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
@@ -599,7 +600,7 @@ impl Pure<'_> {
             }
         }
 
-        if &*method.sym == "toExponential" {
+        if method.sym == atom!("toExponential") {
             // TODO: handle num.toExponential(undefined)
             if args.is_empty() {
                 let value = f64_to_exponential(num.value).into();
@@ -648,7 +649,7 @@ impl Pure<'_> {
             }
         }
 
-        if &*method.sym == "toString" {
+        if method.sym == atom!("toString") {
             if let Some(base) = args
                 .first()
                 .map_or(Some(10f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))

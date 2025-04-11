@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{pass::Either, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
@@ -195,7 +196,7 @@ impl Optimizer<'_> {
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
                     Pat::Ident(param) => {
-                        if param.sym == "arguments" {
+                        if param.sym == atom!("arguments") {
                             continue;
                         }
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
@@ -843,7 +844,7 @@ impl Optimizer<'_> {
                 {
                     for decl in &var.decls {
                         match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
+                            Pat::Ident(id) if id.sym == atom!("arguments") => return false,
                             Pat::Ident(id) => {
                                 if self.vars.has_pending_inline_for(&id.to_id()) {
                                     log_abort!(

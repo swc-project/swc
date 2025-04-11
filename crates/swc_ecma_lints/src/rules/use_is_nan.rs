@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
@@ -85,7 +86,7 @@ impl UseIsNan {
                 }
             }
             Expr::Ident(ident) => {
-                if &*ident.sym == "NaN" {
+                if ident.sym == atom!("NaN") {
                     self.emit_report(expr_span.unwrap_or(ident.span), label_msg);
                 }
             }
@@ -97,16 +98,16 @@ impl UseIsNan {
                         return;
                     }
 
-                    if &*obj.sym == "Number" {
+                    if obj.sym == atom!("Number") {
                         match prop {
                             MemberProp::Ident(ident) => {
-                                if &*ident.sym == "NaN" {
+                                if ident.sym == atom!("NaN") {
                                     self.emit_report(expr_span.unwrap_or(*span), label_msg);
                                 }
                             }
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
-                                    if value == "NaN" {
+                                    if *value == atom!("NaN") {
                                         self.emit_report(expr_span.unwrap_or(*span), label_msg);
                                     }
                                 }
@@ -142,9 +143,7 @@ impl Visit for UseIsNan {
                     ..
                 }) = expr.as_ref()
                 {
-                    let sym: &str = &prop.sym;
-
-                    if sym == "indexOf" || sym == "lastIndexOf" {
+                    if prop.sym == atom!("indexOf") || prop.sym == atom!("lastIndexOf") {
                         if let Some(ExprOrSpread { expr, .. }) = call_expr.args.first() {
                             self.check(Some(call_expr.span), expr, "this will always return -1");
                         }

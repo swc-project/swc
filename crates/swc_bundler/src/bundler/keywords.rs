@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
@@ -14,7 +15,7 @@ pub struct KeywordRenamer {
 impl KeywordRenamer {
     /// Returns `Some(new_ident)` if it should be renamed.
     fn renamed(&mut self, id: &Ident) -> Option<Ident> {
-        if id.sym == "import" {
+        if id.sym == atom!("import") {
             return None;
         }
 

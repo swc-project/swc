@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
@@ -112,7 +113,7 @@ impl PreferObjectSpread {
 
     fn is_global_object(&self, expr: &Expr) -> bool {
         if let Expr::Ident(ident) = expr {
-            return ident.sym == "Object" && ident.ctxt == self.unresolved_ctxt;
+            return ident.sym == atom!("Object") && ident.ctxt == self.unresolved_ctxt;
         }
 
         false
@@ -120,9 +121,9 @@ impl PreferObjectSpread {
 
     fn is_method_assign(&self, mem_prop: &MemberProp) -> bool {
         match mem_prop {
-            MemberProp::Ident(ident) => ident.sym == "assign",
+            MemberProp::Ident(ident) => ident.sym == atom!("assign"),
             MemberProp::Computed(computed) => match computed.expr.as_ref() {
-                Expr::Lit(Lit::Str(lit_str)) => lit_str.value == "assign",
+                Expr::Lit(Lit::Str(lit_str)) => lit_str.value == atom!("assign"),
                 Expr::Tpl(tlp) => {
                     tlp.exprs.is_empty() && tlp.quasis.len() == 1 && tlp.quasis[0].raw == "assign"
                 }

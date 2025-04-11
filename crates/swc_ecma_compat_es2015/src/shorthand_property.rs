@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -65,7 +66,7 @@ impl VisitMut for Shorthand {
                 let value = ident.clone().into();
 
                 *prop = Prop::KeyValue(KeyValueProp {
-                    key: if ident.sym == "__proto__" {
+                    key: if ident.sym == atom!("__proto__") {
                         PropName::Computed(ComputedPropName {
                             span: ident.span,
                             expr: ident.sym.clone().into(),
@@ -78,14 +79,14 @@ impl VisitMut for Shorthand {
             }
             Prop::Method(MethodProp { key, function }) => {
                 let key = match key.take() {
-                    PropName::Ident(IdentName { span, sym, .. }) if sym == "__proto__" => {
+                    PropName::Ident(IdentName { span, sym, .. }) if sym == atom!("__proto__") => {
                         ComputedPropName {
                             span,
                             expr: sym.into(),
                         }
                         .into()
                     }
-                    PropName::Str(s @ Str { span, .. }) if s.value == "__proto__" => {
+                    PropName::Str(s @ Str { span, .. }) if s.value == atom!("__proto__") => {
                         ComputedPropName {
                             span,
                             expr: s.into(),

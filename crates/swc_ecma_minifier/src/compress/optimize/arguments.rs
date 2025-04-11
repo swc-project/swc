@@ -1,5 +1,6 @@
 use std::iter::repeat_with;
 
+use swc_atoms::atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
@@ -73,7 +74,7 @@ impl Optimizer<'_> {
             Pat::Ident(BindingIdent {
                 id: Ident { sym, .. },
                 ..
-            }) if &**sym == "arguments" => true,
+            }) if *sym == atom!("arguments") => true,
             Pat::Ident(i) => self
                 .data
                 .vars
@@ -89,7 +90,7 @@ impl Optimizer<'_> {
             // If a function has a variable named `arguments`, we abort.
             let data: Vec<Id> = find_pat_ids(&f.body);
             if data.iter().any(|id| {
-                if id.0 == "arguments" {
+                if id.0 == atom!("arguments") {
                     return true;
                 }
                 false
@@ -173,7 +174,7 @@ impl VisitMut for ArgReplacer<'_> {
         }) = n
         {
             match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                Expr::Ident(Ident { sym, .. }) if *sym == atom!("arguments") => {
                     match &*c.expr {
                         Expr::Lit(Lit::Str(Str { value, .. })) => {
                             let idx = value.parse::<usize>();

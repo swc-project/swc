@@ -5,6 +5,7 @@ use std::hash::Hash;
 use rustc_hash::FxBuildHasher;
 #[cfg(not(feature = "concurrent"))]
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -252,13 +253,13 @@ impl ExportMetadata {
                         ..
                     }) = &**p
                     {
-                        if *sym == "__swc_bundler__injected__" {
+                        if *sym == atom!("__swc_bundler__injected__") {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
                                 if value == "1" {
                                     data.injected = true;
                                 }
                             }
-                        } else if *sym == "__swc_bundler__export_ctxt__" {
+                        } else if *sym == atom!("__swc_bundler__export_ctxt__") {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
                                 if let Ok(v) = value.parse() {
                                     data.export_ctxt = Some(SyntaxContext::from_u32(v));

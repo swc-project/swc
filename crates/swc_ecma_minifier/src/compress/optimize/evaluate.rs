@@ -106,13 +106,13 @@ impl Optimizer<'_> {
         }
 
         match e {
-            Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
+            Expr::Ident(Ident { span, sym, .. }) if *sym == atom!("undefined") => {
                 report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *Expr::undefined(*span);
             }
 
-            Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
+            Expr::Ident(Ident { span, sym, .. }) if *sym == atom!("Infinity") => {
                 report_change!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = BinExpr {
@@ -169,7 +169,9 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
-            Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" && self.options.unsafe_regexp => {
+            Expr::Ident(Ident { sym, .. })
+                if *sym == atom!("RegExp") && self.options.unsafe_regexp =>
+            {
                 if !args.is_empty() {
                     self.optimize_expr_in_str_ctx(&mut args[0].expr);
                 }
@@ -227,8 +229,8 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
-                    if &*prop.sym == "fromCharCode" {
+                Expr::Ident(Ident { sym, .. }) if *sym == atom!("String") => {
+                    if prop.sym == atom!("fromCharCode") {
                         if args.len() != 1 {
                             return;
                         }
@@ -260,8 +262,8 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
-                    if &*prop.sym == "keys" {
+                Expr::Ident(Ident { sym, .. }) if *sym == atom!("Object") => {
+                    if prop.sym == atom!("keys") {
                         if args.len() != 1 {
                             return;
                         }
@@ -318,7 +320,7 @@ impl Optimizer<'_> {
                 }
 
                 Expr::Ident(Ident { sym, .. }) => {
-                    if &**sym == "console" && &*prop.sym == "log" {
+                    if *sym == atom!("console") && prop.sym == atom!("log") {
                         for arg in args {
                             self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
                         }

@@ -825,13 +825,13 @@ impl Pure<'_> {
                 ..
             }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Array", "Object", "RegExp"]) => {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("RegExp") => {
                         self.optimize_regex(args, span)
                     }
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Array" => {
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("Array") => {
                         self.optimize_array(args, span)
                     }
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("Object") => {
                         self.optimize_object(args, span)
                     }
                     _ => unreachable!(),
@@ -857,78 +857,86 @@ impl Pure<'_> {
             ) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Boolean" => match &mut args[..] {
-                        [] => Some(
-                            Lit::Bool(Bool {
-                                span: *span,
-                                value: false,
-                            })
-                            .into(),
-                        ),
-                        [ExprOrSpread { spread: None, expr }] => Some(
-                            UnaryExpr {
-                                span: *span,
-                                op: op!("!"),
-                                arg: UnaryExpr {
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("Boolean") => {
+                        match &mut args[..] {
+                            [] => Some(
+                                Lit::Bool(Bool {
+                                    span: *span,
+                                    value: false,
+                                })
+                                .into(),
+                            ),
+                            [ExprOrSpread { spread: None, expr }] => Some(
+                                UnaryExpr {
                                     span: *span,
                                     op: op!("!"),
-                                    arg: expr.take(),
-                                }
-                                .into(),
-                            }
-                            .into(),
-                        ),
-                        _ => None,
-                    },
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Number" => match &mut args[..] {
-                        [] => Some(
-                            Lit::Num(Number {
-                                span: *span,
-                                value: 0.0,
-                                raw: None,
-                            })
-                            .into(),
-                        ),
-                        // this is indeed very unsafe in case of BigInt
-                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => Some(
-                            UnaryExpr {
-                                span: *span,
-                                op: op!(unary, "+"),
-                                arg: expr.take(),
-                            }
-                            .into(),
-                        ),
-                        _ => None,
-                    },
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
-                        [] => Some(
-                            Lit::Str(Str {
-                                span: *span,
-                                value: "".into(),
-                                raw: None,
-                            })
-                            .into(),
-                        ),
-                        // this is also very unsafe in case of Symbol
-                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_passes => {
-                            Some(
-                                BinExpr {
-                                    span: *span,
-                                    left: expr.take(),
-                                    op: op!(bin, "+"),
-                                    right: Lit::Str(Str {
+                                    arg: UnaryExpr {
                                         span: *span,
-                                        value: "".into(),
-                                        raw: None,
-                                    })
+                                        op: op!("!"),
+                                        arg: expr.take(),
+                                    }
                                     .into(),
                                 }
                                 .into(),
-                            )
+                            ),
+                            _ => None,
                         }
-                        _ => None,
-                    },
-                    Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {
+                    }
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("Number") => {
+                        match &mut args[..] {
+                            [] => Some(
+                                Lit::Num(Number {
+                                    span: *span,
+                                    value: 0.0,
+                                    raw: None,
+                                })
+                                .into(),
+                            ),
+                            // this is indeed very unsafe in case of BigInt
+                            [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => {
+                                Some(
+                                    UnaryExpr {
+                                        span: *span,
+                                        op: op!(unary, "+"),
+                                        arg: expr.take(),
+                                    }
+                                    .into(),
+                                )
+                            }
+                            _ => None,
+                        }
+                    }
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("String") => {
+                        match &mut args[..] {
+                            [] => Some(
+                                Lit::Str(Str {
+                                    span: *span,
+                                    value: "".into(),
+                                    raw: None,
+                                })
+                                .into(),
+                            ),
+                            // this is also very unsafe in case of Symbol
+                            [ExprOrSpread { spread: None, expr }] if self.options.unsafe_passes => {
+                                Some(
+                                    BinExpr {
+                                        span: *span,
+                                        left: expr.take(),
+                                        op: op!(bin, "+"),
+                                        right: Lit::Str(Str {
+                                            span: *span,
+                                            value: "".into(),
+                                            raw: None,
+                                        })
+                                        .into(),
+                                    }
+                                    .into(),
+                                )
+                            }
+                            _ => None,
+                        }
+                    }
+                    Expr::Ident(Ident { sym, .. }) if *sym == atom!("Symbol") => {
                         if let [ExprOrSpread { spread: None, .. }] = &mut args[..] {
                             if self.options.unsafe_symbols {
                                 args.clear();
@@ -1562,7 +1570,7 @@ impl Pure<'_> {
                     ..
                 }) => {
                     if obj.is_ident_ref_to("arguments") {
-                        if &*prop.sym == "callee" {
+                        if prop.sym == atom!("callee") {
                             return;
                         }
                         e.take();

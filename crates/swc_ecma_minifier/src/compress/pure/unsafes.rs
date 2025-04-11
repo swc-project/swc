@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
@@ -13,7 +14,7 @@ impl Pure<'_> {
         match &e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => match &**callee {
-                Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {}
+                Expr::Ident(Ident { sym, .. }) if *sym == atom!("Symbol") => {}
                 _ => return,
             },
         }

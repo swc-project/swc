@@ -4,6 +4,7 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use swc_atoms::atom;
 use swc_common::{
     sync::{Lock, Lrc},
     FileName, SourceFile, SyntaxContext,
@@ -449,11 +450,11 @@ impl Visit for Es6ModuleDetector {
 
         if let Expr::Ident(i) = &*e.obj {
             // TODO: Check syntax context (Check if marker is the global mark)
-            if i.sym == *"module" {
+            if i.sym == atom!("module") {
                 self.found_other = true;
             }
 
-            if i.sym == *"exports" {
+            if i.sym == atom!("exports") {
                 self.found_other = true;
             }
         }

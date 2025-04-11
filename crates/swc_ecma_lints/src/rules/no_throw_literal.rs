@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{Visit, VisitWith};
@@ -104,7 +105,7 @@ impl NoThrowLiteral {
         }
 
         if let Expr::Ident(Ident { sym, .. }) = arg {
-            if sym == "undefined" {
+            if *sym == atom!("undefined") {
                 self.emit_report(throw_stmt.span, NO_THROW_UNDEFINED);
             }
         }

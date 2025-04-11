@@ -188,7 +188,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let init = self.parse_ident_name()?;
-        if &*init.sym == "void" {
+        if init.sym == atom!("void") {
             let dot_start = cur_pos!(self);
             let dot_span = span!(self, dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
@@ -1115,12 +1115,20 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
-        match &*id.sym {
-            "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
-            | "symbol" | "void" | "never" | "intrinsic" => {
-                self.emit_err(id.span, SyntaxError::TS2427);
-            }
-            _ => {}
+        if id.sym == atom!("string")
+            || id.sym == atom!("null")
+            || id.sym == atom!("number")
+            || id.sym == atom!("object")
+            || id.sym == atom!("any")
+            || id.sym == atom!("unknown")
+            || id.sym == atom!("boolean")
+            || id.sym == atom!("bigint")
+            || id.sym == atom!("symbol")
+            || id.sym == atom!("void")
+            || id.sym == atom!("never")
+            || id.sym == atom!("intrinsic")
+        {
+            self.emit_err(id.span, SyntaxError::TS2427);
         }
 
         let type_params = self.try_parse_ts_type_params(true, false)?;
