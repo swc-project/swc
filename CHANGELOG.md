@@ -57,6 +57,12 @@
 
 - **(es/parser)** Remove redundant `is_ascii` calls ([#10334](https://github.com/swc-project/swc/issues/10334)) ([e66b4d6](https://github.com/swc-project/swc/commit/e66b4d660c36a491f06e8d79f6d49a815dadebdc))
 
+### Testing
+
+
+
+- **(es)** Unignore tests and update node to `20` in exec tests ([#10348](https://github.com/swc-project/swc/issues/10348)) ([eee73ce](https://github.com/swc-project/swc/commit/eee73cec761d1c28f6d1b87be9082fdf2af6e226))
+
 ## [1.11.18] - 2025-04-07
 
 ### Bug Fixes

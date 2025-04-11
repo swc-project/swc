@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Testing
+
+
+
+- **(es)** Unignore tests and update node to `20` in exec tests ([#10348](https://github.com/swc-project/swc/issues/10348)) ([eee73ce](https://github.com/swc-project/swc/commit/eee73cec761d1c28f6d1b87be9082fdf2af6e226))
+
 ## [swc_core@v22.0.0] - 2025-04-10
 
 ### Bug Fixes
