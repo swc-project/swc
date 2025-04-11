@@ -79,7 +79,7 @@ impl<I: Tokens> Parser<I> {
 
         let mut type_only = false;
         let mut phase = ImportPhase::Evaluation;
-        let mut specifiers = Vec::new();
+        let mut specifiers = Vec::with_capacity(4);
 
         'import_maybe_ident: {
             if is!(self, BindingIdent) {

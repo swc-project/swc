@@ -79,7 +79,7 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input.syntax().typescript());
 
-        let mut buf = Vec::new();
+        let mut buf = Vec::with_capacity(8);
         while !self.is_ts_list_terminator(kind)? {
             // Skipping "parseListElement" from the TS source since that's just for error
             // handling.
@@ -1980,7 +1980,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let params = self.parse_formal_params()?;
-        let mut list = Vec::new();
+        let mut list = Vec::with_capacity(4);
 
         for param in params {
             let item = match param.pat {
