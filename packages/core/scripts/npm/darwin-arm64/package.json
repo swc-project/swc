@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-darwin-arm64",
-  "version": "1.11.18",
+  "version": "1.11.19-nightly-20250410.1",
   "os": [
     "darwin"
   ],

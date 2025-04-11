@@ -19,6 +19,7 @@ os:
     - swc_plugin_runner
     - swc_plugin_testing
   macos:
+    - swc
     - swc_allocator
     - swc_plugin_runner
 
