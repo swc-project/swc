@@ -5,7 +5,7 @@ use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::*;
-use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
+use crate::{parser::class_and_fn::IsSimpleParameterList, token::Keyword};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
@@ -2821,12 +2821,11 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, ts_in_no_context__before);
 
-        let cloned = self.input.token_context().clone();
-
-        self.input
-            .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
+        let saved = std::mem::take(self.input.token_context_mut());
+        self.input.token_context_mut().push(saved.0[0]);
+        debug_assert_eq!(self.input.token_context().len(), 1);
         let res = op(self);
-        self.input.set_token_context(cloned);
+        self.input.set_token_context(saved);
 
         trace_cur!(self, ts_in_no_context__after);
 
