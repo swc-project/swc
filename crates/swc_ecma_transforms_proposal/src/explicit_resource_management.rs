@@ -135,20 +135,18 @@ impl ExplicitResourceManagement {
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
-                Ok(mut stmt) => {
-                    if matches!(stmt, Stmt::Decl(Decl::Fn(_)) | Stmt::Decl(Decl::Class(_))) {
-                        // function declarations should preserve original level
+                Ok(mut stmt) => match stmt {
+                    Stmt::Decl(Decl::Fn(..) | Decl::Class(..)) if !self.is_not_top_level => {
                         extras.push(stmt.into());
-                    } else {
-                        if !self.is_not_top_level {
-                            if let Stmt::Decl(Decl::Var(ref mut var)) = stmt {
-                                // top level variable declarations should hoist
-                                var.kind = VarDeclKind::Var;
-                            }
-                        }
+                    }
+                    Stmt::Decl(Decl::Var(ref mut var)) if !self.is_not_top_level => {
+                        var.kind = VarDeclKind::Var;
                         try_block.stmts.push(stmt);
                     }
-                }
+                    _ => {
+                        try_block.stmts.push(stmt);
+                    }
+                },
                 Err(t) => extras.push(t),
             }
         }
