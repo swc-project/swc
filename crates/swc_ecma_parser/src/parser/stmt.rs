@@ -810,12 +810,7 @@ impl<'a, I: Tokens> Parser<I> {
         assert_and_bump!(self, "using");
 
         let mut decls = Vec::new();
-        let mut first = true;
-        while first || eat!(self, ',') {
-            if first {
-                first = false;
-            }
-
+        loop {
             // Handle
             //      var a,;
             //
@@ -827,6 +822,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
+            if !eat!(self, ',') {
+                break;
+            }
         }
 
         if !self.syntax().explicit_resource_management() {
