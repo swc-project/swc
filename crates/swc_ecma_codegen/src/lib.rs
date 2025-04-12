@@ -42,7 +42,7 @@ pub mod text_writer;
 mod typescript;
 pub mod util;
 
-pub type Result = io::Result<()>;
+pub type Result<T = ()> = io::Result<T>;
 
 /// Generate a code from a syntax node using default options.
 pub fn to_code_default(
@@ -74,23 +74,19 @@ pub fn to_code(node: &impl Node) -> String {
     to_code_with_comments(None, node)
 }
 
-pub trait Node: Spanned {
+pub trait Node: Spanned + Sized {
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
-}
-impl<N: Node> Node for Box<N> {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+
+    fn with_new_span<W, S>(&self, e: &mut NodeEmitter<'_, W, S>) -> Result<Self>
     where
         W: WriteJs,
-        S: SourceMapper + SourceMapperExt,
-    {
-        (**self).emit_with(e)
-    }
+        S: SourceMapper + SourceMapperExt;
 }
-impl<N: Node> Node for &N {
+
+impl<N: Node> Node for Box<N> {
     #[inline]
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
