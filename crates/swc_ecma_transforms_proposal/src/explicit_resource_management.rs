@@ -136,9 +136,11 @@ impl ExplicitResourceManagement {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(mut stmt) => match stmt {
+                    // top level function/class declarations should preserve original level
                     Stmt::Decl(Decl::Fn(..) | Decl::Class(..)) if !self.is_not_top_level => {
                         extras.push(stmt.into());
                     }
+                    // top level variable declarations should hoist from inner scope
                     Stmt::Decl(Decl::Var(ref mut var)) if !self.is_not_top_level => {
                         var.kind = VarDeclKind::Var;
                         try_block.stmts.push(stmt);
