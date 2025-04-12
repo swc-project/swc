@@ -67,10 +67,7 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
             where
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-            {
-                #emit_block
-            }
-
+            #emit_block
         }
     )
 }
