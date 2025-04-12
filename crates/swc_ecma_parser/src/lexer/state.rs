@@ -284,7 +284,10 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
-        if self.syntax.jsx() && !self.ctx.contains(Context::InPropertyName | Context::InType) {
+        if self.syntax.jsx()
+            && !self.ctx.contains(Context::InPropertyName)
+            && !self.ctx.contains(Context::InType)
+        {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
                 return self.read_jsx_token();
