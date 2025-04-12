@@ -146,7 +146,11 @@ impl<I: Tokens> Parser<I> {
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
         if has_module_item && !self.ctx().contains(Context::Module) {
-            let ctx = self.ctx() | Context::Module | Context::CanBeModule | Context::TopLevel;
+            let ctx = self.ctx()
+                | Context::Module
+                | Context::CanBeModule
+                | Context::TopLevel
+                | Context::Strict;
             // Emit buffered strict mode / module code violations
             self.input.set_ctx(ctx);
         }

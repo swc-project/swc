@@ -6,9 +6,13 @@ impl Context {
         match *word {
             Word::Keyword(Keyword::Let) => self.contains(Context::Strict),
             Word::Keyword(Keyword::Await) => {
-                self.contains(Context::InAsync | Context::InStaticBlock | Context::Strict)
+                self.contains(Context::InAsync)
+                    || self.contains(Context::InStaticBlock)
+                    || self.contains(Context::Strict)
             }
-            Word::Keyword(Keyword::Yield) => self.contains(Context::InGenerator | Context::Strict),
+            Word::Keyword(Keyword::Yield) => {
+                self.contains(Context::InGenerator) || self.contains(Context::Strict)
+            }
 
             Word::Null
             | Word::True
@@ -77,8 +81,12 @@ impl Context {
             //     let await = 1;
             // }
             // ```
-            "await" => self.contains(Context::InAsync | Context::InStaticBlock | Context::Module),
-            "yield" => self.contains(Context::InGenerator | Context::Strict),
+            "await" => {
+                self.contains(Context::InAsync)
+                    || self.contains(Context::InStaticBlock)
+                    || self.contains(Context::Module)
+            }
+            "yield" => self.contains(Context::InGenerator) || self.contains(Context::Strict),
 
             "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"
             | "default" | "do" | "export" | "else" | "finally" | "for" | "function" | "if"

@@ -223,7 +223,7 @@ impl<I: Tokens> Parser<I> {
                 | Context::IncludeInExpr;
             let cons = self.with_ctx(ctx).parse_assignment_expr()?;
             expect!(self, ':');
-            let ctx = self.ctx() | Context::InCondExpr & !Context::WillExpectColonForCond;
+            let ctx = (self.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
             let span = Span::new(start, alt.span_hi());
             Ok(CondExpr {
@@ -548,11 +548,10 @@ impl<I: Tokens> Parser<I> {
                     .into();
 
                     let ctx = self.ctx();
-                    if !ctx.contains(
-                        Context::InsideNonArrowFunctionScope
-                            | Context::InParameters
-                            | Context::InClass,
-                    ) {
+                    if !ctx.contains(Context::InsideNonArrowFunctionScope)
+                        && !ctx.contains(Context::InParameters)
+                        && !ctx.contains(Context::InClass)
+                    {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
@@ -1788,7 +1787,7 @@ impl<I: Tokens> Parser<I> {
                         let cons = self.with_ctx(ctx).parse_assignment_expr()?;
                         expect!(self, ':');
                         let ctx =
-                            self.ctx() | Context::InCondExpr & !Context::WillExpectColonForCond;
+                            (self.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;
 
                         arg = ExprOrSpread {

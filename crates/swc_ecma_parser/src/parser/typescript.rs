@@ -949,35 +949,35 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        self.with_ctx(self.ctx() & !Context::DisallowConditionalTypes)
-            .parse_with(|p| {
-                let ty = p.parse_ts_non_conditional_type()?;
-                if p.input.had_line_break_before_cur() || !eat!(p, "extends") {
-                    return Ok(ty);
-                }
+        let ctx = self.ctx() & !Context::DisallowConditionalTypes;
+        self.with_ctx(ctx).parse_with(|p| {
+            let ty = p.parse_ts_non_conditional_type()?;
+            if p.input.had_line_break_before_cur() || !eat!(p, "extends") {
+                return Ok(ty);
+            }
 
-                let check_type = ty;
-                let extends_type = {
-                    p.with_ctx(p.ctx() | Context::DisallowConditionalTypes)
-                        .parse_ts_non_conditional_type()?
-                };
+            let check_type = ty;
+            let extends_type = {
+                p.with_ctx(p.ctx() | Context::DisallowConditionalTypes)
+                    .parse_ts_non_conditional_type()?
+            };
 
-                expect!(p, '?');
+            expect!(p, '?');
 
-                let true_type = p.parse_ts_type()?;
+            let true_type = p.parse_ts_type()?;
 
-                expect!(p, ':');
+            expect!(p, ':');
 
-                let false_type = p.parse_ts_type()?;
+            let false_type = p.parse_ts_type()?;
 
-                Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
-                    span: span!(p, start),
-                    check_type,
-                    extends_type,
-                    true_type,
-                    false_type,
-                })))
-            })
+            Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
+                span: span!(p, start),
+                check_type,
+                extends_type,
+                true_type,
+                false_type,
+            })))
+        })
     }
 
     /// `tsParseNonConditionalType`
@@ -1397,23 +1397,23 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ']');
             (true, key)
         } else {
-            self.with_ctx(self.ctx() | Context::InPropertyName)
-                .parse_with(|p| {
-                    // We check if it's valid for it to be a private name when we push it.
-                    let key = match *cur!(p, true) {
-                        Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
-                        _ => p.parse_maybe_private_name().map(|e| match e {
-                            Either::Left(e) => {
-                                p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
+            let ctx = self.ctx() | Context::InPropertyName;
+            self.with_ctx(ctx).parse_with(|p| {
+                // We check if it's valid for it to be a private name when we push it.
+                let key = match *cur!(p, true) {
+                    Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
+                    _ => p.parse_maybe_private_name().map(|e| match e {
+                        Either::Left(e) => {
+                            p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
 
-                                e.into()
-                            }
-                            Either::Right(e) => e.into(),
-                        }),
-                    };
+                            e.into()
+                        }
+                        Either::Right(e) => e.into(),
+                    }),
+                };
 
-                    key.map(|key| (false, key))
-                })?
+                key.map(|key| (false, key))
+            })?
         };
 
         Ok((computed, key))
@@ -2395,103 +2395,103 @@ impl<I: Tokens> Parser<I> {
         }
 
         let declare_start = start;
-        self.with_ctx(self.ctx() | Context::InDeclare)
-            .parse_with(|p| {
-                if is!(p, "function") {
-                    return p
-                        .parse_fn_decl(decorators)
-                        .map(|decl| match decl {
-                            Decl::Fn(f) => FnDecl {
-                                declare: true,
-                                function: Box::new(Function {
-                                    span: Span {
-                                        lo: declare_start,
-                                        ..f.function.span
-                                    },
-                                    ..*f.function
-                                }),
-                                ..f
-                            }
-                            .into(),
-                            _ => decl,
-                        })
-                        .map(Some);
-                }
-
-                if is!(p, "class") {
-                    return p
-                        .parse_class_decl(start, start, decorators, false)
-                        .map(|decl| match decl {
-                            Decl::Class(c) => ClassDecl {
-                                declare: true,
-                                class: Box::new(Class {
-                                    span: Span {
-                                        lo: declare_start,
-                                        ..c.class.span
-                                    },
-                                    ..*c.class
-                                }),
-                                ..c
-                            }
-                            .into(),
-                            _ => decl,
-                        })
-                        .map(Some);
-                }
-
-                if is!(p, "const") && peeked_is!(p, "enum") {
-                    assert_and_bump!(p, "const");
-                    let _ = cur!(p, true);
-                    assert_and_bump!(p, "enum");
-
-                    return p
-                        .parse_ts_enum_decl(start, /* is_const */ true)
-                        .map(|decl| TsEnumDecl {
+        let ctx = self.ctx() | Context::InDeclare;
+        self.with_ctx(ctx).parse_with(|p| {
+            if is!(p, "function") {
+                return p
+                    .parse_fn_decl(decorators)
+                    .map(|decl| match decl {
+                        Decl::Fn(f) => FnDecl {
                             declare: true,
-                            span: Span {
-                                lo: declare_start,
-                                ..decl.span
-                            },
-                            ..*decl
-                        })
-                        .map(Box::new)
-                        .map(From::from)
-                        .map(Some);
-                }
-                if is_one_of!(p, "const", "var", "let") {
-                    return p
-                        .parse_var_stmt(false)
-                        .map(|decl| VarDecl {
+                            function: Box::new(Function {
+                                span: Span {
+                                    lo: declare_start,
+                                    ..f.function.span
+                                },
+                                ..*f.function
+                            }),
+                            ..f
+                        }
+                        .into(),
+                        _ => decl,
+                    })
+                    .map(Some);
+            }
+
+            if is!(p, "class") {
+                return p
+                    .parse_class_decl(start, start, decorators, false)
+                    .map(|decl| match decl {
+                        Decl::Class(c) => ClassDecl {
                             declare: true,
-                            span: Span {
-                                lo: declare_start,
-                                ..decl.span
-                            },
-                            ..*decl
-                        })
-                        .map(Box::new)
-                        .map(From::from)
-                        .map(Some);
-                }
+                            class: Box::new(Class {
+                                span: Span {
+                                    lo: declare_start,
+                                    ..c.class.span
+                                },
+                                ..*c.class
+                            }),
+                            ..c
+                        }
+                        .into(),
+                        _ => decl,
+                    })
+                    .map(Some);
+            }
 
-                if is!(p, "global") {
-                    return p
-                        .parse_ts_ambient_external_module_decl(start)
-                        .map(Decl::from)
-                        .map(make_decl_declare)
-                        .map(Some);
-                } else if is!(p, IdentName) {
-                    let value = match *cur!(p, true) {
-                        Token::Word(ref w) => w.clone().into(),
-                        _ => unreachable!(),
-                    };
-                    return p
-                        .parse_ts_decl(start, decorators, value, /* next */ true)
-                        .map(|v| v.map(make_decl_declare));
-                }
+            if is!(p, "const") && peeked_is!(p, "enum") {
+                assert_and_bump!(p, "const");
+                let _ = cur!(p, true);
+                assert_and_bump!(p, "enum");
 
-                Ok(None)
-            })
+                return p
+                    .parse_ts_enum_decl(start, /* is_const */ true)
+                    .map(|decl| TsEnumDecl {
+                        declare: true,
+                        span: Span {
+                            lo: declare_start,
+                            ..decl.span
+                        },
+                        ..*decl
+                    })
+                    .map(Box::new)
+                    .map(From::from)
+                    .map(Some);
+            }
+            if is_one_of!(p, "const", "var", "let") {
+                return p
+                    .parse_var_stmt(false)
+                    .map(|decl| VarDecl {
+                        declare: true,
+                        span: Span {
+                            lo: declare_start,
+                            ..decl.span
+                        },
+                        ..*decl
+                    })
+                    .map(Box::new)
+                    .map(From::from)
+                    .map(Some);
+            }
+
+            if is!(p, "global") {
+                return p
+                    .parse_ts_ambient_external_module_decl(start)
+                    .map(Decl::from)
+                    .map(make_decl_declare)
+                    .map(Some);
+            } else if is!(p, IdentName) {
+                let value = match *cur!(p, true) {
+                    Token::Word(ref w) => w.clone().into(),
+                    _ => unreachable!(),
+                };
+                return p
+                    .parse_ts_decl(start, decorators, value, /* next */ true)
+                    .map(|v| v.map(make_decl_declare));
+            }
+
+            Ok(None)
+        })
     }
 
     /// `tsTryParseExportDeclaration`
@@ -2646,7 +2646,7 @@ impl<I: Tokens> Parser<I> {
             None => return Ok(None),
         };
 
-        let ctx = self.ctx() | Context::InAsync & !Context::InGenerator;
+        let ctx = (self.ctx() | Context::InAsync) & !Context::InGenerator;
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
