@@ -768,7 +768,7 @@ impl TokenContexts {
     }
 
     #[inline]
-    fn push(&mut self, t: TokenContext) {
+    pub(crate) fn push(&mut self, t: TokenContext) {
         self.0.push(t);
 
         if cfg!(feature = "debug") {
