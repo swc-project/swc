@@ -96,7 +96,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 
-        let ctx = self.ctx() & !Context::Module | Context::TopLevel;
+        let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
@@ -116,7 +116,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<Program>
-        let ctx = self.ctx() | Context::Module | Context::TopLevel & !Context::Strict;
+        let ctx = (self.ctx() | Context::Module | Context::TopLevel) & !Context::Strict;
         // Module code is always in strict mode
         self.set_ctx(ctx);
 

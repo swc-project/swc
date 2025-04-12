@@ -95,7 +95,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.handle_import_export(decorators);
         }
 
-        self.with_ctx(self.ctx() & !Context::WillExpectColonForCond | Context::AllowUsingDecl)
+        self.with_ctx((self.ctx() & !Context::WillExpectColonForCond) | Context::AllowUsingDecl)
             .parse_stmt_internal(start, include_decl, decorators)
             .map(From::from)
     }
@@ -1014,8 +1014,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!(self, "do");
 
-        let ctx =
-            self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed & !Context::TopLevel;
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
         expect!(self, "while");
         expect!(self, '(');
@@ -1038,8 +1038,8 @@ impl<'a, I: Tokens> Parser<I> {
         let test = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
 
-        let ctx =
-            self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed & !Context::TopLevel;
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
@@ -1065,7 +1065,7 @@ impl<'a, I: Tokens> Parser<I> {
         let obj = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
 
-        let ctx = self.ctx() | Context::InFunction & !Context::TopLevel;
+        let ctx = (self.ctx() | Context::InFunction) & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
@@ -1090,7 +1090,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
-        let ctx = self.ctx() | Context::IsBreakAllowed & !Context::AllowUsingDecl;
+        let ctx = (self.ctx() | Context::IsBreakAllowed) & !Context::AllowUsingDecl;
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
@@ -1158,8 +1158,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         let head = self.with_ctx(ctx).parse_for_head()?;
         expect!(self, ')');
-        let ctx =
-            self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed & !Context::TopLevel;
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);

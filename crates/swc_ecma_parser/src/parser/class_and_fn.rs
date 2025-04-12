@@ -1299,7 +1299,7 @@ impl<I: Tokens> Parser<I> {
 
             expect!(p, '(');
 
-            let mut arg_ctx = p.ctx() | Context::InParameters & !Context::InFunction;
+            let mut arg_ctx = (p.ctx() | Context::InParameters) & !Context::InFunction;
             arg_ctx.set(Context::InAsync, is_async);
             arg_ctx.set(Context::InGenerator, is_generator);
             let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;
@@ -1381,12 +1381,11 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1183);
         }
 
-        let mut ctx = self.ctx()
-            | Context::InFunction
-                & !Context::InStaticBlock
-                & !Context::IsBreakAllowed
-                & !Context::IsContinueAllowed
-                & !Context::TopLevel;
+        let mut ctx = (self.ctx() | Context::InFunction)
+            & !Context::InStaticBlock
+            & !Context::IsBreakAllowed
+            & !Context::IsContinueAllowed
+            & !Context::TopLevel;
         ctx.set(Context::InAsync, is_async);
         ctx.set(Context::InGenerator, is_generator);
         ctx.set(
@@ -1433,7 +1432,7 @@ impl<I: Tokens> Parser<I> {
 
         let is_static = static_token.is_some();
         let function = self
-            .with_ctx(self.ctx() | Context::AllowDirectSuper & !Context::InClassField)
+            .with_ctx((self.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
             .parse_with(|p| {
                 p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
             })?;
