@@ -904,7 +904,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
         }
 
-        let mut decls = Vec::new();
+        let mut decls = Vec::with_capacity(4);
         let mut first = true;
         while first || eat!(self, ',') {
             if first {

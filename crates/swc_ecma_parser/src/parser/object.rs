@@ -22,7 +22,7 @@ impl<I: Tokens> Parser<I> {
             let mut trailing_comma = None;
             assert_and_bump!(p, '{');
 
-            let mut props = Vec::new();
+            let mut props = Vec::with_capacity(8);
 
             while !eat!(p, '}') {
                 props.push(p.parse_object_prop()?);
