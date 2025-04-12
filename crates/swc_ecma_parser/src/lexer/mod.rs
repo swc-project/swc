@@ -863,10 +863,10 @@ impl Lexer<'_> {
 
                     break;
                 } else if let Some(c) = l.input.cur() {
-                    if Ident::is_valid_continue(c) {
+                    if Ident::is_valid_non_ascii_continue(c) {
                         l.bump();
                         continue;
-                    } else if first && Ident::is_valid_start(c) {
+                    } else if first && Ident::is_valid_non_ascii_start(c) {
                         l.bump();
                         first = false;
                         continue;
@@ -910,7 +910,7 @@ impl Lexer<'_> {
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = Vec::new();
+        let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'

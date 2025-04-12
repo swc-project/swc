@@ -119,6 +119,7 @@ pub struct PrintArgs<'a> {
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
+    pub source_map_url: Option<&'a str>,
 }
 
 impl Default for PrintArgs<'_> {
@@ -138,6 +139,7 @@ impl Default for PrintArgs<'_> {
             preamble: "",
             codegen_config: Default::default(),
             output: None,
+            source_map_url: None,
         }
     }
 }
@@ -168,6 +170,7 @@ pub fn print<T>(
         preamble,
         codegen_config,
         output,
+        source_map_url,
     }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
@@ -177,7 +180,7 @@ where
 
     let mut src_map_buf = Vec::new();
 
-    let src = {
+    let mut src = {
         let mut buf = std::vec::Vec::new();
         {
             let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
@@ -251,13 +254,18 @@ where
                     .to_writer(&mut buf)
                     .context("failed to write source map")?;
                 let map = String::from_utf8(buf).context("source map is not utf-8")?;
+
+                if let Some(source_map_url) = source_map_url {
+                    src.push_str("\n//# sourceMappingURL=");
+                    src.push_str(source_map_url);
+                }
+
                 (src, Some(map))
             } else {
                 (src, None)
             }
         }
         SourceMapsConfig::Str(_) => {
-            let mut src = src;
             let mut buf = std::vec::Vec::new();
 
             map.unwrap()

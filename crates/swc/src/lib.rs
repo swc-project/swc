@@ -760,18 +760,18 @@ impl Compiler {
 
             let target = opts.ecma.clone().into();
 
-            let (source_map, orig) = opts
+            let (source_map, orig, source_map_url) = opts
                 .source_map
                 .as_ref()
                 .map(|obj| -> Result<_, Error> {
                     let orig = obj.content.as_ref().map(|s| s.to_sourcemap()).transpose()?;
 
-                    Ok((SourceMapsConfig::Bool(true), orig))
+                    Ok((SourceMapsConfig::Bool(true), orig, obj.url.as_deref()))
                 })
                 .unwrap_as_option(|v| {
                     Some(Ok(match v {
-                        Some(true) => (SourceMapsConfig::Bool(true), None),
-                        _ => (SourceMapsConfig::Bool(false), None),
+                        Some(true) => (SourceMapsConfig::Bool(true), None, None),
+                        _ => (SourceMapsConfig::Bool(false), None, None),
                     }))
                 })
                 .unwrap()?;
@@ -924,6 +924,7 @@ impl Compiler {
                                 .reduce_escaped_newline,
                         ),
                     output: None,
+                    source_map_url,
                 },
             );
 
@@ -1073,6 +1074,7 @@ impl Compiler {
                     } else {
                         Some(output)
                     },
+                    source_map_url: config.output.source_map_url.as_deref(),
                 },
             )
         })

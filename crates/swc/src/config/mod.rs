@@ -767,7 +767,7 @@ impl Options {
             output: JscOutputConfig {
                 charset,
                 preamble,
-                preserve_annotations: cfg.jsc.output.preserve_annotations,
+                ..cfg.jsc.output
             },
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
@@ -1184,6 +1184,9 @@ pub struct JscOutputConfig {
 
     #[serde(default)]
     pub preserve_annotations: BoolConfig<false>,
+
+    #[serde(default)]
+    pub source_map_url: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

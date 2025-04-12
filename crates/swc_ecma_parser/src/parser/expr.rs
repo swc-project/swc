@@ -499,7 +499,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, '[');
-        let mut elems = Vec::new();
+        let mut elems = Vec::with_capacity(8);
 
         while !eof!(self) && !is!(self, ']') {
             if is!(self, ',') {

@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
             } else {
-                Vec::new()
+                Vec::with_capacity(4)
             };
 
             {
@@ -333,7 +333,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
-        let mut elems = Vec::new();
+        let mut elems = Vec::with_capacity(32);
         let mut has_constructor_with_body = false;
         while !eof!(self) && !is!(self, '}') {
             if eat_exact!(self, ';') {
