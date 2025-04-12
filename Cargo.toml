@@ -146,13 +146,6 @@ lto = true
 debug = true
 lto   = true
 
-[profile.profiling]
-debug           = "limited"
-inherits        = "release"
-lto             = "thin"
-split-debuginfo = "off"
-strip           = false
-
 # Optimize for iteration
 [profile.dev.build-override]
 opt-level = 3
