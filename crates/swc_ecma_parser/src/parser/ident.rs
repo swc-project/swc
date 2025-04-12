@@ -40,20 +40,26 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
 
-        self.parse_ident(!ctx.in_generator, !ctx.in_async)
+        self.parse_ident(
+            !ctx.contains(Context::InGenerator),
+            !ctx.contains(Context::InAsync),
+        )
     }
 
     /// LabelIdentifier
     pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
 
-        self.parse_ident(!ctx.in_generator, !ctx.in_async)
+        self.parse_ident(
+            !ctx.contains(Context::InGenerator),
+            !ctx.contains(Context::InAsync),
+        )
     }
 
     /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
     pub(super) fn parse_ident_name(&mut self) -> PResult<IdentName> {
-        let in_type = self.ctx().in_type;
+        let in_type = self.ctx().contains(Context::InType);
 
         let start = cur_pos!(self);
 
@@ -145,21 +151,22 @@ impl<I: Tokens> Parser<I> {
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(atom!("await")),
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::InDeclare) => Ok(atom!("await")),
 
-                Word::Keyword(Keyword::Await) if p.ctx().in_static_block => {
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::InStaticBlock) => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
-                Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::Module) | p.ctx().contains(Context::InAsync) => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
                 Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
                 Word::Keyword(Keyword::Let) => Ok(atom!("let")),
                 Word::Ident(ident) => {
-                    if p.ctx().in_class_field && matches!(&ident, IdentLike::Other(arguments) if atom!("arguments").eq(arguments))
+                    if p.ctx().contains(Context::InClassField)
+                        && matches!(&ident, IdentLike::Other(arguments) if atom!("arguments").eq(arguments))
                     {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }

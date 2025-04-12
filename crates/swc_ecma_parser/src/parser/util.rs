@@ -4,9 +4,11 @@ use crate::token::{IdentLike, Keyword};
 impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {
         match *word {
-            Word::Keyword(Keyword::Let) => self.strict,
-            Word::Keyword(Keyword::Await) => self.in_async || self.in_static_block || self.strict,
-            Word::Keyword(Keyword::Yield) => self.in_generator || self.strict,
+            Word::Keyword(Keyword::Let) => self.contains(Context::Strict),
+            Word::Keyword(Keyword::Await) => {
+                self.contains(Context::InAsync | Context::InStaticBlock | Context::Strict)
+            }
+            Word::Keyword(Keyword::Yield) => self.contains(Context::InGenerator | Context::Strict),
 
             Word::Null
             | Word::True
@@ -54,7 +56,7 @@ impl Context {
                 | known_ident!("interface")
                 | known_ident!("private")
                 | known_ident!("public"),
-            )) if self.strict => true,
+            )) if self.contains(Context::Strict) => true,
 
             _ => false,
         }
@@ -67,7 +69,7 @@ impl Context {
         }
 
         match &**word {
-            "let" => self.strict,
+            "let" => self.contains(Context::Strict),
             // SyntaxError in the module only, not in the strict.
             // ```JavaScript
             // function foo() {
@@ -75,8 +77,8 @@ impl Context {
             //     let await = 1;
             // }
             // ```
-            "await" => self.in_async || self.in_static_block || self.module,
-            "yield" => self.in_generator || self.strict,
+            "await" => self.contains(Context::InAsync | Context::InStaticBlock | Context::Module),
+            "yield" => self.contains(Context::InGenerator | Context::Strict),
 
             "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"
             | "default" | "do" | "export" | "else" | "finally" | "for" | "function" | "if"
@@ -88,7 +90,7 @@ impl Context {
             "enum" => true,
 
             "implements" | "package" | "protected" | "interface" | "private" | "public"
-                if self.strict =>
+                if self.contains(Context::Strict) =>
             {
                 true
             }
@@ -123,28 +125,20 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn strict_mode(&mut self) -> WithCtx<I> {
-        let ctx = Context {
-            strict: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() | Context::Strict;
         self.with_ctx(ctx)
     }
 
     /// Original context is restored when returned guard is dropped.
     pub(super) fn in_type(&mut self) -> WithCtx<I> {
-        let ctx = Context {
-            in_type: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() | Context::InType;
         self.with_ctx(ctx)
     }
 
     /// Original context is restored when returned guard is dropped.
     pub(super) fn include_in_expr(&mut self, include_in_expr: bool) -> WithCtx<I> {
-        let ctx = Context {
-            include_in_expr,
-            ..self.ctx()
-        };
+        let mut ctx = self.ctx();
+        ctx.set(Context::IncludeInExpr, include_in_expr);
         self.with_ctx(ctx)
     }
 

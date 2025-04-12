@@ -25,6 +25,7 @@ typescript    = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
+bitflags    = { workspace = true }
 either      = { workspace = true }
 num-bigint  = { workspace = true }
 num-traits  = { workspace = true }

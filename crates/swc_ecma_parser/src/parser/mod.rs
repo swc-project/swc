@@ -75,11 +75,8 @@ impl<I: Tokens> Parser<I> {
         );
         #[cfg(not(feature = "typescript"))]
         let in_declare = false;
-        let ctx = Context {
-            in_declare,
-            top_level: true,
-            ..input.ctx()
-        };
+        let mut ctx = input.ctx() | Context::TopLevel;
+        ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);
 
         Parser {
@@ -99,11 +96,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 
-        let ctx = Context {
-            module: false,
-            top_level: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() & !Context::Module | Context::TopLevel;
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
@@ -123,12 +116,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<Program>
-        let ctx = Context {
-            module: true,
-            strict: false,
-            top_level: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() | Context::Module | Context::TopLevel & !Context::Strict;
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
@@ -150,25 +138,15 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
-        let ctx = Context {
-            can_be_module: true,
-            top_level: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
         let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, None)?;
         let has_module_item = self.state.found_module_item
             || body
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
-        if has_module_item && !self.ctx().module {
-            let ctx = Context {
-                module: true,
-                can_be_module: true,
-                strict: true,
-                top_level: true,
-                ..self.ctx()
-            };
+        if has_module_item && !self.ctx().contains(Context::Module) {
+            let ctx = self.ctx() | Context::Module | Context::CanBeModule | Context::TopLevel;
             // Emit buffered strict mode / module code violations
             self.input.set_ctx(ctx);
         }
@@ -196,13 +174,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub fn parse_module(&mut self) -> PResult<Module> {
-        let ctx = Context {
-            module: true,
-            can_be_module: true,
-            strict: true,
-            top_level: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx()
+            | Context::Module
+            | Context::CanBeModule
+            | Context::TopLevel
+            | Context::Strict;
         // Module code is always in strict mode
         self.set_ctx(ctx);
 
@@ -232,7 +208,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_err(&mut self, span: Span, error: SyntaxError) {
-        if self.ctx().ignore_error || !self.syntax().early_errors() {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
 
@@ -241,7 +217,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_error(&mut self, error: Error) {
-        if self.ctx().ignore_error || !self.syntax().early_errors() {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
 
@@ -260,7 +236,7 @@ impl<I: Tokens> Parser<I> {
 
     #[cold]
     fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
-        if self.ctx().ignore_error {
+        if self.ctx().contains(Context::IgnoreError) {
             return;
         }
         let error = Error::new(span, error);

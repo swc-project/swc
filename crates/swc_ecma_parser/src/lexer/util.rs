@@ -16,7 +16,7 @@ use super::{comments_buffer::BufferedComment, whitespace::SkipWhitespace, Char, 
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
-    Tokens,
+    Context, Tokens,
 };
 
 impl Lexer<'_> {
@@ -104,7 +104,7 @@ impl Lexer<'_> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
-        if self.ctx.ignore_error {
+        if self.ctx.contains(Context::IgnoreError) {
             return;
         }
 
@@ -123,7 +123,7 @@ impl Lexer<'_> {
     #[cold]
     #[inline(never)]
     pub(super) fn emit_strict_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
-        if self.ctx.strict {
+        if self.ctx.contains(Context::Strict) {
             self.emit_error_span(span, kind);
             return;
         }

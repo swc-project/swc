@@ -21,7 +21,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 _ => unreachable!(),
             },
-            _ if ctx.in_forced_jsx_context => self.parse_ident_ref(),
+            _ if ctx.contains(Context::InForcedJsxContext) => self.parse_ident_ref(),
             _ => unexpected!(self, "jsx identifier"),
         }
     }
@@ -177,13 +177,9 @@ impl<I: Tokens> Parser<I> {
 
         let name = self.parse_jsx_namespaced_name()?;
         let value = if eat!(self, '=') {
-            let ctx = Context {
-                in_cond_expr: false,
-                will_expect_colon_for_cond: false,
-                ..self.ctx()
-            };
-
-            self.with_ctx(ctx).parse_jsx_attr_value().map(Some)?
+            self.with_ctx(self.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
+                .parse_jsx_attr_value()
+                .map(Some)?
         } else {
             None
         };
@@ -209,11 +205,9 @@ impl<I: Tokens> Parser<I> {
             }));
         }
 
-        let ctx = Context {
-            should_not_lex_lt_or_gt_as_type: false,
-            ..self.ctx()
-        };
-        let name = self.with_ctx(ctx).parse_jsx_element_name()?;
+        let name = self
+            .with_ctx(self.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+            .parse_jsx_element_name()?;
         self.parse_jsx_opening_element_after_name(start, name)
             .map(Either::Right)
     }
@@ -244,7 +238,9 @@ impl<I: Tokens> Parser<I> {
             attrs.push(attr);
         }
         let self_closing = eat!(self, '/');
-        if !eat!(self, JSXTagEnd) & !(self.ctx().in_forced_jsx_context && eat!(self, '>')) {
+        if !eat!(self, JSXTagEnd)
+            & !(self.ctx().contains(Context::InForcedJsxContext) && eat!(self, '>'))
+        {
             unexpected!(self, "> (jsx closing tag)");
         }
         Ok(JSXOpeningElement {
@@ -295,11 +291,8 @@ impl<I: Tokens> Parser<I> {
             _ => unreachable!(),
         };
 
-        let ctx = Context {
-            in_forced_jsx_context: forced_jsx_context,
-            should_not_lex_lt_or_gt_as_type: false,
-            ..self.ctx()
-        };
+        let mut ctx = self.ctx() & !Context::ShouldNotLexLtOrGtAsType;
+        ctx.set(Context::InForcedJsxContext, forced_jsx_context);
         self.with_ctx(ctx).parse_with(|p| {
             let _tracing = debug_tracing!(p, "parse_jsx_element");
 
@@ -417,13 +410,8 @@ impl<I: Tokens> Parser<I> {
 
         let start_pos = cur_pos!(self);
 
-        let ctx = Context {
-            in_cond_expr: false,
-            will_expect_colon_for_cond: false,
-            ..self.ctx()
-        };
-
-        self.with_ctx(ctx).parse_jsx_element_at(start_pos)
+        self.with_ctx(self.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
+            .parse_jsx_element_at(start_pos)
     }
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {

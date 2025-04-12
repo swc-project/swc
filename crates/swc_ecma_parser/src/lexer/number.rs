@@ -782,7 +782,7 @@ mod tests {
             let vec = panic::catch_unwind(|| {
                 crate::with_test_sess(case, |_, input| {
                     let mut l = Lexer::new(Syntax::default(), Default::default(), input, None);
-                    l.ctx.strict = strict;
+                    l.ctx.set(Context::Strict, strict);
                     Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
                 })
                 .unwrap()

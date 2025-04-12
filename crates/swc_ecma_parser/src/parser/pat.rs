@@ -43,10 +43,12 @@ impl<I: Tokens> Parser<I> {
         if ident.is_reserved_in_strict_bind() {
             self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
-        if (self.ctx().in_async || self.ctx().in_static_block) && ident.sym == "await" {
+        if (self.ctx().contains(Context::InAsync) || self.ctx().contains(Context::InStaticBlock))
+            && ident.sym == "await"
+        {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
-        if self.ctx().in_generator && ident.sym == "yield" {
+        if self.ctx().contains(Context::InGenerator) && ident.sym == "yield" {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
@@ -80,7 +82,7 @@ impl<I: Tokens> Parser<I> {
         if eat!(self, '=') {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
 
-            if self.ctx().in_declare {
+            if self.ctx().contains(Context::InDeclare) {
                 self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
@@ -144,7 +146,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         expect!(self, ']');
-        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
+        let optional = (self.input.syntax().dts() || self.ctx().contains(Context::InDeclare))
+            && eat!(self, '?');
 
         Ok(ArrayPat {
             span: span!(self, start),
@@ -205,7 +208,7 @@ impl<I: Tokens> Parser<I> {
                         *optional = true;
                         opt = true;
                     }
-                    _ if self.input.syntax().dts() || self.ctx().in_declare => {}
+                    _ if self.input.syntax().dts() || self.ctx().contains(Context::InDeclare) => {}
                     _ => {
                         syntax_error!(
                             self,
@@ -264,7 +267,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let right = self.parse_assignment_expr()?;
-            if self.ctx().in_declare {
+            if self.ctx().contains(Context::InDeclare) {
                 self.emit_err(span!(self, start), SyntaxError::TS2371);
             }
 
@@ -577,7 +580,8 @@ impl<I: Tokens> Parser<I> {
                 | Expr::Paren(..)
                 | Expr::Tpl(..)
                 | Expr::TsAs(..) => {
-                    if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
+                    if !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))
+                    {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
                     match *expr {
@@ -802,7 +806,7 @@ impl<I: Tokens> Parser<I> {
                 Ok(Invalid { span }.into())
             }
 
-            Expr::Yield(..) if self.ctx().in_generator => {
+            Expr::Yield(..) if self.ctx().contains(Context::InGenerator) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
             }
@@ -884,7 +888,7 @@ impl<I: Tokens> Parser<I> {
         };
         params.push(last);
 
-        if self.ctx().strict {
+        if self.ctx().contains(Context::Strict) {
             for param in params.iter() {
                 self.pat_is_valid_argument_in_strict(param)
             }
