@@ -664,7 +664,7 @@ impl Lexer<'_> {
         self.bump();
 
         if self.syntax.typescript()
-            && self.ctx.contains(Context::InDeclare)
+            && self.ctx.contains(Context::InType)
             && !self.ctx.contains(Context::ShouldNotLexLtOrGtAsType)
         {
             if c == '<' {
