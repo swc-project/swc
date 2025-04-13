@@ -7,7 +7,10 @@ use swc_ecma_transforms_base::{
     helper, helper_expr,
     perf::{should_work, Check},
 };
-use swc_ecma_utils::{function::FnEnvHoister, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    function::{init_this, FnEnvHoister},
+    prepend_stmt, private_ident, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
@@ -37,6 +40,7 @@ pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
     visit_mut_pass(AsyncToGenerator {
         c,
         fn_state: None,
+        in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
 }
@@ -64,6 +68,9 @@ struct AsyncToGenerator {
     c: Config,
 
     fn_state: Option<FnState>,
+
+    in_subclass: bool,
+
     unresolved_ctxt: SyntaxContext,
 }
 
@@ -225,6 +232,41 @@ impl VisitMut for AsyncToGenerator {
             BlockStmtOrExpr::Expr(Box::new(expr))
         }
         .into()
+    }
+
+    fn visit_mut_class(&mut self, class: &mut Class) {
+        class.super_class.visit_mut_with(self);
+        let in_subclass = mem::replace(&mut self.in_subclass, class.super_class.is_some());
+        class.body.visit_mut_with(self);
+        self.in_subclass = in_subclass;
+    }
+
+    fn visit_mut_constructor(&mut self, constructor: &mut Constructor) {
+        constructor.params.visit_mut_with(self);
+
+        if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
+            if !should_work::<ShouldWork, _>(&*stmts) {
+                return;
+            }
+
+            let (decl, this_id) = if self.in_subclass {
+                let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
+                stmts.visit_mut_with(&mut fn_env_hoister);
+                fn_env_hoister.to_stmt_in_subclass()
+            } else {
+                (None, None)
+            };
+
+            stmts.visit_mut_children_with(self);
+
+            if let Some(this_id) = this_id {
+                init_this(stmts, &this_id)
+            }
+
+            if let Some(decl) = decl {
+                prepend_stmt(stmts, decl)
+            }
+        }
     }
 
     fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
