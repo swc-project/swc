@@ -124,7 +124,7 @@ impl From<TokenKind> for TokenType {
 impl Tokens for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.module && !self.module_errors.borrow().is_empty() {
+        if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
             self.errors.borrow_mut().append(&mut *module_errors);
         }
@@ -181,7 +181,7 @@ impl Tokens for Lexer<'_> {
     }
 
     fn add_module_mode_error(&self, error: Error) {
-        if self.ctx.module {
+        if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
         }
@@ -284,7 +284,10 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
-        if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
+        if self.syntax.jsx()
+            && !self.ctx.contains(Context::InPropertyName)
+            && !self.ctx.contains(Context::InType)
+        {
             //jsx
             if self.state.context.current() == Some(TokenContext::JSXExpr) {
                 return self.read_jsx_token();
@@ -852,8 +855,8 @@ pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
 #[cfg(test)]
 pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
     with_lexer(syntax, Default::default(), s, |l| {
-        l.ctx.strict = true;
-        l.ctx.module = true;
+        l.ctx.insert(Context::Module);
+        l.ctx.insert(Context::Strict);
 
         let _: Vec<_> = l.collect();
 

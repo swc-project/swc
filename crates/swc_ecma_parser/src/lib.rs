@@ -369,79 +369,76 @@ pub struct EsSyntax {
     pub explicit_resource_management: bool,
 }
 
-/// Syntactic context.
-#[derive(Debug, Clone, Copy, Default)]
-pub struct Context {
-    /// `true` while backtracking
-    ignore_error: bool,
+use bitflags::bitflags;
 
-    /// Is in module code?
-    module: bool,
-    can_be_module: bool,
-    strict: bool,
+bitflags! {
+    #[derive(Debug, Clone, Copy, Default)]
+    pub struct Context: u32 {
 
-    expr_ctx: ExpressionContext,
+        /// `true` while backtracking
+        const IgnoreError = 1 << 0;
 
-    include_in_expr: bool,
-    /// If true, await expression is parsed, and "await" is treated as a
-    /// keyword.
-    in_async: bool,
-    /// If true, yield expression is parsed, and "yield" is treated as a
-    /// keyword.
-    in_generator: bool,
+        /// Is in module code?
+        const Module = 1 << 1;
+        const CanBeModule = 1 << 2;
+        const Strict = 1 << 3;
 
-    /// If true, await is treated as a keyword.
-    in_static_block: bool,
+        const ForLoopInit = 1 << 4;
+        const ForAwaitLoopInit = 1 << 5;
 
-    is_continue_allowed: bool,
-    is_break_allowed: bool,
+        const IncludeInExpr = 1 << 6;
+        /// If true, await expression is parsed, and "await" is treated as a
+        /// keyword.
+        const InAsync = 1 << 7;
+        /// If true, yield expression is parsed, and "yield" is treated as a
+        /// keyword.
+        const InGenerator = 1 << 8;
 
-    in_type: bool,
-    /// Typescript extension.
-    should_not_lex_lt_or_gt_as_type: bool,
-    /// Typescript extension.
-    in_declare: bool,
+        /// If true, await is treated as a keyword.
+        const InStaticBlock = 1 << 9;
 
-    /// If true, `:` should not be treated as a type annotation.
-    in_cond_expr: bool,
-    will_expect_colon_for_cond: bool,
+        const IsContinueAllowed = 1 << 10;
+        const IsBreakAllowed = 1 << 11;
 
-    in_class: bool,
+        const InType = 1 << 12;
+        /// Typescript extension.
+        const ShouldNotLexLtOrGtAsType = 1 << 13;
+        /// Typescript extension.
+        const InDeclare = 1 << 14;
 
-    in_class_field: bool,
+        /// If true, `:` should not be treated as a type annotation.
+        const InCondExpr = 1 << 15;
+        const WillExpectColonForCond = 1 << 16;
 
-    in_function: bool,
+        const InClass = 1 << 17;
 
-    /// This indicates current scope or the scope out of arrow function is
-    /// function declaration or function expression or not.
-    inside_non_arrow_function_scope: bool,
+        const InClassField = 1 << 18;
 
-    in_parameters: bool,
+        const InFunction = 1 << 19;
 
-    has_super_class: bool,
+        /// This indicates current scope or the scope out of arrow function is
+        /// function declaration or function expression or not.
+        const InsideNonArrowFunctionScope = 1 << 20;
 
-    in_property_name: bool,
+        const InParameters = 1 << 21;
 
-    in_forced_jsx_context: bool,
+        const HasSuperClass = 1 << 22;
 
-    // If true, allow super.x and super[x]
-    allow_direct_super: bool,
+        const InPropertyName = 1 << 23;
 
-    ignore_else_clause: bool,
+        const InForcedJsxContext = 1 << 24;
 
-    disallow_conditional_types: bool,
+        // If true, allow super.x and super[x]
+        const AllowDirectSuper = 1 << 25;
 
-    allow_using_decl: bool,
+        const IgnoreElseClause = 1 << 26;
 
-    top_level: bool,
-}
+        const DisallowConditionalTypes = 1 << 27;
 
-#[derive(Debug, Clone, Copy, Default)]
-struct ExpressionContext {
-    // TODO:
-    // - include_in
-    for_loop_init: bool,
-    for_await_loop_init: bool,
+        const AllowUsingDecl = 1 << 28;
+
+        const TopLevel = 1 << 29;
+    }
 }
 
 #[cfg(test)]
@@ -499,7 +496,7 @@ macro_rules! expose {
 
 expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
-    p.input().ctx.can_be_module = true;
+    p.input().ctx.insert(Context::CanBeModule);
     p.parse_expr()
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });

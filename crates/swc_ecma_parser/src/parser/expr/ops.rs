@@ -16,7 +16,7 @@ impl<I: Tokens> Parser<I> {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
                 match cur!(self, true) {
-                    &tok!("in") if ctx.include_in_expr => {
+                    &tok!("in") if ctx.contains(Context::IncludeInExpr) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
                         Invalid { span: err.span() }.into()
@@ -141,7 +141,7 @@ impl<I: Tokens> Parser<I> {
             Err(..) => return Ok((left, None)),
         };
         let op = match *word {
-            tok!("in") if ctx.include_in_expr => op!("in"),
+            tok!("in") if ctx.contains(Context::IncludeInExpr) => op!("in"),
             tok!("instanceof") => op!("instanceof"),
             Token::BinOp(op) => op.into(),
             _ => {
@@ -389,8 +389,8 @@ impl<I: Tokens> Parser<I> {
 
         let span = span!(self, start);
 
-        if is_one_of!(self, ')', ']', ';', ',') && !ctx.in_async {
-            if ctx.module {
+        if is_one_of!(self, ')', ']', ';', ',') && !ctx.contains(Context::InAsync) {
+            if ctx.contains(Context::Module) {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
@@ -398,18 +398,18 @@ impl<I: Tokens> Parser<I> {
         }
 
         // This has been checked if start_of_await_token == true,
-        if start_of_await_token.is_none() && ctx.top_level {
+        if start_of_await_token.is_none() && ctx.contains(Context::TopLevel) {
             self.state.found_module_item = true;
-            if !ctx.can_be_module {
+            if !ctx.contains(Context::CanBeModule) {
                 self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
             }
         }
 
-        if ctx.in_function && !ctx.in_async {
+        if ctx.contains(Context::InFunction) && !ctx.contains(Context::InAsync) {
             self.emit_err(await_token, SyntaxError::AwaitInFunction);
         }
 
-        if ctx.in_parameters && !ctx.in_function {
+        if ctx.contains(Context::InParameters) && !ctx.contains(Context::InFunction) {
             self.emit_err(span, SyntaxError::AwaitParamInAsync);
         }
 

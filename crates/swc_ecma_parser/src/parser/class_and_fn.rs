@@ -151,12 +151,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             expect!(p, '{');
-            let body = p
-                .with_ctx(Context {
-                    has_super_class: super_class.is_some(),
-                    ..p.ctx()
-                })
-                .parse_class_body()?;
+            let mut ctx = p.ctx();
+            ctx.set(Context::HasSuperClass, super_class.is_some());
+            let body = p.with_ctx(ctx).parse_class_body()?;
 
             if p.input.cur().is_none() {
                 let eof_text = p.input.dump_cur();
@@ -197,10 +194,7 @@ impl<I: Tokens> Parser<I> {
         T: OutputType,
     {
         let (ident, mut class) = self
-            .with_ctx(Context {
-                in_class: true,
-                ..self.ctx()
-            })
+            .with_ctx(self.ctx() | Context::InClass)
             .parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)?;
 
         if is_abstract {
@@ -266,12 +260,15 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "export") {
-            if !self.ctx().in_class && !self.ctx().in_function && !allow_export {
+            if !self.ctx().contains(Context::InClass)
+                && !self.ctx().contains(Context::InFunction)
+                && !allow_export
+            {
                 syntax_error!(self, self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
 
-            if !self.ctx().in_class
-                && !self.ctx().in_function
+            if !self.ctx().contains(Context::InClass)
+                && !self.ctx().contains(Context::InFunction)
                 && !self.syntax().decorators_before_export()
             {
                 syntax_error!(self, span!(self, start), SyntaxError::DecoratorOnExport);
@@ -343,13 +340,10 @@ impl<I: Tokens> Parser<I> {
                 }));
                 continue;
             }
-            let mut p = self.with_ctx(Context {
-                allow_direct_super: true,
-                ..self.ctx()
-            });
+            let mut p = self.with_ctx(self.ctx() | Context::AllowDirectSuper);
             let elem = p.parse_class_member()?;
 
-            if !p.ctx().in_declare {
+            if !p.ctx().contains(Context::InDeclare) {
                 if let ClassMember::Constructor(Constructor {
                     body: Some(..),
                     span,
@@ -590,12 +584,12 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
         let body = self
-            .with_ctx(Context {
-                in_static_block: true,
-                in_class_field: true,
-                allow_using_decl: true,
-                ..self.ctx()
-            })
+            .with_ctx(
+                self.ctx()
+                    | Context::InStaticBlock
+                    | Context::InClassField
+                    | Context::AllowUsingDecl,
+            )
             .parse_block(false)?;
 
         let span = span!(self, start);
@@ -653,7 +647,7 @@ impl<I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1243("override".into(), "declare".into()),
                         );
-                    } else if !self.ctx().has_super_class {
+                    } else if !self.ctx().contains(Context::HasSuperClass) {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
                     }
                     is_override = true;
@@ -1074,11 +1068,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.try_parse_ts_type_ann()?;
 
-        let ctx = Context {
-            include_in_expr: true,
-            in_class_field: true,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() | Context::IncludeInExpr | Context::InClassField;
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(p, '=') {
                 assert_and_bump!(p, '=');
@@ -1186,32 +1176,24 @@ impl<I: Tokens> Parser<I> {
         let is_generator = eat!(self, '*');
 
         let ident = if is_fn_expr {
-            //
-            self.with_ctx(Context {
-                in_async: is_async,
-                in_generator: is_generator,
-                allow_direct_super: false,
-                in_class_field: false,
-                ..self.ctx()
-            })
-            .parse_maybe_opt_binding_ident(is_ident_required, false)?
+            let mut ctx = self.ctx() & !Context::AllowDirectSuper & !Context::InClassField;
+            ctx.set(Context::InAsync, is_async);
+            ctx.set(Context::InGenerator, is_generator);
+            self.with_ctx(ctx)
+                .parse_maybe_opt_binding_ident(is_ident_required, false)?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
-            self.with_ctx(Context {
-                allow_direct_super: false,
-                in_class_field: false,
-                ..self.ctx()
-            })
-            .parse_maybe_opt_binding_ident(is_ident_required, false)?
+            self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
+                .parse_maybe_opt_binding_ident(is_ident_required, false)?
         }
         .map(Ident::from);
 
-        self.with_ctx(Context {
-            allow_direct_super: false,
-            in_class_field: false,
-            will_expect_colon_for_cond: false,
-            ..self.ctx()
-        })
+        self.with_ctx(
+            self.ctx()
+                & !Context::AllowDirectSuper
+                & !Context::InClassField
+                & !Context::WillExpectColonForCond,
+        )
         .parse_with(|p| {
             let f = p.parse_fn_args_body(
                 decorators,
@@ -1283,11 +1265,9 @@ impl<I: Tokens> Parser<I> {
     {
         trace_cur!(self, parse_fn_args_body);
         // let prev_in_generator = self.ctx().in_generator;
-        let ctx = Context {
-            in_async: is_async,
-            in_generator: is_generator,
-            ..self.ctx()
-        };
+        let mut ctx = self.ctx();
+        ctx.set(Context::InAsync, is_async);
+        ctx.set(Context::InGenerator, is_generator);
 
         self.with_ctx(ctx).parse_with(|p| {
             let type_params = if p.syntax().typescript() {
@@ -1319,13 +1299,9 @@ impl<I: Tokens> Parser<I> {
 
             expect!(p, '(');
 
-            let arg_ctx = Context {
-                in_parameters: true,
-                in_function: false,
-                in_async: is_async,
-                in_generator: is_generator,
-                ..p.ctx()
-            };
+            let mut arg_ctx = (p.ctx() | Context::InParameters) & !Context::InFunction;
+            arg_ctx.set(Context::InAsync, is_async);
+            arg_ctx.set(Context::InGenerator, is_generator);
             let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;
 
             expect!(p, ')');
@@ -1397,7 +1373,7 @@ impl<I: Tokens> Parser<I> {
     where
         Self: FnBodyParser<T>,
     {
-        if self.ctx().in_declare && self.syntax().typescript() && is!(self, '{') {
+        if self.ctx().contains(Context::InDeclare) && self.syntax().typescript() && is!(self, '{') {
             //            self.emit_err(
             //                self.ctx().span_of_fn_name.expect("we are not in function"),
             //                SyntaxError::TS1183,
@@ -1405,21 +1381,22 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1183);
         }
 
-        let ctx = Context {
-            in_async: is_async,
-            in_generator: is_generator,
-            inside_non_arrow_function_scope: if is_arrow_function {
-                self.ctx().inside_non_arrow_function_scope
+        let mut ctx = (self.ctx() | Context::InFunction)
+            & !Context::InStaticBlock
+            & !Context::IsBreakAllowed
+            & !Context::IsContinueAllowed
+            & !Context::TopLevel;
+        ctx.set(Context::InAsync, is_async);
+        ctx.set(Context::InGenerator, is_generator);
+        ctx.set(
+            Context::InsideNonArrowFunctionScope,
+            if is_arrow_function {
+                self.ctx().contains(Context::InsideNonArrowFunctionScope)
             } else {
                 true
             },
-            in_function: true,
-            in_static_block: false,
-            is_break_allowed: false,
-            is_continue_allowed: false,
-            top_level: false,
-            ..self.ctx()
-        };
+        );
+
         let state = State {
             labels: Vec::new(),
             ..Default::default()
@@ -1455,11 +1432,7 @@ impl<I: Tokens> Parser<I> {
 
         let is_static = static_token.is_some();
         let function = self
-            .with_ctx(Context {
-                allow_direct_super: true,
-                in_class_field: false,
-                ..self.ctx()
-            })
+            .with_ctx((self.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
             .parse_with(|p| {
                 p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
             })?;

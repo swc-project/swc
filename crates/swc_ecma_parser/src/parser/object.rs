@@ -11,10 +11,7 @@ impl<I: Tokens> Parser<I> {
     where
         Self: ParseObject<T>,
     {
-        let ctx = Context {
-            will_expect_colon_for_cond: false,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() & !Context::WillExpectColonForCond;
         self.with_ctx(ctx).parse_with(|p| {
             trace_cur!(p, parse_object);
 
@@ -43,12 +40,8 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
 
-        let ctx = self.ctx();
-        self.with_ctx(Context {
-            in_property_name: true,
-            ..ctx
-        })
-        .parse_with(|p| {
+        let ctx = self.ctx() | Context::InPropertyName;
+        self.with_ctx(ctx).parse_with(|p| {
             let start = cur_pos!(p);
 
             let v = match *cur!(p, true) {
@@ -156,11 +149,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
         if eat!(self, '*') {
             let name = self.parse_prop_name()?;
             return self
-                .with_ctx(Context {
-                    allow_direct_super: true,
-                    in_class_field: false,
-                    ..self.ctx()
-                })
+                .with_ctx((self.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
                 .parse_fn_args_body(
                     // no decorator in an object literal
                     Vec::new(),
@@ -214,11 +203,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
         // Handle `a(){}` (and async(){} / get(){} / set(){})
         if (self.input.syntax().typescript() && is!(self, '<')) || is!(self, '(') {
             return self
-                .with_ctx(Context {
-                    allow_direct_super: true,
-                    in_class_field: false,
-                    ..self.ctx()
-                })
+                .with_ctx((self.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
                 .parse_fn_args_body(
                     // no decorator in an object literal
                     Vec::new(),
@@ -277,12 +262,8 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                 let is_generator = ident.sym == "async" && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
-                self.with_ctx(Context {
-                    allow_direct_super: true,
-                    in_class_field: false,
-                    ..self.ctx()
-                })
-                .parse_with(|parser| {
+                let ctx = (self.ctx() | Context::AllowDirectSuper) & !Context::InClassField;
+                self.with_ctx(ctx).parse_with(|parser| {
                     match &*ident.sym {
                         "get" => parser
                             .parse_fn_args_body(
@@ -453,7 +434,8 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
             }
         }
 
-        let optional = (self.input.syntax().dts() || self.ctx().in_declare) && eat!(self, '?');
+        let optional = (self.input.syntax().dts() || self.ctx().contains(Context::InDeclare))
+            && eat!(self, '?');
 
         Ok(ObjectPat {
             span,

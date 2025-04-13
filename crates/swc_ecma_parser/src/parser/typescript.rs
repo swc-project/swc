@@ -226,11 +226,10 @@ impl<I: Tokens> Parser<I> {
         let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            let ctx = Context {
-                should_not_lex_lt_or_gt_as_type: false,
-                ..self.ctx()
-            };
-            Some(self.with_ctx(ctx).parse_ts_type_args()?)
+            Some(
+                self.with_ctx(self.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                    .parse_ts_type_args()?,
+            )
         } else {
             None
         };
@@ -334,12 +333,9 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if is!(self, '<') {
-            self.with_ctx(Context {
-                should_not_lex_lt_or_gt_as_type: false,
-                ..self.ctx()
-            })
-            .parse_ts_type_args()
-            .map(Some)?
+            self.with_ctx(self.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                .parse_ts_type_args()
+                .map(Some)?
         } else {
             None
         };
@@ -390,11 +386,10 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            let ctx = Context {
-                should_not_lex_lt_or_gt_as_type: false,
-                ..self.ctx()
-            };
-            Some(self.with_ctx(ctx).parse_ts_type_args()?)
+            Some(
+                self.with_ctx(self.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                    .parse_ts_type_args()?,
+            )
         } else {
             None
         };
@@ -580,21 +575,15 @@ impl<I: Tokens> Parser<I> {
         if !self.input.syntax().typescript() {
             return Ok(false);
         }
-        let prev_ignore_error = self.input.get_ctx().ignore_error;
+        let prev_ignore_error = self.input.get_ctx().contains(Context::IgnoreError);
         let mut cloned = self.clone();
-        let ctx = Context {
-            ignore_error: true,
-            ..self.input.get_ctx()
-        };
-        cloned.set_ctx(ctx);
+        cloned.set_ctx(self.ctx() | Context::IgnoreError);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) if res => {
                 *self = cloned;
-                let ctx = Context {
-                    ignore_error: prev_ignore_error,
-                    ..self.input.get_ctx()
-                };
+                let mut ctx = self.ctx();
+                ctx.set(Context::IgnoreError, prev_ignore_error);
                 self.input.set_ctx(ctx);
                 Ok(res)
             }
@@ -642,22 +631,16 @@ impl<I: Tokens> Parser<I> {
 
         trace_cur!(self, try_parse_ts);
 
-        let prev_ignore_error = self.input.get_ctx().ignore_error;
+        let prev_ignore_error = self.input.get_ctx().contains(Context::IgnoreError);
         let mut cloned = self.clone();
-        let ctx = Context {
-            ignore_error: true,
-            ..self.input.get_ctx()
-        };
-        cloned.set_ctx(ctx);
+        cloned.set_ctx(self.ctx() | Context::IgnoreError);
         let res = op(&mut cloned);
         match res {
             Ok(Some(res)) => {
                 *self = cloned;
                 trace_cur!(self, try_parse_ts__success_value);
-                let ctx = Context {
-                    ignore_error: prev_ignore_error,
-                    ..self.input.get_ctx()
-                };
+                let mut ctx = self.ctx();
+                ctx.set(Context::IgnoreError, prev_ignore_error);
                 self.input.set_ctx(ctx);
 
                 Some(res)
@@ -754,7 +737,7 @@ impl<I: Tokens> Parser<I> {
             p.parse_ts_type()
         });
 
-        if !self.ctx().in_type && is_one_of!(self, '>', '<') {
+        if !self.ctx().contains(Context::InType) && is_one_of!(self, '>', '<') {
             self.input.merge_lt_gt();
         }
 
@@ -862,10 +845,7 @@ impl<I: Tokens> Parser<I> {
         // Inside of a module block is considered "top-level", meaning it can have
         // imports and exports.
         let body = self
-            .with_ctx(Context {
-                top_level: true,
-                ..self.ctx()
-            })
+            .with_ctx(self.ctx() | Context::TopLevel)
             .parse_with(|p| {
                 p.parse_block_body(/* directives */ false, /* end */ Some(&tok!('}')))
             })?;
@@ -965,15 +945,12 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
-        debug_assert!(self.ctx().in_type);
+        debug_assert!(self.ctx().contains(Context::InType));
 
         let start = cur_pos!(self);
 
-        self.with_ctx(Context {
-            disallow_conditional_types: false,
-            ..self.ctx()
-        })
-        .parse_with(|p| {
+        let ctx = self.ctx() & !Context::DisallowConditionalTypes;
+        self.with_ctx(ctx).parse_with(|p| {
             let ty = p.parse_ts_non_conditional_type()?;
             if p.input.had_line_break_before_cur() || !eat!(p, "extends") {
                 return Ok(ty);
@@ -981,11 +958,8 @@ impl<I: Tokens> Parser<I> {
 
             let check_type = ty;
             let extends_type = {
-                p.with_ctx(Context {
-                    disallow_conditional_types: true,
-                    ..p.ctx()
-                })
-                .parse_ts_non_conditional_type()?
+                p.with_ctx(p.ctx() | Context::DisallowConditionalTypes)
+                    .parse_ts_non_conditional_type()?
             };
 
             expect!(p, '?');
@@ -1251,11 +1225,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let mut cloned = self.clone();
-        let ctx = Context {
-            ignore_error: true,
-            ..cloned.ctx()
-        };
-        cloned.set_ctx(ctx);
+        cloned.set_ctx(self.ctx() | Context::IgnoreError);
         op(&mut cloned)
     }
 
@@ -1427,10 +1397,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ']');
             (true, key)
         } else {
-            let ctx = Context {
-                in_property_name: true,
-                ..self.ctx()
-            };
+            let ctx = self.ctx() | Context::InPropertyName;
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
                 let key = match *cur!(p, true) {
@@ -2301,7 +2268,7 @@ impl<I: Tokens> Parser<I> {
         let constraint = self.try_parse_ts(|p| {
             expect!(p, "extends");
             let constraint = p.parse_ts_non_conditional_type();
-            if p.ctx().disallow_conditional_types || !is!(p, '?') {
+            if p.ctx().contains(Context::DisallowConditionalTypes) || !is!(p, '?') {
                 constraint.map(Some)
             } else {
                 Ok(None)
@@ -2417,7 +2384,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        if self.ctx().in_declare
+        if self.ctx().contains(Context::InDeclare)
             && matches!(
                 self.syntax(),
                 Syntax::Typescript(TsSyntax { dts: false, .. })
@@ -2428,11 +2395,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let declare_start = start;
-        let ctx = Context {
-            in_declare: true,
-            ..self.ctx()
-        };
-
+        let ctx = self.ctx() | Context::InDeclare;
         self.with_ctx(ctx).parse_with(|p| {
             if is!(p, "function") {
                 return p
@@ -2683,11 +2646,7 @@ impl<I: Tokens> Parser<I> {
             None => return Ok(None),
         };
 
-        let ctx = Context {
-            in_async: true,
-            in_generator: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::InAsync) & !Context::InGenerator;
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;

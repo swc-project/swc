@@ -94,7 +94,7 @@ impl Iterator for TokensInput {
 
 impl Tokens for TokensInput {
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.module && !self.module_errors.borrow().is_empty() {
+        if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
             self.errors.borrow_mut().append(&mut *module_errors);
         }
@@ -138,7 +138,7 @@ impl Tokens for TokensInput {
     }
 
     fn add_module_mode_error(&self, error: Error) {
-        if self.ctx.module {
+        if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
         }

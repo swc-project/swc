@@ -30,13 +30,9 @@ impl<I: Tokens> Parser<I> {
 
         // It's now import statement
 
-        if !self.ctx().module {
+        if !self.ctx().contains(Context::Module) {
             // Switch to module mode
-            let ctx = Context {
-                module: true,
-                strict: true,
-                ..self.ctx()
-            };
+            let ctx = self.ctx() | Context::Module | Context::Strict;
             self.set_ctx(ctx);
         }
 
@@ -339,22 +335,14 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_imported_binding(&mut self) -> PResult<Ident> {
-        let ctx = Context {
-            in_async: false,
-            in_generator: false,
-            ..self.ctx()
-        };
+        let ctx = self.ctx() & !Context::InAsync & !Context::InGenerator;
         Ok(self.with_ctx(ctx).parse_binding_ident(false)?.into())
     }
 
     fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
-        if !self.ctx().module {
+        if !self.ctx().contains(Context::Module) {
             // Switch to module mode
-            let ctx = Context {
-                module: true,
-                strict: true,
-                ..self.ctx()
-            };
+            let ctx = self.ctx() | Context::Module | Context::Strict;
             self.set_ctx(ctx);
         }
 
@@ -881,7 +869,7 @@ impl IsDirective for ModuleItem {
 
 impl<I: Tokens> StmtLikeParser<'_, ModuleItem> for Parser<I> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleItem> {
-        if !self.ctx().top_level {
+        if !self.ctx().contains(Context::TopLevel) {
             syntax_error!(self, SyntaxError::NonTopLevelImportExport);
         }
 

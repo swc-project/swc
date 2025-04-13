@@ -8,11 +8,8 @@ mod module_item;
 
 impl<'a, I: Tokens> Parser<I> {
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
-        self.with_ctx(Context {
-            top_level: true,
-            ..self.ctx()
-        })
-        .parse_stmt_like(true)
+        self.with_ctx(self.ctx() | Context::TopLevel)
+            .parse_stmt_like(true)
     }
 
     pub(super) fn parse_block_body<Type>(
@@ -46,12 +43,7 @@ impl<'a, I: Tokens> Parser<I> {
             if allow_directives {
                 allow_directives = false;
                 if stmt.is_use_strict() {
-                    let ctx = Context {
-                        strict: true,
-                        ..old_ctx
-                    };
-                    self.set_ctx(ctx);
-
+                    self.set_ctx(old_ctx | Context::Strict);
                     if self.input.knows_cur() && !is!(self, ';') {
                         unreachable!(
                             "'use strict'; directive requires parser.input.cur to be empty or \
@@ -103,12 +95,7 @@ impl<'a, I: Tokens> Parser<I> {
             return self.handle_import_export(decorators);
         }
 
-        let ctx = Context {
-            will_expect_colon_for_cond: false,
-            allow_using_decl: true,
-            ..self.ctx()
-        };
-        self.with_ctx(ctx)
+        self.with_ctx((self.ctx() & !Context::WillExpectColonForCond) | Context::AllowUsingDecl)
             .parse_stmt_internal(start, include_decl, decorators)
             .map(From::from)
     }
@@ -133,12 +120,12 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
-        let top_level = self.ctx().top_level;
+        let top_level = self.ctx().contains(Context::TopLevel);
         match cur!(self, true) {
             tok!("await") if include_decl || top_level => {
                 if top_level {
                     self.state.found_module_item = true;
-                    if !self.ctx().can_be_module {
+                    if !self.ctx().contains(Context::CanBeModule) {
                         self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
                     }
                 }
@@ -179,10 +166,10 @@ impl<'a, I: Tokens> Parser<I> {
                     if label.is_some() && !self.state.labels.contains(&label.as_ref().unwrap().sym)
                     {
                         self.emit_err(span, SyntaxError::TS1116);
-                    } else if !self.ctx().is_break_allowed {
+                    } else if !self.ctx().contains(Context::IsBreakAllowed) {
                         self.emit_err(span, SyntaxError::TS1105);
                     }
-                } else if !self.ctx().is_continue_allowed {
+                } else if !self.ctx().contains(Context::IsContinueAllowed) {
                     self.emit_err(span, SyntaxError::TS1115);
                 } else if label.is_some()
                     && !self.state.labels.contains(&label.as_ref().unwrap().sym)
@@ -300,7 +287,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             // 'let' can start an identifier reference.
             tok!("let") if include_decl => {
-                let strict = self.ctx().strict;
+                let strict = self.ctx().contains(Context::Strict);
                 let is_keyword = match peek!(self) {
                     Some(t) => t.kind().follows_keyword_let(strict),
                     _ => false,
@@ -353,11 +340,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             tok!('{') => {
-                let ctx = Context {
-                    allow_using_decl: true,
-                    ..self.ctx()
-                };
-                return self.with_ctx(ctx).parse_block(false).map(Stmt::Block);
+                return self
+                    .with_ctx(self.ctx() | Context::AllowUsingDecl)
+                    .parse_block(false)
+                    .map(Stmt::Block);
             }
 
             _ => {}
@@ -489,12 +475,8 @@ impl<'a, I: Tokens> Parser<I> {
         let if_token = self.input.prev_span();
 
         expect!(self, '(');
-        let ctx = Context {
-            ignore_else_clause: false,
-            ..self.ctx()
-        };
         let test = self
-            .with_ctx(ctx)
+            .with_ctx(self.ctx() & !Context::IgnoreElseClause)
             .include_in_expr(true)
             .parse_expr()
             .map_err(|err| {
@@ -514,30 +496,24 @@ impl<'a, I: Tokens> Parser<I> {
             // Prevent stack overflow
             crate::maybe_grow(256 * 1024, 1024 * 1024, || {
                 // Annex B
-                if !self.ctx().strict && is!(self, "function") {
+                if !self.ctx().contains(Context::Strict) && is!(self, "function") {
                     // TODO: report error?
                 }
-                let ctx = Context {
-                    ignore_else_clause: false,
-                    top_level: false,
-                    ..self.ctx()
-                };
-                self.with_ctx(ctx).parse_stmt().map(Box::new)
+                self.with_ctx(self.ctx() & !Context::IgnoreElseClause & !Context::TopLevel)
+                    .parse_stmt()
+                    .map(Box::new)
             })?
         };
 
         // We parse `else` branch iteratively, to avoid stack overflow
         // See https://github.com/swc-project/swc/pull/3961
 
-        let alt = if self.ctx().ignore_else_clause {
+        let alt = if self.ctx().contains(Context::IgnoreElseClause) {
             None
         } else {
             let mut cur = None;
 
-            let ctx = Context {
-                ignore_else_clause: true,
-                ..self.ctx()
-            };
+            let ctx = self.ctx() | Context::IgnoreElseClause;
 
             let last = loop {
                 if !eat!(self, "else") {
@@ -545,11 +521,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    let ctx = Context {
-                        ignore_else_clause: false,
-                        top_level: false,
-                        ..self.ctx()
-                    };
+                    let ctx = self.ctx() & !Context::IgnoreElseClause & !Context::TopLevel;
 
                     // As we eat `else` above, we need to parse statement once.
                     let last = self.with_ctx(ctx).parse_stmt()?;
@@ -610,7 +582,9 @@ impl<'a, I: Tokens> Parser<I> {
             .into())
         });
 
-        if !self.ctx().in_function && !self.input.syntax().allow_return_outside_function() {
+        if !self.ctx().contains(Context::InFunction)
+            && !self.input.syntax().allow_return_outside_function()
+        {
             self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
         }
 
@@ -630,11 +604,8 @@ impl<'a, I: Tokens> Parser<I> {
         let mut span_of_previous_default = None;
 
         expect!(self, '{');
-        let ctx = Context {
-            is_break_allowed: true,
-            ..self.ctx()
-        };
 
+        let ctx = self.ctx() | Context::IsBreakAllowed;
         self.with_ctx(ctx).parse_with(|p| {
             while is_one_of!(p, "case", "default") {
                 let mut cons = Vec::new();
@@ -655,11 +626,8 @@ impl<'a, I: Tokens> Parser<I> {
 
                 while !eof!(p) && !is_one_of!(p, "case", "default", '}') {
                     cons.push(
-                        p.with_ctx(Context {
-                            top_level: false,
-                            ..p.ctx()
-                        })
-                        .parse_stmt_list_item()?,
+                        p.with_ctx(p.ctx() & !Context::TopLevel)
+                            .parse_stmt_list_item()?,
                     );
                 }
 
@@ -759,10 +727,7 @@ impl<'a, I: Tokens> Parser<I> {
             let type_ann_start = cur_pos!(self);
 
             if self.syntax().typescript() && eat!(self, ':') {
-                let ctx = Context {
-                    in_type: true,
-                    ..self.ctx()
-                };
+                let ctx = self.ctx() | Context::InType;
 
                 let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
@@ -831,7 +796,7 @@ impl<'a, I: Tokens> Parser<I> {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotEnabled);
         }
 
-        if !self.ctx().allow_using_decl {
+        if !self.ctx().contains(Context::AllowUsingDecl) {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotAllowed);
         }
 
@@ -912,10 +877,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             let ctx = if should_include_in {
-                Context {
-                    include_in_expr: true,
-                    ..self.ctx()
-                }
+                self.ctx() | Context::IncludeInExpr
             } else {
                 self.ctx()
             };
@@ -1013,9 +975,12 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 // Destructuring bindings require initializers, but
                 // typescript allows `declare` vars not to have initializers.
-                if self.ctx().in_declare {
+                if self.ctx().contains(Context::InDeclare) {
                     None
-                } else if kind == VarDeclKind::Const && !for_loop && !self.ctx().in_declare {
+                } else if kind == VarDeclKind::Const
+                    && !for_loop
+                    && !self.ctx().contains(Context::InDeclare)
+                {
                     self.emit_err(
                         span!(self, start),
                         SyntaxError::ConstDeclarationsRequireInitialization,
@@ -1049,12 +1014,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         assert_and_bump!(self, "do");
 
-        let ctx = Context {
-            is_break_allowed: true,
-            is_continue_allowed: true,
-            top_level: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
         expect!(self, "while");
         expect!(self, '(');
@@ -1077,12 +1038,8 @@ impl<'a, I: Tokens> Parser<I> {
         let test = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
 
-        let ctx = Context {
-            is_break_allowed: true,
-            is_continue_allowed: true,
-            top_level: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
@@ -1108,11 +1065,7 @@ impl<'a, I: Tokens> Parser<I> {
         let obj = self.include_in_expr(true).parse_expr()?;
         expect!(self, ')');
 
-        let ctx = Context {
-            in_function: true,
-            top_level: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::InFunction) & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
@@ -1125,10 +1078,7 @@ impl<'a, I: Tokens> Parser<I> {
         expect!(self, '{');
 
         let stmts = self
-            .with_ctx(Context {
-                top_level: false,
-                ..self.ctx()
-            })
+            .with_ctx(self.ctx() & !Context::TopLevel)
             .parse_block_body(allow_directives, Some(&tok!('}')))?;
 
         let span = span!(self, start);
@@ -1140,11 +1090,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
-        let ctx = Context {
-            is_break_allowed: true,
-            allow_using_decl: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::IsBreakAllowed) & !Context::AllowUsingDecl;
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
@@ -1162,7 +1108,7 @@ impl<'a, I: Tokens> Parser<I> {
             let body = Box::new(if is!(p, "function") {
                 let f = p.parse_fn_decl(Vec::new())?;
                 if let Decl::Fn(FnDecl { function, .. }) = &f {
-                    if p.ctx().strict {
+                    if p.ctx().contains(Context::Strict) {
                         p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
                     }
                     if function.is_generator || function.is_async {
@@ -1172,11 +1118,7 @@ impl<'a, I: Tokens> Parser<I> {
 
                 f.into()
             } else {
-                p.with_ctx(Context {
-                    top_level: false,
-                    ..p.ctx()
-                })
-                .parse_stmt()?
+                p.with_ctx(p.ctx() & !Context::TopLevel).parse_stmt()?
             });
 
             for err in errors {
@@ -1211,18 +1153,13 @@ impl<'a, I: Tokens> Parser<I> {
         };
         expect!(self, '(');
 
-        let mut ctx = self.ctx();
-        ctx.expr_ctx.for_loop_init = true;
-        ctx.expr_ctx.for_await_loop_init = await_token.is_some();
+        let mut ctx = self.ctx() | Context::ForLoopInit;
+        ctx.set(Context::ForAwaitLoopInit, await_token.is_some());
 
         let head = self.with_ctx(ctx).parse_for_head()?;
         expect!(self, ')');
-        let ctx = Context {
-            is_break_allowed: true,
-            is_continue_allowed: true,
-            top_level: false,
-            ..self.ctx()
-        };
+        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
+            & !Context::TopLevel;
         let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
 
         let span = span!(self, start);
@@ -1266,7 +1203,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_head(&mut self) -> PResult<TempForHead> {
-        let strict = self.ctx().strict;
+        let strict = self.ctx().contains(Context::Strict);
 
         if is_one_of!(self, "const", "var")
             || (is!(self, "let")
@@ -1280,7 +1217,9 @@ impl<'a, I: Tokens> Parser<I> {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
                     }
                 } else {
-                    if (self.ctx().strict || is!(self, "of")) && decl.decls[0].init.is_some() {
+                    if (self.ctx().contains(Context::Strict) || is!(self, "of"))
+                        && decl.decls[0].init.is_some()
+                    {
                         self.emit_err(
                             decl.decls[0].name.span(),
                             SyntaxError::VarInitializerInForInHead,
