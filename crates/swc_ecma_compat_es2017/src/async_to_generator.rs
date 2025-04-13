@@ -227,6 +227,19 @@ impl VisitMut for AsyncToGenerator {
         .into()
     }
 
+    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
+        let fn_state = self.fn_state.take();
+        f.visit_mut_children_with(self);
+        self.fn_state = fn_state;
+    }
+
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        f.param.visit_mut_with(self);
+        let fn_state = self.fn_state.take();
+        f.body.visit_mut_with(self);
+        self.fn_state = fn_state;
+    }
+
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
         if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
             && !should_work::<ShouldWork, _>(&*exprs)
