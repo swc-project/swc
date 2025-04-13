@@ -321,19 +321,19 @@ const UNI: ByteHandler = Some(|lexer| {
 const COL: ByteHandler = Some(|lexer| lexer.read_token_colon().map(Some));
 
 /// `%`
-const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(b'%').map(Some));
+const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod::<b'%'>().map(Some));
 
 /// `*`
-const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(b'*').map(Some));
+const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod::<b'*'>().map(Some));
 
 /// `?`
 const QST: ByteHandler = Some(|lexer| lexer.read_token_question_mark().map(Some));
 
 /// `&`
-const AMP: ByteHandler = Some(|lexer| lexer.read_token_logical(b'&').map(Some));
+const AMP: ByteHandler = Some(|lexer| lexer.read_token_logical::<b'&'>().map(Some));
 
 /// `|`
-const PIP: ByteHandler = Some(|lexer| lexer.read_token_logical(b'|').map(Some));
+const PIP: ByteHandler = Some(|lexer| lexer.read_token_logical::<b'|'>().map(Some));
 
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
@@ -372,25 +372,25 @@ const CRT: ByteHandler = Some(|lexer| {
 });
 
 /// `+`
-const PLS: ByteHandler = Some(|lexer| lexer.read_token_plus_minus(b'+'));
+const PLS: ByteHandler = Some(|lexer| lexer.read_token_plus_minus::<b'+'>());
 
 /// `-`
-const MIN: ByteHandler = Some(|lexer| lexer.read_token_plus_minus(b'-'));
+const MIN: ByteHandler = Some(|lexer| lexer.read_token_plus_minus::<b'-'>());
 
 /// `!`
-const EXL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'!'));
+const EXL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq::<b'!'>());
 
 /// `=`
-const EQL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq(b'='));
+const EQL: ByteHandler = Some(|lexer| lexer.read_token_bang_or_eq::<b'='>());
 
 /// `.`
 const PRD: ByteHandler = Some(|lexer| lexer.read_token_dot().map(Some));
 
 /// `<`
-const LSS: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
+const LSS: ByteHandler = Some(|lexer| lexer.read_token_lt_gt::<b'<'>());
 
 /// `>`
-const MOR: ByteHandler = Some(|lexer| lexer.read_token_lt_gt());
+const MOR: ByteHandler = Some(|lexer| lexer.read_token_lt_gt::<b'>'>());
 
 /// `/`
 const SLH: ByteHandler = Some(|lexer| lexer.read_slash());

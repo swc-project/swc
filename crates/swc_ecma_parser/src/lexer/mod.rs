@@ -330,7 +330,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
+    fn read_token_logical<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -338,7 +338,7 @@ impl<'a> Lexer<'a> {
             // Safety: cur() is Some(c as char)
             self.input.bump();
         }
-        let token = if c == b'&' {
+        let token = if C == b'&' {
             BinOpToken::BitAnd
         } else {
             BinOpToken::BitOr
@@ -354,7 +354,7 @@ impl<'a> Lexer<'a> {
         }
 
         // '||', '&&'
-        if self.input.cur() == Some(c as char) {
+        if self.input.cur() == Some(C as char) {
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input.bump();
@@ -396,8 +396,8 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
-        let is_mul = c == b'*';
+    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Token> {
+        let is_mul = C == b'*';
         unsafe {
             // Safety: cur() is Some(c)
             self.input.bump();
@@ -552,7 +552,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
         unsafe {
@@ -561,33 +561,33 @@ impl<'a> Lexer<'a> {
         }
 
         // '++', '--'
-        Ok(Some(if self.input.cur() == Some(c as char) {
+        Ok(Some(if self.input.cur() == Some(C as char) {
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input.bump();
             }
 
             // Handle -->
-            if self.state.had_line_break && c == b'-' && self.eat(b'>') {
+            if self.state.had_line_break && C == b'-' && self.eat(b'>') {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
                 self.skip_space::<true>();
                 return self.read_token();
             }
 
-            if c == b'+' {
+            if C == b'+' {
                 Token::PlusPlus
             } else {
                 Token::MinusMinus
             }
         } else if self.input.eat_byte(b'=') {
-            Token::AssignOp(if c == b'+' {
+            Token::AssignOp(if C == b'+' {
                 AssignOp::AddAssign
             } else {
                 AssignOp::SubAssign
             })
         } else {
-            Token::BinOp(if c == b'+' {
+            Token::BinOp(if C == b'+' {
                 BinOpToken::Add
             } else {
                 BinOpToken::Sub
@@ -595,7 +595,7 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
@@ -608,7 +608,7 @@ impl<'a> Lexer<'a> {
             // "=="
 
             if self.input.eat_byte(b'=') {
-                if c == b'!' {
+                if C == b'!' {
                     Token::BinOp(BinOpToken::NotEqEq)
                 } else {
                     // =======
@@ -622,16 +622,16 @@ impl<'a> Lexer<'a> {
 
                     Token::BinOp(BinOpToken::EqEqEq)
                 }
-            } else if c == b'!' {
+            } else if C == b'!' {
                 Token::BinOp(BinOpToken::NotEq)
             } else {
                 Token::BinOp(BinOpToken::EqEq)
             }
-        } else if c == b'=' && self.input.eat_byte(b'>') {
+        } else if C == b'=' && self.input.eat_byte(b'>') {
             // "=>"
 
             Token::Arrow
-        } else if c == b'!' {
+        } else if C == b'!' {
             Token::Bang
         } else {
             Token::AssignOp(AssignOp::Assign)
@@ -655,25 +655,23 @@ impl Lexer<'_> {
     }
 
     #[inline(never)]
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
-
+    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
-        let c = self.cur().unwrap();
         self.bump();
 
         if self.syntax.typescript() && self.ctx.in_type && !self.ctx.should_not_lex_lt_or_gt_as_type
         {
-            if c == '<' {
+            if C == b'<' {
                 return Ok(Some(tok!('<')));
-            } else if c == '>' {
+            } else if C == b'>' {
                 return Ok(Some(tok!('>')));
             }
         }
 
         // XML style comment. `<!--`
-        if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
+        if C == b'<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-')
+        {
             self.skip_line_comment(3);
             self.skip_space::<true>();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
@@ -681,23 +679,23 @@ impl Lexer<'_> {
             return self.read_token();
         }
 
-        let mut op = if c == '<' {
+        let mut op = if C == b'<' {
             BinOpToken::Lt
         } else {
             BinOpToken::Gt
         };
 
         // '<<', '>>'
-        if self.cur() == Some(c) {
+        if self.cur() == Some(C as char) {
             self.bump();
-            op = if c == '<' {
+            op = if C == b'<' {
                 BinOpToken::LShift
             } else {
                 BinOpToken::RShift
             };
 
             //'>>>'
-            if c == '>' && self.cur() == Some(c) {
+            if C == b'>' && self.cur() == Some(C as char) {
                 self.bump();
                 op = BinOpToken::ZeroFillRShift;
             }
