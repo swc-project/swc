@@ -69,6 +69,7 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => {
                 let mut buf = ArrayVec::new();
+                // Safety: we can make sure that `buf` has enough capacity
                 unsafe {
                     buf.push_unchecked(c);
                 }
@@ -84,6 +85,7 @@ impl IntoIterator for Char {
                 // The second code unit of a surrogate pair is always in the range from 0xDC00
                 // to 0xDFFF, and is called a low surrogate or a trail surrogate.
                 if !(0xdc00..=0xdfff).contains(&low) {
+                    // Safety: we can make sure that `buf` has enough capacity
                     unsafe {
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
@@ -99,6 +101,8 @@ impl IntoIterator for Char {
                 } else {
                     // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
                     let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
+
+                    // Safety: we can make sure that `buf` has enough capacity
                     unsafe {
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
