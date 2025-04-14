@@ -24,13 +24,13 @@ export interface NapiMinifyExtra {
 
 export declare function newMangleNameCache(): object
 
-export declare function parse(src: string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
+export declare function parse(src: Buffer | string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
 export declare function parseFile(path: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<string>
 
 export declare function parseFileSync(path: string, opts: Buffer): string
 
-export declare function parseSync(src: string, opts: Buffer, filename?: string | undefined | null): string
+export declare function parseSync(src: Buffer | string, opts: Buffer, filename?: string | undefined | null): string
 
 export declare function print(programJson: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
