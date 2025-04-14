@@ -2,7 +2,7 @@ use std::{fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use compact_str::CompactString;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -137,9 +137,16 @@ impl MacroNode for Str {
 #[node_impl]
 impl MacroNode for Number {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_num_lit_internal(self, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Number {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
