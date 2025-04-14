@@ -139,3 +139,13 @@ macro_rules! emit {
         crate::Node::with_new_span(&$n, $emitter)?
     };
 }
+
+macro_rules! only_new {
+    (true, $n:expr) => {
+        ()
+    };
+
+    (false, $n:expr) => {
+        $n
+    };
+}
