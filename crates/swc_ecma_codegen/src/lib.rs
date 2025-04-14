@@ -100,7 +100,7 @@ impl<N: Node> Node for Box<N> {
         W: WriteJs,
         S: SourceMapper + SourceMapperExt,
     {
-        Box::new((**self).with_new_span(emitter))
+        (**self).with_new_span(emitter).map(Box::new)
     }
 }
 pub struct Emitter<'a, W, S>
