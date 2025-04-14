@@ -123,7 +123,7 @@ macro_rules! srcmap {
     };
 }
 
-macro_rules! emit_node_inner {
+macro_rules! emit {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
     };
