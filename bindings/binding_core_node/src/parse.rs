@@ -6,7 +6,7 @@ use std::{
 use anyhow::Context as _;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
-    Env, Task,
+    Either, Env, Task,
 };
 use swc_core::{
     base::{
@@ -136,9 +136,16 @@ impl Task for ParseFileTask {
     }
 }
 
+fn stringify(src: Either<Buffer, String>) -> String {
+    match src {
+        Either::A(src) => String::from_utf8_lossy(src.as_ref()).to_string(),
+        Either::B(src) => src,
+    }
+}
+
 #[napi]
 pub fn parse(
-    src: String,
+    src: Either<Buffer, String>,
     options: Buffer,
     filename: Option<String>,
     signal: Option<AbortSignal>,
@@ -146,6 +153,7 @@ pub fn parse(
     crate::util::init_default_trace_subscriber();
 
     let c = get_compiler();
+    let src = stringify(src);
     let options = String::from_utf8_lossy(options.as_ref()).to_string();
     let filename = if let Some(value) = filename {
         FileName::Real(value.into())
@@ -165,10 +173,15 @@ pub fn parse(
 }
 
 #[napi]
-pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::Result<String> {
+pub fn parse_sync(
+    src: Either<Buffer, String>,
+    opts: Buffer,
+    filename: Option<String>,
+) -> napi::Result<String> {
     crate::util::init_default_trace_subscriber();
-    let c = get_compiler();
 
+    let c = get_compiler();
+    let src = stringify(src);
     let options: ParseOptions = get_deserialized(&opts)?;
     let filename = if let Some(value) = filename {
         FileName::Real(value.into())

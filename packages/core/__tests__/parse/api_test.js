@@ -29,3 +29,17 @@ it("can be emit code back synchronously", async () => {
 
     expect(out.code.trim().replace("\n", "")).toBe(`class Foo {}`);
 });
+
+it("can be emit code back asynchronously for buffer input", async () => {
+    const m = await swc.parse(Buffer.from(`class Foo {}`));
+    const out = await swc.print(m);
+
+    expect(out.code.trim().replace("\n", "")).toBe(`class Foo {}`);
+});
+
+it("can be emit code back synchronously for buffer input", async () => {
+    const m = swc.parseSync(Buffer.from(`class Foo {}`));
+    const out = swc.printSync(m);
+
+    expect(out.code.trim().replace("\n", "")).toBe(`class Foo {}`);
+});
