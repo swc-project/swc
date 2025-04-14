@@ -27,16 +27,12 @@ define([
         value: true
     });
     function foo() {
-        return _foo.apply(this, arguments);
-    }
-    function _foo() {
-        _foo = _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             return yield new Promise((resolve, reject)=>require([
                     (yield new Promise((resolve, reject)=>require([
                             "./foo"
                         ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject))).default
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
-        });
-        return _foo.apply(this, arguments);
+        })();
     }
 });

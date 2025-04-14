@@ -12,7 +12,7 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
     };
     try {
         var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-            return _async_to_generator(function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
                 return _ts_generator(this, function(_state) {
                     return [
                         2
@@ -20,7 +20,7 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
                 });
             })();
         }), true), d2 = _ts_add_disposable_resource(env, _define_property({}, Symbol.asyncDispose, function() {
-            return _async_to_generator(function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
                 return _ts_generator(this, function(_state) {
                     return [
                         2

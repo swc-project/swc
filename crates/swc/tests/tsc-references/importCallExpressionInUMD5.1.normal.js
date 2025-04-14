@@ -36,13 +36,9 @@
         value: true
     });
     function func() {
-        return _func.apply(this, arguments);
-    }
-    function _func() {
-        _func = _async_to_generator._(function*() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
             const packageName = '.';
             const packageJson = yield import(packageName + '/package.json');
-        });
-        return _func.apply(this, arguments);
+        })();
     }
 });

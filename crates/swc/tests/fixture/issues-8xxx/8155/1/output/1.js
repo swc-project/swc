@@ -6,19 +6,9 @@ let someFn = (xx, x, y)=>[
         1,
         2,
         3
-    ], goodFunction = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator._(function*() {
+    ], goodFunction = ()=>/*#__PURE__*/ _async_to_generator._(function*() {
         console.log(someFn(1, (yield getArray()), (yield getArray())));
-    });
-    return function() {
-        return _ref.apply(this, arguments);
-    };
-}(), badFunction = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator._(function*() {
+    })(), badFunction = ()=>/*#__PURE__*/ _async_to_generator._(function*() {
         console.log(someFn(1, (yield getArray()), (yield getArray())));
-    });
-    return function() {
-        return _ref.apply(this, arguments);
-    };
-}();
+    })();
 goodFunction(), badFunction();

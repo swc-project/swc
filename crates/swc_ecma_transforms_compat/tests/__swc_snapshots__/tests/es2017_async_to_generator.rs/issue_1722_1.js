@@ -1,9 +1,5 @@
-(function() {
-    var _main = _async_to_generator(function*() {
+(function main() {
+    return /*#__PURE__*/ _async_to_generator(function*() {
         console.log(1);
-    });
-    function main() {
-        return _main.apply(this, arguments);
-    }
-    return main;
-})()(foo);
+    })();
+})(foo);

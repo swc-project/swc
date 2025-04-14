@@ -9,16 +9,17 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.method = function method() {
-        function other() {}
         var _this = this, _arguments = arguments;
-        var fn = /*#__PURE__*/ function() {
-            var _ref = _async_to_generator(function() {
+        function other() {}
+        var fn = function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
+                var _arguments = arguments;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
                                 4,
-                                other.apply(_this, _arguments)
+                                other.apply(this, _arguments)
                             ];
                         case 1:
                             return [
@@ -27,11 +28,8 @@ var C = /*#__PURE__*/ function() {
                             ];
                     }
                 });
-            });
-            return function fn() {
-                return _ref.apply(this, arguments);
-            };
-        }();
+            }).apply(_this, _arguments);
+        };
     };
     return C;
 }();

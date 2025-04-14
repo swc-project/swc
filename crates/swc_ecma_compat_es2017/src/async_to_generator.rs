@@ -1,14 +1,15 @@
-use std::{iter, mem};
+use std::{mem, vec};
 
 use serde::Deserialize;
 use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
-use swc_ecma_transforms_macros::fast_path;
+use swc_ecma_transforms_base::{
+    helper, helper_expr,
+    perf::{should_work, Check},
+};
 use swc_ecma_utils::{
-    find_pat_ids,
-    function::{init_this, FnEnvHoister, FnWrapperResult, FunctionWrapper},
-    prepend_stmt, private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
+    function::{init_this, FnEnvHoister},
+    prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -38,6 +39,7 @@ use swc_trace_macro::swc_trace;
 pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
     visit_mut_pass(AsyncToGenerator {
         c,
+        fn_state: None,
         in_subclass: false,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
     })
@@ -52,489 +54,288 @@ pub struct Config {
     pub ignore_function_length: bool,
 }
 
+#[derive(Default, Clone, Debug)]
+struct FnState {
+    is_async: bool,
+    is_generator: bool,
+    use_this: bool,
+    use_arguments: bool,
+    use_super: bool,
+}
+
 #[derive(Default, Clone)]
 struct AsyncToGenerator {
     c: Config,
 
-    in_subclass: bool,
-    unresolved_ctxt: SyntaxContext,
-}
-
-struct Actual {
-    c: Config,
+    fn_state: Option<FnState>,
 
     in_subclass: bool,
-    hoister: FnEnvHoister,
 
     unresolved_ctxt: SyntaxContext,
-    extra_stmts: Vec<Stmt>,
 }
 
 #[swc_trace]
-#[fast_path(ShouldWork)]
 impl VisitMut for AsyncToGenerator {
     noop_visit_mut_type!(fail);
 
-    fn visit_mut_class(&mut self, c: &mut Class) {
-        if c.super_class.is_some() {
-            self.in_subclass = true;
+    fn visit_mut_function(&mut self, function: &mut Function) {
+        let Some(body) = &mut function.body else {
+            return;
+        };
+
+        function.params.visit_mut_with(self);
+
+        let fn_state = mem::replace(
+            &mut self.fn_state,
+            Some(FnState {
+                is_async: function.is_async,
+                is_generator: function.is_generator,
+                ..Default::default()
+            }),
+        );
+        body.visit_mut_with(self);
+
+        let mut fn_state = mem::replace(&mut self.fn_state, fn_state).unwrap();
+        if !fn_state.is_async {
+            return;
         }
-        c.visit_mut_children_with(self);
-        self.in_subclass = false;
+
+        let mut stmts = vec![];
+        if fn_state.use_super {
+            // slow path
+            let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
+            fn_env_hoister.disable_this();
+            fn_env_hoister.disable_arguments();
+
+            body.visit_mut_with(&mut fn_env_hoister);
+
+            stmts.extend(fn_env_hoister.to_stmt());
+        }
+
+        function.is_async = false;
+        function.is_generator = false;
+        if !fn_state.use_arguments {
+            // Errors thrown during argument evaluation must reject the resulting promise,
+            // which needs more complex code to handle
+            // https://github.com/evanw/esbuild/blob/75286c1b4fabcf93140b97c3c0488f0253158b47/internal/js_parser/js_parser_lower.go#L364
+            fn_state.use_arguments =
+                could_potentially_throw(&function.params, self.unresolved_ctxt);
+        }
+
+        let params = if fn_state.use_arguments {
+            let mut params = vec![];
+
+            if !self.c.ignore_function_length {
+                let fn_len = function
+                    .params
+                    .iter()
+                    .filter(|p| !matches!(p.pat, Pat::Assign(..) | Pat::Rest(..)))
+                    .count();
+                for i in 0..fn_len {
+                    params.push(Param {
+                        pat: private_ident!(format!("_{}", i)).into(),
+                        span: DUMMY_SP,
+                        decorators: vec![],
+                    });
+                }
+            }
+
+            mem::replace(&mut function.params, params)
+        } else {
+            vec![]
+        };
+
+        let expr = make_fn_ref(&fn_state, params, body.take());
+
+        stmts.push(
+            ReturnStmt {
+                arg: Some(expr.into()),
+                ..Default::default()
+            }
+            .into(),
+        );
+
+        function.body = Some(BlockStmt {
+            stmts,
+            ..Default::default()
+        });
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n);
+    fn visit_mut_arrow_expr(&mut self, arrow_expr: &mut ArrowExpr) {
+        if !arrow_expr.is_async {
+            arrow_expr.visit_mut_children_with(self);
+            return;
+        }
+
+        // arrow expressions cannot be generator
+        debug_assert!(!arrow_expr.is_generator);
+
+        arrow_expr.params.visit_mut_with(self);
+
+        let fn_state = mem::replace(
+            &mut self.fn_state,
+            Some(FnState {
+                is_async: true,
+                is_generator: false,
+                ..Default::default()
+            }),
+        );
+
+        arrow_expr.body.visit_mut_with(self);
+        let fn_state = mem::replace(&mut self.fn_state, fn_state).unwrap();
+
+        // `this`/`arguments`/`super` are inherited from the parent function
+        if let Some(out_fn_state) = &mut self.fn_state {
+            out_fn_state.use_this |= fn_state.use_this;
+            out_fn_state.use_arguments |= fn_state.use_arguments;
+            out_fn_state.use_super |= fn_state.use_super;
+        }
+
+        let should_handle_super =
+            fn_state.use_super && self.fn_state.as_ref().map_or(false, |s| !s.is_async);
+
+        let mut stmts = vec![];
+        if should_handle_super {
+            // slow path
+            let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
+            fn_env_hoister.disable_this();
+            fn_env_hoister.disable_arguments();
+
+            arrow_expr.body.visit_mut_with(&mut fn_env_hoister);
+
+            stmts.extend(fn_env_hoister.to_stmt());
+        }
+
+        arrow_expr.is_async = false;
+
+        let body = match *arrow_expr.body.take() {
+            BlockStmtOrExpr::BlockStmt(block_stmt) => block_stmt,
+            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                stmts: vec![ReturnStmt {
+                    arg: Some(expr),
+                    ..Default::default()
+                }
+                .into()],
+                ..Default::default()
+            },
+        };
+
+        let expr = make_fn_ref(&fn_state, vec![], body);
+
+        arrow_expr.body = if should_handle_super {
+            stmts.push(expr.into_stmt());
+            BlockStmtOrExpr::BlockStmt(BlockStmt {
+                stmts,
+                ..Default::default()
+            })
+        } else {
+            BlockStmtOrExpr::Expr(Box::new(expr))
+        }
+        .into()
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.visit_mut_stmt_like(n);
+    fn visit_mut_class(&mut self, class: &mut Class) {
+        class.super_class.visit_mut_with(self);
+        let in_subclass = mem::replace(&mut self.in_subclass, class.super_class.is_some());
+        class.body.visit_mut_with(self);
+        self.in_subclass = in_subclass;
     }
-}
 
-#[swc_trace]
-impl AsyncToGenerator {
-    fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike + VisitMutWith<Actual>,
-        Vec<T>: VisitMutWith<Self>,
-    {
-        let mut stmts_updated = Vec::with_capacity(stmts.len());
+    fn visit_mut_constructor(&mut self, constructor: &mut Constructor) {
+        constructor.params.visit_mut_with(self);
 
-        for mut stmt in stmts.drain(..) {
-            let hoister = FnEnvHoister::new(self.unresolved_ctxt);
+        if let Some(BlockStmt { stmts, .. }) = &mut constructor.body {
+            if !should_work::<ShouldWork, _>(&*stmts) {
+                return;
+            }
 
-            let mut actual = Actual {
-                c: self.c,
-                in_subclass: self.in_subclass,
-                hoister,
-                unresolved_ctxt: self.unresolved_ctxt,
-                extra_stmts: Vec::new(),
+            let (decl, this_id) = if self.in_subclass {
+                let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
+                stmts.visit_mut_with(&mut fn_env_hoister);
+                fn_env_hoister.to_stmt_in_subclass()
+            } else {
+                (None, None)
             };
-
-            stmt.visit_mut_with(&mut actual);
-            stmts_updated.extend(actual.hoister.to_stmt().into_iter().map(T::from));
-            stmts_updated.push(stmt);
-            stmts_updated.extend(actual.extra_stmts.into_iter().map(T::from));
-        }
-
-        *stmts = stmts_updated;
-        stmts.visit_mut_children_with(self);
-    }
-}
-
-#[swc_trace]
-#[fast_path(ShouldWork)]
-impl VisitMut for Actual {
-    noop_visit_mut_type!(fail);
-
-    fn visit_mut_class(&mut self, c: &mut Class) {
-        let old = self.in_subclass;
-
-        if c.super_class.is_some() {
-            self.in_subclass = true;
-        }
-        c.visit_mut_children_with(self);
-        self.in_subclass = old;
-    }
-
-    fn visit_mut_constructor(&mut self, c: &mut Constructor) {
-        c.params.visit_mut_children_with(self);
-
-        if let Some(BlockStmt { span: _, stmts, .. }) = &mut c.body {
-            let old_rep = self.hoister.take();
 
             stmts.visit_mut_children_with(self);
 
-            if self.in_subclass {
-                let (decl, this_id) =
-                    mem::replace(&mut self.hoister, old_rep).to_stmt_in_subclass();
-
-                if let Some(this_id) = this_id {
-                    init_this(stmts, &this_id)
-                }
-
-                if let Some(decl) = decl {
-                    prepend_stmt(stmts, decl)
-                }
-            } else {
-                let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
-
-                if let Some(decl) = decl {
-                    prepend_stmt(stmts, decl)
-                }
+            if let Some(this_id) = this_id {
+                init_this(stmts, &this_id)
             }
-        }
-    }
 
-    fn visit_mut_class_method(&mut self, m: &mut ClassMethod) {
-        if m.function.body.is_none() {
-            return;
-        }
-
-        m.visit_mut_children_with(self);
-
-        if m.kind != MethodKind::Method || !m.function.is_async {
-            return;
-        }
-        let params = m.function.params.clone();
-
-        let mut visitor = FnEnvHoister::new(self.unresolved_ctxt);
-        m.function.params.clear();
-
-        m.function.body.visit_mut_with(&mut visitor);
-
-        let expr = make_fn_ref(FnExpr {
-            ident: None,
-            function: m.function.take(),
-        });
-
-        m.function = Function {
-            span: m.span,
-            is_async: false,
-            is_generator: false,
-            params,
-            body: Some(BlockStmt {
-                stmts: visitor
-                    .to_stmt()
-                    .into_iter()
-                    .chain(iter::once(
-                        ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: expr.as_callee(),
-                                    args: Vec::new(),
-                                    ..Default::default()
-                                }
-                                .into(),
-                            ),
-                        }
-                        .into(),
-                    ))
-                    .collect(),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }
-        .into();
-    }
-
-    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
-        if let Callee::Expr(e) = &mut expr.callee {
-            let mut e = &mut **e;
-            while let Expr::Paren(ParenExpr { expr, .. }) = e {
-                e = &mut **expr;
+            if let Some(decl) = decl {
+                prepend_stmt(stmts, decl)
             }
-            self.visit_mut_expr_with_binding(e, None, true);
-        }
-
-        expr.args.visit_mut_with(self)
-    }
-
-    fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        self.visit_mut_expr_with_binding(expr, None, false);
-    }
-
-    fn visit_mut_function(&mut self, f: &mut Function) {
-        let old_rep = self.hoister.take();
-
-        f.visit_mut_children_with(self);
-
-        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
-
-        if let (Some(body), Some(decl)) = (&mut f.body, decl) {
-            prepend_stmt(&mut body.stmts, decl);
         }
     }
 
     fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        f.key.visit_mut_with(self);
-
-        if let Some(body) = &mut f.body {
-            let old_rep = self.hoister.take();
-
-            body.visit_mut_with(self);
-
-            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
-
-            if let Some(stmt) = decl {
-                prepend_stmt(&mut body.stmts, stmt);
-            }
-        }
+        let fn_state = self.fn_state.take();
+        f.visit_mut_children_with(self);
+        self.fn_state = fn_state;
     }
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        f.key.visit_mut_with(self);
         f.param.visit_mut_with(self);
-
-        if let Some(body) = &mut f.body {
-            let old_rep = self.hoister.take();
-
-            body.visit_mut_with(self);
-
-            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
-
-            if let Some(stmt) = decl {
-                prepend_stmt(&mut body.stmts, stmt);
-            }
-        }
+        let fn_state = self.fn_state.take();
+        f.body.visit_mut_with(self);
+        self.fn_state = fn_state;
     }
 
-    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        f.visit_mut_children_with(self);
-        if !f.function.is_async {
-            return;
-        }
-
-        let mut wrapper = FunctionWrapper::from(f.take());
-        wrapper.ignore_function_name = self.c.ignore_function_name;
-        wrapper.ignore_function_length = self.c.ignore_function_length;
-
-        let fn_expr = wrapper.function.fn_expr().unwrap();
-
-        wrapper.function = make_fn_ref(fn_expr);
-
-        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
-        *f = name_fn;
-        self.extra_stmts.push(ref_fn.into());
-    }
-
-    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
-        match item {
-            // if fn is ExportDefaultDecl, fn is not FnDecl but FnExpr
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export_default)) => {
-                if let DefaultDecl::Fn(expr) = &mut export_default.decl {
-                    if expr.function.is_async {
-                        let mut wrapper = FunctionWrapper::from(expr.take());
-                        wrapper.ignore_function_name = self.c.ignore_function_name;
-                        wrapper.ignore_function_length = self.c.ignore_function_length;
-
-                        let fn_expr = wrapper.function.fn_expr().unwrap();
-
-                        wrapper.function = make_fn_ref(fn_expr);
-
-                        let FnWrapperResult { name_fn, ref_fn } = wrapper.into();
-
-                        *item = ExportDefaultDecl {
-                            span: export_default.span,
-                            decl: name_fn.into(),
-                        }
-                        .into();
-                        self.extra_stmts.push(ref_fn.into());
-                    };
-                } else {
-                    export_default.visit_mut_children_with(self);
-                }
-            }
-            _ => item.visit_mut_children_with(self),
-        };
-    }
-
-    fn visit_mut_method_prop(&mut self, prop: &mut MethodProp) {
-        prop.visit_mut_children_with(self);
-
-        if !prop.function.is_async {
-            return;
-        }
-
-        let Function {
-            span,
-            params,
-            body: Some(body),
-            ..
-        } = &mut *prop.function
-        else {
-            return;
-        };
-
-        let span = *span;
-        let params = params.take();
-        let mut visitor = FnEnvHoister::new(self.unresolved_ctxt);
-        body.visit_mut_with(&mut visitor);
-
-        let expr = make_fn_ref(FnExpr {
-            ident: None,
-            function: prop.function.take(),
-        });
-
-        prop.function = Function {
-            span,
-            params,
-            body: Some(BlockStmt {
-                stmts: visitor
-                    .to_stmt()
-                    .into_iter()
-                    .chain(iter::once(
-                        ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(
-                                CallExpr {
-                                    callee: expr.as_callee(),
-                                    ..Default::default()
-                                }
-                                .into(),
-                            ),
-                        }
-                        .into(),
-                    ))
-                    .collect(),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }
-        .into();
-    }
-
-    fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
-
-    fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        if let VarDeclarator {
-            name: Pat::Ident(id),
-            init: Some(init),
-            ..
-        } = var
+    fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*exprs)
         {
-            match init.as_ref() {
-                Expr::Fn(FnExpr {
-                    ident: None,
-                    ref function,
-                }) if function.is_async || function.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
-                    return;
-                }
-
-                Expr::Arrow(arrow_expr) if arrow_expr.is_async || arrow_expr.is_generator => {
-                    self.visit_mut_expr_with_binding(init, Some(Ident::from(&*id)), false);
-                    return;
-                }
-
-                _ => {}
-            }
+            return;
         }
 
-        var.visit_mut_children_with(self);
+        exprs.visit_mut_children_with(self);
     }
-}
-
-#[swc_trace]
-impl Actual {
-    fn visit_mut_expr_with_binding(
-        &mut self,
-        expr: &mut Expr,
-        binding_ident: Option<Ident>,
-        in_iife: bool,
-    ) {
-        expr.visit_mut_children_with(self);
-
-        match expr {
-            Expr::Arrow(arrow_expr @ ArrowExpr { is_async: true, .. }) => {
-                arrow_expr.visit_mut_with(&mut self.hoister);
-
-                let mut wrapper = FunctionWrapper::from(arrow_expr.take());
-                wrapper.ignore_function_name = self.c.ignore_function_name;
-                wrapper.ignore_function_length = self.c.ignore_function_length;
-                wrapper.binding_ident = binding_ident;
-
-                let fn_expr = wrapper.function.expect_fn_expr();
-
-                wrapper.function = make_fn_ref(fn_expr);
-                *expr = wrapper.into();
-                if !in_iife {
-                    expr.set_span(PURE_SP);
-                }
-            }
-
-            Expr::Fn(fn_expr) if fn_expr.function.is_async => {
-                let mut wrapper = FunctionWrapper::from(fn_expr.take());
-                wrapper.ignore_function_name = self.c.ignore_function_name;
-                wrapper.ignore_function_length = self.c.ignore_function_length;
-                wrapper.binding_ident = binding_ident;
-
-                let fn_expr = wrapper.function.expect_fn_expr();
-
-                wrapper.function = make_fn_ref(fn_expr);
-
-                *expr = wrapper.into();
-                if !in_iife {
-                    expr.set_span(PURE_SP);
-                }
-            }
-
-            _ => {}
-        }
-    }
-}
-
-/// Creates
-///
-/// `_async_to_generator(function*() {})` from `async function() {}`;
-#[tracing::instrument(level = "info", skip_all)]
-fn make_fn_ref(mut expr: FnExpr) -> Expr {
-    {
-        let param_ids: Vec<Id> = find_pat_ids(&expr.function.params);
-        let mapping = param_ids
-            .into_iter()
-            .map(|id| (id, SyntaxContext::empty().apply_mark(Mark::new())))
-            .collect();
-
-        expr.function.visit_mut_with(&mut Remapper::new(&mapping));
-    }
-
-    expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
-        is_async_generator: expr.function.is_generator,
-    });
-
-    assert!(expr.function.is_async);
-    expr.function.is_async = false;
-
-    let helper = if expr.function.is_generator {
-        helper!(wrap_async_generator)
-    } else {
-        helper!(async_to_generator)
-    };
-
-    expr.function.is_generator = true;
-
-    let span = expr.span();
-
-    CallExpr {
-        span,
-        callee: helper,
-        args: vec![expr.as_arg()],
-        ..Default::default()
-    }
-    .into()
-}
-
-struct AsyncFnBodyHandler {
-    is_async_generator: bool,
-}
-
-macro_rules! noop {
-    ($name:ident, $T:path) => {
-        /// Don't recurse into function.
-        fn $name(&mut self, _f: &mut $T) {}
-    };
-}
-
-#[swc_trace]
-impl VisitMut for AsyncFnBodyHandler {
-    noop_visit_mut_type!(fail);
-
-    noop!(visit_mut_fn_expr, FnExpr);
-
-    noop!(visit_mut_constructor, Constructor);
-
-    noop!(visit_mut_arrow_expr, ArrowExpr);
-
-    noop!(visit_mut_fn_decl, FnDecl);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*expr)
+        {
+            return;
+        }
+
         expr.visit_mut_children_with(self);
 
+        let Some(fn_state @ FnState { is_async: true, .. }) = &mut self.fn_state else {
+            return;
+        };
+
         match expr {
+            Expr::This(..) => {
+                fn_state.use_this = true;
+            }
+            Expr::Ident(Ident { sym, .. }) if sym == "arguments" => {
+                fn_state.use_arguments = true;
+            }
+            Expr::Await(AwaitExpr { arg, span }) => {
+                *expr = if fn_state.is_generator {
+                    let callee = helper!(await_async_generator);
+                    let arg = CallExpr {
+                        span: *span,
+                        callee,
+                        args: vec![arg.take().as_arg()],
+                        ..Default::default()
+                    }
+                    .into();
+                    YieldExpr {
+                        span: *span,
+                        delegate: false,
+                        arg: Some(arg),
+                    }
+                } else {
+                    YieldExpr {
+                        span: *span,
+                        delegate: false,
+                        arg: Some(arg.take()),
+                    }
+                }
+                .into();
+            }
             Expr::Yield(YieldExpr {
                 span,
                 arg: Some(arg),
@@ -555,40 +356,116 @@ impl VisitMut for AsyncFnBodyHandler {
                 .into()
             }
 
-            Expr::Await(AwaitExpr { span, arg }) => {
-                if self.is_async_generator {
-                    let callee = helper!(await_async_generator);
-                    let arg = CallExpr {
-                        span: *span,
-                        callee,
-                        args: vec![arg.take().as_arg()],
-                        ..Default::default()
-                    }
-                    .into();
-                    *expr = YieldExpr {
-                        span: *span,
-                        delegate: false,
-                        arg: Some(arg),
-                    }
-                    .into()
-                } else {
-                    *expr = YieldExpr {
-                        span: *span,
-                        delegate: false,
-                        arg: Some(arg.take()),
-                    }
-                    .into()
-                }
-            }
             _ => {}
         }
     }
 
-    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*stmts)
+        {
+            return;
+        }
 
-        handle_await_for(s, self.is_async_generator);
+        stmts.visit_mut_children_with(self);
     }
+
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+            && !should_work::<ShouldWork, _>(&*stmt)
+        {
+            return;
+        }
+
+        stmt.visit_mut_children_with(self);
+
+        if let Some(FnState {
+            is_async: true,
+            is_generator,
+            ..
+        }) = self.fn_state
+        {
+            handle_await_for(stmt, is_generator);
+        }
+    }
+
+    fn visit_mut_super(&mut self, _: &mut Super) {
+        if let Some(FnState { use_super, .. }) = &mut self.fn_state {
+            *use_super = true;
+        }
+    }
+}
+
+/// Creates
+///
+/// `_async_to_generator(function*() {})()` from `async function() {}`;
+#[tracing::instrument(level = "info", skip_all)]
+fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr {
+    let helper = if fn_state.is_generator {
+        helper_expr!(PURE_SP, wrap_async_generator)
+    } else {
+        helper_expr!(PURE_SP, async_to_generator)
+    }
+    .as_callee();
+    let this = ThisExpr { span: DUMMY_SP };
+    let arguments = quote_ident!("arguments");
+
+    let inner_fn = Function {
+        is_generator: true,
+        params,
+        body: Some(body),
+        ..Default::default()
+    };
+
+    let call_async = CallExpr {
+        callee: helper,
+        args: vec![inner_fn.as_arg()],
+        ..Default::default()
+    };
+
+    if fn_state.use_arguments {
+        // fn.apply(this, arguments)
+        call_async
+            .make_member(quote_ident!("apply"))
+            .as_call(DUMMY_SP, vec![this.as_arg(), arguments.as_arg()])
+    } else if fn_state.use_this {
+        // fn.call(this)
+        call_async
+            .make_member(quote_ident!("call"))
+            .as_call(DUMMY_SP, vec![this.as_arg()])
+    } else {
+        // fn()
+        call_async.as_call(DUMMY_SP, vec![])
+    }
+}
+
+#[tracing::instrument(level = "info", skip_all)]
+fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> bool {
+    for param in param {
+        debug_assert!(param.decorators.is_empty());
+
+        match &param.pat {
+            Pat::Ident(..) => continue,
+            Pat::Rest(RestPat { arg, .. }) if arg.is_ident() => continue,
+            Pat::Assign(assign_pat) => match &*assign_pat.right {
+                Expr::Ident(Ident { ctxt, sym, .. })
+                    if sym == "undefined" && *ctxt == unresolved_ctxt =>
+                {
+                    continue
+                }
+                Expr::Lit(
+                    Lit::Null(..) | Lit::Bool(..) | Lit::Num(..) | Lit::BigInt(..) | Lit::Str(..),
+                )
+                | Expr::Fn(..)
+                | Expr::Arrow(..) => continue,
+
+                _ => return true,
+            },
+            _ => return true,
+        }
+    }
+
+    false
 }
 
 #[derive(Default)]

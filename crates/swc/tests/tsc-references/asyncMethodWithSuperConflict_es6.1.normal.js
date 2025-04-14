@@ -8,7 +8,7 @@ class B extends A {
     // async method with only call/get on 'super' does not require a binding
     simple() {
         var _this = this, _superprop_get_x = ()=>super.x, _superprop_get_y = ()=>super.y, _superprop_get = (_prop)=>super[_prop];
-        return _async_to_generator(function*() {
+        return /*#__PURE__*/ _async_to_generator(function*() {
             const _super = null;
             const _superIndex = null;
             // call with property access
@@ -40,7 +40,7 @@ class B extends A {
                     return _superprop_set(_prop, v);
                 }
             }), _superprop_get_x = ()=>super.x, _superprop_get = (_prop)=>super[_prop], _superprop_set_x = (_value)=>super.x = _value, _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return _async_to_generator(function*() {
+        return /*#__PURE__*/ _async_to_generator(function*() {
             const _super = null;
             const _superIndex = null;
             const f = ()=>{};

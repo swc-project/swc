@@ -12,7 +12,7 @@ var Foo = /*#__PURE__*/ function() {
         {
             key: "sendSomeMessage",
             value: function sendSomeMessage(_parent, _param, _param1) {
-                return _async_to_generator._(function() {
+                return /*#__PURE__*/ _async_to_generator._(function() {
                     var _param_input, toNumber, messageBody, all, dataSources;
                     return _ts_generator._(this, function(_state) {
                         _param_input = _param.input, toNumber = _param_input.toNumber, messageBody = _param_input.messageBody, all = _object_without_properties._(_param.input, [

@@ -152,10 +152,7 @@ it("should respect custom transform option", async () => {
             ...spread
         };
         function bar() {
-            return _bar.apply(this, arguments);
-        }
-        function _bar() {
-            _bar = _async_to_generator(function() {
+            return /*#__PURE__*/ _async_to_generator(function() {
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -170,8 +167,7 @@ it("should respect custom transform option", async () => {
                             ];
                     }
                 });
-            });
-            return _bar.apply(this, arguments);
+            })();
         }
         function baz() {
             return _ts_generator(this, function(_state) {

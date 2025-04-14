@@ -2,8 +2,8 @@ function MyClass() {}
 MyClass.prototype.handle = function() {
     console.log('this is MyClass handle');
 };
-MyClass.prototype.init = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function(param1) {
+MyClass.prototype.init = function(param1) {
+    return /*#__PURE__*/ _async_to_generator(function() {
         var a;
         return _ts_generator(this, function(_state) {
             a = 1;
@@ -22,10 +22,7 @@ MyClass.prototype.init = /*#__PURE__*/ function() {
                 true
             ];
         });
-    });
-    return function(param1) {
-        return _ref.apply(this, arguments);
-    };
-}();
+    }).call(this);
+};
 const myclass = new MyClass();
 myclass.handle();

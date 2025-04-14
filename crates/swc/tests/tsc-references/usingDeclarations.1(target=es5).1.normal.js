@@ -286,10 +286,7 @@ function f() {
     }
 }
 function af() {
-    return _af.apply(this, arguments);
-}
-function _af() {
-    _af = _async_to_generator(function() {
+    return /*#__PURE__*/ _async_to_generator(function() {
         var env, d3, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -337,8 +334,7 @@ function _af() {
                     ];
             }
         });
-    });
-    return _af.apply(this, arguments);
+    })();
 }
 function g() {
     var env, d4, e;
@@ -389,10 +385,7 @@ function g() {
     });
 }
 function ag() {
-    return _ag.apply(this, arguments);
-}
-function _ag() {
-    _ag = _wrap_async_generator(function() {
+    return /*#__PURE__*/ _wrap_async_generator(function() {
         var env, d5, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -445,8 +438,7 @@ function _ag() {
                     ];
             }
         });
-    });
-    return _ag.apply(this, arguments);
+    })();
 }
 var C1 = /*#__PURE__*/ function() {
     "use strict";
@@ -498,7 +490,7 @@ var C1 = /*#__PURE__*/ function() {
         }
     };
     _proto.am = function am() {
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             var env, d13, e;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -597,7 +589,7 @@ var C1 = /*#__PURE__*/ function() {
         });
     };
     _proto.ag = function ag() {
-        return _wrap_async_generator(function() {
+        return /*#__PURE__*/ _wrap_async_generator(function() {
             var env, d15, e;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){

@@ -203,7 +203,7 @@ let fooM = {
 };
 let fooAsyncM = {
     method (type, cb) {
-        return _async_to_generator(function*() {
+        return /*#__PURE__*/ _async_to_generator(function*() {
             if (type == 'num') {
                 cb(123);
             } else {
@@ -223,7 +223,7 @@ let fooGenM = {
 };
 let fooAsyncGenM = {
     method (type, cb) {
-        return _wrap_async_generator(function*() {
+        return /*#__PURE__*/ _wrap_async_generator(function*() {
             if (type == 'num') {
                 cb(123);
             } else {

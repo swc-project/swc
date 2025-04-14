@@ -6,10 +6,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 function main() {
-    return _main.apply(this, arguments);
-}
-function _main() {
-    _main = _async_to_generator(function() {
+    return /*#__PURE__*/ _async_to_generator(function() {
         var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, _, env, d1, e, result, err;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -25,7 +22,7 @@ function _main() {
                     ]);
                     _iterator = _async_iterator([
                         _define_property({}, Symbol.asyncDispose, function() {
-                            return _async_to_generator(function() {
+                            return /*#__PURE__*/ _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
                                         2
@@ -153,6 +150,5 @@ function _main() {
                     ];
             }
         });
-    });
-    return _main.apply(this, arguments);
+    })();
 }

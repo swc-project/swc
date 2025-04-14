@@ -12,11 +12,10 @@ const env = {
 try {
     var d1 = _ts_add_disposable_resource(env, {
         [Symbol.asyncDispose] () {
-            return _async_to_generator(function*() {})();
+            return /*#__PURE__*/ _async_to_generator(function*() {})();
         }
     }, true);
-    var a = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function*() {
+    var a = ()=>/*#__PURE__*/ _async_to_generator(function*() {
             const env = {
                 stack: [],
                 error: void 0,
@@ -25,7 +24,7 @@ try {
             try {
                 const d6 = _ts_add_disposable_resource(env, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
             } catch (e) {
@@ -35,11 +34,7 @@ try {
                 const result = _ts_dispose_resources(env);
                 if (result) yield result;
             }
-        });
-        return function a() {
-            return _ref.apply(this, arguments);
-        };
-    }();
+        })();
     {
         const env = {
             stack: [],
@@ -49,7 +44,7 @@ try {
         try {
             const d19 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -70,7 +65,7 @@ try {
             try {
                 const d20 = _ts_add_disposable_resource(env1, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
                 break;
@@ -90,7 +85,7 @@ try {
             try {
                 const d21 = _ts_add_disposable_resource(env2, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
                 break;
@@ -112,7 +107,7 @@ try {
             try {
                 const d22 = _ts_add_disposable_resource(env3, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
                 break;
@@ -133,7 +128,7 @@ try {
         try {
             const d23 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -152,7 +147,7 @@ try {
         try {
             const d24 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -171,7 +166,7 @@ try {
         try {
             const d25 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -191,7 +186,7 @@ try {
         try {
             const d26 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -210,7 +205,7 @@ try {
         try {
             const d27 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -230,7 +225,7 @@ try {
         try {
             const d28 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
             break;
@@ -251,7 +246,7 @@ try {
         try {
             const d29 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
             break;
@@ -272,7 +267,7 @@ try {
         try {
             const d30 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
             break;
@@ -293,7 +288,7 @@ try {
         try {
             const d31 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -313,7 +308,7 @@ try {
         try {
             const d32 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
         } catch (e) {
@@ -332,10 +327,7 @@ try {
     if (result) await result;
 }
 function af() {
-    return _af.apply(this, arguments);
-}
-function _af() {
-    _af = _async_to_generator(function*() {
+    return /*#__PURE__*/ _async_to_generator(function*() {
         const env = {
             stack: [],
             error: void 0,
@@ -344,7 +336,7 @@ function _af() {
         try {
             const d3 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
             yield null;
@@ -355,14 +347,10 @@ function _af() {
             const result = _ts_dispose_resources(env);
             if (result) yield result;
         }
-    });
-    return _af.apply(this, arguments);
+    })();
 }
 function ag() {
-    return _ag.apply(this, arguments);
-}
-function _ag() {
-    _ag = _wrap_async_generator(function*() {
+    return /*#__PURE__*/ _wrap_async_generator(function*() {
         const env = {
             stack: [],
             error: void 0,
@@ -371,7 +359,7 @@ function _ag() {
         try {
             const d5 = _ts_add_disposable_resource(env, {
                 [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
+                    return /*#__PURE__*/ _async_to_generator(function*() {})();
                 }
             }, true);
             yield;
@@ -383,12 +371,11 @@ function _ag() {
             const result = _ts_dispose_resources(env);
             if (result) yield _await_async_generator(result);
         }
-    });
-    return _ag.apply(this, arguments);
+    })();
 }
 class C1 {
     am() {
-        return _async_to_generator(function*() {
+        return /*#__PURE__*/ _async_to_generator(function*() {
             const env = {
                 stack: [],
                 error: void 0,
@@ -397,7 +384,7 @@ class C1 {
             try {
                 const d13 = _ts_add_disposable_resource(env, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
                 yield null;
@@ -411,7 +398,7 @@ class C1 {
         })();
     }
     ag() {
-        return _wrap_async_generator(function*() {
+        return /*#__PURE__*/ _wrap_async_generator(function*() {
             const env = {
                 stack: [],
                 error: void 0,
@@ -420,7 +407,7 @@ class C1 {
             try {
                 const d15 = _ts_add_disposable_resource(env, {
                     [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
+                        return /*#__PURE__*/ _async_to_generator(function*() {})();
                     }
                 }, true);
                 yield;
@@ -435,26 +422,26 @@ class C1 {
         })();
     }
     constructor(){
-        this.a = /*#__PURE__*/ _async_to_generator(function*() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d7 = _ts_add_disposable_resource(env, {
-                    [Symbol.asyncDispose] () {
-                        return _async_to_generator(function*() {})();
-                    }
-                }, true);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) yield result;
-            }
-        });
+        this.a = ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
+                try {
+                    const d7 = _ts_add_disposable_resource(env, {
+                        [Symbol.asyncDispose] () {
+                            return /*#__PURE__*/ _async_to_generator(function*() {})();
+                        }
+                    }, true);
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
+                } finally{
+                    const result = _ts_dispose_resources(env);
+                    if (result) yield result;
+                }
+            })();
     }
 }
 export { };

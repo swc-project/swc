@@ -7,8 +7,8 @@ class X {
       * @param {string?} error.reason the error reason to send the cancellation with
       * @param {string?} error.code the error code to send the cancellation with
       * @returns {Promise.<*>} resolves when the event has been sent.
-      */ cancel({ reason, code }) {
-        return _async_to_generator(function*() {})();
+      */ cancel(_0) {
+        return /*#__PURE__*/ _async_to_generator(function*({ reason, code }) {}).apply(this, arguments);
     }
 }
 class Y {
@@ -20,7 +20,7 @@ class Y {
       * @param {string?} error.suberr.reason the error reason to send the cancellation with
       * @param {string?} error.suberr.code the error code to send the cancellation with
       * @returns {Promise.<*>} resolves when the event has been sent.
-      */ cancel({ reason, suberr }) {
-        return _async_to_generator(function*() {})();
+      */ cancel(_0) {
+        return /*#__PURE__*/ _async_to_generator(function*({ reason, suberr }) {}).apply(this, arguments);
     }
 }

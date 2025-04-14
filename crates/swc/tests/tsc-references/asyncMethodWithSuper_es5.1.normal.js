@@ -35,7 +35,7 @@ var B = /*#__PURE__*/ function(A) {
         }, _superprop_get = function(_prop) {
             return _get(_get_prototype_of(B.prototype), _prop, _this);
         };
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             var a, b;
             return _ts_generator(this, function(_state) {
                 // call with property access
@@ -82,7 +82,7 @@ var B = /*#__PURE__*/ function(A) {
         }, _superprop_set = function(_prop, _value) {
             return _set(_get_prototype_of(B.prototype), _prop, _value, _this, true);
         };
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             var f, a, b, ref, ref1;
             return _ts_generator(this, function(_state) {
                 f = function() {};

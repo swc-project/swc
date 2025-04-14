@@ -25,7 +25,7 @@ A.B = (_B = /*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     C.func = function func() {
-        return _async_to_generator(function() {
+        return /*#__PURE__*/ _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:

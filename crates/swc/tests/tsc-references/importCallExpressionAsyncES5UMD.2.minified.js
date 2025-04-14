@@ -4,7 +4,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
     Object.defineProperty(exports1, "__esModule", {
         value: !0
     });
-    var _ref, all = {
+    var all = {
         cl1: function() {
             return cl1;
         },
@@ -26,10 +26,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         get: all[name]
     });
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        return (_fn = _async_to_generator._(function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -43,14 +40,14 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                         ];
                 }
             });
-        })).apply(this, arguments);
+        })();
     }
     var cl1 = /*#__PURE__*/ function() {
         function cl1() {
             _class_call_check._(this, cl1);
         }
         return cl1.prototype.m = function() {
-            return _async_to_generator._(function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -67,24 +64,8 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
             })();
         }, cl1;
     }(), obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
-            return _ts_generator._(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            import('./test')
-                        ];
-                    case 1:
-                        return _state.sent(), [
-                            2
-                        ];
-                }
-            });
-        })
-    }, cl2 = function cl2() {
-        _class_call_check._(this, cl2), this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: function() {
+            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -98,25 +79,45 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                             ];
                     }
                 });
-            })
-        };
-    }, l = (_ref = _async_to_generator._(function() {
-        return _ts_generator._(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        4,
-                        import('./test')
-                    ];
-                case 1:
-                    return _state.sent(), [
-                        2
-                    ];
+            })();
+        }
+    }, cl2 = function cl2() {
+        _class_call_check._(this, cl2), this.p = {
+            m: function() {
+                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                    return _ts_generator._(this, function(_state) {
+                        switch(_state.label){
+                            case 0:
+                                return [
+                                    4,
+                                    import('./test')
+                                ];
+                            case 1:
+                                return _state.sent(), [
+                                    2
+                                ];
+                        }
+                    });
+                })();
             }
-        });
-    }), function() {
-        return _ref.apply(this, arguments);
-    });
+        };
+    }, l = function() {
+        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _ts_generator._(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        return [
+                            4,
+                            import('./test')
+                        ];
+                    case 1:
+                        return _state.sent(), [
+                            2
+                        ];
+                }
+            });
+        })();
+    };
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_class_call_check"), require("@swc/helpers/_/_interop_require_wildcard"), require("@swc/helpers/_/_ts_generator")) : "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_async_to_generator",

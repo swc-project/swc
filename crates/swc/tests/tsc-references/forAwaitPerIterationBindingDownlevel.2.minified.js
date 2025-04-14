@@ -8,36 +8,8 @@ var sleep = function(tm) {
     return new Promise(function(resolve) {
         return setTimeout(resolve, tm);
     });
-};
-function _gen() {
-    return (_gen = _wrap_async_generator(function() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        4,
-                        1
-                    ];
-                case 1:
-                    return _state.sent(), [
-                        4,
-                        _await_async_generator(sleep(1000))
-                    ];
-                case 2:
-                    return _state.sent(), [
-                        4,
-                        2
-                    ];
-                case 3:
-                    return _state.sent(), [
-                        2
-                    ];
-            }
-        });
-    })).apply(this, arguments);
-}
-var log = console.log;
-_async_to_generator(function() {
+}, log = console.log;
+/*#__PURE__*/ _async_to_generator(function() {
     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, err;
     return _ts_generator(this, function(_state) {
         switch(_state.label){
@@ -51,7 +23,7 @@ _async_to_generator(function() {
                     12
                 ]), _loop = function() {
                     var _value = _step.value;
-                    log("I'm loop ".concat(_value)), _async_to_generator(function() {
+                    log("I'm loop ".concat(_value)), /*#__PURE__*/ _async_to_generator(function() {
                         var inner;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
@@ -67,9 +39,31 @@ _async_to_generator(function() {
                             }
                         });
                     })();
-                }, _iterator = _async_iterator(function() {
-                    return _gen.apply(this, arguments);
-                }()), _state.label = 2;
+                }, _iterator = _async_iterator(/*#__PURE__*/ _wrap_async_generator(function() {
+                    return _ts_generator(this, function(_state) {
+                        switch(_state.label){
+                            case 0:
+                                return [
+                                    4,
+                                    1
+                                ];
+                            case 1:
+                                return _state.sent(), [
+                                    4,
+                                    _await_async_generator(sleep(1000))
+                                ];
+                            case 2:
+                                return _state.sent(), [
+                                    4,
+                                    2
+                                ];
+                            case 3:
+                                return _state.sent(), [
+                                    2
+                                ];
+                        }
+                    });
+                })()), _state.label = 2;
             case 2:
                 return [
                     4,
