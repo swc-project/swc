@@ -64,7 +64,7 @@ impl MacroNode for ClassExpr {
         srcmap!(emitter, self, true);
 
         for dec in &self.class.decorators {
-            emit!(dec);
+            emit!(emitter, dec);
         }
 
         if self.class.is_abstract {
@@ -76,8 +76,8 @@ impl MacroNode for ClassExpr {
 
         if let Some(ref i) = self.ident {
             space!(emitter);
-            emit!(i);
-            emit!(self.class.type_params);
+            emit!(emitter, i);
+            emit!(emitter, self.class.type_params);
         }
 
         emitter.emit_class_trailing(&self.class)?;
@@ -103,8 +103,8 @@ impl MacroNode for Class {
                     formatting_space!(emitter)
                 }
             }
-            emit!(self.super_class);
-            emit!(self.super_type_params);
+            emit!(emitter, self.super_class);
+            emit!(emitter, self.super_type_params);
         }
 
         if !self.implements.is_empty() {
@@ -137,15 +137,15 @@ impl MacroNode for Class {
 impl MacroNode for ClassMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ClassMember::Constructor(ref n) => emit!(n),
-            ClassMember::ClassProp(ref n) => emit!(n),
-            ClassMember::Method(ref n) => emit!(n),
-            ClassMember::PrivateMethod(ref n) => emit!(n),
-            ClassMember::PrivateProp(ref n) => emit!(n),
-            ClassMember::TsIndexSignature(ref n) => emit!(n),
-            ClassMember::Empty(ref n) => emit!(n),
-            ClassMember::StaticBlock(ref n) => emit!(n),
-            ClassMember::AutoAccessor(ref n) => emit!(n),
+            ClassMember::Constructor(ref n) => emit!(emitter, n),
+            ClassMember::ClassProp(ref n) => emit!(emitter, n),
+            ClassMember::Method(ref n) => emit!(emitter, n),
+            ClassMember::PrivateMethod(ref n) => emit!(emitter, n),
+            ClassMember::PrivateProp(ref n) => emit!(emitter, n),
+            ClassMember::TsIndexSignature(ref n) => emit!(emitter, n),
+            ClassMember::Empty(ref n) => emit!(emitter, n),
+            ClassMember::StaticBlock(ref n) => emit!(emitter, n),
+            ClassMember::AutoAccessor(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -177,7 +177,7 @@ impl MacroNode for AutoAccessor {
         keyword!(emitter, "accessor");
         space!(emitter);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
@@ -185,14 +185,14 @@ impl MacroNode for AutoAccessor {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         if let Some(init) = &self.value {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(init);
+            emit!(emitter, init);
         }
 
         semi!(emitter);
@@ -205,8 +205,8 @@ impl MacroNode for AutoAccessor {
 impl MacroNode for Key {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Key::Private(n) => emit!(n),
-            Key::Public(n) => emit!(n),
+            Key::Private(n) => emit!(emitter, n),
+            Key::Public(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -234,19 +234,19 @@ impl MacroNode for PrivateMethod {
                     punct!(emitter, "*");
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
                 space!(emitter);
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
                 space!(emitter);
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
         }
 
@@ -266,7 +266,7 @@ impl MacroNode for ClassMethod {
         srcmap!(emitter, self, true);
 
         for d in &self.function.decorators {
-            emit!(d);
+            emit!(emitter, d);
         }
 
         emitter.emit_accessibility(self.accessibility)?;
@@ -315,7 +315,7 @@ impl MacroNode for ClassMethod {
                     punct!(emitter, "*");
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
@@ -326,7 +326,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
@@ -337,7 +337,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
         }
 
@@ -346,7 +346,7 @@ impl MacroNode for ClassMethod {
         }
 
         if let Some(type_params) = &self.function.type_params {
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         punct!(emitter, "(");
@@ -361,12 +361,12 @@ impl MacroNode for ClassMethod {
         if let Some(ty) = &self.function.return_type {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         if let Some(body) = &self.function.body {
             formatting_space!(emitter);
-            emit!(body);
+            emit!(emitter, body);
         } else {
             formatting_semi!(emitter)
         }
@@ -401,7 +401,7 @@ impl MacroNode for PrivateProp {
             space!(emitter);
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -413,7 +413,7 @@ impl MacroNode for PrivateProp {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         if let Some(value) = &self.value {
@@ -423,10 +423,10 @@ impl MacroNode for PrivateProp {
 
             if value.is_seq() {
                 punct!(emitter, "(");
-                emit!(value);
+                emit!(emitter, value);
                 punct!(emitter, ")");
             } else {
-                emit!(value);
+                emit!(emitter, value);
             }
         }
 
@@ -445,7 +445,7 @@ impl MacroNode for ClassProp {
         srcmap!(emitter, self, true);
 
         for dec in &self.decorators {
-            emit!(dec)
+            emit!(emitter, dec)
         }
 
         if self.declare {
@@ -475,7 +475,7 @@ impl MacroNode for ClassProp {
             space!(emitter)
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -487,7 +487,7 @@ impl MacroNode for ClassProp {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         if let Some(v) = &self.value {
@@ -497,10 +497,10 @@ impl MacroNode for ClassProp {
 
             if v.is_seq() {
                 punct!(emitter, "(");
-                emit!(v);
+                emit!(emitter, v);
                 punct!(emitter, ")");
             } else {
-                emit!(v);
+                emit!(emitter, v);
             }
         }
 
@@ -527,7 +527,7 @@ impl MacroNode for Constructor {
         punct!(emitter, ")");
 
         if let Some(body) = &self.body {
-            emit!(body);
+            emit!(emitter, body);
         } else {
             formatting_semi!(emitter);
         }
@@ -544,7 +544,7 @@ impl MacroNode for StaticBlock {
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         srcmap!(emitter, self, false);
 

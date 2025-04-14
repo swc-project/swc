@@ -96,7 +96,7 @@ impl Fold for ReplaceEmit {
                 .collect();
 
             let is_emit = self.emit;
-            i = parse_quote!(#path!(emitter, #is_emit, #args));
+            i = parse_quote!(#path!(#is_emit, #args));
         }
 
         i

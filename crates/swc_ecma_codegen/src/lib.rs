@@ -1441,8 +1441,8 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 impl MacroNode for Program {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Program::Module(m) => emit!(m),
-            Program::Script(s) => emit!(s),
+            Program::Module(m) => emit!(emitter, m),
+            Program::Script(s) => emit!(emitter, s),
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
         }
@@ -1467,7 +1467,7 @@ impl MacroNode for Module {
             emitter.wr.write_line()?;
         }
         for stmt in &self.body {
-            emit!(stmt);
+            emit!(emitter, stmt);
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1495,7 +1495,7 @@ impl MacroNode for Script {
             emitter.wr.write_line()?;
         }
         for stmt in &self.body {
-            emit!(stmt);
+            emit!(emitter, stmt);
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1512,8 +1512,8 @@ impl MacroNode for ModuleItem {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
         let node = match self {
-            ModuleItem::Stmt(stmt) => emit!(stmt),
-            ModuleItem::ModuleDecl(decl) => emit!(decl),
+            ModuleItem::Stmt(stmt) => emit!(emitter, stmt),
+            ModuleItem::ModuleDecl(decl) => emit!(emitter, decl),
         };
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -1529,11 +1529,11 @@ impl MacroNode for Callee {
                 if let Expr::New(new) = &**e {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit!(e);
+                    emit!(emitter, e);
                 }
             }
-            Callee::Super(n) => emit!(n),
-            Callee::Import(n) => emit!(n),
+            Callee::Super(n) => emit!(emitter, n),
+            Callee::Import(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -1573,47 +1573,47 @@ impl MacroNode for Import {
 impl MacroNode for Expr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Expr::Array(n) => emit!(n),
-            Expr::Arrow(n) => emit!(n),
-            Expr::Assign(n) => emit!(n),
-            Expr::Await(n) => emit!(n),
-            Expr::Bin(n) => emit!(n),
-            Expr::Call(n) => emit!(n),
-            Expr::Class(n) => emit!(n),
-            Expr::Cond(n) => emit!(n),
-            Expr::Fn(n) => emit!(n),
-            Expr::Ident(n) => emit!(n),
-            Expr::Lit(n) => emit!(n),
-            Expr::Member(n) => emit!(n),
-            Expr::SuperProp(n) => emit!(n),
-            Expr::MetaProp(n) => emit!(n),
-            Expr::New(n) => emit!(n),
-            Expr::Object(n) => emit!(n),
-            Expr::Paren(n) => emit!(n),
-            Expr::Seq(n) => emit!(n),
-            Expr::TaggedTpl(n) => emit!(n),
-            Expr::This(n) => emit!(n),
-            Expr::Tpl(n) => emit!(n),
-            Expr::Unary(n) => emit!(n),
-            Expr::Update(n) => emit!(n),
-            Expr::Yield(n) => emit!(n),
-            Expr::PrivateName(n) => emit!(n),
+            Expr::Array(n) => emit!(emitter, n),
+            Expr::Arrow(n) => emit!(emitter, n),
+            Expr::Assign(n) => emit!(emitter, n),
+            Expr::Await(n) => emit!(emitter, n),
+            Expr::Bin(n) => emit!(emitter, n),
+            Expr::Call(n) => emit!(emitter, n),
+            Expr::Class(n) => emit!(emitter, n),
+            Expr::Cond(n) => emit!(emitter, n),
+            Expr::Fn(n) => emit!(emitter, n),
+            Expr::Ident(n) => emit!(emitter, n),
+            Expr::Lit(n) => emit!(emitter, n),
+            Expr::Member(n) => emit!(emitter, n),
+            Expr::SuperProp(n) => emit!(emitter, n),
+            Expr::MetaProp(n) => emit!(emitter, n),
+            Expr::New(n) => emit!(emitter, n),
+            Expr::Object(n) => emit!(emitter, n),
+            Expr::Paren(n) => emit!(emitter, n),
+            Expr::Seq(n) => emit!(emitter, n),
+            Expr::TaggedTpl(n) => emit!(emitter, n),
+            Expr::This(n) => emit!(emitter, n),
+            Expr::Tpl(n) => emit!(emitter, n),
+            Expr::Unary(n) => emit!(emitter, n),
+            Expr::Update(n) => emit!(emitter, n),
+            Expr::Yield(n) => emit!(emitter, n),
+            Expr::PrivateName(n) => emit!(emitter, n),
 
-            Expr::JSXMember(n) => emit!(n),
-            Expr::JSXNamespacedName(n) => emit!(n),
-            Expr::JSXEmpty(n) => emit!(n),
-            Expr::JSXElement(n) => emit!(n),
-            Expr::JSXFragment(n) => emit!(n),
+            Expr::JSXMember(n) => emit!(emitter, n),
+            Expr::JSXNamespacedName(n) => emit!(emitter, n),
+            Expr::JSXEmpty(n) => emit!(emitter, n),
+            Expr::JSXElement(n) => emit!(emitter, n),
+            Expr::JSXFragment(n) => emit!(emitter, n),
 
-            Expr::TsAs(n) => emit!(n),
-            Expr::TsNonNull(n) => emit!(n),
-            Expr::TsTypeAssertion(n) => emit!(n),
-            Expr::TsConstAssertion(n) => emit!(n),
-            Expr::TsInstantiation(n) => emit!(n),
-            Expr::OptChain(n) => emit!(n),
-            Expr::Invalid(n) => emit!(n),
+            Expr::TsAs(n) => emit!(emitter, n),
+            Expr::TsNonNull(n) => emit!(emitter, n),
+            Expr::TsTypeAssertion(n) => emit!(emitter, n),
+            Expr::TsConstAssertion(n) => emit!(emitter, n),
+            Expr::TsInstantiation(n) => emit!(emitter, n),
+            Expr::OptChain(n) => emit!(emitter, n),
+            Expr::Invalid(n) => emit!(emitter, n),
             Expr::TsSatisfies(n) => {
-                emit!(n)
+                emit!(emitter, n)
             }
         }
 
@@ -1635,7 +1635,7 @@ impl MacroNode for OptChainExpr {
                 if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
                 } else {
-                    emit!(e.obj);
+                    emit!(emitter, e.obj);
                 }
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1644,14 +1644,14 @@ impl MacroNode for OptChainExpr {
                 }
 
                 match &e.prop {
-                    MemberProp::Computed(computed) => emit!(computed),
-                    MemberProp::Ident(i) => emit!(i),
-                    MemberProp::PrivateName(p) => emit!(p),
+                    MemberProp::Computed(computed) => emit!(emitter, computed),
+                    MemberProp::Ident(i) => emit!(emitter, i),
+                    MemberProp::PrivateName(p) => emit!(emitter, p),
                 }
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
-                emit!(e.callee);
+                emit!(emitter, e.callee);
 
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1691,10 +1691,10 @@ impl MacroNode for CallExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.callee);
+        emit!(emitter, self.callee);
 
         if let Some(type_args) = &self.type_args {
-            emit!(type_args);
+            emit!(emitter, type_args);
         }
 
         punct!(emitter, "(");
@@ -1737,12 +1737,12 @@ impl MacroNode for MemberExpr {
                 needs_2dots_for_property_access = emitter.emit_num_lit_internal(num, true)?;
             }
             _ => {
-                emit!(self.obj);
+                emit!(emitter, self.obj);
             }
         }
 
         match &self.prop {
-            MemberProp::Computed(computed) => emit!(computed),
+            MemberProp::Computed(computed) => emit!(emitter, computed),
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {
                     if self.prop.span().lo() >= BytePos(2) {
@@ -1754,7 +1754,7 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(ident);
+                emit!(emitter, ident);
             }
             MemberProp::PrivateName(private) => {
                 if needs_2dots_for_property_access {
@@ -1767,7 +1767,7 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(private);
+                emit!(emitter, private);
             }
         }
 
@@ -1784,16 +1784,16 @@ impl MacroNode for SuperPropExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.obj);
+        emit!(emitter, self.obj);
 
         match &self.prop {
-            SuperProp::Computed(computed) => emit!(computed),
+            SuperProp::Computed(computed) => emit!(emitter, computed),
             SuperProp::Ident(i) => {
                 if self.prop.span().lo() >= BytePos(1) {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(i);
+                emit!(emitter, i);
             }
         }
 
@@ -1832,7 +1832,7 @@ impl MacroNode for ArrowExpr {
                 _ => true,
             };
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
 
         if parens {
             punct!(emitter, "(");
@@ -1846,12 +1846,12 @@ impl MacroNode for ArrowExpr {
         if let Some(ty) = &self.return_type {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
             formatting_space!(emitter);
         }
 
         punct!(emitter, "=>");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -1893,7 +1893,7 @@ impl MacroNode for SeqExpr {
                 formatting_space!(emitter);
             }
 
-            emit!(e);
+            emit!(emitter, e);
         }
 
         Ok(())
@@ -1905,11 +1905,11 @@ impl MacroNode for AssignExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.left);
+        emit!(emitter, self.left);
         formatting_space!(emitter);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
-        emit!(self.right);
+        emit!(emitter, self.right);
 
         Ok(())
     }
@@ -1940,7 +1940,7 @@ impl MacroNode for BinExpr {
 
             for (i, left) in lefts.into_iter().rev().enumerate() {
                 if i == 0 {
-                    emit!(left.left);
+                    emit!(emitter, left.left);
                 }
                 // Check if it's last
                 if i + 1 != len {
@@ -1963,7 +1963,7 @@ impl MacroNode for Decorator {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "@");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         emitter.wr.write_line()?;
 
         srcmap!(emitter, self, false);
@@ -1979,15 +1979,15 @@ impl MacroNode for CondExpr {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.test);
+        emit!(emitter, self.test);
         formatting_space!(emitter);
         punct!(emitter, "?");
         formatting_space!(emitter);
-        emit!(self.cons);
+        emit!(emitter, self.cons);
         formatting_space!(emitter);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.alt);
+        emit!(emitter, self.alt);
 
         Ok(())
     }
@@ -2015,7 +2015,7 @@ impl MacroNode for FnExpr {
         }
         if let Some(ref i) = self.ident {
             space!(emitter);
-            emit!(i);
+            emit!(emitter, i);
         }
 
         emitter.emit_fn_trailing(&self.function)?;
@@ -2033,7 +2033,7 @@ impl MacroNode for BlockStmtOrExpr {
             }
             BlockStmtOrExpr::Expr(expr) => {
                 emitter.wr.increase_indent()?;
-                emit!(expr);
+                emit!(emitter, expr);
                 emitter.wr.decrease_indent()?;
             }
         }
@@ -2066,10 +2066,10 @@ impl MacroNode for Tpl {
 
         for i in 0..(self.quasis.len() + self.exprs.len()) {
             if i % 2 == 0 {
-                emit!(self.quasis[i / 2]);
+                emit!(emitter, self.quasis[i / 2]);
             } else {
                 punct!(emitter, "${");
-                emit!(self.exprs[i / 2]);
+                emit!(emitter, self.exprs[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -2137,10 +2137,10 @@ impl MacroNode for TaggedTpl {
         if let Expr::New(new) = &*self.tag {
             emitter.emit_new(new, false)?;
         } else {
-            emit!(self.tag);
+            emit!(emitter, self.tag);
         }
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
         emitter.emit_template_for_tagged_template(&self.tpl)?;
 
         srcmap!(emitter, self, false);
@@ -2174,7 +2174,7 @@ impl MacroNode for UnaryExpr {
             formatting_space!(emitter);
         }
 
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
         Ok(())
     }
@@ -2190,9 +2190,9 @@ impl MacroNode for UpdateExpr {
         if self.prefix {
             operator!(emitter, self.op.as_str());
             //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit!(self.arg);
+            emit!(emitter, self.arg);
         } else {
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             operator!(emitter, self.op.as_str());
         }
 
@@ -2226,7 +2226,7 @@ impl MacroNode for YieldExpr {
                 formatting_space!(emitter)
             }
 
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             if need_paren {
                 punct!(emitter, ")")
             }
@@ -2245,7 +2245,7 @@ impl MacroNode for ExprOrSpread {
             punct!(emitter, "...");
         }
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         Ok(())
     }
@@ -2261,7 +2261,7 @@ impl MacroNode for AwaitExpr {
         keyword!(emitter, "await");
         space!(emitter);
 
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
         Ok(())
     }
@@ -2299,7 +2299,7 @@ impl MacroNode for ParenExpr {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "(");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
@@ -2332,7 +2332,7 @@ impl MacroNode for BindingIdent {
         if let Some(ty) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         // Call emitList directly since it could be an array of

@@ -44,12 +44,12 @@ impl MacroNode for ObjectLit {
 impl MacroNode for Prop {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Prop::Shorthand(ref n) => emit!(n),
-            Prop::KeyValue(ref n) => emit!(n),
-            Prop::Assign(ref n) => emit!(n),
-            Prop::Getter(ref n) => emit!(n),
-            Prop::Setter(ref n) => emit!(n),
-            Prop::Method(ref n) => emit!(n),
+            Prop::Shorthand(ref n) => emit!(emitter, n),
+            Prop::KeyValue(ref n) => emit!(emitter, n),
+            Prop::Assign(ref n) => emit!(emitter, n),
+            Prop::Getter(ref n) => emit!(emitter, n),
+            Prop::Setter(ref n) => emit!(emitter, n),
+            Prop::Method(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -65,7 +65,7 @@ impl MacroNode for KeyValueProp {
         if !key_span.is_dummy() {
             emitter.wr.add_srcmap(key_span.lo)?;
         }
-        emit!(self.key);
+        emit!(emitter, self.key);
         if !key_span.is_dummy() && value_span.is_dummy() {
             emitter.wr.add_srcmap(key_span.hi)?;
         }
@@ -74,7 +74,7 @@ impl MacroNode for KeyValueProp {
         if key_span.is_dummy() && !value_span.is_dummy() {
             emitter.wr.add_srcmap(value_span.lo)?;
         }
-        emit!(self.value);
+        emit!(emitter, self.value);
 
         Ok(())
     }
@@ -87,9 +87,9 @@ impl MacroNode for AssignProp {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         punct!(emitter, "=");
-        emit!(self.value);
+        emit!(emitter, self.value);
 
         Ok(())
     }
@@ -113,12 +113,12 @@ impl MacroNode for GetterProp {
         } else {
             formatting_space!(emitter);
         }
-        emit!(self.key);
+        emit!(emitter, self.key);
         formatting_space!(emitter);
         punct!(emitter, "(");
         punct!(emitter, ")");
         formatting_space!(emitter);
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -144,22 +144,22 @@ impl MacroNode for SetterProp {
             formatting_space!(emitter);
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         formatting_space!(emitter);
 
         punct!(emitter, "(");
         if let Some(this) = &self.this_param {
-            emit!(this);
+            emit!(emitter, this);
             punct!(emitter, ",");
 
             formatting_space!(emitter);
         }
 
-        emit!(self.param);
+        emit!(emitter, self.param);
 
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -181,7 +181,7 @@ impl MacroNode for MethodProp {
             punct!(emitter, "*");
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
@@ -220,13 +220,13 @@ impl MacroNode for PropName {
                         )?;
                     }
                 } else {
-                    emit!(ident);
+                    emit!(emitter, ident);
                 }
             }
-            PropName::Str(ref n) => emit!(n),
-            PropName::Num(ref n) => emit!(n),
-            PropName::BigInt(ref n) => emit!(n),
-            PropName::Computed(ref n) => emit!(n),
+            PropName::Str(ref n) => emit!(emitter, n),
+            PropName::Num(ref n) => emit!(emitter, n),
+            PropName::BigInt(ref n) => emit!(emitter, n),
+            PropName::Computed(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -239,7 +239,7 @@ impl MacroNode for ComputedPropName {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "[");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         punct!(emitter, "]");
 
         srcmap!(emitter, self, false);

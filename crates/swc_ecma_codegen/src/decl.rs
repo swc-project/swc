@@ -86,18 +86,18 @@ where
 impl MacroNode for Decl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Decl::Class(n) => emit!(n),
-            Decl::Fn(n) => emit!(n),
+            Decl::Class(n) => emit!(emitter, n),
+            Decl::Fn(n) => emit!(emitter, n),
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
                 srcmap!(emitter, self, false);
             }
-            Decl::Using(n) => emit!(n),
-            Decl::TsEnum(n) => emit!(n),
-            Decl::TsInterface(n) => emit!(n),
-            Decl::TsModule(n) => emit!(n),
-            Decl::TsTypeAlias(n) => emit!(n),
+            Decl::Using(n) => emit!(emitter, n),
+            Decl::TsEnum(n) => emit!(emitter, n),
+            Decl::TsInterface(n) => emit!(emitter, n),
+            Decl::TsModule(n) => emit!(emitter, n),
+            Decl::TsTypeAlias(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -162,7 +162,7 @@ impl MacroNode for FnDecl {
             space!(emitter);
         }
 
-        emit!(self.ident);
+        emit!(emitter, self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
 
@@ -185,13 +185,13 @@ impl MacroNode for VarDeclarator {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.name);
+        emit!(emitter, self.name);
 
         if let Some(ref init) = self.init {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(init);
+            emit!(emitter, init);
         }
 
         Ok(())

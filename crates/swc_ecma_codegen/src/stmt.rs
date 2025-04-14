@@ -8,36 +8,36 @@ use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 impl MacroNode for Stmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Stmt::Expr(ref e) => emit!(e),
+            Stmt::Expr(ref e) => emit!(emitter, e),
             Stmt::Block(ref e) => {
-                emit!(e);
+                emit!(emitter, e);
                 return Ok(());
             }
-            Stmt::Empty(ref e) => emit!(e),
-            Stmt::Debugger(ref e) => emit!(e),
-            Stmt::With(ref e) => emit!(e),
-            Stmt::Return(ref e) => emit!(e),
-            Stmt::Labeled(ref e) => emit!(e),
-            Stmt::Break(ref e) => emit!(e),
-            Stmt::Continue(ref e) => emit!(e),
-            Stmt::If(ref e) => emit!(e),
-            Stmt::Switch(ref e) => emit!(e),
-            Stmt::Throw(ref e) => emit!(e),
-            Stmt::Try(ref e) => emit!(e),
-            Stmt::While(ref e) => emit!(e),
-            Stmt::DoWhile(ref e) => emit!(e),
-            Stmt::For(ref e) => emit!(e),
-            Stmt::ForIn(ref e) => emit!(e),
-            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Empty(ref e) => emit!(emitter, e),
+            Stmt::Debugger(ref e) => emit!(emitter, e),
+            Stmt::With(ref e) => emit!(emitter, e),
+            Stmt::Return(ref e) => emit!(emitter, e),
+            Stmt::Labeled(ref e) => emit!(emitter, e),
+            Stmt::Break(ref e) => emit!(emitter, e),
+            Stmt::Continue(ref e) => emit!(emitter, e),
+            Stmt::If(ref e) => emit!(emitter, e),
+            Stmt::Switch(ref e) => emit!(emitter, e),
+            Stmt::Throw(ref e) => emit!(emitter, e),
+            Stmt::Try(ref e) => emit!(emitter, e),
+            Stmt::While(ref e) => emit!(emitter, e),
+            Stmt::DoWhile(ref e) => emit!(emitter, e),
+            Stmt::For(ref e) => emit!(emitter, e),
+            Stmt::ForIn(ref e) => emit!(emitter, e),
+            Stmt::ForOf(ref e) => emit!(emitter, e),
             Stmt::Decl(Decl::Var(e)) => {
-                emit!(e);
+                emit!(emitter, e);
                 semi!(emitter);
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
-                emit!(e);
+                emit!(emitter, e);
                 semi!(emitter);
             }
-            Stmt::Decl(ref e) => emit!(e),
+            Stmt::Decl(ref e) => emit!(emitter, e),
         }
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
@@ -76,7 +76,7 @@ impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         semi!(emitter);
 
@@ -109,10 +109,10 @@ impl MacroNode for WithStmt {
         formatting_space!(emitter);
 
         punct!(emitter, "(");
-        emit!(self.obj);
+        emit!(emitter, self.obj);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -143,7 +143,7 @@ impl MacroNode for ReturnStmt {
                 formatting_space!(emitter);
             }
 
-            emit!(arg);
+            emit!(emitter, arg);
             if need_paren {
                 punct!(emitter, ")");
             }
@@ -160,13 +160,13 @@ impl MacroNode for LabeledStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
-        emit!(self.label);
+        emit!(emitter, self.label);
 
         // TODO: Comment
         punct!(emitter, ":");
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -184,7 +184,7 @@ impl MacroNode for SwitchStmt {
         keyword!(emitter, "switch");
 
         punct!(emitter, "(");
-        emit!(self.discriminant);
+        emit!(emitter, self.discriminant);
         punct!(emitter, ")");
 
         punct!(emitter, "{");
@@ -210,13 +210,13 @@ impl MacroNode for CatchClause {
 
         if let Some(param) = &self.param {
             punct!(emitter, "(");
-            emit!(param);
+            emit!(emitter, param);
             punct!(emitter, ")");
         }
 
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -240,7 +240,7 @@ impl MacroNode for SwitchCase {
                 formatting_space!(emitter);
             }
 
-            emit!(test);
+            emit!(emitter, test);
         } else {
             keyword!(emitter, "default");
         }
@@ -287,7 +287,7 @@ impl MacroNode for ThrowStmt {
                 formatting_space!(emitter);
             }
 
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             if need_paren {
                 punct!(emitter, ")");
             }
@@ -310,18 +310,18 @@ impl MacroNode for TryStmt {
         keyword!(emitter, "try");
 
         formatting_space!(emitter);
-        emit!(self.block);
+        emit!(emitter, self.block);
 
         if let Some(ref catch) = self.handler {
             formatting_space!(emitter);
-            emit!(catch);
+            emit!(emitter, catch);
         }
 
         if let Some(ref finally) = self.finalizer {
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);
-            emit!(finally);
+            emit!(emitter, finally);
         }
 
         Ok(())
@@ -340,10 +340,10 @@ impl MacroNode for WhileStmt {
         keyword!(emitter, "while");
 
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -364,14 +364,14 @@ impl MacroNode for DoWhileStmt {
         } else {
             formatting_space!(emitter)
         }
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         keyword!(emitter, "while");
 
         formatting_space!(emitter);
 
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
 
         if emitter.cfg.target <= EsVersion::Es5 {
@@ -403,7 +403,7 @@ impl MacroNode for ForStmt {
         opt_leading_space!(emitter, self.update);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -421,7 +421,7 @@ impl MacroNode for ForInStmt {
         keyword!(emitter, "for");
 
         punct!(emitter, "(");
-        emit!(self.left);
+        emit!(emitter, self.left);
 
         if self.left.ends_with_alpha_num() {
             space!(emitter);
@@ -438,12 +438,12 @@ impl MacroNode for ForInStmt {
             } else {
                 formatting_space!(emitter)
             }
-            emit!(self.right);
+            emit!(emitter, self.right);
         }
 
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -466,7 +466,7 @@ impl MacroNode for ForOfStmt {
         }
         formatting_space!(emitter);
         punct!(emitter, "(");
-        emit!(self.left);
+        emit!(emitter, self.left);
         if self.left.ends_with_alpha_num() {
             space!(emitter);
         } else {
@@ -482,10 +482,10 @@ impl MacroNode for ForOfStmt {
             } else {
                 formatting_space!(emitter)
             }
-            emit!(self.right);
+            emit!(emitter, self.right);
         }
         punct!(emitter, ")");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         Ok(())
     }
@@ -502,7 +502,7 @@ impl MacroNode for BreakStmt {
 
         if let Some(ref label) = self.label {
             space!(emitter);
-            emit!(label);
+            emit!(emitter, label);
         }
 
         semi!(emitter);
@@ -522,7 +522,7 @@ impl MacroNode for ContinueStmt {
 
         if let Some(ref label) = self.label {
             space!(emitter);
-            emit!(label);
+            emit!(emitter, label);
         }
 
         semi!(emitter);
@@ -544,7 +544,7 @@ impl MacroNode for IfStmt {
 
         formatting_space!(emitter);
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
         formatting_space!(emitter);
 
@@ -553,7 +553,7 @@ impl MacroNode for IfStmt {
             _ => false,
         };
 
-        emit!(self.cons);
+        emit!(emitter, self.cons);
 
         if let Some(ref alt) = self.alt {
             if is_cons_block {
@@ -565,7 +565,7 @@ impl MacroNode for IfStmt {
             } else {
                 formatting_space!(emitter);
             }
-            emit!(alt);
+            emit!(emitter, alt);
         }
 
         Ok(())
@@ -576,8 +576,8 @@ impl MacroNode for IfStmt {
 impl MacroNode for ModuleExportName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ModuleExportName::Ident(ident) => emit!(ident),
-            ModuleExportName::Str(s) => emit!(s),
+            ModuleExportName::Ident(ident) => emit!(emitter, ident),
+            ModuleExportName::Str(s) => emit!(emitter, s),
         }
 
         Ok(())
@@ -588,8 +588,8 @@ impl MacroNode for ModuleExportName {
 impl MacroNode for VarDeclOrExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            VarDeclOrExpr::Expr(node) => emit!(node),
-            VarDeclOrExpr::VarDecl(node) => emit!(node),
+            VarDeclOrExpr::Expr(node) => emit!(emitter, node),
+            VarDeclOrExpr::VarDecl(node) => emit!(emitter, node),
         }
 
         Ok(())

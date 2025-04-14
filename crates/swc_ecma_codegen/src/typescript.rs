@@ -6,8 +6,8 @@ use swc_ecma_codegen_macros::node_impl;
 impl MacroNode for ParamOrTsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ParamOrTsParamProp::Param(n) => emit!(n),
-            ParamOrTsParamProp::TsParamProp(n) => emit!(n),
+            ParamOrTsParamProp::Param(n) => emit!(emitter, n),
+            ParamOrTsParamProp::TsParamProp(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -19,7 +19,7 @@ impl MacroNode for TsArrayType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.elem_type);
+        emit!(emitter, self.elem_type);
         punct!(emitter, "[");
         punct!(emitter, "]");
         Ok(())
@@ -31,13 +31,13 @@ impl MacroNode for TsAsExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -47,13 +47,13 @@ impl MacroNode for TsSatisfiesExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         space!(emitter);
         keyword!(emitter, "satisfies");
         space!(emitter);
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -63,7 +63,7 @@ impl MacroNode for TsCallSignatureDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
@@ -74,7 +74,7 @@ impl MacroNode for TsCallSignatureDecl {
             punct!(emitter, ":");
             space!(emitter);
 
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -85,24 +85,24 @@ impl MacroNode for TsConditionalType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.check_type);
+        emit!(emitter, self.check_type);
         space!(emitter);
 
         keyword!(emitter, "extends");
         space!(emitter);
 
-        emit!(self.extends_type);
+        emit!(emitter, self.extends_type);
         space!(emitter);
         punct!(emitter, "?");
 
         space!(emitter);
-        emit!(self.true_type);
+        emit!(emitter, self.true_type);
         space!(emitter);
 
         punct!(emitter, ":");
 
         space!(emitter);
-        emit!(self.false_type);
+        emit!(emitter, self.false_type);
         Ok(())
     }
 }
@@ -115,7 +115,7 @@ impl MacroNode for TsConstructSignatureDecl {
         keyword!(emitter, "new");
         if let Some(type_params) = &self.type_params {
             space!(emitter);
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         punct!(emitter, "(");
@@ -125,7 +125,7 @@ impl MacroNode for TsConstructSignatureDecl {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -144,7 +144,7 @@ impl MacroNode for TsConstructorType {
         keyword!(emitter, "new");
         if let Some(type_params) = &self.type_params {
             space!(emitter);
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         punct!(emitter, "(");
@@ -155,7 +155,7 @@ impl MacroNode for TsConstructorType {
         punct!(emitter, "=>");
         formatting_space!(emitter);
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -167,9 +167,9 @@ impl MacroNode for TsEntityName {
 
         match self {
             TsEntityName::TsQualifiedName(n) => {
-                emit!(n);
+                emit!(emitter, n);
             }
-            TsEntityName::Ident(n) => emit!(n),
+            TsEntityName::Ident(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -193,7 +193,7 @@ impl MacroNode for TsEnumDecl {
         keyword!(emitter, "enum");
         space!(emitter);
 
-        emit!(self.id);
+        emit!(emitter, self.id);
         formatting_space!(emitter);
 
         punct!(emitter, "{");
@@ -210,13 +210,13 @@ impl MacroNode for TsEnumMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.id);
+        emit!(emitter, self.id);
 
         if let Some(init) = &self.init {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(init);
+            emit!(emitter, init);
         }
         Ok(())
     }
@@ -226,8 +226,8 @@ impl MacroNode for TsEnumMember {
 impl MacroNode for TsEnumMemberId {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsEnumMemberId::Ident(n) => emit!(n),
-            TsEnumMemberId::Str(n) => emit!(n),
+            TsEnumMemberId::Ident(n) => emit!(emitter, n),
+            TsEnumMemberId::Str(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -242,7 +242,7 @@ impl MacroNode for TsExportAssignment {
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         Ok(())
     }
 }
@@ -252,9 +252,9 @@ impl MacroNode for TsExprWithTypeArgs {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
-        emit!(self.type_args);
+        emit!(emitter, self.type_args);
         Ok(())
     }
 }
@@ -266,7 +266,7 @@ impl MacroNode for TsExternalModuleRef {
 
         keyword!(emitter, "require");
         punct!(emitter, "(");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         punct!(emitter, ")");
         Ok(())
     }
@@ -278,8 +278,8 @@ impl MacroNode for TsFnOrConstructorType {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            TsFnOrConstructorType::TsFnType(n) => emit!(n),
-            TsFnOrConstructorType::TsConstructorType(n) => emit!(n),
+            TsFnOrConstructorType::TsFnType(n) => emit!(emitter, n),
+            TsFnOrConstructorType::TsConstructorType(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -289,10 +289,10 @@ impl MacroNode for TsFnOrConstructorType {
 impl MacroNode for TsFnParam {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsFnParam::Ident(n) => emit!(n),
-            TsFnParam::Array(n) => emit!(n),
-            TsFnParam::Rest(n) => emit!(n),
-            TsFnParam::Object(n) => emit!(n),
+            TsFnParam::Ident(n) => emit!(emitter, n),
+            TsFnParam::Array(n) => emit!(emitter, n),
+            TsFnParam::Rest(n) => emit!(emitter, n),
+            TsFnParam::Object(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -303,7 +303,7 @@ impl MacroNode for TsFnType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
 
         punct!(emitter, "(");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::Parameters)?;
@@ -313,7 +313,7 @@ impl MacroNode for TsFnType {
         punct!(emitter, "=>");
         formatting_space!(emitter);
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -336,14 +336,14 @@ impl MacroNode for TsImportEqualsDecl {
             space!(emitter);
         }
 
-        emit!(self.id);
+        emit!(emitter, self.id);
 
         formatting_space!(emitter);
 
         punct!(emitter, "=");
         formatting_space!(emitter);
 
-        emit!(self.module_ref);
+        emit!(emitter, self.module_ref);
         formatting_semi!(emitter);
         Ok(())
     }
@@ -366,7 +366,7 @@ impl MacroNode for TsIndexSignature {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -377,10 +377,10 @@ impl MacroNode for TsIndexedAccessType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.obj_type);
+        emit!(emitter, self.obj_type);
 
         punct!(emitter, "[");
-        emit!(self.index_type);
+        emit!(emitter, self.index_type);
         punct!(emitter, "]");
         Ok(())
     }
@@ -393,7 +393,7 @@ impl MacroNode for TsInferType {
 
         keyword!(emitter, "infer");
         space!(emitter);
-        emit!(self.type_param);
+        emit!(emitter, self.type_param);
         Ok(())
     }
 }
@@ -425,10 +425,10 @@ impl MacroNode for TsInterfaceDecl {
         keyword!(emitter, "interface");
         space!(emitter);
 
-        emit!(self.id);
+        emit!(emitter, self.id);
 
         if let Some(type_params) = &self.type_params {
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         if !self.extends.is_empty() {
@@ -447,7 +447,7 @@ impl MacroNode for TsInterfaceDecl {
 
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
         Ok(())
     }
 }
@@ -494,11 +494,11 @@ impl MacroNode for TsKeywordType {
 impl MacroNode for TsLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsLit::BigInt(n) => emit!(n),
-            TsLit::Number(n) => emit!(n),
-            TsLit::Str(n) => emit!(n),
-            TsLit::Bool(n) => emit!(n),
-            TsLit::Tpl(n) => emit!(n),
+            TsLit::BigInt(n) => emit!(emitter, n),
+            TsLit::Number(n) => emit!(emitter, n),
+            TsLit::Str(n) => emit!(emitter, n),
+            TsLit::Bool(n) => emit!(emitter, n),
+            TsLit::Tpl(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -513,10 +513,10 @@ impl MacroNode for TsTplLitType {
 
         for i in 0..(self.quasis.len() + self.types.len()) {
             if i % 2 == 0 {
-                emit!(self.quasis[i / 2]);
+                emit!(emitter, self.quasis[i / 2]);
             } else {
                 punct!(emitter, "${");
-                emit!(self.types[i / 2]);
+                emit!(emitter, self.types[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -531,7 +531,7 @@ impl MacroNode for TsLitType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.lit);
+        emit!(emitter, self.lit);
         Ok(())
     }
 }
@@ -567,27 +567,27 @@ impl MacroNode for TsMappedType {
 
         punct!(emitter, "[");
 
-        emit!(self.type_param.name);
+        emit!(emitter, self.type_param.name);
 
         if let Some(constraints) = &self.type_param.constraint {
             space!(emitter);
             keyword!(emitter, "in");
             space!(emitter);
-            emit!(constraints);
+            emit!(emitter, constraints);
         }
 
         if let Some(default) = &self.type_param.default {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(default);
+            emit!(emitter, default);
         }
 
         if let Some(name_type) = &self.name_type {
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
-            emit!(name_type);
+            emit!(emitter, name_type);
         }
 
         punct!(emitter, "]");
@@ -612,7 +612,7 @@ impl MacroNode for TsMappedType {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         formatting_semi!(emitter);
@@ -631,10 +631,10 @@ impl MacroNode for TsMethodSignature {
 
         if self.computed {
             punct!(emitter, "[");
-            emit!(self.key);
+            emit!(emitter, self.key);
             punct!(emitter, "]");
         } else {
-            emit!(self.key)
+            emit!(emitter, self.key)
         }
 
         if self.optional {
@@ -642,7 +642,7 @@ impl MacroNode for TsMethodSignature {
         }
 
         if let Some(type_params) = &self.type_params {
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         punct!(emitter, "(");
@@ -652,7 +652,7 @@ impl MacroNode for TsMethodSignature {
         if let Some(ref type_ann) = self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -691,17 +691,17 @@ impl MacroNode for TsModuleDecl {
                 TsModuleName::Str(_) => keyword!(emitter, "module"),
             }
             space!(emitter);
-            emit!(self.id);
+            emit!(emitter, self.id);
         }
 
         if let Some(mut body) = self.body.as_ref() {
             while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
                 punct!(emitter, ".");
-                emit!(decl.id);
+                emit!(emitter, decl.id);
                 body = &*decl.body;
             }
             formatting_space!(emitter);
-            emit!(body);
+            emit!(emitter, body);
         }
         Ok(())
     }
@@ -711,8 +711,8 @@ impl MacroNode for TsModuleDecl {
 impl MacroNode for TsModuleName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsModuleName::Ident(n) => emit!(n),
-            TsModuleName::Str(n) => emit!(n),
+            TsModuleName::Ident(n) => emit!(emitter, n),
+            TsModuleName::Str(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -724,8 +724,8 @@ impl MacroNode for TsModuleRef {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            TsModuleRef::TsEntityName(n) => emit!(n),
-            TsModuleRef::TsExternalModuleRef(n) => emit!(n),
+            TsModuleRef::TsEntityName(n) => emit!(emitter, n),
+            TsModuleRef::TsExternalModuleRef(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -739,8 +739,8 @@ impl MacroNode for TsNamespaceBody {
         punct!(emitter, "{");
         emitter.wr.increase_indent()?;
         match self {
-            TsNamespaceBody::TsModuleBlock(n) => emit!(n),
-            TsNamespaceBody::TsNamespaceDecl(n) => emit!(n),
+            TsNamespaceBody::TsModuleBlock(n) => emit!(emitter, n),
+            TsNamespaceBody::TsNamespaceDecl(n) => emit!(emitter, n),
         }
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
@@ -760,10 +760,10 @@ impl MacroNode for TsNamespaceDecl {
 
         keyword!(emitter, "namespace");
         space!(emitter);
-        emit!(self.id);
+        emit!(emitter, self.id);
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
         Ok(())
     }
 }
@@ -777,7 +777,7 @@ impl MacroNode for TsNamespaceExportDecl {
         space!(emitter);
         punct!(emitter, "=");
         space!(emitter);
-        emit!(self.id);
+        emit!(emitter, self.id);
         Ok(())
     }
 }
@@ -787,7 +787,7 @@ impl MacroNode for TsNonNullExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         punct!(emitter, "!");
         Ok(())
     }
@@ -798,7 +798,7 @@ impl MacroNode for TsOptionalType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         punct!(emitter, "?");
         Ok(())
     }
@@ -830,7 +830,7 @@ impl MacroNode for TsParamProp {
             space!(emitter);
         }
 
-        emit!(self.param);
+        emit!(emitter, self.param);
         Ok(())
     }
 }
@@ -841,8 +841,8 @@ impl MacroNode for TsParamPropParam {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            TsParamPropParam::Ident(n) => emit!(n),
-            TsParamPropParam::Assign(n) => emit!(n),
+            TsParamPropParam::Ident(n) => emit!(emitter, n),
+            TsParamPropParam::Assign(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -854,7 +854,7 @@ impl MacroNode for TsParenthesizedType {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "(");
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         punct!(emitter, ")");
         Ok(())
     }
@@ -872,10 +872,10 @@ impl MacroNode for TsPropertySignature {
 
         if self.computed {
             punct!(emitter, "[");
-            emit!(self.key);
+            emit!(emitter, self.key);
             punct!(emitter, "]");
         } else {
-            emit!(self.key);
+            emit!(emitter, self.key);
         }
 
         if self.optional {
@@ -885,7 +885,7 @@ impl MacroNode for TsPropertySignature {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -896,9 +896,9 @@ impl MacroNode for TsQualifiedName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.left);
+        emit!(emitter, self.left);
         punct!(emitter, ".");
-        emit!(self.right);
+        emit!(emitter, self.right);
         Ok(())
     }
 }
@@ -909,7 +909,7 @@ impl MacroNode for TsRestType {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "...");
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -930,8 +930,8 @@ impl MacroNode for TsThisTypeOrIdent {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            TsThisTypeOrIdent::TsThisType(n) => emit!(n),
-            TsThisTypeOrIdent::Ident(n) => emit!(n),
+            TsThisTypeOrIdent::TsThisType(n) => emit!(emitter, n),
+            TsThisTypeOrIdent::Ident(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -959,12 +959,12 @@ impl MacroNode for TsTupleElement {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         if let Some(label) = &self.label {
-            emit!(label);
+            emit!(emitter, label);
             punct!(emitter, ":");
             formatting_space!(emitter);
         }
 
-        emit!(self.ty);
+        emit!(emitter, self.ty);
         Ok(())
     }
 }
@@ -973,26 +973,26 @@ impl MacroNode for TsTupleElement {
 impl MacroNode for TsType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsType::TsKeywordType(n) => emit!(n),
-            TsType::TsThisType(n) => emit!(n),
-            TsType::TsFnOrConstructorType(n) => emit!(n),
-            TsType::TsTypeRef(n) => emit!(n),
-            TsType::TsTypeQuery(n) => emit!(n),
-            TsType::TsTypeLit(n) => emit!(n),
-            TsType::TsArrayType(n) => emit!(n),
-            TsType::TsTupleType(n) => emit!(n),
-            TsType::TsOptionalType(n) => emit!(n),
-            TsType::TsRestType(n) => emit!(n),
-            TsType::TsUnionOrIntersectionType(n) => emit!(n),
-            TsType::TsConditionalType(n) => emit!(n),
-            TsType::TsInferType(n) => emit!(n),
-            TsType::TsParenthesizedType(n) => emit!(n),
-            TsType::TsTypeOperator(n) => emit!(n),
-            TsType::TsIndexedAccessType(n) => emit!(n),
-            TsType::TsMappedType(n) => emit!(n),
-            TsType::TsLitType(n) => emit!(n),
-            TsType::TsTypePredicate(n) => emit!(n),
-            TsType::TsImportType(n) => emit!(n),
+            TsType::TsKeywordType(n) => emit!(emitter, n),
+            TsType::TsThisType(n) => emit!(emitter, n),
+            TsType::TsFnOrConstructorType(n) => emit!(emitter, n),
+            TsType::TsTypeRef(n) => emit!(emitter, n),
+            TsType::TsTypeQuery(n) => emit!(emitter, n),
+            TsType::TsTypeLit(n) => emit!(emitter, n),
+            TsType::TsArrayType(n) => emit!(emitter, n),
+            TsType::TsTupleType(n) => emit!(emitter, n),
+            TsType::TsOptionalType(n) => emit!(emitter, n),
+            TsType::TsRestType(n) => emit!(emitter, n),
+            TsType::TsUnionOrIntersectionType(n) => emit!(emitter, n),
+            TsType::TsConditionalType(n) => emit!(emitter, n),
+            TsType::TsInferType(n) => emit!(emitter, n),
+            TsType::TsParenthesizedType(n) => emit!(emitter, n),
+            TsType::TsTypeOperator(n) => emit!(emitter, n),
+            TsType::TsIndexedAccessType(n) => emit!(emitter, n),
+            TsType::TsMappedType(n) => emit!(emitter, n),
+            TsType::TsLitType(n) => emit!(emitter, n),
+            TsType::TsTypePredicate(n) => emit!(emitter, n),
+            TsType::TsImportType(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -1005,20 +1005,20 @@ impl MacroNode for TsImportType {
 
         keyword!(emitter, "import");
         punct!(emitter, "(");
-        emit!(self.arg);
+        emit!(emitter, self.arg);
         if let Some(attributes) = &self.attributes {
             punct!(emitter, ",");
             formatting_space!(emitter);
-            emit!(attributes);
+            emit!(emitter, attributes);
         }
         punct!(emitter, ")");
 
         if let Some(n) = &self.qualifier {
             punct!(emitter, ".");
-            emit!(n);
+            emit!(emitter, n);
         }
 
-        emit!(self.type_args);
+        emit!(emitter, self.type_args);
         Ok(())
     }
 }
@@ -1035,7 +1035,7 @@ impl MacroNode for TsImportCallOptions {
         keyword!(emitter, "with");
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.with);
+        emit!(emitter, self.with);
 
         if !emitter.cfg.minify {
             emitter.wr.decrease_indent()?;
@@ -1060,9 +1060,9 @@ impl MacroNode for TsTypeAliasDecl {
 
         space!(emitter);
 
-        emit!(self.id);
+        emit!(emitter, self.id);
         if let Some(type_params) = &self.type_params {
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
         formatting_space!(emitter);
 
@@ -1070,7 +1070,7 @@ impl MacroNode for TsTypeAliasDecl {
 
         formatting_space!(emitter);
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
 
         formatting_semi!(emitter);
         Ok(())
@@ -1082,7 +1082,7 @@ impl MacroNode for TsTypeAnn {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -1093,9 +1093,9 @@ impl MacroNode for TsTypeAssertion {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "<");
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         punct!(emitter, ">");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         Ok(())
     }
 }
@@ -1105,7 +1105,7 @@ impl MacroNode for TsConstAssertion {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         space!(emitter);
         keyword!(emitter, "as");
@@ -1119,16 +1119,16 @@ impl MacroNode for TsConstAssertion {
 impl MacroNode for TsTypeElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsTypeElement::TsCallSignatureDecl(n) => emit!(n),
-            TsTypeElement::TsConstructSignatureDecl(n) => emit!(n),
-            TsTypeElement::TsPropertySignature(n) => emit!(n),
-            TsTypeElement::TsMethodSignature(n) => emit!(n),
-            TsTypeElement::TsIndexSignature(n) => emit!(n),
+            TsTypeElement::TsCallSignatureDecl(n) => emit!(emitter, n),
+            TsTypeElement::TsConstructSignatureDecl(n) => emit!(emitter, n),
+            TsTypeElement::TsPropertySignature(n) => emit!(emitter, n),
+            TsTypeElement::TsMethodSignature(n) => emit!(emitter, n),
+            TsTypeElement::TsIndexSignature(n) => emit!(emitter, n),
             TsTypeElement::TsGetterSignature(n) => {
-                emit!(n)
+                emit!(emitter, n)
             }
             TsTypeElement::TsSetterSignature(n) => {
-                emit!(n)
+                emit!(emitter, n)
             }
         }
         formatting_semi!(emitter);
@@ -1144,10 +1144,10 @@ impl MacroNode for TsGetterSignature {
 
         if self.computed {
             punct!(emitter, "[");
-            emit!(self.key);
+            emit!(emitter, self.key);
             punct!(emitter, "]");
         } else {
-            emit!(self.key)
+            emit!(emitter, self.key)
         }
 
         punct!(emitter, "(");
@@ -1157,7 +1157,7 @@ impl MacroNode for TsGetterSignature {
             punct!(emitter, ":");
             formatting_space!(emitter);
 
-            emit!(ty.type_ann);
+            emit!(emitter, ty.type_ann);
         }
         Ok(())
     }
@@ -1171,14 +1171,14 @@ impl MacroNode for TsSetterSignature {
 
         if self.computed {
             punct!(emitter, "[");
-            emit!(self.key);
+            emit!(emitter, self.key);
             punct!(emitter, "]");
         } else {
-            emit!(self.key)
+            emit!(emitter, self.key)
         }
 
         punct!(emitter, "(");
-        emit!(self.param);
+        emit!(emitter, self.param);
         punct!(emitter, ")");
         Ok(())
     }
@@ -1211,7 +1211,7 @@ impl MacroNode for TsTypeOperator {
             TsTypeOperatorOp::ReadOnly => keyword!(emitter, "readonly"),
         }
         space!(emitter);
-        emit!(self.type_ann);
+        emit!(emitter, self.type_ann);
         Ok(())
     }
 }
@@ -1236,20 +1236,20 @@ impl MacroNode for TsTypeParam {
             space!(emitter);
         }
 
-        emit!(self.name);
+        emit!(emitter, self.name);
 
         if let Some(constraints) = &self.constraint {
             space!(emitter);
             keyword!(emitter, "extends");
             space!(emitter);
-            emit!(constraints);
+            emit!(emitter, constraints);
         }
 
         if let Some(default) = &self.default {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(default);
+            emit!(emitter, default);
         }
         Ok(())
     }
@@ -1292,13 +1292,13 @@ impl MacroNode for TsTypePredicate {
             space!(emitter);
         }
 
-        emit!(self.param_name);
+        emit!(emitter, self.param_name);
 
         if let Some(type_ann) = &self.type_ann {
             space!(emitter);
             keyword!(emitter, "is");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
         Ok(())
     }
@@ -1311,8 +1311,8 @@ impl MacroNode for TsTypeQuery {
 
         keyword!(emitter, "typeof");
         space!(emitter);
-        emit!(self.expr_name);
-        emit!(self.type_args);
+        emit!(emitter, self.expr_name);
+        emit!(emitter, self.type_args);
         Ok(())
     }
 }
@@ -1321,8 +1321,8 @@ impl MacroNode for TsTypeQuery {
 impl MacroNode for TsTypeQueryExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsTypeQueryExpr::TsEntityName(n) => emit!(n),
-            TsTypeQueryExpr::Import(n) => emit!(n),
+            TsTypeQueryExpr::TsEntityName(n) => emit!(emitter, n),
+            TsTypeQueryExpr::Import(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -1333,7 +1333,7 @@ impl MacroNode for TsTypeRef {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.type_name);
+        emit!(emitter, self.type_name);
 
         if let Some(n) = &self.type_params {
             punct!(emitter, "<");
@@ -1348,8 +1348,8 @@ impl MacroNode for TsTypeRef {
 impl MacroNode for TsUnionOrIntersectionType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
-            TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
+            TsUnionOrIntersectionType::TsUnionType(n) => emit!(emitter, n),
+            TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(emitter, n),
         }
         Ok(())
     }
@@ -1374,9 +1374,9 @@ impl MacroNode for TsInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
-        emit!(self.type_args);
+        emit!(emitter, self.type_args);
         Ok(())
     }
 }

@@ -11,7 +11,7 @@ impl MacroNode for Param {
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
-        emit!(self.pat);
+        emit!(emitter, self.pat);
 
         srcmap!(emitter, self, false);
 
@@ -23,13 +23,13 @@ impl MacroNode for Param {
 impl MacroNode for Pat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Pat::Array(ref n) => emit!(n),
-            Pat::Assign(ref n) => emit!(n),
-            Pat::Expr(ref n) => emit!(n),
-            Pat::Ident(ref n) => emit!(n),
-            Pat::Object(ref n) => emit!(n),
-            Pat::Rest(ref n) => emit!(n),
-            Pat::Invalid(n) => emit!(n),
+            Pat::Array(ref n) => emit!(emitter, n),
+            Pat::Assign(ref n) => emit!(emitter, n),
+            Pat::Expr(ref n) => emit!(emitter, n),
+            Pat::Ident(ref n) => emit!(emitter, n),
+            Pat::Object(ref n) => emit!(emitter, n),
+            Pat::Rest(ref n) => emit!(emitter, n),
+            Pat::Invalid(n) => emit!(emitter, n),
         }
 
         if emitter.comments.is_some() {
@@ -46,12 +46,12 @@ impl MacroNode for RestPat {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, self.dot3_token, "...");
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         Ok(())
@@ -62,8 +62,8 @@ impl MacroNode for RestPat {
 impl MacroNode for PropOrSpread {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            PropOrSpread::Prop(ref n) => emit!(n),
-            PropOrSpread::Spread(ref n) => emit!(n),
+            PropOrSpread::Prop(ref n) => emit!(emitter, n),
+            PropOrSpread::Spread(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -80,7 +80,7 @@ impl MacroNode for SpreadElement {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "...");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         srcmap!(emitter, self, false);
 
@@ -92,8 +92,8 @@ impl MacroNode for SpreadElement {
 impl MacroNode for AssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            AssignTarget::Simple(ref n) => emit!(n),
-            AssignTarget::Pat(ref n) => emit!(n),
+            AssignTarget::Simple(ref n) => emit!(emitter, n),
+            AssignTarget::Pat(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -104,17 +104,17 @@ impl MacroNode for AssignTarget {
 impl MacroNode for SimpleAssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            SimpleAssignTarget::Ident(n) => emit!(n),
-            SimpleAssignTarget::Member(n) => emit!(n),
-            SimpleAssignTarget::Invalid(n) => emit!(n),
-            SimpleAssignTarget::SuperProp(n) => emit!(n),
-            SimpleAssignTarget::Paren(n) => emit!(n),
-            SimpleAssignTarget::OptChain(n) => emit!(n),
-            SimpleAssignTarget::TsAs(n) => emit!(n),
-            SimpleAssignTarget::TsNonNull(n) => emit!(n),
-            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
-            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
-            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
+            SimpleAssignTarget::Ident(n) => emit!(emitter, n),
+            SimpleAssignTarget::Member(n) => emit!(emitter, n),
+            SimpleAssignTarget::Invalid(n) => emit!(emitter, n),
+            SimpleAssignTarget::SuperProp(n) => emit!(emitter, n),
+            SimpleAssignTarget::Paren(n) => emit!(emitter, n),
+            SimpleAssignTarget::OptChain(n) => emit!(emitter, n),
+            SimpleAssignTarget::TsAs(n) => emit!(emitter, n),
+            SimpleAssignTarget::TsNonNull(n) => emit!(emitter, n),
+            SimpleAssignTarget::TsSatisfies(n) => emit!(emitter, n),
+            SimpleAssignTarget::TsTypeAssertion(n) => emit!(emitter, n),
+            SimpleAssignTarget::TsInstantiation(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -125,9 +125,9 @@ impl MacroNode for SimpleAssignTarget {
 impl MacroNode for AssignTargetPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            AssignTargetPat::Array(n) => emit!(n),
-            AssignTargetPat::Object(n) => emit!(n),
-            AssignTargetPat::Invalid(n) => emit!(n),
+            AssignTargetPat::Array(n) => emit!(emitter, n),
+            AssignTargetPat::Object(n) => emit!(emitter, n),
+            AssignTargetPat::Invalid(n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -158,7 +158,7 @@ impl MacroNode for ArrayPat {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         srcmap!(emitter, self, false);
@@ -174,11 +174,11 @@ impl MacroNode for AssignPat {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.left);
+        emit!(emitter, self.left);
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
-        emit!(self.right);
+        emit!(emitter, self.right);
 
         srcmap!(emitter, self, false);
 
@@ -209,7 +209,7 @@ impl MacroNode for ObjectPat {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         srcmap!(emitter, self, false);
@@ -222,9 +222,9 @@ impl MacroNode for ObjectPat {
 impl MacroNode for ObjectPatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ObjectPatProp::KeyValue(ref node) => emit!(node),
-            ObjectPatProp::Assign(ref node) => emit!(node),
-            ObjectPatProp::Rest(ref node) => emit!(node),
+            ObjectPatProp::KeyValue(ref node) => emit!(emitter, node),
+            ObjectPatProp::Assign(ref node) => emit!(emitter, node),
+            ObjectPatProp::Rest(ref node) => emit!(emitter, node),
         }
 
         Ok(())
@@ -238,10 +238,10 @@ impl MacroNode for KeyValuePatProp {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.value);
+        emit!(emitter, self.value);
 
         srcmap!(emitter, self, false);
 
@@ -256,12 +256,12 @@ impl MacroNode for AssignPatProp {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         if let Some(value) = &self.value {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(value);
+            emit!(emitter, value);
         }
 
         srcmap!(emitter, self, false);
@@ -274,9 +274,9 @@ impl MacroNode for AssignPatProp {
 impl MacroNode for ForHead {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ForHead::Pat(n) => emit!(n),
-            ForHead::VarDecl(n) => emit!(n),
-            ForHead::UsingDecl(n) => emit!(n),
+            ForHead::Pat(n) => emit!(emitter, n),
+            ForHead::VarDecl(n) => emit!(emitter, n),
+            ForHead::UsingDecl(n) => emit!(emitter, n),
         }
 
         Ok(())

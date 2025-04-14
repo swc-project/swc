@@ -10,15 +10,15 @@ impl MacroNode for ModuleDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         match self {
-            ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => emit!(d),
-            ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
-            ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+            ModuleDecl::Import(ref d) => emit!(emitter, d),
+            ModuleDecl::ExportDecl(ref d) => emit!(emitter, d),
+            ModuleDecl::ExportNamed(ref d) => emit!(emitter, d),
+            ModuleDecl::ExportDefaultDecl(ref d) => emit!(emitter, d),
+            ModuleDecl::ExportDefaultExpr(ref n) => emit!(emitter, n),
+            ModuleDecl::ExportAll(ref d) => emit!(emitter, d),
+            ModuleDecl::TsExportAssignment(ref n) => emit!(emitter, n),
+            ModuleDecl::TsImportEquals(ref n) => emit!(emitter, n),
+            ModuleDecl::TsNamespaceExport(ref n) => emit!(emitter, n),
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -39,7 +39,7 @@ impl MacroNode for ExportDecl {
         match &self.decl {
             Decl::Class(decl) => {
                 for dec in &decl.class.decorators {
-                    emit!(dec);
+                    emit!(emitter, dec);
                 }
 
                 keyword!(emitter, "export");
@@ -51,7 +51,7 @@ impl MacroNode for ExportDecl {
                 keyword!(emitter, "export");
 
                 space!(emitter);
-                emit!(self.decl);
+                emit!(emitter, self.decl);
             }
         }
 
@@ -75,7 +75,7 @@ impl MacroNode for ExportDefaultExpr {
             } else {
                 formatting_space!(emitter);
             }
-            emit!(self.expr);
+            emit!(emitter, self.expr);
         }
         semi!(emitter);
 
@@ -98,9 +98,9 @@ impl MacroNode for ExportDefaultDecl {
         keyword!(emitter, "default");
         space!(emitter);
         match self.decl {
-            DefaultDecl::Class(ref n) => emit!(n),
-            DefaultDecl::Fn(ref n) => emit!(n),
-            DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
+            DefaultDecl::Class(ref n) => emit!(emitter, n),
+            DefaultDecl::Fn(ref n) => emit!(emitter, n),
+            DefaultDecl::TsInterfaceDecl(ref n) => emit!(emitter, n),
         }
 
         Ok(())
@@ -153,7 +153,7 @@ impl MacroNode for ImportDecl {
                     specifiers.push(s);
                 }
                 ImportSpecifier::Default(ref s) => {
-                    emit!(s.local);
+                    emit!(emitter, s.local);
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -169,7 +169,7 @@ impl MacroNode for ImportDecl {
                     formatting_space!(emitter);
                     keyword!(emitter, "as");
                     space!(emitter);
-                    emit!(ns.local);
+                    emit!(emitter, ns.local);
                 }
             }
         }
@@ -199,7 +199,7 @@ impl MacroNode for ImportDecl {
             formatting_space!(emitter);
         }
 
-        emit!(self.src);
+        emit!(emitter, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);
@@ -209,7 +209,7 @@ impl MacroNode for ImportDecl {
                 keyword!(emitter, "with")
             };
             formatting_space!(emitter);
-            emit!(with);
+            emit!(emitter, with);
         }
 
         semi!(emitter);
@@ -231,13 +231,13 @@ impl MacroNode for ImportNamedSpecifier {
         }
 
         if let Some(ref imported) = self.imported {
-            emit!(imported);
+            emit!(emitter, imported);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
         }
 
-        emit!(self.local);
+        emit!(emitter, self.local);
 
         srcmap!(emitter, self, false);
 
@@ -252,8 +252,8 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => emit!(node),
-            ExportSpecifier::Named(ref node) => emit!(node),
+            ExportSpecifier::Namespace(ref node) => emit!(emitter, node),
+            ExportSpecifier::Named(ref node) => emit!(emitter, node),
         }
 
         Ok(())
@@ -271,7 +271,7 @@ impl MacroNode for ExportNamespaceSpecifier {
         formatting_space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
-        emit!(self.name);
+        emit!(emitter, self.name);
 
         srcmap!(emitter, self, false);
 
@@ -292,13 +292,13 @@ impl MacroNode for ExportNamedSpecifier {
         }
 
         if let Some(exported) = &self.exported {
-            emit!(self.orig);
+            emit!(emitter, self.orig);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
-            emit!(exported);
+            emit!(emitter, exported);
         } else {
-            emit!(self.orig);
+            emit!(emitter, self.orig);
         }
         srcmap!(emitter, self, false);
 
@@ -357,7 +357,7 @@ impl MacroNode for NamedExport {
         formatting_space!(emitter);
 
         if let Some(spec) = namespace_spec {
-            emit!(spec);
+            emit!(emitter, spec);
             if has_named_specs {
                 punct!(emitter, ",");
                 formatting_space!(emitter);
@@ -381,7 +381,7 @@ impl MacroNode for NamedExport {
             }
             keyword!(emitter, "from");
             formatting_space!(emitter);
-            emit!(src);
+            emit!(emitter, src);
 
             if let Some(with) = &self.with {
                 formatting_space!(emitter);
@@ -391,7 +391,7 @@ impl MacroNode for NamedExport {
                     keyword!(emitter, "with")
                 };
                 formatting_space!(emitter);
-                emit!(with);
+                emit!(emitter, with);
             }
         }
         semi!(emitter);
@@ -423,7 +423,7 @@ impl MacroNode for ExportAll {
         formatting_space!(emitter);
         keyword!(emitter, "from");
         formatting_space!(emitter);
-        emit!(self.src);
+        emit!(emitter, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);
@@ -433,7 +433,7 @@ impl MacroNode for ExportAll {
                 keyword!(emitter, "with")
             };
             formatting_space!(emitter);
-            emit!(with);
+            emit!(emitter, with);
         }
 
         semi!(emitter);
