@@ -24,6 +24,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
+use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -88,7 +89,7 @@ pub trait Node: Spanned + Sized {
 
     fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
     where
-        W: WriteJs,
+        W: SpannedWriteJs,
         S: SourceMapper + SourceMapperExt;
 }
 
@@ -103,7 +104,7 @@ impl<N: Node> Node for Box<N> {
 
     fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
     where
-        W: WriteJs,
+        W: SpannedWriteJs,
         S: SourceMapper + SourceMapperExt,
     {
         (**self).with_new_span(emitter).map(Box::new)
@@ -122,7 +123,7 @@ where
 
 pub struct NodeEmitter<'a, W, S>
 where
-    W: WriteJs,
+    W: SpannedWriteJs,
     S: SourceMapper + SourceMapperExt,
 {
     emitter: Emitter<'a, W, S>,
@@ -130,7 +131,7 @@ where
 
 impl<'a, W, S> Deref for NodeEmitter<'a, W, S>
 where
-    W: WriteJs,
+    W: SpannedWriteJs,
     S: SourceMapper + SourceMapperExt,
 {
     type Target = Emitter<'a, W, S>;
@@ -142,7 +143,7 @@ where
 
 impl<'a, W, S> DerefMut for NodeEmitter<'a, W, S>
 where
-    W: WriteJs,
+    W: SpannedWriteJs,
     S: SourceMapper + SourceMapperExt,
 {
     fn deref_mut(&mut self) -> &mut Self::Target {

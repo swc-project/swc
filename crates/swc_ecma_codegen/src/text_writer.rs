@@ -50,6 +50,10 @@ pub trait WriteJs {
     }
 }
 
+pub trait SpannedWriteJs: WriteJs {
+    fn get_pos(&self) -> BytePos;
+}
+
 impl<W> WriteJs for Box<W>
 where
     W: ?Sized + WriteJs,
@@ -146,6 +150,15 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+}
+
+impl<W> SpannedWriteJs for Box<W>
+where
+    W: ?Sized + SpannedWriteJs,
+{
+    fn get_pos(&self) -> BytePos {
+        (**self).get_pos()
     }
 }
 
@@ -246,5 +259,14 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+}
+
+impl<W> SpannedWriteJs for &'_ mut W
+where
+    W: ?Sized + SpannedWriteJs,
+{
+    fn get_pos(&self) -> BytePos {
+        (**self).get_pos()
     }
 }
