@@ -69,13 +69,17 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
             where
                 W: crate::text_writer::WriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-            #emit_block
+            {
+                #emit_block
+            }
 
             fn with_new_span<W, S>(&self, emitter: &mut crate::NodeEmitter<'_, W, S>) -> crate::Result<Self>
             where
                 W: crate::text_writer::SpannedWriteJs,
                 S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
-            #adjust_block
+            {
+                #adjust_block
+            }
         }
     )
 }
