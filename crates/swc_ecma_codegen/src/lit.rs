@@ -22,9 +22,19 @@ impl MacroNode for Lit {
                 } else {
                     keyword!(emitter, "false")
                 }
+
+                Ok(only_new!(Lit::Bool(*value)))
             }
-            Lit::Null(Null { .. }) => keyword!(emitter, "null"),
-            Lit::Str(ref s) => emit!(s),
+            Lit::Null(Null { .. }) => {
+                keyword!(emitter, "null");
+
+                Ok(only_new!(Lit::Null(Null::default())))
+            }
+            Lit::Str(ref s) => {
+                let s = emit!(s);
+
+                Ok(only_new!(Lit::Str(s)))
+            }
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
@@ -35,8 +45,6 @@ impl MacroNode for Lit {
             }
             Lit::JSXText(ref n) => emit!(n),
         }
-
-        Ok(())
     }
 }
 
