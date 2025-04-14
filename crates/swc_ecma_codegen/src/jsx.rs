@@ -196,7 +196,7 @@ impl MacroNode for JSXFragment {
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         punct!(emitter, "<>");
-        Ok(())
+        Ok(only_new!(JSXOpeningFragment::default()))
     }
 }
 
@@ -204,7 +204,7 @@ impl MacroNode for JSXOpeningFragment {
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         punct!(emitter, "</>");
-        Ok(())
+        Ok(only_new!(JSXClosingFragment::default()))
     }
 }
 
