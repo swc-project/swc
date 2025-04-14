@@ -75,28 +75,34 @@ pub fn to_code(node: &impl Node) -> String {
 }
 
 pub trait Node: Spanned + Sized {
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
 
-    fn with_new_span<W, S>(&self, e: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
 }
 
 impl<N: Node> Node for Box<N> {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt,
     {
-        (**self).emit_with(e)
+        (**self).emit_with(emitter)
+    }
+
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: WriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        Box::new((**self).with_new_span(emitter))
     }
 }
-
 pub struct Emitter<'a, W, S>
 where
     W: WriteJs,
