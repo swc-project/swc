@@ -491,7 +491,7 @@ impl<I: Tokens> Parser<I> {
                 let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(decl.into());
             } else if self.input.syntax().export_default_from()
-                && (is!(self, "from")
+                && ((is!(self, "from") && peeked_is!(self, Str))
                     || (is!(self, ',') && (peeked_is!(self, '{') || peeked_is!(self, '*'))))
             {
                 export_default = Some(Ident::new_no_ctxt("default".into(), self.input.prev_span()))
