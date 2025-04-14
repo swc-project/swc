@@ -6,7 +6,6 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use serde_json;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, PResult, Parser, Syntax};
