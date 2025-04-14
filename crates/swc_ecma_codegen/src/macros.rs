@@ -124,18 +124,18 @@ macro_rules! srcmap {
 }
 
 macro_rules! emit {
-    ($emitter:expr, true, $n:ident) => {
+    (true, $emitter:expr, $n:ident) => {
         crate::Node::emit_with($n, $emitter)?
     };
-    ($emitter:expr, true, $n:expr) => {
+    (true, $emitter:expr, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
     };
 
-    ($emitter:expr, false, $n:ident) => {
+    (false, $emitter:expr, $n:ident) => {
         crate::Node::with_new_span($n, $emitter)?
     };
 
-    ($emitter:expr, false, $n:expr) => {
+    (false, $emitter:expr, $n:expr) => {
         crate::Node::with_new_span(&$n, $emitter)?
     };
 }
