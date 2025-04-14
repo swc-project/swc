@@ -138,7 +138,7 @@ impl Task for ParseFileTask {
 
 fn stringify(src: Either<Buffer, String>) -> String {
     match src {
-        Either::A(src) => String::from_utf8_lossy(src.as_ref()).to_string(),
+        Either::A(src) => String::from_utf8_lossy(src.as_ref()).into_owned(),
         Either::B(src) => src,
     }
 }
