@@ -20,12 +20,6 @@ macro_rules! opt {
     }};
 }
 
-macro_rules! emit {
-    ($emitter:expr, $e:expr) => {{
-        crate::Node::emit_with(&$e, $emitter)?;
-    }};
-}
-
 macro_rules! keyword {
     ($emitter:expr, $span:expr, $s:expr) => {
         $emitter.wr.write_keyword(Some($span), $s)?
@@ -132,5 +126,9 @@ macro_rules! srcmap {
 macro_rules! emit_node_inner {
     ($emitter:expr, true, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
+    };
+
+    ($emitter:expr, false, $n:expr) => {
+        crate::Node::with_new_span(&$n, $emitter)?
     };
 }
