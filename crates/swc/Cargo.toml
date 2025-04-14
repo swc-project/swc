@@ -90,7 +90,7 @@ swc_ecma_loader = { version = "8.0.0", path = "../swc_ecma_loader", features = [
   "tsc",
 ] }
 swc_ecma_minifier = { version = "16.0.1", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "11.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "11.1.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "16.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "15.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
@@ -100,7 +100,7 @@ swc_ecma_transforms = { version = "15.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "12.1.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "12.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "13.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "12.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "12.0.0", path = "../swc_ecma_utils" }
