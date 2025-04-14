@@ -5,7 +5,13 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
+use std::{
+    borrow::Cow,
+    fmt::Write,
+    io,
+    ops::{Deref, DerefMut},
+    str,
+};
 
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
@@ -120,6 +126,28 @@ where
     S: SourceMapper + SourceMapperExt,
 {
     emitter: Emitter<'a, W, S>,
+}
+
+impl<'a, W, S> Deref for NodeEmitter<'a, W, S>
+where
+    W: WriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    type Target = Emitter<'a, W, S>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.emitter
+    }
+}
+
+impl<'a, W, S> DerefMut for NodeEmitter<'a, W, S>
+where
+    W: WriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.emitter
+    }
 }
 
 enum CowStr<'a> {
