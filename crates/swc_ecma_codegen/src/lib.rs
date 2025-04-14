@@ -97,15 +97,23 @@ impl<N: Node> Node for Box<N> {
     }
 }
 
-pub struct Emitter<'a, W, S: SourceMapper>
+pub struct Emitter<'a, W, S>
 where
     W: WriteJs,
-    S: SourceMapperExt,
+    S: SourceMapper + SourceMapperExt,
 {
     pub cfg: config::Config,
     pub cm: Lrc<S>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: W,
+}
+
+pub struct NodeEmitter<'a, W, S>
+where
+    W: WriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    emitter: Emitter<'a, W, S>,
 }
 
 enum CowStr<'a> {
