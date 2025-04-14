@@ -63,7 +63,7 @@ fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
 
 #[testing::fixture("tests/fixture/**/input.css")]
 fn test_without_env(input: PathBuf) {
-    prefix(input, Options::default(), None)
+    prefix(input, Options { env: None }, None)
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]
