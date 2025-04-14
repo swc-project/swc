@@ -26,8 +26,8 @@ where
                     formatting_space!(self)
                 }
             }
-            emit!(self, true, node.super_class);
-            emit!(self, true, node.super_type_params);
+            emit!(true, self, node.super_class);
+            emit!(true, self, node.super_type_params);
         }
 
         if !node.implements.is_empty() {
