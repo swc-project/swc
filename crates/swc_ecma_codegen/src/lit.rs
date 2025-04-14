@@ -35,15 +35,27 @@ impl MacroNode for Lit {
 
                 Ok(only_new!(Lit::Str(s)))
             }
-            Lit::BigInt(ref s) => emit!(emitter, s),
-            Lit::Num(ref n) => emit!(emitter, n),
+            Lit::BigInt(ref s) => {
+                let bigint = emit!(emitter, s);
+
+                Ok(only_new!(Lit::BigInt(bigint)))
+            }
+            Lit::Num(ref n) => {
+                let number = emit!(emitter, n);
+
+                Ok(only_new!(Lit::Num(numberumber)))
+            }
             Lit::Regex(ref n) => {
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
             }
-            Lit::JSXText(ref n) => emit!(emitter, n),
+            Lit::JSXText(ref n) => {
+                let s = emit!(emitter, n);
+
+                Ok(only_new!(Lit::JSXText(s)))
+            }
         }
     }
 }
