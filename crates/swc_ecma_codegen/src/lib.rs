@@ -1511,13 +1511,13 @@ impl MacroNode for Script {
 impl MacroNode for ModuleItem {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
-        match self {
+        let node = match self {
             ModuleItem::Stmt(stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(decl) => emit!(decl),
-        }
+        };
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
-        Ok(())
+        Ok(node)
     }
 }
 

@@ -26,7 +26,7 @@ where
 
         if !skip_decorators {
             for dec in &node.class.decorators {
-                emit!(self, dec);
+                emit!(self, true, dec);
             }
         }
 
@@ -37,8 +37,8 @@ where
 
         keyword!(self, "class");
         space!(self);
-        emit!(self, node.ident);
-        emit!(self, node.class.type_params);
+        emit!(self, true, node.ident);
+        emit!(self, true, node.class.type_params);
 
         self.emit_class_trailing(&node.class)?;
 
