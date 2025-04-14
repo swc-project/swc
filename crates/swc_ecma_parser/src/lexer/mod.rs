@@ -2,8 +2,8 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
+use arrayvec::ArrayVec;
 use either::Either::{Left, Right};
-use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{
     comments::Comments,
@@ -52,7 +52,7 @@ impl From<u32> for Char {
     }
 }
 
-pub(crate) struct CharIter(SmallVec<[char; 7]>);
+pub(crate) struct CharIter(ArrayVec<char, 12>);
 
 /// Ported from https://github.com/web-infra-dev/oxc/blob/99a4816ce7b6132b2667257984f9d92ae3768f03/crates/oxc_parser/src/lexer/mod.rs#L1349-L1374
 impl IntoIterator for Char {
@@ -67,9 +67,16 @@ impl IntoIterator for Char {
         //        }
 
         CharIter(match char::from_u32(self.0) {
-            Some(c) => smallvec![c],
+            Some(c) => {
+                let mut buf = ArrayVec::new();
+                // Safety: we can make sure that `buf` has enough capacity
+                unsafe {
+                    buf.push_unchecked(c);
+                }
+                buf
+            }
             None => {
-                let mut buf = smallvec![];
+                let mut buf = ArrayVec::new();
 
                 let high = self.0 & 0xffff0000 >> 16;
 
@@ -78,19 +85,31 @@ impl IntoIterator for Char {
                 // The second code unit of a surrogate pair is always in the range from 0xDC00
                 // to 0xDFFF, and is called a low surrogate or a trail surrogate.
                 if !(0xdc00..=0xdfff).contains(&low) {
-                    buf.push('\\');
-                    buf.push('u');
-                    buf.extend(format!("{high:x}").chars());
-                    buf.push('\\');
-                    buf.push('u');
-                    buf.extend(format!("{low:x}").chars());
+                    // Safety: we can make sure that `buf` has enough capacity
+                    unsafe {
+                        buf.push_unchecked('\\');
+                        buf.push_unchecked('u');
+                        for c in format!("{high:x}").chars() {
+                            buf.push_unchecked(c);
+                        }
+                        buf.push_unchecked('\\');
+                        buf.push_unchecked('u');
+                        for c in format!("{low:x}").chars() {
+                            buf.push_unchecked(c);
+                        }
+                    }
                 } else {
                     // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
                     let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
 
-                    buf.push('\\');
-                    buf.push('u');
-                    buf.extend(format!("{astral_code_point:x}").chars());
+                    // Safety: we can make sure that `buf` has enough capacity
+                    unsafe {
+                        buf.push_unchecked('\\');
+                        buf.push_unchecked('u');
+                        for c in format!("{astral_code_point:x}").chars() {
+                            buf.push_unchecked(c);
+                        }
+                    }
                 }
 
                 buf
