@@ -37,7 +37,7 @@ par-core = { workspace = true }
 
 swc_atoms                        = { version = "5.0.0", path = "../swc_atoms" }
 swc_common                       = { version = "8.1.0", path = "../swc_common" }
-swc_ecma_ast                     = { version = "8.1.1", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { version = "8.1.2", path = "../swc_ecma_ast" }
 swc_ecma_transforms_base         = { version = "12.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { version = "13.0.0", path = "../swc_ecma_transforms_compat", optional = true }
 swc_ecma_transforms_module       = { version = "13.0.0", path = "../swc_ecma_transforms_module", optional = true }
@@ -56,6 +56,6 @@ sourcemap         = { workspace = true }
 tempfile          = { workspace = true }
 
 swc_ecma_codegen            = { version = "10.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser             = { version = "11.1.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "11.1.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "15.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "9.0.0", path = "../testing" }

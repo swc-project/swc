@@ -16,7 +16,7 @@ nightly = []
 [dependencies]
 swc_atoms    = { version = "5.0.0", path = "../swc_atoms" }
 swc_common   = { version = "8.1.0", path = "../swc_common" }
-swc_ecma_ast = { version = "8.1.1", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "8.1.2", path = "../swc_ecma_ast" }
 
 assume           = { workspace = true }
 memchr           = { workspace = true }
@@ -31,7 +31,7 @@ serde_json        = { workspace = true }
 walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "8.1.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "8.1.2", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
