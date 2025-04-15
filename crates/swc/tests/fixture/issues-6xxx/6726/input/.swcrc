@@ -1,3 +1,9 @@
 {
-    "sourceMaps": true
+    "sourceMaps": true,
+    "minify": true,
+    "jsc": {
+        "minify": {
+            "mangle": true
+        }
+    }
 }
