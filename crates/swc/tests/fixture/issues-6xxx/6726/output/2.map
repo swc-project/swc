@@ -1,0 +1,15 @@
+{
+  "mappings": "AAIA,SAASA,KAAKC,CAAY,EACtBA,EAAMC,GAAG,AACb,CAGAF",
+  "names": [
+    "Page",
+    "props",
+    "foo"
+  ],
+  "sources": [
+    "../../input/2.ts"
+  ],
+  "sourcesContent": [
+    "interface Props {\n    foo: string;\n}\n\nfunction Page(props: Props) {\n    props.foo;\n}\n\n// @ts-expect-error\nPage();"
+  ],
+  "version": 3
+}
