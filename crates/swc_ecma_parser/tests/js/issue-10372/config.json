@@ -1,0 +1,5 @@
+{
+    "syntax": "ecmascript",
+    "exportDefaultFrom": true,
+    "jsx": false
+}

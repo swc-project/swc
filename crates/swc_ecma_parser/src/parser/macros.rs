@@ -111,6 +111,13 @@ macro_rules! peeked_is {
         }
     }};
 
+    ($p:expr, Str) => {{
+        match peek!($p) {
+            Some(&Token::Str { .. }) => true,
+            _ => false,
+        }
+    }};
+
     ($p:expr, ';') => {{
         compile_error!("peeked_is!(self, ';') is invalid");
     }};
