@@ -28,6 +28,6 @@ swc_css_compat   = { version = "8.0.0", path = "../swc_css_compat", optional = t
 swc_css_minifier = { version = "8.0.0", path = "../swc_css_minifier", optional = true }
 swc_css_modules  = { version = "8.0.0", path = "../swc_css_modules", optional = true }
 swc_css_parser   = { version = "8.0.0", path = "../swc_css_parser" }
-swc_css_prefixer = { version = "10.0.0", path = "../swc_css_prefixer", optional = true }
+swc_css_prefixer = { version = "10.0.1", path = "../swc_css_prefixer", optional = true }
 swc_css_utils    = { version = "8.0.0", path = "../swc_css_utils/" }
 swc_css_visit    = { version = "8.0.0", path = "../swc_css_visit" }

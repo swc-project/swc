@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "22.3.1"
+version = "22.4.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5055,7 +5055,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "10.0.0"
+version = "10.0.1"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -5236,7 +5236,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "12.1.0"
+version = "12.2.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5487,7 +5487,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "11.1.1"
+version = "11.1.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",

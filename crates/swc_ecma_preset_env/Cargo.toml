@@ -45,7 +45,7 @@ criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc_ecma_codegen = { version = "10.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "11.1.1", path = "../swc_ecma_parser" }
+swc_ecma_parser  = { version = "11.1.2", path = "../swc_ecma_parser" }
 testing          = { version = "9.0.0", path = "../testing" }
 
 [[bench]]
