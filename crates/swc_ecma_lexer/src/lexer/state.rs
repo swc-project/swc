@@ -2,6 +2,7 @@ use std::mem::take;
 
 use smallvec::{smallvec, SmallVec};
 use swc_common::{BytePos, Span};
+use swc_ecma_ast::EsVersion;
 use tracing::trace;
 
 use super::{
@@ -13,7 +14,7 @@ use crate::{
     input::Tokens,
     lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    EsVersion, Syntax,
+    Syntax, *,
 };
 
 /// State of lexer.
@@ -667,7 +668,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 128]>);
+pub struct TokenContexts(pub SmallVec<[TokenContext; 128]>);
 
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
@@ -771,7 +772,7 @@ impl TokenContexts {
     }
 
     #[inline]
-    pub(crate) fn push(&mut self, t: TokenContext) {
+    pub fn push(&mut self, t: TokenContext) {
         self.0.push(t);
 
         if cfg!(feature = "debug") {

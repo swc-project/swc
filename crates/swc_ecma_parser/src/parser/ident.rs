@@ -1,9 +1,9 @@
 //! 12.1 Identifiers
 use either::Either;
 use swc_atoms::atom;
+use swc_ecma_lexer::token::{IdentLike, Keyword};
 
 use super::*;
-use crate::token::{IdentLike, Keyword};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
@@ -64,8 +64,8 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let w = match cur!(self, true) {
-            Word(..) => match bump!(self) {
-                Word(w) => w.into(),
+            Token::Word(..) => match bump!(self) {
+                Token::Word(w) => w.into(),
                 _ => unreachable!(),
             },
 
@@ -87,7 +87,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
                 _ => unreachable!(),
             },
-            Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?.into()),
+            Ok(&Token::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?.into()),
             _ => {
                 unexpected!(self, "identifier or string");
             }
@@ -105,8 +105,8 @@ impl<I: Tokens> Parser<I> {
 
         let word = self.parse_with(|p| {
             let w = match cur!(p, true) {
-                &Word(..) => match bump!(p) {
-                    Word(w) => w,
+                &Token::Word(..) => match bump!(p) {
+                    Token::Word(w) => w,
                     _ => unreachable!(),
                 },
                 _ => syntax_error!(p, SyntaxError::ExpectedIdent),

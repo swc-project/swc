@@ -21,6 +21,7 @@ use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
+    tok,
     token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
@@ -138,7 +139,7 @@ pub struct Lexer<'a> {
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
 
-    pub(crate) ctx: Context,
+    pub ctx: Context,
     input: StringInput<'a>,
     start_pos: BytePos,
 
@@ -791,6 +792,7 @@ impl Lexer<'_> {
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
+
         if has_escape && self.ctx.is_reserved(&word) {
             self.error(
                 start,

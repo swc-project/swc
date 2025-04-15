@@ -69,8 +69,8 @@ impl<I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Word(..) => match bump!(p) {
-                    Word(w) => PropName::Ident(IdentName::new(w.into(), span!(p, start))),
+                Token::Word(..) => match bump!(p) {
+                    Token::Word(w) => PropName::Ident(IdentName::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {

@@ -127,7 +127,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.state.potential_arrow_start = match *cur!(self, true) {
-            Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
+            Token::Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
 
@@ -2022,12 +2022,12 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true) {
-            Word(Word::Null) => {
+            Token::Word(Word::Null) => {
                 bump!(self);
                 let span = span!(self, start);
                 Lit::Null(Null { span })
             }
-            Word(Word::True) | Word(Word::False) => {
+            Token::Word(Word::True) | Token::Word(Word::False) => {
                 let value = is!(self, "true");
                 bump!(self);
                 let span = span!(self, start);

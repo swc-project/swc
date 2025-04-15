@@ -18,7 +18,7 @@ use crate::{
         Token::{self, *},
         TokenAndSpan, Word,
     },
-    Syntax,
+    *,
 };
 
 fn sp(r: Range<usize>) -> Span {
@@ -1659,15 +1659,17 @@ fn issue_915_1() {
     );
 }
 
+const COLOR_JS_CODE: &str = include_str!("../../../swc_ecma_parser/colors.js");
+
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {
-    b.bytes = include_str!("../../colors.js").len() as _;
+    b.bytes = COLOR_JS_CODE.len() as _;
 
     b.iter(|| {
         let _ = with_lexer(
             Syntax::default(),
             Default::default(),
-            include_str!("../../colors.js"),
+            COLOR_JS_CODE,
             |lexer| {
                 for t in lexer {
                     black_box(t);
@@ -1680,13 +1682,13 @@ fn lex_colors_js(b: &mut Bencher) {
 
 #[bench]
 fn lex_colors_ts(b: &mut Bencher) {
-    b.bytes = include_str!("../../colors.js").len() as _;
+    b.bytes = COLOR_JS_CODE.len() as _;
 
     b.iter(|| {
         let _ = with_lexer(
             Syntax::Typescript(Default::default()),
             Default::default(),
-            include_str!("../../colors.js"),
+            COLOR_JS_CODE,
             |lexer| {
                 for t in lexer {
                     black_box(t);
