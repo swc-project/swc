@@ -2,8 +2,12 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{source_map::PLACEHOLDER_SP, util::take::Take};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith,
+};
 use swc_trace_macro::swc_trace;
 
 struct ClassStaticBlock;
@@ -56,6 +60,7 @@ impl ClassStaticBlock {
 }
 
 #[swc_trace]
+#[fast_path(StaticBlockFinder)]
 impl VisitMut for ClassStaticBlock {
     noop_visit_mut_type!(fail);
 
@@ -101,4 +106,24 @@ fn generate_uid(deny_list: &FxHashSet<Atom>, i: &mut u32) -> Atom {
     }
 
     uid
+}
+
+#[derive(Default)]
+struct StaticBlockFinder {
+    found: bool,
+}
+
+#[swc_trace]
+impl Visit for StaticBlockFinder {
+    noop_visit_type!(fail);
+
+    fn visit_static_block(&mut self, _static_block: &StaticBlock) {
+        self.found = true;
+    }
+}
+
+impl Check for StaticBlockFinder {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
