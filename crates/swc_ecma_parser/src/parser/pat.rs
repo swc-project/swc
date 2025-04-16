@@ -5,7 +5,7 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread},
-    token::{IdentLike, Keyword},
+    token::{IdentLike, Keyword, Token},
 };
 
 impl<I: Tokens> Parser<I> {
@@ -59,7 +59,9 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
         match *cur!(self, true) {
-            tok!("yield") | Word(..) => self.parse_binding_ident(disallow_let).map(Pat::from),
+            tok!("yield") | Token::Word(..) => {
+                self.parse_binding_ident(disallow_let).map(Pat::from)
+            }
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
             // tok!('(') => {
@@ -162,7 +164,7 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.syntax().typescript()
             && matches!(
                 *cur!(self, false)?,
-                Word(Word::Ident(IdentLike::Known(
+                Token::Word(Word::Ident(IdentLike::Known(
                     known_ident!("public")
                         | known_ident!("protected")
                         | known_ident!("private")

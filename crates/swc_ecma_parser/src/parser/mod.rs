@@ -7,15 +7,16 @@ use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
-
-pub use self::input::{Capturing, Tokens, TokensInput};
-use self::{input::Buffer, util::ParseObject};
-use crate::{
+pub use swc_ecma_lexer::input::{Capturing, Tokens, TokensInput};
+use swc_ecma_lexer::{
     error::SyntaxError,
-    lexer::Lexer,
+    input::Buffer,
     token::{Token, Word},
-    Context, EsVersion, Syntax, TsSyntax,
+    Lexer, *,
 };
+
+use self::util::ParseObject;
+use crate::{Context, EsVersion, Syntax, TsSyntax};
 #[cfg(test)]
 extern crate test;
 #[cfg(test)]

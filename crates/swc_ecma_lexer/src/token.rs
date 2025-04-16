@@ -29,30 +29,33 @@ macro_rules! define_known_ident {
         }
 
         #[allow(unused)]
+        #[macro_export]
         macro_rules! known_ident_token {
             $(
                 ($value) => {
-                    crate::token::TokenKind::Word(crate::token::WordKind::Ident(
-                        crate::token::IdentKind::Known(crate::token::KnownIdent::$name),
+                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
+                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
                     ))
                 };
             )*
         }
 
         #[allow(unused)]
+        #[macro_export]
         macro_rules! known_ident {
             $(
                 ($value) => {
-                    crate::token::KnownIdent::$name
+                    $crate::token::KnownIdent::$name
                 };
             )*
         }
         #[allow(unused)]
+        #[macro_export]
         macro_rules! ident_like {
             $(
                 ($value) => {
-                    crate::token::IdentLike::Known(
-                        crate::token::KnownIdent::$name
+                    $crate::token::IdentLike::Known(
+                        $crate::token::KnownIdent::$name
                     )
                 };
             )*
@@ -64,10 +67,7 @@ macro_rules! define_known_ident {
             )*
         };
 
-
-
-
-        impl From<KnownIdent> for Atom {
+        impl From<KnownIdent> for swc_atoms::Atom {
 
             fn from(s: KnownIdent) -> Self {
                 match s {
@@ -311,7 +311,7 @@ pub enum Token {
 }
 
 impl Token {
-    pub(crate) fn kind(&self) -> TokenKind {
+    pub fn kind(&self) -> TokenKind {
         match self {
             Self::Arrow => TokenKind::Arrow,
             Self::Hash => TokenKind::Hash,
@@ -353,7 +353,7 @@ impl Token {
 }
 
 impl TokenKind {
-    pub(crate) const fn before_expr(self) -> bool {
+    pub const fn before_expr(self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
             Self::BinOp(w) => w.before_expr(),
@@ -377,7 +377,7 @@ impl TokenKind {
         }
     }
 
-    pub(crate) const fn starts_expr(self) -> bool {
+    pub const fn starts_expr(self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
             Self::BinOp(w) => w.starts_expr(),
@@ -712,12 +712,13 @@ impl Display for KnownIdent {
     }
 }
 
+#[macro_export]
 macro_rules! declare_keyword {
     ($(
         $name:ident => $value:tt,
     )*) => {
         impl Keyword {
-            pub(crate)  fn into_atom(self) -> Atom {
+            pub fn into_atom(self) -> Atom {
                 match self {
                     $(Keyword::$name => atom!($value),)*
                 }
@@ -919,7 +920,7 @@ impl TokenKind {
     /// Returns true if `self` can follow keyword let.
     ///
     /// e.g. `let a = xx;`, `let {a:{}} = 1`
-    pub(crate) fn follows_keyword_let(self, _strict: bool) -> bool {
+    pub fn follows_keyword_let(self, _strict: bool) -> bool {
         match self {
             Self::Word(WordKind::Keyword(Keyword::Let))
             | TokenKind::LBrace
@@ -933,7 +934,7 @@ impl TokenKind {
 }
 
 impl Word {
-    pub(crate) fn cow(&self) -> Cow<Atom> {
+    pub fn cow(&self) -> Cow<Atom> {
         match self {
             Word::Keyword(k) => Cow::Owned(k.into_atom()),
             Word::Ident(IdentLike::Known(w)) => Cow::Owned((*w).into()),

@@ -1,11 +1,11 @@
 [package]
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Feature-complete es2019 parser."
-documentation = "https://rustdoc.swc.rs/swc_ecma_parser/"
+documentation = "https://rustdoc.swc.rs/swc_ecma_lexer/"
 edition       = { workspace = true }
 include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = { workspace = true }
-name          = "swc_ecma_parser"
+name          = "swc_ecma_lexer"
 repository    = { workspace = true }
 version       = "11.1.2"
 
@@ -22,7 +22,7 @@ debug         = ["tracing-spans"]
 default       = ["typescript", "stacker"]
 tracing-spans = []
 typescript    = []
-verify        = ["swc_ecma_visit", "swc_ecma_lexer/verify"]
+verify        = ["swc_ecma_visit"]
 
 [dependencies]
 arrayvec    = { workspace = true }
@@ -42,7 +42,6 @@ phf                   = { workspace = true, features = ["macros"] }
 swc_atoms             = { version = "5.0.0", path = "../swc_atoms" }
 swc_common            = { version = "8.1.0", path = "../swc_common" }
 swc_ecma_ast          = { version = "8.1.2", path = "../swc_ecma_ast" }
-swc_ecma_lexer        = { version = "11.1.2", path = "../swc_ecma_lexer" }
 swc_ecma_visit        = { version = "8.0.0", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
@@ -62,17 +61,6 @@ swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
 testing = { version = "9.0.0", path = "../testing" }
 
-[[example]]
-name = "lexer"
-
-[[example]]
-name = "typescript"
-
 [[bench]]
 harness = false
-name    = "compare"
-
-
-[[bench]]
-harness = false
-name    = "parser"
+name    = "lexer"
