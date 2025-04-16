@@ -6,11 +6,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
-use super::{util::NormalMultiReplacer, Optimizer};
+use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::optimize::Ctx,
     program_data::{ProgramData, ScopeData},
     util::{idents_captured_by, make_number},
 };
@@ -19,7 +18,10 @@ use crate::{
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
+        if !self.options.negate_iife
+            || self.ctx.bit_ctx.contains(BitCtx::InBangArg)
+            || self.ctx.bit_ctx.contains(BitCtx::DontUseNegatedIife)
+        {
             return;
         }
 
@@ -81,7 +83,7 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
-        if !self.ctx.dont_use_negated_iife {
+        if !self.ctx.bit_ctx.contains(BitCtx::DontUseNegatedIife) {
             return;
         }
 
@@ -290,11 +292,11 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let ctx = Ctx {
-                in_fn_like: true,
-                top_level: false,
-                ..self.ctx.clone()
-            };
+            let ctx = self
+                .ctx
+                .clone()
+                .with(BitCtx::InFnLike, true)
+                .with(BitCtx::TopLevel, false);
             let mut optimizer = self.with_ctx(ctx);
             match find_body(callee) {
                 Some(Either::Left(body)) => {
@@ -439,7 +441,7 @@ impl Optimizer<'_> {
             Callee::Expr(e) => &**e,
         };
 
-        if self.ctx.dont_invoke_iife {
+        if self.ctx.bit_ctx.contains(BitCtx::DontInvokeIife) {
             log_abort!("iife: Inline is prevented");
             return false;
         }
@@ -465,7 +467,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                if self.ctx.in_param && !f.params.is_empty() {
+                if self.ctx.bit_ctx.contains(BitCtx::InParam) && !f.params.is_empty() {
                     log_abort!("iife: We don't invoke IIFE with params in function params");
                     return false;
                 }
@@ -486,7 +488,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                if self.ctx.in_param && !f.function.params.is_empty() {
+                if self.ctx.bit_ctx.contains(BitCtx::InParam) && !f.function.params.is_empty() {
                     log_abort!("iife: We don't invoke IIFE with params in function params");
                     return false;
                 }
@@ -582,7 +584,7 @@ impl Optimizer<'_> {
                         }
 
                         if let Expr::Lit(Lit::Num(..)) = &**body {
-                            if self.ctx.in_obj_of_non_computed_member {
+                            if self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember) {
                                 return;
                             }
                         }
@@ -803,7 +805,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.executed_multiple_time {
+        if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
             if !param_ids.is_empty() {
                 let captured = idents_captured_by(body);
 
@@ -858,7 +860,7 @@ impl Optimizer<'_> {
                         }
                     }
 
-                    if self.ctx.executed_multiple_time {
+                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
                         return false;
                     }
 
@@ -875,7 +877,7 @@ impl Optimizer<'_> {
                     Some(Expr::Await(..)) => false,
 
                     Some(Expr::Lit(Lit::Num(..))) => {
-                        for_stmt || !self.ctx.in_obj_of_non_computed_member
+                        for_stmt || !self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember)
                     }
                     _ => true,
                 },
@@ -935,7 +937,7 @@ impl Optimizer<'_> {
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: param.clone().into(),
-                init: if self.ctx.executed_multiple_time && no_arg {
+                init: if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) && no_arg {
                     Some(Expr::undefined(DUMMY_SP))
                 } else {
                     None
@@ -983,7 +985,7 @@ impl Optimizer<'_> {
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: param.clone().into(),
-                init: if self.ctx.executed_multiple_time && arg.is_none() {
+                init: if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) && arg.is_none() {
                     Some(Expr::undefined(DUMMY_SP))
                 } else {
                     arg

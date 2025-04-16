@@ -5,7 +5,7 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
-use super::Optimizer;
+use super::{BitCtx, Optimizer};
 use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
 
 /// Methods related to the option `evaluate`.
@@ -24,7 +24,10 @@ impl Optimizer<'_> {
     }
 
     fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        {
             return None;
         }
 
@@ -84,10 +87,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg
-            || self.ctx.is_update_arg
-            || self.ctx.is_lhs_of_assign
-            || self.ctx.in_with_stmt
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+            || self.ctx.bit_ctx.contains(BitCtx::InWithStmt)
         {
             return;
         }
@@ -145,7 +148,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        {
             return;
         }
 
@@ -336,7 +342,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        {
             return;
         }
 

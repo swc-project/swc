@@ -19,7 +19,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::{
-        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
+        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr, BitCtx},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
@@ -70,7 +70,7 @@ impl Optimizer<'_> {
             log_abort!("sequences: make_sequence for statements is disabled");
             return;
         }
-        if self.ctx.in_asm {
+        if self.ctx.bit_ctx.contains(BitCtx::InAsm) {
             log_abort!("sequences: asm.js is not supported");
             return;
         }
@@ -1150,7 +1150,7 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
-        if self.ctx.in_try_block {
+        if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             log_abort!("try block");
             return false;
         }

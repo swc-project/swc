@@ -2,7 +2,7 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
-use super::{unused::PropertyAccessOpts, Optimizer};
+use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
 use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
@@ -15,7 +15,7 @@ impl Optimizer<'_> {
             log_abort!("hoist_props: option is disabled");
             return None;
         }
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             log_abort!("hoist_props: Exported variable is not hoisted");
             return None;
         }
@@ -248,7 +248,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_update_arg || self.ctx.is_callee || self.ctx.is_exact_lhs_of_assign {
+        if self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            || self.ctx.bit_ctx.contains(BitCtx::IsCallee)
+            || self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
+        {
             return;
         }
 

@@ -9,7 +9,7 @@ use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
 use super::Optimizer;
 use crate::{
     compress::{
-        optimize::Ctx,
+        optimize::BitCtx,
         util::{negate, negate_cost},
     },
     DISABLE_BUGGY_PASSES,
@@ -32,10 +32,7 @@ impl Optimizer<'_> {
 
         if negate_cost(self.ctx.expr_ctx, &stmt.test, true, false) < 0 {
             report_change!("if_return: Negating `cond` of an if statement which has cons and alt");
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx.clone()
-            };
+            let ctx = self.ctx.clone().with(BitCtx::InBoolCtx, true);
             self.with_ctx(ctx).negate(&mut stmt.test, false);
             swap(alt, &mut *stmt.cons);
             return;

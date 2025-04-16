@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
-use super::Optimizer;
+use super::{BitCtx, Optimizer};
 use crate::{compress::util::negate, util::make_bool};
 
 impl Optimizer<'_> {
@@ -156,7 +156,7 @@ impl Optimizer<'_> {
         negate(
             self.ctx.expr_ctx,
             e,
-            self.ctx.in_bool_ctx,
+            self.ctx.bit_ctx.contains(BitCtx::InBoolCtx),
             is_ret_val_ignored,
         )
     }

@@ -5446,6 +5446,7 @@ dependencies = [
  "anyhow",
  "arrayvec",
  "backtrace",
+ "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "criterion",
  "flate2",

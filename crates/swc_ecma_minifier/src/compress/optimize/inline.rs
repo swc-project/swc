@@ -7,7 +7,7 @@ use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
-    compress::optimize::util::is_valid_for_lhs,
+    compress::optimize::{util::is_valid_for_lhs, BitCtx},
     program_data::VarUsageInfo,
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
@@ -339,7 +339,7 @@ impl Optimizer<'_> {
             let usage = self.data.vars.get(&id).unwrap();
 
             // Single use => inlined
-            if !self.ctx.is_exported
+            if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
                 && is_inline_enabled
                 && usage.declared
                 && may_remove
@@ -623,7 +623,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             log_abort!("inline: [x] exported");
             return;
         }
@@ -797,7 +797,7 @@ impl Optimizer<'_> {
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
-        if self.ctx.is_exact_lhs_of_assign {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) {
             return;
         }
 
@@ -825,7 +825,7 @@ impl Optimizer<'_> {
                     .lits
                     .get(&id)
                     .or_else(|| {
-                        if self.ctx.is_callee {
+                        if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
                             self.vars.simple_functions.get(&i.to_id())
                         } else {
                             None
@@ -834,7 +834,7 @@ impl Optimizer<'_> {
                     .cloned()
                 {
                     if !matches!(&*value, Expr::Ident(..) | Expr::Member(..))
-                        && self.ctx.is_update_arg
+                        && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
                     {
                         return;
                     }
@@ -875,12 +875,14 @@ impl Optimizer<'_> {
 
                 // Check without cloning
                 if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
-                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(value) {
+                    if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
+                        && !is_valid_for_lhs(value)
+                    {
                         return;
                     }
 
                     if let Expr::Member(..) = &**value {
-                        if self.ctx.executed_multiple_time {
+                        if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
                             return;
                         }
                     }
