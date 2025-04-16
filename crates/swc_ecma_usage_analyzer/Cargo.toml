@@ -23,6 +23,7 @@ trace-ast     = []
 tracing-spans = []
 
 [dependencies]
+bitflags   = { workspace = true }
 indexmap   = { workspace = true }
 rustc-hash = { workspace = true }
 tracing    = { workspace = true }

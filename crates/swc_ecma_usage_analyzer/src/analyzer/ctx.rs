@@ -2,6 +2,7 @@
 
 use std::ops::{Deref, DerefMut};
 
+use bitflags::bitflags;
 use swc_ecma_ast::VarDeclKind;
 use swc_ecma_utils::{Type, Value};
 
@@ -25,26 +26,41 @@ where
 #[non_exhaustive]
 pub struct Ctx {
     pub var_decl_kind_of_pat: Option<VarDeclKind>,
-
-    pub in_decl_with_no_side_effect_for_member_access: bool,
-
-    pub in_pat_of_var_decl: bool,
     pub in_pat_of_var_decl_with_init: Option<Value<Type>>,
-    pub in_pat_of_param: bool,
-    pub in_catch_param: bool,
+    pub bit_ctx: BitContext,
+}
 
-    pub is_id_ref: bool,
+impl Ctx {
+    #[inline]
+    pub fn with(mut self, flag: BitContext, value: bool) -> Self {
+        self.bit_ctx = self.bit_ctx.with(flag, value);
+        self
+    }
+}
 
-    pub in_await_arg: bool,
+bitflags! {
+    #[derive(Debug, Clone, Copy, Default)]
+    pub struct BitContext: u16 {
+        const InDeclWithNoSideEffectForMemberAccess = 1 << 0;
+        const InPatOfVarDecl = 1 << 1;
+        const InPatOfParam = 1 << 2;
+        const InCatchParam = 1 << 3;
+        const IsIdRef = 1 << 4;
+        const InAwaitArg = 1 << 5;
+        const InLeftOfForLoop = 1 << 6;
+        const ExecutedMultipleTime = 1 << 7;
+        const InCond = 1 << 8;
+        const InlinePrevented = 1 << 9;
+        const IsTopLevel = 1 << 10;
+    }
+}
 
-    pub in_left_of_for_loop: bool,
-
-    pub executed_multiple_time: bool,
-    pub in_cond: bool,
-
-    pub inline_prevented: bool,
-
-    pub is_top_level: bool,
+impl BitContext {
+    #[inline]
+    pub fn with(mut self, flag: Self, value: bool) -> Self {
+        self.set(flag, value);
+        self
+    }
 }
 
 pub(super) struct WithCtx<'a, S>
