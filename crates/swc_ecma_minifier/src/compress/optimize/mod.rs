@@ -202,7 +202,7 @@ impl Ctx {
     }
 
     pub fn in_top_level(&self) -> bool {
-        self.bit_ctx.contains(BitCtx::TopLevel) && !self.bit_ctx.contains(BitCtx::InFnLike)
+        self.bit_ctx.contains(BitCtx::TopLevel) || !self.bit_ctx.contains(BitCtx::InFnLike)
     }
 }
 
@@ -1462,7 +1462,8 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::IsLhsOfAssign | BitCtx::IsExactLhsOfAssign, true);
+                .with(BitCtx::IsLhsOfAssign, true)
+                .with(BitCtx::IsExactLhsOfAssign, true);
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
         }
         e.right.visit_mut_with(self);
@@ -1584,13 +1585,13 @@ impl VisitMut for Optimizer<'_> {
         }
 
         {
-            let ctx = self.ctx.clone().with(
-                BitCtx::IsThisAwareCallee
-                    | BitCtx::IsLhsOfAssign
-                    | BitCtx::IsExactLhsOfAssign
-                    | BitCtx::IsUpdateArg,
-                false,
-            );
+            let ctx = self
+                .ctx
+                .clone()
+                .with(BitCtx::IsThisAwareCallee, false)
+                .with(BitCtx::IsLhsOfAssign, false)
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsUpdateArg, false);
             // TODO: Prevent inline if callee is unknown.
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -1699,7 +1700,8 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self
             .ctx
             .clone()
-            .with(BitCtx::IsExported | BitCtx::IsCallee, false);
+            .with(BitCtx::IsExported, false)
+            .with(BitCtx::IsCallee, false);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         #[cfg(feature = "trace-ast")]
         let _tracing = {
@@ -1991,10 +1993,9 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self
             .ctx
             .clone()
-            .with(
-                BitCtx::TopLevel | BitCtx::IsLhsOfAssign | BitCtx::IsExactLhsOfAssign,
-                false,
-            )
+            .with(BitCtx::TopLevel, false)
+            .with(BitCtx::IsLhsOfAssign, false)
+            .with(BitCtx::IsExactLhsOfAssign, false)
             .with(BitCtx::InFnLike, true);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -2148,14 +2149,17 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .clone()
                 .with(BitCtx::InObjOfNonComputedMember, !n.prop.is_computed())
-                .with(BitCtx::IsExactLhsOfAssign | BitCtx::IsUpdateArg, false);
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsUpdateArg, false);
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
         }
         if let MemberProp::Computed(c) = &mut n.prop {
-            let ctx = self.ctx.clone().with(
-                BitCtx::IsExactLhsOfAssign | BitCtx::IsLhsOfAssign | BitCtx::IsUpdateArg,
-                false,
-            );
+            let ctx = self
+                .ctx
+                .clone()
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsLhsOfAssign, false)
+                .with(BitCtx::IsUpdateArg, false);
 
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
@@ -2195,7 +2199,8 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .clone()
                 .with(BitCtx::IsCallee, true)
-                .with(BitCtx::IsExactLhsOfAssign | BitCtx::IsLhsOfAssign, false);
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsLhsOfAssign, false);
             n.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -2203,7 +2208,8 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::IsExactLhsOfAssign | BitCtx::IsLhsOfAssign, false);
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsLhsOfAssign, false);
             n.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2327,16 +2333,16 @@ impl VisitMut for Optimizer<'_> {
             }
         };
 
-        let ctx = self.ctx.clone().with(
-            BitCtx::IsCallee
-                | BitCtx::IsDeleteArg
-                | BitCtx::IsUpdateArg
-                | BitCtx::IsLhsOfAssign
-                | BitCtx::InBangArg
-                | BitCtx::IsExported
-                | BitCtx::InObjOfNonComputedMember,
-            false,
-        );
+        let ctx = self
+            .ctx
+            .clone()
+            .with(BitCtx::IsCallee, false)
+            .with(BitCtx::IsDeleteArg, false)
+            .with(BitCtx::IsUpdateArg, false)
+            .with(BitCtx::IsLhsOfAssign, false)
+            .with(BitCtx::InBangArg, false)
+            .with(BitCtx::IsExported, false)
+            .with(BitCtx::InObjOfNonComputedMember, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
@@ -2586,7 +2592,8 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::IsExactLhsOfAssign | BitCtx::IsLhsOfAssign, false);
+                .with(BitCtx::IsExactLhsOfAssign, false)
+                .with(BitCtx::IsLhsOfAssign, false);
             c.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2696,7 +2703,8 @@ impl VisitMut for Optimizer<'_> {
             bit_ctx: self
                 .ctx
                 .bit_ctx
-                .with(BitCtx::IsUpdateArg | BitCtx::HasConstAnn, false),
+                .with(BitCtx::IsUpdateArg, false)
+                .with(BitCtx::HasConstAnn, false),
             var_kind: None,
             ..self.ctx.clone()
         };
