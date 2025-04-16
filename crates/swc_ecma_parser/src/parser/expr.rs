@@ -2069,7 +2069,7 @@ impl<I: Tokens> Parser<I> {
         no_call: bool,
     ) -> PResult<Box<Expr>> {
         if eat!(self, '.') {
-            self.state.found_module_item = true;
+            self.found_module_item = true;
 
             let ident = self.parse_ident_name()?;
 

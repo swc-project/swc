@@ -124,7 +124,7 @@ impl<'a, I: Tokens> Parser<I> {
         match cur!(self, true) {
             tok!("await") if include_decl || top_level => {
                 if top_level {
-                    self.state.found_module_item = true;
+                    self.found_module_item = true;
                     if !self.ctx().contains(Context::CanBeModule) {
                         self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
                     }

@@ -399,7 +399,7 @@ impl<I: Tokens> Parser<I> {
 
         // This has been checked if start_of_await_token == true,
         if start_of_await_token.is_none() && ctx.contains(Context::TopLevel) {
-            self.state.found_module_item = true;
+            self.found_module_item = true;
             if !ctx.contains(Context::CanBeModule) {
                 self.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
             }
