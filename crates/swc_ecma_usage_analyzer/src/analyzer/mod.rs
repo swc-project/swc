@@ -1,3 +1,4 @@
+use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -89,10 +90,7 @@ where
         let mut child = UsageAnalyzer {
             data: Default::default(),
             marks: self.marks,
-            ctx: Ctx {
-                is_top_level: false,
-                ..self.ctx
-            },
+            ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
             scope: Default::default(),
             used_recursively: self.used_recursively.clone(),
@@ -112,14 +110,12 @@ where
     }
 
     fn visit_pat_id(&mut self, i: &Ident) {
-        let Ctx {
-            in_left_of_for_loop,
-            in_pat_of_param,
-            in_pat_of_var_decl,
-            ..
-        } = self.ctx;
+        let in_left_of_for_loop = self.ctx.bit_ctx.contains(BitContext::InLeftOfForLoop);
+        let in_pat_of_param = self.ctx.bit_ctx.contains(BitContext::InPatOfParam);
+        let in_pat_of_var_decl = self.ctx.bit_ctx.contains(BitContext::InPatOfVarDecl);
+        let in_catch_param = self.ctx.bit_ctx.contains(BitContext::InCatchParam);
 
-        if self.ctx.in_pat_of_var_decl || self.ctx.in_pat_of_param || self.ctx.in_catch_param {
+        if in_pat_of_var_decl || in_pat_of_param || in_catch_param {
             let v = self.declare_decl(
                 i,
                 self.ctx.in_pat_of_var_decl_with_init,
@@ -228,10 +224,7 @@ where
     noop_visit_type!();
 
     fn visit_array_lit(&mut self, n: &ArrayLit) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -239,11 +232,10 @@ where
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    inline_prevented: true,
-                    ..child.ctx
-                };
+                let ctx = child
+                    .ctx
+                    .with(BitContext::InPatOfParam, true)
+                    .with(BitContext::InlinePrevented, true);
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
@@ -263,15 +255,15 @@ where
         let is_op_assign = n.op != op!("=");
         n.left.visit_with(self);
 
-        let ctx = Ctx {
-            // We mark bar in
-            //
-            // foo[i] = bar
-            //
-            // as `used_as_ref`.
-            is_id_ref: matches!(n.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")),
-            ..self.ctx
-        };
+        // We mark bar in
+        //
+        // foo[i] = bar
+        //
+        // as `used_as_ref`.
+        let ctx = self.ctx.with(
+            BitContext::IsIdRef,
+            matches!(n.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")),
+        );
         n.right.visit_with(&mut *self.with_ctx(ctx));
 
         match &n.left {
@@ -326,7 +318,7 @@ where
 
         {
             let ctx = Ctx {
-                in_pat_of_param: false,
+                bit_ctx: self.ctx.bit_ctx.with(BitContext::InPatOfParam, false),
                 var_decl_kind_of_pat: None,
                 ..self.ctx
             };
@@ -336,25 +328,18 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
-        let ctx = Ctx {
-            in_await_arg: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::InAwaitArg, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
-            let ctx = Ctx {
-                is_id_ref: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
             e.left.visit_with(&mut *self.with_ctx(ctx));
-            let ctx = Ctx {
-                in_cond: true,
-                is_id_ref: true,
-                ..self.ctx
-            };
+            let ctx = self
+                .ctx
+                .with(BitContext::InCond, true)
+                .with(BitContext::IsIdRef, true);
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
@@ -375,10 +360,7 @@ where
                 })
             }
 
-            let ctx = Ctx {
-                is_id_ref: false,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
             e.visit_children_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -397,17 +379,14 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_call_expr(&mut self, n: &CallExpr) {
-        let inline_prevented = self.ctx.inline_prevented
+        let inline_prevented = self.ctx.bit_ctx.contains(BitContext::InlinePrevented)
             || self
                 .marks
                 .map(|marks| n.ctxt.has_mark(marks.noinline))
                 .unwrap_or_default();
 
         {
-            let ctx = Ctx {
-                inline_prevented,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::InlinePrevented, inline_prevented);
             n.callee.visit_with(&mut *self.with_ctx(ctx));
         }
 
@@ -458,11 +437,10 @@ where
         }
 
         {
-            let ctx = Ctx {
-                inline_prevented,
-                is_id_ref: true,
-                ..self.ctx
-            };
+            let ctx = self
+                .ctx
+                .with(BitContext::InlinePrevented, inline_prevented)
+                .with(BitContext::IsIdRef, true);
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             let call_may_mutate = match &n.callee {
@@ -503,19 +481,15 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         {
-            let ctx = Ctx {
-                in_cond: true,
-                in_catch_param: true,
-                ..self.ctx
-            };
+            let ctx = self
+                .ctx
+                .with(BitContext::InCond, true)
+                .with(BitContext::InCatchParam, true);
             n.param.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let ctx = Ctx {
-                in_cond: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::InCond, true);
             self.with_ctx(ctx).visit_in_cond(&n.body);
         }
     }
@@ -525,10 +499,7 @@ where
         n.decorators.visit_with(self);
 
         {
-            let ctx = Ctx {
-                inline_prevented: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::InlinePrevented, true);
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
         }
 
@@ -558,10 +529,7 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    ..a.ctx
-                };
+                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
                 n.function.params.visit_with(&mut *a.with_ctx(ctx));
             }
 
@@ -571,20 +539,14 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_class_prop(&mut self, n: &ClassProp) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
@@ -594,10 +556,7 @@ where
         n.test.visit_with(self);
 
         {
-            let ctx = Ctx {
-                in_cond: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::InCond, true);
             self.with_ctx(ctx).visit_in_cond(&n.cons);
             self.with_ctx(ctx).visit_in_cond(&n.alt);
         }
@@ -607,10 +566,7 @@ where
     fn visit_constructor(&mut self, n: &Constructor) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    ..child.ctx
-                };
+                let ctx = child.ctx.with(BitContext::InPatOfParam, true);
                 n.params.visit_with(&mut *child.with_ctx(ctx));
             }
 
@@ -641,14 +597,10 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
-        n.body.visit_with(&mut *self.with_ctx(Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        }));
-        n.test.visit_with(&mut *self.with_ctx(Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        }));
+        n.body
+            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
+        n.test
+            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
@@ -675,10 +627,7 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
@@ -698,9 +647,12 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
     fn visit_expr(&mut self, e: &Expr) {
         let ctx = Ctx {
-            in_pat_of_var_decl: false,
-            in_pat_of_param: false,
-            in_catch_param: false,
+            bit_ctx: self
+                .ctx
+                .bit_ctx
+                .with(BitContext::InPatOfVarDecl, false)
+                .with(BitContext::InPatOfParam, false)
+                .with(BitContext::InCatchParam, false),
             var_decl_kind_of_pat: None,
             in_pat_of_var_decl_with_init: None,
             ..self.ctx
@@ -738,10 +690,9 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        let ctx = Ctx {
-            in_decl_with_no_side_effect_for_member_access: true,
-            ..self.ctx
-        };
+        let ctx = self
+            .ctx
+            .with(BitContext::InDeclWithNoSideEffectForMemberAccess, true);
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
@@ -814,13 +765,12 @@ where
         n.right.visit_with(self);
 
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = Ctx {
-                in_left_of_for_loop: true,
-                is_id_ref: true,
-                executed_multiple_time: true,
-                in_cond: true,
-                ..child.ctx
-            };
+            let head_ctx = child
+                .ctx
+                .with(BitContext::InLeftOfForLoop, true)
+                .with(BitContext::IsIdRef, true)
+                .with(BitContext::ExecutedMultipleTime, true)
+                .with(BitContext::InCond, true);
             n.left.visit_with(&mut *child.with_ctx(head_ctx));
 
             n.right.visit_with(child);
@@ -829,11 +779,10 @@ where
                 child.with_ctx(head_ctx).report_assign_pat(pat, true)
             }
 
-            let ctx = Ctx {
-                executed_multiple_time: true,
-                in_cond: true,
-                ..child.ctx
-            };
+            let ctx = child
+                .ctx
+                .with(BitContext::ExecutedMultipleTime, true)
+                .with(BitContext::InCond, true);
 
             child.with_ctx(ctx).visit_in_cond(&n.body);
         });
@@ -844,24 +793,22 @@ where
         n.right.visit_with(self);
 
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
-            let head_ctx = Ctx {
-                in_left_of_for_loop: true,
-                is_id_ref: true,
-                executed_multiple_time: true,
-                in_cond: true,
-                ..child.ctx
-            };
+            let head_ctx = child
+                .ctx
+                .with(BitContext::InLeftOfForLoop, true)
+                .with(BitContext::IsIdRef, true)
+                .with(BitContext::ExecutedMultipleTime, true)
+                .with(BitContext::InCond, true);
             n.left.visit_with(&mut *child.with_ctx(head_ctx));
 
             if let ForHead::Pat(pat) = &n.left {
                 child.with_ctx(head_ctx).report_assign_pat(pat, true)
             }
 
-            let ctx = Ctx {
-                executed_multiple_time: true,
-                in_cond: true,
-                ..child.ctx
-            };
+            let ctx = child
+                .ctx
+                .with(BitContext::ExecutedMultipleTime, true)
+                .with(BitContext::InCond, true);
             child.with_ctx(ctx).visit_in_cond(&n.body);
         });
     }
@@ -870,11 +817,10 @@ where
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.init.visit_with(self);
 
-        let ctx = Ctx {
-            executed_multiple_time: true,
-            in_cond: true,
-            ..self.ctx
-        };
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
 
         self.with_ctx(ctx).visit_in_cond(&n.test);
         self.with_ctx(ctx).visit_in_cond(&n.update);
@@ -910,10 +856,7 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
-        let ctx = Ctx {
-            in_cond: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::InCond, true);
         n.test.visit_with(self);
 
         self.with_ctx(ctx).visit_in_cond(&n.cons);
@@ -935,9 +878,12 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
         let ctx = Ctx {
-            in_pat_of_var_decl: false,
-            in_pat_of_param: false,
-            in_catch_param: false,
+            bit_ctx: self
+                .ctx
+                .bit_ctx
+                .with(BitContext::InPatOfVarDecl, false)
+                .with(BitContext::InPatOfParam, false)
+                .with(BitContext::InCatchParam, false),
             var_decl_kind_of_pat: None,
             in_pat_of_var_decl_with_init: None,
             ..self.ctx
@@ -953,10 +899,7 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
-            let ctx = Ctx {
-                is_id_ref: false,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
             e.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
@@ -994,10 +937,7 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    ..a.ctx
-                };
+                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
                 n.function.params.visit_with(&mut *a.with_ctx(ctx));
             }
 
@@ -1006,10 +946,7 @@ where
     }
 
     fn visit_module(&mut self, n: &Module) {
-        let ctx = Ctx {
-            is_top_level: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
@@ -1024,10 +961,7 @@ where
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
             n.callee.visit_with(self);
-            let ctx = Ctx {
-                is_id_ref: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             if call_may_mutate(&n.callee, self.expr_ctx) {
@@ -1044,16 +978,16 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_param(&mut self, n: &Param) {
-        let ctx = Ctx {
-            in_pat_of_param: false,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::InPatOfParam, false);
         n.decorators.visit_with(&mut *self.with_ctx(ctx));
 
         let ctx = Ctx {
-            in_pat_of_param: true,
+            bit_ctx: self
+                .ctx
+                .bit_ctx
+                .with(BitContext::InPatOfParam, true)
+                .with(BitContext::IsIdRef, true),
             var_decl_kind_of_pat: None,
-            is_id_ref: true,
             ..self.ctx
         };
         n.pat.visit_with(&mut *self.with_ctx(ctx));
@@ -1066,10 +1000,9 @@ where
                 i.visit_with(self);
             }
             _ => {
-                let ctx = Ctx {
-                    in_decl_with_no_side_effect_for_member_access: false,
-                    ..self.ctx
-                };
+                let ctx = self
+                    .ctx
+                    .with(BitContext::InDeclWithNoSideEffectForMemberAccess, false);
                 n.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
@@ -1082,10 +1015,7 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    ..a.ctx
-                };
+                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
                 n.function.params.visit_with(&mut *a.with_ctx(ctx));
             }
 
@@ -1095,20 +1025,13 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_private_prop(&mut self, n: &PrivateProp) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
-
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_prop(&mut self, n: &Prop) {
-        let ctx = Ctx {
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
 
         if let Prop::Shorthand(i) = n {
@@ -1117,10 +1040,7 @@ where
     }
 
     fn visit_script(&mut self, n: &Script) {
-        let ctx = Ctx {
-            is_top_level: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
@@ -1129,10 +1049,7 @@ where
         self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = Ctx {
-                    in_pat_of_param: true,
-                    ..a.ctx
-                };
+                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
                 n.param.visit_with(&mut *a.with_ctx(ctx));
             }
 
@@ -1153,11 +1070,10 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_stmt(&mut self, n: &Stmt) {
-        let ctx = Ctx {
-            in_await_arg: false,
-            is_id_ref: true,
-            ..self.ctx
-        };
+        let ctx = self
+            .ctx
+            .with(BitContext::InAwaitArg, false)
+            .with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -1165,11 +1081,13 @@ where
         let mut had_cond = false;
 
         for stmt in stmts {
-            let ctx = Ctx {
-                in_cond: self.ctx.in_cond || had_cond,
-                is_id_ref: true,
-                ..self.ctx
-            };
+            let ctx = self
+                .ctx
+                .with(
+                    BitContext::InCond,
+                    self.ctx.bit_ctx.contains(BitContext::InCond) || had_cond,
+                )
+                .with(BitContext::IsIdRef, true);
 
             stmt.visit_with(&mut *self.with_ctx(ctx));
 
@@ -1180,20 +1098,13 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &e.prop {
-            let ctx = Ctx {
-                is_id_ref: false,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
             c.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
     fn visit_switch_case(&mut self, n: &SwitchCase) {
-        let ctx = Ctx {
-            is_id_ref: false,
-            ..self.ctx
-        };
-
+        let ctx = self.ctx.with(BitContext::IsIdRef, false);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
@@ -1204,10 +1115,7 @@ where
         let mut fallthrough = false;
 
         for case in n.cases.iter() {
-            let ctx = Ctx {
-                in_cond: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx.with(BitContext::InCond, true);
             if fallthrough {
                 self.with_ctx(ctx).visit_in_cond(&case.test);
                 self.with_ctx(ctx).visit_in_cond(&case.cons);
@@ -1221,20 +1129,12 @@ where
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
         {
-            let ctx = Ctx {
-                is_id_ref: false,
-                ..self.ctx
-            };
-
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
             n.tag.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let ctx = Ctx {
-                is_id_ref: true,
-                ..self.ctx
-            };
-
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
             // Bypass visit_tpl
             n.tpl.visit_children_with(&mut *self.with_ctx(ctx))
         }
@@ -1242,21 +1142,13 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_tpl(&mut self, n: &Tpl) {
-        let ctx = Ctx {
-            is_id_ref: false,
-            ..self.ctx
-        };
-
+        let ctx = self.ctx.with(BitContext::IsIdRef, false);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
-        let ctx = Ctx {
-            in_cond: true,
-            ..self.ctx
-        };
-
+        let ctx = self.ctx.with(BitContext::InCond, true);
         self.with_ctx(ctx).visit_children_in_cond(n);
     }
 
@@ -1280,7 +1172,7 @@ where
     fn visit_var_decl(&mut self, n: &VarDecl) {
         let ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
-            in_await_arg: false,
+            bit_ctx: self.ctx.bit_ctx.with(BitContext::InAwaitArg, false),
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1314,30 +1206,39 @@ where
             }) if (&**arguments == "arguments"));
         {
             let ctx = Ctx {
-                inline_prevented: self.ctx.inline_prevented || prevent_inline,
-                in_pat_of_var_decl: true,
+                bit_ctx: self
+                    .ctx
+                    .bit_ctx
+                    .with(
+                        BitContext::InlinePrevented,
+                        self.ctx.bit_ctx.contains(BitContext::InlinePrevented) || prevent_inline,
+                    )
+                    .with(BitContext::InPatOfVarDecl, true)
+                    .with(
+                        BitContext::InDeclWithNoSideEffectForMemberAccess,
+                        e.init
+                            .as_deref()
+                            .map(is_safe_to_access_prop)
+                            .unwrap_or(false),
+                    ),
                 in_pat_of_var_decl_with_init: e
                     .init
                     .as_ref()
                     .map(|init| init.get_type(self.expr_ctx)),
-                in_decl_with_no_side_effect_for_member_access: e
-                    .init
-                    .as_deref()
-                    .map(is_safe_to_access_prop)
-                    .unwrap_or(false),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let ctx = Ctx {
-                inline_prevented: self.ctx.inline_prevented || prevent_inline,
-                in_pat_of_var_decl: false,
-                is_id_ref: true,
-                ..self.ctx
-            };
-
+            let ctx = self
+                .ctx
+                .with(
+                    BitContext::InlinePrevented,
+                    self.ctx.bit_ctx.contains(BitContext::InlinePrevented) || prevent_inline,
+                )
+                .with(BitContext::InPatOfVarDecl, false)
+                .with(BitContext::IsIdRef, true);
             if self.marks.is_some() {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
@@ -1365,16 +1266,12 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
-        n.test.visit_with(&mut *self.with_ctx(Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        }));
-        let ctx = Ctx {
-            executed_multiple_time: true,
-            in_cond: true,
-            ..self.ctx
-        };
-
+        n.test
+            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
+        let ctx = self
+            .ctx
+            .with(BitContext::ExecutedMultipleTime, true)
+            .with(BitContext::InCond, true);
         self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
