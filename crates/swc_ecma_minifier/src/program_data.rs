@@ -345,7 +345,7 @@ impl Storage for ProgramData {
             })
         });
 
-        e.used_as_ref |= ctx.is_id_ref;
+        e.used_as_ref |= ctx.is_id_ref();
         e.ref_count += 1;
         e.usage_count += 1;
         // If it is inited in some child scope, but referenced in current scope
@@ -354,9 +354,9 @@ impl Storage for ProgramData {
             e.var_initialized = false;
         }
 
-        e.inline_prevented |= ctx.inline_prevented;
-        e.executed_multiple_time |= ctx.executed_multiple_time;
-        e.used_in_cond |= ctx.in_cond;
+        e.inline_prevented |= ctx.inline_prevented();
+        e.executed_multiple_time |= ctx.executed_multiple_time();
+        e.used_in_cond |= ctx.in_cond();
     }
 
     fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
@@ -395,9 +395,9 @@ impl Storage for ProgramData {
             let curr = &to_visit[idx];
 
             if let Some(usage) = self.vars.get_mut(curr) {
-                usage.inline_prevented |= ctx.inline_prevented;
-                usage.executed_multiple_time |= ctx.executed_multiple_time;
-                usage.used_in_cond |= ctx.in_cond;
+                usage.inline_prevented |= ctx.inline_prevented();
+                usage.executed_multiple_time |= ctx.executed_multiple_time();
+                usage.used_in_cond |= ctx.in_cond();
 
                 if is_op {
                     usage.usage_count += 1;
@@ -422,7 +422,7 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
-        v.is_top_level |= ctx.is_top_level;
+        v.is_top_level |= ctx.is_top_level();
 
         // assigned or declared before this declaration
         if init_type.is_some() {
@@ -441,7 +441,8 @@ impl Storage for ProgramData {
         // This is not delcared yet, so this is the first declaration.
         if !v.declared {
             v.var_kind = kind;
-            v.no_side_effect_for_member_access = ctx.in_decl_with_no_side_effect_for_member_access;
+            v.no_side_effect_for_member_access =
+                ctx.in_decl_with_no_side_effect_for_member_access();
         }
 
         if v.used_in_non_child_fn {
@@ -450,7 +451,7 @@ impl Storage for ProgramData {
 
         v.var_initialized |= init_type.is_some();
 
-        if ctx.in_pat_of_param {
+        if ctx.in_pat_of_param() {
             v.merged_var_type = Some(Value::Unknown);
         } else {
             v.merged_var_type.merge(init_type);
@@ -462,7 +463,7 @@ impl Storage for ProgramData {
         if init_type.is_some() || kind.is_none() {
             self.initialized_vars.insert(i.to_id());
         }
-        v.declared_as_catch_param |= ctx.in_catch_param;
+        v.declared_as_catch_param |= ctx.in_catch_param();
 
         v
     }

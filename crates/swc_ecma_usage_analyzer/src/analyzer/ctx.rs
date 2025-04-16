@@ -27,20 +27,61 @@ where
 pub struct Ctx {
     pub var_decl_kind_of_pat: Option<VarDeclKind>,
     pub in_pat_of_var_decl_with_init: Option<Value<Type>>,
-    pub bit_ctx: BitContext,
+    pub(crate) bit_ctx: BitContext,
 }
 
 impl Ctx {
     #[inline]
-    pub fn with(mut self, flag: BitContext, value: bool) -> Self {
+    pub(crate) fn with(mut self, flag: BitContext, value: bool) -> Self {
         self.bit_ctx = self.bit_ctx.with(flag, value);
         self
+    }
+
+    #[inline]
+    pub fn in_decl_with_no_side_effect_for_member_access(&self) -> bool {
+        self.bit_ctx
+            .contains(BitContext::InDeclWithNoSideEffectForMemberAccess)
+    }
+
+    #[inline]
+    pub fn in_pat_of_param(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InPatOfParam)
+    }
+
+    #[inline]
+    pub fn in_catch_param(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InCatchParam)
+    }
+
+    #[inline]
+    pub fn is_id_ref(&self) -> bool {
+        self.bit_ctx.contains(BitContext::IsIdRef)
+    }
+
+    #[inline]
+    pub fn inline_prevented(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InlinePrevented)
+    }
+
+    #[inline]
+    pub fn in_cond(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InCond)
+    }
+
+    #[inline]
+    pub fn executed_multiple_time(&self) -> bool {
+        self.bit_ctx.contains(BitContext::ExecutedMultipleTime)
+    }
+
+    #[inline]
+    pub fn is_top_level(&self) -> bool {
+        self.bit_ctx.contains(BitContext::IsTopLevel)
     }
 }
 
 bitflags! {
     #[derive(Debug, Clone, Copy, Default)]
-    pub struct BitContext: u16 {
+    pub(crate) struct BitContext: u16 {
         const InDeclWithNoSideEffectForMemberAccess = 1 << 0;
         const InPatOfVarDecl = 1 << 1;
         const InPatOfParam = 1 << 2;
