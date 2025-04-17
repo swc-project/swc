@@ -1397,12 +1397,8 @@ impl<I: Tokens> Parser<I> {
             },
         );
 
-        let state = State {
-            labels: Vec::new(),
-            ..Default::default()
-        };
         self.with_ctx(ctx)
-            .with_state(state)
+            .with_state(State::default())
             .parse_fn_body_inner(is_simple_parameter_list)
     }
 }

@@ -48,6 +48,7 @@ pub type PResult<T> = Result<T, Error>;
 pub struct Parser<I: Tokens> {
     state: State,
     input: Buffer<I>,
+    found_module_item: bool,
 }
 
 #[derive(Clone, Default)]
@@ -55,8 +56,6 @@ struct State {
     labels: Vec<Atom>,
     /// Start position of an assignment expression.
     potential_arrow_start: Option<BytePos>,
-
-    found_module_item: bool,
     /// Start position of an AST node and the span of its trailing comma.
     trailing_commas: FxHashMap<BytePos, Span>,
 }
@@ -83,6 +82,7 @@ impl<I: Tokens> Parser<I> {
         Parser {
             state: Default::default(),
             input: Buffer::new(input),
+            found_module_item: false,
         }
     }
 
@@ -142,7 +142,7 @@ impl<I: Tokens> Parser<I> {
         let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
         let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, None)?;
-        let has_module_item = self.state.found_module_item
+        let has_module_item = self.found_module_item
             || body
                 .iter()
                 .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
