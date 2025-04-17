@@ -11,8 +11,8 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
+use swc_ecma_lexer::tok;
 
-pub use self::state::{TokenContext, TokenContexts, TokenType};
 use self::{
     comments_buffer::CommentsBuffer,
     state::State,
@@ -21,7 +21,6 @@ use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    tok,
     token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
@@ -31,8 +30,6 @@ mod jsx;
 mod number;
 mod state;
 mod table;
-#[cfg(test)]
-mod tests;
 pub mod util;
 mod whitespace;
 
@@ -766,7 +763,7 @@ impl Lexer<'_> {
         let (word, _) = self
             .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
 
-        Ok(Word(word))
+        Ok(Token::Word(word))
     }
 
     /// This can be used if there's no keyword starting with the first

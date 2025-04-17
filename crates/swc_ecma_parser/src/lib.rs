@@ -129,12 +129,13 @@ pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::error::Error;
+mod scanner;
 
 pub use self::parser::*;
 
 #[macro_use]
 mod macros;
-use swc_ecma_lexer::Lexer;
+pub use scanner::Lexer;
 pub use swc_ecma_lexer::{error, lexer, token, Context, EsSyntax, Syntax, TsSyntax};
 
 mod parser;
