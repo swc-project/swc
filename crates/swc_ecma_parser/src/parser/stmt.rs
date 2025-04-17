@@ -870,12 +870,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         let mut decls = Vec::with_capacity(4);
-        let mut first = true;
-        while first || eat!(self, ',') {
-            if first {
-                first = false;
-            }
-
+        loop {
             let ctx = if should_include_in {
                 self.ctx() | Context::IncludeInExpr
             } else {
@@ -898,6 +893,10 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             decls.push(self.with_ctx(ctx).parse_var_declarator(for_loop, kind)?);
+
+            if !eat!(self, ',') {
+                break;
+            }
         }
 
         if !for_loop && !eat!(self, ';') {
