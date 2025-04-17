@@ -466,7 +466,7 @@ impl BinOpToken {
         matches!(self, Self::Add | Self::Sub)
     }
 
-    pub(crate) const fn before_expr(self) -> bool {
+    pub const fn before_expr(self) -> bool {
         true
     }
 }
@@ -837,7 +837,7 @@ pub enum Keyword {
 }
 
 impl Keyword {
-    pub(crate) const fn before_expr(self) -> bool {
+    pub const fn before_expr(self) -> bool {
         matches!(
             self,
             Self::Await
