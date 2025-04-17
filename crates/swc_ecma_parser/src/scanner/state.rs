@@ -34,7 +34,6 @@ pub(super) struct State {
     pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
-    pub tpl_start: BytePos,
 
     context: TokenContexts,
     syntax: Syntax,
@@ -261,11 +260,6 @@ impl Lexer<'_> {
             }
         }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
-
         self.read_token()
     }
 }
@@ -295,7 +289,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token.kind());
+            self.state.update(token.kind());
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -325,7 +319,6 @@ impl State {
             cur_line: 1,
             line_start: BytePos(0),
             prev_hi: start_pos,
-            tpl_start: BytePos::DUMMY,
             context,
             syntax,
             token_type: None,
@@ -365,7 +358,7 @@ impl State {
         matches!(self.token_type, Some(TokenType::Template))
     }
 
-    fn update(&mut self, start: BytePos, next: TokenKind) {
+    fn update(&mut self, next: TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -377,17 +370,12 @@ impl State {
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 
-        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
+        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, next);
     }
 
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
-    fn is_expr_allowed_on_next(
-        &mut self,
-        prev: Option<TokenType>,
-        start: BytePos,
-        next: TokenKind,
-    ) -> bool {
+    fn is_expr_allowed_on_next(&mut self, prev: Option<TokenType>, next: TokenKind) -> bool {
         let State {
             ref mut context,
             had_line_break,
@@ -421,14 +409,6 @@ impl State {
                     {
                         context.pop();
                         return false;
-                    }
-
-                    // ${} in template
-                    if out == TokenContext::TplQuasi {
-                        match context.current() {
-                            Some(TokenContext::Tpl { .. }) => return false,
-                            _ => return true,
-                        }
                     }
 
                     // expression cannot follow expression
@@ -502,8 +482,6 @@ impl State {
                     let cur = context.current();
                     if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
                         context.push(TokenContext::BraceExpr)
-                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
-                        context.push(TokenContext::TplQuasi);
                     } else {
                         let next_ctxt =
                             if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
@@ -525,10 +503,7 @@ impl State {
                     false
                 }
 
-                TokenKind::DollarLBrace => {
-                    context.push(TokenContext::TplQuasi);
-                    true
-                }
+                TokenKind::DollarLBrace => true,
 
                 TokenKind::LParen => {
                     // if, for, with, while is statement
@@ -549,16 +524,7 @@ impl State {
                 // remains unchanged.
                 TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
 
-                TokenKind::BackQuote => {
-                    // If we are in template, ` terminates template.
-                    if let Some(TokenContext::Tpl { .. }) = context.current() {
-                        context.pop();
-                    } else {
-                        self.tpl_start = start;
-                        context.push(TokenContext::Tpl);
-                    }
-                    false
-                }
+                TokenKind::BackQuote => false,
 
                 // tt.jsxTagStart.updateContext
                 TokenKind::JSXTagStart => {

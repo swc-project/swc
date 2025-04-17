@@ -654,6 +654,121 @@ impl<'a> Lexer<'a> {
             Token::AssignOp(AssignOp::Assign)
         }))
     }
+
+    fn read_token_back_quote(&mut self) -> LexResult<Option<Token>> {
+        let start = self.cur_pos();
+        self.rescan_token_back_quote(start).map(|t| Some(t))
+    }
+
+    fn rescan_token_back_quote(&mut self, start: BytePos) -> LexResult<Token> {
+        let mut cooked = Ok(String::new());
+        let mut cooked_slice_start = start;
+        let raw_slice_start = start;
+
+        macro_rules! consume_cooked {
+            () => {{
+                if let Ok(cooked) = &mut cooked {
+                    let last_pos = self.cur_pos();
+                    cooked.push_str(unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    });
+                }
+            }};
+        }
+
+        while let Some(c) = self.cur() {
+            if c == '`' || (c == '$' && self.peek() == Some('{')) {
+                if start == self.cur_pos() && self.state.last_was_tpl_element() {
+                    if c == '$' {
+                        self.bump();
+                        self.bump();
+                        return Ok(tok!("${"));
+                    } else {
+                        self.bump();
+                        return Ok(tok!('`'));
+                    }
+                }
+
+                // If we don't have any escape
+                let cooked = if cooked_slice_start == raw_slice_start {
+                    let last_pos = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    };
+
+                    Ok(self.atoms.atom(s))
+                } else {
+                    consume_cooked!();
+
+                    cooked.map(|s| self.atoms.atom(s))
+                };
+
+                // TODO: Handle error
+                let end = self.input.cur_pos();
+                let raw = unsafe {
+                    // Safety: Both of start and last_pos are valid position because we got them
+                    // from `self.input`
+                    self.input.slice(raw_slice_start, end)
+                };
+                return Ok(Token::Template {
+                    cooked,
+                    raw: self.atoms.atom(raw),
+                });
+            }
+
+            if c == '\\' {
+                consume_cooked!();
+
+                match self.read_escaped_char(true) {
+                    Ok(Some(chars)) => {
+                        if let Ok(ref mut cooked) = cooked {
+                            for c in chars {
+                                cooked.extend(c);
+                            }
+                        }
+                    }
+                    Ok(None) => {}
+                    Err(error) => {
+                        cooked = Err(error);
+                    }
+                }
+
+                cooked_slice_start = self.cur_pos();
+            } else if c.is_line_terminator() {
+                self.state.had_line_break = true;
+
+                consume_cooked!();
+
+                let c = if c == '\r' && self.peek() == Some('\n') {
+                    self.bump(); // '\r'
+                    '\n'
+                } else {
+                    match c {
+                        '\n' => '\n',
+                        '\r' => '\n',
+                        '\u{2028}' => '\u{2028}',
+                        '\u{2029}' => '\u{2029}',
+                        _ => unreachable!(),
+                    }
+                };
+
+                self.bump();
+
+                if let Ok(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
+                cooked_slice_start = self.cur_pos();
+            } else {
+                self.bump();
+            }
+        }
+
+        self.error(start, SyntaxError::UnterminatedTpl)?
+    }
 }
 
 impl Lexer<'_> {
@@ -1238,118 +1353,6 @@ impl Lexer<'_> {
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
         Ok(Some(self.atoms.atom(s)))
-    }
-
-    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
-        let start = self.cur_pos();
-
-        let mut cooked = Ok(String::new());
-        let mut cooked_slice_start = start;
-        let raw_slice_start = start;
-
-        macro_rules! consume_cooked {
-            () => {{
-                if let Ok(cooked) = &mut cooked {
-                    let last_pos = self.cur_pos();
-                    cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    });
-                }
-            }};
-        }
-
-        while let Some(c) = self.cur() {
-            if c == '`' || (c == '$' && self.peek() == Some('{')) {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    if c == '$' {
-                        self.bump();
-                        self.bump();
-                        return Ok(tok!("${"));
-                    } else {
-                        self.bump();
-                        return Ok(tok!('`'));
-                    }
-                }
-
-                // If we don't have any escape
-                let cooked = if cooked_slice_start == raw_slice_start {
-                    let last_pos = self.cur_pos();
-                    let s = unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    };
-
-                    Ok(self.atoms.atom(s))
-                } else {
-                    consume_cooked!();
-
-                    cooked.map(|s| self.atoms.atom(s))
-                };
-
-                // TODO: Handle error
-                let end = self.input.cur_pos();
-                let raw = unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, end)
-                };
-                return Ok(Token::Template {
-                    cooked,
-                    raw: self.atoms.atom(raw),
-                });
-            }
-
-            if c == '\\' {
-                consume_cooked!();
-
-                match self.read_escaped_char(true) {
-                    Ok(Some(chars)) => {
-                        if let Ok(ref mut cooked) = cooked {
-                            for c in chars {
-                                cooked.extend(c);
-                            }
-                        }
-                    }
-                    Ok(None) => {}
-                    Err(error) => {
-                        cooked = Err(error);
-                    }
-                }
-
-                cooked_slice_start = self.cur_pos();
-            } else if c.is_line_terminator() {
-                self.state.had_line_break = true;
-
-                consume_cooked!();
-
-                let c = if c == '\r' && self.peek() == Some('\n') {
-                    self.bump(); // '\r'
-                    '\n'
-                } else {
-                    match c {
-                        '\n' => '\n',
-                        '\r' => '\n',
-                        '\u{2028}' => '\u{2028}',
-                        '\u{2029}' => '\u{2029}',
-                        _ => unreachable!(),
-                    }
-                };
-
-                self.bump();
-
-                if let Ok(ref mut cooked) = cooked {
-                    cooked.push(c);
-                }
-                cooked_slice_start = self.cur_pos();
-            } else {
-                self.bump();
-            }
-        }
-
-        self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
     }
 
     #[inline]
