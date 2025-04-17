@@ -26,6 +26,7 @@ pub struct AliasConfig {
     /// on.
     pub ignore_named_child_scope: bool,
 }
+
 impl AliasConfig {
     pub fn marks(mut self, arg: Option<Marks>) -> Self {
         self.marks = arg;
@@ -98,10 +99,7 @@ where
         config,
         unresolved_ctxt,
 
-        ctx: Ctx {
-            track_expr_ident: true,
-            ..Default::default()
-        },
+        ctx: Ctx::TrackExprIdent,
 
         bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
@@ -138,10 +136,7 @@ where
         config,
         unresolved_ctxt,
 
-        ctx: Ctx {
-            track_expr_ident: true,
-            ..Default::default()
-        },
+        ctx: Ctx::TrackExprIdent,
 
         bindings: FxHashSet::default(),
         accesses: FxHashSet::default(),
@@ -191,7 +186,7 @@ impl InfectionCollector {
 
         self.accesses.insert((
             e,
-            if self.ctx.is_callee {
+            if self.ctx.contains(Ctx::IsCallee) {
                 AccessKind::Call
             } else {
                 AccessKind::Reference
@@ -204,15 +199,15 @@ impl Visit for InfectionCollector {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        let old = self.ctx.is_pat_decl;
+        let old = self.ctx.contains(Ctx::IsPatDecl);
 
         for p in &n.params {
-            self.ctx.is_pat_decl = true;
+            self.ctx.insert(Ctx::IsPatDecl);
             p.visit_with(self);
         }
 
         n.body.visit_with(self);
-        self.ctx.is_pat_decl = old;
+        self.ctx.set(Ctx::IsPatDecl, old);
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
@@ -230,7 +225,7 @@ impl Visit for InfectionCollector {
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 
-        if self.ctx.is_pat_decl {
+        if self.ctx.contains(Ctx::IsPatDecl) {
             self.add_binding(&node.key.clone().into());
         }
     }
@@ -258,29 +253,18 @@ impl Visit for InfectionCollector {
             | op!("<<")
             | op!(">>")
             | op!(">>>") => {
-                let ctx = Ctx {
-                    track_expr_ident: false,
-                    is_callee: false,
-                    ..self.ctx
-                };
+                let ctx = self.ctx - Ctx::TrackExprIdent - Ctx::IsCallee;
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
             _ => {
-                let ctx = Ctx {
-                    track_expr_ident: true,
-                    is_callee: false,
-                    ..self.ctx
-                };
+                let ctx = (self.ctx | Ctx::TrackExprIdent) - Ctx::IsCallee;
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
     }
 
     fn visit_callee(&mut self, n: &Callee) {
-        let ctx = Ctx {
-            is_callee: true,
-            ..self.ctx
-        };
+        let ctx = self.ctx | Ctx::IsCallee;
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -292,19 +276,12 @@ impl Visit for InfectionCollector {
 
     fn visit_cond_expr(&mut self, e: &CondExpr) {
         {
-            let ctx = Ctx {
-                track_expr_ident: false,
-                is_callee: false,
-                ..self.ctx
-            };
+            let ctx = self.ctx - Ctx::TrackExprIdent - Ctx::IsCallee;
             e.test.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let ctx = Ctx {
-                track_expr_ident: true,
-                ..self.ctx
-            };
+            let ctx = self.ctx | Ctx::TrackExprIdent;
             e.cons.visit_with(&mut *self.with_ctx(ctx));
             e.alt.visit_with(&mut *self.with_ctx(ctx));
         }
@@ -319,17 +296,13 @@ impl Visit for InfectionCollector {
 
         match e {
             Expr::Ident(i) => {
-                if self.ctx.track_expr_ident {
+                if self.ctx.contains(Ctx::TrackExprIdent) {
                     self.add_usage(i.to_id());
                 }
             }
 
             _ => {
-                let ctx = Ctx {
-                    track_expr_ident: true,
-                    is_pat_decl: false,
-                    ..self.ctx
-                };
+                let ctx = (self.ctx | Ctx::TrackExprIdent) - Ctx::IsPatDecl;
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
@@ -368,42 +341,35 @@ impl Visit for InfectionCollector {
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         {
-            let ctx = Ctx {
-                track_expr_ident: self.config.need_all,
-                ..self.ctx
-            };
+            let mut ctx = self.ctx;
+            ctx.set(Ctx::TrackExprIdent, self.config.need_all);
             n.obj.visit_with(&mut *self.with_ctx(ctx));
         }
 
         {
-            let ctx = Ctx {
-                track_expr_ident: self.config.need_all,
-                ..self.ctx
-            };
+            let mut ctx = self.ctx;
+            ctx.set(Ctx::TrackExprIdent, self.config.need_all);
             n.prop.visit_with(&mut *self.with_ctx(ctx));
         }
     }
 
     fn visit_member_prop(&mut self, n: &MemberProp) {
         if let MemberProp::Computed(c) = &n {
-            c.visit_with(&mut *self.with_ctx(Ctx {
-                is_callee: false,
-                ..self.ctx
-            }));
+            c.visit_with(&mut *self.with_ctx(self.ctx - Ctx::IsCallee));
         }
     }
 
     fn visit_param(&mut self, node: &Param) {
-        let old = self.ctx.is_pat_decl;
-        self.ctx.is_pat_decl = true;
+        let old = self.ctx.contains(Ctx::IsPatDecl);
+        self.ctx.insert(Ctx::IsPatDecl);
         node.visit_children_with(self);
-        self.ctx.is_pat_decl = old;
+        self.ctx.set(Ctx::IsPatDecl, old);
     }
 
     fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);
 
-        if self.ctx.is_pat_decl {
+        if self.ctx.contains(Ctx::IsPatDecl) {
             if let Pat::Ident(i) = node {
                 self.add_binding(i)
             }
@@ -412,10 +378,7 @@ impl Visit for InfectionCollector {
 
     fn visit_prop_name(&mut self, n: &PropName) {
         if let PropName::Computed(c) = &n {
-            c.visit_with(&mut *self.with_ctx(Ctx {
-                is_callee: false,
-                ..self.ctx
-            }));
+            c.visit_with(&mut *self.with_ctx(self.ctx - Ctx::IsCallee));
         }
     }
 
@@ -431,10 +394,7 @@ impl Visit for InfectionCollector {
 
     fn visit_super_prop_expr(&mut self, n: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &n.prop {
-            c.visit_with(&mut *self.with_ctx(Ctx {
-                is_callee: false,
-                ..self.ctx
-            }));
+            c.visit_with(&mut *self.with_ctx(self.ctx - Ctx::IsCallee));
         }
     }
 
@@ -446,40 +406,28 @@ impl Visit for InfectionCollector {
             | op!("!")
             | op!("typeof")
             | op!("void") => {
-                let ctx = Ctx {
-                    track_expr_ident: false,
-                    is_callee: false,
-                    ..self.ctx
-                };
+                let ctx = self.ctx - Ctx::TrackExprIdent - Ctx::IsCallee;
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
 
             _ => {
-                let ctx = Ctx {
-                    track_expr_ident: true,
-                    is_callee: false,
-                    ..self.ctx
-                };
+                let ctx = (self.ctx | Ctx::TrackExprIdent) - Ctx::IsCallee;
                 e.visit_children_with(&mut *self.with_ctx(ctx));
             }
         }
     }
 
     fn visit_update_expr(&mut self, e: &UpdateExpr) {
-        let ctx = Ctx {
-            track_expr_ident: false,
-            is_callee: false,
-            ..self.ctx
-        };
+        let ctx = self.ctx - Ctx::TrackExprIdent - Ctx::IsCallee;
         e.arg.visit_with(&mut *self.with_ctx(ctx));
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         {
-            let old = self.ctx.is_pat_decl;
-            self.ctx.is_pat_decl = true;
+            let old = self.ctx.contains(Ctx::IsPatDecl);
+            self.ctx.insert(Ctx::IsPatDecl);
             n.name.visit_with(self);
-            self.ctx.is_pat_decl = old;
+            self.ctx.set(Ctx::IsPatDecl, old);
         }
 
         if self.config.ignore_named_child_scope {
@@ -489,10 +437,10 @@ impl Visit for InfectionCollector {
         }
 
         {
-            let old = self.ctx.is_pat_decl;
-            self.ctx.is_pat_decl = false;
+            let old = self.ctx.contains(Ctx::IsPatDecl);
+            self.ctx.remove(Ctx::IsPatDecl);
             n.init.visit_with(self);
-            self.ctx.is_pat_decl = old;
+            self.ctx.set(Ctx::IsPatDecl, old);
         }
     }
 }

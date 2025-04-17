@@ -1,5 +1,7 @@
 use std::ops::{Deref, DerefMut};
 
+use bitflags::bitflags;
+
 use super::InfectionCollector;
 
 impl InfectionCollector {
@@ -14,11 +16,13 @@ impl InfectionCollector {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct Ctx {
-    pub track_expr_ident: bool,
-    pub is_callee: bool,
-    pub is_pat_decl: bool,
+bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct Ctx: u8 {
+        const TrackExprIdent = 1 << 0;
+        const IsCallee = 1 << 1;
+        const IsPatDecl = 1 << 2;
+    }
 }
 
 pub(super) struct WithCtx<'a> {
