@@ -248,9 +248,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsCallee)
-            || self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsUpdateArg | BitCtx::IsCallee | BitCtx::IsExactLhsOfAssign)
         {
             return;
         }

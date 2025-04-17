@@ -19,8 +19,10 @@ impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
         if !self.options.negate_iife
-            || self.ctx.bit_ctx.contains(BitCtx::InBangArg)
-            || self.ctx.bit_ctx.contains(BitCtx::DontUseNegatedIife)
+            || self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InBangArg | BitCtx::DontUseNegatedIife)
         {
             return;
         }

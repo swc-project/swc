@@ -195,7 +195,7 @@ impl Ctx {
             return false;
         }
 
-        if self.bit_ctx.contains(BitCtx::InFnLike) || self.bit_ctx.contains(BitCtx::InBlock) {
+        if self.bit_ctx.intersects(BitCtx::InFnLike | BitCtx::InBlock) {
             return false;
         }
         true

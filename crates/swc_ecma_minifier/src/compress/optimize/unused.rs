@@ -102,7 +102,10 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) || self.ctx.bit_ctx.contains(BitCtx::InAsm)
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsExported | BitCtx::InAsm)
         {
             return;
         }

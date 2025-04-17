@@ -24,9 +24,10 @@ impl Optimizer<'_> {
     }
 
     fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
-        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
         {
             return None;
         }
@@ -87,11 +88,9 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
-            || self.ctx.bit_ctx.contains(BitCtx::InWithStmt)
-        {
+        if self.ctx.bit_ctx.intersects(
+            BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign | BitCtx::InWithStmt,
+        ) {
             return;
         }
 
@@ -148,9 +147,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
         {
             return;
         }
@@ -342,9 +342,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-            || self.ctx.bit_ctx.contains(BitCtx::IsLhsOfAssign)
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
         {
             return;
         }
