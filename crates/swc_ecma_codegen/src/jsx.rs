@@ -75,24 +75,42 @@ impl MacroNode for JSXOpeningElement {
 impl MacroNode for JSXElementName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
-            JSXElementName::Ident(ref n) => emit!(emitter, n),
-            JSXElementName::JSXMemberExpr(ref n) => emit!(emitter, n),
-            JSXElementName::JSXNamespacedName(ref n) => emit!(emitter, n),
+            JSXElementName::Ident(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXElementName::Ident(n)))
+            }
+            JSXElementName::JSXMemberExpr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXElementName::JSXMemberExpr(n)))
+            }
+            JSXElementName::JSXNamespacedName(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXElementName::JSXNamespacedName(n)))
+            }
         }
-        Ok(())
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXAttr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.name);
 
         if let Some(ref value) = self.value {
             punct!(emitter, "=");
             emit!(emitter, value);
         }
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXAttr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
