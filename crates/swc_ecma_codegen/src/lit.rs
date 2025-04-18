@@ -17,18 +17,31 @@ impl MacroNode for Lit {
 
         match self {
             Lit::Bool(Bool { value, .. }) => {
+                let lo = only_new!(emitter.wr.get_pos());
+
                 if *value {
                     keyword!(emitter, "true")
                 } else {
                     keyword!(emitter, "false")
                 }
 
-                Ok(only_new!(Lit::Bool(*value)))
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(Lit::Bool(Bool {
+                    span: Span::new(lo, hi),
+                    value: *value,
+                })))
             }
             Lit::Null(Null { .. }) => {
+                let lo = only_new!(emitter.wr.get_pos());
+
                 keyword!(emitter, "null");
 
-                Ok(only_new!(Lit::Null(Null::default())))
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(Lit::Null(Null {
+                    span: Span::new(lo, hi)
+                })))
             }
             Lit::Str(ref s) => {
                 let s = emit!(emitter, s);
@@ -43,13 +56,23 @@ impl MacroNode for Lit {
             Lit::Num(ref n) => {
                 let number = emit!(emitter, n);
 
-                Ok(only_new!(Lit::Num(numberumber)))
+                Ok(only_new!(Lit::Num(number)))
             }
             Lit::Regex(ref n) => {
+                let lo = only_new!(emitter.wr.get_pos());
+
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
+
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(Lit::Regex(Regex {
+                    span: Span::new(lo, hi),
+                    exp: n.exp.clone(),
+                    flags: n.flags.clone(),
+                })))
             }
             Lit::JSXText(ref n) => {
                 let s = emit!(emitter, n);
@@ -121,7 +144,6 @@ impl MacroNode for Str {
         let quote_str = [quote_char.as_byte()];
         let quote_str = unsafe {
             // Safety: quote_char is valid ascii
-            str::from_utf8_unchecked(&quote_str)
         };
 
         emitter.wr.write_str(quote_str)?;
