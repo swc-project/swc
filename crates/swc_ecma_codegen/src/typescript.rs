@@ -1025,6 +1025,8 @@ impl MacroNode for TsNamespaceBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         emitter.wr.increase_indent()?;
         match self {
@@ -1033,7 +1035,13 @@ impl MacroNode for TsNamespaceBody {
         }
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsNamespaceBody {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1041,6 +1049,8 @@ impl MacroNode for TsNamespaceBody {
 impl MacroNode for TsNamespaceDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -1053,7 +1063,13 @@ impl MacroNode for TsNamespaceDecl {
         formatting_space!(emitter);
 
         emit!(emitter, self.body);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsNamespaceDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1062,12 +1078,20 @@ impl MacroNode for TsNamespaceExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "export");
         space!(emitter);
         punct!(emitter, "=");
         space!(emitter);
         emit!(emitter, self.id);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsNamespaceExportDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1076,9 +1100,17 @@ impl MacroNode for TsNonNullExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
         punct!(emitter, "!");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsNonNullExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1087,9 +1119,16 @@ impl MacroNode for TsOptionalType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
         emit!(emitter, self.type_ann);
         punct!(emitter, "?");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsOptionalType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1097,6 +1136,8 @@ impl MacroNode for TsOptionalType {
 impl MacroNode for TsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
@@ -1120,7 +1161,13 @@ impl MacroNode for TsParamProp {
         }
 
         emit!(emitter, self.param);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsParamProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1129,11 +1176,18 @@ impl MacroNode for TsParamPropParam {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
-            TsParamPropParam::Ident(n) => emit!(emitter, n),
-            TsParamPropParam::Assign(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsParamPropParam::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsParamPropParam::Ident(n))
+            }
+            TsParamPropParam::Assign(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsParamPropParam::Assign(n))
+            }
+        })
     }
 }
 
@@ -1142,10 +1196,18 @@ impl MacroNode for TsParenthesizedType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "(");
         emit!(emitter, self.type_ann);
         punct!(emitter, ")");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsParenthesizedType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
