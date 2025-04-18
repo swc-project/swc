@@ -1688,11 +1688,6 @@ impl MacroNode for TsTypeElement {
 
                 only_new!(TsTypeElement::TsSetterSignature(n))
             }
-            TsTypeElement::TsPropertySignature(n) => {
-                let n = emit!(emitter, n);
-
-                only_new!(TsTypeElement::TsPropertySignature(n))
-            }
         };
         formatting_semi!(emitter);
         Ok(result)
@@ -1792,6 +1787,8 @@ impl MacroNode for TsTypeOperator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         match self.op {
             TsTypeOperatorOp::KeyOf => keyword!(emitter, "keyof"),
             TsTypeOperatorOp::Unique => keyword!(emitter, "unique"),
@@ -1799,7 +1796,13 @@ impl MacroNode for TsTypeOperator {
         }
         space!(emitter);
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeOperator {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1807,6 +1810,8 @@ impl MacroNode for TsTypeOperator {
 impl MacroNode for TsTypeParam {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.is_const {
             keyword!(emitter, "const");
@@ -1838,7 +1843,13 @@ impl MacroNode for TsTypeParam {
             formatting_space!(emitter);
             emit!(emitter, default);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeParam {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1847,12 +1858,20 @@ impl MacroNode for TsTypeParamDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "<");
 
         emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
 
         punct!(emitter, ">");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeParamDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1861,11 +1880,19 @@ impl MacroNode for TsTypeParamInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "<");
         emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
 
         punct!(emitter, ">");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeParamInstantiation {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1873,6 +1900,8 @@ impl MacroNode for TsTypeParamInstantiation {
 impl MacroNode for TsTypePredicate {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.asserts {
             keyword!(emitter, "asserts");
@@ -1887,7 +1916,13 @@ impl MacroNode for TsTypePredicate {
             space!(emitter);
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypePredicate {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1896,22 +1931,37 @@ impl MacroNode for TsTypeQuery {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "typeof");
         space!(emitter);
         emit!(emitter, self.expr_name);
         emit!(emitter, self.type_args);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeQuery {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsTypeQueryExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsTypeQueryExpr::TsEntityName(n) => emit!(emitter, n),
-            TsTypeQueryExpr::Import(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsTypeQueryExpr::TsEntityName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeQueryExpr::TsEntityName(n))
+            }
+            TsTypeQueryExpr::Import(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeQueryExpr::Import(n))
+            }
+        })
     }
 }
 
@@ -1920,6 +1970,8 @@ impl MacroNode for TsTypeRef {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.type_name);
 
         if let Some(n) = &self.type_params {
@@ -1927,18 +1979,31 @@ impl MacroNode for TsTypeRef {
             emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
             punct!(emitter, ">");
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeRef {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsUnionOrIntersectionType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsUnionOrIntersectionType::TsUnionType(n) => emit!(emitter, n),
-            TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsUnionOrIntersectionType::TsUnionType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsUnionOrIntersectionType::TsUnionType(n))
+            }
+            TsUnionOrIntersectionType::TsIntersectionType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsUnionOrIntersectionType::TsIntersectionType(n))
+            }
+        })
     }
 }
 
@@ -1947,12 +2012,20 @@ impl MacroNode for TsUnionType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_list(
             self.span,
             Some(&self.types),
             ListFormat::UnionTypeConstituents,
         )?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsUnionType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1961,10 +2034,18 @@ impl MacroNode for TsInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
         emit!(emitter, self.type_args);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsInstantiation {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
