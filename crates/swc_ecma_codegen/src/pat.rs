@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -6,6 +6,8 @@ use swc_ecma_codegen_macros::node_impl;
 impl MacroNode for Param {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -15,28 +17,61 @@ impl MacroNode for Param {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Param {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Pat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Pat::Array(ref n) => emit!(emitter, n),
-            Pat::Assign(ref n) => emit!(emitter, n),
-            Pat::Expr(ref n) => emit!(emitter, n),
-            Pat::Ident(ref n) => emit!(emitter, n),
-            Pat::Object(ref n) => emit!(emitter, n),
-            Pat::Rest(ref n) => emit!(emitter, n),
-            Pat::Invalid(n) => emit!(emitter, n),
-        }
+        let result = match self {
+            Pat::Array(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Array(n))
+            }
+            Pat::Assign(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Assign(n))
+            }
+            Pat::Expr(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Expr(n))
+            }
+            Pat::Ident(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Ident(n))
+            }
+            Pat::Object(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Object(n))
+            }
+            Pat::Rest(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Rest(n))
+            }
+            Pat::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Invalid(n))
+            }
+        };
 
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
 
-        Ok(())
+        Ok(result)
     }
 }
 
@@ -44,6 +79,8 @@ impl MacroNode for Pat {
 impl MacroNode for RestPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         punct!(emitter, self.dot3_token, "...");
         emit!(emitter, self.arg);
@@ -54,7 +91,12 @@ impl MacroNode for RestPat {
             emit!(emitter, type_ann);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(RestPat {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -62,11 +104,17 @@ impl MacroNode for RestPat {
 impl MacroNode for PropOrSpread {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            PropOrSpread::Prop(ref n) => emit!(emitter, n),
-            PropOrSpread::Spread(ref n) => emit!(emitter, n),
-        }
+            PropOrSpread::Prop(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(PropOrSpread::Prop(n))
+            }
+            PropOrSpread::Spread(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(PropOrSpread::Spread(n))
+            }
+        }
     }
 }
 
@@ -77,6 +125,8 @@ impl MacroNode for SpreadElement {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "...");
@@ -84,7 +134,12 @@ impl MacroNode for SpreadElement {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SpreadElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
