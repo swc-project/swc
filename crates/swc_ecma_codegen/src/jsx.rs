@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{SourceMapper, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -15,6 +15,8 @@ where
 #[node_impl]
 impl MacroNode for JSXElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.opening);
         emitter.emit_list(
             self.span(),
@@ -24,13 +26,20 @@ impl MacroNode for JSXElement {
         if let Some(ref closing) = self.closing {
             emit!(emitter, closing)
         }
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXOpeningElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "<");
         emit!(emitter, self.name);
 
@@ -52,7 +61,13 @@ impl MacroNode for JSXOpeningElement {
             punct!(emitter, "/");
         }
         punct!(emitter, ">");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXOpeningElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
