@@ -216,21 +216,37 @@ impl MacroNode for JSXElementChild {
 #[node_impl]
 impl MacroNode for JSXSpreadChild {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         punct!(emitter, "...");
         emit!(emitter, self.expr);
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXSpreadChild {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXExprContainer {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         emit!(emitter, self.expr);
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXExprContainer {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -238,26 +254,43 @@ impl MacroNode for JSXExprContainer {
 impl MacroNode for JSXExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
-            JSXExpr::Expr(ref n) => emit!(emitter, n),
-            JSXExpr::JSXEmptyExpr(ref n) => emit!(emitter, n),
+            JSXExpr::Expr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXExpr::Expr(n)))
+            }
+            JSXExpr::JSXEmptyExpr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXExpr::JSXEmptyExpr(n)))
+            }
         }
-        Ok(())
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXClosingElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "</");
         emit!(emitter, self.name);
         punct!(emitter, ">");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXClosingElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.opening);
 
         emitter.emit_list(
@@ -267,58 +300,108 @@ impl MacroNode for JSXFragment {
         )?;
 
         emit!(emitter, self.closing);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXFragment {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXOpeningFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "<>");
-        Ok(only_new!(JSXOpeningFragment::default()))
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXOpeningFragment {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXClosingFragment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "</>");
-        Ok(only_new!(JSXClosingFragment::default()))
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXClosingFragment {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
-
 #[node_impl]
 impl MacroNode for JSXNamespacedName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.ns);
         punct!(emitter, ":");
         emit!(emitter, self.name);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXNamespacedName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXEmptyExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        Ok(())
+        let lo = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXEmptyExpr {
+            span: Span::new(lo, lo),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXText {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_atom(self.span(), &self.raw)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXText {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for JSXMemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.obj);
         punct!(emitter, ".");
         emit!(emitter, self.prop);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(JSXMemberExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -326,9 +409,16 @@ impl MacroNode for JSXMemberExpr {
 impl MacroNode for JSXObject {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
-            JSXObject::Ident(ref n) => emit!(emitter, n),
-            JSXObject::JSXMemberExpr(ref n) => emit!(emitter, n),
+            JSXObject::Ident(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXObject::Ident(n)))
+            }
+            JSXObject::JSXMemberExpr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(JSXObject::JSXMemberExpr(n)))
+            }
         }
-        Ok(())
     }
 }
