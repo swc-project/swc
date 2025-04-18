@@ -1379,29 +1379,103 @@ impl MacroNode for TsTupleElement {
 #[node_impl]
 impl MacroNode for TsType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsType::TsKeywordType(n) => emit!(emitter, n),
-            TsType::TsThisType(n) => emit!(emitter, n),
-            TsType::TsFnOrConstructorType(n) => emit!(emitter, n),
-            TsType::TsTypeRef(n) => emit!(emitter, n),
-            TsType::TsTypeQuery(n) => emit!(emitter, n),
-            TsType::TsTypeLit(n) => emit!(emitter, n),
-            TsType::TsArrayType(n) => emit!(emitter, n),
-            TsType::TsTupleType(n) => emit!(emitter, n),
-            TsType::TsOptionalType(n) => emit!(emitter, n),
-            TsType::TsRestType(n) => emit!(emitter, n),
-            TsType::TsUnionOrIntersectionType(n) => emit!(emitter, n),
-            TsType::TsConditionalType(n) => emit!(emitter, n),
-            TsType::TsInferType(n) => emit!(emitter, n),
-            TsType::TsParenthesizedType(n) => emit!(emitter, n),
-            TsType::TsTypeOperator(n) => emit!(emitter, n),
-            TsType::TsIndexedAccessType(n) => emit!(emitter, n),
-            TsType::TsMappedType(n) => emit!(emitter, n),
-            TsType::TsLitType(n) => emit!(emitter, n),
-            TsType::TsTypePredicate(n) => emit!(emitter, n),
-            TsType::TsImportType(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsType::TsKeywordType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsKeywordType(n))
+            }
+            TsType::TsThisType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsThisType(n))
+            }
+            TsType::TsFnOrConstructorType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsFnOrConstructorType(n))
+            }
+            TsType::TsTypeRef(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTypeRef(n))
+            }
+            TsType::TsTypeQuery(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTypeQuery(n))
+            }
+            TsType::TsTypeLit(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTypeLit(n))
+            }
+            TsType::TsArrayType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsArrayType(n))
+            }
+            TsType::TsTupleType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTupleType(n))
+            }
+            TsType::TsOptionalType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsOptionalType(n))
+            }
+            TsType::TsRestType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsRestType(n))
+            }
+            TsType::TsUnionOrIntersectionType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsUnionOrIntersectionType(n))
+            }
+            TsType::TsInferType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsInferType(n))
+            }
+            TsType::TsParenthesizedType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsParenthesizedType(n))
+            }
+            TsType::TsTypeOperator(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTypeOperator(n))
+            }
+            TsType::TsIndexedAccessType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsIndexedAccessType(n))
+            }
+            TsType::TsMappedType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsMappedType(n))
+            }
+            TsType::TsLitType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsLitType(n))
+            }
+            TsType::TsTypePredicate(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsTypePredicate(n))
+            }
+            TsType::TsImportType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsImportType(n))
+            }
+        })
     }
 }
 
