@@ -190,6 +190,8 @@ impl MacroNode for TsConstructorType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.is_abstract {
             keyword!(emitter, "abstract");
             space!(emitter);
@@ -210,7 +212,13 @@ impl MacroNode for TsConstructorType {
         formatting_space!(emitter);
 
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsConstructorType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -219,13 +227,18 @@ impl MacroNode for TsEntityName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
+        Ok(match self {
             TsEntityName::TsQualifiedName(n) => {
-                emit!(emitter, n);
+                let n = emit!(emitter, n);
+
+                only_new!(TsEntityName::TsQualifiedName(n))
             }
-            TsEntityName::Ident(n) => emit!(emitter, n),
-        }
-        Ok(())
+            TsEntityName::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsEntityName::Ident(n))
+            }
+        })
     }
 }
 
@@ -233,6 +246,8 @@ impl MacroNode for TsEntityName {
 impl MacroNode for TsEnumDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -255,7 +270,13 @@ impl MacroNode for TsEnumDecl {
         emitter.emit_list(self.span, Some(&self.members), ListFormat::EnumMembers)?;
 
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsEnumDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -263,6 +284,8 @@ impl MacroNode for TsEnumDecl {
 impl MacroNode for TsEnumMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emit!(emitter, self.id);
 
@@ -272,7 +295,13 @@ impl MacroNode for TsEnumMember {
             formatting_space!(emitter);
             emit!(emitter, init);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsEnumMember {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -280,10 +309,17 @@ impl MacroNode for TsEnumMember {
 impl MacroNode for TsEnumMemberId {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            TsEnumMemberId::Ident(n) => emit!(emitter, n),
-            TsEnumMemberId::Str(n) => emit!(emitter, n),
+            TsEnumMemberId::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsEnumMemberId::Ident(n))
+            }
+            TsEnumMemberId::Str(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsEnumMemberId::Str(n))
+            }
         }
-        Ok(())
     }
 }
 
