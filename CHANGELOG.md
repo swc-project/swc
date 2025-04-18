@@ -7,6 +7,9 @@
 
 - **(es/parser)** Parse `export default from;` with `exportDefaultFrom: true` option ([#10373](https://github.com/swc-project/swc/issues/10373)) ([a270cb0](https://github.com/swc-project/swc/commit/a270cb0f469b174cd36174740a674f0ffc19b042))
 
+
+- Upgrade browserslist-rs version ([#10389](https://github.com/swc-project/swc/issues/10389)) ([f802892](https://github.com/swc-project/swc/commit/f802892add01c7dac9744db1a8f1f7366b43dd0a))
+
 ### Features
 
 
@@ -16,11 +19,41 @@
 
 - **(css/prefixer)** Fix default implementation ([#10351](https://github.com/swc-project/swc/issues/10351)) ([34f4e41](https://github.com/swc-project/swc/commit/34f4e4158524da6d2a9fbbea96ecaab861336553))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/parser)** Remove useless check ([#10386](https://github.com/swc-project/swc/issues/10386)) ([d1770ac](https://github.com/swc-project/swc/commit/d1770ac5d75a295fc0910cc5185c8d6a75b2b9be))
+
+### Performance
+
+
+
+- **(es/minifier)** Use bigflags to reduce context size of analyzer ([#10380](https://github.com/swc-project/swc/issues/10380)) ([773d19c](https://github.com/swc-project/swc/commit/773d19cdc49ddb55ed6f6c3262a0fccbf73b4c5f))
+
+
+- **(es/minifier)** Use `bitflags` to reduce context size of `InfectionCollector`  ([#10387](https://github.com/swc-project/swc/issues/10387)) ([126d432](https://github.com/swc-project/swc/commit/126d43295e7f5e09092da653f537c843f2d79836))
+
+
+- **(es/minifier)** Use `bitflags` to reduce compress context size ([#10381](https://github.com/swc-project/swc/issues/10381)) ([99495bd](https://github.com/swc-project/swc/commit/99495bde7e73b045c8d2aea8a3fa9a2c9492ca82))
+
+
+- **(es/parser)** Move `found_module_item` to `Parser` ([#10388](https://github.com/swc-project/swc/issues/10388)) ([fd52c5c](https://github.com/swc-project/swc/commit/fd52c5c5c0682309042e22ecc511a1a1712322ec))
+
 ### Refactor
 
 
 
 - **(es/compat)** Simplify `async_to_generator` ([#10341](https://github.com/swc-project/swc/issues/10341)) ([e9eeba1](https://github.com/swc-project/swc/commit/e9eeba1b3d4b2c291633c4a8951737c4a5b2246c))
+
+
+- **(es/lexer)** Split lexer ([#10377](https://github.com/swc-project/swc/issues/10377)) ([3ef2bd1](https://github.com/swc-project/swc/commit/3ef2bd13d0102b2a59a5c32c4197ccdea998b5f2))
+
+### Testing
+
+
+
+- **(es/transform)** Add tests for source map ([#10375](https://github.com/swc-project/swc/issues/10375)) ([0018a8e](https://github.com/swc-project/swc/commit/0018a8ead2592857b9a6dff446933c16f58a9df2))
 
 ## [1.11.21] - 2025-04-14
 
@@ -1964,17 +1997,11 @@
 
 - **(es)** Improve sourcemap url error messages. ([#9422](https://github.com/swc-project/swc/issues/9422)) ([230d1d9](https://github.com/swc-project/swc/commit/230d1d98b91bde2fa0de54e5fe06e899302e481c))
 
-
-- **(visit)** Fix regression of AST paths ([#9420](https://github.com/swc-project/swc/issues/9420)) ([9751518](https://github.com/swc-project/swc/commit/9751518a0aa1cbe07e2ad4db7a32b0c6cc342641))
-
 ### Features
 
 
 
 - **(es/typescript)** Add `native_class_properties ` to skip reordering of class properties inits ([#9421](https://github.com/swc-project/swc/issues/9421)) ([d2929d1](https://github.com/swc-project/swc/commit/d2929d1ce61a00360cc0596441041571a958da23))
-
-
-- **(html/minifier)** Support using custom css minifier ([#9425](https://github.com/swc-project/swc/issues/9425)) ([970cc81](https://github.com/swc-project/swc/commit/970cc81033b4a616643be6625bdf8da99614ba98))
 
 ### Miscellaneous Tasks
 

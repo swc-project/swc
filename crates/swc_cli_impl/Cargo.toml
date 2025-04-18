@@ -40,7 +40,7 @@ tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 walkdir            = { workspace = true }
 
-swc_core = { version = "22.4.0", features = [
+swc_core = { version = "22.5.0", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

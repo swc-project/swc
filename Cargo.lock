@@ -3501,7 +3501,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "22.4.0"
+version = "22.5.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5388,7 +5388,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "11.1.2"
+version = "11.1.3"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5471,7 +5471,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "16.0.1"
+version = "16.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5519,7 +5519,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "11.1.2"
+version = "11.1.3"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5900,7 +5900,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "13.0.0"
+version = "13.1.0"
 dependencies = [
  "bitflags 2.6.0",
  "indexmap 2.7.1",
