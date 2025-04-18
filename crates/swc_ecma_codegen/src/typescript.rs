@@ -328,12 +328,20 @@ impl MacroNode for TsExportAssignment {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "export");
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
         emit!(emitter, self.expr);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsExportAssignment {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -342,10 +350,18 @@ impl MacroNode for TsExprWithTypeArgs {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
         emit!(emitter, self.type_args);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsExprWithTypeArgs {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -354,11 +370,19 @@ impl MacroNode for TsExternalModuleRef {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "require");
         punct!(emitter, "(");
         emit!(emitter, self.expr);
         punct!(emitter, ")");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsExternalModuleRef {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -367,24 +391,46 @@ impl MacroNode for TsFnOrConstructorType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
-            TsFnOrConstructorType::TsFnType(n) => emit!(emitter, n),
-            TsFnOrConstructorType::TsConstructorType(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsFnOrConstructorType::TsFnType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnOrConstructorType::TsFnType(n))
+            }
+            TsFnOrConstructorType::TsConstructorType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnOrConstructorType::TsConstructorType(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for TsFnParam {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsFnParam::Ident(n) => emit!(emitter, n),
-            TsFnParam::Array(n) => emit!(emitter, n),
-            TsFnParam::Rest(n) => emit!(emitter, n),
-            TsFnParam::Object(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsFnParam::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnParam::Ident(n))
+            }
+            TsFnParam::Array(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnParam::Array(n))
+            }
+            TsFnParam::Rest(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnParam::Rest(n))
+            }
+            TsFnParam::Object(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsFnParam::Object(n))
+            }
+        })
     }
 }
 
