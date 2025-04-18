@@ -308,7 +308,7 @@ impl MacroNode for TsEnumMember {
 #[node_impl]
 impl MacroNode for TsEnumMemberId {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
+        Ok(match self {
             TsEnumMemberId::Ident(n) => {
                 let n = emit!(emitter, n);
 
@@ -319,7 +319,7 @@ impl MacroNode for TsEnumMemberId {
 
                 only_new!(TsEnumMemberId::Str(n))
             }
-        }
+        })
     }
 }
 
@@ -439,6 +439,8 @@ impl MacroNode for TsFnType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.type_params);
 
         punct!(emitter, "(");
@@ -450,7 +452,13 @@ impl MacroNode for TsFnType {
         formatting_space!(emitter);
 
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsFnType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -458,6 +466,8 @@ impl MacroNode for TsFnType {
 impl MacroNode for TsImportEqualsDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.is_export {
             keyword!(emitter, "export");
@@ -481,7 +491,13 @@ impl MacroNode for TsImportEqualsDecl {
 
         emit!(emitter, self.module_ref);
         formatting_semi!(emitter);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsImportEqualsDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -489,6 +505,8 @@ impl MacroNode for TsImportEqualsDecl {
 impl MacroNode for TsIndexSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.readonly {
             keyword!(emitter, "readonly");
@@ -504,7 +522,13 @@ impl MacroNode for TsIndexSignature {
             formatting_space!(emitter);
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsIndexSignature {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -513,12 +537,20 @@ impl MacroNode for TsIndexedAccessType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.obj_type);
 
         punct!(emitter, "[");
         emit!(emitter, self.index_type);
         punct!(emitter, "]");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsIndexedAccessType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -527,10 +559,18 @@ impl MacroNode for TsInferType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "infer");
         space!(emitter);
         emit!(emitter, self.type_param);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsInferType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -539,12 +579,20 @@ impl MacroNode for TsInterfaceBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
 
         emitter.emit_list(self.span, Some(&self.body), ListFormat::InterfaceMembers)?;
 
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsInterfaceBody {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
