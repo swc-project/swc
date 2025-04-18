@@ -157,6 +157,7 @@ impl MacroNode for Str {
         let quote_str = [quote_char.as_byte()];
         let quote_str = unsafe {
             // Safety: quote_char is valid ascii
+            str::from_utf8_unchecked(&quote_str)
         };
 
         emitter.wr.write_str(quote_str)?;
@@ -165,7 +166,12 @@ impl MacroNode for Str {
 
         // srcmap!(emitter,self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Str {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -226,13 +232,20 @@ impl MacroNode for Bool {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.value {
             keyword!(emitter, self.span, "true")
         } else {
             keyword!(emitter, self.span, "false")
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Bool {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
