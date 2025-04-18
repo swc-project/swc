@@ -1553,6 +1553,8 @@ impl MacroNode for TsTypeAliasDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.declare {
             keyword!(emitter, "declare");
             space!(emitter);
@@ -1575,7 +1577,13 @@ impl MacroNode for TsTypeAliasDecl {
         emit!(emitter, self.type_ann);
 
         formatting_semi!(emitter);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeAliasDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1584,8 +1592,16 @@ impl MacroNode for TsTypeAnn {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeAnn {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1594,11 +1610,19 @@ impl MacroNode for TsTypeAssertion {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "<");
         emit!(emitter, self.type_ann);
         punct!(emitter, ">");
         emit!(emitter, self.expr);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeAssertion {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1607,13 +1631,21 @@ impl MacroNode for TsConstAssertion {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
         space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
         keyword!(emitter, "const");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsConstAssertion {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
