@@ -88,6 +88,8 @@ impl MacroNode for Str {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -103,7 +105,12 @@ impl MacroNode for Str {
 
             srcmap!(emitter, self, false);
 
-            return Ok(());
+            let hi = only_new!(emitter.wr.get_pos());
+
+            return Ok(only_new!(Str {
+                span: Span::new(lo, hi),
+                ..self.clone()
+            }));
         }
 
         let target = emitter.cfg.target;
@@ -125,7 +132,13 @@ impl MacroNode for Str {
                         || !self.raw.as_ref().unwrap().contains("script"))
                 {
                     emitter.wr.write_str_lit(DUMMY_SP, raw)?;
-                    return Ok(());
+
+                    let hi = only_new!(emitter.wr.get_pos());
+
+                    return Ok(only_new!(Str {
+                        span: Span::new(lo, hi),
+                        ..self.clone()
+                    }));
                 }
             }
         }
