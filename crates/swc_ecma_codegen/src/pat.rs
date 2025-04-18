@@ -103,7 +103,7 @@ impl MacroNode for RestPat {
 #[node_impl]
 impl MacroNode for PropOrSpread {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
+        Ok(match self {
             PropOrSpread::Prop(ref n) => {
                 let n = emit!(emitter, n);
 
@@ -114,7 +114,7 @@ impl MacroNode for PropOrSpread {
 
                 only_new!(PropOrSpread::Spread(n))
             }
-        }
+        })
     }
 }
 
@@ -146,46 +146,104 @@ impl MacroNode for SpreadElement {
 #[node_impl]
 impl MacroNode for AssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            AssignTarget::Simple(ref n) => emit!(emitter, n),
-            AssignTarget::Pat(ref n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            AssignTarget::Simple(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(AssignTarget::Simple(n))
+            }
+            AssignTarget::Pat(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTarget::Pat(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for SimpleAssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            SimpleAssignTarget::Ident(n) => emit!(emitter, n),
-            SimpleAssignTarget::Member(n) => emit!(emitter, n),
-            SimpleAssignTarget::Invalid(n) => emit!(emitter, n),
-            SimpleAssignTarget::SuperProp(n) => emit!(emitter, n),
-            SimpleAssignTarget::Paren(n) => emit!(emitter, n),
-            SimpleAssignTarget::OptChain(n) => emit!(emitter, n),
-            SimpleAssignTarget::TsAs(n) => emit!(emitter, n),
-            SimpleAssignTarget::TsNonNull(n) => emit!(emitter, n),
-            SimpleAssignTarget::TsSatisfies(n) => emit!(emitter, n),
-            SimpleAssignTarget::TsTypeAssertion(n) => emit!(emitter, n),
-            SimpleAssignTarget::TsInstantiation(n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            SimpleAssignTarget::Ident(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(SimpleAssignTarget::Ident(n))
+            }
+            SimpleAssignTarget::Member(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Member(n))
+            }
+            SimpleAssignTarget::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Invalid(n))
+            }
+            SimpleAssignTarget::SuperProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::SuperProp(n))
+            }
+            SimpleAssignTarget::Paren(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Paren(n))
+            }
+            SimpleAssignTarget::OptChain(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::OptChain(n))
+            }
+            SimpleAssignTarget::TsAs(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsAs(n))
+            }
+            SimpleAssignTarget::TsTypeAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsTypeAssertion(n))
+            }
+            SimpleAssignTarget::TsInstantiation(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsInstantiation(n))
+            }
+            SimpleAssignTarget::TsNonNull(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsNonNull(n))
+            }
+            SimpleAssignTarget::TsSatisfies(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsSatisfies(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for AssignTargetPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            AssignTargetPat::Array(n) => emit!(emitter, n),
-            AssignTargetPat::Object(n) => emit!(emitter, n),
-            AssignTargetPat::Invalid(n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            AssignTargetPat::Array(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(AssignTargetPat::Array(n))
+            }
+            AssignTargetPat::Object(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTargetPat::Object(n))
+            }
+            AssignTargetPat::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTargetPat::Invalid(n))
+            }
+        })
     }
 }
 
