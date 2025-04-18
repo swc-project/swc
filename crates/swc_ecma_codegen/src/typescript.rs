@@ -1652,27 +1652,58 @@ impl MacroNode for TsConstAssertion {
 #[node_impl]
 impl MacroNode for TsTypeElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsTypeElement::TsCallSignatureDecl(n) => emit!(emitter, n),
-            TsTypeElement::TsConstructSignatureDecl(n) => emit!(emitter, n),
-            TsTypeElement::TsPropertySignature(n) => emit!(emitter, n),
-            TsTypeElement::TsMethodSignature(n) => emit!(emitter, n),
-            TsTypeElement::TsIndexSignature(n) => emit!(emitter, n),
+        let result = match self {
+            TsTypeElement::TsCallSignatureDecl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsCallSignatureDecl(n))
+            }
+            TsTypeElement::TsConstructSignatureDecl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsConstructSignatureDecl(n))
+            }
+            TsTypeElement::TsPropertySignature(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsPropertySignature(n))
+            }
+            TsTypeElement::TsMethodSignature(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsMethodSignature(n))
+            }
+            TsTypeElement::TsIndexSignature(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsIndexSignature(n))
+            }
             TsTypeElement::TsGetterSignature(n) => {
-                emit!(emitter, n)
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsGetterSignature(n))
             }
             TsTypeElement::TsSetterSignature(n) => {
-                emit!(emitter, n)
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsSetterSignature(n))
             }
-        }
+            TsTypeElement::TsPropertySignature(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsTypeElement::TsPropertySignature(n))
+            }
+        };
         formatting_semi!(emitter);
-        Ok(())
+        Ok(result)
     }
 }
 
 #[node_impl]
 impl MacroNode for TsGetterSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "get");
         space!(emitter);
 
@@ -1693,13 +1724,21 @@ impl MacroNode for TsGetterSignature {
 
             emit!(emitter, ty.type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsGetterSignature {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsSetterSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "set");
         space!(emitter);
 
@@ -1714,7 +1753,13 @@ impl MacroNode for TsSetterSignature {
         punct!(emitter, "(");
         emit!(emitter, self.param);
         punct!(emitter, ")");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsSetterSignature {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1723,6 +1768,8 @@ impl MacroNode for TsTypeLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         emitter.emit_list(
             self.span,
@@ -1730,7 +1777,13 @@ impl MacroNode for TsTypeLit {
             ListFormat::MultiLineTypeLiteralMembers,
         )?;
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTypeLit {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
