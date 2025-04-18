@@ -601,6 +601,8 @@ impl MacroNode for TsInterfaceDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.declare {
             keyword!(emitter, "declare");
             space!(emitter);
@@ -632,7 +634,13 @@ impl MacroNode for TsInterfaceDecl {
         formatting_space!(emitter);
 
         emit!(emitter, self.body);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsInterfaceDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -641,12 +649,20 @@ impl MacroNode for TsIntersectionType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_list(
             self.span,
             Some(&self.types),
             ListFormat::IntersectionTypeConstituents,
         )?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsIntersectionType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -654,6 +670,8 @@ impl MacroNode for TsIntersectionType {
 impl MacroNode for TsKeywordType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         match self.kind {
             TsKeywordTypeKind::TsAnyKeyword => keyword!(emitter, self.span, "any"),
@@ -670,21 +688,45 @@ impl MacroNode for TsKeywordType {
             TsKeywordTypeKind::TsNeverKeyword => keyword!(emitter, self.span, "never"),
             TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(emitter, self.span, "intrinsic"),
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsKeywordType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsLit::BigInt(n) => emit!(emitter, n),
-            TsLit::Number(n) => emit!(emitter, n),
-            TsLit::Str(n) => emit!(emitter, n),
-            TsLit::Bool(n) => emit!(emitter, n),
-            TsLit::Tpl(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsLit::BigInt(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsLit::BigInt(n))
+            }
+            TsLit::Number(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsLit::Number(n))
+            }
+            TsLit::Str(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsLit::Str(n))
+            }
+            TsLit::Bool(n) => {
+                let n = emit!(emitter, n);
+                only_new!(TsLit::Bool(n))
+            }
+            TsLit::Tpl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsLit::Tpl(n))
+            }
+        })
     }
 }
 
@@ -692,6 +734,8 @@ impl MacroNode for TsLit {
 impl MacroNode for TsTplLitType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         punct!(emitter, "`");
 
@@ -706,7 +750,13 @@ impl MacroNode for TsTplLitType {
         }
 
         punct!(emitter, "`");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTplLitType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -715,8 +765,17 @@ impl MacroNode for TsLitType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(emitter, self.lit);
-        Ok(())
+        let lo = only_new!(emitter.wr.get_pos());
+
+        let lit = emit!(emitter, self.lit);
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsLitType {
+            span: Span::new(lo, hi),
+            lit,
+            ..self.clone()
+        }))
     }
 }
 
