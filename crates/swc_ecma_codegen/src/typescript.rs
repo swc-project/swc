@@ -1025,23 +1025,24 @@ impl MacroNode for TsNamespaceBody {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        let lo = only_new!(emitter.wr.get_pos());
-
         punct!(emitter, "{");
         emitter.wr.increase_indent()?;
-        match self {
-            TsNamespaceBody::TsModuleBlock(n) => emit!(emitter, n),
-            TsNamespaceBody::TsNamespaceDecl(n) => emit!(emitter, n),
-        }
+        let result = match self {
+            TsNamespaceBody::TsModuleBlock(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsNamespaceBody::TsModuleBlock(n))
+            }
+            TsNamespaceBody::TsNamespaceDecl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsNamespaceBody::TsNamespaceDecl(n))
+            }
+        };
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
 
-        let hi = only_new!(emitter.wr.get_pos());
-
-        Ok(only_new!(TsNamespaceBody {
-            span: Span::new(lo, hi),
-            ..self.clone()
-        }))
+        Ok(result)
     }
 }
 
@@ -1216,6 +1217,8 @@ impl MacroNode for TsPropertySignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.readonly {
             keyword!(emitter, "readonly");
             space!(emitter);
@@ -1238,7 +1241,13 @@ impl MacroNode for TsPropertySignature {
             formatting_space!(emitter);
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsPropertySignature {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1247,10 +1256,18 @@ impl MacroNode for TsQualifiedName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.left);
         punct!(emitter, ".");
         emit!(emitter, self.right);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsQualifiedName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1259,9 +1276,17 @@ impl MacroNode for TsRestType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "...");
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsRestType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1270,8 +1295,16 @@ impl MacroNode for TsThisType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "this");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsThisType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1280,11 +1313,18 @@ impl MacroNode for TsThisTypeOrIdent {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
-            TsThisTypeOrIdent::TsThisType(n) => emit!(emitter, n),
-            TsThisTypeOrIdent::Ident(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsThisTypeOrIdent::TsThisType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsThisTypeOrIdent::TsThisType(n))
+            }
+            TsThisTypeOrIdent::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsThisTypeOrIdent::Ident(n))
+            }
+        })
     }
 }
 
@@ -1293,6 +1333,8 @@ impl MacroNode for TsTupleType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "[");
         emitter.emit_list(
             self.span,
@@ -1300,7 +1342,13 @@ impl MacroNode for TsTupleType {
             ListFormat::TupleTypeElements,
         )?;
         punct!(emitter, "]");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTupleType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1309,6 +1357,8 @@ impl MacroNode for TsTupleElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if let Some(label) = &self.label {
             emit!(emitter, label);
             punct!(emitter, ":");
@@ -1316,7 +1366,13 @@ impl MacroNode for TsTupleElement {
         }
 
         emit!(emitter, self.ty);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsTupleElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
