@@ -1,16 +1,22 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            ParamOrTsParamProp::Param(n) => emit!(emitter, n),
-            ParamOrTsParamProp::TsParamProp(n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            ParamOrTsParamProp::Param(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(ParamOrTsParamProp::Param(n))
+            }
+            ParamOrTsParamProp::TsParamProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ParamOrTsParamProp::TsParamProp(n))
+            }
+        })
     }
 }
 
@@ -19,10 +25,18 @@ impl MacroNode for TsArrayType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.elem_type);
         punct!(emitter, "[");
         punct!(emitter, "]");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsArrayType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -31,6 +45,8 @@ impl MacroNode for TsAsExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
         space!(emitter);
@@ -38,7 +54,13 @@ impl MacroNode for TsAsExpr {
         space!(emitter);
 
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsAsExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -47,6 +69,8 @@ impl MacroNode for TsSatisfiesExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
         space!(emitter);
@@ -54,7 +78,13 @@ impl MacroNode for TsSatisfiesExpr {
         space!(emitter);
 
         emit!(emitter, self.type_ann);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsSatisfiesExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -62,6 +92,8 @@ impl MacroNode for TsSatisfiesExpr {
 impl MacroNode for TsCallSignatureDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emit!(emitter, self.type_params);
 
@@ -76,7 +108,13 @@ impl MacroNode for TsCallSignatureDecl {
 
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsCallSignatureDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -84,6 +122,8 @@ impl MacroNode for TsCallSignatureDecl {
 impl MacroNode for TsConditionalType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emit!(emitter, self.check_type);
         space!(emitter);
@@ -103,7 +143,13 @@ impl MacroNode for TsConditionalType {
 
         space!(emitter);
         emit!(emitter, self.false_type);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsConditionalType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -111,6 +157,8 @@ impl MacroNode for TsConditionalType {
 impl MacroNode for TsConstructSignatureDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         keyword!(emitter, "new");
         if let Some(type_params) = &self.type_params {
@@ -127,7 +175,13 @@ impl MacroNode for TsConstructSignatureDecl {
             space!(emitter);
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsConstructSignatureDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
