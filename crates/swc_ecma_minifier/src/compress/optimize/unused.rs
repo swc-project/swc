@@ -9,7 +9,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::optimize::util::extract_class_side_effect, option::PureGetterOption};
+use crate::{
+    compress::optimize::{util::extract_class_side_effect, BitCtx},
+    option::PureGetterOption,
+};
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct PropertyAccessOpts {
@@ -99,7 +102,11 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if self.ctx.is_exported || self.ctx.in_asm {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsExported | BitCtx::InAsm)
+        {
             return;
         }
 
@@ -109,7 +116,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.in_var_decl_of_for_in_or_of_loop {
+        if self.ctx.bit_ctx.contains(BitCtx::InVarDeclOfForInOrOfLoop) {
             return;
         }
 
@@ -308,7 +315,7 @@ impl Optimizer<'_> {
         mut init: Option<&mut Expr>,
         is_var_decl: bool,
     ) {
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return;
         }
 
@@ -441,7 +448,7 @@ impl Optimizer<'_> {
     /// Creates an empty [VarDecl] if `decl` should be removed.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return;
         }
 
@@ -608,7 +615,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg {
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
             return;
         }
 
@@ -643,7 +650,7 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
-        if self.ctx.is_delete_arg {
+        if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
             return;
         }
 
@@ -696,7 +703,7 @@ impl Optimizer<'_> {
                         i.id.ctxt
                     );
                     self.changed = true;
-                    if self.ctx.is_this_aware_callee {
+                    if self.ctx.bit_ctx.contains(BitCtx::IsThisAwareCallee) {
                         *e = SeqExpr {
                             span: DUMMY_SP,
                             exprs: vec![0.into(), assign.right.take()],
@@ -723,7 +730,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return;
         }
 
@@ -806,11 +813,11 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_properties(&mut self, v: &mut VarDeclarator) -> Option<()> {
-        if !self.options.hoist_props || self.ctx.is_exported {
+        if !self.options.hoist_props || self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return None;
         }
 
-        if self.ctx.top_level && !self.options.top_level() {
+        if self.ctx.bit_ctx.contains(BitCtx::TopLevel) && !self.options.top_level() {
             return None;
         }
 

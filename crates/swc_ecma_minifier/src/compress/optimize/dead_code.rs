@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
-use super::Optimizer;
+use super::{BitCtx, Optimizer};
 
 /// Methods related to option `dead_code`.
 impl Optimizer<'_> {
@@ -38,7 +38,7 @@ impl Optimizer<'_> {
         }
 
         // A return statement in a try block may not terminate function.
-        if self.ctx.in_try_block {
+        if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             return false;
         }
 

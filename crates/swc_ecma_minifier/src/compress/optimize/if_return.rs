@@ -7,7 +7,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::util::is_pure_undefined, util::ExprOptExt};
+use crate::{
+    compress::{optimize::BitCtx, util::is_pure_undefined},
+    util::ExprOptExt,
+};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
@@ -220,7 +223,7 @@ impl Optimizer<'_> {
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
                     Some(Stmt::If(IfStmt { alt: None, .. }))
-                        if self.ctx.is_nested_if_return_merging =>
+                        if self.ctx.bit_ctx.contains(BitCtx::IsNestedIfReturnMerging) =>
                     {
                         false
                     }
