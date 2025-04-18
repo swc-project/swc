@@ -784,6 +784,8 @@ impl MacroNode for TsMappedType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         emitter.wr.write_line()?;
         emitter.wr.increase_indent()?;
@@ -863,7 +865,13 @@ impl MacroNode for TsMappedType {
         emitter.wr.write_line()?;
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsMappedType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -871,6 +879,8 @@ impl MacroNode for TsMappedType {
 impl MacroNode for TsMethodSignature {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.computed {
             punct!(emitter, "[");
@@ -897,20 +907,34 @@ impl MacroNode for TsMethodSignature {
             formatting_space!(emitter);
             emit!(emitter, type_ann);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsMethodSignature {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsModuleBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_list(
             self.span,
             Some(&self.body),
             ListFormat::SourceFileStatements,
         )?;
         emitter.emit_leading_comments_of_span(self.span(), false)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsModuleBlock {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -918,6 +942,8 @@ impl MacroNode for TsModuleBlock {
 impl MacroNode for TsModuleDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -946,18 +972,31 @@ impl MacroNode for TsModuleDecl {
             formatting_space!(emitter);
             emit!(emitter, body);
         }
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsModuleDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsModuleName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            TsModuleName::Ident(n) => emit!(emitter, n),
-            TsModuleName::Str(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsModuleName::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsModuleName::Ident(n))
+            }
+            TsModuleName::Str(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsModuleName::Str(n))
+            }
+        })
     }
 }
 
@@ -966,11 +1005,18 @@ impl MacroNode for TsModuleRef {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
-            TsModuleRef::TsEntityName(n) => emit!(emitter, n),
-            TsModuleRef::TsExternalModuleRef(n) => emit!(emitter, n),
-        }
-        Ok(())
+        Ok(match self {
+            TsModuleRef::TsEntityName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsModuleRef::TsEntityName(n))
+            }
+            TsModuleRef::TsExternalModuleRef(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsModuleRef::TsExternalModuleRef(n))
+            }
+        })
     }
 }
 
