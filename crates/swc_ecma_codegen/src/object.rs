@@ -1,4 +1,4 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -8,6 +8,8 @@ use crate::{is_empty_comments, ListFormat};
 impl MacroNode for ObjectLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -36,7 +38,12 @@ impl MacroNode for ObjectLit {
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ObjectLit {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -44,15 +51,37 @@ impl MacroNode for ObjectLit {
 impl MacroNode for Prop {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Prop::Shorthand(ref n) => emit!(emitter, n),
-            Prop::KeyValue(ref n) => emit!(emitter, n),
-            Prop::Assign(ref n) => emit!(emitter, n),
-            Prop::Getter(ref n) => emit!(emitter, n),
-            Prop::Setter(ref n) => emit!(emitter, n),
-            Prop::Method(ref n) => emit!(emitter, n),
-        }
+            Prop::Shorthand(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                Ok(only_new!(Prop::Shorthand(n)))
+            }
+            Prop::KeyValue(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Prop::KeyValue(n)))
+            }
+            Prop::Assign(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Prop::Assign(n)))
+            }
+            Prop::Getter(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Prop::Getter(n)))
+            }
+            Prop::Setter(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Prop::Setter(n)))
+            }
+            Prop::Method(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Prop::Method(n)))
+            }
+        }
     }
 }
 
@@ -60,6 +89,9 @@ impl MacroNode for Prop {
 impl MacroNode for KeyValueProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
+
         let key_span = self.key.span();
         let value_span = self.value.span();
         if !key_span.is_dummy() {
@@ -76,7 +108,12 @@ impl MacroNode for KeyValueProp {
         }
         emit!(emitter, self.value);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(KeyValueProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -85,13 +122,20 @@ impl MacroNode for AssignProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         emit!(emitter, self.key);
         punct!(emitter, "=");
         emit!(emitter, self.value);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AssignProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -120,7 +164,12 @@ impl MacroNode for GetterProp {
         formatting_space!(emitter);
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(GetterProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
