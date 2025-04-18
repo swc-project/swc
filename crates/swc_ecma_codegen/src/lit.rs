@@ -16,21 +16,10 @@ impl MacroNode for Lit {
         srcmap!(emitter, self, true);
 
         match self {
-            Lit::Bool(Bool { value, .. }) => {
-                let lo = only_new!(emitter.wr.get_pos());
+            Lit::Bool(v) => {
+                let v = emit!(emitter, v);
 
-                if *value {
-                    keyword!(emitter, "true")
-                } else {
-                    keyword!(emitter, "false")
-                }
-
-                let hi = only_new!(emitter.wr.get_pos());
-
-                Ok(only_new!(Lit::Bool(Bool {
-                    span: Span::new(lo, hi),
-                    value: *value,
-                })))
+                Ok(only_new!(Lit::Bool(v)))
             }
             Lit::Null(Null { .. }) => {
                 let lo = only_new!(emitter.wr.get_pos());
@@ -196,6 +185,8 @@ impl MacroNode for BigInt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if emitter.cfg.minify {
             let value = if *self.value >= 10000000000000000_i64.into() {
                 format!("0x{}", self.value.to_str_radix(16))
@@ -223,7 +214,12 @@ impl MacroNode for BigInt {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BigInt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
