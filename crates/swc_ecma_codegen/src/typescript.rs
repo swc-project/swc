@@ -1475,6 +1475,11 @@ impl MacroNode for TsType {
 
                 only_new!(TsType::TsImportType(n))
             }
+            TsType::TsConditionalType(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(TsType::TsConditionalType(n))
+            }
         })
     }
 }
@@ -1483,6 +1488,8 @@ impl MacroNode for TsType {
 impl MacroNode for TsImportType {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         keyword!(emitter, "import");
         punct!(emitter, "(");
@@ -1500,13 +1507,21 @@ impl MacroNode for TsImportType {
         }
 
         emit!(emitter, self.type_args);
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsImportType {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TsImportCallOptions {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "{");
         if !emitter.cfg.minify {
             emitter.wr.write_line()?;
@@ -1523,7 +1538,13 @@ impl MacroNode for TsImportCallOptions {
             emitter.wr.write_line()?;
         }
         punct!(emitter, "}");
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TsImportCallOptions {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
