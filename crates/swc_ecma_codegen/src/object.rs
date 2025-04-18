@@ -90,8 +90,6 @@ impl MacroNode for KeyValueProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        let lo = only_new!(emitter.wr.get_pos());
-
         let key_span = self.key.span();
         let value_span = self.value.span();
         if !key_span.is_dummy() {
@@ -108,12 +106,7 @@ impl MacroNode for KeyValueProp {
         }
         emit!(emitter, self.value);
 
-        let hi = only_new!(emitter.wr.get_pos());
-
-        Ok(only_new!(KeyValueProp {
-            span: Span::new(lo, hi),
-            ..self.clone()
-        }))
+        Ok(only_new!(KeyValueProp { ..self.clone() }))
     }
 }
 
@@ -143,6 +136,8 @@ impl MacroNode for AssignProp {
 impl MacroNode for GetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -178,6 +173,8 @@ impl MacroNode for SetterProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "set");
@@ -210,7 +207,12 @@ impl MacroNode for SetterProp {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SetterProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -218,6 +220,8 @@ impl MacroNode for SetterProp {
 impl MacroNode for MethodProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -235,7 +239,15 @@ impl MacroNode for MethodProp {
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(MethodProp {
+            function: Box::new(Function {
+                span: Span::new(lo, hi),
+                ..*self.function.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
