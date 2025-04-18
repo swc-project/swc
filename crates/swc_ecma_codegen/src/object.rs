@@ -259,6 +259,9 @@ impl MacroNode for PropName {
                 // TODO: Use write_symbol when ident is a symbol.
                 emitter.emit_leading_comments_of_span(ident.span, false)?;
 
+                let target = emitter.cfg.target;
+                let lo = only_new!(emitter.wr.get_pos());
+
                 // Source map
                 emitter.wr.commit_pending_semi()?;
 
@@ -268,7 +271,7 @@ impl MacroNode for PropName {
                     if emitter.wr.can_ignore_invalid_unicodes() {
                         emitter.wr.write_symbol(
                             DUMMY_SP,
-                            &crate::get_ascii_only_ident(&ident.sym, true, emitter.cfg.target),
+                            &crate::get_ascii_only_ident(&ident.sym, true, target),
                         )?;
                     } else {
                         emitter.wr.write_symbol(
@@ -276,21 +279,42 @@ impl MacroNode for PropName {
                             &crate::get_ascii_only_ident(
                                 &crate::handle_invalid_unicodes(&ident.sym),
                                 true,
-                                emitter.cfg.target,
+                                target,
                             ),
                         )?;
                     }
                 } else {
                     emit!(emitter, ident);
                 }
-            }
-            PropName::Str(ref n) => emit!(emitter, n),
-            PropName::Num(ref n) => emit!(emitter, n),
-            PropName::BigInt(ref n) => emit!(emitter, n),
-            PropName::Computed(ref n) => emit!(emitter, n),
-        }
 
-        Ok(())
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(PropName::Ident(IdentName {
+                    span: Span::new(lo, hi),
+                    ..ident.clone()
+                })))
+            }
+            PropName::Str(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(PropName::Str(n)))
+            }
+            PropName::Num(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(PropName::Num(n)))
+            }
+            PropName::BigInt(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(PropName::BigInt(n)))
+            }
+            PropName::Computed(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(PropName::Computed(n)))
+            }
+        }
     }
 }
 
@@ -299,12 +323,19 @@ impl MacroNode for ComputedPropName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         srcmap!(emitter, self, true);
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, "[");
         emit!(emitter, self.expr);
         punct!(emitter, "]");
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ComputedPropName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
