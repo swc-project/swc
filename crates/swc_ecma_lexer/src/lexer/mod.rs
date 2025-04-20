@@ -195,7 +195,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_token(&mut self) -> LexResult<Option<Token>> {
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
             None => return Ok(None),
@@ -217,7 +217,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
         unsafe {
@@ -572,7 +572,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
         unsafe {
@@ -615,7 +615,7 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
@@ -661,7 +661,7 @@ impl<'a> Lexer<'a> {
 
 impl Lexer<'_> {
     #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
 
         // Divide operator
@@ -675,7 +675,7 @@ impl Lexer<'_> {
     }
 
     #[inline(never)]
-    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<TokenType>> {
+    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
         self.bump();
@@ -774,7 +774,7 @@ impl Lexer<'_> {
     fn read_word_with(
         &mut self,
         convert: &dyn Fn(&str) -> Option<Word>,
-    ) -> LexResult<Option<TokenType>> {
+    ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();

@@ -4,7 +4,7 @@ use smartstring::{LazyCompact, SmartString};
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<TokenType>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
