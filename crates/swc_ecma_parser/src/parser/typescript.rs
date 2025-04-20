@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::atom;
-use swc_common::Spanned;
+use swc_common::{source_map::SmallPos, Spanned};
 
 use super::*;
 use crate::{parser::class_and_fn::IsSimpleParameterList, token::Keyword};
@@ -1866,24 +1866,52 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn parse_no_substitution_template_literal_ty(&mut self) -> PResult<TsTplLitType> {
+        let start = cur_pos!(self);
+        let (raw, cooked) = match bump!(self) {
+            Token::NoSubstitutionTemplateLiteral { raw, cooked } => (raw, Some(cooked?)),
+            _ => unreachable!(),
+        };
+        let pos = self.input.prev_span().hi;
+        debug_assert!(start <= pos);
+        let span = Span::new(start, pos);
+        Ok(TsTplLitType {
+            span,
+            types: vec![],
+            quasis: vec![TplElement {
+                span: {
+                    debug_assert!(start.0 <= pos.0 - 2);
+                    Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1))
+                },
+                tail: true,
+                raw,
+                cooked,
+            }],
+        })
+    }
+
     /// `tsParseLiteralTypeNode`
     fn parse_ts_lit_type_node(&mut self) -> PResult<TsLitType> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self);
 
-        let lit = if is!(self, '`') {
-            let tpl = self.parse_ts_tpl_lit_type()?;
-
-            TsLit::Tpl(tpl)
-        } else {
-            match self.parse_lit()? {
+        let lit = match *cur!(self, true) {
+            Token::TemplateHead { .. } => {
+                let tpl = self.parse_ts_tpl_lit_type()?;
+                TsLit::Tpl(tpl)
+            }
+            Token::NoSubstitutionTemplateLiteral { .. } => {
+                let tpl = self.parse_no_substitution_template_literal_ty()?;
+                TsLit::Tpl(tpl)
+            }
+            _ => match self.parse_lit()? {
                 Lit::BigInt(n) => TsLit::BigInt(n),
                 Lit::Bool(n) => TsLit::Bool(n),
                 Lit::Num(n) => TsLit::Number(n),
                 Lit::Str(n) => TsLit::Str(n),
                 _ => unreachable!(),
-            }
+            },
         };
 
         Ok(TsLitType {
@@ -1898,11 +1926,14 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        assert_and_bump!(self, '`');
+        debug_assert!(matches!(
+            self.input.cur(),
+            Some(&Token::TemplateHead { .. })
+        ));
 
         let (types, quasis) = self.parse_ts_tpl_type_elements()?;
 
-        expect!(self, '`');
+        let _ = self.input.cur();
 
         Ok(TsTplLitType {
             span: span!(self, start),
@@ -1920,14 +1951,12 @@ impl<I: Tokens> Parser<I> {
 
         let mut types = Vec::new();
 
-        let cur_elem = self.parse_tpl_element(false)?;
+        let cur_elem = self.parse_template_head(false)?;
         let mut is_tail = cur_elem.tail;
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            expect!(self, "${");
             types.push(self.parse_ts_type()?);
-            expect!(self, '}');
             let elem = self.parse_tpl_element(false)?;
             is_tail = elem.tail;
             quasis.push(elem);
@@ -2101,7 +2130,8 @@ impl<I: Tokens> Parser<I> {
             | Token::Num { .. }
             | tok!("true")
             | tok!("false")
-            | tok!('`') => {
+            | Token::NoSubstitutionTemplateLiteral { .. }
+            | Token::TemplateHead { .. } => {
                 return self
                     .parse_ts_lit_type_node()
                     .map(TsType::from)

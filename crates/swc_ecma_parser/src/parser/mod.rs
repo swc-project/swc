@@ -253,10 +253,10 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<crate::lexer::Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
+        let lexer = crate::lexer::Lexer::new(syntax, EsVersion::Es2019, input, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
         let mut error = false;

@@ -119,6 +119,46 @@ impl Tokens for Lexer<'_> {
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unsafe { self.input.reset_to(start) };
+
+        let res = self
+            .scan_template_token(start, start_with_back_tick)
+            .map(Some);
+        let token = match res.map_err(Token::Error).map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(ref token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.update(token.kind());
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
 }
 
 impl Lexer<'_> {
@@ -354,10 +394,6 @@ impl State {
         }
     }
 
-    pub fn last_was_tpl_element(&self) -> bool {
-        matches!(self.token_type, Some(TokenType::Template))
-    }
-
     fn update(&mut self, next: TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
@@ -409,6 +445,14 @@ impl State {
                     {
                         context.pop();
                         return false;
+                    }
+
+                    // ${} in template
+                    if out == TokenContext::TplQuasi {
+                        match context.current() {
+                            Some(TokenContext::Tpl { .. }) => return false,
+                            _ => return true,
+                        }
                     }
 
                     // expression cannot follow expression
@@ -482,6 +526,8 @@ impl State {
                     let cur = context.current();
                     if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
                         context.push(TokenContext::BraceExpr)
+                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
+                        context.push(TokenContext::TplQuasi);
                     } else {
                         let next_ctxt =
                             if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
@@ -503,7 +549,10 @@ impl State {
                     false
                 }
 
-                TokenKind::DollarLBrace => true,
+                TokenKind::DollarLBrace => {
+                    context.push(TokenContext::TplQuasi);
+                    true
+                }
 
                 TokenKind::LParen => {
                     // if, for, with, while is statement
@@ -524,7 +573,16 @@ impl State {
                 // remains unchanged.
                 TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
 
-                TokenKind::BackQuote => false,
+                TokenKind::BackQuote => {
+                    // If we are in template, ` terminates template.
+                    if let Some(TokenContext::Tpl { .. }) = context.current() {
+                        context.pop();
+                    } else {
+                        // self.tpl_start = start;
+                        context.push(TokenContext::Tpl);
+                    }
+                    false
+                }
 
                 // tt.jsxTagStart.updateContext
                 TokenKind::JSXTagStart => {

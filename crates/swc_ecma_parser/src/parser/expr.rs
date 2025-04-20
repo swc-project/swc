@@ -1,6 +1,6 @@
 use either::Either;
 use rustc_hash::FxHashMap;
-use swc_common::{ast_node, util::take::Take, Spanned};
+use swc_common::{ast_node, source_map::SmallPos, util::take::Take, Spanned};
 use swc_ecma_lexer::lexer::TokenContext;
 
 use super::{pat::PatType, util::ExprExt, *};
@@ -239,6 +239,78 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn parse_no_substitution_template_literal(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
+        let start = cur_pos!(self);
+        let (raw, cooked) = match bump!(self) {
+            Token::NoSubstitutionTemplateLiteral { raw, cooked } => match cooked {
+                Ok(cooked) => (raw, Some(cooked)),
+                Err(err) => {
+                    if is_tagged_tpl {
+                        (raw, None)
+                    } else {
+                        return Err(err);
+                    }
+                }
+            },
+            _ => unreachable!(),
+        };
+        let pos = self.input.prev_span().hi;
+        debug_assert!(start <= pos);
+        let span = Span::new(start, pos);
+        Ok(Tpl {
+            span,
+            exprs: vec![],
+            quasis: vec![TplElement {
+                span: {
+                    debug_assert!(start.0 <= pos.0 - 2);
+                    // `____`
+                    // `start.0 + 1` means skip the first backtick
+                    // `pos.0 - 1` means skip the last backtick
+                    Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1))
+                },
+                tail: true,
+                raw,
+                cooked,
+            }],
+        })
+    }
+
+    pub(super) fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
+        let start = cur_pos!(self);
+        debug_assert!(matches!(
+            self.input.cur(),
+            Some(&Token::TemplateHead { .. })
+        ));
+        let (raw, cooked) = match bump!(self) {
+            Token::TemplateHead { raw, cooked, .. } => match cooked {
+                Ok(cooked) => (raw, Some(cooked)),
+                Err(err) => {
+                    if is_tagged_tpl {
+                        (raw, None)
+                    } else {
+                        return Err(err);
+                    }
+                }
+            },
+            _ => unexpected!(self, "template token"),
+        };
+
+        let _ = self.input.cur();
+
+        let pos = self.input.prev_span().hi;
+        // `__${
+        // `start.0 + 1` means skip the first backtick
+        // `pos.0 - 2` means skip "${"
+        debug_assert!(start.0 <= pos.0 - 3);
+        let span = Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
+        Ok(TplElement {
+            span,
+            raw,
+            tail: false,
+            cooked,
+        })
+    }
+
     /// Parse a primary expression or arrow function
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
@@ -358,8 +430,10 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                 }
-
-                tok!('`') => {
+                Token::NoSubstitutionTemplateLiteral { .. } => {
+                    return Ok(self.parse_no_substitution_template_literal(false)?.into())
+                }
+                Token::TemplateHead { .. } => {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
 
                     // parse template literal
@@ -997,15 +1071,12 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = Vec::new();
-
-        let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
+        let cur_elem = self.parse_template_head(is_tagged_tpl)?;
         let mut is_tail = cur_elem.tail;
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            expect!(self, "${");
             exprs.push(self.include_in_expr(true).parse_expr()?);
-            expect!(self, '}');
             let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);
@@ -1022,7 +1093,13 @@ impl<I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = Box::new(self.parse_tpl(true)?);
+        let tpl = Box::new(match cur!(self, true) {
+            Token::NoSubstitutionTemplateLiteral { .. } => {
+                self.parse_no_substitution_template_literal(true)?
+            }
+            Token::TemplateHead { .. } => self.parse_tpl(true)?,
+            _ => unreachable!(),
+        });
 
         let span = span!(self, tagged_tpl_start);
 
@@ -1043,11 +1120,14 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tpl);
         let start = cur_pos!(self);
 
-        assert_and_bump!(self, '`');
+        debug_assert!(matches!(
+            self.input.cur(),
+            Some(&Token::TemplateHead { .. })
+        ));
 
         let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
 
-        expect!(self, '`');
+        let _ = self.input.cur();
 
         let span = span!(self, start);
         Ok(Tpl {
@@ -1058,29 +1138,59 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
+        if is!(self, '}') {
+            let start = cur_pos!(self);
+            self.input.rescan_template_token(start, false);
+        }
         let start = cur_pos!(self);
-
-        let (raw, cooked) = match *cur!(self, true) {
-            Token::Template { .. } => match bump!(self) {
-                Token::Template { raw, cooked, .. } => match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(err) => {
-                        if is_tagged_tpl {
-                            (raw, None)
-                        } else {
-                            return Err(err);
+        let (raw, cooked, tail, span) = match *cur!(self, true) {
+            Token::TemplateMiddle { .. } => match bump!(self) {
+                Token::TemplateMiddle { raw, cooked, .. } => {
+                    let pos = self.input.prev_span().hi;
+                    debug_assert!(start.0 <= pos.0 - 2);
+                    // ___${
+                    // `pos.0 - 2` means skip '${'
+                    let span = Span::new(start, BytePos::from_u32(pos.0 - 2));
+                    match cooked {
+                        Ok(cooked) => (raw, Some(cooked), false, span),
+                        Err(err) => {
+                            if is_tagged_tpl {
+                                (raw, None, false, span)
+                            } else {
+                                return Err(err);
+                            }
                         }
                     }
-                },
+                }
+                _ => unreachable!(),
+            },
+            Token::TemplateTail { .. } => match bump!(self) {
+                Token::TemplateTail { raw, cooked, .. } => {
+                    let pos = self.input.prev_span().hi;
+                    debug_assert!(start.0 <= pos.0 - 2);
+                    // $____`
+                    // `start.0 + 1` means skip '$'
+                    // `pos.0 - 1` means skip '`'
+                    let span =
+                        Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1));
+                    match cooked {
+                        Ok(cooked) => (raw, Some(cooked), true, span),
+                        Err(err) => {
+                            if is_tagged_tpl {
+                                (raw, None, true, span)
+                            } else {
+                                return Err(err);
+                            }
+                        }
+                    }
+                }
                 _ => unreachable!(),
             },
             _ => unexpected!(self, "template token"),
         };
 
-        let tail = is!(self, '`');
-
         Ok(TplElement {
-            span: span!(self, start),
+            span,
             raw,
             tail,
 
@@ -1215,7 +1325,13 @@ impl<I: Tokens> Parser<I> {
                             .into(),
                             true,
                         )))
-                    } else if is!(p, '`') {
+                    } else if matches!(
+                        p.input.cur(),
+                        Some(
+                            Token::NoSubstitutionTemplateLiteral { .. }
+                                | Token::TemplateHead { .. }
+                        )
+                    ) {
                         p.parse_tagged_tpl(
                             match mut_obj_opt {
                                 Some(Callee::Expr(obj)) => obj.take(),
@@ -1531,7 +1647,10 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-                if is!(self, '`') {
+                if matches!(
+                    self.input.cur(),
+                    Some(Token::NoSubstitutionTemplateLiteral { .. } | Token::TemplateHead { .. })
+                ) {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
 
                     let tpl = self.with_ctx(ctx).parse_tagged_tpl(expr, None)?;

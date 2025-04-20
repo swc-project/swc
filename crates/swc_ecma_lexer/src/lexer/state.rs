@@ -200,6 +200,14 @@ impl Tokens for Lexer<'_> {
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }
+
+    fn rescan_template_token(
+        &mut self,
+        _start: BytePos,
+        _start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unreachable!()
+    }
 }
 
 impl Lexer<'_> {

@@ -657,14 +657,23 @@ impl<'a> Lexer<'a> {
 
     fn read_token_back_quote(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
-        self.rescan_token_back_quote(start).map(|t| Some(t))
+        self.scan_template_token(start, true).map(Some)
     }
 
-    fn rescan_token_back_quote(&mut self, start: BytePos) -> LexResult<Token> {
-        let mut cooked = Ok(String::new());
-        let mut cooked_slice_start = start;
-        let raw_slice_start = start;
-
+    fn scan_template_token(
+        &mut self,
+        start: BytePos,
+        started_with_backtick: bool,
+    ) -> LexResult<Token> {
+        let mut cooked = Ok(String::with_capacity(8));
+        self.bump();
+        let mut cooked_slice_start = self.cur_pos();
+        let raw_slice_start = cooked_slice_start;
+        let raw_atom = |this: &mut Self| {
+            let last_pos = this.cur_pos();
+            let s = unsafe { this.input.slice(raw_slice_start, last_pos) };
+            this.atoms.atom(s)
+        };
         macro_rules! consume_cooked {
             () => {{
                 if let Ok(cooked) = &mut cooked {
@@ -679,48 +688,27 @@ impl<'a> Lexer<'a> {
         }
 
         while let Some(c) = self.cur() {
-            if c == '`' || (c == '$' && self.peek() == Some('{')) {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    if c == '$' {
-                        self.bump();
-                        self.bump();
-                        return Ok(tok!("${"));
-                    } else {
-                        self.bump();
-                        return Ok(tok!('`'));
-                    }
-                }
-
-                // If we don't have any escape
-                let cooked = if cooked_slice_start == raw_slice_start {
-                    let last_pos = self.cur_pos();
-                    let s = unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    };
-
-                    Ok(self.atoms.atom(s))
+            if c == '`' {
+                consume_cooked!();
+                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let raw = raw_atom(self);
+                self.bump();
+                return Ok(if started_with_backtick {
+                    Token::NoSubstitutionTemplateLiteral { cooked, raw }
                 } else {
-                    consume_cooked!();
-
-                    cooked.map(|s| self.atoms.atom(s))
-                };
-
-                // TODO: Handle error
-                let end = self.input.cur_pos();
-                let raw = unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, end)
-                };
-                return Ok(Token::Template {
-                    cooked,
-                    raw: self.atoms.atom(raw),
+                    Token::TemplateTail { cooked, raw }
                 });
-            }
-
-            if c == '\\' {
+            } else if c == '$' && self.input.peek() == Some('{') {
+                consume_cooked!();
+                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let raw = raw_atom(self);
+                self.input.bump_bytes(2);
+                return Ok(if started_with_backtick {
+                    Token::TemplateHead { cooked, raw }
+                } else {
+                    Token::TemplateMiddle { cooked, raw }
+                });
+            } else if c == '\\' {
                 consume_cooked!();
 
                 match self.read_escaped_char(true) {
@@ -739,8 +727,6 @@ impl<'a> Lexer<'a> {
 
                 cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
-                self.state.had_line_break = true;
-
                 consume_cooked!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
