@@ -136,19 +136,53 @@ impl MacroNode for Class {
 #[node_impl]
 impl MacroNode for ClassMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            ClassMember::Constructor(ref n) => emit!(emitter, n),
-            ClassMember::ClassProp(ref n) => emit!(emitter, n),
-            ClassMember::Method(ref n) => emit!(emitter, n),
-            ClassMember::PrivateMethod(ref n) => emit!(emitter, n),
-            ClassMember::PrivateProp(ref n) => emit!(emitter, n),
-            ClassMember::TsIndexSignature(ref n) => emit!(emitter, n),
-            ClassMember::Empty(ref n) => emit!(emitter, n),
-            ClassMember::StaticBlock(ref n) => emit!(emitter, n),
-            ClassMember::AutoAccessor(ref n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            ClassMember::Constructor(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(ClassMember::Constructor(n))
+            }
+            ClassMember::ClassProp(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::ClassProp(n))
+            }
+            ClassMember::Method(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::Method(n))
+            }
+            ClassMember::PrivateMethod(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::PrivateMethod(n))
+            }
+            ClassMember::PrivateProp(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::PrivateProp(n))
+            }
+            ClassMember::TsIndexSignature(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::TsIndexSignature(n))
+            }
+            ClassMember::Empty(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::Empty(n))
+            }
+            ClassMember::StaticBlock(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::StaticBlock(n))
+            }
+            ClassMember::AutoAccessor(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::AutoAccessor(n))
+            }
+        })
     }
 }
 
