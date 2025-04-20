@@ -10,7 +10,7 @@ try {
     var N;
     _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1), N || (N = {});
+    }, !1);
     let env1 = {
         stack: [],
         error: void 0,
@@ -24,6 +24,21 @@ try {
         env1.error = e, env1.hasError = !0;
     } finally{
         _ts_dispose_resources(env1);
+    }
+    N || (N = {});
+    let env2 = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env2, {
+            [Symbol.dispose] () {}
+        }, !1);
+    } catch (e) {
+        env2.error = e, env2.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env2);
     }
     {
         let env = {
@@ -59,19 +74,19 @@ try {
                 _ts_dispose_resources(env11);
             }
         case 1:
-            let env2 = {
+            let env21 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
             };
             try {
-                _ts_add_disposable_resource(env2, {
+                _ts_add_disposable_resource(env21, {
                     [Symbol.dispose] () {}
                 }, !1);
             } catch (e) {
-                env2.error = e, env2.hasError = !0;
+                env21.error = e, env21.hasError = !0;
             } finally{
-                _ts_dispose_resources(env2);
+                _ts_dispose_resources(env21);
             }
     }
     {
@@ -239,18 +254,4 @@ try {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
-}
-let env1 = {
-    stack: [],
-    error: void 0,
-    hasError: !1
-};
-try {
-    _ts_add_disposable_resource(env1, {
-        [Symbol.dispose] () {}
-    }, !1);
-} catch (e) {
-    env1.error = e, env1.hasError = !0;
-} finally{
-    _ts_dispose_resources(env1);
 }

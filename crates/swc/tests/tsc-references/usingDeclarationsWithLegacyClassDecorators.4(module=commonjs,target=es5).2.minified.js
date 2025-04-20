@@ -13,7 +13,11 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_decorat
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource._(env, null, !1), _class = _ts_decorate._([
+    _ts_add_disposable_resource._(env, null, !1);
+    var _class = function _class() {
+        _class_call_check._(this, _class);
+    };
+    _class = _ts_decorate._([
         dec
     ], _class);
 } catch (e) {
@@ -21,6 +25,3 @@ try {
 } finally{
     _ts_dispose_resources._(env);
 }
-var _class = function _class() {
-    _class_call_check._(this, _class);
-};

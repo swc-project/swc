@@ -8,6 +8,11 @@ const env = {
 try {
     var _computedKey;
     _computedKey = Symbol.dispose;
+    var Disposable = class {
+        [_computedKey]() {
+            console.log('dispose');
+        }
+    };
     var _disposable = _ts_add_disposable_resource(env, new Disposable(), false);
     console.log('ok');
 } catch (e) {
@@ -16,8 +21,4 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export class Disposable {
-    [_computedKey]() {
-        console.log('dispose');
-    }
-}
+export { Disposable };
