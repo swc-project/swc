@@ -8,14 +8,15 @@ let env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, null, !1), C = _ts_decorate([
+    _ts_add_disposable_resource(env, null, !1);
+    var C = class {
+    };
+    C = _ts_decorate([
         dec
     ], C);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
-}
-class C {
 }
 export { C as D };

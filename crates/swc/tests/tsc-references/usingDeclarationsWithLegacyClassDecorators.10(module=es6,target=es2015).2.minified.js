@@ -8,6 +8,8 @@ let env = {
     hasError: !1
 };
 try {
+    var _class = class {
+    };
     _class = _ts_decorate([
         dec
     ], _class), _ts_add_disposable_resource(env, null, !1);
@@ -16,5 +18,4 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export default class _class {
-}
+export { _class as default };

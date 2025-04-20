@@ -136,9 +136,23 @@ impl ExplicitResourceManagement {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(mut stmt) => match stmt {
-                    // top level function/class declarations should preserve original level
-                    Stmt::Decl(Decl::Fn(..) | Decl::Class(..)) if !self.is_not_top_level => {
+                    // top level function declarations should preserve original level
+                    Stmt::Decl(Decl::Fn(..)) if !self.is_not_top_level => {
                         extras.push(stmt.into());
+                    }
+                    Stmt::Decl(Decl::Class(ClassDecl {
+                        mut ident, class, ..
+                    })) if !self.is_not_top_level => {
+                        // var C = class { ... };
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.take().into()),
+                                init: Some(class.into()),
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }))));
                     }
                     // top level variable declarations should hoist from inner scope
                     Stmt::Decl(Decl::Var(ref mut var)) if !self.is_not_top_level => {
@@ -182,14 +196,12 @@ impl ExplicitResourceManagement {
                         }))));
                     }
                     Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                        decl:
-                            DefaultDecl::Class(ClassExpr {
-                                ident: Some(ident),
-                                class,
-                            }),
+                        decl: DefaultDecl::Class(ClassExpr { ident, class }),
                         span,
                         ..
                     })) => {
+                        let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+
                         // export { C as default };
                         extras.push(
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {

@@ -5,7 +5,7 @@ System.register([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
-    var _class_call_check, _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env, _class;
+    var _class_call_check, _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env;
     return {
         setters: [
             function(_class_call_check1) {
@@ -28,7 +28,11 @@ System.register([
                 hasError: !1
             };
             try {
-                _ts_add_disposable_resource(env, null, !1), _export("default", _class = _ts_decorate([
+                _ts_add_disposable_resource(env, null, !1);
+                var _class = function _class() {
+                    _class_call_check(this, _class);
+                };
+                _export("default", _class = _ts_decorate([
                     dec
                 ], _class));
             } catch (e) {
@@ -36,9 +40,6 @@ System.register([
             } finally{
                 _ts_dispose_resources(env);
             }
-            _export("default", _class = function _class() {
-                _class_call_check(this, _class);
-            });
         }
     };
 });

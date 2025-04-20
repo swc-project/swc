@@ -17,8 +17,21 @@ var env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), N || (N = {});
-    var env1 = {
+    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function() {
+        var env = {
+            stack: [],
+            error: void 0,
+            hasError: !1
+        };
+        try {
+            _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
+        } catch (e) {
+            env.error = e, env.hasError = !0;
+        } finally{
+            _ts_dispose_resources(env);
+        }
+    }(), N || (N = {});
+    var N, env1 = {
         stack: [],
         error: void 0,
         hasError: !1
@@ -30,7 +43,7 @@ try {
     } finally{
         _ts_dispose_resources(env1);
     }
-    var N, env11 = {
+    var env11 = {
         stack: [],
         error: void 0,
         hasError: !1
@@ -213,16 +226,4 @@ try {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
-}
-var env9 = {
-    stack: [],
-    error: void 0,
-    hasError: !1
-};
-try {
-    _ts_add_disposable_resource(env9, _define_property({}, Symbol.dispose, function() {}), !1);
-} catch (e) {
-    env9.error = e, env9.hasError = !0;
-} finally{
-    _ts_dispose_resources(env9);
 }
