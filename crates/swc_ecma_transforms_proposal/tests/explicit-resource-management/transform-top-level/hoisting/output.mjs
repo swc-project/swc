@@ -6,6 +6,8 @@ const env = {
 try {
     doSomething();
     var c = 2;
+    var B = class {
+    };
     var x = _ts_add_disposable_resource(env, null, false);
 } catch (e) {
     env.error = e;
@@ -31,5 +33,4 @@ export { f };
 export let { b } = {};
 class A {
 }
-export class B {
-}
+export { B };

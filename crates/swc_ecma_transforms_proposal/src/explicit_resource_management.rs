@@ -149,7 +149,79 @@ impl ExplicitResourceManagement {
                         try_block.stmts.push(stmt);
                     }
                 },
-                Err(t) => extras.push(t),
+                Err(t) => match t.try_into_module_decl() {
+                    Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Class(mut class),
+                        span,
+                    })) => {
+                        // export { C };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: class.ident.clone().into(),
+                                    exported: None,
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var C = class { ... };
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(class.ident.take().into()),
+                                init: Some(class.class.into()),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
+                    Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        decl:
+                            DefaultDecl::Class(ClassExpr {
+                                ident: Some(ident),
+                                class,
+                            }),
+                        span,
+                        ..
+                    })) => {
+                        // export { C as default };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.clone().into(),
+                                    exported: Some(quote_ident!("default").into()),
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var C = class { ... };
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.into()),
+                                init: Some(class.into()),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
+                    Ok(module_decl) => {
+                        extras.push(T::try_from_module_decl(module_decl).unwrap());
+                    }
+                    Err(t) => extras.push(t),
+                },
             }
         }
 
