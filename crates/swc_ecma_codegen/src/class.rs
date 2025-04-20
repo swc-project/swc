@@ -238,12 +238,18 @@ impl MacroNode for AutoAccessor {
 #[node_impl]
 impl MacroNode for Key {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Key::Private(n) => emit!(emitter, n),
-            Key::Public(n) => emit!(emitter, n),
-        }
+        Ok(match self {
+            Key::Private(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(Key::Private(n))
+            }
+            Key::Public(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Key::Public(n))
+            }
+        })
     }
 }
 
