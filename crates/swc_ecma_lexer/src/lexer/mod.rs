@@ -1324,8 +1324,6 @@ impl Lexer<'_> {
 
                 cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
-                self.state.had_line_break = true;
-
                 consume_cooked!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
