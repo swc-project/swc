@@ -1493,7 +1493,12 @@ impl MacroNode for Module {
             emitter.wr.commit_pending_semi()?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Module {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1502,6 +1507,8 @@ impl MacroNode for Script {
     #[tracing::instrument(skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
@@ -1521,7 +1528,12 @@ impl MacroNode for Script {
             emitter.wr.commit_pending_semi()?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Script {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1542,7 +1554,7 @@ impl MacroNode for ModuleItem {
 #[node_impl]
 impl MacroNode for Callee {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
+        Ok(match self {
             Callee::Expr(e) => {
                 if let Expr::New(new) = &**e {
                     emitter.emit_new(new, false)?;
@@ -1552,9 +1564,7 @@ impl MacroNode for Callee {
             }
             Callee::Super(n) => emit!(emitter, n),
             Callee::Import(n) => emit!(emitter, n),
-        }
-
-        Ok(())
+        })
     }
 }
 
