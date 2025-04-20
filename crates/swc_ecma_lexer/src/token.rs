@@ -219,10 +219,13 @@ pub struct Token {
 
 #[derive(Clone, PartialEq)]
 pub enum TokenType {
-    /// Identifier, "null", "true", "false".
-    ///
-    /// Contains `null` and ``
-    Word(Word),
+    Keyword(Keyword),
+
+    NullWord,
+    TrueWord,
+    FalseWord,
+
+    IdentWord(IdentLike),
 
     /// '=>'
     Arrow,
@@ -488,17 +491,6 @@ impl Spanned for TokenAndSpan {
     fn span(&self) -> Span {
         self.span
     }
-}
-
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub enum Word {
-    Keyword(Keyword),
-
-    Null,
-    True,
-    False,
-
-    Ident(IdentLike),
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
