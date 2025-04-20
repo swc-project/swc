@@ -211,6 +211,12 @@ pub enum TokenKind {
 }
 
 #[derive(Clone, PartialEq)]
+pub struct Token {
+    pub kind: TokenKind,
+    pub span: Span,
+}
+
+#[derive(Clone, PartialEq)]
 pub enum TokenType {
     /// Identifier, "null", "true", "false".
     ///
