@@ -77,7 +77,14 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
     if path.is_none() {
         // Run yarn bin $name
 
-        path = Command::new("yarn")
+        let mut base_cmd = if cfg!(target_os = "windows") {
+            let mut c = Command::new("cmd");
+            c.args(["/C", "yarn"]);
+            c
+        } else {
+            Command::new("yarn")
+        };
+        path = base_cmd
             .arg("bin")
             .arg(name)
             .output()

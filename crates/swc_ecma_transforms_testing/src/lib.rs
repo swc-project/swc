@@ -672,8 +672,8 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     let test_runner_path = find_executable("mocha").expect("failed to find `mocha` from path");
 
     let mut base_cmd = if cfg!(target_os = "windows") {
-        let mut c = Command::new("cmd");
-        c.arg("/C").arg(&test_runner_path);
+        let mut c = Command::new("node");
+        c.arg(&test_runner_path);
         c
     } else {
         Command::new(&test_runner_path)

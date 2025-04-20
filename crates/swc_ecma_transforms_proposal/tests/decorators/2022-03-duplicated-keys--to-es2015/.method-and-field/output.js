@@ -2,7 +2,8 @@ var _init_a, _initProto;
 const dec = () => { };
 class Foo {
   constructor() {
-    defineProperty(this, "a", (_initProto(this), _init_a(this, 123)));
+    defineProperty(this, "a", _init_a(this, 123));
+    _initProto(this);
   }
   a() {
     return 1;

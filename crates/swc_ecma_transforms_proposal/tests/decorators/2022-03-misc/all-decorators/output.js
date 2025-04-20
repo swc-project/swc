@@ -144,7 +144,10 @@ new class extends _identity {
                 ]));
                 _initStatic(this);
             }
-            a = (_initProto(this), _init_a(this));
+            constructor(){
+                _initProto(this);
+            }
+            a = _init_a(this);
             b() {}
             get c() {}
             set c(v) {}
