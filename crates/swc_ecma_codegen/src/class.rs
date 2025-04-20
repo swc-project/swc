@@ -61,6 +61,8 @@ impl MacroNode for ClassExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         for dec in &self.class.decorators {
@@ -82,13 +84,20 @@ impl MacroNode for ClassExpr {
 
         emitter.emit_class_trailing(&self.class)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Class {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.super_class.is_some() {
             space!(emitter);
             keyword!(emitter, "extends");
@@ -129,7 +138,12 @@ impl MacroNode for Class {
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Class {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -191,6 +205,8 @@ impl MacroNode for AutoAccessor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_accessibility(self.accessibility)?;
 
         if self.is_static {
@@ -231,7 +247,12 @@ impl MacroNode for AutoAccessor {
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AutoAccessor {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -257,6 +278,8 @@ impl MacroNode for Key {
 impl MacroNode for PrivateMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -292,7 +315,12 @@ impl MacroNode for PrivateMethod {
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateMethod {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -301,9 +329,9 @@ impl MacroNode for ClassMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        let lo = only_new!(emitter.wr.get_pos());
-
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -413,7 +441,12 @@ impl MacroNode for ClassMethod {
             formatting_semi!(emitter)
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassMethod {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
