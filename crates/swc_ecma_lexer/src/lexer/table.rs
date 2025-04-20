@@ -339,7 +339,7 @@ macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = Some(|lexer| {
             lexer.input.bump_bytes(1);
-            Ok(Some(Token::$token))
+            Ok(Some(TokenType::$token))
         });
     };
 }
