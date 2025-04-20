@@ -246,7 +246,43 @@ pub enum TokenKind {
     /// `??`
     NullishCoalescing,
 
-    AssignOp(AssignOp),
+    /// `=`
+    Assign,
+    /// `+=`
+    AddAssign,
+    /// `-=`
+    SubAssign,
+    /// `*=`
+    MulAssign,
+    /// `/=`
+    DivAssign,
+    /// `%=`
+    ModAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+
+    /// `**=`
+    ExpAssign,
+
+    /// `&&=`
+    AndAssign,
+
+    /// `||=`
+    OrAssign,
+
+    /// `??=`
+    NullishAssign,
+
     DollarLBrace,
     QuestionMark,
     PlusPlus,
