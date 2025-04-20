@@ -11,10 +11,10 @@ use swc_ecma_ast::AssignOp;
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, Word},
+    token::{BinOpToken, IdentLike, Keyword, KnownIdent, TokenType, Word},
 };
 
-pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
+pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<TokenType>>>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
 pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -287,8 +287,8 @@ const DIG: ByteHandler = Some(|lexer| {
     lexer
         .read_number(false)
         .map(|v| match v {
-            Either::Left((value, raw)) => Token::Num { value, raw },
-            Either::Right((value, raw)) => Token::BigInt { value, raw },
+            Either::Left((value, raw)) => TokenType::Num { value, raw },
+            Either::Right((value, raw)) => TokenType::BigInt { value, raw },
         })
         .map(Some)
 });
@@ -365,9 +365,9 @@ const CRT: ByteHandler = Some(|lexer| {
     lexer.input.bump_bytes(1);
     Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
         lexer.input.bump_bytes(1);
-        Token::AssignOp(AssignOp::BitXorAssign)
+        TokenType::AssignOp(AssignOp::BitXorAssign)
     } else {
-        Token::BinOp(BinOpToken::BitXor)
+        TokenType::BinOp(BinOpToken::BitXor)
     }))
 });
 

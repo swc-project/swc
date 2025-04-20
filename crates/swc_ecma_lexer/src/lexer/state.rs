@@ -13,7 +13,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
+    token::{BinOpToken, Keyword, TokenType, TokenAndSpan, TokenKind, WordKind},
     Syntax, *,
 };
 
@@ -247,14 +247,14 @@ impl Lexer<'_> {
         }
     }
 
-    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
+    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<TokenType>, Error> {
         if let Some(start) = self.state.next_regexp {
             return Ok(Some(self.read_regexp(start)?));
         }
 
         if self.state.is_first {
             if let Some(shebang) = self.read_shebang()? {
-                return Ok(Some(Token::Shebang(shebang)));
+                return Ok(Some(TokenType::Shebang(shebang)));
             }
         }
 
@@ -308,7 +308,7 @@ impl Lexer<'_> {
                             // Safety: cur() is Some('>')
                             self.input.bump();
                         }
-                        return Ok(Some(Token::JSXTagEnd));
+                        return Ok(Some(TokenType::JSXTagEnd));
                     }
 
                     if (c == '\'' || c == '"')
@@ -336,7 +336,7 @@ impl Lexer<'_> {
                         return self.read_token();
                     }
 
-                    return Ok(Some(Token::JSXTagStart));
+                    return Ok(Some(TokenType::JSXTagStart));
                 }
             }
         }
@@ -358,7 +358,7 @@ impl Iterator for Lexer<'_> {
 
         let res = self.next_token(&mut start);
 
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let token = match res.map_err(TokenType::Error).map_err(Some) {
             Ok(t) => t,
             Err(e) => e,
         };
@@ -866,7 +866,7 @@ pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
 }
 
 #[cfg(test)]
-pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
+pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<TokenType> {
     with_lexer(syntax, Default::default(), s, |l| {
         Ok(l.map(|ts| ts.token).collect())
     })
@@ -876,7 +876,7 @@ pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
 /// Returns `(tokens, recovered_errors)`. `(tokens)` may contain an error token
 /// if the lexer fails to recover from it.
 #[cfg(test)]
-pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
+pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<TokenType>, Vec<Error>) {
     with_lexer(syntax, EsVersion::Es2020, s, |l| {
         let tokens = l.map(|ts| ts.token).collect();
         let errors = l.take_errors();

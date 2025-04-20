@@ -11,7 +11,7 @@ use swc_atoms::{atom, Atom, AtomStore};
 use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
-pub(crate) use self::{Keyword::*, Token::*};
+pub(crate) use self::{Keyword::*, TokenType::*};
 use crate::{error::Error, lexer::LexResult};
 
 macro_rules! define_known_ident {
@@ -211,7 +211,7 @@ pub enum TokenKind {
 }
 
 #[derive(Clone, PartialEq)]
-pub enum Token {
+pub enum TokenType {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
@@ -310,7 +310,7 @@ pub enum Token {
     Error(Error),
 }
 
-impl Token {
+impl TokenType {
     pub fn kind(&self) -> TokenKind {
         match self {
             Self::Arrow => TokenKind::Arrow,
@@ -473,7 +473,7 @@ impl BinOpToken {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
-    pub token: Token,
+    pub token: TokenType,
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
@@ -946,13 +946,13 @@ impl Word {
     }
 }
 
-impl Debug for Token {
+impl Debug for TokenType {
     /// This method is called only in the case of parsing failure.
     #[cold]
     #[inline(never)]
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Token::Word(w) => write!(f, "{:?}", w)?,
+            TokenType::Word(w) => write!(f, "{:?}", w)?,
             Arrow => write!(f, "=>")?,
             Hash => write!(f, "#")?,
             At => write!(f, "@")?,
@@ -986,7 +986,7 @@ impl Debug for Token {
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,
-            Token::Error(e) => write!(f, "<lexing error: {:?}>", e)?,
+            TokenType::Error(e) => write!(f, "<lexing error: {:?}>", e)?,
         }
 
         Ok(())

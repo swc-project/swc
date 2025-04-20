@@ -4,7 +4,7 @@ use smartstring::{LazyCompact, SmartString};
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<TokenType>> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
@@ -38,7 +38,7 @@ impl Lexer<'_> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagStart));
+                            return Ok(Some(TokenType::JSXTagStart));
                         }
                         return self.read_token();
                     }
@@ -66,7 +66,7 @@ impl Lexer<'_> {
                         self.atoms.atom(s)
                     };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Some(TokenType::JSXText { raw, value }));
                 }
                 '>' => {
                     self.emit_error(
@@ -227,7 +227,7 @@ impl Lexer<'_> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
+    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<TokenType> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
@@ -348,7 +348,7 @@ impl Lexer<'_> {
             self.input.slice(start, end)
         };
 
-        Ok(Token::Str {
+        Ok(TokenType::Str {
             value,
             raw: self.atoms.atom(raw),
         })
@@ -360,7 +360,7 @@ impl Lexer<'_> {
     /// escape characters and so can be read as single slice.
     /// Also assumes that first character was already checked
     /// by isIdentifierStart in readToken.
-    pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
+    pub(super) fn read_jsx_word(&mut self) -> LexResult<TokenType> {
         debug_assert!(self.syntax.jsx());
         debug_assert!(self.input.cur().is_some());
         debug_assert!(self.input.cur().unwrap().is_ident_start());
@@ -375,7 +375,7 @@ impl Lexer<'_> {
             }
         });
 
-        Ok(Token::JSXName {
+        Ok(TokenType::JSXName {
             name: self.atoms.atom(slice),
         })
     }
