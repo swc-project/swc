@@ -144,165 +144,6 @@ impl std::str::FromStr for KnownIdent {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum WordKind {
-    Keyword(Keyword),
-
-    Null,
-    True,
-    False,
-
-    Ident(IdentKind),
-}
-
-impl From<Keyword> for WordKind {
-    #[inline(always)]
-    fn from(kwd: Keyword) -> Self {
-        Self::Keyword(kwd)
-    }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum IdentKind {
-    Known(KnownIdent),
-    Other,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum TokenKind {
-    Word(WordKind),
-    Arrow,
-    Hash,
-    At,
-    Dot,
-    DotDotDot,
-    Bang,
-    LParen,
-    RParen,
-    LBracket,
-    RBracket,
-    LBrace,
-    RBrace,
-    Semi,
-    Comma,
-    BackQuote,
-    Template,
-    Colon,
-    /// `==`
-    EqEq,
-    /// `!=`
-    NotEq,
-    /// `===`
-    EqEqEq,
-    /// `!==`
-    NotEqEq,
-    /// `<`
-    Lt,
-    /// `<=`
-    LtEq,
-    /// `>`
-    Gt,
-    /// `>=`
-    GtEq,
-    /// `<<`
-    LShift,
-    /// `>>`
-    RShift,
-    /// `>>>`
-    ZeroFillRShift,
-
-    /// `+`
-    Add,
-    /// `-`
-    Sub,
-    /// `*`
-    Mul,
-    /// `/`
-    Div,
-    /// `%`
-    Mod,
-
-    /// `|`
-    BitOr,
-    /// `^`
-    BitXor,
-    /// `&`
-    BitAnd,
-
-    // /// `in`
-    // #[kind(precedence = "7")]
-    // In,
-    // /// `instanceof`
-    // #[kind(precedence = "7")]
-    // InstanceOf,
-    /// `**`
-    Exp,
-
-    /// `||`
-    LogicalOr,
-    /// `&&`
-    LogicalAnd,
-
-    /// `??`
-    NullishCoalescing,
-
-    /// `=`
-    Assign,
-    /// `+=`
-    AddAssign,
-    /// `-=`
-    SubAssign,
-    /// `*=`
-    MulAssign,
-    /// `/=`
-    DivAssign,
-    /// `%=`
-    ModAssign,
-    /// `<<=`
-    LShiftAssign,
-    /// `>>=`
-    RShiftAssign,
-    /// `>>>=`
-    ZeroFillRShiftAssign,
-    /// `|=`
-    BitOrAssign,
-    /// `^=`
-    BitXorAssign,
-    /// `&=`
-    BitAndAssign,
-
-    /// `**=`
-    ExpAssign,
-
-    /// `&&=`
-    AndAssign,
-
-    /// `||=`
-    OrAssign,
-
-    /// `??=`
-    NullishAssign,
-
-    DollarLBrace,
-    QuestionMark,
-    PlusPlus,
-    MinusMinus,
-    Tilde,
-    Str,
-    /// We abuse `token.raw` for flags
-    Regex,
-    Num,
-    BigInt,
-
-    JSXName,
-    JSXText,
-    JSXTagStart,
-    JSXTagEnd,
-
-    Shebang,
-    Error,
-}
-
 #[derive(Clone, PartialEq)]
 pub struct Token {
     pub kind: TokenKind,
@@ -408,8 +249,100 @@ pub enum TokenType {
     Template,
     /// ':'
     Colon,
-    BinOp(BinOpToken),
-    AssignOp(AssignOp),
+    /// `==`
+    EqEq,
+    /// `!=`
+    NotEq,
+    /// `===`
+    EqEqEq,
+    /// `!==`
+    NotEqEq,
+    /// `<`
+    Lt,
+    /// `<=`
+    LtEq,
+    /// `>`
+    Gt,
+    /// `>=`
+    GtEq,
+    /// `<<`
+    LShift,
+    /// `>>`
+    RShift,
+    /// `>>>`
+    ZeroFillRShift,
+
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
+    /// `%`
+    Mod,
+
+    /// `|`
+    BitOr,
+    /// `^`
+    BitXor,
+    /// `&`
+    BitAnd,
+
+    // /// `in`
+    // #[kind(precedence = "7")]
+    // In,
+    // /// `instanceof`
+    // #[kind(precedence = "7")]
+    // InstanceOf,
+    /// `**`
+    Exp,
+
+    /// `||`
+    LogicalOr,
+    /// `&&`
+    LogicalAnd,
+
+    /// `??`
+    NullishCoalescing,
+
+    /// `=`
+    Assign,
+    /// `+=`
+    AddAssign,
+    /// `-=`
+    SubAssign,
+    /// `*=`
+    MulAssign,
+    /// `/=`
+    DivAssign,
+    /// `%=`
+    ModAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+
+    /// `**=`
+    ExpAssign,
+
+    /// `&&=`
+    AndAssign,
+
+    /// `||=`
+    OrAssign,
+
+    /// `??=`
+    NullishAssign,
 
     /// '${'
     DollarLBrace,
