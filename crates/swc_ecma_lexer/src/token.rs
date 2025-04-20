@@ -208,7 +208,8 @@ pub enum TokenType {
     TrueWord,
     FalseWord,
 
-    IdentWord(IdentLike),
+    KnownIdent(KnownIdent),
+    UnknownIdent,
 
     /// '=>'
     Arrow,
@@ -381,6 +382,7 @@ pub enum TokenType {
 #[derive(Clone, PartialEq)]
 pub enum TokenValue {
     None,
+    UnknownIdent(Atom),
     Tempalte { raw: Atom, cooked: LexResult<Atom> },
     Str { value: Atom, raw: Atom },
     Regex(Atom, Atom),
@@ -505,12 +507,6 @@ impl Spanned for TokenAndSpan {
     fn span(&self) -> Span {
         self.span
     }
-}
-
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub enum IdentLike {
-    Known(KnownIdent),
-    Other(Atom),
 }
 
 impl From<&'_ str> for IdentLike {
