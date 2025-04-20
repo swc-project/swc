@@ -2026,6 +2026,8 @@ impl MacroNode for FnExpr {
 
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         if self.function.is_async {
@@ -2046,7 +2048,15 @@ impl MacroNode for FnExpr {
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(FnExpr {
+            function: Box::new(Function {
+                span: Span::new(lo, hi),
+                ..*self.function.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
