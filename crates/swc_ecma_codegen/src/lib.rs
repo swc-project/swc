@@ -2409,13 +2409,20 @@ impl MacroNode for PrivateName {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for BindingIdent {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
         if let Some(ty) = &self.type_ann {
@@ -2429,24 +2436,43 @@ impl MacroNode for BindingIdent {
 
         // emitList(node, node.typeArguments, ListFormat::TypeParameters);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BindingIdent {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Ident {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Ident {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for IdentName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(IdentName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
