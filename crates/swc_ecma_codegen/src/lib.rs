@@ -1441,14 +1441,18 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 #[node_impl]
 impl MacroNode for Program {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Program::Module(m) => emit!(emitter, m),
-            Program::Script(s) => emit!(emitter, s),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
-        }
+        Ok(match self {
+            Program::Module(m) => {
+                let n = emit!(emitter, m);
 
-        Ok(())
+                only_new!(Program::Module(n))
+            }
+            Program::Script(s) => {
+                let n = emit!(emitter, s);
+
+                only_new!(Program::Script(n))
+            }
+        })
     }
 }
 
