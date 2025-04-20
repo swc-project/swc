@@ -188,7 +188,64 @@ pub enum TokenKind {
     BackQuote,
     Template,
     Colon,
-    BinOp(BinOpToken),
+    /// `==`
+    EqEq,
+    /// `!=`
+    NotEq,
+    /// `===`
+    EqEqEq,
+    /// `!==`
+    NotEqEq,
+    /// `<`
+    Lt,
+    /// `<=`
+    LtEq,
+    /// `>`
+    Gt,
+    /// `>=`
+    GtEq,
+    /// `<<`
+    LShift,
+    /// `>>`
+    RShift,
+    /// `>>>`
+    ZeroFillRShift,
+
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
+    /// `%`
+    Mod,
+
+    /// `|`
+    BitOr,
+    /// `^`
+    BitXor,
+    /// `&`
+    BitAnd,
+
+    // /// `in`
+    // #[kind(precedence = "7")]
+    // In,
+    // /// `instanceof`
+    // #[kind(precedence = "7")]
+    // InstanceOf,
+    /// `**`
+    Exp,
+
+    /// `||`
+    LogicalOr,
+    /// `&&`
+    LogicalAnd,
+
+    /// `??`
+    NullishCoalescing,
+
     AssignOp(AssignOp),
     DollarLBrace,
     QuestionMark,
@@ -454,67 +511,6 @@ impl TokenKind {
             _ => false,
         }
     }
-}
-
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
-pub enum BinOpToken {
-    /// `==`
-    EqEq,
-    /// `!=`
-    NotEq,
-    /// `===`
-    EqEqEq,
-    /// `!==`
-    NotEqEq,
-    /// `<`
-    Lt,
-    /// `<=`
-    LtEq,
-    /// `>`
-    Gt,
-    /// `>=`
-    GtEq,
-    /// `<<`
-    LShift,
-    /// `>>`
-    RShift,
-    /// `>>>`
-    ZeroFillRShift,
-
-    /// `+`
-    Add,
-    /// `-`
-    Sub,
-    /// `*`
-    Mul,
-    /// `/`
-    Div,
-    /// `%`
-    Mod,
-
-    /// `|`
-    BitOr,
-    /// `^`
-    BitXor,
-    /// `&`
-    BitAnd,
-
-    // /// `in`
-    // #[kind(precedence = "7")]
-    // In,
-    // /// `instanceof`
-    // #[kind(precedence = "7")]
-    // InstanceOf,
-    /// `**`
-    Exp,
-
-    /// `||`
-    LogicalOr,
-    /// `&&`
-    LogicalAnd,
-
-    /// `??`
-    NullishCoalescing,
 }
 
 impl BinOpToken {
