@@ -1556,14 +1556,23 @@ impl MacroNode for Callee {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         Ok(match self {
             Callee::Expr(e) => {
-                if let Expr::New(new) = &**e {
+                let e = if let Expr::New(new) = &**e {
                     emitter.emit_new(new, false)?;
                 } else {
                     emit!(emitter, e);
-                }
+                };
+
+                only_new!(Callee::Expr(e))
             }
-            Callee::Super(n) => emit!(emitter, n),
-            Callee::Import(n) => emit!(emitter, n),
+            Callee::Super(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Callee::Super(n))
+            }
+            Callee::Import(n) => {
+                let n = emit!(emitter, n);
+                only_new!(Callee::Import(n))
+            }
         })
     }
 }
@@ -1573,7 +1582,12 @@ impl MacroNode for Super {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         keyword!(emitter, self.span, "super");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Super {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
