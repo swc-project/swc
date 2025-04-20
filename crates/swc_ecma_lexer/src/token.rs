@@ -214,6 +214,7 @@ pub enum TokenKind {
 pub struct Token {
     pub kind: TokenKind,
     pub span: Span,
+    pub value: TokenValue,
 }
 
 #[derive(Clone, PartialEq)]
@@ -259,10 +260,7 @@ pub enum TokenType {
 
     /// '`'
     BackQuote,
-    Template {
-        raw: Atom,
-        cooked: LexResult<Atom>,
-    },
+    Template,
     /// ':'
     Colon,
     BinOp(BinOpToken),
@@ -283,35 +281,35 @@ pub enum TokenType {
     Tilde,
 
     /// String literal. Span of this token contains quote.
-    Str {
-        value: Atom,
-        raw: Atom,
-    },
+    Str,
 
     /// Regexp literal.
-    Regex(Atom, Atom),
+    Regex,
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
-    Num {
-        value: f64,
-        raw: Atom,
-    },
+    Num,
 
-    BigInt {
-        value: Box<BigIntValue>,
-        raw: Atom,
-    },
+    BigInt,
 
-    JSXName {
-        name: Atom,
-    },
-    JSXText {
-        value: Atom,
-        raw: Atom,
-    },
+    JSXName,
+    JSXText,
     JSXTagStart,
     JSXTagEnd,
 
+    Shebang,
+    Error,
+}
+
+#[derive(Clone, PartialEq)]
+pub enum TokenValue {
+    None,
+    Tempalte { raw: Atom, cooked: LexResult<Atom> },
+    Str { value: Atom, raw: Atom },
+    Regex(Atom, Atom),
+    Num { value: f64, raw: Atom },
+    BigInt { value: Box<BigIntValue>, raw: Atom },
+    JSXName { name: Atom },
+    JSXText { value: Atom, raw: Atom },
     Shebang(Atom),
     Error(Error),
 }
