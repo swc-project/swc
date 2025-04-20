@@ -17,6 +17,8 @@ use crate::{error::Error, lexer::LexResult};
 pub struct Token {
     pub kind: TokenType,
     pub span: Span,
+    /// Had a line break before this token?
+    pub had_line_break: bool,
     pub value: TokenValue,
 }
 
@@ -404,21 +406,6 @@ impl BinOpToken {
 
     pub(crate) const fn before_expr(self) -> bool {
         true
-    }
-}
-
-#[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
-    pub token: TokenType,
-    /// Had a line break before this token?
-    pub had_line_break: bool,
-    pub span: Span,
-}
-
-impl Spanned for TokenAndSpan {
-    #[inline]
-    fn span(&self) -> Span {
-        self.span
     }
 }
 
