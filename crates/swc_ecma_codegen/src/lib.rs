@@ -1010,6 +1010,17 @@ where
             None => Ok(()),
         }
     }
+
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        match self {
+            Some(n) => Ok(Some(n.with_new_span(emitter)?)),
+            None => Ok(None),
+        }
+    }
 }
 
 fn get_template_element_from_raw(
@@ -1461,6 +1472,8 @@ impl MacroNode for Module {
     #[tracing::instrument(skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
