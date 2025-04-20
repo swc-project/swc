@@ -219,7 +219,56 @@ pub struct Token {
 
 #[derive(Clone, PartialEq)]
 pub enum TokenType {
-    Keyword(Keyword),
+    /// Spec says this might be identifier.
+    AwaitKeyword,
+    BreakKeyword,
+    CaseKeyword,
+    CatchKeyword,
+    ContinueKeyword,
+    DebuggerKeyword,
+    DefaultKeyword,
+    DoKeyword,
+    ElseKeyword,
+
+    FinallyKeyword,
+    ForKeyword,
+
+    FunctionKeyword,
+
+    IfKeyword,
+
+    ReturnKeyword,
+
+    SwitchKeyword,
+
+    ThrowKeyword,
+
+    TryKeyword,
+    VarKeyword,
+    LetKeyword,
+    ConstKeyword,
+    WhileKeyword,
+    WithKeyword,
+
+    NewKeyword,
+    ThisKeyword,
+    SuperKeyword,
+
+    ClassKeyword,
+
+    ExtendsKeyword,
+
+    ExportKeyword,
+    ImportKeyword,
+
+    /// Spec says this might be identifier.
+    YieldKeyword,
+
+    InKeyword,
+    InstanceOfKeyword,
+    TypeOfKeyword,
+    VoidKeyword,
+    DeleteKeyword,
 
     NullWord,
     TrueWord,
@@ -776,61 +825,6 @@ declare_keyword!(
 
     Delete => "delete",
 );
-
-/// Keywords
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-pub enum Keyword {
-    /// Spec says this might be identifier.
-    Await,
-    Break,
-    Case,
-    Catch,
-    Continue,
-    Debugger,
-    Default_,
-    Do,
-    Else,
-
-    Finally,
-    For,
-
-    Function,
-
-    If,
-
-    Return,
-
-    Switch,
-
-    Throw,
-
-    Try,
-    Var,
-    Let,
-    Const,
-    While,
-    With,
-
-    New,
-    This,
-    Super,
-
-    Class,
-
-    Extends,
-
-    Export,
-    Import,
-
-    /// Spec says this might be identifier.
-    Yield,
-
-    In,
-    InstanceOf,
-    TypeOf,
-    Void,
-    Delete,
-}
 
 impl Keyword {
     pub(crate) const fn before_expr(self) -> bool {
