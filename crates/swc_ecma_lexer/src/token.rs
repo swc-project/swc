@@ -11,147 +11,17 @@ use swc_atoms::{atom, Atom, AtomStore};
 use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
-pub(crate) use self::{Keyword::*, TokenType::*};
 use crate::{error::Error, lexer::LexResult};
-
-macro_rules! define_known_ident {
-    (
-        $(
-            $name:ident => $value:tt,
-        )*
-    ) => {
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-        #[non_exhaustive]
-        pub enum KnownIdent {
-            $(
-                $name
-            ),*
-        }
-
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! known_ident_token {
-            $(
-                ($value) => {
-                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
-                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
-                    ))
-                };
-            )*
-        }
-
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! known_ident {
-            $(
-                ($value) => {
-                    $crate::token::KnownIdent::$name
-                };
-            )*
-        }
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! ident_like {
-            $(
-                ($value) => {
-                    $crate::token::IdentLike::Known(
-                        $crate::token::KnownIdent::$name
-                    )
-                };
-            )*
-        }
-
-        static STR_TO_KNOWN_IDENT: phf::Map<&'static str, KnownIdent> = phf::phf_map! {
-            $(
-                $value => KnownIdent::$name,
-            )*
-        };
-
-        impl From<KnownIdent> for swc_atoms::Atom {
-
-            fn from(s: KnownIdent) -> Self {
-                match s {
-                    $(
-                        KnownIdent::$name => atom!($value),
-                    )*
-                }
-            }
-        }
-        impl From<KnownIdent> for &'static str {
-
-            fn from(s: KnownIdent) -> Self {
-                match s {
-                    $(
-                        KnownIdent::$name => $value,
-                    )*
-                }
-            }
-        }
-    };
-}
-
-define_known_ident!(
-    Abstract => "abstract",
-    As => "as",
-    Async => "async",
-    From => "from",
-    Of => "of",
-    Type => "type",
-    Global => "global",
-    Static => "static",
-    Using => "using",
-    Readonly => "readonly",
-    Unique => "unique",
-    Keyof => "keyof",
-    Declare => "declare",
-    Enum => "enum",
-    Is => "is",
-    Infer => "infer",
-    Symbol => "symbol",
-    Undefined => "undefined",
-    Interface => "interface",
-    Implements => "implements",
-    Asserts => "asserts",
-    Require => "require",
-    Get => "get",
-    Set => "set",
-    Any => "any",
-    Intrinsic => "intrinsic",
-    Unknown => "unknown",
-    String => "string",
-    Object => "object",
-    Number => "number",
-    Bigint => "bigint",
-    Boolean => "boolean",
-    Never => "never",
-    Assert => "assert",
-    Namespace => "namespace",
-    Accessor => "accessor",
-    Meta => "meta",
-    Target => "target",
-    Satisfies => "satisfies",
-    Package => "package",
-    Protected => "protected",
-    Private => "private",
-    Public => "public",
-);
-
-impl std::str::FromStr for KnownIdent {
-    type Err = ();
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        STR_TO_KNOWN_IDENT.get(s).cloned().ok_or(())
-    }
-}
 
 #[derive(Clone, PartialEq)]
 pub struct Token {
-    pub kind: TokenKind,
+    pub kind: TokenType,
     pub span: Span,
     pub value: TokenValue,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone, Copy, PartialEq)]
+#[repr(u8)]
 pub enum TokenType {
     /// Spec says this might be identifier.
     AwaitKeyword,
@@ -208,7 +78,50 @@ pub enum TokenType {
     TrueWord,
     FalseWord,
 
-    KnownIdent(KnownIdent),
+    Abstract,
+    As,
+    Async,
+    From,
+    Of,
+    Type,
+    Global,
+    Static,
+    Using,
+    Readonly,
+    Unique,
+    Keyof,
+    Declare,
+    Enum,
+    Is,
+    Infer,
+    Symbol,
+    Undefined,
+    Interface,
+    Implements,
+    Asserts,
+    Require,
+    Get,
+    Set,
+    Any,
+    Intrinsic,
+    Unknown,
+    String,
+    Object,
+    Number,
+    Bigint,
+    Boolean,
+    Never,
+    Assert,
+    Namespace,
+    Accessor,
+    Meta,
+    Target,
+    Satisfies,
+    Package,
+    Protected,
+    Private,
+    Public,
+
     UnknownIdent,
 
     /// '=>'
