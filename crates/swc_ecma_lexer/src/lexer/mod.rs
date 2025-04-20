@@ -238,7 +238,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_dot(&mut self) -> LexResult<TokenType> {
+    fn read_token_dot(&mut self) -> LexResult<Token> {
         // Check for eof
         let next = match self.input.peek() {
             Some(next) => next,
@@ -281,7 +281,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_question_mark(&mut self) -> LexResult<TokenType> {
+    fn read_token_question_mark(&mut self) -> LexResult<Token> {
         match self.input.peek() {
             Some('?') => {
                 unsafe {
@@ -313,7 +313,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_colon(&mut self) -> LexResult<TokenType> {
+    fn read_token_colon(&mut self) -> LexResult<Token> {
         unsafe {
             // Safety: cur() is Some(':')
             self.input.bump();
@@ -325,7 +325,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_zero(&mut self) -> LexResult<TokenType> {
+    fn read_token_zero(&mut self) -> LexResult<Token> {
         let next = self.input.peek();
 
         let bigint = match next {
@@ -350,7 +350,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_logical<const C: u8>(&mut self) -> LexResult<TokenType> {
+    fn read_token_logical<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -416,7 +416,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<TokenType> {
+    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Token> {
         let is_mul = C == b'*';
         unsafe {
             // Safety: cur() is Some(c)
@@ -760,7 +760,7 @@ impl Lexer<'_> {
 
     /// This can be used if there's no keyword starting with the first
     /// character.
-    fn read_ident_unknown(&mut self) -> LexResult<TokenType> {
+    fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
         let (word, _) = self
@@ -1027,7 +1027,7 @@ impl Lexer<'_> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> LexResult<TokenType> {
+    fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
         let quote = self.cur().unwrap() as u8;
@@ -1154,7 +1154,7 @@ impl Lexer<'_> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self, start: BytePos) -> LexResult<TokenType> {
+    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
         unsafe {
             // Safety: start is valid position, and cur() is Some('/')
             self.input.reset_to(start);
@@ -1243,7 +1243,7 @@ impl Lexer<'_> {
         Ok(Some(self.atoms.atom(s)))
     }
 
-    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<TokenType> {
+    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());

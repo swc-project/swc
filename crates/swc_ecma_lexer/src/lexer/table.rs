@@ -9,10 +9,7 @@ use swc_common::input::Input;
 use swc_ecma_ast::AssignOp;
 
 use super::{pos_span, util::CharExt, LexResult, Lexer};
-use crate::{
-    error::SyntaxError,
-    token::{BinOpToken, IdentLike, Keyword, KnownIdent, TokenType, Word},
-};
+use crate::{error::SyntaxError, token::Token};
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 

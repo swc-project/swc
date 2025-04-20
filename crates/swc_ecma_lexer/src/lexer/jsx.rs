@@ -2,6 +2,7 @@ use either::Either;
 use smartstring::{LazyCompact, SmartString};
 
 use super::*;
+use crate::token::Token;
 
 impl Lexer<'_> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
@@ -227,7 +228,7 @@ impl Lexer<'_> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<TokenType> {
+    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
@@ -360,7 +361,7 @@ impl Lexer<'_> {
     /// escape characters and so can be read as single slice.
     /// Also assumes that first character was already checked
     /// by isIdentifierStart in readToken.
-    pub(super) fn read_jsx_word(&mut self) -> LexResult<TokenType> {
+    pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
         debug_assert!(self.input.cur().is_some());
         debug_assert!(self.input.cur().unwrap().is_ident_start());
