@@ -1580,6 +1580,8 @@ impl MacroNode for Callee {
 #[node_impl]
 impl MacroNode for Super {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "super");
 
         let hi = only_new!(emitter.wr.get_pos());
@@ -1594,6 +1596,8 @@ impl MacroNode for Super {
 #[node_impl]
 impl MacroNode for Import {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "import");
         match self.phase {
             ImportPhase::Source => {
@@ -1607,14 +1611,19 @@ impl MacroNode for Import {
             _ => {}
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Import {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Expr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
+        let result = match self {
             Expr::Array(n) => emit!(emitter, n),
             Expr::Arrow(n) => emit!(emitter, n),
             Expr::Assign(n) => emit!(emitter, n),
@@ -1657,13 +1666,13 @@ impl MacroNode for Expr {
             Expr::TsSatisfies(n) => {
                 emit!(emitter, n)
             }
-        }
+        };
 
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
 
-        Ok(())
+        Ok(result)
     }
 }
 
