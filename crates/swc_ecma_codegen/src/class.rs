@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{SourceMapper, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -301,6 +301,8 @@ impl MacroNode for ClassMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -420,6 +422,8 @@ impl MacroNode for PrivateProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
@@ -474,7 +478,12 @@ impl MacroNode for PrivateProp {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -482,6 +491,9 @@ impl MacroNode for PrivateProp {
 impl MacroNode for ClassProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         for dec in &self.decorators {
@@ -548,7 +560,12 @@ impl MacroNode for ClassProp {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -556,6 +573,8 @@ impl MacroNode for ClassProp {
 impl MacroNode for Constructor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -572,7 +591,12 @@ impl MacroNode for Constructor {
             formatting_semi!(emitter);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Constructor {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -581,6 +605,8 @@ impl MacroNode for StaticBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
@@ -588,7 +614,12 @@ impl MacroNode for StaticBlock {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(StaticBlock {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
