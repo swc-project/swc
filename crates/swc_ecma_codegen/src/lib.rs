@@ -2083,9 +2083,16 @@ impl MacroNode for ThisExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "this");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ThisExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
