@@ -39,11 +39,11 @@ pub(super) struct State {
     context: TokenContexts,
     syntax: Syntax,
 
-    token_type: Option<TokenType>,
+    token_type: Option<TokenCategory>,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum TokenType {
+enum TokenCategory {
     Template,
     Dot,
     Colon,
@@ -62,49 +62,49 @@ enum TokenType {
         can_have_trailing_comment: bool,
     },
 }
-impl TokenType {
+impl TokenCategory {
     #[inline]
     const fn before_expr(self) -> bool {
         match self {
-            TokenType::JSXName
-            | TokenType::JSXTagStart
-            | TokenType::JSXTagEnd
-            | TokenType::Template
-            | TokenType::Dot
-            | TokenType::RParen => false,
+            TokenCategory::JSXName
+            | TokenCategory::JSXTagStart
+            | TokenCategory::JSXTagEnd
+            | TokenCategory::Template
+            | TokenCategory::Dot
+            | TokenCategory::RParen => false,
 
-            TokenType::JSXText
-            | TokenType::Colon
-            | TokenType::LBrace
-            | TokenType::Semi
-            | TokenType::Arrow => true,
+            TokenCategory::JSXText
+            | TokenCategory::Colon
+            | TokenCategory::LBrace
+            | TokenCategory::Semi
+            | TokenCategory::Arrow => true,
 
-            TokenType::BinOp(b) => b.before_expr(),
-            TokenType::Keyword(k) => k.before_expr(),
-            TokenType::Other { before_expr, .. } => before_expr,
+            TokenCategory::BinOp(b) => b.before_expr(),
+            TokenCategory::Keyword(k) => k.before_expr(),
+            TokenCategory::Other { before_expr, .. } => before_expr,
         }
     }
 }
 
-impl From<TokenKind> for TokenType {
+impl From<TokenKind> for TokenCategory {
     #[inline]
     fn from(t: TokenKind) -> Self {
         match t {
-            TokenKind::Template { .. } => TokenType::Template,
-            TokenKind::Dot => TokenType::Dot,
-            TokenKind::Colon => TokenType::Colon,
-            TokenKind::LBrace => TokenType::LBrace,
-            TokenKind::RParen => TokenType::RParen,
-            TokenKind::Semi => TokenType::Semi,
-            TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
-            TokenKind::JSXTagStart => TokenType::JSXTagStart,
-            TokenKind::JSXText { .. } => TokenType::JSXText,
-            TokenKind::JSXName { .. } => TokenType::JSXName,
-            TokenKind::BinOp(op) => TokenType::BinOp(op),
-            TokenKind::Arrow => TokenType::Arrow,
+            TokenKind::Template { .. } => TokenCategory::Template,
+            TokenKind::Dot => TokenCategory::Dot,
+            TokenKind::Colon => TokenCategory::Colon,
+            TokenKind::LBrace => TokenCategory::LBrace,
+            TokenKind::RParen => TokenCategory::RParen,
+            TokenKind::Semi => TokenCategory::Semi,
+            TokenKind::JSXTagEnd => TokenCategory::JSXTagEnd,
+            TokenKind::JSXTagStart => TokenCategory::JSXTagStart,
+            TokenKind::JSXText { .. } => TokenCategory::JSXText,
+            TokenKind::JSXName { .. } => TokenCategory::JSXName,
+            TokenKind::BinOp(op) => TokenCategory::BinOp(op),
+            TokenKind::Arrow => TokenCategory::Arrow,
 
-            TokenKind::Word(WordKind::Keyword(k)) => TokenType::Keyword(k),
-            _ => TokenType::Other {
+            TokenKind::Word(WordKind::Keyword(k)) => TokenCategory::Keyword(k),
+            _ => TokenCategory::Other {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
                     t,
@@ -424,16 +424,16 @@ impl State {
 
     pub fn can_have_trailing_line_comment(&self) -> bool {
         match self.token_type {
-            Some(TokenType::BinOp(..)) => false,
+            Some(TokenCategory::BinOp(..)) => false,
             _ => true,
         }
     }
 
     pub fn can_have_trailing_comment(&self) -> bool {
         match self.token_type {
-            Some(TokenType::Keyword(..)) => false,
-            Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
-            Some(TokenType::Other {
+            Some(TokenCategory::Keyword(..)) => false,
+            Some(TokenCategory::Semi) | Some(TokenCategory::LBrace) => true,
+            Some(TokenCategory::Other {
                 can_have_trailing_comment,
                 ..
             }) => can_have_trailing_comment,
@@ -442,7 +442,7 @@ impl State {
     }
 
     pub fn last_was_tpl_element(&self) -> bool {
-        matches!(self.token_type, Some(TokenType::Template))
+        matches!(self.token_type, Some(TokenCategory::Template))
     }
 
     fn update(&mut self, start: BytePos, next: TokenKind) {
@@ -455,7 +455,7 @@ impl State {
         }
 
         let prev = self.token_type.take();
-        self.token_type = Some(TokenType::from(next));
+        self.token_type = Some(TokenCategory::from(next));
 
         self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
     }
@@ -464,7 +464,7 @@ impl State {
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
         &mut self,
-        prev: Option<TokenType>,
+        prev: Option<TokenCategory>,
         start: BytePos,
         next: TokenKind,
     ) -> bool {
@@ -479,7 +479,7 @@ impl State {
 
         let is_next_keyword = matches!(next, TokenKind::Word(WordKind::Keyword(..)));
 
-        if is_next_keyword && prev == Some(TokenType::Dot) {
+        if is_next_keyword && prev == Some(TokenCategory::Dot) {
             false
         } else {
             // ported updateContext
@@ -565,9 +565,9 @@ impl State {
                     match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            TokenType::Keyword(Keyword::Let)
-                            | TokenType::Keyword(Keyword::Const)
-                            | TokenType::Keyword(Keyword::Var)
+                            TokenCategory::Keyword(Keyword::Let)
+                            | TokenCategory::Keyword(Keyword::Const)
+                            | TokenCategory::Keyword(Keyword::Var)
                                 if had_line_break_before_last =>
                             {
                                 true
@@ -597,7 +597,7 @@ impl State {
                 }
 
                 TokenKind::BinOp(BinOpToken::Div)
-                    if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
+                    if syntax.jsx() && prev == Some(TokenCategory::JSXTagStart) =>
                 {
                     context.pop();
                     context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
@@ -614,7 +614,7 @@ impl State {
                     // if, for, with, while is statement
 
                     context.push(match prev {
-                        Some(TokenType::Keyword(k)) => match k {
+                        Some(TokenCategory::Keyword(k)) => match k {
                             Keyword::If | Keyword::With | Keyword::While => {
                                 TokenContext::ParenStmt { is_for_loop: false }
                             }
@@ -651,7 +651,7 @@ impl State {
                 TokenKind::JSXTagEnd => {
                     let out = context.pop();
                     if (out == Some(TokenContext::JSXOpeningTag)
-                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
+                        && prev == Some(TokenCategory::BinOp(BinOpToken::Div)))
                         || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
@@ -675,11 +675,11 @@ impl TokenContexts {
     /// to  `ctx`, `prev`, `is_expr_allowed`.
     fn is_brace_block(
         &self,
-        prev: Option<TokenType>,
+        prev: Option<TokenCategory>,
         had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        if let Some(TokenType::Colon) = prev {
+        if let Some(TokenCategory::Colon) = prev {
             match self.current() {
                 Some(TokenContext::BraceStmt) => return true,
                 // `{ a: {} }`
@@ -699,20 +699,20 @@ impl TokenContexts {
             //          function b(){}
             //      };
             //  }
-            Some(TokenType::Keyword(Keyword::Return))
-            | Some(TokenType::Keyword(Keyword::Yield)) => {
+            Some(TokenCategory::Keyword(Keyword::Return))
+            | Some(TokenCategory::Keyword(Keyword::Yield)) => {
                 return had_line_break;
             }
 
-            Some(TokenType::Keyword(Keyword::Else))
-            | Some(TokenType::Semi)
+            Some(TokenCategory::Keyword(Keyword::Else))
+            | Some(TokenCategory::Semi)
             | None
-            | Some(TokenType::RParen) => {
+            | Some(TokenCategory::RParen) => {
                 return true;
             }
 
             // If previous token was `{`
-            Some(TokenType::LBrace) => {
+            Some(TokenCategory::LBrace) => {
                 // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
                 // <Blah blah={function (): void {}} />
                 if self.current() == Some(TokenContext::BraceExpr) {
@@ -726,17 +726,16 @@ impl TokenContexts {
             }
 
             // `class C<T> { ... }`
-            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
-                return true
-            }
+            Some(TokenCategory::BinOp(BinOpToken::Lt))
+            | Some(TokenCategory::BinOp(BinOpToken::Gt)) => return true,
 
             // () => {}
-            Some(TokenType::Arrow) => return true,
+            Some(TokenCategory::Arrow) => return true,
             _ => {}
         }
 
         if had_line_break {
-            if let Some(TokenType::Other {
+            if let Some(TokenCategory::Other {
                 before_expr: false, ..
             }) = prev
             {
