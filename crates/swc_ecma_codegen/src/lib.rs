@@ -1910,13 +1910,20 @@ impl MacroNode for AssignExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.left);
         formatting_space!(emitter);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
         emit!(emitter, self.right);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AssignExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1965,6 +1972,8 @@ impl MacroNode for Decorator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "@");
@@ -1973,7 +1982,12 @@ impl MacroNode for Decorator {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Decorator {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1981,6 +1995,8 @@ impl MacroNode for Decorator {
 impl MacroNode for CondExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1994,7 +2010,12 @@ impl MacroNode for CondExpr {
         formatting_space!(emitter);
         emit!(emitter, self.alt);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CondExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
