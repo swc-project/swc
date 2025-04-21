@@ -33,7 +33,9 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn token_context(&self) -> &swc_ecma_lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut swc_ecma_lexer::TokenContexts;
     fn set_token_context(&mut self, _c: swc_ecma_lexer::TokenContexts);
+
     fn clone_token_value(&self) -> Option<TokenValue>;
+    fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
@@ -336,56 +338,62 @@ impl<I: Tokens> Buffer<I> {
         self.iter.end_pos()
     }
 
-    pub fn expect_word_token_value(&self) -> Atom {
-        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.clone_token_value() else {
+    pub fn expect_word_token_value(&mut self) -> Atom {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.take_token_value() else {
             unreachable!()
         };
         word
     }
 
-    pub fn expect_number_token_value(&self) -> (f64, Atom) {
-        let Some(crate::lexer::TokenValue::Num { value, raw }) = self.iter.clone_token_value()
+    pub fn expect_word_token_value_ref(&self) -> &Atom {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
+            unreachable!()
+        };
+        word
+    }
+
+    pub fn expect_number_token_value(&mut self) -> (f64, Atom) {
+        let Some(crate::lexer::TokenValue::Num { value, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
         (value, raw)
     }
 
-    pub fn expect_string_token_value(&self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.clone_token_value()
+    pub fn expect_string_token_value(&mut self) -> (Atom, Atom) {
+        let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
         (value, raw)
     }
 
-    pub fn expect_bigint_token_value(&self) -> (Box<num_bigint::BigInt>, Atom) {
-        let Some(crate::lexer::TokenValue::BigInt { value, raw }) = self.iter.clone_token_value()
+    pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
+        let Some(crate::lexer::TokenValue::BigInt { value, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
         (value, raw)
     }
 
-    pub fn expect_regex_token_value(&self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.clone_token_value()
+    pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
+        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
         (value, flags)
     }
 
-    pub fn expect_template_token_value(&self) -> (LexResult<Atom>, Atom) {
-        let Some(crate::lexer::TokenValue::Template { cooked, raw }) =
-            self.iter.clone_token_value()
+    pub fn expect_template_token_value(&mut self) -> (LexResult<Atom>, Atom) {
+        let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
         (cooked, raw)
     }
 
-    pub fn expect_error_token_value(&self) -> swc_ecma_lexer::error::Error {
-        let Some(crate::lexer::TokenValue::Error(error)) = self.iter.clone_token_value() else {
+    pub fn expect_error_token_value(&mut self) -> swc_ecma_lexer::error::Error {
+        let Some(crate::lexer::TokenValue::Error(error)) = self.iter.take_token_value() else {
             unreachable!()
         };
         error
