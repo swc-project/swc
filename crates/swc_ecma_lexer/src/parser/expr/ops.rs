@@ -2,7 +2,7 @@
 use tracing::trace;
 
 use super::*;
-use crate::{lexer::Token, parser::Parser};
+use crate::tok;
 
 impl<I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
@@ -16,18 +16,15 @@ impl<I: Tokens> Parser<I> {
             Err(err) => {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
-                let t = cur!(self, true);
-                match t {
-                    Token::In if ctx.contains(Context::IncludeInExpr) => {
+                match cur!(self, true) {
+                    &tok!("in") if ctx.contains(Context::IncludeInExpr) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
                         Invalid { span: err.span() }.into()
                     }
-                    Token::InstanceOf => {
+                    &tok!("instanceof") | &Token::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
-                        Invalid { span: err.span() }.into()
-                    }
-                    _ if t.as_bin_op().is_some() => {
-                        self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
+
                         Invalid { span: err.span() }.into()
                     }
                     _ => return Err(err),
@@ -140,19 +137,16 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
         // Return left on eof
-        let token = match cur!(self, false) {
+        let word = match cur!(self, false) {
             Ok(cur) => cur,
             Err(..) => return Ok((left, None)),
         };
-        let op = match token {
-            Token::In if ctx.contains(Context::IncludeInExpr) => op!("in"),
-            Token::InstanceOf => op!("instanceof"),
+        let op = match *word {
+            tok!("in") if ctx.contains(Context::IncludeInExpr) => op!("in"),
+            tok!("instanceof") => op!("instanceof"),
+            Token::BinOp(op) => op.into(),
             _ => {
-                if let Some(op) = token.as_bin_op() {
-                    op
-                } else {
-                    return Ok((left, None));
-                }
+                return Ok((left, None));
             }
         };
 
@@ -189,7 +183,7 @@ impl<I: Tokens> Parser<I> {
                     self,
                     SyntaxError::UnaryInExp {
                         // FIXME: Use display
-                        left: format!("{left:?}"),
+                        left: format!("{:?}", left),
                         left_span: left.span(),
                     }
                 )
@@ -274,7 +268,7 @@ impl<I: Tokens> Parser<I> {
 
         // Parse update expression
         if is!(self, "++") || is!(self, "--") {
-            let op = if bump!(self) == token!("++") {
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
@@ -296,13 +290,13 @@ impl<I: Tokens> Parser<I> {
         // Parse unary expression
         if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
             let op = match bump!(self) {
-                token!("delete") => op!("delete"),
-                token!("void") => op!("void"),
-                token!("typeof") => op!("typeof"),
-                token!('+') => op!(unary, "+"),
-                token!('-') => op!(unary, "-"),
-                token!('~') => op!("~"),
-                token!('!') => op!("!"),
+                tok!("delete") => op!("delete"),
+                tok!("void") => op!("void"),
+                tok!("typeof") => op!("typeof"),
+                tok!('+') => op!(unary, "+"),
+                tok!('-') => op!(unary, "-"),
+                tok!('~') => op!("~"),
+                tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
             let arg_start = cur_pos!(self) - BytePos(1);
@@ -359,7 +353,7 @@ impl<I: Tokens> Parser<I> {
         if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
-            let op = if bump!(self) == token!("++") {
+            let op = if bump!(self) == tok!("++") {
                 op!("++")
             } else {
                 op!("--")

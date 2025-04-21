@@ -18,53 +18,58 @@ macro_rules! unexpected {
 macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        $p.input
-            .cur()
-            .is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
+        match $p.input.cur() {
+            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
+            _ => false,
+        }
     }};
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        $p.input
-            .cur()
-            .is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
+        match $p.input.cur() {
+            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
+            _ => false,
+        }
     }};
 
     ($p:expr,IdentName) => {{
-        $p.input.cur().is_some_and(|t| t.is_word())
+        match $p.input.cur() {
+            Some(&Token::Word(..)) => true,
+            _ => false,
+        }
     }};
 
     ($p:expr,Str) => {{
         match $p.input.cur() {
-            Some(Token::Str) => true,
+            Some(&Token::Str { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Num) => {{
         match $p.input.cur() {
-            Some(Token::Num) => true,
+            Some(&Token::Num { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Regex) => {{
         match $p.input.cur() {
-            Some(Token::Regex) => true,
+            Some(&Token::Regex { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,BigInt) => {{
         match $p.input.cur() {
-            Some(Token::BigInt) => true,
+            Some(&Token::BigInt { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,';') => {{
         match $p.input.cur() {
-            Some(Token::Semi) | None | Some(Token::RBrace) => true,
+            Some(&Token::Semi) | None | Some(&tok!('}')) => true,
             _ => $p.input.had_line_break_before_cur(),
         }
     }};
@@ -78,28 +83,37 @@ macro_rules! is {
 macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        peek!($p).is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
+        match peek!($p) {
+            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
+            _ => false,
+        }
     }};
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        peek!($p).is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
+        match peek!($p) {
+            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
+            _ => false,
+        }
     }};
 
     ($p:expr,IdentName) => {{
-        peek!($p).is_some_and(|t| t.is_word())
+        match peek!($p) {
+            Some(&Token::Word(..)) => true,
+            _ => false,
+        }
     }};
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Some(Token::JSXName) => true,
+            Some(&Token::JSXName { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr, Str) => {{
         match peek!($p) {
-            Some(Token::Str) => true,
+            Some(&Token::Str { .. }) => true,
             _ => false,
         }
     }};
@@ -110,7 +124,7 @@ macro_rules! peeked_is {
 
     ($p:expr, $t:tt) => {
         match peek!($p) {
-            Some($crate::token_including_semi!($t)) => true,
+            Some(&crate::token_including_semi!($t)) => true,
             _ => false,
         }
     };
@@ -135,8 +149,8 @@ macro_rules! is_one_of {
 // This will panic if current != token
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
+        const TOKEN: &Token = &tok!($t);
         if cfg!(debug_assertions) && !is!($p, $t) {
-            const TOKEN: &Token = &crate::token!($t);
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -158,11 +172,11 @@ macro_rules! eat {
             tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
         }
         match $p.input.cur() {
-            Some(Token::Semi) => {
+            Some(&Token::Semi) => {
                 $p.input.bump();
                 true
             }
-            None | Some(Token::RBrace) => true,
+            None | Some(&tok!('}')) => true,
             _ => $p.input.had_line_break_before_cur(),
         }
     }};
@@ -191,7 +205,7 @@ macro_rules! eat_exact {
 macro_rules! is_exact {
     ($p:expr, $t:tt) => {{
         match $p.input.cur() {
-            Some(crate::token_including_semi!($t)) => true,
+            Some(&token_including_semi!($t)) => true,
             _ => false,
         }
     }};
@@ -200,7 +214,7 @@ macro_rules! is_exact {
 /// This handles automatic semicolon insertion.
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &crate::token_including_semi!($t);
+        const TOKEN: &Token = &token_including_semi!($t);
         if !eat!($p, $t) {
             let cur = $p.input.dump_cur();
             syntax_error!(
@@ -214,7 +228,7 @@ macro_rules! expect {
 
 macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &crate::token_including_semi!($t);
+        const TOKEN: &Token = &token_including_semi!($t);
         if !eat_exact!($p, $t) {
             let cur = $p.input.dump_cur();
             syntax_error!(
@@ -228,7 +242,7 @@ macro_rules! expect_exact {
 
 macro_rules! store {
     ($p:expr, $t:tt) => {{
-        const TOKEN: Token = $crate::token_including_semi!($t);
+        const TOKEN: Token = token_including_semi!($t);
 
         $p.input.store(TOKEN);
     }};
@@ -254,9 +268,8 @@ macro_rules! cur {
     ($p:expr, true) => {{
         match $p.input.cur() {
             Some(c) => match c {
-                Token::Error => match $p.input.bump() {
-                    $crate::lexer::Token::Error => {
-                        let e = $p.input.expect_error_token_value();
+                Token::Error(..) => match $p.input.bump() {
+                    $crate::token::Token::Error(e) => {
                         return Err(e);
                     }
                     _ => unreachable!(),
@@ -367,13 +380,12 @@ macro_rules! syntax_error {
 
         {
             let is_err_token = match $p.input.cur() {
-                Some($crate::lexer::Token::Error) => true,
+                Some(&$crate::token::Token::Error(..)) => true,
                 _ => false,
             };
             if is_err_token {
                 match $p.input.bump() {
-                    $crate::lexer::Token::Error => {
-                        let e = $p.input.expect_error_token_value();
+                    $crate::token::Token::Error(e) => {
                         $p.emit_error(e);
                     }
                     _ => unreachable!(),

@@ -4,7 +4,7 @@ use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{lexer::Lexer, Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
+use swc_ecma_lexer::{lexer::Lexer, Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
 use swc_fast_ts_strip::{operate, Mode, Options};
 use testing::NormalizedOutput;
 

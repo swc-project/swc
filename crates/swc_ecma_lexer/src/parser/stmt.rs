@@ -2,22 +2,20 @@ use swc_common::Spanned;
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
-use crate::{error::SyntaxError, lexer::Token, token};
+use crate::{error::SyntaxError, tok};
 
 mod module_item;
 
-use crate::parser::Parser;
-
 impl<'a, I: Tokens> Parser<I> {
-    pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
-        self.with_ctx(self.ctx() | Context::TopLevel)
-            .parse_stmt_like(true)
-    }
+    // pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
+    //     self.with_ctx(self.ctx() | Context::TopLevel)
+    //         .parse_stmt_like(true)
+    // }
 
     pub(super) fn parse_block_body<Type>(
         &mut self,
         mut allow_directives: bool,
-        end: Option<Token>,
+        end: Option<&'static Token>,
     ) -> PResult<Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
@@ -124,7 +122,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let top_level = self.ctx().contains(Context::TopLevel);
         match cur!(self, true) {
-            token!("await") if include_decl || top_level => {
+            tok!("await") if include_decl || top_level => {
                 if top_level {
                     self.found_module_item = true;
                     if !self.ctx().contains(Context::CanBeModule) {
@@ -151,7 +149,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            token!("break") | token!("continue") => {
+            tok!("break") | tok!("continue") => {
                 let is_break = is!(self, "break");
                 bump!(self);
 
@@ -186,7 +184,7 @@ impl<'a, I: Tokens> Parser<I> {
                 });
             }
 
-            token!("debugger") => {
+            tok!("debugger") => {
                 bump!(self);
                 expect!(self, ';');
                 return Ok(DebuggerStmt {
@@ -195,15 +193,15 @@ impl<'a, I: Tokens> Parser<I> {
                 .into());
             }
 
-            token!("do") => {
+            tok!("do") => {
                 return self.parse_do_stmt();
             }
 
-            token!("for") => {
+            tok!("for") => {
                 return self.parse_for_stmt();
             }
 
-            token!("function") => {
+            tok!("function") => {
                 if !include_decl {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
@@ -211,7 +209,7 @@ impl<'a, I: Tokens> Parser<I> {
                 return self.parse_fn_decl(decorators).map(Stmt::from);
             }
 
-            token!("class") => {
+            tok!("class") => {
                 if !include_decl {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
@@ -220,24 +218,24 @@ impl<'a, I: Tokens> Parser<I> {
                     .map(Stmt::from);
             }
 
-            token!("if") => {
+            tok!("if") => {
                 return self.parse_if_stmt().map(Stmt::If);
             }
 
-            token!("return") => {
+            tok!("return") => {
                 return self.parse_return_stmt();
             }
 
-            token!("switch") => {
+            tok!("switch") => {
                 return self.parse_switch_stmt();
             }
 
-            token!("throw") => {
+            tok!("throw") => {
                 return self.parse_throw_stmt();
             }
 
             // Error recovery
-            token!("catch") => {
+            tok!("catch") => {
                 let span = self.input.cur_span();
                 self.emit_err(span, SyntaxError::TS1005);
 
@@ -252,7 +250,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // Error recovery
-            token!("finally") => {
+            tok!("finally") => {
                 let span = self.input.cur_span();
                 self.emit_err(span, SyntaxError::TS1005);
 
@@ -265,35 +263,33 @@ impl<'a, I: Tokens> Parser<I> {
                 .into());
             }
 
-            token!("try") => {
+            tok!("try") => {
                 return self.parse_try_stmt();
             }
 
-            token!("with") => {
+            tok!("with") => {
                 return self.parse_with_stmt();
             }
 
-            token!("while") => {
+            tok!("while") => {
                 return self.parse_while_stmt();
             }
 
-            token!("var") => {
+            tok!("var") => {
                 let v = self.parse_var_stmt(false)?;
                 return Ok(v.into());
             }
 
-            token!("const") if include_decl => {
+            tok!("const") if include_decl => {
                 let v = self.parse_var_stmt(false)?;
                 return Ok(v.into());
             }
 
             // 'let' can start an identifier reference.
-            token!("let") if include_decl => {
+            tok!("let") if include_decl => {
                 let strict = self.ctx().contains(Context::Strict);
                 let is_keyword = match peek!(self) {
-                    Some(t) => t
-                        .kind(self.input.get_token_value())
-                        .follows_keyword_let(strict),
+                    Some(t) => t.kind().follows_keyword_let(strict),
                     _ => false,
                 };
 
@@ -303,14 +299,14 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            token!("using") if include_decl => {
+            tok!("using") if include_decl => {
                 let v = self.parse_using_decl(start, false)?;
                 if let Some(v) = v {
                     return Ok(v.into());
                 }
             }
 
-            token!("interface") => {
+            tok!("interface") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
                     && !self.input.has_linebreak_between_cur_and_peeked()
@@ -321,7 +317,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            token!("type") => {
+            tok!("type") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
                     && !self.input.has_linebreak_between_cur_and_peeked()
@@ -332,7 +328,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            token!("enum") => {
+            tok!("enum") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
                     && !self.input.has_linebreak_between_cur_and_peeked()
@@ -343,7 +339,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            token!('{') => {
+            tok!('{') => {
                 return self
                     .with_ctx(self.ctx() | Context::AllowUsingDecl)
                     .parse_block(false)
@@ -440,7 +436,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             .into())
         } else {
-            if cur!(self, false)?.as_bin_op().is_some() {
+            if let Token::BinOp(..) = *cur!(self, false)? {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                 let expr = self.parse_bin_op_recursively(expr, 0)?;
                 return Ok(ExprStmt {
@@ -829,9 +825,9 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = cur_pos!(self);
         let kind = match bump!(self) {
-            token!("const") => VarDeclKind::Const,
-            token!("let") => VarDeclKind::Let,
-            token!("var") => VarDeclKind::Var,
+            tok!("const") => VarDeclKind::Const,
+            tok!("let") => VarDeclKind::Let,
+            tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
         let var_span = span!(self, start);
@@ -911,7 +907,7 @@ impl<'a, I: Tokens> Parser<I> {
             while !eat!(self, ';') {
                 bump!(self);
 
-                if let Some(Token::Error) = self.input.cur() {
+                if let Some(Token::Error(_)) = self.input.cur() {
                     break;
                 }
             }
@@ -1082,7 +1078,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let stmts = self
             .with_ctx(self.ctx() & !Context::TopLevel)
-            .parse_block_body(allow_directives, Some(Token::RBrace))?;
+            .parse_block_body(allow_directives, Some(&tok!('}')))?;
 
         let span = span!(self, start);
         Ok(BlockStmt {
@@ -1210,10 +1206,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if is_one_of!(self, "const", "var")
             || (is!(self, "let")
-                && peek!(self).map_or(false, |v| {
-                    v.kind(self.input.get_token_value())
-                        .follows_keyword_let(strict)
-                }))
+                && peek!(self).map_or(false, |v| v.kind().follows_keyword_let(strict)))
         {
             let decl = self.parse_var_stmt(true)?;
 
@@ -1336,7 +1329,7 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
-        let is_of = bump!(self) == token!("of");
+        let is_of = bump!(self) == tok!("of");
         if is_of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(TempForHead::ForOf { left, right })
@@ -1389,7 +1382,7 @@ enum TempForHead {
 pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
-        self.as_ref().is_some_and(Stmt::is_use_strict)
+        self.as_ref().map_or(false, Stmt::is_use_strict)
     }
 }
 

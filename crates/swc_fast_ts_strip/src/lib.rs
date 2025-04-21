@@ -20,7 +20,7 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
-use swc_ecma_parser::{
+use swc_ecma_lexer::{
     lexer::Lexer,
     token::{BinOpToken, IdentLike, KnownIdent, Token, TokenAndSpan, Word},
     Capturing, Parser, StringInput, Syntax, TsSyntax,

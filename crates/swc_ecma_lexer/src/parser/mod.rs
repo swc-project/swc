@@ -5,12 +5,17 @@ use std::ops::{Deref, DerefMut};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::error::SyntaxError;
 
 use self::util::ParseObject;
-use crate::{lexer::Token, parser::input::Tokens, Context, EsVersion, Syntax, TsSyntax};
+pub(crate) use crate::input::Tokens;
+use crate::{
+    error::SyntaxError,
+    input::Buffer,
+    token::{Token, Word},
+    Context, Syntax, TsSyntax, *,
+};
 #[cfg(test)]
 extern crate test;
 #[cfg(test)]
@@ -39,9 +44,9 @@ pub type PResult<T> = Result<T, Error>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<I: self::input::Tokens> {
+pub struct Parser<I: Tokens> {
     state: State,
-    input: self::input::Buffer<I>,
+    input: Buffer<I>,
     found_module_item: bool,
 }
 
@@ -54,12 +59,12 @@ struct State {
     trailing_commas: FxHashMap<BytePos, Span>,
 }
 
-impl<'a> Parser<crate::lexer::Lexer<'a>> {
-    pub fn new(syntax: Syntax, input: StringInput<'a>, comments: Option<&'a dyn Comments>) -> Self {
-        let lexer = crate::lexer::Lexer::new(syntax, Default::default(), input, comments);
-        Self::new_from(lexer)
-    }
-}
+// impl<'a> Parser<crate::lexer::Lexer<'a>> {
+//     pub fn new(syntax: Syntax, input: StringInput<'a>, comments: Option<&'a
+// dyn Comments>) -> Self {         let lexer = crate::lexer::Lexer::new(syntax,
+// Default::default(), input, comments);         Self::new_from(lexer)
+//     }
+// }
 
 impl<I: Tokens> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
@@ -76,7 +81,7 @@ impl<I: Tokens> Parser<I> {
 
         Parser {
             state: Default::default(),
-            input: crate::parser::input::Buffer::new(input),
+            input: Buffer::new(input),
             found_module_item: false,
         }
     }
@@ -106,14 +111,14 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    #[cfg(test)]
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
         trace_cur!(self, parse_typescript_module);
 
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<Program>
-        let ctx = (self.ctx() | Context::Module | Context::TopLevel) & !Context::Strict;
-        // Module code is always in strict mode
+        let ctx = (self.ctx() | Context::Module | Context::TopLevel) & !Context::Strict; // Module code is always in strict mode
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
@@ -161,7 +166,10 @@ impl<I: Tokens> Parser<I> {
             let body = body
                 .into_iter()
                 .map(|item| match item {
-                    ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
+                    ModuleItem::ModuleDecl(_) => unreachable!(
+                        "Module is handled
+    above"
+                    ),
                     ModuleItem::Stmt(stmt) => stmt,
                 })
                 .collect();
@@ -194,11 +202,8 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
         match cur!(self, false) {
-            Ok(Token::Shebang) => match bump!(self) {
-                Token::Shebang => {
-                    let v = self.input.expect_word_token_value();
-                    Ok(Some(v))
-                }
+            Ok(&Token::Shebang(..)) => match bump!(self) {
+                Token::Shebang(v) => Ok(Some(v)),
                 _ => unreachable!(),
             },
             _ => Ok(None),
@@ -224,11 +229,10 @@ impl<I: Tokens> Parser<I> {
             return;
         }
 
-        if matches!(self.input.cur(), Some(Token::Error)) {
+        if matches!(self.input.cur(), Some(Token::Error(..))) {
             let err = self.input.bump();
             match err {
-                Token::Error => {
-                    let err = self.input.expect_error_token_value();
+                Token::Error(err) => {
                     self.input_ref().add_error(err);
                 }
                 _ => unreachable!(),
@@ -251,10 +255,10 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
 where
-    F: FnOnce(&mut Parser<crate::lexer::Lexer>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = crate::lexer::Lexer::new(syntax, EsVersion::Es2019, input, None);
+        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
         let mut error = false;
@@ -272,16 +276,21 @@ where
 
         Ok(res)
     })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{s}\n{output}"))
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
 
 #[cfg(test)]
-pub fn test_parser_comment<F, Ret>(c: &dyn Comments, s: &'static str, syntax: Syntax, f: F) -> Ret
+pub fn test_parser_comment<F, Ret>(
+    c: &dyn swc_common::comments::Comments,
+    s: &'static str,
+    syntax: Syntax,
+    f: F,
+) -> Ret
 where
-    F: FnOnce(&mut Parser<crate::lexer::Lexer>) -> Result<Ret, Error>,
+    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
 {
     crate::with_test_sess(s, |handler, input| {
-        let lexer = crate::lexer::Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
+        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
         let mut p = Parser::new_from(lexer);
         let ret = f(&mut p);
 
@@ -291,19 +300,19 @@ where
 
         ret.map_err(|err| err.into_diagnostic(handler).emit())
     })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{s}\n{output}"))
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
 }
 
 #[cfg(test)]
 pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
 where
-    F: for<'a> FnMut(&'a mut Parser<crate::lexer::Lexer<'a>>) -> PResult<()>,
+    F: for<'a> FnMut(&'a mut Parser<Lexer<'a>>) -> PResult<()>,
 {
     b.bytes = s.len() as u64;
 
     let _ = crate::with_test_sess(s, |handler, input| {
         b.iter(|| {
-            let lexer = crate::lexer::Lexer::new(syntax, Default::default(), input.clone(), None);
+            let lexer = Lexer::new(syntax, Default::default(), input.clone(), None);
             let _ =
                 f(&mut Parser::new_from(lexer)).map_err(|err| err.into_diagnostic(handler).emit());
         });

@@ -1,17 +1,14 @@
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
-use swc_ecma_lexer::lexer::TokenContext;
 
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{lexer::Token, parser::class_and_fn::IsSimpleParameterList, token};
+use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, tok};
 
 mod ops;
 #[cfg(test)]
 mod tests;
 mod verifier;
-
-use crate::parser::Parser;
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
@@ -39,10 +36,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overridden)
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
@@ -82,10 +76,7 @@ impl<I: Tokens> Parser<I> {
     /// operators like `+=`.
     ///
     /// `parseMaybeAssign`
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
         let start = self.input.cur_span();
@@ -135,9 +126,8 @@ impl<I: Tokens> Parser<I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match cur!(self, true) {
-            Token::Ident | token!('(') | token!("yield") => Some(cur_pos!(self)),
-            t if t.as_known_ident_atom().is_some() => Some(cur_pos!(self)),
+        self.state.potential_arrow_start = match *cur!(self, true) {
+            Token::Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
 
@@ -161,62 +151,63 @@ impl<I: Tokens> Parser<I> {
     fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
-        if let Some(op) = self.input.cur().and_then(|t| t.as_assign_op()) {
-            let left = if op == AssignOp::Assign {
-                match AssignTarget::try_from(self.reparse_expr_as_pat(PatType::AssignPat, cond)?) {
-                    Ok(pat) => pat,
-                    Err(expr) => {
-                        syntax_error!(self, expr.span(), SyntaxError::InvalidAssignTarget)
+        match self.input.cur() {
+            Some(&Token::AssignOp(op)) => {
+                let left = if op == AssignOp::Assign {
+                    match AssignTarget::try_from(
+                        self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
+                    ) {
+                        Ok(pat) => pat,
+                        Err(expr) => {
+                            syntax_error!(self, expr.span(), SyntaxError::InvalidAssignTarget)
+                        }
                     }
-                }
-            } else {
-                // It is an early Reference Error if IsValidSimpleAssignmentTarget of
-                // LeftHandSideExpression is false.
-                if !cond.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
-                    if self.input.syntax().typescript() {
-                        self.emit_err(cond.span(), SyntaxError::TS2406);
-                    } else {
-                        self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                } else {
+                    // It is an early Reference Error if IsValidSimpleAssignmentTarget of
+                    // LeftHandSideExpression is false.
+                    if !cond.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))
+                    {
+                        if self.input.syntax().typescript() {
+                            self.emit_err(cond.span(), SyntaxError::TS2406);
+                        } else {
+                            self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                        }
                     }
-                }
-                if self.input.syntax().typescript()
-                    && cond
-                        .as_ident()
-                        .map(|i| i.is_reserved_in_strict_bind())
-                        .unwrap_or(false)
-                {
-                    self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
-                }
+                    if self.input.syntax().typescript()
+                        && cond
+                            .as_ident()
+                            .map(|i| i.is_reserved_in_strict_bind())
+                            .unwrap_or(false)
+                    {
+                        self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
+                    }
 
-                // TODO
-                match AssignTarget::try_from(cond) {
-                    Ok(v) => v,
-                    Err(v) => {
-                        syntax_error!(self, v.span(), SyntaxError::InvalidAssignTarget);
+                    // TODO
+                    match AssignTarget::try_from(cond) {
+                        Ok(v) => v,
+                        Err(v) => {
+                            syntax_error!(self, v.span(), SyntaxError::InvalidAssignTarget);
+                        }
                     }
-                }
-            };
+                };
 
-            bump!(self);
-            let right = self.parse_assignment_expr()?;
-            Ok(AssignExpr {
-                span: span!(self, start),
-                op,
-                // TODO:
-                left,
-                right,
+                bump!(self);
+                let right = self.parse_assignment_expr()?;
+                Ok(AssignExpr {
+                    span: span!(self, start),
+                    op,
+                    // TODO:
+                    left,
+                    right,
+                }
+                .into())
             }
-            .into())
-        } else {
-            Ok(cond)
+            _ => Ok(cond),
         }
     }
 
     /// Spec: 'ConditionalExpression'
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
@@ -248,10 +239,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
@@ -264,9 +252,9 @@ impl<I: Tokens> Parser<I> {
             .map(|s| s == start)
             .unwrap_or(false);
 
-        if let Some(token) = self.input.cur() {
-            match token {
-                token!("this") => {
+        if let Some(tok) = self.input.cur() {
+            match tok {
+                tok!("this") => {
                     self.input.bump();
                     return Ok(ThisExpr {
                         span: span!(self, start),
@@ -274,7 +262,7 @@ impl<I: Tokens> Parser<I> {
                     .into());
                 }
 
-                token!("async") => {
+                tok!("async") => {
                     if peeked_is!(self, "function")
                         && !self.input.has_linebreak_between_cur_and_peeked()
                     {
@@ -303,42 +291,41 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                token!('[') => {
+                tok!('[') => {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
                     return self.with_ctx(ctx).parse_array_lit();
                 }
 
-                token!('{') => {
+                tok!('{') => {
                     return self.parse_object::<Expr>().map(Box::new);
                 }
 
                 // Handle FunctionExpression and GeneratorExpression
-                token!("function") => {
+                tok!("function") => {
                     return self.parse_fn_expr();
                 }
 
                 // Literals
-                token!("null")
-                | token!("true")
-                | token!("false")
-                | Token::Num
-                | Token::BigInt
-                | Token::Str => {
+                tok!("null")
+                | tok!("true")
+                | tok!("false")
+                | Token::Num { .. }
+                | Token::BigInt { .. }
+                | Token::Str { .. } => {
                     return Ok(self.parse_lit()?.into());
                 }
 
                 // Regexp
-                token!('/') | token!("/=") => {
+                tok!('/') | tok!("/=") => {
                     bump!(self);
 
                     self.input.set_next_regexp(Some(start));
 
-                    if let Some(Token::Regex) = self.input.cur() {
+                    if let Some(Token::Regex(..)) = self.input.cur() {
                         self.input.set_next_regexp(None);
 
                         match bump!(self) {
-                            Token::Regex => {
-                                let (exp, flags) = self.input.expect_regex_token_value();
+                            Token::Regex(exp, flags) => {
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(
@@ -371,14 +358,14 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                token!('`') => {
+                tok!('`') => {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
 
                     // parse template literal
                     return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
                 }
 
-                token!('(') => {
+                tok!('(') => {
                     return self.parse_paren_expr_or_arrow_fn(can_be_arrow, None);
                 }
 
@@ -497,10 +484,7 @@ impl<I: Tokens> Parser<I> {
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
@@ -542,10 +526,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         let ctx = self.ctx() | Context::ShouldNotLexLtOrGtAsType;
         self.with_ctx(ctx)
@@ -692,10 +673,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
 
@@ -703,10 +681,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse `Arguments[Yield, Await]`
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
@@ -776,10 +751,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse paren expression or arrow function expression.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_paren_expr_or_arrow_fn(
         &mut self,
         can_be_arrow: bool,
@@ -812,7 +784,7 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
                 expect!(p, "=>");
 
@@ -855,7 +827,7 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
         {
             self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
 
                 if !is!(p, "=>") {
                     unexpected!(p, "fail")
@@ -903,7 +875,7 @@ impl<I: Tokens> Parser<I> {
                 ..Default::default()
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if self.input.cur().is_some_and(|t| t.as_bin_op().is_some()) {
+                if let Some(&Token::BinOp(..)) = self.input.cur() {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
@@ -1087,21 +1059,18 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
-        let (raw, cooked) = match cur!(self, true) {
-            Token::Template => match bump!(self) {
-                Token::Template => {
-                    let (cooked, raw) = self.input.expect_template_token_value();
-                    match cooked {
-                        Ok(cooked) => (raw, Some(cooked)),
-                        Err(err) => {
-                            if is_tagged_tpl {
-                                (raw, None)
-                            } else {
-                                return Err(err);
-                            }
+        let (raw, cooked) = match *cur!(self, true) {
+            Token::Template { .. } => match bump!(self) {
+                Token::Template { raw, cooked, .. } => match cooked {
+                    Ok(cooked) => (raw, Some(cooked)),
+                    Err(err) => {
+                        if is_tagged_tpl {
+                            (raw, None)
+                        } else {
+                            return Err(err);
                         }
                     }
-                }
+                },
                 _ => unreachable!(),
             },
             _ => unexpected!(self, "template token"),
@@ -1118,10 +1087,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_subscripts(
         &mut self,
         mut obj: Callee,
@@ -1138,10 +1104,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// returned bool is true if this method should be called again.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_subscript(
         &mut self,
         start: BytePos,
@@ -1589,10 +1552,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse call, dot, and `[]`-subscript expressions.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
@@ -1606,7 +1566,7 @@ impl<I: Tokens> Parser<I> {
                     Either::Right(r) => r.into(),
                 }
             }
-            match cur!(self, true) {
+            match *cur!(self, true) {
                 Token::JSXText { .. } => {
                     return self
                         .parse_jsx_text()
@@ -1667,7 +1627,7 @@ impl<I: Tokens> Parser<I> {
             }
             debug_assert_ne!(
                 cur!(self, false).ok(),
-                Some(Token::LParen),
+                Some(&tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
             );
             return Ok(NewExpr { type_args, ..ne }.into());
@@ -1731,10 +1691,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     // Returns (args_or_pats, trailing_comma)
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_args_or_pats(
         &mut self,
     ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
@@ -1755,8 +1712,10 @@ impl<I: Tokens> Parser<I> {
         while !eof!(self) && !is!(self, ')') {
             // https://github.com/swc-project/swc/issues/410
             let is_async = is!(self, "async")
-                && peek!(self)
-                    .is_some_and(|t| matches!(t, token!('(') | token!("function")) || t.is_word());
+                && matches!(
+                    peek!(self),
+                    Some(tok!('(') | tok!("function") | Token::Word(..))
+                );
 
             let start = cur_pos!(self);
             self.state.potential_arrow_start = Some(start);
@@ -1782,7 +1741,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        if cur!(self, false).is_ok_and(|t| t.as_assign_op().is_some()) {
+                        if let Ok(&Token::AssignOp(..)) = cur!(self, false) {
                             expr = self.finish_assignment_expr(start, expr)?
                         }
 
@@ -2018,7 +1977,7 @@ impl<I: Tokens> Parser<I> {
                 && !is!(self, '/')
                 && !is!(self, "/=")
                 && !cur!(self, false)
-                    .map(|t| t.kind(self.input.get_token_value()).starts_expr())
+                    .map(|t| t.kind().starts_expr())
                     .unwrap_or(true))
         {
             Ok(YieldExpr {
@@ -2063,49 +2022,40 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true) {
-            Token::Null => {
+            Token::Word(Word::Null) => {
                 bump!(self);
                 let span = span!(self, start);
                 Lit::Null(Null { span })
             }
-            Token::True | Token::False => {
+            Token::Word(Word::True) | Token::Word(Word::False) => {
                 let value = is!(self, "true");
                 bump!(self);
                 let span = span!(self, start);
 
                 Lit::Bool(Bool { span, value })
             }
-            Token::Str => match bump!(self) {
-                Token::Str => {
-                    let (value, raw) = self.input.expect_string_token_value();
-                    Lit::Str(Str {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
+            Token::Str { .. } => match bump!(self) {
+                Token::Str { value, raw } => Lit::Str(Str {
+                    span: span!(self, start),
+                    value,
+                    raw: Some(raw),
+                }),
                 _ => unreachable!(),
             },
-            Token::Num => match bump!(self) {
-                Token::Num => {
-                    let (value, raw) = self.input.expect_number_token_value();
-                    Lit::Num(Number {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
+            Token::Num { .. } => match bump!(self) {
+                Token::Num { value, raw } => Lit::Num(Number {
+                    span: span!(self, start),
+                    value,
+                    raw: Some(raw),
+                }),
                 _ => unreachable!(),
             },
-            Token::BigInt => match bump!(self) {
-                Token::BigInt => {
-                    let (value, raw) = self.input.expect_bigint_token_value();
-                    Lit::BigInt(BigInt {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
+            Token::BigInt { .. } => match bump!(self) {
+                Token::BigInt { value, raw } => Lit::BigInt(BigInt {
+                    span: span!(self, start),
+                    value,
+                    raw: Some(raw),
+                }),
                 _ => unreachable!(),
             },
             token => unreachable!("parse_lit should not be called for {:?}", token),

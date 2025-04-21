@@ -3,7 +3,10 @@ use either::Either;
 use swc_atoms::atom;
 
 use super::*;
-use crate::{lexer::Token, parser::Parser};
+use crate::{
+    token::{IdentLike, Keyword},
+    *,
+};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
@@ -63,15 +66,18 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let t = cur!(self, true);
-        let w = if t.is_word() {
-            bump!(self);
-            t.as_word_atom(self.input.get_token_value()).unwrap()
-        } else if matches!(t, Token::JSXName) && in_type {
-            bump!(self);
-            self.input.expect_word_token_value()
-        } else {
-            syntax_error!(self, SyntaxError::ExpectedIdent)
+        let w = match cur!(self, true) {
+            Token::Word(..) => match bump!(self) {
+                Token::Word(w) => w.into(),
+                _ => unreachable!(),
+            },
+
+            Token::JSXName { .. } if in_type => match bump!(self) {
+                Token::JSXName { name } => name,
+                _ => unreachable!(),
+            },
+
+            _ => syntax_error!(self, SyntaxError::ExpectedIdent),
         };
 
         Ok(IdentName::new(w, span!(self, start)))
@@ -79,13 +85,12 @@ impl<I: Tokens> Parser<I> {
 
     // https://tc39.es/ecma262/#prod-ModuleExportName
     pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
-        let t = cur!(self, false).unwrap();
-        let module_export_name = match t {
-            Token::Str => match self.parse_lit()? {
+        let module_export_name = match cur!(self, false) {
+            Ok(&Token::Str { .. }) => match self.parse_lit()? {
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
                 _ => unreachable!(),
             },
-            _ if t.is_word() => ModuleExportName::Ident(self.parse_ident_name()?.into()),
+            Ok(&Token::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?.into()),
             _ => {
                 unexpected!(self, "identifier or string");
             }
@@ -102,38 +107,44 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let word = self.parse_with(|p| {
-            let t = cur!(p, true);
-            bump!(p);
-            if !t.is_word() {
-                syntax_error!(p, SyntaxError::ExpectedIdent)
-            }
+            let w = match cur!(p, true) {
+                &Token::Word(..) => match bump!(p) {
+                    Token::Word(w) => w,
+                    _ => unreachable!(),
+                },
+                _ => syntax_error!(p, SyntaxError::ExpectedIdent),
+            };
+
             // Spec:
             // It is a Syntax Error if this phrase is contained in strict mode code and the
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected", "public", "static", or "yield".
-            match t {
-                Token::Enum => {
+            match w {
+                Word::Ident(ref name @ ident_like!("enum")) => {
                     p.emit_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(
-                            t.as_word_atom(p.input.get_token_value()).unwrap(),
-                        ),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
-                Token::Yield
-                | Token::Let
-                | Token::Static
-                | Token::Implements
-                | Token::Interface
-                | Token::Package
-                | Token::Private
-                | Token::Protected
-                | Token::Public => {
+                Word::Keyword(name @ Keyword::Yield) | Word::Keyword(name @ Keyword::Let) => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(
-                            t.as_word_atom(p.input.get_token_value()).unwrap(),
-                        ),
+                        SyntaxError::InvalidIdentInStrict(name.into_atom()),
+                    );
+                }
+
+                Word::Ident(
+                    ref name @ ident_like!("static")
+                    | ref name @ ident_like!("implements")
+                    | ref name @ ident_like!("interface")
+                    | ref name @ ident_like!("package")
+                    | ref name @ ident_like!("private")
+                    | ref name @ ident_like!("protected")
+                    | ref name @ ident_like!("public"),
+                ) => {
+                    p.emit_strict_mode_err(
+                        p.input.prev_span(),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
                 _ => {}
@@ -142,41 +153,32 @@ impl<I: Tokens> Parser<I> {
             // Spec:
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
-            match t {
-                Token::Await if p.ctx().contains(Context::InDeclare) => Ok(atom!("await")),
+            match w {
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::InDeclare) => Ok(atom!("await")),
 
-                Token::Await if p.ctx().contains(Context::InStaticBlock) => {
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::InStaticBlock) => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
-                Token::Await
-                    if p.ctx().contains(Context::Module) | p.ctx().contains(Context::InAsync) =>
-                {
+                Word::Keyword(Keyword::Await) if p.ctx().contains(Context::Module) | p.ctx().contains(Context::InAsync) => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
-                Token::This if p.input.syntax().typescript() => Ok(atom!("this")),
-                Token::Let => Ok(atom!("let")),
-                Token::Ident => {
-                    let ident = p.input.expect_word_token_value();
-                    if p.ctx().contains(Context::InClassField) && ident == atom!("arguments") {
+                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
+                Word::Keyword(Keyword::Let) => Ok(atom!("let")),
+                Word::Ident(ident) => {
+                    if p.ctx().contains(Context::InClassField)
+                        && matches!(&ident, IdentLike::Other(arguments) if atom!("arguments").eq(arguments))
+                    {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
-                    Ok(ident)
+                    Ok(ident.into())
                 }
-                Token::Yield if incl_yield => Ok(atom!("yield")),
-                Token::Await if incl_await => Ok(atom!("await")),
-                Token::Null | Token::True | Token::False => {
+                Word::Keyword(Keyword::Yield) if incl_yield => Ok(atom!("yield")),
+                Word::Keyword(Keyword::Await) if incl_await => Ok(atom!("await")),
+                Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
-                }
-                _ => {
-                    if t.as_keyword_atom().is_some() {
-                        syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
-                    } else if let Some(ident) = t.as_known_ident_atom() {
-                        return Ok(ident);
-                    }
-                    unreachable!()
                 }
             }
         })?;

@@ -10,8 +10,7 @@ use swc_common::{
     input::{Input, StringInput},
     BytePos, Span,
 };
-use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
-use swc_ecma_lexer::tok;
+use swc_ecma_ast::{EsVersion, Ident};
 
 use self::{
     comments_buffer::CommentsBuffer,
@@ -21,8 +20,7 @@ use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, IdentLike, Token, Word},
-    Context, Syntax,
+    Context, Syntax, *,
 };
 
 mod comments_buffer;
@@ -30,8 +28,11 @@ mod jsx;
 mod number;
 mod state;
 mod table;
+mod token;
 pub mod util;
 mod whitespace;
+
+pub(crate) use token::{Token, TokenAndSpan, TokenValue};
 
 pub(crate) type LexResult<T> = Result<T, Error>;
 
@@ -244,13 +245,20 @@ impl<'a> Lexer<'a> {
                     // Safety: cur() is Some(',')
                     self.input.bump();
                 }
-                return Ok(tok!('.'));
+                return Ok(Token::Dot);
             }
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Token::Num { value, raw },
-                Right((value, raw)) => Token::BigInt { value, raw },
+                Left((value, raw)) => {
+                    self.state.set_token_value(TokenValue::Num { value, raw });
+                    Token::Num
+                }
+                Right((value, raw)) => {
+                    self.state
+                        .set_token_value(TokenValue::BigInt { value, raw });
+                    Token::BigInt
+                }
             });
         }
 
@@ -268,10 +276,10 @@ impl<'a> Lexer<'a> {
                 self.input.bump(); // 3rd `.`
             }
 
-            return Ok(tok!("..."));
+            return Ok(Token::DotDotDot);
         }
 
-        Ok(tok!('.'))
+        Ok(Token::Dot)
     }
 
     /// Read a token given `?`.
@@ -292,16 +300,16 @@ impl<'a> Lexer<'a> {
                         self.input.bump();
                     }
 
-                    return Ok(tok!("??="));
+                    return Ok(Token::NullishEq);
                 }
-                Ok(tok!("??"))
+                Ok(Token::NullishCoalescing)
             }
             _ => {
                 unsafe {
                     // Safety: peek() is callable only if cur() is Some
                     self.input.bump();
                 }
-                Ok(tok!('?'))
+                Ok(Token::QuestionMark)
             }
         }
     }
@@ -315,7 +323,7 @@ impl<'a> Lexer<'a> {
             // Safety: cur() is Some(':')
             self.input.bump();
         }
-        Ok(tok!(':'))
+        Ok(Token::Colon)
     }
 
     /// Read a token given `0`.
@@ -331,15 +339,29 @@ impl<'a> Lexer<'a> {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Token::Num { value, raw },
-                    Right((value, raw)) => Token::BigInt { value, raw },
+                    Left((value, raw)) => {
+                        self.state.set_token_value(TokenValue::Num { value, raw });
+                        Token::Num
+                    }
+                    Right((value, raw)) => {
+                        self.state
+                            .set_token_value(TokenValue::BigInt { value, raw });
+                        Token::BigInt
+                    }
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
+            Left((value, raw)) => {
+                self.state.set_token_value(TokenValue::Num { value, raw });
+                Token::Num
+            }
+            Right((value, raw)) => {
+                self.state
+                    .set_token_value(TokenValue::BigInt { value, raw });
+                Token::BigInt
+            }
         })
     }
 
@@ -356,18 +378,19 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let token = if C == b'&' {
-            BinOpToken::BitAnd
+            Token::Ampersand
         } else {
-            BinOpToken::BitOr
+            debug_assert!(C == b'|');
+            Token::Pipe
         };
 
         // '|=', '&='
         if self.input.eat_byte(b'=') {
-            return Ok(Token::AssignOp(match token {
-                BinOpToken::BitAnd => AssignOp::BitAndAssign,
-                BinOpToken::BitOr => AssignOp::BitOrAssign,
+            return Ok(match token {
+                Token::Ampersand => Token::BitAndEq,
+                Token::Pipe => Token::BitOrEq,
                 _ => unreachable!(),
-            }));
+            });
         }
 
         // '||', '&&'
@@ -382,16 +405,16 @@ impl<'a> Lexer<'a> {
                     // Safety: cur() is Some('=')
                     self.input.bump();
                 }
-                return Ok(Token::AssignOp(match token {
-                    BinOpToken::BitAnd => op!("&&="),
-                    BinOpToken::BitOr => op!("||="),
+                return Ok(match token {
+                    Token::Ampersand => Token::LogicalAndEq,
+                    Token::Pipe => Token::LogicalOrEq,
                     _ => unreachable!(),
-                }));
+                });
             }
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
+            if had_line_break_before_last && token == Token::Pipe && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -399,14 +422,14 @@ impl<'a> Lexer<'a> {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(Token::BinOp(match token {
-                BinOpToken::BitAnd => BinOpToken::LogicalAnd,
-                BinOpToken::BitOr => BinOpToken::LogicalOr,
+            return Ok(match token {
+                Token::Ampersand => Token::LogicalAnd,
+                Token::Pipe => Token::LogicalOr,
                 _ => unreachable!(),
-            }));
+            });
         }
 
-        Ok(Token::BinOp(token))
+        Ok(token)
     }
 
     /// Read a token given `*` or `%`.
@@ -420,21 +443,22 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let mut token = if is_mul {
-            Token::BinOp(BinOpToken::Mul)
+            Token::Asterisk
         } else {
-            Token::BinOp(BinOpToken::Mod)
+            debug_assert!(C == b'%');
+            Token::Percent
         };
 
         // check for **
         if is_mul && self.input.eat_byte(b'*') {
-            token = Token::BinOp(BinOpToken::Exp)
+            token = Token::Exp;
         }
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
-                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
-                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
+                Token::Asterisk => Token::MulEq,
+                Token::Percent => Token::ModEq,
+                Token::Exp => Token::ExpEq,
                 _ => unreachable!(),
             }
         }
@@ -598,17 +622,15 @@ impl<'a> Lexer<'a> {
                 Token::MinusMinus
             }
         } else if self.input.eat_byte(b'=') {
-            Token::AssignOp(if C == b'+' {
-                AssignOp::AddAssign
+            if C == b'+' {
+                Token::PlusEq
             } else {
-                AssignOp::SubAssign
-            })
+                Token::MinusEq
+            }
+        } else if C == b'+' {
+            Token::Plus
         } else {
-            Token::BinOp(if C == b'+' {
-                BinOpToken::Add
-            } else {
-                BinOpToken::Sub
-            })
+            Token::Minus
         }))
     }
 
@@ -626,7 +648,7 @@ impl<'a> Lexer<'a> {
 
             if self.input.eat_byte(b'=') {
                 if C == b'!' {
-                    Token::BinOp(BinOpToken::NotEqEq)
+                    Token::NotEqEq
                 } else {
                     // =======
                     //    ^
@@ -637,12 +659,12 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    Token::BinOp(BinOpToken::EqEqEq)
+                    Token::EqEqEq
                 }
             } else if C == b'!' {
-                Token::BinOp(BinOpToken::NotEq)
+                Token::NotEq
             } else {
-                Token::BinOp(BinOpToken::EqEq)
+                Token::EqEq
             }
         } else if C == b'=' && self.input.eat_byte(b'>') {
             // "=>"
@@ -651,7 +673,7 @@ impl<'a> Lexer<'a> {
         } else if C == b'!' {
             Token::Bang
         } else {
-            Token::AssignOp(AssignOp::Assign)
+            Token::Eq
         }))
     }
 }
@@ -665,9 +687,9 @@ impl Lexer<'_> {
         self.bump();
 
         Ok(Some(if self.eat(b'=') {
-            tok!("/=")
+            token!("/=")
         } else {
-            tok!('/')
+            token!('/')
         }))
     }
 
@@ -682,9 +704,9 @@ impl Lexer<'_> {
             && !self.ctx.contains(Context::ShouldNotLexLtOrGtAsType)
         {
             if C == b'<' {
-                return Ok(Some(tok!('<')));
+                return Ok(Some(Token::Lt));
             } else if C == b'>' {
-                return Ok(Some(tok!('>')));
+                return Ok(Some(Token::Gt));
             }
         }
 
@@ -698,39 +720,35 @@ impl Lexer<'_> {
             return self.read_token();
         }
 
-        let mut op = if C == b'<' {
-            BinOpToken::Lt
-        } else {
-            BinOpToken::Gt
-        };
+        let mut op = if C == b'<' { Token::Lt } else { Token::Gt };
 
         // '<<', '>>'
         if self.cur() == Some(C as char) {
             self.bump();
             op = if C == b'<' {
-                BinOpToken::LShift
+                Token::LShift
             } else {
-                BinOpToken::RShift
+                Token::RShift
             };
 
             //'>>>'
             if C == b'>' && self.cur() == Some(C as char) {
                 self.bump();
-                op = BinOpToken::ZeroFillRShift;
+                op = Token::ZeroFillRShift;
             }
         }
 
         let token = if self.eat(b'=') {
             match op {
-                BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
-                BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
-                BinOpToken::LShift => Token::AssignOp(AssignOp::LShiftAssign),
-                BinOpToken::RShift => Token::AssignOp(AssignOp::RShiftAssign),
-                BinOpToken::ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
+                Token::Lt => Token::LtEq,
+                Token::Gt => Token::GtEq,
+                Token::LShift => Token::LShiftEq,
+                Token::RShift => Token::RShiftEq,
+                Token::ZeroFillRShift => Token::ZeroFillRShiftEq,
                 _ => unreachable!(),
             }
         } else {
-            Token::BinOp(op)
+            op
         };
 
         // All conflict markers consist of the same character repeated seven times.
@@ -741,8 +759,8 @@ impl Lexer<'_> {
         //    ^
         if had_line_break_before_last
             && match op {
-                BinOpToken::LShift if self.is_str("<<<<< ") => true,
-                BinOpToken::ZeroFillRShift if self.is_str(">>>> ") => true,
+                Token::LShift if self.is_str("<<<<< ") => true,
+                Token::ZeroFillRShift if self.is_str(">>>> ") => true,
                 _ => false,
             }
         {
@@ -760,29 +778,32 @@ impl Lexer<'_> {
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) = self
-            .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
+        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
+            l.state.set_token_value(TokenValue::Word(l.atoms.atom(s)));
+            Token::Ident
+        })?;
 
-        Ok(Token::Word(word))
+        Ok(word)
     }
 
     /// This can be used if there's no keyword starting with the first
     /// character.
     fn read_word_with(
         &mut self,
-        convert: &dyn Fn(&str) -> Option<Word>,
+        convert: &dyn Fn(&str) -> Option<Token>,
     ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
+        let (token, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
             if can_be_known {
-                if let Some(word) = convert(s) {
-                    return word;
+                if let Some(token) = convert(s) {
+                    return token;
                 }
             }
 
-            Word::Ident(IdentLike::Other(l.atoms.atom(s)))
+            l.state.set_token_value(TokenValue::Word(l.atoms.atom(s)));
+            Token::Ident
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -790,13 +811,15 @@ impl Lexer<'_> {
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
 
-        if has_escape && self.ctx.is_reserved(&word) {
+        if has_escape && token.is_reserved(self.ctx) {
             self.error(
                 start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
+                SyntaxError::EscapeInReservedWord {
+                    word: token.into_atom(self.state.token_value.as_ref()),
+                },
             )?
         } else {
-            Ok(Some(Token::Word(word)))
+            Ok(Some(token))
         }
     }
 
@@ -1073,7 +1096,8 @@ impl Lexer<'_> {
                         };
                         let raw = l.atoms.atom(raw);
 
-                        return Ok(Token::Str { value, raw });
+                        l.state.set_token_value(TokenValue::Str { value, raw });
+                        return Ok(Token::Str);
                     }
 
                     if c == b'\\' {
@@ -1143,10 +1167,11 @@ impl Lexer<'_> {
                 // `self.input`
                 l.input.slice(start, end)
             };
-            Ok(Token::Str {
+            l.state.set_token_value(TokenValue::Str {
                 value: l.atoms.atom(&*buf),
                 raw: l.atoms.atom(raw),
-            })
+            });
+            Ok(Token::Str)
         })
     }
 
@@ -1222,7 +1247,11 @@ impl Lexer<'_> {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Token::Regex(content, flags))
+        self.state.set_token_value(TokenValue::Regex {
+            value: content,
+            flags,
+        });
+        Ok(Token::Regex)
     }
 
     #[cold]
@@ -1266,10 +1295,10 @@ impl Lexer<'_> {
                     if c == '$' {
                         self.bump();
                         self.bump();
-                        return Ok(tok!("${"));
+                        return Ok(Token::DollarLBrace);
                     } else {
                         self.bump();
-                        return Ok(tok!('`'));
+                        return Ok(Token::BackQuote);
                     }
                 }
 
@@ -1296,10 +1325,11 @@ impl Lexer<'_> {
                     // from `self.input`
                     self.input.slice(raw_slice_start, end)
                 };
-                return Ok(Token::Template {
+                self.state.set_token_value(TokenValue::Template {
                     cooked,
                     raw: self.atoms.atom(raw),
                 });
+                return Ok(Token::Template);
             }
 
             if c == '\\' {

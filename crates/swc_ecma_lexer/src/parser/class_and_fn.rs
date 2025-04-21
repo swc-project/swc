@@ -1,8 +1,7 @@
 use swc_common::Spanned;
-use swc_ecma_lexer::lexer::TokenContext;
 
 use super::*;
-use crate::{lexer::Token, parser::Parser};
+use crate::{lexer::TokenContext, tok};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
@@ -84,7 +83,9 @@ impl<I: Tokens> Parser<I> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p.parse_maybe_opt_binding_ident(is_ident_required, true)?;
+            let ident = p
+                .parse_maybe_opt_binding_ident(is_ident_required, true)?
+                .map(Ident::from);
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -1184,7 +1185,8 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
                 .parse_maybe_opt_binding_ident(is_ident_required, false)?
-        };
+        }
+        .map(Ident::from);
 
         self.with_ctx(
             self.ctx()
@@ -1306,7 +1308,7 @@ impl<I: Tokens> Parser<I> {
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
-                p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
             } else {
                 None

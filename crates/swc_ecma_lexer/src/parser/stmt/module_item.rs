@@ -1,5 +1,4 @@
 use super::*;
-use crate::lexer::Token;
 
 impl<I: Tokens> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
@@ -41,16 +40,13 @@ impl<I: Tokens> Parser<I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
-        if let Ok(Token::Str) = cur!(self, false) {
+        if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = match bump!(self) {
-                Token::Str => {
-                    let (value, raw) = self.input.expect_string_token_value();
-                    Box::new(Str {
-                        span: span!(self, str_start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
+                Token::Str { value, raw, .. } => Box::new(Str {
+                    span: span!(self, str_start),
+                    value,
+                    raw: Some(raw),
+                }),
                 _ => unreachable!(),
             };
             let _ = cur!(self, false);
@@ -165,16 +161,13 @@ impl<I: Tokens> Parser<I> {
             expect!(self, "from");
             let str_start = cur_pos!(self);
 
-            match cur!(self, true) {
-                Token::Str => match bump!(self) {
-                    Token::Str => {
-                        let (value, raw) = self.input.expect_string_token_value();
-                        Box::new(Str {
-                            span: span!(self, str_start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
+            match *cur!(self, true) {
+                Token::Str { .. } => match bump!(self) {
+                    Token::Str { value, raw, .. } => Box::new(Str {
+                        span: span!(self, str_start),
+                        value,
+                        raw: Some(raw),
+                    }),
                     _ => unreachable!(),
                 },
                 _ => unexpected!(self, "a string literal"),
@@ -373,8 +366,10 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let t = cur!(self, true);
-            let sym = t.into_atom(self.input.get_token_value());
+            let sym = match *cur!(self, true) {
+                Token::Word(ref w) => w.clone().into(),
+                _ => unreachable!(),
+            };
             // TODO: remove clone
             if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                 return Ok(ExportDecl {
@@ -559,8 +554,7 @@ impl<I: Tokens> Parser<I> {
                     && peek!(self)
                         .map(|t| {
                             // module code is always in strict mode.
-                            t.kind(self.input.get_token_value())
-                                .follows_keyword_let(true)
+                            t.kind().follows_keyword_let(true)
                         })
                         .unwrap_or(false))
         {
@@ -836,16 +830,13 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
-        let src = match cur!(self, true) {
-            Token::Str => match bump!(self) {
-                Token::Str => {
-                    let (value, raw) = self.input.expect_string_token_value();
-                    Box::new(Str {
-                        span: span!(self, str_start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
+        let src = match *cur!(self, true) {
+            Token::Str { .. } => match bump!(self) {
+                Token::Str { value, raw, .. } => Box::new(Str {
+                    span: span!(self, str_start),
+                    value,
+                    raw: Some(raw),
+                }),
                 _ => unreachable!(),
             },
             _ => unexpected!(self, "a string literal"),
@@ -903,7 +894,7 @@ mod tests {
 
     #[test]
     fn test_legacy_decorator() {
-        crate::test_parser(
+        crate::parser::test_parser(
             "@foo
 export default class Foo {
   bar() {
