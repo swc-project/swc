@@ -12,9 +12,12 @@ use super::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    lexer::util::CharExt,
-    token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    Syntax, Tokens,
+    lexer::{
+        token::{Token, TokenAndSpan, TokenValue},
+        util::CharExt,
+    },
+    token::{BinOpToken, Keyword, TokenKind, WordKind},
+    Syntax,
 };
 
 /// State of lexer.
@@ -39,10 +42,11 @@ pub(super) struct State {
     context: TokenContexts,
     syntax: Syntax,
 
+    pub(super) token_value: Option<TokenValue>,
     token_type: Option<TokenType>,
 }
 
-impl Tokens for Lexer<'_> {
+impl crate::parser::input::Tokens for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
@@ -80,6 +84,14 @@ impl Tokens for Lexer<'_> {
     #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
         self.state.next_regexp = start;
+    }
+
+    fn clone_token_value(&self) -> Option<TokenValue> {
+        self.state.token_value.clone()
+    }
+
+    fn get_token_value(&self) -> Option<&TokenValue> {
+        self.state.token_value.as_ref()
     }
 
     #[inline]
@@ -174,7 +186,8 @@ impl Lexer<'_> {
 
         if self.state.is_first {
             if let Some(shebang) = self.read_shebang()? {
-                return Ok(Some(Token::Shebang(shebang)));
+                self.state.set_token_value(TokenValue::Word(shebang));
+                return Ok(Some(Token::Shebang));
             }
         }
 
@@ -277,8 +290,14 @@ impl Iterator for Lexer<'_> {
         let mut start = self.cur_pos();
 
         let res = self.next_token(&mut start);
-
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let res = match res {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
             Ok(t) => t,
             Err(e) => e,
         };
@@ -295,7 +314,8 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token.kind());
+            self.state
+                .update(start, token.kind(self.state.token_value.as_ref()));
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -328,6 +348,7 @@ impl State {
             tpl_start: BytePos::DUMMY,
             context,
             syntax,
+            token_value: None,
             token_type: None,
         }
     }
@@ -584,5 +605,9 @@ impl State {
                 _ => next.before_expr(),
             }
         }
+    }
+
+    pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
+        self.token_value = Some(token_value);
     }
 }

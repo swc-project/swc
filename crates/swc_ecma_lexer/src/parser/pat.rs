@@ -4,15 +4,15 @@ use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
 use crate::{
-    lexer::Token,
-    parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread, Parser},
-    token,
+    parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread},
+    tok,
+    token::{IdentLike, Keyword, Token},
 };
 
 impl<I: Tokens> Parser<I> {
-    pub fn parse_pat(&mut self) -> PResult<Pat> {
-        self.parse_binding_pat_or_ident(false)
-    }
+    // pub fn parse_pat(&mut self) -> PResult<Pat> {
+    //     self.parse_binding_pat_or_ident(false)
+    // }
 
     pub(super) fn parse_opt_binding_ident(
         &mut self,
@@ -34,7 +34,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_ident);
 
         if disallow_let {
-            if let Some(Token::Let) = self.input.cur() {
+            if let Some(Token::Word(Word::Keyword(Keyword::Let))) = self.input.cur() {
                 unexpected!(self, "let is reserved in const, let, class declaration")
             }
         }
@@ -59,18 +59,18 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
-        let t = cur!(self, true);
-        match t {
-            token!('[') => self.parse_array_binding_pat(),
-            token!('{') => self.parse_object(),
+        match *cur!(self, true) {
+            tok!("yield") | Token::Word(..) => {
+                self.parse_binding_ident(disallow_let).map(Pat::from)
+            }
+            tok!('[') => self.parse_array_binding_pat(),
+            tok!('{') => self.parse_object(),
             // tok!('(') => {
             //     bump!(self);
             //     let pat = self.parse_binding_pat_or_ident()?;
             //     expect!(self, ')');
             //     Ok(pat)
             // }
-            token!("yield") => self.parse_binding_ident(disallow_let).map(Pat::from),
-            _ if t.is_word() => self.parse_binding_ident(disallow_let).map(Pat::from),
             _ => unexpected!(self, "yield, an identifier, [ or {"),
         }
     }
@@ -164,8 +164,13 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && matches!(
-                cur!(self, false)?,
-                Token::Public | Token::Protected | Token::Private | Token::Readonly
+                *cur!(self, false)?,
+                Token::Word(Word::Ident(IdentLike::Known(
+                    known_ident!("public")
+                        | known_ident!("protected")
+                        | known_ident!("private")
+                        | known_ident!("readonly")
+                )))
             )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {

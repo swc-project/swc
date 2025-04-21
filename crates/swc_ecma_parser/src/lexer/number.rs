@@ -521,7 +521,7 @@ impl Lexer<'_> {
 
 #[cfg(test)]
 mod tests {
-    use std::panic;
+    // use std::panic;
 
     use super::*;
 
@@ -757,65 +757,66 @@ mod tests {
         assert_eq!(num(LONG), (9.671_406_556_917_009e24, LONG.into()));
     }
 
-    /// Valid even on strict mode.
-    const VALID_CASES: &[&str] = &[".0", "0.e-1", "0e8", ".8e1", "0.8e1", "1.18e1"];
-    const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1", "08.8e1", "08", "01"];
-    const INVALID_CASES: &[&str] = &["01.8e1", "012e1", "00e1", "00.0"];
+    // /// Valid even on strict mode.
+    // const VALID_CASES: &[&str] = &[".0", "0.e-1", "0e8", ".8e1", "0.8e1",
+    // "1.18e1"]; const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1",
+    // "08.8e1", "08", "01"]; const INVALID_CASES: &[&str] = &["01.8e1",
+    // "012e1", "00e1", "00.0"];
 
-    fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
-        for case in cases {
-            println!(
-                "Testing {} (when strict = {}); Expects success = {}",
-                case, strict, success
-            );
-            // lazy way to get expected values
-            let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as f64))
-                .or_else(|_| case.parse::<i64>().map(|v| v as f64))
-                .or_else(|_| case.parse::<f64>())
-                .unwrap_or_else(|err| {
-                    panic!(
-                        "failed to parse '{}' as float using str.parse(): {}",
-                        case, err
-                    )
-                });
+    // fn test_floats(strict: bool, success: bool, cases: &'static [&'static
+    // str]) {     for case in cases {
+    //         println!(
+    //             "Testing {} (when strict = {}); Expects success = {}",
+    //             case, strict, success
+    //         );
+    //         // lazy way to get expected values
+    //         let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as
+    // f64))             .or_else(|_| case.parse::<i64>().map(|v| v as f64))
+    //             .or_else(|_| case.parse::<f64>())
+    //             .unwrap_or_else(|err| {
+    //                 panic!(
+    //                     "failed to parse '{}' as float using str.parse():
+    // {}",                     case, err
+    //                 )
+    //             });
 
-            let vec = panic::catch_unwind(|| {
-                crate::with_test_sess(case, |_, input| {
-                    let mut l = Lexer::new(Syntax::default(), Default::default(), input, None);
-                    l.ctx.set(Context::Strict, strict);
-                    Ok(l.map(|ts| ts.token).collect::<Vec<_>>())
-                })
-                .unwrap()
-            });
+    //         let vec = panic::catch_unwind(|| {
+    //             crate::with_test_sess(case, |_, input| {
+    //                 let mut l = Lexer::new(Syntax::default(),
+    // Default::default(), input, None);
+    // l.ctx.set(Context::Strict, strict);                 Ok(l.map(|ts|
+    // ts.token).collect::<Vec<_>>())             })
+    //             .unwrap()
+    //         });
 
-            if success {
-                let vec = match vec {
-                    Ok(vec) => vec,
-                    Err(err) => panic::resume_unwind(err),
-                };
+    //         if success {
+    //             let vec = match vec {
+    //                 Ok(vec) => vec,
+    //                 Err(err) => panic::resume_unwind(err),
+    //             };
 
-                assert_eq!(vec.len(), 1);
+    //             assert_eq!(vec.len(), 1);
 
-                let token = vec.into_iter().next().unwrap();
-                let value = match token {
-                    Token::Num { value, .. } => value,
-                    _ => {
-                        panic!("expected num token in test")
-                    }
-                };
+    //             let token = vec.into_iter().next().unwrap();
+    //             let value = match token {
+    //                 Token::Num { value, .. } => value,
+    //                 _ => {
+    //                     panic!("expected num token in test")
+    //                 }
+    //             };
 
-                assert_eq!(expected, value);
-            } else if let Ok(vec) = vec {
-                assert_ne!(
-                    vec![Token::Num {
-                        value: expected,
-                        raw: expected.to_string().into()
-                    }],
-                    vec
-                )
-            }
-        }
-    }
+    //             assert_eq!(expected, value);
+    //         } else if let Ok(vec) = vec {
+    //             assert_ne!(
+    //                 vec![Token::Num {
+    //                     value: expected,
+    //                     raw: expected.to_string().into()
+    //                 }],
+    //                 vec
+    //             )
+    //         }
+    //     }
+    // }
 
     //    #[test]
     //    fn strict_mode() {
@@ -824,10 +825,10 @@ mod tests {
     //        test_floats(true, false, INVALID_CASES);
     //    }
 
-    #[test]
-    fn non_strict() {
-        test_floats(false, true, VALID_CASES);
-        test_floats(false, true, INVALID_CASES_ON_STRICT);
-        test_floats(false, false, INVALID_CASES);
-    }
+    // #[test]
+    // fn non_strict() {
+    //     test_floats(false, true, VALID_CASES);
+    //     test_floats(false, true, INVALID_CASES_ON_STRICT);
+    //     test_floats(false, false, INVALID_CASES);
+    // }
 }

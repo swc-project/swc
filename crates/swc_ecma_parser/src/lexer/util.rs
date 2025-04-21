@@ -19,7 +19,8 @@ use super::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    Context, Tokens,
+    parser::input::Tokens,
+    Context,
 };
 
 impl Lexer<'_> {

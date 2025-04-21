@@ -8,8 +8,6 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::Token;
-
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
@@ -126,7 +124,7 @@ pub enum SyntaxError {
     },
     ReservedWordInImport,
     AssignProperty,
-    Expected(&'static Token, String),
+    Expected(String, String),
     ExpectedSemiForExprStmt {
         expr: Span,
     },

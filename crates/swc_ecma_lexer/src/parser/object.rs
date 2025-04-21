@@ -3,10 +3,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
-use crate::{
-    parser::{class_and_fn::is_not_this, Parser},
-    token,
-};
+use crate::{parser::class_and_fn::is_not_this, tok};
 
 impl<I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
@@ -47,47 +44,36 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = cur_pos!(p);
 
-            let t = cur!(p, true);
-            let v = match t {
-                Token::Str => match bump!(p) {
-                    Token::Str => {
-                        let (value, raw) = p.input.expect_string_token_value();
-                        PropName::Str(Str {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
+            let v = match *cur!(p, true) {
+                Token::Str { .. } => match bump!(p) {
+                    Token::Str { value, raw } => PropName::Str(Str {
+                        span: span!(p, start),
+                        value,
+                        raw: Some(raw),
+                    }),
                     _ => unreachable!(),
                 },
-                Token::Num => match bump!(p) {
-                    Token::Num => {
-                        let (value, raw) = p.input.expect_number_token_value();
-                        PropName::Num(Number {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
+                Token::Num { .. } => match bump!(p) {
+                    Token::Num { value, raw } => PropName::Num(Number {
+                        span: span!(p, start),
+                        value,
+                        raw: Some(raw),
+                    }),
                     _ => unreachable!(),
                 },
-                Token::BigInt => match bump!(p) {
-                    Token::BigInt => {
-                        let (value, raw) = p.input.expect_bigint_token_value();
-                        PropName::BigInt(BigInt {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
+                Token::BigInt { .. } => match bump!(p) {
+                    Token::BigInt { value, raw } => PropName::BigInt(BigInt {
+                        span: span!(p, start),
+                        value,
+                        raw: Some(raw),
+                    }),
                     _ => unreachable!(),
                 },
-                _ if t.is_word() => {
-                    bump!(p);
-                    let name = t.as_word_atom(p.input.get_token_value()).unwrap();
-                    PropName::Ident(IdentName::new(name, span!(p, start)))
-                }
-                token!('[') => {
+                Token::Word(..) => match bump!(p) {
+                    Token::Word(w) => PropName::Ident(IdentName::new(w.into(), span!(p, start))),
+                    _ => unreachable!(),
+                },
+                tok!('[') => {
                     bump!(p);
                     let inner_start = cur_pos!(p);
 
