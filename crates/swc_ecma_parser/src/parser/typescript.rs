@@ -41,7 +41,7 @@ impl<I: Tokens> Parser<I> {
         let pos = {
             let t = cur!(self, true);
             let modifier = match t {
-                Token::Ident => self.input.expect_word_token_value(),
+                Token::Ident => self.input.expect_word_token_value_ref().clone(),
                 Token::In => atom!("in"),
                 Token::Const => atom!("const"),
                 _ => {
