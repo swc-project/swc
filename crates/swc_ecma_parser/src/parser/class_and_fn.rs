@@ -1,7 +1,7 @@
 use swc_common::Spanned;
+use swc_ecma_lexer::lexer::TokenContext;
 
 use super::*;
-use crate::lexer::TokenContext;
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {

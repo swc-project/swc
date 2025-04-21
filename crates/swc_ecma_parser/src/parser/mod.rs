@@ -12,7 +12,7 @@ use swc_ecma_lexer::{
     error::SyntaxError,
     input::Buffer,
     token::{Token, Word},
-    Lexer, *,
+    *,
 };
 
 use self::util::ParseObject;
@@ -60,9 +60,10 @@ struct State {
     trailing_commas: FxHashMap<BytePos, Span>,
 }
 
-impl<'a> Parser<Lexer<'a>> {
+impl<'a> Parser<crate::lexer::Lexer<'a>> {
     pub fn new(syntax: Syntax, input: StringInput<'a>, comments: Option<&'a dyn Comments>) -> Self {
-        Self::new_from(Lexer::new(syntax, Default::default(), input, comments))
+        let lexer = crate::lexer::Lexer::new(syntax, Default::default(), input, comments);
+        Self::new_from(lexer)
     }
 }
 
