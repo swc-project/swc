@@ -19,7 +19,13 @@ pub extern crate swc_ecma_quote_macros;
 
 // Plugins
 #[cfg(any(
-    docsrs,
+    all(
+        docsrs,
+        any(
+            feature = "__common_plugin_transform",
+            feature = "__plugin_transform_host"
+        )
+    ),
     feature = "__common_plugin_transform",
     feature = "__plugin_transform_host"
 ))]
