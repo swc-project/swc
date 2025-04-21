@@ -128,14 +128,14 @@ pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::error::Error;
-mod scanner;
+pub mod lexer;
 
 pub use self::parser::*;
 
 #[macro_use]
 mod macros;
-pub use scanner::Lexer;
-pub use swc_ecma_lexer::{error, lexer, token, Context, EsSyntax, Syntax, TsSyntax};
+pub use lexer::Lexer;
+pub use swc_ecma_lexer::{error, token, Context, EsSyntax, Syntax, TsSyntax};
 
 mod parser;
 
@@ -159,9 +159,9 @@ pub fn with_file_parser<T>(
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut Parser<Lexer>) -> PResult<T>,
+    op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
-    let lexer = Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
+    let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
     let mut p = Parser::new_from(lexer);
     let ret = op(&mut p);
 
