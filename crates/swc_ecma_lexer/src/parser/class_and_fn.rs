@@ -1,8 +1,7 @@
 use swc_common::Spanned;
-use swc_ecma_lexer::lexer::TokenContext;
 
 use super::*;
-use crate::{lexer::Token, parser::Parser};
+use crate::{lexer::TokenContext, tok};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
@@ -1309,7 +1308,7 @@ impl<I: Tokens> Parser<I> {
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
-                p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
             } else {
                 None

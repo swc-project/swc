@@ -1,3 +1,8 @@
+//! # swc_ecma_lexer
+//!
+//! This crate provides a lexer for ECMAScript and TypeScript. It can ensure
+//! these tokens are correctly parsed.
+
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
@@ -9,12 +14,17 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
+use parser::PResult;
 use serde::{Deserialize, Serialize};
 
 pub mod lexer;
+mod parser;
 
+pub use input::Capturing;
 use input::Tokens;
-pub use lexer::*;
+pub use lexer::{Lexer, TokenContext, TokenContexts, TokenType};
+pub use parser::Parser;
+pub use swc_common::input::StringInput;
 
 #[macro_use]
 pub mod token;
@@ -650,4 +660,42 @@ macro_rules! tok {
             known_ident!($tt),
         )))
     };
+}
+
+#[inline(always)]
+#[cfg(any(
+    target_arch = "wasm32",
+    target_arch = "arm",
+    not(feature = "stacker"),
+    // miri does not work with stacker
+    miri
+))]
+fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
+    callback()
+}
+
+#[inline(always)]
+#[cfg(all(
+    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
+    feature = "stacker"
+))]
+fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
+    stacker::maybe_grow(red_zone, stack_size, callback)
+}
+
+#[macro_export]
+macro_rules! token_including_semi {
+    (';') => {
+        Token::Semi
+    };
+    ($t:tt) => {
+        $crate::tok!($t)
+    };
+}
+
+pub fn lexer(input: Lexer) -> PResult<Vec<token::TokenAndSpan>> {
+    let capturing = input::Capturing::new(input);
+    let mut parser = parser::Parser::new_from(capturing);
+    let _ = parser.parse_module()?;
+    Ok(parser.input().take())
 }

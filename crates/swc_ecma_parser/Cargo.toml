@@ -63,9 +63,6 @@ swc_malloc = { version = "1.2.2", path = "../swc_malloc" }
 testing = { version = "9.0.0", path = "../testing" }
 
 [[example]]
-name = "lexer"
-
-[[example]]
 name = "typescript"
 
 [[bench]]
