@@ -1,9 +1,6 @@
 use swc_atoms::{atom, Atom};
 use swc_ecma_ast::AssignOp;
-use swc_ecma_lexer::{
-    token::{BinOpToken, Keyword},
-    Context,
-};
+use swc_ecma_lexer::Context;
 
 use super::LexResult;
 
@@ -626,94 +623,6 @@ impl Token {
             | Token::Await => true,
             _ if self.is_known_ident() => true,
             _ => false,
-        }
-    }
-
-    pub(crate) fn into_token_type(self) -> swc_ecma_lexer::TokenType {
-        use swc_ecma_lexer::TokenType;
-        match self {
-            Self::Template => TokenType::Template,
-            Self::Dot => TokenType::Dot,
-            Self::Colon => TokenType::Colon,
-            Self::LBrace => TokenType::LBrace,
-            Self::RParen => TokenType::RParen,
-            Self::Semi => TokenType::Semi,
-            Self::JSXTagEnd => TokenType::JSXTagEnd,
-            Self::JSXTagStart => TokenType::JSXTagStart,
-            Self::JSXText => TokenType::JSXText,
-            Self::JSXName => TokenType::JSXName,
-            Self::Arrow => TokenType::Arrow,
-            Self::EqEq => TokenType::BinOp(BinOpToken::EqEq),
-            Self::NotEq => TokenType::BinOp(BinOpToken::NotEq),
-            Self::EqEqEq => TokenType::BinOp(BinOpToken::EqEqEq),
-            Self::NotEqEq => TokenType::BinOp(BinOpToken::NotEqEq),
-            Self::Lt => TokenType::BinOp(BinOpToken::Lt),
-            Self::LtEq => TokenType::BinOp(BinOpToken::LtEq),
-            Self::Gt => TokenType::BinOp(BinOpToken::Gt),
-            Self::GtEq => TokenType::BinOp(BinOpToken::GtEq),
-            Self::LShift => TokenType::BinOp(BinOpToken::LShift),
-            Self::RShift => TokenType::BinOp(BinOpToken::RShift),
-            Self::ZeroFillRShift => TokenType::BinOp(BinOpToken::ZeroFillRShift),
-            Self::Plus => TokenType::BinOp(BinOpToken::Add),
-            Self::Minus => TokenType::BinOp(BinOpToken::Sub),
-            Self::Asterisk => TokenType::BinOp(BinOpToken::Mul),
-            Self::Slash => TokenType::BinOp(BinOpToken::Div),
-            Self::Percent => TokenType::BinOp(BinOpToken::Mod),
-            Self::Pipe => TokenType::BinOp(BinOpToken::BitOr),
-            Self::Caret => TokenType::BinOp(BinOpToken::BitXor),
-            Self::Ampersand => TokenType::BinOp(BinOpToken::BitAnd),
-            Self::Exp => TokenType::BinOp(BinOpToken::Exp),
-            Self::LogicalOr => TokenType::BinOp(BinOpToken::LogicalOr),
-            Self::LogicalAnd => TokenType::BinOp(BinOpToken::LogicalAnd),
-            Self::Await => TokenType::Keyword(Keyword::Await),
-            Self::Break => TokenType::Keyword(Keyword::Break),
-            Self::Case => TokenType::Keyword(Keyword::Case),
-            Self::Catch => TokenType::Keyword(Keyword::Catch),
-            Self::Class => TokenType::Keyword(Keyword::Class),
-            Self::Const => TokenType::Keyword(Keyword::Const),
-            Self::Continue => TokenType::Keyword(Keyword::Continue),
-            Self::Debugger => TokenType::Keyword(Keyword::Debugger),
-            Self::Default => TokenType::Keyword(Keyword::Default_),
-            Self::Delete => TokenType::Keyword(Keyword::Delete),
-            Self::Do => TokenType::Keyword(Keyword::Do),
-            Self::Else => TokenType::Keyword(Keyword::Else),
-            Self::Export => TokenType::Keyword(Keyword::Export),
-            Self::Extends => TokenType::Keyword(Keyword::Extends),
-            Self::Finally => TokenType::Keyword(Keyword::Finally),
-            Self::For => TokenType::Keyword(Keyword::For),
-            Self::Function => TokenType::Keyword(Keyword::Function),
-            Self::If => TokenType::Keyword(Keyword::If),
-            Self::Import => TokenType::Keyword(Keyword::Import),
-            Self::In => TokenType::Keyword(Keyword::In),
-            Self::InstanceOf => TokenType::Keyword(Keyword::InstanceOf),
-            Self::Let => TokenType::Keyword(Keyword::Let),
-            Self::New => TokenType::Keyword(Keyword::New),
-            Self::Return => TokenType::Keyword(Keyword::Return),
-            Self::Super => TokenType::Keyword(Keyword::Super),
-            Self::Switch => TokenType::Keyword(Keyword::Switch),
-            Self::This => TokenType::Keyword(Keyword::This),
-            Self::Throw => TokenType::Keyword(Keyword::Throw),
-            Self::Try => TokenType::Keyword(Keyword::Try),
-            Self::TypeOf => TokenType::Keyword(Keyword::TypeOf),
-            Self::Var => TokenType::Keyword(Keyword::Var),
-            Self::Void => TokenType::Keyword(Keyword::Void),
-            Self::While => TokenType::Keyword(Keyword::While),
-            Self::With => TokenType::Keyword(Keyword::With),
-            Self::Yield => TokenType::Keyword(Keyword::Yield),
-            _ => TokenType::Other {
-                before_expr: self.before_expr(),
-                can_have_trailing_comment: matches!(
-                    self,
-                    Self::Num
-                        | Self::Str
-                        | Self::Ident
-                        | Self::DollarLBrace
-                        | Self::Regex
-                        | Self::BigInt
-                        | Self::JSXText
-                        | Self::RBrace
-                ) || self.is_known_ident(),
-            },
         }
     }
 }
