@@ -2249,6 +2249,8 @@ impl MacroNode for Tpl {
 #[node_impl]
 impl MacroNode for TplElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(
@@ -2287,7 +2289,12 @@ impl MacroNode for TplElement {
             emitter.wr.write_str_lit(self.span(), &raw)?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TplElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2295,6 +2302,8 @@ impl MacroNode for TplElement {
 impl MacroNode for TaggedTpl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2309,7 +2318,12 @@ impl MacroNode for TaggedTpl {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TaggedTpl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2317,6 +2331,8 @@ impl MacroNode for TaggedTpl {
 impl MacroNode for UnaryExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2340,7 +2356,12 @@ impl MacroNode for UnaryExpr {
 
         emit!(emitter, self.arg);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UnaryExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2348,6 +2369,8 @@ impl MacroNode for UnaryExpr {
 impl MacroNode for UpdateExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2360,7 +2383,12 @@ impl MacroNode for UpdateExpr {
             operator!(emitter, self.op.as_str());
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UpdateExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2368,6 +2396,8 @@ impl MacroNode for UpdateExpr {
 impl MacroNode for YieldExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2396,7 +2426,12 @@ impl MacroNode for YieldExpr {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(YieldExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
