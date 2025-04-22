@@ -1654,8 +1654,16 @@ impl MacroNode for Import {
 impl MacroNode for Expr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         let result = match self {
-            Expr::Array(n) => emit!(emitter, n),
-            Expr::Arrow(n) => emit!(emitter, n),
+            Expr::Array(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Array(n))
+            }
+            Expr::Arrow(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Arrow(n))
+            }
             Expr::Assign(n) => emit!(emitter, n),
             Expr::Await(n) => emit!(emitter, n),
             Expr::Bin(n) => emit!(emitter, n),
@@ -1942,7 +1950,7 @@ impl MacroNode for SuperPropExpr {
 
         emit!(emitter, self.obj);
 
-        match &self.prop {
+        let prop = match &self.prop {
             SuperProp::Computed(computed) => {
                 let n = emit!(emitter, computed);
 
@@ -1957,12 +1965,13 @@ impl MacroNode for SuperPropExpr {
 
                 only_new!(SuperProp::Ident(ident))
             }
-        }
+        };
 
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(SuperPropExpr {
             span: Span::new(lo, hi),
+            prop,
             ..self.clone()
         }))
     }
