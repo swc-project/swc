@@ -110,6 +110,27 @@ impl<N: Node> Node for Box<N> {
         (**self).with_new_span(emitter).map(Box::new)
     }
 }
+
+/// TODO(kdy1): We may need to remove this impl
+impl<N: Node> Node for &'_ N {
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
+    where
+        W: WriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        (**self).emit_with(emitter)
+    }
+
+    /// Noop
+    fn with_new_span<W, S>(&self, _emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        Ok(self)
+    }
+}
+
 pub struct Emitter<'a, W, S>
 where
     W: WriteJs,
