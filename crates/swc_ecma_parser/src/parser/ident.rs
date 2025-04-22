@@ -171,7 +171,7 @@ impl<I: Tokens> Parser<I> {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
                 _ => {
-                    if t.as_keyword_atom().is_some() {
+                    if t.is_keyword() {
                         syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                     } else if let Some(ident) = t.as_known_ident_atom() {
                         return Ok(ident);

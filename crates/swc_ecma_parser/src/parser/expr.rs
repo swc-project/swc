@@ -137,7 +137,7 @@ impl<I: Tokens> Parser<I> {
 
         self.state.potential_arrow_start = match cur!(self, true) {
             Token::Ident | token!('(') | token!("yield") => Some(cur_pos!(self)),
-            t if t.as_known_ident_atom().is_some() => Some(cur_pos!(self)),
+            t if t.is_known_ident() => Some(cur_pos!(self)),
             _ => None,
         };
 
@@ -2017,9 +2017,7 @@ impl<I: Tokens> Parser<I> {
                 && !is!(self, '*')
                 && !is!(self, '/')
                 && !is!(self, "/=")
-                && !cur!(self, false)
-                    .map(|t| t.kind(self.input.get_token_value()).starts_expr())
-                    .unwrap_or(true))
+                && !cur!(self, false).map(|t| t.starts_expr()).unwrap_or(true))
         {
             Ok(YieldExpr {
                 span: span!(self, start),
