@@ -16,7 +16,7 @@ use crate::{
         token::{Token, TokenAndSpan, TokenValue},
         util::CharExt,
     },
-    token::{BinOpToken, Keyword, TokenKind, WordKind},
+    token::{BinOpToken, Keyword},
     Syntax,
 };
 
@@ -307,7 +307,7 @@ impl Iterator for Lexer<'_> {
         };
 
         let span = self.span(start);
-        if let Some(ref token) = token {
+        if let Some(token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -318,8 +318,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state
-                .update(start, token.kind(self.state.token_value.as_ref()));
+            self.state.update(start, token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -390,7 +389,7 @@ impl State {
         matches!(self.token_type, Some(TokenType::Template))
     }
 
-    fn update(&mut self, start: BytePos, next: TokenKind) {
+    fn update(&mut self, start: BytePos, next: Token) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -400,7 +399,7 @@ impl State {
         }
 
         let prev = self.token_type.take();
-        self.token_type = Some(TokenType::from(next));
+        self.token_type = Some(next.into_token_type());
 
         self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
     }
@@ -411,7 +410,7 @@ impl State {
         &mut self,
         prev: Option<TokenType>,
         start: BytePos,
-        next: TokenKind,
+        next: Token,
     ) -> bool {
         let State {
             ref mut context,
@@ -422,14 +421,14 @@ impl State {
             ..
         } = *self;
 
-        let is_next_keyword = matches!(next, TokenKind::Word(WordKind::Keyword(..)));
+        let is_next_keyword = next.is_keyword();
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
             false
         } else {
             // ported updateContext
             match next {
-                TokenKind::RParen | TokenKind::RBrace => {
+                Token::RParen | Token::RBrace => {
                     // TODO: Verify
                     if context.len() == 1 {
                         return true;
@@ -460,7 +459,7 @@ impl State {
                     !out.is_expr()
                 }
 
-                TokenKind::Word(WordKind::Keyword(Keyword::Function)) => {
+                Token::Function => {
                     // This is required to lex
                     // `x = function(){}/42/i`
                     if is_expr_allowed
@@ -471,7 +470,7 @@ impl State {
                     false
                 }
 
-                TokenKind::Word(WordKind::Keyword(Keyword::Class)) => {
+                Token::Class => {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
@@ -480,7 +479,7 @@ impl State {
                     false
                 }
 
-                TokenKind::Colon
+                Token::Colon
                     if matches!(
                         context.current(),
                         Some(TokenContext::FnExpr | TokenContext::ClassExpr)
@@ -496,7 +495,7 @@ impl State {
                 }
 
                 // for (a of b) {}
-                known_ident_token!("of")
+                Token::Of
                     if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
                 {
                     // e.g. for (a of _) => true
@@ -505,7 +504,24 @@ impl State {
                         .before_expr()
                 }
 
-                TokenKind::Word(WordKind::Ident(..)) => {
+                Token::Ident => {
+                    // variable declaration
+                    match prev {
+                        Some(prev) => match prev {
+                            // handle automatic semicolon insertion.
+                            TokenType::Keyword(Keyword::Let)
+                            | TokenType::Keyword(Keyword::Const)
+                            | TokenType::Keyword(Keyword::Var)
+                                if had_line_break_before_last =>
+                            {
+                                true
+                            }
+                            _ => false,
+                        },
+                        _ => false,
+                    }
+                }
+                _ if next.is_known_ident() => {
                     // variable declaration
                     match prev {
                         Some(prev) => match prev {
@@ -523,7 +539,7 @@ impl State {
                     }
                 }
 
-                TokenKind::LBrace => {
+                Token::LBrace => {
                     let cur = context.current();
                     if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
                         context.push(TokenContext::BraceExpr)
@@ -541,21 +557,19 @@ impl State {
                     true
                 }
 
-                TokenKind::BinOp(BinOpToken::Div)
-                    if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
-                {
+                Token::Slash if syntax.jsx() && prev == Some(TokenType::JSXTagStart) => {
                     context.pop();
                     context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
                     context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
                     false
                 }
 
-                TokenKind::DollarLBrace => {
+                Token::DollarLBrace => {
                     context.push(TokenContext::TplQuasi);
                     true
                 }
 
-                TokenKind::LParen => {
+                Token::LParen => {
                     // if, for, with, while is statement
 
                     context.push(match prev {
@@ -572,9 +586,9 @@ impl State {
                 }
 
                 // remains unchanged.
-                TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
+                Token::PlusPlus | Token::MinusMinus => is_expr_allowed,
 
-                TokenKind::BackQuote => {
+                Token::BackQuote => {
                     // If we are in template, ` terminates template.
                     if let Some(TokenContext::Tpl { .. }) = context.current() {
                         context.pop();
@@ -586,14 +600,14 @@ impl State {
                 }
 
                 // tt.jsxTagStart.updateContext
-                TokenKind::JSXTagStart => {
+                Token::JSXTagStart => {
                     context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
                     context.push(TokenContext::JSXOpeningTag); // start opening tag context
                     false
                 }
 
                 // tt.jsxTagEnd.updateContext
-                TokenKind::JSXTagEnd => {
+                Token::JSXTagEnd => {
                     let out = context.pop();
                     if (out == Some(TokenContext::JSXOpeningTag)
                         && prev == Some(TokenType::BinOp(BinOpToken::Div)))
