@@ -87,7 +87,10 @@ impl MacroNode for ClassExpr {
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(ClassExpr {
-            span: Span::new(lo, hi),
+            class: Box::new(Class {
+                span: Span::new(lo, hi),
+                ..*self.class.clone()
+            }),
             ..self.clone()
         }))
     }

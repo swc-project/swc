@@ -1557,9 +1557,9 @@ impl MacroNode for Callee {
         Ok(match self {
             Callee::Expr(e) => {
                 let e = if let Expr::New(new) = &**e {
-                    emitter.emit_new(new, false)?;
+                    emitter.emit_new(new, false)?
                 } else {
-                    emit!(emitter, e);
+                    emit!(emitter, e)
                 };
 
                 only_new!(Callee::Expr(e))
@@ -1727,9 +1727,16 @@ impl MacroNode for Invalid {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.wr.write_str_lit(self.span, "<invalid>")?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Invalid {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
