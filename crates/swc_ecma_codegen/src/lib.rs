@@ -1664,45 +1664,185 @@ impl MacroNode for Expr {
 
                 only_new!(Expr::Arrow(n))
             }
-            Expr::Assign(n) => emit!(emitter, n),
-            Expr::Await(n) => emit!(emitter, n),
-            Expr::Bin(n) => emit!(emitter, n),
-            Expr::Call(n) => emit!(emitter, n),
-            Expr::Class(n) => emit!(emitter, n),
-            Expr::Cond(n) => emit!(emitter, n),
-            Expr::Fn(n) => emit!(emitter, n),
-            Expr::Ident(n) => emit!(emitter, n),
-            Expr::Lit(n) => emit!(emitter, n),
-            Expr::Member(n) => emit!(emitter, n),
-            Expr::SuperProp(n) => emit!(emitter, n),
-            Expr::MetaProp(n) => emit!(emitter, n),
-            Expr::New(n) => emit!(emitter, n),
-            Expr::Object(n) => emit!(emitter, n),
-            Expr::Paren(n) => emit!(emitter, n),
-            Expr::Seq(n) => emit!(emitter, n),
-            Expr::TaggedTpl(n) => emit!(emitter, n),
-            Expr::This(n) => emit!(emitter, n),
-            Expr::Tpl(n) => emit!(emitter, n),
-            Expr::Unary(n) => emit!(emitter, n),
-            Expr::Update(n) => emit!(emitter, n),
-            Expr::Yield(n) => emit!(emitter, n),
-            Expr::PrivateName(n) => emit!(emitter, n),
+            Expr::Assign(n) => {
+                let n = emit!(emitter, n);
 
-            Expr::JSXMember(n) => emit!(emitter, n),
-            Expr::JSXNamespacedName(n) => emit!(emitter, n),
-            Expr::JSXEmpty(n) => emit!(emitter, n),
-            Expr::JSXElement(n) => emit!(emitter, n),
-            Expr::JSXFragment(n) => emit!(emitter, n),
+                only_new!(Expr::Assign(n))
+            }
+            Expr::Await(n) => {
+                let n = emit!(emitter, n);
 
-            Expr::TsAs(n) => emit!(emitter, n),
-            Expr::TsNonNull(n) => emit!(emitter, n),
-            Expr::TsTypeAssertion(n) => emit!(emitter, n),
-            Expr::TsConstAssertion(n) => emit!(emitter, n),
-            Expr::TsInstantiation(n) => emit!(emitter, n),
-            Expr::OptChain(n) => emit!(emitter, n),
-            Expr::Invalid(n) => emit!(emitter, n),
+                only_new!(Expr::Await(n))
+            }
+            Expr::Bin(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Bin(n))
+            }
+            Expr::Call(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Call(n))
+            }
+            Expr::Class(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Class(n))
+            }
+            Expr::Cond(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Cond(n))
+            }
+            Expr::Fn(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Fn(n))
+            }
+            Expr::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Ident(n))
+            }
+            Expr::Lit(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Lit(n))
+            }
+            Expr::Member(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Member(n))
+            }
+            Expr::SuperProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::SuperProp(n))
+            }
+            Expr::MetaProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::MetaProp(n))
+            }
+            Expr::New(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::New(n))
+            }
+            Expr::Object(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Object(n))
+            }
+            Expr::Paren(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Paren(n))
+            }
+            Expr::Seq(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Seq(n))
+            }
+            Expr::TaggedTpl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TaggedTpl(n))
+            }
+            Expr::This(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::This(n))
+            }
+            Expr::Tpl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Tpl(n))
+            }
+            Expr::Unary(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Unary(n))
+            }
+            Expr::Update(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Update(n))
+            }
+            Expr::Yield(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Yield(n))
+            }
+            Expr::JSXMember(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXMember(n))
+            }
+            Expr::JSXNamespacedName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXNamespacedName(n))
+            }
+            Expr::JSXEmpty(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXEmpty(n))
+            }
+            Expr::JSXElement(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXElement(n))
+            }
+            Expr::JSXFragment(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXFragment(n))
+            }
+            Expr::TsAs(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsAs(n))
+            }
+            Expr::TsNonNull(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsNonNull(n))
+            }
+            Expr::TsTypeAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsTypeAssertion(n))
+            }
+            Expr::TsConstAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsConstAssertion(n))
+            }
+            Expr::TsInstantiation(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsInstantiation(n))
+            }
+            Expr::OptChain(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::OptChain(n))
+            }
             Expr::TsSatisfies(n) => {
-                emit!(emitter, n)
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsSatisfies(n))
+            }
+            Expr::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Invalid(n))
+            }
+            Expr::PrivateName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::PrivateName(n))
             }
         };
 
