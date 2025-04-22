@@ -559,8 +559,7 @@ impl<I: Tokens> Parser<I> {
                     && peek!(self)
                         .map(|t| {
                             // module code is always in strict mode.
-                            t.kind(self.input.get_token_value())
-                                .follows_keyword_let(true)
+                            t.follows_keyword_let()
                         })
                         .unwrap_or(false))
         {

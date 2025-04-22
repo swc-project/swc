@@ -289,11 +289,9 @@ impl<'a, I: Tokens> Parser<I> {
 
             // 'let' can start an identifier reference.
             token!("let") if include_decl => {
-                let strict = self.ctx().contains(Context::Strict);
+                // let strict = self.ctx().contains(Context::Strict);
                 let is_keyword = match peek!(self) {
-                    Some(t) => t
-                        .kind(self.input.get_token_value())
-                        .follows_keyword_let(strict),
+                    Some(t) => t.follows_keyword_let(),
                     _ => false,
                 };
 
@@ -1206,14 +1204,10 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_head(&mut self) -> PResult<TempForHead> {
-        let strict = self.ctx().contains(Context::Strict);
+        // let strict = self.ctx().contains(Context::Strict);
 
         if is_one_of!(self, "const", "var")
-            || (is!(self, "let")
-                && peek!(self).map_or(false, |v| {
-                    v.kind(self.input.get_token_value())
-                        .follows_keyword_let(strict)
-                }))
+            || (is!(self, "let") && peek!(self).map_or(false, |v| v.follows_keyword_let()))
         {
             let decl = self.parse_var_stmt(true)?;
 
