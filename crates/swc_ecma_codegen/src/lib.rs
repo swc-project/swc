@@ -223,10 +223,10 @@ where
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.callee);
+        emit!(true, self, node.callee);
 
         if let Some(type_args) = &node.type_args {
-            emit!(self, type_args);
+            emit!(true, self, type_args);
         }
 
         if let Some(ref args) = node.args {
@@ -262,7 +262,7 @@ where
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
                 punct!(self, "${");
-                emit!(self, node.exprs[i / 2]);
+                emit!(true, self, node.exprs[i / 2]);
                 punct!(self, "}");
             }
         }
@@ -352,7 +352,7 @@ where
     /// prints `(b){}` from `function a(b){}`
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
-            emit!(self, type_params);
+            emit!(true, self, type_params);
         }
 
         punct!(self, "(");

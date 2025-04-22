@@ -1705,13 +1705,14 @@ impl MacroNode for TsGetterSignature {
         keyword!(emitter, "get");
         space!(emitter);
 
-        if self.computed {
+        let key = if self.computed {
             punct!(emitter, "[");
-            emit!(emitter, self.key);
+            let n = emit!(emitter, self.key);
             punct!(emitter, "]");
+            n
         } else {
             emit!(emitter, self.key)
-        }
+        };
 
         punct!(emitter, "(");
         punct!(emitter, ")");
@@ -1727,6 +1728,7 @@ impl MacroNode for TsGetterSignature {
 
         Ok(only_new!(TsGetterSignature {
             span: Span::new(lo, hi),
+            key,
             ..self.clone()
         }))
     }
@@ -1740,13 +1742,15 @@ impl MacroNode for TsSetterSignature {
         keyword!(emitter, "set");
         space!(emitter);
 
-        if self.computed {
+        let key = if self.computed {
             punct!(emitter, "[");
-            emit!(emitter, self.key);
+            let n = emit!(emitter, self.key);
             punct!(emitter, "]");
+
+            n
         } else {
             emit!(emitter, self.key)
-        }
+        };
 
         punct!(emitter, "(");
         emit!(emitter, self.param);
@@ -1756,6 +1760,7 @@ impl MacroNode for TsSetterSignature {
 
         Ok(only_new!(TsSetterSignature {
             span: Span::new(lo, hi),
+            key,
             ..self.clone()
         }))
     }

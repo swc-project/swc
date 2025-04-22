@@ -86,18 +86,48 @@ where
 impl MacroNode for Decl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Decl::Class(n) => emit!(emitter, n),
-            Decl::Fn(n) => emit!(emitter, n),
+            Decl::Class(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Class(n)))
+            }
+            Decl::Fn(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Fn(n)))
+            }
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
                 srcmap!(emitter, self, false);
+
+                Ok(only_new!(Decl::Var(n.clone())))
             }
-            Decl::Using(n) => emit!(emitter, n),
-            Decl::TsEnum(n) => emit!(emitter, n),
-            Decl::TsInterface(n) => emit!(emitter, n),
-            Decl::TsModule(n) => emit!(emitter, n),
-            Decl::TsTypeAlias(n) => emit!(emitter, n),
+            Decl::Using(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Using(n)))
+            }
+            Decl::TsEnum(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsEnum(n)))
+            }
+            Decl::TsInterface(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsInterface(n)))
+            }
+            Decl::TsModule(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsModule(n)))
+            }
+            Decl::TsTypeAlias(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsTypeAlias(n)))
+            }
         }
     }
 }
