@@ -339,6 +339,213 @@ impl Token {
         }
     }
 
+    pub(crate) fn to_string(self, value: Option<&TokenValue>) -> String {
+        match self {
+            Token::LParen => "(",
+            Token::RParen => ")",
+            Token::LBrace => "{",
+            Token::RBrace => "}",
+            Token::LBracket => "[",
+            Token::RBracket => "]",
+            Token::Semi => ";",
+            Token::Comma => ",",
+            Token::Dot => ".",
+            Token::Colon => ":",
+            Token::QuestionMark => "?",
+            Token::Bang => "!",
+            Token::Tilde => "~",
+            Token::Plus => "+",
+            Token::Minus => "-",
+            Token::Asterisk => "*",
+            Token::Slash => "/",
+            Token::Percent => "%",
+            Token::Lt => "<",
+            Token::Gt => ">",
+            Token::Pipe => "|",
+            Token::Caret => "^",
+            Token::Ampersand => "&",
+            Token::Eq => "=",
+            Token::At => "@",
+            Token::Hash => "#",
+            Token::BackQuote => "`",
+            Token::Arrow => "=>",
+            Token::DotDotDot => "...",
+            Token::PlusPlus => "++",
+            Token::MinusMinus => "--",
+            Token::PlusEq => "+",
+            Token::MinusEq => "-",
+            Token::MulEq => "*",
+            Token::DivEq => "/=",
+            Token::ModEq => "%=",
+            Token::LShiftEq => "<<=",
+            Token::RShiftEq => ">>=",
+            Token::ZeroFillRShiftEq => ">>>=",
+            Token::BitOrEq => "|=",
+            Token::BitXorEq => "^=",
+            Token::BitAndEq => "&=",
+            Token::ExpEq => "**=",
+            Token::LogicalOrEq => "||=",
+            Token::LogicalAndEq => "&&=",
+            Token::NullishEq => "??=",
+            Token::OptionalChain => "?.",
+            Token::EqEq => "==",
+            Token::NotEq => "!=",
+            Token::EqEqEq => "===",
+            Token::NotEqEq => "!==",
+            Token::LtEq => "<=",
+            Token::GtEq => ">=",
+            Token::LShift => "<<",
+            Token::RShift => ">>",
+            Token::ZeroFillRShift => ">>>",
+            Token::Exp => "**",
+            Token::LogicalOr => "||",
+            Token::LogicalAnd => "&&",
+            Token::NullishCoalescing => "??",
+            Token::DollarLBrace => "${",
+            Token::JSXTagStart => "jsx tag start",
+            Token::JSXTagEnd => "jsx tag end",
+            Token::JSXText => {
+                let Some(TokenValue::Str { raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("jsx text ({raw})");
+            }
+            Token::Str => {
+                let Some(TokenValue::Str { value, raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("string literal ({value}, {raw})");
+            }
+            Token::Num => {
+                let Some(TokenValue::Num { value, raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("numeric literal ({value}, {raw})");
+            }
+            Token::BigInt => {
+                let Some(TokenValue::BigInt { value, raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("bigint literal ({value}, {raw})");
+            }
+            Token::Regex => {
+                let Some(TokenValue::Regex { value, flags, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("regexp literal ({value}, {flags})");
+            }
+            Token::Template => {
+                let Some(TokenValue::Template { raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("template token ({raw})");
+            }
+            Token::JSXName => {
+                let Some(TokenValue::Word(w)) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("jsx name ({w})");
+            }
+            Token::Error => {
+                let Some(TokenValue::Error(e)) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                return format!("<lexing error: {e:?}>");
+            }
+            Token::Ident => {
+                let Some(TokenValue::Word(w)) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                w.as_ref()
+            }
+            Token::Await => "await",
+            Token::Break => "break",
+            Token::Case => "case",
+            Token::Catch => "catch",
+            Token::Class => "class",
+            Token::Const => "const",
+            Token::Continue => "continue",
+            Token::Debugger => "debugger",
+            Token::Default => "default",
+            Token::Delete => "delete",
+            Token::Do => "do",
+            Token::Else => "else",
+            Token::Export => "export",
+            Token::Extends => "extends",
+            Token::False => "false",
+            Token::Finally => "finally",
+            Token::For => "for",
+            Token::Function => "function",
+            Token::If => "if",
+            Token::Import => "import",
+            Token::In => "in",
+            Token::InstanceOf => "instanceOf",
+            Token::Let => "let",
+            Token::New => "new",
+            Token::Null => "null",
+            Token::Return => "return",
+            Token::Super => "super",
+            Token::Switch => "switch",
+            Token::This => "this",
+            Token::Throw => "throw",
+            Token::True => "true",
+            Token::Try => "try",
+            Token::TypeOf => "typeOf",
+            Token::Var => "var",
+            Token::Void => "void",
+            Token::While => "while",
+            Token::With => "with",
+            Token::Yield => "yield",
+            Token::Module => "module",
+            Token::Abstract => "abstract",
+            Token::Any => "any",
+            Token::As => "as",
+            Token::Asserts => "asserts",
+            Token::Assert => "assert",
+            Token::Async => "async",
+            Token::Bigint => "bigint",
+            Token::Boolean => "boolean",
+            Token::Constructor => "constructor",
+            Token::Declare => "declare",
+            Token::Enum => "enum",
+            Token::From => "from",
+            Token::Get => "get",
+            Token::Global => "global",
+            Token::Implements => "implements",
+            Token::Interface => "interface",
+            Token::Intrinsic => "intrinsic",
+            Token::Is => "is",
+            Token::Keyof => "keyof",
+            Token::Namespace => "namespace",
+            Token::Never => "never",
+            Token::Number => "number",
+            Token::Object => "object",
+            Token::Of => "of",
+            Token::Package => "package",
+            Token::Private => "private",
+            Token::Protected => "protected",
+            Token::Public => "public",
+            Token::Readonly => "readonly",
+            Token::Require => "require",
+            Token::Set => "set",
+            Token::Static => "static",
+            Token::String => "string",
+            Token::Symbol => "symbol",
+            Token::Type => "type",
+            Token::Undefined => "undefined",
+            Token::Unique => "unique",
+            Token::Unknown => "unknown",
+            Token::Using => "using",
+            Token::Accessor => "accessor",
+            Token::Infer => "infer",
+            Token::Satisfies => "satisfies",
+            Token::Meta => "meta",
+            Token::Target => "target",
+            Token::Shebang => "#!",
+        }
+        .to_string()
+    }
+
     pub(crate) fn into_atom(&self, value: Option<&TokenValue>) -> Atom {
         self.as_word_atom(value).unwrap()
     }
@@ -610,6 +817,9 @@ impl Token {
                 | Self::TypeOf
                 | Self::Void
                 | Self::Delete
+                | Self::Null
+                | Self::True
+                | Self::False
         ) || self.is_known_ident()
     }
 
@@ -627,7 +837,7 @@ impl Token {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy)]
 pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?

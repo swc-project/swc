@@ -37,6 +37,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn clone_token_value(&self) -> Option<TokenValue>;
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
+    fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
     ///
@@ -70,7 +71,7 @@ pub struct Buffer<I> {
     pub prev_span: Span,
     pub cur: Option<TokenAndSpan>,
     /// Peeked token
-    pub next: Option<TokenAndSpan>,
+    pub next: Option<(TokenAndSpan, Option<TokenValue>)>,
 }
 
 impl<I: Tokens> Buffer<I> {
@@ -105,7 +106,7 @@ impl<I: Tokens> Buffer<I> {
     #[inline(never)]
     pub fn dump_cur(&mut self) -> String {
         match self.cur() {
-            Some(v) => format!("{:?}", v),
+            Some(v) => v.to_string(self.get_token_value()),
             None => "<eof>".to_string(),
         }
     }
@@ -137,10 +138,13 @@ impl<I: Tokens> Buffer<I> {
         );
 
         if self.next.is_none() {
-            self.next = self.iter.next();
+            let old = self.iter.take_token_value();
+            let next_token = self.iter.next();
+            self.next = next_token.map(|t| (t, self.iter.take_token_value()));
+            self.iter.set_token_value(old);
         }
 
-        self.next.as_ref().map(|ts| ts.token)
+        self.next.as_ref().map(|ts| ts.0.token)
     }
 
     /// Returns true on eof.
@@ -158,7 +162,7 @@ impl<I: Tokens> Buffer<I> {
         let _ = self.peek();
         self.next
             .as_ref()
-            .map(|item| item.had_line_break)
+            .map(|item| item.0.had_line_break)
             .unwrap_or({
                 // return true on eof.
                 true
@@ -170,7 +174,12 @@ impl<I: Tokens> Buffer<I> {
     pub fn cur(&mut self) -> Option<Token> {
         if self.cur.is_none() {
             // If we have peeked a token, take it instead of calling lexer.next()
-            self.cur = self.next.take().or_else(|| self.iter.next());
+            if let Some((next_token, next_token_value)) = self.next.take() {
+                self.cur = Some(next_token);
+                self.iter.set_token_value(next_token_value);
+            } else {
+                self.cur = self.iter.next()
+            }
         }
 
         self.cur.map(|v| v.token)
@@ -201,14 +210,14 @@ impl<I: Tokens> Buffer<I> {
             return;
         }
 
-        let next = self.next.as_ref().unwrap();
+        let (next, _) = self.next.as_ref().unwrap();
 
         if span.hi != next.span.lo {
             return;
         }
 
         let cur = self.cur.take().unwrap();
-        let next = self.next.take().unwrap();
+        let (next, token_value) = self.next.take().unwrap();
 
         let token = match (&cur.token, &next.token) {
             (Token::Gt, Token::Gt) => Token::RShift,
@@ -222,7 +231,7 @@ impl<I: Tokens> Buffer<I> {
 
             _ => {
                 self.cur = Some(cur);
-                self.next = Some(next);
+                self.next = Some((next, token_value));
                 return;
             }
         };
@@ -347,7 +356,7 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn expect_word_token_value_ref(&self) -> &Atom {
         let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
-            unreachable!()
+            unreachable!("token_value: {:?}", self.iter.get_token_value())
         };
         word
     }

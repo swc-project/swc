@@ -103,10 +103,10 @@ impl<I: Tokens> Parser<I> {
 
         let word = self.parse_with(|p| {
             let t = cur!(p, true);
-            bump!(p);
             if !t.is_word() {
                 syntax_error!(p, SyntaxError::ExpectedIdent)
             }
+            bump!(p);
             // Spec:
             // It is a Syntax Error if this phrase is contained in strict mode code and the
             // StringValue of IdentifierName is: "implements", "interface", "let",

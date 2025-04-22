@@ -373,6 +373,7 @@ impl SyntaxError {
             SyntaxError::AssignProperty => "assignment property is invalid syntax".into(),
             SyntaxError::Expected(token, ref got) => {
                 format!("Expected '{token:?}', got '{got}'").into()
+                format!("Expected '{}', got '{}'", token, got).into()
             }
             SyntaxError::ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 

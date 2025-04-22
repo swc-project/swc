@@ -149,14 +149,14 @@ impl<I: Tokens> Parser<I> {
             }
 
             if kind == ParsingContext::EnumMembers {
-                const TOKEN: &Token = &Token::Comma;
                 let cur = match cur!(self, false).ok() {
                     Some(tok) => format!("{tok:?}"),
+                    Some(tok) => tok.to_string(self.input.get_token_value()),
                     None => "EOF".to_string(),
                 };
                 self.emit_err(
                     self.input.cur_span(),
-                    SyntaxError::Expected(format!("{TOKEN:?}"), cur),
+                    SyntaxError::Expected(",".to_string(), cur),
                 );
                 continue;
             }
@@ -2115,10 +2115,8 @@ impl<I: Tokens> Parser<I> {
                     None
                 };
 
-                let peeked_is_dot = peeked_is!(self, '.');
-
                 match kind {
-                    Some(kind) if !peeked_is_dot => {
+                    Some(kind) if !peeked_is!(self, '.') => {
                         bump!(self);
                         return Ok(Box::new(TsType::TsKeywordType(TsKeywordType {
                             span: span!(self, start),

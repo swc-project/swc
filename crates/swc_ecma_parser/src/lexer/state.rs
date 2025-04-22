@@ -93,6 +93,10 @@ impl crate::parser::input::Tokens for Lexer<'_> {
         self.state.token_value.as_ref()
     }
 
+    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.state.token_value = token_value;
+    }
+
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state.token_value.take()
     }
