@@ -206,7 +206,7 @@ macro_rules! expect {
             syntax_error!(
                 $p,
                 $p.input.cur_span(),
-                SyntaxError::Expected(format!("{TOKEN:?}"), cur)
+                SyntaxError::Expected(TOKEN.to_string($p.input.get_token_value()), cur)
             )
         }
     }};
@@ -220,7 +220,7 @@ macro_rules! expect_exact {
             syntax_error!(
                 $p,
                 $p.input.cur_span(),
-                SyntaxError::Expected(format!("{TOKEN:?}"), cur)
+                SyntaxError::Expected(TOKEN.to_string($p.input.get_token_value()), cur)
             )
         }
     }};

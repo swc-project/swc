@@ -30,11 +30,9 @@ impl<'a, I: Tokens> Parser<I> {
         let stmts = Arena::new();
         while {
             if self.input.cur().is_none() && end.is_some() {
+                let end = end.unwrap().to_string(self.input.get_token_value());
                 let eof_text = self.input.dump_cur();
-                self.emit_err(
-                    self.input.cur_span(),
-                    SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-                );
+                self.emit_err(self.input.cur_span(), SyntaxError::Expected(end, eof_text));
                 false
             } else {
                 let c = cur!(self, false).ok();

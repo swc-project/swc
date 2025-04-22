@@ -160,7 +160,7 @@ impl<I: Tokens> Parser<I> {
                 let eof_text = p.input.dump_cur();
                 p.emit_err(
                     p.input.cur_span(),
-                    SyntaxError::Expected(format!("{:?}", Token::RBrace), eof_text),
+                    SyntaxError::Expected('}'.to_string(), eof_text),
                 );
             } else {
                 expect!(p, '}');
