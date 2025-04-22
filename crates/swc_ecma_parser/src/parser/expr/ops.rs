@@ -26,7 +26,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
                         Invalid { span: err.span() }.into()
                     }
-                    _ if t.as_bin_op().is_some() => {
+                    _ if t.is_bin_op() => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
                         Invalid { span: err.span() }.into()
                     }

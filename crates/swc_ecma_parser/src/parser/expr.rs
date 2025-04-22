@@ -903,7 +903,7 @@ impl<I: Tokens> Parser<I> {
                 ..Default::default()
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if self.input.cur().is_some_and(|t| t.as_bin_op().is_some()) {
+                if self.input.cur().is_some_and(|t| t.is_bin_op()) {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
@@ -1782,7 +1782,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        if cur!(self, false).is_ok_and(|t| t.as_assign_op().is_some()) {
+                        if cur!(self, false).is_ok_and(|t| t.is_assign_op()) {
                             expr = self.finish_assignment_expr(start, expr)?
                         }
 
