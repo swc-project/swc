@@ -252,11 +252,17 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => emit!(emitter, node),
-            ExportSpecifier::Named(ref node) => emit!(emitter, node),
-        }
+            ExportSpecifier::Namespace(ref node) => {
+                let n = emit!(emitter, node);
 
-        Ok(())
+                Ok(only_new!(ExportSpecifier::Namespace(n)))
+            }
+            ExportSpecifier::Named(ref node) => {
+                let n = emit!(emitter, node);
+
+                Ok(only_new!(ExportSpecifier::Named(n)))
+            }
+        }
     }
 }
 
