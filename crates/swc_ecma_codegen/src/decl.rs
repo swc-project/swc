@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{SourceMapper, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -107,8 +107,19 @@ impl MacroNode for Decl {
 #[node_impl]
 impl MacroNode for ClassDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_class_decl_inner(self, false)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassDecl {
+            class: Box::new(Class {
+                span: Span::new(lo, hi),
+                ..*self.class.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
@@ -116,6 +127,8 @@ impl MacroNode for ClassDecl {
 impl MacroNode for UsingDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.is_await {
             keyword!(emitter, "await");
@@ -131,7 +144,12 @@ impl MacroNode for UsingDecl {
             ListFormat::VariableDeclarationList,
         )?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UsingDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -141,6 +159,8 @@ impl MacroNode for FnDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -166,15 +186,31 @@ impl MacroNode for FnDecl {
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(FnDecl {
+            function: Box::new(Function {
+                span: Span::new(lo, hi),
+                ..*self.function.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for VarDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_var_decl_inner(self)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(VarDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -182,6 +218,8 @@ impl MacroNode for VarDecl {
 impl MacroNode for VarDeclarator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -194,7 +232,12 @@ impl MacroNode for VarDeclarator {
             emit!(emitter, init);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(VarDeclarator {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
