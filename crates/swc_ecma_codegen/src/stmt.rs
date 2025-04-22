@@ -7,38 +7,92 @@ use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 #[node_impl]
 impl MacroNode for Stmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Stmt::Expr(ref e) => emit!(emitter, e),
+        let result = match self {
+            Stmt::Expr(ref e) => {
+                let n = emit!(emitter, e);
+                Ok(only_new!(Stmt::Expr(n)))
+            }
             Stmt::Block(ref e) => {
                 let stmt = emit!(emitter, e);
-                return Ok(only_new!(Stmt::Block(stmt)));
+                Ok(only_new!(Stmt::Block(stmt)))
             }
-            Stmt::Empty(ref e) => emit!(emitter, e),
-            Stmt::Debugger(ref e) => emit!(emitter, e),
-            Stmt::With(ref e) => emit!(emitter, e),
-            Stmt::Return(ref e) => emit!(emitter, e),
-            Stmt::Labeled(ref e) => emit!(emitter, e),
-            Stmt::Break(ref e) => emit!(emitter, e),
-            Stmt::Continue(ref e) => emit!(emitter, e),
-            Stmt::If(ref e) => emit!(emitter, e),
-            Stmt::Switch(ref e) => emit!(emitter, e),
-            Stmt::Throw(ref e) => emit!(emitter, e),
-            Stmt::Try(ref e) => emit!(emitter, e),
-            Stmt::While(ref e) => emit!(emitter, e),
-            Stmt::DoWhile(ref e) => emit!(emitter, e),
-            Stmt::For(ref e) => emit!(emitter, e),
-            Stmt::ForIn(ref e) => emit!(emitter, e),
-            Stmt::ForOf(ref e) => emit!(emitter, e),
+            Stmt::Empty(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Empty(stmt)))
+            }
+            Stmt::Debugger(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Debugger(stmt)))
+            }
+            Stmt::With(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::With(stmt)))
+            }
+            Stmt::Return(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Return(stmt)))
+            }
+            Stmt::Labeled(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Labeled(stmt)))
+            }
+            Stmt::Break(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Break(stmt)))
+            }
+            Stmt::Continue(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Continue(stmt)))
+            }
+            Stmt::If(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::If(stmt)))
+            }
+            Stmt::Switch(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Switch(stmt)))
+            }
+            Stmt::Throw(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Throw(stmt)))
+            }
+            Stmt::Try(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Try(stmt)))
+            }
+            Stmt::While(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::While(stmt)))
+            }
+            Stmt::DoWhile(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::DoWhile(stmt)))
+            }
+            Stmt::For(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::For(stmt)))
+            }
+            Stmt::ForIn(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::ForIn(stmt)))
+            }
+            Stmt::ForOf(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::ForOf(stmt)))
+            }
             Stmt::Decl(Decl::Var(e)) => {
-                emit!(emitter, e);
-                semi!(emitter);
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Decl(Decl::Var(stmt))))
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
-                emit!(emitter, e);
-                semi!(emitter);
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Decl(stmt)))
             }
-            Stmt::Decl(ref e) => emit!(emitter, e),
-        }
+            Stmt::Decl(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Decl(stmt)))
+            }
+        };
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
         }
@@ -47,7 +101,7 @@ impl MacroNode for Stmt {
             emitter.wr.write_line()?;
         }
 
-        Ok(())
+        result
     }
 }
 
@@ -591,6 +645,8 @@ impl MacroNode for IfStmt {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
