@@ -2219,6 +2219,8 @@ impl MacroNode for Tpl {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "`");
@@ -2446,7 +2448,7 @@ impl MacroNode for ExprOrSpread {
 
         emit!(emitter, self.expr);
 
-        Ok(())
+        Ok(only_new!(ExprOrSpread { ..self.clone() }))
     }
 }
 
@@ -2455,6 +2457,8 @@ impl MacroNode for AwaitExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "await");
@@ -2462,7 +2466,12 @@ impl MacroNode for AwaitExpr {
 
         emit!(emitter, self.arg);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AwaitExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2470,6 +2479,8 @@ impl MacroNode for AwaitExpr {
 impl MacroNode for ArrayLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2484,7 +2495,12 @@ impl MacroNode for ArrayLit {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ArrayLit {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2492,6 +2508,8 @@ impl MacroNode for ArrayLit {
 impl MacroNode for ParenExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
@@ -2503,7 +2521,12 @@ impl MacroNode for ParenExpr {
         srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ParenExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2551,7 +2574,10 @@ impl MacroNode for BindingIdent {
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(BindingIdent {
-            span: Span::new(lo, hi),
+            id: Ident {
+                span: Span::new(lo, hi),
+                ..self.id.clone()
+            },
             ..self.clone()
         }))
     }
