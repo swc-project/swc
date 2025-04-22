@@ -10,15 +10,51 @@ impl MacroNode for ModuleDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         let result = match self {
-            ModuleDecl::Import(ref d) => emit!(emitter, d),
-            ModuleDecl::ExportDecl(ref d) => emit!(emitter, d),
-            ModuleDecl::ExportNamed(ref d) => emit!(emitter, d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(emitter, d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(emitter, n),
-            ModuleDecl::ExportAll(ref d) => emit!(emitter, d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(emitter, n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(emitter, n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(emitter, n),
+            ModuleDecl::Import(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::Import(n)))
+            }
+            ModuleDecl::ExportDecl(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportDecl(n)))
+            }
+            ModuleDecl::ExportNamed(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportNamed(n)))
+            }
+            ModuleDecl::ExportDefaultDecl(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportDefaultDecl(n)))
+            }
+            ModuleDecl::ExportDefaultExpr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::ExportDefaultExpr(n)))
+            }
+            ModuleDecl::ExportAll(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportAll(n)))
+            }
+            ModuleDecl::TsExportAssignment(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsExportAssignment(n)))
+            }
+            ModuleDecl::TsImportEquals(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsImportEquals(n)))
+            }
+            ModuleDecl::TsNamespaceExport(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsNamespaceExport(n)))
+            }
         };
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -27,7 +63,7 @@ impl MacroNode for ModuleDecl {
             emitter.wr.write_line()?;
         }
 
-        Ok(())
+        result
     }
 }
 
@@ -90,7 +126,12 @@ impl MacroNode for ExportDefaultExpr {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDefaultExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
