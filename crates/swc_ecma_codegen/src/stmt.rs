@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -56,18 +56,32 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.wr.write_punct(None, ";")?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(EmptyStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for BlockStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_block_stmt_inner(self, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BlockStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -76,11 +90,16 @@ impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emit!(emitter, self.expr);
 
-        semi!(emitter);
+        let hi = only_new!(emitter.wr.get_pos());
 
-        Ok(())
+        Ok(only_new!(ExprStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -89,12 +108,19 @@ impl MacroNode for DebuggerStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         keyword!(emitter, self.span, "debugger");
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(DebuggerStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -102,6 +128,8 @@ impl MacroNode for DebuggerStmt {
 impl MacroNode for WithStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -114,7 +142,12 @@ impl MacroNode for WithStmt {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(WithStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
