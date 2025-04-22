@@ -344,7 +344,7 @@ where
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.right);
+        emit!(true, self, node.right);
 
         Ok(())
     }
@@ -362,7 +362,7 @@ where
         if let Some(ty) = &node.return_type {
             punct!(self, ":");
             formatting_space!(self);
-            emit!(self, ty);
+            emit!(true, self, ty);
         }
 
         if let Some(body) = &node.body {
@@ -2203,15 +2203,17 @@ impl MacroNode for BlockStmtOrExpr {
         match self {
             BlockStmtOrExpr::BlockStmt(block) => {
                 emitter.emit_block_stmt_inner(block, true)?;
+
+                Ok(only_new!(BlockStmtOrExpr::BlockStmt(block.clone())))
             }
             BlockStmtOrExpr::Expr(expr) => {
                 emitter.wr.increase_indent()?;
-                emit!(emitter, expr);
+                let expr = emit!(emitter, expr);
                 emitter.wr.decrease_indent()?;
+
+                Ok(only_new!(BlockStmtOrExpr::Expr(expr)))
             }
         }
-
-        Ok(())
     }
 }
 
