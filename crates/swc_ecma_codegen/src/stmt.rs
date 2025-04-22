@@ -212,6 +212,8 @@ impl MacroNode for ReturnStmt {
 
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "return");
@@ -238,7 +240,12 @@ impl MacroNode for ReturnStmt {
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ReturnStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -246,6 +253,8 @@ impl MacroNode for ReturnStmt {
 impl MacroNode for LabeledStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emit!(emitter, self.label);
 
@@ -255,7 +264,12 @@ impl MacroNode for LabeledStmt {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(LabeledStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -265,6 +279,8 @@ impl MacroNode for SwitchStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -280,7 +296,12 @@ impl MacroNode for SwitchStmt {
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SwitchStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -288,6 +309,8 @@ impl MacroNode for SwitchStmt {
 impl MacroNode for CatchClause {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -305,7 +328,12 @@ impl MacroNode for CatchClause {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CatchClause {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -313,6 +341,8 @@ impl MacroNode for CatchClause {
 impl MacroNode for SwitchCase {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -351,7 +381,12 @@ impl MacroNode for SwitchCase {
         }
         emitter.emit_list(self.span(), Some(&self.cons), format)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SwitchCase {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -359,6 +394,8 @@ impl MacroNode for SwitchCase {
 impl MacroNode for ThrowStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -381,7 +418,12 @@ impl MacroNode for ThrowStmt {
         }
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ThrowStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -391,6 +433,8 @@ impl MacroNode for TryStmt {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -411,7 +455,12 @@ impl MacroNode for TryStmt {
             emit!(emitter, finally);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TryStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -421,6 +470,8 @@ impl MacroNode for WhileStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -432,7 +483,12 @@ impl MacroNode for WhileStmt {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(WhileStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -442,6 +498,8 @@ impl MacroNode for DoWhileStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -467,7 +525,12 @@ impl MacroNode for DoWhileStmt {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(DoWhileStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -477,6 +540,8 @@ impl MacroNode for ForStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -492,7 +557,12 @@ impl MacroNode for ForStmt {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -504,6 +574,8 @@ impl MacroNode for ForInStmt {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         keyword!(emitter, "for");
 
@@ -532,7 +604,12 @@ impl MacroNode for ForInStmt {
 
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForInStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -678,7 +755,12 @@ impl MacroNode for IfStmt {
             emit!(emitter, alt);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(IfStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
