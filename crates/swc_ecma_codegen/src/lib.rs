@@ -1681,6 +1681,8 @@ impl MacroNode for OptChainExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         match &*self.base {
             OptChainBase::Member(e) => {
                 if let Expr::New(new) = &*e.obj {
@@ -1718,7 +1720,12 @@ impl MacroNode for OptChainExpr {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(OptChainExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1745,6 +1752,8 @@ impl MacroNode for CallExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
@@ -1765,16 +1774,28 @@ impl MacroNode for CallExpr {
 
         // srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CallExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for NewExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_new(self, true)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(NewExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1782,6 +1803,8 @@ impl MacroNode for NewExpr {
 impl MacroNode for MemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1831,7 +1854,12 @@ impl MacroNode for MemberExpr {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(MemberExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1839,6 +1867,8 @@ impl MacroNode for MemberExpr {
 impl MacroNode for SuperPropExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1855,7 +1885,12 @@ impl MacroNode for SuperPropExpr {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SuperPropExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
