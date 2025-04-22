@@ -633,7 +633,7 @@ impl<I: Tokens> Parser<I> {
             ) {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
-                || cur!(p, false).is_ok_and(|t| t.as_bin_op().is_some())
+                || cur!(p, false).is_ok_and(|t| t.is_bin_op())
                 || !p.is_start_of_expr()?
             {
                 Ok(Some(type_args))
