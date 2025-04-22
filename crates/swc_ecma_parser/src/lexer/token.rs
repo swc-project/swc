@@ -561,6 +561,11 @@ impl Token {
         Some(atom)
     }
 
+    pub(crate) const fn is_keyword(self) -> bool {
+        let t = self as u8;
+        t >= Token::Await as u8 && t <= Token::Module as u8
+    }
+
     pub(crate) fn as_known_ident_atom(&self) -> Option<Atom> {
         let atom = match self {
             Token::Abstract => atom!("abstract"),
@@ -612,12 +617,18 @@ impl Token {
         Some(atom)
     }
 
-    pub(crate) fn is_word(&self) -> bool {
+    #[inline(always)]
+    pub(crate) const fn is_known_ident(self) -> bool {
+        let t = self as u8;
+        t >= Token::Abstract as u8 && t <= Token::Target as u8
+    }
+
+    pub(crate) const fn is_word(&self) -> bool {
         matches!(
             self,
             Token::Null | Token::True | Token::False | Token::Ident
-        ) || self.as_keyword_atom().is_some()
-            || self.as_known_ident_atom().is_some()
+        ) || self.is_keyword()
+            || self.is_known_ident()
     }
 
     pub(crate) fn as_word_atom(&self, value: Option<&TokenValue>) -> Option<Atom> {
@@ -637,7 +648,7 @@ impl Token {
         }
     }
 
-    pub(crate) fn is_bin_op(self) -> bool {
+    pub(crate) const fn is_bin_op(self) -> bool {
         let t = self as u8;
         (t >= Token::EqEq as u8 && t <= Token::NullishCoalescing as u8)
             || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
@@ -698,6 +709,56 @@ impl Token {
             Self::LogicalOrEq => Some(AssignOp::OrAssign),
             Self::NullishEq => Some(AssignOp::NullishAssign),
             _ => None,
+        }
+    }
+
+    #[inline(always)]
+    pub(crate) const fn starts_expr(self) -> bool {
+        matches!(
+            self,
+            Self::Ident
+                | Self::JSXName
+                | Self::Plus
+                | Self::Minus
+                | Self::Bang
+                | Self::LParen
+                | Self::LBrace
+                | Self::LBracket
+                | Self::BackQuote
+                | Self::DollarLBrace
+                | Self::PlusPlus
+                | Self::MinusMinus
+                | Self::Tilde
+                | Self::Str
+                | Self::Regex
+                | Self::Num
+                | Self::BigInt
+                | Self::JSXTagStart
+                | Self::Await
+                | Self::Function
+                | Self::Throw
+                | Self::New
+                | Self::This
+                | Self::Super
+                | Self::Class
+                | Self::Import
+                | Self::Yield
+                | Self::TypeOf
+                | Self::Void
+                | Self::Delete
+        ) || self.is_known_ident()
+    }
+
+    pub(crate) fn follows_keyword_let(self) -> bool {
+        match self {
+            Token::Let
+            | Token::LBrace
+            | Token::LBracket
+            | Token::Ident
+            | Token::Yield
+            | Token::Await => true,
+            _ if self.is_known_ident() => true,
+            _ => false,
         }
     }
 }

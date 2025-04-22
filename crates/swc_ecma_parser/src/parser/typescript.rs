@@ -2121,7 +2121,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            t if t.as_known_ident_atom().is_some() => {
+            t if t.is_known_ident() => {
                 if is!(self, "asserts") && peeked_is!(self, "this") {
                     bump!(self);
                     let this_keyword = self.parse_ts_this_type_node()?;
