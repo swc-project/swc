@@ -440,7 +440,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
             .into())
         } else {
-            if cur!(self, false)?.as_bin_op().is_some() {
+            if cur!(self, false)?.is_bin_op() {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                 let expr = self.parse_bin_op_recursively(expr, 0)?;
                 return Ok(ExprStmt {

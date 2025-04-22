@@ -40,182 +40,241 @@ pub enum TokenValue {
 #[repr(u8)]
 pub enum Token {
     // Single character tokens (first 33 types)
-    LParen = 0,        // (
-    RParen = 1,        // )
-    LBrace = 2,        // {
-    RBrace = 3,        // }
-    LBracket = 4,      // [
-    RBracket = 5,      // ]
-    Semi = 6,          // ;
-    Comma = 7,         // ,
-    Dot = 8,           // .
-    Colon = 9,         // :
-    QuestionMark = 10, // ?
-    Bang = 11,         // !
-    Tilde = 12,        // ~
-    Plus = 13,         // +
-    Minus = 14,        // -
-    Asterisk = 15,     // *
-    Slash = 16,        // /
-    Percent = 17,      // %
-    Lt = 18,           // <
-    Gt = 19,           // >
-    Pipe = 20,         // |
-    Caret = 21,        // ^
-    Ampersand = 22,    // &
-    Eq = 23,           // =
-    At = 24,           // @
-    Hash = 25,         // #
-    BackQuote = 26,    // `
-    Arrow = 27,        // =>
-    DotDotDot = 28,    // ...
+    /// `(`
+    LParen,
+    /// `)`
+    RParen,
+    /// `{`
+    LBrace,
+    /// `}`
+    RBrace,
+    /// `[`
+    LBracket,
+    /// `]`
+    RBracket,
+    /// `;`
+    Semi,
+    /// `,`
+    Comma,
+    /// `.`
+    Dot,
+    /// `:`
+    Colon,
+    /// `?`
+    QuestionMark,
+    /// `!`
+    Bang,
+    /// `~`
+    Tilde,
+    /// `+`
+    Plus,
+    /// `-`
+    Minus,
+    /// `*`
+    Asterisk,
+    /// `/`
+    Slash,
+    /// `%`
+    Percent,
+    /// `<`
+    Lt,
+    /// `>`
+    Gt,
+    /// `|`
+    Pipe,
+    /// `^`
+    Caret,
+    /// `&`
+    Ampersand,
+    /// `=`
+    Eq,
+    /// `@`
+    At,
+    /// `#`
+    Hash,
+    /// '`'
+    BackQuote,
+    /// `=>`
+    Arrow,
+    /// `...`
+    DotDotDot,
 
     // Compound operators
-    PlusPlus = 29,   // ++
-    MinusMinus = 30, // --
-    PlusEq = 31,     // +=
-    MinusEq = 32,    // -=
+    /// `++`
+    PlusPlus,
+    /// `--`
+    MinusMinus,
+    /// `+=`
+    PlusEq,
+    /// `-=`
+    MinusEq,
 
     // More compound operators and keywords (starting from 33)
-    MulEq = 33,            // *=
-    DivEq = 34,            // /=
-    ModEq = 35,            // %=
-    BitOrEq = 36,          // |=
-    BitXorEq = 37,         // ^=
-    BitAndEq = 38,         // &=
-    ExpEq = 39,            // **=
-    LogicalOrEq = 40,      // ||=
-    LogicalAndEq = 41,     // &&=
-    NullishEq = 42,        // ??=
-    OptionalChain = 43,    // ?.
-    LShiftEq = 44,         // <<=
-    RShiftEq = 45,         // >>=
-    ZeroFillRShiftEq = 46, // >>>=
+    /// `*=`
+    MulEq,
+    /// `/=`
+    DivEq,
+    /// `%=`
+    ModEq,
+    /// `<<=`
+    LShiftEq,
+    /// `>>=`
+    RShiftEq,
+    /// `>>>=`
+    ZeroFillRShiftEq,
+    /// `|=`
+    BitOrEq,
+    /// `^=`
+    BitXorEq,
+    /// `&=`
+    BitAndEq,
+    /// `**=`
+    ExpEq,
+    /// `||=`
+    LogicalOrEq,
+    /// `&&=`
+    LogicalAndEq,
+    /// `??=`
+    NullishEq,
+    /// `?.`
+    OptionalChain,
 
-    EqEq = 47,    // ==
-    NotEq = 48,   // !=
-    EqEqEq = 49,  // ===
-    NotEqEq = 50, // !==
+    /// `==`
+    EqEq,
+    /// `!=`
+    NotEq,
+    /// `===`
+    EqEqEq,
+    /// `!==`
+    NotEqEq,
 
-    LtEq = 51,           // <=
-    GtEq = 52,           // >=
-    LShift = 53,         // <<
-    RShift = 54,         // >>
-    ZeroFillRShift = 55, // >>>
+    /// `<=`
+    LtEq,
+    /// `>=`
+    GtEq,
+    /// `<<`
+    LShift,
+    /// `>>`
+    RShift,
+    /// `>>>`
+    ZeroFillRShift,
 
-    Exp = 56,               // **
-    LogicalOr = 57,         // ||
-    LogicalAnd = 58,        // &&
-    NullishCoalescing = 59, // ??
+    /// `**`
+    Exp,
+    /// `||`
+    LogicalOr,
+    /// `&&`
+    LogicalAnd,
+    /// `??`
+    NullishCoalescing,
 
-    DollarLBrace = 60, // ${
+    /// `${`
+    DollarLBrace,
 
     // JSX-related tokens
-    JSXTagStart = 61,
-    JSXTagEnd = 62,
+    JSXTagStart,
+    JSXTagEnd,
 
     // Literals
-    Str = 63,      // String literal
-    Num = 64,      // Number literal
-    BigInt = 65,   // BigInt literal
-    Regex = 66,    // RegExp literal
-    Template = 67, // Template literal
-    JSXName = 68,  // JSX name
-    JSXText = 69,  // JSX text
-
-    // Identifiers and keywords
-    Ident = 70, // Identifier
-
+    Str,
+    Num,
+    BigInt,
+    Regex,
+    Template,
+    JSXName,
+    JSXText,
+    // Identifiers and keyword
+    Ident,
     // Reserved keyword tokens (starting from 100)
-    Await = 100,
-    Break = 101,
-    Case = 102,
-    Catch = 103,
-    Class = 104,
-    Const = 105,
-    Continue = 106,
-    Debugger = 107,
-    Default = 108,
-    Delete = 109,
-    Do = 110,
-    Else = 111,
-    Export = 112,
-    Extends = 113,
-    False = 114,
-    Finally = 115,
-    For = 116,
-    Function = 117,
-    If = 118,
-    Import = 119,
-    In = 120,
-    InstanceOf = 121,
-    Let = 122,
-    New = 123,
-    Null = 124,
-    Return = 125,
-    Super = 126,
-    Switch = 127,
-    This = 128,
-    Throw = 129,
-    True = 130,
-    Try = 131,
-    TypeOf = 132,
-    Var = 133,
-    Void = 134,
-    While = 135,
-    With = 136,
-    Yield = 137,
-    Module = 138,
+    Await,
+    Break,
+    Case,
+    Catch,
+    Class,
+    Const,
+    Continue,
+    Debugger,
+    Default,
+    Delete,
+    Do,
+    Else,
+    Export,
+    Extends,
+    False,
+    Finally,
+    For,
+    Function,
+    If,
+    Import,
+    In,
+    InstanceOf,
+    Let,
+    New,
+    Null,
+    Return,
+    Super,
+    Switch,
+    This,
+    Throw,
+    True,
+    Try,
+    TypeOf,
+    Var,
+    Void,
+    While,
+    With,
+    Yield,
+    Module,
 
     // TypeScript-related keywords (starting from 150)
-    Abstract = 150,
-    Any = 151,
-    As = 152,
-    Asserts = 153,
-    Assert = 154,
-    Async = 155,
-    Bigint = 156,
-    Boolean = 157,
-    Constructor = 158,
-    Declare = 159,
-    Enum = 160,
-    From = 161,
-    Get = 162,
-    Global = 163,
-    Implements = 164,
-    Interface = 165,
-    Intrinsic = 166,
-    Is = 167,
-    Keyof = 168,
-    Namespace = 169,
-    Never = 170,
-    Number = 171,
-    Object = 172,
-    Of = 173,
-    Package = 174,
-    Private = 175,
-    Protected = 176,
-    Public = 177,
-    Readonly = 178,
-    Require = 179,
-    Set = 180,
-    Static = 181,
-    String = 182,
-    Symbol = 183,
-    Type = 184,
-    Undefined = 185,
-    Unique = 186,
-    Unknown = 187,
-    Using = 188,
-    Accessor = 189,
-    Infer = 190,
-    Satisfies = 191,
-    Meta = 192,
-    Target = 193,
+    Abstract,
+    Any,
+    As,
+    Asserts,
+    Assert,
+    Async,
+    Bigint,
+    Boolean,
+    Constructor,
+    Declare,
+    Enum,
+    From,
+    Get,
+    Global,
+    Implements,
+    Interface,
+    Intrinsic,
+    Is,
+    Keyof,
+    Namespace,
+    Never,
+    Number,
+    Object,
+    Of,
+    Package,
+    Private,
+    Protected,
+    Public,
+    Readonly,
+    Require,
+    Set,
+    Static,
+    String,
+    Symbol,
+    Type,
+    Undefined,
+    Unique,
+    Unknown,
+    Using,
+    Accessor,
+    Infer,
+    Satisfies,
+    Meta,
+    Target,
 
     // Special tokens
-    Shebang = 194,
-    Error = 195,
+    Shebang,
+    Error,
 }
 
 impl Token {
@@ -578,6 +637,12 @@ impl Token {
         }
     }
 
+    pub(crate) fn is_bin_op(self) -> bool {
+        let t = self as u8;
+        (t >= Token::EqEq as u8 && t <= Token::NullishCoalescing as u8)
+            || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
+    }
+
     pub(crate) fn as_bin_op(&self) -> Option<swc_ecma_ast::BinaryOp> {
         match self {
             Token::EqEq => Some(swc_ecma_ast::BinaryOp::EqEq),
@@ -609,7 +674,12 @@ impl Token {
         }
     }
 
-    pub(crate) fn as_assign_op(&self) -> Option<swc_ecma_ast::AssignOp> {
+    pub(crate) fn is_assign_op(self) -> bool {
+        let t = self as u8;
+        matches!(self, Token::Eq) || (t >= Token::PlusEq as u8 && t <= Token::NullishEq as u8)
+    }
+
+    pub(crate) fn as_assign_op(self) -> Option<swc_ecma_ast::AssignOp> {
         match self {
             Self::Eq => Some(AssignOp::Assign),
             Self::PlusEq => Some(AssignOp::AddAssign),
