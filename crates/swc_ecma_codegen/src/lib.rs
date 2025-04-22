@@ -1899,6 +1899,8 @@ impl MacroNode for ArrowExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         let space = !emitter.cfg.minify
@@ -1946,7 +1948,12 @@ impl MacroNode for ArrowExpr {
         punct!(emitter, "=>");
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ArrowExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1957,6 +1964,8 @@ impl MacroNode for MetaPropExpr {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         match self.kind {
@@ -1965,7 +1974,12 @@ impl MacroNode for MetaPropExpr {
             MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(MetaPropExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1973,6 +1987,8 @@ impl MacroNode for MetaPropExpr {
 impl MacroNode for SeqExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1989,7 +2005,12 @@ impl MacroNode for SeqExpr {
             emit!(emitter, e);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SeqExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2019,6 +2040,8 @@ impl MacroNode for AssignExpr {
 impl MacroNode for BinExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2051,7 +2074,12 @@ impl MacroNode for BinExpr {
 
         emitter.emit_bin_expr_trailing(self)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BinExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2209,7 +2237,12 @@ impl MacroNode for Tpl {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Tpl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
