@@ -10,8 +10,8 @@ impl MacroNode for Stmt {
         match self {
             Stmt::Expr(ref e) => emit!(emitter, e),
             Stmt::Block(ref e) => {
-                emit!(emitter, e);
-                return Ok(());
+                let stmt = emit!(emitter, e);
+                return Ok(only_new!(Stmt::Block(stmt)));
             }
             Stmt::Empty(ref e) => emit!(emitter, e),
             Stmt::Debugger(ref e) => emit!(emitter, e),
