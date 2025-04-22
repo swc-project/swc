@@ -1563,8 +1563,16 @@ impl MacroNode for ModuleItem {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
         let node = match self {
-            ModuleItem::Stmt(stmt) => emit!(emitter, stmt),
-            ModuleItem::ModuleDecl(decl) => emit!(emitter, decl),
+            ModuleItem::Stmt(stmt) => {
+                let stmt = emit!(emitter, stmt);
+
+                Ok(only_new!(ModuleItem::Stmt(stmt)))
+            }
+            ModuleItem::ModuleDecl(decl) => {
+                let decl = emit!(emitter, decl);
+
+                Ok(only_new!(ModuleItem::ModuleDecl(decl)))
+            }
         };
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -1843,7 +1851,7 @@ impl MacroNode for MemberExpr {
             }
         }
 
-        match &self.prop {
+        let prop = match &self.prop {
             MemberProp::Computed(computed) => emit!(emitter, computed),
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {
@@ -1871,7 +1879,7 @@ impl MacroNode for MemberExpr {
                 punct!(emitter, ".");
                 emit!(emitter, private);
             }
-        }
+        };
 
         srcmap!(emitter, self, false);
 
@@ -1879,6 +1887,7 @@ impl MacroNode for MemberExpr {
 
         Ok(only_new!(MemberExpr {
             span: Span::new(lo, hi),
+            prop,
             ..self.clone()
         }))
     }

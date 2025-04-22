@@ -149,16 +149,29 @@ impl MacroNode for ExportDefaultDecl {
         space!(emitter);
         keyword!(emitter, "default");
         space!(emitter);
-        match self.decl {
-            DefaultDecl::Class(ref n) => emit!(emitter, n),
-            DefaultDecl::Fn(ref n) => emit!(emitter, n),
-            DefaultDecl::TsInterfaceDecl(ref n) => emit!(emitter, n),
-        }
+        let decl = match self.decl {
+            DefaultDecl::Class(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(DefaultDecl::Class(n))
+            }
+            DefaultDecl::Fn(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(DefaultDecl::Fn(n))
+            }
+            DefaultDecl::TsInterfaceDecl(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(DefaultDecl::TsInterfaceDecl(n))
+            }
+        };
 
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(ExportDefaultDecl {
             span: Span::new(lo, hi),
+            decl,
             ..self.clone()
         }))
     }
