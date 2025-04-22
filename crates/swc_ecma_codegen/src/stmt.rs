@@ -489,6 +489,8 @@ impl MacroNode for ForOfStmt {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "for");
@@ -520,7 +522,12 @@ impl MacroNode for ForOfStmt {
         punct!(emitter, ")");
         emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForOfStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -528,6 +535,8 @@ impl MacroNode for ForOfStmt {
 impl MacroNode for BreakStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -540,7 +549,12 @@ impl MacroNode for BreakStmt {
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BreakStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -548,6 +562,8 @@ impl MacroNode for BreakStmt {
 impl MacroNode for ContinueStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -560,7 +576,12 @@ impl MacroNode for ContinueStmt {
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ContinueStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -609,11 +630,16 @@ impl MacroNode for IfStmt {
 impl MacroNode for ModuleExportName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ModuleExportName::Ident(ident) => emit!(emitter, ident),
-            ModuleExportName::Str(s) => emit!(emitter, s),
-        }
+            ModuleExportName::Ident(ident) => {
+                let n = emit!(emitter, ident);
 
-        Ok(())
+                Ok(only_new!(ModuleExportName::Ident(n)))
+            }
+            ModuleExportName::Str(s) => {
+                let n = emit!(emitter, s);
+                Ok(only_new!(ModuleExportName::Str(n)))
+            }
+        }
     }
 }
 
@@ -621,11 +647,17 @@ impl MacroNode for ModuleExportName {
 impl MacroNode for VarDeclOrExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            VarDeclOrExpr::Expr(node) => emit!(emitter, node),
-            VarDeclOrExpr::VarDecl(node) => emit!(emitter, node),
-        }
+            VarDeclOrExpr::Expr(node) => {
+                let n = emit!(emitter, node);
 
-        Ok(())
+                Ok(only_new!(VarDeclOrExpr::Expr(n)))
+            }
+            VarDeclOrExpr::VarDecl(node) => {
+                let n = emit!(emitter, node);
+
+                Ok(only_new!(VarDeclOrExpr::VarDecl(n)))
+            }
+        }
     }
 }
 
