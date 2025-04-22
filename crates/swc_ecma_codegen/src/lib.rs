@@ -1566,12 +1566,12 @@ impl MacroNode for ModuleItem {
             ModuleItem::Stmt(stmt) => {
                 let stmt = emit!(emitter, stmt);
 
-                Ok(only_new!(ModuleItem::Stmt(stmt)))
+                only_new!(ModuleItem::Stmt(stmt))
             }
             ModuleItem::ModuleDecl(decl) => {
                 let decl = emit!(emitter, decl);
 
-                Ok(only_new!(ModuleItem::ModuleDecl(decl)))
+                only_new!(ModuleItem::ModuleDecl(decl))
             }
         };
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1586,7 +1586,8 @@ impl MacroNode for Callee {
         Ok(match self {
             Callee::Expr(e) => {
                 let e = if let Expr::New(new) = &**e {
-                    emitter.emit_new(new, false)?
+                    emitter.emit_new(new, false)?;
+                    only_new!(Box::new(Expr::New(new.clone())))
                 } else {
                     emit!(emitter, e)
                 };
@@ -1712,24 +1713,45 @@ impl MacroNode for OptChainExpr {
 
         let lo = only_new!(emitter.wr.get_pos());
 
-        match &*self.base {
+        let base = match &*self.base {
             OptChainBase::Member(e) => {
-                if let Expr::New(new) = &*e.obj {
+                let obj = if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
+                    only_new!(Box::new(Expr::New(new.clone())))
                 } else {
-                    emit!(emitter, e.obj);
-                }
+                    emit!(emitter, e.obj)
+                };
+
                 if self.optional {
                     punct!(emitter, "?.");
                 } else if !e.prop.is_computed() {
                     punct!(emitter, ".");
                 }
 
-                match &e.prop {
-                    MemberProp::Computed(computed) => emit!(emitter, computed),
-                    MemberProp::Ident(i) => emit!(emitter, i),
-                    MemberProp::PrivateName(p) => emit!(emitter, p),
-                }
+                let prop = match &e.prop {
+                    MemberProp::Computed(computed) => {
+                        let n = emit!(emitter, computed);
+
+                        only_new!(MemberProp::Computed(n))
+                    }
+                    MemberProp::Ident(i) => {
+                        let n = emit!(emitter, i);
+
+                        only_new!(MemberProp::Ident(n))
+                    }
+                    MemberProp::PrivateName(p) => {
+                        let n = emit!(emitter, p);
+                        only_new!(MemberProp::PrivateName(n))
+                    }
+                };
+
+                let hi = only_new!(emitter.wr.get_pos());
+
+                only_new!(OptChainBase::Member(MemberExpr {
+                    span: Span::new(lo, hi),
+                    obj,
+                    prop,
+                }))
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
@@ -1746,13 +1768,21 @@ impl MacroNode for OptChainExpr {
                     ListFormat::CallExpressionArguments,
                 )?;
                 punct!(emitter, ")");
+
+                let hi = only_new!(emitter.wr.get_pos());
+
+                only_new!(OptChainBase::Call(OptCall {
+                    span: Span::new(lo, hi),
+                    ..e.clone()
+                }))
             }
-        }
+        };
 
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(OptChainExpr {
             span: Span::new(lo, hi),
+            base,
             ..self.clone()
         }))
     }
@@ -1852,7 +1882,11 @@ impl MacroNode for MemberExpr {
         }
 
         let prop = match &self.prop {
-            MemberProp::Computed(computed) => emit!(emitter, computed),
+            MemberProp::Computed(computed) => {
+                let n = emit!(emitter, computed);
+
+                only_new!(MemberProp::Computed(n))
+            }
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {
                     if self.prop.span().lo() >= BytePos(2) {
@@ -1865,6 +1899,8 @@ impl MacroNode for MemberExpr {
                 }
                 punct!(emitter, ".");
                 emit!(emitter, ident);
+
+                only_new!(MemberProp::Ident(ident))
             }
             MemberProp::PrivateName(private) => {
                 if needs_2dots_for_property_access {
@@ -1878,6 +1914,8 @@ impl MacroNode for MemberExpr {
                 }
                 punct!(emitter, ".");
                 emit!(emitter, private);
+
+                only_new!(MemberProp::PrivateName(private))
             }
         };
 
