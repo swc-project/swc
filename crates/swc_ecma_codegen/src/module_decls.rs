@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -9,7 +9,7 @@ impl MacroNode for ModuleDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
+        let result = match self {
             ModuleDecl::Import(ref d) => emit!(emitter, d),
             ModuleDecl::ExportDecl(ref d) => emit!(emitter, d),
             ModuleDecl::ExportNamed(ref d) => emit!(emitter, d),
@@ -19,7 +19,7 @@ impl MacroNode for ModuleDecl {
             ModuleDecl::TsExportAssignment(ref n) => emit!(emitter, n),
             ModuleDecl::TsImportEquals(ref n) => emit!(emitter, n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(emitter, n),
-        }
+        };
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -34,6 +34,8 @@ impl MacroNode for ModuleDecl {
 #[node_impl]
 impl MacroNode for ExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         match &self.decl {
@@ -55,13 +57,20 @@ impl MacroNode for ExportDecl {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ExportDefaultExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
@@ -90,6 +99,8 @@ impl MacroNode for ExportDefaultDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
@@ -103,7 +114,12 @@ impl MacroNode for ExportDefaultDecl {
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(emitter, n),
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDefaultDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
