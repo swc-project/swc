@@ -1747,11 +1747,11 @@ impl MacroNode for OptChainExpr {
 
                 let hi = only_new!(emitter.wr.get_pos());
 
-                only_new!(OptChainBase::Member(MemberExpr {
+                only_new!(Box::new(OptChainBase::Member(MemberExpr {
                     span: Span::new(lo, hi),
                     obj,
                     prop,
-                }))
+                })))
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
@@ -1771,10 +1771,10 @@ impl MacroNode for OptChainExpr {
 
                 let hi = only_new!(emitter.wr.get_pos());
 
-                only_new!(OptChainBase::Call(OptCall {
+                only_new!(Box::new(OptChainBase::Call(OptCall {
                     span: Span::new(lo, hi),
                     ..e.clone()
-                }))
+                })))
             }
         };
 
@@ -1898,7 +1898,7 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(emitter, ident);
+                let ident = emit!(emitter, ident);
 
                 only_new!(MemberProp::Ident(ident))
             }
@@ -1913,7 +1913,7 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(emitter, private);
+                let private = emit!(emitter, private);
 
                 only_new!(MemberProp::PrivateName(private))
             }
@@ -1943,13 +1943,19 @@ impl MacroNode for SuperPropExpr {
         emit!(emitter, self.obj);
 
         match &self.prop {
-            SuperProp::Computed(computed) => emit!(emitter, computed),
+            SuperProp::Computed(computed) => {
+                let n = emit!(emitter, computed);
+
+                only_new!(SuperProp::Computed(n))
+            }
             SuperProp::Ident(i) => {
                 if self.prop.span().lo() >= BytePos(1) {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(emitter, i);
+                let ident = emit!(emitter, i);
+
+                only_new!(SuperProp::Ident(ident))
             }
         }
 
