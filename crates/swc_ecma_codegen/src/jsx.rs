@@ -23,13 +23,16 @@ impl MacroNode for JSXElement {
             Some(&self.children),
             ListFormat::JsxElementOrFragmentChildren,
         )?;
-        if let Some(ref closing) = self.closing {
-            emit!(emitter, closing)
-        }
+        let closing = if let Some(ref closing) = self.closing {
+            Some(emit!(emitter, closing))
+        } else {
+            None
+        };
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(JSXElement {
             span: Span::new(lo, hi),
+            closing,
             ..self.clone()
         }))
     }

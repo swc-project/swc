@@ -532,9 +532,11 @@ impl MacroNode for ClassProp {
 
         srcmap!(emitter, self, true);
 
-        for dec in &self.decorators {
-            emit!(emitter, dec)
-        }
+        let decorators = self
+            .decorators
+            .iter()
+            .map(|d| Ok(emit!(emitter, d)))
+            .collect::<Result<Vec<_>>>()?;
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -600,6 +602,7 @@ impl MacroNode for ClassProp {
 
         Ok(only_new!(ClassProp {
             span: Span::new(lo, hi),
+            decorators,
             ..self.clone()
         }))
     }
