@@ -26,7 +26,7 @@ where
 
         if !skip_decorators {
             for dec in &node.class.decorators {
-                emit!(self, true, dec);
+                emit!(true, self, dec);
             }
         }
 
@@ -37,8 +37,8 @@ where
 
         keyword!(self, "class");
         space!(self);
-        emit!(self, true, node.ident);
-        emit!(self, true, node.class.type_params);
+        emit!(true, self, node.ident);
+        emit!(true, self, node.class.type_params);
 
         self.emit_class_trailing(&node.class)?;
 
@@ -99,8 +99,6 @@ impl MacroNode for Decl {
             Decl::TsModule(n) => emit!(emitter, n),
             Decl::TsTypeAlias(n) => emit!(emitter, n),
         }
-
-        Ok(())
     }
 }
 

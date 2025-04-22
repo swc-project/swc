@@ -882,13 +882,15 @@ impl MacroNode for TsMethodSignature {
 
         let lo = only_new!(emitter.wr.get_pos());
 
-        if self.computed {
+        let key = if self.computed {
             punct!(emitter, "[");
-            emit!(emitter, self.key);
+            let n = emit!(emitter, self.key);
             punct!(emitter, "]");
+
+            n
         } else {
             emit!(emitter, self.key)
-        }
+        };
 
         if self.optional {
             punct!(emitter, "?");
@@ -912,6 +914,7 @@ impl MacroNode for TsMethodSignature {
 
         Ok(only_new!(TsMethodSignature {
             span: Span::new(lo, hi),
+            key,
             ..self.clone()
         }))
     }
