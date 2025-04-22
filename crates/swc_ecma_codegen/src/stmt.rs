@@ -118,7 +118,6 @@ impl MacroNode for EmptyStmt {
 
         Ok(only_new!(EmptyStmt {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
@@ -173,7 +172,6 @@ impl MacroNode for DebuggerStmt {
 
         Ok(only_new!(DebuggerStmt {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }

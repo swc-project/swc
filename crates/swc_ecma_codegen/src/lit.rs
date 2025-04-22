@@ -240,7 +240,7 @@ impl MacroNode for Bool {
 
         Ok(only_new!(Bool {
             span: Span::new(lo, hi),
-            ..self.clone()
+            ..*self
         }))
     }
 }

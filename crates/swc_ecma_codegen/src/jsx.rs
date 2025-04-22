@@ -324,7 +324,6 @@ impl MacroNode for JSXOpeningFragment {
 
         Ok(only_new!(JSXOpeningFragment {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
@@ -340,7 +339,6 @@ impl MacroNode for JSXClosingFragment {
 
         Ok(only_new!(JSXClosingFragment {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
@@ -369,7 +367,6 @@ impl MacroNode for JSXEmptyExpr {
 
         Ok(only_new!(JSXEmptyExpr {
             span: Span::new(lo, lo),
-            ..self.clone()
         }))
     }
 }

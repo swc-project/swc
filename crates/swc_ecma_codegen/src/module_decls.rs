@@ -172,7 +172,6 @@ impl MacroNode for ExportDefaultDecl {
         Ok(only_new!(ExportDefaultDecl {
             span: Span::new(lo, hi),
             decl,
-            ..self.clone()
         }))
     }
 }

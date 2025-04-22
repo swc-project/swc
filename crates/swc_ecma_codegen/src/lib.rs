@@ -162,7 +162,7 @@ where
     }
 }
 
-impl<'a, W, S> DerefMut for NodeEmitter<'a, W, S>
+impl<W, S> DerefMut for NodeEmitter<'_, W, S>
 where
     W: SpannedWriteJs,
     S: SourceMapper + SourceMapperExt,
@@ -1618,7 +1618,6 @@ impl MacroNode for Super {
 
         Ok(only_new!(Super {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
@@ -1645,7 +1644,7 @@ impl MacroNode for Import {
 
         Ok(only_new!(Import {
             span: Span::new(lo, hi),
-            ..self.clone()
+            ..*self
         }))
     }
 }
@@ -1949,7 +1948,6 @@ impl MacroNode for Invalid {
 
         Ok(only_new!(Invalid {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
@@ -2201,7 +2199,7 @@ impl MacroNode for MetaPropExpr {
 
         Ok(only_new!(MetaPropExpr {
             span: Span::new(lo, hi),
-            ..self.clone()
+            ..*self
         }))
     }
 }
@@ -2432,7 +2430,6 @@ impl MacroNode for ThisExpr {
 
         Ok(only_new!(ThisExpr {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }

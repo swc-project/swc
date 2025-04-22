@@ -774,7 +774,6 @@ impl MacroNode for TsLitType {
         Ok(only_new!(TsLitType {
             span: Span::new(lo, hi),
             lit,
-            ..self.clone()
         }))
     }
 }
@@ -1306,7 +1305,6 @@ impl MacroNode for TsThisType {
 
         Ok(only_new!(TsThisType {
             span: Span::new(lo, hi),
-            ..self.clone()
         }))
     }
 }
