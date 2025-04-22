@@ -12,6 +12,8 @@ const env = {
     hasError: false
 };
 try {
+    var C = class {
+    };
     C = _ts_decorate._([
         dec
     ], C);
@@ -21,6 +23,4 @@ try {
     env.hasError = true;
 } finally{
     _ts_dispose_resources._(env);
-}
-class C {
 }

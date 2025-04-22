@@ -5,6 +5,23 @@
 
 
 
+- **(es/proposal)** Fix exported class for `explicit-resource-management` ([#10393](https://github.com/swc-project/swc/issues/10393)) ([6b5dbc6](https://github.com/swc-project/swc/commit/6b5dbc6078248cc6fd467a7f57be17082b837565))
+
+
+- **(swc_core)** Fix downstream doc builds ([#10401](https://github.com/swc-project/swc/issues/10401)) ([df511ba](https://github.com/swc-project/swc/commit/df511ba183570f1a2f4564cd24a3d67dd3b3573c))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/utils)** Mark Symbol members as literal ([#10400](https://github.com/swc-project/swc/issues/10400)) ([3935b60](https://github.com/swc-project/swc/commit/3935b60340685d1f4aa464da8e9cec80c48cabd2))
+
+## [swc_core@v22.5.0] - 2025-04-18
+
+### Bug Fixes
+
+
+
 - Upgrade browserslist-rs version ([#10389](https://github.com/swc-project/swc/issues/10389)) ([f802892](https://github.com/swc-project/swc/commit/f802892add01c7dac9744db1a8f1f7366b43dd0a))
 
 ### Miscellaneous Tasks
@@ -2148,9 +2165,6 @@
 - **(es/parser)** Disallow `let let` ([#9484](https://github.com/swc-project/swc/issues/9484)) ([1121bc0](https://github.com/swc-project/swc/commit/1121bc0dc161520a418945dbc610c30adc7ab3aa))
 
 
-- **(es/typescript)** Add `native_class_properties ` to skip reordering of class properties inits ([#9421](https://github.com/swc-project/swc/issues/9421)) ([d2929d1](https://github.com/swc-project/swc/commit/d2929d1ce61a00360cc0596441041571a958da23))
-
-
 - **(plugin/runner)** Improve error message ([#9502](https://github.com/swc-project/swc/issues/9502)) ([da52930](https://github.com/swc-project/swc/commit/da529304fe23bcb1a15c25811f928ebf91207ef0))
 
 
@@ -2163,9 +2177,6 @@
 - **(bindings/node)** Fix type definition ([64ec111](https://github.com/swc-project/swc/commit/64ec1117697029895284e248d79698f802cf1aa8))
 
 
-- **(deps)** Update cargo (patch) ([#9405](https://github.com/swc-project/swc/issues/9405)) ([baf4928](https://github.com/swc-project/swc/commit/baf4928ce2964e659af5ca77cd899427a8c29f60))
-
-
 - **(deps)** Update rust crate arrayvec to v0.7.6 ([#9436](https://github.com/swc-project/swc/issues/9436)) ([08dd948](https://github.com/swc-project/swc/commit/08dd948289006583c6f0f76850c08808651f9135))
 
 
@@ -2176,9 +2187,6 @@
 
 
 - **(es/codegen)** Bump minimum required swc_allocator version to 0.1.8 ([#9492](https://github.com/swc-project/swc/issues/9492)) ([5258763](https://github.com/swc-project/swc/commit/5258763cf673e1684808bc2766ba6ee9c84642f1))
-
-
-- **(es/typescript)** Remove the workaround for wasm-bindgen ([#9428](https://github.com/swc-project/swc/issues/9428)) ([55f7268](https://github.com/swc-project/swc/commit/55f72687f69eae131c6ce08d6a449afaa7357667))
 
 
 - **(html)** Use `binding_html_node` instead of `html_node` ([bdea5cb](https://github.com/swc-project/swc/commit/bdea5cb94cf7cc9d02274f32e104b55f977e625d))

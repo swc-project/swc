@@ -9,6 +9,10 @@ var env = {
     hasError: false
 };
 try {
+    var _class = function _class() {
+        "use strict";
+        _class_call_check(this, _class);
+    };
     _class = _ts_decorate([
         dec
     ], _class);
@@ -19,8 +23,4 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-var _class = function _class() {
-    "use strict";
-    _class_call_check(this, _class);
-};
 export { _class as default };

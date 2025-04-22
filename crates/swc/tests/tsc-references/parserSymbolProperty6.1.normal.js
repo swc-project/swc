@@ -1,8 +1,6 @@
 //// [parserSymbolProperty6.ts]
-let prop;
 class C {
     constructor(){
-        this[prop] = "";
+        this[Symbol.toStringTag] = "";
     }
 }
-prop = Symbol.toStringTag;

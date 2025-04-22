@@ -13,13 +13,14 @@ const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_add_disposable_
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource._(env, null, !1), _class = _ts_decorate._([
+    _ts_add_disposable_resource._(env, null, !1);
+    var _class = class {
+    };
+    _class = _ts_decorate._([
         dec
     ], _class);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources._(env);
-}
-class _class {
 }

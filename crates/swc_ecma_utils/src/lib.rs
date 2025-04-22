@@ -1078,7 +1078,11 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_member_expr(&mut self, _: &MemberExpr) {
+    fn visit_member_expr(&mut self, m: &MemberExpr) {
+        if m.obj.is_ident_ref_to("Symbol") {
+            return;
+        }
+
         self.is_lit = false;
     }
 

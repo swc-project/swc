@@ -8,6 +8,8 @@ const env = {
     hasError: false
 };
 try {
+    var C = class {
+    };
     C = _ts_decorate([
         dec
     ], C);
@@ -18,5 +20,4 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export class C {
-}
+export { C };

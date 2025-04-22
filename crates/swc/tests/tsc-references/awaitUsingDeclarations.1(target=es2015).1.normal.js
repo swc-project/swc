@@ -35,6 +35,77 @@ try {
                 if (result) yield result;
             }
         })();
+    var C1 = class {
+        am() {
+            return /*#__PURE__*/ _async_to_generator(function*() {
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
+                try {
+                    const d13 = _ts_add_disposable_resource(env, {
+                        [Symbol.asyncDispose] () {
+                            return /*#__PURE__*/ _async_to_generator(function*() {})();
+                        }
+                    }, true);
+                    yield null;
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
+                } finally{
+                    const result = _ts_dispose_resources(env);
+                    if (result) yield result;
+                }
+            })();
+        }
+        ag() {
+            return /*#__PURE__*/ _wrap_async_generator(function*() {
+                const env = {
+                    stack: [],
+                    error: void 0,
+                    hasError: false
+                };
+                try {
+                    const d15 = _ts_add_disposable_resource(env, {
+                        [Symbol.asyncDispose] () {
+                            return /*#__PURE__*/ _async_to_generator(function*() {})();
+                        }
+                    }, true);
+                    yield;
+                    yield _await_async_generator(null);
+                } catch (e) {
+                    env.error = e;
+                    env.hasError = true;
+                } finally{
+                    const result = _ts_dispose_resources(env);
+                    if (result) yield _await_async_generator(result);
+                }
+            })();
+        }
+        constructor(){
+            this.a = ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                    const env = {
+                        stack: [],
+                        error: void 0,
+                        hasError: false
+                    };
+                    try {
+                        const d7 = _ts_add_disposable_resource(env, {
+                            [Symbol.asyncDispose] () {
+                                return /*#__PURE__*/ _async_to_generator(function*() {})();
+                            }
+                        }, true);
+                    } catch (e) {
+                        env.error = e;
+                        env.hasError = true;
+                    } finally{
+                        const result = _ts_dispose_resources(env);
+                        if (result) yield result;
+                    }
+                })();
+        }
+    };
     {
         const env = {
             stack: [],
@@ -372,76 +443,5 @@ function ag() {
             if (result) yield _await_async_generator(result);
         }
     })();
-}
-class C1 {
-    am() {
-        return /*#__PURE__*/ _async_to_generator(function*() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d13 = _ts_add_disposable_resource(env, {
-                    [Symbol.asyncDispose] () {
-                        return /*#__PURE__*/ _async_to_generator(function*() {})();
-                    }
-                }, true);
-                yield null;
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) yield result;
-            }
-        })();
-    }
-    ag() {
-        return /*#__PURE__*/ _wrap_async_generator(function*() {
-            const env = {
-                stack: [],
-                error: void 0,
-                hasError: false
-            };
-            try {
-                const d15 = _ts_add_disposable_resource(env, {
-                    [Symbol.asyncDispose] () {
-                        return /*#__PURE__*/ _async_to_generator(function*() {})();
-                    }
-                }, true);
-                yield;
-                yield _await_async_generator(null);
-            } catch (e) {
-                env.error = e;
-                env.hasError = true;
-            } finally{
-                const result = _ts_dispose_resources(env);
-                if (result) yield _await_async_generator(result);
-            }
-        })();
-    }
-    constructor(){
-        this.a = ()=>/*#__PURE__*/ _async_to_generator(function*() {
-                const env = {
-                    stack: [],
-                    error: void 0,
-                    hasError: false
-                };
-                try {
-                    const d7 = _ts_add_disposable_resource(env, {
-                        [Symbol.asyncDispose] () {
-                            return /*#__PURE__*/ _async_to_generator(function*() {})();
-                        }
-                    }, true);
-                } catch (e) {
-                    env.error = e;
-                    env.hasError = true;
-                } finally{
-                    const result = _ts_dispose_resources(env);
-                    if (result) yield result;
-                }
-            })();
-    }
 }
 export { };
