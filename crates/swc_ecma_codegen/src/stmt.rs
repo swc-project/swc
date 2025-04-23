@@ -14,7 +14,7 @@ impl MacroNode for Stmt {
             }
             Stmt::Block(ref e) => {
                 let stmt = emit!(emitter, e);
-                Ok(only_new!(Stmt::Block(stmt)))
+                return Ok(only_new!(Stmt::Block(stmt)));
             }
             Stmt::Empty(ref e) => {
                 let stmt = emit!(emitter, e);
