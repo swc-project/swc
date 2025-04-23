@@ -11,7 +11,7 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
-use swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer;
+use swc_ecma_lexer::common::lexer::{comments_buffer::CommentsBuffer, LexResult};
 
 use self::{
     state::State,
@@ -31,8 +31,6 @@ mod token;
 pub mod util;
 
 pub(crate) use token::{Token, TokenAndSpan, TokenValue};
-
-pub(crate) type LexResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) struct Char(u32);
