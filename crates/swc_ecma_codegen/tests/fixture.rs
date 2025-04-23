@@ -93,7 +93,7 @@ fn run(input: &Path, minify: bool) {
                 cfg: swc_ecma_codegen::Config::default()
                     .with_minify(minify)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
+                cm: cm.clone(),
                 comments: None,
                 wr,
             };
@@ -108,7 +108,7 @@ fn run(input: &Path, minify: bool) {
         let mut buf = Vec::new();
 
         {
-            let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
+            let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
                 as Box<dyn SpannedWriteJs>;
 
             let mut emitter = NodeEmitter::new(Emitter {
