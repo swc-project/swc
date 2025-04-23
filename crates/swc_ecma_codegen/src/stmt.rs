@@ -87,6 +87,7 @@ impl MacroNode for Stmt {
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
                 let stmt = emit!(emitter, e);
+                semi!(emitter);
                 Ok(only_new!(Stmt::Decl(stmt)))
             }
             Stmt::Decl(ref e) => {
