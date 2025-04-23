@@ -1,7 +1,7 @@
 use debug_unreachable::debug_unreachable;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
-use swc_ecma_lexer::common::{lexer::LexResult, syntax::Syntax};
+use swc_ecma_lexer::common::{context::Context, lexer::LexResult, syntax::Syntax};
 
 use super::Parser;
 use crate::lexer::{Token, TokenAndSpan, TokenValue};
@@ -19,8 +19,8 @@ impl<I: Tokens> Parser<I> {
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
-    fn set_ctx(&mut self, ctx: swc_ecma_lexer::Context);
-    fn ctx(&self) -> swc_ecma_lexer::Context;
+    fn set_ctx(&mut self, ctx: Context);
+    fn ctx(&self) -> Context;
     fn syntax(&self) -> Syntax;
     fn target(&self) -> swc_ecma_ast::EsVersion;
 
@@ -299,12 +299,12 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn get_ctx(&self) -> swc_ecma_lexer::Context {
+    pub fn get_ctx(&self) -> Context {
         self.iter.ctx()
     }
 
     #[inline]
-    pub fn set_ctx(&mut self, ctx: swc_ecma_lexer::Context) {
+    pub fn set_ctx(&mut self, ctx: Context) {
         self.iter.set_ctx(ctx);
     }
 
