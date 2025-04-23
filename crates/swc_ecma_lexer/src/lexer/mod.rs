@@ -12,15 +12,13 @@ use swc_common::{
 use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
 pub use self::state::{TokenContext, TokenContexts, TokenType};
-use self::{
-    state::State,
-    table::{ByteHandler, BYTE_HANDLERS},
-};
+use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     common::{
         lexer::{
             char::{Char, CharExt},
             comments_buffer::CommentsBuffer,
+            state::State,
             LexResult,
         },
         syntax::Syntax,
@@ -49,7 +47,7 @@ pub struct Lexer<'a> {
     input: StringInput<'a>,
     start_pos: BytePos,
 
-    state: State,
+    state: self::state::State,
     pub(crate) syntax: Syntax,
     pub(crate) target: EsVersion,
 
@@ -78,7 +76,7 @@ impl<'a> Lexer<'a> {
             ctx: Default::default(),
             input,
             start_pos,
-            state: State::new(syntax, start_pos),
+            state: self::state::State::new(syntax, start_pos),
             syntax,
             target,
             errors: Default::default(),

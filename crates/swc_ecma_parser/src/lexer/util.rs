@@ -13,6 +13,7 @@ use swc_ecma_lexer::common::{
     input::Tokens,
     lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind},
+        state::State,
         whitespace::SkipWhitespace,
     },
 };

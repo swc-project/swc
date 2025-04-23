@@ -7,10 +7,10 @@ use swc_ecma_lexer::{
     common::lexer::{
         char::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind},
+        state::State as StateTrait,
     },
     TokenContext, TokenContexts,
 };
-use tracing::trace;
 
 use super::{Context, Input, Lexer};
 use crate::{
@@ -362,363 +362,53 @@ impl State {
     }
 }
 
-fn is_brace_block(
-    token_contexts: &swc_ecma_lexer::TokenContexts,
-    prev: Option<Token>,
-    had_line_break: bool,
-    is_expr_allowed: bool,
-) -> bool {
-    if let Some(Token::Colon) = prev {
-        match token_contexts.current() {
-            Some(TokenContext::BraceStmt) => return true,
-            // `{ a: {} }`
-            //     ^ ^
-            Some(TokenContext::BraceExpr) => return false,
-            _ => {}
-        };
-    }
-
-    let Some(prev) = prev else {
-        return true;
-    };
-
-    match prev {
-        //  function a() {
-        //      return { a: "" };
-        //  }
-        //  function a() {
-        //      return
-        //      {
-        //          function b(){}
-        //      };
-        //  }
-        Token::Return | Token::Yield => {
-            return had_line_break;
-        }
-
-        Token::Else | Token::Semi | Token::RParen => {
-            return true;
-        }
-
-        // If previous token was `{`
-        Token::LBrace => {
-            // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
-            // <Blah blah={function (): void {}} />
-            if token_contexts.current() == Some(TokenContext::BraceExpr) {
-                let len = token_contexts.len();
-                if let Some(TokenContext::JSXOpeningTag) = token_contexts.0.get(len - 2) {
-                    return true;
-                }
-            }
-
-            return token_contexts.current() == Some(TokenContext::BraceStmt);
-        }
-
-        // `class C<T> { ... }`
-        Token::Lt | Token::Gt => return true,
-
-        // () => {}
-        Token::Arrow => return true,
-        _ => {}
-    }
-
-    if had_line_break
-        && !prev.before_expr()
-        && !prev.is_keyword()
-        && !prev.is_bin_op()
-        && !matches!(
-            prev,
-            Token::Template
-                | Token::Dot
-                | Token::Colon
-                | Token::LBrace
-                | Token::RParen
-                | Token::Semi
-                | Token::JSXName
-                | Token::JSXText
-                | Token::JSXTagStart
-                | Token::JSXTagEnd
-                | Token::Arrow
-        )
-    {
-        return true;
-    }
-
-    !is_expr_allowed
-}
-
 impl State {
-    pub fn can_skip_space(&self) -> bool {
-        !self
-            .context
-            .current()
-            .map(|t| t.preserve_space())
-            .unwrap_or(false)
-    }
-
-    pub fn can_have_trailing_line_comment(&self) -> bool {
-        self.token_type.is_some_and(|t| !t.is_bin_op())
-    }
-
-    pub fn can_have_trailing_comment(&self) -> bool {
-        self.token_type.is_some_and(|t| {
-            if t.is_keyword() {
-                false
-            } else {
-                matches!(
-                    t,
-                    Token::Semi
-                        | Token::LBrace
-                        | Token::Num
-                        | Token::Str
-                        | Token::Ident
-                        | Token::DollarLBrace
-                        | Token::Regex
-                        | Token::BigInt
-                        | Token::JSXText
-                        | Token::RBrace
-                ) || t.is_known_ident()
-            }
-        })
-    }
-
-    pub fn last_was_tpl_element(&self) -> bool {
-        self.token_type
-            .is_some_and(|t| matches!(t, Token::Template))
-    }
-
-    fn update(&mut self, start: BytePos, next: Token) {
-        if cfg!(feature = "debug") {
-            trace!(
-                "updating state: next={:?}, had_line_break={} ",
-                next,
-                self.had_line_break
-            );
-        }
-
-        let prev = self.token_type.take();
-        self.token_type = Some(next);
-
-        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
-    }
-
-    /// `is_expr_allowed`: previous value.
-    /// `start`: start of newly produced token.
-    fn is_expr_allowed_on_next(
-        &mut self,
-        prev: Option<Token>,
-        start: BytePos,
-        next: Token,
-    ) -> bool {
-        let State {
-            ref mut context,
-            had_line_break,
-            had_line_break_before_last,
-            is_expr_allowed,
-            syntax,
-            ..
-        } = *self;
-
-        let is_next_keyword = next.is_keyword();
-
-        if is_next_keyword && prev == Some(Token::Dot) {
-            false
-        } else {
-            // ported updateContext
-            match next {
-                Token::RParen | Token::RBrace => {
-                    // TODO: Verify
-                    if context.len() == 1 {
-                        return true;
-                    }
-
-                    let out = context.pop().unwrap();
-
-                    // let a = function(){}
-                    if out == TokenContext::BraceStmt
-                        && matches!(
-                            context.current(),
-                            Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                        )
-                    {
-                        context.pop();
-                        return false;
-                    }
-
-                    // ${} in template
-                    if out == TokenContext::TplQuasi {
-                        match context.current() {
-                            Some(TokenContext::Tpl { .. }) => return false,
-                            _ => return true,
-                        }
-                    }
-
-                    // expression cannot follow expression
-                    !out.is_expr()
-                }
-
-                Token::Function => {
-                    // This is required to lex
-                    // `x = function(){}/42/i`
-                    if is_expr_allowed
-                        && !is_brace_block(context, prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::FnExpr);
-                    }
-                    false
-                }
-
-                Token::Class => {
-                    if is_expr_allowed
-                        && !is_brace_block(context, prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::ClassExpr);
-                    }
-                    false
-                }
-
-                Token::Colon
-                    if matches!(
-                        context.current(),
-                        Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                    ) =>
-                {
-                    // `function`/`class` keyword is object prop
-                    //
-                    // ```JavaScript
-                    // { function: expr, class: expr }
-                    // ```
-                    context.pop(); // Remove FnExpr or ClassExpr
-                    true
-                }
-
-                // for (a of b) {}
-                Token::Of
-                    if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
-                {
-                    // e.g. for (a of _) => true
-                    !prev
-                        .expect("context.current() if ParenStmt, so prev token cannot be None")
-                        .before_expr()
-                }
-
-                Token::Ident => {
-                    // variable declaration
-                    match prev {
-                        Some(prev) => match prev {
-                            // handle automatic semicolon insertion.
-                            Token::Let | Token::Const | Token::Var
-                                if had_line_break_before_last =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        },
-                        _ => false,
-                    }
-                }
-                _ if next.is_known_ident() => {
-                    // variable declaration
-                    match prev {
-                        Some(prev) => match prev {
-                            // handle automatic semicolon insertion.
-                            Token::Let | Token::Const | Token::Var
-                                if had_line_break_before_last =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        },
-                        _ => false,
-                    }
-                }
-
-                Token::LBrace => {
-                    let cur = context.current();
-                    if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
-                        context.push(TokenContext::BraceExpr)
-                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
-                        context.push(TokenContext::TplQuasi);
-                    } else {
-                        let next_ctxt =
-                            if is_brace_block(context, prev, had_line_break, is_expr_allowed) {
-                                TokenContext::BraceStmt
-                            } else {
-                                TokenContext::BraceExpr
-                            };
-                        context.push(next_ctxt);
-                    }
-                    true
-                }
-
-                Token::Slash if syntax.jsx() && prev == Some(Token::JSXTagStart) => {
-                    context.pop();
-                    context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
-                    context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
-                    false
-                }
-
-                Token::DollarLBrace => {
-                    context.push(TokenContext::TplQuasi);
-                    true
-                }
-
-                Token::LParen => {
-                    // if, for, with, while is statement
-
-                    context.push(match prev {
-                        Some(t) if t.is_keyword() => match t {
-                            Token::If | Token::With | Token::While => {
-                                TokenContext::ParenStmt { is_for_loop: false }
-                            }
-                            Token::For => TokenContext::ParenStmt { is_for_loop: true },
-                            _ => TokenContext::ParenExpr,
-                        },
-                        _ => TokenContext::ParenExpr,
-                    });
-                    true
-                }
-
-                // remains unchanged.
-                Token::PlusPlus | Token::MinusMinus => is_expr_allowed,
-
-                Token::BackQuote => {
-                    // If we are in template, ` terminates template.
-                    if let Some(TokenContext::Tpl { .. }) = context.current() {
-                        context.pop();
-                    } else {
-                        self.tpl_start = start;
-                        context.push(TokenContext::Tpl);
-                    }
-                    false
-                }
-
-                // tt.jsxTagStart.updateContext
-                Token::JSXTagStart => {
-                    context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
-                    context.push(TokenContext::JSXOpeningTag); // start opening tag context
-                    false
-                }
-
-                // tt.jsxTagEnd.updateContext
-                Token::JSXTagEnd => {
-                    let out = context.pop();
-                    if (out == Some(TokenContext::JSXOpeningTag) && prev == Some(Token::Slash))
-                        || out == Some(TokenContext::JSXClosingTag)
-                    {
-                        context.pop();
-                        context.current() == Some(TokenContext::JSXExpr)
-                    } else {
-                        true
-                    }
-                }
-
-                _ => next.before_expr(),
-            }
-        }
-    }
-
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
         self.token_value = Some(token_value);
+    }
+}
+
+impl swc_ecma_lexer::common::lexer::state::State for State {
+    type TokenKind = Token;
+    type TokenType = Token;
+
+    fn is_expr_allowed(&self) -> bool {
+        self.is_expr_allowed
+    }
+
+    fn set_expr_allowed(&mut self, allow: bool) {
+        self.is_expr_allowed = allow;
+    }
+
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
+    }
+
+    fn had_line_break_before_last(&self) -> bool {
+        self.had_line_break_before_last
+    }
+
+    fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
+        &self.context
+    }
+
+    fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
+        &mut self.context
+    }
+
+    fn set_token_type(&mut self, token_type: Self::TokenType) {
+        self.token_type = Some(token_type);
+    }
+
+    fn token_type(&self) -> Option<Self::TokenType> {
+        self.token_type
+    }
+
+    fn set_tpl_start(&mut self, start: BytePos) {
+        self.tpl_start = start;
+    }
+
+    fn syntax(&self) -> swc_ecma_lexer::Syntax {
+        self.syntax
     }
 }
