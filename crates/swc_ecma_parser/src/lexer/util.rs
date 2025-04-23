@@ -9,16 +9,18 @@ use swc_common::{
     input::Input,
     BytePos, Span,
 };
-use swc_ecma_lexer::common::lexer::{
-    comments_buffer::{BufferedComment, BufferedCommentKind},
-    whitespace::SkipWhitespace,
+use swc_ecma_lexer::common::{
+    input::Tokens,
+    lexer::{
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+        whitespace::SkipWhitespace,
+    },
 };
 use tracing::warn;
 
 use super::{LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
-    parser::input::Tokens,
     Context,
 };
 

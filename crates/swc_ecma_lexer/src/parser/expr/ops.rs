@@ -2,9 +2,9 @@
 use tracing::trace;
 
 use super::*;
-use crate::tok;
+use crate::{tok, token::TokenAndSpan};
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
     pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);

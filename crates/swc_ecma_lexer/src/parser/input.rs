@@ -1,7 +1,7 @@
 use super::Parser;
-use crate::input::Tokens;
+use crate::{common::input::Tokens, token::TokenAndSpan};
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
     }

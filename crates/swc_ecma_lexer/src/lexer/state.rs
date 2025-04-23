@@ -7,12 +7,14 @@ use tracing::trace;
 
 use super::{Context, Input, Lexer};
 use crate::{
-    common::lexer::{
-        char::CharExt,
-        comments_buffer::{BufferedComment, BufferedCommentKind},
+    common::{
+        input::Tokens,
+        lexer::{
+            char::CharExt,
+            comments_buffer::{BufferedComment, BufferedCommentKind},
+        },
     },
     error::{Error, SyntaxError},
-    input::Tokens,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     *,
 };
@@ -122,7 +124,7 @@ impl From<TokenKind> for TokenType {
     }
 }
 
-impl Tokens for Lexer<'_> {
+impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {

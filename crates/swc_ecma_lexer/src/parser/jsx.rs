@@ -7,7 +7,7 @@ use crate::tok;
 #[cfg(test)]
 mod tests;
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
         debug_assert!(self.input.syntax().jsx());

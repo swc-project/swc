@@ -2,8 +2,9 @@
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::*;
+use crate::token::TokenAndSpan;
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     #[cfg(feature = "verify")]
     pub(in crate::parser) fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let mut v = Verifier { errors: Vec::new() };

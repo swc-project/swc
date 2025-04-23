@@ -5,7 +5,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use super::*;
 use crate::{parser::class_and_fn::is_not_this, tok};
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse a object literal or object pattern.
     pub(super) fn parse_object<T>(&mut self) -> PResult<T>
     where
@@ -115,7 +115,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Expr> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
     type Prop = PropOrSpread;
 
     fn make_object(
@@ -404,7 +404,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
     }
 }
 
-impl<I: Tokens> ParseObject<Pat> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> ParseObject<Pat> for Parser<I> {
     type Prop = ObjectPatProp;
 
     fn make_object(

@@ -6,56 +6,13 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    common::syntax::Syntax,
+    common::{input::Tokens, syntax::Syntax},
     error::Error,
     lexer::{self},
     tok,
     token::*,
     Context,
 };
-
-/// Clone should be cheap if you are parsing typescript because typescript
-/// syntax requires backtracking.
-pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
-    fn set_ctx(&mut self, ctx: Context);
-    fn ctx(&self) -> Context;
-    fn syntax(&self) -> Syntax;
-    fn target(&self) -> EsVersion;
-
-    fn start_pos(&self) -> BytePos {
-        BytePos(0)
-    }
-
-    fn set_expr_allowed(&mut self, allow: bool);
-    fn set_next_regexp(&mut self, start: Option<BytePos>);
-
-    fn token_context(&self) -> &lexer::TokenContexts;
-    fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
-    fn set_token_context(&mut self, _c: lexer::TokenContexts);
-
-    /// Implementors should use Rc<RefCell<Vec<Error>>>.
-    ///
-    /// It is required because parser should backtrack while parsing typescript
-    /// code.
-    fn add_error(&self, error: Error);
-
-    /// Add an error which is valid syntax in script mode.
-    ///
-    /// This errors should be dropped if it's not a module.
-    ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_error(&self, error: Error);
-
-    fn end_pos(&self) -> BytePos;
-
-    fn take_errors(&mut self) -> Vec<Error>;
-
-    /// If the program was parsed as a script, this contains the module
-    /// errors should the program be identified as a module in the future.
-    fn take_script_module_errors(&mut self) -> Vec<Error>;
-}
 
 #[derive(Clone)]
 pub struct TokensInput {
@@ -94,7 +51,7 @@ impl Iterator for TokensInput {
     }
 }
 
-impl Tokens for TokensInput {
+impl Tokens<TokenAndSpan> for TokensInput {
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
@@ -166,12 +123,12 @@ impl Tokens for TokensInput {
 
 /// Note: Lexer need access to parser's context to lex correctly.
 #[derive(Debug)]
-pub struct Capturing<I: Tokens> {
+pub struct Capturing<I: Tokens<TokenAndSpan>> {
     inner: I,
     captured: Rc<RefCell<Vec<TokenAndSpan>>>,
 }
 
-impl<I: Tokens> Clone for Capturing<I> {
+impl<I: Tokens<TokenAndSpan>> Clone for Capturing<I> {
     fn clone(&self) -> Self {
         Capturing {
             inner: self.inner.clone(),
@@ -180,7 +137,7 @@ impl<I: Tokens> Clone for Capturing<I> {
     }
 }
 
-impl<I: Tokens> Capturing<I> {
+impl<I: Tokens<TokenAndSpan>> Capturing<I> {
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
@@ -198,7 +155,7 @@ impl<I: Tokens> Capturing<I> {
     }
 }
 
-impl<I: Tokens> Iterator for Capturing<I> {
+impl<I: Tokens<TokenAndSpan>> Iterator for Capturing<I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -226,7 +183,7 @@ impl<I: Tokens> Iterator for Capturing<I> {
     }
 }
 
-impl<I: Tokens> Tokens for Capturing<I> {
+impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
     }
@@ -290,7 +247,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
-pub struct Buffer<I: Tokens> {
+pub struct Buffer<I: Tokens<TokenAndSpan>> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
@@ -299,7 +256,7 @@ pub struct Buffer<I: Tokens> {
     pub next: Option<TokenAndSpan>,
 }
 
-impl<I: Tokens> Buffer<I> {
+impl<I: Tokens<TokenAndSpan>> Buffer<I> {
     pub fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();
         Buffer {
