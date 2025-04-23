@@ -1,6 +1,6 @@
 use swc_atoms::{atom, Atom};
 use swc_ecma_ast::AssignOp;
-use swc_ecma_lexer::Context;
+use swc_ecma_lexer::common::context::Context;
 
 use super::LexResult;
 

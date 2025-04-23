@@ -133,8 +133,11 @@ pub mod lexer;
 
 pub use lexer::Lexer;
 pub use swc_ecma_lexer::{
-    common::syntax::{EsSyntax, Syntax, TsSyntax},
-    error, token, Context,
+    common::{
+        context::Context,
+        syntax::{EsSyntax, Syntax, TsSyntax},
+    },
+    error, token,
 };
 
 pub use self::parser::*;
