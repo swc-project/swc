@@ -150,6 +150,15 @@ where
     emitter: Emitter<'a, W, S>,
 }
 
+impl<'a, W, S> NodeEmitter<'a, W, S>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    pub fn new(emitter: Emitter<'a, W, S>) -> Self {
+        Self { emitter }
+    }
+}
 impl<'a, W, S> Deref for NodeEmitter<'a, W, S>
 where
     W: SpannedWriteJs,

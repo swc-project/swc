@@ -7,7 +7,7 @@ use serde::Deserialize;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
-    Emitter,
+    Emitter, Node, NodeEmitter,
 };
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use testing::{run_test2, NormalizedOutput};
@@ -104,6 +104,28 @@ fn run(input: &Path, minify: bool) {
         NormalizedOutput::from(String::from_utf8(buf).unwrap())
             .compare_to_file(&output)
             .unwrap();
+
+        {
+            let mut wr =
+                Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+
+            if minify {
+                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+            }
+
+            let mut emitter = NodeEmitter::new(Emitter {
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_minify(minify)
+                    .with_reduce_escaped_newline(config.reduce_escaped_newline),
+                cm,
+                comments: None,
+                wr,
+            });
+
+            let new_module = m.with_new_span(&mut emitter).unwrap();
+
+            assert_eq!(new_module, m);
+        }
 
         Ok(())
     })
