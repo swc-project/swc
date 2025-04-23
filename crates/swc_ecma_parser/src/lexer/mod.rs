@@ -29,7 +29,6 @@ mod state;
 mod table;
 mod token;
 pub mod util;
-mod whitespace;
 
 pub(crate) use token::{Token, TokenAndSpan, TokenValue};
 

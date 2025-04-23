@@ -10,10 +10,13 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::Ident;
-use swc_ecma_lexer::common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind};
+use swc_ecma_lexer::common::lexer::{
+    comments_buffer::{BufferedComment, BufferedCommentKind},
+    whitespace::SkipWhitespace,
+};
 use tracing::warn;
 
-use super::{whitespace::SkipWhitespace, Char, LexResult, Lexer};
+use super::{Char, LexResult, Lexer};
 use crate::{
     error::{Error, SyntaxError},
     parser::input::Tokens,
