@@ -11,9 +11,9 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
+use swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer;
 
 use self::{
-    comments_buffer::CommentsBuffer,
     state::State,
     table::{ByteHandler, BYTE_HANDLERS},
     util::*,
@@ -23,7 +23,6 @@ use crate::{
     Context, Syntax, *,
 };
 
-mod comments_buffer;
 mod jsx;
 mod number;
 mod state;

@@ -5,11 +5,9 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 use tracing::trace;
 
-use super::{
-    comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
-};
+use super::{Context, Input, Lexer};
 use crate::{
+    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,

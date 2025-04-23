@@ -17,6 +17,7 @@
 use parser::PResult;
 use serde::{Deserialize, Serialize};
 
+pub mod common;
 pub mod lexer;
 mod parser;
 
