@@ -274,6 +274,184 @@ pub enum Token {
     Error,
 }
 
+impl swc_ecma_lexer::common::lexer::state::TokenKind for Token {
+    fn is_dot(&self) -> bool {
+        matches!(self, Token::Dot)
+    }
+
+    fn is_bin_op(&self) -> bool {
+        Token::is_bin_op(*self)
+    }
+
+    fn is_semi(&self) -> bool {
+        matches!(self, Token::Semi)
+    }
+
+    fn is_template(&self) -> bool {
+        matches!(self, Token::Template)
+    }
+
+    fn is_keyword(&self) -> bool {
+        Token::is_keyword(*self)
+    }
+
+    fn is_colon(&self) -> bool {
+        matches!(self, Token::Colon)
+    }
+
+    fn is_lbrace(&self) -> bool {
+        matches!(self, Token::LBrace)
+    }
+
+    fn is_rbrace(&self) -> bool {
+        matches!(self, Token::RBrace)
+    }
+
+    fn is_lparen(&self) -> bool {
+        matches!(self, Token::LParen)
+    }
+
+    fn is_rparen(&self) -> bool {
+        matches!(self, Token::RParen)
+    }
+
+    fn is_keyword_fn(&self) -> bool {
+        matches!(self, Token::Function)
+    }
+
+    fn is_keyword_return(&self) -> bool {
+        matches!(self, Token::Return)
+    }
+
+    fn is_keyword_yield(&self) -> bool {
+        matches!(self, Token::Yield)
+    }
+
+    fn is_keyword_else(&self) -> bool {
+        matches!(self, Token::Else)
+    }
+
+    fn is_keyword_class(&self) -> bool {
+        matches!(self, Token::Class)
+    }
+
+    fn is_keyword_let(&self) -> bool {
+        matches!(self, Token::Let)
+    }
+
+    fn is_keyword_var(&self) -> bool {
+        matches!(self, Token::Var)
+    }
+
+    fn is_keyword_const(&self) -> bool {
+        matches!(self, Token::Const)
+    }
+
+    fn is_keyword_if(&self) -> bool {
+        matches!(self, Token::If)
+    }
+
+    fn is_keyword_while(&self) -> bool {
+        matches!(self, Token::While)
+    }
+
+    fn is_keyword_for(&self) -> bool {
+        matches!(self, Token::For)
+    }
+
+    fn is_keyword_with(&self) -> bool {
+        matches!(self, Token::With)
+    }
+
+    fn is_lt(&self) -> bool {
+        matches!(self, Token::Lt)
+    }
+
+    fn is_gt(&self) -> bool {
+        matches!(self, Token::Gt)
+    }
+
+    fn is_arrow(&self) -> bool {
+        matches!(self, Token::Arrow)
+    }
+
+    fn is_ident(&self) -> bool {
+        matches!(self, Token::Ident) || self.is_known_ident()
+    }
+
+    fn is_known_ident_of(&self) -> bool {
+        matches!(self, Token::Of)
+    }
+
+    fn is_slash(&self) -> bool {
+        matches!(self, Token::Slash)
+    }
+
+    fn is_dollar_lbrace(&self) -> bool {
+        matches!(self, Token::DollarLBrace)
+    }
+
+    fn is_plus_plus(&self) -> bool {
+        matches!(self, Token::PlusPlus)
+    }
+
+    fn is_minus_minus(&self) -> bool {
+        matches!(self, Token::MinusMinus)
+    }
+
+    fn is_back_quote(&self) -> bool {
+        matches!(self, Token::BackQuote)
+    }
+
+    fn is_jsx_tag_start(&self) -> bool {
+        matches!(self, Token::JSXTagStart)
+    }
+
+    fn is_jsx_tag_end(&self) -> bool {
+        matches!(self, Token::JSXTagEnd)
+    }
+
+    fn before_expr(self) -> bool {
+        self.before_expr()
+    }
+}
+
+impl swc_ecma_lexer::common::lexer::state::TokenType for Token {
+    fn is_other_and_before_expr_is_false(&self) -> bool {
+        !self.is_keyword()
+            && !self.is_bin_op()
+            && !self.before_expr()
+            && !matches!(
+                self,
+                Token::Template
+                    | Token::Dot
+                    | Token::Colon
+                    | Token::LBrace
+                    | Token::RParen
+                    | Token::Semi
+                    | Token::JSXName
+                    | Token::JSXText
+                    | Token::JSXTagStart
+                    | Token::JSXTagEnd
+                    | Token::Arrow
+            )
+    }
+
+    fn is_other_and_can_have_trailing_comment(&self) -> bool {
+        matches!(
+            self,
+            Token::Num
+                | Token::Str
+                | Token::Ident
+                | Token::DollarLBrace
+                | Token::Regex
+                | Token::BigInt
+                | Token::JSXText
+                | Token::RBrace
+        ) || self.is_known_ident()
+    }
+}
+
 impl Token {
     pub(crate) fn is_reserved(&self, ctx: Context) -> bool {
         match self {

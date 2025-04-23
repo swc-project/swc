@@ -15,6 +15,7 @@ use super::{LexResult, Lexer};
 use crate::{
     common::lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind},
+        state::State,
         whitespace::SkipWhitespace,
     },
     error::{Error, SyntaxError},
