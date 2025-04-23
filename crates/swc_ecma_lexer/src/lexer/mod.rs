@@ -14,19 +14,18 @@ use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
 pub use self::state::{TokenContext, TokenContexts, TokenType};
 use self::{
-    comments_buffer::CommentsBuffer,
     state::State,
     table::{ByteHandler, BYTE_HANDLERS},
     util::*,
 };
 use crate::{
+    common::lexer::comments_buffer::CommentsBuffer,
     error::{Error, SyntaxError},
     tok,
     token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
 
-mod comments_buffer;
 mod jsx;
 mod number;
 mod state;

@@ -3,20 +3,20 @@ use std::{iter::Rev, rc::Rc, vec::IntoIter};
 use swc_common::{comments::Comment, BytePos};
 
 #[derive(Clone)]
-pub(crate) struct BufferedComment {
+pub struct BufferedComment {
     pub kind: BufferedCommentKind,
     pub pos: BytePos,
     pub comment: Comment,
 }
 
 #[derive(Clone)]
-pub(crate) enum BufferedCommentKind {
+pub enum BufferedCommentKind {
     Leading,
     Trailing,
 }
 
 #[derive(Clone)]
-pub(crate) struct CommentsBuffer {
+pub struct CommentsBuffer {
     comments: OneDirectionalList<BufferedComment>,
     pending_leading: OneDirectionalList<Comment>,
 }

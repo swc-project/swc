@@ -3,13 +3,13 @@ use std::mem::take;
 use smallvec::smallvec;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lexer::{TokenContext, TokenContexts};
+use swc_ecma_lexer::{
+    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    TokenContext, TokenContexts,
+};
 use tracing::trace;
 
-use super::{
-    comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
-};
+use super::{Context, Input, Lexer};
 use crate::{
     error::{Error, SyntaxError},
     lexer::{
