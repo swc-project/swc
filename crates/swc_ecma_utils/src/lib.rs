@@ -3140,7 +3140,7 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         return Unknown;
     };
 
-    match *expr {
+    match expr {
         Expr::Lit(ref l) => match *l {
             Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
             Lit::Num(ref n) => {
@@ -3163,7 +3163,7 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
             // unimplemented!("TplLit. as_string()")
         }
         Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
-            "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
+            "undefined" | "Infinity" | "NaN" if *ctxt == ctx.unresolved_ctxt => {
                 Known(Cow::Borrowed(&**sym))
             }
             _ => Unknown,
@@ -3185,6 +3185,20 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
             }
             Unknown => return Value::Unknown,
         })),
+        Expr::Bin(BinExpr {
+            left,
+            op: op!(bin, "+"),
+            right,
+            ..
+        }) => {
+            if let (Known(l), Known(r)) = (left.as_pure_string(ctx), right.as_pure_string(ctx)) {
+                let mut l = l.into_owned();
+                l.push_str(&r);
+                Value::Known(Cow::Owned(l))
+            } else {
+                Value::Unknown
+            }
+        }
         Expr::Array(ArrayLit { ref elems, .. }) => {
             let mut buf = String::new();
             let len = elems.len();
