@@ -8,8 +8,9 @@ use either::Either;
 use swc_common::input::Input;
 use swc_ecma_ast::AssignOp;
 
-use super::{pos_span, util::CharExt, LexResult, Lexer};
+use super::{pos_span, LexResult, Lexer};
 use crate::{
+    common::lexer::char::CharExt,
     error::SyntaxError,
     token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, Word},
 };
