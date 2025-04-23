@@ -80,12 +80,19 @@ impl Input for StringInput<'_> {
 
     #[inline]
     fn peek(&mut self) -> Option<char> {
-        self.iter.clone().nth(1)
+        let mut iter = self.iter.clone();
+        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
+        iter.next();
+        iter.next()
     }
 
     #[inline]
     fn peek_ahead(&mut self) -> Option<char> {
-        self.iter.clone().nth(2)
+        let mut iter = self.iter.clone();
+        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
+        iter.next();
+        iter.next();
+        iter.next()
     }
 
     #[inline]
