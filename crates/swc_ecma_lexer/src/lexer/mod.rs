@@ -17,15 +17,18 @@ use self::{
     table::{ByteHandler, BYTE_HANDLERS},
 };
 use crate::{
-    common::lexer::{
-        char::{Char, CharExt},
-        comments_buffer::CommentsBuffer,
-        LexResult,
+    common::{
+        lexer::{
+            char::{Char, CharExt},
+            comments_buffer::CommentsBuffer,
+            LexResult,
+        },
+        syntax::Syntax,
     },
     error::{Error, SyntaxError},
     tok,
     token::{BinOpToken, IdentLike, Token, Word},
-    Context, Syntax,
+    Context,
 };
 
 mod jsx;

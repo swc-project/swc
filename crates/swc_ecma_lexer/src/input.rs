@@ -6,11 +6,12 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
+    common::syntax::Syntax,
     error::Error,
     lexer::{self},
     tok,
     token::*,
-    Context, Syntax,
+    Context,
 };
 
 /// Clone should be cheap if you are parsing typescript because typescript
