@@ -13,13 +13,11 @@ use swc_ecma_ast::{EsVersion, Ident};
 use swc_ecma_lexer::common::lexer::{
     char::{Char, CharExt},
     comments_buffer::CommentsBuffer,
+    state::State,
     LexResult,
 };
 
-use self::{
-    state::State,
-    table::{ByteHandler, BYTE_HANDLERS},
-};
+use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     error::{Error, SyntaxError},
     Context, Syntax, *,
@@ -44,7 +42,7 @@ pub struct Lexer<'a> {
     input: StringInput<'a>,
     start_pos: BytePos,
 
-    state: State,
+    state: self::state::State,
     pub(crate) syntax: Syntax,
     pub(crate) target: EsVersion,
 
@@ -73,7 +71,7 @@ impl<'a> Lexer<'a> {
             ctx: Default::default(),
             input,
             start_pos,
-            state: State::new(syntax, start_pos),
+            state: self::state::State::new(syntax, start_pos),
             syntax,
             target,
             errors: Default::default(),
