@@ -1,5 +1,5 @@
 /// Returns true if it's done
-pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
+type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
 
 /// Lookup table for whitespace
 static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -118,7 +118,7 @@ const UNI: ByteHandler = Some(|skip| {
 });
 
 /// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
-pub(super) struct SkipWhitespace<'a> {
+pub struct SkipWhitespace<'a> {
     pub input: &'a str,
 
     /// Total offset
