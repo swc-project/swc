@@ -12,9 +12,12 @@ use swc_common::{
 use swc_ecma_ast::Ident;
 use tracing::warn;
 
-use super::{whitespace::SkipWhitespace, Char, LexResult, Lexer};
+use super::{Char, LexResult, Lexer};
 use crate::{
-    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    common::lexer::{
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+        whitespace::SkipWhitespace,
+    },
     error::{Error, SyntaxError},
     Context, Tokens,
 };
