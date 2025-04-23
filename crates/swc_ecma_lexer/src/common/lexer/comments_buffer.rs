@@ -21,6 +21,12 @@ pub struct CommentsBuffer {
     pending_leading: OneDirectionalList<Comment>,
 }
 
+impl Default for CommentsBuffer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CommentsBuffer {
     pub fn new() -> Self {
         Self {
