@@ -1,6 +1,6 @@
 use super::*;
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Original context is restored when returned guard is dropped.
     pub(super) fn with_ctx(&mut self, ctx: Context) -> WithCtx<I> {
         let orig_ctx = self.ctx();
@@ -66,46 +66,46 @@ pub trait ParseObject<Obj> {
     fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
 }
 
-pub struct WithState<'w, I: 'w + Tokens> {
+pub struct WithState<'w, I: 'w + Tokens<TokenAndSpan>> {
     inner: &'w mut Parser<I>,
     orig_state: State,
 }
-impl<I: Tokens> Deref for WithState<'_, I> {
+impl<I: Tokens<TokenAndSpan>> Deref for WithState<'_, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
         self.inner
     }
 }
-impl<I: Tokens> DerefMut for WithState<'_, I> {
+impl<I: Tokens<TokenAndSpan>> DerefMut for WithState<'_, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
         self.inner
     }
 }
-impl<I: Tokens> Drop for WithState<'_, I> {
+impl<I: Tokens<TokenAndSpan>> Drop for WithState<'_, I> {
     fn drop(&mut self) {
         std::mem::swap(&mut self.inner.state, &mut self.orig_state);
     }
 }
 
-pub struct WithCtx<'w, I: 'w + Tokens> {
+pub struct WithCtx<'w, I: 'w + Tokens<TokenAndSpan>> {
     inner: &'w mut Parser<I>,
     orig_ctx: Context,
 }
-impl<I: Tokens> Deref for WithCtx<'_, I> {
+impl<I: Tokens<TokenAndSpan>> Deref for WithCtx<'_, I> {
     type Target = Parser<I>;
 
     fn deref(&self) -> &Parser<I> {
         self.inner
     }
 }
-impl<I: Tokens> DerefMut for WithCtx<'_, I> {
+impl<I: Tokens<TokenAndSpan>> DerefMut for WithCtx<'_, I> {
     fn deref_mut(&mut self) -> &mut Parser<I> {
         self.inner
     }
 }
 
-impl<I: Tokens> Drop for WithCtx<'_, I> {
+impl<I: Tokens<TokenAndSpan>> Drop for WithCtx<'_, I> {
     fn drop(&mut self) {
         self.inner.set_ctx(self.orig_ctx);
     }

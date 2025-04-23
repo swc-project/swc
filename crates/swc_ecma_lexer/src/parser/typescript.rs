@@ -7,7 +7,7 @@ use swc_common::Spanned;
 use super::*;
 use crate::{parser::class_and_fn::IsSimpleParameterList, tok, token::Keyword};
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
     fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
@@ -2777,7 +2777,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// In no lexer context
     fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
     where

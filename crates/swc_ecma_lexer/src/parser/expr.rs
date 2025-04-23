@@ -10,7 +10,7 @@ mod ops;
 mod tests;
 mod verifier;
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
 
@@ -1956,7 +1956,7 @@ pub(in crate::parser) enum AssignTargetOrSpread {
 }
 
 /// simple leaf methods.
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 

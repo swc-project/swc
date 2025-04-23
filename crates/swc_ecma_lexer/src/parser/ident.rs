@@ -8,7 +8,7 @@ use crate::{
     *,
 };
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
         let is_private = is!(self, '#');
 

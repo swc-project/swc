@@ -9,11 +9,11 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
 use self::util::ParseObject;
-pub(crate) use crate::input::Tokens;
 use crate::{
+    common::input::Tokens,
     error::SyntaxError,
     input::Buffer,
-    token::{Token, Word},
+    token::{Token, TokenAndSpan, Word},
     Context, Syntax, TsSyntax, *,
 };
 #[cfg(test)]
@@ -44,7 +44,7 @@ pub type PResult<T> = Result<T, Error>;
 
 /// EcmaScript parser.
 #[derive(Clone)]
-pub struct Parser<I: Tokens> {
+pub struct Parser<I: Tokens<TokenAndSpan>> {
     state: State,
     input: Buffer<I>,
     found_module_item: bool,
@@ -66,7 +66,7 @@ struct State {
 //     }
 // }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
         #[cfg(feature = "typescript")]
         let in_declare = matches!(
