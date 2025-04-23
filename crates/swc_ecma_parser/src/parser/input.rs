@@ -1,7 +1,7 @@
 use debug_unreachable::debug_unreachable;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
-use swc_ecma_lexer::common::lexer::LexResult;
+use swc_ecma_lexer::common::{lexer::LexResult, syntax::Syntax};
 
 use super::Parser;
 use crate::lexer::{Token, TokenAndSpan, TokenValue};
@@ -21,7 +21,7 @@ impl<I: Tokens> Parser<I> {
 pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: swc_ecma_lexer::Context);
     fn ctx(&self) -> swc_ecma_lexer::Context;
-    fn syntax(&self) -> swc_ecma_lexer::Syntax;
+    fn syntax(&self) -> Syntax;
     fn target(&self) -> swc_ecma_ast::EsVersion;
 
     fn start_pos(&self) -> BytePos {
@@ -309,7 +309,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn syntax(&self) -> swc_ecma_lexer::Syntax {
+    pub fn syntax(&self) -> Syntax {
         self.iter.syntax()
     }
 

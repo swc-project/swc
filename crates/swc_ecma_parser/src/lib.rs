@@ -131,7 +131,10 @@ use swc_ecma_lexer::error::Error;
 pub mod lexer;
 
 pub use lexer::Lexer;
-pub use swc_ecma_lexer::{error, token, Context, EsSyntax, Syntax, TsSyntax};
+pub use swc_ecma_lexer::{
+    common::syntax::{EsSyntax, Syntax, TsSyntax},
+    error, token, Context,
+};
 
 pub use self::parser::*;
 

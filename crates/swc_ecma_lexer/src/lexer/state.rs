@@ -14,7 +14,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    Syntax, *,
+    *,
 };
 
 /// State of lexer.
