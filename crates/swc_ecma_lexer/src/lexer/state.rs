@@ -7,10 +7,12 @@ use tracing::trace;
 
 use super::{Context, Input, Lexer};
 use crate::{
-    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    common::lexer::{
+        char::CharExt,
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+    },
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     Syntax, *,
 };

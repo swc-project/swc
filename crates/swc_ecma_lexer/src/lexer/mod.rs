@@ -2,7 +2,6 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
-use arrayvec::ArrayVec;
 use either::Either::{Left, Right};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{
@@ -16,10 +15,13 @@ pub use self::state::{TokenContext, TokenContexts, TokenType};
 use self::{
     state::State,
     table::{ByteHandler, BYTE_HANDLERS},
-    util::*,
 };
 use crate::{
-    common::lexer::{comments_buffer::CommentsBuffer, LexResult},
+    common::lexer::{
+        char::{Char, CharExt},
+        comments_buffer::CommentsBuffer,
+        LexResult,
+    },
     error::{Error, SyntaxError},
     tok,
     token::{BinOpToken, IdentLike, Token, Word},
@@ -33,101 +35,6 @@ mod table;
 #[cfg(test)]
 mod tests;
 pub mod util;
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub(crate) struct Char(u32);
-
-impl From<char> for Char {
-    fn from(c: char) -> Self {
-        Char(c as u32)
-    }
-}
-
-impl From<u32> for Char {
-    fn from(c: u32) -> Self {
-        Char(c)
-    }
-}
-
-pub(crate) struct CharIter(ArrayVec<char, 12>);
-
-/// Ported from https://github.com/web-infra-dev/oxc/blob/99a4816ce7b6132b2667257984f9d92ae3768f03/crates/oxc_parser/src/lexer/mod.rs#L1349-L1374
-impl IntoIterator for Char {
-    type IntoIter = CharIter;
-    type Item = char;
-
-    #[allow(unsafe_code)]
-    fn into_iter(self) -> Self::IntoIter {
-        //        // TODO: Check if this is correct
-        //        fn to_char(v: u8) -> char {
-        //            char::from_digit(v as _, 16).unwrap_or('0')
-        //        }
-
-        CharIter(match char::from_u32(self.0) {
-            Some(c) => {
-                let mut buf = ArrayVec::new();
-                // Safety: we can make sure that `buf` has enough capacity
-                unsafe {
-                    buf.push_unchecked(c);
-                }
-                buf
-            }
-            None => {
-                let mut buf = ArrayVec::new();
-
-                let high = self.0 & 0xffff0000 >> 16;
-
-                let low = self.0 & 0x0000ffff;
-
-                // The second code unit of a surrogate pair is always in the range from 0xDC00
-                // to 0xDFFF, and is called a low surrogate or a trail surrogate.
-                if !(0xdc00..=0xdfff).contains(&low) {
-                    // Safety: we can make sure that `buf` has enough capacity
-                    unsafe {
-                        buf.push_unchecked('\\');
-                        buf.push_unchecked('u');
-                        for c in format!("{high:x}").chars() {
-                            buf.push_unchecked(c);
-                        }
-                        buf.push_unchecked('\\');
-                        buf.push_unchecked('u');
-                        for c in format!("{low:x}").chars() {
-                            buf.push_unchecked(c);
-                        }
-                    }
-                } else {
-                    // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
-                    let astral_code_point = (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000;
-
-                    // Safety: we can make sure that `buf` has enough capacity
-                    unsafe {
-                        buf.push_unchecked('\\');
-                        buf.push_unchecked('u');
-                        for c in format!("{astral_code_point:x}").chars() {
-                            buf.push_unchecked(c);
-                        }
-                    }
-                }
-
-                buf
-            }
-        })
-    }
-}
-
-impl Iterator for CharIter {
-    type Item = char;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.0.is_empty() {
-            None
-        } else {
-            Some(self.0.remove(0))
-        }
-    }
-}
-
-impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
 pub struct Lexer<'a> {

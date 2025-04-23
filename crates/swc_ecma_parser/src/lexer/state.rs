@@ -4,7 +4,10 @@ use smallvec::smallvec;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
-    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    common::lexer::{
+        char::CharExt,
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+    },
     TokenContext, TokenContexts,
 };
 use tracing::trace;
@@ -12,10 +15,7 @@ use tracing::trace;
 use super::{Context, Input, Lexer};
 use crate::{
     error::{Error, SyntaxError},
-    lexer::{
-        token::{Token, TokenAndSpan, TokenValue},
-        util::CharExt,
-    },
+    lexer::token::{Token, TokenAndSpan, TokenValue},
     Syntax,
 };
 
