@@ -19,7 +19,7 @@ use self::{
     util::*,
 };
 use crate::{
-    common::lexer::comments_buffer::CommentsBuffer,
+    common::lexer::{comments_buffer::CommentsBuffer, LexResult},
     error::{Error, SyntaxError},
     tok,
     token::{BinOpToken, IdentLike, Token, Word},
@@ -33,8 +33,6 @@ mod table;
 #[cfg(test)]
 mod tests;
 pub mod util;
-
-pub(crate) type LexResult<T> = Result<T, Error>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) struct Char(u32);

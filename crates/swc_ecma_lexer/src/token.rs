@@ -12,7 +12,7 @@ use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
-use crate::{error::Error, lexer::LexResult};
+use crate::{common::lexer::LexResult, error::Error};
 
 macro_rules! define_known_ident {
     (

@@ -1,9 +1,10 @@
 use debug_unreachable::debug_unreachable;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
+use swc_ecma_lexer::common::lexer::LexResult;
 
 use super::Parser;
-use crate::lexer::{LexResult, Token, TokenAndSpan, TokenValue};
+use crate::lexer::{Token, TokenAndSpan, TokenValue};
 
 impl<I: Tokens> Parser<I> {
     pub fn input(&mut self) -> &mut I {
