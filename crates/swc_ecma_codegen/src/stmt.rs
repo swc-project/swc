@@ -147,13 +147,15 @@ impl MacroNode for ExprStmt {
 
         let lo = only_new!(emitter.wr.get_pos());
 
-        emit!(emitter, self.expr);
+        let expr = emit!(emitter, self.expr);
+
+        semi!(emitter);
 
         let hi = only_new!(emitter.wr.get_pos());
 
         Ok(only_new!(ExprStmt {
             span: Span::new(lo, hi),
-            ..self.clone()
+            expr,
         }))
     }
 }
