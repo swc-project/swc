@@ -6,7 +6,7 @@ use std::{
 use serde::Deserialize;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
-    text_writer::{JsWriter, WriteJs},
+    text_writer::{JsWriter, SpannedWriteJs, WriteJs},
     Emitter, Node, NodeEmitter,
 };
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
@@ -105,13 +105,11 @@ fn run(input: &Path, minify: bool) {
             .compare_to_file(&output)
             .unwrap();
 
-        {
-            let mut wr =
-                Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+        let mut buf = Vec::new();
 
-            if minify {
-                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
-            }
+        {
+            let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
+                as Box<dyn SpannedWriteJs>;
 
             let mut emitter = NodeEmitter::new(Emitter {
                 cfg: swc_ecma_codegen::Config::default()
