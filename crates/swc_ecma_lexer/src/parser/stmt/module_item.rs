@@ -890,7 +890,7 @@ impl<I: Tokens> StmtLikeParser<'_, ModuleItem> for Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{EsSyntax, Syntax};
+    use crate::{common::syntax::EsSyntax, Syntax};
 
     #[test]
     fn test_legacy_decorator() {

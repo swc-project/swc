@@ -4,7 +4,7 @@ use swc_common::{input::SourceFileInput, FileName, SourceMap, DUMMY_SP as span};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::EsSyntax;
+use crate::common::syntax::EsSyntax;
 
 fn syntax() -> Syntax {
     Syntax::Es(EsSyntax {

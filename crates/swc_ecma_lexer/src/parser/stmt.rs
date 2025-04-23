@@ -1452,7 +1452,7 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
-    use crate::EsSyntax;
+    use crate::common::syntax::EsSyntax;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| p.parse_stmt())

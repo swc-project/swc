@@ -2,11 +2,12 @@ use swc_common::DUMMY_SP as span;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
+use crate::common::syntax::EsSyntax;
 
 fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
-        crate::Syntax::Es(crate::EsSyntax {
+        crate::Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),
