@@ -14,26 +14,27 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
-use parser::PResult;
-
 pub mod common;
 pub mod lexer;
 mod parser;
-
-pub use input::Capturing;
-use input::Tokens;
-pub use lexer::{Lexer, TokenContext, TokenContexts, TokenType};
-pub use parser::Parser;
-pub use swc_common::input::StringInput;
-
 #[macro_use]
 pub mod token;
 pub mod error;
 pub mod input;
 mod utils;
 
-use common::context::Context;
-pub use common::syntax::{EsSyntax, Syntax, TsSyntax};
+pub use swc_common::input::StringInput;
+
+pub use self::{
+    common::syntax::{EsSyntax, Syntax, TsSyntax},
+    input::Capturing,
+    lexer::{Lexer, TokenContext, TokenContexts, TokenType},
+    parser::Parser,
+};
+use self::{
+    common::{context::Context, input::Tokens},
+    parser::PResult,
+};
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>

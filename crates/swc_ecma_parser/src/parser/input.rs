@@ -18,50 +18,11 @@ impl<I: Tokens> Parser<I> {
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
-pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
-    fn set_ctx(&mut self, ctx: Context);
-    fn ctx(&self) -> Context;
-    fn syntax(&self) -> Syntax;
-    fn target(&self) -> swc_ecma_ast::EsVersion;
-
-    fn start_pos(&self) -> BytePos {
-        BytePos(0)
-    }
-
-    fn set_expr_allowed(&mut self, allow: bool);
-    fn set_next_regexp(&mut self, start: Option<BytePos>);
-
-    fn token_context(&self) -> &swc_ecma_lexer::TokenContexts;
-    fn token_context_mut(&mut self) -> &mut swc_ecma_lexer::TokenContexts;
-    fn set_token_context(&mut self, _c: swc_ecma_lexer::TokenContexts);
-
+pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
     fn clone_token_value(&self) -> Option<TokenValue>;
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
-
-    /// Implementors should use Rc<RefCell<Vec<Error>>>.
-    ///
-    /// It is required because parser should backtrack while parsing typescript
-    /// code.
-    fn add_error(&self, error: swc_ecma_lexer::error::Error);
-
-    /// Add an error which is valid syntax in script mode.
-    ///
-    /// This errors should be dropped if it's not a module.
-    ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_error(&self, error: swc_ecma_lexer::error::Error);
-
-    fn end_pos(&self) -> BytePos;
-
-    fn take_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error>;
-
-    /// If the program was parsed as a script, this contains the module
-    /// errors should the program be identified as a module in the future.
-    fn take_script_module_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error>;
 }
 
 /// This struct is responsible for managing current token and peeked token.

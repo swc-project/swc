@@ -45,7 +45,7 @@ pub(super) struct State {
     token_type: Option<Token>,
 }
 
-impl crate::parser::input::Tokens for Lexer<'_> {
+impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
@@ -85,22 +85,6 @@ impl crate::parser::input::Tokens for Lexer<'_> {
         self.state.next_regexp = start;
     }
 
-    fn clone_token_value(&self) -> Option<TokenValue> {
-        self.state.token_value.clone()
-    }
-
-    fn get_token_value(&self) -> Option<&TokenValue> {
-        self.state.token_value.as_ref()
-    }
-
-    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
-        self.state.token_value = token_value;
-    }
-
-    fn take_token_value(&mut self) -> Option<TokenValue> {
-        self.state.token_value.take()
-    }
-
     #[inline]
     fn token_context(&self) -> &TokenContexts {
         &self.state.context
@@ -138,6 +122,24 @@ impl crate::parser::input::Tokens for Lexer<'_> {
 
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
+    }
+}
+
+impl crate::parser::input::Tokens for Lexer<'_> {
+    fn clone_token_value(&self) -> Option<TokenValue> {
+        self.state.token_value.clone()
+    }
+
+    fn get_token_value(&self) -> Option<&TokenValue> {
+        self.state.token_value.as_ref()
+    }
+
+    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.state.token_value = token_value;
+    }
+
+    fn take_token_value(&mut self) -> Option<TokenValue> {
+        self.state.token_value.take()
     }
 }
 

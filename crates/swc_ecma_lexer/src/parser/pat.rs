@@ -9,7 +9,7 @@ use crate::{
     token::{IdentLike, Keyword, Token},
 };
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     // pub fn parse_pat(&mut self) -> PResult<Pat> {
     //     self.parse_binding_pat_or_ident(false)
     // }
@@ -505,7 +505,7 @@ impl PatType {
     }
 }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
     pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {

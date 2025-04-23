@@ -1,6 +1,6 @@
 use super::*;
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = cur_pos!(self);
 
@@ -867,7 +867,7 @@ impl IsDirective for ModuleItem {
     }
 }
 
-impl<I: Tokens> StmtLikeParser<'_, ModuleItem> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> StmtLikeParser<'_, ModuleItem> for Parser<I> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleItem> {
         if !self.ctx().contains(Context::TopLevel) {
             syntax_error!(self, SyntaxError::NonTopLevelImportExport);

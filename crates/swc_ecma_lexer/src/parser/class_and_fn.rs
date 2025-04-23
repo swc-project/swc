@@ -1,10 +1,10 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::{lexer::TokenContext, tok};
+use crate::{lexer::TokenContext, tok, token::TokenAndSpan};
 
 /// Parser for function expression and function declaration.
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
@@ -1403,7 +1403,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-impl<I: Tokens> Parser<I> {
+impl<I: Tokens<TokenAndSpan>> Parser<I> {
     fn make_method<F>(
         &mut self,
         parse_args: F,
@@ -1633,7 +1633,7 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
             }
         })
 }
-impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     fn parse_fn_body_inner(
         &mut self,
         is_simple_parameter_list: bool,
@@ -1657,7 +1657,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     }
 }
 
-impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> FnBodyParser<Option<BlockStmt>> for Parser<I> {
     fn parse_fn_body_inner(
         &mut self,
         is_simple_parameter_list: bool,

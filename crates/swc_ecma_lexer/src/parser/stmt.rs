@@ -6,7 +6,7 @@ use crate::{error::SyntaxError, tok};
 
 mod module_item;
 
-impl<'a, I: Tokens> Parser<I> {
+impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
     // pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
     //     self.with_ctx(self.ctx() | Context::TopLevel)
     //         .parse_stmt_like(true)
@@ -1405,7 +1405,7 @@ pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<Type>;
 }
 
-impl<'a, I: Tokens, T> StmtLikeParser<'a, Box<T>> for Parser<I>
+impl<'a, I: Tokens<TokenAndSpan>, T> StmtLikeParser<'a, Box<T>> for Parser<I>
 where
     T: IsDirective,
     Self: StmtLikeParser<'a, T>,
@@ -1415,7 +1415,7 @@ where
     }
 }
 
-impl<I: Tokens> StmtLikeParser<'_, Stmt> for Parser<I> {
+impl<I: Tokens<TokenAndSpan>> StmtLikeParser<'_, Stmt> for Parser<I> {
     fn handle_import_export(&mut self, _: Vec<Decorator>) -> PResult<Stmt> {
         let start = cur_pos!(self);
         if is!(self, "import") && peeked_is!(self, '(') {
