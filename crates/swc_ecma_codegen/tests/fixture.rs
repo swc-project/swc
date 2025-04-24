@@ -224,7 +224,7 @@ macro_rules! assert_enum {
 impl_assert_using_eq!(Span);
 impl_assert_using_eq!(Atom);
 impl_assert_using_eq!(Stmt);
-impl_assert_using_eq!(Atom);
+impl_assert_using_eq!(ModuleDecl);
 
 assert_struct!(Module, span, body, shebang);
 
