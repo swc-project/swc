@@ -211,147 +211,179 @@ pub enum TokenKind {
 }
 
 impl crate::common::lexer::state::TokenKind for TokenKind {
-    fn is_dot(&self) -> bool {
-        matches!(self, Self::Dot)
+    #[inline(always)]
+    fn is_dot(self) -> bool {
+        self == Self::Dot
     }
 
-    fn is_bin_op(&self) -> bool {
+    #[inline(always)]
+    fn is_bin_op(self) -> bool {
         matches!(self, Self::BinOp(_))
     }
 
-    fn is_semi(&self) -> bool {
-        matches!(self, Self::Semi)
+    #[inline(always)]
+    fn is_semi(self) -> bool {
+        self == Self::Semi
     }
 
-    fn is_template(&self) -> bool {
-        matches!(self, Self::Template)
+    #[inline(always)]
+    fn is_template(self) -> bool {
+        self == Self::Template
     }
 
-    fn is_keyword(&self) -> bool {
+    #[inline(always)]
+    fn is_keyword(self) -> bool {
         matches!(self, Self::Word(WordKind::Keyword(_)))
     }
 
-    fn is_colon(&self) -> bool {
-        matches!(self, Self::Colon)
+    #[inline(always)]
+    fn is_colon(self) -> bool {
+        self == Self::Colon
     }
 
-    fn is_lbrace(&self) -> bool {
-        matches!(self, Self::LBrace)
+    #[inline(always)]
+    fn is_lbrace(self) -> bool {
+        self == Self::LBrace
     }
 
-    fn is_rbrace(&self) -> bool {
-        matches!(self, Self::RBrace)
+    #[inline(always)]
+    fn is_rbrace(self) -> bool {
+        self == Self::RBrace
     }
 
-    fn is_lparen(&self) -> bool {
-        matches!(self, Self::LParen)
+    #[inline(always)]
+    fn is_lparen(self) -> bool {
+        self == Self::LParen
     }
 
-    fn is_rparen(&self) -> bool {
-        matches!(self, Self::RParen)
+    #[inline(always)]
+    fn is_rparen(self) -> bool {
+        self == Self::RParen
     }
 
-    fn is_keyword_fn(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Function)))
+    #[inline(always)]
+    fn is_keyword_fn(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Function))
     }
 
-    fn is_keyword_return(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Return)))
+    #[inline(always)]
+    fn is_keyword_return(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Return))
     }
 
-    fn is_keyword_yield(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Yield)))
+    #[inline(always)]
+    fn is_keyword_yield(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Yield))
     }
 
-    fn is_keyword_else(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Else)))
+    #[inline(always)]
+    fn is_keyword_else(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Else))
     }
 
-    fn is_keyword_class(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Class)))
+    #[inline(always)]
+    fn is_keyword_class(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Class))
     }
 
-    fn is_keyword_let(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Let)))
+    #[inline(always)]
+    fn is_keyword_let(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Let))
     }
 
-    fn is_keyword_var(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Var)))
+    #[inline(always)]
+    fn is_keyword_var(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Var))
     }
 
-    fn is_keyword_const(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::Const)))
+    #[inline(always)]
+    fn is_keyword_const(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::Const))
     }
 
-    fn is_keyword_if(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::If)))
+    #[inline(always)]
+    fn is_keyword_if(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::If))
     }
 
-    fn is_keyword_while(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::While)))
+    #[inline(always)]
+    fn is_keyword_while(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::While))
     }
 
-    fn is_keyword_for(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::For)))
+    #[inline(always)]
+    fn is_keyword_for(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::For))
     }
 
-    fn is_keyword_with(&self) -> bool {
-        matches!(self, Self::Word(WordKind::Keyword(Keyword::With)))
+    #[inline(always)]
+    fn is_keyword_with(self) -> bool {
+        self == Self::Word(WordKind::Keyword(Keyword::With))
     }
 
-    fn is_lt(&self) -> bool {
-        matches!(self, Self::BinOp(BinOpToken::Lt))
+    #[inline(always)]
+    fn is_lt(self) -> bool {
+        self == Self::BinOp(BinOpToken::Lt)
     }
 
-    fn is_gt(&self) -> bool {
-        matches!(self, Self::BinOp(BinOpToken::Gt))
+    #[inline(always)]
+    fn is_gt(self) -> bool {
+        self == Self::BinOp(BinOpToken::Gt)
     }
 
-    fn is_arrow(&self) -> bool {
-        matches!(self, Self::Arrow)
+    #[inline(always)]
+    fn is_arrow(self) -> bool {
+        self == Self::Arrow
     }
 
-    fn is_ident(&self) -> bool {
+    #[inline(always)]
+    fn is_ident(self) -> bool {
         matches!(self, Self::Word(WordKind::Ident(_)))
     }
 
-    fn is_known_ident_of(&self) -> bool {
-        matches!(
-            self,
-            Self::Word(WordKind::Ident(IdentKind::Known(KnownIdent::Of)))
-        )
+    #[inline(always)]
+    fn is_known_ident_of(self) -> bool {
+        self == Self::Word(WordKind::Ident(IdentKind::Known(KnownIdent::Of)))
     }
 
-    fn is_slash(&self) -> bool {
-        matches!(self, Self::BinOp(BinOpToken::Div))
+    #[inline(always)]
+    fn is_slash(self) -> bool {
+        self == Self::BinOp(BinOpToken::Div)
     }
 
-    fn is_dollar_lbrace(&self) -> bool {
-        matches!(self, Self::DollarLBrace)
+    #[inline(always)]
+    fn is_dollar_lbrace(self) -> bool {
+        self == Self::DollarLBrace
     }
 
-    fn is_plus_plus(&self) -> bool {
-        matches!(self, Self::PlusPlus)
+    #[inline(always)]
+    fn is_plus_plus(self) -> bool {
+        self == Self::PlusPlus
     }
 
-    fn is_minus_minus(&self) -> bool {
-        matches!(self, Self::MinusMinus)
+    #[inline(always)]
+    fn is_minus_minus(self) -> bool {
+        self == Self::MinusMinus
     }
 
-    fn is_back_quote(&self) -> bool {
-        matches!(self, Self::BackQuote)
+    #[inline(always)]
+    fn is_back_quote(self) -> bool {
+        self == Self::BackQuote
     }
 
+    #[inline(always)]
     fn before_expr(self) -> bool {
         self.before_expr()
     }
 
-    fn is_jsx_tag_start(&self) -> bool {
-        matches!(self, Self::JSXTagStart)
+    #[inline(always)]
+    fn is_jsx_tag_start(self) -> bool {
+        self == Self::JSXTagStart
     }
 
-    fn is_jsx_tag_end(&self) -> bool {
-        matches!(self, Self::JSXTagEnd)
+    #[inline(always)]
+    fn is_jsx_tag_end(self) -> bool {
+        self == Self::JSXTagEnd
     }
 }
 
