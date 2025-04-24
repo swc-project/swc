@@ -74,12 +74,12 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 
 impl Input for StringInput<'_> {
     #[inline]
-    fn cur(&mut self) -> Option<char> {
+    fn cur(&self) -> Option<char> {
         self.iter.clone().next()
     }
 
     #[inline]
-    fn peek(&mut self) -> Option<char> {
+    fn peek(&self) -> Option<char> {
         let mut iter = self.iter.clone();
         // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
         iter.next();
@@ -87,7 +87,7 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn peek_ahead(&mut self) -> Option<char> {
+    fn peek_ahead(&self) -> Option<char> {
         let mut iter = self.iter.clone();
         // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
         iter.next();
@@ -107,7 +107,7 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn cur_as_ascii(&mut self) -> Option<u8> {
+    fn cur_as_ascii(&self) -> Option<u8> {
         let first_byte = *self.as_str().as_bytes().first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
@@ -123,7 +123,7 @@ impl Input for StringInput<'_> {
 
     /// TODO(kdy1): Remove this?
     #[inline]
-    fn cur_pos(&mut self) -> BytePos {
+    fn cur_pos(&self) -> BytePos {
         self.last_pos
     }
 
@@ -211,7 +211,7 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn is_byte(&mut self, c: u8) -> bool {
+    fn is_byte(&self, c: u8) -> bool {
         self.iter
             .as_str()
             .as_bytes()
@@ -238,9 +238,9 @@ impl Input for StringInput<'_> {
 }
 
 pub trait Input: Clone {
-    fn cur(&mut self) -> Option<char>;
-    fn peek(&mut self) -> Option<char>;
-    fn peek_ahead(&mut self) -> Option<char>;
+    fn cur(&self) -> Option<char>;
+    fn peek(&self) -> Option<char>;
+    fn peek_ahead(&self) -> Option<char>;
 
     /// # Safety
     ///
@@ -251,7 +251,7 @@ pub trait Input: Clone {
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
     #[inline]
-    fn cur_as_ascii(&mut self) -> Option<u8> {
+    fn cur_as_ascii(&self) -> Option<u8> {
         self.cur().and_then(|i| {
             if i.is_ascii() {
                 return Some(i as u8);
@@ -262,7 +262,7 @@ pub trait Input: Clone {
 
     fn is_at_start(&self) -> bool;
 
-    fn cur_pos(&mut self) -> BytePos;
+    fn cur_pos(&self) -> BytePos;
 
     fn last_pos(&self) -> BytePos;
 
@@ -293,7 +293,7 @@ pub trait Input: Clone {
     /// `c` must be ASCII.
     #[inline]
     #[allow(clippy::wrong_self_convention)]
-    fn is_byte(&mut self, c: u8) -> bool {
+    fn is_byte(&self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => ch == c as char,
             _ => false,
