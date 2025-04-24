@@ -69,6 +69,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if self.srcmap.is_some() {
             self.line_pos += self.indent_str.len() * self.indent;
         }
+        self.byte_pos.0 += self.indent_str.len() as u32 * self.indent as u32;
 
         Ok(())
     }
@@ -112,7 +113,6 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if self.srcmap.is_some() {
             let line_start_of_s = compute_line_starts(s);
             self.line_count += line_start_of_s.line_count;
-            self.byte_pos.0 += s.as_bytes().len() as u32;
 
             let chars = s[line_start_of_s.byte_pos..].encode_utf16().count();
             if line_start_of_s.line_count > 0 {
@@ -121,6 +121,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 self.line_pos += chars;
             }
         }
+
+        self.byte_pos.0 += s.as_bytes().len() as u32;
     }
 
     #[inline]
@@ -203,6 +205,7 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
                 self.line_count += 1;
                 self.line_pos = 0;
             }
+            self.byte_pos.0 += self.new_line.len() as u32;
             self.line_start = true;
 
             if let Some(pending) = pending {
