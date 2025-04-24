@@ -4,8 +4,9 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::FileName;
-use swc_ecma_ast::EsVersion;
+use swc_atoms::Atom;
+use swc_common::{FileName, Span};
+use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_codegen::{
     text_writer::{JsWriter, SpannedWriteJs, WriteJs},
     Emitter, Node, NodeEmitter,
@@ -134,7 +135,7 @@ fn run(input: &Path, minify: bool) {
         )
         .expect("failed to parse input as a module");
 
-        assert_eq!(new_module, m);
+        AssertEq::assert_eq(&new_module, &m);
 
         Ok(())
     })
@@ -153,3 +154,48 @@ fn js(input: PathBuf) {
     run(&input, false);
     run(&input, true);
 }
+
+trait AssertEq: PartialEq {
+    fn assert_eq(&self, other: &Self);
+}
+
+impl<T: AssertEq> AssertEq for Vec<T> {
+    fn assert_eq(&self, other: &Self) {
+        if self.len() != other.len() {
+            panic!("lengths are different: {} != {}", self.len(), other.len());
+        }
+
+        for (a, b) in self.iter().zip(other.iter()) {
+            a.assert_eq(b);
+        }
+    }
+}
+
+macro_rules! impl_assert_using_eq {
+    ($type:ty) => {
+        impl AssertEq for $type {
+            fn assert_eq(&self, other: &Self) {
+                if self != other {
+                    panic!("{:?} != {:?}", self, other);
+                }
+            }
+        }
+    };
+}
+
+macro_rules! assert_struct {
+    ($type:ty, $($field:ident),*) => {
+        impl AssertEq for $type {
+            fn assert_eq(&self, other: &Self) {
+                $(
+                    AssertEq::assert_eq(&self.$field, &other.$field);
+                )*
+            }
+        }
+    };
+}
+
+impl_assert_using_eq!(Span);
+impl_assert_using_eq!(Atom);
+
+assert_struct!(Module, span, body, shebang);
