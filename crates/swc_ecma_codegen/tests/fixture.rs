@@ -106,39 +106,35 @@ fn run(input: &Path, minify: bool) {
             .compare_to_file(&output)
             .unwrap();
 
+        let new_module = {
+            let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
+                as Box<dyn SpannedWriteJs>;
+
+            let mut emitter = NodeEmitter::new(Emitter {
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_minify(minify)
+                    .with_reduce_escaped_newline(config.reduce_escaped_newline),
+                cm: cm.clone(),
+                comments: None,
+                wr,
+            });
+
+            m.with_new_span(&mut emitter).unwrap()
+        };
+
         let buf = String::from_utf8(buf).unwrap();
-        {
-            let fm = cm.new_source_file(FileName::Anon.into(), buf.clone());
+        let fm = cm.new_source_file(FileName::Anon.into(), buf.clone());
 
-            let m = parse_file_as_module(
-                &fm,
-                Syntax::default(),
-                EsVersion::latest(),
-                None,
-                &mut Vec::new(),
-            )
-            .expect("failed to parse input as a module");
+        let m = parse_file_as_module(
+            &fm,
+            Syntax::default(),
+            EsVersion::latest(),
+            None,
+            &mut Vec::new(),
+        )
+        .expect("failed to parse input as a module");
 
-            let mut buf = Vec::new();
-
-            {
-                let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
-                    as Box<dyn SpannedWriteJs>;
-
-                let mut emitter = NodeEmitter::new(Emitter {
-                    cfg: swc_ecma_codegen::Config::default()
-                        .with_minify(minify)
-                        .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                    cm,
-                    comments: None,
-                    wr,
-                });
-
-                let new_module = m.with_new_span(&mut emitter).unwrap();
-
-                assert_eq!(new_module, m);
-            }
-        }
+        assert_eq!(new_module, m);
 
         Ok(())
     })
