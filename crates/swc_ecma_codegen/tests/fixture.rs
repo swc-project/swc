@@ -1,4 +1,5 @@
 use std::{
+    fmt::Debug,
     fs::read_to_string,
     path::{Path, PathBuf},
 };
@@ -155,7 +156,7 @@ fn js(input: PathBuf) {
     run(&input, true);
 }
 
-trait AssertEq: PartialEq {
+trait AssertEq: Debug + PartialEq {
     fn assert_eq(&self, other: &Self);
 }
 
@@ -167,6 +168,18 @@ impl<T: AssertEq> AssertEq for Vec<T> {
 
         for (a, b) in self.iter().zip(other.iter()) {
             a.assert_eq(b);
+        }
+    }
+}
+
+impl<T: AssertEq> AssertEq for Option<T> {
+    fn assert_eq(&self, other: &Self) {
+        match (self, other) {
+            (Some(a), Some(b)) => a.assert_eq(b),
+            (None, None) => (),
+            (Some(_), None) | (None, Some(_)) => {
+                panic!("variants are different: {:?} != {:?}", self, other)
+            }
         }
     }
 }
@@ -195,7 +208,24 @@ macro_rules! assert_struct {
     };
 }
 
+macro_rules! assert_enum {
+    ($type:ty, [$($variant:ident),*]) => {
+        impl AssertEq for $type {
+            fn assert_eq(&self, other: &Self) {
+                match (self, other) {
+                    $((Self::$variant(a), Self::$variant(b)) => a.assert_eq(b),)*
+                    _ => panic!("variants are different: {:?} != {:?}", self, other),
+                }
+            }
+        }
+    };
+}
+
 impl_assert_using_eq!(Span);
+impl_assert_using_eq!(Atom);
+impl_assert_using_eq!(Stmt);
 impl_assert_using_eq!(Atom);
 
 assert_struct!(Module, span, body, shebang);
+
+assert_enum!(ModuleItem, [Stmt, ModuleDecl]);
