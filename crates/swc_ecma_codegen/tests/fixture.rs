@@ -4,6 +4,7 @@ use std::{
 };
 
 use serde::Deserialize;
+use swc_common::FileName;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, SpannedWriteJs, WriteJs},
@@ -101,28 +102,42 @@ fn run(input: &Path, minify: bool) {
             emitter.emit_module(&m).unwrap();
         }
 
-        NormalizedOutput::from(String::from_utf8(buf).unwrap())
+        NormalizedOutput::from(String::from_utf8(buf.clone()).unwrap())
             .compare_to_file(&output)
             .unwrap();
 
-        let mut buf = Vec::new();
-
+        let buf = String::from_utf8(buf).unwrap();
         {
-            let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
-                as Box<dyn SpannedWriteJs>;
+            let fm = cm.new_source_file(FileName::Anon.into(), buf.clone());
 
-            let mut emitter = NodeEmitter::new(Emitter {
-                cfg: swc_ecma_codegen::Config::default()
-                    .with_minify(minify)
-                    .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
-                comments: None,
-                wr,
-            });
+            let m = parse_file_as_module(
+                &fm,
+                Syntax::default(),
+                EsVersion::latest(),
+                None,
+                &mut Vec::new(),
+            )
+            .expect("failed to parse input as a module");
 
-            let new_module = m.with_new_span(&mut emitter).unwrap();
+            let mut buf = Vec::new();
 
-            assert_eq!(new_module, m);
+            {
+                let wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None))
+                    as Box<dyn SpannedWriteJs>;
+
+                let mut emitter = NodeEmitter::new(Emitter {
+                    cfg: swc_ecma_codegen::Config::default()
+                        .with_minify(minify)
+                        .with_reduce_escaped_newline(config.reduce_escaped_newline),
+                    cm,
+                    comments: None,
+                    wr,
+                });
+
+                let new_module = m.with_new_span(&mut emitter).unwrap();
+
+                assert_eq!(new_module, m);
+            }
         }
 
         Ok(())
