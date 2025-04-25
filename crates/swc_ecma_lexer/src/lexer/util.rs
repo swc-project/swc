@@ -8,90 +8,18 @@ use swc_common::{
     input::Input,
     BytePos, Span,
 };
-use tracing::warn;
 
-use super::{LexResult, Lexer, LexerTrait};
+use super::{Lexer, LexerTrait};
 use crate::{
     common::lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind},
         state::State,
         whitespace::SkipWhitespace,
     },
-    error::{Error, SyntaxError},
-    Context, Tokens,
+    error::SyntaxError,
 };
 
 impl Lexer<'_> {
-    /// Shorthand for `let span = self.span(start); self.error_span(span)`
-    #[cold]
-    #[inline(never)]
-    pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
-        let span = self.span(start);
-        self.error_span(span, kind)
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
-        Err(Error::new(span, kind))
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
-        let span = self.span(start);
-        self.emit_error_span(span, kind)
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
-        if self.ctx.contains(Context::IgnoreError) {
-            return;
-        }
-
-        warn!("Lexer error at {:?}", span);
-        let err = Error::new(span, kind);
-        self.errors.borrow_mut().push(err);
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_strict_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
-        let span = self.span(start);
-        self.emit_strict_mode_error_span(span, kind)
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_strict_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
-        if self.ctx.contains(Context::Strict) {
-            self.emit_error_span(span, kind);
-            return;
-        }
-
-        let err = Error::new(span, kind);
-
-        self.add_module_mode_error(err);
-    }
-
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_module_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
-        let span = self.span(start);
-        self.emit_module_mode_error_span(span, kind)
-    }
-
-    /// Some codes are valid in a strict mode script  but invalid in module
-    /// code.
-    #[cold]
-    #[inline(never)]
-    pub(super) fn emit_module_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
-        let err = Error::new(span, kind);
-
-        self.add_module_mode_error(err);
-    }
-
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space

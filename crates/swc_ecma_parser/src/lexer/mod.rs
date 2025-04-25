@@ -56,13 +56,20 @@ pub struct Lexer<'a> {
 
 impl FusedIterator for Lexer<'_> {}
 
-impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a> for Lexer<'a> {
+impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
+    #[inline(always)]
     fn input(&self) -> &StringInput<'a> {
         &self.input
     }
 
+    #[inline(always)]
     fn input_mut(&mut self) -> &mut StringInput<'a> {
         &mut self.input
+    }
+
+    #[inline(always)]
+    fn push_error(&self, error: Error) {
+        self.errors.borrow_mut().push(error);
     }
 }
 
