@@ -23,7 +23,7 @@ use crate::{
 ///
 /// Ported from babylon.
 #[derive(Clone)]
-pub(super) struct State {
+pub struct State {
     pub is_expr_allowed: bool,
     pub next_regexp: Option<BytePos>,
     /// if line break exists between previous token and new token?
@@ -372,43 +372,63 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     type TokenKind = Token;
     type TokenType = Token;
 
+    #[inline(always)]
     fn is_expr_allowed(&self) -> bool {
         self.is_expr_allowed
     }
 
+    #[inline(always)]
     fn set_expr_allowed(&mut self, allow: bool) {
         self.is_expr_allowed = allow;
     }
 
+    #[inline(always)]
     fn had_line_break(&self) -> bool {
         self.had_line_break
     }
 
+    #[inline(always)]
+    fn set_had_line_break(&mut self, had_line_break: bool) {
+        self.had_line_break = had_line_break;
+    }
+
+    #[inline(always)]
     fn had_line_break_before_last(&self) -> bool {
         self.had_line_break_before_last
     }
 
+    #[inline(always)]
     fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
         &self.context
     }
 
+    #[inline(always)]
     fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
         &mut self.context
     }
 
+    #[inline(always)]
     fn set_token_type(&mut self, token_type: Self::TokenType) {
         self.token_type = Some(token_type);
     }
 
+    #[inline(always)]
     fn token_type(&self) -> Option<Self::TokenType> {
         self.token_type
     }
 
+    #[inline(always)]
     fn set_tpl_start(&mut self, start: BytePos) {
         self.tpl_start = start;
     }
 
+    #[inline(always)]
     fn syntax(&self) -> swc_ecma_lexer::Syntax {
         self.syntax
+    }
+
+    #[inline(always)]
+    fn prev_hi(&self) -> BytePos {
+        self.prev_hi
     }
 }

@@ -51,6 +51,7 @@ pub trait State: Clone {
 
     fn is_expr_allowed(&self) -> bool;
     fn had_line_break(&self) -> bool;
+    fn set_had_line_break(&mut self, had_line_break: bool);
     fn had_line_break_before_last(&self) -> bool;
     fn token_contexts(&self) -> &crate::TokenContexts;
     fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts;
@@ -59,6 +60,7 @@ pub trait State: Clone {
     fn set_expr_allowed(&mut self, allow: bool);
     fn set_tpl_start(&mut self, start: BytePos);
     fn syntax(&self) -> crate::Syntax;
+    fn prev_hi(&self) -> BytePos;
 
     fn can_skip_space(&self) -> bool {
         !self
