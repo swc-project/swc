@@ -140,14 +140,14 @@ impl ExplicitResourceManagement {
                     Stmt::Decl(Decl::Fn(..)) if !self.is_not_top_level => {
                         extras.push(stmt.into());
                     }
-                    Stmt::Decl(Decl::Class(ClassDecl {
-                        mut ident, class, ..
-                    })) if !self.is_not_top_level => {
-                        // var C = class { ... };
+                    Stmt::Decl(Decl::Class(ClassDecl { ident, class, .. }))
+                        if !self.is_not_top_level =>
+                    {
+                        // var C = class C { ... };
                         try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(ident.take().into()),
+                                name: Pat::Ident(ident.clone().into()),
                                 init: Some(class.into()),
                                 definite: false,
                             }],
@@ -165,7 +165,7 @@ impl ExplicitResourceManagement {
                 },
                 Err(t) => match t.try_into_module_decl() {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
-                        decl: Decl::Class(mut class),
+                        decl: Decl::Class(class),
                         span,
                     })) => {
                         // export { C };
@@ -183,11 +183,11 @@ impl ExplicitResourceManagement {
                             .unwrap(),
                         );
 
-                        // var C = class { ... };
+                        // var C = class C { ... };
                         try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(class.ident.take().into()),
+                                name: Pat::Ident(class.ident.clone().into()),
                                 init: Some(class.class.into()),
                                 definite: false,
                             }],
@@ -200,6 +200,11 @@ impl ExplicitResourceManagement {
                         span,
                         ..
                     })) => {
+                        let class_expr = ClassExpr {
+                            ident: ident.clone(),
+                            class,
+                        };
+
                         let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                         // export { C as default };
@@ -218,11 +223,12 @@ impl ExplicitResourceManagement {
                         );
 
                         // var C = class { ... };
+
                         try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ident.into()),
-                                init: Some(class.into()),
+                                init: Some(class_expr.into()),
                                 definite: false,
                             }],
                             span,
