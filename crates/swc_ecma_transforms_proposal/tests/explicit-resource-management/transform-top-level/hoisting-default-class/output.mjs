@@ -5,7 +5,7 @@ const env = {
 };
 try {
     var x = _ts_add_disposable_resource(env, null, false);
-    var C = class {
+    var C = class C {
     };
 } catch (e) {
     env.error = e;

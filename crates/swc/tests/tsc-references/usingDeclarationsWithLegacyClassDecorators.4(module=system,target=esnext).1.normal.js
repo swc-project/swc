@@ -26,7 +26,7 @@ System.register([
             };
             try {
                 var before = _ts_add_disposable_resource(env, null, false);
-                var _class = class {
+                var _class = class _class {
                 };
                 _export("default", _class = _ts_decorate([
                     dec
