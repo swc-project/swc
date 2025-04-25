@@ -14,7 +14,7 @@ use swc_ecma_lexer::common::lexer::{
     char::{Char, CharExt},
     comments_buffer::CommentsBuffer,
     state::State,
-    LexResult,
+    LexResult, Lexer as LexerTrait,
 };
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
@@ -55,6 +55,16 @@ pub struct Lexer<'a> {
 }
 
 impl FusedIterator for Lexer<'_> {}
+
+impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a> for Lexer<'a> {
+    fn input(&self) -> &StringInput<'a> {
+        &self.input
+    }
+
+    fn input_mut(&mut self) -> &mut StringInput<'a> {
+        &mut self.input
+    }
+}
 
 impl<'a> Lexer<'a> {
     pub fn new(

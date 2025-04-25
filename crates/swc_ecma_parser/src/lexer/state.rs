@@ -12,7 +12,7 @@ use swc_ecma_lexer::{
     TokenContext, TokenContexts,
 };
 
-use super::{Context, Input, Lexer};
+use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
     error::{Error, SyntaxError},
     lexer::token::{Token, TokenAndSpan, TokenValue},

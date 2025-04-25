@@ -8,7 +8,7 @@ use either::Either;
 use swc_common::input::Input;
 use swc_ecma_ast::AssignOp;
 
-use super::{pos_span, LexResult, Lexer};
+use super::{pos_span, LexResult, Lexer, LexerTrait};
 use crate::{
     common::lexer::char::CharExt,
     error::SyntaxError,
