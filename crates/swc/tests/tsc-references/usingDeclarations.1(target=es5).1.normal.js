@@ -17,7 +17,7 @@ var env = {
     hasError: false
 };
 try {
-    var _class;
+    var _C1;
     var d1 = _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), false);
     var a = function() {
         var env = {
@@ -34,10 +34,10 @@ try {
             _ts_dispose_resources(env);
         }
     };
-    var C1 = (_class = /*#__PURE__*/ function() {
+    var C1 = (_C1 = /*#__PURE__*/ function() {
         "use strict";
-        function _class() {
-            _class_call_check(this, _class);
+        function C1() {
+            _class_call_check(this, C1);
             this.a = function() {
                 var env = {
                     stack: [],
@@ -67,7 +67,7 @@ try {
                 _ts_dispose_resources(env);
             }
         }
-        var _proto = _class.prototype;
+        var _proto = C1.prototype;
         _proto.m = function m() {
             var env = {
                 stack: [],
@@ -238,7 +238,7 @@ try {
                 });
             })();
         };
-        _create_class(_class, [
+        _create_class(C1, [
             {
                 key: "x",
                 get: function get() {
@@ -274,7 +274,7 @@ try {
                 }
             }
         ]);
-        return _class;
+        return C1;
     }(), function() {
         var env = {
             stack: [],
@@ -289,7 +289,7 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    }(), _class);
+    }(), _C1);
     var C2 = /*#__PURE__*/ function(C1) {
         "use strict";
         _inherits(C2, C1);

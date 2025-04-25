@@ -28,7 +28,7 @@ try {
             if (result) await result;
         }
     };
-    var C1 = class {
+    var C1 = class C1 {
         async am() {
             const env = {
                 stack: [],

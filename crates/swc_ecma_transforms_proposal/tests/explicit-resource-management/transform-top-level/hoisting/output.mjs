@@ -6,9 +6,9 @@ const env = {
 try {
     doSomething();
     var c = 2;
-    var A = class {
+    var A = class A {
     };
-    var B = class {
+    var B = class B {
     };
     var x = _ts_add_disposable_resource(env, null, false);
 } catch (e) {

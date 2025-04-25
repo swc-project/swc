@@ -35,7 +35,7 @@ try {
                 if (result) yield result;
             }
         })();
-    var C1 = class {
+    var C1 = class C1 {
         am() {
             return /*#__PURE__*/ _async_to_generator(function*() {
                 const env = {

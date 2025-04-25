@@ -4,7 +4,7 @@ const env = {
     hasError: false
 };
 try {
-    var C = class {
+    var C = class C {
         [Symbol.dispose]() {
             console.log("dispose");
         }

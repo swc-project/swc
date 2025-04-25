@@ -10,7 +10,7 @@ try {
             console.log(2);
         }
     };
-    var C = class {
+    var C = class C {
         [Symbol.dispose]() {
             console.log("dispose");
         }

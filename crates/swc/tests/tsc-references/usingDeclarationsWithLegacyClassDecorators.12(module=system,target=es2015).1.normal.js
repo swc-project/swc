@@ -25,7 +25,7 @@ System.register([
                 hasError: false
             };
             try {
-                var C = class {
+                var C = class C {
                 };
                 _export("D", C = _ts_decorate([
                     dec
