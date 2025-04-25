@@ -62,6 +62,8 @@ pub struct Lexer<'a> {
 impl FusedIterator for Lexer<'_> {}
 
 impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
+    type State = self::state::State;
+
     #[inline(always)]
     fn input(&self) -> &StringInput<'a> {
         &self.input
@@ -75,6 +77,41 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     #[inline(always)]
     fn push_error(&self, error: crate::error::Error) {
         self.errors.borrow_mut().push(error);
+    }
+
+    #[inline(always)]
+    fn state(&self) -> &Self::State {
+        &self.state
+    }
+
+    #[inline(always)]
+    fn state_mut(&mut self) -> &mut Self::State {
+        &mut self.state
+    }
+
+    #[inline(always)]
+    fn comments_buffer(&self) -> Option<&crate::common::lexer::comments_buffer::CommentsBuffer> {
+        self.comments_buffer.as_ref()
+    }
+
+    #[inline(always)]
+    fn comments_buffer_mut(
+        &mut self,
+    ) -> Option<&mut crate::common::lexer::comments_buffer::CommentsBuffer> {
+        self.comments_buffer.as_mut()
+    }
+
+    #[inline(always)]
+    unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
+        let s = self.input.slice(start, end);
+        // SAFETY: the input is guaranteed to live for the entire
+        // lifetime.
+        std::mem::transmute::<&str, &'a str>(s)
+    }
+
+    #[inline(always)]
+    fn atom(&self, s: &'a str) -> swc_atoms::Atom {
+        self.atoms.atom(s)
     }
 }
 
