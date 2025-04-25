@@ -148,7 +148,13 @@ impl ExplicitResourceManagement {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ident.clone().into()),
-                                init: Some(class.into()),
+                                init: Some(
+                                    ClassExpr {
+                                        ident: Some(ident),
+                                        class,
+                                    }
+                                    .into(),
+                                ),
                                 definite: false,
                             }],
                             ..Default::default()
@@ -165,7 +171,7 @@ impl ExplicitResourceManagement {
                 },
                 Err(t) => match t.try_into_module_decl() {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
-                        decl: Decl::Class(class),
+                        decl: Decl::Class(ClassDecl { ident, class, .. }),
                         span,
                     })) => {
                         // export { C };
@@ -173,7 +179,7 @@ impl ExplicitResourceManagement {
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
                                 specifiers: vec![ExportNamedSpecifier {
                                     span: DUMMY_SP,
-                                    orig: class.ident.clone().into(),
+                                    orig: ident.clone().into(),
                                     exported: None,
                                     is_type_only: false,
                                 }
@@ -187,8 +193,14 @@ impl ExplicitResourceManagement {
                         try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
-                                name: Pat::Ident(class.ident.clone().into()),
-                                init: Some(class.class.into()),
+                                name: Pat::Ident(ident.clone().into()),
+                                init: Some(
+                                    ClassExpr {
+                                        ident: Some(ident),
+                                        class,
+                                    }
+                                    .into(),
+                                ),
                                 definite: false,
                             }],
                             span,
@@ -196,16 +208,14 @@ impl ExplicitResourceManagement {
                         }))));
                     }
                     Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                        decl: DefaultDecl::Class(ClassExpr { ident, class }),
+                        decl: DefaultDecl::Class(class_expr),
                         span,
                         ..
                     })) => {
-                        let class_expr = ClassExpr {
-                            ident: ident.clone(),
-                            class,
-                        };
-
-                        let ident = ident.unwrap_or_else(|| private_ident!("_default"));
+                        let ident = class_expr
+                            .ident
+                            .clone()
+                            .unwrap_or_else(|| private_ident!("_default"));
 
                         // export { C as default };
                         extras.push(
