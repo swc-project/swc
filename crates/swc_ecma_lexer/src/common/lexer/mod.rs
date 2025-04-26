@@ -1,14 +1,20 @@
+use char::CharExt;
+use num_bigint::BigInt as BigIntValue;
+use num_traits::{Num as NumTrait, ToPrimitive};
+use number::LazyBigInt;
 use state::State;
 use swc_common::{
     input::{Input, StringInput},
     BytePos, Span,
 };
+use swc_ecma_ast::EsVersion;
 
 use super::{context::Context, input::Tokens};
 use crate::error::SyntaxError;
 
 pub mod char;
 pub mod comments_buffer;
+pub mod number;
 pub mod state;
 pub mod whitespace;
 
@@ -260,4 +266,191 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
     }
 
     fn skip_block_comment(&mut self);
+
+    /// Ensure that ident cannot directly follow numbers.
+    fn ensure_not_ident(&mut self) -> LexResult<()> {
+        match self.cur() {
+            Some(c) if c.is_ident_start() => {
+                let span = pos_span(self.cur_pos());
+                self.error_span(span, SyntaxError::IdentAfterNum)?
+            }
+            _ => Ok(()),
+        }
+    }
+
+    fn make_legacy_octal(&mut self, start: BytePos, val: f64) -> LexResult<f64> {
+        self.ensure_not_ident()?;
+        if self.syntax().typescript() && self.target() >= EsVersion::Es5 {
+            self.emit_error(start, SyntaxError::TS1085);
+        }
+        self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
+        Ok(val)
+    }
+
+    /// `op`- |total, radix, value| -> (total * radix + value, continue)
+    fn read_digits<F, Ret, const RADIX: u8>(
+        &mut self,
+        mut op: F,
+        allow_num_separator: bool,
+    ) -> LexResult<Ret>
+    where
+        F: FnMut(Ret, u8, u32) -> LexResult<(Ret, bool)>,
+        Ret: Copy + Default,
+    {
+        debug_assert!(
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
+            "radix for read_int should be one of 2, 8, 10, 16, but got {}",
+            RADIX
+        );
+
+        if cfg!(feature = "debug") {
+            tracing::trace!("read_digits(radix = {}), cur = {:?}", RADIX, self.cur());
+        }
+
+        let start = self.cur_pos();
+        let mut total: Ret = Default::default();
+        let mut prev = None;
+
+        while let Some(c) = self.cur() {
+            if allow_num_separator && c == '_' {
+                let is_allowed = |c: Option<char>| {
+                    if c.is_none() {
+                        return false;
+                    }
+
+                    let c = c.unwrap();
+
+                    c.is_digit(RADIX as _)
+                };
+                let is_forbidden = |c: Option<char>| {
+                    if c.is_none() {
+                        return true;
+                    }
+
+                    if RADIX == 16 {
+                        matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
+                    } else {
+                        matches!(c.unwrap(), '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
+                    }
+                };
+
+                let next = self.input().peek();
+
+                if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
+                    self.emit_error(
+                        start,
+                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                    );
+                }
+
+                // Ignore this _ character
+                unsafe {
+                    // Safety: cur() returns Some(c) where c is a valid char
+                    self.input_mut().bump();
+                }
+
+                continue;
+            }
+
+            // e.g. (val for a) = 10  where radix = 16
+            let val = if let Some(val) = c.to_digit(RADIX as _) {
+                val
+            } else {
+                return Ok(total);
+            };
+
+            self.bump();
+
+            let (t, cont) = op(total, RADIX, val)?;
+
+            total = t;
+
+            if !cont {
+                return Ok(total);
+            }
+
+            prev = Some(c);
+        }
+
+        Ok(total)
+    }
+
+    /// This can read long integers like
+    /// "13612536612375123612312312312312312312312".
+    fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
+        debug_assert!(
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
+            RADIX
+        );
+        let start = self.cur_pos();
+
+        let mut read_any = false;
+
+        let res = self.read_digits::<_, f64, RADIX>(
+            |total, radix, v| {
+                read_any = true;
+
+                Ok((f64::mul_add(total, radix as f64, v as f64), true))
+            },
+            true,
+        );
+
+        if !read_any {
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
+        }
+        res
+    }
+
+    /// This can read long integers like
+    /// "13612536612375123612312312312312312312312".
+    ///
+    /// - Returned `bool` is `true` is there was `8` or `9`.
+    fn read_number_no_dot_as_str<const RADIX: u8>(
+        &mut self,
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
+        debug_assert!(
+            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
+            RADIX
+        );
+        let start = self.cur_pos();
+
+        let mut non_octal = false;
+        let mut read_any = false;
+
+        self.read_digits::<_, f64, RADIX>(
+            |total, radix, v| {
+                read_any = true;
+
+                if v == 8 || v == 9 {
+                    non_octal = true;
+                }
+
+                Ok((f64::mul_add(total, radix as f64, v as f64), true))
+            },
+            true,
+        )?;
+
+        if !read_any {
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
+        }
+
+        let end = self.cur_pos();
+        let raw = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input_slice(start, end)
+        };
+        // Remove number separator from number
+        let raw_number_str = raw.replace('_', "");
+        let parsed_float = BigIntValue::from_str_radix(&raw_number_str, RADIX as u32)
+            .expect("failed to parse float using BigInt")
+            .to_f64()
+            .expect("failed to parse float using BigInt");
+        Ok((parsed_float, LazyBigInt::new(raw_number_str), non_octal))
+    }
+}
+
+fn pos_span(p: BytePos) -> Span {
+    Span::new(p, p)
 }

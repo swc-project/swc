@@ -118,7 +118,7 @@ const UNI: ByteHandler = Some(|skip| {
 });
 
 /// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
-pub struct SkipWhitespace<'a> {
+pub(super) struct SkipWhitespace<'a> {
     pub input: &'a str,
 
     /// Total offset
