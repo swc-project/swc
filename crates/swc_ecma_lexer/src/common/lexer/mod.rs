@@ -5,6 +5,7 @@ use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
 use number::LazyBigInt;
+use smartstring::{LazyCompact, SmartString};
 use state::State;
 use swc_atoms::Atom;
 use swc_common::{
@@ -13,6 +14,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 
+use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
 use crate::error::SyntaxError;
 
@@ -44,7 +46,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
     /// We know that the start and the end are valid
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
-    fn atom(&self, s: &'a str) -> swc_atoms::Atom;
+    fn atom(&self, s: impl Into<Cow<'a, str>>) -> swc_atoms::Atom;
     fn push_error(&self, error: crate::error::Error);
     // TODO: invest why there has regression if implement this by trait
     fn skip_block_comment(&mut self);
@@ -831,6 +833,217 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
         });
 
         Ok(Self::Token::create_jsx_name(slice, self))
+    }
+
+    fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
+        debug_assert!(self.syntax().jsx());
+
+        fn from_code(s: &str, radix: u32) -> LexResult<char> {
+            // TODO(kdy1): unwrap -> Err
+            let c = char::from_u32(
+                u32::from_str_radix(s, radix).expect("failed to parse string as number"),
+            )
+            .expect("failed to parse number as char");
+
+            Ok(c)
+        }
+
+        fn is_hex(s: &str) -> bool {
+            s.chars().all(|c| c.is_ascii_hexdigit())
+        }
+
+        fn is_dec(s: &str) -> bool {
+            s.chars().all(|c| c.is_ascii_digit())
+        }
+
+        let mut s = SmartString::<LazyCompact>::default();
+
+        let c = self.input().cur();
+        debug_assert_eq!(c, Some('&'));
+        unsafe {
+            // Safety: cur() was Some('&')
+            self.input_mut().bump();
+        }
+
+        let start_pos = self.input().cur_pos();
+
+        for _ in 0..10 {
+            let c = match self.input().cur() {
+                Some(c) => c,
+                None => break,
+            };
+            unsafe {
+                // Safety: cur() was Some(c)
+                self.input_mut().bump();
+            }
+
+            if c == ';' {
+                if let Some(stripped) = s.strip_prefix('#') {
+                    if stripped.starts_with('x') {
+                        if is_hex(&s[2..]) {
+                            let value = from_code(&s[2..], 16)?;
+
+                            return Ok((value, format!("&{};", s)));
+                        }
+                    } else if is_dec(stripped) {
+                        let value = from_code(stripped, 10)?;
+
+                        return Ok((value, format!("&{};", s)));
+                    }
+                } else if let Some(entity) = xhtml(&s) {
+                    return Ok((entity, format!("&{};", s)));
+                }
+
+                break;
+            }
+
+            s.push(c)
+        }
+
+        unsafe {
+            // Safety: start_pos is a valid position because we got it from self.input
+            self.input_mut().reset_to(start_pos);
+        }
+
+        Ok(('&', "&".to_string()))
+    }
+
+    fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
+        debug_assert!(self.syntax().jsx());
+        let ch = self.input().cur().unwrap();
+        unsafe {
+            // Safety: cur() was Some(ch)
+            self.input_mut().bump();
+        }
+
+        let out = if ch == '\r' && self.input().cur() == Some('\n') {
+            unsafe {
+                // Safety: cur() was Some('\n')
+                self.input_mut().bump();
+            }
+            Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
+        } else {
+            Either::Right(ch)
+        };
+        let cur_pos = self.input().cur_pos();
+        self.state_mut().add_current_line(1);
+        self.state_mut().set_line_start(cur_pos);
+        Ok(out)
+    }
+
+    fn read_jsx_str(&mut self, quote: char) -> LexResult<Self::Token> {
+        debug_assert!(self.syntax().jsx());
+        let start = self.input().cur_pos();
+        unsafe {
+            // Safety: cur() was Some(quote)
+            self.input_mut().bump(); // `quote`
+        }
+        let mut out = String::new();
+        let mut chunk_start = self.input().cur_pos();
+        loop {
+            let ch = match self.input().cur() {
+                Some(c) => c,
+                None => {
+                    let start = self.state().start();
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+                    break;
+                }
+            };
+            let cur_pos = self.input().cur_pos();
+            if ch == '\\' {
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input_slice(chunk_start, cur_pos)
+                };
+
+                out.push_str(value);
+                out.push('\\');
+
+                self.bump();
+
+                chunk_start = self.input().cur_pos();
+
+                continue;
+            }
+
+            if ch == quote {
+                break;
+            }
+
+            if ch == '&' {
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input_slice(chunk_start, cur_pos)
+                };
+
+                out.push_str(value);
+
+                let jsx_entity = self.read_jsx_entity()?;
+
+                out.push(jsx_entity.0);
+
+                chunk_start = self.input().cur_pos();
+            } else if ch.is_line_terminator() {
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input_slice(chunk_start, cur_pos)
+                };
+
+                out.push_str(value);
+
+                match self.read_jsx_new_line(false)? {
+                    Either::Left(s) => {
+                        out.push_str(s);
+                    }
+                    Either::Right(c) => {
+                        out.push(c);
+                    }
+                }
+
+                chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
+            } else {
+                unsafe {
+                    // Safety: cur() was Some(ch)
+                    self.input_mut().bump();
+                }
+            }
+        }
+
+        let value = if out.is_empty() {
+            // Fast path: We don't need to allocate
+
+            let cur_pos = self.input().cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input_slice(chunk_start, cur_pos)
+            };
+            self.atom(value)
+        } else {
+            let cur_pos = self.input().cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input_slice(chunk_start, cur_pos)
+            };
+            out.push_str(value);
+            self.atom(out)
+        };
+
+        // it might be at the end of the file when
+        // the string literal is unterminated
+        if self.input().peek_ahead().is_some() {
+            unsafe {
+                // Safety: We called peek_ahead() which means cur() was Some
+                self.input_mut().bump();
+            }
+        }
+
+        let end = self.input().cur_pos();
+        let raw = unsafe {
+            // Safety: Both of `start` and `end` are generated from `cur_pos()`
+            self.input_slice(start, end)
+        };
+        let raw = self.atom(raw);
+        Ok(Self::Token::create_str(value, raw, self))
     }
 }
 

@@ -497,6 +497,12 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
         lexer.set_token_value(Some(TokenValue::Word(name)));
         Token::JSXName
     }
+
+    #[inline(always)]
+    fn create_str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+        Token::Str
+    }
 }
 
 impl Token {

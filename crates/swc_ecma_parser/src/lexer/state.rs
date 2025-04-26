@@ -397,4 +397,14 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     fn start(&self) -> BytePos {
         self.start
     }
+
+    #[inline(always)]
+    fn add_current_line(&mut self, offset: usize) {
+        self.cur_line += offset;
+    }
+
+    #[inline(always)]
+    fn set_line_start(&mut self, line_start: BytePos) {
+        self.line_start = line_start;
+    }
 }

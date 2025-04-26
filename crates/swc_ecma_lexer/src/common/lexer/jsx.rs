@@ -4,7 +4,7 @@ macro_rules! xhtml {
           $i:ident : $s:expr,
       )*
   ) => {
-      pub fn xhtml(s: &str) -> Option<char> {
+      pub(super) fn xhtml(s: &str) -> Option<char> {
           match s{
               $(stringify!($i) => Some($s),)*
               _ => None,
