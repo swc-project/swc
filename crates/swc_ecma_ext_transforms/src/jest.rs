@@ -19,6 +19,7 @@ pub fn jest() -> impl Pass {
 #[derive(Default)]
 struct Jest {
     imported: Vec<Id>,
+    mock_vars: Vec<Id>,
 }
 
 impl Jest {
@@ -26,7 +27,21 @@ impl Jest {
     where
         T: StmtLike + VisitMutWith<Self>,
     {
+        // First pass to collect mock variable declarations
         for item in &mut *orig {
+            // Check for declarations with identifiers starting with "mock"
+            if let Some(Stmt::Decl(Decl::Var(var_decl))) = item.as_stmt() {
+                for decl in &var_decl.decls {
+                    if let Pat::Ident(ident) = &decl.name {
+                        let name = &*ident.id.sym;
+                        if name.starts_with("mock") {
+                            self.mock_vars.push(ident.id.to_id());
+                        }
+                    }
+                }
+            }
+
+            // Standard visitation
             item.visit_mut_with(self);
         }
 
@@ -34,25 +49,44 @@ impl Jest {
 
         let mut new = Vec::with_capacity(items.len());
         let mut hoisted = Vec::with_capacity(8);
+
         items.into_iter().for_each(|item| {
             match item.try_into_stmt() {
-                Ok(stmt) => match &stmt {
-                    Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
-                        Expr::Call(CallExpr {
-                            callee: Callee::Expr(callee),
-                            ..
-                        }) => {
-                            if self.should_hoist(callee) {
-                                hoisted.push(T::from(stmt))
-                            } else {
-                                new.push(T::from(stmt))
+                Ok(stmt) => {
+                    // Check for mock variable declarations to hoist
+                    if let Stmt::Decl(Decl::Var(var_decl)) = &stmt {
+                        let mut should_hoist = false;
+                        for decl in &var_decl.decls {
+                            if let Pat::Ident(ident) = &decl.name {
+                                if self.mock_vars.iter().any(|id| *id == ident.id.to_id()) {
+                                    should_hoist = true;
+                                    break;
+                                }
                             }
                         }
-                        _ => new.push(T::from(stmt)),
-                    },
 
-                    _ => new.push(T::from(stmt)),
-                },
+                        if should_hoist {
+                            hoisted.push(T::from(stmt));
+                            return;
+                        }
+                    }
+
+                    // Check for jest calls to hoist
+                    if let Stmt::Expr(ExprStmt { expr, .. }) = &stmt {
+                        if let Expr::Call(CallExpr {
+                            callee: Callee::Expr(callee),
+                            ..
+                        }) = &**expr
+                        {
+                            if self.should_hoist(callee) {
+                                hoisted.push(T::from(stmt));
+                                return;
+                            }
+                        }
+                    }
+
+                    new.push(T::from(stmt));
+                }
                 Err(node) => new.push(node),
             };
         });
@@ -82,6 +116,7 @@ impl VisitMut for Jest {
     noop_visit_mut_type!();
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        // First collect imported jest methods
         for item in items.iter() {
             if let ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
                 specifiers, src, ..
@@ -118,10 +153,39 @@ impl VisitMut for Jest {
             }
         }
 
+        // After collecting imports, scan and find mock variables
+        for item in items.iter() {
+            if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) = item {
+                for decl in &var_decl.decls {
+                    if let Pat::Ident(ident) = &decl.name {
+                        let name = &*ident.id.sym;
+                        if name.starts_with("mock") {
+                            self.mock_vars.push(ident.id.to_id());
+                        }
+                    }
+                }
+            }
+        }
+
+        // Now process and hoist as needed
         self.visit_mut_stmt_like(items)
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        // Check for mock variables in statements as well
+        for stmt in stmts.iter() {
+            if let Stmt::Decl(Decl::Var(var_decl)) = stmt {
+                for decl in &var_decl.decls {
+                    if let Pat::Ident(ident) = &decl.name {
+                        let name = &*ident.id.sym;
+                        if name.starts_with("mock") {
+                            self.mock_vars.push(ident.id.to_id());
+                        }
+                    }
+                }
+            }
+        }
+
         self.visit_mut_stmt_like(stmts)
     }
 }
