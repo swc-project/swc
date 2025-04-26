@@ -7,25 +7,8 @@ use std::borrow::Cow;
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
-use tracing::trace;
 
 use super::*;
-
-struct LazyBigInt<const RADIX: u8> {
-    value: String,
-}
-
-impl<const RADIX: u8> LazyBigInt<RADIX> {
-    fn new(value: String) -> Self {
-        Self { value }
-    }
-
-    #[inline]
-    fn into_value(self) -> BigIntValue {
-        BigIntValue::parse_bytes(self.value.as_bytes(), RADIX as _)
-            .expect("failed to parse string as a bigint")
-    }
-}
 
 impl Lexer<'_> {
     /// Reads an integer, octal integer, or floating-point number
