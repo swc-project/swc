@@ -90,6 +90,11 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
+    fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments> {
+        self.comments
+    }
+
+    #[inline(always)]
     fn comments_buffer(&self) -> Option<&crate::common::lexer::comments_buffer::CommentsBuffer> {
         self.comments_buffer.as_ref()
     }

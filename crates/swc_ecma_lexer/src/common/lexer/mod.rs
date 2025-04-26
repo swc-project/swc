@@ -31,6 +31,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
     fn input_mut(&mut self) -> &mut StringInput<'a>;
     fn state(&self) -> &Self::State;
     fn state_mut(&mut self) -> &mut Self::State;
+    fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments>;
     fn comments_buffer(&self) -> Option<&self::comments_buffer::CommentsBuffer>;
     fn comments_buffer_mut(&mut self) -> Option<&mut self::comments_buffer::CommentsBuffer>;
     /// # Safety
@@ -750,6 +751,51 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
         };
 
         Ok(Either::Left((val, self.atom(raw))))
+    }
+
+    /// Consume pending comments.
+    ///
+    /// This is called when the input is exhausted.
+    #[cold]
+    #[inline(never)]
+    fn consume_pending_comments(&mut self) {
+        if let Some(comments) = self.comments() {
+            let last = self.state().prev_hi();
+            let start_pos = self.start_pos();
+            let comments_buffer = self.comments_buffer_mut().unwrap();
+
+            // move the pending to the leading or trailing
+            for c in comments_buffer.take_pending_leading() {
+                // if the file had no tokens and no shebang, then treat any
+                // comments in the leading comments buffer as leading.
+                // Otherwise treat them as trailing.
+                if last == start_pos {
+                    comments_buffer.push(self::comments_buffer::BufferedComment {
+                        kind: self::comments_buffer::BufferedCommentKind::Leading,
+                        pos: last,
+                        comment: c,
+                    });
+                } else {
+                    comments_buffer.push(self::comments_buffer::BufferedComment {
+                        kind: self::comments_buffer::BufferedCommentKind::Trailing,
+                        pos: last,
+                        comment: c,
+                    });
+                }
+            }
+
+            // now fill the user's passed in comments
+            for comment in comments_buffer.take_comments() {
+                match comment.kind {
+                    self::comments_buffer::BufferedCommentKind::Leading => {
+                        comments.add_leading(comment.pos, comment.comment);
+                    }
+                    self::comments_buffer::BufferedCommentKind::Trailing => {
+                        comments.add_trailing(comment.pos, comment.comment);
+                    }
+                }
+            }
+        }
     }
 }
 
