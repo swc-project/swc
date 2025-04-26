@@ -12,7 +12,10 @@ use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
-use crate::{common::lexer::LexResult, error::Error};
+use crate::{
+    common::lexer::{LexResult, Lexer},
+    error::Error,
+};
 
 macro_rules! define_known_ident {
     (
@@ -485,6 +488,14 @@ pub enum Token {
 
     Shebang(Atom),
     Error(Error),
+}
+
+impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexer<'a>> for Token {
+    #[inline(always)]
+    fn create_jsx_name(name: &'a str, lexer: &mut crate::Lexer<'a>) -> Self {
+        let name = lexer.atom(name);
+        Self::JSXName { name }
+    }
 }
 
 impl Token {

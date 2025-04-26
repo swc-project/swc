@@ -3,6 +3,7 @@ use swc_ecma_ast::AssignOp;
 use swc_ecma_lexer::common::context::Context;
 
 use super::LexResult;
+use crate::input::Tokens;
 
 #[derive(Debug, Clone)]
 pub enum TokenValue {
@@ -484,6 +485,17 @@ impl swc_ecma_lexer::common::lexer::state::TokenType for Token {
                 | Token::JSXText
                 | Token::RBrace
         ) || self.is_known_ident()
+    }
+}
+
+impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexer<'a>>
+    for Token
+{
+    #[inline(always)]
+    fn create_jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
+        let name = lexer.atoms.atom(name);
+        lexer.set_token_value(Some(TokenValue::Word(name)));
+        Token::JSXName
     }
 }
 
