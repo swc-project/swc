@@ -11,50 +11,12 @@ use swc_common::{
 use swc_ecma_lexer::common::lexer::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
     state::State,
-    whitespace::SkipWhitespace,
 };
 
 use super::{Lexer, LexerTrait};
 use crate::error::SyntaxError;
 
 impl Lexer<'_> {
-    /// Skip comments or whitespaces.
-    ///
-    /// See https://tc39.github.io/ecma262/#sec-white-space
-    #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
-        loop {
-            let (offset, newline) = {
-                let mut skip = SkipWhitespace {
-                    input: self.input.as_str(),
-                    newline: false,
-                    offset: 0,
-                };
-
-                skip.scan();
-
-                (skip.offset, skip.newline)
-            };
-
-            self.input.bump_bytes(offset as usize);
-            if newline {
-                self.state.had_line_break = true;
-            }
-
-            if LEX_COMMENTS && self.input.is_byte(b'/') {
-                if self.peek() == Some('/') {
-                    self.skip_line_comment(2);
-                    continue;
-                } else if self.peek() == Some('*') {
-                    self.skip_block_comment();
-                    continue;
-                }
-            }
-
-            break;
-        }
-    }
-
     /// Expects current char to be '/' and next char to be '*'.
     #[inline(never)]
     pub(super) fn skip_block_comment(&mut self) {

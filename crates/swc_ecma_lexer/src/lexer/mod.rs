@@ -113,6 +113,11 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     fn atom(&self, s: &'a str) -> swc_atoms::Atom {
         self.atoms.atom(s)
     }
+
+    #[inline(always)]
+    fn skip_block_comment(&mut self) {
+        self.skip_block_comment();
+    }
 }
 
 impl<'a> Lexer<'a> {
