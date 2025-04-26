@@ -496,6 +496,11 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
         let name = lexer.atom(name);
         Self::JSXName { name }
     }
+
+    #[inline(always)]
+    fn create_str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Str { value, raw }
+    }
 }
 
 impl Token {

@@ -1,8 +1,6 @@
 use either::Either;
-use smartstring::{LazyCompact, SmartString};
 
 use super::*;
-use crate::common::lexer::jsx::xhtml;
 
 impl Lexer<'_> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {

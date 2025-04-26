@@ -121,7 +121,7 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn atom(&self, s: &'a str) -> swc_atoms::Atom {
+    fn atom(&self, s: impl Into<std::borrow::Cow<'a, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
     }
 
