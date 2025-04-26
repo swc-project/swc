@@ -219,4 +219,45 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
             self.input_mut().reset_to(end);
         }
     }
+
+    /// Skip comments or whitespaces.
+    ///
+    /// See https://tc39.github.io/ecma262/#sec-white-space
+    #[inline(never)]
+    fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
+        loop {
+            let (offset, newline) = {
+                let mut skip = self::whitespace::SkipWhitespace {
+                    input: self.input().as_str(),
+                    newline: false,
+                    offset: 0,
+                };
+
+                skip.scan();
+
+                (skip.offset, skip.newline)
+            };
+
+            self.input_mut().bump_bytes(offset as usize);
+            if newline {
+                self.state_mut().set_had_line_break(true);
+            }
+
+            if LEX_COMMENTS && self.input().is_byte(b'/') {
+                if let Some(c) = self.peek() {
+                    if c == '/' {
+                        self.skip_line_comment(2);
+                        continue;
+                    } else if c == '*' {
+                        self.skip_block_comment();
+                        continue;
+                    }
+                }
+            }
+
+            break;
+        }
+    }
+
+    fn skip_block_comment(&mut self);
 }
