@@ -501,7 +501,9 @@ impl Lexer<'_> {
 mod tests {
     use std::panic;
 
-    use super::*;
+    use num_bigint::BigInt as BigIntValue;
+
+    use super::super::*;
 
     fn lex<F, Ret>(s: &'static str, f: F) -> Ret
     where

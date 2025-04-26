@@ -61,6 +61,7 @@ pub trait State: Clone {
     fn set_tpl_start(&mut self, start: BytePos);
     fn syntax(&self) -> crate::Syntax;
     fn prev_hi(&self) -> BytePos;
+    fn start(&self) -> BytePos;
 
     fn can_skip_space(&self) -> bool {
         !self

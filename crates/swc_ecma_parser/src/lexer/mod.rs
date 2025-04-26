@@ -24,7 +24,6 @@ use crate::{
 };
 
 mod jsx;
-mod number;
 mod state;
 mod table;
 mod token;

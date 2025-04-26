@@ -1,8 +1,12 @@
+use std::borrow::Cow;
+
 use char::CharExt;
+use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
 use number::LazyBigInt;
 use state::State;
+use swc_atoms::Atom;
 use swc_common::{
     input::{Input, StringInput},
     BytePos, Span,
@@ -448,6 +452,304 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
             .to_f64()
             .expect("failed to parse float using BigInt");
         Ok((parsed_float, LazyBigInt::new(raw_number_str), non_octal))
+    }
+
+    /// Read an integer in the given radix. Return `None` if zero digits
+    /// were read, the integer value otherwise.
+    /// When `len` is not zero, this
+    /// will return `None` unless the integer has exactly `len` digits.
+    fn read_int<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<f64>> {
+        let mut count = 0u16;
+        let v = self.read_digits::<_, Option<f64>, RADIX>(
+            |opt: Option<f64>, radix, val| {
+                count += 1;
+                let total = opt.unwrap_or_default() * radix as f64 + val as f64;
+
+                Ok((Some(total), count != len as u16))
+            },
+            true,
+        )?;
+        if len != 0 && count != len as u16 {
+            Ok(None)
+        } else {
+            Ok(v)
+        }
+    }
+
+    /// Reads an integer, octal integer, or floating-point number
+    fn read_number(
+        &mut self,
+        starts_with_dot: bool,
+    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+        debug_assert!(self.cur().is_some());
+
+        if starts_with_dot {
+            debug_assert_eq!(
+                self.cur(),
+                Some('.'),
+                "read_number(starts_with_dot = true) expects current char to be '.'"
+            );
+        }
+
+        let start = self.cur_pos();
+
+        let val = if starts_with_dot {
+            // first char is '.'
+            0f64
+        } else {
+            let starts_with_zero = self.cur().unwrap() == '0';
+
+            // Use read_number_no_dot to support long numbers.
+            let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
+
+            if self.eat(b'n') {
+                let end = self.cur_pos();
+                let raw = unsafe {
+                    // Safety: We got both start and end position from `self.input`
+                    self.input_slice(start, end)
+                };
+
+                return Ok(Either::Right((Box::new(s.into_value()), self.atom(raw))));
+            }
+
+            if starts_with_zero {
+                // TODO: I guess it would be okay if I don't use -ffast-math
+                // (or something like that), but needs review.
+                if val == 0.0f64 {
+                    // If only one zero is used, it's decimal.
+                    // And if multiple zero is used, it's octal.
+                    //
+                    // e.g. `0` is decimal (so it can be part of float)
+                    //
+                    // e.g. `000` is octal
+                    if start.0 != self.last_pos().0 - 1 {
+                        // `-1` is utf 8 length of `0`
+
+                        let end = self.cur_pos();
+                        let raw = unsafe {
+                            // Safety: We got both start and end position from `self.input`
+                            self.input_slice(start, end)
+                        };
+                        let raw = self.atom(raw);
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, raw)));
+                    }
+                } else {
+                    // strict mode hates non-zero decimals starting with zero.
+                    // e.g. 08.1 is strict mode violation but 0.1 is valid float.
+
+                    if val.fract() == 0.0 {
+                        let val_str = &s.value;
+
+                        // if it contains '8' or '9', it's decimal.
+                        if not_octal {
+                            // Continue parsing
+                            self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
+                        } else {
+                            // It's Legacy octal, and we should reinterpret value.
+                            let val = BigIntValue::from_str_radix(val_str, 8)
+                                .unwrap_or_else(|err| {
+                                    panic!(
+                                        "failed to parse {} using `from_str_radix`: {:?}",
+                                        val_str, err
+                                    )
+                                })
+                                .to_f64()
+                                .unwrap_or_else(|| {
+                                    panic!("failed to parse {} into float using BigInt", val_str)
+                                });
+
+                            let end = self.cur_pos();
+                            let raw = unsafe {
+                                // Safety: We got both start and end position from `self.input`
+                                self.input_slice(start, end)
+                            };
+                            let raw = self.atom(raw);
+
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, raw)));
+                        }
+                    }
+                }
+            }
+
+            val
+        };
+
+        // At this point, number cannot be an octal literal.
+
+        let mut val: f64 = val;
+
+        //  `0.a`, `08.a`, `102.a` are invalid.
+        //
+        // `.1.a`, `.1e-4.a` are valid,
+        if self.cur() == Some('.') {
+            self.bump();
+
+            if starts_with_dot {
+                debug_assert!(self.cur().is_some());
+                debug_assert!(self.cur().unwrap().is_ascii_digit());
+            }
+
+            // Read numbers after dot
+            self.read_int::<10>(0)?;
+
+            val = {
+                let end = self.cur_pos();
+                let raw = unsafe {
+                    // Safety: We got both start and end position from `self.input`
+                    self.input_slice(start, end)
+                };
+
+                // Remove number separator from number
+                if raw.contains('_') {
+                    Cow::Owned(raw.replace('_', ""))
+                } else {
+                    Cow::Borrowed(raw)
+                }
+                .parse()
+                .expect("failed to parse float using rust's impl")
+            };
+        }
+
+        // Handle 'e' and 'E'
+        //
+        // .5e1 = 5
+        // 1e2 = 100
+        // 1e+2 = 100
+        // 1e-2 = 0.01
+        match self.cur() {
+            Some('e') | Some('E') => {
+                self.bump();
+
+                let next = match self.cur() {
+                    Some(next) => next,
+                    None => {
+                        let pos = self.cur_pos();
+                        self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
+                    }
+                };
+
+                let positive = if next == '+' || next == '-' {
+                    self.bump(); // remove '+', '-'
+
+                    next == '+'
+                } else {
+                    true
+                };
+
+                let exp = self.read_number_no_dot::<10>()?;
+
+                val = if exp == f64::INFINITY {
+                    if positive && val != 0.0 {
+                        f64::INFINITY
+                    } else {
+                        0.0
+                    }
+                } else {
+                    let end = self.cur_pos();
+                    let raw = unsafe {
+                        // Safety: We got both start and end position from `self.input`
+                        self.input_slice(start, end)
+                    };
+
+                    if raw.contains('_') {
+                        Cow::Owned(raw.replace('_', ""))
+                    } else {
+                        Cow::Borrowed(raw)
+                    }
+                    .parse()
+                    .expect("failed to parse float literal")
+                }
+            }
+            _ => {}
+        }
+
+        self.ensure_not_ident()?;
+
+        let end = self.cur_pos();
+        let raw_str = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input_slice(start, end)
+        };
+        Ok(Either::Left((val, raw_str.into())))
+    }
+
+    fn read_int_u32<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<u32>> {
+        let start = self.state().start();
+
+        let mut count = 0;
+        let v = self.read_digits::<_, Option<u32>, RADIX>(
+            |opt: Option<u32>, radix, val| {
+                count += 1;
+
+                let total = opt
+                    .unwrap_or_default()
+                    .checked_mul(radix as u32)
+                    .and_then(|v| v.checked_add(val))
+                    .ok_or_else(|| {
+                        let span = Span::new(start, start);
+                        crate::error::Error::new(span, SyntaxError::InvalidUnicodeEscape)
+                    })?;
+
+                Ok((Some(total), count != len))
+            },
+            true,
+        )?;
+        if len != 0 && count != len {
+            Ok(None)
+        } else {
+            Ok(v)
+        }
+    }
+
+    /// Returns `Left(value)` or `Right(BigInt)`
+    fn read_radix_number<const RADIX: u8>(
+        &mut self,
+    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+        debug_assert!(
+            RADIX == 2 || RADIX == 8 || RADIX == 16,
+            "radix should be one of 2, 8, 16, but got {}",
+            RADIX
+        );
+        debug_assert_eq!(self.cur(), Some('0'));
+
+        let start = self.cur_pos();
+
+        self.bump();
+
+        match self.input().cur() {
+            Some(..) => {
+                self.bump();
+            }
+            _ => {
+                unreachable!();
+            }
+        }
+
+        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
+
+        if self.eat(b'n') {
+            let end = self.cur_pos();
+            let raw = unsafe {
+                // Safety: We got both start and end position from `self.input`
+                self.input_slice(start, end)
+            };
+
+            return Ok(Either::Right((Box::new(s.into_value()), self.atom(raw))));
+        }
+
+        self.ensure_not_ident()?;
+
+        let end = self.cur_pos();
+        let raw = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input_slice(start, end)
+        };
+
+        Ok(Either::Left((val, self.atom(raw))))
     }
 }
 
