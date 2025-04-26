@@ -10,7 +10,7 @@ const env = {
     hasError: false
 };
 try {
-    var _class;
+    var _C1;
     var d1 = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, false);
@@ -31,7 +31,7 @@ try {
             _ts_dispose_resources(env);
         }
     };
-    var C1 = (_class = class {
+    var C1 = (_C1 = class C1 {
         m() {
             const env = {
                 stack: [],
@@ -193,8 +193,8 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    })(), _class);
-    var C2 = class extends C1 {
+    })(), _C1);
+    var C2 = class C2 extends C1 {
         constructor(){
             const env = {
                 stack: [],
@@ -214,7 +214,7 @@ try {
             }
         }
     };
-    var C3 = class extends C1 {
+    var C3 = class C3 extends C1 {
         constructor(){
             const env = {
                 stack: [],

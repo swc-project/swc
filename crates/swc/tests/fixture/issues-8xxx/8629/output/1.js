@@ -8,7 +8,7 @@ const env = {
 try {
     var _computedKey;
     _computedKey = Symbol.dispose;
-    var Disposable = class {
+    var Disposable = class Disposable {
         [_computedKey]() {
             console.log('dispose');
         }

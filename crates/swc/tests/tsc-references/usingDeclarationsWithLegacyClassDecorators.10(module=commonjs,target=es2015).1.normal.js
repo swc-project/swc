@@ -18,7 +18,7 @@ const env = {
     hasError: false
 };
 try {
-    var _class = class {
+    var _class = class _class {
     };
     _class = _ts_decorate._([
         dec

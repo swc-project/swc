@@ -27,7 +27,7 @@ try {
             _ts_dispose_resources(env);
         }
     };
-    var C1 = class {
+    var C1 = class C1 {
         constructor(){
             this.a = ()=>{
                 const env = {
@@ -187,7 +187,7 @@ try {
             }
         }
     };
-    var C2 = class extends C1 {
+    var C2 = class C2 extends C1 {
         constructor(){
             const env = {
                 stack: [],
@@ -207,7 +207,7 @@ try {
             }
         }
     };
-    var C3 = class extends C1 {
+    var C3 = class C3 extends C1 {
         constructor(){
             const env = {
                 stack: [],
