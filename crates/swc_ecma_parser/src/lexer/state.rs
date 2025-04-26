@@ -431,4 +431,9 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     fn prev_hi(&self) -> BytePos {
         self.prev_hi
     }
+
+    #[inline(always)]
+    fn start(&self) -> BytePos {
+        self.start
+    }
 }
