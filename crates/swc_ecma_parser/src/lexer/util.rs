@@ -6,7 +6,7 @@
 use swc_common::{
     comments::{Comment, CommentKind},
     input::Input,
-    BytePos, Span,
+    Span,
 };
 use swc_ecma_lexer::common::lexer::{
     comments_buffer::{BufferedComment, BufferedCommentKind},
@@ -63,7 +63,29 @@ impl Lexer<'_> {
                     is_for_next = false;
                 }
 
-                self.store_comment(is_for_next, start, end, slice_start);
+                if let Some(comments) = self.comments_buffer.as_mut() {
+                    let src = unsafe {
+                        // Safety: We got slice_start and end from self.input so those are valid.
+                        self.input.slice(slice_start, end)
+                    };
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, end),
+                        text: self.atoms.atom(s),
+                    };
+
+                    let _ = self.input.peek();
+                    if is_for_next {
+                        comments.push_pending_leading(cmt);
+                    } else {
+                        comments.push(BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
+                            pos: self.state.prev_hi,
+                            comment: cmt,
+                        });
+                    }
+                }
 
                 return;
             }
@@ -93,38 +115,5 @@ impl Lexer<'_> {
         let end = self.input.end_pos();
         let span = Span::new(end, end);
         self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
-    }
-
-    #[inline(never)]
-    fn store_comment(
-        &mut self,
-        is_for_next: bool,
-        start: BytePos,
-        end: BytePos,
-        slice_start: BytePos,
-    ) {
-        if let Some(comments) = self.comments_buffer.as_mut() {
-            let src = unsafe {
-                // Safety: We got slice_start and end from self.input so those are valid.
-                self.input.slice(slice_start, end)
-            };
-            let s = &src[..src.len() - 2];
-            let cmt = Comment {
-                kind: CommentKind::Block,
-                span: Span::new(start, end),
-                text: self.atoms.atom(s),
-            };
-
-            let _ = self.input.peek();
-            if is_for_next {
-                comments.push_pending_leading(cmt);
-            } else {
-                comments.push(BufferedComment {
-                    kind: BufferedCommentKind::Trailing,
-                    pos: self.state.prev_hi,
-                    comment: cmt,
-                });
-            }
-        }
     }
 }
