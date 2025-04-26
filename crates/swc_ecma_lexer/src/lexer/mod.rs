@@ -63,6 +63,7 @@ impl FusedIterator for Lexer<'_> {}
 
 impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     type State = self::state::State;
+    type Token = self::Token;
 
     #[inline(always)]
     fn input(&self) -> &StringInput<'a> {
@@ -112,6 +113,15 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
         // SAFETY: the input is guaranteed to live for the entire
         // lifetime.
         std::mem::transmute::<&str, &'a str>(s)
+    }
+
+    fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str {
+        let s = self.input_mut().uncons_while(f);
+        unsafe {
+            // SAFETY: the input is guaranteed to live for the entire
+            // lifetime.
+            std::mem::transmute::<&str, &'a str>(s)
+        }
     }
 
     #[inline(always)]
@@ -1321,22 +1331,6 @@ impl Lexer<'_> {
         }
 
         self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
-    }
-
-    #[inline]
-    #[allow(clippy::misnamed_getters)]
-    pub fn had_line_break_before_last(&self) -> bool {
-        self.state.had_line_break
-    }
-
-    #[inline]
-    pub fn set_expr_allowed(&mut self, allow: bool) {
-        self.state.is_expr_allowed = allow;
-    }
-
-    #[inline]
-    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.state.next_regexp = start;
     }
 }
 

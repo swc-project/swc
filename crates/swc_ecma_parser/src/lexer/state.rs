@@ -77,7 +77,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
 
     #[inline]
     fn set_expr_allowed(&mut self, allow: bool) {
-        self.set_expr_allowed(allow)
+        self.state.is_expr_allowed = allow;
     }
 
     #[inline]
@@ -334,8 +334,13 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.is_expr_allowed = allow;
+    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool) {
+        self.is_expr_allowed = is_expr_allowed;
+    }
+
+    #[inline(always)]
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.next_regexp = start;
     }
 
     #[inline(always)]

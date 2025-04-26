@@ -18,14 +18,19 @@ use crate::error::SyntaxError;
 
 pub mod char;
 pub mod comments_buffer;
+pub mod jsx;
 pub mod number;
 pub mod state;
+pub mod token;
 pub mod whitespace;
+
+use self::token::TokenFactory;
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
     type State: self::state::State;
+    type Token: token::TokenFactory<'a, TokenAndSpan, Self>;
 
     fn input(&self) -> &StringInput<'a>;
     fn input_mut(&mut self) -> &mut StringInput<'a>;
@@ -38,8 +43,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
     ///
     /// We know that the start and the end are valid
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
+    fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom(&self, s: &'a str) -> swc_atoms::Atom;
     fn push_error(&self, error: crate::error::Error);
+    // TODO: invest why there has regression if implement this by trait
+    fn skip_block_comment(&mut self);
+
+    #[inline]
+    #[allow(clippy::misnamed_getters)]
+    fn had_line_break_before_last(&self) -> bool {
+        self.state().had_line_break()
+    }
 
     fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
@@ -269,8 +283,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
             break;
         }
     }
-
-    fn skip_block_comment(&mut self);
 
     /// Ensure that ident cannot directly follow numbers.
     fn ensure_not_ident(&mut self) -> LexResult<()> {
@@ -796,6 +808,29 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> {
                 }
             }
         }
+    }
+
+    /// Read a JSX identifier (valid tag or attribute name).
+    ///
+    /// Optimized version since JSX identifiers can"t contain
+    /// escape characters and so can be read as single slice.
+    /// Also assumes that first character was already checked
+    /// by isIdentifierStart in readToken.
+    fn read_jsx_word(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(self.syntax().jsx());
+        debug_assert!(self.input().cur().is_some_and(|c| c.is_ident_start()));
+
+        let mut first = true;
+        let slice = self.input_uncons_while(|c| {
+            if first {
+                first = false;
+                c.is_ident_start()
+            } else {
+                c.is_ident_part() || c == '-'
+            }
+        });
+
+        Ok(Self::Token::create_jsx_name(slice, self))
     }
 }
 

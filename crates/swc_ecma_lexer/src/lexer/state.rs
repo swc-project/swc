@@ -55,6 +55,16 @@ impl common::lexer::state::State for State {
     }
 
     #[inline(always)]
+    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool) {
+        self.is_expr_allowed = is_expr_allowed;
+    }
+
+    #[inline(always)]
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.next_regexp = start;
+    }
+
+    #[inline(always)]
     fn had_line_break(&self) -> bool {
         self.had_line_break
     }
@@ -87,11 +97,6 @@ impl common::lexer::state::State for State {
     #[inline(always)]
     fn token_type(&self) -> Option<Self::TokenType> {
         self.token_type
-    }
-
-    #[inline(always)]
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.is_expr_allowed = allow;
     }
 
     #[inline(always)]
@@ -425,7 +430,7 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
 
     #[inline]
     fn set_expr_allowed(&mut self, allow: bool) {
-        self.set_expr_allowed(allow)
+        self.state.is_expr_allowed = allow;
     }
 
     #[inline]

@@ -50,6 +50,8 @@ pub trait State: Clone {
     type TokenType: std::fmt::Debug + Copy + TokenType;
 
     fn is_expr_allowed(&self) -> bool;
+    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool);
+    fn set_next_regexp(&mut self, start: Option<BytePos>);
     fn had_line_break(&self) -> bool;
     fn set_had_line_break(&mut self, had_line_break: bool);
     fn had_line_break_before_last(&self) -> bool;
@@ -57,7 +59,6 @@ pub trait State: Clone {
     fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts;
     fn set_token_type(&mut self, token_type: Self::TokenType);
     fn token_type(&self) -> Option<Self::TokenType>;
-    fn set_expr_allowed(&mut self, allow: bool);
     fn set_tpl_start(&mut self, start: BytePos);
     fn syntax(&self) -> crate::Syntax;
     fn prev_hi(&self) -> BytePos;
@@ -100,7 +101,7 @@ pub trait State: Clone {
         let prev = self.token_type();
         self.set_token_type(next.into());
         let is_expr_allowed_on_next = self.is_expr_allowed_on_next(prev, start, next);
-        self.set_expr_allowed(is_expr_allowed_on_next);
+        self.set_is_expr_allowed(is_expr_allowed_on_next);
     }
 
     /// Returns true if following `LBrace` token is `block statement` according
