@@ -10,6 +10,7 @@ pub trait TokenFactory<'a, TokenAndSpan, Lexer: super::Lexer<'a, TokenAndSpan>> 
     fn create_regexp(content: Atom, flags: Atom, lexer: &mut Lexer) -> Self;
     fn create_num(value: f64, raw: Atom, lexer: &mut Lexer) -> Self;
     fn create_bigint(value: Box<BigInt>, raw: Atom, lexer: &mut Lexer) -> Self;
+    fn create_unknown_ident(value: Atom, lexer: &mut Lexer) -> Self;
     fn create_dollar_lbrace() -> Self;
     fn create_backquote() -> Self;
     fn create_hash() -> Self;
@@ -27,7 +28,6 @@ pub trait TokenFactory<'a, TokenAndSpan, Lexer: super::Lexer<'a, TokenAndSpan>> 
     fn create_logical_and_eq() -> Self;
     fn create_logical_or() -> Self;
     fn create_logical_or_eq() -> Self;
-
     fn create_mul() -> Self;
     fn create_mul_eq() -> Self;
     fn create_mod() -> Self;
@@ -36,4 +36,7 @@ pub trait TokenFactory<'a, TokenAndSpan, Lexer: super::Lexer<'a, TokenAndSpan>> 
     fn create_exp_eq() -> Self;
     fn create_div() -> Self;
     fn create_div_eq() -> Self;
+
+    fn is_reserved(&self, ctx: super::Context) -> bool;
+    fn into_atom(self, lexer: &mut Lexer) -> Option<Atom>;
 }

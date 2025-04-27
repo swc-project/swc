@@ -647,6 +647,28 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
     fn create_div_eq() -> Self {
         Token::AssignOp(AssignOp::DivAssign)
     }
+
+    #[inline(always)]
+    fn create_unknown_ident(value: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Token::Word(Word::Ident(IdentLike::Other(value)))
+    }
+
+    #[inline(always)]
+    fn is_reserved(&self, ctx: crate::common::context::Context) -> bool {
+        if let Token::Word(word) = self {
+            ctx.is_reserved(word)
+        } else {
+            unreachable!()
+        }
+    }
+
+    #[inline(always)]
+    fn into_atom(self, _: &mut crate::Lexer<'a>) -> Option<Atom> {
+        match self {
+            Token::Word(word) => Some(word.into()),
+            _ => None,
+        }
+    }
 }
 
 impl Token {

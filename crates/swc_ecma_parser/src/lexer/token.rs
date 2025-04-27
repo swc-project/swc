@@ -659,6 +659,23 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     fn create_logical_or() -> Self {
         Token::LogicalOr
     }
+
+    #[inline(always)]
+    fn create_unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Word(value)));
+        Token::Ident
+    }
+
+    #[inline(always)]
+    fn is_reserved(&self, ctx: swc_ecma_lexer::common::context::Context) -> bool {
+        self.is_reserved(ctx)
+    }
+
+    #[inline(always)]
+    fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
+        let value = lexer.get_token_value();
+        self.as_word_atom(value)
+    }
 }
 
 impl Token {
