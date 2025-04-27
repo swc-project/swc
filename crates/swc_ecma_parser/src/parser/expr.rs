@@ -1,9 +1,9 @@
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
-use swc_ecma_lexer::lexer::TokenContext;
+use swc_ecma_lexer::{common::parser::expr_ext::ExprExt, lexer::TokenContext};
 
-use super::{pat::PatType, util::ExprExt, *};
+use super::{pat::PatType, *};
 use crate::{lexer::Token, parser::class_and_fn::IsSimpleParameterList, token};
 
 mod ops;
