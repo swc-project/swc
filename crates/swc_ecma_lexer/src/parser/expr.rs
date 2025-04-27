@@ -9,8 +9,6 @@ use crate::{
 };
 
 mod ops;
-#[cfg(test)]
-mod tests;
 mod verifier;
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {

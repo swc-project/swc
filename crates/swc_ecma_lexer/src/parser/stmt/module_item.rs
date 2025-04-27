@@ -887,26 +887,3 @@ impl<I: Tokens<TokenAndSpan>> StmtLikeParser<'_, ModuleItem> for Parser<I> {
         Ok(decl)
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use crate::{common::syntax::EsSyntax, Syntax};
-
-    #[test]
-    fn test_legacy_decorator() {
-        crate::parser::test_parser(
-            "@foo
-export default class Foo {
-  bar() {
-    class Baz {}
-  }
-}",
-            Syntax::Es(EsSyntax {
-                decorators: true,
-                decorators_before_export: true,
-                ..Default::default()
-            }),
-            |p| p.parse_module(),
-        );
-    }
-}

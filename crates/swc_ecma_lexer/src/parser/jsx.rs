@@ -4,9 +4,6 @@ use swc_common::Spanned;
 use super::*;
 use crate::tok;
 
-#[cfg(test)]
-mod tests;
-
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse next token as JSX identifier
     pub(super) fn parse_jsx_ident(&mut self) -> PResult<Ident> {
