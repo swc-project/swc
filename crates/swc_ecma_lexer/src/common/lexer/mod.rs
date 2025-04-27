@@ -23,7 +23,6 @@ pub mod comments_buffer;
 pub mod jsx;
 pub mod number;
 pub mod state;
-mod table;
 pub mod token;
 pub mod whitespace;
 
@@ -1850,12 +1849,179 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Self::Token::create_div()
         }))
     }
+
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(self.cur().is_some());
+
+        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
+            let atom = l.atom(s);
+            Self::Token::create_unknown_ident(atom, l)
+        })?;
+
+        Ok(word)
+    }
+
+    /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
+    fn read_str_lit(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
+        let start = self.cur_pos();
+        let quote = self.cur().unwrap() as u8;
+
+        self.bump(); // '"'
+
+        let mut has_escape = false;
+        let mut slice_start = self.input().cur_pos();
+
+        self.with_buf(|l, buf| {
+            loop {
+                if let Some(c) = l.input().cur_as_ascii() {
+                    if c == quote {
+                        let value_end = l.cur_pos();
+
+                        let value = if !has_escape {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input_slice(slice_start, value_end)
+                            };
+
+                            l.atom(s)
+                        } else {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input_slice(slice_start, value_end)
+                            };
+                            buf.push_str(s);
+
+                            l.atom(&**buf)
+                        };
+
+                        unsafe {
+                            // Safety: cur is quote
+                            l.input_mut().bump();
+                        }
+
+                        let end = l.cur_pos();
+                        let raw = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            l.input_slice(start, end)
+                        };
+                        let raw = l.atom(raw);
+                        return Ok(Self::Token::create_str(value, raw, l));
+                    }
+
+                    if c == b'\\' {
+                        has_escape = true;
+
+                        {
+                            let end = l.cur_pos();
+                            let s = unsafe {
+                                // Safety: start and end are valid position because we got them from
+                                // `self.input`
+                                l.input_slice(slice_start, end)
+                            };
+                            buf.push_str(s);
+                        }
+
+                        if let Some(chars) = l.read_escaped_char(false)? {
+                            for c in chars {
+                                buf.extend(c);
+                            }
+                        }
+
+                        slice_start = l.cur_pos();
+                        continue;
+                    }
+
+                    if (c as char).is_line_break() {
+                        break;
+                    }
+
+                    unsafe {
+                        // Safety: cur is a ascii character
+                        l.input_mut().bump();
+                    }
+                    continue;
+                }
+
+                match l.input().cur() {
+                    Some(c) => {
+                        if c.is_line_break() {
+                            break;
+                        }
+                        unsafe {
+                            // Safety: cur is Some(c)
+                            l.input_mut().bump();
+                        }
+                    }
+                    None => break,
+                }
+            }
+
+            {
+                let end = l.cur_pos();
+                let s = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    l.input_slice(slice_start, end)
+                };
+                buf.push_str(s);
+            }
+
+            l.emit_error(start, SyntaxError::UnterminatedStrLit);
+
+            let end = l.cur_pos();
+
+            let raw = unsafe {
+                // Safety: start and end are valid position because we got them from
+                // `self.input`
+                l.input_slice(start, end)
+            };
+            Ok(Self::Token::create_str(l.atom(&**buf), l.atom(raw), l))
+        })
+    }
+
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_word_with(
+        &mut self,
+        convert: &dyn Fn(&str) -> Option<Self::Token>,
+    ) -> LexResult<Option<Self::Token>> {
+        debug_assert!(self.cur().is_some());
+
+        let start = self.cur_pos();
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
+            if can_be_known {
+                if let Some(word) = convert(s) {
+                    return word;
+                }
+            }
+            let atom = l.atom(s);
+            Self::Token::create_unknown_ident(atom, l)
+        })?;
+
+        // Note: ctx is store in lexer because of this error.
+        // 'await' and 'yield' may have semantic of reserved word, which means lexer
+        // should know context or parser should handle this error. Our approach to this
+        // problem is former one.
+
+        if has_escape && word.is_reserved(self.ctx()) {
+            let word = word.into_atom(self).unwrap();
+            self.error(start, SyntaxError::EscapeInReservedWord { word })?
+        } else {
+            Ok(Some(word))
+        }
+    }
 }
 
-fn pos_span(p: BytePos) -> Span {
+pub fn pos_span(p: BytePos) -> Span {
     Span::new(p, p)
 }
 
-fn fixed_len_span(p: BytePos, len: u32) -> Span {
+pub fn fixed_len_span(p: BytePos, len: u32) -> Span {
     Span::new(p, p + BytePos(len))
 }
