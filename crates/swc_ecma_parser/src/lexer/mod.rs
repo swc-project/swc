@@ -1,20 +1,17 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
-use swc_atoms::{Atom, AtomStoreCell};
+use swc_atoms::AtomStoreCell;
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
     BytePos, Span,
 };
-use swc_ecma_ast::{EsVersion, Ident};
+use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::common::lexer::{
-    char::{Char, CharExt},
-    comments_buffer::CommentsBuffer,
-    state::State,
-    LexResult, Lexer as LexerTrait,
+    char::CharExt, comments_buffer::CommentsBuffer, LexResult, Lexer as LexerTrait,
 };
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
@@ -121,13 +118,18 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn atom(&self, s: impl Into<std::borrow::Cow<'a, str>>) -> swc_atoms::Atom {
+    fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
     }
 
     #[inline(always)]
     fn skip_block_comment(&mut self) {
         self.skip_block_comment();
+    }
+
+    #[inline(always)]
+    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>> {
+        self.buf.clone()
     }
 }
 
@@ -154,18 +156,6 @@ impl<'a> Lexer<'a> {
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
             atoms: Default::default(),
         }
-    }
-
-    /// Utility method to reuse buffer.
-    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: for<'any> FnOnce(&mut Lexer<'any>, &mut String) -> LexResult<Ret>,
-    {
-        let b = self.buf.clone();
-        let mut buf = b.borrow_mut();
-        buf.clear();
-
-        op(self, &mut buf)
     }
 
     /// babel: `getTokenFromCode`
@@ -442,133 +432,6 @@ impl<'a> Lexer<'a> {
         Ok(token)
     }
 
-    /// Read an escaped character for string literal.
-    ///
-    /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
-        debug_assert_eq!(self.cur(), Some('\\'));
-
-        let start = self.cur_pos();
-
-        self.bump(); // '\'
-
-        let c = match self.cur() {
-            Some(c) => c,
-            None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
-        };
-
-        macro_rules! push_c_and_ret {
-            ($c:expr) => {{
-                $c
-            }};
-        }
-
-        let c = match c {
-            '\\' => push_c_and_ret!('\\'),
-            'n' => push_c_and_ret!('\n'),
-            'r' => push_c_and_ret!('\r'),
-            't' => push_c_and_ret!('\t'),
-            'b' => push_c_and_ret!('\u{0008}'),
-            'v' => push_c_and_ret!('\u{000b}'),
-            'f' => push_c_and_ret!('\u{000c}'),
-            '\r' => {
-                self.bump(); // remove '\r'
-
-                self.eat(b'\n');
-
-                return Ok(None);
-            }
-            '\n' | '\u{2028}' | '\u{2029}' => {
-                self.bump();
-
-                return Ok(None);
-            }
-
-            // read hexadecimal escape sequences
-            'x' => {
-                self.bump(); // 'x'
-
-                match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(vec![Char::from(val)])),
-                    None => self.error(
-                        start,
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: "2 hex characters",
-                        },
-                    )?,
-                }
-            }
-
-            // read unicode escape sequences
-            'u' => match self.read_unicode_escape() {
-                Ok(chars) => return Ok(Some(chars)),
-                Err(err) => self.error(start, err.into_kind())?,
-            },
-
-            // octal escape sequences
-            '0'..='7' => {
-                self.bump();
-
-                let first_c = if c == '0' {
-                    match self.cur() {
-                        Some(next) if next.is_digit(8) => c,
-                        // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
-                    }
-                } else {
-                    c
-                };
-
-                // TODO: Show template instead of strict mode
-                if in_template {
-                    self.error(start, SyntaxError::LegacyOctal)?
-                }
-
-                self.emit_strict_mode_error(start, SyntaxError::LegacyOctal);
-
-                let mut value: u8 = first_c.to_digit(8).unwrap() as u8;
-
-                macro_rules! one {
-                    ($check:expr) => {{
-                        let cur = self.cur();
-
-                        match cur.and_then(|c| c.to_digit(8)) {
-                            Some(v) => {
-                                value = if $check {
-                                    let new_val = value
-                                        .checked_mul(8)
-                                        .and_then(|value| value.checked_add(v as u8));
-                                    match new_val {
-                                        Some(val) => val,
-                                        None => return Ok(Some(vec![Char::from(value as char)])),
-                                    }
-                                } else {
-                                    value * 8 + v as u8
-                                };
-
-                                self.bump();
-                            }
-                            _ => return Ok(Some(vec![Char::from(value as u32)])),
-                        }
-                    }};
-                }
-
-                one!(false);
-                one!(true);
-
-                return Ok(Some(vec![Char::from(value as char)]));
-            }
-            _ => c,
-        };
-
-        unsafe {
-            // Safety: cur() is Some(c) if this method is called.
-            self.input.bump();
-        }
-
-        Ok(Some(vec![c.into()]))
-    }
-
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
@@ -799,229 +662,6 @@ impl Lexer<'_> {
         }
     }
 
-    /// This method is optimized for texts without escape sequences.
-    ///
-    /// `convert(text, has_escape, can_be_keyword)`
-    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
-    where
-        F: for<'any> FnOnce(&'any mut Lexer<'_>, &str, bool, bool) -> Ret,
-    {
-        debug_assert!(self.cur().is_some());
-        let mut first = true;
-        let mut can_be_keyword = true;
-        let mut slice_start = self.cur_pos();
-        let mut has_escape = false;
-
-        self.with_buf(|l, buf| {
-            loop {
-                if let Some(c) = l.input.cur_as_ascii() {
-                    // Performance optimization
-                    if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                        can_be_keyword = false;
-                    }
-
-                    if Ident::is_valid_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
-
-                    // unicode escape
-                    if c == b'\\' {
-                        first = false;
-                        has_escape = true;
-                        let start = l.cur_pos();
-                        l.bump();
-
-                        if !l.is(b'u') {
-                            l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
-                        }
-
-                        {
-                            let end = l.input.cur_pos();
-                            let s = unsafe {
-                                // Safety: start and end are valid position because we got them from
-                                // `self.input`
-                                l.input.slice(slice_start, start)
-                            };
-                            buf.push_str(s);
-                            unsafe {
-                                // Safety: We got end from `self.input`
-                                l.input.reset_to(end);
-                            }
-                        }
-
-                        let chars = l.read_unicode_escape()?;
-
-                        if let Some(c) = chars.first() {
-                            let valid = if first {
-                                c.is_ident_start()
-                            } else {
-                                c.is_ident_part()
-                            };
-
-                            if !valid {
-                                l.emit_error(start, SyntaxError::InvalidIdentChar);
-                            }
-                        }
-
-                        for c in chars {
-                            buf.extend(c);
-                        }
-
-                        slice_start = l.cur_pos();
-                        continue;
-                    }
-
-                    // ASCII but not a valid identifier
-
-                    break;
-                } else if let Some(c) = l.input.cur() {
-                    if Ident::is_valid_non_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_non_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
-                }
-
-                break;
-            }
-
-            let end = l.cur_pos();
-
-            let value = if !has_escape {
-                // Fast path: raw slice is enough if there's no escape.
-
-                let s = unsafe {
-                    // Safety: slice_start and end are valid position because we got them from
-                    // `self.input`
-                    l.input.slice(slice_start, end)
-                };
-                let s = unsafe {
-                    // Safety: We don't use 'static. We just bypass the lifetime check.
-                    transmute::<&str, &'static str>(s)
-                };
-
-                convert(l, s, has_escape, can_be_keyword)
-            } else {
-                let s = unsafe {
-                    // Safety: slice_start and end are valid position because we got them from
-                    // `self.input`
-                    l.input.slice(slice_start, end)
-                };
-                buf.push_str(s);
-
-                convert(l, buf, has_escape, can_be_keyword)
-            };
-
-            Ok((value, has_escape))
-        })
-    }
-
-    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
-        debug_assert_eq!(self.cur(), Some('u'));
-
-        let mut chars = Vec::with_capacity(4);
-        let mut is_curly = false;
-
-        self.bump(); // 'u'
-
-        if self.eat(b'{') {
-            is_curly = true;
-        }
-
-        let state = self.input.cur_pos();
-        let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }) {
-            Ok(Some(val)) => {
-                if 0x0010_ffff >= val {
-                    char::from_u32(val)
-                } else {
-                    let start = self.cur_pos();
-
-                    self.error(
-                        start,
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: if is_curly {
-                                "1-6 hex characters in the range 0 to 10FFFF."
-                            } else {
-                                "4 hex characters"
-                            },
-                        },
-                    )?
-                }
-            }
-            _ => {
-                let start = self.cur_pos();
-
-                self.error(
-                    start,
-                    SyntaxError::BadCharacterEscapeSequence {
-                        expected: if is_curly {
-                            "1-6 hex characters"
-                        } else {
-                            "4 hex characters"
-                        },
-                    },
-                )?
-            }
-        };
-
-        match c {
-            Some(c) => {
-                chars.push(c.into());
-            }
-            _ => {
-                unsafe {
-                    // Safety: state is valid position because we got it from cur_pos()
-                    self.input.reset_to(state);
-                }
-
-                chars.push(Char::from('\\'));
-                chars.push(Char::from('u'));
-
-                if is_curly {
-                    chars.push(Char::from('{'));
-
-                    for _ in 0..6 {
-                        if let Some(c) = self.input.cur() {
-                            if c == '}' {
-                                break;
-                            }
-
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        } else {
-                            break;
-                        }
-                    }
-
-                    chars.push(Char::from('}'));
-                } else {
-                    for _ in 0..4 {
-                        if let Some(c) = self.input.cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        }
-                    }
-                }
-            }
-        }
-
-        if is_curly && !self.eat(b'}') {
-            self.error(state, SyntaxError::InvalidUnicodeEscape)?
-        }
-
-        Ok(chars)
-    }
-
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
@@ -1149,213 +789,6 @@ impl Lexer<'_> {
             });
             Ok(Token::Str)
         })
-    }
-
-    /// Expects current char to be '/'
-    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
-        unsafe {
-            // Safety: start is valid position, and cur() is Some('/')
-            self.input.reset_to(start);
-        }
-
-        debug_assert_eq!(self.cur(), Some('/'));
-
-        let start = self.cur_pos();
-
-        self.bump();
-
-        let (mut escaped, mut in_class) = (false, false);
-
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    let span = l.span(start);
-
-                    return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
-                }
-
-                if escaped {
-                    escaped = false;
-                } else {
-                    match c {
-                        '[' => in_class = true,
-                        ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
-                        '/' if !in_class => break,
-                        _ => {}
-                    }
-
-                    escaped = c == '\\';
-                }
-
-                l.bump();
-                buf.push(c);
-            }
-
-            Ok(l.atoms.atom(&**buf))
-        })?;
-
-        // input is terminated without following `/`
-        if !self.is(b'/') {
-            let span = self.span(start);
-
-            return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
-        }
-
-        self.bump(); // '/'
-
-        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence." TODO: check for escape
-
-        // Need to use `read_word` because '\uXXXX' sequences are allowed
-        // here (don't ask).
-        // let flags_start = self.cur_pos();
-        let flags = {
-            match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
-                    .map(Some),
-                _ => Ok(None),
-            }
-        }?
-        .map(|(value, _)| value)
-        .unwrap_or_default();
-
-        self.state.set_token_value(TokenValue::Regex {
-            value: content,
-            flags,
-        });
-        Ok(Token::Regex)
-    }
-
-    #[cold]
-    fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
-        if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
-            return Ok(None);
-        }
-        unsafe {
-            // Safety: cur() is Some('#')
-            self.input.bump();
-            // Safety: cur() is Some('!')
-            self.input.bump();
-        }
-        let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(self.atoms.atom(s)))
-    }
-
-    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
-        let start = self.cur_pos();
-
-        let mut cooked = Ok(String::new());
-        let mut cooked_slice_start = start;
-        let raw_slice_start = start;
-
-        macro_rules! consume_cooked {
-            () => {{
-                if let Ok(cooked) = &mut cooked {
-                    let last_pos = self.cur_pos();
-                    cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    });
-                }
-            }};
-        }
-
-        while let Some(c) = self.cur() {
-            if c == '`' || (c == '$' && self.peek() == Some('{')) {
-                if start == self.cur_pos() && self.state.last_was_tpl_element() {
-                    if c == '$' {
-                        self.bump();
-                        self.bump();
-                        return Ok(Token::DollarLBrace);
-                    } else {
-                        self.bump();
-                        return Ok(Token::BackQuote);
-                    }
-                }
-
-                // If we don't have any escape
-                let cooked = if cooked_slice_start == raw_slice_start {
-                    let last_pos = self.cur_pos();
-                    let s = unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(cooked_slice_start, last_pos)
-                    };
-
-                    Ok(self.atoms.atom(s))
-                } else {
-                    consume_cooked!();
-
-                    cooked.map(|s| self.atoms.atom(s))
-                };
-
-                // TODO: Handle error
-                let end = self.input.cur_pos();
-                let raw = unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, end)
-                };
-                self.state.set_token_value(TokenValue::Template {
-                    cooked,
-                    raw: self.atoms.atom(raw),
-                });
-                return Ok(Token::Template);
-            }
-
-            if c == '\\' {
-                consume_cooked!();
-
-                match self.read_escaped_char(true) {
-                    Ok(Some(chars)) => {
-                        if let Ok(ref mut cooked) = cooked {
-                            for c in chars {
-                                cooked.extend(c);
-                            }
-                        }
-                    }
-                    Ok(None) => {}
-                    Err(error) => {
-                        cooked = Err(error);
-                    }
-                }
-
-                cooked_slice_start = self.cur_pos();
-            } else if c.is_line_terminator() {
-                self.state.had_line_break = true;
-
-                consume_cooked!();
-
-                let c = if c == '\r' && self.peek() == Some('\n') {
-                    self.bump(); // '\r'
-                    '\n'
-                } else {
-                    match c {
-                        '\n' => '\n',
-                        '\r' => '\n',
-                        '\u{2028}' => '\u{2028}',
-                        '\u{2029}' => '\u{2029}',
-                        _ => unreachable!(),
-                    }
-                };
-
-                self.bump();
-
-                if let Ok(ref mut cooked) = cooked {
-                    cooked.push(c);
-                }
-                cooked_slice_start = self.cur_pos();
-            } else {
-                self.bump();
-            }
-        }
-
-        self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
     }
 }
 

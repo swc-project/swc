@@ -501,6 +501,26 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
     fn create_str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Str { value, raw }
     }
+
+    #[inline(always)]
+    fn create_template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Template { cooked, raw }
+    }
+
+    #[inline(always)]
+    fn create_regexp(content: Atom, flags: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Regex(content, flags)
+    }
+
+    #[inline(always)]
+    fn create_dollar_lbrace() -> Self {
+        Self::DollarLBrace
+    }
+
+    #[inline(always)]
+    fn create_backquote() -> Self {
+        Self::BackQuote
+    }
 }
 
 impl Token {
