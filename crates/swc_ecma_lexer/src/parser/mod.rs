@@ -11,17 +11,11 @@ use swc_ecma_ast::*;
 use self::util::ParseObject;
 use crate::{
     common::input::Tokens,
-    error::SyntaxError,
+    error::{Error, SyntaxError},
     input::Buffer,
     token::{Token, TokenAndSpan, Word},
     Context, Syntax, TsSyntax, *,
 };
-#[cfg(test)]
-extern crate test;
-#[cfg(test)]
-use test::Bencher;
-
-use crate::error::Error;
 
 #[macro_use]
 mod macros;
@@ -33,8 +27,6 @@ mod jsx;
 mod object;
 mod pat;
 mod stmt;
-#[cfg(test)]
-mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
 mod util;
@@ -250,73 +242,4 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let error = Error::new(span, error);
         self.input_ref().add_module_mode_error(error);
     }
-}
-
-#[cfg(test)]
-pub fn test_parser<F, Ret>(s: &'static str, syntax: Syntax, f: F) -> Ret
-where
-    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
-{
-    crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, None);
-        let mut p = Parser::new_from(lexer);
-        let ret = f(&mut p);
-        let mut error = false;
-
-        for err in p.take_errors() {
-            error = true;
-            err.into_diagnostic(handler).emit();
-        }
-
-        let res = ret.map_err(|err| err.into_diagnostic(handler).emit())?;
-
-        if error {
-            return Err(());
-        }
-
-        Ok(res)
-    })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
-}
-
-#[cfg(test)]
-pub fn test_parser_comment<F, Ret>(
-    c: &dyn swc_common::comments::Comments,
-    s: &'static str,
-    syntax: Syntax,
-    f: F,
-) -> Ret
-where
-    F: FnOnce(&mut Parser<Lexer>) -> Result<Ret, Error>,
-{
-    crate::with_test_sess(s, |handler, input| {
-        let lexer = Lexer::new(syntax, EsVersion::Es2019, input, Some(&c));
-        let mut p = Parser::new_from(lexer);
-        let ret = f(&mut p);
-
-        for err in p.take_errors() {
-            err.into_diagnostic(handler).emit();
-        }
-
-        ret.map_err(|err| err.into_diagnostic(handler).emit())
-    })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
-}
-
-#[cfg(test)]
-pub fn bench_parser<F>(b: &mut Bencher, s: &'static str, syntax: Syntax, mut f: F)
-where
-    F: for<'a> FnMut(&'a mut Parser<Lexer<'a>>) -> PResult<()>,
-{
-    b.bytes = s.len() as u64;
-
-    let _ = crate::with_test_sess(s, |handler, input| {
-        b.iter(|| {
-            let lexer = Lexer::new(syntax, Default::default(), input.clone(), None);
-            let _ =
-                f(&mut Parser::new_from(lexer)).map_err(|err| err.into_diagnostic(handler).emit());
-        });
-
-        Ok(())
-    });
 }
