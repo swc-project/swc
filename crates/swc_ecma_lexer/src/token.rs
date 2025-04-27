@@ -15,6 +15,7 @@ pub(crate) use self::{Keyword::*, Token::*};
 use crate::{
     common::lexer::{LexResult, Lexer},
     error::Error,
+    tok,
 };
 
 macro_rules! define_known_ident {
@@ -520,6 +521,131 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
     #[inline(always)]
     fn create_backquote() -> Self {
         Self::BackQuote
+    }
+
+    #[inline(always)]
+    fn create_num(value: f64, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Num { value, raw }
+    }
+
+    #[inline(always)]
+    fn create_bigint(value: Box<BigIntValue>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::BigInt { value, raw }
+    }
+
+    #[inline(always)]
+    fn create_hash() -> Self {
+        Self::Hash
+    }
+
+    #[inline(always)]
+    fn create_dot() -> Self {
+        Self::Dot
+    }
+
+    #[inline(always)]
+    fn create_dotdotdot() -> Self {
+        Self::DotDotDot
+    }
+
+    #[inline(always)]
+    fn create_nullish_assign() -> Self {
+        tok!("??=")
+    }
+
+    #[inline(always)]
+    fn create_nullish_coalescing() -> Self {
+        tok!("??")
+    }
+
+    #[inline(always)]
+    fn create_question() -> Self {
+        tok!('?')
+    }
+
+    #[inline(always)]
+    fn create_colon() -> Self {
+        Self::Colon
+    }
+
+    #[inline(always)]
+    fn create_bit_and() -> Self {
+        Self::BinOp(BinOpToken::BitAnd)
+    }
+
+    #[inline(always)]
+    fn create_bit_and_eq() -> Self {
+        Self::AssignOp(AssignOp::BitAndAssign)
+    }
+
+    #[inline(always)]
+    fn create_bit_or() -> Self {
+        Self::BinOp(BinOpToken::BitOr)
+    }
+
+    #[inline(always)]
+    fn create_bit_or_eq() -> Self {
+        Self::AssignOp(AssignOp::BitOrAssign)
+    }
+
+    #[inline(always)]
+    fn create_logical_and() -> Self {
+        tok!("&&")
+    }
+
+    #[inline(always)]
+    fn create_logical_and_eq() -> Self {
+        Token::AssignOp(AssignOp::AddAssign)
+    }
+
+    #[inline(always)]
+    fn create_logical_or() -> Self {
+        tok!("||")
+    }
+
+    #[inline(always)]
+    fn create_logical_or_eq() -> Self {
+        Token::AssignOp(AssignOp::OrAssign)
+    }
+
+    #[inline(always)]
+    fn create_mul() -> Self {
+        Token::BinOp(BinOpToken::Mul)
+    }
+
+    #[inline(always)]
+    fn create_mul_eq() -> Self {
+        Token::AssignOp(AssignOp::MulAssign)
+    }
+
+    #[inline(always)]
+    fn create_mod() -> Self {
+        Token::BinOp(BinOpToken::Mod)
+    }
+
+    #[inline(always)]
+    fn create_mod_eq() -> Self {
+        Token::AssignOp(AssignOp::ModAssign)
+    }
+
+    #[inline(always)]
+    fn create_exp() -> Self {
+        Token::BinOp(BinOpToken::Exp)
+    }
+
+    #[inline(always)]
+    fn create_exp_eq() -> Self {
+        Token::AssignOp(AssignOp::ExpAssign)
+    }
+
+    #[inline(always)]
+    fn create_div() -> Self {
+        Token::BinOp(BinOpToken::Div)
+    }
+
+    #[inline(always)]
+    fn create_div_eq() -> Self {
+        Token::AssignOp(AssignOp::DivAssign)
     }
 }
 

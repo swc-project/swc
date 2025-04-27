@@ -528,6 +528,137 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     fn create_backquote() -> Self {
         Token::BackQuote
     }
+
+    #[inline(always)]
+    fn create_num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Num { value, raw }));
+        Self::Num
+    }
+
+    #[inline(always)]
+    fn create_bigint(
+        value: Box<num_bigint::BigInt>,
+        raw: Atom,
+        lexer: &mut crate::Lexer<'a>,
+    ) -> Self {
+        lexer.set_token_value(Some(TokenValue::BigInt { value, raw }));
+        Self::BigInt
+    }
+
+    #[inline(always)]
+    fn create_hash() -> Self {
+        Self::Hash
+    }
+
+    #[inline(always)]
+    fn create_dot() -> Self {
+        Self::Dot
+    }
+
+    #[inline(always)]
+    fn create_dotdotdot() -> Self {
+        Self::DotDotDot
+    }
+
+    #[inline(always)]
+    fn create_nullish_assign() -> Self {
+        Token::NullishEq
+    }
+
+    #[inline(always)]
+    fn create_nullish_coalescing() -> Self {
+        Token::NullishCoalescing
+    }
+
+    #[inline(always)]
+    fn create_question() -> Self {
+        Token::QuestionMark
+    }
+
+    #[inline(always)]
+    fn create_colon() -> Self {
+        Self::Colon
+    }
+
+    #[inline(always)]
+    fn create_bit_and() -> Self {
+        Self::Ampersand
+    }
+
+    #[inline(always)]
+    fn create_bit_and_eq() -> Self {
+        Self::BitAndEq
+    }
+
+    #[inline(always)]
+    fn create_bit_or() -> Self {
+        Self::Pipe
+    }
+
+    #[inline(always)]
+    fn create_bit_or_eq() -> Self {
+        Self::BitOrEq
+    }
+
+    #[inline(always)]
+    fn create_logical_and_eq() -> Self {
+        Self::LogicalAndEq
+    }
+
+    #[inline(always)]
+    fn create_logical_or_eq() -> Self {
+        Self::LogicalOrEq
+    }
+
+    #[inline(always)]
+    fn create_mul() -> Self {
+        Token::Asterisk
+    }
+
+    #[inline(always)]
+    fn create_mul_eq() -> Self {
+        Token::MulEq
+    }
+
+    #[inline(always)]
+    fn create_mod() -> Self {
+        Token::Percent
+    }
+
+    #[inline(always)]
+    fn create_mod_eq() -> Self {
+        Token::ModEq
+    }
+
+    #[inline(always)]
+    fn create_exp() -> Self {
+        Token::Exp
+    }
+
+    #[inline(always)]
+    fn create_exp_eq() -> Self {
+        Token::ExpEq
+    }
+
+    #[inline(always)]
+    fn create_div() -> Self {
+        Token::Slash
+    }
+
+    #[inline(always)]
+    fn create_div_eq() -> Self {
+        Token::DivEq
+    }
+
+    #[inline(always)]
+    fn create_logical_and() -> Self {
+        Token::LogicalAnd
+    }
+
+    #[inline(always)]
+    fn create_logical_or() -> Self {
+        Token::LogicalOr
+    }
 }
 
 impl Token {
