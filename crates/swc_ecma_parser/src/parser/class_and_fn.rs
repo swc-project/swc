@@ -1,5 +1,5 @@
 use swc_common::Spanned;
-use swc_ecma_lexer::lexer::TokenContext;
+use swc_ecma_lexer::{common::parser::Parser as ParserTrait, lexer::TokenContext};
 
 use super::*;
 use crate::{lexer::Token, parser::Parser};
@@ -1396,7 +1396,7 @@ impl<I: Tokens> Parser<I> {
         );
 
         self.with_ctx(ctx)
-            .with_state(State::default())
+            .with_state(swc_ecma_lexer::common::parser::state::State::default())
             .parse_fn_body_inner(is_simple_parameter_list)
     }
 }

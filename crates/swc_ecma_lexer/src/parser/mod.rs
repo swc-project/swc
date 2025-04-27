@@ -3,7 +3,6 @@
 
 use std::ops::{Deref, DerefMut};
 
-use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
@@ -37,26 +36,16 @@ pub type PResult<T> = Result<T, Error>;
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: Tokens<TokenAndSpan>> {
-    state: State,
+    state: crate::common::parser::state::State,
     input: Buffer<I>,
     found_module_item: bool,
 }
 
-#[derive(Clone, Default)]
-struct State {
-    labels: Vec<Atom>,
-    /// Start position of an assignment expression.
-    potential_arrow_start: Option<BytePos>,
-    /// Start position of an AST node and the span of its trailing comma.
-    trailing_commas: FxHashMap<BytePos, Span>,
+impl<I: Tokens<TokenAndSpan>> crate::common::parser::Parser<TokenAndSpan, I> for Parser<I> {
+    fn state_mut(&mut self) -> &mut common::parser::state::State {
+        &mut self.state
+    }
 }
-
-// impl<'a> Parser<crate::lexer::Lexer<'a>> {
-//     pub fn new(syntax: Syntax, input: StringInput<'a>, comments: Option<&'a
-// dyn Comments>) -> Self {         let lexer = crate::lexer::Lexer::new(syntax,
-// Default::default(), input, comments);         Self::new_from(lexer)
-//     }
-// }
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
