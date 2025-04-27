@@ -2,14 +2,13 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
-use either::Either::{Left, Right};
 use swc_atoms::AtomStoreCell;
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
     BytePos, Span,
 };
-use swc_ecma_ast::{op, AssignOp, EsVersion};
+use swc_ecma_ast::{AssignOp, EsVersion};
 
 pub use self::state::{TokenContext, TokenContexts, TokenType};
 use self::table::{ByteHandler, BYTE_HANDLERS};
@@ -182,235 +181,6 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
-        debug_assert!(self.cur().is_some());
-
-        unsafe {
-            // Safety: cur() is Some('#')
-            self.input.bump(); // '#'
-        }
-
-        // `#` can also be a part of shebangs, however they should have been
-        // handled by `read_shebang()`
-        debug_assert!(
-            !self.input.is_at_start() || self.cur() != Some('!'),
-            "#! should have already been handled by read_shebang()"
-        );
-        Ok(Some(Token::Hash))
-    }
-
-    /// Read a token given `.`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_dot(&mut self) -> LexResult<Token> {
-        // Check for eof
-        let next = match self.input.peek() {
-            Some(next) => next,
-            None => {
-                unsafe {
-                    // Safety: cur() is Some(',')
-                    self.input.bump();
-                }
-                return Ok(tok!('.'));
-            }
-        };
-        if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Token::Num { value, raw },
-                Right((value, raw)) => Token::BigInt { value, raw },
-            });
-        }
-
-        unsafe {
-            // Safety: cur() is Some
-            // 1st `.`
-            self.input.bump();
-        }
-
-        if next == '.' && self.input.peek() == Some('.') {
-            unsafe {
-                // Safety: peek() was Some
-
-                self.input.bump(); // 2nd `.`
-                self.input.bump(); // 3rd `.`
-            }
-
-            return Ok(tok!("..."));
-        }
-
-        Ok(tok!('.'))
-    }
-
-    /// Read a token given `?`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_question_mark(&mut self) -> LexResult<Token> {
-        match self.input.peek() {
-            Some('?') => {
-                unsafe {
-                    // Safety: peek() was some
-                    self.input.bump();
-                    self.input.bump();
-                }
-                if self.input.cur() == Some('=') {
-                    unsafe {
-                        // Safety: cur() was some
-                        self.input.bump();
-                    }
-
-                    return Ok(tok!("??="));
-                }
-                Ok(tok!("??"))
-            }
-            _ => {
-                unsafe {
-                    // Safety: peek() is callable only if cur() is Some
-                    self.input.bump();
-                }
-                Ok(tok!('?'))
-            }
-        }
-    }
-
-    /// Read a token given `:`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_colon(&mut self) -> LexResult<Token> {
-        unsafe {
-            // Safety: cur() is Some(':')
-            self.input.bump();
-        }
-        Ok(tok!(':'))
-    }
-
-    /// Read a token given `0`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_zero(&mut self) -> LexResult<Token> {
-        let next = self.input.peek();
-
-        let bigint = match next {
-            Some('x') | Some('X') => self.read_radix_number::<16>(),
-            Some('o') | Some('O') => self.read_radix_number::<8>(),
-            Some('b') | Some('B') => self.read_radix_number::<2>(),
-            _ => {
-                return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Token::Num { value, raw },
-                    Right((value, raw)) => Token::BigInt { value, raw },
-                });
-            }
-        };
-
-        bigint.map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
-        })
-    }
-
-    /// Read a token given `|` or `&`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_logical<const C: u8>(&mut self) -> LexResult<Token> {
-        let had_line_break_before_last = self.had_line_break_before_last();
-        let start = self.cur_pos();
-
-        unsafe {
-            // Safety: cur() is Some(c as char)
-            self.input.bump();
-        }
-        let token = if C == b'&' {
-            BinOpToken::BitAnd
-        } else {
-            BinOpToken::BitOr
-        };
-
-        // '|=', '&='
-        if self.input.eat_byte(b'=') {
-            return Ok(Token::AssignOp(match token {
-                BinOpToken::BitAnd => AssignOp::BitAndAssign,
-                BinOpToken::BitOr => AssignOp::BitOrAssign,
-                _ => unreachable!(),
-            }));
-        }
-
-        // '||', '&&'
-        if self.input.cur() == Some(C as char) {
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input.bump();
-            }
-
-            if self.input.cur() == Some('=') {
-                unsafe {
-                    // Safety: cur() is Some('=')
-                    self.input.bump();
-                }
-                return Ok(Token::AssignOp(match token {
-                    BinOpToken::BitAnd => op!("&&="),
-                    BinOpToken::BitOr => op!("||="),
-                    _ => unreachable!(),
-                }));
-            }
-
-            // |||||||
-            //   ^
-            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
-                let span = fixed_len_span(start, 7);
-                self.emit_error_span(span, SyntaxError::TS1185);
-                self.skip_line_comment(5);
-                self.skip_space::<true>();
-                return self.error_span(span, SyntaxError::TS1185);
-            }
-
-            return Ok(Token::BinOp(match token {
-                BinOpToken::BitAnd => BinOpToken::LogicalAnd,
-                BinOpToken::BitOr => BinOpToken::LogicalOr,
-                _ => unreachable!(),
-            }));
-        }
-
-        Ok(Token::BinOp(token))
-    }
-
-    /// Read a token given `*` or `%`.
-    ///
-    /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
-    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Token> {
-        let is_mul = C == b'*';
-        unsafe {
-            // Safety: cur() is Some(c)
-            self.input.bump();
-        }
-        let mut token = if is_mul {
-            Token::BinOp(BinOpToken::Mul)
-        } else {
-            Token::BinOp(BinOpToken::Mod)
-        };
-
-        // check for **
-        if is_mul && self.input.eat_byte(b'*') {
-            token = Token::BinOp(BinOpToken::Exp)
-        }
-
-        if self.input.eat_byte(b'=') {
-            token = match token {
-                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
-                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
-                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
-                _ => unreachable!(),
-            }
-        }
-
-        Ok(token)
-    }
-
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let start = self.cur_pos();
 
@@ -499,20 +269,6 @@ impl<'a> Lexer<'a> {
 }
 
 impl Lexer<'_> {
-    #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Token>> {
-        debug_assert_eq!(self.cur(), Some('/'));
-
-        // Divide operator
-        self.bump();
-
-        Ok(Some(if self.eat(b'=') {
-            tok!("/=")
-        } else {
-            tok!('/')
-        }))
-    }
-
     #[inline(never)]
     fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<Token>> {
         let had_line_break_before_last = self.had_line_break_before_last();

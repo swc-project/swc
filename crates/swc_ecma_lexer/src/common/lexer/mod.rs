@@ -1,7 +1,7 @@
 use std::borrow::Cow;
 
 use char::{Char, CharExt};
-use either::Either;
+use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
 use number::LazyBigInt;
@@ -16,7 +16,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, token::BinOpToken};
 
 pub mod char;
 pub mod comments_buffer;
@@ -1600,8 +1600,262 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Ok((value, has_escape))
         })
     }
+
+    /// `#`
+    fn read_token_number_sign(&mut self) -> LexResult<Option<Self::Token>> {
+        debug_assert!(self.cur().is_some());
+
+        unsafe {
+            // Safety: cur() is Some('#')
+            self.input_mut().bump(); // '#'
+        }
+
+        // `#` can also be a part of shebangs, however they should have been
+        // handled by `read_shebang()`
+        debug_assert!(
+            !self.input().is_at_start() || self.cur() != Some('!'),
+            "#! should have already been handled by read_shebang()"
+        );
+        Ok(Some(Self::Token::create_hash()))
+    }
+
+    /// Read a token given `.`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_dot(&mut self) -> LexResult<Self::Token> {
+        // Check for eof
+        let next = match self.input().peek() {
+            Some(next) => next,
+            None => {
+                unsafe {
+                    // Safety: cur() is Some(',')
+                    self.input_mut().bump();
+                }
+                return Ok(Self::Token::create_dot());
+            }
+        };
+        if next.is_ascii_digit() {
+            return self.read_number(true).map(|v| match v {
+                Left((value, raw)) => Self::Token::create_num(value, raw, self),
+                Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+            });
+        }
+
+        unsafe {
+            // Safety: cur() is Some
+            // 1st `.`
+            self.input_mut().bump();
+        }
+
+        if next == '.' && self.input().peek() == Some('.') {
+            unsafe {
+                // Safety: peek() was Some
+
+                self.input_mut().bump(); // 2nd `.`
+                self.input_mut().bump(); // 3rd `.`
+            }
+
+            return Ok(Self::Token::create_dotdotdot());
+        }
+
+        Ok(Self::Token::create_dot())
+    }
+
+    /// Read a token given `?`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_question_mark(&mut self) -> LexResult<Self::Token> {
+        match self.input().peek() {
+            Some('?') => {
+                unsafe {
+                    // Safety: peek() was some
+                    self.input_mut().bump();
+                    self.input_mut().bump();
+                }
+                if self.input().cur() == Some('=') {
+                    unsafe {
+                        // Safety: cur() was some
+                        self.input_mut().bump();
+                    }
+                    return Ok(Self::Token::create_nullish_assign());
+                }
+                Ok(Self::Token::create_nullish_coalescing())
+            }
+            _ => {
+                unsafe {
+                    // Safety: peek() is callable only if cur() is Some
+                    self.input_mut().bump();
+                }
+                Ok(Self::Token::create_question())
+            }
+        }
+    }
+
+    /// Read a token given `:`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_colon(&mut self) -> LexResult<Self::Token> {
+        unsafe {
+            // Safety: cur() is Some(':')
+            self.input_mut().bump();
+        }
+        Ok(Self::Token::create_colon())
+    }
+
+    /// Read a token given `0`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_zero(&mut self) -> LexResult<Self::Token> {
+        let next = self.input().peek();
+
+        let bigint = match next {
+            Some('x') | Some('X') => self.read_radix_number::<16>(),
+            Some('o') | Some('O') => self.read_radix_number::<8>(),
+            Some('b') | Some('B') => self.read_radix_number::<2>(),
+            _ => {
+                return self.read_number(false).map(|v| match v {
+                    Left((value, raw)) => Self::Token::create_num(value, raw, self),
+                    Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+                });
+            }
+        };
+
+        bigint.map(|v| match v {
+            Left((value, raw)) => Self::Token::create_num(value, raw, self),
+            Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+        })
+    }
+
+    /// Read a token given `|` or `&`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_logical<const C: u8>(&mut self) -> LexResult<Self::Token> {
+        let had_line_break_before_last = self.had_line_break_before_last();
+        let start = self.cur_pos();
+
+        unsafe {
+            // Safety: cur() is Some(c as char)
+            self.input_mut().bump();
+        }
+        let token = if C == b'&' {
+            BinOpToken::BitAnd
+        } else {
+            BinOpToken::BitOr
+        };
+
+        // '|=', '&='
+        if self.input_mut().eat_byte(b'=') {
+            return Ok(match token {
+                BinOpToken::BitAnd => Self::Token::create_bit_and_eq(),
+                BinOpToken::BitOr => Self::Token::create_bit_or_eq(),
+                _ => unreachable!(),
+            });
+        }
+
+        // '||', '&&'
+        if self.input().cur() == Some(C as char) {
+            unsafe {
+                // Safety: cur() is Some(c)
+                self.input_mut().bump();
+            }
+
+            if self.input().cur() == Some('=') {
+                unsafe {
+                    // Safety: cur() is Some('=')
+                    self.input_mut().bump();
+                }
+
+                return Ok(match token {
+                    BinOpToken::BitAnd => Self::Token::create_logical_and_eq(),
+                    BinOpToken::BitOr => Self::Token::create_logical_or_eq(),
+                    _ => unreachable!(),
+                });
+            }
+
+            // |||||||
+            //   ^
+            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
+                let span = fixed_len_span(start, 7);
+                self.emit_error_span(span, SyntaxError::TS1185);
+                self.skip_line_comment(5);
+                self.skip_space::<true>();
+                return self.error_span(span, SyntaxError::TS1185);
+            }
+
+            return Ok(match token {
+                BinOpToken::BitAnd => Self::Token::create_logical_and(),
+                BinOpToken::BitOr => Self::Token::create_logical_or(),
+                _ => unreachable!(),
+            });
+        }
+
+        Ok(if token == BinOpToken::BitAnd {
+            Self::Token::create_bit_and()
+        } else {
+            Self::Token::create_bit_or()
+        })
+    }
+
+    /// Read a token given `*` or `%`.
+    ///
+    /// This is extracted as a method to reduce size of `read_token`.
+    #[inline(never)]
+    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Self::Token> {
+        let is_mul = C == b'*';
+        unsafe {
+            // Safety: cur() is Some(c)
+            self.input_mut().bump();
+        }
+        let mut token = if is_mul {
+            BinOpToken::Mul
+        } else {
+            BinOpToken::Mod
+        };
+
+        // check for **
+        if is_mul && self.input_mut().eat_byte(b'*') {
+            token = BinOpToken::Exp
+        }
+
+        Ok(if self.input_mut().eat_byte(b'=') {
+            match token {
+                BinOpToken::Mul => Self::Token::create_mul_eq(),
+                BinOpToken::Mod => Self::Token::create_mod_eq(),
+                BinOpToken::Exp => Self::Token::create_exp_eq(),
+                _ => unreachable!(),
+            }
+        } else {
+            match token {
+                BinOpToken::Mul => Self::Token::create_mul(),
+                BinOpToken::Mod => Self::Token::create_mod(),
+                BinOpToken::Exp => Self::Token::create_exp(),
+                _ => unreachable!(),
+            }
+        })
+    }
+
+    #[inline(never)]
+    fn read_slash(&mut self) -> LexResult<Option<Self::Token>> {
+        debug_assert_eq!(self.cur(), Some('/'));
+        // Divide operator
+        self.bump();
+        Ok(Some(if self.eat(b'=') {
+            Self::Token::create_div_eq()
+        } else {
+            Self::Token::create_div()
+        }))
+    }
 }
 
 fn pos_span(p: BytePos) -> Span {
     Span::new(p, p)
+}
+
+fn fixed_len_span(p: BytePos, len: u32) -> Span {
+    Span::new(p, p + BytePos(len))
 }
