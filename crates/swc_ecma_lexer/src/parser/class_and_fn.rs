@@ -1,7 +1,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::{lexer::TokenContext, tok, token::TokenAndSpan};
+use crate::{common::parser::Parser as ParserTrait, lexer::TokenContext, tok, token::TokenAndSpan};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
@@ -1398,7 +1398,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         );
 
         self.with_ctx(ctx)
-            .with_state(State::default())
+            .with_state(crate::common::parser::state::State::default())
             .parse_fn_body_inner(is_simple_parameter_list)
     }
 }

@@ -3,14 +3,17 @@
 
 use std::ops::{Deref, DerefMut};
 
-use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::error::SyntaxError;
 
 use self::util::ParseObject;
-use crate::{lexer::Token, parser::input::Tokens, Context, EsVersion, Syntax, TsSyntax};
+use crate::{
+    lexer::{Token, TokenAndSpan},
+    parser::input::Tokens,
+    Context, EsVersion, Syntax, TsSyntax,
+};
 #[cfg(test)]
 extern crate test;
 #[cfg(test)]
@@ -40,18 +43,15 @@ pub type PResult<T> = Result<T, Error>;
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
-    state: State,
+    state: swc_ecma_lexer::common::parser::state::State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
 }
 
-#[derive(Clone, Default)]
-struct State {
-    labels: Vec<Atom>,
-    /// Start position of an assignment expression.
-    potential_arrow_start: Option<BytePos>,
-    /// Start position of an AST node and the span of its trailing comma.
-    trailing_commas: FxHashMap<BytePos, Span>,
+impl<I: Tokens> swc_ecma_lexer::common::parser::Parser<TokenAndSpan, I> for Parser<I> {
+    fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
+        &mut self.state
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

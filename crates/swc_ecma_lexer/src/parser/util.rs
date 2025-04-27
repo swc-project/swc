@@ -11,15 +11,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }
     }
 
-    /// Original state is restored when returned guard is dropped.
-    pub(super) fn with_state(&mut self, state: State) -> WithState<I> {
-        let orig_state = std::mem::replace(&mut self.state, state);
-        WithState {
-            orig_state,
-            inner: self,
-        }
-    }
-
     pub(super) fn set_ctx(&mut self, ctx: Context) {
         self.input.set_ctx(ctx);
     }
@@ -64,28 +55,6 @@ pub trait ParseObject<Obj> {
         trailing_comma: Option<Span>,
     ) -> PResult<Obj>;
     fn parse_object_prop(&mut self) -> PResult<Self::Prop>;
-}
-
-pub struct WithState<'w, I: 'w + Tokens<TokenAndSpan>> {
-    inner: &'w mut Parser<I>,
-    orig_state: State,
-}
-impl<I: Tokens<TokenAndSpan>> Deref for WithState<'_, I> {
-    type Target = Parser<I>;
-
-    fn deref(&self) -> &Parser<I> {
-        self.inner
-    }
-}
-impl<I: Tokens<TokenAndSpan>> DerefMut for WithState<'_, I> {
-    fn deref_mut(&mut self) -> &mut Parser<I> {
-        self.inner
-    }
-}
-impl<I: Tokens<TokenAndSpan>> Drop for WithState<'_, I> {
-    fn drop(&mut self) {
-        std::mem::swap(&mut self.inner.state, &mut self.orig_state);
-    }
 }
 
 pub struct WithCtx<'w, I: 'w + Tokens<TokenAndSpan>> {
