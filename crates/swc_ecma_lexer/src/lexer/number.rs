@@ -502,6 +502,7 @@ mod tests {
     use std::panic;
 
     use num_bigint::BigInt as BigIntValue;
+    use swc_atoms::Atom;
 
     use super::super::*;
 

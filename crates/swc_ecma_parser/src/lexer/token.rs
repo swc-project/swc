@@ -503,6 +503,31 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::Str
     }
+
+    #[inline(always)]
+    fn create_template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Template { cooked, raw }));
+        Token::Template
+    }
+
+    #[inline(always)]
+    fn create_regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Regex {
+            value: content,
+            flags,
+        }));
+        Token::Regex
+    }
+
+    #[inline(always)]
+    fn create_dollar_lbrace() -> Self {
+        Token::DollarLBrace
+    }
+
+    #[inline(always)]
+    fn create_backquote() -> Self {
+        Token::BackQuote
+    }
 }
 
 impl Token {
