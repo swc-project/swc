@@ -1,4 +1,6 @@
-use super::*;
+use swc_common::Span;
+
+use super::PResult;
 
 pub trait ParseObject<Obj> {
     type Prop;

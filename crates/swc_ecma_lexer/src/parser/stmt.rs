@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
-use crate::{error::SyntaxError, tok};
+use crate::{common::parser::is_directive::IsDirective, error::SyntaxError, tok};
 
 mod module_item;
 
@@ -1377,28 +1377,6 @@ enum TempForHead {
         left: ForHead,
         right: Box<Expr>,
     },
-}
-
-pub(super) trait IsDirective {
-    fn as_ref(&self) -> Option<&Stmt>;
-    fn is_use_strict(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::is_use_strict)
-    }
-}
-
-impl<T> IsDirective for Box<T>
-where
-    T: IsDirective,
-{
-    fn as_ref(&self) -> Option<&Stmt> {
-        T::as_ref(&**self)
-    }
-}
-
-impl IsDirective for Stmt {
-    fn as_ref(&self) -> Option<&Stmt> {
-        Some(self)
-    }
 }
 
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {

@@ -3,13 +3,10 @@ use std::fmt::Write;
 use either::Either;
 use swc_atoms::atom;
 use swc_common::Spanned;
+use swc_ecma_lexer::common::parser::is_simple_param_list::IsSimpleParameterList;
 
 use super::*;
-use crate::{
-    lexer::Token,
-    parser::{class_and_fn::IsSimpleParameterList, Parser},
-    token,
-};
+use crate::{lexer::Token, parser::Parser, token};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`

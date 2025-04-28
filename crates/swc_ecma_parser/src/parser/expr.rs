@@ -1,10 +1,13 @@
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
-use swc_ecma_lexer::{common::parser::expr_ext::ExprExt, lexer::TokenContext};
+use swc_ecma_lexer::{
+    common::parser::{expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList},
+    lexer::TokenContext,
+};
 
 use super::{pat::PatType, *};
-use crate::{lexer::Token, parser::class_and_fn::IsSimpleParameterList, token};
+use crate::{lexer::Token, token};
 
 mod ops;
 #[cfg(test)]

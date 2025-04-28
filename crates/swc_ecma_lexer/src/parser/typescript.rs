@@ -5,7 +5,7 @@ use swc_atoms::atom;
 use swc_common::Spanned;
 
 use super::*;
-use crate::{parser::class_and_fn::IsSimpleParameterList, tok, token::Keyword};
+use crate::{common::parser::is_simple_param_list::IsSimpleParameterList, tok, token::Keyword};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// `tsNextTokenCanFollowModifier`

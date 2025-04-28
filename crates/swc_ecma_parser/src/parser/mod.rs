@@ -5,11 +5,12 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{
-    common::parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
+    common::parser::{
+        buffer::Buffer as BufferTrait, parse_object::ParseObject, Parser as ParserTrait,
+    },
     error::SyntaxError,
 };
 
-use self::util::ParseObject;
 use crate::{
     lexer::{Token, TokenAndSpan},
     parser::input::Tokens,
@@ -36,7 +37,6 @@ mod stmt;
 mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
-mod util;
 
 pub use swc_ecma_lexer::common::parser::PResult;
 

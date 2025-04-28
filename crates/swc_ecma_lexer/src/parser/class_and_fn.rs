@@ -1,7 +1,15 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::{common::parser::Parser as ParserTrait, lexer::TokenContext, tok, token::TokenAndSpan};
+use crate::{
+    common::parser::{
+        is_invalid_class_name::IsInvalidClassName, is_simple_param_list::IsSimpleParameterList,
+        Parser as ParserTrait,
+    },
+    lexer::TokenContext,
+    tok,
+    token::TokenAndSpan,
+};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
@@ -1488,29 +1496,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     }
 }
 
-trait IsInvalidClassName {
-    fn invalid_class_name(&self) -> Option<Span>;
-}
-
-impl IsInvalidClassName for Ident {
-    fn invalid_class_name(&self) -> Option<Span> {
-        match &*self.sym {
-            "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
-            | "symbol" | "void" | "never" | "intrinsic" => Some(self.span),
-            _ => None,
-        }
-    }
-}
-impl IsInvalidClassName for Option<Ident> {
-    fn invalid_class_name(&self) -> Option<Span> {
-        if let Some(i) = self.as_ref() {
-            return i.invalid_class_name();
-        }
-
-        None
-    }
-}
-
 trait OutputType: Sized {
     const IS_IDENT_REQUIRED: bool;
 
@@ -1674,34 +1659,6 @@ impl<I: Tokens<TokenAndSpan>> FnBodyParser<Option<BlockStmt>> for Parser<I> {
                 }
             }
             Some(block_stmt)
-        })
-    }
-}
-
-pub(super) trait IsSimpleParameterList {
-    fn is_simple_parameter_list(&self) -> bool;
-}
-impl IsSimpleParameterList for Vec<Param> {
-    fn is_simple_parameter_list(&self) -> bool {
-        self.iter().all(|param| matches!(param.pat, Pat::Ident(_)))
-    }
-}
-impl IsSimpleParameterList for Vec<Pat> {
-    fn is_simple_parameter_list(&self) -> bool {
-        self.iter().all(|pat| matches!(pat, Pat::Ident(_)))
-    }
-}
-impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
-    fn is_simple_parameter_list(&self) -> bool {
-        self.iter().all(|param| {
-            matches!(
-                param,
-                ParamOrTsParamProp::TsParamProp(..)
-                    | ParamOrTsParamProp::Param(Param {
-                        pat: Pat::Ident(_),
-                        ..
-                    })
-            )
         })
     }
 }

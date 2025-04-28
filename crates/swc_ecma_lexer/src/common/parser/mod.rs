@@ -6,9 +6,14 @@ use super::{context::Context, input::Tokens};
 use crate::Syntax;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
+
 pub mod buffer;
 pub mod ctx;
 pub mod expr_ext;
+pub mod is_directive;
+pub mod is_invalid_class_name;
+pub mod is_simple_param_list;
+pub mod parse_object;
 pub mod state;
 pub mod token_and_span;
 
