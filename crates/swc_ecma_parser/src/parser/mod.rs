@@ -1,12 +1,13 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use std::ops::{Deref, DerefMut};
-
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::error::SyntaxError;
+use swc_ecma_lexer::{
+    common::parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
+    error::SyntaxError,
+};
 
 use self::util::ParseObject;
 use crate::{
@@ -16,7 +17,6 @@ use crate::{
 };
 #[cfg(test)]
 extern crate test;
-use swc_ecma_lexer::common::parser::buffer::Buffer as BufferTrait;
 #[cfg(test)]
 use test::Bencher;
 
@@ -38,8 +38,7 @@ mod tests;
 mod typescript;
 mod util;
 
-/// When error occurs, error is emitted and parser returns Err(()).
-pub type PResult<T> = Result<T, Error>;
+pub use swc_ecma_lexer::common::parser::PResult;
 
 /// EcmaScript parser.
 #[derive(Clone)]
@@ -50,6 +49,17 @@ pub struct Parser<I: self::input::Tokens> {
 }
 
 impl<I: Tokens> swc_ecma_lexer::common::parser::Parser<TokenAndSpan, I> for Parser<I> {
+    #[inline(always)]
+    fn input(&self) -> &I {
+        &self.input.iter
+    }
+
+    #[inline(always)]
+    fn input_mut(&mut self) -> &mut I {
+        &mut self.input.iter
+    }
+
+    #[inline(always)]
     fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
         &mut self.state
     }

@@ -25,7 +25,7 @@ mod utils;
 
 pub use swc_common::input::StringInput;
 
-use self::{common::context::Context, parser::PResult};
+use self::common::{context::Context, parser::PResult};
 pub use self::{
     common::syntax::{EsSyntax, Syntax, TsSyntax},
     input::Capturing,

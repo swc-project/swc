@@ -1,15 +1,16 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use std::ops::{Deref, DerefMut};
-
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
 use self::util::ParseObject;
 use crate::{
-    common::{input::Tokens, parser::buffer::Buffer as BufferTrait},
+    common::{
+        input::Tokens,
+        parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
+    },
     error::{Error, SyntaxError},
     input::Buffer,
     token::{Token, TokenAndSpan, Word},
@@ -30,9 +31,6 @@ mod stmt;
 mod typescript;
 mod util;
 
-/// When error occurs, error is emitted and parser returns Err(()).
-pub type PResult<T> = Result<T, Error>;
-
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: Tokens<TokenAndSpan>> {
@@ -42,6 +40,17 @@ pub struct Parser<I: Tokens<TokenAndSpan>> {
 }
 
 impl<I: Tokens<TokenAndSpan>> crate::common::parser::Parser<TokenAndSpan, I> for Parser<I> {
+    #[inline(always)]
+    fn input(&self) -> &I {
+        &self.input.iter
+    }
+
+    #[inline(always)]
+    fn input_mut(&mut self) -> &mut I {
+        &mut self.input.iter
+    }
+
+    #[inline(always)]
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
     }
