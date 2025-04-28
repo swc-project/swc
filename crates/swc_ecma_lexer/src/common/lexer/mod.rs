@@ -20,7 +20,7 @@ use crate::{error::SyntaxError, token::BinOpToken};
 
 pub mod char;
 pub mod comments_buffer;
-pub mod jsx;
+mod jsx;
 pub mod number;
 pub mod state;
 pub mod token;

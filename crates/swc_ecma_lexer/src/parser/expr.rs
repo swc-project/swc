@@ -4,8 +4,9 @@ use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, *};
 use crate::{
-    common::parser::expr_ext::ExprExt, lexer::TokenContext,
-    parser::class_and_fn::IsSimpleParameterList, tok,
+    common::parser::{expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList},
+    lexer::TokenContext,
+    tok,
 };
 
 mod ops;

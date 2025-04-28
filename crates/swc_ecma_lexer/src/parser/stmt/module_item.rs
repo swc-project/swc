@@ -858,15 +858,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     }
 }
 
-impl IsDirective for ModuleItem {
-    fn as_ref(&self) -> Option<&Stmt> {
-        match *self {
-            ModuleItem::Stmt(ref s) => Some(s),
-            _ => None,
-        }
-    }
-}
-
 impl<I: Tokens<TokenAndSpan>> StmtLikeParser<'_, ModuleItem> for Parser<I> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleItem> {
         if !self.ctx().contains(Context::TopLevel) {

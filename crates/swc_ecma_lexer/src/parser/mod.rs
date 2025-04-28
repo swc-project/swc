@@ -5,11 +5,10 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
-use self::util::ParseObject;
 use crate::{
     common::{
         input::Tokens,
-        parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
+        parser::{buffer::Buffer as BufferTrait, parse_object::ParseObject, Parser as ParserTrait},
     },
     error::{Error, SyntaxError},
     input::Buffer,
@@ -29,7 +28,6 @@ mod pat;
 mod stmt;
 #[cfg(feature = "typescript")]
 mod typescript;
-mod util;
 
 /// EcmaScript parser.
 #[derive(Clone)]

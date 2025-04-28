@@ -1,4 +1,5 @@
 use swc_common::Spanned;
+use swc_ecma_lexer::common::parser::is_directive::IsDirective;
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
