@@ -1,7 +1,7 @@
 use std::{mem, vec};
 
 use serde::Deserialize;
-use swc_common::{source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helper, helper_expr,
@@ -402,9 +402,9 @@ impl VisitMut for AsyncToGenerator {
 #[tracing::instrument(level = "info", skip_all)]
 fn make_fn_ref(fn_state: &FnState, params: Vec<Param>, body: BlockStmt) -> Expr {
     let helper = if fn_state.is_generator {
-        helper_expr!(PURE_SP, wrap_async_generator)
+        helper_expr!(DUMMY_SP, wrap_async_generator)
     } else {
-        helper_expr!(PURE_SP, async_to_generator)
+        helper_expr!(DUMMY_SP, async_to_generator)
     }
     .as_callee();
     let this = ThisExpr { span: DUMMY_SP };
