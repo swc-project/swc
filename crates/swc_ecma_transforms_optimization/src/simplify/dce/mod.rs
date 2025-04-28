@@ -1055,7 +1055,7 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
         for decl in n.decls.iter_mut() {
             decl.init.visit_mut_with(self);

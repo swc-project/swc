@@ -1415,7 +1415,7 @@ impl MacroNode for Program {
 
 #[node_impl]
 impl MacroNode for Module {
-    #[tracing::instrument(skip_all)]
+    #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
@@ -1443,7 +1443,7 @@ impl MacroNode for Module {
 
 #[node_impl]
 impl MacroNode for Script {
-    #[tracing::instrument(skip_all)]
+    #[tracing::instrument(level = "debug", skip_all)]
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 

@@ -231,7 +231,10 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
 }
 
 /// A negative value means that it's efficient to negate the expression.
-#[cfg_attr(feature = "debug", tracing::instrument(skip(e, expr_ctx)))]
+#[cfg_attr(
+    feature = "debug",
+    tracing::instrument(level = "debug", skip(e, expr_ctx))
+)]
 #[allow(clippy::let_and_return)]
 pub(crate) fn negate_cost(
     expr_ctx: ExprCtx,
@@ -240,7 +243,7 @@ pub(crate) fn negate_cost(
     is_ret_val_ignored: bool,
 ) -> isize {
     #[allow(clippy::only_used_in_recursion)]
-    #[cfg_attr(test, tracing::instrument(skip(e)))]
+    #[cfg_attr(test, tracing::instrument(level = "debug", skip(e)))]
     fn cost(
         expr_ctx: ExprCtx,
         e: &Expr,
