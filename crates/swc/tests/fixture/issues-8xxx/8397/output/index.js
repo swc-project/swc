@@ -13,7 +13,7 @@ function f() {
     ];
 }
 function af() {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var a, b;
         return _ts_generator._(this, function(_state) {
             a = [

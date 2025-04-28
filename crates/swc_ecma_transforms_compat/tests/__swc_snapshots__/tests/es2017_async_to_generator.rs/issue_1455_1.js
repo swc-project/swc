@@ -5,7 +5,7 @@ const obj = {
         };
     },
     byPlatform: function(platform) {
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             const result = yield this.find({
                 platform: {
                     $eq: platform

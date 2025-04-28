@@ -1,5 +1,5 @@
 function main() {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {

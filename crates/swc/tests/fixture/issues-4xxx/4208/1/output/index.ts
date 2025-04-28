@@ -9,7 +9,7 @@ export var CompanyBgStore = function CompanyBgStore() {
     _define_property(this, "corpName", 123);
     _define_property(this, "getBusinessInfo", function() {
         var corpName = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : _this.corpName;
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 console.log(corpName);
                 return [

@@ -8,7 +8,7 @@ var obj = {
         };
     },
     byPlatform: function byPlatform(platform) {
-        return /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             var result;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){

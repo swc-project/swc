@@ -8,7 +8,7 @@ function testPromise1() {
     console.log("Nope");
 }
 /** @type {FunctionReturningPromise} */ function testPromise2() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -28,7 +28,7 @@ var testPromise3 = /** @type {FunctionReturningPromise} */ function testPromise3
  * @returns {never}
  */ /** @type {FunctionReturningNever} */ function testNever1() {}
 /** @type {FunctionReturningNever} */ function testNever2() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,

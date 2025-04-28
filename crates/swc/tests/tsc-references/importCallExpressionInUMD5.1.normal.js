@@ -36,7 +36,7 @@
         value: true
     });
     function func() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             const packageName = '.';
             const packageJson = yield import(packageName + '/package.json');
         })();

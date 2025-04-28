@@ -1,6 +1,6 @@
 class Class {
     method() {
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             this;
             ()=>this;
             ()=>{
@@ -11,7 +11,7 @@ class Class {
                     ()=>{
                         this;
                     };
-                    ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                    ()=>_async_to_generator(function*() {
                             this;
                         }).call(this);
                 }
@@ -21,7 +21,7 @@ class Class {
                 ()=>{
                     this;
                 };
-                ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                ()=>_async_to_generator(function*() {
                         this;
                     }).call(this);
             }

@@ -38,7 +38,7 @@
     });
     _a = /*#__PURE__*/ _interop_require_default._(_a);
     (function() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             const value = yield _a.default;
         })();
     })();

@@ -1,10 +1,10 @@
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 class A {
     constructor(){
-        this.foo = ()=>/*#__PURE__*/ _async_to_generator._(function*() {
+        this.foo = ()=>_async_to_generator._(function*() {
                 this.x();
             }).call(this);
-        this.bar = ()=>/*#__PURE__*/ _async_to_generator._(function*() {
+        this.bar = ()=>_async_to_generator._(function*() {
                 this.x();
             }).call(this);
     }

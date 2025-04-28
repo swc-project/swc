@@ -20,7 +20,7 @@ var AsyncLoader = /*#__PURE__*/ function(_React_Component) {
     return AsyncLoader;
 }(React.Component);
 function load() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,

@@ -1,6 +1,6 @@
 function f() {
     g(function() {
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             var _this = this;
             c(function() {
                 return _this;
@@ -9,7 +9,7 @@ function f() {
     });
 }
 (function() {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         var _this = this;
         console.log('async wrapper:', this === 'foo');
         (function() {

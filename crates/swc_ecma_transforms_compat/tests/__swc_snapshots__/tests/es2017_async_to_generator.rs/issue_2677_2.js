@@ -1,5 +1,5 @@
 function region() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -8,7 +8,7 @@ function region() {
     })();
 }
 export default function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:

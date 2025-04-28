@@ -5,7 +5,7 @@ System.register([
     "use strict";
     var _async_to_generator, cl1, cl2, obj, l;
     function fn() {
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             const req = yield _context.import('./test') // ONE
             ;
         })();
@@ -24,14 +24,14 @@ System.register([
         execute: function() {
             _export("cl1", cl1 = class cl1 {
                 m() {
-                    return /*#__PURE__*/ _async_to_generator(function*() {
+                    return _async_to_generator(function*() {
                         const req = yield _context.import('./test') // TWO
                         ;
                     })();
                 }
             });
             _export("obj", obj = {
-                m: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                m: ()=>_async_to_generator(function*() {
                         const req = yield _context.import('./test') // THREE
                         ;
                     })()
@@ -39,14 +39,14 @@ System.register([
             _export("cl2", cl2 = class cl2 {
                 constructor(){
                     this.p = {
-                        m: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                        m: ()=>_async_to_generator(function*() {
                                 const req = yield _context.import('./test') // FOUR
                                 ;
                             })()
                     };
                 }
             });
-            _export("l", l = ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            _export("l", l = ()=>_async_to_generator(function*() {
                     const req = yield _context.import('./test') // FIVE
                     ;
                 })());

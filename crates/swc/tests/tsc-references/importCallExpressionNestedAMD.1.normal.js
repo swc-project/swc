@@ -27,7 +27,7 @@ define([
         value: true
     });
     function foo() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             return yield new Promise((resolve, reject)=>require([
                     (yield new Promise((resolve, reject)=>require([
                             "./foo"

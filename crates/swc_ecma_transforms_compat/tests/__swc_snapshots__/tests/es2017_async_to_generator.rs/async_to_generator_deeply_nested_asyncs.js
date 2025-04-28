@@ -1,7 +1,7 @@
 function s(_0) {
-    return /*#__PURE__*/ _async_to_generator(function*(x, ...args) {
-        let t = (y, a)=>/*#__PURE__*/ _async_to_generator(function*() {
-                let r = (z, b, ...innerArgs)=>/*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*(x, ...args) {
+        let t = (y, a)=>_async_to_generator(function*() {
+                let r = (z, b, ...innerArgs)=>_async_to_generator(function*() {
                         yield z;
                         console.log(this, innerArgs, arguments);
                         return this.x;

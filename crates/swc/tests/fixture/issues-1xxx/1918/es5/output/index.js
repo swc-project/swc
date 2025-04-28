@@ -3,7 +3,7 @@ var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _define_property = require("@swc/helpers/_/_define_property");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 (function() {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var counter, resolve, promise, iterable, res, _i, _iter, v, oldresolve;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -20,7 +20,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
                         };
                     });
                     res = function() {
-                        return /*#__PURE__*/ _async_to_generator._(function() {
+                        return _async_to_generator._(function() {
                             var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, value, err;
                             return _ts_generator._(this, function(_state) {
                                 switch(_state.label){

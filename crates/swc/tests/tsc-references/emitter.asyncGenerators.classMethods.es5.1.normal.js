@@ -9,7 +9,7 @@ var C1 = /*#__PURE__*/ function() {
     }
     var _proto = C1.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -30,7 +30,7 @@ var C2 = /*#__PURE__*/ function() {
     }
     var _proto = C2.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -60,7 +60,7 @@ var C3 = /*#__PURE__*/ function() {
     }
     var _proto = C3.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -94,7 +94,7 @@ var C4 = /*#__PURE__*/ function() {
     }
     var _proto = C4.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -130,7 +130,7 @@ var C5 = /*#__PURE__*/ function() {
     }
     var _proto = C5.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -138,7 +138,7 @@ var C5 = /*#__PURE__*/ function() {
                         return [
                             5,
                             _ts_values(_async_generator_delegate(_async_iterator(function() {
-                                return /*#__PURE__*/ _wrap_async_generator(function() {
+                                return _wrap_async_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         switch(_state.label){
                                             case 0:
@@ -179,7 +179,7 @@ var C6 = /*#__PURE__*/ function() {
     }
     var _proto = C6.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             var x;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -210,7 +210,7 @@ var C7 = /*#__PURE__*/ function() {
     }
     var _proto = C7.prototype;
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2,
@@ -233,7 +233,7 @@ var C8 = /*#__PURE__*/ function() {
     var _proto = C8.prototype;
     _proto.g = function g() {};
     _proto.f = function f() {
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             return _ts_generator(this, function(_state) {
                 this.g();
                 return [
@@ -274,7 +274,7 @@ var C9 = /*#__PURE__*/ function(B9) {
         var _this1 = this, _superprop_get_g = function() {
             return _get(_get_prototype_of(C9.prototype), "g", _this);
         };
-        return /*#__PURE__*/ _wrap_async_generator(function() {
+        return _wrap_async_generator(function() {
             return _ts_generator(this, function(_state) {
                 _superprop_get_g().call(_this1);
                 return [

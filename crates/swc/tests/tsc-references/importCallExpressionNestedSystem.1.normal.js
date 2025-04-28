@@ -15,7 +15,7 @@ System.register([
     "use strict";
     var _async_to_generator;
     function foo() {
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             return yield _context.import((yield _context.import("./foo")).default);
         })();
     }

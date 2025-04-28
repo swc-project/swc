@@ -3,7 +3,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f0() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -12,7 +12,7 @@ function f0() {
     })();
 }
 function f1() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -21,7 +21,7 @@ function f1() {
     })();
 }
 function f3() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -30,7 +30,7 @@ function f3() {
     })();
 }
 var f4 = function f4() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -39,7 +39,7 @@ var f4 = function f4() {
     })();
 };
 var f5 = function f5() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -48,7 +48,7 @@ var f5 = function f5() {
     })();
 };
 var f6 = function f6() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -57,7 +57,7 @@ var f6 = function f6() {
     })();
 };
 var f7 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -66,7 +66,7 @@ var f7 = function() {
     })();
 };
 var f8 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -75,7 +75,7 @@ var f8 = function() {
     })();
 };
 var f9 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -84,7 +84,7 @@ var f9 = function() {
     })();
 };
 var f10 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -94,7 +94,7 @@ var f10 = function() {
     })();
 };
 var f11 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -104,7 +104,7 @@ var f11 = function() {
     })();
 };
 var f12 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -114,7 +114,7 @@ var f12 = function() {
     })();
 };
 var f13 = function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -125,7 +125,7 @@ var f13 = function() {
 };
 var o = {
     m1: function m1() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -134,7 +134,7 @@ var o = {
         })();
     },
     m2: function m2() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -143,7 +143,7 @@ var o = {
         })();
     },
     m3: function m3() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -159,7 +159,7 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.m1 = function m1() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -168,7 +168,7 @@ var C = /*#__PURE__*/ function() {
         })();
     };
     _proto.m2 = function m2() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -177,7 +177,7 @@ var C = /*#__PURE__*/ function() {
         })();
     };
     _proto.m3 = function m3() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -186,7 +186,7 @@ var C = /*#__PURE__*/ function() {
         })();
     };
     C.m4 = function m4() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -195,7 +195,7 @@ var C = /*#__PURE__*/ function() {
         })();
     };
     C.m5 = function m5() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -204,7 +204,7 @@ var C = /*#__PURE__*/ function() {
         })();
     };
     C.m6 = function m6() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2
@@ -216,7 +216,7 @@ var C = /*#__PURE__*/ function() {
 }();
 (function(M) {
     function f1() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
                     2

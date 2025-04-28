@@ -84,7 +84,7 @@ try {
             }
         };
         _proto.am = function am() {
-            return /*#__PURE__*/ _async_to_generator(function() {
+            return _async_to_generator(function() {
                 var env, d13, e;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
@@ -183,7 +183,7 @@ try {
             });
         };
         _proto.ag = function ag() {
-            return /*#__PURE__*/ _wrap_async_generator(function() {
+            return _wrap_async_generator(function() {
                 var env, d15, e;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
@@ -591,7 +591,7 @@ function f() {
     }
 }
 function af() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var env, d3, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -690,7 +690,7 @@ function g() {
     });
 }
 function ag() {
-    return /*#__PURE__*/ _wrap_async_generator(function() {
+    return _wrap_async_generator(function() {
         var env, d5, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){

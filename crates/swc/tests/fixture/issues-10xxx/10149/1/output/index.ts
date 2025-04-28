@@ -4,7 +4,7 @@ var _create_class = require("@swc/helpers/_/_create_class");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var foo = {
     bar: function bar(_0) {
-        return /*#__PURE__*/ _async_to_generator._(function(param) {
+        return _async_to_generator._(function(param) {
             var name;
             var _arguments = arguments;
             return _ts_generator._(this, function(_state) {
@@ -26,7 +26,7 @@ var Foo = /*#__PURE__*/ function() {
         {
             key: "bar",
             value: function bar(_0) {
-                return /*#__PURE__*/ _async_to_generator._(function(param) {
+                return _async_to_generator._(function(param) {
                     var name;
                     var _arguments = arguments;
                     return _ts_generator._(this, function(_state) {
@@ -43,7 +43,7 @@ var Foo = /*#__PURE__*/ function() {
     return Foo;
 }();
 function bar(_0) {
-    return /*#__PURE__*/ _async_to_generator._(function(param) {
+    return _async_to_generator._(function(param) {
         var name;
         var _arguments = arguments;
         return _ts_generator._(this, function(_state) {

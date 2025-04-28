@@ -5,7 +5,7 @@ var details = {
     _id: "1"
 };
 function request(path) {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             return [
                 2,
@@ -15,7 +15,7 @@ function request(path) {
     })();
 }
 (function() {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var obj, _tmp;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){

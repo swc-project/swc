@@ -6,15 +6,15 @@ import * as c from "react";
 export default function i() {
     var i = t(c.useState({
         hits: []
-    }), 2), o = i[0], u = i[1], l = t(c.useState("react"), 2), _ = l[0], h = l[1];
+    }), 2), o = i[0], u = i[1], l = t(c.useState("react"), 2), h = l[0], f = l[1];
     return c.useEffect(function() {
-        "" !== _ && /*#__PURE__*/ e(function() {
+        "" !== h && e(function() {
             return r(this, function(e) {
                 switch(e.label){
                     case 0:
                         return [
                             4,
-                            fetch("https://hn.algolia.com/api/v1/search?query=" + _)
+                            fetch("https://hn.algolia.com/api/v1/search?query=" + h)
                         ];
                     case 1:
                         return [
@@ -29,13 +29,13 @@ export default function i() {
             });
         })();
     }, [
-        _
+        h
     ]), s(a, {
         children: [
             n("input", {
-                value: _,
+                value: h,
                 onChange: function(e) {
-                    return h(e.target.value);
+                    return f(e.target.value);
                 }
             }),
             n("ul", {

@@ -7,7 +7,7 @@ System.register([
     "use strict";
     var _async_to_generator, _class_call_check, _ts_generator, cl1, obj, cl2, l;
     function fn() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             var req;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -46,7 +46,7 @@ System.register([
                 }
                 var _proto = cl1.prototype;
                 _proto.m = function m() {
-                    return /*#__PURE__*/ _async_to_generator(function() {
+                    return _async_to_generator(function() {
                         var req;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
@@ -68,7 +68,7 @@ System.register([
             }());
             _export("obj", obj = {
                 m: function() {
-                    return /*#__PURE__*/ _async_to_generator(function() {
+                    return _async_to_generator(function() {
                         var req;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
@@ -92,7 +92,7 @@ System.register([
                 _class_call_check(this, cl2);
                 this.p = {
                     m: function() {
-                        return /*#__PURE__*/ _async_to_generator(function() {
+                        return _async_to_generator(function() {
                             var req;
                             return _ts_generator(this, function(_state) {
                                 switch(_state.label){
@@ -113,7 +113,7 @@ System.register([
                 };
             });
             _export("l", l = function() {
-                return /*#__PURE__*/ _async_to_generator(function() {
+                return _async_to_generator(function() {
                     var req;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){

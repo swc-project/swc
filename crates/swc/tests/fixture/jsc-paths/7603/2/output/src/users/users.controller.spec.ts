@@ -6,7 +6,7 @@ import { UsersService } from "./users.service";
 describe('UsersController', function() {
     var controller;
     beforeEach(function() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             var module;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){

@@ -34,7 +34,7 @@ var C = /*#__PURE__*/ function() {
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
         }, function(err) {
-            return /*#__PURE__*/ _async_to_generator(function() {
+            return _async_to_generator(function() {
                 var one;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){

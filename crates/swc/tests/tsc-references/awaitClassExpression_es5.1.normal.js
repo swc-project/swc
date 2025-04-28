@@ -5,7 +5,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function func() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var D, _;
         return _ts_generator(this, function(_state) {
             switch(_state.label){

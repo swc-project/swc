@@ -5,7 +5,7 @@ System.register([
     var _async_to_generator;
     return _export({
         fn: function() {
-            return /*#__PURE__*/ _async_to_generator(function*() {
+            return _async_to_generator(function*() {
                 yield _context.import('./test');
             })();
         },
@@ -20,23 +20,23 @@ System.register([
         execute: function() {
             _export("cl1", class {
                 m() {
-                    return /*#__PURE__*/ _async_to_generator(function*() {
+                    return _async_to_generator(function*() {
                         yield _context.import('./test');
                     })();
                 }
             }), _export("obj", {
-                m: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                m: ()=>_async_to_generator(function*() {
                         yield _context.import('./test');
                     })()
             }), _export("cl2", class {
                 constructor(){
                     this.p = {
-                        m: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+                        m: ()=>_async_to_generator(function*() {
                                 yield _context.import('./test');
                             })()
                     };
                 }
-            }), _export("l", ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            }), _export("l", ()=>_async_to_generator(function*() {
                     yield _context.import('./test');
                 })());
         }

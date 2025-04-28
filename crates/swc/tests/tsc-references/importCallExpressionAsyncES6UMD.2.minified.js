@@ -26,32 +26,32 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
         get: all[name]
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             yield import('./test');
         })();
     }
     class cl1 {
         m() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+            return _async_to_generator._(function*() {
                 yield import('./test');
             })();
         }
     }
     let obj = {
-        m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        m: ()=>_async_to_generator._(function*() {
                 yield import('./test');
             })()
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                m: ()=>_async_to_generator._(function*() {
                         yield import('./test');
                     })()
             };
         }
     }
-    let l = ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+    let l = ()=>_async_to_generator._(function*() {
             yield import('./test');
         })();
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_async_to_generator"), require("@swc/helpers/_/_interop_require_wildcard")) : "function" == typeof define && define.amd ? define([

@@ -1,7 +1,7 @@
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function scanUser(groups) {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -9,7 +9,7 @@ function scanUser(groups) {
                         4,
                         Promise.all(groups.map(function(param) {
                             var users = param.users;
-                            return /*#__PURE__*/ _async_to_generator._(function() {
+                            return _async_to_generator._(function() {
                                 var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user, err;
                                 return _ts_generator._(this, function(_state) {
                                     switch(_state.label){

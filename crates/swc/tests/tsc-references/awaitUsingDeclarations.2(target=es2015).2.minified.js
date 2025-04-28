@@ -10,9 +10,9 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
     };
     try {
         _ts_add_disposable_resource(env, {
-            [Symbol.asyncDispose]: ()=>/*#__PURE__*/ _async_to_generator(function*() {})()
+            [Symbol.asyncDispose]: ()=>_async_to_generator(function*() {})()
         }, !0), _ts_add_disposable_resource(env, {
-            [Symbol.asyncDispose]: ()=>/*#__PURE__*/ _async_to_generator(function*() {})()
+            [Symbol.asyncDispose]: ()=>_async_to_generator(function*() {})()
         }, !0);
     } catch (e) {
         env.error = e, env.hasError = !0;

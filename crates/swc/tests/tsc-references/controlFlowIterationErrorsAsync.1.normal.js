@@ -3,7 +3,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var cond;
 function len(s) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -13,7 +13,7 @@ function len(s) {
     })();
 }
 function f1() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -46,7 +46,7 @@ function f1() {
     })();
 }
 function f2() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -79,7 +79,7 @@ function f2() {
     })();
 }
 function g1() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -112,7 +112,7 @@ function g1() {
     })();
 }
 function g2() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -145,7 +145,7 @@ function g2() {
     })();
 }
 function asNumber(x) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -155,7 +155,7 @@ function asNumber(x) {
     })();
 }
 function h1() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             x = "0";
@@ -170,7 +170,7 @@ function h1() {
     })();
 }
 function h2() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -202,7 +202,7 @@ function h2() {
     })();
 }
 function h3() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x, y;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -235,7 +235,7 @@ function h3() {
     })();
 }
 function h4() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x, y;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -270,7 +270,7 @@ function h4() {
 }
 // repro #51115
 function get_things(_) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -282,7 +282,7 @@ function get_things(_) {
     })();
 }
 function foobar() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var before, i, results;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -318,7 +318,7 @@ function foobar() {
     })();
 }
 (function() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var bar, baz;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -349,7 +349,7 @@ function foobar() {
     })();
 });
 function myFunc() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var lastId, entities;
         return _ts_generator(this, function(_state) {
             switch(_state.label){

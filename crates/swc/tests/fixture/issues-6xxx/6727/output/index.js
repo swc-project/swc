@@ -4,7 +4,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
 require("core-js/modules/es.object.to-string.js");
 require("core-js/modules/es.promise.js");
 function a() {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
