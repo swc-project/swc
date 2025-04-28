@@ -35,7 +35,7 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::Expected(end, eof_text));
                 false
             } else {
-                let c = cur!(self, false).ok();
+                let c = cur!(self, false).ok().copied();
                 c != end
             }
         } {

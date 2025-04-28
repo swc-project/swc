@@ -493,163 +493,163 @@ pub enum Token {
 
 impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexer<'a>> for Token {
     #[inline(always)]
-    fn create_jsx_name(name: &'a str, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn jsx_name(name: &'a str, lexer: &mut crate::Lexer<'a>) -> Self {
         let name = lexer.atom(name);
         Self::JSXName { name }
     }
 
     #[inline(always)]
-    fn create_str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Str { value, raw }
     }
 
     #[inline(always)]
-    fn create_template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Template { cooked, raw }
     }
 
     #[inline(always)]
-    fn create_regexp(content: Atom, flags: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn regexp(content: Atom, flags: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Regex(content, flags)
     }
 
     #[inline(always)]
-    fn create_dollar_lbrace() -> Self {
+    fn dollar_lbrace() -> Self {
         Self::DollarLBrace
     }
 
     #[inline(always)]
-    fn create_backquote() -> Self {
+    fn backquote() -> Self {
         Self::BackQuote
     }
 
     #[inline(always)]
-    fn create_num(value: f64, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn num(value: f64, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Num { value, raw }
     }
 
     #[inline(always)]
-    fn create_bigint(value: Box<BigIntValue>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn bigint(value: Box<BigIntValue>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::BigInt { value, raw }
     }
 
     #[inline(always)]
-    fn create_hash() -> Self {
+    fn hash() -> Self {
         Self::Hash
     }
 
     #[inline(always)]
-    fn create_dot() -> Self {
+    fn dot() -> Self {
         Self::Dot
     }
 
     #[inline(always)]
-    fn create_dotdotdot() -> Self {
+    fn dotdotdot() -> Self {
         Self::DotDotDot
     }
 
     #[inline(always)]
-    fn create_nullish_assign() -> Self {
+    fn nullish_assign() -> Self {
         tok!("??=")
     }
 
     #[inline(always)]
-    fn create_nullish_coalescing() -> Self {
+    fn nullish_coalescing() -> Self {
         tok!("??")
     }
 
     #[inline(always)]
-    fn create_question() -> Self {
+    fn question() -> Self {
         tok!('?')
     }
 
     #[inline(always)]
-    fn create_colon() -> Self {
+    fn colon() -> Self {
         Self::Colon
     }
 
     #[inline(always)]
-    fn create_bit_and() -> Self {
+    fn bit_and() -> Self {
         Self::BinOp(BinOpToken::BitAnd)
     }
 
     #[inline(always)]
-    fn create_bit_and_eq() -> Self {
+    fn bit_and_eq() -> Self {
         Self::AssignOp(AssignOp::BitAndAssign)
     }
 
     #[inline(always)]
-    fn create_bit_or() -> Self {
+    fn bit_or() -> Self {
         Self::BinOp(BinOpToken::BitOr)
     }
 
     #[inline(always)]
-    fn create_bit_or_eq() -> Self {
+    fn bit_or_eq() -> Self {
         Self::AssignOp(AssignOp::BitOrAssign)
     }
 
     #[inline(always)]
-    fn create_logical_and() -> Self {
+    fn logical_and() -> Self {
         tok!("&&")
     }
 
     #[inline(always)]
-    fn create_logical_and_eq() -> Self {
+    fn logical_and_eq() -> Self {
         Token::AssignOp(AssignOp::AddAssign)
     }
 
     #[inline(always)]
-    fn create_logical_or() -> Self {
+    fn logical_or() -> Self {
         tok!("||")
     }
 
     #[inline(always)]
-    fn create_logical_or_eq() -> Self {
+    fn logical_or_eq() -> Self {
         Token::AssignOp(AssignOp::OrAssign)
     }
 
     #[inline(always)]
-    fn create_mul() -> Self {
+    fn mul() -> Self {
         Token::BinOp(BinOpToken::Mul)
     }
 
     #[inline(always)]
-    fn create_mul_eq() -> Self {
+    fn mul_eq() -> Self {
         Token::AssignOp(AssignOp::MulAssign)
     }
 
     #[inline(always)]
-    fn create_mod() -> Self {
+    fn r#mod() -> Self {
         Token::BinOp(BinOpToken::Mod)
     }
 
     #[inline(always)]
-    fn create_mod_eq() -> Self {
+    fn mod_eq() -> Self {
         Token::AssignOp(AssignOp::ModAssign)
     }
 
     #[inline(always)]
-    fn create_exp() -> Self {
+    fn exp() -> Self {
         Token::BinOp(BinOpToken::Exp)
     }
 
     #[inline(always)]
-    fn create_exp_eq() -> Self {
+    fn exp_eq() -> Self {
         Token::AssignOp(AssignOp::ExpAssign)
     }
 
     #[inline(always)]
-    fn create_div() -> Self {
+    fn div() -> Self {
         Token::BinOp(BinOpToken::Div)
     }
 
     #[inline(always)]
-    fn create_div_eq() -> Self {
+    fn div_eq() -> Self {
         Token::AssignOp(AssignOp::DivAssign)
     }
 
     #[inline(always)]
-    fn create_unknown_ident(value: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn unknown_ident(value: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Token::Word(Word::Ident(IdentLike::Other(value)))
     }
 
@@ -668,6 +668,61 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
             Token::Word(word) => Some(word.into()),
             _ => None,
         }
+    }
+
+    #[inline(always)]
+    fn equal() -> Self {
+        Token::AssignOp(AssignOp::Assign)
+    }
+
+    #[inline(always)]
+    fn lshift() -> Self {
+        Token::BinOp(BinOpToken::LShift)
+    }
+
+    #[inline(always)]
+    fn lshift_eq() -> Self {
+        Token::AssignOp(AssignOp::LShiftAssign)
+    }
+
+    #[inline(always)]
+    fn less() -> Self {
+        Token::BinOp(BinOpToken::Lt)
+    }
+
+    #[inline(always)]
+    fn less_eq() -> Self {
+        Token::BinOp(BinOpToken::LtEq)
+    }
+
+    #[inline(always)]
+    fn rshift() -> Self {
+        Token::BinOp(BinOpToken::RShift)
+    }
+
+    #[inline(always)]
+    fn rshift_eq() -> Self {
+        Token::AssignOp(AssignOp::RShiftAssign)
+    }
+
+    #[inline(always)]
+    fn greater() -> Self {
+        Token::BinOp(BinOpToken::Gt)
+    }
+
+    #[inline(always)]
+    fn greater_eq() -> Self {
+        Token::BinOp(BinOpToken::GtEq)
+    }
+
+    #[inline(always)]
+    fn zero_fill_rshift() -> Self {
+        Token::BinOp(BinOpToken::ZeroFillRShift)
+    }
+
+    #[inline(always)]
+    fn zero_fill_rshift_eq() -> Self {
+        Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
     }
 }
 
@@ -838,6 +893,56 @@ pub struct TokenAndSpan {
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
+}
+
+impl crate::common::parser::token_and_span::TokenAndSpan<Token> for TokenAndSpan {
+    #[inline(always)]
+    fn new(token: Token, span: Span, had_line_break: bool) -> Self {
+        Self {
+            token,
+            had_line_break,
+            span,
+        }
+    }
+
+    #[inline(always)]
+    fn token(&self) -> &Token {
+        &self.token
+    }
+
+    #[inline(always)]
+    fn take_token(self) -> Token {
+        self.token
+    }
+
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
+    }
+
+    #[inline(always)]
+    fn span(&self) -> Span {
+        self.span
+    }
+}
+
+impl crate::common::parser::buffer::NextTokenAndSpan for TokenAndSpan {
+    type Token = Token;
+
+    #[inline(always)]
+    fn token(&self) -> &Self::Token {
+        &self.token
+    }
+
+    #[inline(always)]
+    fn span(&self) -> Span {
+        self.span
+    }
+
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
+    }
 }
 
 impl Spanned for TokenAndSpan {

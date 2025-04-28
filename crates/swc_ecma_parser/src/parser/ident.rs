@@ -63,7 +63,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let t = cur!(self, true);
+        let t = *cur!(self, true);
         let w = if t.is_word() {
             bump!(self);
             t.as_word_atom(self.input.get_token_value()).unwrap()
@@ -102,7 +102,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let word = self.parse_with(|p| {
-            let t = cur!(p, true);
+            let t = *cur!(p, true);
             if !t.is_word() {
                 syntax_error!(p, SyntaxError::ExpectedIdent)
             }

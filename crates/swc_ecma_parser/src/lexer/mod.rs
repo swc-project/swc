@@ -26,7 +26,7 @@ mod table;
 mod token;
 pub mod util;
 
-pub(crate) use token::{Token, TokenAndSpan, TokenValue};
+pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 #[derive(Clone)]
 pub struct Lexer<'a> {

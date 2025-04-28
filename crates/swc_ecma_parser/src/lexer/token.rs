@@ -1,4 +1,5 @@
 use swc_atoms::{atom, Atom};
+use swc_common::Span;
 use swc_ecma_ast::AssignOp;
 use swc_ecma_lexer::common::context::Context;
 
@@ -34,7 +35,7 @@ pub enum TokenValue {
     Error(swc_ecma_lexer::error::Error),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum Token {
     // Single character tokens (first 33 types)
@@ -492,26 +493,26 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     for Token
 {
     #[inline(always)]
-    fn create_jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
+    fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
         let name = lexer.atoms.atom(name);
         lexer.set_token_value(Some(TokenValue::Word(name)));
         Token::JSXName
     }
 
     #[inline(always)]
-    fn create_str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::Str
     }
 
     #[inline(always)]
-    fn create_template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Template { cooked, raw }));
         Token::Template
     }
 
     #[inline(always)]
-    fn create_regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Regex {
             value: content,
             flags,
@@ -520,148 +521,144 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     }
 
     #[inline(always)]
-    fn create_dollar_lbrace() -> Self {
+    fn dollar_lbrace() -> Self {
         Token::DollarLBrace
     }
 
     #[inline(always)]
-    fn create_backquote() -> Self {
+    fn backquote() -> Self {
         Token::BackQuote
     }
 
     #[inline(always)]
-    fn create_num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Num { value, raw }));
         Self::Num
     }
 
     #[inline(always)]
-    fn create_bigint(
-        value: Box<num_bigint::BigInt>,
-        raw: Atom,
-        lexer: &mut crate::Lexer<'a>,
-    ) -> Self {
+    fn bigint(value: Box<num_bigint::BigInt>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::BigInt { value, raw }));
         Self::BigInt
     }
 
     #[inline(always)]
-    fn create_hash() -> Self {
+    fn hash() -> Self {
         Self::Hash
     }
 
     #[inline(always)]
-    fn create_dot() -> Self {
+    fn dot() -> Self {
         Self::Dot
     }
 
     #[inline(always)]
-    fn create_dotdotdot() -> Self {
+    fn dotdotdot() -> Self {
         Self::DotDotDot
     }
 
     #[inline(always)]
-    fn create_nullish_assign() -> Self {
+    fn nullish_assign() -> Self {
         Token::NullishEq
     }
 
     #[inline(always)]
-    fn create_nullish_coalescing() -> Self {
+    fn nullish_coalescing() -> Self {
         Token::NullishCoalescing
     }
 
     #[inline(always)]
-    fn create_question() -> Self {
+    fn question() -> Self {
         Token::QuestionMark
     }
 
     #[inline(always)]
-    fn create_colon() -> Self {
+    fn colon() -> Self {
         Self::Colon
     }
 
     #[inline(always)]
-    fn create_bit_and() -> Self {
+    fn bit_and() -> Self {
         Self::Ampersand
     }
 
     #[inline(always)]
-    fn create_bit_and_eq() -> Self {
+    fn bit_and_eq() -> Self {
         Self::BitAndEq
     }
 
     #[inline(always)]
-    fn create_bit_or() -> Self {
+    fn bit_or() -> Self {
         Self::Pipe
     }
 
     #[inline(always)]
-    fn create_bit_or_eq() -> Self {
+    fn bit_or_eq() -> Self {
         Self::BitOrEq
     }
 
     #[inline(always)]
-    fn create_logical_and_eq() -> Self {
+    fn logical_and_eq() -> Self {
         Self::LogicalAndEq
     }
 
     #[inline(always)]
-    fn create_logical_or_eq() -> Self {
+    fn logical_or_eq() -> Self {
         Self::LogicalOrEq
     }
 
     #[inline(always)]
-    fn create_mul() -> Self {
+    fn mul() -> Self {
         Token::Asterisk
     }
 
     #[inline(always)]
-    fn create_mul_eq() -> Self {
+    fn mul_eq() -> Self {
         Token::MulEq
     }
 
     #[inline(always)]
-    fn create_mod() -> Self {
+    fn r#mod() -> Self {
         Token::Percent
     }
 
     #[inline(always)]
-    fn create_mod_eq() -> Self {
+    fn mod_eq() -> Self {
         Token::ModEq
     }
 
     #[inline(always)]
-    fn create_exp() -> Self {
+    fn exp() -> Self {
         Token::Exp
     }
 
     #[inline(always)]
-    fn create_exp_eq() -> Self {
+    fn exp_eq() -> Self {
         Token::ExpEq
     }
 
     #[inline(always)]
-    fn create_div() -> Self {
+    fn div() -> Self {
         Token::Slash
     }
 
     #[inline(always)]
-    fn create_div_eq() -> Self {
+    fn div_eq() -> Self {
         Token::DivEq
     }
 
     #[inline(always)]
-    fn create_logical_and() -> Self {
+    fn logical_and() -> Self {
         Token::LogicalAnd
     }
 
     #[inline(always)]
-    fn create_logical_or() -> Self {
+    fn logical_or() -> Self {
         Token::LogicalOr
     }
 
     #[inline(always)]
-    fn create_unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Word(value)));
         Token::Ident
     }
@@ -675,6 +672,78 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
         let value = lexer.get_token_value();
         self.as_word_atom(value)
+    }
+
+    #[inline(always)]
+    fn equal() -> Self {
+        Token::Eq
+    }
+
+    #[inline(always)]
+    fn lshift() -> Self {
+        Token::LShift
+    }
+
+    #[inline(always)]
+    fn lshift_eq() -> Self {
+        Token::LShiftEq
+    }
+
+    #[inline(always)]
+    fn less() -> Self {
+        Token::Lt
+    }
+
+    #[inline(always)]
+    fn less_eq() -> Self {
+        Token::LtEq
+    }
+
+    #[inline(always)]
+    fn rshift() -> Self {
+        Token::RShift
+    }
+
+    #[inline(always)]
+    fn rshift_eq() -> Self {
+        Token::RShiftEq
+    }
+
+    #[inline(always)]
+    fn greater() -> Self {
+        Token::Gt
+    }
+
+    #[inline(always)]
+    fn greater_eq() -> Self {
+        Token::GtEq
+    }
+
+    #[inline(always)]
+    fn zero_fill_rshift() -> Self {
+        Token::ZeroFillRShift
+    }
+
+    #[inline(always)]
+    fn zero_fill_rshift_eq() -> Self {
+        Token::ZeroFillRShiftEq
+    }
+}
+
+impl std::fmt::Debug for Token {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Token::Str => "<string literal>",
+            Token::Num => "<number literal>",
+            Token::BigInt => "<bigint literal>",
+            Token::Regex => "<regexp literal>",
+            Token::Template => "<template literal>",
+            Token::JSXName => "<jsx name>",
+            Token::JSXText => "<jsx text>",
+            Token::Ident => "<identifier>",
+            _ => &self.to_string(None),
+        };
+        f.write_str(s)
     }
 }
 
@@ -1246,5 +1315,61 @@ pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: swc_common::Span,
+    pub span: Span,
+}
+
+impl swc_ecma_lexer::common::parser::token_and_span::TokenAndSpan<Token> for TokenAndSpan {
+    #[inline(always)]
+    fn new(token: Token, span: Span, had_line_break: bool) -> Self {
+        Self {
+            token,
+            had_line_break,
+            span,
+        }
+    }
+
+    #[inline(always)]
+    fn token(&self) -> &Token {
+        &self.token
+    }
+
+    #[inline(always)]
+    fn take_token(self) -> Token {
+        self.token
+    }
+
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
+    }
+
+    #[inline]
+    fn span(&self) -> Span {
+        self.span
+    }
+}
+
+#[derive(Clone)]
+pub struct NextTokenAndSpan {
+    pub token_and_span: TokenAndSpan,
+    pub value: Option<TokenValue>,
+}
+
+impl swc_ecma_lexer::common::parser::buffer::NextTokenAndSpan for NextTokenAndSpan {
+    type Token = Token;
+
+    #[inline(always)]
+    fn token(&self) -> &Self::Token {
+        &self.token_and_span.token
+    }
+
+    #[inline(always)]
+    fn span(&self) -> Span {
+        self.token_and_span.span
+    }
+
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.token_and_span.had_line_break
+    }
 }
