@@ -16,6 +16,7 @@ use crate::{
 };
 #[cfg(test)]
 extern crate test;
+use swc_ecma_lexer::common::parser::buffer::Buffer as BufferTrait;
 #[cfg(test)]
 use test::Bencher;
 

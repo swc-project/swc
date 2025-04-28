@@ -536,7 +536,7 @@ impl<I: Tokens> Parser<I> {
 
         self.in_type().parse_with(|p| {
             let return_token_start = cur_pos!(p);
-            if !p.input.eat(return_token) {
+            if !p.input.eat(&return_token) {
                 let cur = format!("{:?}", cur!(p, false).ok());
                 let span = p.input.cur_span();
                 syntax_error!(
@@ -721,7 +721,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.in_type().parse_with(|p| {
-            if !p.input.eat(token_to_eat) {
+            if !p.input.eat(&token_to_eat) {
                 return Ok(None);
             }
 
@@ -738,7 +738,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
-            if !p.input.eat(token) {
+            if !p.input.eat(&token) {
                 let got = format!("{:?}", cur!(p, false).ok());
                 syntax_error!(
                     p,
@@ -2568,7 +2568,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if is!(p, IdentName) {
-                let t = cur!(p, true);
+                let t = *cur!(p, true);
                 let value = t.as_word_atom(p.input.get_token_value()).unwrap();
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
@@ -2822,16 +2822,16 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let start = cur_pos!(self); // include the leading operator in the start
-        self.input.eat(operator);
+        self.input.eat(&operator);
         trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
 
         let ty = parse_constituent_type(self)?;
         trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
 
-        if self.input.is(operator) {
+        if self.input.is(&operator) {
             let mut types = vec![ty];
 
-            while self.input.eat(operator) {
+            while self.input.eat(&operator) {
                 trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
 
                 types.push(parse_constituent_type(self)?);

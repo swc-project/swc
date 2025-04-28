@@ -47,7 +47,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = cur_pos!(p);
 
-            let t = cur!(p, true);
+            let t = *cur!(p, true);
             let v = match t {
                 Token::Str => match bump!(p) {
                     Token::Str => {

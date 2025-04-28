@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 
 use self::util::ParseObject;
 use crate::{
-    common::input::Tokens,
+    common::{input::Tokens, parser::buffer::Buffer as BufferTrait},
     error::{Error, SyntaxError},
     input::Buffer,
     token::{Token, TokenAndSpan, Word},

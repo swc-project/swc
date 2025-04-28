@@ -1666,7 +1666,7 @@ impl<I: Tokens> Parser<I> {
                 expect!(self, '(');
             }
             debug_assert_ne!(
-                cur!(self, false).ok(),
+                cur!(self, false).ok().copied(),
                 Some(Token::LParen),
                 "parse_new_expr() should eat paren if it exists"
             );

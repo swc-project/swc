@@ -833,7 +833,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
         });
 
-        Ok(Self::Token::create_jsx_name(slice, self))
+        Ok(Self::Token::jsx_name(slice, self))
     }
 
     fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
@@ -1044,7 +1044,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         let raw = self.atom(raw);
-        Ok(Self::Token::create_str(value, raw, self))
+        Ok(Self::Token::str(value, raw, self))
     }
 
     /// Utility method to reuse buffer.
@@ -1197,10 +1197,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     if c == '$' {
                         self.bump();
                         self.bump();
-                        return Ok(Self::Token::create_dollar_lbrace());
+                        return Ok(Self::Token::dollar_lbrace());
                     } else {
                         self.bump();
-                        return Ok(Self::Token::create_backquote());
+                        return Ok(Self::Token::backquote());
                     }
                 }
 
@@ -1228,7 +1228,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_slice(raw_slice_start, end)
                 };
                 let raw = self.atom(raw);
-                return Ok(Self::Token::create_template(cooked, raw, self));
+                return Ok(Self::Token::template(cooked, raw, self));
             }
 
             if c == '\\' {
@@ -1486,7 +1486,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Self::Token::create_regexp(content, flags, self))
+        Ok(Self::Token::regexp(content, flags, self))
     }
 
     /// This method is optimized for texts without escape sequences.
@@ -1615,7 +1615,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             !self.input().is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Self::Token::create_hash()))
+        Ok(Some(Self::Token::hash()))
     }
 
     /// Read a token given `.`.
@@ -1631,13 +1631,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     // Safety: cur() is Some(',')
                     self.input_mut().bump();
                 }
-                return Ok(Self::Token::create_dot());
+                return Ok(Self::Token::dot());
             }
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Self::Token::create_num(value, raw, self),
-                Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+                Left((value, raw)) => Self::Token::num(value, raw, self),
+                Right((value, raw)) => Self::Token::bigint(value, raw, self),
             });
         }
 
@@ -1655,10 +1655,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_mut().bump(); // 3rd `.`
             }
 
-            return Ok(Self::Token::create_dotdotdot());
+            return Ok(Self::Token::dotdotdot());
         }
 
-        Ok(Self::Token::create_dot())
+        Ok(Self::Token::dot())
     }
 
     /// Read a token given `?`.
@@ -1678,16 +1678,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         // Safety: cur() was some
                         self.input_mut().bump();
                     }
-                    return Ok(Self::Token::create_nullish_assign());
+                    return Ok(Self::Token::nullish_assign());
                 }
-                Ok(Self::Token::create_nullish_coalescing())
+                Ok(Self::Token::nullish_coalescing())
             }
             _ => {
                 unsafe {
                     // Safety: peek() is callable only if cur() is Some
                     self.input_mut().bump();
                 }
-                Ok(Self::Token::create_question())
+                Ok(Self::Token::question())
             }
         }
     }
@@ -1701,7 +1701,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             // Safety: cur() is Some(':')
             self.input_mut().bump();
         }
-        Ok(Self::Token::create_colon())
+        Ok(Self::Token::colon())
     }
 
     /// Read a token given `0`.
@@ -1717,15 +1717,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Self::Token::create_num(value, raw, self),
-                    Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+                    Left((value, raw)) => Self::Token::num(value, raw, self),
+                    Right((value, raw)) => Self::Token::bigint(value, raw, self),
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Self::Token::create_num(value, raw, self),
-            Right((value, raw)) => Self::Token::create_bigint(value, raw, self),
+            Left((value, raw)) => Self::Token::num(value, raw, self),
+            Right((value, raw)) => Self::Token::bigint(value, raw, self),
         })
     }
 
@@ -1750,8 +1750,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
             return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::create_bit_and_eq(),
-                BinOpToken::BitOr => Self::Token::create_bit_or_eq(),
+                BinOpToken::BitAnd => Self::Token::bit_and_eq(),
+                BinOpToken::BitOr => Self::Token::bit_or_eq(),
                 _ => unreachable!(),
             });
         }
@@ -1770,8 +1770,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
 
                 return Ok(match token {
-                    BinOpToken::BitAnd => Self::Token::create_logical_and_eq(),
-                    BinOpToken::BitOr => Self::Token::create_logical_or_eq(),
+                    BinOpToken::BitAnd => Self::Token::logical_and_eq(),
+                    BinOpToken::BitOr => Self::Token::logical_or_eq(),
                     _ => unreachable!(),
                 });
             }
@@ -1787,16 +1787,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
 
             return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::create_logical_and(),
-                BinOpToken::BitOr => Self::Token::create_logical_or(),
+                BinOpToken::BitAnd => Self::Token::logical_and(),
+                BinOpToken::BitOr => Self::Token::logical_or(),
                 _ => unreachable!(),
             });
         }
 
         Ok(if token == BinOpToken::BitAnd {
-            Self::Token::create_bit_and()
+            Self::Token::bit_and()
         } else {
-            Self::Token::create_bit_or()
+            Self::Token::bit_or()
         })
     }
 
@@ -1823,16 +1823,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         Ok(if self.input_mut().eat_byte(b'=') {
             match token {
-                BinOpToken::Mul => Self::Token::create_mul_eq(),
-                BinOpToken::Mod => Self::Token::create_mod_eq(),
-                BinOpToken::Exp => Self::Token::create_exp_eq(),
+                BinOpToken::Mul => Self::Token::mul_eq(),
+                BinOpToken::Mod => Self::Token::mod_eq(),
+                BinOpToken::Exp => Self::Token::exp_eq(),
                 _ => unreachable!(),
             }
         } else {
             match token {
-                BinOpToken::Mul => Self::Token::create_mul(),
-                BinOpToken::Mod => Self::Token::create_mod(),
-                BinOpToken::Exp => Self::Token::create_exp(),
+                BinOpToken::Mul => Self::Token::mul(),
+                BinOpToken::Mod => Self::Token::r#mod(),
+                BinOpToken::Exp => Self::Token::exp(),
                 _ => unreachable!(),
             }
         })
@@ -1844,9 +1844,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // Divide operator
         self.bump();
         Ok(Some(if self.eat(b'=') {
-            Self::Token::create_div_eq()
+            Self::Token::div_eq()
         } else {
-            Self::Token::create_div()
+            Self::Token::div()
         }))
     }
 
@@ -1857,7 +1857,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
             let atom = l.atom(s);
-            Self::Token::create_unknown_ident(atom, l)
+            Self::Token::unknown_ident(atom, l)
         })?;
 
         Ok(word)
@@ -1911,7 +1911,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             l.input_slice(start, end)
                         };
                         let raw = l.atom(raw);
-                        return Ok(Self::Token::create_str(value, raw, l));
+                        return Ok(Self::Token::str(value, raw, l));
                     }
 
                     if c == b'\\' {
@@ -1981,7 +1981,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 // `self.input`
                 l.input_slice(start, end)
             };
-            Ok(Self::Token::create_str(l.atom(&**buf), l.atom(raw), l))
+            Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l))
         })
     }
 
@@ -2001,7 +2001,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
             }
             let atom = l.atom(s);
-            Self::Token::create_unknown_ident(atom, l)
+            Self::Token::unknown_ident(atom, l)
         })?;
 
         // Note: ctx is store in lexer because of this error.

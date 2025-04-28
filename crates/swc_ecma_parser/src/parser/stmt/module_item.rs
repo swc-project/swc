@@ -373,7 +373,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let t = cur!(self, true);
+            let t = *cur!(self, true);
             let sym = t.into_atom(self.input.get_token_value());
             // TODO: remove clone
             if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
