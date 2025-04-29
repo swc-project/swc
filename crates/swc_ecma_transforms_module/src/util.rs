@@ -275,18 +275,34 @@ macro_rules! caniuse {
 }
 
 /// ```javascript
-/// function _esmExport(target, all) {
-///    for (var name in all)Object.defineProperty(target, name, { get: all[name], enumerable: true });
+/// function _export(target, all) {
+///     for (var name in all)
+///         Object.defineProperty(target, name, {
+///             enumerable: true,
+///             get: Object.getOwnPropertyDescriptor(all, name).get,
+///         });
 /// }
 /// ```
+/// Compatibility:
+/// - `Object.defineProperty` is supported in Node.js v0.10+
+/// - `Object.getOwnPropertyDescriptor` is supported in Node.js v0.10+
 pub(crate) fn esm_export() -> Function {
     let target = private_ident!("target");
     let all = private_ident!("all");
     let name = private_ident!("name");
 
+    let getter = member_expr!(
+        Default::default(),
+        DUMMY_SP,
+        Object.getOwnPropertyDescriptor
+    )
+    .as_call(DUMMY_SP, vec![all.clone().as_arg(), name.clone().as_arg()])
+    .make_member("get".into());
+
+    // Create property descriptor with enumerable: true and get: desc.get
     let getter = KeyValueProp {
         key: quote_ident!("get").into(),
-        value: all.clone().computed_member(name.clone()).into(),
+        value: getter.into(),
     };
 
     let body = object_define_enumerable(
@@ -299,9 +315,6 @@ pub(crate) fn esm_export() -> Function {
     let for_in_stmt: Stmt = ForInStmt {
         span: DUMMY_SP,
         left: VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
                 name: name.into(),
@@ -318,14 +331,10 @@ pub(crate) fn esm_export() -> Function {
 
     Function {
         params: vec![target.into(), all.into()],
-        decorators: Default::default(),
-        span: DUMMY_SP,
         body: Some(BlockStmt {
             stmts: vec![for_in_stmt],
             ..Default::default()
         }),
-        is_generator: false,
-        is_async: false,
         ..Default::default()
     }
 }
@@ -351,7 +360,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
         _ => {
             let props = prop_list
                 .into_iter()
-                .map(prop_function)
+                .map(getter_function)
                 .map(From::from)
                 .collect();
             let obj_lit = ObjectLit {
@@ -426,6 +435,28 @@ pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
                 .into_fn_expr(None)
                 .into(),
         ),
+    }
+    .into()
+}
+
+/// ```javascript
+/// {
+///     get key() {
+///         return expr;
+///     },
+/// }
+/// ```
+/// Compatibility: getter is supported in Node.js v0.10+
+fn getter_function((key, export_item): ExportKV) -> Prop {
+    let key = prop_name(&key, export_item.export_name_span()).into();
+
+    GetterProp {
+        key,
+        body: Some(BlockStmt {
+            stmts: vec![export_item.into_local_ident().into_return_stmt().into()],
+            ..Default::default()
+        }),
+        ..Default::default()
     }
     .into()
 }
