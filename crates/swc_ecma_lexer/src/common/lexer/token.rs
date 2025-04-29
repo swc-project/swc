@@ -9,9 +9,13 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     type Buffer: crate::common::parser::buffer::Buffer<'a>;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
+    fn is_jsx_name(&self) -> bool;
+    fn take_jsx_name(self, buffer: &mut Self::Buffer) -> Atom;
+
     fn str(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_str(&self) -> bool;
     fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
+
     fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn num(value: f64, raw: Atom, lexer: &mut Self::Lexer) -> Self;
@@ -63,6 +67,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
+
+    fn is_word(&self) -> bool;
+    fn take_word(self, buffer: &mut Self::Buffer) -> Option<Atom>;
 
     fn is_reserved(&self, ctx: super::Context) -> bool;
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;

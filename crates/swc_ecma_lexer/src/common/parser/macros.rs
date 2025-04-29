@@ -1,5 +1,18 @@
 /// cur!($parser, required:bool)
 macro_rules! cur {
+    ($p:expr, false) => {{
+        match $p.input_mut().cur() {
+            Some(c) => Ok(c),
+            None => {
+                let pos = $p.input().end_pos();
+                let last = Span::new(pos, pos);
+                Err(crate::error::Error::new(
+                    last,
+                    crate::error::SyntaxError::Eof,
+                ))
+            }
+        }
+    }};
     ($p:expr, true) => {{
         match $p.input_mut().cur() {
             Some(c) => {
@@ -18,5 +31,45 @@ macro_rules! cur {
                 return Err(err);
             }
         }
+    }};
+}
+
+macro_rules! unexpected {
+    ($p:expr, $expected:literal) => {{
+        let got = $p.input_mut().dump_cur();
+        syntax_error!(
+            $p,
+            $p.input().cur_span(),
+            SyntaxError::Unexpected {
+                got,
+                expected: $expected
+            }
+        )
+    }};
+}
+
+macro_rules! syntax_error {
+    ($p:expr, $err:expr) => {
+        syntax_error!($p, $p.input().cur_span(), $err)
+    };
+    ($p:expr, $span:expr, $err:expr) => {{
+        let err = $crate::error::Error::new($span, $err);
+        {
+            if $p.input_mut().cur().is_some_and(|t| t.is_error()) {
+                let c = $p.input_mut().bump();
+                let err = c.take_error($p.input_mut());
+                $p.emit_error(err);
+            }
+        }
+        if cfg!(feature = "debug") {
+            tracing::error!(
+                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
+                file!(),
+                line!(),
+                column!(),
+                $p.input_mut().cur()
+            );
+        }
+        return Err(err.into());
     }};
 }

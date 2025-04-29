@@ -59,45 +59,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         )
     }
 
-    /// Use this when spec says "IdentifierName".
-    /// This allows idents like `catch`.
-    pub(super) fn parse_ident_name(&mut self) -> PResult<IdentName> {
-        let in_type = self.ctx().contains(Context::InType);
-
-        let start = cur_pos!(self);
-
-        let w = match cur!(self, true) {
-            Token::Word(..) => match bump!(self) {
-                Token::Word(w) => w.into(),
-                _ => unreachable!(),
-            },
-
-            Token::JSXName { .. } if in_type => match bump!(self) {
-                Token::JSXName { name } => name,
-                _ => unreachable!(),
-            },
-
-            _ => syntax_error!(self, SyntaxError::ExpectedIdent),
-        };
-
-        Ok(IdentName::new(w, span!(self, start)))
-    }
-
-    // https://tc39.es/ecma262/#prod-ModuleExportName
-    pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
-        let module_export_name = match cur!(self, false) {
-            Ok(&Token::Str { .. }) => match self.parse_lit()? {
-                Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
-                _ => unreachable!(),
-            },
-            Ok(&Token::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?.into()),
-            _ => {
-                unexpected!(self, "identifier or string");
-            }
-        };
-        Ok(module_export_name)
-    }
-
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
