@@ -14,7 +14,6 @@ use crate::{lexer::Token, token};
 mod ops;
 #[cfg(test)]
 mod tests;
-mod verifier;
 
 use crate::parser::Parser;
 

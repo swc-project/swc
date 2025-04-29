@@ -12,7 +12,6 @@ use crate::{
 };
 
 mod ops;
-mod verifier;
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
