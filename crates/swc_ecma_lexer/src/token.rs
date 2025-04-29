@@ -13,7 +13,10 @@ pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
 use crate::{
-    common::lexer::{LexResult, Lexer},
+    common::{
+        input::Tokens,
+        lexer::{LexResult, Lexer},
+    },
     error::Error,
     tok,
 };
@@ -491,7 +494,12 @@ pub enum Token {
     Error(Error),
 }
 
-impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexer<'a>> for Token {
+impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, I>
+    for Token
+{
+    type Buffer = crate::input::Buffer<I>;
+    type Lexer = crate::Lexer<'a>;
+
     #[inline(always)]
     fn jsx_name(name: &'a str, lexer: &mut crate::Lexer<'a>) -> Self {
         let name = lexer.atom(name);
@@ -724,6 +732,19 @@ impl<'a> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexe
     fn zero_fill_rshift_eq() -> Self {
         Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
     }
+
+    #[inline(always)]
+    fn is_error(&self) -> bool {
+        matches!(self, Self::Error(_))
+    }
+
+    #[inline(always)]
+    fn take_error(self, _: &mut Self::Buffer) -> crate::error::Error {
+        match self {
+            Self::Error(e) => e,
+            _ => unreachable!(),
+        }
+    }
 }
 
 impl Token {
@@ -895,7 +916,9 @@ pub struct TokenAndSpan {
     pub span: Span,
 }
 
-impl crate::common::parser::token_and_span::TokenAndSpan<Token> for TokenAndSpan {
+impl crate::common::parser::token_and_span::TokenAndSpan for TokenAndSpan {
+    type Token = Token;
+
     #[inline(always)]
     fn new(token: Token, span: Span, had_line_break: bool) -> Self {
         Self {

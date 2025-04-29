@@ -32,7 +32,7 @@ pub type LexResult<T> = Result<T, crate::error::Error>;
 
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     type State: self::state::State;
-    type Token: token::TokenFactory<'a, TokenAndSpan, Self>;
+    type Token: token::TokenFactory<'a, TokenAndSpan, Self, Lexer = Self>;
 
     fn input(&self) -> &StringInput<'a>;
     fn input_mut(&mut self) -> &mut StringInput<'a>;

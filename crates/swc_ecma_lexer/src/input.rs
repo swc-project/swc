@@ -254,16 +254,12 @@ pub struct Buffer<I: Tokens<TokenAndSpan>> {
     pub next: Option<TokenAndSpan>,
 }
 
-impl<'a, I: Tokens<TokenAndSpan>>
-    crate::common::parser::buffer::Buffer<
-        'a,
-        super::Lexer<'a>,
-        super::token::Token,
-        TokenAndSpan,
-        I,
-    > for Buffer<I>
-{
+impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for Buffer<I> {
+    type I = I;
+    type Lexer = super::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
+    type Token = Token;
+    type TokenAndSpan = TokenAndSpan;
 
     fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();

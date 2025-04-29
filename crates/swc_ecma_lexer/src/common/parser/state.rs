@@ -15,19 +15,15 @@ pub struct State {
     pub trailing_commas: FxHashMap<BytePos, Span>,
 }
 
-pub struct WithState<
-    'w,
-    TokenAndSpan,
-    I: 'w + Tokens<TokenAndSpan>,
-    Parser: super::Parser<TokenAndSpan, I>,
-> {
+pub struct WithState<'a, 'w, TokenAndSpan, I: 'w + Tokens<TokenAndSpan>, Parser: super::Parser<'a>>
+{
     pub(super) inner: &'w mut Parser,
     pub(super) orig_state: crate::common::parser::state::State,
-    pub(super) marker: std::marker::PhantomData<(TokenAndSpan, I)>,
+    pub(super) marker: std::marker::PhantomData<&'a (TokenAndSpan, I)>,
 }
 
-impl<TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<TokenAndSpan, I>> Deref
-    for WithState<'_, TokenAndSpan, I, Parser>
+impl<'a, TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<'a>> Deref
+    for WithState<'a, '_, TokenAndSpan, I, Parser>
 {
     type Target = Parser;
 
@@ -35,16 +31,16 @@ impl<TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<TokenAndSpan, 
         self.inner
     }
 }
-impl<TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<TokenAndSpan, I>> DerefMut
-    for WithState<'_, TokenAndSpan, I, Parser>
+impl<'a, TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<'a>> DerefMut
+    for WithState<'a, '_, TokenAndSpan, I, Parser>
 {
     fn deref_mut(&mut self) -> &mut Parser {
         self.inner
     }
 }
 
-impl<TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<TokenAndSpan, I>> Drop
-    for WithState<'_, TokenAndSpan, I, Parser>
+impl<'a, TokenAndSpan, I: Tokens<TokenAndSpan>, Parser: super::Parser<'a>> Drop
+    for WithState<'a, '_, TokenAndSpan, I, Parser>
 {
     fn drop(&mut self) {
         std::mem::swap(self.inner.state_mut(), &mut self.orig_state);

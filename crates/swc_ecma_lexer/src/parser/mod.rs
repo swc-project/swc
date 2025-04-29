@@ -37,15 +37,22 @@ pub struct Parser<I: Tokens<TokenAndSpan>> {
     found_module_item: bool,
 }
 
-impl<I: Tokens<TokenAndSpan>> crate::common::parser::Parser<TokenAndSpan, I> for Parser<I> {
+impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I> {
+    type Buffer = Buffer<I>;
+    type I = I;
+    type Lexer = crate::lexer::Lexer<'a>;
+    type Next = TokenAndSpan;
+    type Token = Token;
+    type TokenAndSpan = TokenAndSpan;
+
     #[inline(always)]
-    fn input(&self) -> &I {
-        &self.input.iter
+    fn input(&self) -> &Self::Buffer {
+        &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut I {
-        &mut self.input.iter
+    fn input_mut(&mut self) -> &mut Self::Buffer {
+        &mut self.input
     }
 
     #[inline(always)]
@@ -196,46 +203,5 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             },
             _ => Ok(None),
         }
-    }
-
-    fn ctx(&self) -> Context {
-        self.input.get_ctx()
-    }
-
-    #[cold]
-    fn emit_err(&mut self, span: Span, error: SyntaxError) {
-        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
-            return;
-        }
-
-        self.emit_error(Error::new(span, error))
-    }
-
-    #[cold]
-    fn emit_error(&mut self, error: Error) {
-        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
-            return;
-        }
-
-        if matches!(self.input.cur(), Some(Token::Error(..))) {
-            let err = self.input.bump();
-            match err {
-                Token::Error(err) => {
-                    self.input_ref().add_error(err);
-                }
-                _ => unreachable!(),
-            }
-        }
-
-        self.input_ref().add_error(error);
-    }
-
-    #[cold]
-    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
-        if self.ctx().contains(Context::IgnoreError) {
-            return;
-        }
-        let error = Error::new(span, error);
-        self.input_ref().add_module_mode_error(error);
     }
 }

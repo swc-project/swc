@@ -489,9 +489,12 @@ impl swc_ecma_lexer::common::lexer::state::TokenType for Token {
     }
 }
 
-impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, crate::Lexer<'a>>
+impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, I>
     for Token
 {
+    type Buffer = crate::input::Buffer<I>;
+    type Lexer = crate::Lexer<'a>;
+
     #[inline(always)]
     fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
         let name = lexer.atoms.atom(name);
@@ -727,6 +730,16 @@ impl<'a> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, cr
     #[inline(always)]
     fn zero_fill_rshift_eq() -> Self {
         Token::ZeroFillRShiftEq
+    }
+
+    #[inline(always)]
+    fn is_error(&self) -> bool {
+        Token::Error.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_error(self, buffer: &mut Self::Buffer) -> swc_ecma_lexer::error::Error {
+        buffer.expect_error_token_value()
     }
 }
 
@@ -1318,7 +1331,9 @@ pub struct TokenAndSpan {
     pub span: Span,
 }
 
-impl swc_ecma_lexer::common::parser::token_and_span::TokenAndSpan<Token> for TokenAndSpan {
+impl swc_ecma_lexer::common::parser::token_and_span::TokenAndSpan for TokenAndSpan {
+    type Token = Token;
+
     #[inline(always)]
     fn new(token: Token, span: Span, had_line_break: bool) -> Self {
         Self {
