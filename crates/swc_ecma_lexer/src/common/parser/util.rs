@@ -1,7 +1,7 @@
 use swc_atoms::{atom, Atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{
-    BindingIdent, BlockStmt, Expr, Ident, IdentName, JSXElementName, JSXMemberExpr,
+    BindingIdent, BlockStmt, Decl, Expr, Ident, IdentName, JSXElementName, JSXMemberExpr,
     JSXNamespacedName, JSXObject, Key, Param, Pat, PropName, Str,
 };
 
@@ -70,4 +70,19 @@ pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
     }
+}
+
+/// Mark as declare
+pub fn make_decl_declare(mut decl: Decl) -> Decl {
+    match decl {
+        Decl::Class(ref mut c) => c.declare = true,
+        Decl::Fn(ref mut f) => f.declare = true,
+        Decl::Var(ref mut v) => v.declare = true,
+        Decl::TsInterface(ref mut i) => i.declare = true,
+        Decl::TsTypeAlias(ref mut a) => a.declare = true,
+        Decl::TsEnum(ref mut e) => e.declare = true,
+        Decl::TsModule(ref mut m) => m.declare = true,
+        Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
+    }
+    decl
 }
