@@ -1,4 +1,5 @@
-use swc_common::util::move_map::MoveMap;
+#[cfg(feature = "concurrent")]
+use par_iter::prelude::*;
 #[cfg(feature = "concurrent")]
 use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
@@ -129,58 +130,53 @@ where
     where
         N: Send + Sync + FoldWith<Self>,
     {
-        if nodes.len() >= threshold {
-            use rayon::prelude::*;
+        let (visitor, nodes) = GLOBALS.with(|globals| {
+            HELPERS.with(|helpers| {
+                let helpers = helpers.data();
+                HANDLER.with(|handler| {
+                    nodes
+                        .into_par_iter()
+                        .with_min_len(threshold)
+                        .map(|node| {
+                            let helpers = Helpers::from_data(helpers);
+                            GLOBALS.set(globals, || {
+                                HELPERS.set(&helpers, || {
+                                    HANDLER.set(handler, || {
+                                        let mut visitor = Parallel::create(&*self);
+                                        let node = node.fold_with(&mut visitor);
 
-            let (visitor, nodes) = GLOBALS.with(|globals| {
-                HELPERS.with(|helpers| {
-                    let helpers = helpers.data();
-                    HANDLER.with(|handler| {
-                        nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                let helpers = Helpers::from_data(helpers);
-                                GLOBALS.set(globals, || {
-                                    HELPERS.set(&helpers, || {
-                                        HANDLER.set(handler, || {
-                                            let mut visitor = Parallel::create(&*self);
-                                            let node = node.fold_with(&mut visitor);
-
-                                            (visitor, node)
-                                        })
+                                        (visitor, node)
                                     })
                                 })
                             })
-                            .fold(
-                                || (Parallel::create(&*self), Vec::new()),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
+                        })
+                        .fold(
+                            || (Parallel::create(&*self), Vec::new()),
+                            |mut a, b| {
+                                Parallel::merge(&mut a.0, b.0);
 
-                                    a.1.push(b.1);
+                                a.1.push(b.1);
 
-                                    a
-                                },
-                            )
-                            .reduce(
-                                || (Parallel::create(&*self), Vec::new()),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
+                                a
+                            },
+                        )
+                        .reduce(
+                            || (Parallel::create(&*self), Vec::new()),
+                            |mut a, b| {
+                                Parallel::merge(&mut a.0, b.0);
 
-                                    a.1.extend(b.1);
+                                a.1.extend(b.1);
 
-                                    a
-                                },
-                            )
-                    })
+                                a
+                            },
+                        )
                 })
-            });
+            })
+        });
 
-            Parallel::merge(self, visitor);
+        Parallel::merge(self, visitor);
 
-            return nodes;
-        }
-
-        nodes.move_map(|n| n.fold_with(self))
+        nodes
     }
 }
 
