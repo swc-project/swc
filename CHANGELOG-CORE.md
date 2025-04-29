@@ -2099,9 +2099,6 @@
 - **(es/codegen)** Emit .d.ts when using --out-file ([#9582](https://github.com/swc-project/swc/issues/9582)) ([3d9d641](https://github.com/swc-project/swc/commit/3d9d641f8b49725014e7d7a72a6f0a5dfe01f42c))
 
 
-- **(es/compat)** Init this in sub class constructor for async ([#9446](https://github.com/swc-project/swc/issues/9446)) ([bfaf31b](https://github.com/swc-project/swc/commit/bfaf31bc4b90ff803457bfdafdbcef0318b76189))
-
-
 - **(es/compat)** Handle label block in constructor ([#9528](https://github.com/swc-project/swc/issues/9528)) ([c43dbad](https://github.com/swc-project/swc/commit/c43dbad028072396390029af44e31bc3292a342a))
 
 
@@ -2199,9 +2196,6 @@
 
 
 - **(bindings/node)** Fix type definition ([64ec111](https://github.com/swc-project/swc/commit/64ec1117697029895284e248d79698f802cf1aa8))
-
-
-- **(deps)** Update rust crate arrayvec to v0.7.6 ([#9436](https://github.com/swc-project/swc/issues/9436)) ([08dd948](https://github.com/swc-project/swc/commit/08dd948289006583c6f0f76850c08808651f9135))
 
 
 - **(es)** Update `wasmer` to `v4.3.7` ([#9557](https://github.com/swc-project/swc/issues/9557)) ([190d6f0](https://github.com/swc-project/swc/commit/190d6f06d9545e4206bdb53c0f1ba2d443a5a7ab))
