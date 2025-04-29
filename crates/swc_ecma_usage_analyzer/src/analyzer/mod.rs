@@ -228,7 +228,10 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
@@ -250,7 +253,10 @@ where
         })
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         let is_op_assign = n.op != op!("=");
         n.left.visit_with(self);
@@ -326,7 +332,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = self.ctx.with(BitContext::InAwaitArg, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -365,19 +374,28 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         self.visit_pat_id(&Ident::from(n));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_child(n.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
         let inline_prevented = self.ctx.bit_ctx.contains(BitContext::InlinePrevented)
             || self
@@ -478,7 +496,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         {
             let ctx = self
@@ -494,7 +515,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_class(&mut self, n: &Class) {
         n.decorators.visit_with(self);
 
@@ -506,14 +530,20 @@ where
         self.with_child(n.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.declare_decl(&n.ident, Some(Value::Unknown), None, false);
 
         n.visit_children_with(self);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_class_expr(&mut self, n: &ClassExpr) {
         n.visit_children_with(self);
 
@@ -522,7 +552,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_class_method(&mut self, n: &ClassMethod) {
         n.function.decorators.visit_with(self);
 
@@ -537,21 +570,30 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_class_prop(&mut self, n: &ClassProp) {
         let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
         let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
         n.test.visit_with(self);
 
@@ -562,7 +604,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_constructor(&mut self, n: &Constructor) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
@@ -595,7 +640,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         n.body
             .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
@@ -603,7 +651,10 @@ where
             .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_export_decl(&mut self, n: &ExportDecl) {
         n.visit_children_with(self);
 
@@ -625,7 +676,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
         let ctx = self.ctx.with(BitContext::IsIdRef, true);
 
@@ -644,7 +698,10 @@ where
         };
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip(self, e))
+    )]
     fn visit_expr(&mut self, e: &Expr) {
         let ctx = Ctx {
             bit_ctx: self
@@ -675,7 +732,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
         e.visit_children_with(self);
 
@@ -688,7 +748,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         let ctx = self
             .ctx
@@ -725,7 +788,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
             self.data
@@ -760,7 +826,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         n.right.visit_with(self);
 
@@ -788,7 +857,10 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
         n.right.visit_with(self);
 
@@ -813,7 +885,10 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.init.visit_with(self);
 
@@ -827,7 +902,10 @@ where
         self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
@@ -845,7 +923,10 @@ where
             })
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
         self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
@@ -854,7 +935,10 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         let ctx = self.ctx.with(BitContext::InCond, true);
         n.test.visit_with(self);
@@ -875,7 +959,10 @@ where
         self.declare_decl(&n.local, Some(Value::Unknown), None, false);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
         let ctx = Ctx {
             bit_ctx: self
@@ -896,7 +983,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip(self, e))
+    )]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
             let ctx = self.ctx.with(BitContext::IsIdRef, false);
@@ -930,7 +1020,10 @@ where
         })
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_method_prop(&mut self, n: &MethodProp) {
         n.function.decorators.visit_with(self);
 
@@ -957,7 +1050,10 @@ where
         n.visit_children_with(self);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
             n.callee.visit_with(self);
@@ -976,7 +1072,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_param(&mut self, n: &Param) {
         let ctx = self.ctx.with(BitContext::InPatOfParam, false);
         n.decorators.visit_with(&mut *self.with_ctx(ctx));
@@ -993,7 +1092,10 @@ where
         n.pat.visit_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_pat(&mut self, n: &Pat) {
         match n {
             Pat::Ident(i) => {
@@ -1008,7 +1110,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_private_method(&mut self, n: &PrivateMethod) {
         n.function.decorators.visit_with(self);
 
@@ -1023,13 +1128,19 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_private_prop(&mut self, n: &PrivateProp) {
         let ctx = self.ctx.with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = self.ctx.with(BitContext::IsIdRef, true);
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1044,7 +1155,10 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_setter_prop(&mut self, n: &SetterProp) {
         self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
@@ -1057,7 +1171,10 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_spread_element(&mut self, e: &SpreadElement) {
         e.visit_children_with(self);
 
@@ -1068,7 +1185,10 @@ where
         });
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = self
             .ctx
@@ -1095,7 +1215,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip(self, e))
+    )]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &e.prop {
             let ctx = self.ctx.with(BitContext::IsIdRef, false);
@@ -1108,7 +1231,10 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
         n.discriminant.visit_with(self);
 
@@ -1126,7 +1252,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
         {
             let ctx = self.ctx.with(BitContext::IsIdRef, false);
@@ -1140,19 +1269,28 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_tpl(&mut self, n: &Tpl) {
         let ctx = self.ctx.with(BitContext::IsIdRef, false);
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
         let ctx = self.ctx.with(BitContext::InCond, true);
         self.with_ctx(ctx).visit_children_in_cond(n);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         if n.op == op!("delete") {
             self.mark_mutation_if_member(n.arg.as_member());
@@ -1160,7 +1298,10 @@ where
         n.visit_children_with(self);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
@@ -1168,7 +1309,10 @@ where
         self.mark_mutation_if_member(n.arg.as_member());
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_var_decl(&mut self, n: &VarDecl) {
         let ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
@@ -1198,7 +1342,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip(self, e))
+    )]
     fn visit_var_declarator(&mut self, e: &VarDeclarator) {
         let prevent_inline = matches!(&e.name, Pat::Ident(BindingIdent {
                 id: Ident { sym: arguments, .. },
@@ -1264,7 +1411,10 @@ where
         }
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         n.test
             .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
@@ -1275,7 +1425,10 @@ where
         self.with_ctx(ctx).visit_in_cond(&n.body);
     }
 
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    #[cfg_attr(
+        feature = "tracing-spans",
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);

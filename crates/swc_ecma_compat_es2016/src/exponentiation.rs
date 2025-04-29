@@ -136,7 +136,7 @@ impl VisitMut for Exponentiation {
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[tracing::instrument(level = "debug", skip_all)]
 fn mk_call(span: Span, left: Box<Expr>, right: Box<Expr>) -> Expr {
     // Math.pow()
     CallExpr {
