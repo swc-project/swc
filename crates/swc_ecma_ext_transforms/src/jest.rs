@@ -153,39 +153,11 @@ impl VisitMut for Jest {
             }
         }
 
-        // After collecting imports, scan and find mock variables
-        for item in items.iter() {
-            if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(var_decl))) = item {
-                for decl in &var_decl.decls {
-                    if let Pat::Ident(ident) = &decl.name {
-                        let name = &*ident.id.sym;
-                        if name.starts_with("mock") {
-                            self.mock_vars.push(ident.id.to_id());
-                        }
-                    }
-                }
-            }
-        }
-
         // Now process and hoist as needed
         self.visit_mut_stmt_like(items)
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        // Check for mock variables in statements as well
-        for stmt in stmts.iter() {
-            if let Stmt::Decl(Decl::Var(var_decl)) = stmt {
-                for decl in &var_decl.decls {
-                    if let Pat::Ident(ident) = &decl.name {
-                        let name = &*ident.id.sym;
-                        if name.starts_with("mock") {
-                            self.mock_vars.push(ident.id.to_id());
-                        }
-                    }
-                }
-            }
-        }
-
         self.visit_mut_stmt_like(stmts)
     }
 }
