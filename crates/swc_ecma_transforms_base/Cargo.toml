@@ -22,6 +22,7 @@ bitflags          = { workspace = true }
 indexmap          = { workspace = true }
 once_cell         = { workspace = true }
 par-core          = { workspace = true }
+par-iter          = { workspace = true }
 phf               = { workspace = true, features = ["macros"] }
 rustc-hash        = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
