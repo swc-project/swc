@@ -1,5 +1,6 @@
 use buffer::{Buffer, NextTokenAndSpan};
 use swc_common::Span;
+use swc_ecma_ast::Expr;
 use token_and_span::TokenAndSpan;
 
 use self::{
@@ -153,5 +154,18 @@ pub trait Parser<'a>: Sized {
         }
         let error = crate::error::Error::new(span, error);
         self.input().iter().add_module_mode_error(error);
+    }
+
+    fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+        #[cfg(feature = "verify")]
+        {
+            use swc_ecma_visit::Visit;
+            let mut v = self::verifier::Verifier { errors: Vec::new() };
+            v.visit_expr(&expr);
+            for (span, error) in v.errors {
+                self.emit_err(span, error);
+            }
+        }
+        Ok(expr)
     }
 }
