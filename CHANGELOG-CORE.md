@@ -2111,9 +2111,6 @@
 - **(es/decorator)** Add support for private access expressions in legacy decorators ([#9535](https://github.com/swc-project/swc/issues/9535)) ([62ed065](https://github.com/swc-project/swc/commit/62ed0655e6d9be2f4a5c641a969b41b8c0e7f75a))
 
 
-- **(es/decorators)** Fix metadata for accessors ([#9444](https://github.com/swc-project/swc/issues/9444)) ([99738ef](https://github.com/swc-project/swc/commit/99738ef41233211d6e26de520c3817d395492d37))
-
-
 - **(es/isolated-dts)** Preserve comments ([#9572](https://github.com/swc-project/swc/issues/9572)) ([6d15d9c](https://github.com/swc-project/swc/commit/6d15d9c2eb4397b15908cda38f2e44e02d81ebc1))
 
 

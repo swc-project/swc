@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.11.23] - 2025-04-29
 
 ### Bug Fixes
 
@@ -2005,9 +2005,6 @@
 
 
 - **(es/compat)** Init this in sub class constructor for async ([#9446](https://github.com/swc-project/swc/issues/9446)) ([bfaf31b](https://github.com/swc-project/swc/commit/bfaf31bc4b90ff803457bfdafdbcef0318b76189))
-
-
-- **(es/decorators)** Fix metadata for accessors ([#9444](https://github.com/swc-project/swc/issues/9444)) ([99738ef](https://github.com/swc-project/swc/commit/99738ef41233211d6e26de520c3817d395492d37))
 
 ### Miscellaneous Tasks
 
