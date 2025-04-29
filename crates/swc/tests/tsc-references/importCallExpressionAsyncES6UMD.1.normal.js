@@ -36,21 +36,21 @@
         }
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             const req = yield import('./test') // ONE
             ;
         })();
     }
     class cl1 {
         m() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+            return _async_to_generator._(function*() {
                 const req = yield import('./test') // TWO
                 ;
             })();
         }
     }
     const obj = {
-        m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        m: ()=>_async_to_generator._(function*() {
                 const req = yield import('./test') // THREE
                 ;
             })()
@@ -58,14 +58,14 @@
     class cl2 {
         constructor(){
             this.p = {
-                m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                m: ()=>_async_to_generator._(function*() {
                         const req = yield import('./test') // FOUR
                         ;
                     })()
             };
         }
     }
-    const l = ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+    const l = ()=>_async_to_generator._(function*() {
             const req = yield import('./test') // FIVE
             ;
         })();

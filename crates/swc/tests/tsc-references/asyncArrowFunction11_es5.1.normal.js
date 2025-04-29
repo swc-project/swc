@@ -12,7 +12,7 @@ var A = function A() {
         for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
             args[_key] = arguments[_key];
         }
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             var _this, obj;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){

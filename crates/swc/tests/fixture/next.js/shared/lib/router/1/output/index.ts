@@ -11,7 +11,7 @@ var Router = /*#__PURE__*/ function() {
         {
             key: "change",
             value: function change(method, url, as, options, forcedScroll) {
-                return /*#__PURE__*/ _async_to_generator(function() {
+                return _async_to_generator(function() {
                     var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){

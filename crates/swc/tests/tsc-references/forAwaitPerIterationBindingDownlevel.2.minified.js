@@ -9,7 +9,7 @@ var sleep = function(tm) {
         return setTimeout(resolve, tm);
     });
 }, log = console.log;
-/*#__PURE__*/ _async_to_generator(function() {
+_async_to_generator(function() {
     var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step, err;
     return _ts_generator(this, function(_state) {
         switch(_state.label){
@@ -23,7 +23,7 @@ var sleep = function(tm) {
                     12
                 ]), _loop = function() {
                     var _value = _step.value;
-                    log("I'm loop ".concat(_value)), /*#__PURE__*/ _async_to_generator(function() {
+                    log("I'm loop ".concat(_value)), _async_to_generator(function() {
                         var inner;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
@@ -39,7 +39,7 @@ var sleep = function(tm) {
                             }
                         });
                     })();
-                }, _iterator = _async_iterator(/*#__PURE__*/ _wrap_async_generator(function() {
+                }, _iterator = _async_iterator(_wrap_async_generator(function() {
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:

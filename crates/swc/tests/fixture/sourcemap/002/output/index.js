@@ -5,7 +5,7 @@ export default function StaticPage(param) {
     return /*#__PURE__*/ React.createElement("div", null, data.foo);
 }
 export function getStaticProps() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,

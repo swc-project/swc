@@ -6,7 +6,7 @@ import { AppService } from "./app.service";
 describe('AppController', function() {
     var app;
     beforeAll(function() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:

@@ -1,9 +1,9 @@
 function requester() {
     return pureRequester;
     function pureRequester() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             function refreshThenRequest() {
-                return /*#__PURE__*/ _async_to_generator(function() {
+                return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
                             2

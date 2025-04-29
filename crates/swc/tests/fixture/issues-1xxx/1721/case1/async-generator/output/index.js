@@ -1,7 +1,7 @@
 var _wrap_async_generator = require("@swc/helpers/_/_wrap_async_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function lol() {
-    return /*#__PURE__*/ _wrap_async_generator._(function() {
+    return _wrap_async_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:

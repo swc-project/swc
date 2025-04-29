@@ -16,7 +16,7 @@ System.register([
     "use strict";
     var _async_to_generator, _ts_generator;
     function foo() {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:

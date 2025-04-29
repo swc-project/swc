@@ -3,7 +3,7 @@ let TestClass = {
     testMethodFailure () {
         var _this = this;
         return new Promise(function(resolve) {
-            return /*#__PURE__*/ _async_to_generator(function*() {
+            return _async_to_generator(function*() {
                 console.log(_this);
                 setTimeout(resolve, 1000);
             })();

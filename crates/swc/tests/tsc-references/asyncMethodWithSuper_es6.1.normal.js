@@ -9,7 +9,7 @@ class B extends A {
     // async method with only call/get on 'super' does not require a binding
     simple() {
         var _this = this, _superprop_get_x = ()=>super.x, _superprop_get_y = ()=>super.y, _superprop_get = (_prop)=>super[_prop];
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             // call with property access
             _superprop_get_x().call(_this);
             // call additional property.
@@ -39,7 +39,7 @@ class B extends A {
                     return _superprop_set(_prop, v);
                 }
             }), _superprop_get_x = ()=>super.x, _superprop_get = (_prop)=>super[_prop], _superprop_set_x = (_value)=>super.x = _value, _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             // call with property access
             _superprop_get_x().call(_this);
@@ -66,18 +66,18 @@ class B extends A {
             // element access in arrow
             ()=>_superprop_get("x").call(_this);
             // property access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super.x();
                 })();
             // element access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super["x"]();
                 })();
         })();
     }
     property_access_only_read_only() {
         var _this = this, _superprop_get_x = ()=>super.x;
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             // call with property access
             _superprop_get_x().call(_this);
             // property access (read)
@@ -85,7 +85,7 @@ class B extends A {
             // property access in arrow
             ()=>_superprop_get_x().call(_this);
             // property access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super.x();
                 })();
         })();
@@ -99,7 +99,7 @@ class B extends A {
                 _superprop_set_x(v);
             }
         }, _superprop_get_x = ()=>super.x, _superprop_set_x = (_value)=>super.x = _value;
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             // property access (assign)
             _superprop_set_x(f);
@@ -110,14 +110,14 @@ class B extends A {
             // property access (assign) in arrow
             ()=>_superprop_set_x(f);
             // property access (assign) in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super.x = f;
                 })();
         })();
     }
     element_access_only_read_only() {
         var _this = this, _superprop_get = (_prop)=>super[_prop];
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             // call with element access
             _superprop_get("x").call(_this);
             // element access (read)
@@ -125,7 +125,7 @@ class B extends A {
             // element access in arrow
             ()=>_superprop_get("x").call(_this);
             // element access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super["x"]();
                 })();
         })();
@@ -139,7 +139,7 @@ class B extends A {
                     return _superprop_set(_prop, v);
                 }
             }), _superprop_get = (_prop)=>super[_prop], _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             const f = ()=>{};
             // element access (assign)
             _superprop_set("x", f);
@@ -150,14 +150,14 @@ class B extends A {
             // element access (assign) in arrow
             ()=>_superprop_set("x", f);
             // element access (assign) in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super["x"] = f;
                 })();
         })();
     }
     property_access_only_read_only_in_generator() {
         var _this = this, _superprop_get_x = ()=>super.x;
-        return /*#__PURE__*/ _wrap_async_generator(function*() {
+        return _wrap_async_generator(function*() {
             // call with property access
             _superprop_get_x().call(_this);
             // property access (read)
@@ -165,7 +165,7 @@ class B extends A {
             // property access in arrow
             ()=>_superprop_get_x().call(_this);
             // property access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super.x();
                 })();
         })();
@@ -179,7 +179,7 @@ class B extends A {
                 _superprop_set_x(v);
             }
         }, _superprop_get_x = ()=>super.x, _superprop_set_x = (_value)=>super.x = _value;
-        return /*#__PURE__*/ _wrap_async_generator(function*() {
+        return _wrap_async_generator(function*() {
             const f = ()=>{};
             // property access (assign)
             _superprop_set_x(f);
@@ -190,14 +190,14 @@ class B extends A {
             // property access (assign) in arrow
             ()=>_superprop_set_x(f);
             // property access (assign) in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super.x = f;
                 })();
         })();
     }
     element_access_only_read_only_in_generator() {
         var _this = this, _superprop_get = (_prop)=>super[_prop];
-        return /*#__PURE__*/ _wrap_async_generator(function*() {
+        return _wrap_async_generator(function*() {
             // call with element access
             _superprop_get("x").call(_this);
             // element access (read)
@@ -205,7 +205,7 @@ class B extends A {
             // element access in arrow
             ()=>_superprop_get("x").call(_this);
             // element access in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super["x"]();
                 })();
         })();
@@ -219,7 +219,7 @@ class B extends A {
                     return _superprop_set(_prop, v);
                 }
             }), _superprop_get = (_prop)=>super[_prop], _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return /*#__PURE__*/ _wrap_async_generator(function*() {
+        return _wrap_async_generator(function*() {
             const f = ()=>{};
             // element access (assign)
             _superprop_set("x", f);
@@ -230,7 +230,7 @@ class B extends A {
             // element access (assign) in arrow
             ()=>_superprop_set("x", f);
             // element access (assign) in async arrow
-            ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            ()=>_async_to_generator(function*() {
                     return super["x"] = f;
                 })();
         })();
@@ -253,7 +253,7 @@ class Derived extends Base {
     a() {
         return ()=>{
             var _this = this, _superprop_get_method = ()=>super.method;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_method().call(_this, '');
             })();
         };
@@ -261,7 +261,7 @@ class Derived extends Base {
     b() {
         return ()=>{
             var _superprop_get_getter = ()=>super.getter;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_getter();
             })();
         };
@@ -269,7 +269,7 @@ class Derived extends Base {
     c() {
         return ()=>{
             var _superprop_set_setter = (_value)=>super.setter = _value;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set_setter('');
             })();
         };
@@ -277,7 +277,7 @@ class Derived extends Base {
     d() {
         return ()=>{
             var _this = this, _superprop_get = (_prop)=>super[_prop];
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("method").call(_this, '');
             })();
         };
@@ -285,7 +285,7 @@ class Derived extends Base {
     e() {
         return ()=>{
             var _superprop_get = (_prop)=>super[_prop];
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("getter");
             })();
         };
@@ -293,7 +293,7 @@ class Derived extends Base {
     f() {
         return ()=>{
             var _superprop_set = (_prop, _value)=>super[_prop] = _value;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set("setter", '');
             })();
         };
@@ -301,7 +301,7 @@ class Derived extends Base {
     static a() {
         return ()=>{
             var _this = this, _superprop_get_method = ()=>super.method;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_method().call(_this, '');
             })();
         };
@@ -309,7 +309,7 @@ class Derived extends Base {
     static b() {
         return ()=>{
             var _superprop_get_getter = ()=>super.getter;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get_getter();
             })();
         };
@@ -317,7 +317,7 @@ class Derived extends Base {
     static c() {
         return ()=>{
             var _superprop_set_setter = (_value)=>super.setter = _value;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set_setter('');
             })();
         };
@@ -325,7 +325,7 @@ class Derived extends Base {
     static d() {
         return ()=>{
             var _this = this, _superprop_get = (_prop)=>super[_prop];
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("method").call(_this, '');
             })();
         };
@@ -333,7 +333,7 @@ class Derived extends Base {
     static e() {
         return ()=>{
             var _superprop_get = (_prop)=>super[_prop];
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_get("getter");
             })();
         };
@@ -341,7 +341,7 @@ class Derived extends Base {
     static f() {
         return ()=>{
             var _superprop_set = (_prop, _value)=>super[_prop] = _value;
-            /*#__PURE__*/ _async_to_generator(function*() {
+            _async_to_generator(function*() {
                 return _superprop_set("setter", '');
             })();
         };

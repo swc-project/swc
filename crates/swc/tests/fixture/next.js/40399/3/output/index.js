@@ -16,7 +16,7 @@ _define_property._(Foo, "klass", function _class(v) {
     this.value = v;
 });
 (function() {
-    return /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var Bar;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -32,7 +32,7 @@ _define_property._(Foo, "klass", function _class(v) {
                             {
                                 key: "bar",
                                 value: function bar() {
-                                    return /*#__PURE__*/ _async_to_generator._(function() {
+                                    return _async_to_generator._(function() {
                                         var foo, _, foo2, _1, _2;
                                         return _ts_generator._(this, function(_state) {
                                             switch(_state.label){

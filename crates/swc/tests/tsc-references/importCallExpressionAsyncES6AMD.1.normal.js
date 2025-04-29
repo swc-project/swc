@@ -33,7 +33,7 @@ define([
         }
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // ONE
@@ -42,7 +42,7 @@ define([
     }
     class cl1 {
         m() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+            return _async_to_generator._(function*() {
                 const req = yield new Promise((resolve, reject)=>require([
                         "./test"
                     ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // TWO
@@ -51,7 +51,7 @@ define([
         }
     }
     const obj = {
-        m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        m: ()=>_async_to_generator._(function*() {
                 const req = yield new Promise((resolve, reject)=>require([
                         "./test"
                     ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // THREE
@@ -61,7 +61,7 @@ define([
     class cl2 {
         constructor(){
             this.p = {
-                m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                m: ()=>_async_to_generator._(function*() {
                         const req = yield new Promise((resolve, reject)=>require([
                                 "./test"
                             ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FOUR
@@ -70,7 +70,7 @@ define([
             };
         }
     }
-    const l = ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+    const l = ()=>_async_to_generator._(function*() {
             const req = yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)) // FIVE

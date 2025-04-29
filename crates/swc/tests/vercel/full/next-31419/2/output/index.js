@@ -1,6 +1,6 @@
 import { _ as e } from "@swc/helpers/_/_async_to_generator";
 Promise.all(assignAll).then(function(n) {
-    return /*#__PURE__*/ e(function*() {
+    return e(function*() {
         for(let e in obj){
             let n = obj[e];
             n.id, (yield listOfUser(n.id)).forEach((e)=>{
@@ -11,7 +11,7 @@ Promise.all(assignAll).then(function(n) {
 });
 export const listOfUser = function(n) {
     return new Promise(function(r, t) {
-        return /*#__PURE__*/ e(function*() {
+        return e(function*() {
             let e = `Select Distinct id from "TABLE" Where id = '${n}' And user_id IS not null`;
             postgreSQL.query(e, null, function(e, n) {
                 e ? t(e) : r(n.rows);

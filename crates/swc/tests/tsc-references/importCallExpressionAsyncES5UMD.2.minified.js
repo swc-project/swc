@@ -26,7 +26,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         get: all[name]
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -47,7 +47,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
             _class_call_check._(this, cl1);
         }
         return cl1.prototype.m = function() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -65,7 +65,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         }, cl1;
     }(), obj = {
         m: function() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -84,7 +84,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
     }, cl2 = function cl2() {
         _class_call_check._(this, cl2), this.p = {
             m: function() {
-                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                return _async_to_generator._(function() {
                     return _ts_generator._(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -102,7 +102,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
             }
         };
     }, l = function() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:

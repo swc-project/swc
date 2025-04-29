@@ -2,7 +2,7 @@ import { _ as r } from "@swc/helpers/_/_async_to_generator";
 import { _ as e } from "@swc/helpers/_/_ts_generator";
 import { _ as n } from "@swc/helpers/_/_ts_values";
 Promise.all(assignAll).then(function(t) {
-    return /*#__PURE__*/ r(function() {
+    return r(function() {
         var r, s, i, c, o, u;
         return e(this, function(a) {
             switch(a.label){
@@ -52,7 +52,7 @@ Promise.all(assignAll).then(function(t) {
 });
 export var listOfUser = function(n) {
     return new Promise(function(t, s) {
-        return /*#__PURE__*/ r(function() {
+        return r(function() {
             var r;
             return e(this, function(e) {
                 return r = 'Select Distinct id from "TABLE" Where id = \''.concat(n, "' And user_id IS not null"), postgreSQL.query(r, null, function(r, e) {

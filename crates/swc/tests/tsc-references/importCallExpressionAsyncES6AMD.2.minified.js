@@ -30,7 +30,7 @@ define([
         get: all[name]
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        return _async_to_generator._(function*() {
             yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
@@ -38,7 +38,7 @@ define([
     }
     class cl1 {
         m() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+            return _async_to_generator._(function*() {
                 yield new Promise((resolve, reject)=>require([
                         "./test"
                     ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
@@ -46,7 +46,7 @@ define([
         }
     }
     let obj = {
-        m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+        m: ()=>_async_to_generator._(function*() {
                 yield new Promise((resolve, reject)=>require([
                         "./test"
                     ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
@@ -55,7 +55,7 @@ define([
     class cl2 {
         constructor(){
             this.p = {
-                m: ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+                m: ()=>_async_to_generator._(function*() {
                         yield new Promise((resolve, reject)=>require([
                                 "./test"
                             ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
@@ -63,7 +63,7 @@ define([
             };
         }
     }
-    let l = ()=>/*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function*() {
+    let l = ()=>_async_to_generator._(function*() {
             yield new Promise((resolve, reject)=>require([
                     "./test"
                 ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));

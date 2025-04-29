@@ -38,7 +38,7 @@
         }
     });
     function fn() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -63,7 +63,7 @@
         }
         var _proto = cl1.prototype;
         _proto.m = function m() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -85,7 +85,7 @@
     }();
     var obj = {
         m: function() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -109,7 +109,7 @@
         _class_call_check._(this, cl2);
         this.p = {
             m: function() {
-                return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+                return _async_to_generator._(function() {
                     var req;
                     return _ts_generator._(this, function(_state) {
                         switch(_state.label){
@@ -130,7 +130,7 @@
         };
     };
     var l = function() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){

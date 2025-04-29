@@ -9,7 +9,7 @@ var Test = function Test(name) {
     var _this = this;
     _class_call_check(this, Test);
     _define_property(this, "print", function(arg) {
-        return /*#__PURE__*/ _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 console.log(this.name, arg);
                 return [

@@ -1,6 +1,6 @@
 const cache = {};
 function getThing(key) {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         const it = cache[key] || (yield fetchThing(key));
         return it;
     })();

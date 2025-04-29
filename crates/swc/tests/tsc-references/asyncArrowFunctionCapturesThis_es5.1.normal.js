@@ -11,7 +11,7 @@ var C = /*#__PURE__*/ function() {
     _proto.method = function method() {
         var _this = this;
         var fn = function() {
-            return /*#__PURE__*/ _async_to_generator(function() {
+            return _async_to_generator(function() {
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:

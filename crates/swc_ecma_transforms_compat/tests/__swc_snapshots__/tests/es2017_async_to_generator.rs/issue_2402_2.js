@@ -3,7 +3,7 @@ function MyClass(item) {
     console.log('Constructor | this.item', this.item);
 }
 MyClass.prototype.fun = function fun() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             console.log('fun | this.item', this.item);
             return [

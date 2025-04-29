@@ -3,7 +3,7 @@ var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var obj = {
     foo: 5,
     method: function method() {
-        return /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 return [
                     2,

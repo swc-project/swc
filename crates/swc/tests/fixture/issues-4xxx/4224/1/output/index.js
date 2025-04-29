@@ -6,7 +6,7 @@ var A = function A() {
     var _this = this;
     _class_call_check._(this, A);
     this.foo = function() {
-        return /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 this.x();
                 return [
@@ -16,7 +16,7 @@ var A = function A() {
         }).call(_this);
     };
     this.bar = function() {
-        return /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 this.x();
                 return [

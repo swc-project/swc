@@ -13,7 +13,7 @@ var A = /*#__PURE__*/ function() {
             value: function method() {
                 var _this = this;
                 this.foo = function() {
-                    return /*#__PURE__*/ _async_to_generator._(function() {
+                    return _async_to_generator._(function() {
                         return _ts_generator._(this, function(_state) {
                             this.x();
                             return [
@@ -23,7 +23,7 @@ var A = /*#__PURE__*/ function() {
                     }).call(_this);
                 };
                 this.bar = function() {
-                    return /*#__PURE__*/ _async_to_generator._(function() {
+                    return _async_to_generator._(function() {
                         return _ts_generator._(this, function(_state) {
                             this.x();
                             return [

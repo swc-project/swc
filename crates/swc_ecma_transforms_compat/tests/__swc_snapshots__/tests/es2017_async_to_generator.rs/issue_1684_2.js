@@ -1,6 +1,6 @@
 const cache = {};
 function getThing(key) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var it, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){

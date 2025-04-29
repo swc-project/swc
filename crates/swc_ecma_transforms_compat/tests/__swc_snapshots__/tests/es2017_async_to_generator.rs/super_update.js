@@ -22,7 +22,7 @@ class A extends B {
                     return _superprop_set(_prop, v);
                 }
             }), _superprop_get_foo = ()=>super.foo, _superprop_get_bar = ()=>super.bar, _superprop_get = (_prop)=>super[_prop], _superprop_set_foo = (_value)=>super.foo = _value, _superprop_set_bar = (_value)=>super.bar = _value, _superprop_set = (_prop, _value)=>super[_prop] = _value;
-        return /*#__PURE__*/ _async_to_generator(function*() {
+        return _async_to_generator(function*() {
             _superprop_update_foo._++;
             --_superprop_update_bar._;
             _superprop_update('foo')._++;

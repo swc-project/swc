@@ -28,7 +28,7 @@ define([
         value: true
     });
     function foo() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:

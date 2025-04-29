@@ -4,7 +4,7 @@ class MyClass {
     constructor(){
         _class_private_field_init(this, _myAsyncMethod1, {
             writable: true,
-            value: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            value: ()=>_async_to_generator(function*() {
                     console.log(this);
                 }).call(this)
         });
@@ -14,7 +14,7 @@ _myAsyncMethod = /*#__PURE__*/ new WeakMap(), class MyClass2 {
     constructor(){
         _class_private_field_init(this, _myAsyncMethod, {
             writable: true,
-            value: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            value: ()=>_async_to_generator(function*() {
                     console.log(this);
                 }).call(this)
         });
@@ -25,7 +25,7 @@ class MyClass3 {
     constructor(){
         _class_private_field_init(this, _myAsyncMethod2, {
             writable: true,
-            value: ()=>/*#__PURE__*/ _async_to_generator(function*() {
+            value: ()=>_async_to_generator(function*() {
                     console.log(this);
                 }).call(this)
         });

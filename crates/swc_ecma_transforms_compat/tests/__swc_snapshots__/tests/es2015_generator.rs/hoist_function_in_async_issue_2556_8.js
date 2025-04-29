@@ -2,9 +2,9 @@ var fib = function fib() {
     return 42;
 };
 function init() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         function fib(n) {
-            return /*#__PURE__*/ _async_to_generator(function() {
+            return _async_to_generator(function() {
                 var x, y;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){

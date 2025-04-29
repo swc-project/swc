@@ -12,7 +12,7 @@ var Foo = /*#__PURE__*/ function() {
             key: "bar",
             value: function bar() {
                 var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {
-                    return /*#__PURE__*/ _async_to_generator._(function() {
+                    return _async_to_generator._(function() {
                         return _ts_generator._(this, function(_state) {
                             switch(_state.label){
                                 case 0:

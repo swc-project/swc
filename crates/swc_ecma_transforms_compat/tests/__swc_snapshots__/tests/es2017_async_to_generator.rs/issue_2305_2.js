@@ -3,7 +3,7 @@ MyClass.prototype.handle = function() {
     console.log('this is MyClass handle');
 };
 MyClass.prototype.init = function(param1) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var a;
         return _ts_generator(this, function(_state) {
             a = 1;

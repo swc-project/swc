@@ -119,7 +119,7 @@ function _ts_generator(thisArg, body) {
     }
 }
 function foo() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
@@ -128,7 +128,7 @@ function foo() {
     })();
 }
 function main() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:

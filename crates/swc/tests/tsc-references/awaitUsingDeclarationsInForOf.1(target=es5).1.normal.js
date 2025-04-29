@@ -5,14 +5,14 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 function main() {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var _i, _iter, _, env, d1, e, result;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     _i = 0, _iter = [
                         _define_property({}, Symbol.asyncDispose, function() {
-                            return /*#__PURE__*/ _async_to_generator(function() {
+                            return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
                                         2

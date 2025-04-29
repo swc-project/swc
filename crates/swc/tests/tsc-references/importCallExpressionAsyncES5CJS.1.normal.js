@@ -31,7 +31,7 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function fn() {
-    return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var req;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -58,7 +58,7 @@ var cl1 = /*#__PURE__*/ function() {
     }
     var _proto = cl1.prototype;
     _proto.m = function m() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -82,7 +82,7 @@ var cl1 = /*#__PURE__*/ function() {
 }();
 var obj = {
     m: function() {
-        return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             var req;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -108,7 +108,7 @@ var cl2 = function cl2() {
     _class_call_check._(this, cl2);
     this.p = {
         m: function() {
-            return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+            return _async_to_generator._(function() {
                 var req;
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
@@ -131,7 +131,7 @@ var cl2 = function cl2() {
     };
 };
 var l = function() {
-    return /*#__PURE__*/ /*#__PURE__*/ _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var req;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){

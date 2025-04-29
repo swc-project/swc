@@ -2,7 +2,7 @@
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f1() {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         let y;
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -32,7 +32,7 @@ function f1() {
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f2() {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         let x, y;
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -63,7 +63,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f3() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         let y;
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -94,7 +94,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f4() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         let x, y;
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -125,7 +125,7 @@ function f4() {
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f5() {
-    return /*#__PURE__*/ _async_to_generator(function*() {
+    return _async_to_generator(function*() {
         let y;
         outer: {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -158,7 +158,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f6() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         let y;
         outer: {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
@@ -191,7 +191,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f7() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         let y;
         for(;;){
             {

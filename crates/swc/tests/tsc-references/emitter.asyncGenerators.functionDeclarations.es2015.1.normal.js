@@ -1,19 +1,19 @@
 //// [F1.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f1() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {})();
+    return _wrap_async_generator(function*() {})();
 }
 //// [F2.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f2() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         const x = yield;
     })();
 }
 //// [F3.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f3() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         const x = yield 1;
     })();
 }
@@ -22,7 +22,7 @@ import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f4() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator([
             1
         ]));
@@ -33,9 +33,9 @@ import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f5() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         const x = yield* _async_generator_delegate(_async_iterator(function() {
-            return /*#__PURE__*/ _wrap_async_generator(function*() {
+            return _wrap_async_generator(function*() {
                 yield 1;
             })();
         }()));
@@ -45,14 +45,14 @@ function f5() {
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f6() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         const x = yield _await_async_generator(1);
     })();
 }
 //// [F7.ts]
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function f7() {
-    return /*#__PURE__*/ _wrap_async_generator(function*() {
+    return _wrap_async_generator(function*() {
         return 1;
     })();
 }

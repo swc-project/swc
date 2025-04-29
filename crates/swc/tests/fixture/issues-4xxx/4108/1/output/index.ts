@@ -7,7 +7,7 @@ import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function(connection, txid) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var tx, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -56,7 +56,7 @@ export var SequenceType = /*#__PURE__*/ function(SequenceType) {
     return SequenceType;
 }({});
 export function sendTransactionsWithManualRetry(connection, wallet, instructions, signers) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -154,7 +154,7 @@ export var sendTransactions = function(connection, wallet, instructionSet, signe
     var sequenceType = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : 1, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", successCallback = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : function(txid, ind) {}, failCallback = arguments.length > 7 && arguments[7] !== void 0 ? arguments[7] : function(txid, ind) {
         return false;
     }, block = arguments.length > 8 ? arguments[8] : void 0, beforeTransactions = arguments.length > 9 && arguments[9] !== void 0 ? arguments[9] : [], afterTransactions = arguments.length > 10 && arguments[10] !== void 0 ? arguments[10] : [];
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var _loop, _loop1, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -355,7 +355,7 @@ export var sendTransactions = function(connection, wallet, instructionSet, signe
 };
 export var sendTransaction = function(connection, wallet, instructions, signers) {
     var awaitConfirmation = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : true, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", includesFeePayer = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : false, block = arguments.length > 7 ? arguments[7] : void 0;
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -469,7 +469,7 @@ export var sendTransaction = function(connection, wallet, instructions, signers)
 };
 export var sendTransactionWithRetry = function(connection, wallet, instructions, signers) {
     var commitment = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : "singleGossip", includesFeePayer = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : false, block = arguments.length > 6 ? arguments[6] : void 0, beforeSend = arguments.length > 7 ? arguments[7] : void 0;
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -551,7 +551,7 @@ export var getUnixTs = function() {
 };
 var DEFAULT_TIMEOUT = 15000;
 export function sendSignedTransaction(_0) {
-    return /*#__PURE__*/ _async_to_generator(function(param) {
+    return _async_to_generator(function(param) {
         var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -571,7 +571,7 @@ export function sendSignedTransaction(_0) {
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
                     (function() {
-                        return /*#__PURE__*/ _async_to_generator(function() {
+                        return _async_to_generator(function() {
                             return _ts_generator(this, function(_state) {
                                 switch(_state.label){
                                     case 0:
@@ -690,7 +690,7 @@ export function sendSignedTransaction(_0) {
     }).apply(this, arguments);
 }
 function simulateTransaction(connection, transaction, commitment) {
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var signData, wireTransaction, encodedTransaction, config, args, res;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -734,7 +734,7 @@ function simulateTransaction(connection, transaction, commitment) {
 }
 function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
     var commitment = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : "recent", queryStatus = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : false;
-    return /*#__PURE__*/ _async_to_generator(function() {
+    return _async_to_generator(function() {
         var done, status, subId;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -749,7 +749,7 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
                     return [
                         4,
                         new Promise(function(resolve, reject) {
-                            return /*#__PURE__*/ _async_to_generator(function() {
+                            return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
@@ -791,7 +791,7 @@ function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
                                             ];
                                             // eslint-disable-next-line no-loop-func
                                             (function() {
-                                                return /*#__PURE__*/ _async_to_generator(function() {
+                                                return _async_to_generator(function() {
                                                     var signatureStatuses, e;
                                                     return _ts_generator(this, function(_state) {
                                                         switch(_state.label){
