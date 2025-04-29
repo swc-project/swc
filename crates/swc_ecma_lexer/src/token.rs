@@ -745,6 +745,60 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn is_str(&self) -> bool {
+        matches!(self, Self::Str { .. })
+    }
+
+    #[inline(always)]
+    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom) {
+        match self {
+            Self::Str { value, raw } => (value, raw),
+            _ => unreachable!(),
+        }
+    }
+
+    #[inline(always)]
+    fn is_num(&self) -> bool {
+        matches!(self, Self::Num { .. })
+    }
+
+    #[inline(always)]
+    fn take_num(self, _: &mut Self::Buffer) -> (f64, Atom) {
+        match self {
+            Self::Num { value, raw } => (value, raw),
+            _ => unreachable!(),
+        }
+    }
+
+    #[inline(always)]
+    fn is_bigint(&self) -> bool {
+        matches!(self, Self::BigInt { .. })
+    }
+
+    #[inline(always)]
+    fn take_bigint(self, _: &mut Self::Buffer) -> (Box<BigIntValue>, Atom) {
+        match self {
+            Self::BigInt { value, raw } => (value, raw),
+            _ => unreachable!(),
+        }
+    }
+
+    #[inline(always)]
+    fn null() -> Self {
+        Token::Word(Word::Null)
+    }
+
+    #[inline(always)]
+    fn r#true() -> Self {
+        Token::Word(Word::True)
+    }
+
+    #[inline(always)]
+    fn r#false() -> Self {
+        Token::Word(Word::False)
+    }
 }
 
 impl Token {

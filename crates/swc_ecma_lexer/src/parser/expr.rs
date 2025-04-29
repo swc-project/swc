@@ -2020,52 +2020,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             && expr.is_ident_ref_to("async"))
     }
 
-    /// 12.2.5 Array Initializer
-    pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
-        let start = cur_pos!(self);
-
-        let v = match cur!(self, true) {
-            Token::Word(Word::Null) => {
-                bump!(self);
-                let span = span!(self, start);
-                Lit::Null(Null { span })
-            }
-            Token::Word(Word::True) | Token::Word(Word::False) => {
-                let value = is!(self, "true");
-                bump!(self);
-                let span = span!(self, start);
-
-                Lit::Bool(Bool { span, value })
-            }
-            Token::Str { .. } => match bump!(self) {
-                Token::Str { value, raw } => Lit::Str(Str {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            Token::Num { .. } => match bump!(self) {
-                Token::Num { value, raw } => Lit::Num(Number {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            Token::BigInt { .. } => match bump!(self) {
-                Token::BigInt { value, raw } => Lit::BigInt(BigInt {
-                    span: span!(self, start),
-                    value,
-                    raw: Some(raw),
-                }),
-                _ => unreachable!(),
-            },
-            token => unreachable!("parse_lit should not be called for {:?}", token),
-        };
-        Ok(v)
-    }
-
     pub(super) fn parse_dynamic_import_or_import_meta(
         &mut self,
         start: BytePos,

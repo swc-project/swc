@@ -1,3 +1,4 @@
+use num_bigint::BigInt;
 use swc_atoms::{atom, Atom};
 use swc_common::Span;
 use swc_ecma_ast::AssignOp;
@@ -740,6 +741,51 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn take_error(self, buffer: &mut Self::Buffer) -> swc_ecma_lexer::error::Error {
         buffer.expect_error_token_value()
+    }
+
+    #[inline(always)]
+    fn is_str(&self) -> bool {
+        Self::Str.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+        buffer.expect_string_token_value()
+    }
+
+    #[inline(always)]
+    fn is_num(&self) -> bool {
+        Self::Num.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_num(self, buffer: &mut Self::Buffer) -> (f64, Atom) {
+        buffer.expect_number_token_value()
+    }
+
+    #[inline(always)]
+    fn is_bigint(&self) -> bool {
+        Self::BigInt.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_bigint(self, buffer: &mut Self::Buffer) -> (Box<BigInt>, Atom) {
+        buffer.expect_bigint_token_value()
+    }
+
+    #[inline(always)]
+    fn null() -> Self {
+        Token::Null
+    }
+
+    #[inline(always)]
+    fn r#true() -> Self {
+        Token::True
+    }
+
+    #[inline(always)]
+    fn r#false() -> Self {
+        Token::False
     }
 }
 
