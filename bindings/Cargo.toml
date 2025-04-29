@@ -63,7 +63,7 @@ resolver = "2"
 # lto = true
 
 # We use CARGO_PROFILE_RELEASE_LTO for production builds
-# lto = "fat"
+lto = "fat"
 
 # debug = true
 # opt-level = 'z'
@@ -72,9 +72,6 @@ resolver = "2"
 strip = "symbols"
 
   [profile.release.package]
-
-    [profile.release.package.std]
-    opt-level = 3
 
     [profile.release.package.wasmer-wasix]
     opt-level = "s"
