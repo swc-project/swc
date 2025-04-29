@@ -507,6 +507,19 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
+    fn is_jsx_name(&self) -> bool {
+        matches!(self, Self::JSXName { .. })
+    }
+
+    #[inline(always)]
+    fn take_jsx_name(self, _: &mut Self::Buffer) -> Atom {
+        match self {
+            JSXName { name } => name,
+            _ => unreachable!(),
+        }
+    }
+
+    #[inline(always)]
     fn str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Str { value, raw }
     }
@@ -662,6 +675,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
+    fn is_word(&self) -> bool {
+        matches!(self, Self::Word(_))
+    }
+
+    #[inline(always)]
     fn is_reserved(&self, ctx: crate::common::context::Context) -> bool {
         if let Token::Word(word) = self {
             ctx.is_reserved(word)
@@ -798,6 +816,14 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn r#false() -> Self {
         Token::Word(Word::False)
+    }
+
+    #[inline(always)]
+    fn take_word(self, _: &mut Self::Buffer) -> Option<Atom> {
+        match self {
+            Self::Word(word) => Some(word.into()),
+            _ => unreachable!(),
+        }
     }
 }
 

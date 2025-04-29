@@ -1,6 +1,6 @@
 use buffer::{Buffer, NextTokenAndSpan};
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{Expr, Lit, Null};
+use swc_ecma_ast::{Expr, IdentName, Lit, ModuleExportName, Null};
 use token_and_span::TokenAndSpan;
 
 use self::{
@@ -243,5 +243,40 @@ pub trait Parser<'a>: Sized {
             unreachable!("parse_lit should not be called for {:?}", cur)
         };
         Ok(v)
+    }
+
+    // https://tc39.es/ecma262/#prod-ModuleExportName
+    fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
+        let Ok(cur) = cur!(self, false) else {
+            unexpected!(self, "identifier or string");
+        };
+        let module_export_name = if cur.is_str() {
+            match self.parse_lit()? {
+                Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
+                _ => unreachable!(),
+            }
+        } else if cur.is_word() {
+            ModuleExportName::Ident(self.parse_ident_name()?.into())
+        } else {
+            unexpected!(self, "identifier or string");
+        };
+        Ok(module_export_name)
+    }
+
+    /// Use this when spec says "IdentifierName".
+    /// This allows idents like `catch`.
+    fn parse_ident_name(&mut self) -> PResult<IdentName> {
+        let start = self.cur_pos();
+        let cur = cur!(self, true);
+        let w = if cur.is_word() {
+            let t = self.bump();
+            t.take_word(self.input_mut()).unwrap()
+        } else if cur.is_jsx_name() && self.ctx().contains(Context::InType) {
+            let t = self.bump();
+            t.take_jsx_name(self.input_mut())
+        } else {
+            syntax_error!(self, SyntaxError::ExpectedIdent)
+        };
+        Ok(IdentName::new(w, self.span(start)))
     }
 }

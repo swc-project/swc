@@ -504,6 +504,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
+    fn is_jsx_name(&self) -> bool {
+        Token::JSXName.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_jsx_name(self, buffer: &mut Self::Buffer) -> Atom {
+        buffer.expect_word_token_value()
+    }
+
+    #[inline(always)]
     fn str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::Str
@@ -786,6 +796,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn r#false() -> Self {
         Token::False
+    }
+
+    #[inline(always)]
+    fn is_word(&self) -> bool {
+        self.is_word()
+    }
+
+    #[inline]
+    fn take_word(self, buffer: &mut Self::Buffer) -> Option<Atom> {
+        self.as_word_atom(buffer.get_token_value())
     }
 }
 
