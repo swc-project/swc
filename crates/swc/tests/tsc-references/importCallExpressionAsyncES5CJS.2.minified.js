@@ -3,25 +3,25 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    cl1: function() {
+    get cl1 () {
         return cl1;
     },
-    cl2: function() {
+    get cl2 () {
         return cl2;
     },
-    fn: function() {
+    get fn () {
         return fn;
     },
-    l: function() {
+    get l () {
         return l;
     },
-    obj: function() {
+    get obj () {
         return obj;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator"), _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _ts_generator = require("@swc/helpers/_/_ts_generator");
 function fn() {

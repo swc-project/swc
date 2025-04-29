@@ -13,16 +13,16 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    testFn: function() {
+    get testFn () {
         return testFn;
     },
-    testFnTypes: function() {
+    get testFnTypes () {
         return testFnTypes;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 const testFnTypes = {};
 function testFn(input) {

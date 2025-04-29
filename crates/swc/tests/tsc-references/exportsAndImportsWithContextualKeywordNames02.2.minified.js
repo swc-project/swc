@@ -4,16 +4,16 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    as: function() {
+    get as () {
         return as;
     },
-    return: function() {
+    get return () {
         return as;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var as = 100;
 //// [t2.ts]

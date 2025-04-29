@@ -8,29 +8,29 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return C;
     },
-    D: function() {
+    get D () {
         return D;
     },
-    E: function() {
+    get E () {
         return E;
     },
-    M: function() {
+    get M () {
         return M;
     },
-    a: function() {
+    get a () {
         return a;
     },
-    f: function() {
+    get f () {
         return f;
     },
-    v: function() {
+    get v () {
         return v;
     }
 });
@@ -61,38 +61,38 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return _t1.C;
     },
-    D: function() {
+    get D () {
         return _t1.D;
     },
-    E: function() {
+    get E () {
         return _t1.E;
     },
-    I: function() {
+    get I () {
         return _t1.I;
     },
-    M: function() {
+    get M () {
         return _t1.M;
     },
-    N: function() {
+    get N () {
         return _t1.N;
     },
-    T: function() {
+    get T () {
         return _t1.T;
     },
-    a: function() {
+    get a () {
         return _t1.a;
     },
-    f: function() {
+    get f () {
         return _t1.f;
     },
-    v: function() {
+    get v () {
         return _t1.v;
     }
 });
@@ -105,38 +105,38 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return _t1.C;
     },
-    D: function() {
+    get D () {
         return _t1.D;
     },
-    E: function() {
+    get E () {
         return _t1.E;
     },
-    I: function() {
+    get I () {
         return _t1.I;
     },
-    M: function() {
+    get M () {
         return _t1.M;
     },
-    N: function() {
+    get N () {
         return _t1.N;
     },
-    T: function() {
+    get T () {
         return _t1.T;
     },
-    a: function() {
+    get a () {
         return _t1.a;
     },
-    f: function() {
+    get f () {
         return _t1.f;
     },
-    v: function() {
+    get v () {
         return _t1.v;
     }
 });

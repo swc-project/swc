@@ -11,14 +11,14 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        C1: function() {
+        get C1 () {
             return C1;
         },
-        E1: function() {
+        get E1 () {
             return E1;
         }
     });

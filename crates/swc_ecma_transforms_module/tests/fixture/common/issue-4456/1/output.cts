@@ -5,23 +5,23 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    breakpoints: function() {
+    get breakpoints () {
         return breakpoints;
     },
-    clsx: function() {
+    get clsx () {
         return _css.cx;
     },
-    cx: function() {
+    get cx () {
         return _css.cx;
     },
-    default: function() {
+    get default () {
         return _default;
     },
-    keyframes: function() {
+    get keyframes () {
         return _css.keyframes;
     }
 });

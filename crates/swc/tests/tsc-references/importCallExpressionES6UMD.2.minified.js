@@ -22,16 +22,16 @@ global = this, factory = function(exports1, _interop_require_wildcard) {
         value: !0
     });
     var all = {
-        D: function() {
+        get D () {
             return D;
         },
-        p2: function() {
+        get p2 () {
             return p2;
         }
     };
     for(var name in all)Object.defineProperty(exports1, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     import("./0"), import("./0").then((zero)=>zero.foo());
     var p2 = import("./0");

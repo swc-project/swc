@@ -5,25 +5,25 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
         value: !0
     });
     var all = {
-        cl1: function() {
+        get cl1 () {
             return cl1;
         },
-        cl2: function() {
+        get cl2 () {
             return cl2;
         },
-        fn: function() {
+        get fn () {
             return fn;
         },
-        l: function() {
+        get l () {
             return l;
         },
-        obj: function() {
+        get obj () {
             return obj;
         }
     };
     for(var name in all)Object.defineProperty(exports1, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     function fn() {
         return _async_to_generator._(function*() {

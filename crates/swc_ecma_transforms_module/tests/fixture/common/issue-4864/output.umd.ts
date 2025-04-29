@@ -18,47 +18,47 @@
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        C: function() {
+        get C () {
             return C;
         },
-        ILIAN: function() {
+        get ILIAN () {
             return _ST.ILIAN;
         },
-        IWI: function() {
+        get IWI () {
             return _ST.IWI;
         },
-        SASC: function() {
+        get SASC () {
             return _S.SASC;
         },
-        SC: function() {
+        get SC () {
             return _SC.SC;
         },
-        SETs: function() {
+        get SETs () {
             return SETs;
         },
-        SI: function() {
+        get SI () {
             return SI;
         },
-        SM: function() {
+        get SM () {
             return _ST.SM;
         },
-        SSERT: function() {
+        get SSERT () {
             return _ST.S_E_R_T;
         },
-        VP: function() {
+        get VP () {
             return _ST.VP;
         },
-        cSEP: function() {
+        get cSEP () {
             return _S.cSEP;
         },
-        iCSEPFT: function() {
+        get iCSEPFT () {
             return _S.iCSEPFT;
         },
-        us: function() {
+        get us () {
             return us;
         }
     });
