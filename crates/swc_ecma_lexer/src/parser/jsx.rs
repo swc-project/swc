@@ -2,7 +2,7 @@ use either::Either;
 use swc_common::Spanned;
 
 use super::*;
-use crate::tok;
+use crate::{common::parser::get_qualified_jsx_name, tok};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse next token as JSX identifier
@@ -421,28 +421,5 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             Token::JSXText { raw, value } => Ok(JSXText { span, value, raw }),
             _ => unreachable!(),
         }
-    }
-}
-
-fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
-    fn get_qualified_obj_name(obj: &JSXObject) -> Atom {
-        match *obj {
-            JSXObject::Ident(ref i) => i.sym.clone(),
-            JSXObject::JSXMemberExpr(ref member) => format!(
-                "{}.{}",
-                get_qualified_obj_name(&member.obj),
-                member.prop.sym
-            )
-            .into(),
-        }
-    }
-    match *name {
-        JSXElementName::Ident(ref i) => i.sym.clone(),
-        JSXElementName::JSXNamespacedName(JSXNamespacedName {
-            ref ns, ref name, ..
-        }) => format!("{}:{}", ns.sym, name.sym).into(),
-        JSXElementName::JSXMemberExpr(JSXMemberExpr {
-            ref obj, ref prop, ..
-        }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
     }
 }

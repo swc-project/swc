@@ -3,8 +3,8 @@ use swc_common::Spanned;
 use super::*;
 use crate::{
     common::parser::{
-        is_invalid_class_name::IsInvalidClassName, is_simple_param_list::IsSimpleParameterList,
-        Parser as ParserTrait,
+        has_use_strict, is_constructor, is_invalid_class_name::IsInvalidClassName, is_not_this,
+        is_simple_param_list::IsSimpleParameterList, Parser as ParserTrait,
     },
     lexer::TokenContext,
     tok,
@@ -1605,19 +1605,7 @@ impl OutputType for Decl {
 pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
-fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    block
-        .stmts
-        .iter()
-        .take_while(|s| s.can_precede_directive())
-        .find_map(|s| {
-            if s.is_use_strict() {
-                Some(s.span())
-            } else {
-                None
-            }
-        })
-}
+
 impl<I: Tokens<TokenAndSpan>> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     fn parse_fn_body_inner(
         &mut self,
@@ -1661,29 +1649,6 @@ impl<I: Tokens<TokenAndSpan>> FnBodyParser<Option<BlockStmt>> for Parser<I> {
             Some(block_stmt)
         })
     }
-}
-
-fn is_constructor(key: &Key) -> bool {
-    matches!(
-        &key,
-        Key::Public(PropName::Ident(IdentName {
-            sym: constructor,
-            ..
-        })) | Key::Public(PropName::Str(Str {
-            value: constructor,
-            ..
-        })) if &**constructor == "constructor"
-    )
-}
-
-pub(crate) fn is_not_this(p: &Param) -> bool {
-    !matches!(
-        &p.pat,
-        Pat::Ident(BindingIdent {
-            id: Ident{ sym: this, .. },
-            ..
-        })if &**this == "this"
-    )
 }
 
 struct MakeMethodArgs {

@@ -2,7 +2,9 @@ use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
 use swc_ecma_lexer::{
-    common::parser::{expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList},
+    common::parser::{
+        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, unwrap_ts_non_null,
+    },
     lexer::TokenContext,
 };
 
@@ -2216,12 +2218,4 @@ impl<I: Tokens> Parser<I> {
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
-}
-
-fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
-    while let Expr::TsNonNull(ts_non_null) = expr {
-        expr = &ts_non_null.expr;
-    }
-
-    expr
 }

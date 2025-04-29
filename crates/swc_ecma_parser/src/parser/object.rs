@@ -1,12 +1,10 @@
 //! Parser for object literal.
 
 use swc_common::{Spanned, DUMMY_SP};
+use swc_ecma_lexer::common::parser::is_not_this;
 
 use super::*;
-use crate::{
-    parser::{class_and_fn::is_not_this, Parser},
-    token,
-};
+use crate::{parser::Parser, token};
 
 impl<I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.

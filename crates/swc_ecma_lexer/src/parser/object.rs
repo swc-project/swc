@@ -3,7 +3,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
-use crate::{parser::class_and_fn::is_not_this, tok};
+use crate::{common::parser::is_not_this, tok};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse a object literal or object pattern.

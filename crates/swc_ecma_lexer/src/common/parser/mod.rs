@@ -20,6 +20,11 @@ pub mod is_simple_param_list;
 pub mod parse_object;
 pub mod state;
 pub mod token_and_span;
+mod util;
+
+pub use util::{
+    get_qualified_jsx_name, has_use_strict, is_constructor, is_not_this, unwrap_ts_non_null,
+};
 
 pub trait Parser<'a>: Sized {
     type Token: std::fmt::Debug
