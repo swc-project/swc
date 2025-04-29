@@ -1137,7 +1137,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
     make_ref_ident_for_array(c, decls, init, None)
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[tracing::instrument(level = "debug", skip_all)]
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,

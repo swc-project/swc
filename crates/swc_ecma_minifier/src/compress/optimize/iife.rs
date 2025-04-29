@@ -139,7 +139,7 @@ impl Optimizer<'_> {
     ///     })(x);
     /// })(7);
     /// ```
-    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip(self, e)))]
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
         if self.options.inline == 0 && !self.options.reduce_vars && !self.options.reduce_fns {
             return;
@@ -409,7 +409,7 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
