@@ -4850,7 +4850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "22.5.3"
+version = "22.5.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5236,7 +5236,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "12.2.1"
+version = "12.2.2"
 dependencies = [
  "serde",
  "swc_atoms",
