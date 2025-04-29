@@ -1,12 +1,12 @@
 //! 13.3.3 Destructuring Binding Patterns
 
 use swc_common::Spanned;
-use swc_ecma_lexer::common::parser::expr_ext::ExprExt;
+use swc_ecma_lexer::common::parser::{expr_ext::ExprExt, is_not_this};
 
 use super::*;
 use crate::{
     lexer::Token,
-    parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread, Parser},
+    parser::{expr::AssignTargetOrSpread, Parser},
     token,
 };
 

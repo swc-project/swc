@@ -4,8 +4,8 @@ use swc_common::Spanned;
 
 use super::*;
 use crate::{
-    common::parser::expr_ext::ExprExt,
-    parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread},
+    common::parser::{expr_ext::ExprExt, is_not_this},
+    parser::expr::AssignTargetOrSpread,
     tok,
     token::{IdentLike, Keyword, Token},
 };

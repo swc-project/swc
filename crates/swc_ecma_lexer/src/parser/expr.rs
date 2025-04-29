@@ -4,7 +4,9 @@ use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, *};
 use crate::{
-    common::parser::{expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList},
+    common::parser::{
+        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, unwrap_ts_non_null,
+    },
     lexer::TokenContext,
     tok,
 };
@@ -2167,12 +2169,4 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
-}
-
-fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
-    while let Expr::TsNonNull(ts_non_null) = expr {
-        expr = &ts_non_null.expr;
-    }
-
-    expr
 }
