@@ -21,6 +21,8 @@ pub mod parse_object;
 pub mod state;
 pub mod token_and_span;
 mod util;
+#[cfg(feature = "verify")]
+pub mod verifier;
 
 pub use util::{
     get_qualified_jsx_name, has_use_strict, is_constructor, is_not_this, unwrap_ts_non_null,
