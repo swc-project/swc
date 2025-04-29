@@ -9,10 +9,6 @@ impl<I: Tokens> Parser<I> {
     pub fn input(&mut self) -> &mut I {
         &mut self.input.iter
     }
-
-    pub(crate) fn input_ref(&self) -> &I {
-        &self.input.iter
-    }
 }
 
 /// Clone should be cheap if you are parsing typescript because typescript
@@ -102,16 +98,12 @@ impl<I: Tokens> Buffer<I> {
     }
 }
 
-impl<'a, I: Tokens>
-    swc_ecma_lexer::common::parser::buffer::Buffer<
-        'a,
-        super::super::Lexer<'a>,
-        super::super::lexer::Token,
-        TokenAndSpan,
-        I,
-    > for Buffer<I>
-{
+impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffer<I> {
+    type I = I;
+    type Lexer = super::super::lexer::Lexer<'a>;
     type Next = NextTokenAndSpan;
+    type Token = super::super::lexer::Token;
+    type TokenAndSpan = TokenAndSpan;
 
     fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();

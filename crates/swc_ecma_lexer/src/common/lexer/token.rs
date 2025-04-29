@@ -2,15 +2,19 @@ use num_bigint::BigInt;
 use swc_atoms::Atom;
 
 use super::LexResult;
+use crate::common::input::Tokens;
 
-pub trait TokenFactory<'a, TokenAndSpan, Lexer: super::Lexer<'a, TokenAndSpan>> {
-    fn jsx_name(name: &'a str, lexer: &mut Lexer) -> Self;
-    fn str(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self;
-    fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Lexer) -> Self;
-    fn regexp(content: Atom, flags: Atom, lexer: &mut Lexer) -> Self;
-    fn num(value: f64, raw: Atom, lexer: &mut Lexer) -> Self;
-    fn bigint(value: Box<BigInt>, raw: Atom, lexer: &mut Lexer) -> Self;
-    fn unknown_ident(value: Atom, lexer: &mut Lexer) -> Self;
+pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>> {
+    type Lexer: super::Lexer<'a, TokenAndSpan>;
+    type Buffer: crate::common::parser::buffer::Buffer<'a>;
+
+    fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
+    fn str(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn num(value: f64, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn bigint(value: Box<BigInt>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn dollar_lbrace() -> Self;
     fn backquote() -> Self;
     fn hash() -> Self;
@@ -48,6 +52,9 @@ pub trait TokenFactory<'a, TokenAndSpan, Lexer: super::Lexer<'a, TokenAndSpan>> 
     fn zero_fill_rshift() -> Self;
     fn zero_fill_rshift_eq() -> Self;
 
+    fn is_error(&self) -> bool;
+    fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
+
     fn is_reserved(&self, ctx: super::Context) -> bool;
-    fn into_atom(self, lexer: &mut Lexer) -> Option<Atom>;
+    fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
 }
