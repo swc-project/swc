@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/proposal)** Preserve class id for hoisted classes when transforming `using` declarations ([#10407](https://github.com/swc-project/swc/issues/10407)) ([b703f21](https://github.com/swc-project/swc/commit/b703f21f6175386be7794ff1adaff471e42af9f3))
+
+### Refactor
+
+
+
+- Use debug level tracing for ast related tracing ([#10411](https://github.com/swc-project/swc/issues/10411)) ([3a0fa99](https://github.com/swc-project/swc/commit/3a0fa9968ebce3f6ce46961fa539dbbb07d32658))
+
 ## [1.11.22] - 2025-04-23
 
 ### Bug Fixes
@@ -1985,9 +1999,6 @@
 
 ### Bug Fixes
 
-
-
-- **(common)** Do not use `adjust_mappings` from `sourcemap` crate ([#9437](https://github.com/swc-project/swc/issues/9437)) ([563c162](https://github.com/swc-project/swc/commit/563c162f1ca8904e7b9a61a0c79fad952a56d624))
 
 
 - **(es)** Mark TypeScript nodes as reachable from `Evaluator` ([#9440](https://github.com/swc-project/swc/issues/9440)) ([308e5ec](https://github.com/swc-project/swc/commit/308e5ec81b4e6d49c5940f2d8914d8627f838141))
