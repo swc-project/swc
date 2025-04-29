@@ -95,7 +95,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
         self.set_ctx(ctx);
 
-        let start = cur_pos!(self);
+        let start = self.cur_pos();
 
         let shebang = self.parse_shebang()?;
 

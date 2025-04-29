@@ -2060,61 +2060,6 @@ impl<I: Tokens> Parser<I> {
             && expr.is_ident_ref_to("async"))
     }
 
-    /// 12.2.5 Array Initializer
-    pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
-        let start = cur_pos!(self);
-
-        let v = match cur!(self, true) {
-            Token::Null => {
-                bump!(self);
-                let span = span!(self, start);
-                Lit::Null(Null { span })
-            }
-            Token::True | Token::False => {
-                let value = is!(self, "true");
-                bump!(self);
-                let span = span!(self, start);
-
-                Lit::Bool(Bool { span, value })
-            }
-            Token::Str => match bump!(self) {
-                Token::Str => {
-                    let (value, raw) = self.input.expect_string_token_value();
-                    Lit::Str(Str {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
-                _ => unreachable!(),
-            },
-            Token::Num => match bump!(self) {
-                Token::Num => {
-                    let (value, raw) = self.input.expect_number_token_value();
-                    Lit::Num(Number {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
-                _ => unreachable!(),
-            },
-            Token::BigInt => match bump!(self) {
-                Token::BigInt => {
-                    let (value, raw) = self.input.expect_bigint_token_value();
-                    Lit::BigInt(BigInt {
-                        span: span!(self, start),
-                        value,
-                        raw: Some(raw),
-                    })
-                }
-                _ => unreachable!(),
-            },
-            token => unreachable!("parse_lit should not be called for {:?}", token),
-        };
-        Ok(v)
-    }
-
     pub(super) fn parse_dynamic_import_or_import_meta(
         &mut self,
         start: BytePos,

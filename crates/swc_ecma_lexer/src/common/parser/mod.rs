@@ -1,6 +1,6 @@
 use buffer::{Buffer, NextTokenAndSpan};
-use swc_common::Span;
-use swc_ecma_ast::Expr;
+use swc_common::{BytePos, Span};
+use swc_ecma_ast::{Expr, Lit, Null};
 use token_and_span::TokenAndSpan;
 
 use self::{
@@ -18,6 +18,8 @@ pub mod expr_ext;
 pub mod is_directive;
 pub mod is_invalid_class_name;
 pub mod is_simple_param_list;
+#[macro_use]
+mod macros;
 pub mod parse_object;
 pub mod state;
 pub mod token_and_span;
@@ -167,5 +169,79 @@ pub trait Parser<'a>: Sized {
             }
         }
         Ok(expr)
+    }
+
+    #[inline(always)]
+    fn cur_pos(&mut self) -> BytePos {
+        self.input_mut().cur_pos()
+    }
+
+    #[inline(always)]
+    fn last_pos(&self) -> BytePos {
+        self.input().prev_span().hi
+    }
+
+    #[inline(always)]
+    fn bump(&mut self) -> Self::Token {
+        debug_assert!(
+            self.input().knows_cur(),
+            "parser should not call bump() without knowing current token"
+        );
+        self.input_mut().bump()
+    }
+
+    #[inline]
+    fn span(&self, start: BytePos) -> Span {
+        let end = self.last_pos();
+        if cfg!(debug_assertions) && start > end {
+            unreachable!(
+                "assertion failed: (span.start <= span.end).
+ start = {}, end = {}",
+                start.0, end.0
+            )
+        }
+        Span::new(start, end)
+    }
+
+    fn parse_lit(&mut self) -> PResult<Lit> {
+        let start = self.cur_pos();
+        let cur = cur!(self, true);
+        let v = if cur.is_null() {
+            self.bump();
+            let span = self.span(start);
+            Lit::Null(Null { span })
+        } else if cur.is_true() || cur.is_false() {
+            let value = cur.is_true();
+            self.bump();
+            let span = self.span(start);
+            Lit::Bool(swc_ecma_ast::Bool { span, value })
+        } else if cur.is_str() {
+            let t = self.bump();
+            let (value, raw) = t.take_str(self.input_mut());
+            Lit::Str(swc_ecma_ast::Str {
+                span: self.span(start),
+                value,
+                raw: Some(raw),
+            })
+        } else if cur.is_num() {
+            let t = self.bump();
+            let (value, raw) = t.take_num(self.input_mut());
+            Lit::Num(swc_ecma_ast::Number {
+                span: self.span(start),
+                value,
+                raw: Some(raw),
+            })
+        } else if cur.is_bigint() {
+            let t = self.bump();
+            let (value, raw) = t.take_bigint(self.input_mut());
+            Lit::BigInt(swc_ecma_ast::BigInt {
+                span: self.span(start),
+                value,
+                raw: Some(raw),
+            })
+        } else {
+            unreachable!("parse_lit should not be called for {:?}", cur)
+        };
+        Ok(v)
     }
 }

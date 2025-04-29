@@ -4,16 +4,22 @@ use swc_atoms::Atom;
 use super::LexResult;
 use crate::common::input::Tokens;
 
-pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>> {
+pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + PartialEq {
     type Lexer: super::Lexer<'a, TokenAndSpan>;
     type Buffer: crate::common::parser::buffer::Buffer<'a>;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn str(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_str(&self) -> bool;
+    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
     fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn num(value: f64, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_num(&self) -> bool;
+    fn take_num(self, buffer: &mut Self::Buffer) -> (f64, Atom);
     fn bigint(value: Box<BigInt>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_bigint(&self) -> bool;
+    fn take_bigint(self, buffer: &mut Self::Buffer) -> (Box<BigInt>, Atom);
     fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn dollar_lbrace() -> Self;
     fn backquote() -> Self;
@@ -51,10 +57,28 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>> {
     fn greater_eq() -> Self;
     fn zero_fill_rshift() -> Self;
     fn zero_fill_rshift_eq() -> Self;
+    fn null() -> Self;
+    fn r#true() -> Self;
+    fn r#false() -> Self;
 
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
 
     fn is_reserved(&self, ctx: super::Context) -> bool;
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
+
+    #[inline(always)]
+    fn is_null(&self) -> bool {
+        Self::null().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_true(&self) -> bool {
+        Self::r#true().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_false(&self) -> bool {
+        Self::r#false().eq(self)
+    }
 }
