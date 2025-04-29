@@ -3,7 +3,9 @@ use std::fmt::Write;
 use either::Either;
 use swc_atoms::atom;
 use swc_common::Spanned;
-use swc_ecma_lexer::common::parser::is_simple_param_list::IsSimpleParameterList;
+use swc_ecma_lexer::common::parser::{
+    is_simple_param_list::IsSimpleParameterList, make_decl_declare,
+};
 
 use super::*;
 use crate::{lexer::Token, parser::Parser, token};
@@ -2893,22 +2895,6 @@ enum ParsingContext {
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
     TSConstructSignatureDeclaration,
-}
-
-/// Mark as declare
-fn make_decl_declare(mut decl: Decl) -> Decl {
-    match decl {
-        Decl::Class(ref mut c) => c.declare = true,
-        Decl::Fn(ref mut f) => f.declare = true,
-        Decl::Var(ref mut v) => v.declare = true,
-        Decl::TsInterface(ref mut i) => i.declare = true,
-        Decl::TsTypeAlias(ref mut a) => a.declare = true,
-        Decl::TsEnum(ref mut e) => e.declare = true,
-        Decl::TsModule(ref mut m) => m.declare = true,
-        Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
-    }
-
-    decl
 }
 
 #[cfg(test)]

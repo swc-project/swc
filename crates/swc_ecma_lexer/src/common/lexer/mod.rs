@@ -52,12 +52,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     // TODO: invest why there has regression if implement this by trait
     fn skip_block_comment(&mut self);
 
-    #[inline]
+    #[inline(always)]
     #[allow(clippy::misnamed_getters)]
     fn had_line_break_before_last(&self) -> bool {
         self.state().had_line_break()
     }
 
+    #[inline(always)]
     fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {

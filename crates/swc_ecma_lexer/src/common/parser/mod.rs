@@ -28,7 +28,8 @@ mod util;
 pub mod verifier;
 
 pub use util::{
-    get_qualified_jsx_name, has_use_strict, is_constructor, is_not_this, unwrap_ts_non_null,
+    get_qualified_jsx_name, has_use_strict, is_constructor, is_not_this, make_decl_declare,
+    unwrap_ts_non_null,
 };
 
 pub trait Parser<'a>: Sized {
