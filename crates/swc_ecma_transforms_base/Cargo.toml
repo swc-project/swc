@@ -13,8 +13,8 @@ version       = "12.2.0"
 bench = false
 
 [features]
-concurrent         = ["concurrent-renamer", "rayon", "swc_ecma_utils/concurrent"]
-concurrent-renamer = ["rayon"]
+concurrent         = ["concurrent-renamer", "swc_ecma_utils/concurrent"]
+concurrent-renamer = []
 
 [dependencies]
 better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
@@ -23,7 +23,6 @@ indexmap          = { workspace = true }
 once_cell         = { workspace = true }
 par-core          = { workspace = true }
 phf               = { workspace = true, features = ["macros"] }
-rayon             = { workspace = true, optional = true }
 rustc-hash        = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 smallvec          = { workspace = true }

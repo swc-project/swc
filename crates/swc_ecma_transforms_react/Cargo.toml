@@ -13,7 +13,7 @@ version       = "13.0.1"
 bench = false
 
 [features]
-concurrent = ["swc_common/concurrent", "rayon"]
+concurrent = ["swc_common/concurrent"]
 default    = ["serde-impl"]
 serde-impl = ["serde"]
 
@@ -22,7 +22,6 @@ base64     = { workspace = true }
 dashmap    = { workspace = true }
 indexmap   = { workspace = true }
 once_cell  = { workspace = true }
-rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }
 sha1       = { workspace = true }

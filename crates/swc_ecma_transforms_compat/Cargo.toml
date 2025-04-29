@@ -14,7 +14,6 @@ bench = false
 
 [features]
 concurrent = [
-  "rayon",
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
 ]
@@ -25,7 +24,6 @@ indexmap   = { workspace = true }
 is-macro   = { workspace = true }
 num-bigint = { workspace = true }
 par-core   = { workspace = true }
-rayon      = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive"] }
 smallvec   = { workspace = true }
 tracing    = { workspace = true }

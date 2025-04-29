@@ -14,12 +14,8 @@ version       = "12.0.1"
 bench = false
 
 [features]
-concurrent = [
-  "swc_common/concurrent",
-  "swc_ecma_transforms_base/concurrent",
-  "rayon",
-]
-debug = []
+concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
+debug      = []
 
 [dependencies]
 dashmap    = { workspace = true }
@@ -27,7 +23,6 @@ indexmap   = { workspace = true }
 once_cell  = { workspace = true }
 par-core   = { workspace = true }
 petgraph   = { workspace = true }
-rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 serde_json = { workspace = true }
 tracing    = { workspace = true }
