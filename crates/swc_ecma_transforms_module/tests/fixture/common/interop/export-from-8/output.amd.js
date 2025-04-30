@@ -10,311 +10,311 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        foo: function() {
+        get foo () {
             return _foo.foo;
         },
-        foo1: function() {
+        get foo1 () {
             return _foo.foo1;
         },
-        foo10: function() {
+        get foo10 () {
             return _foo.foo10;
         },
-        foo100: function() {
+        get foo100 () {
             return _foo.foo100;
         },
-        foo11: function() {
+        get foo11 () {
             return _foo.foo11;
         },
-        foo12: function() {
+        get foo12 () {
             return _foo.foo12;
         },
-        foo13: function() {
+        get foo13 () {
             return _foo.foo13;
         },
-        foo14: function() {
+        get foo14 () {
             return _foo.foo14;
         },
-        foo15: function() {
+        get foo15 () {
             return _foo.foo15;
         },
-        foo16: function() {
+        get foo16 () {
             return _foo.foo16;
         },
-        foo17: function() {
+        get foo17 () {
             return _foo.foo17;
         },
-        foo18: function() {
+        get foo18 () {
             return _foo.foo18;
         },
-        foo19: function() {
+        get foo19 () {
             return _foo.foo19;
         },
-        foo2: function() {
+        get foo2 () {
             return _foo.foo2;
         },
-        foo20: function() {
+        get foo20 () {
             return _foo.foo20;
         },
-        foo21: function() {
+        get foo21 () {
             return _foo.foo21;
         },
-        foo22: function() {
+        get foo22 () {
             return _foo.foo22;
         },
-        foo23: function() {
+        get foo23 () {
             return _foo.foo23;
         },
-        foo24: function() {
+        get foo24 () {
             return _foo.foo24;
         },
-        foo25: function() {
+        get foo25 () {
             return _foo.foo25;
         },
-        foo26: function() {
+        get foo26 () {
             return _foo.foo26;
         },
-        foo27: function() {
+        get foo27 () {
             return _foo.foo27;
         },
-        foo28: function() {
+        get foo28 () {
             return _foo.foo28;
         },
-        foo29: function() {
+        get foo29 () {
             return _foo.foo29;
         },
-        foo3: function() {
+        get foo3 () {
             return _foo.foo3;
         },
-        foo30: function() {
+        get foo30 () {
             return _foo.foo30;
         },
-        foo31: function() {
+        get foo31 () {
             return _foo.foo31;
         },
-        foo32: function() {
+        get foo32 () {
             return _foo.foo32;
         },
-        foo33: function() {
+        get foo33 () {
             return _foo.foo33;
         },
-        foo34: function() {
+        get foo34 () {
             return _foo.foo34;
         },
-        foo35: function() {
+        get foo35 () {
             return _foo.foo35;
         },
-        foo36: function() {
+        get foo36 () {
             return _foo.foo36;
         },
-        foo37: function() {
+        get foo37 () {
             return _foo.foo37;
         },
-        foo38: function() {
+        get foo38 () {
             return _foo.foo38;
         },
-        foo39: function() {
+        get foo39 () {
             return _foo.foo39;
         },
-        foo4: function() {
+        get foo4 () {
             return _foo.foo4;
         },
-        foo40: function() {
+        get foo40 () {
             return _foo.foo40;
         },
-        foo41: function() {
+        get foo41 () {
             return _foo.foo41;
         },
-        foo42: function() {
+        get foo42 () {
             return _foo.foo42;
         },
-        foo43: function() {
+        get foo43 () {
             return _foo.foo43;
         },
-        foo44: function() {
+        get foo44 () {
             return _foo.foo44;
         },
-        foo45: function() {
+        get foo45 () {
             return _foo.foo45;
         },
-        foo46: function() {
+        get foo46 () {
             return _foo.foo46;
         },
-        foo47: function() {
+        get foo47 () {
             return _foo.foo47;
         },
-        foo48: function() {
+        get foo48 () {
             return _foo.foo48;
         },
-        foo49: function() {
+        get foo49 () {
             return _foo.foo49;
         },
-        foo5: function() {
+        get foo5 () {
             return _foo.foo5;
         },
-        foo50: function() {
+        get foo50 () {
             return _foo.foo50;
         },
-        foo51: function() {
+        get foo51 () {
             return _foo.foo51;
         },
-        foo52: function() {
+        get foo52 () {
             return _foo.foo52;
         },
-        foo53: function() {
+        get foo53 () {
             return _foo.foo53;
         },
-        foo54: function() {
+        get foo54 () {
             return _foo.foo54;
         },
-        foo55: function() {
+        get foo55 () {
             return _foo.foo55;
         },
-        foo56: function() {
+        get foo56 () {
             return _foo.foo56;
         },
-        foo57: function() {
+        get foo57 () {
             return _foo.foo57;
         },
-        foo58: function() {
+        get foo58 () {
             return _foo.foo58;
         },
-        foo59: function() {
+        get foo59 () {
             return _foo.foo59;
         },
-        foo6: function() {
+        get foo6 () {
             return _foo.foo6;
         },
-        foo60: function() {
+        get foo60 () {
             return _foo.foo60;
         },
-        foo61: function() {
+        get foo61 () {
             return _foo.foo61;
         },
-        foo62: function() {
+        get foo62 () {
             return _foo.foo62;
         },
-        foo63: function() {
+        get foo63 () {
             return _foo.foo63;
         },
-        foo64: function() {
+        get foo64 () {
             return _foo.foo64;
         },
-        foo65: function() {
+        get foo65 () {
             return _foo.foo65;
         },
-        foo66: function() {
+        get foo66 () {
             return _foo.foo66;
         },
-        foo67: function() {
+        get foo67 () {
             return _foo.foo67;
         },
-        foo68: function() {
+        get foo68 () {
             return _foo.foo68;
         },
-        foo69: function() {
+        get foo69 () {
             return _foo.foo69;
         },
-        foo7: function() {
+        get foo7 () {
             return _foo.foo7;
         },
-        foo70: function() {
+        get foo70 () {
             return _foo.foo70;
         },
-        foo71: function() {
+        get foo71 () {
             return _foo.foo71;
         },
-        foo72: function() {
+        get foo72 () {
             return _foo.foo72;
         },
-        foo73: function() {
+        get foo73 () {
             return _foo.foo73;
         },
-        foo74: function() {
+        get foo74 () {
             return _foo.foo74;
         },
-        foo75: function() {
+        get foo75 () {
             return _foo.foo75;
         },
-        foo76: function() {
+        get foo76 () {
             return _foo.foo76;
         },
-        foo77: function() {
+        get foo77 () {
             return _foo.foo77;
         },
-        foo78: function() {
+        get foo78 () {
             return _foo.foo78;
         },
-        foo79: function() {
+        get foo79 () {
             return _foo.foo79;
         },
-        foo8: function() {
+        get foo8 () {
             return _foo.foo8;
         },
-        foo80: function() {
+        get foo80 () {
             return _foo.foo80;
         },
-        foo81: function() {
+        get foo81 () {
             return _foo.foo81;
         },
-        foo82: function() {
+        get foo82 () {
             return _foo.foo82;
         },
-        foo83: function() {
+        get foo83 () {
             return _foo.foo83;
         },
-        foo84: function() {
+        get foo84 () {
             return _foo.foo84;
         },
-        foo85: function() {
+        get foo85 () {
             return _foo.foo85;
         },
-        foo86: function() {
+        get foo86 () {
             return _foo.foo86;
         },
-        foo87: function() {
+        get foo87 () {
             return _foo.foo87;
         },
-        foo88: function() {
+        get foo88 () {
             return _foo.foo88;
         },
-        foo89: function() {
+        get foo89 () {
             return _foo.foo89;
         },
-        foo9: function() {
+        get foo9 () {
             return _foo.foo9;
         },
-        foo90: function() {
+        get foo90 () {
             return _foo.foo90;
         },
-        foo91: function() {
+        get foo91 () {
             return _foo.foo91;
         },
-        foo92: function() {
+        get foo92 () {
             return _foo.foo92;
         },
-        foo93: function() {
+        get foo93 () {
             return _foo.foo93;
         },
-        foo94: function() {
+        get foo94 () {
             return _foo.foo94;
         },
-        foo95: function() {
+        get foo95 () {
             return _foo.foo95;
         },
-        foo96: function() {
+        get foo96 () {
             return _foo.foo96;
         },
-        foo97: function() {
+        get foo97 () {
             return _foo.foo97;
         },
-        foo98: function() {
+        get foo98 () {
             return _foo.foo98;
         },
-        foo99: function() {
+        get foo99 () {
             return _foo.foo99;
         }
     });

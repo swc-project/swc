@@ -25,16 +25,16 @@ define([
         value: !0
     });
     var all = {
-        D: function() {
+        get D () {
             return D;
         },
-        p2: function() {
+        get p2 () {
             return p2;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     new Promise((resolve, reject)=>require([
             "./0"

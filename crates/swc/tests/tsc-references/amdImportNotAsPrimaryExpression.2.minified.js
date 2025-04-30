@@ -8,16 +8,16 @@ define([
         value: !0
     });
     var E1, all = {
-        C1: function() {
+        get C1 () {
             return C1;
         },
-        E1: function() {
+        get E1 () {
             return E11;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     var C1 = function C1() {
         _class_call_check._(this, C1), this.m1 = 42;

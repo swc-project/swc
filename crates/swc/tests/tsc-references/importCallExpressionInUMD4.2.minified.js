@@ -5,16 +5,16 @@ global = this, factory = function(exports1) {
         value: !0
     });
     var all = {
-        B: function() {
+        get B () {
             return B;
         },
-        foo: function() {
+        get foo () {
             return foo;
         }
     };
     for(var name in all)Object.defineProperty(exports1, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     class B {
         print() {

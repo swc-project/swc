@@ -11,16 +11,16 @@ define([
         value: !0
     });
     var all = {
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     var x = "x", y = "y";
 });
@@ -34,16 +34,16 @@ define([
         value: !0
     });
     var all = {
-        x: function() {
+        get x () {
             return _t1.y;
         },
-        y: function() {
+        get y () {
             return _t1.x;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 });
 //// [t3.ts]
@@ -56,15 +56,15 @@ define([
         value: !0
     });
     var all = {
-        x: function() {
+        get x () {
             return _t1.y;
         },
-        y: function() {
+        get y () {
             return _t1.x;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 });

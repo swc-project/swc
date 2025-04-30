@@ -1,0 +1,73 @@
+use swc_ecma_ast::{Callee, Expr, FnDecl, FnExpr, Program, ReturnStmt};
+use swc_ecma_visit::{Visit, VisitWith};
+
+/// Returns true if the `program` is a good target for the react compiler.
+///
+/// If this function returns false, it means that it does not worth to apply the
+/// React Compiler to the file.
+pub fn is_required(program: &Program) -> bool {
+    let mut finder = Finder::default();
+    finder.visit_program(program);
+    finder.found
+}
+
+#[derive(Default)]
+struct Finder {
+    found: bool,
+
+    /// We are in a function that starts with a capital letter or it's a
+    /// function that starts with `use`
+    is_interested: bool,
+}
+
+impl Visit for Finder {
+    fn visit_callee(&mut self, node: &Callee) {
+        if self.is_interested {
+            if let Callee::Expr(e) = node {
+                if let Expr::Ident(c) = &**e {
+                    if c.sym.starts_with("use") {
+                        self.found = true;
+                        return;
+                    }
+                }
+            }
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
+        let old = self.is_interested;
+        self.is_interested = node.ident.sym.starts_with("use")
+            || node.ident.sym.starts_with(|c: char| c.is_ascii_uppercase());
+
+        node.visit_children_with(self);
+
+        self.is_interested = old;
+    }
+
+    fn visit_fn_expr(&mut self, node: &FnExpr) {
+        let old = self.is_interested;
+
+        self.is_interested = node.ident.as_ref().is_some_and(|ident| {
+            ident.sym.starts_with("use") || ident.sym.starts_with(|c: char| c.is_ascii_uppercase())
+        });
+
+        node.visit_children_with(self);
+
+        self.is_interested = old;
+    }
+
+    fn visit_return_stmt(&mut self, node: &ReturnStmt) {
+        if self.is_interested {
+            if let Some(Expr::JSXElement(..) | Expr::JSXEmpty(..) | Expr::JSXFragment(..)) =
+                node.arg.as_deref()
+            {
+                self.found = true;
+                return;
+            }
+        }
+
+        node.visit_children_with(self);
+    }
+}

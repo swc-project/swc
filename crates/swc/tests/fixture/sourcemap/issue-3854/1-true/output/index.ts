@@ -5,35 +5,35 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    create: function() {
+    get create () {
         return create;
     },
-    header: function() {
+    get header () {
         return header;
     },
-    node: function() {
+    get node () {
         return _BodyNodesBuilder;
     },
-    opener: function() {
+    get opener () {
         return opener;
     },
-    seq: function() {
+    get seq () {
         return seq;
     },
-    source: function() {
+    get source () {
         return source;
     },
-    sources: function() {
+    get sources () {
         return sources;
     },
-    stage: function() {
+    get stage () {
         return stage;
     },
-    trustBox: function() {
+    get trustBox () {
         return trustBox;
     }
 });

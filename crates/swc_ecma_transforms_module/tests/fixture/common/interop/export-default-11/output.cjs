@@ -5,14 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    Cachier: function() {
+    get Cachier () {
         return Cachier;
     },
-    default: function() {
+    get default () {
         return _default;
     }
 });

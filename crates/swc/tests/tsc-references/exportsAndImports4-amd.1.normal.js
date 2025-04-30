@@ -56,32 +56,32 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        a: function() {
+        get a () {
             return _t1;
         },
-        b: function() {
+        get b () {
             return _t11.default;
         },
-        c: function() {
+        get c () {
             return _t11;
         },
-        d: function() {
+        get d () {
             return _t11.default;
         },
-        e1: function() {
+        get e1 () {
             return _t11.default;
         },
-        e2: function() {
+        get e2 () {
             return _t11;
         },
-        f1: function() {
+        get f1 () {
             return _t11.default;
         },
-        f2: function() {
+        get f2 () {
             return _t11.default;
         }
     });

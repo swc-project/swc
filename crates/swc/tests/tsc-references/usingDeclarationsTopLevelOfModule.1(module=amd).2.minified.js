@@ -9,22 +9,22 @@ define([
         value: !0
     });
     var all = {
-        default: function() {
+        get default () {
             return _default;
         },
-        w: function() {
+        get w () {
             return w;
         },
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     let env = {
         stack: [],

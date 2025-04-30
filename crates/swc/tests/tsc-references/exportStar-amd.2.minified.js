@@ -11,16 +11,16 @@ define([
         value: !0
     });
     var all = {
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     var x = 1, y = 2;
 });
@@ -33,16 +33,16 @@ define([
         value: !0
     });
     var all = {
-        default: function() {
+        get default () {
             return _default;
         },
-        foo: function() {
+        get foo () {
             return foo;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     var _default = "hello";
     function foo() {}
@@ -56,19 +56,19 @@ define([
         value: !0
     });
     var all = {
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         },
-        z: function() {
+        get z () {
             return z;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     var x = "x", y = "y", z = "z";
 });

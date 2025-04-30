@@ -5,26 +5,26 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    f1: function() {
+    get f1 () {
         return f1;
     },
-    f2: function() {
+    get f2 () {
         return f2;
     },
-    f3: function() {
+    get f3 () {
         return f3;
     },
-    f4: function() {
+    get f4 () {
         return f4;
     },
-    x: function() {
+    get x () {
         return x;
     },
-    y: function() {
+    get y () {
         return y;
     }
 });

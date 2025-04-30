@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    a: function() {
+    get a () {
         return a;
     },
-    b: function() {
+    get b () {
         return b;
     }
 });
@@ -29,17 +29,17 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    a: function() {
+    get a () {
         return _0.a;
     },
-    b: function() {
+    get b () {
         return _0.b;
     },
-    ns: function() {
+    get ns () {
         return _0;
     }
 });
@@ -54,20 +54,20 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    a: function() {
+    get a () {
         return _0.a;
     },
-    b: function() {
+    get b () {
         return _0.b;
     },
-    c: function() {
+    get c () {
         return _0.a;
     },
-    d: function() {
+    get d () {
         return _0.b;
     }
 });

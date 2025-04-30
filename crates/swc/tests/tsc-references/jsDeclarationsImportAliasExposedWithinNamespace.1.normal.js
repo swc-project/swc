@@ -23,14 +23,14 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    testFn: function() {
+    get testFn () {
         return testFn;
     },
-    testFnTypes: function() {
+    get testFnTypes () {
         return testFnTypes;
     }
 });

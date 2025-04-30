@@ -9,23 +9,23 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        a: function() {
+        get a () {
             return a;
         },
-        c: function() {
+        get c () {
             return b;
         },
-        e: function() {
+        get e () {
             return d;
         },
-        f: function() {
+        get f () {
             return d;
         },
-        test: function() {
+        get test () {
             return test;
         }
     });

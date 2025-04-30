@@ -12,38 +12,38 @@
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        bar: function() {
+        get bar () {
             return bar;
         },
-        foo: function() {
+        get foo () {
             return foo;
         },
-        foo2: function() {
+        get foo2 () {
             return foo2;
         },
-        foo3: function() {
+        get foo3 () {
             return foo3;
         },
-        foo4: function() {
+        get foo4 () {
             return foo4;
         },
-        foo5: function() {
+        get foo5 () {
             return foo5;
         },
-        foo6: function() {
+        get foo6 () {
             return foo6;
         },
-        foo7: function() {
+        get foo7 () {
             return foo7;
         },
-        foo8: function() {
+        get foo8 () {
             return foo8;
         },
-        foo9: function() {
+        get foo9 () {
             return foo9;
         }
     });

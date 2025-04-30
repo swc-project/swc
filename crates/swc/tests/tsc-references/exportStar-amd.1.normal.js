@@ -16,14 +16,14 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         }
     });
@@ -42,14 +42,14 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        default: function() {
+        get default () {
             return _default;
         },
-        foo: function() {
+        get foo () {
             return foo;
         }
     });
@@ -68,17 +68,17 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        x: function() {
+        get x () {
             return x;
         },
-        y: function() {
+        get y () {
             return y;
         },
-        z: function() {
+        get z () {
             return z;
         }
     });

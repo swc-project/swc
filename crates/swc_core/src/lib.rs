@@ -154,6 +154,10 @@ pub mod ecma {
     pub mod utils {
         pub use swc_ecma_utils::*;
     }
+
+    #[cfg(feature = "swc_ecma_react_compiler")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "swc_ecma_react_compiler")))]
+    pub extern crate swc_ecma_react_compiler as react_compiler;
 }
 
 // swc features
