@@ -242,6 +242,13 @@ mod tests {
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
+        decimal_number,
+        "const a = { b: 24.0197, c: 0.0, d: 1.0 };"
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| json_parse(0),
         null,
         "const a = { b: null };"
     );
