@@ -117,6 +117,9 @@ ecma_transforms_typescript = [
   "swc_ecma_transforms_typescript",
 ]
 
+ecma_react_compiler = ["swc_ecma_react_compiler"]
+
+
 # Enable swc_bundler
 bundler         = ["__bundler"]
 bundler_node_v1 = ["__bundler", "swc_node_bundler/swc_v1"]
@@ -373,6 +376,7 @@ swc_ecma_minifier                = { optional = true, version = "16.1.1", path =
 swc_ecma_parser                  = { optional = true, version = "11.1.4", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "16.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "11.0.0", path = "../swc_ecma_quote_macros" }
+swc_ecma_react_compiler          = { optional = true, version = "1.0.0", path = "../swc_ecma_react_compiler" }
 swc_ecma_transforms_base         = { optional = true, version = "12.2.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "13.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module       = { optional = true, version = "13.0.0", path = "../swc_ecma_transforms_module" }

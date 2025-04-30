@@ -1,0 +1,19 @@
+[package]
+description   = "SWC helpers for the React Compiler"
+documentation = "https://rustdoc.swc.rs/swc_ecma_react_compiler/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_ecma_react_compiler"
+repository    = { workspace = true }
+version       = "1.0.0"
+
+
+    [package.metadata.docs.rs]
+    all-features = true
+    rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+swc_atoms      = { version = "5.0.0", path = "../swc_atoms" }
+swc_common     = { version = "8.1.1", path = "../swc_common" }
+swc_ecma_ast   = { version = "8.1.2", path = "../swc_ecma_ast" }
+swc_ecma_visit = { version = "8.0.0", path = "../swc_ecma_visit" }
