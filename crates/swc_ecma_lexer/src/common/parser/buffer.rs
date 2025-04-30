@@ -128,21 +128,21 @@ pub trait Buffer<'a> {
         let cur = self.get_cur_mut().take().unwrap();
         let next = self.next_mut().take().unwrap();
         let cur_token = cur.token();
-        let token = if cur_token == &Self::Token::greater() {
+        let token = if cur_token.is_greater() {
             let next_token = next.token();
-            if next_token == &Self::Token::greater() {
+            if next_token.is_greater() {
                 // >>
                 Self::Token::rshift()
-            } else if next_token == &Self::Token::equal() {
+            } else if next_token.is_equal() {
                 // >=
                 Self::Token::greater_eq()
-            } else if next_token == &Self::Token::rshift() {
+            } else if next_token.is_rshift() {
                 // >>>
                 Self::Token::zero_fill_rshift()
-            } else if next_token == &Self::Token::greater_eq() {
+            } else if next_token.is_greater_eq() {
                 // >>=
                 Self::Token::rshift_eq()
-            } else if next_token == &Self::Token::rshift_eq() {
+            } else if next_token.is_rshift_eq() {
                 // >>>=
                 Self::Token::zero_fill_rshift_eq()
             } else {
@@ -150,15 +150,15 @@ pub trait Buffer<'a> {
                 self.set_next(Some(next));
                 return;
             }
-        } else if cur_token == &Self::Token::less() {
+        } else if cur_token.is_less() {
             let next_token = next.token();
-            if next_token == &Self::Token::less() {
+            if next_token.is_less() {
                 // <<
                 Self::Token::lshift()
-            } else if next_token == &Self::Token::equal() {
+            } else if next_token.is_equal() {
                 // <=
                 Self::Token::less_eq()
-            } else if next_token == &Self::Token::less_eq() {
+            } else if next_token.is_less_eq() {
                 // <<=
                 Self::Token::lshift_eq()
             } else {
@@ -178,10 +178,7 @@ pub trait Buffer<'a> {
 
     #[inline]
     fn is(&mut self, expected: &Self::Token) -> bool {
-        match self.cur() {
-            Some(t) => expected == t,
-            _ => false,
-        }
+        self.cur().is_some_and(|cur| cur == expected)
     }
 
     #[inline]

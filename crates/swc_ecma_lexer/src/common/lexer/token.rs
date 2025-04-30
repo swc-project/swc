@@ -75,8 +75,43 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
 
     #[inline(always)]
+    fn is_less(&self) -> bool {
+        Self::less().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_less_eq(&self) -> bool {
+        Self::less_eq().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_greater(&self) -> bool {
+        Self::greater().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_equal(&self) -> bool {
+        Self::equal().eq(self)
+    }
+
+    #[inline(always)]
     fn is_null(&self) -> bool {
         Self::null().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_rshift(&self) -> bool {
+        Self::rshift().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_rshift_eq(&self) -> bool {
+        Self::rshift_eq().eq(self)
+    }
+
+    #[inline(always)]
+    fn is_greater_eq(&self) -> bool {
+        Self::greater_eq().eq(self)
     }
 
     #[inline(always)]

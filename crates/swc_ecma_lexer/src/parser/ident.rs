@@ -1,5 +1,4 @@
 //! 12.1 Identifiers
-use either::Either;
 use swc_atoms::atom;
 
 use super::*;
@@ -9,36 +8,6 @@ use crate::{
 };
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
-        let is_private = is!(self, '#');
-
-        if is_private {
-            self.parse_private_name().map(Either::Left)
-        } else {
-            self.parse_ident_name().map(Either::Right)
-        }
-    }
-
-    pub(super) fn parse_private_name(&mut self) -> PResult<PrivateName> {
-        let start = cur_pos!(self);
-        assert_and_bump!(self, '#');
-
-        let hash_end = self.input.prev_span().hi;
-        if self.input.cur_pos() - hash_end != BytePos(0) {
-            syntax_error!(
-                self,
-                span!(self, start),
-                SyntaxError::SpaceBetweenHashAndIdent
-            );
-        }
-
-        let id = self.parse_ident_name()?;
-        Ok(PrivateName {
-            span: span!(self, start),
-            name: id.sym,
-        })
-    }
-
     /// IdentifierReference
     pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
