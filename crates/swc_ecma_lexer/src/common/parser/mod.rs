@@ -1,11 +1,12 @@
-use buffer::{Buffer, NextTokenAndSpan};
+use either::Either;
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{Expr, IdentName, Lit, ModuleExportName, Null};
-use token_and_span::TokenAndSpan;
+use swc_ecma_ast::{Expr, IdentName, Lit, ModuleExportName, Null, PrivateName};
 
 use self::{
+    buffer::{Buffer, NextTokenAndSpan},
     ctx::WithCtx,
     state::{State, WithState},
+    token_and_span::TokenAndSpan,
 };
 use super::{context::Context, input::Tokens, lexer::token::TokenFactory};
 use crate::{error::SyntaxError, Syntax};
@@ -34,7 +35,6 @@ pub use util::{
 
 pub trait Parser<'a>: Sized {
     type Token: std::fmt::Debug
-        + PartialEq
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
     type Lexer: super::lexer::Lexer<'a, Self::TokenAndSpan>;
@@ -279,5 +279,45 @@ pub trait Parser<'a>: Sized {
             syntax_error!(self, SyntaxError::ExpectedIdent)
         };
         Ok(IdentName::new(w, self.span(start)))
+    }
+
+    fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
+        let is_private = self.input_mut().is(&Self::Token::hash());
+        if is_private {
+            self.parse_private_name().map(Either::Left)
+        } else {
+            self.parse_ident_name().map(Either::Right)
+        }
+    }
+
+    fn parse_private_name(&mut self) -> PResult<PrivateName> {
+        let start = self.cur_pos();
+        self.assert_and_bump(&Self::Token::hash())?;
+        let hash_end = self.input().prev_span().hi;
+        if self.input_mut().cur_pos() - hash_end != BytePos(0) {
+            syntax_error!(
+                self,
+                self.span(start),
+                SyntaxError::SpaceBetweenHashAndIdent
+            );
+        }
+        let id = self.parse_ident_name()?;
+        Ok(PrivateName {
+            span: self.span(start),
+            name: id.sym,
+        })
+    }
+
+    #[inline(always)]
+    fn assert_and_bump(&mut self, token: &Self::Token) -> PResult<Self::Token> {
+        if cfg!(debug_assertions) && !self.input_mut().is(token) {
+            unreachable!(
+                "assertion failed: expected {:?}, got {:?}",
+                token,
+                self.input_mut().cur()
+            );
+        }
+        let _ = cur!(self, true);
+        Ok(self.input_mut().bump())
     }
 }
