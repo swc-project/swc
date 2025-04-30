@@ -121,7 +121,16 @@ fn jsonify(e: Expr) -> Value {
                 .collect(),
         ),
         Expr::Lit(Lit::Str(Str { value, .. })) => Value::String(value.to_string()),
-        Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number((value as i64).into()),
+        Expr::Lit(Lit::Num(Number { value, .. })) => {
+            if value.fract() == 0.0 {
+                Value::Number((value as i64).into())
+            } else {
+                match serde_json::Number::from_f64(value) {
+                    Some(n) => Value::Number(n),
+                    None => Value::Number((value as i64).into()),
+                }
+            }
+        },
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.first() {
