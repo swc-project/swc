@@ -130,7 +130,7 @@ fn jsonify(e: Expr) -> Value {
                     None => Value::Number((value as i64).into()),
                 }
             }
-        },
+        }
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
         Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.first() {
