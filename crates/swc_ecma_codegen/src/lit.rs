@@ -419,7 +419,8 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                         }
 
                         if let Some(c @ 'D' | c @ 'd') = next {
-                            let mut inner_buf = String::with_capacity(8);
+                            let mut inner_buf = String::with_capacity(9);
+                            inner_buf.push('\\');
                             inner_buf.push('\\');
                             inner_buf.push('u');
 
