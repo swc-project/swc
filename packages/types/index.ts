@@ -868,6 +868,11 @@ export interface TransformConfig {
      * https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax
      */
     verbatimModuleSyntax?: boolean;
+
+    /**
+     * Native class properties support
+     */
+    nativeClassProperties?: boolean;
 }
 
 export interface ReactConfig {
