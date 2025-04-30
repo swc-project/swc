@@ -11,17 +11,17 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        MainButton: function() {
+        get MainButton () {
             return MainButton;
         },
-        NoOverload: function() {
+        get NoOverload () {
             return NoOverload;
         },
-        NoOverload1: function() {
+        get NoOverload1 () {
             return NoOverload1;
         }
     });

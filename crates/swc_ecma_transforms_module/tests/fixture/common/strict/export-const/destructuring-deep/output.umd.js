@@ -12,16 +12,16 @@
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        baz: function() {
+        get baz () {
             return baz;
         },
-        qux: function() {
+        get qux () {
             return qux;
         }
     });
-    const { foo: { bar: [baz, qux]  }  } = {};
+    const { foo: { bar: [baz, qux] } } = {};
 });

@@ -36,32 +36,32 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    a: function() {
+    get a () {
         return a;
     },
-    b: function() {
+    get b () {
         return _t1.default;
     },
-    c: function() {
+    get c () {
         return _t1;
     },
-    d: function() {
+    get d () {
         return _t1.default;
     },
-    e1: function() {
+    get e1 () {
         return _t1.default;
     },
-    e2: function() {
+    get e2 () {
         return _t1;
     },
-    f1: function() {
+    get f1 () {
         return _t1.default;
     },
-    f2: function() {
+    get f2 () {
         return _t1.default;
     }
 });

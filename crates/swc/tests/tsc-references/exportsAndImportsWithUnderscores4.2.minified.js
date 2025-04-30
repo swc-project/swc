@@ -4,31 +4,31 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    _: function() {
+    get _ () {
         return _;
     },
-    __: function() {
+    get __ () {
         return __;
     },
-    ___: function() {
+    get ___ () {
         return ___;
     },
-    ___hello: function() {
+    get ___hello () {
         return ___hello;
     },
-    __esmodule: function() {
+    get __esmodule () {
         return __esmodule;
     },
-    __proto: function() {
+    get __proto () {
         return __proto;
     },
-    _hi: function() {
+    get _hi () {
         return _hi;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 function _() {
     console.log("_");

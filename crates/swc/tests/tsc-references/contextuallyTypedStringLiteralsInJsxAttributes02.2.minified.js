@@ -8,19 +8,19 @@ define([
         value: !0
     });
     var all = {
-        MainButton: function() {
+        get MainButton () {
             return MainButton;
         },
-        NoOverload: function() {
+        get NoOverload () {
             return NoOverload;
         },
-        NoOverload1: function() {
+        get NoOverload1 () {
             return NoOverload1;
         }
     };
     for(var name in all)Object.defineProperty(exports, name, {
         enumerable: !0,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     function MainButton(props) {
         return props.goTo ? this._buildMainLink(props) : this._buildMainButton(props);

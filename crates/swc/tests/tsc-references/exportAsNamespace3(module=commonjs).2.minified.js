@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    a: function() {
+    get a () {
         return a;
     },
-    b: function() {
+    get b () {
         return b;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var a = 1, b = 2;
 //// [1.ts]

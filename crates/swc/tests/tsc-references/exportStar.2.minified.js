@@ -4,16 +4,16 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    x: function() {
+    get x () {
         return x;
     },
-    y: function() {
+    get y () {
         return y;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var x = 1, y = 2;
 //// [t2.ts]
@@ -21,16 +21,16 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    default: function() {
+    get default () {
         return _default;
     },
-    foo: function() {
+    get foo () {
         return foo;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var _default = "hello";
 function foo() {}
@@ -39,19 +39,19 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    x: function() {
+    get x () {
         return x;
     },
-    y: function() {
+    get y () {
         return y;
     },
-    z: function() {
+    get z () {
         return z;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var x = "x", y = "y", z = "z";
 //// [t4.ts]

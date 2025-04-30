@@ -15,23 +15,23 @@
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        cl1: function() {
+        get cl1 () {
             return cl1;
         },
-        cl2: function() {
+        get cl2 () {
             return cl2;
         },
-        fn: function() {
+        get fn () {
             return fn;
         },
-        l: function() {
+        get l () {
             return l;
         },
-        obj: function() {
+        get obj () {
             return obj;
         }
     });

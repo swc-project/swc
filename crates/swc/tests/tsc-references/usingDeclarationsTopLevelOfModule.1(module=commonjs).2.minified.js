@@ -3,22 +3,22 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    default: function() {
+    get default () {
         return _default;
     },
-    w: function() {
+    get w () {
         return w;
     },
-    x: function() {
+    get x () {
         return x;
     },
-    y: function() {
+    get y () {
         return y;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), env = {
     stack: [],

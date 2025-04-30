@@ -6,23 +6,23 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    Nothing: function() {
+    get Nothing () {
         return Nothing;
     },
-    Nothing1: function() {
+    get Nothing1 () {
         return Nothing1;
     },
-    Nothing2: function() {
+    get Nothing2 () {
         return Nothing2;
     },
-    Nothing3: function() {
+    get Nothing3 () {
         return Nothing3;
     },
-    strategy: function() {
+    get strategy () {
         return strategy;
     }
 });

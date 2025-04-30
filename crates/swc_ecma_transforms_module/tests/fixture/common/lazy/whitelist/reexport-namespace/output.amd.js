@@ -11,14 +11,14 @@ define([
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        namespace1: function() {
+        get namespace1 () {
             return _white;
         },
-        namespace2: function() {
+        get namespace2 () {
             return _black;
         }
     });

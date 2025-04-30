@@ -3,25 +3,25 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var target = exports, all = {
-    Nothing: function() {
+    get Nothing () {
         return Nothing;
     },
-    Nothing1: function() {
+    get Nothing1 () {
         return Nothing1;
     },
-    Nothing2: function() {
+    get Nothing2 () {
         return Nothing2;
     },
-    Nothing3: function() {
+    get Nothing3 () {
         return Nothing3;
     },
-    strategy: function() {
+    get strategy () {
         return strategy;
     }
 };
 for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
-    get: all[name]
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 function strategy(stratName, gen) {
     return function*(state) {
