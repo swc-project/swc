@@ -5609,6 +5609,12 @@ dependencies = [
 [[package]]
 name = "swc_ecma_react_compiler"
 version = "1.0.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_visit",
+]
 
 [[package]]
 name = "swc_ecma_testing"
