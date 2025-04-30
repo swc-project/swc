@@ -11482,7 +11482,7 @@ fn issue_10133() {
 fn issue_10353() {
     run_default_exec_test(
         r#"
-        console.log("\\"\\\\uD83D\\\\uDE42\\"");
+        console.log("\\uD83D\\uDE42");
         "#,
     );
 }
