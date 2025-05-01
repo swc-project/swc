@@ -31,12 +31,16 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_unknown_ident(&self) -> bool;
     fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom;
+    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b mut Self::Buffer) -> &'b Atom;
+
     fn is_known_ident(&self) -> bool;
     fn take_known_ident(&self) -> Atom;
 
     fn dollar_lbrace() -> Self;
     fn backquote() -> Self;
     fn hash() -> Self;
+    fn r#in() -> Self;
+    fn r#const() -> Self;
     fn dot() -> Self;
     fn dotdotdot() -> Self;
     fn nullish_assign() -> Self;
@@ -261,6 +265,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::dot().eq(self)
     }
     #[inline(always)]
+    fn is_dotdotdot(&self) -> bool {
+        Self::dotdotdot().eq(self)
+    }
+    #[inline(always)]
     fn is_plus(&self) -> bool {
         Self::plus().eq(self)
     }
@@ -299,5 +307,17 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_hash(&self) -> bool {
         Self::hash().eq(self)
+    }
+    #[inline(always)]
+    fn is_in(&self) -> bool {
+        Self::r#in().eq(self)
+    }
+    #[inline(always)]
+    fn is_const(&self) -> bool {
+        Self::r#const().eq(self)
+    }
+    #[inline(always)]
+    fn is_star(&self) -> bool {
+        Self::mul().eq(self)
     }
 }

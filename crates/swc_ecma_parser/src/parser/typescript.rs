@@ -11,66 +11,6 @@ use super::*;
 use crate::{lexer::Token, parser::Parser, token};
 
 impl<I: Tokens> Parser<I> {
-    /// `tsNextTokenCanFollowModifier`
-    fn ts_next_token_can_follow_modifier(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        // Note: TypeScript's implementation is much more complicated because
-        // more things are considered modifiers there.
-        // This implementation only handles modifiers not handled by @babel/parser
-        // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-        // hasLineBreakUpNext() method...
-        bump!(self);
-        Ok(!self.input.had_line_break_before_cur()
-            && is_one_of!(self, '[', '{', '*', "...", '#', IdentName, Str, Num, BigInt))
-    }
-
-    /// Parses a modifier matching one the given modifier names.
-    ///
-    /// `tsParseModifier`
-    pub(super) fn parse_ts_modifier(
-        &mut self,
-        allowed_modifiers: &[&'static str],
-        stop_on_start_of_class_static_blocks: bool,
-    ) -> PResult<Option<&'static str>> {
-        if !self.input.syntax().typescript() {
-            return Ok(None);
-        }
-
-        let pos = {
-            let t = cur!(self, true);
-            let modifier = match t {
-                Token::Ident => self.input.expect_word_token_value_ref().clone(),
-                Token::In => atom!("in"),
-                Token::Const => atom!("const"),
-                _ => {
-                    if let Some(atom) = t.as_known_ident_atom() {
-                        atom
-                    } else {
-                        return Ok(None);
-                    }
-                }
-            };
-
-            // TODO: compare atom rather than string.
-            allowed_modifiers
-                .iter()
-                .position(|s| **s == *modifier.as_str())
-        };
-
-        if let Some(pos) = pos {
-            if stop_on_start_of_class_static_blocks && is!(self, "static") && peeked_is!(self, '{')
-            {
-                return Ok(None);
-            }
-            if self.try_parse_ts_bool(|p| p.ts_next_token_can_follow_modifier().map(Some))? {
-                return Ok(Some(allowed_modifiers[pos]));
-            }
-        }
-
-        Ok(None)
-    }
-
     /// `tsIsListTerminator`
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<bool> {
         debug_assert!(self.input.syntax().typescript());
@@ -588,31 +528,6 @@ impl<I: Tokens> Parser<I> {
                 type_ann: node,
             }))
         })
-    }
-
-    /// `tsTryParse`
-    fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
-    where
-        F: FnOnce(&mut Self) -> PResult<Option<bool>>,
-    {
-        if !self.input.syntax().typescript() {
-            return Ok(false);
-        }
-        let prev_ignore_error = self.input.get_ctx().contains(Context::IgnoreError);
-        let mut cloned = self.clone();
-        cloned.set_ctx(self.ctx() | Context::IgnoreError);
-        let res = op(&mut cloned);
-        match res {
-            Ok(Some(res)) if res => {
-                *self = cloned;
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input.set_ctx(ctx);
-                Ok(res)
-            }
-            Err(..) => Ok(false),
-            _ => Ok(false),
-        }
     }
 
     #[cfg_attr(
