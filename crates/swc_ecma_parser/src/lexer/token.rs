@@ -807,6 +807,91 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_word(self, buffer: &mut Self::Buffer) -> Option<Atom> {
         self.as_word_atom(buffer.get_token_value())
     }
+
+    #[inline(always)]
+    fn is_unknown_ident(&self) -> bool {
+        Token::Ident.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom {
+        buffer.expect_word_token_value()
+    }
+
+    #[inline(always)]
+    fn r#enum() -> Self {
+        Token::Enum
+    }
+
+    #[inline(always)]
+    fn r#yield(&self) -> Self {
+        Token::Yield
+    }
+
+    #[inline(always)]
+    fn r#let(&self) -> Self {
+        Token::Let
+    }
+
+    #[inline(always)]
+    fn r#static(&self) -> Self {
+        Token::Static
+    }
+
+    #[inline(always)]
+    fn implements(&self) -> Self {
+        Token::Implements
+    }
+
+    #[inline(always)]
+    fn interface(&self) -> Self {
+        Token::Interface
+    }
+
+    #[inline(always)]
+    fn package(&self) -> Self {
+        Token::Package
+    }
+
+    #[inline(always)]
+    fn private(&self) -> Self {
+        Token::Private
+    }
+
+    #[inline(always)]
+    fn protected(&self) -> Self {
+        Token::Protected
+    }
+
+    #[inline(always)]
+    fn public(&self) -> Self {
+        Token::Public
+    }
+
+    #[inline(always)]
+    fn r#await(&self) -> Self {
+        Token::Await
+    }
+
+    #[inline(always)]
+    fn this(&self) -> Self {
+        Token::This
+    }
+
+    #[inline(always)]
+    fn is_keyword(&self) -> bool {
+        Token::is_keyword(*self)
+    }
+
+    #[inline(always)]
+    fn is_known_ident(&self) -> bool {
+        Token::is_known_ident(*self)
+    }
+
+    #[inline(always)]
+    fn take_known_ident(&self) -> Atom {
+        self.as_known_ident_atom().unwrap()
+    }
 }
 
 impl std::fmt::Debug for Token {

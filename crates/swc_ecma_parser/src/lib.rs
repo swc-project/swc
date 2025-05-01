@@ -128,7 +128,7 @@
 pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::error::Error;
+use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
 pub mod lexer;
 
 pub use lexer::Lexer;
@@ -199,7 +199,8 @@ macro_rules! expose {
 
 expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
-    p.input().ctx.insert(Context::CanBeModule);
+    let ctx = p.ctx();
+    p.set_ctx(ctx.union(Context::CanBeModule));
     p.parse_expr()
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });

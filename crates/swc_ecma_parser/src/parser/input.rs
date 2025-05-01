@@ -2,14 +2,7 @@ use swc_atoms::Atom;
 use swc_common::Span;
 use swc_ecma_lexer::common::lexer::LexResult;
 
-use super::Parser;
 use crate::lexer::{NextTokenAndSpan, TokenAndSpan, TokenValue};
-
-impl<I: Tokens> Parser<I> {
-    pub fn input(&mut self) -> &mut I {
-        &mut self.input.iter
-    }
-}
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.

@@ -1,6 +1,6 @@
 use either::Either;
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{Expr, IdentName, Lit, ModuleExportName, Null, PrivateName};
+use swc_ecma_ast::{Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName};
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
@@ -320,4 +320,29 @@ pub trait Parser<'a>: Sized {
         let _ = cur!(self, true);
         Ok(self.input_mut().bump())
     }
+
+    /// IdentifierReference
+    #[inline]
+    fn parse_ident_ref(&mut self) -> PResult<Ident> {
+        let ctx = self.ctx();
+        self.parse_ident(
+            !ctx.contains(Context::InGenerator),
+            !ctx.contains(Context::InAsync),
+        )
+    }
+
+    /// LabelIdentifier
+    #[inline]
+    fn parse_label_ident(&mut self) -> PResult<Ident> {
+        let ctx = self.ctx();
+        self.parse_ident(
+            !ctx.contains(Context::InGenerator),
+            !ctx.contains(Context::InAsync),
+        )
+    }
+
+    /// Identifier
+    ///
+    /// In strict mode, "yield" is SyntaxError if matched.
+    fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident>;
 }

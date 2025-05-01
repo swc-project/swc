@@ -825,6 +825,97 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn is_unknown_ident(&self) -> bool {
+        matches!(self, Self::Word(Word::Ident(IdentLike::Other(_))))
+    }
+
+    #[inline(always)]
+    fn take_unknown_ident(self, _: &mut Self::Buffer) -> Atom {
+        match self {
+            Self::Word(Word::Ident(IdentLike::Other(ident))) => ident,
+            _ => unreachable!(),
+        }
+    }
+
+    #[inline(always)]
+    fn r#enum() -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)))
+    }
+
+    #[inline(always)]
+    fn r#yield(&self) -> Self {
+        Token::Word(Word::Keyword(Keyword::Yield))
+    }
+
+    #[inline(always)]
+    fn r#let(&self) -> Self {
+        Token::Word(Word::Keyword(Keyword::Let))
+    }
+
+    #[inline(always)]
+    fn r#static(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)))
+    }
+
+    #[inline(always)]
+    fn implements(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
+    }
+
+    #[inline(always)]
+    fn interface(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
+    }
+
+    #[inline(always)]
+    fn package(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)))
+    }
+
+    #[inline(always)]
+    fn private(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
+    }
+
+    #[inline(always)]
+    fn protected(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
+    }
+
+    #[inline(always)]
+    fn public(&self) -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)))
+    }
+
+    #[inline(always)]
+    fn r#await(&self) -> Self {
+        Token::Word(Word::Keyword(Keyword::Await))
+    }
+
+    #[inline(always)]
+    fn this(&self) -> Self {
+        Token::Word(Word::Keyword(Keyword::This))
+    }
+
+    #[inline(always)]
+    fn is_keyword(&self) -> bool {
+        matches!(self, Self::Word(Word::Keyword(_)))
+    }
+
+    #[inline(always)]
+    fn is_known_ident(&self) -> bool {
+        matches!(self, Self::Word(Word::Ident(IdentLike::Known(_))))
+    }
+
+    #[inline(always)]
+    fn take_known_ident(&self) -> Atom {
+        match self {
+            Self::Word(Word::Ident(IdentLike::Known(kwd))) => (*kwd).into(),
+            _ => unreachable!(),
+        }
+    }
 }
 
 impl Token {

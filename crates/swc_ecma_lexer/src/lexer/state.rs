@@ -463,10 +463,12 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
         self.state.context = c;
     }
 
+    #[inline]
     fn add_error(&self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn add_module_mode_error(&self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
@@ -475,14 +477,17 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
 
+    #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }

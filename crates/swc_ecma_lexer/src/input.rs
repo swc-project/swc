@@ -58,42 +58,53 @@ impl Tokens<TokenAndSpan> for TokensInput {
         self.ctx = ctx;
     }
 
+    #[inline(always)]
     fn ctx(&self) -> Context {
         self.ctx
     }
 
+    #[inline(always)]
     fn syntax(&self) -> Syntax {
         self.syntax
     }
 
+    #[inline(always)]
     fn target(&self) -> EsVersion {
         self.target
     }
 
+    #[inline(always)]
     fn start_pos(&self) -> BytePos {
         self.start_pos
     }
 
+    #[inline(always)]
     fn set_expr_allowed(&mut self, _: bool) {}
 
+    #[inline(always)]
     fn set_next_regexp(&mut self, _: Option<BytePos>) {}
 
+    #[inline(always)]
     fn token_context(&self) -> &TokenContexts {
         &self.token_ctx
     }
 
+    #[inline(always)]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
         &mut self.token_ctx
     }
 
+    #[inline(always)]
     fn set_token_context(&mut self, c: TokenContexts) {
         self.token_ctx = c;
     }
 
+    #[inline(always)]
     fn add_error(&self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
+    #[inline(always)]
     fn add_module_mode_error(&self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
@@ -102,10 +113,12 @@ impl Tokens<TokenAndSpan> for TokensInput {
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline(always)]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline(always)]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
@@ -182,54 +195,67 @@ impl<I: Tokens<TokenAndSpan>> Iterator for Capturing<I> {
 }
 
 impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
+    #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
     }
 
+    #[inline(always)]
     fn ctx(&self) -> Context {
         self.inner.ctx()
     }
 
+    #[inline(always)]
     fn syntax(&self) -> Syntax {
         self.inner.syntax()
     }
 
+    #[inline(always)]
     fn target(&self) -> EsVersion {
         self.inner.target()
     }
 
+    #[inline(always)]
     fn start_pos(&self) -> BytePos {
         self.inner.start_pos()
     }
 
+    #[inline(always)]
     fn set_expr_allowed(&mut self, allow: bool) {
         self.inner.set_expr_allowed(allow)
     }
 
+    #[inline(always)]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
         self.inner.set_next_regexp(start);
     }
 
+    #[inline(always)]
     fn token_context(&self) -> &TokenContexts {
         self.inner.token_context()
     }
 
+    #[inline(always)]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
         self.inner.token_context_mut()
     }
 
+    #[inline(always)]
     fn set_token_context(&mut self, c: TokenContexts) {
         self.inner.set_token_context(c)
     }
 
+    #[inline(always)]
     fn add_error(&self, error: Error) {
         self.inner.add_error(error);
     }
 
+    #[inline(always)]
     fn add_module_mode_error(&self, error: Error) {
         self.inner.add_module_mode_error(error)
     }
 
+    #[inline(always)]
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
