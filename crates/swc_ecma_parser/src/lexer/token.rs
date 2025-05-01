@@ -824,57 +824,57 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn r#yield(&self) -> Self {
+    fn r#yield() -> Self {
         Token::Yield
     }
 
     #[inline(always)]
-    fn r#let(&self) -> Self {
+    fn r#let() -> Self {
         Token::Let
     }
 
     #[inline(always)]
-    fn r#static(&self) -> Self {
+    fn r#static() -> Self {
         Token::Static
     }
 
     #[inline(always)]
-    fn implements(&self) -> Self {
+    fn implements() -> Self {
         Token::Implements
     }
 
     #[inline(always)]
-    fn interface(&self) -> Self {
+    fn interface() -> Self {
         Token::Interface
     }
 
     #[inline(always)]
-    fn package(&self) -> Self {
+    fn package() -> Self {
         Token::Package
     }
 
     #[inline(always)]
-    fn private(&self) -> Self {
+    fn private() -> Self {
         Token::Private
     }
 
     #[inline(always)]
-    fn protected(&self) -> Self {
+    fn protected() -> Self {
         Token::Protected
     }
 
     #[inline(always)]
-    fn public(&self) -> Self {
+    fn public() -> Self {
         Token::Public
     }
 
     #[inline(always)]
-    fn r#await(&self) -> Self {
+    fn r#await() -> Self {
         Token::Await
     }
 
     #[inline(always)]
-    fn this(&self) -> Self {
+    fn this() -> Self {
         Token::This
     }
 
@@ -891,6 +891,111 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn take_known_ident(&self) -> Atom {
         self.as_known_ident_atom().unwrap()
+    }
+
+    #[inline(always)]
+    fn is_regexp(&self) -> bool {
+        Token::Regex.eq(self)
+    }
+
+    #[inline(always)]
+    fn kw_super() -> Self {
+        Self::Super
+    }
+
+    #[inline(always)]
+    fn lparen() -> Self {
+        Self::LParen
+    }
+
+    #[inline(always)]
+    fn rparen() -> Self {
+        Self::RParen
+    }
+
+    #[inline(always)]
+    fn lbracket() -> Self {
+        Self::LBracket
+    }
+
+    #[inline(always)]
+    fn rbracket() -> Self {
+        Self::RBracket
+    }
+
+    #[inline(always)]
+    fn lbrace() -> Self {
+        Self::LBrace
+    }
+
+    #[inline(always)]
+    fn rbrace() -> Self {
+        Self::RBrace
+    }
+
+    #[inline(always)]
+    fn function() -> Self {
+        Self::Function
+    }
+
+    #[inline(always)]
+    fn class() -> Self {
+        Self::Class
+    }
+
+    #[inline(always)]
+    fn new() -> Self {
+        Self::New
+    }
+
+    #[inline(always)]
+    fn import() -> Self {
+        Self::Import
+    }
+
+    #[inline(always)]
+    fn plus() -> Self {
+        Self::Plus
+    }
+
+    #[inline(always)]
+    fn minus() -> Self {
+        Self::Minus
+    }
+
+    #[inline(always)]
+    fn bang() -> Self {
+        Self::Bang
+    }
+
+    #[inline(always)]
+    fn tilde() -> Self {
+        Self::Tilde
+    }
+
+    #[inline(always)]
+    fn plus_plus() -> Self {
+        Self::PlusPlus
+    }
+
+    #[inline(always)]
+    fn minus_minus() -> Self {
+        Self::MinusMinus
+    }
+
+    #[inline(always)]
+    fn delete() -> Self {
+        Self::Delete
+    }
+
+    #[inline(always)]
+    fn r#typeof() -> Self {
+        Self::TypeOf
+    }
+
+    #[inline(always)]
+    fn void() -> Self {
+        Self::Void
     }
 }
 

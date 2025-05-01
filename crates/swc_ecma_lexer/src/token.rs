@@ -845,58 +845,63 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn r#yield(&self) -> Self {
+    fn r#yield() -> Self {
         Token::Word(Word::Keyword(Keyword::Yield))
     }
 
     #[inline(always)]
-    fn r#let(&self) -> Self {
+    fn r#let() -> Self {
         Token::Word(Word::Keyword(Keyword::Let))
     }
 
     #[inline(always)]
-    fn r#static(&self) -> Self {
+    fn r#static() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)))
     }
 
     #[inline(always)]
-    fn implements(&self) -> Self {
+    fn implements() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
     }
 
     #[inline(always)]
-    fn interface(&self) -> Self {
+    fn interface() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
     }
 
     #[inline(always)]
-    fn package(&self) -> Self {
+    fn package() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)))
     }
 
     #[inline(always)]
-    fn private(&self) -> Self {
+    fn private() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
     }
 
     #[inline(always)]
-    fn protected(&self) -> Self {
+    fn protected() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
     }
 
     #[inline(always)]
-    fn public(&self) -> Self {
+    fn public() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)))
     }
 
     #[inline(always)]
-    fn r#await(&self) -> Self {
+    fn r#await() -> Self {
         Token::Word(Word::Keyword(Keyword::Await))
     }
 
     #[inline(always)]
-    fn this(&self) -> Self {
+    fn this() -> Self {
         Token::Word(Word::Keyword(Keyword::This))
+    }
+
+    #[inline(always)]
+    fn kw_super() -> Self {
+        Token::Word(Word::Keyword(Keyword::Super))
     }
 
     #[inline(always)]
@@ -915,6 +920,106 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             Self::Word(Word::Ident(IdentLike::Known(kwd))) => (*kwd).into(),
             _ => unreachable!(),
         }
+    }
+
+    #[inline(always)]
+    fn is_regexp(&self) -> bool {
+        matches!(self, Self::Regex(..))
+    }
+
+    #[inline(always)]
+    fn lparen() -> Self {
+        Self::LParen
+    }
+
+    #[inline(always)]
+    fn rparen() -> Self {
+        Self::RParen
+    }
+
+    #[inline(always)]
+    fn lbracket() -> Self {
+        Self::LBracket
+    }
+
+    #[inline(always)]
+    fn rbracket() -> Self {
+        Self::RBracket
+    }
+
+    #[inline(always)]
+    fn lbrace() -> Self {
+        Self::LBrace
+    }
+
+    #[inline(always)]
+    fn rbrace() -> Self {
+        Self::RBrace
+    }
+
+    #[inline(always)]
+    fn function() -> Self {
+        Token::Word(Word::Keyword(Keyword::Function))
+    }
+
+    #[inline(always)]
+    fn class() -> Self {
+        Token::Word(Word::Keyword(Keyword::Class))
+    }
+
+    #[inline(always)]
+    fn new() -> Self {
+        Token::Word(Word::Keyword(Keyword::New))
+    }
+
+    #[inline(always)]
+    fn import() -> Self {
+        Token::Word(Word::Keyword(Keyword::Import))
+    }
+
+    #[inline(always)]
+    fn plus() -> Self {
+        Token::BinOp(BinOpToken::Add)
+    }
+
+    #[inline(always)]
+    fn minus() -> Self {
+        Token::BinOp(BinOpToken::Sub)
+    }
+
+    #[inline(always)]
+    fn bang() -> Self {
+        Self::Bang
+    }
+
+    #[inline(always)]
+    fn tilde() -> Self {
+        Self::Tilde
+    }
+
+    #[inline(always)]
+    fn plus_plus() -> Self {
+        Self::PlusPlus
+    }
+
+    #[inline(always)]
+    fn minus_minus() -> Self {
+        Self::MinusMinus
+    }
+
+    #[inline(always)]
+    fn delete() -> Self {
+        Token::Word(Word::Keyword(Keyword::Delete))
+    }
+
+    #[inline(always)]
+    fn r#typeof() -> Self {
+        Token::Word(Word::Keyword(Keyword::TypeOf))
+    }
+
+    #[inline(always)]
+    fn void() -> Self {
+        Token::Word(Word::Keyword(Keyword::Void))
     }
 }
 

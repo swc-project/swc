@@ -345,4 +345,52 @@ pub trait Parser<'a>: Sized {
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
     fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident>;
+
+    fn is_start_of_expr(&mut self) -> bool {
+        is_start_of_left_hand_side_expr(self) || {
+            let Some(cur) = self.input_mut().cur() else {
+                return false;
+            };
+            cur.is_plus()
+                || cur.is_minus()
+                || cur.is_tilde()
+                || cur.is_bang()
+                || cur.is_delete()
+                || cur.is_typeof()
+                || cur.is_void()
+                || cur.is_plus_plus()
+                || cur.is_minus_minus()
+                || cur.is_less()
+                || cur.is_await()
+                || cur.is_yield()
+                || (cur.is_hash() && peek!(self).is_some_and(|peek| peek.is_word()))
+        }
+    }
+}
+
+fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
+    let ctx = p.ctx();
+    let Some(cur) = p.input_mut().cur() else {
+        return false;
+    };
+    cur.is_this()
+        || cur.is_null()
+        || cur.is_super()
+        || cur.is_true()
+        || cur.is_false()
+        || cur.is_num()
+        || cur.is_bigint()
+        || cur.is_str()
+        || cur.is_backquote()
+        || cur.is_lparen()
+        || cur.is_lbrace()
+        || cur.is_lbracket()
+        || cur.is_function()
+        || cur.is_class()
+        || cur.is_new()
+        || cur.is_regexp()
+        || cur.is_ident_ref(ctx)
+        || cur.is_import() && {
+            peek!(p).is_some_and(|peek| peek.is_lparen() || peek.is_less() || peek.is_dot())
+        }
 }

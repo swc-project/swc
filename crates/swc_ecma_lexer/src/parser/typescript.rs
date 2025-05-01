@@ -621,7 +621,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
                 || matches!(cur!(p, false), Ok(Token::BinOp(..)))
-                || !p.is_start_of_expr()?
+                || !p.is_start_of_expr()
             {
                 Ok(Some(type_args))
             } else {

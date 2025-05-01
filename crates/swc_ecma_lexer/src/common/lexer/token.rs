@@ -2,7 +2,7 @@ use num_bigint::BigInt;
 use swc_atoms::Atom;
 
 use super::LexResult;
-use crate::common::input::Tokens;
+use crate::common::{context::Context, input::Tokens};
 
 pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + PartialEq {
     type Lexer: super::Lexer<'a, TokenAndSpan>;
@@ -18,12 +18,16 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_regexp(&self) -> bool;
+
     fn num(value: f64, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_num(&self) -> bool;
     fn take_num(self, buffer: &mut Self::Buffer) -> (f64, Atom);
+
     fn bigint(value: Box<BigInt>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_bigint(&self) -> bool;
     fn take_bigint(self, buffer: &mut Self::Buffer) -> (Box<BigInt>, Atom);
+
     fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_unknown_ident(&self) -> bool;
     fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom;
@@ -70,17 +74,37 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn r#true() -> Self;
     fn r#false() -> Self;
     fn r#enum() -> Self;
-    fn r#yield(&self) -> Self;
-    fn r#let(&self) -> Self;
-    fn r#static(&self) -> Self;
-    fn implements(&self) -> Self;
-    fn interface(&self) -> Self;
-    fn package(&self) -> Self;
-    fn private(&self) -> Self;
-    fn protected(&self) -> Self;
-    fn public(&self) -> Self;
-    fn r#await(&self) -> Self;
-    fn this(&self) -> Self;
+    fn r#yield() -> Self;
+    fn r#let() -> Self;
+    fn r#static() -> Self;
+    fn implements() -> Self;
+    fn interface() -> Self;
+    fn package() -> Self;
+    fn private() -> Self;
+    fn protected() -> Self;
+    fn public() -> Self;
+    fn r#await() -> Self;
+    fn this() -> Self;
+    fn kw_super() -> Self;
+    fn lparen() -> Self;
+    fn rparen() -> Self;
+    fn lbracket() -> Self;
+    fn rbracket() -> Self;
+    fn lbrace() -> Self;
+    fn rbrace() -> Self;
+    fn function() -> Self;
+    fn class() -> Self;
+    fn new() -> Self;
+    fn import() -> Self;
+    fn plus() -> Self;
+    fn minus() -> Self;
+    fn bang() -> Self;
+    fn tilde() -> Self;
+    fn plus_plus() -> Self;
+    fn minus_minus() -> Self;
+    fn delete() -> Self;
+    fn r#typeof() -> Self;
+    fn void() -> Self;
 
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
@@ -138,46 +162,142 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     }
     #[inline(always)]
     fn is_yield(&self) -> bool {
-        Self::r#yield(self).eq(self)
+        Self::r#yield().eq(self)
     }
     #[inline(always)]
     fn is_let(&self) -> bool {
-        Self::r#let(self).eq(self)
+        Self::r#let().eq(self)
     }
     #[inline(always)]
     fn is_static(&self) -> bool {
-        Self::r#static(self).eq(self)
+        Self::r#static().eq(self)
     }
     #[inline(always)]
     fn is_implements(&self) -> bool {
-        Self::implements(self).eq(self)
+        Self::implements().eq(self)
     }
     #[inline(always)]
     fn is_interface(&self) -> bool {
-        Self::interface(self).eq(self)
+        Self::interface().eq(self)
     }
     #[inline(always)]
     fn is_package(&self) -> bool {
-        Self::package(self).eq(self)
+        Self::package().eq(self)
     }
     #[inline(always)]
     fn is_private(&self) -> bool {
-        Self::private(self).eq(self)
+        Self::private().eq(self)
     }
     #[inline(always)]
     fn is_protected(&self) -> bool {
-        Self::protected(self).eq(self)
+        Self::protected().eq(self)
     }
     #[inline(always)]
     fn is_public(&self) -> bool {
-        Self::public(self).eq(self)
+        Self::public().eq(self)
     }
     #[inline(always)]
     fn is_await(&self) -> bool {
-        Self::r#await(self).eq(self)
+        Self::r#await().eq(self)
     }
     #[inline(always)]
     fn is_this(&self) -> bool {
-        Self::this(self).eq(self)
+        Self::this().eq(self)
+    }
+    #[inline(always)]
+    fn is_super(&self) -> bool {
+        Self::kw_super().eq(self)
+    }
+    #[inline(always)]
+    fn is_backquote(&self) -> bool {
+        Self::backquote().eq(self)
+    }
+    #[inline(always)]
+    fn is_lparen(&self) -> bool {
+        Self::lparen().eq(self)
+    }
+    #[inline(always)]
+    fn is_rparen(&self) -> bool {
+        Self::rparen().eq(self)
+    }
+    #[inline(always)]
+    fn is_lbracket(&self) -> bool {
+        Self::lbracket().eq(self)
+    }
+    #[inline(always)]
+    fn is_rbracket(&self) -> bool {
+        Self::rbracket().eq(self)
+    }
+    #[inline(always)]
+    fn is_lbrace(&self) -> bool {
+        Self::lbrace().eq(self)
+    }
+    #[inline(always)]
+    fn is_rbrace(&self) -> bool {
+        Self::rbrace().eq(self)
+    }
+    #[inline(always)]
+    fn is_function(&self) -> bool {
+        Self::function().eq(self)
+    }
+    #[inline(always)]
+    fn is_class(&self) -> bool {
+        Self::class().eq(self)
+    }
+    #[inline(always)]
+    fn is_new(&self) -> bool {
+        Self::new().eq(self)
+    }
+    #[inline(always)]
+    fn is_ident_ref(&self, ctx: Context) -> bool {
+        self.is_word() && !self.is_reserved(ctx)
+    }
+    #[inline(always)]
+    fn is_import(&self) -> bool {
+        Self::import().eq(self)
+    }
+    #[inline(always)]
+    fn is_dot(&self) -> bool {
+        Self::dot().eq(self)
+    }
+    #[inline(always)]
+    fn is_plus(&self) -> bool {
+        Self::plus().eq(self)
+    }
+    #[inline(always)]
+    fn is_minus(&self) -> bool {
+        Self::minus().eq(self)
+    }
+    #[inline(always)]
+    fn is_bang(&self) -> bool {
+        Self::bang().eq(self)
+    }
+    #[inline(always)]
+    fn is_tilde(&self) -> bool {
+        Self::tilde().eq(self)
+    }
+    #[inline(always)]
+    fn is_plus_plus(&self) -> bool {
+        Self::plus_plus().eq(self)
+    }
+    #[inline(always)]
+    fn is_minus_minus(&self) -> bool {
+        Self::minus_minus().eq(self)
+    }
+    #[inline(always)]
+    fn is_delete(&self) -> bool {
+        Self::delete().eq(self)
+    }
+    #[inline(always)]
+    fn is_typeof(&self) -> bool {
+        Self::r#typeof().eq(self)
+    }
+    #[inline(always)]
+    fn is_void(&self) -> bool {
+        Self::void().eq(self)
+    }
+    #[inline(always)]
+    fn is_hash(&self) -> bool {
+        Self::hash().eq(self)
     }
 }
