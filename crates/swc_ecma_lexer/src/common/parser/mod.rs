@@ -1,6 +1,10 @@
 use either::Either;
-use swc_common::{BytePos, Span};
-use swc_ecma_ast::{Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName};
+use expr_ext::ExprExt;
+use swc_atoms::atom;
+use swc_common::{BytePos, Span, Spanned};
+use swc_ecma_ast::{
+    BindingIdent, EsReserved, Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName,
+};
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
@@ -33,7 +37,7 @@ pub use util::{
     unwrap_ts_non_null,
 };
 
-pub trait Parser<'a>: Sized {
+pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
@@ -366,6 +370,129 @@ pub trait Parser<'a>: Sized {
                 || (cur.is_hash() && peek!(self).is_some_and(|peek| peek.is_word()))
         }
     }
+
+    fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
+        if !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
+            self.emit_err(expr.span(), SyntaxError::TS2406);
+        }
+
+        // We follow behavior of tsc
+        if self.input().syntax().typescript() && self.syntax().early_errors() {
+            let is_eval_or_arguments = match expr {
+                Expr::Ident(i) => i.is_reserved_in_strict_bind(),
+                _ => false,
+            };
+
+            if is_eval_or_arguments {
+                self.emit_strict_mode_err(expr.span(), SyntaxError::TS1100);
+            }
+
+            fn should_deny(e: &Expr, deny_call: bool) -> bool {
+                match e {
+                    Expr::Lit(..) => false,
+                    Expr::Call(..) => deny_call,
+                    Expr::Bin(..) => false,
+                    Expr::Paren(ref p) => should_deny(&p.expr, deny_call),
+
+                    _ => true,
+                }
+            }
+
+            // It is an early Reference Error if LeftHandSideExpression is neither
+            // an ObjectLiteral nor an ArrayLiteral and
+            // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
+            if !is_eval_or_arguments
+                && !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))
+                && should_deny(expr, deny_call)
+            {
+                self.emit_err(expr.span(), SyntaxError::TS2406);
+            }
+        }
+    }
+
+    /// babel: `parseBindingIdentifier`
+    ///
+    /// spec: `BindingIdentifier`
+    fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
+        trace_cur!(self, parse_binding_ident);
+
+        if disallow_let && self.input_mut().cur().is_some_and(|cur| cur.is_let()) {
+            unexpected!(self, "let is reserved in const, let, class declaration")
+        }
+
+        // "yield" and "await" is **lexically** accepted.
+        let ident = self.parse_ident(true, true)?;
+        if ident.is_reserved_in_strict_bind() {
+            self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+        }
+        if (self.ctx().contains(Context::InAsync) || self.ctx().contains(Context::InStaticBlock))
+            && ident.sym == "await"
+        {
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
+        }
+        if self.ctx().contains(Context::InGenerator) && ident.sym == "yield" {
+            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
+        }
+
+        Ok(ident.into())
+    }
+
+    /// Parses a modifier matching one the given modifier names.
+    ///
+    /// `tsParseModifier`
+    fn parse_ts_modifier(
+        &mut self,
+        allowed_modifiers: &[&'static str],
+        stop_on_start_of_class_static_blocks: bool,
+    ) -> PResult<Option<&'static str>> {
+        if !self.input().syntax().typescript() {
+            return Ok(None);
+        }
+        let pos = {
+            let cur = cur!(self, true);
+            let modifier = if cur.is_unknown_ident() {
+                cur.clone().take_unknown_ident_ref(self.input_mut()).clone()
+            } else if cur.is_known_ident() {
+                cur.take_known_ident()
+            } else if cur.is_in() {
+                atom!("in")
+            } else if cur.is_const() {
+                atom!("const")
+            } else {
+                return Ok(None);
+            };
+            // TODO: compare atom rather than string.
+            allowed_modifiers
+                .iter()
+                .position(|s| **s == *modifier.as_str())
+        };
+        if let Some(pos) = pos {
+            if stop_on_start_of_class_static_blocks
+                && self.input_mut().is(&Self::Token::r#static())
+                && peek!(self).is_some_and(|peek| peek.is_lbrace())
+            {
+                return Ok(None);
+            }
+            if try_parse_ts_bool(self, |p| ts_next_token_can_follow_modifier(p).map(Some))? {
+                return Ok(Some(allowed_modifiers[pos]));
+            }
+        }
+        Ok(None)
+    }
+
+    fn parse_opt_binding_ident(&mut self, disallow_let: bool) -> PResult<Option<BindingIdent>> {
+        trace_cur!(self, parse_opt_binding_ident);
+        let ctx = self.ctx();
+        let Some(cur) = self.input_mut().cur() else {
+            return Ok(None);
+        };
+        let is_binding_ident = cur.is_word() && !cur.is_reserved(ctx);
+        if is_binding_ident || (cur.is_this() && self.input().syntax().typescript()) {
+            self.parse_binding_ident(disallow_let).map(Some)
+        } else {
+            Ok(None)
+        }
+    }
 }
 
 fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
@@ -393,4 +520,53 @@ fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
         || cur.is_import() && {
             peek!(p).is_some_and(|peek| peek.is_lparen() || peek.is_less() || peek.is_dot())
         }
+}
+
+/// `tsTryParse`
+fn try_parse_ts_bool<'a, P: Parser<'a>, F>(p: &mut P, op: F) -> PResult<bool>
+where
+    F: FnOnce(&mut P) -> PResult<Option<bool>>,
+{
+    if !p.input().syntax().typescript() {
+        return Ok(false);
+    }
+    let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
+    let mut cloned = p.clone();
+    cloned.set_ctx(p.ctx() | Context::IgnoreError);
+    let res = op(&mut cloned);
+    match res {
+        Ok(Some(res)) if res => {
+            *p = cloned;
+            let mut ctx = p.ctx();
+            ctx.set(Context::IgnoreError, prev_ignore_error);
+            p.input_mut().set_ctx(ctx);
+            Ok(res)
+        }
+        Err(..) => Ok(false),
+        _ => Ok(false),
+    }
+}
+
+/// `tsNextTokenCanFollowModifier`
+fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    // Note: TypeScript's implementation is much more complicated because
+    // more things are considered modifiers there.
+    // This implementation only handles modifiers not handled by @babel/parser
+    // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
+    // hasLineBreakUpNext() method...
+    p.bump();
+    Ok(!p.input_mut().had_line_break_before_cur()
+        && p.input_mut().cur().is_some_and(|cur| {
+            cur.is_lbracket()
+                || cur.is_lbrace()
+                || cur.is_star()
+                || cur.is_dotdotdot()
+                || cur.is_hash()
+                || cur.is_word()
+                || cur.is_str()
+                || cur.is_num()
+                || cur.is_bigint()
+        }))
 }

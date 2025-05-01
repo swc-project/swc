@@ -997,6 +997,21 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn void() -> Self {
         Self::Void
     }
+
+    #[inline(always)]
+    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b mut Self::Buffer) -> &'b Atom {
+        buffer.expect_word_token_value_ref()
+    }
+
+    #[inline(always)]
+    fn r#in() -> Self {
+        Self::In
+    }
+
+    #[inline(always)]
+    fn r#const() -> Self {
+        Self::Const
+    }
 }
 
 impl std::fmt::Debug for Token {

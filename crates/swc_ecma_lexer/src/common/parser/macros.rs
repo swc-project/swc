@@ -85,3 +85,11 @@ Current token is {:?}",
         $p.input_mut().peek()
     }};
 }
+
+macro_rules! trace_cur {
+    ($p:expr, $name:ident) => {{
+        if cfg!(feature = "debug") {
+            tracing::debug!("{}: {:?}", stringify!($name), $p.input_mut().cur());
+        }
+    }};
+}

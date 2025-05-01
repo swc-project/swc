@@ -15,48 +15,6 @@ impl<I: Tokens> Parser<I> {
         self.parse_binding_pat_or_ident(false)
     }
 
-    pub(super) fn parse_opt_binding_ident(
-        &mut self,
-        disallow_let: bool,
-    ) -> PResult<Option<BindingIdent>> {
-        trace_cur!(self, parse_opt_binding_ident);
-
-        if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
-            self.parse_binding_ident(disallow_let).map(Some)
-        } else {
-            Ok(None)
-        }
-    }
-
-    /// babel: `parseBindingIdentifier`
-    ///
-    /// spec: `BindingIdentifier`
-    pub(super) fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
-        trace_cur!(self, parse_binding_ident);
-
-        if disallow_let {
-            if let Some(Token::Let) = self.input.cur() {
-                unexpected!(self, "let is reserved in const, let, class declaration")
-            }
-        }
-
-        // "yield" and "await" is **lexically** accepted.
-        let ident = self.parse_ident(true, true)?;
-        if ident.is_reserved_in_strict_bind() {
-            self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
-        }
-        if (self.ctx().contains(Context::InAsync) || self.ctx().contains(Context::InStaticBlock))
-            && ident.sym == "await"
-        {
-            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
-        }
-        if self.ctx().contains(Context::InGenerator) && ident.sym == "yield" {
-            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
-        }
-
-        Ok(ident.into())
-    }
-
     pub(super) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
