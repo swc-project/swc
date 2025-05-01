@@ -8,26 +8,6 @@ use crate::{
 };
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    /// IdentifierReference
-    pub(super) fn parse_ident_ref(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx();
-
-        self.parse_ident(
-            !ctx.contains(Context::InGenerator),
-            !ctx.contains(Context::InAsync),
-        )
-    }
-
-    /// LabelIdentifier
-    pub(super) fn parse_label_ident(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx();
-
-        self.parse_ident(
-            !ctx.contains(Context::InGenerator),
-            !ctx.contains(Context::InAsync),
-        )
-    }
-
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.

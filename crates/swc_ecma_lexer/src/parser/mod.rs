@@ -21,7 +21,6 @@ mod macros;
 mod class_and_fn;
 mod expr;
 mod ident;
-pub mod input;
 mod jsx;
 mod object;
 mod pat;
@@ -59,6 +58,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
     }
+
+    #[inline(always)]
+    fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
+        self.parse_ident(incl_yield, incl_await)
+    }
 }
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
@@ -82,11 +86,11 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     }
 
     pub fn take_errors(&mut self) -> Vec<Error> {
-        self.input().take_errors()
+        self.input.iter.take_errors()
     }
 
     pub fn take_script_module_errors(&mut self) -> Vec<Error> {
-        self.input().take_script_module_errors()
+        self.input.iter.take_script_module_errors()
     }
 
     pub fn parse_script(&mut self) -> PResult<Script> {

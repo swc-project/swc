@@ -23,6 +23,7 @@ pub mod error;
 pub mod input;
 mod utils;
 
+use common::parser::{buffer::Buffer, Parser as ParserTrait};
 pub use swc_common::input::StringInput;
 
 use self::common::{context::Context, parser::PResult};
@@ -400,5 +401,5 @@ pub fn lexer(input: Lexer) -> PResult<Vec<token::TokenAndSpan>> {
     let capturing = input::Capturing::new(input);
     let mut parser = parser::Parser::new_from(capturing);
     let _ = parser.parse_module()?;
-    Ok(parser.input().take())
+    Ok(parser.input_mut().iter_mut().take())
 }
