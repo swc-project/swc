@@ -464,7 +464,7 @@ impl Pure<'_> {
                 // Remove r
                 r.take();
 
-                debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
+                debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{l:?} is invalid");
                 self.changed = true;
                 report_change!("strings: Merged two template literals");
             }
@@ -495,7 +495,7 @@ impl Pure<'_> {
                         if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
-                                let new_str = format!("{}{}", second_str, third_str);
+                                let new_str = format!("{second_str}{third_str}");
                                 let left_span = left.span;
 
                                 self.changed = true;

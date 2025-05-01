@@ -22,7 +22,7 @@ fn build_message<S>(href: S) -> String
 where
     S: AsRef<str> + Display,
 {
-    format!("Unexpected duplicate '@import' rule '{}'.", href)
+    format!("Unexpected duplicate '@import' rule '{href}'.")
 }
 
 #[derive(Debug, Default)]

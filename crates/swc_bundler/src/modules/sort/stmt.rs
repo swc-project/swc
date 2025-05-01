@@ -853,9 +853,7 @@ mod tests {
                     );
                     assert!(
                         !graph.has_a_path(dep, i),
-                        "{} and {} is dependant to each other",
-                        dep,
-                        i,
+                        "{dep} and {i} is dependant to each other",
                     );
                 }
             }

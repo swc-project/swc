@@ -90,7 +90,7 @@ impl From<TokenKind> for TokenType {
     #[inline]
     fn from(t: TokenKind) -> Self {
         match t {
-            TokenKind::Template { .. } => TokenType::Template,
+            TokenKind::Template => TokenType::Template,
             TokenKind::Dot => TokenType::Dot,
             TokenKind::Colon => TokenType::Colon,
             TokenKind::LBrace => TokenType::LBrace,
@@ -98,8 +98,8 @@ impl From<TokenKind> for TokenType {
             TokenKind::Semi => TokenType::Semi,
             TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
             TokenKind::JSXTagStart => TokenType::JSXTagStart,
-            TokenKind::JSXText { .. } => TokenType::JSXText,
-            TokenKind::JSXName { .. } => TokenType::JSXName,
+            TokenKind::JSXText => TokenType::JSXText,
+            TokenKind::JSXName => TokenType::JSXName,
             TokenKind::BinOp(op) => TokenType::BinOp(op),
             TokenKind::Arrow => TokenType::Arrow,
 
@@ -108,13 +108,13 @@ impl From<TokenKind> for TokenType {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
                     t,
-                    TokenKind::Num { .. }
-                        | TokenKind::Str { .. }
+                    TokenKind::Num
+                        | TokenKind::Str
                         | TokenKind::Word(WordKind::Ident(..))
                         | TokenKind::DollarLBrace
                         | TokenKind::Regex
-                        | TokenKind::BigInt { .. }
-                        | TokenKind::JSXText { .. }
+                        | TokenKind::BigInt
+                        | TokenKind::JSXText
                         | TokenKind::RBrace
                 ),
             },
@@ -341,7 +341,7 @@ impl Lexer<'_> {
             }
         }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+        if let Some(TokenContext::Tpl) = self.state.context.current() {
             let start = self.state.tpl_start;
             return self.read_tmpl_token(start).map(Some);
         }
@@ -506,7 +506,7 @@ impl State {
                     // ${} in template
                     if out == TokenContext::TplQuasi {
                         match context.current() {
-                            Some(TokenContext::Tpl { .. }) => return false,
+                            Some(TokenContext::Tpl) => return false,
                             _ => return true,
                         }
                     }
@@ -631,7 +631,7 @@ impl State {
 
                 TokenKind::BackQuote => {
                     // If we are in template, ` terminates template.
-                    if let Some(TokenContext::Tpl { .. }) = context.current() {
+                    if let Some(TokenContext::Tpl) = context.current() {
                         context.pop();
                     } else {
                         self.tpl_start = start;

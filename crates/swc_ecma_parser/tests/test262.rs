@@ -267,11 +267,10 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
         let module = file_name.contains("module");
 
         let root = root.clone();
-        let name = format!("test262::identity::{}", file_name);
+        let name = format!("test262::identity::{file_name}");
         add_test(tests, name, ignore, move || {
             eprintln!(
-                "\n\n\n========== Running test {}\nSource:\n{}\nExplicit:\n{}",
-                file_name, input, explicit
+                "\n\n\n========== Running test {file_name}\nSource:\n{input}\nExplicit:\n{explicit}"
             );
 
             if module {
@@ -294,15 +293,14 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                 let deser = serde_json::from_str::<Module>(&json)
                     .unwrap_or_else(|err| {
                         panic!(
-                            "failed to deserialize json back to module: {}\n{}",
-                            err, json
+                            "failed to deserialize json back to module: {err}\n{json}"
                         )
                     })
                     .fold_with(&mut Normalizer {
                         drop_span: true,
                         is_test262: true,
                     });
-                assert_eq!(src, deser, "JSON:\n{}", json);
+                assert_eq!(src, deser, "JSON:\n{json}");
             } else {
                 let p = |explicit| {
                     parse_script(

@@ -514,7 +514,7 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                     if target <= EsVersion::Es5 {
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
-                        write!(&mut buf, "\\u{:04X}\\u{:04X}", h, l).unwrap();
+                        write!(&mut buf, "\\u{h:04X}\\u{l:04X}").unwrap();
                     } else if ascii_only {
                         write!(&mut buf, "\\u{{{:04X}}}", c as u32).unwrap();
                     } else {
@@ -569,7 +569,7 @@ pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
         if cnt > 2 {
             return format!("{}e-{}", &num[cnt..], num.len());
         }
-        return format!(".{}", num);
+        return format!(".{num}");
     }
 
     if let Some(num) = num.strip_prefix("-0.") {
@@ -577,7 +577,7 @@ pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
         if cnt > 2 {
             return format!("-{}e-{}", &num[cnt..], num.len());
         }
-        return format!("-.{}", num);
+        return format!("-.{num}");
     }
 
     if num.ends_with("000") {

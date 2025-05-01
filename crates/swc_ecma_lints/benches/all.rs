@@ -21,9 +21,9 @@ pub fn bench_files(c: &mut Criterion) {
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {
-        group.bench_function(format!("es/lints/libs/{}", name), |b| {
+        group.bench_function(format!("es/lints/libs/{name}"), |b| {
             let src =
-                read_to_string(format!("../swc_ecma_minifier/benches/full/{}.js", name)).unwrap();
+                read_to_string(format!("../swc_ecma_minifier/benches/full/{name}.js")).unwrap();
 
             let globals = Globals::default();
             GLOBALS.set(&globals, || {

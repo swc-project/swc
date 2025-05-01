@@ -633,7 +633,7 @@ impl SourceMap {
             Err(_) => None,
             Ok(source) => source
                 .split('\n')
-                .last()
+                .next_back()
                 .map(|last_line| last_line.len() - last_line.trim_start().len()),
         }
     }

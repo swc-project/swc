@@ -119,7 +119,7 @@ pub(super) fn prepare_vars(
             }
         };
 
-        let var_ident = syn::Ident::new(&format!("quote_var_{}", ident), ident.span());
+        let var_ident = syn::Ident::new(&format!("quote_var_{ident}"), ident.span());
 
         let old = init_map.entry(pos).or_default().insert(
             ident_str.clone(),
@@ -132,7 +132,7 @@ pub(super) fn prepare_vars(
         );
 
         if let Some(old) = old {
-            panic!("Duplicate variable name: {}", ident_str);
+            panic!("Duplicate variable name: {ident_str}");
         }
 
         let type_name = Ident::new(

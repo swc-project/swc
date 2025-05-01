@@ -34,7 +34,7 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
 
 pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> {
     wrap(|| {
-        eprintln!("Getting commit for swc_core@v{}", version);
+        eprintln!("Getting commit for swc_core@v{version}");
 
         // We need to get the list of commits and pull requests which changed the
         // version of swc_core.
@@ -55,7 +55,7 @@ pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> 
         let git_grep_output = Command::new("git")
             .current_dir(repository_root()?)
             .arg("grep")
-            .arg(format!("version = \"{}\"", version))
+            .arg(format!("version = \"{version}\""))
             .args(git_rev_list.lines())
             .arg("--")
             .arg("Cargo.lock")
@@ -85,7 +85,7 @@ pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> 
             let commit = line.split(':').next().unwrap().to_string();
             let commit_version = get_version_of_swc_core_of_commit(&commit)?;
             if Some(version) == commit_version.as_deref() {
-                eprintln!("\tFound commit for swc_core@v{}: https://github.com/swc-project/swc/commits/{}", version, commit);
+                eprintln!("\tFound commit for swc_core@v{version}: https://github.com/swc-project/swc/commits/{commit}");
 
                 return Ok(commit);
             }
@@ -93,7 +93,7 @@ pub fn get_commit_for_core_version(version: &str, last: bool) -> Result<String> 
 
         bail!("swc_core@v{} is not found in the repository", version);
     })
-    .with_context(|| format!("failed to get the commit for swc_core@v{}", version))
+    .with_context(|| format!("failed to get the commit for swc_core@v{version}"))
 }
 
 /// Read the version of swc_core from `Cargo.lock`
@@ -102,7 +102,7 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<Option<String>>
         let output = Command::new("git")
             .current_dir(repository_root()?)
             .arg("show")
-            .arg(format!("{}:Cargo.lock", commit))
+            .arg(format!("{commit}:Cargo.lock"))
             .stderr(Stdio::inherit())
             .output()
             .context("failed to spwan git show")?;
@@ -121,7 +121,7 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<Option<String>>
 
         Ok(None)
     })
-    .with_context(|| format!("failed to get the version of swc_core of {}", commit))
+    .with_context(|| format!("failed to get the version of swc_core of {commit}"))
 }
 
 #[derive(Debug, Deserialize)]

@@ -85,14 +85,11 @@ impl VisitMut for AsyncToGenerator {
 
         function.params.visit_mut_with(self);
 
-        let fn_state = mem::replace(
-            &mut self.fn_state,
-            Some(FnState {
+        let fn_state = self.fn_state.replace(FnState {
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 ..Default::default()
-            }),
-        );
+            });
         body.visit_mut_with(self);
 
         let mut fn_state = mem::replace(&mut self.fn_state, fn_state).unwrap();
@@ -172,14 +169,11 @@ impl VisitMut for AsyncToGenerator {
 
         arrow_expr.params.visit_mut_with(self);
 
-        let fn_state = mem::replace(
-            &mut self.fn_state,
-            Some(FnState {
+        let fn_state = self.fn_state.replace(FnState {
                 is_async: true,
                 is_generator: false,
                 ..Default::default()
-            }),
-        );
+            });
 
         arrow_expr.body.visit_mut_with(self);
         let fn_state = mem::replace(&mut self.fn_state, fn_state).unwrap();
@@ -192,7 +186,7 @@ impl VisitMut for AsyncToGenerator {
         }
 
         let should_handle_super =
-            fn_state.use_super && self.fn_state.as_ref().map_or(false, |s| !s.is_async);
+            fn_state.use_super && self.fn_state.as_ref().is_some_and(|s| !s.is_async);
 
         let mut stmts = vec![];
         if should_handle_super {
@@ -283,7 +277,7 @@ impl VisitMut for AsyncToGenerator {
     }
 
     fn visit_mut_exprs(&mut self, exprs: &mut Vec<Box<Expr>>) {
-        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
             && !should_work::<ShouldWork, _>(&*exprs)
         {
             return;
@@ -293,7 +287,7 @@ impl VisitMut for AsyncToGenerator {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
             && !should_work::<ShouldWork, _>(&*expr)
         {
             return;
@@ -361,7 +355,7 @@ impl VisitMut for AsyncToGenerator {
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
             && !should_work::<ShouldWork, _>(&*stmts)
         {
             return;
@@ -371,7 +365,7 @@ impl VisitMut for AsyncToGenerator {
     }
 
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        if self.fn_state.as_ref().map_or(false, |f| !f.is_async)
+        if self.fn_state.as_ref().is_some_and(|f| !f.is_async)
             && !should_work::<ShouldWork, _>(&*stmt)
         {
             return;

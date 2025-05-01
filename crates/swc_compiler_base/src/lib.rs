@@ -100,7 +100,7 @@ pub fn parse_js(
     })();
 
     if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
-        res = res.with_context(|| format!("Parser config: {:?}", syntax));
+        res = res.with_context(|| format!("Parser config: {syntax:?}"));
     }
 
     res
@@ -220,7 +220,7 @@ where
         && src.lines().count() >= 3
         && option_env!("SWC_DEBUG") == Some("1")
     {
-        panic!("The module contains only dummy spans\n{}", src);
+        panic!("The module contains only dummy spans\n{src}");
     }
 
     let mut map = if source_map.enabled() {

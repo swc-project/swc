@@ -209,7 +209,7 @@ fn stacktrace(input_dir: PathBuf) {
                             .compare_to_file(output_dir.join("stacks.txt"))
                             .expect("wrong stack trace");
                     }
-                    Err(err) => panic!("Error: {:?}", err),
+                    Err(err) => panic!("Error: {err:?}"),
                 }
             }
 
@@ -249,7 +249,7 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
 
     let stderr = String::from_utf8_lossy(&output.stderr);
 
-    eprintln!("\n\n\nStderr: {}\n\n\n", stderr);
+    eprintln!("\n\n\nStderr: {stderr}\n\n\n");
     //
     let stacks = stderr
         .lines()
@@ -328,8 +328,7 @@ fn issue_4112() {
                 return Ok(());
             }
             panic!(
-                "Validation failed, should has 1 source, but {}",
-                source_count
+                "Validation failed, should has 1 source, but {source_count}"
             );
         })
         .unwrap()
@@ -400,7 +399,7 @@ fn should_work_with_emit_source_map_columns() {
                 assert_eq!(token.get_src_col(), 11);
             }
             Err(err) => {
-                panic!("Error: {:#?}", err);
+                panic!("Error: {err:#?}");
             }
         }
 
@@ -434,7 +433,7 @@ fn should_work_with_emit_source_map_columns() {
                 assert_eq!(token.get_src_col(), 2);
             }
             Err(err) => {
-                panic!("Error: {:#?}", err);
+                panic!("Error: {err:#?}");
             }
         }
 
@@ -529,7 +528,7 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
                 assert_eq!(token.get_src(), (6, 2));
             }
             Err(err) => {
-                panic!("Error: {:#?}", err);
+                panic!("Error: {err:#?}");
             }
         }
 

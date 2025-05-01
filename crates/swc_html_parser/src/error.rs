@@ -122,17 +122,15 @@ impl Error {
 
             // Parser errors
             ErrorKind::StrayStartTag(tag_name) => {
-                format!("Stray start tag \"{}\"", tag_name).into()
+                format!("Stray start tag \"{tag_name}\"").into()
             }
-            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"{}\"", tag_name).into(),
+            ErrorKind::StrayEndTag(tag_name) => format!("Stray end tag \"{tag_name}\"").into(),
             ErrorKind::UnclosedElements(tag_name) => format!(
-                "End tag \"{}\" seen, but there were open elements",
-                tag_name
+                "End tag \"{tag_name}\" seen, but there were open elements"
             )
             .into(),
             ErrorKind::UnclosedElementsImplied(tag_name) => format!(
-                "End tag \"{}\" implied, but there were open elements",
-                tag_name
+                "End tag \"{tag_name}\" implied, but there were open elements"
             )
             .into(),
             ErrorKind::UnclosedElementsCell => {
@@ -153,7 +151,7 @@ impl Error {
                 "Non-space character inside \"noscript\" inside \"head\"".into()
             }
             ErrorKind::SomethingBetweenHeadAndBody(tag_name) => {
-                format!("\"{}\" element between \"head\" and \"body\"", tag_name).into()
+                format!("\"{tag_name}\" element between \"head\" and \"body\"").into()
             }
             ErrorKind::StartTagWithoutDoctype => {
                 "Start tag seen without seeing a doctype first, expected \"<!DOCTYPE html>\"".into()
@@ -162,19 +160,17 @@ impl Error {
                 "\"select\" start tag where end tag expected".into()
             }
             ErrorKind::StartTagWithSelectOpen(tag_name) => {
-                format!("\"{}\" start tag with \"select\" open", tag_name).into()
+                format!("\"{tag_name}\" start tag with \"select\" open").into()
             }
             ErrorKind::BadStartTagInNoscriptInHead(tag_name) => format!(
-                "Bad start tag in \"{}\" in \"noscript\" in \"head\"",
-                tag_name
+                "Bad start tag in \"{tag_name}\" in \"noscript\" in \"head\""
             )
             .into(),
             ErrorKind::UnexpectedImageStartTag => {
                 "Saw a start tag \"image\", \"img\" element is outdated".into()
             }
             ErrorKind::SomethingSeenWhenSomethingOpen(tag_name) => format!(
-                "Start tag \"{}\" seen but an element of the same type was already open",
-                tag_name
+                "Start tag \"{tag_name}\" seen but an element of the same type was already open"
             )
             .into(),
             ErrorKind::HeadingWhenHeadingOpen => {
@@ -182,7 +178,7 @@ impl Error {
             }
             ErrorKind::NoCellToClose => "No cell to close".into(),
             ErrorKind::StartTagInTable(tag_name) => {
-                format!("Start tag \"{}\" seen in \"table\"", tag_name).into()
+                format!("Start tag \"{tag_name}\" seen in \"table\"").into()
             }
             ErrorKind::FormWhenFormOpen => "Saw a \"form\" start tag, but there was already an \
                                             active \"form\" element, nested forms are not allowed"
@@ -191,25 +187,23 @@ impl Error {
                 "Start tag for \"table\" seen but the previous \"table\" is still open".into()
             }
             ErrorKind::StartTagInTableBody(tag_name) => {
-                format!("Start tag \"{}\" seen in \"table\" body", tag_name).into()
+                format!("Start tag \"{tag_name}\" seen in \"table\" body").into()
             }
             ErrorKind::EndTagSeenWithoutDoctype => {
                 "End tag seen without seeing a doctype first, expected \"<!DOCTYPE html>\"".into()
             }
             ErrorKind::EndTagAfterBody => "Saw an end tag after \"body\" had been closed".into(),
             ErrorKind::EndTagSeenWithSelectOpen(tag_name) => {
-                format!("\"{}\" end tag with \"select\" open", tag_name).into()
+                format!("\"{tag_name}\" end tag with \"select\" open").into()
             }
             ErrorKind::GarbageInColumnGroup => "Garbage in \"colgroup\" element".into(),
             ErrorKind::EndTagBr => "End tag \"br\"".into(),
             ErrorKind::NoElementToCloseButEndTagSeen(tag_name) => format!(
-                "No \"{}\" element in scope but a \"{}\" end tag seen",
-                tag_name, tag_name
+                "No \"{tag_name}\" element in scope but a \"{tag_name}\" end tag seen"
             )
             .into(),
             ErrorKind::HtmlStartTagInForeignContext(tag_name) => format!(
-                "HTML start tag \"{}\" in a foreign namespace context",
-                tag_name
+                "HTML start tag \"{tag_name}\" in a foreign namespace context"
             )
             .into(),
             ErrorKind::NoTableRowToClose => "No table row to close".into(),
@@ -218,8 +212,7 @@ impl Error {
             }
             ErrorKind::UnclosedChildrenInRuby => "Unclosed children in \"ruby\"".into(),
             ErrorKind::StartTagSeenWithoutRuby(tag_name) => format!(
-                "Start tag \"{}\" seen without a \"ruby\" element being open",
-                tag_name
+                "Start tag \"{tag_name}\" seen without a \"ruby\" element being open"
             )
             .into(),
             ErrorKind::UnclosedElementsOnStack => "Unclosed elements on stack".into(),
@@ -227,19 +220,17 @@ impl Error {
                 end_tag_name,
                 current_element_tag_name,
             ) => format!(
-                "End tag \"{}\" did not match the name of the current open element (\"{}\")",
-                end_tag_name, current_element_tag_name
+                "End tag \"{end_tag_name}\" did not match the name of the current open element (\"{current_element_tag_name}\")"
             )
             .into(),
             ErrorKind::EndTagViolatesNestingRules(tag_name) => {
-                format!("End tag \"{}\" violates nesting rules", tag_name).into()
+                format!("End tag \"{tag_name}\" violates nesting rules").into()
             }
             ErrorKind::EofWithUnclosedElements => {
                 "End of file seen and there were open elements".into()
             }
             ErrorKind::EndTagWithUnclosedElements(tag_name) => format!(
-                "Unexpected end tag for \"{}\", but there were unclosed elements",
-                tag_name
+                "Unexpected end tag for \"{tag_name}\", but there were unclosed elements"
             )
             .into(),
             ErrorKind::NonSpaceCharacterWithoutDoctype => "Non-space characters found without \

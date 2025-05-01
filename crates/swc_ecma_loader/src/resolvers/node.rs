@@ -192,7 +192,7 @@ impl NodeModulesResolver {
             let mut ext_path = path.to_path_buf();
             let name = name.to_string_lossy();
             for ext in EXTENSIONS {
-                ext_path.set_file_name(format!("{}.{}", name, ext));
+                ext_path.set_file_name(format!("{name}.{ext}"));
                 if ext_path.is_file() {
                     return Ok(Some(ext_path));
                 }
@@ -260,7 +260,7 @@ impl NodeModulesResolver {
 
         // Try to resolve to an index file.
         for ext in EXTENSIONS {
-            let ext_path = path.join(format!("index.{}", ext));
+            let ext_path = path.join(format!("index.{ext}"));
             if ext_path.is_file() {
                 return Ok(Some(ext_path));
             }
@@ -464,7 +464,7 @@ impl NodeModulesResolver {
             }
 
             if is_core_module(module_specifier) {
-                return Ok(FileName::Custom(format!("node:{}", module_specifier)));
+                return Ok(FileName::Custom(format!("node:{module_specifier}")));
             }
         }
 

@@ -156,14 +156,13 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
         let module = file_name.contains("module");
 
-        let name = format!("fixer::{}", file_name);
+        let name = format!("fixer::{file_name}");
 
         add_test(tests, name, ignore, {
             let normal = normal.clone();
             move || {
                 eprintln!(
-                    "\n\n========== Running fixer test {}\nSource:\n{}\n",
-                    file_name, input
+                    "\n\n========== Running fixer test {file_name}\nSource:\n{input}\n"
                 );
 
                 ::testing::run_test(false, |cm, handler| {
@@ -261,7 +260,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     if output == expected {
                         return Ok(());
                     }
-                    eprintln!("Wrong output:\n{}\n-----\n{}", output, expected);
+                    eprintln!("Wrong output:\n{output}\n-----\n{expected}");
 
                     Err(())
                 })

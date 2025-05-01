@@ -134,7 +134,7 @@ impl SwcLoader {
                 FileName::Real(v) => v,
                 _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
-            .with_context(|| format!("failed to load file `{}`", name))?;
+            .with_context(|| format!("failed to load file `{name}`"))?;
 
         if let FileName::Real(path) = name {
             if let Some(ext) = path.extension() {

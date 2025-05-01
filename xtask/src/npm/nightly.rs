@@ -27,7 +27,7 @@ impl NightlyCmd {
 
             let version = find_first_nightly(&prev_version, &date)?;
 
-            println!("Publishing nightly version {}", version);
+            println!("Publishing nightly version {version}");
 
             set_version(&version).context("failed to set version")?;
             bump_swc_cli().context("failed to bump swc-cli")?;
@@ -35,7 +35,7 @@ impl NightlyCmd {
             // ./scripts/publish.sh $version
             let status = Command::new("sh")
                 .arg("./scripts/publish.sh")
-                .arg(format!("{}", version))
+                .arg(format!("{version}"))
                 .status()
                 .context("failed to publish")?;
 
@@ -55,13 +55,13 @@ fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Vers
     }
 
     for i in 1.. {
-        ver.pre = Prerelease::new(&format!("nightly-{}.{}", date, i))?;
+        ver.pre = Prerelease::new(&format!("nightly-{date}.{i}"))?;
 
         if ver <= *prev_version {
             continue;
         }
 
-        let tag = format!("v{}", ver);
+        let tag = format!("v{ver}");
 
         let output = Command::new("git")
             .arg("tag")

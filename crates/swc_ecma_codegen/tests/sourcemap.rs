@@ -287,8 +287,7 @@ fn identity(entry: PathBuf) {
     let is_module = file_name.contains("module");
 
     let msg = format!(
-        "\n\n========== Running codegen test {}\nSource:\n{}\n",
-        file_name, input
+        "\n\n========== Running codegen test {file_name}\nSource:\n{input}\n"
     );
     let mut wr = std::vec::Vec::new();
 
@@ -306,7 +305,7 @@ fn identity(entry: PathBuf) {
                 Some(v) => v,
                 None => return Ok(()),
             };
-        println!("Expected code:\n{}", expected_code);
+        println!("Expected code:\n{expected_code}");
         let expected_tokens = print_source_map(&expected_map);
 
         let comments = SingleThreadedComments::default();
@@ -384,11 +383,11 @@ fn identity(entry: PathBuf) {
             .collect::<Vec<_>>();
         eprintln!("---- Actual -----");
         for s in actual_tokens_diff {
-            eprintln!("{}", s);
+            eprintln!("{s}");
         }
         eprintln!("---- Expected -----");
         for s in expected_tokens_diff {
-            eprintln!("{}", s);
+            eprintln!("{s}");
         }
 
         dbg!(&src_map);
@@ -396,14 +395,13 @@ fn identity(entry: PathBuf) {
         if actual_code != expected_code {
             // Generated code is different
             // We can't ensure that identical sourcemap will mean identical code
-            eprintln!("Actual code:\n{}", actual_code);
-            eprintln!("Expected code:\n{}", expected_code);
+            eprintln!("Actual code:\n{actual_code}");
+            eprintln!("Expected code:\n{expected_code}");
             return Ok(());
         }
 
         eprintln!(
-            "----- Visualizer -----\nExpected: {}\nActual: {}",
-            visualizer_url_for_expected, visualizer_url_for_actual
+            "----- Visualizer -----\nExpected: {visualizer_url_for_expected}\nActual: {visualizer_url_for_actual}"
         );
 
         assert_eq_same_map(&expected_map, &actual_map);
@@ -464,7 +462,7 @@ fn assert_eq_same_map(expected: &SourceMap, actual: &SourceMap) {
     for expected_token in expected.tokens() {
         let actual_token = actual
             .lookup_token(expected_token.get_dst_line(), expected_token.get_dst_col())
-            .unwrap_or_else(|| panic!("token not found: {:?}", expected_token));
+            .unwrap_or_else(|| panic!("token not found: {expected_token:?}"));
 
         if expected_token.get_src_line() == 0 && expected_token.get_src_col() == 0 {
             continue;
@@ -497,9 +495,9 @@ fn visualizer_url(code: &str, map: &SourceMap) -> String {
 
     let code_len = format!("{}\0", code.len());
     let map_len = format!("{}\0", map.len());
-    let hash = BASE64_STANDARD.encode(format!("{}{}{}{}", code_len, code, map_len, map));
+    let hash = BASE64_STANDARD.encode(format!("{code_len}{code}{map_len}{map}"));
 
-    format!("https://evanw.github.io/source-map-visualization/#{}", hash)
+    format!("https://evanw.github.io/source-map-visualization/#{hash}")
 }
 
 struct SourceMapConfigImpl;

@@ -268,7 +268,7 @@ where
                 span.is_pure()
                     || self
                         .comments
-                        .map_or(false, |comments| comments.has_leading(node.right.span().lo))
+                        .is_some_and(|comments| comments.has_leading(node.right.span().lo))
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
@@ -1013,13 +1013,13 @@ fn get_template_element_from_raw(
                         Some('1'..='9') => write!(buf, "\\x00").unwrap(),
                         _ => write!(buf, "\\0").unwrap(),
                     },
-                    1..=15 => write!(buf, "\\x0{:x}", v).unwrap(),
+                    1..=15 => write!(buf, "\\x0{v:x}").unwrap(),
                     // '\x20'..='\x7e'
                     32..=126 => {
                         let c = char::from_u32(v);
 
                         match c {
-                            Some(c) => write!(buf, "{}", c).unwrap(),
+                            Some(c) => write!(buf, "{c}").unwrap(),
                             _ => {
                                 unreachable!()
                             }
@@ -1028,7 +1028,7 @@ fn get_template_element_from_raw(
                     // '\x10'..='\x1f'
                     // '\u{7f}'..='\u{ff}'
                     _ => {
-                        write!(buf, "\\x{:x}", v).unwrap();
+                        write!(buf, "\\x{v:x}").unwrap();
                     }
                 }
             }
@@ -1312,7 +1312,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
-                        let _ = write!(buf, r#""\u{:04X}\u{:04X}""#, h, l);
+                        let _ = write!(buf, r#""\u{h:04X}\u{l:04X}""#);
                     } else {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     }

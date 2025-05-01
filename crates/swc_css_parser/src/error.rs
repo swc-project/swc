@@ -40,13 +40,13 @@ impl Error {
 
             // Parser
             ErrorKind::EofButExpected(s) => {
-                format!("Unexpected end of file, but expected {}", s).into()
+                format!("Unexpected end of file, but expected {s}").into()
             }
             ErrorKind::Ignore => "Not an error".into(),
-            ErrorKind::UnexpectedChar(c) => format!("Unexpected character `{:?}`", c).into(),
-            ErrorKind::Expected(s) => format!("Expected {}", s).into(),
-            ErrorKind::Unexpected(s) => format!("Unexpected {}", s).into(),
-            ErrorKind::ExpectedButGot(s) => format!("Expected {}", s).into(),
+            ErrorKind::UnexpectedChar(c) => format!("Unexpected character `{c:?}`").into(),
+            ErrorKind::Expected(s) => format!("Expected {s}").into(),
+            ErrorKind::Unexpected(s) => format!("Unexpected {s}").into(),
+            ErrorKind::ExpectedButGot(s) => format!("Expected {s}").into(),
             ErrorKind::ExpectedSelectorText => "Expected a text for selector".into(),
             ErrorKind::UnterminatedBlockComment => "Unterminated block comment".into(),
             ErrorKind::InvalidCharsetAtRule => "Invalid @charset at-rule".into(),
@@ -64,12 +64,11 @@ impl Error {
             ErrorKind::InvalidDeclarationValue => "Expected a property value".into(),
             ErrorKind::InvalidAnPlusBMicrosyntax => "Invalid An+B microsyntax".into(),
             ErrorKind::InvalidCustomIdent(s) => format!(
-                "The CSS-wide keywords are not valid custom ident, found '{}'",
-                s
+                "The CSS-wide keywords are not valid custom ident, found '{s}'"
             )
             .into(),
             ErrorKind::InvalidKeyframesName(s) => {
-                format!("{} is not valid name for keyframes", s).into()
+                format!("{s} is not valid name for keyframes").into()
             }
             ErrorKind::InvalidScopeAtRule => "Invalid @scope at-rule".into(),
             ErrorKind::ValueAtRule => "@value at-rule is deprecated".into(),

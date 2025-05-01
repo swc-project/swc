@@ -49,7 +49,7 @@ impl<'a> Derive<'a> {
                 ty_generics.to_tokens(&mut t);
                 Box::new(
                     parse2(t.into_token_stream())
-                        .unwrap_or_else(|err| panic!("failed to parse type: {}", err)),
+                        .unwrap_or_else(|err| panic!("failed to parse type: {err}")),
                 )
             };
 

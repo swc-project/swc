@@ -245,7 +245,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                         v = &v[1..];
                     }
 
-                    if let Some(v) = from_str(&format!(r##""{}""##, v)).unwrap_or_default() {
+                    if let Some(v) = from_str(&format!(r##""{v}""##)).unwrap_or_default() {
                         if is_remove {
                             versions.remove(&v);
                         } else {
@@ -442,7 +442,7 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
             _ => unreachable!(),
         };
 
-        writeln!(result, "//// [{}]", filename).unwrap();
+        writeln!(result, "//// [{filename}]").unwrap();
 
         GLOBALS.set(&Default::default(), || {
             match try_with_handler(
@@ -458,7 +458,7 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
                 }
                 Err(err) => {
                     for e in err.to_pretty_error().to_string().lines() {
-                        writeln!(result, "//! {}", e).unwrap();
+                        writeln!(result, "//! {e}").unwrap();
                     }
                 }
             }

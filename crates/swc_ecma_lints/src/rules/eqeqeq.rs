@@ -49,7 +49,7 @@ impl Eqeqeq {
     }
 
     fn emit_report(&self, span: Span, actual: &str, expected: &str) {
-        let message = format!("Use '{}' instead of '{}'", expected, actual);
+        let message = format!("Use '{expected}' instead of '{actual}'");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

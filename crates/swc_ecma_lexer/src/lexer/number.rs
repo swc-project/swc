@@ -106,13 +106,12 @@ impl Lexer<'_> {
                             let val = BigIntValue::from_str_radix(val_str, 8)
                                 .unwrap_or_else(|err| {
                                     panic!(
-                                        "failed to parse {} using `from_str_radix`: {:?}",
-                                        val_str, err
+                                        "failed to parse {val_str} using `from_str_radix`: {err:?}"
                                     )
                                 })
                                 .to_f64()
                                 .unwrap_or_else(|| {
-                                    panic!("failed to parse {} into float using BigInt", val_str)
+                                    panic!("failed to parse {val_str} into float using BigInt")
                                 });
 
                             let end = self.cur_pos();
@@ -238,8 +237,7 @@ impl Lexer<'_> {
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
-            "radix should be one of 2, 8, 16, but got {}",
-            RADIX
+            "radix should be one of 2, 8, 16, but got {RADIX}"
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
@@ -287,8 +285,7 @@ impl Lexer<'_> {
     fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
-            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            RADIX
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {RADIX}"
         );
         let start = self.cur_pos();
 
@@ -318,8 +315,7 @@ impl Lexer<'_> {
     ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
-            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
-            RADIX
+            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {RADIX}"
         );
         let start = self.cur_pos();
 
@@ -430,8 +426,7 @@ impl Lexer<'_> {
     {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
-            "radix for read_int should be one of 2, 8, 10, 16, but got {}",
-            RADIX
+            "radix for read_int should be one of 2, 8, 10, 16, but got {RADIX}"
         );
 
         if cfg!(feature = "debug") {
@@ -765,8 +760,7 @@ mod tests {
     fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
         for case in cases {
             println!(
-                "Testing {} (when strict = {}); Expects success = {}",
-                case, strict, success
+                "Testing {case} (when strict = {strict}); Expects success = {success}"
             );
             // lazy way to get expected values
             let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as f64))
@@ -774,8 +768,7 @@ mod tests {
                 .or_else(|_| case.parse::<f64>())
                 .unwrap_or_else(|err| {
                     panic!(
-                        "failed to parse '{}' as float using str.parse(): {}",
-                        case, err
+                        "failed to parse '{case}' as float using str.parse(): {err}"
                     )
                 });
 

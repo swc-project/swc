@@ -150,7 +150,7 @@ impl Default for Lazy {
 }
 
 pub(super) fn local_name_for_src(src: &Atom) -> Atom {
-    let src = src.split('/').last().unwrap();
+    let src = src.split('/').next_back().unwrap();
     let src = src
         .strip_suffix(".js")
         .or_else(|| src.strip_suffix(".mjs"))
@@ -162,7 +162,7 @@ pub(super) fn local_name_for_src(src: &Atom) -> Atom {
     };
 
     if !id.starts_with('_') {
-        format!("_{}", id).into()
+        format!("_{id}").into()
     } else {
         id.into()
     }

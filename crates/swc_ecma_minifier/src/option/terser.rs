@@ -293,8 +293,7 @@ impl TerserCompressorOptions {
                         .map(drop_span)
                         .unwrap_or_else(|err| {
                             panic!(
-                                "failed to parse `global_defs.{}` of minifier options: {:?}",
-                                k, err
+                                "failed to parse `global_defs.{k}` of minifier options: {err:?}"
                             )
                         })
                     };
@@ -311,8 +310,7 @@ impl TerserCompressorOptions {
                                 v.as_str()
                                     .unwrap_or_else(|| {
                                         panic!(
-                                            "Value of `global_defs.{}` must be a string literal: ",
-                                            k
+                                            "Value of `global_defs.{k}` must be a string literal: "
                                         )
                                     })
                                     .into(),
@@ -407,8 +405,7 @@ impl TerserCompressorOptions {
                     .map(drop_span)
                     .unwrap_or_else(|err| {
                         panic!(
-                            "failed to parse `pure_funcs` of minifier options: {:?}",
-                            err
+                            "failed to parse `pure_funcs` of minifier options: {err:?}"
                         )
                     })
                 })
@@ -453,7 +450,7 @@ impl From<TerserEcmaVersion> for EsVersion {
                 2021 => EsVersion::Es2021,
                 2022 => EsVersion::Es2022,
                 _ => {
-                    panic!("`{}` is not a valid ecmascript version", v)
+                    panic!("`{v}` is not a valid ecmascript version")
                 }
             },
             TerserEcmaVersion::Str(v) => {

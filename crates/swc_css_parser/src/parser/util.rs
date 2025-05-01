@@ -348,12 +348,8 @@ where
             temporary_list.children.push(component_value);
         }
 
-        match self
-            .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| parser.parse_as())
-        {
-            Ok(decl) => Some(decl),
-            Err(_) => None,
-        }
+        self
+            .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| parser.parse_as()).ok()
     }
 
     pub(super) fn parse_declaration_from_temporary_list(

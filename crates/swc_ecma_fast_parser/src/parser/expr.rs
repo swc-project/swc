@@ -153,7 +153,7 @@ impl Parser<'_> {
                 // This should never happen if is_binary_operator is correct
                 return Err(Error {
                     kind: ErrorKind::General {
-                        message: format!("Unexpected token: {}", token_type),
+                        message: format!("Unexpected token: {token_type}"),
                     },
                     span: op_span,
                 });
@@ -233,7 +233,7 @@ impl Parser<'_> {
                     let span = self.current_span();
                     Err(Error {
                         kind: ErrorKind::General {
-                            message: format!("Unexpected token: {}", token_type),
+                            message: format!("Unexpected token: {token_type}"),
                         },
                         span,
                     })
@@ -529,7 +529,7 @@ impl Parser<'_> {
                 // This should never happen if is_unary_operator is correct
                 return Err(Error {
                     kind: ErrorKind::General {
-                        message: format!("Unexpected token: {}", token_type),
+                        message: format!("Unexpected token: {token_type}"),
                     },
                     span: op_span,
                 });
@@ -559,7 +559,7 @@ impl Parser<'_> {
                 // This should never happen if is_update_operator is correct
                 return Err(Error {
                     kind: ErrorKind::General {
-                        message: format!("Unexpected token: {}", token_type),
+                        message: format!("Unexpected token: {token_type}"),
                     },
                     span: op_span,
                 });

@@ -30,7 +30,7 @@ impl Config {
                 .map(|(k, v)| {
                     let parse = |s| {
                         let fm = cm.new_source_file(
-                            FileName::Internal(format!("<umd-config-{}.js>", s)).into(),
+                            FileName::Internal(format!("<umd-config-{s}.js>")).into(),
                             s,
                         );
 
@@ -67,7 +67,7 @@ impl BuiltConfig {
             return src.to_camel_case().into();
         }
 
-        src.split('/').last().unwrap().to_camel_case().into()
+        src.split('/').next_back().unwrap().to_camel_case().into()
     }
 
     pub fn determine_export_name(&self, filename: Lrc<FileName>) -> Ident {

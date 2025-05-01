@@ -84,8 +84,7 @@ impl<I: Tokens> Parser<I> {
             expect!(p, "class");
 
             let ident = p
-                .parse_maybe_opt_binding_ident(is_ident_required, true)?
-                .map(Ident::from);
+                .parse_maybe_opt_binding_ident(is_ident_required, true)?;
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -1185,8 +1184,7 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
                 .parse_maybe_opt_binding_ident(is_ident_required, false)?
-        }
-        .map(Ident::from);
+        };
 
         self.with_ctx(
             self.ctx()

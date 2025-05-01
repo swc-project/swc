@@ -171,7 +171,7 @@ impl<'a> VariantBinder<'a> {
                                 .expect("field of struct-like variants should have name");
 
                             let binded_ident =
-                                Ident::new(&format!("{}{}", prefix, ident), ident.span());
+                                Ident::new(&format!("{prefix}{ident}"), ident.span());
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),
@@ -225,7 +225,7 @@ impl<'a> VariantBinder<'a> {
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
-                                Ident::new(&format!("{}{}", prefix, idx), def_site());
+                                Ident::new(&format!("{prefix}{idx}"), def_site());
 
                             bindings.push(BindedField {
                                 idx,

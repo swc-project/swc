@@ -400,11 +400,11 @@ impl FastDts {
                         if collector.contains(&ident.sym)
                             && !assignable_properties_for_namespace
                                 .get(ident.sym.as_str())
-                                .map_or(false, |properties| {
+                                .is_some_and(|properties| {
                                     member_expr
                                         .prop
                                         .static_name()
-                                        .map_or(false, |name| properties.contains(name))
+                                        .is_some_and(|name| properties.contains(name))
                                 })
                         {
                             self.function_with_assigning_properties(member_expr.span);

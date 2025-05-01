@@ -259,7 +259,7 @@ impl Compiler {
             let read_inline_sourcemap =
                 |data_url: &str| -> Result<Option<sourcemap::SourceMap>, Error> {
                     let url = Url::parse(data_url).with_context(|| {
-                        format!("failed to parse inline source map url\n{}", data_url)
+                        format!("failed to parse inline source map url\n{data_url}")
                     })?;
 
                     let idx = match url.path().find("base64,") {
@@ -367,8 +367,7 @@ impl Compiler {
                                         || {
                                             format!(
                                                 "failed to read input source map
-                                from file at {}",
-                                                path
+                                from file at {path}"
                                             )
                                         },
                                     )?))
@@ -572,7 +571,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read .swcrc file for input file at `{}`", name))
+        .with_context(|| format!("failed to read .swcrc file for input file at `{name}`"))
     }
 
     /// This method returns [None] if a file should be skipped.
@@ -1134,8 +1133,7 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
             Category::Eof => "unexpected eof",
         };
         Error::new(e).context(format!(
-            "failed to deserialize .swcrc (json) file: {}: {}:{}",
-            msg, line, column
+            "failed to deserialize .swcrc (json) file: {msg}: {line}:{column}"
         ))
     }
 

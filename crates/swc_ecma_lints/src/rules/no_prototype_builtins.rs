@@ -42,8 +42,7 @@ impl NoPrototypeBuiltins {
 
     fn emit_error(&self, span: Span, method: &str) {
         let message = format!(
-            "Do not access Object.prototype method '{}' from target object",
-            method
+            "Do not access Object.prototype method '{method}' from target object"
         );
 
         HANDLER.with(|handler| match self.expected_reaction {

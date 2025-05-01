@@ -32,7 +32,7 @@ impl Resolver {
         match self {
             Self::Real { resolver, base } => resolver
                 .resolve_import(base, &src)
-                .with_context(|| format!("failed to resolve import `{}`", src))
+                .with_context(|| format!("failed to resolve import `{src}`"))
                 .unwrap(),
             Self::Default => src,
         }
@@ -243,7 +243,7 @@ where
             None
         };
 
-        let orig_slug = module_specifier.split('/').last();
+        let orig_slug = module_specifier.split('/').next_back();
 
         let target = self.resolver.resolve(base, module_specifier);
         let mut target = match target {
@@ -346,7 +346,7 @@ where
         let s = if s.starts_with('.') || s.starts_with('/') || rel_path.is_absolute() {
             s
         } else {
-            Cow::Owned(format!("./{}", s))
+            Cow::Owned(format!("./{s}"))
         };
 
         Ok(self.to_specifier(s.into_owned().into(), slug))

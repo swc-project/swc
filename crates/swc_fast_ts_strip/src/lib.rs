@@ -166,7 +166,7 @@ pub enum ErrorCode {
 
 impl Display for ErrorCode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self)
+        write!(f, "{self:?}")
     }
 }
 
@@ -346,7 +346,7 @@ pub fn operate(
 
             let code = if cfg!(debug_assertions) {
                 String::from_utf8(code).map_err(|err| TsError {
-                    message: format!("failed to convert to utf-8: {}", err),
+                    message: format!("failed to convert to utf-8: {err}"),
                     code: ErrorCode::Unknown,
                 })?
             } else {
@@ -1521,7 +1521,7 @@ impl IsTsDecl for Decl {
 
 impl IsTsDecl for Stmt {
     fn is_ts_declare(&self) -> bool {
-        self.as_decl().map_or(false, IsTsDecl::is_ts_declare)
+        self.as_decl().is_some_and(IsTsDecl::is_ts_declare)
     }
 }
 

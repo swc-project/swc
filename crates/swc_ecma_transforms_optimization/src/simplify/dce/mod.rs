@@ -734,20 +734,20 @@ impl VisitMut for TreeShaker {
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
+                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
                         }
                         ClassMember::AutoAccessor(m) => {
                             !matches!(m.key, Key::Public(PropName::Computed(..)))
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
+                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
                         }
 
                         ClassMember::PrivateProp(m) => !m
                             .value
                             .as_deref()
-                            .map_or(false, |e| e.may_have_side_effects(self.expr_ctx)),
+                            .is_some_and(|e| e.may_have_side_effects(self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
 

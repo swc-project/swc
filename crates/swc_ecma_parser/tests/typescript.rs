@@ -53,7 +53,7 @@ fn shifted(file: PathBuf) {
         {
             panic!()
         }
-        if StdErr::from(format!("{:#?}", comments))
+        if StdErr::from(format!("{comments:#?}"))
             .compare_to_file(format!("{}.comments", file.display()))
             .is_err()
         {
@@ -175,8 +175,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         };
 
         eprintln!(
-            "\n\n========== Running reference test {}\nSource:\n{}\n",
-            file_name, input
+            "\n\n========== Running reference test {file_name}\nSource:\n{input}\n"
         );
     }
 
@@ -212,8 +211,7 @@ fn run_spec(file: &Path, output_json: &Path) {
                 }
 
                 panic!(
-                    "failed to deserialize json back to module: {}\n{}",
-                    err, json
+                    "failed to deserialize json back to module: {err}\n{json}"
                 )
             }
         };
@@ -299,8 +297,7 @@ fn errors(file: PathBuf) {
         };
 
         eprintln!(
-            "\n\n========== Running reference test {}\nSource:\n{}\n",
-            file_name, input
+            "\n\n========== Running reference test {file_name}\nSource:\n{input}\n"
         );
     }
 

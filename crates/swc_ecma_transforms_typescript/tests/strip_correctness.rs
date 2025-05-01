@@ -126,7 +126,7 @@ fn identity(entry: PathBuf) {
             to_code_default(cm.clone(), None, &program)
         };
 
-        println!("---------------- JS ----------------\n\n{}", js_content);
+        println!("---------------- JS ----------------\n\n{js_content}");
 
         let js_fm = cm.new_source_file(FileName::Anon.into(), js_content.clone());
 
@@ -150,11 +150,11 @@ fn identity(entry: PathBuf) {
         if js_content.contains("import") || js_content.contains("export") {
             parser
                 .parse_module()
-                .unwrap_or_else(|err| panic!("{} is invalid module\n{:?}", js_content, err));
+                .unwrap_or_else(|err| panic!("{js_content} is invalid module\n{err:?}"));
         } else {
             parser
                 .parse_script()
-                .unwrap_or_else(|err| panic!("{} is invalid script\n{:?}", js_content, err));
+                .unwrap_or_else(|err| panic!("{js_content} is invalid script\n{err:?}"));
         }
 
         Ok(())

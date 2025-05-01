@@ -29,7 +29,7 @@ impl DuplicateExports {
                     handler
                         .struct_span_err(
                             id.span,
-                            &format!("the name `{}` is exported multiple times", name),
+                            &format!("the name `{name}` is exported multiple times"),
                         )
                         .span_label(*prev.get(), "previous exported here")
                         .span_label(id.span, "exported more than once")

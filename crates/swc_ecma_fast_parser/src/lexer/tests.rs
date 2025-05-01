@@ -28,10 +28,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     assert_eq!(
                         expected.as_ref(),
                         actual.as_ref(),
-                        "Token #{}: Expected word '{}', got '{}'",
-                        i,
-                        expected,
-                        actual
+                        "Token #{i}: Expected word '{expected}', got '{actual}'"
                     );
                 }
                 (
@@ -45,8 +42,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                 ) => {
                     assert_eq!(
                         *expected_val, *actual_val,
-                        "Token #{}: Expected number {}, got {}",
-                        i, expected_val, actual_val
+                        "Token #{i}: Expected number {expected_val}, got {actual_val}"
                     );
                 }
                 (
@@ -61,10 +57,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     assert_eq!(
                         expected_val.as_ref(),
                         actual_val.as_ref(),
-                        "Token #{}: Expected string '{}', got '{}'",
-                        i,
-                        expected_val,
-                        actual_val
+                        "Token #{i}: Expected string '{expected_val}', got '{actual_val}'"
                     );
                 }
                 (
@@ -80,18 +73,12 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     assert_eq!(
                         expected_exp.as_ref(),
                         actual_exp.as_ref(),
-                        "Token #{}: Expected regex pattern '{}', got '{}'",
-                        i,
-                        expected_exp,
-                        actual_exp
+                        "Token #{i}: Expected regex pattern '{expected_exp}', got '{actual_exp}'"
                     );
                     assert_eq!(
                         expected_flags.as_ref(),
                         actual_flags.as_ref(),
-                        "Token #{}: Expected regex flags '{}', got '{}'",
-                        i,
-                        expected_flags,
-                        actual_flags
+                        "Token #{i}: Expected regex flags '{expected_flags}', got '{actual_flags}'"
                     );
                 }
                 (
@@ -106,10 +93,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     assert_eq!(
                         expected_val.as_ref(),
                         actual_val.as_ref(),
-                        "Token #{}: Expected bigint {}, got {}",
-                        i,
-                        expected_val,
-                        actual_val
+                        "Token #{i}: Expected bigint {expected_val}, got {actual_val}"
                     );
                 }
                 (
@@ -125,10 +109,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                     assert_eq!(
                         expected_raw.as_ref(),
                         actual_raw.as_ref(),
-                        "Token #{}: Expected template raw '{}', got '{}'",
-                        i,
-                        expected_raw,
-                        actual_raw
+                        "Token #{i}: Expected template raw '{expected_raw}', got '{actual_raw}'"
                     );
 
                     match (&expected_cooked, &actual_cooked) {
@@ -136,10 +117,7 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                             assert_eq!(
                                 expected.as_ref(),
                                 actual.as_ref(),
-                                "Token #{}: Expected template cooked '{}', got '{}'",
-                                i,
-                                expected,
-                                actual
+                                "Token #{i}: Expected template cooked '{expected}', got '{actual}'"
                             );
                         }
                         (None, None) => {
@@ -147,9 +125,8 @@ fn verify_tokens(input: &str, expected_tokens: Vec<(TokenType, Option<TokenValue
                         }
                         _ => {
                             panic!(
-                                "Token #{}: Template cooked value mismatch, expected: {:?}, got: \
-                                 {:?}",
-                                i, expected_cooked, actual_cooked
+                                "Token #{i}: Template cooked value mismatch, expected: {expected_cooked:?}, got: \
+                                 {actual_cooked:?}"
                             );
                         }
                     }

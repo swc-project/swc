@@ -46,8 +46,7 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
         };
 
         eprintln!(
-            "\n\n========== Running reference test {}\nSource:\n{}\n",
-            file_name, input
+            "\n\n========== Running reference test {file_name}\nSource:\n{input}\n"
         );
     }
 

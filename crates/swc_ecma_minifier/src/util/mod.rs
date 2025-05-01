@@ -237,7 +237,7 @@ impl Visit for LeapFinder {
             self.found_continue_with_label |= self
                 .target_label
                 .as_ref()
-                .map_or(false, |l| *l == label.sym);
+                .is_some_and(|l| *l == label.sym);
         }
     }
 

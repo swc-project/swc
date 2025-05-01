@@ -66,14 +66,13 @@ where
             .map(|(from, to)| {
                 assert!(
                     !to.is_empty(),
-                    "value of `paths.{}` should not be an empty array",
-                    from,
+                    "value of `paths.{from}` should not be an empty array",
                 );
 
                 let pos = from.as_bytes().iter().position(|&c| c == b'*');
                 let pat = if from.contains('*') {
                     if from.as_bytes().iter().rposition(|&c| c == b'*') != pos {
-                        panic!("`paths.{}` should have only one wildcard", from)
+                        panic!("`paths.{from}` should have only one wildcard")
                     }
 
                     Pattern::Wildcard {
@@ -83,9 +82,8 @@ where
                     assert_eq!(
                         to.len(),
                         1,
-                        "value of `paths.{}` should be an array with one element because the src \
+                        "value of `paths.{from}` should be an array with one element because the src \
                          path does not contains * (wildcard)",
-                        from,
                     );
 
                     Pattern::Exact(from)
@@ -249,7 +247,7 @@ where
                             None
                         };
 
-                        let relative = format!("./{}", replaced);
+                        let relative = format!("./{replaced}");
 
                         let res = self
                             .invoke_inner_resolver(base, module_specifier)
@@ -275,7 +273,7 @@ where
                                 slug: Some(
                                     replaced
                                         .split([std::path::MAIN_SEPARATOR, '/'])
-                                        .last()
+                                        .next_back()
                                         .unwrap()
                                         .into(),
                                 ),
@@ -300,7 +298,7 @@ where
                     let tp = Path::new(&to[0]);
                     let slug = to[0]
                         .split([std::path::MAIN_SEPARATOR, '/'])
-                        .last()
+                        .next_back()
                         .filter(|&slug| slug != "index.ts" && slug != "index.tsx")
                         .map(|v| v.rsplit_once('.').map(|v| v.0).unwrap_or(v))
                         .map(From::from);

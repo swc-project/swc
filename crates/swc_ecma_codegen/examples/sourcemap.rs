@@ -63,5 +63,5 @@ fn main() {
     let start = Instant::now();
     parse_and_gen(Path::new(&main_file));
     let dur = start.elapsed();
-    println!("Took {:?}", dur);
+    println!("Took {dur:?}");
 }

@@ -96,7 +96,7 @@ impl NoBitwise {
     }
 
     fn emit_report(&self, span: Span, op: &str) {
-        let message = format!("Unexpected use of '{}'", op);
+        let message = format!("Unexpected use of '{op}'");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

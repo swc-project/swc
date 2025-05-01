@@ -85,7 +85,7 @@ impl<'a> Compare<&'a str> for Input<'_> {
 
 impl InputLength for Input<'_> {
     fn input_len(&self) -> usize {
-        self.src.as_bytes().len()
+        self.src.len()
     }
 }
 
