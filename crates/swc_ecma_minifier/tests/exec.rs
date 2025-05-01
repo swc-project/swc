@@ -10958,6 +10958,22 @@ fn issue_7274() {
 }
 
 #[test]
+fn issue_7678() {
+    run_default_exec_test(
+        r#"
+        let str = "\\uD83D\\uDC68\\u200D\\uD83D\\uDE80";
+
+        let obj = {
+            "\\uD83D\\uDC68\\u200D\\uD83D\\uDE80": "wrong"
+        };
+
+        console.log(str);
+        console.log(obj);
+        "#,
+    );
+}
+
+#[test]
 fn issue_8119_1() {
     run_exec_test(
         r#"
