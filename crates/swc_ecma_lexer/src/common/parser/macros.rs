@@ -73,3 +73,15 @@ macro_rules! syntax_error {
         return Err(err.into());
     }};
 }
+
+macro_rules! peek {
+    ($p:expr) => {{
+        debug_assert!(
+            $p.input().knows_cur(),
+            "parser should not call peek() without knowing current token.
+Current token is {:?}",
+            cur!($p, false),
+        );
+        $p.input_mut().peek()
+    }};
+}

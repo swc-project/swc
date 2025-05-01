@@ -53,13 +53,6 @@ macro_rules! is {
         }
     }};
 
-    ($p:expr,Regex) => {{
-        match $p.input.cur() {
-            Some(&Token::Regex { .. }) => true,
-            _ => false,
-        }
-    }};
-
     ($p:expr,BigInt) => {{
         match $p.input.cur() {
             Some(&Token::BigInt { .. }) => true,
