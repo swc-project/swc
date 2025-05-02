@@ -1017,6 +1017,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn readonly() -> Self {
         Token::Readonly
     }
+
+    #[inline(always)]
+    fn is_template(&self) -> bool {
+        Token::Template.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
+        buffer.expect_template_token_value()
+    }
 }
 
 impl std::fmt::Debug for Token {
