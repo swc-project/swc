@@ -1044,6 +1044,19 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     fn readonly() -> Self {
         Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)))
     }
+
+    #[inline(always)]
+    fn is_template(&self) -> bool {
+        matches!(self, Self::Template { .. })
+    }
+
+    #[inline(always)]
+    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
+        match self {
+            Self::Template { cooked, raw } => (cooked, raw),
+            _ => unreachable!(),
+        }
+    }
 }
 
 impl Token {

@@ -4,7 +4,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     BindingIdent, EsReserved, Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName,
-    TsThisType,
+    TplElement, TsThisType,
 };
 
 use self::{
@@ -501,6 +501,34 @@ pub trait Parser<'a>: Sized + Clone {
         expect!(self, &Self::Token::this());
         Ok(TsThisType {
             span: self.input().prev_span(),
+        })
+    }
+
+    fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
+        let start = self.cur_pos();
+        let cur = cur!(self, true);
+        let (raw, cooked) = if cur.is_template() {
+            let cur = self.bump();
+            let (cooked, raw) = cur.take_template(self.input_mut());
+            match cooked {
+                Ok(cooked) => (raw, Some(cooked)),
+                Err(err) => {
+                    if is_tagged_tpl {
+                        (raw, None)
+                    } else {
+                        return Err(err);
+                    }
+                }
+            }
+        } else {
+            unexpected!(self, "template token")
+        };
+        let tail = self.input_mut().is(&Self::Token::backquote());
+        Ok(TplElement {
+            span: self.span(start),
+            raw,
+            tail,
+            cooked,
         })
     }
 }

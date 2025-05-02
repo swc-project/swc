@@ -1088,40 +1088,6 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        let start = cur_pos!(self);
-
-        let (raw, cooked) = match cur!(self, true) {
-            Token::Template => match bump!(self) {
-                Token::Template => {
-                    let (cooked, raw) = self.input.expect_template_token_value();
-                    match cooked {
-                        Ok(cooked) => (raw, Some(cooked)),
-                        Err(err) => {
-                            if is_tagged_tpl {
-                                (raw, None)
-                            } else {
-                                return Err(err);
-                            }
-                        }
-                    }
-                }
-                _ => unreachable!(),
-            },
-            _ => unexpected!(self, "template token"),
-        };
-
-        let tail = is!(self, '`');
-
-        Ok(TplElement {
-            span: span!(self, start),
-            raw,
-            tail,
-
-            cooked,
-        })
-    }
-
     #[cfg_attr(
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)

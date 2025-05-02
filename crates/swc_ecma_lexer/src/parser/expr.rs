@@ -1059,37 +1059,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         })
     }
 
-    pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        let start = cur_pos!(self);
-
-        let (raw, cooked) = match *cur!(self, true) {
-            Token::Template { .. } => match bump!(self) {
-                Token::Template { raw, cooked, .. } => match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(err) => {
-                        if is_tagged_tpl {
-                            (raw, None)
-                        } else {
-                            return Err(err);
-                        }
-                    }
-                },
-                _ => unreachable!(),
-            },
-            _ => unexpected!(self, "template token"),
-        };
-
-        let tail = is!(self, '`');
-
-        Ok(TplElement {
-            span: span!(self, start),
-            raw,
-            tail,
-
-            cooked,
-        })
-    }
-
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_subscripts(
         &mut self,

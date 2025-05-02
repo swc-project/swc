@@ -17,6 +17,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
 
     fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_template(&self) -> bool;
+    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom);
+
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_regexp(&self) -> bool;
 
