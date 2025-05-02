@@ -229,17 +229,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         })
     }
 
-    /// `tsParseThisTypeNode`
-    fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
-        debug_assert!(self.input.syntax().typescript());
-
-        expect!(self, "this");
-
-        Ok(TsThisType {
-            span: self.input.prev_span(),
-        })
-    }
-
     /// `tsParseImportType`
     fn parse_ts_import_type(&mut self) -> PResult<TsImportType> {
         let start = cur_pos!(self);

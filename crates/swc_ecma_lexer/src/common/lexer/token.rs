@@ -87,6 +87,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn private() -> Self;
     fn protected() -> Self;
     fn public() -> Self;
+    fn readonly() -> Self;
     fn r#await() -> Self;
     fn this() -> Self;
     fn kw_super() -> Self;
@@ -199,6 +200,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_public(&self) -> bool {
         Self::public().eq(self)
+    }
+    #[inline(always)]
+    fn is_readonly(&self) -> bool {
+        Self::readonly().eq(self)
     }
     #[inline(always)]
     fn is_await(&self) -> bool {

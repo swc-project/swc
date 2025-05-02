@@ -1039,6 +1039,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     fn r#const() -> Self {
         Token::Word(Word::Keyword(Keyword::Const))
     }
+
+    #[inline(always)]
+    fn readonly() -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)))
+    }
 }
 
 impl Token {

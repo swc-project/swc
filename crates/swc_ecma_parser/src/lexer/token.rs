@@ -1012,6 +1012,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn r#const() -> Self {
         Self::Const
     }
+
+    #[inline(always)]
+    fn readonly() -> Self {
+        Token::Readonly
+    }
 }
 
 impl std::fmt::Debug for Token {

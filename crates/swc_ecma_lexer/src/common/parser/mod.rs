@@ -4,6 +4,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     BindingIdent, EsReserved, Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName,
+    TsThisType,
 };
 
 use self::{
@@ -492,6 +493,15 @@ pub trait Parser<'a>: Sized + Clone {
         } else {
             Ok(None)
         }
+    }
+
+    /// `tsParseThisTypeNode`
+    fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
+        debug_assert!(self.input().syntax().typescript());
+        expect!(self, &Self::Token::this());
+        Ok(TsThisType {
+            span: self.input().prev_span(),
+        })
     }
 }
 
