@@ -48,7 +48,7 @@ impl Pure<'_> {
             let mut s = String::with_capacity(lls.len() + rls.len());
             s.push_str(&lls);
             s.push_str(&rls);
-            
+
             *e = BinExpr {
                 span,
                 op: op!(bin, "+"),
@@ -125,7 +125,7 @@ impl Pure<'_> {
             quasis: Default::default(),
             exprs: Default::default(),
         };
-        
+
         // Pre-allocate with reasonable capacity
         let mut cur_cooked_str = String::with_capacity(64);
         let mut cur_raw_str = String::with_capacity(64);
@@ -272,18 +272,18 @@ impl Pure<'_> {
 
         let mut quasis = Vec::with_capacity(tpl.quasis.len());
         let mut exprs = Vec::with_capacity(tpl.exprs.len());
-        
+
         // Estimate capacity based on existing content
-        let capacity_estimate: usize = tpl.quasis.iter()
-            .map(|q| q.raw.len())
-            .sum::<usize>() + 
-            tpl.exprs.iter()
-            .map(|e| match &**e {
-                Expr::Lit(Lit::Str(s)) => s.value.len(),
-                _ => 0,
-            })
-            .sum::<usize>();
-            
+        let capacity_estimate: usize = tpl.quasis.iter().map(|q| q.raw.len()).sum::<usize>()
+            + tpl
+                .exprs
+                .iter()
+                .map(|e| match &**e {
+                    Expr::Lit(Lit::Str(s)) => s.value.len(),
+                    _ => 0,
+                })
+                .sum::<usize>();
+
         let mut cur_raw = String::with_capacity(capacity_estimate);
         let mut cur_cooked = Some(String::with_capacity(capacity_estimate));
 
@@ -418,7 +418,8 @@ impl Pure<'_> {
                     }
 
                     // Calculate the total length to avoid multiple allocations
-                    let raw_str_part = rs.raw
+                    let raw_str_part = rs
+                        .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
@@ -456,11 +457,12 @@ impl Pure<'_> {
                         *cooked = new_cooked.into();
                     }
 
-                    let raw_str_part = ls.raw
+                    let raw_str_part = ls
+                        .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
-                    
+
                     let mut new_raw = String::with_capacity(raw_str_part.len() + r_first.raw.len());
                     new_raw.push_str(&raw_str_part);
                     new_raw.push_str(&r_first.raw);
@@ -477,7 +479,7 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let r_first = rt.quasis.first_mut().unwrap();
-                    
+
                     // Pre-allocate buffer with sufficient capacity
                     let mut new_raw = String::with_capacity(l_last.raw.len() + r_first.raw.len());
                     new_raw.push_str(&l_last.raw);
@@ -488,13 +490,13 @@ impl Pure<'_> {
                 // Reserve capacity first to avoid multiple reallocations
                 let additional_quasis = rt.quasis.len();
                 let additional_exprs = rt.exprs.len();
-                
+
                 l.quasis.reserve(additional_quasis);
                 l.exprs.reserve(additional_exprs);
-                
+
                 l.quasis.extend(rt.quasis.take());
                 l.exprs.extend(rt.exprs.take());
-                
+
                 // Remove r
                 r.take();
 
@@ -530,10 +532,11 @@ impl Pure<'_> {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
                                 // Allocate with sufficient capacity to avoid multiple reallocations
-                                let mut new_str = String::with_capacity(second_str.len() + third_str.len());
+                                let mut new_str =
+                                    String::with_capacity(second_str.len() + third_str.len());
                                 new_str.push_str(&second_str);
                                 new_str.push_str(&third_str);
-                                
+
                                 let left_span = left.span;
 
                                 self.changed = true;
