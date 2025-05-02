@@ -48,6 +48,16 @@ macro_rules! unexpected {
     }};
 }
 
+macro_rules! expect {
+    ($p:expr, $t:expr) => {{
+        if !$p.input_mut().eat($t) {
+            let span = $p.input().cur_span();
+            let cur = $p.input_mut().dump_cur();
+            syntax_error!($p, span, SyntaxError::Expected(format!("{:?}", $t), cur))
+        }
+    }};
+}
+
 macro_rules! syntax_error {
     ($p:expr, $err:expr) => {
         syntax_error!($p, $p.input().cur_span(), $err)
