@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_ext_transforms"
 repository    = { workspace = true }
-version       = "12.0.0"
+version       = "12.0.1"
 
 [lib]
 bench = false
