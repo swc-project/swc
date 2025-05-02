@@ -452,24 +452,32 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                             let range = if is_curly {
                                 3..(inner_buf.len() - 1)
                             } else {
-                                2..6
+                                3..7
                             };
 
                             if is_valid {
                                 let val_str = &inner_buf[range];
+                                dbg!(&val_str);
                                 if let Ok(v) = u32::from_str_radix(val_str, 16) {
+                                    dbg!(&v);
+
                                     if v > 0xffff {
+                                        dbg!("push");
                                         buf.push_str(&inner_buf);
                                         let end = if is_curly { 7 } else { 5 };
                                         for _ in 0..end {
                                             iter.next();
                                         }
                                     } else if (0xd800..=0xdfff).contains(&v) {
+                                        dbg!("push: \\");
                                         buf.push('\\');
                                     } else {
+                                        dbg!("push: \\\\");
                                         buf.push_str("\\\\");
                                     }
                                 } else {
+                                    dbg!("push: \\\\ (invalid)");
+
                                     buf.push_str("\\\\");
                                 }
                             } else {
