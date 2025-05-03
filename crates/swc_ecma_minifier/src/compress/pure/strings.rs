@@ -45,9 +45,8 @@ impl Pure<'_> {
             report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
             // Create a new string with capacity to avoid multiple allocations
-            let mut s = String::with_capacity(lls.len() + rls.len());
-            s.push_str(&lls);
-            s.push_str(&rls);
+            let mut s = lls.into_owned();
+            s.reserve(rls.len());
 
             *e = BinExpr {
                 span,
