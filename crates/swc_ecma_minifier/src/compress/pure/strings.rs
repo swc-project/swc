@@ -45,7 +45,7 @@ impl Pure<'_> {
             report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
             // Create a new string with capacity to avoid multiple allocations
-            let mut s = lls.into_owned();
+            let mut s = lls.into_owned() + &*rls;
             s.reserve(rls.len());
 
             *e = BinExpr {
