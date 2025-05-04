@@ -602,6 +602,21 @@ pub trait Parser<'a>: Sized + Clone {
             span: Span::new(start, start),
         })
     }
+
+    fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
+        if self.syntax().typescript()
+            && {
+                let cur = cur!(self, false)?;
+                cur.is_public() || cur.is_protected() || cur.is_private() || cur.is_readonly()
+            }
+            && peek!(self).is_some_and(|t| t.is_word() || t.is_lbrace() || t.is_lbracket())
+        {
+            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
+            Ok(true)
+        } else {
+            Ok(false)
+        }
+    }
 }
 
 fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {

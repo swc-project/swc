@@ -7,7 +7,7 @@ use crate::{
     common::parser::{expr_ext::ExprExt, is_not_this},
     parser::expr::AssignTargetOrSpread,
     tok,
-    token::{IdentLike, Token},
+    token::Token,
 };
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
@@ -118,25 +118,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             type_ann: None,
         }
         .into())
-    }
-
-    pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
-        let has_modifier = self.syntax().typescript()
-            && matches!(
-                *cur!(self, false)?,
-                Token::Word(Word::Ident(IdentLike::Known(
-                    known_ident!("public")
-                        | known_ident!("protected")
-                        | known_ident!("private")
-                        | known_ident!("readonly")
-                )))
-            )
-            && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
-        if has_modifier {
-            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
-        }
-
-        Ok(has_modifier)
     }
 
     /// spec: 'FormalParameter'

@@ -120,20 +120,6 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
-    pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
-        let has_modifier = self.syntax().typescript()
-            && matches!(
-                cur!(self, false)?,
-                Token::Public | Token::Protected | Token::Private | Token::Readonly
-            )
-            && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
-        if has_modifier {
-            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
-        }
-
-        Ok(has_modifier)
-    }
-
     /// spec: 'FormalParameter'
     ///
     /// babel: `parseAssignableListItem`
