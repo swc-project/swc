@@ -50,18 +50,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    /// JSXEmptyExpression is unique type since it doesn't actually parse
-    /// anything, and so it should start at the end of last read token (left
-    /// brace) and finish at the beginning of the next one (right brace).
-    pub(super) fn parse_jsx_empty_expr(&mut self) -> PResult<JSXEmptyExpr> {
-        debug_assert!(self.input.syntax().jsx());
-        let start = cur_pos!(self);
-
-        Ok(JSXEmptyExpr {
-            span: Span::new(start, start),
-        })
-    }
-
     /// Parse JSX spread child
     pub(super) fn parse_jsx_spread_child(&mut self) -> PResult<JSXSpreadChild> {
         debug_assert!(self.input.syntax().jsx());

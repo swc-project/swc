@@ -3,8 +3,9 @@ use expr_ext::ExprExt;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    BindingIdent, EsReserved, Expr, Ident, IdentName, JSXAttrName, JSXElementName, JSXMemberExpr,
-    JSXNamespacedName, JSXObject, Lit, ModuleExportName, Null, PrivateName, TplElement, TsThisType,
+    BindingIdent, EsReserved, Expr, Ident, IdentName, JSXAttrName, JSXElementName, JSXEmptyExpr,
+    JSXMemberExpr, JSXNamespacedName, JSXObject, Lit, ModuleExportName, Null, PrivateName,
+    TplElement, TsThisType,
 };
 
 use self::{
@@ -589,6 +590,17 @@ pub trait Parser<'a>: Sized + Clone {
             node = new_node;
         }
         Ok(node)
+    }
+
+    /// JSXEmptyExpression is unique type since it doesn't actually parse
+    /// anything, and so it should start at the end of last read token (left
+    /// brace) and finish at the beginning of the next one (right brace).
+    fn parse_jsx_empty_expr(&mut self) -> PResult<JSXEmptyExpr> {
+        debug_assert!(self.input().syntax().jsx());
+        let start = self.input_mut().cur_pos();
+        Ok(JSXEmptyExpr {
+            span: Span::new(start, start),
+        })
     }
 }
 
