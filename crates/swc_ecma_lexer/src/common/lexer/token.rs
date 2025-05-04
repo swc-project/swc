@@ -20,6 +20,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_template(&self) -> bool;
     fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom);
 
+    fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_jsx_text(&self) -> bool;
+    fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
+
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_regexp(&self) -> bool;
 

@@ -1027,6 +1027,22 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
         buffer.expect_template_token_value()
     }
+
+    #[inline(always)]
+    fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+        Token::JSXText
+    }
+
+    #[inline(always)]
+    fn is_jsx_text(&self) -> bool {
+        Token::JSXText.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+        buffer.expect_string_token_value()
+    }
 }
 
 impl std::fmt::Debug for Token {
