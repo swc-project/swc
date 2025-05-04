@@ -4,7 +4,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     BindingIdent, EsReserved, Expr, Ident, IdentName, JSXAttrName, JSXElementName, JSXEmptyExpr,
-    JSXMemberExpr, JSXNamespacedName, JSXObject, Lit, ModuleExportName, Null, PrivateName,
+    JSXMemberExpr, JSXNamespacedName, JSXObject, JSXText, Lit, ModuleExportName, Null, PrivateName,
     TplElement, TsThisType,
 };
 
@@ -601,6 +601,15 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(JSXEmptyExpr {
             span: Span::new(start, start),
         })
+    }
+
+    fn parse_jsx_text(&mut self) -> PResult<JSXText> {
+        debug_assert!(self.input().syntax().jsx());
+        debug_assert!(cur!(self, false).is_ok_and(|t| t.is_jsx_text()));
+        let token = self.bump();
+        let span = self.input().prev_span();
+        let (value, raw) = token.take_jsx_text(self.input_mut());
+        Ok(JSXText { span, value, raw })
     }
 
     fn eat_any_ts_modifier(&mut self) -> PResult<bool> {

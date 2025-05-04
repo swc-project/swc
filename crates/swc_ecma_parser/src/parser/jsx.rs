@@ -340,18 +340,4 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(self.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
             .parse_jsx_element_at(start_pos)
     }
-
-    pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {
-        debug_assert!(self.input.syntax().jsx());
-        debug_assert!(matches!(cur!(self, false), Ok(Token::JSXText)));
-        let token = bump!(self);
-        let span = self.input.prev_span();
-        match token {
-            Token::JSXText => {
-                let (value, raw) = self.input.expect_string_token_value();
-                Ok(JSXText { span, value, raw })
-            }
-            _ => unreachable!(),
-        }
-    }
 }
