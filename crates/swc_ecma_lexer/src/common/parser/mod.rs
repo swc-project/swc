@@ -3,8 +3,8 @@ use expr_ext::ExprExt;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    BindingIdent, EsReserved, Expr, Ident, IdentName, Lit, ModuleExportName, Null, PrivateName,
-    TplElement, TsThisType,
+    BindingIdent, EsReserved, Expr, Ident, IdentName, JSXAttrName, JSXElementName, JSXMemberExpr,
+    JSXNamespacedName, JSXObject, Lit, ModuleExportName, Null, PrivateName, TplElement, TsThisType,
 };
 
 use self::{
@@ -530,6 +530,65 @@ pub trait Parser<'a>: Sized + Clone {
             tail,
             cooked,
         })
+    }
+
+    /// Parse next token as JSX identifier
+    fn parse_jsx_ident(&mut self) -> PResult<Ident> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_ident);
+        if cur!(self, true).is_jsx_name() {
+            let t = self.bump();
+            let name = t.take_jsx_name(self.input_mut());
+            let span = self.input().prev_span();
+            Ok(Ident::new_no_ctxt(name, span))
+        } else if self.ctx().contains(Context::InForcedJsxContext) {
+            self.parse_ident_ref()
+        } else {
+            unexpected!(self, "jsx identifier")
+        }
+    }
+
+    /// Parse namespaced identifier.
+    fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_namespaced_name);
+        let start = self.input_mut().cur_pos();
+        let ns = self.parse_jsx_ident()?.into();
+        if !self.input_mut().eat(&Self::Token::colon()) {
+            return Ok(JSXAttrName::Ident(ns));
+        }
+        let name = self.parse_jsx_ident().map(IdentName::from)?;
+        Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+            span: Span::new(start, name.span.hi),
+            ns,
+            name,
+        }))
+    }
+
+    /// Parses element name in any form - namespaced, member or single
+    /// identifier.
+    fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_element_name);
+        let start = self.input_mut().cur_pos();
+        let mut node = match self.parse_jsx_namespaced_name()? {
+            JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
+            JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
+        };
+        while self.input_mut().eat(&Self::Token::dot()) {
+            let prop = self.parse_jsx_ident().map(IdentName::from)?;
+            let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+                span: self.span(start),
+                obj: match node {
+                    JSXElementName::Ident(i) => JSXObject::Ident(i),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
+                    _ => unimplemented!("JSXNamespacedName -> JSXObject"),
+                },
+                prop,
+            });
+            node = new_node;
+        }
+        Ok(node)
     }
 }
 
