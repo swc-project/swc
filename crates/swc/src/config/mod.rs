@@ -521,6 +521,8 @@ impl Options {
 
         let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
 
+        let native_class_properties = transform.native_class_properties.into_bool();
+
         let charset = cfg.jsc.output.charset.or_else(|| {
             if js_minify.as_ref()?.format.ascii_only {
                 Some(OutputCharset::Ascii)
@@ -698,6 +700,7 @@ impl Options {
                             typescript::Config {
                                 import_export_assign_config,
                                 verbatim_module_syntax,
+                                native_class_properties,
                                 ..Default::default()
                             },
                             typescript::TsxConfig {
@@ -1447,6 +1450,13 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_version: Option<DecoratorVersion>,
+
+    /// Native class properties support.
+    ///
+    /// Ensures that field initialization order matches the behavior
+    /// of tsc when `useDefineForClassFields` is `true`.
+    #[serde(default)]
+    pub native_class_properties: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
