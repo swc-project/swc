@@ -60,19 +60,27 @@ pub fn hygiene() -> impl Pass + VisitMut {
 ///
 ///  At third phase, we rename all identifiers in the queue.
 pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
+    let top_level_mark = config.top_level_mark;
+
     (
-        renamer(config, HygieneRenamer),
+        renamer(config, HygieneRenamer { top_level_mark }),
         visit_mut_pass(HygieneRemover),
     )
 }
 
-struct HygieneRenamer;
+struct HygieneRenamer {
+    top_level_mark: Mark,
+}
 
 impl Renamer for HygieneRenamer {
     const MANGLE: bool = false;
     const RESET_N: bool = true;
 
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::Atom {
+        if orig.1.outer().is_descendant_of(self.top_level_mark) {
+            return orig.0.clone();
+        }
+
         let res = if *n == 0 {
             orig.0.clone()
         } else {
