@@ -56,6 +56,11 @@ Note that you need
 
 command to run the script.
 
+Supported Node Versions:
+
+-   Node v10+ for usage
+-   Node v20+ for development
+
 ---
 
 If you are using SWC from JavaScript, please refer to [docs on the website](https://swc.rs/docs/installation/).
