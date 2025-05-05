@@ -168,7 +168,7 @@ impl Scope {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, reverse) {
+                if sym == id.0 || self.can_rename(&id, &sym, reverse) {
                     if cfg!(debug_assertions) {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
