@@ -38,7 +38,7 @@ use swc_ecma_loader::resolvers::{
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
-use swc_ecma_preset_env::Feature;
+use swc_ecma_preset_env::{Caniuse, EnvConfig, Feature};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
     hygiene,
@@ -524,6 +524,14 @@ impl Options {
 
         let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
 
+        let native_class_properties = transform.use_define_for_class_fields.into_bool()
+            && match &cfg.env {
+                Some(env) => Into::<EnvConfig>::into(env.clone())
+                    .get_feature_config()
+                    .caniuse(Feature::ClassProperties),
+                None => es_version.caniuse(Feature::ClassProperties),
+            };
+
         let charset = cfg.jsc.output.charset.or_else(|| {
             if js_minify.as_ref()?.format.ascii_only {
                 Some(OutputCharset::Ascii)
@@ -701,6 +709,7 @@ impl Options {
                             typescript::Config {
                                 import_export_assign_config,
                                 verbatim_module_syntax,
+                                native_class_properties,
                                 ..Default::default()
                             },
                             typescript::TsxConfig {
