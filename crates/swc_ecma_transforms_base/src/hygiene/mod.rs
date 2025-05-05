@@ -78,6 +78,7 @@ impl Renamer for HygieneRenamer {
 
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> swc_atoms::Atom {
         if orig.1.outer().is_descendant_of(self.top_level_mark) {
+            *n += 1;
             return orig.0.clone();
         }
 
