@@ -17,7 +17,7 @@ static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
 
     // [TODO]: Should we use is_x86_feature_detected! macro instead?
     #[cfg(target_arch = "x86_64")]
-    set.insert(wasmer::CpuFeature::SSE2);
+    set.insert(wasmer::sys::CpuFeature::SSE2);
     let target = Target::new(Triple::host(), set);
 
     let config = wasmer_compiler_cranelift::Cranelift::default();
