@@ -1,12 +1,12 @@
 use either::Either;
 use rustc_hash::FxHashMap;
-use swc_common::{ast_node, util::take::Take, Spanned};
+use swc_common::{util::take::Take, Spanned};
 
 use super::*;
 use crate::{
     common::parser::{
-        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, pat_type::PatType,
-        unwrap_ts_non_null,
+        assign_target_or_spread::AssignTargetOrSpread, expr_ext::ExprExt,
+        is_simple_param_list::IsSimpleParameterList, pat_type::PatType, unwrap_ts_non_null,
     },
     lexer::TokenContext,
     tok,
@@ -1918,14 +1918,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         expect!(self, ')');
         Ok((items, trailing_comma))
     }
-}
-
-#[ast_node]
-pub(in crate::parser) enum AssignTargetOrSpread {
-    #[tag("ExprOrSpread")]
-    ExprOrSpread(ExprOrSpread),
-    #[tag("*")]
-    Pat(Pat),
 }
 
 /// simple leaf methods.

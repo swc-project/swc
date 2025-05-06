@@ -1,3 +1,4 @@
+use assign_target_or_spread::AssignTargetOrSpread;
 use either::Either;
 use expr_ext::ExprExt;
 use pat_type::PatType;
@@ -30,6 +31,7 @@ pub mod is_invalid_class_name;
 pub mod is_simple_param_list;
 #[macro_use]
 mod macros;
+pub mod assign_target_or_spread;
 pub mod parse_object;
 pub mod pat_type;
 pub mod state;
@@ -64,6 +66,7 @@ pub trait Parser<'a>: Sized + Clone {
     fn state(&self) -> &State;
     fn state_mut(&mut self) -> &mut State;
 
+    #[inline(always)]
     fn with_state<'w>(
         &'w mut self,
         state: State,
@@ -638,7 +641,6 @@ pub trait Parser<'a>: Sized + Clone {
         if let Expr::Invalid(i) = *expr {
             return Ok(i.into());
         }
-
         if pat_ty == PatType::AssignPat {
             match *expr {
                 Expr::Object(..) | Expr::Array(..) => {
@@ -647,14 +649,89 @@ pub trait Parser<'a>: Sized + Clone {
                     // and LeftHandSideExpression cannot
                     // be reparsed as an AssignmentPattern.
                 }
-
                 _ => {
                     self.check_assign_target(&expr, true);
                 }
             }
         }
-
         reparse_expr_as_pat_inner(self, pat_ty, expr)
+    }
+
+    fn parse_paren_items_as_params(
+        &mut self,
+        mut exprs: Vec<AssignTargetOrSpread>,
+        trailing_comma: Option<Span>,
+    ) -> PResult<Vec<Pat>> {
+        let pat_ty = PatType::BindingPat;
+
+        let len = exprs.len();
+        if len == 0 {
+            return Ok(Vec::new());
+        }
+
+        let mut params = Vec::with_capacity(len);
+
+        for expr in exprs.drain(..len - 1) {
+            match expr {
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: Some(..), ..
+                })
+                | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
+                    self.emit_err(expr.span(), SyntaxError::TS1014)
+                }
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                    spread: None, expr, ..
+                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
+                AssignTargetOrSpread::Pat(pat) => params.push(pat),
+            }
+        }
+
+        debug_assert_eq!(exprs.len(), 1);
+        let expr = exprs.into_iter().next().unwrap();
+        let outer_expr_span = expr.span();
+        let last = match expr {
+            // Rest
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                spread: Some(dot3_token),
+                expr,
+            }) => {
+                if let Expr::Assign(_) = *expr {
+                    self.emit_err(outer_expr_span, SyntaxError::TS1048)
+                };
+                if let Some(trailing_comma) = trailing_comma {
+                    self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                }
+                let expr_span = expr.span();
+                self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
+                    RestPat {
+                        span: expr_span,
+                        dot3_token,
+                        arg: Box::new(pat),
+                        type_ann: None,
+                    }
+                    .into()
+                })?
+            }
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+                self.reparse_expr_as_pat(pat_ty, expr)?
+            }
+            AssignTargetOrSpread::Pat(pat) => {
+                if let Some(trailing_comma) = trailing_comma {
+                    if let Pat::Rest(..) = pat {
+                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                    }
+                }
+                pat
+            }
+        };
+        params.push(last);
+
+        if self.ctx().contains(Context::Strict) {
+            for param in params.iter() {
+                pat_is_valid_argument_in_strict(self, param)
+            }
+        }
+        Ok(params)
     }
 }
 
@@ -776,7 +853,6 @@ fn reparse_expr_as_pat_inner<'a>(
     if pat_ty == PatType::AssignElement {
         match *expr {
             Expr::Array(..) | Expr::Object(..) => {}
-
             Expr::Member(..)
             | Expr::SuperProp(..)
             | Expr::Call(..)
@@ -798,10 +874,8 @@ fn reparse_expr_as_pat_inner<'a>(
                     }
                 }
             }
-
             // It's special because of optional initializer
             Expr::Assign(..) => {}
-
             _ => p.emit_err(span, SyntaxError::InvalidPat),
         }
     }
@@ -891,11 +965,9 @@ fn reparse_expr_as_pat_inner<'a>(
                                 } else {
                                     p.reparse_expr_as_pat(element_pat_ty, expr)?
                                 };
-
                                 if let Pat::Assign(_) = pat {
                                     p.emit_err(span, SyntaxError::TS1048)
                                 };
-
                                 Ok(ObjectPatProp::Rest(RestPat {
                                     span,
                                     dot3_token,
@@ -924,13 +996,10 @@ fn reparse_expr_as_pat_inner<'a>(
                 }
                 .into());
             }
-
             // Trailing comma may exist. We should remove those commas.
             let count_of_trailing_comma = exprs.iter().rev().take_while(|e| e.is_none()).count();
-
             let len = exprs.len();
             let mut params = Vec::with_capacity(exprs.len() - count_of_trailing_comma);
-
             // Comma or other pattern cannot follow a rest pattern.
             let idx_of_rest_not_allowed = if count_of_trailing_comma == 0 {
                 len - 1
@@ -938,7 +1007,6 @@ fn reparse_expr_as_pat_inner<'a>(
                 // last element is comma, so rest is not allowed for every pattern element.
                 len - count_of_trailing_comma
             };
-
             for expr in exprs.drain(..idx_of_rest_not_allowed) {
                 match expr {
                     Some(
@@ -952,7 +1020,6 @@ fn reparse_expr_as_pat_inner<'a>(
                     None => params.push(None),
                 }
             }
-
             if count_of_trailing_comma == 0 {
                 let expr = exprs.into_iter().next().unwrap();
                 let outer_expr_span = expr.span();
@@ -1017,5 +1084,41 @@ fn reparse_expr_as_pat_inner<'a>(
 
             Ok(Invalid { span }.into())
         }
+    }
+}
+
+/// argument of arrow is pattern, although idents in pattern is already
+/// checked if is a keyword, it should also be checked if is arguments or
+/// eval
+fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
+    match pat {
+        Pat::Ident(i) => {
+            if i.is_reserved_in_strict_bind() {
+                p.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
+            }
+        }
+        Pat::Array(arr) => {
+            for pat in arr.elems.iter().flatten() {
+                pat_is_valid_argument_in_strict(p, pat)
+            }
+        }
+        Pat::Rest(r) => pat_is_valid_argument_in_strict(p, &r.arg),
+        Pat::Object(obj) => {
+            for prop in obj.props.iter() {
+                match prop {
+                    ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
+                    | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                        pat_is_valid_argument_in_strict(p, value)
+                    }
+                    ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                        if key.is_reserved_in_strict_bind() {
+                            p.emit_strict_mode_err(key.span, SyntaxError::EvalAndArgumentsInStrict)
+                        }
+                    }
+                }
+            }
+        }
+        Pat::Assign(a) => pat_is_valid_argument_in_strict(p, &a.left),
+        Pat::Invalid(_) | Pat::Expr(_) => (),
     }
 }

@@ -79,11 +79,13 @@ pub trait ExprExt {
 }
 
 impl ExprExt for Box<Expr> {
+    #[inline(always)]
     fn as_expr(&self) -> &Expr {
         self
     }
 }
 impl ExprExt for Expr {
+    #[inline(always)]
     fn as_expr(&self) -> &Expr {
         self
     }
