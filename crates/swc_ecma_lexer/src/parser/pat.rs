@@ -3,12 +3,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::{
-    common::parser::{is_not_this, pat_type::PatType},
-    parser::expr::AssignTargetOrSpread,
-    tok,
-    token::Token,
-};
+use crate::{common::parser::is_not_this, tok, token::Token};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
@@ -424,124 +419,5 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub(super) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
         // FIXME: This is wrong
         self.parse_formal_params()
-    }
-}
-
-impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    pub(super) fn parse_paren_items_as_params(
-        &mut self,
-        mut exprs: Vec<AssignTargetOrSpread>,
-        trailing_comma: Option<Span>,
-    ) -> PResult<Vec<Pat>> {
-        let pat_ty = PatType::BindingPat;
-
-        let len = exprs.len();
-        if len == 0 {
-            return Ok(Vec::new());
-        }
-
-        let mut params = Vec::with_capacity(len);
-
-        for expr in exprs.drain(..len - 1) {
-            match expr {
-                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: Some(..), ..
-                })
-                | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
-                    self.emit_err(expr.span(), SyntaxError::TS1014)
-                }
-                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: None, expr, ..
-                }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
-                AssignTargetOrSpread::Pat(pat) => params.push(pat),
-            }
-        }
-
-        debug_assert_eq!(exprs.len(), 1);
-        let expr = exprs.into_iter().next().unwrap();
-        let outer_expr_span = expr.span();
-        let last = match expr {
-            // Rest
-            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                spread: Some(dot3_token),
-                expr,
-            }) => {
-                if let Expr::Assign(_) = *expr {
-                    self.emit_err(outer_expr_span, SyntaxError::TS1048)
-                };
-                if let Some(trailing_comma) = trailing_comma {
-                    self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
-                }
-                let expr_span = expr.span();
-                self.reparse_expr_as_pat(pat_ty, expr).map(|pat| {
-                    RestPat {
-                        span: expr_span,
-                        dot3_token,
-                        arg: Box::new(pat),
-                        type_ann: None,
-                    }
-                    .into()
-                })?
-            }
-            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
-                self.reparse_expr_as_pat(pat_ty, expr)?
-            }
-            AssignTargetOrSpread::Pat(pat) => {
-                if let Some(trailing_comma) = trailing_comma {
-                    if let Pat::Rest(..) = pat {
-                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
-                    }
-                }
-                pat
-            }
-        };
-        params.push(last);
-
-        if self.ctx().contains(Context::Strict) {
-            for param in params.iter() {
-                self.pat_is_valid_argument_in_strict(param)
-            }
-        }
-
-        Ok(params)
-    }
-
-    /// argument of arrow is pattern, although idents in pattern is already
-    /// checked if is a keyword, it should also be checked if is arguments or
-    /// eval
-    fn pat_is_valid_argument_in_strict(&self, pat: &Pat) {
-        match pat {
-            Pat::Ident(i) => {
-                if i.is_reserved_in_strict_bind() {
-                    self.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
-                }
-            }
-            Pat::Array(arr) => {
-                for pat in arr.elems.iter().flatten() {
-                    self.pat_is_valid_argument_in_strict(pat)
-                }
-            }
-            Pat::Rest(r) => self.pat_is_valid_argument_in_strict(&r.arg),
-            Pat::Object(obj) => {
-                for prop in obj.props.iter() {
-                    match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
-                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
-                            self.pat_is_valid_argument_in_strict(value)
-                        }
-                        ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                            if key.is_reserved_in_strict_bind() {
-                                self.emit_strict_mode_err(
-                                    key.span,
-                                    SyntaxError::EvalAndArgumentsInStrict,
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-            Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&a.left),
-            Pat::Invalid(_) | Pat::Expr(_) => (),
-        }
     }
 }
