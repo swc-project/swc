@@ -798,7 +798,7 @@ mod tests {
 
                 let token = vec.into_iter().next().unwrap();
                 let value = match token {
-                    Token::Num { value, .. } => value,
+                    TokenType::Num { value, .. } => value,
                     _ => {
                         panic!("expected num token in test")
                     }
@@ -807,7 +807,7 @@ mod tests {
                 assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
                 assert_ne!(
-                    vec![Token::Num {
+                    vec![TokenType::Num {
                         value: expected,
                         raw: expected.to_string().into()
                     }],

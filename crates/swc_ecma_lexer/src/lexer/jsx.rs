@@ -2,6 +2,7 @@ use either::Either;
 use smartstring::{LazyCompact, SmartString};
 
 use super::*;
+use crate::token::Token;
 
 impl Lexer<'_> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
@@ -38,7 +39,7 @@ impl Lexer<'_> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagStart));
+                            return Ok(Some(TokenType::JSXTagStart));
                         }
                         return self.read_token();
                     }
@@ -66,7 +67,7 @@ impl Lexer<'_> {
                         self.atoms.atom(s)
                     };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Some(TokenType::JSXText { raw, value }));
                 }
                 '>' => {
                     self.emit_error(
@@ -348,7 +349,7 @@ impl Lexer<'_> {
             self.input.slice(start, end)
         };
 
-        Ok(Token::Str {
+        Ok(TokenType::Str {
             value,
             raw: self.atoms.atom(raw),
         })
@@ -375,7 +376,7 @@ impl Lexer<'_> {
             }
         });
 
-        Ok(Token::JSXName {
+        Ok(TokenType::JSXName {
             name: self.atoms.atom(slice),
         })
     }

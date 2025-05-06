@@ -309,7 +309,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    pub fn store(&mut self, token: Token) {
+    pub fn store(&mut self, token: TokenType) {
         debug_assert!(self.next.is_none());
         debug_assert!(self.cur.is_none());
         let span = self.prev_span;
@@ -322,7 +322,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[allow(dead_code)]
-    pub fn cur_debug(&self) -> Option<&Token> {
+    pub fn cur_debug(&self) -> Option<&TokenType> {
         self.cur.as_ref().map(|it| &it.token)
     }
 
@@ -336,7 +336,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     /// Returns current token.
-    pub fn bump(&mut self) -> Token {
+    pub fn bump(&mut self) -> TokenType {
         let prev = match self.cur.take() {
             Some(t) => t,
             None => unsafe {
@@ -355,7 +355,7 @@ impl<I: Tokens> Buffer<I> {
         self.cur.is_some()
     }
 
-    pub fn peek(&mut self) -> Option<&Token> {
+    pub fn peek(&mut self) -> Option<&TokenType> {
         debug_assert!(
             self.cur.is_some(),
             "parser should not call peek() without knowing current token"
@@ -392,7 +392,7 @@ impl<I: Tokens> Buffer<I> {
 
     /// Get current token. Returns `None` only on eof.
     #[inline]
-    pub fn cur(&mut self) -> Option<&Token> {
+    pub fn cur(&mut self) -> Option<&TokenType> {
         if self.cur.is_none() {
             // If we have peeked a token, take it instead of calling lexer.next()
             self.cur = self.next.take().or_else(|| self.iter.next());
@@ -464,7 +464,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn is(&mut self, expected: &Token) -> bool {
+    pub fn is(&mut self, expected: &TokenType) -> bool {
         match self.cur() {
             Some(t) => *expected == *t,
             _ => false,
@@ -472,7 +472,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn eat(&mut self, expected: &Token) -> bool {
+    pub fn eat(&mut self, expected: &TokenType) -> bool {
         let v = self.is(expected);
         if v {
             self.bump();

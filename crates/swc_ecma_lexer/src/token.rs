@@ -11,211 +11,120 @@ use swc_atoms::{atom, Atom, AtomStore};
 use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
-pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
 
-macro_rules! define_known_ident {
-    (
-        $(
-            $name:ident => $value:tt,
-        )*
-    ) => {
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-        #[non_exhaustive]
-        pub enum KnownIdent {
-            $(
-                $name
-            ),*
-        }
-
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! known_ident_token {
-            $(
-                ($value) => {
-                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
-                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
-                    ))
-                };
-            )*
-        }
-
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! known_ident {
-            $(
-                ($value) => {
-                    $crate::token::KnownIdent::$name
-                };
-            )*
-        }
-        #[allow(unused)]
-        #[macro_export]
-        macro_rules! ident_like {
-            $(
-                ($value) => {
-                    $crate::token::IdentLike::Known(
-                        $crate::token::KnownIdent::$name
-                    )
-                };
-            )*
-        }
-
-        static STR_TO_KNOWN_IDENT: phf::Map<&'static str, KnownIdent> = phf::phf_map! {
-            $(
-                $value => KnownIdent::$name,
-            )*
-        };
-
-        impl From<KnownIdent> for swc_atoms::Atom {
-
-            fn from(s: KnownIdent) -> Self {
-                match s {
-                    $(
-                        KnownIdent::$name => atom!($value),
-                    )*
-                }
-            }
-        }
-        impl From<KnownIdent> for &'static str {
-
-            fn from(s: KnownIdent) -> Self {
-                match s {
-                    $(
-                        KnownIdent::$name => $value,
-                    )*
-                }
-            }
-        }
-    };
-}
-
-define_known_ident!(
-    Abstract => "abstract",
-    As => "as",
-    Async => "async",
-    From => "from",
-    Of => "of",
-    Type => "type",
-    Global => "global",
-    Static => "static",
-    Using => "using",
-    Readonly => "readonly",
-    Unique => "unique",
-    Keyof => "keyof",
-    Declare => "declare",
-    Enum => "enum",
-    Is => "is",
-    Infer => "infer",
-    Symbol => "symbol",
-    Undefined => "undefined",
-    Interface => "interface",
-    Implements => "implements",
-    Asserts => "asserts",
-    Require => "require",
-    Get => "get",
-    Set => "set",
-    Any => "any",
-    Intrinsic => "intrinsic",
-    Unknown => "unknown",
-    String => "string",
-    Object => "object",
-    Number => "number",
-    Bigint => "bigint",
-    Boolean => "boolean",
-    Never => "never",
-    Assert => "assert",
-    Namespace => "namespace",
-    Accessor => "accessor",
-    Meta => "meta",
-    Target => "target",
-    Satisfies => "satisfies",
-    Package => "package",
-    Protected => "protected",
-    Private => "private",
-    Public => "public",
-);
-
-impl std::str::FromStr for KnownIdent {
-    type Err = ();
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        STR_TO_KNOWN_IDENT.get(s).cloned().ok_or(())
-    }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum WordKind {
-    Keyword(Keyword),
-
-    Null,
-    True,
-    False,
-
-    Ident(IdentKind),
-}
-
-impl From<Keyword> for WordKind {
-    #[inline(always)]
-    fn from(kwd: Keyword) -> Self {
-        Self::Keyword(kwd)
-    }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum IdentKind {
-    Known(KnownIdent),
-    Other,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub enum TokenKind {
-    Word(WordKind),
-    Arrow,
-    Hash,
-    At,
-    Dot,
-    DotDotDot,
-    Bang,
-    LParen,
-    RParen,
-    LBracket,
-    RBracket,
-    LBrace,
-    RBrace,
-    Semi,
-    Comma,
-    BackQuote,
-    Template,
-    Colon,
-    BinOp(BinOpToken),
-    AssignOp(AssignOp),
-    DollarLBrace,
-    QuestionMark,
-    PlusPlus,
-    MinusMinus,
-    Tilde,
-    Str,
-    /// We abuse `token.raw` for flags
-    Regex,
-    Num,
-    BigInt,
-
-    JSXName,
-    JSXText,
-    JSXTagStart,
-    JSXTagEnd,
-
-    Shebang,
-    Error,
-}
-
 #[derive(Clone, PartialEq)]
-pub enum Token {
-    /// Identifier, "null", "true", "false".
-    ///
-    /// Contains `null` and ``
-    Word(Word),
+pub struct Token {
+    pub kind: TokenType,
+    pub span: Span,
+    /// Had a line break before this token?
+    pub had_line_break: bool,
+    pub value: TokenValue,
+}
+
+#[derive(Clone, Copy, PartialEq)]
+#[repr(u8)]
+pub enum TokenType {
+    /// Spec says this might be identifier.
+    AwaitKeyword,
+    BreakKeyword,
+    CaseKeyword,
+    CatchKeyword,
+    ContinueKeyword,
+    DebuggerKeyword,
+    DefaultKeyword,
+    DoKeyword,
+    ElseKeyword,
+
+    FinallyKeyword,
+    ForKeyword,
+
+    FunctionKeyword,
+
+    IfKeyword,
+
+    ReturnKeyword,
+
+    SwitchKeyword,
+
+    ThrowKeyword,
+
+    TryKeyword,
+    VarKeyword,
+    LetKeyword,
+    ConstKeyword,
+    WhileKeyword,
+    WithKeyword,
+
+    NewKeyword,
+    ThisKeyword,
+    SuperKeyword,
+
+    ClassKeyword,
+
+    ExtendsKeyword,
+
+    ExportKeyword,
+    ImportKeyword,
+
+    /// Spec says this might be identifier.
+    YieldKeyword,
+
+    InKeyword,
+    InstanceOfKeyword,
+    TypeOfKeyword,
+    VoidKeyword,
+    DeleteKeyword,
+
+    NullWord,
+    TrueWord,
+    FalseWord,
+
+    Abstract,
+    As,
+    Async,
+    From,
+    Of,
+    Type,
+    Global,
+    Static,
+    Using,
+    Readonly,
+    Unique,
+    Keyof,
+    Declare,
+    Enum,
+    Is,
+    Infer,
+    Symbol,
+    Undefined,
+    Interface,
+    Implements,
+    Asserts,
+    Require,
+    Get,
+    Set,
+    Any,
+    Intrinsic,
+    Unknown,
+    String,
+    Object,
+    Number,
+    Bigint,
+    Boolean,
+    Never,
+    Assert,
+    Namespace,
+    Accessor,
+    Meta,
+    Target,
+    Satisfies,
+    Package,
+    Protected,
+    Private,
+    Public,
+
+    UnknownIdent,
 
     /// '=>'
     Arrow,
@@ -253,14 +162,103 @@ pub enum Token {
 
     /// '`'
     BackQuote,
-    Template {
-        raw: Atom,
-        cooked: LexResult<Atom>,
-    },
+    Template,
     /// ':'
     Colon,
-    BinOp(BinOpToken),
-    AssignOp(AssignOp),
+    /// `==`
+    EqEq,
+    /// `!=`
+    NotEq,
+    /// `===`
+    EqEqEq,
+    /// `!==`
+    NotEqEq,
+    /// `<`
+    Lt,
+    /// `<=`
+    LtEq,
+    /// `>`
+    Gt,
+    /// `>=`
+    GtEq,
+    /// `<<`
+    LShift,
+    /// `>>`
+    RShift,
+    /// `>>>`
+    ZeroFillRShift,
+
+    /// `+`
+    Add,
+    /// `-`
+    Sub,
+    /// `*`
+    Mul,
+    /// `/`
+    Div,
+    /// `%`
+    Mod,
+
+    /// `|`
+    BitOr,
+    /// `^`
+    BitXor,
+    /// `&`
+    BitAnd,
+
+    // /// `in`
+    // #[kind(precedence = "7")]
+    // In,
+    // /// `instanceof`
+    // #[kind(precedence = "7")]
+    // InstanceOf,
+    /// `**`
+    Exp,
+
+    /// `||`
+    LogicalOr,
+    /// `&&`
+    LogicalAnd,
+
+    /// `??`
+    NullishCoalescing,
+
+    /// `=`
+    Assign,
+    /// `+=`
+    AddAssign,
+    /// `-=`
+    SubAssign,
+    /// `*=`
+    MulAssign,
+    /// `/=`
+    DivAssign,
+    /// `%=`
+    ModAssign,
+    /// `<<=`
+    LShiftAssign,
+    /// `>>=`
+    RShiftAssign,
+    /// `>>>=`
+    ZeroFillRShiftAssign,
+    /// `|=`
+    BitOrAssign,
+    /// `^=`
+    BitXorAssign,
+    /// `&=`
+    BitAndAssign,
+
+    /// `**=`
+    ExpAssign,
+
+    /// `&&=`
+    AndAssign,
+
+    /// `||=`
+    OrAssign,
+
+    /// `??=`
+    NullishAssign,
 
     /// '${'
     DollarLBrace,
@@ -277,40 +275,41 @@ pub enum Token {
     Tilde,
 
     /// String literal. Span of this token contains quote.
-    Str {
-        value: Atom,
-        raw: Atom,
-    },
+    Str,
 
     /// Regexp literal.
-    Regex(Atom, Atom),
+    Regex,
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
-    Num {
-        value: f64,
-        raw: Atom,
-    },
+    Num,
 
-    BigInt {
-        value: Box<BigIntValue>,
-        raw: Atom,
-    },
+    BigInt,
 
-    JSXName {
-        name: Atom,
-    },
-    JSXText {
-        value: Atom,
-        raw: Atom,
-    },
+    JSXName,
+    JSXText,
     JSXTagStart,
     JSXTagEnd,
 
+    Shebang,
+    Error,
+}
+
+#[derive(Clone, PartialEq)]
+pub enum TokenValue {
+    None,
+    UnknownIdent(Atom),
+    Tempalte { raw: Atom, cooked: LexResult<Atom> },
+    Str { value: Atom, raw: Atom },
+    Regex(Atom, Atom),
+    Num { value: f64, raw: Atom },
+    BigInt { value: Box<BigIntValue>, raw: Atom },
+    JSXName { name: Atom },
+    JSXText { value: Atom, raw: Atom },
     Shebang(Atom),
     Error(Error),
 }
 
-impl Token {
+impl TokenType {
     pub fn kind(&self) -> TokenKind {
         match self {
             Self::Arrow => TokenKind::Arrow,
@@ -400,67 +399,6 @@ impl TokenKind {
     }
 }
 
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
-pub enum BinOpToken {
-    /// `==`
-    EqEq,
-    /// `!=`
-    NotEq,
-    /// `===`
-    EqEqEq,
-    /// `!==`
-    NotEqEq,
-    /// `<`
-    Lt,
-    /// `<=`
-    LtEq,
-    /// `>`
-    Gt,
-    /// `>=`
-    GtEq,
-    /// `<<`
-    LShift,
-    /// `>>`
-    RShift,
-    /// `>>>`
-    ZeroFillRShift,
-
-    /// `+`
-    Add,
-    /// `-`
-    Sub,
-    /// `*`
-    Mul,
-    /// `/`
-    Div,
-    /// `%`
-    Mod,
-
-    /// `|`
-    BitOr,
-    /// `^`
-    BitXor,
-    /// `&`
-    BitAnd,
-
-    // /// `in`
-    // #[kind(precedence = "7")]
-    // In,
-    // /// `instanceof`
-    // #[kind(precedence = "7")]
-    // InstanceOf,
-    /// `**`
-    Exp,
-
-    /// `||`
-    LogicalOr,
-    /// `&&`
-    LogicalAnd,
-
-    /// `??`
-    NullishCoalescing,
-}
-
 impl BinOpToken {
     pub(crate) const fn starts_expr(self) -> bool {
         matches!(self, Self::Add | Self::Sub)
@@ -469,38 +407,6 @@ impl BinOpToken {
     pub(crate) const fn before_expr(self) -> bool {
         true
     }
-}
-
-#[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
-    pub token: Token,
-    /// Had a line break before this token?
-    pub had_line_break: bool,
-    pub span: Span,
-}
-
-impl Spanned for TokenAndSpan {
-    #[inline]
-    fn span(&self) -> Span {
-        self.span
-    }
-}
-
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub enum Word {
-    Keyword(Keyword),
-
-    Null,
-    True,
-    False,
-
-    Ident(IdentLike),
-}
-
-#[derive(Clone, PartialEq, Eq, Hash)]
-pub enum IdentLike {
-    Known(KnownIdent),
-    Other(Atom),
 }
 
 impl From<&'_ str> for IdentLike {
@@ -781,61 +687,6 @@ declare_keyword!(
     Delete => "delete",
 );
 
-/// Keywords
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-pub enum Keyword {
-    /// Spec says this might be identifier.
-    Await,
-    Break,
-    Case,
-    Catch,
-    Continue,
-    Debugger,
-    Default_,
-    Do,
-    Else,
-
-    Finally,
-    For,
-
-    Function,
-
-    If,
-
-    Return,
-
-    Switch,
-
-    Throw,
-
-    Try,
-    Var,
-    Let,
-    Const,
-    While,
-    With,
-
-    New,
-    This,
-    Super,
-
-    Class,
-
-    Extends,
-
-    Export,
-    Import,
-
-    /// Spec says this might be identifier.
-    Yield,
-
-    In,
-    InstanceOf,
-    TypeOf,
-    Void,
-    Delete,
-}
-
 impl Keyword {
     pub(crate) const fn before_expr(self) -> bool {
         matches!(
@@ -946,13 +797,13 @@ impl Word {
     }
 }
 
-impl Debug for Token {
+impl Debug for TokenType {
     /// This method is called only in the case of parsing failure.
     #[cold]
     #[inline(never)]
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Token::Word(w) => write!(f, "{:?}", w)?,
+            TokenType::Word(w) => write!(f, "{:?}", w)?,
             Arrow => write!(f, "=>")?,
             Hash => write!(f, "#")?,
             At => write!(f, "@")?,
@@ -986,7 +837,7 @@ impl Debug for Token {
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,
-            Token::Error(e) => write!(f, "<lexing error: {:?}>", e)?,
+            TokenType::Error(e) => write!(f, "<lexing error: {:?}>", e)?,
         }
 
         Ok(())
