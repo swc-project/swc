@@ -54,6 +54,12 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan>;
 }
 
 #[derive(Clone)]
@@ -160,6 +166,14 @@ impl Tokens for TokensInput {
             .last()
             .map(|t| t.span.hi)
             .unwrap_or(self.start_pos)
+    }
+
+    fn rescan_template_token(
+        &mut self,
+        _start: BytePos,
+        _start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unreachable!()
     }
 }
 
@@ -285,6 +299,14 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn end_pos(&self) -> BytePos {
         self.inner.end_pos()
     }
+
+    fn rescan_template_token(
+        &mut self,
+        _start: BytePos,
+        _start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unreachable!()
+    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -398,6 +420,19 @@ impl<I: Tokens> Buffer<I> {
             self.cur = self.next.take().or_else(|| self.iter.next());
         }
 
+        match &self.cur {
+            Some(v) => Some(&v.token),
+            None => None,
+        }
+    }
+
+    pub fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<&Token> {
+        debug_assert!(self.cur.is_some());
+        self.cur = self.iter.rescan_template_token(start, start_with_back_tick);
         match &self.cur {
             Some(v) => Some(&v.token),
             None => None,

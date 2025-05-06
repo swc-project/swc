@@ -1,8 +1,9 @@
 use std::mem::take;
 
-use smallvec::{smallvec, SmallVec};
+use smallvec::smallvec;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
+use swc_ecma_lexer::{TokenContext, TokenContexts, *};
 use tracing::trace;
 
 use super::{
@@ -11,10 +12,9 @@ use super::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    input::Tokens,
     lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    Syntax, *,
+    Syntax, Tokens,
 };
 
 /// State of lexer.
@@ -34,92 +34,11 @@ pub(super) struct State {
     pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
-    pub tpl_start: BytePos,
 
     context: TokenContexts,
     syntax: Syntax,
 
     token_type: Option<TokenType>,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub enum TokenType {
-    Template,
-    Dot,
-    Colon,
-    LBrace,
-    RParen,
-    Semi,
-    BinOp(BinOpToken),
-    Keyword(Keyword),
-    JSXName,
-    JSXText,
-    JSXTagStart,
-    JSXTagEnd,
-    Arrow,
-    Other {
-        before_expr: bool,
-        can_have_trailing_comment: bool,
-    },
-}
-impl TokenType {
-    #[inline]
-    pub const fn before_expr(self) -> bool {
-        match self {
-            TokenType::JSXName
-            | TokenType::JSXTagStart
-            | TokenType::JSXTagEnd
-            | TokenType::Template
-            | TokenType::Dot
-            | TokenType::RParen => false,
-
-            TokenType::JSXText
-            | TokenType::Colon
-            | TokenType::LBrace
-            | TokenType::Semi
-            | TokenType::Arrow => true,
-
-            TokenType::BinOp(b) => b.before_expr(),
-            TokenType::Keyword(k) => k.before_expr(),
-            TokenType::Other { before_expr, .. } => before_expr,
-        }
-    }
-}
-
-impl From<TokenKind> for TokenType {
-    #[inline]
-    fn from(t: TokenKind) -> Self {
-        match t {
-            TokenKind::Template { .. } => TokenType::Template,
-            TokenKind::Dot => TokenType::Dot,
-            TokenKind::Colon => TokenType::Colon,
-            TokenKind::LBrace => TokenType::LBrace,
-            TokenKind::RParen => TokenType::RParen,
-            TokenKind::Semi => TokenType::Semi,
-            TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
-            TokenKind::JSXTagStart => TokenType::JSXTagStart,
-            TokenKind::JSXText { .. } => TokenType::JSXText,
-            TokenKind::JSXName { .. } => TokenType::JSXName,
-            TokenKind::BinOp(op) => TokenType::BinOp(op),
-            TokenKind::Arrow => TokenType::Arrow,
-
-            TokenKind::Word(WordKind::Keyword(k)) => TokenType::Keyword(k),
-            _ => TokenType::Other {
-                before_expr: t.before_expr(),
-                can_have_trailing_comment: matches!(
-                    t,
-                    TokenKind::Num { .. }
-                        | TokenKind::Str { .. }
-                        | TokenKind::Word(WordKind::Ident(..))
-                        | TokenKind::DollarLBrace
-                        | TokenKind::Regex
-                        | TokenKind::BigInt { .. }
-                        | TokenKind::JSXText { .. }
-                        | TokenKind::RBrace
-                ),
-            },
-        }
-    }
 }
 
 impl Tokens for Lexer<'_> {
@@ -203,10 +122,42 @@ impl Tokens for Lexer<'_> {
 
     fn rescan_template_token(
         &mut self,
-        _start: BytePos,
-        _start_with_back_tick: bool,
+        start: BytePos,
+        start_with_back_tick: bool,
     ) -> Option<TokenAndSpan> {
-        unreachable!()
+        unsafe { self.input.reset_to(start) };
+
+        let res = self
+            .scan_template_token(start, start_with_back_tick)
+            .map(Some);
+        let token = match res.map_err(Token::Error).map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(ref token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.update(token.kind());
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
     }
 }
 
@@ -349,11 +300,6 @@ impl Lexer<'_> {
             }
         }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
-
         self.read_token()
     }
 }
@@ -383,7 +329,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token.kind());
+            self.state.update(token.kind());
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -413,7 +359,6 @@ impl State {
             cur_line: 1,
             line_start: BytePos(0),
             prev_hi: start_pos,
-            tpl_start: BytePos::DUMMY,
             context,
             syntax,
             token_type: None,
@@ -449,11 +394,7 @@ impl State {
         }
     }
 
-    pub fn last_was_tpl_element(&self) -> bool {
-        matches!(self.token_type, Some(TokenType::Template))
-    }
-
-    fn update(&mut self, start: BytePos, next: TokenKind) {
+    fn update(&mut self, next: TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -465,17 +406,12 @@ impl State {
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 
-        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
+        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, next);
     }
 
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
-    fn is_expr_allowed_on_next(
-        &mut self,
-        prev: Option<TokenType>,
-        start: BytePos,
-        next: TokenKind,
-    ) -> bool {
+    fn is_expr_allowed_on_next(&mut self, prev: Option<TokenType>, next: TokenKind) -> bool {
         let State {
             ref mut context,
             had_line_break,
@@ -642,7 +578,7 @@ impl State {
                     if let Some(TokenContext::Tpl { .. }) = context.current() {
                         context.pop();
                     } else {
-                        self.tpl_start = start;
+                        // self.tpl_start = start;
                         context.push(TokenContext::Tpl);
                     }
                     false
@@ -673,223 +609,4 @@ impl State {
             }
         }
     }
-}
-
-#[derive(Clone, Default)]
-pub struct TokenContexts(pub SmallVec<[TokenContext; 128]>);
-
-impl TokenContexts {
-    /// Returns true if following `LBrace` token is `block statement` according
-    /// to  `ctx`, `prev`, `is_expr_allowed`.
-    pub fn is_brace_block(
-        &self,
-        prev: Option<TokenType>,
-        had_line_break: bool,
-        is_expr_allowed: bool,
-    ) -> bool {
-        if let Some(TokenType::Colon) = prev {
-            match self.current() {
-                Some(TokenContext::BraceStmt) => return true,
-                // `{ a: {} }`
-                //     ^ ^
-                Some(TokenContext::BraceExpr) => return false,
-                _ => {}
-            };
-        }
-
-        match prev {
-            //  function a() {
-            //      return { a: "" };
-            //  }
-            //  function a() {
-            //      return
-            //      {
-            //          function b(){}
-            //      };
-            //  }
-            Some(TokenType::Keyword(Keyword::Return))
-            | Some(TokenType::Keyword(Keyword::Yield)) => {
-                return had_line_break;
-            }
-
-            Some(TokenType::Keyword(Keyword::Else))
-            | Some(TokenType::Semi)
-            | None
-            | Some(TokenType::RParen) => {
-                return true;
-            }
-
-            // If previous token was `{`
-            Some(TokenType::LBrace) => {
-                // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
-                // <Blah blah={function (): void {}} />
-                if self.current() == Some(TokenContext::BraceExpr) {
-                    let len = self.len();
-                    if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
-                        return true;
-                    }
-                }
-
-                return self.current() == Some(TokenContext::BraceStmt);
-            }
-
-            // `class C<T> { ... }`
-            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
-                return true
-            }
-
-            // () => {}
-            Some(TokenType::Arrow) => return true,
-            _ => {}
-        }
-
-        if had_line_break {
-            if let Some(TokenType::Other {
-                before_expr: false, ..
-            }) = prev
-            {
-                return true;
-            }
-        }
-
-        !is_expr_allowed
-    }
-
-    #[inline]
-    pub fn len(&self) -> usize {
-        self.0.len()
-    }
-
-    #[inline]
-    pub fn is_empty(&self) -> bool {
-        self.0.is_empty()
-    }
-
-    #[inline]
-    pub fn pop(&mut self) -> Option<TokenContext> {
-        let opt = self.0.pop();
-        if cfg!(feature = "debug") {
-            trace!("context.pop({:?}): {:?}", opt, self.0);
-        }
-        opt
-    }
-
-    #[inline]
-    pub fn current(&self) -> Option<TokenContext> {
-        self.0.last().cloned()
-    }
-
-    #[inline]
-    pub fn push(&mut self, t: TokenContext) {
-        self.0.push(t);
-
-        if cfg!(feature = "debug") {
-            trace!("context.push({:?}): {:?}", t, self.0);
-        }
-    }
-}
-
-/// The algorithm used to determine whether a regexp can appear at a
-/// given point in the program is loosely based on sweet.js' approach.
-/// See https://github.com/mozilla/sweet.js/wiki/design
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum TokenContext {
-    BraceStmt,
-    BraceExpr,
-    TplQuasi,
-    ParenStmt {
-        /// Is this `for` loop?
-        is_for_loop: bool,
-    },
-    ParenExpr,
-    Tpl,
-    FnExpr,
-    ClassExpr,
-    JSXOpeningTag,
-    JSXClosingTag,
-    JSXExpr,
-}
-
-impl TokenContext {
-    pub const fn is_expr(&self) -> bool {
-        matches!(
-            self,
-            Self::BraceExpr
-                | Self::TplQuasi
-                | Self::ParenExpr
-                | Self::Tpl
-                | Self::FnExpr
-                | Self::ClassExpr
-                | Self::JSXExpr
-        )
-    }
-
-    pub const fn preserve_space(&self) -> bool {
-        match self {
-            Self::Tpl | Self::JSXExpr => true,
-            _ => false,
-        }
-    }
-}
-
-#[cfg(test)]
-pub(crate) fn with_lexer<F, Ret>(
-    syntax: Syntax,
-    target: EsVersion,
-    s: &str,
-    f: F,
-) -> Result<Ret, ::testing::StdErr>
-where
-    F: FnOnce(&mut Lexer<'_>) -> Result<Ret, ()>,
-{
-    crate::with_test_sess(s, |_, fm| {
-        let mut l = Lexer::new(syntax, target, fm, None);
-        let res = f(&mut l);
-
-        #[cfg(debug_assertions)]
-        let c = TokenContexts(smallvec![TokenContext::BraceStmt]);
-        #[cfg(debug_assertions)]
-        debug_assert_eq!(l.state.context.0, c.0);
-
-        res
-    })
-}
-
-#[cfg(test)]
-pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, Default::default(), s, |l| Ok(l.collect())).unwrap()
-}
-
-/// lex `s` within module context.
-#[cfg(test)]
-pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
-    with_lexer(syntax, Default::default(), s, |l| {
-        l.ctx.insert(Context::Module);
-        l.ctx.insert(Context::Strict);
-
-        let _: Vec<_> = l.collect();
-
-        Ok(l.take_errors())
-    })
-    .unwrap()
-}
-
-#[cfg(test)]
-pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
-    with_lexer(syntax, Default::default(), s, |l| {
-        Ok(l.map(|ts| ts.token).collect())
-    })
-    .unwrap()
-}
-
-/// Returns `(tokens, recovered_errors)`. `(tokens)` may contain an error token
-/// if the lexer fails to recover from it.
-#[cfg(test)]
-pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
-    with_lexer(syntax, EsVersion::Es2020, s, |l| {
-        let tokens = l.map(|ts| ts.token).collect();
-        let errors = l.take_errors();
-        Ok((tokens, errors))
-    })
-    .unwrap()
 }
