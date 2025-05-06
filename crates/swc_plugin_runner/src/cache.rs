@@ -12,7 +12,7 @@ use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_common::sync::{Lazy, OnceCell};
 #[cfg(not(target_arch = "wasm32"))]
-use wasmer::{sys::BaseTunables, CpuFeature, Engine, Target, Triple};
+use wasmer::{sys::BaseTunables, sys::CpuFeature, sys::Target, sys::Triple, Engine};
 use wasmer::{Module, Store};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
