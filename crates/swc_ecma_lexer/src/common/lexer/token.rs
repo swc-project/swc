@@ -54,6 +54,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn nullish_coalescing() -> Self;
     fn question() -> Self;
     fn colon() -> Self;
+    fn comma() -> Self;
     fn bit_and() -> Self;
     fn bit_and_eq() -> Self;
     fn bit_or() -> Self;

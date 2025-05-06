@@ -1359,18 +1359,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         })
     }
 
-    fn parse_class_prop_name(&mut self) -> PResult<Key> {
-        if is!(self, '#') {
-            let name = self.parse_private_name()?;
-            if name.name == "constructor" {
-                self.emit_err(name.span, SyntaxError::PrivateConstructor);
-            }
-            Ok(Key::Private(name))
-        } else {
-            self.parse_prop_name().map(Key::Public)
-        }
-    }
-
     pub(super) fn parse_fn_body<T>(
         &mut self,
         is_async: bool,

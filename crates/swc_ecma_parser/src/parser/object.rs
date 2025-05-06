@@ -4,7 +4,7 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_lexer::common::parser::is_not_this;
 
 use super::*;
-use crate::{parser::Parser, token};
+use crate::parser::Parser;
 
 impl<I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
@@ -34,95 +34,6 @@ impl<I: Tokens> Parser<I> {
             }
 
             p.make_object(span!(p, start), props, trailing_comma)
-        })
-    }
-
-    /// spec: 'PropertyName'
-    pub(super) fn parse_prop_name(&mut self) -> PResult<PropName> {
-        trace_cur!(self, parse_prop_name);
-
-        let ctx = self.ctx() | Context::InPropertyName;
-        self.with_ctx(ctx).parse_with(|p| {
-            let start = cur_pos!(p);
-
-            let t = *cur!(p, true);
-            let v = match t {
-                Token::Str => match bump!(p) {
-                    Token::Str => {
-                        let (value, raw) = p.input.expect_string_token_value();
-                        PropName::Str(Str {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
-                    _ => unreachable!(),
-                },
-                Token::Num => match bump!(p) {
-                    Token::Num => {
-                        let (value, raw) = p.input.expect_number_token_value();
-                        PropName::Num(Number {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
-                    _ => unreachable!(),
-                },
-                Token::BigInt => match bump!(p) {
-                    Token::BigInt => {
-                        let (value, raw) = p.input.expect_bigint_token_value();
-                        PropName::BigInt(BigInt {
-                            span: span!(p, start),
-                            value,
-                            raw: Some(raw),
-                        })
-                    }
-                    _ => unreachable!(),
-                },
-                _ if t.is_word() => {
-                    bump!(p);
-                    let name = t.as_word_atom(p.input.get_token_value()).unwrap();
-                    PropName::Ident(IdentName::new(name, span!(p, start)))
-                }
-                token!('[') => {
-                    bump!(p);
-                    let inner_start = cur_pos!(p);
-
-                    let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
-
-                    if p.syntax().typescript() && is!(p, ',') {
-                        let mut exprs = vec![expr];
-
-                        while eat!(p, ',') {
-                            exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
-                        }
-
-                        p.emit_err(span!(p, inner_start), SyntaxError::TS1171);
-
-                        expr = Box::new(
-                            SeqExpr {
-                                span: span!(p, inner_start),
-                                exprs,
-                            }
-                            .into(),
-                        );
-                    }
-
-                    expect!(p, ']');
-
-                    PropName::Computed(ComputedPropName {
-                        span: span!(p, start),
-                        expr,
-                    })
-                }
-                _ => unexpected!(
-                    p,
-                    "identifier, string literal, numeric literal or [ for the computed key"
-                ),
-            };
-
-            Ok(v)
         })
     }
 }

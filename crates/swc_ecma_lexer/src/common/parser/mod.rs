@@ -5,11 +5,12 @@ use pat_type::PatType;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BindingIdent,
-    EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid, JSXAttrName, JSXElementName,
-    JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXText, KeyValuePatProp, Lit,
-    ModuleExportName, Null, ObjectLit, ObjectPat, ObjectPatProp, Pat, PrivateName, Prop,
-    PropOrSpread, RestPat, SpreadElement, TplElement, TsThisType,
+    ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
+    BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid,
+    JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
+    JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
+    ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
+    Str, TplElement, TsThisType,
 };
 
 use self::{
@@ -19,7 +20,10 @@ use self::{
     token_and_span::TokenAndSpan,
 };
 use super::{context::Context, input::Tokens, lexer::token::TokenFactory};
-use crate::{error::SyntaxError, Syntax};
+use crate::{
+    error::{Error, SyntaxError},
+    Syntax,
+};
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
@@ -67,10 +71,7 @@ pub trait Parser<'a>: Sized + Clone {
     fn state_mut(&mut self) -> &mut State;
 
     #[inline(always)]
-    fn with_state<'w>(
-        &'w mut self,
-        state: State,
-    ) -> WithState<'a, 'w, Self::TokenAndSpan, Self::I, Self> {
+    fn with_state<'w>(&'w mut self, state: State) -> WithState<'a, 'w, Self> {
         let orig_state = std::mem::replace(self.state_mut(), state);
         WithState {
             orig_state,
@@ -86,10 +87,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
-    fn with_ctx<'w>(
-        &'w mut self,
-        ctx: Context,
-    ) -> WithCtx<'a, 'w, Self::TokenAndSpan, Self::I, Self> {
+    fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'a, 'w, Self> {
         let orig_ctx = self.ctx();
         self.set_ctx(ctx);
         WithCtx {
@@ -105,24 +103,21 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn strict_mode<'w>(&'w mut self) -> WithCtx<'a, 'w, Self::TokenAndSpan, Self::I, Self> {
+    fn strict_mode<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
         let ctx = self.ctx() | Context::Strict;
         self.with_ctx(ctx)
     }
 
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
-    fn in_type<'w>(&'w mut self) -> WithCtx<'a, 'w, Self::TokenAndSpan, Self::I, Self> {
+    fn in_type<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
         let ctx = self.ctx() | Context::InType;
         self.with_ctx(ctx)
     }
 
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
-    fn include_in_expr<'w>(
-        &'w mut self,
-        include_in_expr: bool,
-    ) -> WithCtx<'a, 'w, Self::TokenAndSpan, Self::I, Self> {
+    fn include_in_expr<'w>(&'w mut self, include_in_expr: bool) -> WithCtx<'a, 'w, Self> {
         let mut ctx = self.ctx();
         ctx.set(Context::IncludeInExpr, include_in_expr);
         self.with_ctx(ctx)
@@ -733,6 +728,116 @@ pub trait Parser<'a>: Sized + Clone {
         }
         Ok(params)
     }
+
+    /// spec: 'PropertyName'
+    fn parse_prop_name(&mut self) -> PResult<PropName> {
+        trace_cur!(self, parse_prop_name);
+        let ctx = self.ctx() | Context::InPropertyName;
+        self.with_ctx(ctx).parse_with(|p| {
+            let start = p.input_mut().cur_pos();
+            let cur = cur!(p, true);
+            let v = if cur.is_str() {
+                let t = p.bump();
+                let (value, raw) = t.take_str(p.input_mut());
+                PropName::Str(Str {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_num() {
+                let t = p.bump();
+                let (value, raw) = t.take_num(p.input_mut());
+                PropName::Num(Number {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_bigint() {
+                let t = p.bump();
+                let (value, raw) = t.take_bigint(p.input_mut());
+                PropName::BigInt(BigInt {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_word() {
+                let t = p.bump();
+                let w = t.take_word(p.input_mut()).unwrap();
+                PropName::Ident(IdentName::new(w, p.span(start)))
+            } else if cur.is_lbracket() {
+                p.bump();
+                let inner_start = p.input_mut().cur_pos();
+                let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
+                if p.syntax().typescript() && p.input_mut().is(&Self::Token::comma()) {
+                    let mut exprs = vec![expr];
+                    while p.input_mut().eat(&Self::Token::comma()) {
+                        //
+                        exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
+                    }
+                    p.emit_err(p.span(inner_start), SyntaxError::TS1171);
+                    expr = Box::new(
+                        SeqExpr {
+                            span: p.span(inner_start),
+                            exprs,
+                        }
+                        .into(),
+                    );
+                }
+                expect!(p, &Self::Token::rbracket());
+                PropName::Computed(ComputedPropName {
+                    span: p.span(start),
+                    expr,
+                })
+            } else {
+                unexpected!(
+                    p,
+                    "identifier, string literal, numeric literal or [ for the computed key"
+                )
+            };
+            Ok(v)
+        })
+    }
+
+    /// AssignmentExpression[+In, ?Yield, ?Await]
+    /// ...AssignmentExpression[+In, ?Yield, ?Await]
+    fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
+        trace_cur!(self, parse_expr_or_spread);
+        let start = self.input_mut().cur_pos();
+        if self.input_mut().eat(&Self::Token::dotdotdot()) {
+            let spread_span = self.span(start);
+            let spread = Some(spread_span);
+            self.include_in_expr(true)
+                .parse_assignment_expr()
+                .map_err(|err| {
+                    Error::new(
+                        err.span(),
+                        SyntaxError::WithLabel {
+                            inner: Box::new(err),
+                            span: spread_span,
+                            note: "An expression should follow '...'",
+                        },
+                    )
+                })
+                .map(|expr| ExprOrSpread { spread, expr })
+        } else {
+            self.parse_assignment_expr()
+                .map(|expr| ExprOrSpread { spread: None, expr })
+        }
+    }
+
+    fn parse_class_prop_name(&mut self) -> PResult<Key> {
+        if self.input_mut().is(&Self::Token::hash()) {
+            let name = self.parse_private_name()?;
+            if name.name == "constructor" {
+                self.emit_err(name.span, SyntaxError::PrivateConstructor);
+            }
+            Ok(Key::Private(name))
+        } else {
+            self.parse_prop_name().map(Key::Public)
+        }
+    }
+
+    fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>>;
 }
 
 fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
