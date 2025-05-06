@@ -25,7 +25,7 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "9.0.0", path = "../swc_common", features = [
+swc_common = { version = "9.1.0", path = "../swc_common", features = [
   "sourcemap",
   "tty-emitter",
 ] }
