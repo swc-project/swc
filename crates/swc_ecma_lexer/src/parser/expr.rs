@@ -5,8 +5,12 @@ use swc_common::{util::take::Take, Spanned};
 use super::*;
 use crate::{
     common::parser::{
-        assign_target_or_spread::AssignTargetOrSpread, expr_ext::ExprExt,
-        is_simple_param_list::IsSimpleParameterList, pat_type::PatType, unwrap_ts_non_null,
+        assign_target_or_spread::AssignTargetOrSpread,
+        expr::{at_possible_async, parse_array_lit, parse_yield_expr},
+        expr_ext::ExprExt,
+        is_simple_param_list::IsSimpleParameterList,
+        pat_type::PatType,
+        unwrap_ts_non_null,
     },
     lexer::TokenContext,
     tok,
@@ -16,27 +20,7 @@ mod ops;
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_expr);
-
-        let _tracing = debug_tracing!(self, "parse_expr");
-
-        let expr = self.parse_assignment_expr()?;
-        let start = expr.span_lo();
-
-        if is!(self, ',') {
-            let mut exprs = vec![expr];
-            while eat!(self, ',') {
-                exprs.push(self.parse_assignment_expr()?);
-            }
-
-            return Ok(SeqExpr {
-                span: span!(self, start),
-                exprs,
-            }
-            .into());
-        }
-
-        Ok(expr)
+        ParserTrait::parse_expr(self)
     }
 
     ///`parseMaybeAssign` (overridden)
@@ -127,7 +111,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }
 
         if self.ctx().contains(Context::InGenerator) && is!(self, "yield") {
-            return self.parse_yield_expr();
+            return parse_yield_expr(self);
         }
 
         self.state.potential_arrow_start = match *cur!(self, true) {
@@ -297,7 +281,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
                 tok!('[') => {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
-                    return self.with_ctx(ctx).parse_array_lit();
+                    return self.with_ctx(ctx).parse_with(parse_array_lit);
                 }
 
                 tok!('{') => {
@@ -486,42 +470,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }
 
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
-    }
-
-    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_array_lit);
-
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, '[');
-        let mut elems = Vec::with_capacity(8);
-
-        while !eof!(self) && !is!(self, ']') {
-            if is!(self, ',') {
-                expect!(self, ',');
-                elems.push(None);
-                continue;
-            }
-            elems.push(
-                self.include_in_expr(true)
-                    .parse_expr_or_spread()
-                    .map(Some)?,
-            );
-            if !is!(self, ']') {
-                expect!(self, ',');
-                if is!(self, ']') {
-                    self.state
-                        .trailing_commas
-                        .insert(start, self.input.prev_span());
-                }
-            }
-        }
-
-        expect!(self, ']');
-
-        let span = span!(self, start);
-        Ok(ArrayLit { span, elems }.into())
     }
 
     #[allow(dead_code)]
@@ -1105,10 +1053,13 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 let ctx = self.ctx() | Context::ShouldNotLexLtOrGtAsType;
                 let result = self.with_ctx(ctx).try_parse_ts(|p| {
                     if !no_call
-                        && p.at_possible_async(match &mut_obj_opt {
-                            Some(Callee::Expr(ref expr)) => expr,
-                            _ => unreachable!(),
-                        })?
+                        && at_possible_async(
+                            p,
+                            match &mut_obj_opt {
+                                Some(Callee::Expr(ref expr)) => expr,
+                                _ => unreachable!(),
+                            },
+                        )?
                     {
                         // Almost certainly this is a generic async function `async <T>() => ...
                         // But it might be a call with a type argument `async<T>();`
@@ -1893,66 +1844,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
 /// simple leaf methods.
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, "yield");
-        debug_assert!(self.ctx().contains(Context::InGenerator));
-
-        // Spec says
-        // YieldExpression cannot be used within the FormalParameters of a generator
-        // function because any expressions that are part of FormalParameters are
-        // evaluated before the resulting generator object is in a resumable state.
-        if self.ctx().contains(Context::InParameters) && !self.ctx().contains(Context::InFunction) {
-            syntax_error!(self, self.input.prev_span(), SyntaxError::YieldParamInGen)
-        }
-
-        if is!(self, ';')
-            || (!is!(self, '<')
-                && !is!(self, '*')
-                && !is!(self, '/')
-                && !is!(self, "/=")
-                && !cur!(self, false)
-                    .map(|t| t.kind().starts_expr())
-                    .unwrap_or(true))
-        {
-            Ok(YieldExpr {
-                span: span!(self, start),
-                arg: None,
-                delegate: false,
-            }
-            .into())
-        } else {
-            let has_star = eat!(self, '*');
-            let err_span = span!(self, start);
-
-            let arg = self.parse_assignment_expr().map_err(|err| {
-                Error::new(
-                    err.span(),
-                    SyntaxError::WithLabel {
-                        inner: Box::new(err),
-                        span: err_span,
-                        note: "Tried to parse an argument of yield",
-                    },
-                )
-            })?;
-
-            Ok(YieldExpr {
-                span: span!(self, start),
-                arg: Some(arg),
-                delegate: has_star,
-            }
-            .into())
-        }
-    }
-
-    fn at_possible_async(&mut self, expr: &Expr) -> PResult<bool> {
-        // TODO(kdy1): !this.state.containsEsc &&
-
-        Ok(self.state.potential_arrow_start == Some(expr.span_lo())
-            && expr.is_ident_ref_to("async"))
-    }
-
     pub(super) fn parse_dynamic_import_or_import_meta(
         &mut self,
         start: BytePos,

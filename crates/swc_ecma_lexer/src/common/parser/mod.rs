@@ -1,6 +1,8 @@
 use assign_target_or_spread::AssignTargetOrSpread;
 use either::Either;
+use expr::is_start_of_left_hand_side_expr;
 use expr_ext::ExprExt;
+use pat::pat_is_valid_argument_in_strict;
 use pat_type::PatType;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
@@ -10,9 +12,13 @@ use swc_ecma_ast::{
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
     JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
     ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
-    Str, TplElement, TsEntityName, TsQualifiedName, TsThisType,
+    Str, TplElement, TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsType,
+    TsUnionOrIntersectionType, TsUnionType,
 };
-use typescript::{try_parse_ts_bool, ParsingContext};
+use typescript::{
+    parse_ts_delimited_list_inner, try_parse_ts_bool, ts_next_token_can_follow_modifier,
+    ParsingContext, UnionOrIntersection,
+};
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
@@ -37,8 +43,10 @@ pub mod is_simple_param_list;
 #[macro_use]
 mod macros;
 pub mod assign_target_or_spread;
+pub mod expr;
 pub mod output_type;
 pub mod parse_object;
+mod pat;
 pub mod pat_type;
 pub mod state;
 pub mod token_and_span;
@@ -194,6 +202,14 @@ pub trait Parser<'a>: Sized + Clone {
         self.input().prev_span().hi
     }
 
+    #[inline]
+    fn is_general_semi(&mut self) -> bool {
+        let Some(cur) = self.input_mut().cur() else {
+            return true;
+        };
+        cur.is_semi() || cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+    }
+
     #[inline(always)]
     fn bump(&mut self) -> Self::Token {
         debug_assert!(
@@ -321,7 +337,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn assert_and_bump(&mut self, token: &Self::Token) -> PResult<Self::Token> {
+    fn assert_and_bump(&mut self, token: &Self::Token) -> PResult<()> {
         if cfg!(debug_assertions) && !self.input_mut().is(token) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
@@ -330,7 +346,8 @@ pub trait Parser<'a>: Sized + Clone {
             );
         }
         let _ = cur!(self, true);
-        Ok(self.input_mut().bump())
+        self.input_mut().bump();
+        Ok(())
     }
 
     /// IdentifierReference
@@ -842,22 +859,6 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>>;
 
-    /// `tsIsListTerminator`
-    fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<bool> {
-        debug_assert!(self.input().syntax().typescript());
-        let Some(cur) = self.input_mut().cur() else {
-            return Ok(false);
-        };
-        Ok(match kind {
-            ParsingContext::EnumMembers | ParsingContext::TypeMembers => cur.is_rbrace(),
-            ParsingContext::HeritageClauseElement { .. } => {
-                cur.is_lbrace() || cur.is_implements() || cur.is_extends()
-            }
-            ParsingContext::TupleElementTypes => cur.is_rbracket(),
-            ParsingContext::TypeParametersOrArguments => cur.is_greater(),
-        })
-    }
-
     /// `tsParseEntityName`
     fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input().syntax().typescript());
@@ -891,57 +892,110 @@ pub trait Parser<'a>: Sized + Clone {
         }
         Ok(entity)
     }
-}
 
-fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
-    let ctx = p.ctx();
-    let Some(cur) = p.input_mut().cur() else {
-        return false;
-    };
-    cur.is_this()
-        || cur.is_null()
-        || cur.is_super()
-        || cur.is_true()
-        || cur.is_false()
-        || cur.is_num()
-        || cur.is_bigint()
-        || cur.is_str()
-        || cur.is_backquote()
-        || cur.is_lparen()
-        || cur.is_lbrace()
-        || cur.is_lbracket()
-        || cur.is_function()
-        || cur.is_class()
-        || cur.is_new()
-        || cur.is_regexp()
-        || cur.is_ident_ref(ctx)
-        || cur.is_import() && {
-            peek!(p).is_some_and(|peek| peek.is_lparen() || peek.is_less() || peek.is_dot())
+    /// `tsParseDelimitedList`
+    fn parse_ts_delimited_list<T, F>(
+        &mut self,
+        kind: ParsingContext,
+        mut parse_element: F,
+    ) -> PResult<Vec<T>>
+    where
+        F: FnMut(&mut Self) -> PResult<T>,
+    {
+        parse_ts_delimited_list_inner(self, kind, |p| {
+            let start = p.input_mut().cur_pos();
+            Ok((start, parse_element(p)?))
+        })
+    }
+
+    fn parse_ts_bracketed_list<T, F>(
+        &mut self,
+        kind: ParsingContext,
+        parse_element: F,
+        bracket: bool,
+        skip_first_token: bool,
+    ) -> PResult<Vec<T>>
+    where
+        F: FnMut(&mut Self) -> PResult<T>,
+    {
+        debug_assert!(self.input().syntax().typescript());
+        if !skip_first_token {
+            if bracket {
+                expect!(self, &Self::Token::lbracket());
+            } else {
+                expect!(self, &Self::Token::less());
+            }
         }
-}
+        let result = self.parse_ts_delimited_list(kind, parse_element)?;
+        if bracket {
+            expect!(self, &Self::Token::rbracket());
+        } else {
+            expect!(self, &Self::Token::greater());
+        }
+        Ok(result)
+    }
 
-/// `tsNextTokenCanFollowModifier`
-fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
-    debug_assert!(p.input().syntax().typescript());
+    /// `tsParseUnionOrIntersectionType`
+    fn parse_ts_union_or_intersection_type<F>(
+        &mut self,
+        kind: UnionOrIntersection,
+        mut parse_constituent_type: F,
+        operator: &Self::Token,
+    ) -> PResult<Box<TsType>>
+    where
+        F: FnMut(&mut Self) -> PResult<Box<TsType>>,
+    {
+        trace_cur!(self, parse_ts_union_or_intersection_type);
+        debug_assert!(self.input().syntax().typescript());
+        let start = self.input_mut().cur_pos(); // include the leading operator in the start
+        self.input_mut().eat(operator);
+        trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
+        let ty = parse_constituent_type(self)?;
+        trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
+        if self.input_mut().is(operator) {
+            let mut types = vec![ty];
+            while self.input_mut().eat(operator) {
+                trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
+                types.push(parse_constituent_type(self)?);
+            }
+            return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
+                UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                    span: self.span(start),
+                    types,
+                }),
+                UnionOrIntersection::Intersection => {
+                    TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                        span: self.span(start),
+                        types,
+                    })
+                }
+            })));
+        }
+        Ok(ty)
+    }
 
-    // Note: TypeScript's implementation is much more complicated because
-    // more things are considered modifiers there.
-    // This implementation only handles modifiers not handled by @babel/parser
-    // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-    // hasLineBreakUpNext() method...
-    p.bump();
-    Ok(!p.input_mut().had_line_break_before_cur()
-        && p.input_mut().cur().is_some_and(|cur| {
-            cur.is_lbracket()
-                || cur.is_lbrace()
-                || cur.is_star()
-                || cur.is_dotdotdot()
-                || cur.is_hash()
-                || cur.is_word()
-                || cur.is_str()
-                || cur.is_num()
-                || cur.is_bigint()
-        }))
+    fn parse_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_expr);
+        debug_tracing!(self, "parse_expr");
+        let expr = self.parse_assignment_expr()?;
+        let start = expr.span_lo();
+
+        if self.input_mut().is(&Self::Token::comma()) {
+            let mut exprs = vec![expr];
+
+            while self.input_mut().eat(&Self::Token::comma()) {
+                exprs.push(self.parse_assignment_expr()?);
+            }
+
+            return Ok(SeqExpr {
+                span: self.span(start),
+                exprs,
+            }
+            .into());
+        }
+
+        Ok(expr)
+    }
 }
 
 fn reparse_expr_as_pat_inner<'a>(
@@ -1217,41 +1271,5 @@ fn reparse_expr_as_pat_inner<'a>(
 
             Ok(Invalid { span }.into())
         }
-    }
-}
-
-/// argument of arrow is pattern, although idents in pattern is already
-/// checked if is a keyword, it should also be checked if is arguments or
-/// eval
-fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
-    match pat {
-        Pat::Ident(i) => {
-            if i.is_reserved_in_strict_bind() {
-                p.emit_strict_mode_err(i.span, SyntaxError::EvalAndArgumentsInStrict)
-            }
-        }
-        Pat::Array(arr) => {
-            for pat in arr.elems.iter().flatten() {
-                pat_is_valid_argument_in_strict(p, pat)
-            }
-        }
-        Pat::Rest(r) => pat_is_valid_argument_in_strict(p, &r.arg),
-        Pat::Object(obj) => {
-            for prop in obj.props.iter() {
-                match prop {
-                    ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
-                    | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
-                        pat_is_valid_argument_in_strict(p, value)
-                    }
-                    ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        if key.is_reserved_in_strict_bind() {
-                            p.emit_strict_mode_err(key.span, SyntaxError::EvalAndArgumentsInStrict)
-                        }
-                    }
-                }
-            }
-        }
-        Pat::Assign(a) => pat_is_valid_argument_in_strict(p, &a.left),
-        Pat::Invalid(_) | Pat::Expr(_) => (),
     }
 }

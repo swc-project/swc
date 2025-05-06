@@ -1085,6 +1085,21 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     fn extends() -> Self {
         Self::Word(Word::Keyword(Keyword::Extends))
     }
+
+    #[inline(always)]
+    fn starts_expr(&self) -> bool {
+        self.kind().starts_expr()
+    }
+
+    #[inline(always)]
+    fn semi() -> Self {
+        Self::Semi
+    }
+
+    #[inline(always)]
+    fn to_string(&self, _: &Self::Buffer) -> String {
+        format!("{:?}", self)
+    }
 }
 
 impl Token {

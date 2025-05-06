@@ -9,108 +9,15 @@ use crate::{
     common::parser::{
         is_simple_param_list::IsSimpleParameterList,
         make_decl_declare,
-        typescript::{parse_ts_list, ParsingContext},
+        typescript::{
+            parse_ts_list, ts_in_no_context, ParsingContext, SignatureParsingMode,
+            UnionOrIntersection,
+        },
     },
     tok,
 };
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    /// `tsParseDelimitedList`
-    fn parse_ts_delimited_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        mut parse_element: F,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        self.parse_ts_delimited_list_inner(kind, |p| {
-            let start = p.input.cur_pos();
-
-            Ok((start, parse_element(p)?))
-        })
-    }
-
-    /// `tsParseDelimitedList`
-    fn parse_ts_delimited_list_inner<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        mut parse_element: F,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<(BytePos, T)>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        let mut buf = Vec::new();
-
-        loop {
-            trace_cur!(self, parse_ts_delimited_list_inner__element);
-
-            if self.is_ts_list_terminator(kind)? {
-                break;
-            }
-            let (_, element) = parse_element(self)?;
-            buf.push(element);
-
-            if eat!(self, ',') {
-                continue;
-            }
-
-            if self.is_ts_list_terminator(kind)? {
-                break;
-            }
-
-            if kind == ParsingContext::EnumMembers {
-                const TOKEN: &Token = &Token::Comma;
-                let cur = match cur!(self, false).ok() {
-                    Some(tok) => format!("{:?}", tok),
-                    None => "EOF".to_string(),
-                };
-                self.emit_err(
-                    self.input.cur_span(),
-                    SyntaxError::Expected(format!("{TOKEN:?}"), cur),
-                );
-                continue;
-            }
-            // This will fail with an error about a missing comma
-            expect!(self, ',');
-        }
-
-        Ok(buf)
-    }
-
-    fn parse_ts_bracketed_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        parse_element: F,
-        bracket: bool,
-        skip_first_token: bool,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        if !skip_first_token {
-            if bracket {
-                expect!(self, '[');
-            } else {
-                expect!(self, '<');
-            }
-        }
-
-        let result = self.parse_ts_delimited_list(kind, parse_element)?;
-
-        if bracket {
-            expect!(self, ']');
-        } else {
-            expect!(self, '>');
-        }
-
-        Ok(result)
-    }
-
     /// `tsParseTypeReference`
     fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
         trace_cur!(self, parse_ts_type_ref);
@@ -369,7 +276,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type().parse_with(|p| {
-            p.ts_in_no_context(|p| {
+            ts_in_no_context(p, |p| {
                 let start = cur_pos!(p);
 
                 if !is!(p, '<') && !is!(p, JSXTagStart) {
@@ -2539,7 +2446,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let params = self.in_type().parse_with(|p| {
             // Temporarily remove a JSX parsing context, which makes us scan different
             // tokens.
-            p.ts_in_no_context(|p| {
+            ts_in_no_context(p, |p| {
                 if is!(p, "<<") {
                     p.input.cut_lshift();
                 } else {
@@ -2587,85 +2494,70 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             &tok!('|'),
         )
     }
+}
 
-    /// `tsParseUnionOrIntersectionType`
-    fn parse_ts_union_or_intersection_type<F>(
-        &mut self,
-        kind: UnionOrIntersection,
-        mut parse_constituent_type: F,
-        operator: &'static Token,
-    ) -> PResult<Box<TsType>>
-    where
-        F: FnMut(&mut Self) -> PResult<Box<TsType>>,
-    {
-        trace_cur!(self, parse_ts_union_or_intersection_type);
+#[cfg(test)]
+mod tests {
+    use swc_ecma_ast::*;
 
-        debug_assert!(self.input.syntax().typescript());
+    use crate::{
+        common::parser::Parser as ParserTrait,
+        token::{BinOpToken, Token, TokenAndSpan},
+        Capturing, Lexer, Parser, Syntax,
+    };
 
-        let start = cur_pos!(self); // include the leading operator in the start
-        self.input.eat(operator);
-        trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
+    #[test]
+    fn issue_726() {
+        crate::with_test_sess(
+            "type Test = (
+    string | number);",
+            |handler, input| {
+                let lexer = Lexer::new(
+                    Syntax::Typescript(Default::default()),
+                    EsVersion::Es2019,
+                    input,
+                    None,
+                );
+                let lexer = Capturing::new(lexer);
 
-        let ty = parse_constituent_type(self)?;
-        trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
-
-        if self.input.is(operator) {
-            let mut types = vec![ty];
-
-            while self.input.eat(operator) {
-                trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
-
-                types.push(parse_constituent_type(self)?);
-            }
-
-            return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
-                UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: span!(self, start),
-                    types,
-                }),
-                UnionOrIntersection::Intersection => {
-                    TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
-                        span: span!(self, start),
-                        types,
-                    })
-                }
-            })));
-        }
-
-        Ok(ty)
+                let mut parser = Parser::new_from(lexer);
+                parser
+                    .parse_typescript_module()
+                    .map_err(|e| e.into_diagnostic(handler).emit())?;
+                let tokens: Vec<TokenAndSpan> = parser.input_mut().iter.tokens().take();
+                let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
+                assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
+                Ok(())
+            },
+        )
+        .unwrap();
     }
-}
 
-impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    /// In no lexer context
-    fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
-    where
-        F: FnOnce(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input.syntax().typescript());
+    #[test]
+    fn issue_751() {
+        crate::with_test_sess("t ? -(v >>> 1) : v >>> 1", |handler, input| {
+            let lexer = Lexer::new(
+                Syntax::Typescript(Default::default()),
+                EsVersion::Es2019,
+                input,
+                None,
+            );
+            let lexer = Capturing::new(lexer);
 
-        trace_cur!(self, ts_in_no_context__before);
-
-        let saved = std::mem::take(self.input.token_context_mut());
-        self.input.token_context_mut().push(saved.0[0]);
-        debug_assert_eq!(self.input.token_context().len(), 1);
-        let res = op(self);
-        self.input.set_token_context(saved);
-
-        trace_cur!(self, ts_in_no_context__after);
-
-        res
+            let mut parser = Parser::new_from(lexer);
+            parser
+                .parse_typescript_module()
+                .map_err(|e| e.into_diagnostic(handler).emit())?;
+            let tokens: Vec<TokenAndSpan> = parser.input_mut().iter.tokens().take();
+            let token = &tokens[10];
+            assert_eq!(
+                token.token,
+                Token::BinOp(BinOpToken::ZeroFillRShift),
+                "Token: {:#?}",
+                token.token
+            );
+            Ok(())
+        })
+        .unwrap();
     }
-}
-
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum UnionOrIntersection {
-    Union,
-    Intersection,
-}
-
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum SignatureParsingMode {
-    TSCallSignatureDeclaration,
-    TSConstructSignatureDeclaration,
 }
