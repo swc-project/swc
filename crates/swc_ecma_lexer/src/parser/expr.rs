@@ -2,10 +2,11 @@ use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
 
-use super::{pat::PatType, *};
+use super::*;
 use crate::{
     common::parser::{
-        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, unwrap_ts_non_null,
+        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, pat_type::PatType,
+        unwrap_ts_non_null,
     },
     lexer::TokenContext,
     tok,

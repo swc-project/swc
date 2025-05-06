@@ -1,8 +1,12 @@
 use swc_common::Spanned;
 use typed_arena::Arena;
 
-use super::{pat::PatType, *};
-use crate::{common::parser::is_directive::IsDirective, error::SyntaxError, tok};
+use super::*;
+use crate::{
+    common::parser::{is_directive::IsDirective, pat_type::PatType},
+    error::SyntaxError,
+    tok,
+};
 
 mod module_item;
 

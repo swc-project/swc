@@ -55,6 +55,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     }
 
     #[inline(always)]
+    fn state(&self) -> &common::parser::state::State {
+        &self.state
+    }
+
+    #[inline(always)]
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
     }

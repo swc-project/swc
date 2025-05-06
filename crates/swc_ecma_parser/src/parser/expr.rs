@@ -3,12 +3,13 @@ use rustc_hash::FxHashMap;
 use swc_common::{ast_node, util::take::Take, Spanned};
 use swc_ecma_lexer::{
     common::parser::{
-        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, unwrap_ts_non_null,
+        expr_ext::ExprExt, is_simple_param_list::IsSimpleParameterList, pat_type::PatType,
+        unwrap_ts_non_null,
     },
     lexer::TokenContext,
 };
 
-use super::{pat::PatType, *};
+use super::*;
 use crate::{lexer::Token, token};
 
 mod ops;
