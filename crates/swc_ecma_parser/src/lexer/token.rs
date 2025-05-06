@@ -1053,6 +1053,21 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn extends() -> Self {
         Token::Extends
     }
+
+    #[inline(always)]
+    fn starts_expr(&self) -> bool {
+        (*self).starts_expr()
+    }
+
+    #[inline(always)]
+    fn semi() -> Self {
+        Token::Semi
+    }
+
+    #[inline(always)]
+    fn to_string(&self, buffer: &Self::Buffer) -> String {
+        (*self).to_string(buffer.get_token_value())
+    }
 }
 
 impl std::fmt::Debug for Token {
@@ -1457,8 +1472,8 @@ impl Token {
         matches!(
             self,
             Token::Null | Token::True | Token::False | Token::Ident
-        ) || self.is_keyword()
-            || self.is_known_ident()
+        ) || (*self).is_known_ident()
+            || (*self).is_keyword()
     }
 
     pub(crate) fn as_word_atom(&self, value: Option<&TokenValue>) -> Option<Atom> {

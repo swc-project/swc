@@ -103,3 +103,24 @@ macro_rules! trace_cur {
         }
     }};
 }
+
+macro_rules! debug_tracing {
+    ($p:expr, $name:tt) => {{
+        #[cfg(feature = "debug")]
+        {
+            tracing::span!(
+                tracing::Level::ERROR,
+                $name,
+                cur = tracing::field::debug(&$p.input.cur())
+            )
+            .entered()
+        }
+    }};
+}
+
+/// Returns true on eof.
+macro_rules! eof {
+    ($p:expr) => {
+        cur!($p, false).is_err()
+    };
+}

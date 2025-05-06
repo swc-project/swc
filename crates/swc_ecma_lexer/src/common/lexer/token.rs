@@ -6,7 +6,13 @@ use crate::common::{context::Context, input::Tokens};
 
 pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + PartialEq {
     type Lexer: super::Lexer<'a, TokenAndSpan>;
-    type Buffer: crate::common::parser::buffer::Buffer<'a>;
+    type Buffer: crate::common::parser::buffer::Buffer<
+        'a,
+        I = I,
+        Token = Self,
+        Lexer = Self::Lexer,
+        TokenAndSpan = TokenAndSpan,
+    >;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -42,6 +48,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn is_known_ident(&self) -> bool;
     fn take_known_ident(&self) -> Atom;
+
+    fn starts_expr(&self) -> bool;
+    fn to_string(&self, buffer: &Self::Buffer) -> String;
 
     fn dollar_lbrace() -> Self;
     fn backquote() -> Self;
@@ -119,6 +128,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn r#typeof() -> Self;
     fn void() -> Self;
     fn extends() -> Self;
+    fn semi() -> Self;
 
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
@@ -337,5 +347,21 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_star(&self) -> bool {
         Self::mul().eq(self)
+    }
+    #[inline(always)]
+    fn is_semi(&self) -> bool {
+        Self::semi().eq(self)
+    }
+    #[inline(always)]
+    fn is_mul(&self) -> bool {
+        Self::mul().eq(self)
+    }
+    #[inline(always)]
+    fn is_slash(&self) -> bool {
+        Self::div().eq(self)
+    }
+    #[inline(always)]
+    fn is_slash_eq(&self) -> bool {
+        Self::div_eq().eq(self)
     }
 }

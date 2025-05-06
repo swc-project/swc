@@ -6,7 +6,9 @@ use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
-    typescript::{parse_ts_list, ParsingContext},
+    typescript::{
+        parse_ts_list, ts_in_no_context, ParsingContext, SignatureParsingMode, UnionOrIntersection,
+    },
 };
 
 use super::*;
@@ -400,7 +402,7 @@ impl<I: Tokens> Parser<I> {
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type().parse_with(|p| {
-            p.ts_in_no_context(|p| {
+            ts_in_no_context(p, |p| {
                 let start = cur_pos!(p);
 
                 if !is!(p, '<') && !is!(p, JSXTagStart) {
@@ -2631,7 +2633,7 @@ impl<I: Tokens> Parser<I> {
         let params = self.in_type().parse_with(|p| {
             // Temporarily remove a JSX parsing context, which makes us scan different
             // tokens.
-            p.ts_in_no_context(|p| {
+            ts_in_no_context(p, |p| {
                 if is!(p, "<<") {
                     p.input.cut_lshift();
                 } else {
@@ -2726,40 +2728,6 @@ impl<I: Tokens> Parser<I> {
 
         Ok(ty)
     }
-}
-
-impl<I: Tokens> Parser<I> {
-    /// In no lexer context
-    fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
-    where
-        F: FnOnce(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        trace_cur!(self, ts_in_no_context__before);
-
-        let saved = std::mem::take(self.input.token_context_mut());
-        self.input.token_context_mut().push(saved.0[0]);
-        debug_assert_eq!(self.input.token_context().len(), 1);
-        let res = op(self);
-        self.input.set_token_context(saved);
-
-        trace_cur!(self, ts_in_no_context__after);
-
-        res
-    }
-}
-
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum UnionOrIntersection {
-    Union,
-    Intersection,
-}
-
-#[derive(Clone, Copy, PartialEq, Eq)]
-enum SignatureParsingMode {
-    TSCallSignatureDeclaration,
-    TSConstructSignatureDeclaration,
 }
 
 #[cfg(test)]
