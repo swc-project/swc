@@ -10,8 +10,9 @@ use swc_ecma_ast::{
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
     JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
     ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
-    Str, TplElement, TsThisType,
+    Str, TplElement, TsEntityName, TsQualifiedName, TsThisType,
 };
+use typescript::{try_parse_ts_bool, ParsingContext};
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
@@ -36,10 +37,12 @@ pub mod is_simple_param_list;
 #[macro_use]
 mod macros;
 pub mod assign_target_or_spread;
+pub mod output_type;
 pub mod parse_object;
 pub mod pat_type;
 pub mod state;
 pub mod token_and_span;
+pub mod typescript;
 mod util;
 #[cfg(feature = "verify")]
 pub mod verifier;
@@ -838,6 +841,56 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>>;
+
+    /// `tsIsListTerminator`
+    fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<bool> {
+        debug_assert!(self.input().syntax().typescript());
+        let Some(cur) = self.input_mut().cur() else {
+            return Ok(false);
+        };
+        Ok(match kind {
+            ParsingContext::EnumMembers | ParsingContext::TypeMembers => cur.is_rbrace(),
+            ParsingContext::HeritageClauseElement { .. } => {
+                cur.is_lbrace() || cur.is_implements() || cur.is_extends()
+            }
+            ParsingContext::TupleElementTypes => cur.is_rbracket(),
+            ParsingContext::TypeParametersOrArguments => cur.is_greater(),
+        })
+    }
+
+    /// `tsParseEntityName`
+    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
+        debug_assert!(self.input().syntax().typescript());
+        trace_cur!(self, parse_ts_entity_name);
+        let start = self.input_mut().cur_pos();
+        let init = self.parse_ident_name()?;
+        if &*init.sym == "void" {
+            let dot_start = self.input_mut().cur_pos();
+            let dot_span = self.span(dot_start);
+            self.emit_err(dot_span, SyntaxError::TS1005)
+        }
+        let mut entity = TsEntityName::Ident(init.into());
+        while self.input_mut().eat(&Self::Token::dot()) {
+            let dot_start = self.input_mut().cur_pos();
+            let Some(cur) = self.input_mut().cur() else {
+                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
+                return Ok(entity);
+            };
+            if !cur.is_hash() && !cur.is_word() {
+                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
+                return Ok(entity);
+            }
+            let left = entity;
+            let right = if allow_reserved_words {
+                self.parse_ident_name()?
+            } else {
+                self.parse_ident(false, false)?.into()
+            };
+            let span = self.span(start);
+            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
+        }
+        Ok(entity)
+    }
 }
 
 fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
@@ -865,31 +918,6 @@ fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
         || cur.is_import() && {
             peek!(p).is_some_and(|peek| peek.is_lparen() || peek.is_less() || peek.is_dot())
         }
-}
-
-/// `tsTryParse`
-fn try_parse_ts_bool<'a, P: Parser<'a>, F>(p: &mut P, op: F) -> PResult<bool>
-where
-    F: FnOnce(&mut P) -> PResult<Option<bool>>,
-{
-    if !p.input().syntax().typescript() {
-        return Ok(false);
-    }
-    let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    let res = op(&mut cloned);
-    match res {
-        Ok(Some(res)) if res => {
-            *p = cloned;
-            let mut ctx = p.ctx();
-            ctx.set(Context::IgnoreError, prev_ignore_error);
-            p.input_mut().set_ctx(ctx);
-            Ok(res)
-        }
-        Err(..) => Ok(false),
-        _ => Ok(false),
-    }
 }
 
 /// `tsNextTokenCanFollowModifier`

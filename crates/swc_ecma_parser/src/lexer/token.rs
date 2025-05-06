@@ -1048,6 +1048,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn comma() -> Self {
         Token::Comma
     }
+
+    #[inline(always)]
+    fn extends() -> Self {
+        Token::Extends
+    }
 }
 
 impl std::fmt::Debug for Token {
