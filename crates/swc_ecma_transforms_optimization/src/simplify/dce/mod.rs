@@ -1,7 +1,7 @@
 use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
+use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
 use swc_common::{
@@ -107,7 +107,7 @@ struct Data {
     ///
     /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
     /// we use u32 it fits into the cache line of cpu.
-    graph: DiGraphMap<u32, VarInfo>,
+    graph: GraphMap<u32, VarInfo, Directed, FxBuildHasher>,
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
