@@ -1193,7 +1193,7 @@ impl SourceMap {
         orig: Option<&sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
-        build_source_map(mappings, orig, config)
+        build_source_map(self, mappings, orig, &config)
     }
 }
 
@@ -1251,13 +1251,28 @@ fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPos
     total_extra_bytes
 }
 
+pub trait Files {
+    fn try_lookup_source_file(&self, pos: BytePos)
+        -> Result<Lrc<SourceFile>, SourceMapLookupError>;
+}
+
+impl Files for SourceMap {
+    fn try_lookup_source_file(
+        &self,
+        pos: BytePos,
+    ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
+        self.try_lookup_source_file(pos)
+    }
+}
+
 #[allow(clippy::ptr_arg)]
 #[cfg(feature = "sourcemap")]
 #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
 pub fn build_source_map(
+    files: &impl Files,
     mappings: &[(BytePos, LineCol)],
     orig: Option<&sourcemap::SourceMap>,
-    config: impl SourceMapGenConfig,
+    config: &impl SourceMapGenConfig,
 ) -> sourcemap::SourceMap {
     let mut builder = SourceMapBuilder::new(None);
 
@@ -1297,7 +1312,7 @@ pub fn build_source_map(
         let f = match cur_file {
             Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
             _ => {
-                f = self.try_lookup_source_file(pos).unwrap();
+                f = files.try_lookup_source_file(pos).unwrap();
                 if config.skip(&f.name) {
                     continue;
                 }
