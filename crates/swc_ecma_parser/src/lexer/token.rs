@@ -1043,6 +1043,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
         buffer.expect_string_token_value()
     }
+
+    #[inline(always)]
+    fn comma() -> Self {
+        Token::Comma
+    }
 }
 
 impl std::fmt::Debug for Token {

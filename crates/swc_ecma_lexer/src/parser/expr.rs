@@ -725,35 +725,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         })
     }
 
-    /// AssignmentExpression[+In, ?Yield, ?Await]
-    /// ...AssignmentExpression[+In, ?Yield, ?Await]
-    pub(super) fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
-        trace_cur!(self, parse_expr_or_spread);
-
-        let start = cur_pos!(self);
-
-        if eat!(self, "...") {
-            let spread_span = span!(self, start);
-            let spread = Some(spread_span);
-            self.include_in_expr(true)
-                .parse_assignment_expr()
-                .map_err(|err| {
-                    Error::new(
-                        err.span(),
-                        SyntaxError::WithLabel {
-                            inner: Box::new(err),
-                            span: spread_span,
-                            note: "An expression should follow '...'",
-                        },
-                    )
-                })
-                .map(|expr| ExprOrSpread { spread, expr })
-        } else {
-            self.parse_assignment_expr()
-                .map(|expr| ExprOrSpread { spread: None, expr })
-        }
-    }
-
     /// Parse paren expression or arrow function expression.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_paren_expr_or_arrow_fn(

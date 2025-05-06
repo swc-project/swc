@@ -80,6 +80,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         self.parse_ident(incl_yield, incl_await)
     }
+
+    #[inline(always)]
+    fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_assignment_expr()
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

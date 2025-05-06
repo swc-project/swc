@@ -1075,6 +1075,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn comma() -> Self {
+        Self::Comma
+    }
 }
 
 impl Token {
