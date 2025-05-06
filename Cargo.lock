@@ -5043,7 +5043,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "23.1.0"
+version = "23.2.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6503,7 +6503,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "11.0.0"
+version = "11.1.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
