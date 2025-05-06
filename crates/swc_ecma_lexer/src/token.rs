@@ -1080,6 +1080,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     fn comma() -> Self {
         Self::Comma
     }
+
+    #[inline(always)]
+    fn extends() -> Self {
+        Self::Word(Word::Keyword(Keyword::Extends))
+    }
 }
 
 impl Token {

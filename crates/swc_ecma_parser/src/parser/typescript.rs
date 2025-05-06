@@ -4,7 +4,9 @@ use either::Either;
 use swc_atoms::atom;
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
-    is_simple_param_list::IsSimpleParameterList, make_decl_declare,
+    is_simple_param_list::IsSimpleParameterList,
+    make_decl_declare,
+    typescript::{parse_ts_list, ParsingContext},
 };
 
 use super::*;
@@ -135,39 +137,6 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(result)
-    }
-
-    /// `tsParseEntityName`
-    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
-        debug_assert!(self.input.syntax().typescript());
-        trace_cur!(self, parse_ts_entity_name);
-        let start = cur_pos!(self);
-
-        let init = self.parse_ident_name()?;
-        if &*init.sym == "void" {
-            let dot_start = cur_pos!(self);
-            let dot_span = span!(self, dot_start);
-            self.emit_err(dot_span, SyntaxError::TS1005)
-        }
-        let mut entity = TsEntityName::Ident(init.into());
-        while eat!(self, '.') {
-            let dot_start = cur_pos!(self);
-            if !is!(self, '#') && !is!(self, IdentName) {
-                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
-                return Ok(entity);
-            }
-
-            let left = entity;
-            let right = if allow_reserved_words {
-                self.parse_ident_name()?
-            } else {
-                self.parse_ident(false, false)?.into()
-            };
-            let span = span!(self, start);
-            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
-        }
-
-        Ok(entity)
     }
 
     /// `tsParseTypeReference`
@@ -1520,8 +1489,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         expect!(self, '{');
-        let members =
-            self.parse_ts_list(ParsingContext::TypeMembers, |p| p.parse_ts_type_member())?;
+        let members = parse_ts_list(self, ParsingContext::TypeMembers, |p| {
+            p.parse_ts_type_member()
+        })?;
         expect!(self, '}');
         Ok(members)
     }
@@ -2784,15 +2754,6 @@ impl<I: Tokens> Parser<I> {
 enum UnionOrIntersection {
     Union,
     Intersection,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum ParsingContext {
-    EnumMembers,
-    HeritageClauseElement,
-    TupleElementTypes,
-    TypeMembers,
-    TypeParametersOrArguments,
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]

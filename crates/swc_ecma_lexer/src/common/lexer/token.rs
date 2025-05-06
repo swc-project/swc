@@ -118,6 +118,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn delete() -> Self;
     fn r#typeof() -> Self;
     fn void() -> Self;
+    fn extends() -> Self;
 
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
@@ -184,6 +185,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_static(&self) -> bool {
         Self::r#static().eq(self)
+    }
+    #[inline(always)]
+    fn is_extends(&self) -> bool {
+        Self::extends().eq(self)
     }
     #[inline(always)]
     fn is_implements(&self) -> bool {
