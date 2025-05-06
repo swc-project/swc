@@ -67,6 +67,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     }
 
     #[inline(always)]
+    fn state(&self) -> &swc_ecma_lexer::common::parser::state::State {
+        &self.state
+    }
+
+    #[inline(always)]
     fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
         &mut self.state
     }

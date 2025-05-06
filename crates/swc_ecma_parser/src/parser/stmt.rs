@@ -1,8 +1,8 @@
 use swc_common::Spanned;
-use swc_ecma_lexer::common::parser::is_directive::IsDirective;
+use swc_ecma_lexer::common::parser::{is_directive::IsDirective, pat_type::PatType};
 use typed_arena::Arena;
 
-use super::{pat::PatType, *};
+use super::*;
 use crate::{error::SyntaxError, lexer::Token, token};
 
 mod module_item;
