@@ -1,3 +1,6 @@
+use std::mem::take;
+
+use par_iter::prelude::*;
 use rustc_hash::FxHashMap;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
@@ -392,64 +395,43 @@ where
     }
 
     fn visit_mut_module_items(&mut self, nodes: &mut Vec<ModuleItem>) {
-        use std::mem::take;
+        ::swc_common::GLOBALS.with(|globals| {
+            let (visitor, new_nodes) = take(nodes)
+                .into_par_iter()
+                .with_min_len(8 * cpu_count())
+                .map(|mut node| {
+                    ::swc_common::GLOBALS.set(globals, || {
+                        let mut visitor = Parallel::create(&*self);
+                        node.visit_mut_with(&mut visitor);
 
-        #[cfg(feature = "concurrent")]
-        if nodes.len() >= 8 * cpu_count() {
-            ::swc_common::GLOBALS.with(|globals| {
-                use rayon::prelude::*;
+                        let mut nodes = Vec::with_capacity(4);
 
-                let (visitor, new_nodes) = take(nodes)
-                    .into_par_iter()
-                    .map(|mut node| {
-                        ::swc_common::GLOBALS.set(globals, || {
-                            let mut visitor = Parallel::create(&*self);
-                            node.visit_mut_with(&mut visitor);
+                        ParExplode::after_one_module_item(&mut visitor, &mut nodes);
 
-                            let mut nodes = Vec::with_capacity(4);
+                        nodes.push(node);
 
-                            ParExplode::after_one_module_item(&mut visitor, &mut nodes);
-
-                            nodes.push(node);
-
-                            (visitor, nodes)
-                        })
+                        (visitor, nodes)
                     })
-                    .reduce(
-                        || (Parallel::create(&*self), Vec::new()),
-                        |mut a, b| {
-                            Parallel::merge(&mut a.0, b.0);
+                })
+                .reduce(
+                    || (Parallel::create(&*self), Vec::new()),
+                    |mut a, b| {
+                        Parallel::merge(&mut a.0, b.0);
 
-                            a.1.extend(b.1);
+                        a.1.extend(b.1);
 
-                            a
-                        },
-                    );
+                        a
+                    },
+                );
 
-                Parallel::merge(self, visitor);
+            Parallel::merge(self, visitor);
 
-                {
-                    self.after_module_items(nodes);
-                }
+            {
+                self.after_module_items(nodes);
+            }
 
-                *nodes = new_nodes;
-            });
-
-            return;
-        }
-
-        let mut buf = Vec::with_capacity(nodes.len());
-
-        for mut node in take(nodes) {
-            let mut visitor = Parallel::create(&*self);
-            node.visit_mut_with(&mut visitor);
-            buf.push(node);
-            visitor.after_one_module_item(&mut buf);
-        }
-
-        self.after_module_items(&mut buf);
-
-        *nodes = buf;
+            *nodes = new_nodes;
+        });
     }
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
@@ -535,64 +517,45 @@ where
     }
 
     fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
-        use std::mem::take;
+        let threshold = 100 * cpu_count();
 
-        #[cfg(feature = "concurrent")]
-        if nodes.len() >= 100 * cpu_count() {
-            ::swc_common::GLOBALS.with(|globals| {
-                use rayon::prelude::*;
+        ::swc_common::GLOBALS.with(|globals| {
+            let (visitor, new_nodes) = take(nodes)
+                .into_par_iter()
+                .with_min_len(threshold)
+                .map(|mut node| {
+                    ::swc_common::GLOBALS.set(globals, || {
+                        let mut visitor = Parallel::create(&*self);
+                        node.visit_mut_with(&mut visitor);
 
-                let (visitor, new_nodes) = take(nodes)
-                    .into_par_iter()
-                    .map(|mut node| {
-                        ::swc_common::GLOBALS.set(globals, || {
-                            let mut visitor = Parallel::create(&*self);
-                            node.visit_mut_with(&mut visitor);
+                        let mut nodes = Vec::with_capacity(4);
 
-                            let mut nodes = Vec::with_capacity(4);
+                        ParExplode::after_one_stmt(&mut visitor, &mut nodes);
 
-                            ParExplode::after_one_stmt(&mut visitor, &mut nodes);
+                        nodes.push(node);
 
-                            nodes.push(node);
-
-                            (visitor, nodes)
-                        })
+                        (visitor, nodes)
                     })
-                    .reduce(
-                        || (Parallel::create(&*self), Vec::new()),
-                        |mut a, b| {
-                            Parallel::merge(&mut a.0, b.0);
+                })
+                .reduce(
+                    || (Parallel::create(&*self), Vec::new()),
+                    |mut a, b| {
+                        Parallel::merge(&mut a.0, b.0);
 
-                            a.1.extend(b.1);
+                        a.1.extend(b.1);
 
-                            a
-                        },
-                    );
+                        a
+                    },
+                );
 
-                Parallel::merge(self, visitor);
+            Parallel::merge(self, visitor);
 
-                {
-                    self.after_stmts(nodes);
-                }
+            {
+                self.after_stmts(nodes);
+            }
 
-                *nodes = new_nodes;
-            });
-
-            return;
-        }
-
-        let mut buf = Vec::with_capacity(nodes.len());
-
-        for mut node in take(nodes) {
-            let mut visitor = Parallel::create(&*self);
-            node.visit_mut_with(&mut visitor);
-            buf.push(node);
-            visitor.after_one_stmt(&mut buf);
-        }
-
-        self.after_stmts(&mut buf);
-
-        *nodes = buf;
+            *nodes = new_nodes;
+        });
     }
 
     fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {

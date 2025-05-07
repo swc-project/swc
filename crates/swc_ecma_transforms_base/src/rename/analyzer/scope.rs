@@ -8,7 +8,7 @@ use std::{
 
 use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use rustc_hash::{FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext};
