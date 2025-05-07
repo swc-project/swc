@@ -1,5 +1,7 @@
 use swc_common::Spanned;
-use swc_ecma_lexer::common::parser::{is_directive::IsDirective, pat_type::PatType};
+use swc_ecma_lexer::common::parser::{
+    is_directive::IsDirective, pat_type::PatType, typescript::ts_look_ahead,
+};
 use typed_arena::Arena;
 
 use super::*;
@@ -836,7 +838,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.syntax().typescript() && for_loop {
             let res = if is_one_of!(self, "in", "of") {
-                self.ts_look_ahead(|p| {
+                ts_look_ahead(self, |p| {
                     //
                     if !eat!(p, "of") && !eat!(p, "in") {
                         return Ok(false);

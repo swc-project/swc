@@ -3,7 +3,7 @@ use typed_arena::Arena;
 
 use super::*;
 use crate::{
-    common::parser::{is_directive::IsDirective, pat_type::PatType},
+    common::parser::{is_directive::IsDirective, pat_type::PatType, typescript::ts_look_ahead},
     error::SyntaxError,
     tok,
 };
@@ -839,7 +839,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
 
         if self.syntax().typescript() && for_loop {
             let res = if is_one_of!(self, "in", "of") {
-                self.ts_look_ahead(|p| {
+                ts_look_ahead(self, |p| {
                     //
                     if !eat!(p, "of") && !eat!(p, "in") {
                         return Ok(false);
