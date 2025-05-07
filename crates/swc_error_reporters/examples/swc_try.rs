@@ -50,7 +50,7 @@ fn main() {
         .collect::<Vec<String>>()
         .join("");
 
-    println!("{}", diagnostics_pretty_message);
+    println!("{diagnostics_pretty_message}");
 }
 
 /// Don't do this in your real app. You should use [Span] created by parser

@@ -57,7 +57,7 @@ fn bench_serde(c: &mut Criterion) {
             value: String::from("perf-diff"),
         }))
         .unwrap();
-        println!("{}", src);
+        println!("{src}");
 
         b.iter(|| black_box(serde_json::to_string(&src).unwrap()));
     });

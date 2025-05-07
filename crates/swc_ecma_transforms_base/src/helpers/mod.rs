@@ -668,8 +668,8 @@ _throw();",
                     return Ok(());
                 }
 
-                println!(">>>>> Orig <<<<<\n{}", input);
-                println!(">>>>> Code <<<<<\n{}", actual_src);
+                println!(">>>>> Orig <<<<<\n{input}");
+                println!(">>>>> Code <<<<<\n{actual_src}");
                 assert_eq!(
                     DebugUsingDisplay(&actual_src),
                     DebugUsingDisplay(&expected_src)

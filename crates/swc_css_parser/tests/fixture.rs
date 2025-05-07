@@ -187,8 +187,7 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
     if !recovered {
         panic!(
             "Parser should emit errors (recover mode), but parser parsed everything successfully \
-             {}",
-            stderr
+             {stderr}"
         );
     }
 
@@ -265,8 +264,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
     if !recovered {
         panic!(
             "Parser should emit errors (recover mode), but parser parsed everything successfully \
-             {}",
-            stderr
+             {stderr}"
         );
     }
 

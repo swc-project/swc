@@ -24,7 +24,7 @@ where
     let output = Path::new("tests").join("fixture").join(file);
 
     let pretty_error = result.to_pretty_string();
-    println!("{}", pretty_error);
+    println!("{pretty_error}");
     fs::write(output, &pretty_error).expect("failed to write");
 }
 

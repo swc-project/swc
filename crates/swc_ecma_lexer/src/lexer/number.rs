@@ -759,19 +759,13 @@ mod tests {
 
     fn test_floats(strict: bool, success: bool, cases: &'static [&'static str]) {
         for case in cases {
-            println!(
-                "Testing {} (when strict = {}); Expects success = {}",
-                case, strict, success
-            );
+            println!("Testing {case} (when strict = {strict}); Expects success = {success}");
             // lazy way to get expected values
             let expected: f64 = (i64::from_str_radix(case, 8).map(|v| v as f64))
                 .or_else(|_| case.parse::<i64>().map(|v| v as f64))
                 .or_else(|_| case.parse::<f64>())
                 .unwrap_or_else(|err| {
-                    panic!(
-                        "failed to parse '{}' as float using str.parse(): {}",
-                        case, err
-                    )
+                    panic!("failed to parse '{case}' as float using str.parse(): {err}")
                 });
 
             let vec = panic::catch_unwind(|| {

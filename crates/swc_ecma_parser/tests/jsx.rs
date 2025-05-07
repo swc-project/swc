@@ -50,10 +50,7 @@ fn references(entry: PathBuf) {
     run_test(false, |cm, handler| {
         let input = read_to_string(&entry).unwrap();
 
-        eprintln!(
-            "\n\n========== Running reference test \nSource:\n{}\n",
-            input
-        );
+        eprintln!("\n\n========== Running reference test \nSource:\n{input}\n");
 
         // Parse source
         let module = parse_module(cm, handler, &entry)?.fold_with(&mut Normalizer);
@@ -68,10 +65,7 @@ fn references(entry: PathBuf) {
 
         let deser = serde_json::from_str::<Module>(&json)
             .unwrap_or_else(|err| {
-                panic!(
-                    "failed to deserialize json back to module: {}\n{}",
-                    err, json
-                )
+                panic!("failed to deserialize json back to module: {err}\n{json}")
             })
             .fold_with(&mut Normalizer);
         assert_eq!(module, deser, "JSON:\n{}", json);

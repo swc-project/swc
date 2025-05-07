@@ -86,7 +86,7 @@ where
         let mut module = Program::Module(op(tester)?);
 
         let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
-        println!("----- Hygiene -----\n{}", hygiene_src);
+        println!("----- Hygiene -----\n{hygiene_src}");
 
         hygiene_with_config(config()).process(&mut module);
 
@@ -102,7 +102,7 @@ where
         };
 
         if actual != expected {
-            println!("----- Actual -----\n{}", actual);
+            println!("----- Actual -----\n{actual}");
             println!("----- Diff -----");
 
             assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));

@@ -2940,7 +2940,7 @@ mod tests {
                     .map_err(|e| e.into_diagnostic(handler).emit())?;
                 let tokens: Vec<TokenAndSpan> = parser.input().take();
                 let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
-                assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
+                assert_eq!(tokens.len(), 9, "Tokens: {tokens:#?}");
                 Ok(())
             },
         )
