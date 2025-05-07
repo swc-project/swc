@@ -6,7 +6,10 @@ use swc_ecma_lexer::{
         is_not_this,
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
-        typescript::{parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args},
+        typescript::{
+            parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
+            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_params,
+        },
         Parser as ParserTrait,
     },
     lexer::TokenContext,
@@ -103,7 +106,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_params = if p.input.syntax().typescript() {
-                p.try_parse_ts_type_params(true, true)?
+                try_parse_ts_type_params(p, true, true)?
             } else {
                 None
             };
@@ -800,7 +803,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span!(self, start), SyntaxError::TS1098);
                         self.emit_err(span!(self, start2), SyntaxError::TS1092);
                     } else {
-                        let type_params = self.try_parse_ts_type_params(false, true)?;
+                        let type_params = try_parse_ts_type_params(self, false, true)?;
 
                         if let Some(type_params) = type_params {
                             for param in type_params.params {
@@ -1287,7 +1290,7 @@ impl<I: Tokens> Parser<I> {
                     trace_cur!(p, parse_fn_args_body__type_params);
 
                     Ok(if is!(p, '<') {
-                        Some(p.parse_ts_type_params(false, true)?)
+                        Some(parse_ts_type_params(p, false, true)?)
                     } else if is!(p, JSXTagStart) {
                         debug_assert_eq!(
                             p.input.token_context().current(),
@@ -1300,7 +1303,7 @@ impl<I: Tokens> Parser<I> {
                         );
                         p.input.token_context_mut().pop();
 
-                        Some(p.parse_ts_type_params(false, true)?)
+                        Some(parse_ts_type_params(p, false, true)?)
                     } else {
                         None
                     })
@@ -1320,8 +1323,7 @@ impl<I: Tokens> Parser<I> {
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
-                p.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                    .map(Some)?
+                parse_ts_type_or_type_predicate_ann(p, &Token::Colon).map(Some)?
             } else {
                 None
             };

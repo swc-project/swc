@@ -6,11 +6,14 @@ use swc_common::{util::take::Take, Spanned};
 use swc_ecma_lexer::{
     common::parser::{
         assign_target_or_spread::AssignTargetOrSpread,
-        expr::{at_possible_async, parse_array_lit, parse_tpl, parse_yield_expr},
+        expr::{at_possible_async, parse_array_lit, parse_lit, parse_tpl, parse_yield_expr},
         expr_ext::ExprExt,
         is_simple_param_list::IsSimpleParameterList,
         pat_type::PatType,
-        typescript::{eat_any_ts_modifier, parse_ts_type_args, try_parse_ts},
+        typescript::{
+            eat_any_ts_modifier, parse_ts_type_args, parse_ts_type_or_type_predicate_ann,
+            parse_ts_type_params, try_parse_ts, try_parse_ts_type_args,
+        },
         unwrap_ts_non_null,
     },
     lexer::TokenContext,
@@ -100,7 +103,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                let type_parameters = p.parse_ts_type_params(false, true)?;
+                let type_parameters = parse_ts_type_params(p, false, true)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {
@@ -316,7 +319,7 @@ impl<I: Tokens> Parser<I> {
                 | Token::Num
                 | Token::BigInt
                 | Token::Str => {
-                    return Ok(self.parse_lit()?.into());
+                    return Ok(parse_lit(self)?.into());
                 }
 
                 // Regexp
@@ -624,7 +627,7 @@ impl<I: Tokens> Parser<I> {
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_ts_type_args()
+            try_parse_ts_type_args(self)
         } else {
             None
         };
@@ -735,7 +738,7 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = try_parse_ts(self, |p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = parse_ts_type_or_type_predicate_ann(p, &Token::Colon)?;
 
                 expect!(p, "=>");
 
@@ -778,7 +781,7 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
         {
             try_parse_ts(self, |p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+                let return_type = parse_ts_type_or_type_predicate_ann(p, &Token::Colon)?;
 
                 if !is!(p, "=>") {
                     unexpected!(p, "fail")
@@ -1139,7 +1142,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_ts_type_args()
+            try_parse_ts_type_args(self)
         } else {
             None
         };
@@ -1176,7 +1179,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_ts_type_args()
+                try_parse_ts_type_args(self)
             } else {
                 None
             };
@@ -1305,7 +1308,7 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(prop.span_hi(), span.hi());
 
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.try_parse_ts_type_args()
+                try_parse_ts_type_args(self)
             } else {
                 None
             };

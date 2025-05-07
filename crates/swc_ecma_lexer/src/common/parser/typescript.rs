@@ -4,7 +4,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{
     TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsThisTypeOrIdent, TsType,
-    TsTypeAnn, TsTypeParam, TsTypeParamInstantiation, TsTypePredicate, TsTypeRef,
+    TsTypeAnn, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeRef,
     TsUnionOrIntersectionType, TsUnionType,
 };
 
@@ -129,7 +129,7 @@ where
 }
 
 /// In no lexer context
-pub fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
+fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
 where
     F: FnOnce(&mut P) -> PResult<T>,
 {
@@ -630,5 +630,250 @@ pub fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTyp
         is_const: false,
         constraint,
         default: None,
+    })
+}
+
+/// `tsParseTypeParameter`
+fn parse_ts_type_param<'a, P: Parser<'a>>(
+    p: &mut P,
+    permit_in_out: bool,
+    permit_const: bool,
+) -> PResult<TsTypeParam> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let mut is_in = false;
+    let mut is_out = false;
+    let mut is_const = false;
+
+    let start = p.input_mut().cur_pos();
+
+    while let Some(modifer) = parse_ts_modifier(
+        p,
+        &[
+            "public",
+            "private",
+            "protected",
+            "readonly",
+            "abstract",
+            "const",
+            "override",
+            "in",
+            "out",
+        ],
+        false,
+    )? {
+        match modifer {
+            "const" => {
+                is_const = true;
+                if !permit_const {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1277("const".into()));
+                }
+            }
+            "in" => {
+                if !permit_in_out {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274("in".into()));
+                } else if is_in {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030("in".into()));
+                } else if is_out {
+                    p.emit_err(
+                        p.input().prev_span(),
+                        SyntaxError::TS1029("in".into(), "out".into()),
+                    );
+                }
+                is_in = true;
+            }
+            "out" => {
+                if !permit_in_out {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274("out".into()));
+                } else if is_out {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030("out".into()));
+                }
+                is_out = true;
+            }
+            other => p.emit_err(p.input().prev_span(), SyntaxError::TS1273(other.into())),
+        };
+    }
+
+    let name = p.in_type().parse_ident_name()?.into();
+    let constraint = eat_then_parse_ts_type(p, &P::Token::EXTENDS)?;
+    let default = eat_then_parse_ts_type(p, &P::Token::EQUAL)?;
+
+    Ok(TsTypeParam {
+        span: p.span(start),
+        name,
+        is_in,
+        is_out,
+        is_const,
+        constraint,
+        default,
+    })
+}
+
+/// `tsParseTypeParameter`
+pub fn parse_ts_type_params<'a, P: Parser<'a>>(
+    p: &mut P,
+    permit_in_out: bool,
+    permit_const: bool,
+) -> PResult<Box<TsTypeParamDecl>> {
+    p.in_type().parse_with(|p| {
+        ts_in_no_context(p, |p| {
+            let start = p.input_mut().cur_pos();
+
+            let Some(cur) = p.input_mut().cur() else {
+                unexpected!(p, "< (jsx tag start)")
+            };
+            if !cur.is_less() && !cur.is_jsx_tag_start() {
+                unexpected!(p, "< (jsx tag start)")
+            }
+            p.bump();
+
+            let params = parse_ts_bracketed_list(
+                p,
+                ParsingContext::TypeParametersOrArguments,
+                |p| parse_ts_type_param(p, permit_in_out, permit_const), // bracket
+                false,
+                // skip_first_token
+                true,
+            )?;
+
+            Ok(Box::new(TsTypeParamDecl {
+                span: p.span(start),
+                params,
+            }))
+        })
+    })
+}
+
+/// `tsTryParseTypeParameters`
+pub fn try_parse_ts_type_params<'a, P: Parser<'a>>(
+    p: &mut P,
+    permit_in_out: bool,
+    permit_const: bool,
+) -> PResult<Option<Box<TsTypeParamDecl>>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(None);
+    }
+
+    if p.input_mut().cur().is_some_and(|cur| cur.is_less()) {
+        return parse_ts_type_params(p, permit_in_out, permit_const).map(Some);
+    }
+
+    Ok(None)
+}
+
+/// `tsParseTypeOrTypePredicateAnnotation`
+pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
+    p: &mut P,
+    return_token: &P::Token,
+) -> PResult<Box<TsTypeAnn>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    dbg!(123);
+    p.in_type().parse_with(|p| {
+        let return_token_start = p.input_mut().cur_pos();
+        if !p.input_mut().eat(return_token) {
+            let cur = format!("{:?}", cur!(p, false).ok());
+            let span = p.input_mut().cur_span();
+            syntax_error!(
+                p,
+                span,
+                SyntaxError::Expected(format!("{return_token:?}"), cur)
+            )
+        }
+
+        let type_pred_start = p.input_mut().cur_pos();
+        let has_type_pred_asserts = p.input_mut().cur().is_some_and(|cur| cur.is_asserts()) && {
+            let ctx = p.ctx();
+            peek!(p).is_some_and(|peek| {
+                if peek.is_word() {
+                    !peek.is_reserved(ctx)
+                } else {
+                    false
+                }
+            })
+        };
+        if has_type_pred_asserts {
+            p.assert_and_bump(&P::Token::ASSERTS)?;
+            cur!(p, false)?;
+        }
+
+        let has_type_pred_is = {
+            let ctx = p.ctx();
+            p.input_mut().cur().is_some_and(|cur| {
+                if cur.is_word() {
+                    !cur.is_reserved(ctx)
+                } else {
+                    false
+                }
+            })
+        } && peek!(p).is_some_and(|peek| peek.is_is())
+            && !p.input_mut().has_linebreak_between_cur_and_peeked();
+        let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
+        if !is_type_predicate {
+            return parse_ts_type_ann(
+                p,
+                // eat_colon
+                false,
+                return_token_start,
+            );
+        }
+
+        let type_pred_var = p.parse_ident_name()?;
+        let type_ann = if has_type_pred_is {
+            p.assert_and_bump(&P::Token::IS)?;
+            let pos = p.input_mut().cur_pos();
+            Some(parse_ts_type_ann(
+                p, // eat_colon
+                false, pos,
+            )?)
+        } else {
+            None
+        };
+
+        let node = Box::new(TsType::TsTypePredicate(TsTypePredicate {
+            span: p.span(type_pred_start),
+            asserts: has_type_pred_asserts,
+            param_name: TsThisTypeOrIdent::Ident(type_pred_var.into()),
+            type_ann,
+        }));
+
+        Ok(Box::new(TsTypeAnn {
+            span: p.span(return_token_start),
+            type_ann: node,
+        }))
+    })
+}
+
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub fn try_parse_ts_type_args<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> Option<Box<TsTypeParamInstantiation>> {
+    trace_cur!(p, try_parse_ts_type_args);
+    debug_assert!(p.input().syntax().typescript());
+
+    try_parse_ts(p, |p| {
+        let type_args = parse_ts_type_args(p)?;
+        let cur = p.input_mut().cur();
+        if cur.is_some_and(|cur| {
+            cur.is_less() // invalid syntax
+            || cur.is_greater() || cur.is_equal() || cur.is_rshift() || cur.is_greater_eq() || cur.is_plus() || cur.is_minus() // becomes relational expression
+            || cur.is_lparen() || cur.is_backquote() // these should be type
+                                                     // arguments in function
+                                                     // call or template, not
+                                                     // instantiation
+                                                     // expression
+        }) {
+            Ok(None)
+        } else if p.input_mut().had_line_break_before_cur()
+            || cur!(p, false).is_ok_and(|t| t.is_bin_op())
+            || !p.is_start_of_expr()
+        {
+            Ok(Some(type_args))
+        } else {
+            Ok(None)
+        }
     })
 }

@@ -4,6 +4,7 @@ use swc_common::Spanned;
 use super::*;
 use crate::{
     common::parser::{
+        expr::parse_lit,
         get_qualified_jsx_name,
         jsx::{parse_jsx_closing_element_at, parse_jsx_expr_container},
         typescript::{parse_ts_type_args, try_parse_ts},
@@ -33,7 +34,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }
             }
             Token::Str { .. } => {
-                let lit = self.parse_lit()?;
+                let lit = parse_lit(self)?;
                 Ok(JSXAttrValue::Lit(lit))
             }
             Token::JSXTagStart => {

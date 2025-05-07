@@ -500,6 +500,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ASSERTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)));
     const AWAIT: Self = Token::Word(Word::Keyword(Keyword::Await));
     const BACKQUOTE: Self = Self::BackQuote;
     const BANG: Self = Self::Bang;
@@ -533,6 +534,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const INTERFACE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)));
     const IS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)));
     const JSX_TAG_END: Self = Self::JSXTagEnd;
+    const JSX_TAG_START: Self = Self::JSXTagStart;
     const KW_SUPER: Self = Token::Word(Word::Keyword(Keyword::Super));
     const LBRACE: Self = Self::LBrace;
     const LBRACKET: Self = Self::LBracket;
@@ -794,6 +796,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn to_string(&self, _: &Self::Buffer) -> String {
         format!("{:?}", self)
+    }
+
+    #[inline(always)]
+    fn is_bin_op(&self) -> bool {
+        matches!(self, Self::BinOp(_))
     }
 }
 

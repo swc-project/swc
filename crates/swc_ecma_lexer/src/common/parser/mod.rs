@@ -1,6 +1,6 @@
 use assign_target_or_spread::AssignTargetOrSpread;
 use either::Either;
-use expr::is_start_of_left_hand_side_expr;
+use expr::{is_start_of_left_hand_side_expr, parse_lit};
 use expr_ext::ExprExt;
 use pat::pat_is_valid_argument_in_strict;
 use pat_type::PatType;
@@ -9,7 +9,7 @@ use swc_ecma_ast::{
     ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
     BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid,
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
-    JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
+    JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Number, ObjectLit, ObjectPat,
     ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
     Str, TplElement, TsType,
 };
@@ -243,55 +243,13 @@ pub trait Parser<'a>: Sized + Clone {
         Span::new(start, end)
     }
 
-    fn parse_lit(&mut self) -> PResult<Lit> {
-        let start = self.cur_pos();
-        let cur = cur!(self, true);
-        let v = if cur.is_null() {
-            self.bump();
-            let span = self.span(start);
-            Lit::Null(Null { span })
-        } else if cur.is_true() || cur.is_false() {
-            let value = cur.is_true();
-            self.bump();
-            let span = self.span(start);
-            Lit::Bool(swc_ecma_ast::Bool { span, value })
-        } else if cur.is_str() {
-            let t = self.bump();
-            let (value, raw) = t.take_str(self.input_mut());
-            Lit::Str(swc_ecma_ast::Str {
-                span: self.span(start),
-                value,
-                raw: Some(raw),
-            })
-        } else if cur.is_num() {
-            let t = self.bump();
-            let (value, raw) = t.take_num(self.input_mut());
-            Lit::Num(swc_ecma_ast::Number {
-                span: self.span(start),
-                value,
-                raw: Some(raw),
-            })
-        } else if cur.is_bigint() {
-            let t = self.bump();
-            let (value, raw) = t.take_bigint(self.input_mut());
-            Lit::BigInt(swc_ecma_ast::BigInt {
-                span: self.span(start),
-                value,
-                raw: Some(raw),
-            })
-        } else {
-            unreachable!("parse_lit should not be called for {:?}", cur)
-        };
-        Ok(v)
-    }
-
     // https://tc39.es/ecma262/#prod-ModuleExportName
     fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let Ok(cur) = cur!(self, false) else {
             unexpected!(self, "identifier or string");
         };
         let module_export_name = if cur.is_str() {
-            match self.parse_lit()? {
+            match parse_lit(self)? {
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
                 _ => unreachable!(),
             }
@@ -357,7 +315,7 @@ pub trait Parser<'a>: Sized + Clone {
             );
         }
         let _ = cur!(self, true);
-        self.input_mut().bump();
+        self.bump();
         Ok(())
     }
 
