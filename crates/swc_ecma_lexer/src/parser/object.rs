@@ -3,7 +3,10 @@
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
-use crate::{common::parser::is_not_this, tok};
+use crate::{
+    common::parser::{is_not_this, typescript::eat_any_ts_modifier},
+    tok,
+};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parse a object literal or object pattern.
@@ -88,7 +91,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                 });
         }
 
-        let has_modifiers = self.eat_any_ts_modifier()?;
+        let has_modifiers = eat_any_ts_modifier(self)?;
         let modifiers_span = self.input.prev_span();
 
         let key = self.parse_prop_name()?;

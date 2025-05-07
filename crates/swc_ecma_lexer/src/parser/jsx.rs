@@ -2,7 +2,14 @@ use either::Either;
 use swc_common::Spanned;
 
 use super::*;
-use crate::{common::parser::get_qualified_jsx_name, tok};
+use crate::{
+    common::parser::{
+        get_qualified_jsx_name,
+        jsx::{parse_jsx_closing_element_at, parse_jsx_expr_container},
+        typescript::try_parse_ts,
+    },
+    tok,
+};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Parses any type of JSX attribute value.
@@ -16,7 +23,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         match *cur!(self, true) {
             tok!('{') => {
-                let node = self.parse_jsx_expr_container(start)?;
+                let node = parse_jsx_expr_container(self, start)?;
 
                 match node.expr {
                     JSXExpr::JSXEmptyExpr(..) => {
@@ -54,27 +61,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         expect!(self, '}');
 
         Ok(JSXSpreadChild {
-            span: span!(self, start),
-            expr,
-        })
-    }
-
-    /// Parses JSX expression enclosed into curly brackets.
-    pub(super) fn parse_jsx_expr_container(&mut self, _: BytePos) -> PResult<JSXExprContainer> {
-        debug_assert!(self.input.syntax().jsx());
-
-        let start = cur_pos!(self);
-        bump!(self);
-        let expr = if is!(self, '}') {
-            self.parse_jsx_empty_expr().map(JSXExpr::JSXEmptyExpr)?
-        } else {
-            if is!(self, "...") {
-                bump!(self);
-            }
-            self.parse_expr().map(JSXExpr::Expr)?
-        };
-        expect!(self, '}');
-        Ok(JSXExprContainer {
             span: span!(self, start),
             expr,
         })
@@ -142,7 +128,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
-            self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
+            try_parse_ts(self, |p| p.parse_ts_type_args().map(Some))
         } else {
             None
         };
@@ -171,27 +157,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             self_closing,
             type_args,
         })
-    }
-
-    /// Parses JSX closing tag starting after "</".
-    fn parse_jsx_closing_element_at(
-        &mut self,
-        start: BytePos,
-    ) -> PResult<Either<JSXClosingFragment, JSXClosingElement>> {
-        debug_assert!(self.input.syntax().jsx());
-
-        if eat!(self, JSXTagEnd) {
-            return Ok(Either::Left(JSXClosingFragment {
-                span: span!(self, start),
-            }));
-        }
-
-        let name = self.parse_jsx_element_name()?;
-        expect!(self, JSXTagEnd);
-        Ok(Either::Right(JSXClosingElement {
-            span: span!(self, start),
-            name,
-        }))
     }
 
     /// Parses entire JSX element, including it"s opening tag
@@ -241,7 +206,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                                 assert_and_bump!(p, '/');
 
                                 closing_element =
-                                    p.parse_jsx_closing_element_at(start).map(Some)?;
+                                    parse_jsx_closing_element_at(p, start).map(Some)?;
                                 break 'contents;
                             }
 
@@ -260,7 +225,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                                     .push(p.parse_jsx_spread_child().map(JSXElementChild::from)?);
                             } else {
                                 children.push(
-                                    p.parse_jsx_expr_container(start)
+                                    parse_jsx_expr_container(p, start)
                                         .map(JSXElementChild::from)?,
                                 );
                             }

@@ -1,7 +1,10 @@
 //! 13.3.3 Destructuring Binding Patterns
 
 use swc_common::Spanned;
-use swc_ecma_lexer::common::parser::is_not_this;
+use swc_ecma_lexer::common::parser::{
+    is_not_this,
+    typescript::{eat_any_ts_modifier, parse_ts_modifier},
+};
 
 use super::*;
 use crate::{lexer::Token, parser::Parser, token};
@@ -122,7 +125,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
         let start = cur_pos!(self);
 
-        let has_modifier = self.eat_any_ts_modifier()?;
+        let has_modifier = eat_any_ts_modifier(self)?;
 
         let pat_start = cur_pos!(self);
         let mut pat = self.parse_binding_element()?;
@@ -291,8 +294,8 @@ impl<I: Tokens> Parser<I> {
             let accessibility = self.parse_access_modifier()?;
             (
                 accessibility,
-                self.parse_ts_modifier(&["override"], false)?.is_some(),
-                self.parse_ts_modifier(&["readonly"], false)?.is_some(),
+                parse_ts_modifier(self, &["override"], false)?.is_some(),
+                parse_ts_modifier(self, &["readonly"], false)?.is_some(),
             )
         } else {
             (None, false, false)

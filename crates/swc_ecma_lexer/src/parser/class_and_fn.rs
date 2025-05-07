@@ -5,7 +5,7 @@ use crate::{
     common::parser::{
         has_use_strict, is_constructor, is_invalid_class_name::IsInvalidClassName, is_not_this,
         is_simple_param_list::IsSimpleParameterList, output_type::OutputType,
-        Parser as ParserTrait,
+        typescript::parse_ts_modifier, Parser as ParserTrait,
     },
     lexer::TokenContext,
     tok,
@@ -371,17 +371,20 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     }
 
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
-        Ok(self
-            .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
-            .and_then(|s| match s {
-                "public" => Some(Accessibility::Public),
-                "protected" => Some(Accessibility::Protected),
-                "private" => Some(Accessibility::Private),
-                other => {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1274(other.into()));
-                    None
-                }
-            }))
+        Ok(parse_ts_modifier(
+            self,
+            &["public", "protected", "private", "in", "out"],
+            false,
+        )?
+        .and_then(|s| match s {
+            "public" => Some(Accessibility::Public),
+            "protected" => Some(Accessibility::Protected),
+            "private" => Some(Accessibility::Private),
+            other => {
+                self.emit_err(self.input.prev_span(), SyntaxError::TS1274(other.into()));
+                None
+            }
+        }))
     }
 
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
@@ -622,7 +625,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let mut modifier_span = None;
         let declare = declare_token.is_some();
         while let Some(modifier) =
-            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
+            parse_ts_modifier(self, &["abstract", "readonly", "override", "static"], true)?
         {
             modifier_span = Some(self.input.prev_span());
             match modifier {
@@ -929,7 +932,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         {
             // handle async foo(){}
 
-            if self.parse_ts_modifier(&["override"], false)?.is_some() {
+            if parse_ts_modifier(self, &["override"], false)?.is_some() {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),
