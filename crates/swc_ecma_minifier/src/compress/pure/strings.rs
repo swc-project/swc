@@ -448,11 +448,10 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        let str_part = convert_str_value_to_tpl_cooked(&ls.value);
-                        let mut new_cooked = String::with_capacity(str_part.len() + cooked.len());
-                        new_cooked.push_str(&str_part);
-                        new_cooked.push_str(cooked);
-                        *cooked = new_cooked.into();
+                        let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
+                        str_part.reserve(cooked.len());
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
 
                     let raw_str_part = ls
