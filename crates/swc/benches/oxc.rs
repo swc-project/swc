@@ -46,10 +46,7 @@ fn full_group(c: &mut Criterion) {
         for source_map in [true, false] {
             for react_dev in [true, false] {
                 c.bench_function(
-                    &format!(
-                        "es/oxc/{}/sourceMap={}/reactDev={}",
-                        filename, source_map, react_dev
-                    ),
+                    &format!("es/oxc/{filename}/sourceMap={source_map}/reactDev={react_dev}"),
                     |b| {
                         bench_full(
                             b,

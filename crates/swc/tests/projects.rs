@@ -55,7 +55,7 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
                     Ok(v.code.into())
                 }
             }
-            Err(err) => panic!("Error: {:?}", err),
+            Err(err) => panic!("Error: {err:?}"),
         }
     })
 }
@@ -92,7 +92,7 @@ fn compile_str(
                     Ok(v)
                 }
             }
-            Err(err) => panic!("Error: {:?}", err),
+            Err(err) => panic!("Error: {err:?}"),
         }
     })
 }
@@ -141,8 +141,8 @@ fn project(dir: &str) {
                     },
                 ) {
                     Ok(..) => {}
-                    Err(ref err) if format!("{:?}", err).contains("not matched") => {}
-                    Err(err) => panic!("Error: {:?}", err),
+                    Err(ref err) if format!("{err:?}").contains("not matched") => {}
+                    Err(err) => panic!("Error: {err:?}"),
                 }
             }
 
@@ -206,7 +206,7 @@ fn par_project(dir: &str) {
 #[test]
 fn issue_225() {
     let s = file("tests/projects/issue-225/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains("function _interop_require_default"));
     assert!(s.contains("_interop_require_default(require(\"foo\"))"));
@@ -216,7 +216,7 @@ fn issue_225() {
 #[test]
 fn issue_226() {
     let s = file("tests/projects/issue-226/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains("import * as _Foo from \"bar\";"));
     assert!(s.contains("export { _Foo as Foo }"));
@@ -226,7 +226,7 @@ fn issue_226() {
 #[test]
 fn issue_351() {
     let s = file("tests/projects/issue-351/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains(".default.createElement(\"div\", null);"));
 }
@@ -235,7 +235,7 @@ fn issue_351() {
 #[test]
 fn issue_389() {
     let s = file("tests/projects/issue-389/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains(".default.bar = true"));
 }
@@ -244,7 +244,7 @@ fn issue_389() {
 #[test]
 fn issue_406() {
     let s = file("tests/projects/issue-406/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains("return("));
 }
@@ -252,7 +252,7 @@ fn issue_406() {
 #[test]
 fn issue_409_1() {
     let s = file("tests/projects/issue-409-1/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(s.contains("JSON.parse"));
 }
@@ -260,7 +260,7 @@ fn issue_409_1() {
 #[test]
 fn issue_409_2() {
     let s = file("tests/projects/issue-409-2/input.js").unwrap();
-    println!("{}", s);
+    println!("{s}");
 
     assert!(!s.contains("JSON.parse"));
 }
@@ -269,11 +269,11 @@ fn issue_409_2() {
 #[test]
 fn issue_414() {
     let s1 = file("tests/projects/issue-414/a.js").unwrap();
-    println!("{}", s1);
+    println!("{s1}");
     assert!(s1.contains("require(\"foo\")"));
 
     let s2 = file("tests/projects/issue-414/b.ts").unwrap();
-    println!("{}", s2);
+    println!("{s2}");
     assert!(s2.contains("define("));
     assert!(s2.contains("__esModule"));
 }
@@ -313,7 +313,7 @@ fn issue_528() {
         .replace(' ', "");
     let f = f.trim();
 
-    println!("{}", f);
+    println!("{f}");
     assert_eq!(
         f,
         "\
@@ -335,7 +335,7 @@ fn env_entry_chrome_49() {
         .replace(' ', "");
     let f = f.trim();
 
-    println!("{}", f);
+    println!("{f}");
 
     assert_eq!(f.lines().count(), 84);
 }
@@ -347,7 +347,7 @@ fn env_entry_chrome_71() {
         .replace(' ', "");
     let f = f.trim();
 
-    println!("{}", f);
+    println!("{f}");
 
     assert_eq!(f.lines().count(), 10);
 }
@@ -359,7 +359,7 @@ fn env_query_chrome_71() {
         .replace(' ', "");
     let f = f.trim();
 
-    println!("{}", f);
+    println!("{f}");
 
     assert_eq!(f.lines().count(), 10);
 }
@@ -372,7 +372,7 @@ fn project_env() {
 #[test]
 fn issue_602() {
     let f = file("tests/projects/issue-602/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(!f.contains("undefined1"));
 }
@@ -380,7 +380,7 @@ fn issue_602() {
 #[test]
 fn issue_604_1() {
     let f = file("tests/projects/issue-604-1/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("_loop(i)"));
 }
@@ -388,7 +388,7 @@ fn issue_604_1() {
 #[test]
 fn issue_605() {
     let f = file("tests/projects/issue-605/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains(r#"_export_star(require("c"), exports);"#));
 }
@@ -396,7 +396,7 @@ fn issue_605() {
 #[test]
 fn await_expr() {
     let f = file("tests/projects/await-expression/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("await"));
     assert!(f.contains("test"));
@@ -405,7 +405,7 @@ fn await_expr() {
 #[test]
 fn await_expr_2() {
     let f = file("tests/projects/await-expression-2/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("await"));
     assert!(f.contains("test"));
@@ -424,7 +424,7 @@ fn issue_658() {
 #[test]
 fn issue_763() {
     let f = file("tests/projects/issue-763/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("_consts.RESOURCE_WEBSITE"));
     assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
@@ -434,7 +434,7 @@ fn issue_763() {
 #[test]
 fn issue_763_2() {
     let f = file("tests/projects/issue-763-2/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("_consts.RESOURCE_WEBSITE"));
     assert!(f.contains("_consts.RESOURCE_FACEBOOK"));
@@ -444,7 +444,7 @@ fn issue_763_2() {
 #[test]
 fn issue_779_1() {
     let f = file("tests/projects/issue-779-1/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor.js\");"))
 }
@@ -452,7 +452,7 @@ fn issue_779_1() {
 #[test]
 fn issue_779_2() {
     let f = file("tests/projects/issue-779-2/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("require(\"core-js\");"));
 }
@@ -460,7 +460,7 @@ fn issue_779_2() {
 #[test]
 fn issue_783() {
     let f = file("tests/projects/issue-783/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(!f.contains("require(\"core-js\");"));
     assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor.js\");"))
@@ -484,7 +484,7 @@ fn issue_783_core_js_2() {
         },
     )
     .unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(
         !f.contains("'core-js'"),
@@ -509,7 +509,7 @@ fn issue_783_core_js_3() {
         },
     )
     .unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(
         !f.contains("'core-js'"),
@@ -520,7 +520,7 @@ fn issue_783_core_js_3() {
 #[test]
 fn issue_801() {
     let f = file("tests/projects/issue-801/input.ts").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(!f.contains("function delete"));
 }
@@ -558,7 +558,7 @@ fn issue_879() {
         },
     )
     .unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.find("function X").is_some(), "swc should compile class");
     assert_eq!(
@@ -571,7 +571,7 @@ fn issue_879() {
 #[test]
 fn issue_895() {
     let f = file("tests/projects/issue-895/input.ts").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("_url ="));
     assert!(f.contains("(0, _url.queryString)"));
@@ -584,7 +584,7 @@ fn issue_895() {
 #[test]
 fn issue_1052() {
     let f = file("tests/projects/issue-1052/input.ts").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(!f.contains("_new"))
 }
@@ -592,7 +592,7 @@ fn issue_1052() {
 #[test]
 fn issue_1203() {
     let f = file("tests/projects/issue-1203/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(!f.contains("return //"))
 }
@@ -600,7 +600,7 @@ fn issue_1203() {
 #[test]
 fn issue_9663() {
     let f = file("tests/projects/issue-9663/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert!(f.contains("set = Reflect.set"));
     assert!(!f.contains("function set1("));
@@ -609,7 +609,7 @@ fn issue_9663() {
 #[test]
 fn codegen_1() {
     let f = file("tests/projects/codegen-1/input.js").unwrap();
-    println!("{}", f);
+    println!("{f}");
 
     assert_eq!(f.to_string(), "'\"';\n");
 }
@@ -630,7 +630,7 @@ fn issue_1549() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert_eq!(output.to_string(), "var a = \"\\n\";\n");
 }
@@ -651,7 +651,7 @@ fn deno_10282_1() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert_eq!(output.to_string(), "var a = \"\\n\";\n");
 }
@@ -672,7 +672,7 @@ fn deno_10282_2() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert_eq!(output.to_string(), "const a = `\n`;\n");
 }
@@ -685,7 +685,7 @@ impl Fold for Panicking {
         println!("HMM");
 
         if let JSXElementName::Ident(Ident { sym, .. }) = name {
-            panic!("visited: {}", sym)
+            panic!("visited: {sym}")
         }
 
         node
@@ -878,9 +878,9 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                         }
                     }
                 }
-                Err(ref err) if format!("{:?}", err).contains("not matched") => {}
-                Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
-                Err(err) => panic!("Error: {:?}", err),
+                Err(ref err) if format!("{err:?}").contains("not matched") => {}
+                Err(ref err) if format!("{err:?}").contains("Syntax Error") => return Err(()),
+                Err(err) => panic!("Error: {err:?}"),
             }
             if handler.has_errors() {
                 Err(())
@@ -942,7 +942,7 @@ fn opt_source_file_name_1() {
     .map
     .unwrap();
 
-    println!("{}", map);
+    println!("{map}");
 
     assert!(map.contains("entry-foo"));
 }
@@ -977,7 +977,7 @@ fn issue_2224() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert!(output.contains("this.property = TestClass.name"));
 }
@@ -1035,7 +1035,7 @@ fn issue_6009() {
                          hello() {{`"
                     );
                 }
-                Err(out) => panic!("Failed to compile where it should not!\nErr:{:?}", out),
+                Err(out) => panic!("Failed to compile where it should not!\nErr:{out:?}"),
             }
         }
 
@@ -1049,8 +1049,7 @@ fn issue_6009() {
                 Ok(out) => {
                     panic!(
                         "Expected to return an error because the file is being excluded. And that \
-                         didn't happen!\nTransformOutput: {:?}",
-                        out
+                         didn't happen!\nTransformOutput: {out:?}"
                     );
                 }
                 Err(err) => {
@@ -1207,7 +1206,7 @@ fn issue_8674_1() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
 }
@@ -1247,7 +1246,7 @@ fn issue_8701_1() {
         },
     )
     .unwrap();
-    println!("{}", output);
+    println!("{output}");
 
     assert_eq!(
         output.to_string(),

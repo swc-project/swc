@@ -269,7 +269,7 @@ where
 
         serde_json::from_slice(&json_str).context("failed to parse json")
     })
-    .with_context(|| format!("failed to parse loose json: {}", s))
+    .with_context(|| format!("failed to parse loose json: {s}"))
 }
 
 fn get_all_files(path: &Path) -> Result<Vec<PathBuf>> {

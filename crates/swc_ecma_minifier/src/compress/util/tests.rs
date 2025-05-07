@@ -74,8 +74,7 @@ fn assert_negate_cost(s: &str, in_bool_ctx: bool, is_ret_val_ignored: bool, expe
 
         assert_eq!(
             actual, expected,
-            "Expected negation cost of {} to be {}, but got {}",
-            s, expected, actual,
+            "Expected negation cost of {s} to be {expected}, but got {actual}",
         );
 
         Ok(())

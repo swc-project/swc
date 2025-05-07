@@ -24,7 +24,7 @@ use swc_ecma_transforms_base::{
 fn main() {
     let file = args().nth(1).expect("should provide a path to file");
 
-    eprintln!("File: {}", file);
+    eprintln!("File: {file}");
 
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(Path::new(&file)).expect("failed to load file");

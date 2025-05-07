@@ -103,7 +103,7 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
         .create(true)
         .open(&ignore_file_path)?;
 
-    write!(f, "{}", ignore).context("failed to write to .gitignore file")?;
+    write!(f, "{ignore}").context("failed to write to .gitignore file")?;
 
     Ok(())
 }
@@ -151,7 +151,7 @@ impl super::CommandRunner for PluginScaffoldOptions {
             path.join("Cargo.toml"),
             format!(
                 r#"[package]
-name = "{}"
+name = "{name}"
 version = "0.1.0"
 edition = "2021"
 
@@ -163,13 +163,12 @@ lto = true
 
 [dependencies]
 serde = "1"
-swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
+swc_core = {{ version = "{swc_core_version}", features = ["ecma_plugin_transform"] }}
 
 # .cargo/config.toml defines few alias to build plugin.
 # cargo build-wasip1 generates wasm32-wasip1 binary
 # cargo build-wasm32 generates wasm32-unknown-unknown binary.
-"#,
-                name, swc_core_version
+"#
             )
             .as_bytes(),
         )
@@ -210,21 +209,20 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             path.join("package.json"),
             format!(
                 r#"{{
-    "name": "{}",
+    "name": "{name}",
     "version": "0.1.0",
     "description": "",
     "author": "",
     "license": "ISC",
     "keywords": ["swc-plugin"],
-    "main": "{}",
+    "main": "{dist_output_path}",
     "scripts": {{
-        "prepublishOnly": "cargo {} --release"
+        "prepublishOnly": "cargo {build_alias} --release"
     }},
     "files": [],
     "preferUnplugged": true
 }}
-"#,
-                name, dist_output_path, build_alias
+"#
             )
             .as_bytes(),
         )
