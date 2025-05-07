@@ -496,6 +496,86 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const AWAIT: Self = Token::Await;
+    const BACKQUOTE: Self = Token::BackQuote;
+    const BANG: Self = Self::Bang;
+    const BIT_AND: Self = Self::Ampersand;
+    const BIT_AND_EQ: Self = Self::BitAndEq;
+    const BIT_OR: Self = Self::Pipe;
+    const BIT_OR_EQ: Self = Self::BitOrEq;
+    const CLASS: Self = Self::Class;
+    const COLON: Self = Self::Colon;
+    const COMMA: Self = Token::Comma;
+    const CONST: Self = Self::Const;
+    const DELETE: Self = Self::Delete;
+    const DIV: Self = Token::Slash;
+    const DIV_EQ: Self = Token::DivEq;
+    const DOLLAR_LBRACE: Self = Token::DollarLBrace;
+    const DOT: Self = Self::Dot;
+    const DOTDOTDOT: Self = Self::DotDotDot;
+    const ENUM: Self = Token::Enum;
+    const EQUAL: Self = Token::Eq;
+    const EXP: Self = Token::Exp;
+    const EXP_EQ: Self = Token::ExpEq;
+    const EXTENDS: Self = Token::Extends;
+    const FALSE: Self = Token::False;
+    const FUNCTION: Self = Self::Function;
+    const GREATER: Self = Token::Gt;
+    const GREATER_EQ: Self = Token::GtEq;
+    const HASH: Self = Self::Hash;
+    const IMPLEMENTS: Self = Token::Implements;
+    const IMPORT: Self = Self::Import;
+    const IN: Self = Self::In;
+    const INTERFACE: Self = Token::Interface;
+    const IS: Self = Token::Is;
+    const JSX_TAG_END: Self = Token::JSXTagEnd;
+    const KW_SUPER: Self = Self::Super;
+    const LBRACE: Self = Self::LBrace;
+    const LBRACKET: Self = Self::LBracket;
+    const LESS: Self = Token::Lt;
+    const LESS_EQ: Self = Token::LtEq;
+    const LET: Self = Token::Let;
+    const LOGICAL_AND: Self = Token::LogicalAnd;
+    const LOGICAL_AND_EQ: Self = Self::LogicalAndEq;
+    const LOGICAL_OR: Self = Token::LogicalOr;
+    const LOGICAL_OR_EQ: Self = Self::LogicalOrEq;
+    const LPAREN: Self = Self::LParen;
+    const LSHIFT: Self = Token::LShift;
+    const LSHIFT_EQ: Self = Token::LShiftEq;
+    const MINUS: Self = Self::Minus;
+    const MINUS_MINUS: Self = Self::MinusMinus;
+    const MOD: Self = Token::Percent;
+    const MOD_EQ: Self = Token::ModEq;
+    const MUL: Self = Token::Asterisk;
+    const MUL_EQ: Self = Token::MulEq;
+    const NEW: Self = Self::New;
+    const NULL: Self = Token::Null;
+    const NULLISH_ASSIGN: Self = Token::NullishEq;
+    const NULLISH_COALESCING: Self = Token::NullishCoalescing;
+    const PACKAGE: Self = Token::Package;
+    const PLUS: Self = Self::Plus;
+    const PLUS_PLUS: Self = Self::PlusPlus;
+    const PRIVATE: Self = Token::Private;
+    const PROTECTED: Self = Token::Protected;
+    const PUBLIC: Self = Token::Public;
+    const QUESTION: Self = Token::QuestionMark;
+    const RBRACE: Self = Self::RBrace;
+    const RBRACKET: Self = Self::RBracket;
+    const READONLY: Self = Token::Readonly;
+    const RPAREN: Self = Self::RParen;
+    const RSHIFT: Self = Token::RShift;
+    const RSHIFT_EQ: Self = Token::RShiftEq;
+    const SEMI: Self = Token::Semi;
+    const STATIC: Self = Token::Static;
+    const THIS: Self = Token::This;
+    const TILDE: Self = Self::Tilde;
+    const TRUE: Self = Token::True;
+    const TYPEOF: Self = Self::TypeOf;
+    const VOID: Self = Self::Void;
+    const YIELD: Self = Token::Yield;
+    const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
+    const ZERO_FILL_RSHIFT_EQ: Self = Token::ZeroFillRShiftEq;
+
     #[inline(always)]
     fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
         let name = lexer.atoms.atom(name);
@@ -535,16 +615,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn dollar_lbrace() -> Self {
-        Token::DollarLBrace
-    }
-
-    #[inline(always)]
-    fn backquote() -> Self {
-        Token::BackQuote
-    }
-
-    #[inline(always)]
     fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Num { value, raw }));
         Self::Num
@@ -554,121 +624,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn bigint(value: Box<num_bigint::BigInt>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::BigInt { value, raw }));
         Self::BigInt
-    }
-
-    #[inline(always)]
-    fn hash() -> Self {
-        Self::Hash
-    }
-
-    #[inline(always)]
-    fn dot() -> Self {
-        Self::Dot
-    }
-
-    #[inline(always)]
-    fn dotdotdot() -> Self {
-        Self::DotDotDot
-    }
-
-    #[inline(always)]
-    fn nullish_assign() -> Self {
-        Token::NullishEq
-    }
-
-    #[inline(always)]
-    fn nullish_coalescing() -> Self {
-        Token::NullishCoalescing
-    }
-
-    #[inline(always)]
-    fn question() -> Self {
-        Token::QuestionMark
-    }
-
-    #[inline(always)]
-    fn colon() -> Self {
-        Self::Colon
-    }
-
-    #[inline(always)]
-    fn bit_and() -> Self {
-        Self::Ampersand
-    }
-
-    #[inline(always)]
-    fn bit_and_eq() -> Self {
-        Self::BitAndEq
-    }
-
-    #[inline(always)]
-    fn bit_or() -> Self {
-        Self::Pipe
-    }
-
-    #[inline(always)]
-    fn bit_or_eq() -> Self {
-        Self::BitOrEq
-    }
-
-    #[inline(always)]
-    fn logical_and_eq() -> Self {
-        Self::LogicalAndEq
-    }
-
-    #[inline(always)]
-    fn logical_or_eq() -> Self {
-        Self::LogicalOrEq
-    }
-
-    #[inline(always)]
-    fn mul() -> Self {
-        Token::Asterisk
-    }
-
-    #[inline(always)]
-    fn mul_eq() -> Self {
-        Token::MulEq
-    }
-
-    #[inline(always)]
-    fn r#mod() -> Self {
-        Token::Percent
-    }
-
-    #[inline(always)]
-    fn mod_eq() -> Self {
-        Token::ModEq
-    }
-
-    #[inline(always)]
-    fn exp() -> Self {
-        Token::Exp
-    }
-
-    #[inline(always)]
-    fn exp_eq() -> Self {
-        Token::ExpEq
-    }
-
-    #[inline(always)]
-    fn div() -> Self {
-        Token::Slash
-    }
-
-    #[inline(always)]
-    fn div_eq() -> Self {
-        Token::DivEq
-    }
-
-    #[inline(always)]
-    fn logical_and() -> Self {
-        Token::LogicalAnd
-    }
-
-    #[inline(always)]
-    fn logical_or() -> Self {
-        Token::LogicalOr
     }
 
     #[inline(always)]
@@ -686,61 +641,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
         let value = lexer.get_token_value();
         self.as_word_atom(value)
-    }
-
-    #[inline(always)]
-    fn equal() -> Self {
-        Token::Eq
-    }
-
-    #[inline(always)]
-    fn lshift() -> Self {
-        Token::LShift
-    }
-
-    #[inline(always)]
-    fn lshift_eq() -> Self {
-        Token::LShiftEq
-    }
-
-    #[inline(always)]
-    fn less() -> Self {
-        Token::Lt
-    }
-
-    #[inline(always)]
-    fn less_eq() -> Self {
-        Token::LtEq
-    }
-
-    #[inline(always)]
-    fn rshift() -> Self {
-        Token::RShift
-    }
-
-    #[inline(always)]
-    fn rshift_eq() -> Self {
-        Token::RShiftEq
-    }
-
-    #[inline(always)]
-    fn greater() -> Self {
-        Token::Gt
-    }
-
-    #[inline(always)]
-    fn greater_eq() -> Self {
-        Token::GtEq
-    }
-
-    #[inline(always)]
-    fn zero_fill_rshift() -> Self {
-        Token::ZeroFillRShift
-    }
-
-    #[inline(always)]
-    fn zero_fill_rshift_eq() -> Self {
-        Token::ZeroFillRShiftEq
     }
 
     #[inline(always)]
@@ -784,21 +684,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn null() -> Self {
-        Token::Null
-    }
-
-    #[inline(always)]
-    fn r#true() -> Self {
-        Token::True
-    }
-
-    #[inline(always)]
-    fn r#false() -> Self {
-        Token::False
-    }
-
-    #[inline(always)]
     fn is_word(&self) -> bool {
         self.is_word()
     }
@@ -816,66 +701,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom {
         buffer.expect_word_token_value()
-    }
-
-    #[inline(always)]
-    fn r#enum() -> Self {
-        Token::Enum
-    }
-
-    #[inline(always)]
-    fn r#yield() -> Self {
-        Token::Yield
-    }
-
-    #[inline(always)]
-    fn r#let() -> Self {
-        Token::Let
-    }
-
-    #[inline(always)]
-    fn r#static() -> Self {
-        Token::Static
-    }
-
-    #[inline(always)]
-    fn implements() -> Self {
-        Token::Implements
-    }
-
-    #[inline(always)]
-    fn interface() -> Self {
-        Token::Interface
-    }
-
-    #[inline(always)]
-    fn package() -> Self {
-        Token::Package
-    }
-
-    #[inline(always)]
-    fn private() -> Self {
-        Token::Private
-    }
-
-    #[inline(always)]
-    fn protected() -> Self {
-        Token::Protected
-    }
-
-    #[inline(always)]
-    fn public() -> Self {
-        Token::Public
-    }
-
-    #[inline(always)]
-    fn r#await() -> Self {
-        Token::Await
-    }
-
-    #[inline(always)]
-    fn this() -> Self {
-        Token::This
     }
 
     #[inline(always)]
@@ -899,123 +724,8 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn kw_super() -> Self {
-        Self::Super
-    }
-
-    #[inline(always)]
-    fn lparen() -> Self {
-        Self::LParen
-    }
-
-    #[inline(always)]
-    fn rparen() -> Self {
-        Self::RParen
-    }
-
-    #[inline(always)]
-    fn lbracket() -> Self {
-        Self::LBracket
-    }
-
-    #[inline(always)]
-    fn rbracket() -> Self {
-        Self::RBracket
-    }
-
-    #[inline(always)]
-    fn lbrace() -> Self {
-        Self::LBrace
-    }
-
-    #[inline(always)]
-    fn rbrace() -> Self {
-        Self::RBrace
-    }
-
-    #[inline(always)]
-    fn function() -> Self {
-        Self::Function
-    }
-
-    #[inline(always)]
-    fn class() -> Self {
-        Self::Class
-    }
-
-    #[inline(always)]
-    fn new() -> Self {
-        Self::New
-    }
-
-    #[inline(always)]
-    fn import() -> Self {
-        Self::Import
-    }
-
-    #[inline(always)]
-    fn plus() -> Self {
-        Self::Plus
-    }
-
-    #[inline(always)]
-    fn minus() -> Self {
-        Self::Minus
-    }
-
-    #[inline(always)]
-    fn bang() -> Self {
-        Self::Bang
-    }
-
-    #[inline(always)]
-    fn tilde() -> Self {
-        Self::Tilde
-    }
-
-    #[inline(always)]
-    fn plus_plus() -> Self {
-        Self::PlusPlus
-    }
-
-    #[inline(always)]
-    fn minus_minus() -> Self {
-        Self::MinusMinus
-    }
-
-    #[inline(always)]
-    fn delete() -> Self {
-        Self::Delete
-    }
-
-    #[inline(always)]
-    fn r#typeof() -> Self {
-        Self::TypeOf
-    }
-
-    #[inline(always)]
-    fn void() -> Self {
-        Self::Void
-    }
-
-    #[inline(always)]
     fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b mut Self::Buffer) -> &'b Atom {
         buffer.expect_word_token_value_ref()
-    }
-
-    #[inline(always)]
-    fn r#in() -> Self {
-        Self::In
-    }
-
-    #[inline(always)]
-    fn r#const() -> Self {
-        Self::Const
-    }
-
-    #[inline(always)]
-    fn readonly() -> Self {
-        Token::Readonly
     }
 
     #[inline(always)]
@@ -1045,38 +755,13 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn comma() -> Self {
-        Token::Comma
-    }
-
-    #[inline(always)]
-    fn extends() -> Self {
-        Token::Extends
-    }
-
-    #[inline(always)]
     fn starts_expr(&self) -> bool {
         (*self).starts_expr()
     }
 
     #[inline(always)]
-    fn semi() -> Self {
-        Token::Semi
-    }
-
-    #[inline(always)]
     fn to_string(&self, buffer: &Self::Buffer) -> String {
         (*self).to_string(buffer.get_token_value())
-    }
-
-    #[inline(always)]
-    fn jsx_tag_end() -> Self {
-        Token::JSXTagEnd
-    }
-
-    #[inline(always)]
-    fn is() -> Self {
-        Token::Is
     }
 }
 

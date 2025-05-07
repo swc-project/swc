@@ -100,7 +100,7 @@ where
         let (_, element) = parse_element(p)?;
         buf.push(element);
 
-        if p.input_mut().eat(&P::Token::comma()) {
+        if p.input_mut().eat(&P::Token::COMMA) {
             continue;
         }
 
@@ -109,7 +109,7 @@ where
         }
 
         if kind == ParsingContext::EnumMembers {
-            let expect = P::Token::comma();
+            let expect = P::Token::COMMA;
             let cur = cur!(p, false);
             let cur = match cur.ok() {
                 Some(tok) => tok.clone().to_string(p.input()),
@@ -122,7 +122,7 @@ where
             continue;
         }
         // This will fail with an error about a missing comma
-        expect!(p, &P::Token::comma());
+        expect!(p, &P::Token::COMMA);
     }
 
     Ok(buf)
@@ -223,13 +223,13 @@ where
 pub fn parse_ts_type_member_semicolon<'a, P: Parser<'a>>(p: &mut P) -> PResult<()> {
     debug_assert!(p.input().syntax().typescript());
 
-    if !p.input_mut().eat(&P::Token::comma()) && !p.eat_general_semi() {
+    if !p.input_mut().eat(&P::Token::COMMA) && !p.eat_general_semi() {
         let span = p.input().cur_span();
         let cur = p.input_mut().dump_cur();
         syntax_error!(
             p,
             span,
-            SyntaxError::Expected(format!("{:?}", P::Token::semi()), cur)
+            SyntaxError::Expected(format!("{:?}", P::Token::SEMI), cur)
         )
     }
 
@@ -354,7 +354,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
     };
     if let Some(pos) = pos {
         if stop_on_start_of_class_static_blocks
-            && p.input_mut().is(&P::Token::r#static())
+            && p.input_mut().is(&P::Token::STATIC)
             && peek!(p).is_some_and(|peek| peek.is_lbrace())
         {
             return Ok(None);
@@ -379,16 +379,16 @@ where
     debug_assert!(p.input().syntax().typescript());
     if !skip_first_token {
         if bracket {
-            expect!(p, &P::Token::lbracket());
+            expect!(p, &P::Token::LBRACKET);
         } else {
-            expect!(p, &P::Token::less());
+            expect!(p, &P::Token::LESS);
         }
     }
     let result = parse_ts_delimited_list(p, kind, parse_element)?;
     if bracket {
-        expect!(p, &P::Token::rbracket());
+        expect!(p, &P::Token::RBRACKET);
     } else {
-        expect!(p, &P::Token::greater());
+        expect!(p, &P::Token::GREATER);
     }
     Ok(result)
 }
@@ -396,7 +396,7 @@ where
 /// `tsParseThisTypeNode`
 pub fn parse_ts_this_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsThisType> {
     debug_assert!(p.input().syntax().typescript());
-    expect!(p, &P::Token::this());
+    expect!(p, &P::Token::THIS);
     Ok(TsThisType {
         span: p.input().prev_span(),
     })
@@ -417,7 +417,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
         p.emit_err(dot_span, SyntaxError::TS1005)
     }
     let mut entity = TsEntityName::Ident(init.into());
-    while p.input_mut().eat(&P::Token::dot()) {
+    while p.input_mut().eat(&P::Token::DOT) {
         let dot_start = p.input_mut().cur_pos();
         let Some(cur) = p.input_mut().cur() else {
             p.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
@@ -459,10 +459,10 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
         // Temporarily remove a JSX parsing context, which makes us scan different
         // tokens.
         ts_in_no_context(p, |p| {
-            if p.input_mut().is(&P::Token::lshift()) {
+            if p.input_mut().is(&P::Token::LSHIFT) {
                 p.input_mut().cut_lshift();
             } else {
-                expect!(p, &P::Token::less());
+                expect!(p, &P::Token::LESS);
             }
             parse_ts_delimited_list(p, ParsingContext::TypeParametersOrArguments, |p| {
                 trace_cur!(p, parse_ts_type_args__arg);
@@ -475,7 +475,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     // context. But be sure not to parse a regex in the jsx expression
     // `<C<number> />`, so set exprAllowed = false
     p.input_mut().set_expr_allowed(false);
-    expect!(p, &P::Token::greater());
+    expect!(p, &P::Token::GREATER);
     Ok(Box::new(TsTypeParamInstantiation {
         span: p.span(start),
         params,
@@ -494,7 +494,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     let type_name = parse_ts_entity_name(p, /* allow_reserved_words */ true)?;
     trace_cur!(p, parse_ts_type_ref__type_args);
     let type_params =
-        if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::less()) {
+        if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
             Some(parse_ts_type_args(
                 p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
                     .deref_mut(),
@@ -529,7 +529,7 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
 
     p.in_type().parse_with(|p| {
         if eat_colon {
-            p.assert_and_bump(&P::Token::colon())?;
+            p.assert_and_bump(&P::Token::COLON)?;
         }
 
         trace_cur!(p, parse_ts_type_ann__after_colon);
@@ -553,7 +553,7 @@ pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
     debug_assert!(p.input().syntax().typescript());
 
     let param_name = TsThisTypeOrIdent::TsThisType(lhs);
-    let type_ann = if p.input_mut().eat(&P::Token::is()) {
+    let type_ann = if p.input_mut().eat(&P::Token::IS) {
         let cur_pos = p.input_mut().cur_pos();
         Some(parse_ts_type_ann(
             p, // eat_colon
@@ -620,7 +620,7 @@ pub fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTyp
 
     let start = p.input_mut().cur_pos();
     let name = p.parse_ident_name()?;
-    let constraint = Some(expect_then_parse_ts_type(p, &P::Token::r#in(), "in")?);
+    let constraint = Some(expect_then_parse_ts_type(p, &P::Token::IN, "in")?);
 
     Ok(TsTypeParam {
         span: p.span(start),

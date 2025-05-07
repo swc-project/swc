@@ -500,6 +500,86 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const AWAIT: Self = Token::Word(Word::Keyword(Keyword::Await));
+    const BACKQUOTE: Self = Self::BackQuote;
+    const BANG: Self = Self::Bang;
+    const BIT_AND: Self = Self::BinOp(BinOpToken::BitAnd);
+    const BIT_AND_EQ: Self = Self::AssignOp(AssignOp::BitAndAssign);
+    const BIT_OR: Self = Self::BinOp(BinOpToken::BitOr);
+    const BIT_OR_EQ: Self = Self::AssignOp(AssignOp::BitOrAssign);
+    const CLASS: Self = Token::Word(Word::Keyword(Keyword::Class));
+    const COLON: Self = Self::Colon;
+    const COMMA: Self = Self::Comma;
+    const CONST: Self = Token::Word(Word::Keyword(Keyword::Const));
+    const DELETE: Self = Token::Word(Word::Keyword(Keyword::Delete));
+    const DIV: Self = Token::BinOp(BinOpToken::Div);
+    const DIV_EQ: Self = Token::AssignOp(AssignOp::DivAssign);
+    const DOLLAR_LBRACE: Self = Self::DollarLBrace;
+    const DOT: Self = Self::Dot;
+    const DOTDOTDOT: Self = Self::DotDotDot;
+    const ENUM: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)));
+    const EQUAL: Self = Token::AssignOp(AssignOp::Assign);
+    const EXP: Self = Token::BinOp(BinOpToken::Exp);
+    const EXP_EQ: Self = Token::AssignOp(AssignOp::ExpAssign);
+    const EXTENDS: Self = Self::Word(Word::Keyword(Keyword::Extends));
+    const FALSE: Self = Token::Word(Word::False);
+    const FUNCTION: Self = Token::Word(Word::Keyword(Keyword::Function));
+    const GREATER: Self = Token::BinOp(BinOpToken::Gt);
+    const GREATER_EQ: Self = Token::BinOp(BinOpToken::GtEq);
+    const HASH: Self = Self::Hash;
+    const IMPLEMENTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)));
+    const IMPORT: Self = Token::Word(Word::Keyword(Keyword::Import));
+    const IN: Self = Token::Word(Word::Keyword(Keyword::In));
+    const INTERFACE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)));
+    const IS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)));
+    const JSX_TAG_END: Self = Self::JSXTagEnd;
+    const KW_SUPER: Self = Token::Word(Word::Keyword(Keyword::Super));
+    const LBRACE: Self = Self::LBrace;
+    const LBRACKET: Self = Self::LBracket;
+    const LESS: Self = Token::BinOp(BinOpToken::Lt);
+    const LESS_EQ: Self = Token::BinOp(BinOpToken::LtEq);
+    const LET: Self = Token::Word(Word::Keyword(Keyword::Let));
+    const LOGICAL_AND: Self = tok!("&&");
+    const LOGICAL_AND_EQ: Self = Token::AssignOp(AssignOp::AddAssign);
+    const LOGICAL_OR: Self = tok!("||");
+    const LOGICAL_OR_EQ: Self = Token::AssignOp(AssignOp::OrAssign);
+    const LPAREN: Self = Self::LParen;
+    const LSHIFT: Self = Token::BinOp(BinOpToken::LShift);
+    const LSHIFT_EQ: Self = Token::AssignOp(AssignOp::LShiftAssign);
+    const MINUS: Self = Token::BinOp(BinOpToken::Sub);
+    const MINUS_MINUS: Self = Self::MinusMinus;
+    const MOD: Self = Token::BinOp(BinOpToken::Mod);
+    const MOD_EQ: Self = Token::AssignOp(AssignOp::ModAssign);
+    const MUL: Self = Token::BinOp(BinOpToken::Mul);
+    const MUL_EQ: Self = Token::AssignOp(AssignOp::MulAssign);
+    const NEW: Self = Token::Word(Word::Keyword(Keyword::New));
+    const NULL: Self = Token::Word(Word::Null);
+    const NULLISH_ASSIGN: Self = tok!("??=");
+    const NULLISH_COALESCING: Self = tok!("??");
+    const PACKAGE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)));
+    const PLUS: Self = Token::BinOp(BinOpToken::Add);
+    const PLUS_PLUS: Self = Self::PlusPlus;
+    const PRIVATE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)));
+    const PROTECTED: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)));
+    const PUBLIC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)));
+    const QUESTION: Self = Token::QuestionMark;
+    const RBRACE: Self = Self::RBrace;
+    const RBRACKET: Self = Self::RBracket;
+    const READONLY: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)));
+    const RPAREN: Self = Self::RParen;
+    const RSHIFT: Self = Token::BinOp(BinOpToken::RShift);
+    const RSHIFT_EQ: Self = Token::AssignOp(AssignOp::RShiftAssign);
+    const SEMI: Self = Self::Semi;
+    const STATIC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)));
+    const THIS: Self = Token::Word(Word::Keyword(Keyword::This));
+    const TILDE: Self = Self::Tilde;
+    const TRUE: Self = Token::Word(Word::True);
+    const TYPEOF: Self = Token::Word(Word::Keyword(Keyword::TypeOf));
+    const VOID: Self = Token::Word(Word::Keyword(Keyword::Void));
+    const YIELD: Self = Token::Word(Word::Keyword(Keyword::Yield));
+    const ZERO_FILL_RSHIFT: Self = Token::BinOp(BinOpToken::ZeroFillRShift);
+    const ZERO_FILL_RSHIFT_EQ: Self = Token::AssignOp(AssignOp::ZeroFillRShiftAssign);
+
     #[inline(always)]
     fn jsx_name(name: &'a str, lexer: &mut crate::Lexer<'a>) -> Self {
         let name = lexer.atom(name);
@@ -535,16 +615,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn dollar_lbrace() -> Self {
-        Self::DollarLBrace
-    }
-
-    #[inline(always)]
-    fn backquote() -> Self {
-        Self::BackQuote
-    }
-
-    #[inline(always)]
     fn num(value: f64, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Num { value, raw }
     }
@@ -552,121 +622,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn bigint(value: Box<BigIntValue>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::BigInt { value, raw }
-    }
-
-    #[inline(always)]
-    fn hash() -> Self {
-        Self::Hash
-    }
-
-    #[inline(always)]
-    fn dot() -> Self {
-        Self::Dot
-    }
-
-    #[inline(always)]
-    fn dotdotdot() -> Self {
-        Self::DotDotDot
-    }
-
-    #[inline(always)]
-    fn nullish_assign() -> Self {
-        tok!("??=")
-    }
-
-    #[inline(always)]
-    fn nullish_coalescing() -> Self {
-        tok!("??")
-    }
-
-    #[inline(always)]
-    fn question() -> Self {
-        tok!('?')
-    }
-
-    #[inline(always)]
-    fn colon() -> Self {
-        Self::Colon
-    }
-
-    #[inline(always)]
-    fn bit_and() -> Self {
-        Self::BinOp(BinOpToken::BitAnd)
-    }
-
-    #[inline(always)]
-    fn bit_and_eq() -> Self {
-        Self::AssignOp(AssignOp::BitAndAssign)
-    }
-
-    #[inline(always)]
-    fn bit_or() -> Self {
-        Self::BinOp(BinOpToken::BitOr)
-    }
-
-    #[inline(always)]
-    fn bit_or_eq() -> Self {
-        Self::AssignOp(AssignOp::BitOrAssign)
-    }
-
-    #[inline(always)]
-    fn logical_and() -> Self {
-        tok!("&&")
-    }
-
-    #[inline(always)]
-    fn logical_and_eq() -> Self {
-        Token::AssignOp(AssignOp::AddAssign)
-    }
-
-    #[inline(always)]
-    fn logical_or() -> Self {
-        tok!("||")
-    }
-
-    #[inline(always)]
-    fn logical_or_eq() -> Self {
-        Token::AssignOp(AssignOp::OrAssign)
-    }
-
-    #[inline(always)]
-    fn mul() -> Self {
-        Token::BinOp(BinOpToken::Mul)
-    }
-
-    #[inline(always)]
-    fn mul_eq() -> Self {
-        Token::AssignOp(AssignOp::MulAssign)
-    }
-
-    #[inline(always)]
-    fn r#mod() -> Self {
-        Token::BinOp(BinOpToken::Mod)
-    }
-
-    #[inline(always)]
-    fn mod_eq() -> Self {
-        Token::AssignOp(AssignOp::ModAssign)
-    }
-
-    #[inline(always)]
-    fn exp() -> Self {
-        Token::BinOp(BinOpToken::Exp)
-    }
-
-    #[inline(always)]
-    fn exp_eq() -> Self {
-        Token::AssignOp(AssignOp::ExpAssign)
-    }
-
-    #[inline(always)]
-    fn div() -> Self {
-        Token::BinOp(BinOpToken::Div)
-    }
-
-    #[inline(always)]
-    fn div_eq() -> Self {
-        Token::AssignOp(AssignOp::DivAssign)
     }
 
     #[inline(always)]
@@ -694,61 +649,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             Token::Word(word) => Some(word.into()),
             _ => None,
         }
-    }
-
-    #[inline(always)]
-    fn equal() -> Self {
-        Token::AssignOp(AssignOp::Assign)
-    }
-
-    #[inline(always)]
-    fn lshift() -> Self {
-        Token::BinOp(BinOpToken::LShift)
-    }
-
-    #[inline(always)]
-    fn lshift_eq() -> Self {
-        Token::AssignOp(AssignOp::LShiftAssign)
-    }
-
-    #[inline(always)]
-    fn less() -> Self {
-        Token::BinOp(BinOpToken::Lt)
-    }
-
-    #[inline(always)]
-    fn less_eq() -> Self {
-        Token::BinOp(BinOpToken::LtEq)
-    }
-
-    #[inline(always)]
-    fn rshift() -> Self {
-        Token::BinOp(BinOpToken::RShift)
-    }
-
-    #[inline(always)]
-    fn rshift_eq() -> Self {
-        Token::AssignOp(AssignOp::RShiftAssign)
-    }
-
-    #[inline(always)]
-    fn greater() -> Self {
-        Token::BinOp(BinOpToken::Gt)
-    }
-
-    #[inline(always)]
-    fn greater_eq() -> Self {
-        Token::BinOp(BinOpToken::GtEq)
-    }
-
-    #[inline(always)]
-    fn zero_fill_rshift() -> Self {
-        Token::BinOp(BinOpToken::ZeroFillRShift)
-    }
-
-    #[inline(always)]
-    fn zero_fill_rshift_eq() -> Self {
-        Token::AssignOp(AssignOp::ZeroFillRShiftAssign)
     }
 
     #[inline(always)]
@@ -804,21 +704,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn null() -> Self {
-        Token::Word(Word::Null)
-    }
-
-    #[inline(always)]
-    fn r#true() -> Self {
-        Token::Word(Word::True)
-    }
-
-    #[inline(always)]
-    fn r#false() -> Self {
-        Token::Word(Word::False)
-    }
-
-    #[inline(always)]
     fn take_word(self, _: &mut Self::Buffer) -> Option<Atom> {
         match self {
             Self::Word(word) => Some(word.into()),
@@ -848,71 +733,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn r#enum() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)))
-    }
-
-    #[inline(always)]
-    fn r#yield() -> Self {
-        Token::Word(Word::Keyword(Keyword::Yield))
-    }
-
-    #[inline(always)]
-    fn r#let() -> Self {
-        Token::Word(Word::Keyword(Keyword::Let))
-    }
-
-    #[inline(always)]
-    fn r#static() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)))
-    }
-
-    #[inline(always)]
-    fn implements() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
-    }
-
-    #[inline(always)]
-    fn interface() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)))
-    }
-
-    #[inline(always)]
-    fn package() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)))
-    }
-
-    #[inline(always)]
-    fn private() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
-    }
-
-    #[inline(always)]
-    fn protected() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected)))
-    }
-
-    #[inline(always)]
-    fn public() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public)))
-    }
-
-    #[inline(always)]
-    fn r#await() -> Self {
-        Token::Word(Word::Keyword(Keyword::Await))
-    }
-
-    #[inline(always)]
-    fn this() -> Self {
-        Token::Word(Word::Keyword(Keyword::This))
-    }
-
-    #[inline(always)]
-    fn kw_super() -> Self {
-        Token::Word(Word::Keyword(Keyword::Super))
-    }
-
-    #[inline(always)]
     fn is_keyword(&self) -> bool {
         matches!(self, Self::Word(Word::Keyword(_)))
     }
@@ -933,116 +753,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn is_regexp(&self) -> bool {
         matches!(self, Self::Regex(..))
-    }
-
-    #[inline(always)]
-    fn lparen() -> Self {
-        Self::LParen
-    }
-
-    #[inline(always)]
-    fn rparen() -> Self {
-        Self::RParen
-    }
-
-    #[inline(always)]
-    fn lbracket() -> Self {
-        Self::LBracket
-    }
-
-    #[inline(always)]
-    fn rbracket() -> Self {
-        Self::RBracket
-    }
-
-    #[inline(always)]
-    fn lbrace() -> Self {
-        Self::LBrace
-    }
-
-    #[inline(always)]
-    fn rbrace() -> Self {
-        Self::RBrace
-    }
-
-    #[inline(always)]
-    fn function() -> Self {
-        Token::Word(Word::Keyword(Keyword::Function))
-    }
-
-    #[inline(always)]
-    fn class() -> Self {
-        Token::Word(Word::Keyword(Keyword::Class))
-    }
-
-    #[inline(always)]
-    fn new() -> Self {
-        Token::Word(Word::Keyword(Keyword::New))
-    }
-
-    #[inline(always)]
-    fn import() -> Self {
-        Token::Word(Word::Keyword(Keyword::Import))
-    }
-
-    #[inline(always)]
-    fn plus() -> Self {
-        Token::BinOp(BinOpToken::Add)
-    }
-
-    #[inline(always)]
-    fn minus() -> Self {
-        Token::BinOp(BinOpToken::Sub)
-    }
-
-    #[inline(always)]
-    fn bang() -> Self {
-        Self::Bang
-    }
-
-    #[inline(always)]
-    fn tilde() -> Self {
-        Self::Tilde
-    }
-
-    #[inline(always)]
-    fn plus_plus() -> Self {
-        Self::PlusPlus
-    }
-
-    #[inline(always)]
-    fn minus_minus() -> Self {
-        Self::MinusMinus
-    }
-
-    #[inline(always)]
-    fn delete() -> Self {
-        Token::Word(Word::Keyword(Keyword::Delete))
-    }
-
-    #[inline(always)]
-    fn r#typeof() -> Self {
-        Token::Word(Word::Keyword(Keyword::TypeOf))
-    }
-
-    #[inline(always)]
-    fn void() -> Self {
-        Token::Word(Word::Keyword(Keyword::Void))
-    }
-
-    #[inline(always)]
-    fn r#in() -> Self {
-        Token::Word(Word::Keyword(Keyword::In))
-    }
-
-    #[inline(always)]
-    fn r#const() -> Self {
-        Token::Word(Word::Keyword(Keyword::Const))
-    }
-
-    #[inline(always)]
-    fn readonly() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)))
     }
 
     #[inline(always)]
@@ -1077,38 +787,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn comma() -> Self {
-        Self::Comma
-    }
-
-    #[inline(always)]
-    fn extends() -> Self {
-        Self::Word(Word::Keyword(Keyword::Extends))
-    }
-
-    #[inline(always)]
     fn starts_expr(&self) -> bool {
         self.kind().starts_expr()
     }
 
     #[inline(always)]
-    fn semi() -> Self {
-        Self::Semi
-    }
-
-    #[inline(always)]
     fn to_string(&self, _: &Self::Buffer) -> String {
         format!("{:?}", self)
-    }
-
-    #[inline(always)]
-    fn jsx_tag_end() -> Self {
-        Self::JSXTagEnd
-    }
-
-    #[inline(always)]
-    fn is() -> Self {
-        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)))
     }
 }
 

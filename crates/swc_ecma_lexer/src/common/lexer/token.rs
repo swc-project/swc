@@ -14,6 +14,86 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         TokenAndSpan = TokenAndSpan,
     >;
 
+    const JSX_TAG_END: Self;
+    const DOLLAR_LBRACE: Self;
+    const BACKQUOTE: Self;
+    const HASH: Self;
+    const IN: Self;
+    const IS: Self;
+    const CONST: Self;
+    const DOT: Self;
+    const DOTDOTDOT: Self;
+    const NULLISH_ASSIGN: Self;
+    const NULLISH_COALESCING: Self;
+    const QUESTION: Self;
+    const COLON: Self;
+    const COMMA: Self;
+    const BIT_AND: Self;
+    const BIT_AND_EQ: Self;
+    const BIT_OR: Self;
+    const BIT_OR_EQ: Self;
+    const LOGICAL_AND: Self;
+    const LOGICAL_AND_EQ: Self;
+    const LOGICAL_OR: Self;
+    const LOGICAL_OR_EQ: Self;
+    const MUL: Self;
+    const MUL_EQ: Self;
+    const MOD: Self;
+    const MOD_EQ: Self;
+    const EXP: Self;
+    const EXP_EQ: Self;
+    const DIV: Self;
+    const DIV_EQ: Self;
+    const EQUAL: Self;
+    const LSHIFT: Self;
+    const LSHIFT_EQ: Self;
+    const LESS: Self;
+    const LESS_EQ: Self;
+    const RSHIFT: Self;
+    const RSHIFT_EQ: Self;
+    const GREATER: Self;
+    const GREATER_EQ: Self;
+    const ZERO_FILL_RSHIFT: Self;
+    const ZERO_FILL_RSHIFT_EQ: Self;
+    const NULL: Self;
+    const TRUE: Self;
+    const FALSE: Self;
+    const ENUM: Self;
+    const YIELD: Self;
+    const LET: Self;
+    const STATIC: Self;
+    const IMPLEMENTS: Self;
+    const INTERFACE: Self;
+    const PACKAGE: Self;
+    const PRIVATE: Self;
+    const PROTECTED: Self;
+    const PUBLIC: Self;
+    const READONLY: Self;
+    const AWAIT: Self;
+    const THIS: Self;
+    const KW_SUPER: Self;
+    const LPAREN: Self;
+    const RPAREN: Self;
+    const LBRACKET: Self;
+    const RBRACKET: Self;
+    const LBRACE: Self;
+    const RBRACE: Self;
+    const FUNCTION: Self;
+    const CLASS: Self;
+    const NEW: Self;
+    const IMPORT: Self;
+    const PLUS: Self;
+    const MINUS: Self;
+    const BANG: Self;
+    const TILDE: Self;
+    const PLUS_PLUS: Self;
+    const MINUS_MINUS: Self;
+    const DELETE: Self;
+    const TYPEOF: Self;
+    const VOID: Self;
+    const EXTENDS: Self;
+    const SEMI: Self;
+
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
     fn take_jsx_name(self, buffer: &mut Self::Buffer) -> Atom;
@@ -29,8 +109,6 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_text(&self) -> bool;
     fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
-
-    fn jsx_tag_end() -> Self;
 
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_regexp(&self) -> bool;
@@ -54,85 +132,6 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn starts_expr(&self) -> bool;
     fn to_string(&self, buffer: &Self::Buffer) -> String;
 
-    fn dollar_lbrace() -> Self;
-    fn backquote() -> Self;
-    fn hash() -> Self;
-    fn r#in() -> Self;
-    fn is() -> Self;
-    fn r#const() -> Self;
-    fn dot() -> Self;
-    fn dotdotdot() -> Self;
-    fn nullish_assign() -> Self;
-    fn nullish_coalescing() -> Self;
-    fn question() -> Self;
-    fn colon() -> Self;
-    fn comma() -> Self;
-    fn bit_and() -> Self;
-    fn bit_and_eq() -> Self;
-    fn bit_or() -> Self;
-    fn bit_or_eq() -> Self;
-    fn logical_and() -> Self;
-    fn logical_and_eq() -> Self;
-    fn logical_or() -> Self;
-    fn logical_or_eq() -> Self;
-    fn mul() -> Self;
-    fn mul_eq() -> Self;
-    fn r#mod() -> Self;
-    fn mod_eq() -> Self;
-    fn exp() -> Self;
-    fn exp_eq() -> Self;
-    fn div() -> Self;
-    fn div_eq() -> Self;
-    fn equal() -> Self;
-    fn lshift() -> Self;
-    fn lshift_eq() -> Self;
-    fn less() -> Self;
-    fn less_eq() -> Self;
-    fn rshift() -> Self;
-    fn rshift_eq() -> Self;
-    fn greater() -> Self;
-    fn greater_eq() -> Self;
-    fn zero_fill_rshift() -> Self;
-    fn zero_fill_rshift_eq() -> Self;
-    fn null() -> Self;
-    fn r#true() -> Self;
-    fn r#false() -> Self;
-    fn r#enum() -> Self;
-    fn r#yield() -> Self;
-    fn r#let() -> Self;
-    fn r#static() -> Self;
-    fn implements() -> Self;
-    fn interface() -> Self;
-    fn package() -> Self;
-    fn private() -> Self;
-    fn protected() -> Self;
-    fn public() -> Self;
-    fn readonly() -> Self;
-    fn r#await() -> Self;
-    fn this() -> Self;
-    fn kw_super() -> Self;
-    fn lparen() -> Self;
-    fn rparen() -> Self;
-    fn lbracket() -> Self;
-    fn rbracket() -> Self;
-    fn lbrace() -> Self;
-    fn rbrace() -> Self;
-    fn function() -> Self;
-    fn class() -> Self;
-    fn new() -> Self;
-    fn import() -> Self;
-    fn plus() -> Self;
-    fn minus() -> Self;
-    fn bang() -> Self;
-    fn tilde() -> Self;
-    fn plus_plus() -> Self;
-    fn minus_minus() -> Self;
-    fn delete() -> Self;
-    fn r#typeof() -> Self;
-    fn void() -> Self;
-    fn extends() -> Self;
-    fn semi() -> Self;
-
     fn is_error(&self) -> bool;
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
 
@@ -145,143 +144,143 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     #[inline(always)]
     fn is_less(&self) -> bool {
-        Self::less().eq(self)
+        Self::LESS.eq(self)
     }
     #[inline(always)]
     fn is_less_eq(&self) -> bool {
-        Self::less_eq().eq(self)
+        Self::LESS_EQ.eq(self)
     }
     #[inline(always)]
     fn is_greater(&self) -> bool {
-        Self::greater().eq(self)
+        Self::GREATER.eq(self)
     }
     #[inline(always)]
     fn is_equal(&self) -> bool {
-        Self::equal().eq(self)
+        Self::EQUAL.eq(self)
     }
     #[inline(always)]
     fn is_null(&self) -> bool {
-        Self::null().eq(self)
+        Self::NULL.eq(self)
     }
     #[inline(always)]
     fn is_rshift(&self) -> bool {
-        Self::rshift().eq(self)
+        Self::RSHIFT.eq(self)
     }
     #[inline(always)]
     fn is_rshift_eq(&self) -> bool {
-        Self::rshift_eq().eq(self)
+        Self::RSHIFT_EQ.eq(self)
     }
     #[inline(always)]
     fn is_greater_eq(&self) -> bool {
-        Self::greater_eq().eq(self)
+        Self::GREATER_EQ.eq(self)
     }
     #[inline(always)]
     fn is_true(&self) -> bool {
-        Self::r#true().eq(self)
+        Self::TRUE.eq(self)
     }
     #[inline(always)]
     fn is_false(&self) -> bool {
-        Self::r#false().eq(self)
+        Self::FALSE.eq(self)
     }
     #[inline(always)]
     fn is_enum(&self) -> bool {
-        Self::r#enum().eq(self)
+        Self::ENUM.eq(self)
     }
     #[inline(always)]
     fn is_yield(&self) -> bool {
-        Self::r#yield().eq(self)
+        Self::YIELD.eq(self)
     }
     #[inline(always)]
     fn is_let(&self) -> bool {
-        Self::r#let().eq(self)
+        Self::LET.eq(self)
     }
     #[inline(always)]
     fn is_static(&self) -> bool {
-        Self::r#static().eq(self)
+        Self::STATIC.eq(self)
     }
     #[inline(always)]
     fn is_extends(&self) -> bool {
-        Self::extends().eq(self)
+        Self::EXTENDS.eq(self)
     }
     #[inline(always)]
     fn is_implements(&self) -> bool {
-        Self::implements().eq(self)
+        Self::IMPLEMENTS.eq(self)
     }
     #[inline(always)]
     fn is_interface(&self) -> bool {
-        Self::interface().eq(self)
+        Self::INTERFACE.eq(self)
     }
     #[inline(always)]
     fn is_package(&self) -> bool {
-        Self::package().eq(self)
+        Self::PACKAGE.eq(self)
     }
     #[inline(always)]
     fn is_private(&self) -> bool {
-        Self::private().eq(self)
+        Self::PRIVATE.eq(self)
     }
     #[inline(always)]
     fn is_protected(&self) -> bool {
-        Self::protected().eq(self)
+        Self::PROTECTED.eq(self)
     }
     #[inline(always)]
     fn is_public(&self) -> bool {
-        Self::public().eq(self)
+        Self::PUBLIC.eq(self)
     }
     #[inline(always)]
     fn is_readonly(&self) -> bool {
-        Self::readonly().eq(self)
+        Self::READONLY.eq(self)
     }
     #[inline(always)]
     fn is_await(&self) -> bool {
-        Self::r#await().eq(self)
+        Self::AWAIT.eq(self)
     }
     #[inline(always)]
     fn is_this(&self) -> bool {
-        Self::this().eq(self)
+        Self::THIS.eq(self)
     }
     #[inline(always)]
     fn is_super(&self) -> bool {
-        Self::kw_super().eq(self)
+        Self::KW_SUPER.eq(self)
     }
     #[inline(always)]
     fn is_backquote(&self) -> bool {
-        Self::backquote().eq(self)
+        Self::BACKQUOTE.eq(self)
     }
     #[inline(always)]
     fn is_lparen(&self) -> bool {
-        Self::lparen().eq(self)
+        Self::LPAREN.eq(self)
     }
     #[inline(always)]
     fn is_rparen(&self) -> bool {
-        Self::rparen().eq(self)
+        Self::RPAREN.eq(self)
     }
     #[inline(always)]
     fn is_lbracket(&self) -> bool {
-        Self::lbracket().eq(self)
+        Self::LBRACKET.eq(self)
     }
     #[inline(always)]
     fn is_rbracket(&self) -> bool {
-        Self::rbracket().eq(self)
+        Self::RBRACKET.eq(self)
     }
     #[inline(always)]
     fn is_lbrace(&self) -> bool {
-        Self::lbrace().eq(self)
+        Self::LBRACE.eq(self)
     }
     #[inline(always)]
     fn is_rbrace(&self) -> bool {
-        Self::rbrace().eq(self)
+        Self::RBRACE.eq(self)
     }
     #[inline(always)]
     fn is_function(&self) -> bool {
-        Self::function().eq(self)
+        Self::FUNCTION.eq(self)
     }
     #[inline(always)]
     fn is_class(&self) -> bool {
-        Self::class().eq(self)
+        Self::CLASS.eq(self)
     }
     #[inline(always)]
     fn is_new(&self) -> bool {
-        Self::new().eq(self)
+        Self::NEW.eq(self)
     }
     #[inline(always)]
     fn is_ident_ref(&self, ctx: Context) -> bool {
@@ -289,82 +288,82 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     }
     #[inline(always)]
     fn is_import(&self) -> bool {
-        Self::import().eq(self)
+        Self::IMPORT.eq(self)
     }
     #[inline(always)]
     fn is_dot(&self) -> bool {
-        Self::dot().eq(self)
+        Self::DOT.eq(self)
     }
     #[inline(always)]
     fn is_dotdotdot(&self) -> bool {
-        Self::dotdotdot().eq(self)
+        Self::DOTDOTDOT.eq(self)
     }
     #[inline(always)]
     fn is_plus(&self) -> bool {
-        Self::plus().eq(self)
+        Self::PLUS.eq(self)
     }
     #[inline(always)]
     fn is_minus(&self) -> bool {
-        Self::minus().eq(self)
+        Self::MINUS.eq(self)
     }
     #[inline(always)]
     fn is_bang(&self) -> bool {
-        Self::bang().eq(self)
+        Self::BANG.eq(self)
     }
     #[inline(always)]
     fn is_tilde(&self) -> bool {
-        Self::tilde().eq(self)
+        Self::TILDE.eq(self)
     }
     #[inline(always)]
     fn is_plus_plus(&self) -> bool {
-        Self::plus_plus().eq(self)
+        Self::PLUS_PLUS.eq(self)
     }
     #[inline(always)]
     fn is_minus_minus(&self) -> bool {
-        Self::minus_minus().eq(self)
+        Self::MINUS_MINUS.eq(self)
     }
     #[inline(always)]
     fn is_delete(&self) -> bool {
-        Self::delete().eq(self)
+        Self::DELETE.eq(self)
     }
     #[inline(always)]
     fn is_typeof(&self) -> bool {
-        Self::r#typeof().eq(self)
+        Self::TYPEOF.eq(self)
     }
     #[inline(always)]
     fn is_void(&self) -> bool {
-        Self::void().eq(self)
+        Self::VOID.eq(self)
     }
     #[inline(always)]
     fn is_hash(&self) -> bool {
-        Self::hash().eq(self)
+        Self::HASH.eq(self)
     }
     #[inline(always)]
     fn is_in(&self) -> bool {
-        Self::r#in().eq(self)
+        Self::IN.eq(self)
     }
     #[inline(always)]
     fn is_const(&self) -> bool {
-        Self::r#const().eq(self)
+        Self::CONST.eq(self)
     }
     #[inline(always)]
     fn is_star(&self) -> bool {
-        Self::mul().eq(self)
+        Self::MUL.eq(self)
     }
     #[inline(always)]
     fn is_semi(&self) -> bool {
-        Self::semi().eq(self)
+        Self::SEMI.eq(self)
     }
     #[inline(always)]
     fn is_mul(&self) -> bool {
-        Self::mul().eq(self)
+        Self::MUL.eq(self)
     }
     #[inline(always)]
     fn is_slash(&self) -> bool {
-        Self::div().eq(self)
+        Self::DIV.eq(self)
     }
     #[inline(always)]
     fn is_slash_eq(&self) -> bool {
-        Self::div_eq().eq(self)
+        Self::DIV_EQ.eq(self)
     }
 }
