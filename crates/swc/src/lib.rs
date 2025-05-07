@@ -626,7 +626,7 @@ impl Compiler {
                 opts.output_path.as_deref(),
                 opts.source_root.clone(),
                 opts.source_file_name.clone(),
-                opts.source_map_ignore_list.clone(),
+                opts.config.source_map_ignore_list.clone(),
                 handler,
                 Some(config),
                 comments,

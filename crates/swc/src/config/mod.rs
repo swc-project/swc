@@ -174,9 +174,6 @@ pub struct Options {
     pub source_file_name: Option<String>,
 
     #[serde(default)]
-    pub source_map_ignore_list: Option<CachedRegex>,
-
-    #[serde(default)]
     pub source_root: Option<String>,
 
     #[serde(default)]
@@ -957,6 +954,9 @@ pub struct Config {
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
+
+    #[serde(default)]
+    pub source_map_ignore_list: Option<CachedRegex>,
 
     #[serde(default)]
     pub inline_sources_content: BoolConfig<true>,
