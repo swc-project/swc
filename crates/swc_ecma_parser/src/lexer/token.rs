@@ -496,6 +496,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ASSERTS: Self = Token::Asserts;
     const AWAIT: Self = Token::Await;
     const BACKQUOTE: Self = Token::BackQuote;
     const BANG: Self = Self::Bang;
@@ -529,6 +530,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const INTERFACE: Self = Token::Interface;
     const IS: Self = Token::Is;
     const JSX_TAG_END: Self = Token::JSXTagEnd;
+    const JSX_TAG_START: Self = Token::JSXTagStart;
     const KW_SUPER: Self = Self::Super;
     const LBRACE: Self = Self::LBrace;
     const LBRACKET: Self = Self::LBracket;
@@ -762,6 +764,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn to_string(&self, buffer: &Self::Buffer) -> String {
         (*self).to_string(buffer.get_token_value())
+    }
+
+    #[inline(always)]
+    fn is_bin_op(&self) -> bool {
+        (*self).is_bin_op()
     }
 }
 

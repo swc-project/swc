@@ -14,7 +14,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         TokenAndSpan = TokenAndSpan,
     >;
 
+    const ASSERTS: Self;
     const JSX_TAG_END: Self;
+    const JSX_TAG_START: Self;
     const DOLLAR_LBRACE: Self;
     const BACKQUOTE: Self;
     const HASH: Self;
@@ -141,6 +143,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn is_reserved(&self, ctx: super::Context) -> bool;
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
+
+    fn is_bin_op(&self) -> bool;
 
     #[inline(always)]
     fn is_less(&self) -> bool {
@@ -365,5 +369,17 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_slash_eq(&self) -> bool {
         Self::DIV_EQ.eq(self)
+    }
+    #[inline(always)]
+    fn is_jsx_tag_start(&self) -> bool {
+        Self::JSX_TAG_START.eq(self)
+    }
+    #[inline(always)]
+    fn is_asserts(&self) -> bool {
+        Self::ASSERTS.eq(self)
+    }
+    #[inline(always)]
+    fn is_is(&self) -> bool {
+        Self::IS.eq(self)
     }
 }

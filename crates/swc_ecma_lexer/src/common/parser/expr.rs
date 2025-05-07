@@ -1,5 +1,5 @@
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::{ArrayLit, Expr, Tpl, TplElement, YieldExpr};
+use swc_ecma_ast::{ArrayLit, Expr, Lit, Tpl, TplElement, YieldExpr};
 
 use super::{buffer::Buffer, PResult, Parser};
 use crate::{
@@ -171,4 +171,46 @@ pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<T
         exprs,
         quasis,
     })
+}
+
+pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
+    let start = p.cur_pos();
+    let cur = cur!(p, true);
+    let v = if cur.is_null() {
+        p.bump();
+        let span = p.span(start);
+        Lit::Null(swc_ecma_ast::Null { span })
+    } else if cur.is_true() || cur.is_false() {
+        let value = cur.is_true();
+        p.bump();
+        let span = p.span(start);
+        Lit::Bool(swc_ecma_ast::Bool { span, value })
+    } else if cur.is_str() {
+        let t = p.bump();
+        let (value, raw) = t.take_str(p.input_mut());
+        Lit::Str(swc_ecma_ast::Str {
+            span: p.span(start),
+            value,
+            raw: Some(raw),
+        })
+    } else if cur.is_num() {
+        let t = p.bump();
+        let (value, raw) = t.take_num(p.input_mut());
+        Lit::Num(swc_ecma_ast::Number {
+            span: p.span(start),
+            value,
+            raw: Some(raw),
+        })
+    } else if cur.is_bigint() {
+        let t = p.bump();
+        let (value, raw) = t.take_bigint(p.input_mut());
+        Lit::BigInt(swc_ecma_ast::BigInt {
+            span: p.span(start),
+            value,
+            raw: Some(raw),
+        })
+    } else {
+        unreachable!("parse_lit should not be called for {:?}", cur)
+    };
+    Ok(v)
 }
