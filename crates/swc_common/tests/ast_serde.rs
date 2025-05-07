@@ -1,3 +1,5 @@
+#![allow(unexpected_cfgs)]
+
 use serde_json::from_str;
 use swc_common::ast_serde;
 
