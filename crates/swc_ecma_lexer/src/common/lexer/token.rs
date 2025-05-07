@@ -30,6 +30,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_jsx_text(&self) -> bool;
     fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
 
+    fn jsx_tag_end() -> Self;
+
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_regexp(&self) -> bool;
 

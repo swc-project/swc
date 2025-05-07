@@ -1,5 +1,5 @@
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::{ArrayLit, Expr, YieldExpr};
+use swc_ecma_ast::{ArrayLit, Expr, Tpl, TplElement, YieldExpr};
 
 use super::{buffer::Buffer, PResult, Parser};
 use crate::{
@@ -129,4 +129,46 @@ pub fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     } else {
         parse_with_arg(p)
     }
+}
+
+fn parse_tpl_elements<'a, P: Parser<'a>>(
+    p: &mut P,
+    is_tagged_tpl: bool,
+) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
+    trace_cur!(p, parse_tpl_elements);
+
+    let mut exprs = Vec::new();
+
+    let cur_elem = p.parse_tpl_element(is_tagged_tpl)?;
+    let mut is_tail = cur_elem.tail;
+    let mut quasis = vec![cur_elem];
+
+    while !is_tail {
+        expect!(p, &P::Token::dollar_lbrace());
+        exprs.push(p.include_in_expr(true).parse_expr()?);
+        expect!(p, &P::Token::rbrace());
+        let elem = p.parse_tpl_element(is_tagged_tpl)?;
+        is_tail = elem.tail;
+        quasis.push(elem);
+    }
+
+    Ok((exprs, quasis))
+}
+
+pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> {
+    trace_cur!(p, parse_tpl);
+    let start = p.input_mut().cur_pos();
+
+    p.assert_and_bump(&P::Token::backquote())?;
+
+    let (exprs, quasis) = parse_tpl_elements(p, is_tagged_tpl)?;
+
+    expect!(p, &P::Token::backquote());
+
+    let span = p.span(start);
+    Ok(Tpl {
+        span,
+        exprs,
+        quasis,
+    })
 }

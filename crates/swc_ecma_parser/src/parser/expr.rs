@@ -1,13 +1,16 @@
+use std::ops::DerefMut;
+
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_lexer::{
     common::parser::{
         assign_target_or_spread::AssignTargetOrSpread,
-        expr::{at_possible_async, parse_array_lit, parse_yield_expr},
+        expr::{at_possible_async, parse_array_lit, parse_tpl, parse_yield_expr},
         expr_ext::ExprExt,
         is_simple_param_list::IsSimpleParameterList,
         pat_type::PatType,
+        typescript::{eat_any_ts_modifier, try_parse_ts},
         unwrap_ts_non_null,
     },
     lexer::TokenContext,
@@ -47,7 +50,7 @@ impl<I: Tokens> Parser<I> {
                 TokenContext::JSXExpr
             );
 
-            let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
+            let res = try_parse_ts(self, |p| p.parse_assignment_expr_base().map(Some));
             if let Some(res) = res {
                 return Ok(res);
             } else {
@@ -84,7 +87,7 @@ impl<I: Tokens> Parser<I> {
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let ctx = self.ctx() & !Context::WillExpectColonForCond;
-            let res = self.with_ctx(ctx).try_parse_ts(|p| {
+            let res = try_parse_ts(self.with_ctx(ctx).deref_mut(), |p| {
                 if is!(p, JSXTagStart) {
                     if let Some(TokenContext::JSXOpeningTag) = p.input.token_context().current() {
                         p.input.token_context_mut().pop();
@@ -273,7 +276,7 @@ impl<I: Tokens> Parser<I> {
 
                     if can_be_arrow && self.input.syntax().typescript() && peeked_is!(self, '<') {
                         // try parsing `async<T>() => {}`
-                        if let Some(res) = self.try_parse_ts(|p| {
+                        if let Some(res) = try_parse_ts(self, |p| {
                             let start = cur_pos!(p);
                             assert_and_bump!(p, "async");
                             p.try_parse_ts_generic_async_arrow_fn(start)
@@ -364,7 +367,7 @@ impl<I: Tokens> Parser<I> {
                     let ctx = self.ctx() & !Context::WillExpectColonForCond;
 
                     // parse template literal
-                    return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
+                    return Ok(parse_tpl(self.with_ctx(ctx).deref_mut(), false)?.into());
                 }
 
                 token!('(') => {
@@ -562,7 +565,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
-                self.try_parse_ts(|p| {
+                try_parse_ts(self, |p| {
                     let ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
 
                     let args = p.with_ctx(ctx).parse_ts_type_args()?;
@@ -731,7 +734,7 @@ impl<I: Tokens> Parser<I> {
         {
             // TODO: Remove clone
             let items_ref = &paren_items;
-            if let Some(expr) = self.try_parse_ts(|p| {
+            if let Some(expr) = try_parse_ts(self, |p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
 
                 expect!(p, "=>");
@@ -774,7 +777,7 @@ impl<I: Tokens> Parser<I> {
             && self.input.syntax().typescript()
             && is!(self, ':')
         {
-            self.try_parse_ts(|p| {
+            try_parse_ts(self, |p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
 
                 if !is!(p, "=>") {
@@ -937,30 +940,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_tpl_elements(
-        &mut self,
-        is_tagged_tpl: bool,
-    ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
-        trace_cur!(self, parse_tpl_elements);
-
-        let mut exprs = Vec::new();
-
-        let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
-        let mut is_tail = cur_elem.tail;
-        let mut quasis = vec![cur_elem];
-
-        while !is_tail {
-            expect!(self, "${");
-            exprs.push(self.include_in_expr(true).parse_expr()?);
-            expect!(self, '}');
-            let elem = self.parse_tpl_element(is_tagged_tpl)?;
-            is_tail = elem.tail;
-            quasis.push(elem);
-        }
-
-        Ok((exprs, quasis))
-    }
-
     fn parse_tagged_tpl(
         &mut self,
         tag: Box<Expr>,
@@ -969,7 +948,7 @@ impl<I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = Box::new(self.parse_tpl(true)?);
+        let tpl = Box::new(parse_tpl(self, true)?);
 
         let span = span!(self, tagged_tpl_start);
 
@@ -983,24 +962,6 @@ impl<I: Tokens> Parser<I> {
             type_params,
             tpl,
             ..Default::default()
-        })
-    }
-
-    pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
-        trace_cur!(self, parse_tpl);
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, '`');
-
-        let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
-
-        expect!(self, '`');
-
-        let span = span!(self, start);
-        Ok(Tpl {
-            span,
-            exprs,
-            quasis,
         })
     }
 
@@ -1082,7 +1043,7 @@ impl<I: Tokens> Parser<I> {
                 let mut_obj_opt = &mut obj_opt;
 
                 let ctx = self.ctx() | Context::ShouldNotLexLtOrGtAsType;
-                let result = self.with_ctx(ctx).try_parse_ts(|p| {
+                let result = try_parse_ts(self.with_ctx(ctx).deref_mut(), |p| {
                     if !no_call
                         && at_possible_async(
                             p,
@@ -1535,7 +1496,7 @@ impl<I: Tokens> Parser<I> {
         return_if_arrow!(self, callee);
 
         let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
-            self.try_parse_ts(|p| {
+            try_parse_ts(self, |p| {
                 let type_args = p.parse_ts_type_args()?;
                 if is!(p, '(') {
                     Ok(Some(type_args))
@@ -1651,7 +1612,7 @@ impl<I: Tokens> Parser<I> {
             self.state.potential_arrow_start = Some(start);
             let modifier_start = start;
 
-            let has_modifier = self.eat_any_ts_modifier()?;
+            let has_modifier = eat_any_ts_modifier(self)?;
             let pat_start = cur_pos!(self);
 
             let mut arg = {

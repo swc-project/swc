@@ -4,7 +4,6 @@ use expr::is_start_of_left_hand_side_expr;
 use expr_ext::ExprExt;
 use pat::pat_is_valid_argument_in_strict;
 use pat_type::PatType;
-use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
@@ -12,12 +11,7 @@ use swc_ecma_ast::{
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
     JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
     ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
-    Str, TplElement, TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsType,
-    TsUnionOrIntersectionType, TsUnionType,
-};
-use typescript::{
-    parse_ts_delimited_list_inner, try_parse_ts_bool, ts_next_token_can_follow_modifier,
-    ParsingContext, UnionOrIntersection,
+    Str, TplElement,
 };
 
 use self::{
@@ -44,6 +38,7 @@ pub mod is_simple_param_list;
 mod macros;
 pub mod assign_target_or_spread;
 pub mod expr;
+pub mod jsx;
 pub mod output_type;
 pub mod parse_object;
 mod pat;
@@ -208,6 +203,22 @@ pub trait Parser<'a>: Sized + Clone {
             return true;
         };
         cur.is_semi() || cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+    }
+
+    #[inline]
+    fn eat_general_semi(&mut self) -> bool {
+        if cfg!(feature = "debug") {
+            tracing::trace!("eat(';'): cur={:?}", cur!(self, false));
+        }
+        let Some(cur) = self.input_mut().cur() else {
+            return true;
+        };
+        if cur.is_semi() {
+            self.bump();
+            true
+        } else {
+            cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+        }
     }
 
     #[inline(always)]
@@ -462,49 +473,6 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(ident.into())
     }
 
-    /// Parses a modifier matching one the given modifier names.
-    ///
-    /// `tsParseModifier`
-    fn parse_ts_modifier(
-        &mut self,
-        allowed_modifiers: &[&'static str],
-        stop_on_start_of_class_static_blocks: bool,
-    ) -> PResult<Option<&'static str>> {
-        if !self.input().syntax().typescript() {
-            return Ok(None);
-        }
-        let pos = {
-            let cur = cur!(self, true);
-            let modifier = if cur.is_unknown_ident() {
-                cur.clone().take_unknown_ident_ref(self.input_mut()).clone()
-            } else if cur.is_known_ident() {
-                cur.take_known_ident()
-            } else if cur.is_in() {
-                atom!("in")
-            } else if cur.is_const() {
-                atom!("const")
-            } else {
-                return Ok(None);
-            };
-            // TODO: compare atom rather than string.
-            allowed_modifiers
-                .iter()
-                .position(|s| **s == *modifier.as_str())
-        };
-        if let Some(pos) = pos {
-            if stop_on_start_of_class_static_blocks
-                && self.input_mut().is(&Self::Token::r#static())
-                && peek!(self).is_some_and(|peek| peek.is_lbrace())
-            {
-                return Ok(None);
-            }
-            if try_parse_ts_bool(self, |p| ts_next_token_can_follow_modifier(p).map(Some))? {
-                return Ok(Some(allowed_modifiers[pos]));
-            }
-        }
-        Ok(None)
-    }
-
     fn parse_opt_binding_ident(&mut self, disallow_let: bool) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
         let ctx = self.ctx();
@@ -517,15 +485,6 @@ pub trait Parser<'a>: Sized + Clone {
         } else {
             Ok(None)
         }
-    }
-
-    /// `tsParseThisTypeNode`
-    fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
-        debug_assert!(self.input().syntax().typescript());
-        expect!(self, &Self::Token::this());
-        Ok(TsThisType {
-            span: self.input().prev_span(),
-        })
     }
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
@@ -633,21 +592,6 @@ pub trait Parser<'a>: Sized + Clone {
         let span = self.input().prev_span();
         let (value, raw) = token.take_jsx_text(self.input_mut());
         Ok(JSXText { span, value, raw })
-    }
-
-    fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
-        if self.syntax().typescript()
-            && {
-                let cur = cur!(self, false)?;
-                cur.is_public() || cur.is_protected() || cur.is_private() || cur.is_readonly()
-            }
-            && peek!(self).is_some_and(|t| t.is_word() || t.is_lbrace() || t.is_lbracket())
-        {
-            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
-            Ok(true)
-        } else {
-            Ok(false)
-        }
     }
 
     /// This does not return 'rest' pattern because non-last parameter cannot be
@@ -858,121 +802,6 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>>;
-
-    /// `tsParseEntityName`
-    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
-        debug_assert!(self.input().syntax().typescript());
-        trace_cur!(self, parse_ts_entity_name);
-        let start = self.input_mut().cur_pos();
-        let init = self.parse_ident_name()?;
-        if &*init.sym == "void" {
-            let dot_start = self.input_mut().cur_pos();
-            let dot_span = self.span(dot_start);
-            self.emit_err(dot_span, SyntaxError::TS1005)
-        }
-        let mut entity = TsEntityName::Ident(init.into());
-        while self.input_mut().eat(&Self::Token::dot()) {
-            let dot_start = self.input_mut().cur_pos();
-            let Some(cur) = self.input_mut().cur() else {
-                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
-                return Ok(entity);
-            };
-            if !cur.is_hash() && !cur.is_word() {
-                self.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
-                return Ok(entity);
-            }
-            let left = entity;
-            let right = if allow_reserved_words {
-                self.parse_ident_name()?
-            } else {
-                self.parse_ident(false, false)?.into()
-            };
-            let span = self.span(start);
-            entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
-        }
-        Ok(entity)
-    }
-
-    /// `tsParseDelimitedList`
-    fn parse_ts_delimited_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        mut parse_element: F,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        parse_ts_delimited_list_inner(self, kind, |p| {
-            let start = p.input_mut().cur_pos();
-            Ok((start, parse_element(p)?))
-        })
-    }
-
-    fn parse_ts_bracketed_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        parse_element: F,
-        bracket: bool,
-        skip_first_token: bool,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input().syntax().typescript());
-        if !skip_first_token {
-            if bracket {
-                expect!(self, &Self::Token::lbracket());
-            } else {
-                expect!(self, &Self::Token::less());
-            }
-        }
-        let result = self.parse_ts_delimited_list(kind, parse_element)?;
-        if bracket {
-            expect!(self, &Self::Token::rbracket());
-        } else {
-            expect!(self, &Self::Token::greater());
-        }
-        Ok(result)
-    }
-
-    /// `tsParseUnionOrIntersectionType`
-    fn parse_ts_union_or_intersection_type<F>(
-        &mut self,
-        kind: UnionOrIntersection,
-        mut parse_constituent_type: F,
-        operator: &Self::Token,
-    ) -> PResult<Box<TsType>>
-    where
-        F: FnMut(&mut Self) -> PResult<Box<TsType>>,
-    {
-        trace_cur!(self, parse_ts_union_or_intersection_type);
-        debug_assert!(self.input().syntax().typescript());
-        let start = self.input_mut().cur_pos(); // include the leading operator in the start
-        self.input_mut().eat(operator);
-        trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
-        let ty = parse_constituent_type(self)?;
-        trace_cur!(self, parse_ts_union_or_intersection_type__after_first);
-        if self.input_mut().is(operator) {
-            let mut types = vec![ty];
-            while self.input_mut().eat(operator) {
-                trace_cur!(self, parse_ts_union_or_intersection_type__constituent);
-                types.push(parse_constituent_type(self)?);
-            }
-            return Ok(Box::new(TsType::TsUnionOrIntersectionType(match kind {
-                UnionOrIntersection::Union => TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: self.span(start),
-                    types,
-                }),
-                UnionOrIntersection::Intersection => {
-                    TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
-                        span: self.span(start),
-                        types,
-                    })
-                }
-            })));
-        }
-        Ok(ty)
-    }
 
     fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);

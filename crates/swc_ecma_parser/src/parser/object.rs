@@ -1,7 +1,7 @@
 //! Parser for object literal.
 
 use swc_common::{Spanned, DUMMY_SP};
-use swc_ecma_lexer::common::parser::is_not_this;
+use swc_ecma_lexer::common::parser::{is_not_this, typescript::eat_any_ts_modifier};
 
 use super::*;
 use crate::parser::Parser;
@@ -89,7 +89,7 @@ impl<I: Tokens> ParseObject<Expr> for Parser<I> {
                 });
         }
 
-        let has_modifiers = self.eat_any_ts_modifier()?;
+        let has_modifiers = eat_any_ts_modifier(self)?;
         let modifiers_span = self.input.prev_span();
 
         let key = self.parse_prop_name()?;

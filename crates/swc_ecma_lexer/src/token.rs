@@ -1100,6 +1100,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     fn to_string(&self, _: &Self::Buffer) -> String {
         format!("{:?}", self)
     }
+
+    #[inline(always)]
+    fn jsx_tag_end() -> Self {
+        Token::JSXTagEnd
+    }
 }
 
 impl Token {
