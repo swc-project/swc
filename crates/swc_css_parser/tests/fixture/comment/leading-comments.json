@@ -1,22 +1,22 @@
 {
-  "92": [
+  "44": [
     {
       "kind": "Block",
       "span": {
-        "start": 76,
-        "end": 92
+        "start": 30,
+        "end": 44
       },
       "text": "/* comment */"
     }
   ],
-  "238": [
+  "313": [
     {
       "kind": "Block",
       "span": {
-        "start": 228,
-        "end": 236
+        "start": 294,
+        "end": 313
       },
-      "text": "/* b */"
+      "text": "/* comment */"
     }
   ],
   "357": [
@@ -29,12 +29,32 @@
       "text": "/* comment */"
     }
   ],
-  "76": [
+  "14": [
     {
       "kind": "Block",
       "span": {
-        "start": 62,
-        "end": 76
+        "start": 1,
+        "end": 14
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "294": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 275,
+        "end": 294
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "28": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 14,
+        "end": 28
       },
       "text": "/* comment */"
     }
@@ -47,52 +67,6 @@
         "end": 226
       },
       "text": "/* end */"
-    }
-  ],
-  "14": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1,
-        "end": 14
-      },
-      "text": "/* comment */"
-    }
-  ],
-  "191": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 173,
-        "end": 191
-      },
-      "text": "/* between */"
-    }
-  ],
-  "133": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 95,
-        "end": 121
-      },
-      "text": "/* a { color: black } */"
-    },
-    {
-      "kind": "Block",
-      "span": {
-        "start": 95,
-        "end": 126
-      },
-      "text": "/**/"
-    },
-    {
-      "kind": "Block",
-      "span": {
-        "start": 95,
-        "end": 132
-      },
-      "text": "/* */"
     }
   ],
   "506": [
@@ -161,46 +135,6 @@
       "text": "/* comment *//* comment */"
     }
   ],
-  "271": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 259,
-        "end": 271
-      },
-      "text": "/* c */"
-    }
-  ],
-  "44": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 30,
-        "end": 44
-      },
-      "text": "/* comment */"
-    }
-  ],
-  "294": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 275,
-        "end": 294
-      },
-      "text": "/* comment */"
-    }
-  ],
-  "313": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 294,
-        "end": 313
-      },
-      "text": "/* comment */"
-    }
-  ],
   "336": [
     {
       "kind": "Block",
@@ -209,6 +143,32 @@
         "end": 336
       },
       "text": "/* comment */"
+    }
+  ],
+  "133": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 95,
+        "end": 121
+      },
+      "text": "/* a { color: black } */"
+    },
+    {
+      "kind": "Block",
+      "span": {
+        "start": 95,
+        "end": 126
+      },
+      "text": "/**/"
+    },
+    {
+      "kind": "Block",
+      "span": {
+        "start": 95,
+        "end": 132
+      },
+      "text": "/* */"
     }
   ],
   "155": [
@@ -221,12 +181,12 @@
       "text": "/* inside */"
     }
   ],
-  "28": [
+  "92": [
     {
       "kind": "Block",
       "span": {
-        "start": 14,
-        "end": 28
+        "start": 76,
+        "end": 92
       },
       "text": "/* comment */"
     }
@@ -239,6 +199,46 @@
         "end": 62
       },
       "text": "/* comment */"
+    }
+  ],
+  "191": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 173,
+        "end": 191
+      },
+      "text": "/* between */"
+    }
+  ],
+  "76": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 62,
+        "end": 76
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "238": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 228,
+        "end": 236
+      },
+      "text": "/* b */"
+    }
+  ],
+  "271": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 259,
+        "end": 271
+      },
+      "text": "/* c */"
     }
   ]
 }

@@ -9,16 +9,6 @@
       "text": "/* Legacy stuff, but allowed by spec */"
     }
   ],
-  "1233": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1225,
-        "end": 1233
-      },
-      "text": "/* ; */"
-    }
-  ],
   "1295": [
     {
       "kind": "Block",
@@ -27,6 +17,16 @@
         "end": 1295
       },
       "text": "/**/"
+    }
+  ],
+  "1233": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1225,
+        "end": 1233
+      },
+      "text": "/* ; */"
     }
   ]
 }

@@ -1,4 +1,14 @@
 {
+  "1496": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1487,
+        "end": 1496
+      },
+      "text": "/*test*/"
+    }
+  ],
   "1477": [
     {
       "kind": "Block",
@@ -19,32 +29,12 @@
       "text": "/*test*/"
     }
   ],
-  "1496": [
+  "1487": [
     {
       "kind": "Block",
       "span": {
-        "start": 1487,
-        "end": 1496
-      },
-      "text": "/*test*/"
-    }
-  ],
-  "1563": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1554,
-        "end": 1563
-      },
-      "text": "/*test*/"
-    }
-  ],
-  "1534": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 1511,
-        "end": 1534
+        "start": 1477,
+        "end": 1487
       },
       "text": "/*test*/"
     }
@@ -59,6 +49,16 @@
       "text": "/*test*/"
     }
   ],
+  "1534": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1511,
+        "end": 1534
+      },
+      "text": "/*test*/"
+    }
+  ],
   "1545": [
     {
       "kind": "Block",
@@ -69,12 +69,12 @@
       "text": "/*test*/"
     }
   ],
-  "1487": [
+  "1563": [
     {
       "kind": "Block",
       "span": {
-        "start": 1477,
-        "end": 1487
+        "start": 1554,
+        "end": 1563
       },
       "text": "/*test*/"
     }
