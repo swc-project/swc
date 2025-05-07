@@ -9,7 +9,7 @@ pub fn manifest_dir() -> PathBuf {
             p.canonicalize()
                 .expect("failed to canonicalize `CARGO_MANIFEST_DIR`")
         })
-        .unwrap_or_else(|err| panic!("failed to read `CARGO_MANIFEST_DIR`: {}", err))
+        .unwrap_or_else(|err| panic!("failed to read `CARGO_MANIFEST_DIR`: {err}"))
 }
 
 /// This directory is per-crate.

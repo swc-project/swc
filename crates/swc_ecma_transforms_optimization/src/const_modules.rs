@@ -46,7 +46,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<String, Arc<Expr>, FxBuildHasher>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(
-        FileName::Internal(format!("<const-module-{}.js>", name)).into(),
+        FileName::Internal(format!("<const-module-{name}.js>")).into(),
         src,
     );
     if let Some(expr) = CACHE.get(&**fm.src) {
@@ -163,8 +163,7 @@ impl VisitMut for ConstModules {
 
                 if self.scope.namespace.contains(&id.to_id()) {
                     panic!(
-                        "The const_module namespace `{}` cannot be used without member accessor",
-                        sym
+                        "The const_module namespace `{sym}` cannot be used without member accessor"
                     )
                 }
             }
@@ -189,9 +188,8 @@ impl VisitMut for ConstModules {
                         .and_then(|entry| entry.get(imported_name))
                         .unwrap_or_else(|| {
                             panic!(
-                                "The requested const_module `{}` does not provide an export named \
-                                 `{}`",
-                                module_name, imported_name
+                                "The requested const_module `{module_name}` does not provide an \
+                                 export named `{imported_name}`"
                             )
                         });
 

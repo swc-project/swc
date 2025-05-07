@@ -62,7 +62,7 @@ impl NoAlert {
     }
 
     fn emit_report(&self, span: Span, fn_name: &str) {
-        let message = format!("Unexpected {}", fn_name);
+        let message = format!("Unexpected {fn_name}");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

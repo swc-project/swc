@@ -64,7 +64,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(match kind {
             ParsingContext::EnumMembers | ParsingContext::TypeMembers => is!(self, '}'),
-            ParsingContext::HeritageClauseElement { .. } => {
+            ParsingContext::HeritageClauseElement => {
                 is!(self, '{') || is!(self, "implements") || is!(self, "extends")
             }
             ParsingContext::TupleElementTypes => is!(self, ']'),
@@ -137,7 +137,7 @@ impl<I: Tokens> Parser<I> {
             if kind == ParsingContext::EnumMembers {
                 const TOKEN: &Token = &Token::Comma;
                 let cur = match cur!(self, false).ok() {
-                    Some(tok) => format!("{:?}", tok),
+                    Some(tok) => format!("{tok:?}"),
                     None => "EOF".to_string(),
                 };
                 self.emit_err(self.input.cur_span(), SyntaxError::Expected(TOKEN, cur));
@@ -2135,7 +2135,7 @@ impl<I: Tokens> Parser<I> {
                                 new_raw.push_str(&raw);
                             }
                             _ => {
-                                write!(new_raw, "{}", value).unwrap();
+                                write!(new_raw, "{value}").unwrap();
                             }
                         };
 
@@ -2153,7 +2153,7 @@ impl<I: Tokens> Parser<I> {
                                 new_raw.push_str(&raw);
                             }
                             _ => {
-                                write!(new_raw, "{}", value).unwrap();
+                                write!(new_raw, "{value}").unwrap();
                             }
                         };
 

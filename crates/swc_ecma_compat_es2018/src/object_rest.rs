@@ -758,7 +758,7 @@ impl ObjectRest {
                                 expr: Lit::Str(Str {
                                     span,
                                     raw: None,
-                                    value: format!("{}", value).into(),
+                                    value: format!("{value}").into(),
                                 })
                                 .into(),
                             }),
@@ -774,7 +774,7 @@ impl ObjectRest {
                                     expr: Lit::Str(Str {
                                         span,
                                         raw: None,
-                                        value: format!("{}", value).into(),
+                                        value: format!("{value}").into(),
                                     })
                                     .into(),
                                 }),
@@ -983,13 +983,13 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 PropName::Num(Number { span, value, .. }) => Lit::Str(Str {
                     span: *span,
                     raw: None,
-                    value: format!("{}", value).into(),
+                    value: format!("{value}").into(),
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value, .. }) => Lit::Str(Str {
                     span: *span,
                     raw: None,
-                    value: format!("{}", value).into(),
+                    value: format!("{value}").into(),
                 })
                 .as_arg(),
                 PropName::Computed(c) => c.expr.clone().as_arg(),

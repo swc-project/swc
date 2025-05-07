@@ -83,7 +83,7 @@ where
             }
         }
 
-        panic!("unknown key: {}", k)
+        panic!("unknown key: {k}")
     }
 }
 

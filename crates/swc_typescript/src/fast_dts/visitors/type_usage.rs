@@ -81,19 +81,17 @@ impl UsedRefs {
     pub fn used_as_type(&self, id: &Id) -> bool {
         self.0
             .get(id)
-            .map_or(false, |ref_type| ref_type.contains(SymbolFlags::Type))
+            .is_some_and(|ref_type| ref_type.contains(SymbolFlags::Type))
     }
 
     pub fn used_as_value(&self, id: &Id) -> bool {
         self.0
             .get(id)
-            .map_or(false, |ref_type| ref_type.contains(SymbolFlags::Value))
+            .is_some_and(|ref_type| ref_type.contains(SymbolFlags::Value))
     }
 
     pub fn used(&self, id: &Id) -> bool {
-        self.0
-            .get(id)
-            .map_or(false, |ref_type| !ref_type.is_empty())
+        self.0.get(id).is_some_and(|ref_type| !ref_type.is_empty())
     }
 
     pub fn extend(&mut self, other: Self) {
@@ -425,7 +423,7 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_module_items(&mut self, node: &[ModuleItem]) {
         for item in node {
             // Skip statements and internals
-            if item.as_stmt().map_or(false, |stmt| !stmt.is_decl())
+            if item.as_stmt().is_some_and(|stmt| !stmt.is_decl())
                 || self.has_internal_annotation(item.span_lo())
             {
                 continue;

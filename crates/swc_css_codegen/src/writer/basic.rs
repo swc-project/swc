@@ -188,8 +188,7 @@ where
     fn write_raw(&mut self, span: Option<Span>, text: &str) -> Result {
         debug_assert!(
             !text.contains('\n'),
-            "write_raw should not contains new lines, got '{}'",
-            text,
+            "write_raw should not contains new lines, got '{text}'",
         );
 
         self.write(span, text)?;

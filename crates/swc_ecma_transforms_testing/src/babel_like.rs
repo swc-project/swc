@@ -111,7 +111,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 }
 
                 if !done {
-                    panic!("Unknown plugin: {}", name);
+                    panic!("Unknown plugin: {name}");
                 }
             }
 

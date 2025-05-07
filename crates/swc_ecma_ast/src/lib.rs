@@ -390,7 +390,7 @@ impl<'de> Deserialize<'de> for EsVersion {
             "es2023" => Ok(EsVersion::Es2023),
             "es2024" => Ok(EsVersion::Es2024),
             "esnext" => Ok(EsVersion::EsNext),
-            _ => Err(D::Error::custom(format!("Unknown ES version: {}", s))),
+            _ => Err(D::Error::custom(format!("Unknown ES version: {s}"))),
         }
     }
 }

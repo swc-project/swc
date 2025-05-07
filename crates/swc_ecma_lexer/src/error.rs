@@ -327,27 +327,25 @@ impl SyntaxError {
             SyntaxError::UnterminatedStrLit => "Unterminated string constant".into(),
             SyntaxError::ExpectedUnicodeEscape => "Expected unicode escape".into(),
             SyntaxError::EscapeInReservedWord { ref word } => {
-                format!("Unexpected escape sequence in reserved word: {}", word).into()
+                format!("Unexpected escape sequence in reserved word: {word}").into()
             }
             SyntaxError::UnterminatedRegExp => "Unterminated regexp literal".into(),
             SyntaxError::UnterminatedTpl => "Unterminated template".into(),
             SyntaxError::IdentAfterNum => "Identifier cannot follow number".into(),
-            SyntaxError::UnexpectedChar { c } => format!("Unexpected character {:?}", c).into(),
+            SyntaxError::UnexpectedChar { c } => format!("Unexpected character {c:?}").into(),
             SyntaxError::InvalidStrEscape => "Invalid string escape".into(),
             SyntaxError::InvalidUnicodeEscape => "Invalid unicode escape".into(),
             SyntaxError::BadCharacterEscapeSequence { expected } => {
-                format!("Bad character escape sequence, expected {}", expected).into()
+                format!("Bad character escape sequence, expected {expected}").into()
             }
             SyntaxError::LegacyCommentInModule => {
                 "Legacy comments cannot be used in module code".into()
             }
             SyntaxError::NumLitTerminatedWithExp => "Expected +, - or decimal digit after e".into(),
 
-            SyntaxError::InvalidIdentInStrict(identifier_name) => format!(
-                "`{}` cannot be used as an identifier in strict mode",
-                identifier_name
-            )
-            .into(),
+            SyntaxError::InvalidIdentInStrict(identifier_name) => {
+                format!("`{identifier_name}` cannot be used as an identifier in strict mode").into()
+            }
             SyntaxError::InvalidIdentInAsync => {
                 "`await` cannot be used as an identifier in an async context".into()
             }
@@ -371,12 +369,12 @@ impl SyntaxError {
             SyntaxError::Unexpected {
                 ref got,
                 ref expected,
-            } => format!("Unexpected token `{}`. Expected {}", got, expected).into(),
+            } => format!("Unexpected token `{got}`. Expected {expected}").into(),
 
             SyntaxError::ReservedWordInImport => "cannot import as reserved word".into(),
             SyntaxError::AssignProperty => "assignment property is invalid syntax".into(),
             SyntaxError::Expected(token, ref got) => {
-                format!("Expected '{:?}', got '{}'", token, got).into()
+                format!("Expected '{token:?}', got '{got}'").into()
             }
             SyntaxError::ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 
@@ -406,7 +404,7 @@ impl SyntaxError {
             SyntaxError::ExpectedIdent => "Expected ident".into(),
             SyntaxError::ExpectedSemi => "Expected ';' or line break".into(),
             SyntaxError::DuplicateLabel(ref label) => {
-                format!("Label {} is already declared", label).into()
+                format!("Label {label} is already declared").into()
             }
             SyntaxError::AsyncGenerator => "An async function cannot be generator".into(),
             SyntaxError::NonTopLevelImportExport => {
@@ -455,7 +453,7 @@ impl SyntaxError {
                 "Expected corresponding JSX closing tag for <>".into()
             }
             SyntaxError::JSXExpectedClosingTag { ref tag } => {
-                format!("Expected corresponding JSX closing tag for <{}>", tag).into()
+                format!("Expected corresponding JSX closing tag for <{tag}>").into()
             }
             SyntaxError::InvalidLeadingDecorator => {
                 "Leading decorators must be attached to a class declaration".into()
@@ -488,11 +486,9 @@ impl SyntaxError {
                 "Classes can't have a private field named '#constructor'.".into()
             }
             SyntaxError::DuplicateConstructor => "A class can only have one constructor".into(),
-            SyntaxError::PrivateNameModifier(modifier) => format!(
-                "'{}' modifier cannot be used with a private identifier",
-                modifier
-            )
-            .into(),
+            SyntaxError::PrivateNameModifier(modifier) => {
+                format!("'{modifier}' modifier cannot be used with a private identifier").into()
+            }
             SyntaxError::ConstructorAccessor => "Class constructor can't be an accessor.".into(),
 
             SyntaxError::ReadOnlyMethod => "A method cannot be readonly".into(),
@@ -509,7 +505,7 @@ impl SyntaxError {
             }
 
             SyntaxError::ExportExpectFrom(s) => {
-                format!("`{}` cannot be used without `from` clause", s).into()
+                format!("`{s}` cannot be used without `from` clause").into()
             }
 
             SyntaxError::DotsWithoutIdentifier => {
@@ -575,8 +571,7 @@ impl SyntaxError {
 
             SyntaxError::ImportBindingIsString(s) => format!(
                 "A string literal cannot be used as an imported binding.\n- Did you mean `import \
-                 {{ \"{}\" as foo }}`?",
-                s
+                 {{ \"{s}\" as foo }}`?"
             )
             .into(),
 
@@ -589,7 +584,7 @@ impl SyntaxError {
             }
 
             SyntaxError::DuplicatedRegExpFlags(flag) => {
-                format!("Duplicated regular expression flag '{}'.", flag).into()
+                format!("Duplicated regular expression flag '{flag}'.").into()
             }
             SyntaxError::UnknownRegExpFlags => "Unknown regular expression flags.".into(),
 
@@ -599,9 +594,9 @@ impl SyntaxError {
             SyntaxError::TS1014 => "A rest parameter must be last in a parameter list".into(),
             SyntaxError::TS1015 => "Parameter cannot have question mark and initializer".into(),
             SyntaxError::TS1029(left, right) => {
-                format!("'{}' modifier must precede '{}' modifier.", left, right).into()
+                format!("'{left}' modifier must precede '{right}' modifier.").into()
             }
-            SyntaxError::TS1030(word) => format!("'{}' modifier already seen.", word).into(),
+            SyntaxError::TS1030(word) => format!("'{word}' modifier already seen.").into(),
             SyntaxError::TS1031 => {
                 "`declare` modifier cannot appear on class elements of this kind".into()
             }
@@ -614,11 +609,9 @@ impl SyntaxError {
             SyntaxError::TS1085 => "Legacy octal literals are not available when targeting \
                                     ECMAScript 5 and higher"
                 .into(),
-            SyntaxError::TS1089(word) => format!(
-                "'{}' modifier cannot appear on a constructor declaration",
-                word
-            )
-            .into(),
+            SyntaxError::TS1089(word) => {
+                format!("'{word}' modifier cannot appear on a constructor declaration").into()
+            }
             SyntaxError::TS1092 => {
                 "Type parameters cannot appear on a constructor declaration".into()
             }
@@ -668,25 +661,22 @@ impl SyntaxError {
             SyntaxError::TS1244 => {
                 "Abstract methods can only appear within an abstract class.".into()
             }
-            SyntaxError::TS1243(left, right) => format!(
-                "'{}' modifier cannot be used with '{}' modifier.",
-                left, right
-            )
-            .into(),
+            SyntaxError::TS1243(left, right) => {
+                format!("'{left}' modifier cannot be used with '{right}' modifier.").into()
+            }
             SyntaxError::TS1245 => "Abstract method cannot have an implementation.".into(),
             SyntaxError::TS1267 => "Abstract property cannot have an initializer.".into(),
             SyntaxError::TS1273(word) => {
-                format!("'{}' modifier cannot appear on a type parameter", word).into()
+                format!("'{word}' modifier cannot appear on a type parameter").into()
             }
             SyntaxError::TS1274(word) => format!(
-                "'{}' modifier can only appear on a type parameter of a class, interface or type \
-                 alias",
-                word
+                "'{word}' modifier can only appear on a type parameter of a class, interface or \
+                 type alias"
             )
             .into(),
             SyntaxError::TS1277(word) => format!(
-                "'{}' modifier can only appear on a type parameter of a function, method or class",
-                word
+                "'{word}' modifier can only appear on a type parameter of a function, method or \
+                 class"
             )
             .into(),
             SyntaxError::TS2206 => "The 'type' modifier cannot be used on a named import when \
@@ -731,11 +721,10 @@ impl SyntaxError {
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
             }
-            SyntaxError::TsNonNullAssertionNotAllowed(word) => format!(
-                "Typescript non-null assertion operator is not allowed with '{}'",
-                word
-            )
-            .into(),
+            SyntaxError::TsNonNullAssertionNotAllowed(word) => {
+                format!("Typescript non-null assertion operator is not allowed with '{word}'")
+                    .into()
+            }
             SyntaxError::SetterParamRequired => "Setter should have exactly one parameter".into(),
             SyntaxError::UnexpectedTokenWithSuggestions {
                 candidate_list: token_list,
@@ -746,7 +735,7 @@ impl SyntaxError {
                     token_list[0..token_list.len() - 1].join(" , ")
                         + &*format!("or {}", token_list[token_list.len() - 1])
                 };
-                format!("Unexpected token. Did you mean {}?", did_you_mean).into()
+                format!("Unexpected token. Did you mean {did_you_mean}?").into()
             }
             SyntaxError::WithLabel { inner, .. } => inner.error.1.msg(),
             SyntaxError::ReservedTypeAssertion => "This syntax is reserved in files with the .mts \

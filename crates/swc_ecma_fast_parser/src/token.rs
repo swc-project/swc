@@ -512,20 +512,20 @@ impl fmt::Debug for TokenValue {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             TokenValue::None => write!(f, "None"),
-            TokenValue::Word(word) => write!(f, "Word({})", word),
-            TokenValue::Str { value, raw } => write!(f, "Str({}, raw: {})", value, raw),
-            TokenValue::Num { value, raw } => write!(f, "Num({}, raw: {})", value, raw),
-            TokenValue::BigInt { value, raw } => write!(f, "BigInt({}, raw: {})", value, raw),
-            TokenValue::Regex { exp, flags } => write!(f, "Regex(/{}/{}", exp, flags),
+            TokenValue::Word(word) => write!(f, "Word({word})"),
+            TokenValue::Str { value, raw } => write!(f, "Str({value}, raw: {raw})"),
+            TokenValue::Num { value, raw } => write!(f, "Num({value}, raw: {raw})"),
+            TokenValue::BigInt { value, raw } => write!(f, "BigInt({value}, raw: {raw})"),
+            TokenValue::Regex { exp, flags } => write!(f, "Regex(/{exp}/{flags}"),
             TokenValue::Template { raw, cooked } => {
                 if let Some(cooked) = cooked {
-                    write!(f, "Template({}, cooked: {})", raw, cooked)
+                    write!(f, "Template({raw}, cooked: {cooked})")
                 } else {
-                    write!(f, "Template({}, invalid)", raw)
+                    write!(f, "Template({raw}, invalid)")
                 }
             }
-            TokenValue::JSXText { value, .. } => write!(f, "JSXText({})", value),
-            TokenValue::Shebang(content) => write!(f, "Shebang({})", content),
+            TokenValue::JSXText { value, .. } => write!(f, "JSXText({value})"),
+            TokenValue::Shebang(content) => write!(f, "Shebang({content})"),
         }
     }
 }
@@ -591,13 +591,13 @@ impl fmt::Debug for Token {
         match &self.value {
             TokenValue::None => write!(f, "{:?}", self.token_type),
             TokenValue::Word(word) => write!(f, "{:?}({})", self.token_type, word),
-            TokenValue::Str { value, raw } => write!(f, "Str({}, raw: {})", value, raw),
-            TokenValue::Num { value, raw } => write!(f, "Num({}, raw: {})", value, raw),
-            TokenValue::BigInt { value, raw } => write!(f, "BigInt({}, raw: {})", value, raw),
-            TokenValue::Regex { exp, flags } => write!(f, "Regex(/{}/{}", exp, flags),
-            TokenValue::Template { raw, .. } => write!(f, "Template({})", raw),
-            TokenValue::JSXText { value, .. } => write!(f, "JSXText({})", value),
-            TokenValue::Shebang(content) => write!(f, "Shebang({})", content),
+            TokenValue::Str { value, raw } => write!(f, "Str({value}, raw: {raw})"),
+            TokenValue::Num { value, raw } => write!(f, "Num({value}, raw: {raw})"),
+            TokenValue::BigInt { value, raw } => write!(f, "BigInt({value}, raw: {raw})"),
+            TokenValue::Regex { exp, flags } => write!(f, "Regex(/{exp}/{flags}"),
+            TokenValue::Template { raw, .. } => write!(f, "Template({raw})"),
+            TokenValue::JSXText { value, .. } => write!(f, "JSXText({value})"),
+            TokenValue::Shebang(content) => write!(f, "Shebang({content})"),
         }
     }
 }

@@ -1214,7 +1214,7 @@ impl Generator {
         if match &property {
             CompiledProp::Prop(p) => contains_yield(p),
             CompiledProp::Accessor(g, s) => {
-                g.as_ref().map_or(false, contains_yield) || s.as_ref().map_or(false, contains_yield)
+                g.as_ref().is_some_and(contains_yield) || s.as_ref().is_some_and(contains_yield)
             }
         } && !expressions.is_empty()
         {

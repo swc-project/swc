@@ -174,15 +174,15 @@ impl Lexer<'_> {
                         if is_hex(&s[2..]) {
                             let value = from_code(&s[2..], 16)?;
 
-                            return Ok((value, format!("&{};", s)));
+                            return Ok((value, format!("&{s};")));
                         }
                     } else if is_dec(stripped) {
                         let value = from_code(stripped, 10)?;
 
-                        return Ok((value, format!("&{};", s)));
+                        return Ok((value, format!("&{s};")));
                     }
                 } else if let Some(entity) = xhtml(&s) {
-                    return Ok((entity, format!("&{};", s)));
+                    return Ok((entity, format!("&{s};")));
                 }
 
                 break;

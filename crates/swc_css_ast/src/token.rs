@@ -177,7 +177,7 @@ impl Take for Token {
 impl Hash for Token {
     fn hash<H: Hasher>(&self, state: &mut H) {
         fn integer_decode(val: f64) -> (u64, i16, i8) {
-            let bits: u64 = unsafe { mem::transmute(val) };
+            let bits: u64 = unsafe { f64::to_bits(val) };
             let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
             let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
             let mantissa = if exponent == 0 {

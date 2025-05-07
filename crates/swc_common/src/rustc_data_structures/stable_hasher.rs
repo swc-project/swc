@@ -227,14 +227,14 @@ impl<CTX> HashStable<CTX> for ::std::num::NonZeroU32 {
 
 impl<CTX> HashStable<CTX> for f32 {
     fn hash_stable(&self, ctx: &mut CTX, hasher: &mut StableHasher) {
-        let val: u32 = unsafe { ::std::mem::transmute(*self) };
+        let val: u32 = unsafe { f32::to_bits(*self) };
         val.hash_stable(ctx, hasher);
     }
 }
 
 impl<CTX> HashStable<CTX> for f64 {
     fn hash_stable(&self, ctx: &mut CTX, hasher: &mut StableHasher) {
-        let val: u64 = unsafe { ::std::mem::transmute(*self) };
+        let val: u64 = unsafe { f64::to_bits(*self) };
         val.hash_stable(ctx, hasher);
     }
 }

@@ -95,32 +95,32 @@ impl fmt::Display for Error {
         match &self.kind {
             ErrorKind::UnexpectedToken { expected, got } => {
                 if let Some(expected) = expected {
-                    write!(f, "Expected {}, got {}", expected, got)
+                    write!(f, "Expected {expected}, got {got}")
                 } else {
-                    write!(f, "Unexpected token {}", got)
+                    write!(f, "Unexpected token {got}")
                 }
             }
             ErrorKind::UnexpectedEof { expected } => {
                 if let Some(expected) = expected {
-                    write!(f, "Unexpected end of file, expected {}", expected)
+                    write!(f, "Unexpected end of file, expected {expected}")
                 } else {
                     write!(f, "Unexpected end of file")
                 }
             }
             ErrorKind::InvalidNumber { reason } => {
-                write!(f, "Invalid numeric literal: {}", reason)
+                write!(f, "Invalid numeric literal: {reason}")
             }
             ErrorKind::InvalidString { reason } => {
-                write!(f, "Invalid string literal: {}", reason)
+                write!(f, "Invalid string literal: {reason}")
             }
             ErrorKind::InvalidRegExp { reason } => {
-                write!(f, "Invalid regular expression: {}", reason)
+                write!(f, "Invalid regular expression: {reason}")
             }
             ErrorKind::InvalidTemplate { reason } => {
-                write!(f, "Invalid template literal: {}", reason)
+                write!(f, "Invalid template literal: {reason}")
             }
             ErrorKind::InvalidIdentifier { reason } => {
-                write!(f, "Invalid identifier: {}", reason)
+                write!(f, "Invalid identifier: {reason}")
             }
             ErrorKind::InvalidAssignmentTarget => {
                 write!(f, "Invalid assignment target")
@@ -144,16 +144,16 @@ impl fmt::Display for Error {
                 write!(f, "import.meta can only be used in modules")
             }
             ErrorKind::UnexpectedKeyword { keyword } => {
-                write!(f, "Unexpected keyword '{}'", keyword)
+                write!(f, "Unexpected keyword '{keyword}'")
             }
             ErrorKind::UnexpectedReservedWord { word } => {
-                write!(f, "Unexpected reserved word '{}'", word)
+                write!(f, "Unexpected reserved word '{word}'")
             }
             ErrorKind::DuplicateBinding { name } => {
-                write!(f, "Duplicate binding '{}'", name)
+                write!(f, "Duplicate binding '{name}'")
             }
             ErrorKind::General { message } => {
-                write!(f, "{}", message)
+                write!(f, "{message}")
             }
             ErrorKind::UnterminatedString => {
                 write!(f, "Unterminated string literal")
