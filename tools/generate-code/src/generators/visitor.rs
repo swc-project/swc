@@ -396,14 +396,14 @@ impl Generator<'_> {
         let name = self.kind.trait_prefix();
 
         let name = if with {
-            format!("{}With", name)
+            format!("{name}With")
         } else {
             name.to_string()
         };
 
         match self.variant {
             Variant::Normal => Ident::new(&name, Span::call_site()),
-            Variant::AstPath => Ident::new(&format!("{}AstPath", name), Span::call_site()),
+            Variant::AstPath => Ident::new(&format!("{name}AstPath"), Span::call_site()),
         }
     }
 
@@ -463,9 +463,8 @@ impl Generator<'_> {
             let recurse_doc = "If you want to recurse, you need to call it manually.";
 
             let method_doc = doc(&format!(
-                "Visit a node of type `{}`.\n\nBy default, this method calls \
-                 [`{type_name}::{visit_with_children_name}`]. {recurse_doc}",
-                type_name
+                "Visit a node of type `{type_name}`.\n\nBy default, this method calls \
+                 [`{type_name}::{visit_with_children_name}`]. {recurse_doc}"
             ));
 
             trait_methods.push(parse_quote!(
@@ -666,8 +665,7 @@ impl Generator<'_> {
             );
 
             let visit_with_doc = doc(&format!(
-                "Calls [{visitor_trait_name}`::{}`] with `self`.",
-                visit_method_name
+                "Calls [{visitor_trait_name}`::{visit_method_name}`] with `self`."
             ));
 
             let default_body: Expr = match node_type {
@@ -866,7 +864,7 @@ impl Generator<'_> {
                 };
 
                 for (idx, field) in u.unnamed.iter().enumerate() {
-                    let field_name = Ident::new(&format!("_field_{}", idx), Span::call_site());
+                    let field_name = Ident::new(&format!("_field_{idx}"), Span::call_site());
                     let ty = &field.ty;
                     let binding_idx = Lit::Int(LitInt::new(&idx.to_string(), Span::call_site()));
                     bindings.push(parse_quote!(#binding_idx: #field_name));
@@ -958,8 +956,7 @@ impl Generator<'_> {
             );
 
             let visit_with_doc = doc(&format!(
-                "Calls [{visitor_trait_name}`::{}`] with `self`. (Extra impl)",
-                visit_method_name
+                "Calls [{visitor_trait_name}`::{visit_method_name}`] with `self`. (Extra impl)"
             ));
 
             let default_body: Expr = match node_type {

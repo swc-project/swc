@@ -1,7 +1,4 @@
-use std::{
-    hash::{Hash, Hasher},
-    mem,
-};
+use std::hash::{Hash, Hasher};
 
 use is_macro::Is;
 #[cfg(feature = "serde-impl")]

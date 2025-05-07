@@ -18,7 +18,7 @@ pub fn set_version(version: &Version) -> Result<()> {
 
         Ok(())
     })
-    .with_context(|| format!("failed to set version of @swc/core to v{}", version))?;
+    .with_context(|| format!("failed to set version of @swc/core to v{version}"))?;
 
     wrap(|| {
         let mut c = Command::new("npm");
@@ -33,7 +33,7 @@ pub fn set_version(version: &Version) -> Result<()> {
 
         Ok(())
     })
-    .with_context(|| format!("failed to set version of @swc/minifier to v{}", version))?;
+    .with_context(|| format!("failed to set version of @swc/minifier to v{version}"))?;
 
     wrap(|| {
         let mut c = Command::new("cargo");
@@ -49,7 +49,7 @@ pub fn set_version(version: &Version) -> Result<()> {
         c.status()?;
         Ok(())
     })
-    .with_context(|| format!("failed to set version of Wasm packages to v{}", version))?;
+    .with_context(|| format!("failed to set version of Wasm packages to v{version}"))?;
 
     Ok(())
 }
