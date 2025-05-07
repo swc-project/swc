@@ -1,7 +1,10 @@
+use std::ops::DerefMut;
+
 use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{
-    TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsType,
+    TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsThisTypeOrIdent, TsType,
+    TsTypeAnn, TsTypeParam, TsTypeParamInstantiation, TsTypePredicate, TsTypeRef,
     TsUnionOrIntersectionType, TsUnionType,
 };
 
@@ -434,4 +437,198 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
         entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
     }
     Ok(entity)
+}
+
+pub fn ts_look_ahead<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
+where
+    F: FnOnce(&mut P) -> PResult<T>,
+{
+    debug_assert!(p.input().syntax().typescript());
+    let mut cloned = p.clone();
+    cloned.set_ctx(p.ctx() | Context::IgnoreError);
+    op(&mut cloned)
+}
+
+/// `tsParseTypeArguments`
+pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypeParamInstantiation>> {
+    trace_cur!(p, parse_ts_type_args);
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.input_mut().cur_pos();
+    let params = p.in_type().parse_with(|p| {
+        // Temporarily remove a JSX parsing context, which makes us scan different
+        // tokens.
+        ts_in_no_context(p, |p| {
+            if p.input_mut().is(&P::Token::lshift()) {
+                p.input_mut().cut_lshift();
+            } else {
+                expect!(p, &P::Token::less());
+            }
+            parse_ts_delimited_list(p, ParsingContext::TypeParametersOrArguments, |p| {
+                trace_cur!(p, parse_ts_type_args__arg);
+
+                p.parse_ts_type()
+            })
+        })
+    })?;
+    // This reads the next token after the `>` too, so do this in the enclosing
+    // context. But be sure not to parse a regex in the jsx expression
+    // `<C<number> />`, so set exprAllowed = false
+    p.input_mut().set_expr_allowed(false);
+    expect!(p, &P::Token::greater());
+    Ok(Box::new(TsTypeParamInstantiation {
+        span: p.span(start),
+        params,
+    }))
+}
+
+/// `tsParseTypeReference`
+pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
+    trace_cur!(p, parse_ts_type_ref);
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.input_mut().cur_pos();
+
+    let has_modifier = eat_any_ts_modifier(p)?;
+
+    let type_name = parse_ts_entity_name(p, /* allow_reserved_words */ true)?;
+    trace_cur!(p, parse_ts_type_ref__type_args);
+    let type_params =
+        if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::less()) {
+            Some(parse_ts_type_args(
+                p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                    .deref_mut(),
+            )?)
+        } else {
+            None
+        };
+
+    if has_modifier {
+        p.emit_err(p.span(start), SyntaxError::TS2369);
+    }
+
+    Ok(TsTypeRef {
+        span: p.span(start),
+        type_name,
+        type_params,
+    })
+}
+
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
+    p: &mut P,
+    eat_colon: bool,
+    start: BytePos,
+) -> PResult<Box<TsTypeAnn>> {
+    trace_cur!(p, parse_ts_type_ann);
+
+    debug_assert!(p.input().syntax().typescript());
+
+    p.in_type().parse_with(|p| {
+        if eat_colon {
+            p.assert_and_bump(&P::Token::colon())?;
+        }
+
+        trace_cur!(p, parse_ts_type_ann__after_colon);
+
+        let type_ann = p.parse_ts_type()?;
+
+        Ok(Box::new(TsTypeAnn {
+            span: p.span(start),
+            type_ann,
+        }))
+    })
+}
+
+/// `tsParseThisTypePredicate`
+pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    has_asserts_keyword: bool,
+    lhs: TsThisType,
+) -> PResult<TsTypePredicate> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let param_name = TsThisTypeOrIdent::TsThisType(lhs);
+    let type_ann = if p.input_mut().eat(&P::Token::is()) {
+        let cur_pos = p.input_mut().cur_pos();
+        Some(parse_ts_type_ann(
+            p, // eat_colon
+            false, cur_pos,
+        )?)
+    } else {
+        None
+    };
+
+    Ok(TsTypePredicate {
+        span: p.span(start),
+        asserts: has_asserts_keyword,
+        param_name,
+        type_ann,
+    })
+}
+
+/// `tsEatThenParseType`
+pub fn eat_then_parse_ts_type<'a, P: Parser<'a>>(
+    p: &mut P,
+    token_to_eat: &P::Token,
+) -> PResult<Option<Box<TsType>>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(Default::default());
+    }
+
+    p.in_type().parse_with(|p| {
+        if !p.input_mut().eat(token_to_eat) {
+            return Ok(None);
+        }
+
+        p.parse_ts_type().map(Some)
+    })
+}
+
+/// `tsExpectThenParseType`
+pub fn expect_then_parse_ts_type<'a, P: Parser<'a>>(
+    p: &mut P,
+    token: &P::Token,
+    token_str: &'static str,
+) -> PResult<Box<TsType>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    p.in_type().parse_with(|p| {
+        if !p.input_mut().eat(token) {
+            let got = format!("{:?}", cur!(p, false).ok());
+            syntax_error!(
+                p,
+                p.input().cur_span(),
+                SyntaxError::Unexpected {
+                    got,
+                    expected: token_str
+                }
+            );
+        }
+
+        p.parse_ts_type()
+    })
+}
+
+/// `tsParseMappedTypeParameter`
+pub fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeParam> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.input_mut().cur_pos();
+    let name = p.parse_ident_name()?;
+    let constraint = Some(expect_then_parse_ts_type(p, &P::Token::r#in(), "in")?);
+
+    Ok(TsTypeParam {
+        span: p.span(start),
+        name: name.into(),
+        is_in: false,
+        is_out: false,
+        is_const: false,
+        constraint,
+        default: None,
+    })
 }

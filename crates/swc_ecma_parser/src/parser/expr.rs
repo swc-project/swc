@@ -10,7 +10,7 @@ use swc_ecma_lexer::{
         expr_ext::ExprExt,
         is_simple_param_list::IsSimpleParameterList,
         pat_type::PatType,
-        typescript::{eat_any_ts_modifier, try_parse_ts},
+        typescript::{eat_any_ts_modifier, parse_ts_type_args, try_parse_ts},
         unwrap_ts_non_null,
     },
     lexer::TokenContext,
@@ -568,7 +568,7 @@ impl<I: Tokens> Parser<I> {
                 try_parse_ts(self, |p| {
                     let ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
 
-                    let args = p.with_ctx(ctx).parse_ts_type_args()?;
+                    let args = parse_ts_type_args(p.with_ctx(ctx).deref_mut())?;
                     if !is!(p, '(') {
                         // This will fail
                         expect!(p, '(');
@@ -1061,7 +1061,7 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
 
-                    let type_args = p.parse_ts_type_args()?;
+                    let type_args = parse_ts_type_args(p)?;
 
                     if !no_call && is!(p, '(') {
                         // possibleAsync always false here, because we would have handled it
@@ -1248,7 +1248,7 @@ impl<I: Tokens> Parser<I> {
             || (!no_call && (is!(self, '(')))
         {
             let type_args = if self.syntax().typescript() && is!(self, '<') {
-                self.parse_ts_type_args().map(Some)?
+                parse_ts_type_args(self).map(Some)?
             } else {
                 None
             };
@@ -1497,7 +1497,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
             try_parse_ts(self, |p| {
-                let type_args = p.parse_ts_type_args()?;
+                let type_args = parse_ts_type_args(p)?;
                 if is!(p, '(') {
                     Ok(Some(type_args))
                 } else {

@@ -11,7 +11,7 @@ use swc_ecma_ast::{
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
     JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Null, Number, ObjectLit, ObjectPat,
     ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
-    Str, TplElement,
+    Str, TplElement, TsType,
 };
 
 use self::{
@@ -825,6 +825,8 @@ pub trait Parser<'a>: Sized + Clone {
 
         Ok(expr)
     }
+
+    fn parse_ts_type(&mut self) -> PResult<Box<TsType>>;
 }
 
 fn reparse_expr_as_pat_inner<'a>(

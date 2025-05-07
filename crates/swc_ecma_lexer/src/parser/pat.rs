@@ -6,7 +6,7 @@ use super::*;
 use crate::{
     common::parser::{
         is_not_this,
-        typescript::{eat_any_ts_modifier, parse_ts_modifier},
+        typescript::{eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann},
     },
     tok,
     token::Token,
@@ -255,7 +255,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 let pat = self.parse_binding_pat_or_ident(false)?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
-                    Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                    Some(parse_ts_type_ann(self, /* eat_colon */ true, cur_pos)?)
                 } else {
                     None
                 };
@@ -380,7 +380,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
-                    let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
+                    let ty = parse_ts_type_ann(self, /* eat_colon */ true, cur_pos)?;
                     Some(ty)
                 } else {
                     None

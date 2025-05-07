@@ -73,6 +73,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_assignment_expr()
     }
+
+    #[inline(always)]
+    fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
+        self.parse_ts_type()
+    }
 }
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {

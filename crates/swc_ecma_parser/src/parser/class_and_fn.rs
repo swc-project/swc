@@ -1,9 +1,13 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
-        has_use_strict, is_constructor, is_invalid_class_name::IsInvalidClassName, is_not_this,
-        is_simple_param_list::IsSimpleParameterList, output_type::OutputType,
-        typescript::parse_ts_modifier, Parser as ParserTrait,
+        has_use_strict, is_constructor,
+        is_invalid_class_name::IsInvalidClassName,
+        is_not_this,
+        is_simple_param_list::IsSimpleParameterList,
+        output_type::OutputType,
+        typescript::{parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args},
+        Parser as ParserTrait,
     },
     lexer::TokenContext,
 };
@@ -241,7 +245,7 @@ impl<I: Tokens> Parser<I> {
                 // may not include `TsExprWithTypeArgs`
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && is!(self, '<') {
-                    Ok((super_class, self.parse_ts_type_args().map(Some)?))
+                    Ok((super_class, parse_ts_type_args(self).map(Some)?))
                 } else {
                     Ok((super_class, None))
                 }
@@ -316,7 +320,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
-            Some(self.parse_ts_type_args()?)
+            Some(parse_ts_type_args(self)?)
         } else {
             None
         };
@@ -812,7 +816,7 @@ impl<I: Tokens> Parser<I> {
 
                 if self.syntax().typescript() && is!(self, ':') {
                     let start = cur_pos!(self);
-                    let type_ann = self.parse_ts_type_ann(true, start)?;
+                    let type_ann = parse_ts_type_ann(self, true, start)?;
 
                     self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                 }

@@ -1073,6 +1073,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn jsx_tag_end() -> Self {
         Token::JSXTagEnd
     }
+
+    #[inline(always)]
+    fn is() -> Self {
+        Token::Is
+    }
 }
 
 impl std::fmt::Debug for Token {

@@ -58,6 +58,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn backquote() -> Self;
     fn hash() -> Self;
     fn r#in() -> Self;
+    fn is() -> Self;
     fn r#const() -> Self;
     fn dot() -> Self;
     fn dotdotdot() -> Self;

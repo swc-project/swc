@@ -6,7 +6,7 @@ use crate::{
     common::parser::{
         get_qualified_jsx_name,
         jsx::{parse_jsx_closing_element_at, parse_jsx_expr_container},
-        typescript::try_parse_ts,
+        typescript::{parse_ts_type_args, try_parse_ts},
     },
     tok,
 };
@@ -128,7 +128,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         debug_assert!(self.input.syntax().jsx());
 
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
-            try_parse_ts(self, |p| p.parse_ts_type_args().map(Some))
+            try_parse_ts(self, |p| parse_ts_type_args(p).map(Some))
         } else {
             None
         };

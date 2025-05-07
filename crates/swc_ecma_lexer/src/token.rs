@@ -1103,7 +1103,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
 
     #[inline(always)]
     fn jsx_tag_end() -> Self {
-        Token::JSXTagEnd
+        Self::JSXTagEnd
+    }
+
+    #[inline(always)]
+    fn is() -> Self {
+        Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)))
     }
 }
 
