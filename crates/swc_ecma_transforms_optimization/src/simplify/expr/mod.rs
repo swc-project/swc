@@ -129,7 +129,7 @@ impl VisitMut for SimplifyExpr {
                             .exprs
                             .last()
                             .map(|v| &**v)
-                            .map_or(false, Expr::directness_matters)
+                            .is_some_and(Expr::directness_matters)
                         {
                             match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
@@ -1041,7 +1041,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                             ) {
                                 *changed = true;
 
-                                let value = format!("{}{}", l, r);
+                                let value = format!("{l}{r}");
 
                                 *expr = Lit::Str(Str {
                                     raw: None,

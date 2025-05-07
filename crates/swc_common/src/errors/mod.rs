@@ -694,7 +694,7 @@ impl Handler {
     }
 
     pub fn span_unimpl<S: Into<MultiSpan>>(&self, sp: S, msg: &str) -> ! {
-        self.span_bug(sp, &format!("unimplemented {}", msg));
+        self.span_bug(sp, &format!("unimplemented {msg}"));
     }
 
     pub fn failure(&self, msg: &str) {
@@ -742,7 +742,7 @@ impl Handler {
     }
 
     pub fn unimpl(&self, msg: &str) -> ! {
-        self.bug(&format!("unimplemented {}", msg));
+        self.bug(&format!("unimplemented {msg}"));
     }
 
     fn bump_err_count(&self) {

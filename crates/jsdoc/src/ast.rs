@@ -1,3 +1,5 @@
+#![allow(unexpected_cfgs)]
+
 use swc_atoms::Atom;
 use swc_common::{ast_node, Span};
 

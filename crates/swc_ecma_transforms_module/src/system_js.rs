@@ -791,7 +791,7 @@ impl Fold for SystemJs {
                                             &specifier.orig,
                                         )));
                                     }
-                                    if self.import_idents.iter().any(|i| id == *i) {
+                                    if self.import_idents.contains(&id) {
                                         execute_stmts.push(
                                             self.export_call(
                                                 id.0.clone(),

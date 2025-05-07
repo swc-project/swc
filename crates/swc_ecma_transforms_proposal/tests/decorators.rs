@@ -168,7 +168,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     },
                 },
                 _ => {
-                    panic!("Unknown plugin: {}", name);
+                    panic!("Unknown plugin: {name}");
                 }
             },
         }

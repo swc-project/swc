@@ -288,7 +288,7 @@ impl Modules {
         }
 
         crate::debug::print_hygiene(
-            &format!("{}\n{}", event, files),
+            &format!("{event}\n{files}"),
             cm,
             &Module {
                 span: DUMMY_SP,

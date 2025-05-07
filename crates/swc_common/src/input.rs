@@ -134,7 +134,7 @@ impl Input for StringInput<'_> {
 
     #[inline]
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
-        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;

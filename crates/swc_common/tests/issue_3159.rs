@@ -1,3 +1,5 @@
+#![allow(unexpected_cfgs)]
+
 use swc_common::ast_serde;
 
 #[ast_serde]

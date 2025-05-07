@@ -328,7 +328,7 @@ where
     );
 
     if c.debug {
-        println!("Targets: {:?}", targets);
+        println!("Targets: {targets:?}");
     }
 
     (
@@ -423,14 +423,14 @@ impl Polyfills {
             .filter(|s| !self.excludes.contains(&***s))
             .map(|s| -> Atom {
                 if *s != "regenerator-runtime/runtime.js" {
-                    format!("core-js/modules/{}.js", s).into()
+                    format!("core-js/modules/{s}.js").into()
                 } else {
                     "regenerator-runtime/runtime.js".to_string().into()
                 }
             })
             .chain(self.includes.iter().map(|s| {
                 if s != "regenerator-runtime/runtime.js" {
-                    format!("core-js/modules/{}.js", s).into()
+                    format!("core-js/modules/{s}.js").into()
                 } else {
                     "regenerator-runtime/runtime.js".to_string().into()
                 }

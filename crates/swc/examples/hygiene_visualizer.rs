@@ -58,7 +58,7 @@ fn main() {
     // Read and parse file
     let file_path = &args[1];
     let source_file = cm.load_file(Path::new(file_path)).unwrap_or_else(|e| {
-        eprintln!("Failed to load file '{}': {}", file_path, e);
+        eprintln!("Failed to load file '{file_path}': {e}");
         process::exit(1)
     });
 
@@ -95,7 +95,7 @@ fn main() {
             &mut Vec::new(),
         )
         .unwrap_or_else(|e| {
-            eprintln!("Failed to parse file '{}': {:?}", file_path, e);
+            eprintln!("Failed to parse file '{file_path}': {e:?}");
             process::exit(1)
         });
 

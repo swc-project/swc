@@ -533,7 +533,7 @@ impl Options {
         // This is because minifier API is compatible with Terser, and Terser
         // defaults to true, while by default swc itself doesn't enable
         // inline_script by default.
-        let codegen_inline_script = js_minify.as_ref().map_or(false, |v| v.format.inline_script);
+        let codegen_inline_script = js_minify.as_ref().is_some_and(|v| v.format.inline_script);
 
         let preamble = if !cfg.jsc.output.preamble.is_empty() {
             cfg.jsc.output.preamble
@@ -1249,7 +1249,7 @@ pub enum ErrorFormat {
 impl ErrorFormat {
     pub fn format(&self, err: &Error) -> String {
         match self {
-            ErrorFormat::Normal => format!("{:?}", err),
+            ErrorFormat::Normal => format!("{err:?}"),
             ErrorFormat::Json => {
                 let mut map = serde_json::Map::new();
 
@@ -1578,7 +1578,7 @@ impl GlobalPassOption {
 
             for (k, v) in values {
                 let v = if is_env {
-                    format!("'{}'", v)
+                    format!("'{v}'")
                 } else {
                     (*v).into()
                 };

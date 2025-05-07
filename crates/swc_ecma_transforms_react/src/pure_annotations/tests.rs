@@ -82,8 +82,8 @@ fn run_test(input: &str, expected: &str) {
         let expected_src = emit(expected_sm, expected_comments, &expected);
 
         if actual_src != expected_src {
-            println!(">>>>> Orig <<<<<\n{}", input);
-            println!(">>>>> Code <<<<<\n{}", actual_src);
+            println!(">>>>> Orig <<<<<\n{input}");
+            println!(">>>>> Code <<<<<\n{actual_src}");
             panic!(
                 r#"assertion failed: `(left == right)`
     {}"#,

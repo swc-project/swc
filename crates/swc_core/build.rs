@@ -31,7 +31,7 @@ fn main() {
     let mut f = BufWriter::new(
         File::create(dest_path).expect("Failed to create swc_core version constant"),
     );
-    write!(f, "{}", pkg_version).expect("Failed to write swc_core version constant");
+    write!(f, "{pkg_version}").expect("Failed to write swc_core version constant");
 
     // Attempt to collect some build time env values but will skip if there are any
     // errors.

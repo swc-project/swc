@@ -84,7 +84,7 @@ impl Tester<'_> {
 
         match out {
             Ok(ret) => ret,
-            Err(stderr) => panic!("Stderr:\n{}", stderr),
+            Err(stderr) => panic!("Stderr:\n{stderr}"),
         }
     }
 
@@ -268,7 +268,7 @@ pub fn test_transform<F, P>(
                     &actual.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
-                println!("----- Hygiene -----\n{}", hygiene_src);
+                println!("----- Hygiene -----\n{hygiene_src}");
             }
             _ => {}
         }
@@ -279,7 +279,7 @@ pub fn test_transform<F, P>(
             .apply(fixer::fixer(Some(&tester.comments)));
 
         println!("{:?}", tester.comments);
-        println!("{:?}", expected_comments);
+        println!("{expected_comments:?}");
 
         {
             let (actual_leading, actual_trailing) = tester.comments.borrow_all();
@@ -546,7 +546,7 @@ where
                     &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
-                println!("----- Hygiene -----\n{}", hygiene_src);
+                println!("----- Hygiene -----\n{hygiene_src}");
             }
             _ => {}
         }
@@ -560,14 +560,11 @@ where
 
         let transformed_src = tester.print(&program, &tester.comments.clone());
 
-        println!(
-            "\t>>>>> Orig <<<<<\n{}\n\t>>>>> Code <<<<<\n{}",
-            input, src_without_helpers
-        );
+        println!("\t>>>>> Orig <<<<<\n{input}\n\t>>>>> Code <<<<<\n{src_without_helpers}");
 
         let expected = stdout_of(input).unwrap();
 
-        println!("\t>>>>> Expected stdout <<<<<\n{}", expected);
+        println!("\t>>>>> Expected stdout <<<<<\n{expected}");
 
         let actual = stdout_of(&transformed_src).unwrap();
 
@@ -593,9 +590,8 @@ where
             Some(true),
             &format!(
                 "it('should work', async function () {{
-                    {}
-                }})",
-                input
+                    {input}
+                }})"
             ),
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
@@ -604,7 +600,7 @@ where
                     &program.clone().fold_with(&mut HygieneVisualizer),
                     &tester.comments.clone(),
                 );
-                println!("----- Hygiene -----\n{}", hygiene_src);
+                println!("----- Hygiene -----\n{hygiene_src}");
             }
             _ => {}
         }
@@ -644,7 +640,7 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
     let hash = calc_hash(src);
-    let success_cache = root.join(format!("{}.success", hash));
+    let success_cache = root.join(format!("{hash}.success"));
 
     if env::var("SWC_CACHE_TEST").unwrap_or_default() == "1" {
         println!("Trying cache as `SWC_CACHE_TEST` is `1`");
@@ -658,7 +654,7 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
     create_dir_all(&tmp_dir).unwrap();
 
-    let path = tmp_dir.path().join(format!("{}.test.js", hash));
+    let path = tmp_dir.path().join(format!("{hash}.test.js"));
 
     let mut tmp = OpenOptions::new()
         .create(true)
@@ -666,7 +662,7 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
         .write(true)
         .open(&path)
         .expect("failed to create a temp file");
-    write!(tmp, "{}", src).expect("failed to write to temp file");
+    write!(tmp, "{src}").expect("failed to write to temp file");
     tmp.flush().unwrap();
 
     let test_runner_path = find_executable("mocha").expect("failed to find `mocha` from path");
@@ -800,9 +796,10 @@ where
             eprintln!("Using options.json at {}", file.display());
             eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
-            return Some(serde_json::from_str(&v).unwrap_or_else(|err| {
-                panic!("failed to deserialize options.json: {}\n{}", err, v)
-            }));
+            return Some(
+                serde_json::from_str(&v)
+                    .unwrap_or_else(|err| panic!("failed to deserialize options.json: {err}\n{v}")),
+            );
         }
 
         None
@@ -823,7 +820,7 @@ where
     }
 
     serde_json::from_value(serde_json::Value::Object(value.clone()))
-        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{:?}", err, value))
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {err}\n{value:?}"))
 }
 
 /// Config for [test_fixture]. See [test_fixture] for documentation.
@@ -979,11 +976,11 @@ fn test_fixture_inner<'a>(
             .compare_to_file(output.with_extension("stderr"))
             .unwrap();
     } else if !stderr.is_empty() {
-        panic!("stderr: {}", stderr);
+        panic!("stderr: {stderr}");
     }
 
     if let Some(actual_src) = actual_src {
-        eprintln!("{}", actual_src);
+        eprintln!("{actual_src}");
 
         if let Some(sourcemap) = &sourcemap {
             eprintln!("----- ----- ----- ----- -----");
@@ -1019,9 +1016,9 @@ fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
 
     let code_len = format!("{}\0", code.len());
     let map_len = format!("{}\0", map.len());
-    let hash = BASE64_STANDARD.encode(format!("{}{}{}{}", code_len, code, map_len, map));
+    let hash = BASE64_STANDARD.encode(format!("{code_len}{code}{map_len}{map}"));
 
-    format!("https://evanw.github.io/source-map-visualization/#{}", hash)
+    format!("https://evanw.github.io/source-map-visualization/#{hash}")
 }
 
 struct SourceMapConfigImpl;

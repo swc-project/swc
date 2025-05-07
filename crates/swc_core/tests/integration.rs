@@ -9,7 +9,7 @@ use anyhow::{anyhow, Error};
 fn build_fixture_binary(dir: &Path, target: Option<&str>) -> Result<(), Error> {
     let mut args = vec!["build".to_string()];
     if let Some(target) = target {
-        args.push(format!("--target={}", target));
+        args.push(format!("--target={target}"));
     };
 
     let mut cmd = Command::new("cargo");

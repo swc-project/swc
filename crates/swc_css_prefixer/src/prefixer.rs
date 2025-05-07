@@ -61,7 +61,7 @@ fn should_enable(
             (target_name, maybe_target_version),
             ((_, maybe_low_version), (_, maybe_high_version)),
         )| {
-            maybe_target_version.map_or(false, |target_version| {
+            maybe_target_version.is_some_and(|target_version| {
                 let low_or_fallback_version = maybe_low_version.or_else(|| match target_name {
                     // Fall back to Chrome versions if Android browser data
                     // is missing from the feature data. It appears the

@@ -133,7 +133,7 @@ impl VisitMut for TemplateLiteral {
                                         obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
-                                            value: format!("{}{}", value, r_value).into(),
+                                            value: format!("{value}{r_value}").into(),
                                         })
                                         .into();
                                         continue;
@@ -191,7 +191,7 @@ impl VisitMut for TemplateLiteral {
                                 for arg in args {
                                     // for `${asd}a`
                                     if let Expr::Lit(Lit::Str(s)) = obj.as_ref() {
-                                        if s.value.len() == 0 && len == 2 {
+                                        if s.value.is_empty() && len == 2 {
                                             obj = arg;
                                             continue;
                                         }

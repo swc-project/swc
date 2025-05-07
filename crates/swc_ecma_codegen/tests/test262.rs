@@ -98,10 +98,7 @@ fn do_test(entry: &Path, minify: bool) {
 
     let module = file_name.contains("module");
 
-    let msg = format!(
-        "\n\n========== Running codegen test {}\nSource:\n{}\n",
-        file_name, input
-    );
+    let msg = format!("\n\n========== Running codegen test {file_name}\nSource:\n{input}\n");
     let mut wr = Vec::new();
 
     ::testing::run_test(false, |cm, handler| {

@@ -239,7 +239,7 @@ where
                     if n.children.is_empty()
                         || (match n.children.first() {
                             Some(Child::Text(text))
-                                if text.data.len() > 0
+                                if !text.data.is_empty()
                                     && text.data.chars().next().unwrap().is_ascii_whitespace() =>
                             {
                                 false

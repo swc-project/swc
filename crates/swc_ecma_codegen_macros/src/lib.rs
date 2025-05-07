@@ -49,7 +49,7 @@ pub fn node_impl(
             }
 
             _ => {
-                panic!("Unexpected item: {:?}", i);
+                panic!("Unexpected item: {i:?}");
             }
         }
     }

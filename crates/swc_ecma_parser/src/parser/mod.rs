@@ -273,7 +273,7 @@ where
 
         Ok(res)
     })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{s}\n{output}"))
 }
 
 #[cfg(test)]
@@ -292,7 +292,7 @@ where
 
         ret.map_err(|err| err.into_diagnostic(handler).emit())
     })
-    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{}\n{}", s, output))
+    .unwrap_or_else(|output| panic!("test_parser(): failed to parse \n{s}\n{output}"))
 }
 
 #[cfg(test)]

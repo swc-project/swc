@@ -64,7 +64,7 @@ fn files_group(c: &mut Criterion) {
 
     let mut bench_file = |name: &str| {
         group.bench_function(format!("es/full/minify/libraries/{name}"), |b| {
-            bench_minify(b, &format!("{}.js", name));
+            bench_minify(b, &format!("{name}.js"));
         });
     };
 

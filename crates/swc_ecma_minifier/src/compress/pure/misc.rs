@@ -367,7 +367,7 @@ impl Pure<'_> {
     pub(super) fn eval_spread_array_in_array(&mut self, args: &mut Vec<Option<ExprOrSpread>>) {
         if !args.iter().any(|arg| {
             arg.as_ref()
-                .map_or(false, |arg| arg.spread.is_some() && arg.expr.is_array())
+                .is_some_and(|arg| arg.spread.is_some() && arg.expr.is_array())
         }) {
             return;
         }
@@ -1697,7 +1697,7 @@ impl Pure<'_> {
                 }
 
                 arr.elems
-                    .retain(|e| e.as_ref().map_or(false, |e| !e.expr.is_invalid()));
+                    .retain(|e| e.as_ref().is_some_and(|e| !e.expr.is_invalid()));
 
                 if arr.elems.is_empty() {
                     *e = Expr::dummy();

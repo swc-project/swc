@@ -26,7 +26,7 @@ pub struct Loader {
 
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("load: {}", f);
+        eprintln!("load: {f}");
         let v = self.files.get(&f.to_string());
         let v = v.unwrap();
 
@@ -75,7 +75,7 @@ impl Tester<'_> {
         self.bundler
             .scope
             .get_module_by_path(&FileName::Real(name.to_string().into()))
-            .unwrap_or_else(|| panic!("failed to find module named {}", name))
+            .unwrap_or_else(|| panic!("failed to find module named {name}"))
     }
 
     #[allow(dead_code)]

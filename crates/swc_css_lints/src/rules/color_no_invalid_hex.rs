@@ -23,7 +23,7 @@ impl Visit for ColorNoInvalidHex {
             return;
         }
 
-        let message = format!("Unexpected invalid hex color '#{}'.", value);
+        let message = format!("Unexpected invalid hex color '#{value}'.");
 
         self.ctx.report(hex_color, message);
 

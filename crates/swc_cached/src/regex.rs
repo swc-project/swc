@@ -39,7 +39,7 @@ impl CachedRegex {
         }
 
         let regex =
-            Regex::new(input).with_context(|| format!("failed to parse `{}` as regex", input))?;
+            Regex::new(input).with_context(|| format!("failed to parse `{input}` as regex"))?;
         let regex = Arc::new(regex);
 
         CACHE.insert(input.to_owned(), regex.clone());

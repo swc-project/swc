@@ -432,7 +432,7 @@ impl<'a> Scope<'a> {
             Level::DEBUG,
             "add_write",
             force_no_inline = force_no_inline,
-            id = &*format!("{:?}", id)
+            id = &*format!("{id:?}")
         )
         .entered();
 

@@ -354,7 +354,7 @@ where
     fn prepend_stmt(&mut self, insert_with: S) {
         let directive_pos = self
             .iter()
-            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
             .unwrap_or(self.len());
 
         self.insert(directive_pos, insert_with);
@@ -367,7 +367,7 @@ where
     {
         let directive_pos = self
             .iter()
-            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
             .unwrap_or(self.len());
 
         self.splice(directive_pos..directive_pos, insert_with);
@@ -532,14 +532,14 @@ pub trait StmtExt {
                         || if_stmt
                             .alt
                             .as_ref()
-                            .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
+                            .is_some_and(|stmt| stmt.may_have_side_effects(ctx))
                 }
                 Stmt::Switch(switch_stmt) => {
                     switch_stmt.discriminant.may_have_side_effects(ctx)
                         || switch_stmt.cases.iter().any(|case| {
                             case.test
                                 .as_ref()
-                                .map_or(false, |expr| expr.may_have_side_effects(ctx))
+                                .is_some_and(|expr| expr.may_have_side_effects(ctx))
                                 || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
                         })
                 }
@@ -549,14 +549,14 @@ pub trait StmtExt {
                         .stmts
                         .iter()
                         .any(|stmt| stmt.may_have_side_effects(ctx))
-                        || try_stmt.handler.as_ref().map_or(false, |handler| {
+                        || try_stmt.handler.as_ref().is_some_and(|handler| {
                             handler
                                 .body
                                 .stmts
                                 .iter()
                                 .any(|stmt| stmt.may_have_side_effects(ctx))
                         })
-                        || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
+                        || try_stmt.finalizer.as_ref().is_some_and(|finalizer| {
                             finalizer
                                 .stmts
                                 .iter()
@@ -1290,7 +1290,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     }
 
     if !sym.starts_with('_') {
-        sym = format!("_{}", sym)
+        sym = format!("_{sym}")
     }
     quote_ident!(ctxt, span, sym)
 }
@@ -1342,7 +1342,7 @@ pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: 
     }
 
     if !sym.starts_with('_') {
-        sym = format!("_{}", sym)
+        sym = format!("_{sym}")
     }
     quote_ident!(ctxt, span, sym)
 }
@@ -1517,10 +1517,10 @@ pub trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
 
     fn directive_continue(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::can_precede_directive)
+        self.as_ref().is_some_and(Stmt::can_precede_directive)
     }
     fn is_use_strict(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::is_use_strict)
+        self.as_ref().is_some_and(Stmt::is_use_strict)
     }
 }
 
@@ -1612,7 +1612,7 @@ where
 }
 
 pub fn is_valid_ident(s: &Atom) -> bool {
-    if s.len() == 0 {
+    if s.is_empty() {
         return false;
     }
 

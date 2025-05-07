@@ -58,7 +58,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
             }
 
             _ => {
-                panic!("unknown pass: {}", name)
+                panic!("unknown pass: {name}")
             }
         }
     }

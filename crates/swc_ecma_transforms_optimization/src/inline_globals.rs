@@ -217,7 +217,7 @@ mod tests {
 
         for (k, v) in values {
             let v = if is_env {
-                format!("'{}'", v)
+                format!("'{v}'")
             } else {
                 (*v).into()
             };

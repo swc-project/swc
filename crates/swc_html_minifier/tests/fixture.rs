@@ -96,7 +96,7 @@ fn test_minify_document_fragment(input: PathBuf) {
         let parent = input.parent().unwrap();
         let parent_str = parent
             .components()
-            .last()
+            .next_back()
             .unwrap()
             .as_os_str()
             .to_string_lossy();
@@ -106,7 +106,7 @@ fn test_minify_document_fragment(input: PathBuf) {
 
         let context_element = parent_str
             .split('.')
-            .last()
+            .next_back()
             .expect("failed to get context element from filename");
 
         if context_element.contains('_') {

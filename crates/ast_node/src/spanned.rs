@@ -49,7 +49,7 @@ impl MyField {
                         } else if kind == "hi" {
                             hi = true
                         } else {
-                            panic!("Unknown span attribute: {:?}", kind)
+                            panic!("Unknown span attribute: {kind:?}")
                         }
                     }
                 }
@@ -142,15 +142,12 @@ fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) 
     }
 
     // If all fields do not have `#[span(..)]`, check for field named `span`.
-    let has_any_span_attr = bindings
-        .iter()
-        .map(|b| {
-            b.field()
-                .attrs
-                .iter()
-                .any(|attr| is_attr_name(attr, "span"))
-        })
-        .any(|b| b);
+    let has_any_span_attr = bindings.iter().any(|b| {
+        b.field()
+            .attrs
+            .iter()
+            .any(|attr| is_attr_name(attr, "span"))
+    });
     if !has_any_span_attr {
         let span_field = bindings
             .iter()
