@@ -28,7 +28,7 @@ pub fn print(attr: &'static str, tokens: proc_macro2::TokenStream) -> proc_macro
         _ => return tokens.into(),
     }
 
-    println!("\n\tOutput of #[{}]:\n\t {}", attr, tokens);
+    println!("\n\tOutput of #[{attr}]:\n\t {tokens}");
     tokens.into()
 }
 
