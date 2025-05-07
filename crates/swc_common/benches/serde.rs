@@ -1,3 +1,5 @@
+#![allow(unexpected_cfgs)]
+
 use ast_node::ast_node;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Criterion};
 use serde::{Deserialize, Serialize};
