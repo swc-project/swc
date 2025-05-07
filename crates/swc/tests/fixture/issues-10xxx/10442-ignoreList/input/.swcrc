@@ -1,4 +1,4 @@
 {
     "sourceMaps": true,
-    "sourceMapIgnoreList": "index.js"
+    "sourceMapIgnoreList": "^index\\.js$"
 }
