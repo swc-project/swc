@@ -26,7 +26,7 @@ pub mod state;
 pub mod token;
 pub mod whitespace;
 
-use self::token::TokenFactory;
+use token::TokenFactory;
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
@@ -1198,10 +1198,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     if c == '$' {
                         self.bump();
                         self.bump();
-                        return Ok(Self::Token::dollar_lbrace());
+                        return Ok(Self::Token::DOLLAR_LBRACE);
                     } else {
                         self.bump();
-                        return Ok(Self::Token::backquote());
+                        return Ok(Self::Token::BACKQUOTE);
                     }
                 }
 
@@ -1616,7 +1616,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             !self.input().is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Self::Token::hash()))
+        Ok(Some(Self::Token::HASH))
     }
 
     /// Read a token given `.`.
@@ -1632,7 +1632,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     // Safety: cur() is Some(',')
                     self.input_mut().bump();
                 }
-                return Ok(Self::Token::dot());
+                return Ok(Self::Token::DOT);
             }
         };
         if next.is_ascii_digit() {
@@ -1656,10 +1656,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_mut().bump(); // 3rd `.`
             }
 
-            return Ok(Self::Token::dotdotdot());
+            return Ok(Self::Token::DOTDOTDOT);
         }
 
-        Ok(Self::Token::dot())
+        Ok(Self::Token::DOT)
     }
 
     /// Read a token given `?`.
@@ -1679,16 +1679,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         // Safety: cur() was some
                         self.input_mut().bump();
                     }
-                    return Ok(Self::Token::nullish_assign());
+                    return Ok(Self::Token::NULLISH_ASSIGN);
                 }
-                Ok(Self::Token::nullish_coalescing())
+                Ok(Self::Token::NULLISH_COALESCING)
             }
             _ => {
                 unsafe {
                     // Safety: peek() is callable only if cur() is Some
                     self.input_mut().bump();
                 }
-                Ok(Self::Token::question())
+                Ok(Self::Token::QUESTION)
             }
         }
     }
@@ -1702,7 +1702,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             // Safety: cur() is Some(':')
             self.input_mut().bump();
         }
-        Ok(Self::Token::colon())
+        Ok(Self::Token::COLON)
     }
 
     /// Read a token given `0`.
@@ -1751,8 +1751,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
             return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::bit_and_eq(),
-                BinOpToken::BitOr => Self::Token::bit_or_eq(),
+                BinOpToken::BitAnd => Self::Token::BIT_AND_EQ,
+                BinOpToken::BitOr => Self::Token::BIT_OR_EQ,
                 _ => unreachable!(),
             });
         }
@@ -1771,8 +1771,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
 
                 return Ok(match token {
-                    BinOpToken::BitAnd => Self::Token::logical_and_eq(),
-                    BinOpToken::BitOr => Self::Token::logical_or_eq(),
+                    BinOpToken::BitAnd => Self::Token::LOGICAL_AND_EQ,
+                    BinOpToken::BitOr => Self::Token::LOGICAL_OR_EQ,
                     _ => unreachable!(),
                 });
             }
@@ -1788,16 +1788,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
 
             return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::logical_and(),
-                BinOpToken::BitOr => Self::Token::logical_or(),
+                BinOpToken::BitAnd => Self::Token::LOGICAL_AND,
+                BinOpToken::BitOr => Self::Token::LOGICAL_OR,
                 _ => unreachable!(),
             });
         }
 
         Ok(if token == BinOpToken::BitAnd {
-            Self::Token::bit_and()
+            Self::Token::BIT_AND
         } else {
-            Self::Token::bit_or()
+            Self::Token::BIT_OR
         })
     }
 
@@ -1824,16 +1824,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         Ok(if self.input_mut().eat_byte(b'=') {
             match token {
-                BinOpToken::Mul => Self::Token::mul_eq(),
-                BinOpToken::Mod => Self::Token::mod_eq(),
-                BinOpToken::Exp => Self::Token::exp_eq(),
+                BinOpToken::Mul => Self::Token::MUL_EQ,
+                BinOpToken::Mod => Self::Token::MOD_EQ,
+                BinOpToken::Exp => Self::Token::EXP_EQ,
                 _ => unreachable!(),
             }
         } else {
             match token {
-                BinOpToken::Mul => Self::Token::mul(),
-                BinOpToken::Mod => Self::Token::r#mod(),
-                BinOpToken::Exp => Self::Token::exp(),
+                BinOpToken::Mul => Self::Token::MUL,
+                BinOpToken::Mod => Self::Token::MOD,
+                BinOpToken::Exp => Self::Token::EXP,
                 _ => unreachable!(),
             }
         })
@@ -1845,9 +1845,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // Divide operator
         self.bump();
         Ok(Some(if self.eat(b'=') {
-            Self::Token::div_eq()
+            Self::Token::DIV_EQ
         } else {
-            Self::Token::div()
+            Self::Token::DIV
         }))
     }
 

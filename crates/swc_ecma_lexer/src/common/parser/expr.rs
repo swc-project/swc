@@ -43,29 +43,29 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     let start = p.input_mut().cur_pos();
 
-    p.assert_and_bump(&P::Token::lbracket())?;
+    p.assert_and_bump(&P::Token::LBRACKET)?;
 
     let mut elems = Vec::with_capacity(8);
 
-    while !eof!(p) && !p.input_mut().is(&P::Token::rbracket()) {
-        if p.input_mut().is(&P::Token::comma()) {
-            expect!(p, &P::Token::comma());
+    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACKET) {
+        if p.input_mut().is(&P::Token::COMMA) {
+            expect!(p, &P::Token::COMMA);
             elems.push(None);
             continue;
         }
 
         elems.push(p.include_in_expr(true).parse_expr_or_spread().map(Some)?);
 
-        if !p.input_mut().is(&P::Token::rbracket()) {
-            expect!(p, &P::Token::comma());
-            if p.input_mut().is(&P::Token::rbracket()) {
+        if !p.input_mut().is(&P::Token::RBRACKET) {
+            expect!(p, &P::Token::COMMA);
+            if p.input_mut().is(&P::Token::RBRACKET) {
                 let prev_span = p.input().prev_span();
                 p.state_mut().trailing_commas.insert(start, prev_span);
             }
         }
     }
 
-    expect!(p, &P::Token::rbracket());
+    expect!(p, &P::Token::RBRACKET);
 
     let span = p.span(start);
     Ok(ArrayLit { span, elems }.into())
@@ -78,7 +78,7 @@ pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> PResult<bool>
 
 pub fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     let start = p.input_mut().cur_pos();
-    p.assert_and_bump(&P::Token::r#yield())?;
+    p.assert_and_bump(&P::Token::YIELD)?;
     debug_assert!(p.ctx().contains(Context::InGenerator));
 
     // Spec says
@@ -90,7 +90,7 @@ pub fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     }
 
     let parse_with_arg = |p: &mut P| {
-        let has_star = p.input_mut().eat(&P::Token::mul());
+        let has_star = p.input_mut().eat(&P::Token::MUL);
         let err_span = p.span(start);
         let arg = p.parse_assignment_expr().map_err(|err| {
             Error::new(
@@ -144,9 +144,9 @@ fn parse_tpl_elements<'a, P: Parser<'a>>(
     let mut quasis = vec![cur_elem];
 
     while !is_tail {
-        expect!(p, &P::Token::dollar_lbrace());
+        expect!(p, &P::Token::DOLLAR_LBRACE);
         exprs.push(p.include_in_expr(true).parse_expr()?);
-        expect!(p, &P::Token::rbrace());
+        expect!(p, &P::Token::RBRACE);
         let elem = p.parse_tpl_element(is_tagged_tpl)?;
         is_tail = elem.tail;
         quasis.push(elem);
@@ -159,11 +159,11 @@ pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<T
     trace_cur!(p, parse_tpl);
     let start = p.input_mut().cur_pos();
 
-    p.assert_and_bump(&P::Token::backquote())?;
+    p.assert_and_bump(&P::Token::BACKQUOTE)?;
 
     let (exprs, quasis) = parse_tpl_elements(p, is_tagged_tpl)?;
 
-    expect!(p, &P::Token::backquote());
+    expect!(p, &P::Token::BACKQUOTE);
 
     let span = p.span(start);
     Ok(Tpl {

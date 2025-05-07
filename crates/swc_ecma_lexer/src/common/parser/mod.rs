@@ -321,7 +321,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
-        let is_private = self.input_mut().is(&Self::Token::hash());
+        let is_private = self.input_mut().is(&Self::Token::HASH);
         if is_private {
             self.parse_private_name().map(Either::Left)
         } else {
@@ -331,7 +331,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_private_name(&mut self) -> PResult<PrivateName> {
         let start = self.cur_pos();
-        self.assert_and_bump(&Self::Token::hash())?;
+        self.assert_and_bump(&Self::Token::HASH)?;
         let hash_end = self.input().prev_span().hi;
         if self.input_mut().cur_pos() - hash_end != BytePos(0) {
             syntax_error!(
@@ -506,7 +506,7 @@ pub trait Parser<'a>: Sized + Clone {
         } else {
             unexpected!(self, "template token")
         };
-        let tail = self.input_mut().is(&Self::Token::backquote());
+        let tail = self.input_mut().is(&Self::Token::BACKQUOTE);
         Ok(TplElement {
             span: self.span(start),
             raw,
@@ -537,7 +537,7 @@ pub trait Parser<'a>: Sized + Clone {
         trace_cur!(self, parse_jsx_namespaced_name);
         let start = self.input_mut().cur_pos();
         let ns = self.parse_jsx_ident()?.into();
-        if !self.input_mut().eat(&Self::Token::colon()) {
+        if !self.input_mut().eat(&Self::Token::COLON) {
             return Ok(JSXAttrName::Ident(ns));
         }
         let name = self.parse_jsx_ident().map(IdentName::from)?;
@@ -558,7 +558,7 @@ pub trait Parser<'a>: Sized + Clone {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
         };
-        while self.input_mut().eat(&Self::Token::dot()) {
+        while self.input_mut().eat(&Self::Token::DOT) {
             let prop = self.parse_jsx_ident().map(IdentName::from)?;
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
                 span: self.span(start),
@@ -732,9 +732,9 @@ pub trait Parser<'a>: Sized + Clone {
                 p.bump();
                 let inner_start = p.input_mut().cur_pos();
                 let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
-                if p.syntax().typescript() && p.input_mut().is(&Self::Token::comma()) {
+                if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
                     let mut exprs = vec![expr];
-                    while p.input_mut().eat(&Self::Token::comma()) {
+                    while p.input_mut().eat(&Self::Token::COMMA) {
                         //
                         exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
                     }
@@ -747,7 +747,7 @@ pub trait Parser<'a>: Sized + Clone {
                         .into(),
                     );
                 }
-                expect!(p, &Self::Token::rbracket());
+                expect!(p, &Self::Token::RBRACKET);
                 PropName::Computed(ComputedPropName {
                     span: p.span(start),
                     expr,
@@ -767,7 +767,7 @@ pub trait Parser<'a>: Sized + Clone {
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
         let start = self.input_mut().cur_pos();
-        if self.input_mut().eat(&Self::Token::dotdotdot()) {
+        if self.input_mut().eat(&Self::Token::DOTDOTDOT) {
             let spread_span = self.span(start);
             let spread = Some(spread_span);
             self.include_in_expr(true)
@@ -790,7 +790,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
-        if self.input_mut().is(&Self::Token::hash()) {
+        if self.input_mut().is(&Self::Token::HASH) {
             let name = self.parse_private_name()?;
             if name.name == "constructor" {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
@@ -809,10 +809,10 @@ pub trait Parser<'a>: Sized + Clone {
         let expr = self.parse_assignment_expr()?;
         let start = expr.span_lo();
 
-        if self.input_mut().is(&Self::Token::comma()) {
+        if self.input_mut().is(&Self::Token::COMMA) {
             let mut exprs = vec![expr];
 
-            while self.input_mut().eat(&Self::Token::comma()) {
+            while self.input_mut().eat(&Self::Token::COMMA) {
                 exprs.push(self.parse_assignment_expr()?);
             }
 

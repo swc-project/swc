@@ -104,17 +104,17 @@ pub trait Buffer<'a> {
 
     fn cut_lshift(&mut self) {
         debug_assert!(
-            self.is(&Self::Token::lshift()),
+            self.is(&Self::Token::LSHIFT),
             "parser should only call cut_lshift when encountering LShift token"
         );
         let span = self.cur_span().with_lo(self.cur_span().lo + BytePos(1));
-        let token = Self::TokenAndSpan::new(Self::Token::less(), span, false);
+        let token = Self::TokenAndSpan::new(Self::Token::LESS, span, false);
         self.set_cur(token);
     }
 
     fn merge_lt_gt(&mut self) {
         debug_assert!(
-            self.is(&Self::Token::less()) || self.is(&Self::Token::greater()),
+            self.is(&Self::Token::LESS) || self.is(&Self::Token::GREATER),
             "parser should only call merge_lt_gt when encountering Less token"
         );
         if self.peek().is_none() {
@@ -132,19 +132,19 @@ pub trait Buffer<'a> {
             let next_token = next.token();
             if next_token.is_greater() {
                 // >>
-                Self::Token::rshift()
+                Self::Token::RSHIFT
             } else if next_token.is_equal() {
                 // >=
-                Self::Token::greater_eq()
+                Self::Token::GREATER_EQ
             } else if next_token.is_rshift() {
                 // >>>
-                Self::Token::zero_fill_rshift()
+                Self::Token::ZERO_FILL_RSHIFT
             } else if next_token.is_greater_eq() {
                 // >>=
-                Self::Token::rshift_eq()
+                Self::Token::RSHIFT_EQ
             } else if next_token.is_rshift_eq() {
                 // >>>=
-                Self::Token::zero_fill_rshift_eq()
+                Self::Token::ZERO_FILL_RSHIFT_EQ
             } else {
                 self.set_cur(cur);
                 self.set_next(Some(next));
@@ -154,13 +154,13 @@ pub trait Buffer<'a> {
             let next_token = next.token();
             if next_token.is_less() {
                 // <<
-                Self::Token::lshift()
+                Self::Token::LSHIFT
             } else if next_token.is_equal() {
                 // <=
-                Self::Token::less_eq()
+                Self::Token::LESS_EQ
             } else if next_token.is_less_eq() {
                 // <<=
-                Self::Token::lshift_eq()
+                Self::Token::LSHIFT_EQ
             } else {
                 self.set_cur(cur);
                 self.set_next(Some(next));
