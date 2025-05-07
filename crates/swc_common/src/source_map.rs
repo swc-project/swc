@@ -1317,6 +1317,9 @@ pub fn build_source_map(
                     continue;
                 }
                 src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                if config.ignore_list(&f.name) {
+                    builder.add_to_ignore_list(src_id);
+                }
 
                 let inline_sources_content = config.inline_sources_content(&f.name);
                 if inline_sources_content {
@@ -1486,6 +1489,25 @@ pub trait SourceMapGenConfig {
     /// By default, we skip internal files.
     fn skip(&self, f: &FileName) -> bool {
         matches!(f, FileName::Internal(..))
+    }
+
+    /// If true, the file will be in the `ignoreList` of `SourceMap`.
+    ///
+    /// Specification for ignoreList: https://tc39.es/ecma426/#json-ignoreList
+    ///
+    /// > The ignoreList field is an optional list of indices of files that
+    /// > should be considered third party code, such as framework code or
+    /// > bundler-generated code. This allows developer tools to avoid code that
+    /// > developers likely don't want to see or step through, without requiring
+    /// > developers to configure this beforehand. It refers to the sources
+    /// > field and lists the indices of all the known third-party sources in
+    /// > the source map. Some browsers may also use the deprecated
+    /// > x_google_ignoreList field if ignoreList is not present.
+    ///
+    ///
+    /// By default, we ignore anonymous files and internal files.
+    fn ignore_list(&self, f: &FileName) -> bool {
+        matches!(f, FileName::Anon | FileName::Internal(..))
     }
 }
 

@@ -625,6 +625,7 @@ impl Compiler {
                 opts.output_path.as_deref(),
                 opts.source_root.clone(),
                 opts.source_file_name.clone(),
+                config.source_map_ignore_list.clone(),
                 handler,
                 Some(config),
                 comments,
@@ -902,6 +903,7 @@ impl Compiler {
                     output_path: opts.output_path.clone().map(From::from),
                     inline_sources_content: opts.inline_sources_content,
                     source_map,
+                    source_map_ignore_list: opts.source_map_ignore_list.clone(),
                     source_map_names: &source_map_names,
                     orig: orig.as_ref(),
                     comments: Some(&comments),
@@ -1046,6 +1048,7 @@ impl Compiler {
                 PrintArgs {
                     source_root: config.source_root.as_deref(),
                     source_file_name: config.source_file_name.as_deref(),
+                    source_map_ignore_list: config.source_map_ignore_list.clone(),
                     output_path: config.output_path,
                     inline_sources_content: config.inline_sources_content,
                     source_map: config.source_maps,
