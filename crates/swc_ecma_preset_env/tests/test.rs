@@ -117,7 +117,7 @@ enum Error {
 }
 
 fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
-    println!("Config: {:?}", c);
+    println!("Config: {c:?}");
 
     Tester::new()
         .print_errors(|cm, handler| {
@@ -297,7 +297,7 @@ fn fixture(input: PathBuf) {
 
     let cfg: BabelOptions =
         serde_json::from_reader(File::open(entry_dir.join("options.json")).unwrap())
-            .map_err(|err| Error::Msg(format!("failed to parse options.json: {}", err)))
+            .map_err(|err| Error::Msg(format!("failed to parse options.json: {err}")))
             .unwrap();
     assert_eq!(cfg.presets.len(), 1);
     let cfg = cfg.presets.into_iter().map(|v| v.1).next().unwrap();

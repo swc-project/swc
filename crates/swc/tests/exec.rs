@@ -384,7 +384,7 @@ fn test_file_with_opts(
             },
         )
         .map_err(|e| e.to_pretty_error())
-        .with_context(|| format!("failed to compile with opts: {:#?}", opts))
+        .with_context(|| format!("failed to compile with opts: {opts:#?}"))
     })
 }
 
@@ -400,18 +400,16 @@ fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
                 format!(
                     "
                     const expect = require('expect');
-                    {}
-                    ",
-                    code
+                    {code}
+                    "
                 )
             }
             NodeModuleType::Module => {
                 format!(
                     "
                     import expect from 'expect';
-                    {}
-                    ",
-                    code
+                    {code}
+                    "
                 )
             }
         },

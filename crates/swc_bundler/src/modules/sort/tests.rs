@@ -13,7 +13,7 @@ fn assert_sorted(src: &[&str], res: &str) {
 fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
     let mut s = suite();
     for (i, src) in src.iter().enumerate() {
-        s = s.file(&format!("{}.js", i), src);
+        s = s.file(&format!("{i}.js"), src);
     }
     s.run(|t| {
         let mut modules = Vec::new();
@@ -26,7 +26,7 @@ fn assert_sorted_with_free(src: &[&str], free: &str, res: &str) {
         modules.push(free.body);
 
         for (i, _) in src.iter().enumerate() {
-            let info = t.module(&format!("{}.js", i));
+            let info = t.module(&format!("{i}.js"));
             if entry.is_none() {
                 entry = Some(info.id);
             }
