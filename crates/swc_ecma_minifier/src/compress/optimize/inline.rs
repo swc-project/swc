@@ -212,7 +212,7 @@ impl Optimizer<'_> {
 
                             if u.declared_as_fn_decl || u.declared_as_fn_expr {
                                 if self.options.keep_fnames
-                                    || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                                    || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                                 {
                                     should_inline = false
                                 }
@@ -250,7 +250,7 @@ impl Optimizer<'_> {
                     }) => arg.is_lit(),
                     Expr::This(..) => usage.is_fn_local,
                     Expr::Arrow(arr) => {
-                        is_arrow_simple_enough_for_copy(arr).map_or(false, |cost| cost <= 8)
+                        is_arrow_simple_enough_for_copy(arr).is_some_and(|cost| cost <= 8)
                             && !(usage.property_mutation_count > 0
                                 || usage.executed_multiple_time
                                 || usage.used_as_arg && ref_count > 1)
@@ -441,7 +441,7 @@ impl Optimizer<'_> {
 
                             if init_usage.declared_as_fn_decl || init_usage.declared_as_fn_expr {
                                 if self.options.keep_fnames
-                                    || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                                    || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                                 {
                                     return;
                                 }
@@ -737,7 +737,7 @@ impl Optimizer<'_> {
                     Decl::Class(c) => {
                         if self.options.inline != 3
                             || self.options.keep_classnames
-                            || self.mangle_options.map_or(false, |v| v.keep_class_names)
+                            || self.mangle_options.is_some_and(|v| v.keep_class_names)
                         {
                             log_abort!("inline: [x] Keep class names");
                             return;
@@ -752,7 +752,7 @@ impl Optimizer<'_> {
                     }
                     Decl::Fn(f) => {
                         if self.options.keep_fnames
-                            || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                            || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                         {
                             log_abort!("inline: [x] Keep fn names");
                             return;

@@ -426,7 +426,7 @@ where
                     value: if value.starts_with('.') {
                         value.into()
                     } else {
-                        format!("./{}", value).into()
+                        format!("./{value}").into()
                     },
                     ..*import.src
                 }),

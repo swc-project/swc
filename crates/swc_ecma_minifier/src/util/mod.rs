@@ -234,10 +234,8 @@ impl Visit for LeapFinder {
         n.visit_children_with(self);
 
         if let Some(label) = &n.label {
-            self.found_continue_with_label |= self
-                .target_label
-                .as_ref()
-                .map_or(false, |l| *l == label.sym);
+            self.found_continue_with_label |=
+                self.target_label.as_ref().is_some_and(|l| *l == label.sym);
         }
     }
 

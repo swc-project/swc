@@ -41,9 +41,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 Box::new(Hook),
             );
 
-            let modules = bundler
-                .bundle(entries)
-                .map_err(|err| println!("{:?}", err))?;
+            let modules = bundler.bundle(entries).map_err(|err| println!("{err:?}"))?;
             println!("Bundled as {} modules", modules.len());
 
             let mut error = false;
@@ -94,7 +92,7 @@ fn do_test(entry: &Path, entries: HashMap<String, FileName>, inline: bool) {
                 match s.compare_to_file(&output_path) {
                     Ok(_) => {}
                     Err(err) => {
-                        println!("Diff: {:?}", err);
+                        println!("Diff: {err:?}");
                         error = true;
                     }
                 }
