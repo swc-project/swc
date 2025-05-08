@@ -14,3 +14,7 @@ proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 syn         = { workspace = true, features = ["full", "visit-mut", "extra-traits"] }
 walkdir     = { workspace = true }
+
+swc_config = { version = "2.0.0", path = "../../crates/swc_config", features = [
+    "regex",
+] }
