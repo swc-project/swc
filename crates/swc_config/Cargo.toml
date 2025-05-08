@@ -9,12 +9,14 @@ repository    = { workspace = true }
 version       = "2.0.0"
 
 [features]
+is_module = []
+regex     = ["dep:regex"]
 sourcemap = ["dep:sourcemap"]
-
 
 [dependencies]
 anyhow     = { workspace = true }
 indexmap   = { workspace = true }
+regex      = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive", "rc"] }
 serde_json = { workspace = true }
 sourcemap  = { workspace = true, optional = true }
