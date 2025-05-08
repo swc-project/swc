@@ -1,7 +1,10 @@
 //! NOT A PUBLIC API
 
 use serde::{Deserialize, Serialize};
-use swc_config::{config_types::BoolOrDataConfig, CachedRegex, IsModule, SourceMapContent};
+use swc_config::{
+    file_pattern::FilePattern, is_module::IsModule, source_map::SourceMapContent,
+    types::BoolOrDataConfig,
+};
 
 use crate::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
@@ -46,7 +49,7 @@ pub struct JsMinifyOptions {
     pub source_map: BoolOrDataConfig<TerserSourceMapOption>,
 
     #[serde(default)]
-    pub source_map_ignore_list: Option<CachedRegex>,
+    pub source_map_ignore_list: Option<FilePattern>,
 
     #[serde(default)]
     pub output_path: Option<String>,

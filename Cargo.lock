@@ -1540,6 +1540,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2acce4a10f12dc2fb14a218589d4f1f62ef011b2d0cc4b3cb1bba8e94da14649"
 
 [[package]]
+name = "fast-glob"
+version = "0.4.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "39ea3f6bbcf4dbe2076b372186fc7aeecd5f6f84754582e56ee7db262b15a6f0"
+dependencies = [
+ "arrayvec",
+]
+
+[[package]]
 name = "fastrand"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1728,7 +1737,7 @@ dependencies = [
  "clap 4.5.9",
  "proc-macro2",
  "quote",
- "swc_cached",
+ "swc_config",
  "syn 2.0.101",
  "walkdir",
 ]
@@ -4762,7 +4771,6 @@ dependencies = [
  "serde_json",
  "sourcemap",
  "swc_atoms",
- "swc_cached",
  "swc_common",
  "swc_compiler_base",
  "swc_config",
@@ -4887,18 +4895,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_cached"
-version = "2.0.0"
-dependencies = [
- "anyhow",
- "dashmap 5.5.3",
- "once_cell",
- "regex",
- "rustc-hash 2.1.1",
- "serde",
-]
-
-[[package]]
 name = "swc_cli_impl"
 version = "23.0.0"
 dependencies = [
@@ -4990,11 +4986,15 @@ name = "swc_config"
 version = "2.0.0"
 dependencies = [
  "anyhow",
+ "dashmap 5.5.3",
+ "fast-glob",
  "indexmap 2.7.1",
+ "once_cell",
+ "regex",
+ "rustc-hash 2.1.1",
  "serde",
  "serde_json",
  "sourcemap",
- "swc_cached",
  "swc_config_macro",
 ]
 
@@ -5020,8 +5020,8 @@ dependencies = [
  "swc_allocator",
  "swc_atoms",
  "swc_bundler",
- "swc_cached",
  "swc_common",
+ "swc_config",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_compat",
@@ -5144,6 +5144,7 @@ dependencies = [
 name = "swc_css_lints"
 version = "9.0.0"
 dependencies = [
+ "anyhow",
  "auto_impl",
  "parking_lot",
  "rayon",
@@ -5151,8 +5152,8 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_cached",
  "swc_common",
+ "swc_config",
  "swc_css_ast",
  "swc_css_parser",
  "swc_css_visit",
@@ -5625,7 +5626,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_cached",
  "swc_common",
  "tracing",
 ]
@@ -5920,8 +5920,8 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_cached",
  "swc_common",
+ "swc_config",
  "swc_ecma_ast",
  "swc_ecma_loader",
  "swc_ecma_parser",
@@ -6306,8 +6306,8 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_cached",
  "swc_common",
+ "swc_config",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_minifier",

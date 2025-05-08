@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
-use swc_cached::regex::CachedRegex;
+use swc_config::regex::CachedRegex;
 use syn::{Ident, Item};
 
 use crate::types::qualify_types;

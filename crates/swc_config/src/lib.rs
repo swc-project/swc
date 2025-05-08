@@ -1,13 +1,19 @@
 //! Configuration for swc
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
-pub mod config_types;
+#[cfg_attr(docsrs, doc(cfg(feature = "file_pattern")))]
+#[cfg(feature = "file_pattern")]
+pub mod file_pattern;
+#[cfg_attr(docsrs, doc(cfg(feature = "glob")))]
+#[cfg(feature = "glob")]
+pub mod glob;
+pub mod is_module;
 pub mod merge;
-mod module;
-#[cfg(feature = "sourcemap")]
-mod source_map;
+#[cfg_attr(docsrs, doc(cfg(feature = "regex")))]
+#[cfg(feature = "regex")]
+pub mod regex;
 
-pub use swc_cached::{regex::CachedRegex, Error};
-
-pub use crate::module::IsModule;
+#[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
 #[cfg(feature = "sourcemap")]
-pub use crate::source_map::*;
+pub mod source_map;
+pub mod types;

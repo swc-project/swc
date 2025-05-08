@@ -1,0 +1,6 @@
+{
+    "sourceMaps": true,
+    "sourceMapIgnoreList": {
+        "glob": "**/index.js"
+    }
+}

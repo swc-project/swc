@@ -1,8 +1,8 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_cached::regex::CachedRegex;
 use swc_common::DUMMY_SP;
+use swc_config::file_pattern::FilePattern;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
@@ -115,7 +115,7 @@ impl Config {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct LazyObjectConfig {
-    pub patterns: Vec<CachedRegex>,
+    pub patterns: Vec<FilePattern>,
 }
 
 impl LazyObjectConfig {
