@@ -14,7 +14,7 @@ impl CachedGlob {
         })
     }
 
-    pub fn matches(&self, path: &str) -> bool {
+    pub fn is_match(&self, path: &str) -> bool {
         glob_match(&self.glob, path)
     }
 }
