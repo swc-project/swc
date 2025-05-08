@@ -5021,6 +5021,7 @@ dependencies = [
  "swc_atoms",
  "swc_bundler",
  "swc_common",
+ "swc_config",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_compat",
