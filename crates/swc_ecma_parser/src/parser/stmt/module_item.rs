@@ -1,3 +1,5 @@
+use swc_ecma_lexer::common::parser::ident::{parse_ident_name, parse_module_export_name};
+
 use super::*;
 use crate::lexer::Token;
 
@@ -97,7 +99,7 @@ impl<I: Tokens> Parser<I> {
                             local = self.parse_imported_default_binding()?;
                         } else if peeked_is!(self, '=') {
                             type_only = true;
-                            local = self.parse_ident_name().map(From::from)?;
+                            local = parse_ident_name(self).map(From::from)?;
                         }
                     }
                 }
@@ -210,7 +212,7 @@ impl<I: Tokens> Parser<I> {
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
         let start = cur_pos!(self);
-        match self.parse_module_export_name()? {
+        match parse_module_export_name(self)? {
             ModuleExportName::Ident(mut orig_name) => {
                 let mut is_type_only = false;
                 // Handle:
@@ -220,7 +222,7 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
                 if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
-                    let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
+                    let possibly_orig_name = parse_ident_name(self).map(Ident::from)?;
                     if possibly_orig_name.sym == "as" {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
@@ -393,7 +395,7 @@ impl<I: Tokens> Parser<I> {
                     assert_and_bump!(self, "type");
                 }
 
-                let id = self.parse_ident_name()?;
+                let id = parse_ident_name(self)?;
 
                 // export import A = B
                 return self
@@ -542,8 +544,7 @@ impl<I: Tokens> Parser<I> {
             assert_and_bump!(self, "const");
             let _ = cur!(self, true);
             assert_and_bump!(self, "enum");
-            return self
-                .parse_ts_enum_decl(enum_start, /* is_const */ true)
+            return parse_ts_enum_decl(self, enum_start, /* is_const */ true)
                 .map(Decl::from)
                 .map(|decl| {
                     ExportDecl {
@@ -633,7 +634,7 @@ impl<I: Tokens> Parser<I> {
             if has_ns {
                 assert_and_bump!(self, '*');
                 expect!(self, "as");
-                let name = self.parse_module_export_name()?;
+                let name = parse_module_export_name(self)?;
                 specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: span!(self, ns_export_specifier_start),
                     name,
@@ -739,7 +740,7 @@ impl<I: Tokens> Parser<I> {
 
         let mut is_type_only = false;
 
-        let orig = match self.parse_module_export_name()? {
+        let orig = match parse_module_export_name(self)? {
             ModuleExportName::Ident(orig_ident) => {
                 // Handle:
                 // `export { type xx }`
@@ -748,7 +749,7 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as as }`
                 // `export { type as as as }`
                 if self.syntax().typescript() && orig_ident.sym == "type" && is!(self, IdentName) {
-                    let possibly_orig = self.parse_ident_name().map(Ident::from)?;
+                    let possibly_orig = parse_ident_name(self).map(Ident::from)?;
                     if possibly_orig.sym == "as" {
                         // `export { type as }`
                         if !is!(self, IdentName) {
@@ -764,12 +765,12 @@ impl<I: Tokens> Parser<I> {
                             });
                         }
 
-                        let maybe_as = self.parse_ident_name().map(Ident::from)?;
+                        let maybe_as = parse_ident_name(self).map(Ident::from)?;
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
-                                let exported = self.parse_ident_name().map(Ident::from)?;
+                                let exported = parse_ident_name(self).map(Ident::from)?;
 
                                 if type_only {
                                     self.emit_err(orig_ident.span, SyntaxError::TS2207);
@@ -817,7 +818,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         let exported = if eat!(self, "as") {
-            Some(self.parse_module_export_name()?)
+            Some(parse_module_export_name(self)?)
         } else {
             None
         };

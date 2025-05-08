@@ -3,7 +3,9 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     is_not_this,
-    typescript::{eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann},
+    typescript::{
+        eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
+    },
 };
 
 use super::*;
@@ -177,7 +179,7 @@ impl<I: Tokens> Parser<I> {
                     ref mut span,
                     ..
                 }) => {
-                    let new_type_ann = self.try_parse_ts_type_ann()?;
+                    let new_type_ann = try_parse_ts_type_ann(self)?;
                     if new_type_ann.is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi);
                     }
@@ -187,12 +189,12 @@ impl<I: Tokens> Parser<I> {
                 Pat::Ident(BindingIdent {
                     ref mut type_ann, ..
                 }) => {
-                    let new_type_ann = self.try_parse_ts_type_ann()?;
+                    let new_type_ann = try_parse_ts_type_ann(self)?;
                     *type_ann = new_type_ann;
                 }
 
                 Pat::Assign(AssignPat { ref mut span, .. }) => {
-                    if (self.try_parse_ts_type_ann()?).is_some() {
+                    if (try_parse_ts_type_ann(self)?).is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi);
                         self.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
                     }

@@ -1,7 +1,7 @@
 use assign_target_or_spread::AssignTargetOrSpread;
-use either::Either;
-use expr::{is_start_of_left_hand_side_expr, parse_lit};
+use expr::is_start_of_left_hand_side_expr;
 use expr_ext::ExprExt;
+use ident::parse_private_name;
 use pat::pat_is_valid_argument_in_strict;
 use pat_type::PatType;
 use swc_common::{BytePos, Span, Spanned};
@@ -9,9 +9,8 @@ use swc_ecma_ast::{
     ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
     BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid,
     JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
-    JSXText, Key, KeyValuePatProp, Lit, ModuleExportName, Number, ObjectLit, ObjectPat,
-    ObjectPatProp, Pat, PrivateName, Prop, PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement,
-    Str, TplElement, TsType,
+    JSXText, Key, KeyValuePatProp, Number, ObjectLit, ObjectPat, ObjectPatProp, Pat, Prop,
+    PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement, Str, TplElement, TsType,
 };
 
 use self::{
@@ -38,6 +37,7 @@ pub mod is_simple_param_list;
 mod macros;
 pub mod assign_target_or_spread;
 pub mod expr;
+pub mod ident;
 pub mod jsx;
 pub mod output_type;
 pub mod parse_object;
@@ -241,68 +241,6 @@ pub trait Parser<'a>: Sized + Clone {
             )
         }
         Span::new(start, end)
-    }
-
-    // https://tc39.es/ecma262/#prod-ModuleExportName
-    fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
-        let Ok(cur) = cur!(self, false) else {
-            unexpected!(self, "identifier or string");
-        };
-        let module_export_name = if cur.is_str() {
-            match parse_lit(self)? {
-                Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
-                _ => unreachable!(),
-            }
-        } else if cur.is_word() {
-            ModuleExportName::Ident(self.parse_ident_name()?.into())
-        } else {
-            unexpected!(self, "identifier or string");
-        };
-        Ok(module_export_name)
-    }
-
-    /// Use this when spec says "IdentifierName".
-    /// This allows idents like `catch`.
-    fn parse_ident_name(&mut self) -> PResult<IdentName> {
-        let start = self.cur_pos();
-        let cur = cur!(self, true);
-        let w = if cur.is_word() {
-            let t = self.bump();
-            t.take_word(self.input_mut()).unwrap()
-        } else if cur.is_jsx_name() && self.ctx().contains(Context::InType) {
-            let t = self.bump();
-            t.take_jsx_name(self.input_mut())
-        } else {
-            syntax_error!(self, SyntaxError::ExpectedIdent)
-        };
-        Ok(IdentName::new(w, self.span(start)))
-    }
-
-    fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
-        let is_private = self.input_mut().is(&Self::Token::HASH);
-        if is_private {
-            self.parse_private_name().map(Either::Left)
-        } else {
-            self.parse_ident_name().map(Either::Right)
-        }
-    }
-
-    fn parse_private_name(&mut self) -> PResult<PrivateName> {
-        let start = self.cur_pos();
-        self.assert_and_bump(&Self::Token::HASH)?;
-        let hash_end = self.input().prev_span().hi;
-        if self.input_mut().cur_pos() - hash_end != BytePos(0) {
-            syntax_error!(
-                self,
-                self.span(start),
-                SyntaxError::SpaceBetweenHashAndIdent
-            );
-        }
-        let id = self.parse_ident_name()?;
-        Ok(PrivateName {
-            span: self.span(start),
-            name: id.sym,
-        })
     }
 
     #[inline(always)]
@@ -749,7 +687,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if self.input_mut().is(&Self::Token::HASH) {
-            let name = self.parse_private_name()?;
+            let name = parse_private_name(self)?;
             if name.name == "constructor" {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }

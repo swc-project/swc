@@ -2,7 +2,7 @@
 use tracing::trace;
 
 use super::*;
-use crate::{tok, token::TokenAndSpan};
+use crate::{common::parser::typescript::next_then_parse_ts_type, tok, token::TokenAndSpan};
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
@@ -105,7 +105,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }
                 .into()
             } else {
-                let type_ann = self.next_then_parse_ts_type()?;
+                let type_ann = next_then_parse_ts_type(self)?;
                 TsAsExpr {
                     span: span!(self, start),
                     expr,
@@ -123,7 +123,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             let start = left.span_lo();
             let expr = left;
             let node = {
-                let type_ann = self.next_then_parse_ts_type()?;
+                let type_ann = next_then_parse_ts_type(self)?;
                 TsSatisfiesExpr {
                     span: span!(self, start),
                     expr,

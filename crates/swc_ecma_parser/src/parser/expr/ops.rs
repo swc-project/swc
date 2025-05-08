@@ -1,4 +1,5 @@
 //! Parser for unary operations and binary operations.
+use swc_ecma_lexer::common::parser::typescript::next_then_parse_ts_type;
 use tracing::trace;
 
 use super::*;
@@ -108,7 +109,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into()
             } else {
-                let type_ann = self.next_then_parse_ts_type()?;
+                let type_ann = next_then_parse_ts_type(self)?;
                 TsAsExpr {
                     span: span!(self, start),
                     expr,
@@ -126,7 +127,7 @@ impl<I: Tokens> Parser<I> {
             let start = left.span_lo();
             let expr = left;
             let node = {
-                let type_ann = self.next_then_parse_ts_type()?;
+                let type_ann = next_then_parse_ts_type(self)?;
                 TsSatisfiesExpr {
                     span: span!(self, start),
                     expr,

@@ -3,14 +3,19 @@ use std::ops::DerefMut;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{
-    TsEntityName, TsIntersectionType, TsQualifiedName, TsThisType, TsThisTypeOrIdent, TsType,
-    TsTypeAnn, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation, TsTypePredicate, TsTypeRef,
-    TsUnionOrIntersectionType, TsUnionType,
+    Ident, Lit, Str, TplElement, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId,
+    TsIntersectionType, TsLit, TsLitType, TsQualifiedName, TsThisType, TsThisTypeOrIdent,
+    TsTplLitType, TsType, TsTypeAnn, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
+    TsTypePredicate, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{PResult, Parser};
 use crate::{
-    common::{context::Context, lexer::token::TokenFactory, parser::buffer::Buffer},
+    common::{
+        context::Context,
+        lexer::token::TokenFactory,
+        parser::{buffer::Buffer, expr::parse_lit, ident::parse_ident_name},
+    },
     error::SyntaxError,
 };
 
@@ -410,7 +415,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
     debug_assert!(p.input().syntax().typescript());
     trace_cur!(p, parse_ts_entity_name);
     let start = p.input_mut().cur_pos();
-    let init = p.parse_ident_name()?;
+    let init = parse_ident_name(p)?;
     if &*init.sym == "void" {
         let dot_start = p.input_mut().cur_pos();
         let dot_span = p.span(dot_start);
@@ -429,7 +434,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
         }
         let left = entity;
         let right = if allow_reserved_words {
-            p.parse_ident_name()?
+            parse_ident_name(p)?
         } else {
             p.parse_ident(false, false)?.into()
         };
@@ -572,7 +577,7 @@ pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
 }
 
 /// `tsEatThenParseType`
-pub fn eat_then_parse_ts_type<'a, P: Parser<'a>>(
+fn eat_then_parse_ts_type<'a, P: Parser<'a>>(
     p: &mut P,
     token_to_eat: &P::Token,
 ) -> PResult<Option<Box<TsType>>> {
@@ -619,7 +624,7 @@ pub fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTyp
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.input_mut().cur_pos();
-    let name = p.parse_ident_name()?;
+    let name = parse_ident_name(p)?;
     let constraint = Some(expect_then_parse_ts_type(p, &P::Token::IN, "in")?);
 
     Ok(TsTypeParam {
@@ -694,7 +699,7 @@ fn parse_ts_type_param<'a, P: Parser<'a>>(
         };
     }
 
-    let name = p.in_type().parse_ident_name()?.into();
+    let name = p.in_type().parse_with(parse_ident_name)?.into();
     let constraint = eat_then_parse_ts_type(p, &P::Token::EXTENDS)?;
     let default = eat_then_parse_ts_type(p, &P::Token::EQUAL)?;
 
@@ -818,7 +823,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
             );
         }
 
-        let type_pred_var = p.parse_ident_name()?;
+        let type_pred_var = parse_ident_name(p)?;
         let type_ann = if has_type_pred_is {
             p.assert_and_bump(&P::Token::IS)?;
             let pos = p.input_mut().cur_pos();
@@ -875,5 +880,225 @@ pub fn try_parse_ts_type_args<'a, P: Parser<'a>>(
         } else {
             Ok(None)
         }
+    })
+}
+
+/// `tsTryParseType`
+pub fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(None);
+    }
+
+    eat_then_parse_ts_type(p, &P::Token::COLON)
+}
+
+/// `tsTryParseTypeAnnotation`
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsTypeAnn>>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(None);
+    }
+
+    if p.input_mut().is(&P::Token::COLON) {
+        let pos = p.cur_pos();
+        return parse_ts_type_ann(p, /* eat_colon */ true, pos).map(Some);
+    }
+
+    Ok(None)
+}
+
+/// `tsNextThenParseType`
+pub fn next_then_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let result = p.in_type().parse_with(|p| {
+        p.bump();
+        p.parse_ts_type()
+    });
+
+    if !p.ctx().contains(Context::InType)
+        && p.input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_less() || cur.is_greater())
+    {
+        p.input_mut().merge_lt_gt();
+    }
+
+    result
+}
+
+/// `tsParseEnumMember`
+fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+    // Computed property names are grammar errors in an enum, so accept just string
+    // literal or identifier.
+    let cur = cur!(p, true);
+    let id = if cur.is_str() {
+        parse_lit(p).map(|lit| match lit {
+            Lit::Str(s) => TsEnumMemberId::Str(s),
+            _ => unreachable!(),
+        })?
+    } else if cur.is_num() {
+        let cur = p.bump();
+        let (value, raw) = cur.take_num(p.input_mut());
+        let mut new_raw = String::new();
+
+        new_raw.push('"');
+        new_raw.push_str(raw.as_str());
+        new_raw.push('"');
+
+        let span = p.span(start);
+
+        // Recover from error
+        p.emit_err(span, SyntaxError::TS2452);
+
+        TsEnumMemberId::Str(Str {
+            span,
+            value: value.to_string().into(),
+            raw: Some(new_raw.into()),
+        })
+    } else if cur.is_lbracket() {
+        p.assert_and_bump(&P::Token::LBRACKET)?;
+        let _ = p.parse_expr()?;
+        p.emit_err(p.span(start), SyntaxError::TS1164);
+        p.assert_and_bump(&P::Token::RBRACKET)?;
+        TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), p.span(start)))
+    } else {
+        parse_ident_name(p)
+            .map(Ident::from)
+            .map(TsEnumMemberId::from)?
+    };
+
+    let init = if p.input_mut().eat(&P::Token::EQUAL) {
+        Some(p.parse_assignment_expr()?)
+    } else if p.input_mut().is(&P::Token::COMMA) || p.input_mut().is(&P::Token::RBRACE) {
+        None
+    } else {
+        let start = p.cur_pos();
+        p.bump();
+        p.input_mut().store(P::Token::COMMA);
+        p.emit_err(Span::new(start, start), SyntaxError::TS1005);
+        None
+    };
+
+    Ok(TsEnumMember {
+        span: p.span(start),
+        id,
+        init,
+    })
+}
+
+/// `tsParseEnumDeclaration`
+pub fn parse_ts_enum_decl<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    is_const: bool,
+) -> PResult<Box<TsEnumDecl>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let id = parse_ident_name(p)?;
+    expect!(p, &P::Token::LBRACE);
+    let members = parse_ts_delimited_list(p, ParsingContext::EnumMembers, parse_ts_enum_member)?;
+    expect!(p, &P::Token::RBRACE);
+
+    Ok(Box::new(TsEnumDecl {
+        span: p.span(start),
+        declare: false,
+        is_const,
+        id: id.into(),
+        members,
+    }))
+}
+
+/// `tsTryParseTypeOrTypePredicateAnnotation`
+///
+/// Used for parsing return types.
+pub fn try_parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<Option<Box<TsTypeAnn>>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(None);
+    }
+
+    if p.input_mut().is(&P::Token::COLON) {
+        parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON).map(Some)
+    } else {
+        Ok(None)
+    }
+}
+
+/// `tsParseTemplateLiteralType`
+fn parse_ts_tpl_lit_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTplLitType> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+
+    p.assert_and_bump(&P::Token::BACKQUOTE)?;
+
+    let (types, quasis) = parse_ts_tpl_type_elements(p)?;
+
+    expect!(p, &P::Token::BACKQUOTE);
+
+    Ok(TsTplLitType {
+        span: p.span(start),
+        types,
+        quasis,
+    })
+}
+
+fn parse_ts_tpl_type_elements<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
+    if !cfg!(feature = "typescript") {
+        return Ok(Default::default());
+    }
+
+    trace_cur!(p, parse_tpl_elements);
+
+    let mut types = Vec::new();
+
+    let cur_elem = p.parse_tpl_element(false)?;
+    let mut is_tail = cur_elem.tail;
+    let mut quasis = vec![cur_elem];
+
+    while !is_tail {
+        expect!(p, &P::Token::DOLLAR_LBRACE);
+        types.push(p.parse_ts_type()?);
+        expect!(p, &P::Token::RBRACE);
+        let elem = p.parse_tpl_element(false)?;
+        is_tail = elem.tail;
+        quasis.push(elem);
+    }
+
+    Ok((types, quasis))
+}
+
+/// `tsParseLiteralTypeNode`
+pub fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+
+    let lit = if p.input_mut().is(&P::Token::BACKQUOTE) {
+        let tpl = parse_ts_tpl_lit_type(p)?;
+        TsLit::Tpl(tpl)
+    } else {
+        match parse_lit(p)? {
+            Lit::BigInt(n) => TsLit::BigInt(n),
+            Lit::Bool(n) => TsLit::Bool(n),
+            Lit::Num(n) => TsLit::Number(n),
+            Lit::Str(n) => TsLit::Str(n),
+            _ => unreachable!(),
+        }
+    };
+
+    Ok(TsLitType {
+        span: p.span(start),
+        lit,
     })
 }

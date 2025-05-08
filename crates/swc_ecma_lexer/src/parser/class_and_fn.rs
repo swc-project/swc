@@ -10,7 +10,8 @@ use crate::{
         output_type::OutputType,
         typescript::{
             parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
-            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_params,
+            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_ann,
+            try_parse_ts_type_params,
         },
         Parser as ParserTrait,
     },
@@ -99,8 +100,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p
-                .parse_maybe_opt_binding_ident(is_ident_required, true)?;
+            let ident = p.parse_maybe_opt_binding_ident(is_ident_required, true)?;
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -1084,7 +1084,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
-        let type_ann = self.try_parse_ts_type_ann()?;
+        let type_ann = try_parse_ts_type_ann(self)?;
 
         let ctx = self.ctx() | Context::IncludeInExpr | Context::InClassField;
         self.with_ctx(ctx).parse_with(|p| {
