@@ -3,7 +3,11 @@ use typed_arena::Arena;
 
 use super::*;
 use crate::{
-    common::parser::{is_directive::IsDirective, pat_type::PatType, typescript::ts_look_ahead},
+    common::parser::{
+        is_directive::IsDirective,
+        pat_type::PatType,
+        typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
+    },
     error::SyntaxError,
     tok,
 };
@@ -118,8 +122,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
         if is_typescript && is!(self, "const") && peeked_is!(self, "enum") {
             assert_and_bump!(self, "const");
             assert_and_bump!(self, "enum");
-            return self
-                .parse_ts_enum_decl(start, true)
+            return parse_ts_enum_decl(self, start, true)
                 .map(Decl::from)
                 .map(Stmt::from);
         }
@@ -339,7 +342,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(self.parse_ts_enum_decl(start, false)?.into());
+                    return Ok(parse_ts_enum_decl(self, start, false)?.into());
                 }
             }
 
@@ -948,7 +951,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
 
         // Typescript extension
         if self.input.syntax().typescript() && is!(self, ':') {
-            let type_annotation = self.try_parse_ts_type_ann()?;
+            let type_annotation = try_parse_ts_type_ann(self)?;
             match name {
                 Pat::Array(ArrayPat {
                     ref mut type_ann, ..

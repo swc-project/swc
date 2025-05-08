@@ -226,14 +226,6 @@ macro_rules! expect_exact {
     }};
 }
 
-macro_rules! store {
-    ($p:expr, $t:tt) => {{
-        const TOKEN: Token = token_including_semi!($t);
-
-        $p.input.store(TOKEN);
-    }};
-}
-
 /// cur!($parser, required:bool)
 macro_rules! cur {
     ($p:expr, false) => {{

@@ -8,7 +8,8 @@ use swc_ecma_lexer::{
         output_type::OutputType,
         typescript::{
             parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
-            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_params,
+            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_ann,
+            try_parse_ts_type_params,
         },
         Parser as ParserTrait,
     },
@@ -1082,7 +1083,7 @@ impl<I: Tokens> Parser<I> {
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
-        let type_ann = self.try_parse_ts_type_ann()?;
+        let type_ann = try_parse_ts_type_ann(self)?;
 
         let ctx = self.ctx() | Context::IncludeInExpr | Context::InClassField;
         self.with_ctx(ctx).parse_with(|p| {

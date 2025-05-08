@@ -10,11 +10,12 @@ use crate::{
         assign_target_or_spread::AssignTargetOrSpread,
         expr::{at_possible_async, parse_array_lit, parse_lit, parse_tpl, parse_yield_expr},
         expr_ext::ExprExt,
+        ident::{parse_ident_name, parse_maybe_private_name},
         is_simple_param_list::IsSimpleParameterList,
         pat_type::PatType,
         typescript::{
             eat_any_ts_modifier, parse_ts_type_args, parse_ts_type_or_type_predicate_ann,
-            parse_ts_type_params, try_parse_ts, try_parse_ts_type_args,
+            parse_ts_type_params, try_parse_ts, try_parse_ts_type_ann, try_parse_ts_type_args,
         },
         unwrap_ts_non_null,
     },
@@ -467,7 +468,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }
 
         if eat!(self, '#') {
-            let id = self.parse_ident_name()?;
+            let id = parse_ident_name(self)?;
             return Ok(PrivateName {
                 span: span!(self, start),
                 name: id.sym,
@@ -1268,7 +1269,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         // member expression
         // $obj.name
         if eat!(self, '.') {
-            let prop = self.parse_maybe_private_name().map(|e| match e {
+            let prop = parse_maybe_private_name(self).map(|e| match e {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
@@ -1716,7 +1717,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                         ref mut span,
                         ..
                     }) => {
-                        let new_type_ann = self.try_parse_ts_type_ann()?;
+                        let new_type_ann = try_parse_ts_type_ann(self)?;
                         if new_type_ann.is_some() {
                             *span = Span::new(pat_start, self.input.prev_span().hi);
                         }
@@ -1816,7 +1817,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         if eat!(self, '.') {
             self.found_module_item = true;
 
-            let ident = self.parse_ident_name()?;
+            let ident = parse_ident_name(self)?;
 
             match &*ident.sym {
                 "meta" => {

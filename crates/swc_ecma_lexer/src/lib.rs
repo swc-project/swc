@@ -13,6 +13,7 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
+#![allow(unexpected_cfgs)]
 
 pub mod common;
 pub mod lexer;
