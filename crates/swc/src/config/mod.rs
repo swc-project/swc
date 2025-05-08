@@ -12,7 +12,6 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
@@ -20,10 +19,12 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
-pub use swc_compiler_base::{IsModule, SourceMapsConfig};
+pub use swc_compiler_base::SourceMapsConfig;
+pub use swc_config::is_module::IsModule;
 use swc_config::{
-    config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
+    file_pattern::FilePattern,
     merge::Merge,
+    types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
 };
 use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
@@ -222,7 +223,8 @@ impl Options {
         output_path: Option<&Path>,
         source_root: Option<String>,
         source_file_name: Option<String>,
-        source_map_ignore_list: Option<CachedRegex>,
+        source_map_ignore_list: Option<FilePattern>,
+
         handler: &Handler,
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
@@ -838,7 +840,7 @@ impl Default for Rc {
             Config {
                 env: None,
                 test: None,
-                exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
+                exclude: Some(FileMatcher::Pattern(FilePattern::Regex("\\.tsx?$".into()))),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
                     ..Default::default()
@@ -847,7 +849,7 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.tsx$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex("\\.tsx$".into()))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -860,7 +862,9 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.(cts|mts)$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex(
+                    "\\.(cts|mts)$".into(),
+                ))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -874,7 +878,7 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.ts$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex("\\.ts$".into()))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -956,7 +960,7 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
-    pub source_map_ignore_list: Option<CachedRegex>,
+    pub source_map_ignore_list: Option<FilePattern>,
 
     #[serde(default)]
     pub inline_sources_content: BoolConfig<true>,
@@ -1005,7 +1009,7 @@ impl Config {
 #[serde(untagged)]
 pub enum FileMatcher {
     None,
-    Regex(CachedRegex),
+    Pattern(FilePattern),
     Multi(Vec<FileMatcher>),
 }
 
@@ -1020,7 +1024,7 @@ impl FileMatcher {
         match self {
             FileMatcher::None => Ok(false),
 
-            FileMatcher::Regex(re) => {
+            FileMatcher::Pattern(re) => {
                 let filename = if cfg!(target_os = "windows") {
                     filename.to_string_lossy().replace('\\', "/")
                 } else {
@@ -1080,7 +1084,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub source_root: Option<String>,
     pub source_file_name: Option<String>,
-    pub source_map_ignore_list: Option<CachedRegex>,
+    pub source_map_ignore_list: Option<FilePattern>,
 
     pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: BoolOr<JsMinifyCommentOption>,

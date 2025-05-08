@@ -1024,7 +1024,7 @@ fn issue_6009() {
             let result = c.process_js_file(
                 get_fm(file),
                 &handler,
-                &get_options(Some(FileMatcher::Regex(".*\\.spec.ts$".into()))),
+                &get_options(Some(FileMatcher::Pattern(".*\\.spec.ts$".into()))),
             );
 
             match result {
@@ -1041,7 +1041,7 @@ fn issue_6009() {
 
         for file in files_to_exclude {
             let fm = get_fm(file);
-            let options = get_options(Some(FileMatcher::Regex(".*\\.spec.ts$".into())));
+            let options = get_options(Some(FileMatcher::Pattern(".*\\.spec.ts$".into())));
 
             let result = c.process_js_file(fm.clone(), &handler, &options);
 

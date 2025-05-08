@@ -135,7 +135,7 @@ use swc_common::{
     GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
-pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
+pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::{to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
