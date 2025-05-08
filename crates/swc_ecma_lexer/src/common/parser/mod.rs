@@ -7,10 +7,9 @@ use pat_type::PatType;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
-    BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid,
-    JSXAttrName, JSXElementName, JSXEmptyExpr, JSXMemberExpr, JSXNamespacedName, JSXObject,
-    JSXText, Key, KeyValuePatProp, Number, ObjectLit, ObjectPat, ObjectPatProp, Pat, Prop,
-    PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement, Str, TplElement, TsType,
+    BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid, Key,
+    KeyValuePatProp, Number, ObjectLit, ObjectPat, ObjectPatProp, Pat, Prop, PropName,
+    PropOrSpread, RestPat, SeqExpr, SpreadElement, Str, TplElement, TsType,
 };
 
 use self::{
@@ -36,6 +35,7 @@ pub mod is_simple_param_list;
 #[macro_use]
 mod macros;
 pub mod assign_target_or_spread;
+pub mod class_and_fn;
 pub mod expr;
 pub mod ident;
 pub mod jsx;
@@ -409,85 +409,6 @@ pub trait Parser<'a>: Sized + Clone {
             tail,
             cooked,
         })
-    }
-
-    /// Parse next token as JSX identifier
-    fn parse_jsx_ident(&mut self) -> PResult<Ident> {
-        debug_assert!(self.input().syntax().jsx());
-        trace_cur!(self, parse_jsx_ident);
-        if cur!(self, true).is_jsx_name() {
-            let t = self.bump();
-            let name = t.take_jsx_name(self.input_mut());
-            let span = self.input().prev_span();
-            Ok(Ident::new_no_ctxt(name, span))
-        } else if self.ctx().contains(Context::InForcedJsxContext) {
-            self.parse_ident_ref()
-        } else {
-            unexpected!(self, "jsx identifier")
-        }
-    }
-
-    /// Parse namespaced identifier.
-    fn parse_jsx_namespaced_name(&mut self) -> PResult<JSXAttrName> {
-        debug_assert!(self.input().syntax().jsx());
-        trace_cur!(self, parse_jsx_namespaced_name);
-        let start = self.input_mut().cur_pos();
-        let ns = self.parse_jsx_ident()?.into();
-        if !self.input_mut().eat(&Self::Token::COLON) {
-            return Ok(JSXAttrName::Ident(ns));
-        }
-        let name = self.parse_jsx_ident().map(IdentName::from)?;
-        Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-            span: Span::new(start, name.span.hi),
-            ns,
-            name,
-        }))
-    }
-
-    /// Parses element name in any form - namespaced, member or single
-    /// identifier.
-    fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
-        debug_assert!(self.input().syntax().jsx());
-        trace_cur!(self, parse_jsx_element_name);
-        let start = self.input_mut().cur_pos();
-        let mut node = match self.parse_jsx_namespaced_name()? {
-            JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
-            JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
-        };
-        while self.input_mut().eat(&Self::Token::DOT) {
-            let prop = self.parse_jsx_ident().map(IdentName::from)?;
-            let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
-                span: self.span(start),
-                obj: match node {
-                    JSXElementName::Ident(i) => JSXObject::Ident(i),
-                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
-                    _ => unimplemented!("JSXNamespacedName -> JSXObject"),
-                },
-                prop,
-            });
-            node = new_node;
-        }
-        Ok(node)
-    }
-
-    /// JSXEmptyExpression is unique type since it doesn't actually parse
-    /// anything, and so it should start at the end of last read token (left
-    /// brace) and finish at the beginning of the next one (right brace).
-    fn parse_jsx_empty_expr(&mut self) -> PResult<JSXEmptyExpr> {
-        debug_assert!(self.input().syntax().jsx());
-        let start = self.input_mut().cur_pos();
-        Ok(JSXEmptyExpr {
-            span: Span::new(start, start),
-        })
-    }
-
-    fn parse_jsx_text(&mut self) -> PResult<JSXText> {
-        debug_assert!(self.input().syntax().jsx());
-        debug_assert!(cur!(self, false).is_ok_and(|t| t.is_jsx_text()));
-        let token = self.bump();
-        let span = self.input().prev_span();
-        let (value, raw) = token.take_jsx_text(self.input_mut());
-        Ok(JSXText { span, value, raw })
     }
 
     /// This does not return 'rest' pattern because non-last parameter cannot be

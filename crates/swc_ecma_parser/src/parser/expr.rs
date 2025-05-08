@@ -10,6 +10,7 @@ use swc_ecma_lexer::{
         expr_ext::ExprExt,
         ident::{parse_ident_name, parse_maybe_private_name},
         is_simple_param_list::IsSimpleParameterList,
+        jsx::{parse_jsx_element, parse_jsx_text},
         pat_type::PatType,
         typescript::{
             eat_any_ts_modifier, parse_ts_type_args, parse_ts_type_or_type_predicate_ann,
@@ -1462,14 +1463,13 @@ impl<I: Tokens> Parser<I> {
             }
             match cur!(self, true) {
                 Token::JSXText => {
-                    return self
-                        .parse_jsx_text()
+                    return parse_jsx_text(self)
                         .map(Lit::JSXText)
                         .map(Expr::Lit)
                         .map(Box::new);
                 }
                 Token::JSXTagStart => {
-                    return self.parse_jsx_element().map(into_expr);
+                    return parse_jsx_element(self).map(into_expr);
                 }
                 _ => {}
             }
@@ -1481,7 +1481,7 @@ impl<I: Tokens> Parser<I> {
                 // FIXME:
                 // self.finishToken(tt.jsxTagStart);
 
-                return self.parse_jsx_element().map(into_expr);
+                return parse_jsx_element(self).map(into_expr);
             }
         }
 
