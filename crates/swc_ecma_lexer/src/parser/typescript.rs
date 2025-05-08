@@ -10,6 +10,7 @@ use crate::{
         ident::{parse_ident_name, parse_maybe_private_name},
         is_simple_param_list::IsSimpleParameterList,
         make_decl_declare,
+        pat::parse_binding_pat_or_ident,
         typescript::{
             eat_any_ts_modifier, expect_then_parse_ts_type, is_ts_start_of_construct_signature,
             parse_ts_bracketed_list, parse_ts_entity_name, parse_ts_enum_decl,
@@ -519,7 +520,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             return Ok(true);
         }
 
-        if (is!(self, '{') || is!(self, '[')) && self.parse_binding_pat_or_ident(false).is_ok() {
+        if (is!(self, '{') || is!(self, '[')) && parse_binding_pat_or_ident(self, false).is_ok() {
             return Ok(true);
         }
 

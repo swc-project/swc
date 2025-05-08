@@ -3,7 +3,7 @@ use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
     ident::{parse_binding_ident, parse_label_ident},
     is_directive::IsDirective,
-    pat::reparse_expr_as_pat,
+    pat::{parse_binding_pat_or_ident, reparse_expr_as_pat},
     pat_type::PatType,
     stmt::{parse_for_each_head, parse_normal_for_head, parse_return_stmt, TempForHead},
     typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
@@ -702,7 +702,7 @@ impl<'a, I: Tokens> Parser<I> {
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
         if eat!(self, '(') {
-            let mut pat = self.parse_binding_pat_or_ident(false)?;
+            let mut pat = parse_binding_pat_or_ident(self, false)?;
 
             let type_ann_start = cur_pos!(self);
 
@@ -911,7 +911,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let is_let_or_const = matches!(kind, VarDeclKind::Let | VarDeclKind::Const);
 
-        let mut name = self.parse_binding_pat_or_ident(is_let_or_const)?;
+        let mut name = parse_binding_pat_or_ident(self, is_let_or_const)?;
 
         let definite = if self.input.syntax().typescript() {
             match name {
