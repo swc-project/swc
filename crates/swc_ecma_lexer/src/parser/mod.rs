@@ -21,7 +21,6 @@ mod macros;
 mod class_and_fn;
 mod expr;
 mod ident;
-mod jsx;
 mod object;
 mod pat;
 mod stmt;

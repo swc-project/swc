@@ -375,6 +375,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::JSX_TAG_START.eq(self)
     }
     #[inline(always)]
+    fn is_jsx_tag_end(&self) -> bool {
+        Self::JSX_TAG_END.eq(self)
+    }
+    #[inline(always)]
     fn is_asserts(&self) -> bool {
         Self::ASSERTS.eq(self)
     }

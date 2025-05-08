@@ -29,7 +29,6 @@ mod class_and_fn;
 mod expr;
 mod ident;
 pub mod input;
-mod jsx;
 mod object;
 mod pat;
 mod stmt;

@@ -1,6 +1,9 @@
+use std::ops::DerefMut;
+
 use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
+        class_and_fn::parse_maybe_opt_binding_ident,
         has_use_strict, is_constructor,
         is_invalid_class_name::IsInvalidClassName,
         is_not_this,
@@ -99,7 +102,7 @@ impl<I: Tokens> Parser<I> {
         self.strict_mode().parse_with(|p| {
             expect!(p, "class");
 
-            let ident = p.parse_maybe_opt_binding_ident(is_ident_required, true)?;
+            let ident = parse_maybe_opt_binding_ident(p, is_ident_required, true)?;
             if p.input.syntax().typescript() {
                 if let Some(span) = ident.invalid_class_name() {
                     p.emit_err(span, SyntaxError::TS2414);
@@ -1196,12 +1199,16 @@ impl<I: Tokens> Parser<I> {
             let mut ctx = self.ctx() & !Context::AllowDirectSuper & !Context::InClassField;
             ctx.set(Context::InAsync, is_async);
             ctx.set(Context::InGenerator, is_generator);
-            self.with_ctx(ctx)
-                .parse_maybe_opt_binding_ident(is_ident_required, false)?
+
+            parse_maybe_opt_binding_ident(self.with_ctx(ctx).deref_mut(), is_ident_required, false)?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
-            self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
-                .parse_maybe_opt_binding_ident(is_ident_required, false)?
+            parse_maybe_opt_binding_ident(
+                self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
+                    .deref_mut(),
+                is_ident_required,
+                false,
+            )?
         };
 
         self.with_ctx(
@@ -1248,22 +1255,6 @@ impl<I: Tokens> Parser<I> {
         match T::finish_fn(span!(self, start_of_output_type.unwrap_or(start)), ident, f) {
             Ok(v) => Ok(v),
             Err(kind) => syntax_error!(self, kind),
-        }
-    }
-
-    /// If `required` is `true`, this never returns `None`.
-    fn parse_maybe_opt_binding_ident(
-        &mut self,
-        required: bool,
-        disallow_let: bool,
-    ) -> PResult<Option<Ident>> {
-        if required {
-            self.parse_binding_ident(disallow_let)
-                .map(|v| v.id)
-                .map(Some)
-        } else {
-            self.parse_opt_binding_ident(disallow_let)
-                .map(|v| v.map(|v| v.id))
         }
     }
 
