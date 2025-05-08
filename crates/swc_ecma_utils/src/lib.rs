@@ -1703,8 +1703,8 @@ impl<'a> IdentUsageFinder<'a> {
             found: false,
         };
 
-        v.maybe_par(*LIGHT_TASK_PARALLELS, n, |mut v, n| {
-            n.visit_with(&mut v);
+        v.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
+            n.visit_with(v);
         });
         v.found
     }
