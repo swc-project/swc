@@ -15,6 +15,8 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
+use once_cell::sync::Lazy;
+use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -59,6 +61,9 @@ pub use node_ignore_span::NodeIgnoringSpan;
 pub struct ThisVisitor {
     found: bool,
 }
+
+pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 impl Visit for ThisVisitor {
     noop_visit_type!();
@@ -1651,6 +1656,19 @@ pub struct IdentUsageFinder<'a> {
     found: bool,
 }
 
+impl Parallel for IdentUsageFinder<'_> {
+    fn create(&self) -> Self {
+        Self {
+            ident: self.ident,
+            found: self.found,
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.found = self.found || other.found;
+    }
+}
+
 impl Visit for IdentUsageFinder<'_> {
     noop_visit_type!();
 
@@ -1673,6 +1691,21 @@ impl<'a> IdentUsageFinder<'a> {
             found: false,
         };
         node.visit_with(&mut v);
+        v.found
+    }
+
+    pub fn find_parallel<N>(ident: &'a Id, n: &[N]) -> bool
+    where
+        N: VisitWith<Self> + Send + Sync,
+    {
+        let mut v = IdentUsageFinder {
+            ident,
+            found: false,
+        };
+
+        v.maybe_par(*LIGHT_TASK_PARALLELS, n, |mut v, n| {
+            n.visit_with(&mut v);
+        });
         v.found
     }
 }
@@ -3547,5 +3580,54 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+
+    #[test]
+    fn test_ident_usage_finder_find_parallel() {
+        use swc_common::{input::StringInput, BytePos};
+        use swc_ecma_ast::Module;
+        use swc_ecma_parser::{Parser, Syntax};
+
+        use super::*;
+
+        let sources = vec![
+            "let a = 1;",
+            "let b = a + 2;",
+            "const c = 5;",
+            "function test() { return b; }",
+        ];
+
+        let modules: Vec<Module> = sources
+            .iter()
+            .map(|src| {
+                let syntax = Syntax::Es(Default::default());
+                let mut parser = Parser::new(
+                    syntax,
+                    StringInput::new(src, BytePos(0), BytePos(src.len() as u32)),
+                    None,
+                );
+                parser.parse_module().expect("should parse module")
+            })
+            .collect();
+
+        let ctxt = SyntaxContext::empty();
+
+        // Test finding 'a'
+        let id_a: Id = (Atom::from("a"), ctxt);
+        let found_a = IdentUsageFinder::find_parallel(&id_a, &modules);
+
+        assert!(found_a);
+
+        // Test finding 'b'
+        let id_b: Id = (Atom::from("b"), ctxt);
+        let found_b = IdentUsageFinder::find_parallel(&id_b, &modules);
+
+        assert!(found_b);
+
+        // Test finding 'z' (not present)
+        let id_z: Id = (Atom::from("z"), ctxt);
+        let found_z = IdentUsageFinder::find_parallel(&id_z, &modules);
+
+        assert!(!found_z);
     }
 }
