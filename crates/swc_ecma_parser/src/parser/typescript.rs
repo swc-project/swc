@@ -7,17 +7,17 @@ use swc_ecma_lexer::common::parser::{
     ident::{parse_ident_name, parse_maybe_private_name},
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
-    pat::parse_binding_pat_or_ident,
     typescript::{
-        eat_any_ts_modifier, expect_then_parse_ts_type, is_ts_start_of_construct_signature,
+        expect_then_parse_ts_type, is_ts_start_of_construct_signature, is_ts_start_of_fn_type,
         parse_ts_bracketed_list, parse_ts_entity_name, parse_ts_enum_decl,
         parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node,
         parse_ts_mapped_type_param, parse_ts_modifier, parse_ts_this_type_node,
-        parse_ts_this_type_predicate, parse_ts_type_ann, parse_ts_type_args,
-        parse_ts_type_member_semicolon, parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
-        parse_ts_type_ref, parse_ts_union_or_intersection_type, try_parse_ts, try_parse_ts_type,
-        try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann, try_parse_ts_type_params,
-        ts_look_ahead, ParsingContext, SignatureParsingMode, UnionOrIntersection,
+        parse_ts_this_type_predicate, parse_ts_type_args, parse_ts_type_member_semicolon,
+        parse_ts_type_or_type_predicate_ann, parse_ts_type_params, parse_ts_type_ref,
+        parse_ts_union_or_intersection_type, try_parse_ts, try_parse_ts_index_signature,
+        try_parse_ts_type, try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann,
+        try_parse_ts_type_params, ts_look_ahead, ParsingContext, SignatureParsingMode,
+        UnionOrIntersection,
     },
 };
 
@@ -302,7 +302,7 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input.syntax().typescript());
 
-        if self.is_ts_start_of_fn_type()? {
+        if is_ts_start_of_fn_type(self)? {
             return self
                 .parse_ts_fn_or_constructor_type(true)
                 .map(TsType::from)
@@ -317,16 +317,6 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.parse_ts_union_type_or_higher()
-    }
-
-    fn is_ts_start_of_fn_type(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        if is!(self, '<') {
-            return Ok(true);
-        }
-
-        Ok(is!(self, '(') && ts_look_ahead(self, |p| p.is_ts_unambiguously_start_of_fn_type())?)
     }
 
     /// `tsParseTypeAssertion`
@@ -423,113 +413,6 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
-    /// `tsParseImportEqualsDeclaration`
-    pub(super) fn parse_ts_import_equals_decl(
-        &mut self,
-        start: BytePos,
-        id: Ident,
-        is_export: bool,
-        is_type_only: bool,
-    ) -> PResult<Box<TsImportEqualsDecl>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        expect!(self, '=');
-
-        let module_ref = self.parse_ts_module_ref()?;
-        expect!(self, ';');
-        Ok(Box::new(TsImportEqualsDecl {
-            span: span!(self, start),
-            id,
-            is_export,
-            is_type_only,
-            module_ref,
-        }))
-    }
-
-    /// `tsIsExternalModuleReference`
-    fn is_ts_external_module_ref(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        Ok(is!(self, "require") && peeked_is!(self, '('))
-    }
-
-    /// `tsParseModuleReference`
-    fn parse_ts_module_ref(&mut self) -> PResult<TsModuleRef> {
-        debug_assert!(self.input.syntax().typescript());
-
-        if self.is_ts_external_module_ref()? {
-            self.parse_ts_external_module_ref().map(From::from)
-        } else {
-            parse_ts_entity_name(self, /* allow_reserved_words */ false).map(From::from)
-        }
-    }
-
-    /// `tsParseExternalModuleReference`
-    fn parse_ts_external_module_ref(&mut self) -> PResult<TsExternalModuleRef> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        expect!(self, "require");
-        expect!(self, '(');
-        match cur!(self, true) {
-            Token::Str => {}
-            _ => unexpected!(self, "a string literal"),
-        }
-        let expr = match parse_lit(self)? {
-            Lit::Str(s) => s,
-            _ => unreachable!(),
-        };
-        expect!(self, ')');
-        Ok(TsExternalModuleRef {
-            span: span!(self, start),
-            expr,
-        })
-    }
-
-    /// `tsIsUnambiguouslyStartOfFunctionType`
-    fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        assert_and_bump!(self, '(');
-        if is_one_of!(self, ')', "...") {
-            // ( )
-            // ( ...
-            return Ok(true);
-        }
-        if self.skip_ts_parameter_start()? {
-            if is_one_of!(self, ':', ',', '?', '=') {
-                // ( xxx :
-                // ( xxx ,
-                // ( xxx ?
-                // ( xxx =
-                return Ok(true);
-            }
-            if eat!(self, ')') && is!(self, "=>") {
-                // ( xxx ) =>
-                return Ok(true);
-            }
-        }
-        Ok(false)
-    }
-
-    /// `tsSkipParameterStart`
-    fn skip_ts_parameter_start(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let _ = eat_any_ts_modifier(self)?;
-
-        if is_one_of!(self, IdentName, "this") {
-            bump!(self);
-            return Ok(true);
-        }
-
-        if (is!(self, '{') || is!(self, '[')) && parse_binding_pat_or_ident(self, false).is_ok() {
-            return Ok(true);
-        }
-
-        Ok(false)
-    }
-
     /// `tsParseSignatureMember`
     fn parse_ts_signature_member(
         &mut self,
@@ -574,64 +457,6 @@ impl<I: Tokens> Parser<I> {
                 }))
             }
         }
-    }
-
-    /// `tsIsUnambiguouslyIndexSignature`
-    fn is_ts_unambiguously_index_signature(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        // Note: babel's comment is wrong
-        assert_and_bump!(self, '['); // Skip '['
-
-        // ',' is for error recovery
-        Ok(eat!(self, IdentRef) && is_one_of!(self, ':', ','))
-    }
-
-    /// `tsTryParseIndexSignature`
-    pub(super) fn try_parse_ts_index_signature(
-        &mut self,
-        index_signature_start: BytePos,
-        readonly: bool,
-        is_static: bool,
-    ) -> PResult<Option<TsIndexSignature>> {
-        if !cfg!(feature = "typescript") {
-            return Ok(Default::default());
-        }
-
-        if !(is!(self, '[') && ts_look_ahead(self, |p| p.is_ts_unambiguously_index_signature())?) {
-            return Ok(None);
-        }
-
-        expect!(self, '[');
-
-        let ident_start = cur_pos!(self);
-        let mut id = parse_ident_name(self).map(BindingIdent::from)?;
-        let type_ann_start = cur_pos!(self);
-
-        if eat!(self, ',') {
-            self.emit_err(id.span, SyntaxError::TS1096);
-        } else {
-            expect!(self, ':');
-        }
-
-        let type_ann = parse_ts_type_ann(self, /* eat_colon */ false, type_ann_start)?;
-        id.span = span!(self, ident_start);
-        id.type_ann = Some(type_ann);
-
-        expect!(self, ']');
-        let params = vec![TsFnParam::Ident(id)];
-
-        let ty = try_parse_ts_type_ann(self)?;
-        let type_ann = ty;
-
-        parse_ts_type_member_semicolon(self)?;
-        Ok(Some(TsIndexSignature {
-            span: span!(self, index_signature_start),
-            readonly,
-            is_static,
-            params,
-            type_ann,
-        }))
     }
 
     /// `parsePropertyName` in babel.
@@ -743,7 +568,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let readonly = parse_ts_modifier(self, &["readonly"], false)?.is_some();
 
-        let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
+        let idx = try_parse_ts_index_signature(self, start, readonly, false)?;
         if let Some(idx) = idx {
             return Ok(idx.into());
         }

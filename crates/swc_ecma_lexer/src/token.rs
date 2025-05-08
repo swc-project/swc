@@ -500,6 +500,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ARROW: Self = Self::Arrow;
     const AS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)));
     const ASSERTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)));
     const AT: Self = Self::At;
@@ -572,6 +573,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const RBRACE: Self = Self::RBrace;
     const RBRACKET: Self = Self::RBracket;
     const READONLY: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)));
+    const REQUIRE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Require)));
     const RETURN: Self = Token::Word(Word::Keyword(Keyword::Return));
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::BinOp(BinOpToken::RShift);

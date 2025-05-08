@@ -23,7 +23,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// spec: 'FormalParameter'
     ///
     /// babel: `parseAssignableListItem`
-    pub(super) fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
+    fn parse_formal_param_pat(&mut self) -> PResult<Pat> {
         let start = cur_pos!(self);
 
         let has_modifier = eat_any_ts_modifier(self)?;

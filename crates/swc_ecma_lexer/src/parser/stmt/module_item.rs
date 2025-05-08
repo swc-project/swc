@@ -3,7 +3,7 @@ use std::ops::DerefMut;
 use super::*;
 use crate::common::parser::{
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
-    typescript::parse_ts_enum_decl,
+    typescript::{parse_ts_enum_decl, parse_ts_import_equals_decl},
 };
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
@@ -105,8 +105,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }
 
                 if self.input.syntax().typescript() && is!(self, '=') {
-                    return self
-                        .parse_ts_import_equals_decl(start, local, false, type_only)
+                    return parse_ts_import_equals_decl(self, start, local, false, type_only)
                         .map(ModuleDecl::from)
                         .map(ModuleItem::from);
                 }
@@ -397,14 +396,14 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 let id = parse_ident_name(self)?;
 
                 // export import A = B
-                return self
-                    .parse_ts_import_equals_decl(
-                        start,
-                        id.into(),
-                        /* is_export */ true,
-                        is_type_only,
-                    )
-                    .map(From::from);
+                return parse_ts_import_equals_decl(
+                    self,
+                    start,
+                    id.into(),
+                    /* is_export */ true,
+                    is_type_only,
+                )
+                .map(From::from);
             }
 
             if eat!(self, '=') {
