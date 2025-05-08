@@ -13,8 +13,8 @@ use crate::{
         output_type::OutputType,
         typescript::{
             parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
-            parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_ann,
-            try_parse_ts_type_params,
+            parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
+            try_parse_ts_index_signature, try_parse_ts_type_ann, try_parse_ts_type_params,
         },
         Parser as ParserTrait,
     },
@@ -648,7 +648,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             && !is_override
             && accessibility.is_none()
         {
-            let idx = self.try_parse_ts_index_signature(start, readonly.is_some(), is_static)?;
+            let idx = try_parse_ts_index_signature(self, start, readonly.is_some(), is_static)?;
             if let Some(idx) = idx {
                 return Ok(idx.into());
             }

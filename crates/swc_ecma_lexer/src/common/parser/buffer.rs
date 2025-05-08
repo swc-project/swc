@@ -170,12 +170,12 @@ pub trait Buffer<'a> {
         self.set_cur(token);
     }
 
-    #[inline]
+    #[inline(always)]
     fn is(&mut self, expected: &Self::Token) -> bool {
         self.cur().is_some_and(|cur| cur == expected)
     }
 
-    #[inline]
+    #[inline(always)]
     fn eat(&mut self, expected: &Self::Token) -> bool {
         let v = self.is(expected);
         if v {

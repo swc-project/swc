@@ -496,6 +496,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ARROW: Self = Token::Arrow;
     const AS: Self = Token::As;
     const ASSERTS: Self = Token::Asserts;
     const AT: Self = Token::At;
@@ -568,6 +569,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const RBRACE: Self = Self::RBrace;
     const RBRACKET: Self = Self::RBracket;
     const READONLY: Self = Token::Readonly;
+    const REQUIRE: Self = Token::Require;
     const RETURN: Self = Token::Return;
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::RShift;

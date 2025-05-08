@@ -545,4 +545,22 @@ pub trait Parser<'a>: Sized + Clone {
         -> PResult<Option<ArrowExpr>>;
 
     fn mark_found_module_item(&mut self);
+
+    #[inline]
+    fn is_ident_ref(&mut self) -> bool {
+        let ctx = self.ctx();
+        self.input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_word() && !cur.is_reserved(ctx))
+    }
+
+    #[inline(always)]
+    fn eat_ident_ref(&mut self) -> bool {
+        if self.is_ident_ref() {
+            self.bump();
+            true
+        } else {
+            false
+        }
+    }
 }

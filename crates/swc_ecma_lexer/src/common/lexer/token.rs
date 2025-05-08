@@ -77,6 +77,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const PROTECTED: Self;
     const PUBLIC: Self;
     const READONLY: Self;
+    const ARROW: Self;
+    const REQUIRE: Self;
     const AWAIT: Self;
     const THIS: Self;
     const KW_SUPER: Self;
@@ -167,8 +169,20 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::GREATER.eq(self)
     }
     #[inline(always)]
+    fn is_colon(&self) -> bool {
+        Self::COLON.eq(self)
+    }
+    #[inline(always)]
+    fn is_comma(&self) -> bool {
+        Self::COMMA.eq(self)
+    }
+    #[inline(always)]
     fn is_equal(&self) -> bool {
         Self::EQUAL.eq(self)
+    }
+    #[inline(always)]
+    fn is_question(&self) -> bool {
+        Self::QUESTION.eq(self)
     }
     #[inline(always)]
     fn is_null(&self) -> bool {
@@ -245,6 +259,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_await(&self) -> bool {
         Self::AWAIT.eq(self)
+    }
+    #[inline(always)]
+    fn is_arrow(&self) -> bool {
+        Self::ARROW.eq(self)
     }
     #[inline(always)]
     fn is_this(&self) -> bool {

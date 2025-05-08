@@ -2,12 +2,7 @@ use std::ops::DerefMut;
 
 use swc_atoms::atom;
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{
-    Callee, Expr, Ident, Lit, Str, TplElement, TsEntityName, TsEnumDecl, TsEnumMember,
-    TsEnumMemberId, TsExprWithTypeArgs, TsIntersectionType, TsLit, TsLitType, TsQualifiedName,
-    TsThisType, TsThisTypeOrIdent, TsTplLitType, TsType, TsTypeAnn, TsTypeParam, TsTypeParamDecl,
-    TsTypeParamInstantiation, TsTypePredicate, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
-};
+use swc_ecma_ast::*;
 
 use super::{expr::is_start_of_left_hand_side_expr, PResult, Parser};
 use crate::{
@@ -18,6 +13,7 @@ use crate::{
             buffer::Buffer,
             expr::{parse_lit, parse_subscripts},
             ident::{parse_ident, parse_ident_name},
+            pat::parse_binding_pat_or_ident,
         },
     },
     error::SyntaxError,
@@ -800,16 +796,8 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
             cur!(p, false)?;
         }
 
-        let has_type_pred_is = {
-            let ctx = p.ctx();
-            p.input_mut().cur().is_some_and(|cur| {
-                if cur.is_word() {
-                    !cur.is_reserved(ctx)
-                } else {
-                    false
-                }
-            })
-        } && peek!(p).is_some_and(|peek| peek.is_is())
+        let has_type_pred_is = p.is_ident_ref()
+            && peek!(p).is_some_and(|peek| peek.is_is())
             && !p.input_mut().has_linebreak_between_cur_and_peeked();
         let is_type_predicate = has_type_pred_asserts || has_type_pred_is;
         if !is_type_predicate {
@@ -1169,4 +1157,201 @@ fn parse_ts_heritage_clause_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsE
             })
         }
     }
+}
+
+/// `tsSkipParameterStart`
+fn skip_ts_parameter_start<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let _ = eat_any_ts_modifier(p)?;
+
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_word() || cur.is_this())
+    {
+        p.bump();
+        return Ok(true);
+    }
+
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_lbrace() || cur.is_lbracket())
+        && parse_binding_pat_or_ident(p, false).is_ok()
+    {
+        return Ok(true);
+    }
+
+    Ok(false)
+}
+
+/// `tsIsUnambiguouslyStartOfFunctionType`
+fn is_ts_unambiguously_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    p.assert_and_bump(&P::Token::LPAREN)?;
+
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_rparen() || cur.is_dotdotdot())
+    {
+        // ( )
+        // ( ...
+        return Ok(true);
+    }
+    if skip_ts_parameter_start(p)? {
+        if p.input_mut().cur().is_some_and(|cur| {
+            cur.is_colon() || cur.is_comma() || cur.is_equal() || cur.is_question()
+        }) {
+            // ( xxx :
+            // ( xxx ,
+            // ( xxx ?
+            // ( xxx =
+            return Ok(true);
+        }
+        if p.input_mut().eat(&P::Token::RPAREN)
+            && p.input_mut().cur().is_some_and(|cur| cur.is_arrow())
+        {
+            // ( xxx ) =>
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+pub fn is_ts_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    if p.input_mut().cur().is_some_and(|cur| cur.is_less()) {
+        return Ok(true);
+    }
+
+    Ok(p.input_mut().cur().is_some_and(|cur| cur.is_lparen())
+        && ts_look_ahead(p, is_ts_unambiguously_start_of_fn_type)?)
+}
+
+/// `tsIsUnambiguouslyIndexSignature`
+fn is_ts_unambiguously_index_signature<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    // Note: babel's comment is wrong
+    p.assert_and_bump(&P::Token::LBRACKET)?; // Skip '['
+
+    // ',' is for error recovery
+    Ok(p.eat_ident_ref()
+        && p.input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_comma() || cur.is_colon()))
+}
+
+/// `tsTryParseIndexSignature`
+pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
+    p: &mut P,
+    index_signature_start: BytePos,
+    readonly: bool,
+    is_static: bool,
+) -> PResult<Option<TsIndexSignature>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(Default::default());
+    }
+
+    if !(p.input_mut().cur().is_some_and(|cur| cur.is_lbracket())
+        && ts_look_ahead(p, is_ts_unambiguously_index_signature)?)
+    {
+        return Ok(None);
+    }
+
+    expect!(p, &P::Token::LBRACKET);
+
+    let ident_start = p.cur_pos();
+    let mut id = parse_ident_name(p).map(BindingIdent::from)?;
+    let type_ann_start = p.cur_pos();
+
+    if p.input_mut().eat(&P::Token::COMMA) {
+        p.emit_err(id.span, SyntaxError::TS1096);
+    } else {
+        expect!(p, &P::Token::COLON);
+    }
+
+    let type_ann = parse_ts_type_ann(p, /* eat_colon */ false, type_ann_start)?;
+    id.span = p.span(ident_start);
+    id.type_ann = Some(type_ann);
+
+    expect!(p, &P::Token::RBRACKET);
+
+    let params = vec![TsFnParam::Ident(id)];
+
+    let ty = try_parse_ts_type_ann(p)?;
+    let type_ann = ty;
+
+    parse_ts_type_member_semicolon(p)?;
+
+    Ok(Some(TsIndexSignature {
+        span: p.span(index_signature_start),
+        readonly,
+        is_static,
+        params,
+        type_ann,
+    }))
+}
+
+/// `tsIsExternalModuleReference`
+fn is_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> bool {
+    debug_assert!(p.input().syntax().typescript());
+    p.input_mut().is(&P::Token::REQUIRE) && peek!(p).is_some_and(|t| t.is_lparen())
+}
+
+/// `tsParseModuleReference`
+fn parse_ts_module_ref<'a>(p: &mut impl Parser<'a>) -> PResult<TsModuleRef> {
+    debug_assert!(p.input().syntax().typescript());
+
+    if is_ts_external_module_ref(p) {
+        parse_ts_external_module_ref(p).map(From::from)
+    } else {
+        parse_ts_entity_name(p, /* allow_reserved_words */ false).map(From::from)
+    }
+}
+
+/// `tsParseExternalModuleReference`
+fn parse_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExternalModuleRef> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+    expect!(p, &P::Token::REQUIRE);
+    expect!(p, &P::Token::LPAREN);
+    let cur = cur!(p, true);
+    if !cur.is_str() {
+        unexpected!(p, "a string literal")
+    }
+    let expr = match parse_lit(p)? {
+        Lit::Str(s) => s,
+        _ => unreachable!(),
+    };
+    expect!(p, &P::Token::RPAREN);
+    Ok(TsExternalModuleRef {
+        span: p.span(start),
+        expr,
+    })
+}
+
+/// `tsParseImportEqualsDeclaration`
+pub fn parse_ts_import_equals_decl<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    id: Ident,
+    is_export: bool,
+    is_type_only: bool,
+) -> PResult<Box<TsImportEqualsDecl>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    expect!(p, &P::Token::EQUAL);
+    let module_ref = parse_ts_module_ref(p)?;
+    p.expect_general_semi()?;
+
+    Ok(Box::new(TsImportEqualsDecl {
+        span: p.span(start),
+        id,
+        is_export,
+        is_type_only,
+        module_ref,
+    }))
 }
