@@ -557,6 +557,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const NULL: Self = Token::Null;
     const NULLISH_ASSIGN: Self = Token::NullishEq;
     const NULLISH_COALESCING: Self = Token::NullishCoalescing;
+    const OF: Self = Token::Of;
     const PACKAGE: Self = Token::Package;
     const PLUS: Self = Self::Plus;
     const PLUS_PLUS: Self = Self::PlusPlus;
@@ -567,6 +568,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const RBRACE: Self = Self::RBrace;
     const RBRACKET: Self = Self::RBracket;
     const READONLY: Self = Token::Readonly;
+    const RETURN: Self = Token::Return;
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::RShift;
     const RSHIFT_EQ: Self = Token::RShiftEq;

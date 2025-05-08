@@ -2,7 +2,9 @@ use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
     is_directive::IsDirective,
+    pat::reparse_expr_as_pat,
     pat_type::PatType,
+    stmt::{parse_for_each_head, parse_normal_for_head, parse_return_stmt, TempForHead},
     typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
 };
 use typed_arena::Arena;
@@ -228,7 +230,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             token!("return") => {
-                return self.parse_return_stmt();
+                return parse_return_stmt(self);
             }
 
             token!("switch") => {
@@ -566,34 +568,6 @@ impl<'a, I: Tokens> Parser<I> {
             cons,
             alt,
         })
-    }
-
-    fn parse_return_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!(self);
-
-        let stmt = self.parse_with(|p| {
-            assert_and_bump!(p, "return");
-
-            let arg = if is!(p, ';') {
-                None
-            } else {
-                p.include_in_expr(true).parse_expr().map(Some)?
-            };
-            expect!(p, ';');
-            Ok(ReturnStmt {
-                span: span!(p, start),
-                arg,
-            }
-            .into())
-        });
-
-        if !self.ctx().contains(Context::InFunction)
-            && !self.input.syntax().allow_return_outside_function()
-        {
-            self.emit_err(span!(self, start), SyntaxError::ReturnNotAllowed);
-        }
-
-        stmt
     }
 
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
@@ -1246,15 +1220,15 @@ impl<'a, I: Tokens> Parser<I> {
                     }
                 }
 
-                return self.parse_for_each_head(ForHead::VarDecl(decl));
+                return parse_for_each_head(self, ForHead::VarDecl(decl));
             }
 
             expect_exact!(self, ';');
-            return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
+            return parse_normal_for_head(self, Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
         if eat_exact!(self, ';') {
-            return self.parse_normal_for_head(None);
+            return parse_normal_for_head(self, None);
         }
 
         let start = cur_pos!(self);
@@ -1305,14 +1279,14 @@ impl<'a, I: Tokens> Parser<I> {
 
             cur!(self, true);
 
-            return self.parse_for_each_head(ForHead::UsingDecl(pat));
+            return parse_for_each_head(self, ForHead::UsingDecl(pat));
         }
 
         // for (a of b)
         if is_one_of!(self, "of", "in") {
             let is_in = is!(self, "in");
 
-            let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
+            let pat = reparse_expr_as_pat(self, PatType::AssignPat, init)?;
 
             // for ({} in foo) is invalid
             if self.input.syntax().typescript() && is_in {
@@ -1323,66 +1297,15 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
+            return parse_for_each_head(self, ForHead::Pat(Box::new(pat)));
         }
 
         expect_exact!(self, ';');
 
         let init = self.verify_expr(init)?;
-        self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
-    }
-
-    fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
-        let is_of = bump!(self) == token!("of");
-        if is_of {
-            let right = self.include_in_expr(true).parse_assignment_expr()?;
-            Ok(TempForHead::ForOf { left, right })
-        } else {
-            if let ForHead::UsingDecl(d) = &left {
-                self.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
-            }
-
-            let right = self.include_in_expr(true).parse_expr()?;
-            Ok(TempForHead::ForIn { left, right })
-        }
-    }
-
-    fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<TempForHead> {
-        let test = if eat_exact!(self, ';') {
-            None
-        } else {
-            let test = self.include_in_expr(true).parse_expr().map(Some)?;
-            expect_exact!(self, ';');
-            test
-        };
-
-        let update = if is!(self, ')') {
-            None
-        } else {
-            self.include_in_expr(true).parse_expr().map(Some)?
-        };
-
-        Ok(TempForHead::For { init, test, update })
+        parse_normal_for_head(self, Some(VarDeclOrExpr::Expr(init)))
     }
 }
-
-#[allow(clippy::enum_variant_names)]
-enum TempForHead {
-    For {
-        init: Option<VarDeclOrExpr>,
-        test: Option<Box<Expr>>,
-        update: Option<Box<Expr>>,
-    },
-    ForIn {
-        left: ForHead,
-        right: Box<Expr>,
-    },
-    ForOf {
-        left: ForHead,
-        right: Box<Expr>,
-    },
-}
-
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<Type>;
 }

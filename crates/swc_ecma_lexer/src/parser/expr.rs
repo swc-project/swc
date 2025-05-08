@@ -10,12 +10,14 @@ use crate::{
         assign_target_or_spread::AssignTargetOrSpread,
         class_and_fn::parse_decorators,
         expr::{
-            finish_assignment_expr, parse_args, parse_array_lit, parse_lit, parse_subscripts,
-            parse_tpl, parse_yield_expr,
+            finish_assignment_expr, parse_args, parse_array_lit,
+            parse_dynamic_import_or_import_meta, parse_lit, parse_subscripts, parse_tpl,
+            parse_yield_expr,
         },
         ident::parse_ident_name,
         is_simple_param_list::IsSimpleParameterList,
         jsx::{parse_jsx_element, parse_jsx_text},
+        pat::reparse_expr_as_pat,
         pat_type::PatType,
         typescript::{
             eat_any_ts_modifier, parse_ts_type_args, parse_ts_type_or_type_predicate_ann,
@@ -549,9 +551,8 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 span: span!(self, start),
             });
             return parse_subscripts(self, base, true, false);
-        }
-        if eat!(self, "import") {
-            return self.parse_dynamic_import_or_import_meta(start, true);
+        } else if eat!(self, "import") {
+            return parse_dynamic_import_or_import_meta(self, start, true);
         }
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
@@ -869,9 +870,8 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 span: span!(self, start),
             });
             return parse_subscripts(self, obj, false, false);
-        }
-        if eat!(self, "import") {
-            return self.parse_dynamic_import_or_import_meta(start, false);
+        } else if eat!(self, "import") {
+            return parse_dynamic_import_or_import_meta(self, start, false);
         }
 
         let callee = self.parse_new_expr()?;
@@ -1092,7 +1092,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 //     self.emit_err(self.input.prev_span(), SyntaxError::TS1047)
                 // }
 
-                let mut pat = self.reparse_expr_as_pat(PatType::BindingPat, arg.expr)?;
+                let mut pat = reparse_expr_as_pat(self, PatType::BindingPat, arg.expr)?;
                 if optional {
                     match pat {
                         Pat::Ident(ref mut i) => i.optional = true,
@@ -1216,55 +1216,5 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         expect!(self, ')');
         Ok((items, trailing_comma))
-    }
-}
-
-/// simple leaf methods.
-impl<I: Tokens<TokenAndSpan>> Parser<I> {
-    pub(super) fn parse_dynamic_import_or_import_meta(
-        &mut self,
-        start: BytePos,
-        no_call: bool,
-    ) -> PResult<Box<Expr>> {
-        if eat!(self, '.') {
-            self.found_module_item = true;
-
-            let ident = parse_ident_name(self)?;
-
-            match &*ident.sym {
-                "meta" => {
-                    let span = span!(self, start);
-                    if !self.ctx().contains(Context::CanBeModule) {
-                        self.emit_err(span, SyntaxError::ImportMetaInScript);
-                    }
-                    let expr = MetaPropExpr {
-                        span,
-                        kind: MetaPropKind::ImportMeta,
-                    };
-                    parse_subscripts(self, Callee::Expr(expr.into()), no_call, false)
-                }
-                "source" => self.parse_dynamic_import_call(start, no_call, ImportPhase::Source),
-                // TODO: The proposal doesn't mention import.defer yet because it was
-                // pending on a decision for import.source. Wait to enable it until it's
-                // included in the proposal.
-                _ => unexpected!(self, "meta"),
-            }
-        } else {
-            self.parse_dynamic_import_call(start, no_call, ImportPhase::Evaluation)
-        }
-    }
-
-    fn parse_dynamic_import_call(
-        &mut self,
-        start: BytePos,
-        no_call: bool,
-        phase: ImportPhase,
-    ) -> PResult<Box<Expr>> {
-        let import = Callee::Import(Import {
-            span: span!(self, start),
-            phase,
-        });
-
-        parse_subscripts(self, import, no_call, false)
     }
 }

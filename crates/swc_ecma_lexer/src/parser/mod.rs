@@ -85,6 +85,11 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     ) -> PResult<Option<ArrowExpr>> {
         self.try_parse_ts_generic_async_arrow_fn(start)
     }
+
+    #[inline(always)]
+    fn mark_found_module_item(&mut self) {
+        self.found_module_item = true;
+    }
 }
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {

@@ -3,10 +3,10 @@ use std::ops::DerefMut;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{
-    Ident, Lit, Str, TplElement, TsEntityName, TsEnumDecl, TsEnumMember, TsEnumMemberId,
-    TsIntersectionType, TsLit, TsLitType, TsQualifiedName, TsThisType, TsThisTypeOrIdent,
-    TsTplLitType, TsType, TsTypeAnn, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
-    TsTypePredicate, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
+    Callee, Expr, Ident, Lit, Str, TplElement, TsEntityName, TsEnumDecl, TsEnumMember,
+    TsEnumMemberId, TsExprWithTypeArgs, TsIntersectionType, TsLit, TsLitType, TsQualifiedName,
+    TsThisType, TsThisTypeOrIdent, TsTplLitType, TsType, TsTypeAnn, TsTypeParam, TsTypeParamDecl,
+    TsTypeParamInstantiation, TsTypePredicate, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
 };
 
 use super::{PResult, Parser};
@@ -14,7 +14,11 @@ use crate::{
     common::{
         context::Context,
         lexer::token::TokenFactory,
-        parser::{buffer::Buffer, expr::parse_lit, ident::parse_ident_name},
+        parser::{
+            buffer::Buffer,
+            expr::{parse_lit, parse_subscripts},
+            ident::parse_ident_name,
+        },
     },
     error::SyntaxError,
 };
@@ -228,17 +232,11 @@ where
 pub fn parse_ts_type_member_semicolon<'a, P: Parser<'a>>(p: &mut P) -> PResult<()> {
     debug_assert!(p.input().syntax().typescript());
 
-    if !p.input_mut().eat(&P::Token::COMMA) && !p.eat_general_semi() {
-        let span = p.input().cur_span();
-        let cur = p.input_mut().dump_cur();
-        syntax_error!(
-            p,
-            span,
-            SyntaxError::Expected(format!("{:?}", P::Token::SEMI), cur)
-        )
+    if !p.input_mut().eat(&P::Token::COMMA) {
+        p.expect_general_semi()
+    } else {
+        Ok(())
     }
-
-    Ok(())
 }
 
 /// `tsIsStartOfConstructSignature`
@@ -253,7 +251,7 @@ pub fn is_ts_start_of_construct_signature<'a, P: Parser<'a>>(p: &mut P) -> PResu
 }
 
 /// `tsParseDelimitedList`
-pub fn parse_ts_delimited_list<'a, P: Parser<'a>, T, F>(
+fn parse_ts_delimited_list<'a, P: Parser<'a>, T, F>(
     p: &mut P,
     kind: ParsingContext,
     mut parse_element: F,
@@ -1101,4 +1099,53 @@ pub fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType
         span: p.span(start),
         lit,
     })
+}
+
+/// `tsParseHeritageClause`
+pub fn parse_ts_heritage_clause<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<TsExprWithTypeArgs>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    parse_ts_delimited_list(
+        p,
+        ParsingContext::HeritageClauseElement,
+        parse_ts_heritage_clause_element,
+    )
+}
+
+fn parse_ts_heritage_clause_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExprWithTypeArgs> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+    // Note: TS uses parseLeftHandSideExpressionOrHigher,
+    // then has grammar errors later if it's not an EntityName.
+
+    let ident = parse_ident_name(p)?.into();
+    let expr = parse_subscripts(p, Callee::Expr(ident), true, true)?;
+    if !matches!(
+        &*expr,
+        Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
+    ) {
+        p.emit_err(p.span(start), SyntaxError::TS2499);
+    }
+
+    match *expr {
+        Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
+            span: v.span,
+            expr: v.expr,
+            type_args: Some(v.type_args),
+        }),
+        _ => {
+            let type_args = if p.input_mut().is(&P::Token::LESS) {
+                Some(parse_ts_type_args(p)?)
+            } else {
+                None
+            };
+
+            Ok(TsExprWithTypeArgs {
+                span: p.span(start),
+                expr,
+                type_args,
+            })
+        }
+    }
 }

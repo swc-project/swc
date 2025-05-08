@@ -2,14 +2,9 @@ use std::ops::DerefMut;
 
 use either::Either;
 use swc_common::{util::take::Take, BytePos, Span, Spanned};
-use swc_ecma_ast::{
-    ArrayLit, AssignExpr, AssignOp, AssignTarget, CallExpr, Callee, ComputedPropName, EsReserved,
-    Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
-    OptCall, OptChainBase, OptChainExpr, SuperProp, SuperPropExpr, TaggedTpl, Tpl, TplElement,
-    TsInstantiation, TsNonNullExpr, TsTypeParamInstantiation, YieldExpr,
-};
+use swc_ecma_ast::*;
 
-use super::{buffer::Buffer, PResult, Parser};
+use super::{buffer::Buffer, ident::parse_ident_name, PResult, Parser};
 use crate::{
     common::{
         context::Context,
@@ -17,6 +12,7 @@ use crate::{
         parser::{
             expr_ext::ExprExt,
             ident::parse_maybe_private_name,
+            pat::reparse_expr_as_pat,
             pat_type::PatType,
             typescript::{parse_ts_type_args, try_parse_ts, try_parse_ts_type_args},
             unwrap_ts_non_null,
@@ -307,7 +303,7 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
 
     if let Some(op) = p.input_mut().cur().and_then(|t| t.as_assign_op()) {
         let left = if op == AssignOp::Assign {
-            match AssignTarget::try_from(p.reparse_expr_as_pat(PatType::AssignPat, cond)?) {
+            match AssignTarget::try_from(reparse_expr_as_pat(p, PatType::AssignPat, cond)?) {
                 Ok(pat) => pat,
                 Err(expr) => {
                     syntax_error!(p, expr.span(), SyntaxError::InvalidAssignTarget)
@@ -826,4 +822,51 @@ fn parse_subscript<'a, P: Parser<'a>>(
             syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidImport);
         }
     }
+}
+
+pub fn parse_dynamic_import_or_import_meta<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    no_call: bool,
+) -> PResult<Box<Expr>> {
+    if p.input_mut().eat(&P::Token::DOT) {
+        p.mark_found_module_item();
+
+        let ident = parse_ident_name(p)?;
+
+        match &*ident.sym {
+            "meta" => {
+                let span = p.span(start);
+                if !p.ctx().contains(Context::CanBeModule) {
+                    p.emit_err(span, SyntaxError::ImportMetaInScript);
+                }
+                let expr = MetaPropExpr {
+                    span,
+                    kind: MetaPropKind::ImportMeta,
+                };
+                parse_subscripts(p, Callee::Expr(expr.into()), no_call, false)
+            }
+            "source" => parse_dynamic_import_call(p, start, no_call, ImportPhase::Source),
+            // TODO: The proposal doesn't mention import.defer yet because it was
+            // pending on a decision for import.source. Wait to enable it until it's
+            // included in the proposal.
+            _ => unexpected!(p, "meta"),
+        }
+    } else {
+        parse_dynamic_import_call(p, start, no_call, ImportPhase::Evaluation)
+    }
+}
+
+fn parse_dynamic_import_call<'a>(
+    p: &mut impl Parser<'a>,
+    start: BytePos,
+    no_call: bool,
+    phase: ImportPhase,
+) -> PResult<Box<Expr>> {
+    let import = Callee::Import(Import {
+        span: p.span(start),
+        phase,
+    });
+
+    parse_subscripts(p, import, no_call, false)
 }
