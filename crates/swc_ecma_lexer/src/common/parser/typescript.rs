@@ -9,7 +9,7 @@ use swc_ecma_ast::{
     TsTypeParamInstantiation, TsTypePredicate, TsTypeRef, TsUnionOrIntersectionType, TsUnionType,
 };
 
-use super::{PResult, Parser};
+use super::{expr::is_start_of_left_hand_side_expr, PResult, Parser};
 use crate::{
     common::{
         context::Context,
@@ -17,7 +17,7 @@ use crate::{
         parser::{
             buffer::Buffer,
             expr::{parse_lit, parse_subscripts},
-            ident::parse_ident_name,
+            ident::{parse_ident, parse_ident_name},
         },
     },
     error::SyntaxError,
@@ -434,7 +434,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
         let right = if allow_reserved_words {
             parse_ident_name(p)?
         } else {
-            p.parse_ident(false, false)?.into()
+            parse_ident(p, false, false)?.into()
         };
         let span = p.span(start);
         entity = TsEntityName::TsQualifiedName(Box::new(TsQualifiedName { span, left, right }));
@@ -847,6 +847,27 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
     })
 }
 
+fn is_start_of_expr<'a>(p: &mut impl Parser<'a>) -> bool {
+    is_start_of_left_hand_side_expr(p) || {
+        let Some(cur) = p.input_mut().cur() else {
+            return false;
+        };
+        cur.is_plus()
+            || cur.is_minus()
+            || cur.is_tilde()
+            || cur.is_bang()
+            || cur.is_delete()
+            || cur.is_typeof()
+            || cur.is_void()
+            || cur.is_plus_plus()
+            || cur.is_minus_minus()
+            || cur.is_less()
+            || cur.is_await()
+            || cur.is_yield()
+            || (cur.is_hash() && peek!(p).is_some_and(|peek| peek.is_word()))
+    }
+}
+
 #[cfg_attr(
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
@@ -872,7 +893,7 @@ pub fn try_parse_ts_type_args<'a, P: Parser<'a>>(
             Ok(None)
         } else if p.input_mut().had_line_break_before_cur()
             || cur!(p, false).is_ok_and(|t| t.is_bin_op())
-            || !p.is_start_of_expr()
+            || !is_start_of_expr(p)
         {
             Ok(Some(type_args))
         } else {

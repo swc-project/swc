@@ -712,7 +712,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_word(self, _: &mut Self::Buffer) -> Option<Atom> {
+    fn take_word(self, _: &Self::Buffer) -> Option<Atom> {
         match self {
             Self::Word(word) => Some(word.into()),
             _ => unreachable!(),

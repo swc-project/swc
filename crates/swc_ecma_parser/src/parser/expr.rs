@@ -12,7 +12,7 @@ use swc_ecma_lexer::{
             parse_dynamic_import_or_import_meta, parse_lit, parse_subscripts, parse_tpl,
             parse_yield_expr,
         },
-        ident::parse_ident_name,
+        ident::{parse_binding_ident, parse_ident, parse_ident_name},
         is_simple_param_list::IsSimpleParameterList,
         jsx::{parse_jsx_element, parse_jsx_text},
         pat::reparse_expr_as_pat,
@@ -345,7 +345,8 @@ impl<I: Tokens> Parser<I> {
             || is!(self, IdentRef)
         {
             let ctx = self.ctx();
-            let id = self.parse_ident(
+            let id = parse_ident(
+                self,
                 !ctx.contains(Context::InGenerator),
                 !ctx.contains(Context::InAsync),
             )?;
@@ -383,7 +384,7 @@ impl<I: Tokens> Parser<I> {
                     return Ok(id.into());
                 }
 
-                let ident = self.parse_binding_ident(false)?;
+                let ident = parse_binding_ident(self, false)?;
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;

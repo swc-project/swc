@@ -1,6 +1,7 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
+    ident::{parse_binding_ident, parse_label_ident},
     is_directive::IsDirective,
     pat::reparse_expr_as_pat,
     pat_type::PatType,
@@ -163,7 +164,7 @@ impl<'a, I: Tokens> Parser<I> {
                 let label = if eat!(self, ';') {
                     None
                 } else {
-                    let i = self.parse_label_ident().map(Some)?;
+                    let i = parse_label_ident(self).map(Some)?;
                     expect!(self, ';');
                     i
                 };
@@ -1263,7 +1264,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if is_using_decl {
-            let name = self.parse_binding_ident(false)?;
+            let name = parse_binding_ident(self, false)?;
             let decl = VarDeclarator {
                 name: name.into(),
                 span: span!(self, start),

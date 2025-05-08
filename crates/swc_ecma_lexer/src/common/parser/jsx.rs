@@ -13,6 +13,7 @@ use crate::{
             buffer::Buffer,
             expr::parse_lit,
             get_qualified_jsx_name,
+            ident::parse_ident_ref,
             typescript::{parse_ts_type_args, try_parse_ts},
         },
     },
@@ -71,7 +72,7 @@ fn parse_jsx_ident<'a, P: Parser<'a>>(p: &mut P) -> PResult<Ident> {
         let span = p.input().prev_span();
         Ok(Ident::new_no_ctxt(name, span))
     } else if p.ctx().contains(Context::InForcedJsxContext) {
-        p.parse_ident_ref()
+        parse_ident_ref(p)
     } else {
         unexpected!(p, "jsx identifier")
     }

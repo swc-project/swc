@@ -697,7 +697,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline]
-    fn take_word(self, buffer: &mut Self::Buffer) -> Option<Atom> {
+    fn take_word(self, buffer: &Self::Buffer) -> Option<Atom> {
         self.as_word_atom(buffer.get_token_value())
     }
 

@@ -1,14 +1,10 @@
 use assign_target_or_spread::AssignTargetOrSpread;
-use expr::is_start_of_left_hand_side_expr;
 use expr_ext::ExprExt;
 use ident::parse_private_name;
 use pat::{pat_is_valid_argument_in_strict, reparse_expr_as_pat};
 use pat_type::PatType;
 use swc_common::{BytePos, Span, Spanned};
-use swc_ecma_ast::{
-    ArrowExpr, BigInt, BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident,
-    IdentName, Key, Number, Pat, PropName, RestPat, SeqExpr, Str, TplElement, TsType,
-};
+use swc_ecma_ast::*;
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
@@ -265,52 +261,6 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(())
     }
 
-    /// IdentifierReference
-    #[inline]
-    fn parse_ident_ref(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx();
-        self.parse_ident(
-            !ctx.contains(Context::InGenerator),
-            !ctx.contains(Context::InAsync),
-        )
-    }
-
-    /// LabelIdentifier
-    #[inline]
-    fn parse_label_ident(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx();
-        self.parse_ident(
-            !ctx.contains(Context::InGenerator),
-            !ctx.contains(Context::InAsync),
-        )
-    }
-
-    /// Identifier
-    ///
-    /// In strict mode, "yield" is SyntaxError if matched.
-    fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident>;
-
-    fn is_start_of_expr(&mut self) -> bool {
-        is_start_of_left_hand_side_expr(self) || {
-            let Some(cur) = self.input_mut().cur() else {
-                return false;
-            };
-            cur.is_plus()
-                || cur.is_minus()
-                || cur.is_tilde()
-                || cur.is_bang()
-                || cur.is_delete()
-                || cur.is_typeof()
-                || cur.is_void()
-                || cur.is_plus_plus()
-                || cur.is_minus_minus()
-                || cur.is_less()
-                || cur.is_await()
-                || cur.is_yield()
-                || (cur.is_hash() && peek!(self).is_some_and(|peek| peek.is_word()))
-        }
-    }
-
     fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
         if !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
             self.emit_err(expr.span(), SyntaxError::TS2406);
@@ -347,47 +297,6 @@ pub trait Parser<'a>: Sized + Clone {
             {
                 self.emit_err(expr.span(), SyntaxError::TS2406);
             }
-        }
-    }
-
-    /// babel: `parseBindingIdentifier`
-    ///
-    /// spec: `BindingIdentifier`
-    fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
-        trace_cur!(self, parse_binding_ident);
-
-        if disallow_let && self.input_mut().cur().is_some_and(|cur| cur.is_let()) {
-            unexpected!(self, "let is reserved in const, let, class declaration")
-        }
-
-        // "yield" and "await" is **lexically** accepted.
-        let ident = self.parse_ident(true, true)?;
-        if ident.is_reserved_in_strict_bind() {
-            self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
-        }
-        if (self.ctx().contains(Context::InAsync) || self.ctx().contains(Context::InStaticBlock))
-            && ident.sym == "await"
-        {
-            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
-        }
-        if self.ctx().contains(Context::InGenerator) && ident.sym == "yield" {
-            self.emit_err(ident.span, SyntaxError::ExpectedIdent);
-        }
-
-        Ok(ident.into())
-    }
-
-    fn parse_opt_binding_ident(&mut self, disallow_let: bool) -> PResult<Option<BindingIdent>> {
-        trace_cur!(self, parse_opt_binding_ident);
-        let ctx = self.ctx();
-        let Some(cur) = self.input_mut().cur() else {
-            return Ok(None);
-        };
-        let is_binding_ident = cur.is_word() && !cur.is_reserved(ctx);
-        if is_binding_ident || (cur.is_this() && self.input().syntax().typescript()) {
-            self.parse_binding_ident(disallow_let).map(Some)
-        } else {
-            Ok(None)
         }
     }
 

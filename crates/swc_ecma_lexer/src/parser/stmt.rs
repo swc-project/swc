@@ -5,6 +5,7 @@ use super::*;
 use crate::{
     common::parser::{
         class_and_fn::parse_decorators,
+        ident::{parse_binding_ident, parse_label_ident},
         is_directive::IsDirective,
         pat::reparse_expr_as_pat,
         pat_type::PatType,
@@ -166,7 +167,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
                 let label = if eat!(self, ';') {
                     None
                 } else {
-                    let i = self.parse_label_ident().map(Some)?;
+                    let i = parse_label_ident(self).map(Some)?;
                     expect!(self, ';');
                     i
                 };
@@ -1267,7 +1268,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
         }
 
         if is_using_decl {
-            let name = self.parse_binding_ident(false)?;
+            let name = parse_binding_ident(self, false)?;
             let decl = VarDeclarator {
                 name: name.into(),
                 span: span!(self, start),
