@@ -1,21 +1,39 @@
-use anyhow::Result;
-use fast_glob::glob_match;
+use std::sync::Arc;
+
+use anyhow::{Context, Result};
+use dashmap::DashMap;
+use globset::{Glob, GlobMatcher};
+use once_cell::sync::Lazy;
+use rustc_hash::FxBuildHasher;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone)]
 pub struct CachedGlob {
-    glob: String,
+    glob: Arc<GlobMatcher>,
 }
 
 impl CachedGlob {
-    pub fn new(glob: &str) -> Result<Self> {
-        Ok(Self {
-            glob: glob.to_string(),
-        })
+    pub fn new(glob_str: &str) -> Result<Self> {
+        static CACHE: Lazy<DashMap<String, Arc<GlobMatcher>, FxBuildHasher>> =
+            Lazy::new(Default::default);
+
+        if let Some(cache) = CACHE.get(glob_str).as_deref().cloned() {
+            return Ok(Self { glob: cache });
+        }
+
+        let glob = Glob::new(glob_str)
+            .with_context(|| format!("failed to create glob for '{glob_str}'"))?
+            .compile_matcher();
+
+        let glob = Arc::new(glob);
+
+        CACHE.insert(glob_str.to_string(), glob.clone());
+
+        Ok(Self { glob })
     }
 
     pub fn is_match(&self, path: &str) -> bool {
-        glob_match(&self.glob, path)
+        self.glob.is_match(path)
     }
 }
 
@@ -24,7 +42,7 @@ impl Serialize for CachedGlob {
     where
         S: serde::Serializer,
     {
-        String::serialize(&self.glob, serializer)
+        String::serialize(&self.glob.glob().to_string(), serializer)
     }
 }
 
@@ -33,7 +51,10 @@ impl<'de> Deserialize<'de> for CachedGlob {
     where
         D: serde::Deserializer<'de>,
     {
+        use serde::de::Error;
+
         let glob = String::deserialize(deserializer)?;
-        Ok(Self { glob })
+
+        Self::new(&glob).map_err(|err| D::Error::custom(err.to_string()))
     }
 }
