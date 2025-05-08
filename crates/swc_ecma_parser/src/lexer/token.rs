@@ -496,7 +496,9 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const AS: Self = Token::As;
     const ASSERTS: Self = Token::Asserts;
+    const AT: Self = Token::At;
     const AWAIT: Self = Token::Await;
     const BACKQUOTE: Self = Token::BackQuote;
     const BANG: Self = Self::Bang;
@@ -517,6 +519,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const ENUM: Self = Token::Enum;
     const EQUAL: Self = Token::Eq;
     const EXP: Self = Token::Exp;
+    const EXPORT: Self = Token::Export;
     const EXP_EQ: Self = Token::ExpEq;
     const EXTENDS: Self = Token::Extends;
     const FALSE: Self = Token::False;
@@ -567,6 +570,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::RShift;
     const RSHIFT_EQ: Self = Token::RShiftEq;
+    const SATISFIES: Self = Token::Satisfies;
     const SEMI: Self = Token::Semi;
     const STATIC: Self = Token::Static;
     const THIS: Self = Token::This;
@@ -769,6 +773,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn is_bin_op(&self) -> bool {
         (*self).is_bin_op()
+    }
+
+    #[inline(always)]
+    fn as_assign_op(&self) -> Option<AssignOp> {
+        (*self).as_assign_op()
     }
 }
 

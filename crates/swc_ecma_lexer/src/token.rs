@@ -500,7 +500,9 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const AS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)));
     const ASSERTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)));
+    const AT: Self = Self::At;
     const AWAIT: Self = Token::Word(Word::Keyword(Keyword::Await));
     const BACKQUOTE: Self = Self::BackQuote;
     const BANG: Self = Self::Bang;
@@ -521,6 +523,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const ENUM: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)));
     const EQUAL: Self = Token::AssignOp(AssignOp::Assign);
     const EXP: Self = Token::BinOp(BinOpToken::Exp);
+    const EXPORT: Self = Token::Word(Word::Keyword(Keyword::Export));
     const EXP_EQ: Self = Token::AssignOp(AssignOp::ExpAssign);
     const EXTENDS: Self = Self::Word(Word::Keyword(Keyword::Extends));
     const FALSE: Self = Token::Word(Word::False);
@@ -571,6 +574,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::BinOp(BinOpToken::RShift);
     const RSHIFT_EQ: Self = Token::AssignOp(AssignOp::RShiftAssign);
+    const SATISFIES: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)));
     const SEMI: Self = Self::Semi;
     const STATIC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)));
     const THIS: Self = Token::Word(Word::Keyword(Keyword::This));
@@ -801,6 +805,14 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn is_bin_op(&self) -> bool {
         matches!(self, Self::BinOp(_))
+    }
+
+    #[inline(always)]
+    fn as_assign_op(&self) -> Option<AssignOp> {
+        match self {
+            Self::AssignOp(op) => Some(*op),
+            _ => None,
+        }
     }
 }
 

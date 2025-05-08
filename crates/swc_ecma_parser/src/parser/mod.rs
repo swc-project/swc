@@ -89,6 +89,14 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
         self.parse_ts_type()
     }
+
+    #[inline(always)]
+    fn try_parse_ts_generic_async_arrow_fn(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Option<ArrowExpr>> {
+        self.try_parse_ts_generic_async_arrow_fn(start)
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

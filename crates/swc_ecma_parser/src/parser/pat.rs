@@ -2,6 +2,7 @@
 
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
+    class_and_fn::parse_decorators,
     is_not_this,
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
@@ -243,7 +244,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let param_start = cur_pos!(self);
-            let decorators = self.parse_decorators(false)?;
+            let decorators = parse_decorators(self, false)?;
             let pat_start = cur_pos!(self);
 
             let mut is_rest = false;
@@ -358,7 +359,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let param_start = cur_pos!(self);
-            let decorators = self.parse_decorators(false)?;
+            let decorators = parse_decorators(self, false)?;
             let pat_start = cur_pos!(self);
 
             let pat = if eat!(self, "...") {

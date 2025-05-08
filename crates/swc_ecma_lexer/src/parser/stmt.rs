@@ -4,6 +4,7 @@ use typed_arena::Arena;
 use super::*;
 use crate::{
     common::parser::{
+        class_and_fn::parse_decorators,
         is_directive::IsDirective,
         pat_type::PatType,
         typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
@@ -97,7 +98,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
         let _tracing = debug_tracing!(self, "parse_stmt_like");
 
         let start = cur_pos!(self);
-        let decorators = self.parse_decorators(true)?;
+        let decorators = parse_decorators(self, true)?;
 
         if is_one_of!(self, "import", "export") {
             return self.handle_import_export(decorators);

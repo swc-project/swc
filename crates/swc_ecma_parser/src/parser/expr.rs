@@ -2,13 +2,16 @@ use std::ops::DerefMut;
 
 use either::Either;
 use rustc_hash::FxHashMap;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
         assign_target_or_spread::AssignTargetOrSpread,
-        expr::{at_possible_async, parse_array_lit, parse_lit, parse_tpl, parse_yield_expr},
-        expr_ext::ExprExt,
-        ident::{parse_ident_name, parse_maybe_private_name},
+        class_and_fn::parse_decorators,
+        expr::{
+            finish_assignment_expr, parse_args, parse_array_lit, parse_lit, parse_subscripts,
+            parse_tpl, parse_yield_expr,
+        },
+        ident::parse_ident_name,
         is_simple_param_list::IsSimpleParameterList,
         jsx::{parse_jsx_element, parse_jsx_text},
         pat_type::PatType,
@@ -152,61 +155,7 @@ impl<I: Tokens> Parser<I> {
             _ => {}
         }
 
-        self.finish_assignment_expr(start, cond)
-    }
-
-    fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
-        trace_cur!(self, finish_assignment_expr);
-
-        if let Some(op) = self.input.cur().and_then(|t| t.as_assign_op()) {
-            let left = if op == AssignOp::Assign {
-                match AssignTarget::try_from(self.reparse_expr_as_pat(PatType::AssignPat, cond)?) {
-                    Ok(pat) => pat,
-                    Err(expr) => {
-                        syntax_error!(self, expr.span(), SyntaxError::InvalidAssignTarget)
-                    }
-                }
-            } else {
-                // It is an early Reference Error if IsValidSimpleAssignmentTarget of
-                // LeftHandSideExpression is false.
-                if !cond.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
-                    if self.input.syntax().typescript() {
-                        self.emit_err(cond.span(), SyntaxError::TS2406);
-                    } else {
-                        self.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
-                    }
-                }
-                if self.input.syntax().typescript()
-                    && cond
-                        .as_ident()
-                        .map(|i| i.is_reserved_in_strict_bind())
-                        .unwrap_or(false)
-                {
-                    self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
-                }
-
-                // TODO
-                match AssignTarget::try_from(cond) {
-                    Ok(v) => v,
-                    Err(v) => {
-                        syntax_error!(self, v.span(), SyntaxError::InvalidAssignTarget);
-                    }
-                }
-            };
-
-            bump!(self);
-            let right = self.parse_assignment_expr()?;
-            Ok(AssignExpr {
-                span: span!(self, start),
-                op,
-                // TODO:
-                left,
-                right,
-            }
-            .into())
-        } else {
-            Ok(cond)
-        }
+        finish_assignment_expr(self, start, cond)
     }
 
     /// Spec: 'ConditionalExpression'
@@ -383,7 +332,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let decorators = self.parse_decorators(false)?;
+        let decorators = parse_decorators(self, false)?;
 
         if is!(self, "class") {
             return self.parse_class_expr(start, decorators);
@@ -532,7 +481,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
-                    return self.parse_subscripts(Callee::Expr(expr), true, false);
+                    return parse_subscripts(self, Callee::Expr(expr), true, false);
                 }
 
                 unexpected!(self, "target")
@@ -586,7 +535,7 @@ impl<I: Tokens> Parser<I> {
 
             if !is_new_expr || is!(self, '(') {
                 // Parsed with 'MemberExpression' production.
-                let args = self.parse_args(false).map(Some)?;
+                let args = parse_args(self, false).map(Some)?;
 
                 let new_expr = Callee::Expr(
                     NewExpr {
@@ -601,7 +550,7 @@ impl<I: Tokens> Parser<I> {
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts(new_expr, true, false);
+                return parse_subscripts(self, new_expr, true, false);
             }
 
             // Parsed with 'NewExpression' production.
@@ -620,7 +569,7 @@ impl<I: Tokens> Parser<I> {
             let base = Callee::Super(Super {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(base, true, false);
+            return parse_subscripts(self, base, true, false);
         }
         if eat!(self, "import") {
             return self.parse_dynamic_import_or_import_meta(start, true);
@@ -645,7 +594,7 @@ impl<I: Tokens> Parser<I> {
             obj
         };
 
-        self.parse_subscripts(Callee::Expr(obj), true, false)
+        parse_subscripts(self, Callee::Expr(obj), true, false)
     }
 
     /// Parse `NewExpression`.
@@ -658,50 +607,6 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_new_expr);
 
         self.parse_member_expr_or_new_expr(true)
-    }
-
-    /// Parse `Arguments[Yield, Await]`
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
-        trace_cur!(self, parse_args);
-
-        let ctx = self.ctx() & !Context::WillExpectColonForCond;
-
-        self.with_ctx(ctx).parse_with(|p| {
-            let start = cur_pos!(p);
-            expect!(p, '(');
-
-            let mut first = true;
-            let mut expr_or_spreads = Vec::with_capacity(2);
-
-            while !eof!(p) && !is!(p, ')') {
-                if first {
-                    first = false;
-                } else {
-                    expect!(p, ',');
-                    // Handle trailing comma.
-                    if is!(p, ')') {
-                        if is_dynamic_import && !p.input.syntax().import_attributes() {
-                            syntax_error!(
-                                p,
-                                span!(p, start),
-                                SyntaxError::TrailingCommaInsideImport
-                            )
-                        }
-
-                        break;
-                    }
-                }
-
-                expr_or_spreads.push(p.include_in_expr(true).parse_expr_or_spread()?);
-            }
-
-            expect!(p, ')');
-            Ok(expr_or_spreads)
-        })
     }
 
     #[cfg_attr(
@@ -945,504 +850,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_tagged_tpl(
-        &mut self,
-        tag: Box<Expr>,
-        type_params: Option<Box<TsTypeParamInstantiation>>,
-    ) -> PResult<TaggedTpl> {
-        let tagged_tpl_start = tag.span_lo();
-        trace_cur!(self, parse_tagged_tpl);
-
-        let tpl = Box::new(parse_tpl(self, true)?);
-
-        let span = span!(self, tagged_tpl_start);
-
-        if tag.is_opt_chain() {
-            self.emit_err(span, SyntaxError::TaggedTplInOptChain);
-        }
-
-        Ok(TaggedTpl {
-            span,
-            tag,
-            type_params,
-            tpl,
-            ..Default::default()
-        })
-    }
-
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn parse_subscripts(
-        &mut self,
-        mut obj: Callee,
-        no_call: bool,
-        no_computed_member: bool,
-    ) -> PResult<Box<Expr>> {
-        let start = obj.span().lo;
-        loop {
-            obj = match self.parse_subscript(start, obj, no_call, no_computed_member)? {
-                (expr, false) => return Ok(expr),
-                (expr, true) => Callee::Expr(expr),
-            }
-        }
-    }
-
-    /// returned bool is true if this method should be called again.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn parse_subscript(
-        &mut self,
-        start: BytePos,
-        mut obj: Callee,
-        no_call: bool,
-        no_computed_member: bool,
-    ) -> PResult<(Box<Expr>, bool)> {
-        trace_cur!(self, parse_subscript);
-        let _ = cur!(self, false);
-
-        if self.input.syntax().typescript() {
-            if !self.input.had_line_break_before_cur() && is!(self, '!') {
-                self.input.set_expr_allowed(false);
-                assert_and_bump!(self, '!');
-
-                let expr = match obj {
-                    Callee::Super(..) => {
-                        syntax_error!(
-                            self,
-                            self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed("super".into())
-                        )
-                    }
-                    Callee::Import(..) => {
-                        syntax_error!(
-                            self,
-                            self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed("import".into())
-                        )
-                    }
-                    Callee::Expr(expr) => expr,
-                };
-                return Ok((
-                    TsNonNullExpr {
-                        span: span!(self, start),
-                        expr,
-                    }
-                    .into(),
-                    true,
-                ));
-            }
-
-            if matches!(obj, Callee::Expr(..)) && is!(self, '<') {
-                let is_dynamic_import = obj.is_import();
-
-                let mut obj_opt = Some(obj);
-                // tsTryParseAndCatch is expensive, so avoid if not necessary.
-                // There are number of things we are going to "maybe" parse, like type arguments
-                // on tagged template expressions. If any of them fail, walk it back and
-                // continue.
-
-                let mut_obj_opt = &mut obj_opt;
-
-                let ctx = self.ctx() | Context::ShouldNotLexLtOrGtAsType;
-                let result = try_parse_ts(self.with_ctx(ctx).deref_mut(), |p| {
-                    if !no_call
-                        && at_possible_async(
-                            p,
-                            match &mut_obj_opt {
-                                Some(Callee::Expr(ref expr)) => expr,
-                                _ => unreachable!(),
-                            },
-                        )?
-                    {
-                        // Almost certainly this is a generic async function `async <T>() => ...
-                        // But it might be a call with a type argument `async<T>();`
-                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
-                        if let Some(async_arrow_fn) = async_arrow_fn {
-                            return Ok(Some((async_arrow_fn.into(), true)));
-                        }
-                    }
-
-                    let type_args = parse_ts_type_args(p)?;
-
-                    if !no_call && is!(p, '(') {
-                        // possibleAsync always false here, because we would have handled it
-                        // above. (won't be any undefined arguments)
-                        let args = p.parse_args(is_dynamic_import)?;
-
-                        let obj = mut_obj_opt.take().unwrap();
-
-                        if let Callee::Expr(callee) = &obj {
-                            if let Expr::OptChain(..) = &**callee {
-                                return Ok(Some((
-                                    OptChainExpr {
-                                        span: span!(p, start),
-                                        base: Box::new(OptChainBase::Call(OptCall {
-                                            span: span!(p, start),
-                                            callee: obj.expect_expr(),
-                                            type_args: Some(type_args),
-                                            args,
-                                            ..Default::default()
-                                        })),
-                                        optional: false,
-                                    }
-                                    .into(),
-                                    true,
-                                )));
-                            }
-                        }
-
-                        Ok(Some((
-                            CallExpr {
-                                span: span!(p, start),
-                                callee: obj,
-                                type_args: Some(type_args),
-                                args,
-                                ..Default::default()
-                            }
-                            .into(),
-                            true,
-                        )))
-                    } else if is!(p, '`') {
-                        p.parse_tagged_tpl(
-                            match mut_obj_opt {
-                                Some(Callee::Expr(obj)) => obj.take(),
-                                _ => unreachable!(),
-                            },
-                            Some(type_args),
-                        )
-                        .map(|expr| (expr.into(), true))
-                        .map(Some)
-                    } else if is_one_of!(p, '=', "as", "satisfies") {
-                        Ok(Some((
-                            TsInstantiation {
-                                span: span!(p, start),
-                                expr: match mut_obj_opt {
-                                    Some(Callee::Expr(obj)) => obj.take(),
-                                    _ => unreachable!(),
-                                },
-                                type_args,
-                            }
-                            .into(),
-                            false,
-                        )))
-                    } else if no_call {
-                        unexpected!(p, "`")
-                    } else {
-                        unexpected!(p, "( or `")
-                    }
-                });
-                if let Some(result) = result {
-                    return Ok(result);
-                }
-
-                obj = obj_opt.unwrap();
-            }
-        }
-
-        let type_args = if self.syntax().typescript() && is!(self, '<') {
-            try_parse_ts_type_args(self)
-        } else {
-            None
-        };
-
-        if obj.is_import() && !is_one_of!(self, '.', '(') {
-            unexpected!(self, "`.` or `(`")
-        }
-
-        let question_dot_token = if is!(self, '?') && peeked_is!(self, '.') {
-            let start = cur_pos!(self);
-            eat!(self, '?');
-            Some(span!(self, start))
-        } else {
-            None
-        };
-
-        // $obj[name()]
-        if !no_computed_member
-            && ((question_dot_token.is_some()
-                && is!(self, '.')
-                && peeked_is!(self, '[')
-                && eat!(self, '.')
-                && eat!(self, '['))
-                || eat!(self, '['))
-        {
-            let bracket_lo = self.input.prev_span().lo;
-            let prop = self.include_in_expr(true).parse_expr()?;
-            expect!(self, ']');
-            let span = Span::new(obj.span_lo(), self.input.last_pos());
-            debug_assert_eq!(obj.span_lo(), span.lo());
-            let prop = ComputedPropName {
-                span: Span::new(bracket_lo, self.input.last_pos()),
-                expr: prop,
-            };
-
-            let type_args = if self.syntax().typescript() && is!(self, '<') {
-                try_parse_ts_type_args(self)
-            } else {
-                None
-            };
-
-            return Ok((
-                Box::new(match obj {
-                    Callee::Import(..) => unreachable!(),
-                    Callee::Super(obj) => {
-                        if !self.ctx().contains(Context::AllowDirectSuper)
-                            && !self.input.syntax().allow_super_outside_method()
-                        {
-                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
-                        } else if question_dot_token.is_some() {
-                            if no_call {
-                                syntax_error!(
-                                    self,
-                                    self.input.cur_span(),
-                                    SyntaxError::InvalidSuperCall
-                                );
-                            }
-                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
-                        } else {
-                            SuperPropExpr {
-                                span,
-                                obj,
-                                prop: SuperProp::Computed(prop),
-                            }
-                            .into()
-                        }
-                    }
-                    Callee::Expr(obj) => {
-                        let is_opt_chain = unwrap_ts_non_null(&obj).is_opt_chain();
-                        let expr = MemberExpr {
-                            span,
-                            obj,
-                            prop: MemberProp::Computed(prop),
-                        };
-                        let expr = if is_opt_chain || question_dot_token.is_some() {
-                            OptChainExpr {
-                                span,
-                                optional: question_dot_token.is_some(),
-                                base: Box::new(OptChainBase::Member(expr)),
-                            }
-                            .into()
-                        } else {
-                            expr.into()
-                        };
-
-                        if let Some(type_args) = type_args {
-                            TsInstantiation {
-                                expr: Box::new(expr),
-                                type_args,
-                                span: span!(self, start),
-                            }
-                            .into()
-                        } else {
-                            expr
-                        }
-                    }
-                }),
-                true,
-            ));
-        }
-
-        if (question_dot_token.is_some()
-            && is!(self, '.')
-            && (peeked_is!(self, '(') || (self.syntax().typescript() && peeked_is!(self, '<')))
-            && eat!(self, '.'))
-            || (!no_call && (is!(self, '(')))
-        {
-            let type_args = if self.syntax().typescript() && is!(self, '<') {
-                parse_ts_type_args(self).map(Some)?
-            } else {
-                None
-            };
-            let args = self.parse_args(obj.is_import())?;
-            let span = span!(self, start);
-            return if question_dot_token.is_some()
-                || match &obj {
-                    Callee::Expr(obj) => unwrap_ts_non_null(obj).is_opt_chain(),
-                    _ => false,
-                } {
-                match obj {
-                    Callee::Super(_) | Callee::Import(_) => {
-                        syntax_error!(self, self.input.cur_span(), SyntaxError::SuperCallOptional)
-                    }
-                    Callee::Expr(callee) => Ok((
-                        OptChainExpr {
-                            span,
-                            optional: question_dot_token.is_some(),
-                            base: Box::new(OptChainBase::Call(OptCall {
-                                span: span!(self, start),
-                                callee,
-                                args,
-                                type_args,
-                                ..Default::default()
-                            })),
-                        }
-                        .into(),
-                        true,
-                    )),
-                }
-            } else {
-                Ok((
-                    CallExpr {
-                        span: span!(self, start),
-                        callee: obj,
-                        args,
-                        ..Default::default()
-                    }
-                    .into(),
-                    true,
-                ))
-            };
-        }
-
-        // member expression
-        // $obj.name
-        if eat!(self, '.') {
-            let prop = parse_maybe_private_name(self).map(|e| match e {
-                Either::Left(p) => MemberProp::PrivateName(p),
-                Either::Right(i) => MemberProp::Ident(i),
-            })?;
-            let span = span!(self, obj.span_lo());
-            debug_assert_eq!(obj.span_lo(), span.lo());
-            debug_assert_eq!(prop.span_hi(), span.hi());
-
-            let type_args = if self.syntax().typescript() && is!(self, '<') {
-                try_parse_ts_type_args(self)
-            } else {
-                None
-            };
-
-            return Ok((
-                Box::new(match obj {
-                    callee @ Callee::Import(_) => match prop {
-                        MemberProp::Ident(IdentName { sym, .. }) => {
-                            if !self.ctx().contains(Context::CanBeModule) {
-                                let span = span!(self, start);
-                                self.emit_err(span, SyntaxError::ImportMetaInScript);
-                            }
-                            match &*sym {
-                                "meta" => MetaPropExpr {
-                                    span,
-                                    kind: MetaPropKind::ImportMeta,
-                                }
-                                .into(),
-                                _ => {
-                                    let args = self.parse_args(true)?;
-
-                                    CallExpr {
-                                        span,
-                                        callee,
-                                        args,
-                                        type_args: None,
-                                        ..Default::default()
-                                    }
-                                    .into()
-                                }
-                            }
-                        }
-                        _ => {
-                            unexpected!(self, "meta");
-                        }
-                    },
-                    Callee::Super(obj) => {
-                        if !self.ctx().contains(Context::AllowDirectSuper)
-                            && !self.input.syntax().allow_super_outside_method()
-                        {
-                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
-                        } else if question_dot_token.is_some() {
-                            if no_call {
-                                syntax_error!(
-                                    self,
-                                    self.input.cur_span(),
-                                    SyntaxError::InvalidSuperCall
-                                );
-                            }
-                            syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
-                        } else {
-                            match prop {
-                                MemberProp::Ident(ident) => SuperPropExpr {
-                                    span,
-                                    obj,
-                                    prop: SuperProp::Ident(ident),
-                                }
-                                .into(),
-                                MemberProp::PrivateName(..) => syntax_error!(
-                                    self,
-                                    self.input.cur_span(),
-                                    SyntaxError::InvalidSuperCall
-                                ),
-                                MemberProp::Computed(..) => unreachable!(),
-                            }
-                        }
-                    }
-                    Callee::Expr(obj) => {
-                        let expr = MemberExpr { span, obj, prop };
-                        let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
-                            || question_dot_token.is_some()
-                        {
-                            OptChainExpr {
-                                span: span!(self, start),
-                                optional: question_dot_token.is_some(),
-                                base: Box::new(OptChainBase::Member(expr)),
-                            }
-                            .into()
-                        } else {
-                            expr.into()
-                        };
-                        if let Some(type_args) = type_args {
-                            TsInstantiation {
-                                expr: Box::new(expr),
-                                type_args,
-                                span: span!(self, start),
-                            }
-                            .into()
-                        } else {
-                            expr
-                        }
-                    }
-                }),
-                true,
-            ));
-        }
-
-        match obj {
-            Callee::Expr(expr) => {
-                let expr = if let Some(type_args) = type_args {
-                    TsInstantiation {
-                        expr,
-                        type_args,
-                        span: span!(self, start),
-                    }
-                    .into()
-                } else {
-                    expr
-                };
-
-                // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-                if is!(self, '`') {
-                    let ctx = self.ctx() & !Context::WillExpectColonForCond;
-
-                    let tpl = self.with_ctx(ctx).parse_tagged_tpl(expr, None)?;
-                    return Ok((tpl.into(), true));
-                }
-
-                Ok((expr, false))
-            }
-            Callee::Super(..) => {
-                if no_call {
-                    syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuperCall);
-                }
-                syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidSuper);
-            }
-            Callee::Import(..) => {
-                syntax_error!(self, self.input.cur_span(), SyntaxError::InvalidImport);
-            }
-        }
-    }
-
     /// Parse call, dot, and `[]`-subscript expressions.
     #[cfg_attr(
         feature = "tracing-spans",
@@ -1490,7 +897,7 @@ impl<I: Tokens> Parser<I> {
             let obj = Callee::Super(Super {
                 span: span!(self, start),
             });
-            return self.parse_subscripts(obj, false, false);
+            return parse_subscripts(self, obj, false, false);
         }
         if eat!(self, "import") {
             return self.parse_dynamic_import_or_import_meta(start, false);
@@ -1542,7 +949,7 @@ impl<I: Tokens> Parser<I> {
                 ),
                 _ => (Callee::Expr(callee), false),
             };
-            let args = self.parse_args(is_import)?;
+            let args = parse_args(self, is_import)?;
 
             let call_expr = match callee {
                 Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => OptChainExpr {
@@ -1568,7 +975,7 @@ impl<I: Tokens> Parser<I> {
                 .into(),
             };
 
-            return self.parse_subscripts(Callee::Expr(call_expr), false, false);
+            return parse_subscripts(self, Callee::Expr(call_expr), false, false);
         }
         if type_args.is_some() {
             // This fails
@@ -1637,7 +1044,7 @@ impl<I: Tokens> Parser<I> {
                         let mut expr = self.parse_bin_expr()?;
 
                         if cur!(self, false).is_ok_and(|t| t.is_assign_op()) {
-                            expr = self.finish_assignment_expr(start, expr)?
+                            expr = finish_assignment_expr(self, start, expr)?
                         }
 
                         expr
@@ -1864,7 +1271,7 @@ impl<I: Tokens> Parser<I> {
                         span,
                         kind: MetaPropKind::ImportMeta,
                     };
-                    self.parse_subscripts(Callee::Expr(expr.into()), no_call, false)
+                    parse_subscripts(self, Callee::Expr(expr.into()), no_call, false)
                 }
                 "source" => self.parse_dynamic_import_call(start, no_call, ImportPhase::Source),
                 // TODO: The proposal doesn't mention import.defer yet because it was
@@ -1888,6 +1295,6 @@ impl<I: Tokens> Parser<I> {
             phase,
         });
 
-        self.parse_subscripts(import, no_call, false)
+        parse_subscripts(self, import, no_call, false)
     }
 }

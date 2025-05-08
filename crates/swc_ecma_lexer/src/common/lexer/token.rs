@@ -1,5 +1,6 @@
 use num_bigint::BigInt;
 use swc_atoms::Atom;
+use swc_ecma_ast::AssignOp;
 
 use super::LexResult;
 use crate::common::{context::Context, input::Tokens};
@@ -14,6 +15,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         TokenAndSpan = TokenAndSpan,
     >;
 
+    const SATISFIES: Self;
+    const AS: Self;
+    const AT: Self;
+    const EXPORT: Self;
     const ASSERTS: Self;
     const JSX_TAG_END: Self;
     const JSX_TAG_START: Self;
@@ -145,6 +150,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
 
     fn is_bin_op(&self) -> bool;
+    fn as_assign_op(&self) -> Option<AssignOp>;
 
     #[inline(always)]
     fn is_less(&self) -> bool {
@@ -385,5 +391,13 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_is(&self) -> bool {
         Self::IS.eq(self)
+    }
+    #[inline(always)]
+    fn is_as(&self) -> bool {
+        Self::AS.eq(self)
+    }
+    #[inline(always)]
+    fn is_satisfies(&self) -> bool {
+        Self::SATISFIES.eq(self)
     }
 }
