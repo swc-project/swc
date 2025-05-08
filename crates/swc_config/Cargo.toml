@@ -8,6 +8,10 @@ name          = "swc_config"
 repository    = { workspace = true }
 version       = "2.0.0"
 
+[features]
+sourcemap = ["dep:sourcemap"]
+
+
 [dependencies]
 anyhow     = { workspace = true }
 indexmap   = { workspace = true }
