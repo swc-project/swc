@@ -3,6 +3,7 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
+    ident::parse_binding_ident,
     is_not_this,
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
@@ -30,8 +31,8 @@ impl<I: Tokens> Parser<I> {
             //     expect!(self, ')');
             //     Ok(pat)
             // }
-            token!("yield") => self.parse_binding_ident(disallow_let).map(Pat::from),
-            _ if t.is_word() => self.parse_binding_ident(disallow_let).map(Pat::from),
+            token!("yield") => parse_binding_ident(self, disallow_let).map(Pat::from),
+            _ if t.is_word() => parse_binding_ident(self, disallow_let).map(Pat::from),
             _ => unexpected!(self, "yield, an identifier, [ or {"),
         }
     }

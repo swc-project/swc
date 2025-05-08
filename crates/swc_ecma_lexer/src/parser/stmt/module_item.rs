@@ -1,6 +1,8 @@
+use std::ops::DerefMut;
+
 use super::*;
 use crate::common::parser::{
-    ident::{parse_ident_name, parse_module_export_name},
+    ident::{parse_ident, parse_ident_name, parse_module_export_name},
     typescript::parse_ts_enum_decl,
 };
 
@@ -241,12 +243,12 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                             }));
                         }
 
-                        let maybe_as: Ident = self.parse_binding_ident(false)?.into();
+                        let maybe_as: Ident = parse_binding_ident(self, false)?.into();
                         if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
-                                let local: Ident = self.parse_binding_ident(false)?.into();
+                                let local: Ident = parse_binding_ident(self, false)?.into();
 
                                 if type_only {
                                     self.emit_err(orig_name.span, SyntaxError::TS2206);
@@ -289,7 +291,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }
 
                 if eat!(self, "as") {
-                    let local: Ident = self.parse_binding_ident(false)?.into();
+                    let local: Ident = parse_binding_ident(self, false)?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -316,7 +318,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             }
             ModuleExportName::Str(orig_str) => {
                 if eat!(self, "as") {
-                    let local: Ident = self.parse_binding_ident(false)?.into();
+                    let local: Ident = parse_binding_ident(self, false)?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new(start, local.span.hi()),
                         local,
@@ -340,7 +342,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
     fn parse_imported_binding(&mut self) -> PResult<Ident> {
         let ctx = self.ctx() & !Context::InAsync & !Context::InGenerator;
-        Ok(self.with_ctx(ctx).parse_binding_ident(false)?.into())
+        Ok(parse_binding_ident(self.with_ctx(ctx).deref_mut(), false)?.into())
     }
 
     fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
@@ -420,7 +422,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 // `export as namespace A;`
                 // See `parseNamespaceExportDeclaration` in TypeScript's own parser
                 expect!(self, "namespace");
-                let id = self.parse_ident(false, false)?;
+                let id = parse_ident(self, false, false)?;
                 expect!(self, ';');
                 return Ok(TsNamespaceExportDecl {
                     span: span!(self, start),
@@ -581,7 +583,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 Some(default) => Some(default),
                 None => {
                     if self.input.syntax().export_default_from() && is!(self, IdentName) {
-                        Some(self.parse_ident(false, false)?)
+                        Some(parse_ident(self, false, false)?)
                     } else {
                         None
                     }

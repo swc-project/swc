@@ -6,6 +6,7 @@ use super::*;
 use crate::{
     common::parser::{
         class_and_fn::parse_decorators,
+        ident::parse_binding_ident,
         is_not_this,
         typescript::{
             eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
@@ -25,7 +26,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         match *cur!(self, true) {
             tok!("yield") | Token::Word(..) => {
-                self.parse_binding_ident(disallow_let).map(Pat::from)
+                parse_binding_ident(self, disallow_let).map(Pat::from)
             }
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),

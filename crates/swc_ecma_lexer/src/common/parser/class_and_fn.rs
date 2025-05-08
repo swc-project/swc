@@ -1,9 +1,19 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{CallExpr, Callee, Decorator, Expr, Ident};
 
-use super::{buffer::Buffer, expr::parse_args, typescript::parse_ts_type_args, PResult, Parser};
+use super::{
+    buffer::Buffer,
+    expr::parse_args,
+    ident::{parse_binding_ident, parse_opt_binding_ident},
+    typescript::parse_ts_type_args,
+    PResult, Parser,
+};
 use crate::{
-    common::{context::Context, lexer::token::TokenFactory, parser::expr::parse_subscripts},
+    common::{
+        context::Context,
+        lexer::token::TokenFactory,
+        parser::{expr::parse_subscripts, ident::parse_ident},
+    },
     error::SyntaxError,
 };
 
@@ -14,10 +24,9 @@ pub fn parse_maybe_opt_binding_ident<'a>(
     disallow_let: bool,
 ) -> PResult<Option<Ident>> {
     if required {
-        p.parse_binding_ident(disallow_let).map(|v| v.id).map(Some)
+        parse_binding_ident(p, disallow_let).map(|v| v.id).map(Some)
     } else {
-        p.parse_opt_binding_ident(disallow_let)
-            .map(|v| v.map(|v| v.id))
+        parse_opt_binding_ident(p, disallow_let).map(|v| v.map(|v| v.id))
     }
 }
 
@@ -94,7 +103,7 @@ fn parse_decorator<'a, P: Parser<'a>>(p: &mut P) -> PResult<Decorator> {
         expect!(p, &P::Token::RPAREN);
         expr
     } else {
-        let expr = p.parse_ident(false, false).map(Expr::from).map(Box::new)?;
+        let expr = parse_ident(p, false, false).map(Expr::from).map(Box::new)?;
 
         parse_subscripts(p, Callee::Expr(expr), false, true)?
     };

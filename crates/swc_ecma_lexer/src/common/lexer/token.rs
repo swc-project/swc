@@ -145,7 +145,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn take_error(self, buffer: &mut Self::Buffer) -> crate::error::Error;
 
     fn is_word(&self) -> bool;
-    fn take_word(self, buffer: &mut Self::Buffer) -> Option<Atom>;
+    fn take_word(self, buffer: &Self::Buffer) -> Option<Atom>;
     fn is_keyword(&self) -> bool;
 
     fn is_reserved(&self, ctx: super::Context) -> bool;

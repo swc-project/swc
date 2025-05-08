@@ -20,7 +20,6 @@ use crate::{
 mod macros;
 mod class_and_fn;
 mod expr;
-mod ident;
 mod object;
 mod pat;
 mod stmt;
@@ -61,11 +60,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
-    }
-
-    #[inline(always)]
-    fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
-        self.parse_ident(incl_yield, incl_await)
     }
 
     #[inline(always)]
