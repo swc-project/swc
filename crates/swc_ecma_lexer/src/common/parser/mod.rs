@@ -33,6 +33,7 @@ pub mod class_and_fn;
 pub mod expr;
 pub mod ident;
 pub mod jsx;
+mod object;
 pub mod output_type;
 pub mod parse_object;
 pub mod pat;

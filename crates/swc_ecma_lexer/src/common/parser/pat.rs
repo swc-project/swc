@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{pat_type::PatType, PResult, Parser};
@@ -6,7 +6,9 @@ use crate::{
     common::{
         context::Context,
         lexer::token::TokenFactory,
-        parser::{buffer::Buffer, expr_ext::ExprExt},
+        parser::{
+            buffer::Buffer, expr_ext::ExprExt, ident::parse_binding_ident, object::parse_object_pat,
+        },
     },
     error::SyntaxError,
 };
@@ -348,4 +350,107 @@ fn reparse_expr_as_pat_inner<'a>(
             Ok(Invalid { span }.into())
         }
     }
+}
+
+pub fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
+    trace_cur!(p, parse_binding_element);
+
+    let start = p.cur_pos();
+    let left = parse_binding_pat_or_ident(p, false)?;
+
+    if p.input_mut().eat(&P::Token::EQUAL) {
+        let right = p.include_in_expr(true).parse_assignment_expr()?;
+
+        if p.ctx().contains(Context::InDeclare) {
+            p.emit_err(p.span(start), SyntaxError::TS2371);
+        }
+
+        return Ok(AssignPat {
+            span: p.span(start),
+            left: Box::new(left),
+            right,
+        }
+        .into());
+    }
+
+    Ok(left)
+}
+
+pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
+    p: &mut P,
+    disallow_let: bool,
+) -> PResult<Pat> {
+    trace_cur!(p, parse_binding_pat_or_ident);
+
+    let cur = cur!(p, true);
+    if cur.is_yield() || cur.is_word() {
+        parse_binding_ident(p, disallow_let).map(Pat::from)
+    } else if cur.is_lbracket() {
+        parse_array_binding_pat(p)
+    } else if cur.is_lbrace() {
+        parse_object_pat(p)
+    } else {
+        unexpected!(p, "yield, an identifier, [ or {")
+    }
+}
+
+pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
+    let start = p.cur_pos();
+
+    p.assert_and_bump(&P::Token::LBRACKET)?;
+
+    let mut elems = Vec::new();
+
+    let mut rest_span = Span::default();
+
+    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACKET) {
+        if p.input_mut().eat(&P::Token::COMMA) {
+            elems.push(None);
+            continue;
+        }
+
+        if !rest_span.is_dummy() {
+            p.emit_err(rest_span, SyntaxError::NonLastRestParam);
+        }
+
+        let start = p.cur_pos();
+
+        let mut is_rest = false;
+        if p.input_mut().eat(&P::Token::DOTDOTDOT) {
+            is_rest = true;
+            let dot3_token = p.span(start);
+
+            let pat = parse_binding_pat_or_ident(p, false)?;
+            rest_span = p.span(start);
+            let pat = RestPat {
+                span: rest_span,
+                dot3_token,
+                arg: Box::new(pat),
+                type_ann: None,
+            }
+            .into();
+            elems.push(Some(pat));
+        } else {
+            elems.push(parse_binding_element(p).map(Some)?);
+        }
+
+        if !p.input_mut().is(&P::Token::RBRACKET) {
+            expect!(p, &P::Token::COMMA);
+            if is_rest && p.input_mut().is(&P::Token::RBRACKET) {
+                p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
+            }
+        }
+    }
+
+    expect!(p, &P::Token::RBRACKET);
+    let optional = (p.input().syntax().dts() || p.ctx().contains(Context::InDeclare))
+        && p.input_mut().eat(&P::Token::QUESTION);
+
+    Ok(ArrayPat {
+        span: p.span(start),
+        elems,
+        optional,
+        type_ann: None,
+    }
+    .into())
 }

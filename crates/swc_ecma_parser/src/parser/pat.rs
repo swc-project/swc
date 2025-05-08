@@ -3,124 +3,19 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
-    ident::parse_binding_ident,
     is_not_this,
+    pat::{parse_binding_element, parse_binding_pat_or_ident},
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
     },
 };
 
 use super::*;
-use crate::{lexer::Token, parser::Parser, token};
+use crate::{lexer::Token, parser::Parser};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
-        self.parse_binding_pat_or_ident(false)
-    }
-
-    pub(super) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
-        trace_cur!(self, parse_binding_pat_or_ident);
-
-        let t = cur!(self, true);
-        match t {
-            token!('[') => self.parse_array_binding_pat(),
-            token!('{') => self.parse_object(),
-            // tok!('(') => {
-            //     bump!(self);
-            //     let pat = self.parse_binding_pat_or_ident()?;
-            //     expect!(self, ')');
-            //     Ok(pat)
-            // }
-            token!("yield") => parse_binding_ident(self, disallow_let).map(Pat::from),
-            _ if t.is_word() => parse_binding_ident(self, disallow_let).map(Pat::from),
-            _ => unexpected!(self, "yield, an identifier, [ or {"),
-        }
-    }
-
-    /// babel: `parseBindingAtom`
-    pub(super) fn parse_binding_element(&mut self) -> PResult<Pat> {
-        trace_cur!(self, parse_binding_element);
-
-        let start = cur_pos!(self);
-        let left = self.parse_binding_pat_or_ident(false)?;
-
-        if eat!(self, '=') {
-            let right = self.include_in_expr(true).parse_assignment_expr()?;
-
-            if self.ctx().contains(Context::InDeclare) {
-                self.emit_err(span!(self, start), SyntaxError::TS2371);
-            }
-
-            return Ok(AssignPat {
-                span: span!(self, start),
-                left: Box::new(left),
-                right,
-            }
-            .into());
-        }
-
-        Ok(left)
-    }
-
-    fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, '[');
-
-        let mut elems = Vec::new();
-
-        let mut rest_span = Span::default();
-
-        while !eof!(self) && !is!(self, ']') {
-            if eat!(self, ',') {
-                elems.push(None);
-                continue;
-            }
-
-            if !rest_span.is_dummy() {
-                self.emit_err(rest_span, SyntaxError::NonLastRestParam);
-            }
-
-            let start = cur_pos!(self);
-
-            let mut is_rest = false;
-            if eat!(self, "...") {
-                is_rest = true;
-                let dot3_token = span!(self, start);
-
-                let pat = self.parse_binding_pat_or_ident(false)?;
-                rest_span = span!(self, start);
-                let pat = RestPat {
-                    span: rest_span,
-                    dot3_token,
-                    arg: Box::new(pat),
-                    type_ann: None,
-                }
-                .into();
-                elems.push(Some(pat));
-            } else {
-                elems.push(self.parse_binding_element().map(Some)?);
-            }
-
-            if !is!(self, ']') {
-                expect!(self, ',');
-                if is_rest && is!(self, ']') {
-                    self.emit_err(self.input.prev_span(), SyntaxError::CommaAfterRestElement);
-                }
-            }
-        }
-
-        expect!(self, ']');
-        let optional = (self.input.syntax().dts() || self.ctx().contains(Context::InDeclare))
-            && eat!(self, '?');
-
-        Ok(ArrayPat {
-            span: span!(self, start),
-            elems,
-            optional,
-            type_ann: None,
-        }
-        .into())
+        parse_binding_pat_or_ident(self, false)
     }
 
     /// spec: 'FormalParameter'
@@ -132,7 +27,7 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = eat_any_ts_modifier(self)?;
 
         let pat_start = cur_pos!(self);
-        let mut pat = self.parse_binding_element()?;
+        let mut pat = parse_binding_element(self)?;
         let mut opt = false;
 
         if self.input.syntax().typescript() {
@@ -253,7 +148,7 @@ impl<I: Tokens> Parser<I> {
                 is_rest = true;
                 let dot3_token = span!(self, pat_start);
 
-                let pat = self.parse_binding_pat_or_ident(false)?;
+                let pat = parse_binding_pat_or_ident(self, false)?;
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(parse_ts_type_ann(self, /* eat_colon */ true, cur_pos)?)
@@ -366,7 +261,7 @@ impl<I: Tokens> Parser<I> {
             let pat = if eat!(self, "...") {
                 let dot3_token = span!(self, pat_start);
 
-                let mut pat = self.parse_binding_pat_or_ident(false)?;
+                let mut pat = parse_binding_pat_or_ident(self, false)?;
 
                 if eat!(self, '=') {
                     let right = self.parse_assignment_expr()?;
@@ -433,17 +328,18 @@ impl<I: Tokens> Parser<I> {
 #[cfg(test)]
 mod tests {
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_lexer::common::parser::pat::parse_array_binding_pat;
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
 
     fn array_pat(s: &'static str) -> Pat {
-        test_parser(s, Syntax::default(), |p| p.parse_array_binding_pat())
+        test_parser(s, Syntax::default(), |p| parse_array_binding_pat(p))
     }
 
     fn object_pat(s: &'static str) -> Pat {
         test_parser(s, Syntax::default(), |p| {
-            p.parse_binding_pat_or_ident(false)
+            parse_binding_pat_or_ident(p, false)
         })
     }
 
