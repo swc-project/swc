@@ -8,7 +8,7 @@ pub mod merge;
 #[doc(cfg(feature = "regex"))]
 #[cfg(any(feature = "regex", docsrs))]
 pub mod regex;
-pub mod types;
-#[doc(cfg(feature = "sourcemap"))]
+#[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
 #[cfg(any(feature = "sourcemap", docsrs))]
-pub use crate::source_map::*;
+pub mod source_map;
+pub mod types;
