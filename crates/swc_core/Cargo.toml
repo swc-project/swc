@@ -143,9 +143,6 @@ ecma_ast_shrink = ["ecma_ast", "swc_ecma_ast/shrink-to-fit"]
 ecma_parser            = ["__parser"]
 ecma_parser_typescript = ["__parser", "swc_ecma_parser/typescript"]
 
-# Enable swc_cached support
-cached = ["__cached"]
-
 # Enable swc_ecma_codegen
 ecma_codegen = ["__ecma", "swc_ecma_codegen"]
 
@@ -334,7 +331,6 @@ __binding_macros = [
   "binding_macros",
 ]
 __bundler = ["swc_bundler"]
-__cached = ["swc_cached"]
 __common = ["swc_common"]
 __css = []
 __ecma = ["swc_ecma_transforms_base"]
@@ -357,7 +353,6 @@ swc                              = { optional = true, version = "22.0.0", path =
 swc_allocator                    = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "5.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "16.0.0", path = "../swc_bundler" }
-swc_cached                       = { optional = true, version = "2.0.0", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "9.1.0", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "9.0.0", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "9.0.0", path = "../swc_css_codegen" }

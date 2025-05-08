@@ -25,7 +25,6 @@ napi-derive = { workspace = true, features = ["type-def"] }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { workspace = true }
-swc_cached = { workspace = true }
 swc_common = { workspace = true, features = ["diagnostic-serde"] }
 swc_css_ast = { workspace = true }
 swc_css_codegen = { workspace = true }
