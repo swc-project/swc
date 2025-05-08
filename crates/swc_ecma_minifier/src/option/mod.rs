@@ -7,7 +7,7 @@ use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::Mark;
-use swc_config::{merge::Merge, CachedRegex};
+use swc_config::{merge::Merge, regex::CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr, Id};
 use terser::TerserExperimentalOptions;
 
