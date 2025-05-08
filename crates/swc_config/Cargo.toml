@@ -16,14 +16,14 @@ version       = "2.0.0"
 
 [features]
 file_pattern = ["glob", "regex"]
-glob         = ["dep:fast-glob", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
+glob         = ["dep:globset", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 regex        = ["dep:regex", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 sourcemap    = ["dep:sourcemap"]
 
 [dependencies]
 anyhow     = { workspace = true }
 dashmap    = { workspace = true, optional = true }
-fast-glob  = { workspace = true, optional = true }
+globset    = { workspace = true, optional = true }
 indexmap   = { workspace = true }
 once_cell  = { workspace = true, optional = true }
 regex      = { workspace = true, optional = true }
