@@ -11,16 +11,18 @@ version       = "2.0.0"
 [features]
 fast-glob    = ["dep:fast-glob"]
 file_pattern = ["glob", "regex"]
-glob         = ["dep:fast-glob"]
-is_module    = []
-regex        = ["dep:regex"]
+glob         = ["dep:fast-glob", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
+regex        = ["dep:regex", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 sourcemap    = ["dep:sourcemap"]
 
 [dependencies]
 anyhow     = { workspace = true }
+dashmap    = { workspace = true, optional = true }
 fast-glob  = { workspace = true, optional = true }
 indexmap   = { workspace = true }
+once_cell  = { workspace = true, optional = true }
 regex      = { workspace = true, optional = true }
+rustc-hash = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive", "rc"] }
 serde_json = { workspace = true }
 sourcemap  = { workspace = true, optional = true }

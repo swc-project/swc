@@ -7,8 +7,6 @@ pub mod file_pattern;
 #[cfg_attr(docsrs, doc(cfg(feature = "glob")))]
 #[cfg(any(feature = "glob", docsrs))]
 pub mod glob;
-#[cfg_attr(docsrs, doc(cfg(feature = "is_module")))]
-#[cfg(any(feature = "is_module", docsrs))]
 pub mod is_module;
 pub mod merge;
 #[cfg_attr(docsrs, doc(cfg(feature = "regex")))]
