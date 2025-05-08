@@ -36,7 +36,7 @@ impl<I: Tokens> Parser<I> {
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
             }
-            Token::Str { .. } => {
+            Token::Str => {
                 let lit = parse_lit(self)?;
                 Ok(JSXAttrValue::Lit(lit))
             }
@@ -219,7 +219,7 @@ impl<I: Tokens> Parser<I> {
                                 Either::Right(e) => JSXElementChild::from(Box::new(e)),
                             })?);
                         }
-                        Token::JSXText { .. } => {
+                        Token::JSXText => {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         token!('{') => {

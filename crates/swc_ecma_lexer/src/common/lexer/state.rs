@@ -204,7 +204,7 @@ pub trait State: Clone {
                 // ${} in template
                 if out == TokenContext::TplQuasi {
                     match context.current() {
-                        Some(TokenContext::Tpl { .. }) => return false,
+                        Some(TokenContext::Tpl) => return false,
                         _ => return true,
                     }
                 }
@@ -301,7 +301,7 @@ pub trait State: Clone {
             is_expr_allowed
         } else if next.is_back_quote() {
             // If we are in template, ` terminates template.
-            if let Some(TokenContext::Tpl { .. }) = context.current() {
+            if let Some(TokenContext::Tpl) = context.current() {
                 context.pop();
             } else {
                 context.push(TokenContext::Tpl);

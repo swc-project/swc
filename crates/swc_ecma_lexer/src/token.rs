@@ -795,7 +795,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
 
     #[inline(always)]
     fn to_string(&self, _: &Self::Buffer) -> String {
-        format!("{:?}", self)
+        format!("{self:?}")
     }
 
     #[inline(always)]

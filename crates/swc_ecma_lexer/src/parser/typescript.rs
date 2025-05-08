@@ -1474,7 +1474,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                                 new_raw.push_str(&raw);
                             }
                             _ => {
-                                write!(new_raw, "{}", value).unwrap();
+                                write!(new_raw, "{value}").unwrap();
                             }
                         };
 
@@ -1492,7 +1492,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                                 new_raw.push_str(&raw);
                             }
                             _ => {
-                                write!(new_raw, "{}", value).unwrap();
+                                write!(new_raw, "{value}").unwrap();
                             }
                         };
 
@@ -2069,7 +2069,7 @@ mod tests {
                     .map_err(|e| e.into_diagnostic(handler).emit())?;
                 let tokens: Vec<TokenAndSpan> = parser.input_mut().iter.tokens().take();
                 let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
-                assert_eq!(tokens.len(), 9, "Tokens: {:#?}", tokens);
+                assert_eq!(tokens.len(), 9, "Tokens: {tokens:#?}");
                 Ok(())
             },
         )

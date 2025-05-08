@@ -183,7 +183,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                     self,
                     SyntaxError::UnaryInExp {
                         // FIXME: Use display
-                        left: format!("{:?}", left),
+                        left: format!("{left:?}"),
                         left_span: left.span(),
                     }
                 )

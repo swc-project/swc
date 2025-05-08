@@ -1381,28 +1381,6 @@ enum TempForHead {
     },
 }
 
-pub(super) trait IsDirective {
-    fn as_ref(&self) -> Option<&Stmt>;
-    fn is_use_strict(&self) -> bool {
-        self.as_ref().is_some_and(Stmt::is_use_strict)
-    }
-}
-
-impl<T> IsDirective for Box<T>
-where
-    T: IsDirective,
-{
-    fn as_ref(&self) -> Option<&Stmt> {
-        T::as_ref(&**self)
-    }
-}
-
-impl IsDirective for Stmt {
-    fn as_ref(&self) -> Option<&Stmt> {
-        Some(self)
-    }
-}
-
 pub(super) trait StmtLikeParser<'a, Type: IsDirective> {
     fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<Type>;
 }
