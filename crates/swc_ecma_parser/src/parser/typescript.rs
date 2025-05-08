@@ -3,7 +3,7 @@ use std::{fmt::Write, ops::DerefMut};
 use either::Either;
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
-    expr::parse_lit,
+    expr::{parse_lit, parse_subscripts},
     ident::{parse_ident_name, parse_maybe_private_name},
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
@@ -366,7 +366,7 @@ impl<I: Tokens> Parser<I> {
         // then has grammar errors later if it's not an EntityName.
 
         let ident = parse_ident_name(self)?.into();
-        let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
+        let expr = parse_subscripts(self, Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
             Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)

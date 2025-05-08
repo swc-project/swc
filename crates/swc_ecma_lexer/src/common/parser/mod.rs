@@ -6,10 +6,10 @@ use pat::pat_is_valid_argument_in_strict;
 use pat_type::PatType;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    ArrayLit, ArrayPat, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget, BigInt,
-    BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName, Invalid, Key,
-    KeyValuePatProp, Number, ObjectLit, ObjectPat, ObjectPatProp, Pat, Prop, PropName,
-    PropOrSpread, RestPat, SeqExpr, SpreadElement, Str, TplElement, TsType,
+    ArrayLit, ArrayPat, ArrowExpr, AssignExpr, AssignOp, AssignPat, AssignPatProp, AssignTarget,
+    BigInt, BindingIdent, ComputedPropName, EsReserved, Expr, ExprOrSpread, Ident, IdentName,
+    Invalid, Key, KeyValuePatProp, Number, ObjectLit, ObjectPat, ObjectPatProp, Pat, Prop,
+    PropName, PropOrSpread, RestPat, SeqExpr, SpreadElement, Str, TplElement, TsType,
 };
 
 use self::{
@@ -644,6 +644,9 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_ts_type(&mut self) -> PResult<Box<TsType>>;
+
+    fn try_parse_ts_generic_async_arrow_fn(&mut self, start: BytePos)
+        -> PResult<Option<ArrowExpr>>;
 }
 
 fn reparse_expr_as_pat_inner<'a>(

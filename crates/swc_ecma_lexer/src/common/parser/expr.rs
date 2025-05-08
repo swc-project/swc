@@ -1,9 +1,27 @@
-use swc_common::{Span, Spanned};
-use swc_ecma_ast::{ArrayLit, Expr, Lit, Tpl, TplElement, YieldExpr};
+use std::ops::DerefMut;
+
+use either::Either;
+use swc_common::{util::take::Take, BytePos, Span, Spanned};
+use swc_ecma_ast::{
+    ArrayLit, AssignExpr, AssignOp, AssignTarget, CallExpr, Callee, ComputedPropName, EsReserved,
+    Expr, ExprOrSpread, IdentName, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind,
+    OptCall, OptChainBase, OptChainExpr, SuperProp, SuperPropExpr, TaggedTpl, Tpl, TplElement,
+    TsInstantiation, TsNonNullExpr, TsTypeParamInstantiation, YieldExpr,
+};
 
 use super::{buffer::Buffer, PResult, Parser};
 use crate::{
-    common::{context::Context, lexer::token::TokenFactory},
+    common::{
+        context::Context,
+        lexer::token::TokenFactory,
+        parser::{
+            expr_ext::ExprExt,
+            ident::parse_maybe_private_name,
+            pat_type::PatType,
+            typescript::{parse_ts_type_args, try_parse_ts, try_parse_ts_type_args},
+            unwrap_ts_non_null,
+        },
+    },
     error::{Error, SyntaxError},
 };
 
@@ -173,6 +191,31 @@ pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<T
     })
 }
 
+pub fn parse_tagged_tpl<'a, P: Parser<'a>>(
+    p: &mut P,
+    tag: Box<Expr>,
+    type_params: Option<Box<TsTypeParamInstantiation>>,
+) -> PResult<TaggedTpl> {
+    let tagged_tpl_start = tag.span_lo();
+    trace_cur!(p, parse_tagged_tpl);
+
+    let tpl = Box::new(parse_tpl(p, true)?);
+
+    let span = p.span(tagged_tpl_start);
+
+    if tag.is_opt_chain() {
+        p.emit_err(span, SyntaxError::TaggedTplInOptChain);
+    }
+
+    Ok(TaggedTpl {
+        span,
+        tag,
+        type_params,
+        tpl,
+        ..Default::default()
+    })
+}
+
 pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
     let start = p.cur_pos();
     let cur = cur!(p, true);
@@ -213,4 +256,574 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
         unreachable!("parse_lit should not be called for {:?}", cur)
     };
     Ok(v)
+}
+
+/// Parse `Arguments[Yield, Await]`
+#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+pub fn parse_args<'a, P: Parser<'a>>(
+    p: &mut P,
+    is_dynamic_import: bool,
+) -> PResult<Vec<ExprOrSpread>> {
+    trace_cur!(p, parse_args);
+
+    let ctx = p.ctx() & !Context::WillExpectColonForCond;
+
+    p.with_ctx(ctx).parse_with(|p| {
+        let start = p.cur_pos();
+        expect!(p, &P::Token::LPAREN);
+
+        let mut first = true;
+        let mut expr_or_spreads = Vec::with_capacity(2);
+
+        while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+            if first {
+                first = false;
+            } else {
+                expect!(p, &P::Token::COMMA);
+                // Handle trailing comma.
+                if p.input_mut().is(&P::Token::RPAREN) {
+                    if is_dynamic_import && !p.input().syntax().import_attributes() {
+                        syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
+                    }
+
+                    break;
+                }
+            }
+
+            expr_or_spreads.push(p.include_in_expr(true).parse_expr_or_spread()?);
+        }
+
+        expect!(p, &P::Token::RPAREN);
+        Ok(expr_or_spreads)
+    })
+}
+
+pub fn finish_assignment_expr<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    cond: Box<Expr>,
+) -> PResult<Box<Expr>> {
+    trace_cur!(p, finish_assignment_expr);
+
+    if let Some(op) = p.input_mut().cur().and_then(|t| t.as_assign_op()) {
+        let left = if op == AssignOp::Assign {
+            match AssignTarget::try_from(p.reparse_expr_as_pat(PatType::AssignPat, cond)?) {
+                Ok(pat) => pat,
+                Err(expr) => {
+                    syntax_error!(p, expr.span(), SyntaxError::InvalidAssignTarget)
+                }
+            }
+        } else {
+            // It is an early Reference Error if IsValidSimpleAssignmentTarget of
+            // LeftHandSideExpression is false.
+            if !cond.is_valid_simple_assignment_target(p.ctx().contains(Context::Strict)) {
+                if p.input().syntax().typescript() {
+                    p.emit_err(cond.span(), SyntaxError::TS2406);
+                } else {
+                    p.emit_err(cond.span(), SyntaxError::NotSimpleAssign)
+                }
+            }
+            if p.input().syntax().typescript()
+                && cond
+                    .as_ident()
+                    .map(|i| i.is_reserved_in_strict_bind())
+                    .unwrap_or(false)
+            {
+                p.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
+            }
+
+            // TODO
+            match AssignTarget::try_from(cond) {
+                Ok(v) => v,
+                Err(v) => {
+                    syntax_error!(p, v.span(), SyntaxError::InvalidAssignTarget);
+                }
+            }
+        };
+
+        p.bump();
+        let right = p.parse_assignment_expr()?;
+        Ok(AssignExpr {
+            span: p.span(start),
+            op,
+            // TODO:
+            left,
+            right,
+        }
+        .into())
+    } else {
+        Ok(cond)
+    }
+}
+
+#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+pub fn parse_subscripts<'a>(
+    p: &mut impl Parser<'a>,
+    mut obj: Callee,
+    no_call: bool,
+    no_computed_member: bool,
+) -> PResult<Box<Expr>> {
+    let start = obj.span().lo;
+    loop {
+        obj = match parse_subscript(p, start, obj, no_call, no_computed_member)? {
+            (expr, false) => return Ok(expr),
+            (expr, true) => Callee::Expr(expr),
+        }
+    }
+}
+
+/// returned bool is true if this method should be called again.
+#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+fn parse_subscript<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    mut obj: Callee,
+    no_call: bool,
+    no_computed_member: bool,
+) -> PResult<(Box<Expr>, bool)> {
+    trace_cur!(p, parse_subscript);
+    let _ = cur!(p, false);
+
+    if p.input().syntax().typescript() {
+        if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::BANG) {
+            p.input_mut().set_expr_allowed(false);
+            p.assert_and_bump(&P::Token::BANG)?;
+
+            let expr = match obj {
+                Callee::Super(..) => {
+                    syntax_error!(
+                        p,
+                        p.input().cur_span(),
+                        SyntaxError::TsNonNullAssertionNotAllowed("super".into())
+                    )
+                }
+                Callee::Import(..) => {
+                    syntax_error!(
+                        p,
+                        p.input().cur_span(),
+                        SyntaxError::TsNonNullAssertionNotAllowed("import".into())
+                    )
+                }
+                Callee::Expr(expr) => expr,
+            };
+            return Ok((
+                TsNonNullExpr {
+                    span: p.span(start),
+                    expr,
+                }
+                .into(),
+                true,
+            ));
+        }
+
+        if matches!(obj, Callee::Expr(..)) && p.input_mut().is(&P::Token::LESS) {
+            let is_dynamic_import = obj.is_import();
+
+            let mut obj_opt = Some(obj);
+            // tsTryParseAndCatch is expensive, so avoid if not necessary.
+            // There are number of things we are going to "maybe" parse, like type arguments
+            // on tagged template expressions. If any of them fail, walk it back and
+            // continue.
+
+            let mut_obj_opt = &mut obj_opt;
+
+            let ctx = p.ctx() | Context::ShouldNotLexLtOrGtAsType;
+            let result = try_parse_ts(p.with_ctx(ctx).deref_mut(), |p| {
+                if !no_call
+                    && at_possible_async(
+                        p,
+                        match &mut_obj_opt {
+                            Some(Callee::Expr(ref expr)) => expr,
+                            _ => unreachable!(),
+                        },
+                    )?
+                {
+                    // Almost certainly this is a generic async function `async <T>() => ...
+                    // But it might be a call with a type argument `async<T>();`
+                    let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
+                    if let Some(async_arrow_fn) = async_arrow_fn {
+                        return Ok(Some((async_arrow_fn.into(), true)));
+                    }
+                }
+
+                let type_args = parse_ts_type_args(p)?;
+
+                if !no_call && p.input_mut().is(&P::Token::LPAREN) {
+                    // possibleAsync always false here, because we would have handled it
+                    // above. (won't be any undefined arguments)
+                    let args = parse_args(p, is_dynamic_import)?;
+
+                    let obj = mut_obj_opt.take().unwrap();
+
+                    if let Callee::Expr(callee) = &obj {
+                        if let Expr::OptChain(..) = &**callee {
+                            return Ok(Some((
+                                OptChainExpr {
+                                    span: p.span(start),
+                                    base: Box::new(OptChainBase::Call(OptCall {
+                                        span: p.span(start),
+                                        callee: obj.expect_expr(),
+                                        type_args: Some(type_args),
+                                        args,
+                                        ..Default::default()
+                                    })),
+                                    optional: false,
+                                }
+                                .into(),
+                                true,
+                            )));
+                        }
+                    }
+
+                    Ok(Some((
+                        CallExpr {
+                            span: p.span(start),
+                            callee: obj,
+                            type_args: Some(type_args),
+                            args,
+                            ..Default::default()
+                        }
+                        .into(),
+                        true,
+                    )))
+                } else if p.input_mut().is(&P::Token::BACKQUOTE) {
+                    parse_tagged_tpl(
+                        p,
+                        match mut_obj_opt {
+                            Some(Callee::Expr(obj)) => obj.take(),
+                            _ => unreachable!(),
+                        },
+                        Some(type_args),
+                    )
+                    .map(|expr| (expr.into(), true))
+                    .map(Some)
+                } else if p
+                    .input_mut()
+                    .cur()
+                    .is_some_and(|cur| cur.is_equal() || cur.is_as() || cur.is_satisfies())
+                {
+                    Ok(Some((
+                        TsInstantiation {
+                            span: p.span(start),
+                            expr: match mut_obj_opt {
+                                Some(Callee::Expr(obj)) => obj.take(),
+                                _ => unreachable!(),
+                            },
+                            type_args,
+                        }
+                        .into(),
+                        false,
+                    )))
+                } else if no_call {
+                    unexpected!(p, "`")
+                } else {
+                    unexpected!(p, "( or `")
+                }
+            });
+            if let Some(result) = result {
+                return Ok(result);
+            }
+
+            obj = obj_opt.unwrap();
+        }
+    }
+
+    let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+        try_parse_ts_type_args(p)
+    } else {
+        None
+    };
+
+    if obj.is_import()
+        && !p
+            .input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_dot() || cur.is_lparen())
+    {
+        unexpected!(p, "`.` or `(`")
+    }
+
+    let question_dot_token =
+        if p.input_mut().is(&P::Token::QUESTION) && peek!(p).is_some_and(|peek| peek.is_dot()) {
+            let start = p.cur_pos();
+            p.input_mut().eat(&P::Token::QUESTION);
+            Some(p.span(start))
+        } else {
+            None
+        };
+
+    // $obj[name()]
+    if !no_computed_member
+        && ((question_dot_token.is_some()
+            && p.input_mut().is(&P::Token::DOT)
+            && peek!(p).is_some_and(|peek| peek.is_lbracket())
+            && p.input_mut().eat(&P::Token::DOT)
+            && p.input_mut().eat(&P::Token::LBRACKET))
+            || p.input_mut().eat(&P::Token::LBRACKET))
+    {
+        let bracket_lo = p.input().prev_span().lo;
+        let prop = p.include_in_expr(true).parse_expr()?;
+        expect!(p, &P::Token::RBRACKET);
+        let span = Span::new(obj.span_lo(), p.input().last_pos());
+        debug_assert_eq!(obj.span_lo(), span.lo());
+        let prop = ComputedPropName {
+            span: Span::new(bracket_lo, p.input().last_pos()),
+            expr: prop,
+        };
+
+        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            try_parse_ts_type_args(p)
+        } else {
+            None
+        };
+
+        return Ok((
+            Box::new(match obj {
+                Callee::Import(..) => unreachable!(),
+                Callee::Super(obj) => {
+                    if !p.ctx().contains(Context::AllowDirectSuper)
+                        && !p.input().syntax().allow_super_outside_method()
+                    {
+                        syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuper);
+                    } else if question_dot_token.is_some() {
+                        if no_call {
+                            syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuperCall);
+                        }
+                        syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuper);
+                    } else {
+                        SuperPropExpr {
+                            span,
+                            obj,
+                            prop: SuperProp::Computed(prop),
+                        }
+                        .into()
+                    }
+                }
+                Callee::Expr(obj) => {
+                    let is_opt_chain = unwrap_ts_non_null(&obj).is_opt_chain();
+                    let expr = MemberExpr {
+                        span,
+                        obj,
+                        prop: MemberProp::Computed(prop),
+                    };
+                    let expr = if is_opt_chain || question_dot_token.is_some() {
+                        OptChainExpr {
+                            span,
+                            optional: question_dot_token.is_some(),
+                            base: Box::new(OptChainBase::Member(expr)),
+                        }
+                        .into()
+                    } else {
+                        expr.into()
+                    };
+
+                    if let Some(type_args) = type_args {
+                        TsInstantiation {
+                            expr: Box::new(expr),
+                            type_args,
+                            span: p.span(start),
+                        }
+                        .into()
+                    } else {
+                        expr
+                    }
+                }
+            }),
+            true,
+        ));
+    }
+
+    if (question_dot_token.is_some()
+        && p.input_mut().is(&P::Token::DOT)
+        && (peek!(p).is_some_and(|peek| peek.is_lparen())
+            || (p.syntax().typescript() && peek!(p).is_some_and(|peek| peek.is_less())))
+        && p.input_mut().eat(&P::Token::DOT))
+        || (!no_call && p.input_mut().is(&P::Token::LPAREN))
+    {
+        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            parse_ts_type_args(p).map(Some)?
+        } else {
+            None
+        };
+        let args = parse_args(p, obj.is_import())?;
+        let span = p.span(start);
+        return if question_dot_token.is_some()
+            || match &obj {
+                Callee::Expr(obj) => unwrap_ts_non_null(obj).is_opt_chain(),
+                _ => false,
+            } {
+            match obj {
+                Callee::Super(_) | Callee::Import(_) => {
+                    syntax_error!(p, p.input().cur_span(), SyntaxError::SuperCallOptional)
+                }
+                Callee::Expr(callee) => Ok((
+                    OptChainExpr {
+                        span,
+                        optional: question_dot_token.is_some(),
+                        base: Box::new(OptChainBase::Call(OptCall {
+                            span: p.span(start),
+                            callee,
+                            args,
+                            type_args,
+                            ..Default::default()
+                        })),
+                    }
+                    .into(),
+                    true,
+                )),
+            }
+        } else {
+            Ok((
+                CallExpr {
+                    span: p.span(start),
+                    callee: obj,
+                    args,
+                    ..Default::default()
+                }
+                .into(),
+                true,
+            ))
+        };
+    }
+
+    // member expression
+    // $obj.name
+    if p.input_mut().eat(&P::Token::DOT) {
+        let prop = parse_maybe_private_name(p).map(|e| match e {
+            Either::Left(p) => MemberProp::PrivateName(p),
+            Either::Right(i) => MemberProp::Ident(i),
+        })?;
+        let span = p.span(obj.span_lo());
+        debug_assert_eq!(obj.span_lo(), span.lo());
+        debug_assert_eq!(prop.span_hi(), span.hi());
+
+        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            try_parse_ts_type_args(p)
+        } else {
+            None
+        };
+
+        return Ok((
+            Box::new(match obj {
+                callee @ Callee::Import(_) => match prop {
+                    MemberProp::Ident(IdentName { sym, .. }) => {
+                        if !p.ctx().contains(Context::CanBeModule) {
+                            let span = p.span(start);
+                            p.emit_err(span, SyntaxError::ImportMetaInScript);
+                        }
+                        match &*sym {
+                            "meta" => MetaPropExpr {
+                                span,
+                                kind: MetaPropKind::ImportMeta,
+                            }
+                            .into(),
+                            _ => {
+                                let args = parse_args(p, true)?;
+
+                                CallExpr {
+                                    span,
+                                    callee,
+                                    args,
+                                    type_args: None,
+                                    ..Default::default()
+                                }
+                                .into()
+                            }
+                        }
+                    }
+                    _ => {
+                        unexpected!(p, "meta");
+                    }
+                },
+                Callee::Super(obj) => {
+                    if !p.ctx().contains(Context::AllowDirectSuper)
+                        && !p.input().syntax().allow_super_outside_method()
+                    {
+                        syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuper);
+                    } else if question_dot_token.is_some() {
+                        if no_call {
+                            syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuperCall);
+                        }
+                        syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuper);
+                    } else {
+                        match prop {
+                            MemberProp::Ident(ident) => SuperPropExpr {
+                                span,
+                                obj,
+                                prop: SuperProp::Ident(ident),
+                            }
+                            .into(),
+                            MemberProp::PrivateName(..) => {
+                                syntax_error!(
+                                    p,
+                                    p.input().cur_span(),
+                                    SyntaxError::InvalidSuperCall
+                                )
+                            }
+                            MemberProp::Computed(..) => unreachable!(),
+                        }
+                    }
+                }
+                Callee::Expr(obj) => {
+                    let expr = MemberExpr { span, obj, prop };
+                    let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
+                        || question_dot_token.is_some()
+                    {
+                        OptChainExpr {
+                            span: p.span(start),
+                            optional: question_dot_token.is_some(),
+                            base: Box::new(OptChainBase::Member(expr)),
+                        }
+                        .into()
+                    } else {
+                        expr.into()
+                    };
+                    if let Some(type_args) = type_args {
+                        TsInstantiation {
+                            expr: Box::new(expr),
+                            type_args,
+                            span: p.span(start),
+                        }
+                        .into()
+                    } else {
+                        expr
+                    }
+                }
+            }),
+            true,
+        ));
+    }
+
+    match obj {
+        Callee::Expr(expr) => {
+            let expr = if let Some(type_args) = type_args {
+                TsInstantiation {
+                    expr,
+                    type_args,
+                    span: p.span(start),
+                }
+                .into()
+            } else {
+                expr
+            };
+
+            // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+            if p.input_mut().is(&P::Token::BACKQUOTE) {
+                let ctx = p.ctx() & !Context::WillExpectColonForCond;
+                let tpl = parse_tagged_tpl(p.with_ctx(ctx).deref_mut(), expr, None)?;
+                return Ok((tpl.into(), true));
+            }
+
+            Ok((expr, false))
+        }
+        Callee::Super(..) => {
+            if no_call {
+                syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuperCall);
+            }
+            syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidSuper);
+        }
+        Callee::Import(..) => {
+            syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidImport);
+        }
+    }
 }

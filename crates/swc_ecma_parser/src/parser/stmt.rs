@@ -1,5 +1,6 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
+    class_and_fn::parse_decorators,
     is_directive::IsDirective,
     pat_type::PatType,
     typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
@@ -94,7 +95,7 @@ impl<'a, I: Tokens> Parser<I> {
         let _tracing = debug_tracing!(self, "parse_stmt_like");
 
         let start = cur_pos!(self);
-        let decorators = self.parse_decorators(true)?;
+        let decorators = parse_decorators(self, true)?;
 
         if is_one_of!(self, "import", "export") {
             return self.handle_import_export(decorators);

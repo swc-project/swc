@@ -3,7 +3,7 @@ use std::ops::DerefMut;
 use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
-        class_and_fn::parse_maybe_opt_binding_ident,
+        class_and_fn::{parse_decorators, parse_maybe_opt_binding_ident},
         has_use_strict, is_constructor,
         is_invalid_class_name::IsInvalidClassName,
         is_not_this,
@@ -260,92 +260,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {
-        if !self.syntax().decorators() {
-            return Ok(Vec::new());
-        }
-        trace_cur!(self, parse_decorators);
-
-        let mut decorators = Vec::new();
-        let start = cur_pos!(self);
-
-        while is!(self, '@') {
-            decorators.push(self.parse_decorator()?);
-        }
-        if decorators.is_empty() {
-            return Ok(decorators);
-        }
-
-        if is!(self, "export") {
-            if !self.ctx().contains(Context::InClass)
-                && !self.ctx().contains(Context::InFunction)
-                && !allow_export
-            {
-                syntax_error!(self, self.input.cur_span(), SyntaxError::ExportNotAllowed);
-            }
-
-            if !self.ctx().contains(Context::InClass)
-                && !self.ctx().contains(Context::InFunction)
-                && !self.syntax().decorators_before_export()
-            {
-                syntax_error!(self, span!(self, start), SyntaxError::DecoratorOnExport);
-            }
-        } else if !is!(self, "class") {
-            // syntax_error!(self, span!(self, start),
-            // SyntaxError::InvalidLeadingDecorator)
-        }
-
-        Ok(decorators)
-    }
-
-    fn parse_decorator(&mut self) -> PResult<Decorator> {
-        let start = cur_pos!(self);
-        trace_cur!(self, parse_decorator);
-
-        assert_and_bump!(self, '@');
-
-        let expr = if eat!(self, '(') {
-            let expr = self.parse_expr()?;
-            expect!(self, ')');
-            expr
-        } else {
-            let expr = self
-                .parse_ident(false, false)
-                .map(Expr::from)
-                .map(Box::new)?;
-
-            self.parse_subscripts(Callee::Expr(expr), false, true)?
-        };
-
-        let expr = self.parse_maybe_decorator_args(expr)?;
-
-        Ok(Decorator {
-            span: span!(self, start),
-            expr,
-        })
-    }
-
-    fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
-        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
-            Some(parse_ts_type_args(self)?)
-        } else {
-            None
-        };
-
-        if type_args.is_none() && !is!(self, '(') {
-            return Ok(expr);
-        }
-
-        let args = self.parse_args(false)?;
-        Ok(CallExpr {
-            span: span!(self, expr.span_lo()),
-            callee: Callee::Expr(expr),
-            args,
-            ..Default::default()
-        }
-        .into())
-    }
-
     fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
         let mut elems = Vec::with_capacity(32);
         let mut has_constructor_with_body = false;
@@ -399,7 +313,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_class_member);
 
         let start = cur_pos!(self);
-        let decorators = self.parse_decorators(false)?;
+        let decorators = parse_decorators(self, false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?

@@ -440,7 +440,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         if !type_only && eat!(self, "default") {
             if is!(self, '@') {
                 let start = cur_pos!(self);
-                let after_decorators = self.parse_decorators(false)?;
+                let after_decorators = parse_decorators(self, false)?;
 
                 if !decorators.is_empty() {
                     syntax_error!(self, span!(self, start), SyntaxError::TS8038);
@@ -512,7 +512,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         if is!(self, '@') {
             let start = cur_pos!(self);
-            let after_decorators = self.parse_decorators(false)?;
+            let after_decorators = parse_decorators(self, false)?;
 
             if !decorators.is_empty() {
                 syntax_error!(self, span!(self, start), SyntaxError::TS8038);
